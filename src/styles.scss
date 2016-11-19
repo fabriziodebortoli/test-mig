@@ -1,0 +1,37 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    margin: 5px;
+    padding: 0 5px 5px 5px;
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px dotted #000;
+}
+
+.container>h5 {
+    margin: 0 0 10px;
+}
+
+.test-component {
+    background: #00399a;
+    padding: 5px;
+    margin: 5px;
+    color: #fff
+}
+
+.dynamic-component {
+    background: red;
+    padding: 5px;
+    margin: 5px;
+    color: #fff
+}
+
+.page_not_found-component {
+    background: orange;
+    padding: 5px;
+    margin: 5px;
+    color: #fff
+}

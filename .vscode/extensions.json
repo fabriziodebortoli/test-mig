@@ -1,0 +1,17 @@
+{
+    "recommendations": [
+        "christian-kohler.npm-intellisense",
+        "deerawan.vscode-material2-snippets",
+        "eg2.tslint",
+        "fknop.vscode-npm",
+        "ivangabriele.vscode-tfs",
+        "eg2.vscode-npm-script",
+        "jakethashi.vscode-angular2-emmet",
+        "johnpapa.Angular2",
+        "ms-vscode.csharp",
+        "ms-vscode.typescript-javascript-grammar",
+        "msjsdiag.debugger-for-chrome",
+        "naumovs.node-modules-resolve",
+        "robinbentley.sass-indented"
+    ]
+}

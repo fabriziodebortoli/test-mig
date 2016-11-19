@@ -1,0 +1,21 @@
+{
+    "version": "0.1.0",
+    "command": "ng",
+    "isShellCommand": true,
+    "showOutput": "always",
+    "suppressTaskName": true,
+    "tasks": [{
+            "taskName": "build",
+            "isBuildCommand": true,
+            "args": ["build"]
+        },
+        {
+            "taskName": "build-watch",
+            "args": ["build", "-w"]
+        },
+        {
+            "taskName": "serve",
+            "args": ["serve"]
+        }
+    ]
+}

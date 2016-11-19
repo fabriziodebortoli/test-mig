@@ -1,0 +1,36 @@
+
+ul
+{
+  padding: 10px 10px 10px 0px;
+   margin:0px;
+}
+li
+{
+  padding:10px;
+   background-color: lightgray;
+   display: inline;
+  border: solid 1px gray;
+ position: relative;
+ cursor: pointer;
+ border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+li.active
+{
+  background-color: wheat;
+}
+a
+{
+    text-decoration:none;
+}
+a.tabTitle
+{
+  margin-left: 5px;
+  margin-right: 5px;
+}
+a.close
+{
+  position:absolute;
+  top:1px;
+  right:1px; 
+}
