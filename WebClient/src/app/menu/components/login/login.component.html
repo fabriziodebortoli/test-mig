@@ -1,7 +1,10 @@
 <div class="container">
-<div><label for="user">User:</label> <input name="user" type="text" [(ngModel)]="connectionData.user"></div>
-<div><label for="user">Password:</label><input type="password" [(ngModel)]="connectionData.password"></div>
-<div><label for="user">Company:</label><input type="text" [(ngModel)]="connectionData.company"></div>
-<button (click)="login();">Login</button>
-<div class="error" *ngIf="loginSessionService.error">{{loginSessionService.error}}</div>
+  <div *ngIf="!working">
+    <div><label for="user">User:</label> <input name="user" type="text" [(ngModel)]="connectionData.user"></div>
+    <div><label for="user">Password:</label><input type="password" [(ngModel)]="connectionData.password"></div>
+    <div><label for="user">Company:</label><input type="text" [(ngModel)]="connectionData.company"></div>
+    <button (click)="login();">Login</button>
+    <div class="error" *ngIf="loginSessionService.error">{{loginSessionService.error}}</div>
+  </div>
+  <img *ngIf="working" src='assets/img/loading.gif' />
 </div>

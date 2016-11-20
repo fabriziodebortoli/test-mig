@@ -1,7 +1,7 @@
 import { ComponentInfo } from './../../shared';
 import { TabberComponent } from './tabber.component';
 import { TbComponent } from './../tb.component';
-import { Component, OnInit, OnDestroy, ComponentRef, Input, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, OnDestroy, ComponentRef, Input, ViewChild, ViewContainerRef } from '@angular/core';
 
 
 @Component({
@@ -21,6 +21,8 @@ export class TabComponent implements OnInit, OnDestroy {
   @Input() tabTitle: string = '';
   @ViewChild('tabContent', { read: ViewContainerRef }) tabContent: ViewContainerRef;
 
+  @Output() close: EventEmitter<any> = new EventEmitter();
+
   constructor(private tabs: TabberComponent) {
     tabs.addTab(this);
   }
@@ -33,7 +35,10 @@ export class TabComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.cmpRef.destroy();
+    if (this.cmpRef) {
+      this.cmpRef.destroy();
+    }
     this.tabs.removeTab(this);
+
   }
 }

@@ -27,6 +27,7 @@ export class TabberComponent {
   }
   closeTab(tab: TabComponent) {
     this.close.emit(tab);
+    tab.close.emit(tab);
   }
   addTab(tab: TabComponent) {
     this.tabs.push(tab);

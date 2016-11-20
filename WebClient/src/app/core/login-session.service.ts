@@ -1,4 +1,5 @@
-﻿import { HttpService } from './http.service';
+﻿import { Observable } from 'rxjs';
+import { HttpService } from './http.service';
 import { LoginSession } from './../shared';
 import { Injectable } from '@angular/core';
 
@@ -38,17 +39,27 @@ export class LoginSessionService {
         );
     }
 
-    login(connectionData: LoginSession): void {
-        this.httpService.login(connectionData).subscribe(
-            logged => {
-                this.logger.debug('login returns: ' + logged);
-                this.connected = logged;
-                if (logged) {
-                    this.socket.wsConnect();
+    login(connectionData: LoginSession): Observable<boolean> {
+        return Observable.create(observer => {
+            this.httpService.login(connectionData).subscribe(
+                logged => {
+                    this.logger.debug('login returns: ' + logged);
+                    this.connected = logged;
+                    if (logged) {
+                        this.socket.wsConnect();
+                    }
+                    observer.next(logged);
+                    observer.complete();
+                },
+                error => {
+                    this.logger.error('login HTTP error: ' + error);
+                    observer.error(error);
+                    observer.complete();
                 }
-            },
-            error => this.logger.error('login HTTP error: ' + error)
-        );
+
+            );
+
+        }
     }
 
     logout(): void {

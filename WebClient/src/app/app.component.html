@@ -9,11 +9,11 @@
         <tb-login></tb-login>
     </div>
     <div *ngIf="isConnected()">
-        <tb-tabs (close)="onCloseTab($event)">
-            <tb-tab [tabTitle]="Menu">
+        <tb-tabs >
+            <tb-tab [tabTitle]="Menu" (close)="logoff($event)">
                 <tb-menu></tb-menu>
             </tb-tab>
-            <tb-tab *ngFor="let info of componentService.components" [componentInfo]='info'></tb-tab>
+            <tb-tab *ngFor="let info of componentService.components" [componentInfo]='info' (close)="closeTab($event)"></tb-tab>
         </tb-tabs>
     </div>
     <router-outlet></router-outlet>

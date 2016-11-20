@@ -55,7 +55,11 @@ export class AppComponent {
   }
 
 
-  onCloseTab(tab: TabComponent) {
+  closeTab(tab: TabComponent) {
     this.componentService.removeComponent(tab.componentInfo);
+  }
+
+  logoff(tab: TabComponent) {
+    this.loginSession.logout();
   }
 }

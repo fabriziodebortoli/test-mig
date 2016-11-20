@@ -19,7 +19,7 @@ export class HttpService {
     }
 
     isLogged(): Observable<string> {
-        return this.http.post(this.getMenuBaseUrl() + 'isLogged/', {})
+        return this.postData(this.getMenuBaseUrl() + 'isLogged/', {})
             .map((res: Response) => {
                 return res.ok && res.json().success === true;
             })
@@ -27,7 +27,6 @@ export class HttpService {
     }
 
     login(connectionData: LoginSession): Observable<boolean> {
-        this.logger.debug('httpService.login (' + this.utils.serializeData(connectionData) + ')');
         return this.postData(this.getMenuBaseUrl() + 'doLogin/', connectionData)
             .map((res: Response) => {
                 return res.ok && res.json().success === true;
