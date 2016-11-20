@@ -59,7 +59,7 @@ export class LoginSessionService {
 
             );
 
-        }
+        });
     }
 
     logout(): void {

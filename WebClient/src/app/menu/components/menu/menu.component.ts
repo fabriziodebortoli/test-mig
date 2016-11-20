@@ -1,4 +1,6 @@
-import { ComponentService } from './../../../core/';
+import { UtilsService } from './../../../core';
+import { DocumentInfo } from './../../../shared';
+import { HttpService } from './../../../core/';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,12 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor(private componentService: ComponentService) { }
+  constructor(private httpService: HttpService, private utilService: UtilsService) { }
 
   ngOnInit() {
   }
 
-  createComponent(url: string) {
-    this.componentService.createComponentFromUrl(url);
+  runDocument(ns: string) {
+    this.httpService.runObject(new DocumentInfo(0, ns, this.utilService.generateGUID()))
+    .subscribe(result => {
+      console.log(result);
+    });
   }
 }

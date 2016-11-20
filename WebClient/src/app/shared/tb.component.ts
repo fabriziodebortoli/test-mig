@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TbComponent implements OnInit {
   title: string = '';
+  id: string = '';
   constructor() { }
 
   ngOnInit() {

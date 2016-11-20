@@ -1,4 +1,5 @@
-﻿import { UtilsService } from './utils.service';
+﻿import { DocumentInfo } from './../shared';
+import { UtilsService } from './utils.service';
 import { LoginSession } from './../shared/';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
@@ -51,27 +52,27 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    runObject(documentData) {
+    runObject(documentData: DocumentInfo): Observable<boolean> {
         return this.postData(this.getMenuBaseUrl() + 'runObject/', documentData)
-            .map((res: Response) => res.json())
+            .map((res: Response) => {
+                return res.ok && res.json().success === true;
+            })
             .catch(this.handleError);
     }
 
     doCommand(cmpId: String, id: String) {
-        let me = this;
-        /*return new Promise(function (resolve, reject) {
-         me.postData(me.getDocumentBaseUrl() + "command/", {cmpId: cmpId, id: id})
-         .subscribe(response => {
-         if (response.ok)
-         resolve(response.toString());
-         else
-         reject(response.toString())
-         });
-         });*/
+       /* let resOuter: Observable<Response> = this.postData(this.getDocumentBaseUrl() + 'command/', { cmpId: cmpId, id: id })
+            .map((res: Response) => {
+                return res.ok && res.json().success === true;
+            })
+            .catch(this.handleError);
+
+        resOuter.subscribe(result => {
+            console.log(result);
+        });*/
     }
 
     getLoginActiveThreads() {
-        let me = this;
         /*return new Promise(function (resolve, reject) {
          me.http.get(me.getDocumentBaseUrl() + "getLoginActiveThreads/")
          .subscribe(response => {
@@ -84,7 +85,7 @@ export class HttpService {
          });*/
     }
 
-    postData(url: string, data: Object) {
+    postData(url: string, data: Object): Observable<Response> {
         return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
     }
 

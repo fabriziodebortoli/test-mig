@@ -1,4 +1,4 @@
-export class Document {
+export class DocumentInfo {
   type: Number;
   ns: string;
   session: string;

@@ -31,6 +31,7 @@ export class TabComponent implements OnInit, OnDestroy {
     if (this.componentInfo) {
       this.cmpRef = this.tabContent.createComponent(this.componentInfo.factory);
       this.tabTitle = this.cmpRef.instance.title;
+      this.cmpRef.instance.id = this.componentInfo.id;//assegni l'id al componente
     }
   }
 

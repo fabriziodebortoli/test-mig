@@ -56,7 +56,7 @@ export class AppComponent {
 
 
   closeTab(tab: TabComponent) {
-    this.componentService.removeComponent(tab.componentInfo);
+    this.componentService.tryDestroyComponent(tab.componentInfo);
   }
 
   logoff(tab: TabComponent) {
