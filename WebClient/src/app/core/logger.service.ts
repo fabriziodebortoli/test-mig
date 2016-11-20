@@ -1,7 +1,4 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-
-import { UtilsService } from './utils.service';
 
 @Injectable()
 export class Logger {

@@ -1,6 +1,7 @@
+import { SharedModule } from './shared/shared.module';
+import { MenuModule } from './menu/menu.module';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home.component';
-import { ComponentService } from './core/services/component.service';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -22,10 +23,12 @@ import { AppComponent } from './app.component';
     BrowserModule,
     HttpModule,
     MaterialModule.forRoot(),
-    CoreModule,
+    CoreModule.forRoot(),
+    SharedModule,
+    MenuModule,
     routing
   ],
   bootstrap: [AppComponent],
-  providers: [appRoutingProviders, ComponentService]
+  providers: [appRoutingProviders]
 })
 export class AppModule { }

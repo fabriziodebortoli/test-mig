@@ -1,9 +1,7 @@
-import { TabComponent } from './core/components/tabber/tab.component';
-import { ComponentService } from './core/services/component.service';
-import { SidenavService } from './core/services/sidenav.service';
-import { Component, ViewChild } from '@angular/core';
+import { LoginSessionService, WebSocketService, Logger, SidenavService, ComponentService } from './core';
+import {TabComponent} from './shared';
 
-import { LoginSessionService, Logger, WebSocketService } from './core/services';
+import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'tb-root',
@@ -56,9 +54,6 @@ export class AppComponent {
     return this.socket.status;
   }
 
-  createComponent(url: string) {
-    this.componentService.createComponentFromUrl(url);
-  }
 
   onCloseTab(tab: TabComponent) {
     this.componentService.removeComponent(tab.componentInfo);

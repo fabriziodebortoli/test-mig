@@ -1,4 +1,4 @@
-import { ComponentInfo } from './../models/component.info';
+import { ComponentInfo } from './../shared';
 import { Router } from '@angular/router';
 import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
 

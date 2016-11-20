@@ -1,5 +1,5 @@
-import { DocumentComponent } from './../../../../core/components/document.component';
-import { ComponentService } from './../../../../core/services/component.service';
+import { ComponentService } from './../../../../core/';
+import { DocumentComponent } from './../../../../shared/';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
 @Component({

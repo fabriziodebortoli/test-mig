@@ -5,45 +5,18 @@
 
     </md-sidenav>
 
-   <div *ngIf="!isConnected()">
-       <tb-login></tb-login>
-   </div>
-
-    <div id="app-component" class="container">
-        <h5>App Component</h5>
-        <!--<button md-button (click)="sidebar.open()" color="primary">Open start sidenav</button>-->
-
-        <div class="container">
-            <h5>Autenticazione</h5>
-            <div id="autenticazione">
-                
-                <div *ngIf="isConnected()">
-                    <p>Connesso <button md-raised-button color="accent" (click)="logout()">Log out</button></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="container" *ngIf="isConnected()">
-            <h5>WebSocket</h5>
-            <div id="websocket">
-                <p>{{wsStatus()}}</p>
-                <button *ngIf="!isWsConnected()" md-raised-button color="accent" (click)="wsConnect()">Connect</button>
-                <button *ngIf="isWsConnected()" md-raised-button color="accent" (click)="wsClose()">Close</button>
-            </div>
-        </div>
-
-        <!--<tb-menu></tb-menu>-->
-
-        <div class="container">
-            <h5>Primary RouterOutlet</h5>
-            <router-outlet></router-outlet>
-        </div>
-
-        <a href="#" (click)="createComponent('ERP/Languages/Languages')">Languages</a>
-        <router-outlet name="dynamic"></router-outlet>
+    <div *ngIf="!isConnected()">
+        <tb-login></tb-login>
+    </div>
+    <div *ngIf="isConnected()">
         <tb-tabs (close)="onCloseTab($event)">
-            <tb-tab [tabTitle]="Menu">menu</tb-tab>
+            <tb-tab [tabTitle]="Menu">
+                <tb-menu></tb-menu>
+            </tb-tab>
             <tb-tab *ngFor="let info of componentService.components" [componentInfo]='info'></tb-tab>
         </tb-tabs>
     </div>
+    <router-outlet></router-outlet>
+    <router-outlet name="dynamic"></router-outlet>
+
 </md-sidenav-layout>

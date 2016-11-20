@@ -1,4 +1,4 @@
-import { ComponentInfo } from './../../models/component.info';
+import { ComponentInfo } from './../../shared';
 import { TabberComponent } from './tabber.component';
 import { TbComponent } from './../tb.component';
 import { Component, OnInit, OnDestroy, ComponentRef, Input, ViewChild, ViewContainerRef } from '@angular/core';

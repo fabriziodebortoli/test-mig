@@ -2,7 +2,7 @@ import { TbComponent } from './tb.component';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-document',
+  selector: 'tb-document',
   template: `
   `,
   styles: []

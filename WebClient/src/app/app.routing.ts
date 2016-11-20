@@ -1,4 +1,4 @@
-import { PageNotFoundComponent } from './core/components/page-not-found.component';
+import { PageNotFoundComponent } from './shared/';
 import { HomeComponent } from './home.component';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';

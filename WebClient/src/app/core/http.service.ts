@@ -1,8 +1,7 @@
-﻿import { LoginSession } from './../models/login-session';
+﻿import { UtilsService } from './utils.service';
+import { LoginSession } from './../shared/';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-
-import { UtilsService } from '../services/utils.service';
 import { Observable } from 'rxjs';
 import { Logger } from './logger.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';

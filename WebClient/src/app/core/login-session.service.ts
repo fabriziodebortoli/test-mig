@@ -1,7 +1,7 @@
-﻿import { LoginSession } from './../models/login-session';
+﻿import { HttpService } from './http.service';
+import { LoginSession } from './../shared';
 import { Injectable } from '@angular/core';
 
-import { HttpService } from '../services/http.service';
 import { WebSocketService } from './websocket.service';
 import { Logger } from './logger.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -9,7 +9,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 @Injectable()
 export class LoginSessionService {
     connected: boolean = false;
-
+    error: string;
     constructor(private httpService: HttpService,
         private socket: WebSocketService,
         private cookieService: CookieService,
@@ -24,9 +24,6 @@ export class LoginSessionService {
                 this.logger.debug('isLogged returns: ' + isLogged);
 
                 if (!isLogged) {
-                    // per effettuare la login automaticamente
-                    // this.login();
-
                     this.connected = false;
                 } else {
                     this.logger.debug('Just logged in');
@@ -34,7 +31,10 @@ export class LoginSessionService {
                     this.socket.wsConnect();
                 }
             },
-            error => this.logger.error('isLogged HTTP error: ' + error)
+            error => {
+                this.error = error;
+                this.logger.error('isLogged HTTP error: ' + error);
+            }
         );
     }
 

@@ -1,0 +1,21 @@
+div.container
+{
+    margin-left:auto;
+margin-right: auto;
+text-align: center;
+}
+div.error
+{
+    background-color: red;
+    color: white;
+}
+label
+{
+    display: inline-block;
+    width: 200px;
+    text-align: left;
+}
+input
+{
+    width: 200px;
+}

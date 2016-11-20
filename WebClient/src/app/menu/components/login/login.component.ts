@@ -1,5 +1,5 @@
-import { LoginSessionService } from './../../services/login-session.service';
-import { LoginSession } from './../../models/login-session';
+import { LoginSessionService } from './../../../core/';
+import { LoginSession } from './../../../shared/';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

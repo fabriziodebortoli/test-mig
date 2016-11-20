@@ -1,4 +1,4 @@
-import { SidenavService } from './../../services/sidenav.service';
+import { SidenavService } from './../../core/';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
