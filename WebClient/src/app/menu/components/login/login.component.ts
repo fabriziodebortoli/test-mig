@@ -34,12 +34,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   login() {
     this.saveState();
     this.working = true;
-    return this.loginSessionService.login(this.connectionData)
+    let subs = this.loginSessionService.login(this.connectionData)
       .subscribe(connected => {
         this.working = false;
+        subs.unsubscribe();
       },
       error => {
         this.working = false;
+        subs.unsubscribe();
       });
   }
 }

@@ -17,7 +17,7 @@ export class WebSocketService {
 
     wsConnect(): void {
         let $this = this;
-        this.httpService.getWebSocketPort()
+        let subs = this.httpService.getWebSocketPort()
             .subscribe(port => {
                 let url = 'ws://' + window.location.hostname + ':' + port + '/TBWebSocketsController';
                 this.logger.debug('wsConnecting... ' + url);
@@ -58,6 +58,8 @@ export class WebSocketService {
                     this.fire('close', arg);
                     this.status = 'Closed';
                 };
+
+                subs.unsubscribe();
             });
     }
 
@@ -69,6 +71,7 @@ export class WebSocketService {
         }
         evt.push(fn);
     }
+
 
     fire(evtName, data) {
         let evt = this.events[evtName];

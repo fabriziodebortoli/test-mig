@@ -20,7 +20,7 @@ export class LoginSessionService {
     }
 
     isLogged(): void {
-        this.httpService.isLogged().subscribe(
+        let subs = this.httpService.isLogged().subscribe(
             isLogged => {
                 this.logger.debug('isLogged returns: ' + isLogged);
 
@@ -31,10 +31,12 @@ export class LoginSessionService {
                     this.connected = true;
                     this.socket.wsConnect();
                 }
+                subs.unsubscribe();
             },
             error => {
                 this.error = error;
                 this.logger.error('isLogged HTTP error: ' + error);
+                subs.unsubscribe();
             }
         );
     }
@@ -63,14 +65,18 @@ export class LoginSessionService {
     }
 
     logout(): void {
-        this.httpService.logout().subscribe(
+        let subscription = this.httpService.logout().subscribe(
             loggedOut => {
                 this.logger.debug('logout returns: ' + loggedOut);
                 this.connected = !loggedOut;
                 this.socket.wsClose();
                 this.cookieService.remove('authtoken');
+                subscription.unsubscribe();
             },
-            error => this.logger.error('logout HTTP error: ' + error)
+            error => {
+                this.logger.error('logout HTTP error: ' + error);
+                subscription.unsubscribe();
+            }
         );
     }
 
