@@ -11,10 +11,10 @@
         "main": "main.ts",
         "test": "test.ts",
         "tsconfig": "tsconfig.json",
-        "prefix": "app",
+        "prefix": "tb",
         "mobile": false,
         "styles": [
-            "mago.scss",
+            "tb.scss",
             "styles.scss"
         ],
         "scripts": [],
