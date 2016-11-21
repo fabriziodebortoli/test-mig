@@ -61,7 +61,7 @@ export class HttpService {
     }
 
     doCommand(cmpId: String, id: String) {
-       /* let resOuter: Observable<Response> = this.postData(this.getDocumentBaseUrl() + 'command/', { cmpId: cmpId, id: id })
+        let resOuter: Observable<Response> = this.postData(this.getDocumentBaseUrl() + 'command/', { cmpId: cmpId, id: id })
             .map((res: Response) => {
                 return res.ok && res.json().success === true;
             })
@@ -69,7 +69,7 @@ export class HttpService {
 
         resOuter.subscribe(result => {
             console.log(result);
-        });*/
+        });
     }
 
     getLoginActiveThreads() {
