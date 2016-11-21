@@ -1,0 +1,13 @@
+.report-studio {
+    display: block;
+    width: 100%;
+    position: fixed;
+    min-height: 100%;
+}
+
+.container {
+    padding: 10px;
+    background: red;
+    overflow: auto;
+    margin: 10px;
+}
