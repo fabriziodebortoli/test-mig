@@ -15,20 +15,33 @@ export class LoginComponent implements OnInit, OnDestroy {
     private loginSessionService: LoginSessionService,
     private cookieService: CookieService) {
 
-    this.connectionData.user = this.cookieService.get('user');
-    this.connectionData.company = this.cookieService.get('company');
   }
 
   ngOnInit() {
+    this.loadState();
   }
   ngOnDestroy() {
+    this.saveState();
+  }
+  loadState() {
+    this.connectionData.user = this.cookieService.get('user');
+    this.connectionData.company = this.cookieService.get('company');
+  }
+  saveState() {
     this.cookieService.put('user', this.connectionData.user);
     this.cookieService.put('company', this.connectionData.company);
   }
   login() {
+    this.saveState();
     this.working = true;
-    return this.loginSessionService.login(this.connectionData).subscribe(connected => {
-      this.working = false;
-    });
+    let subs = this.loginSessionService.login(this.connectionData)
+      .subscribe(connected => {
+        this.working = false;
+        subs.unsubscribe();
+      },
+      error => {
+        this.working = false;
+        subs.unsubscribe();
+      });
   }
 }

@@ -17,7 +17,15 @@ export class ComponentService {
       this.createComponents(data.components, 0);
     });
     this.webSocketService.on('WindowClose', data => {
-
+      if (data && data.id) {
+        for (let i = 0; i < this.components.length; i++) {
+          let info: ComponentInfo = this.components[i];
+          if (info.id == data.id) {
+            this.components.splice(i, 1);
+            break;
+          }
+        }
+      }
     });
 
   }
@@ -49,7 +57,12 @@ export class ComponentService {
     this.httpService.doCommand(component.id, 'ID_FILE_CLOSE');
   }
   removeComponent(component: ComponentInfo) {
-    this.components.splice(this.components.indexOf(component), 1);
+    let idx = this.components.indexOf(component);
+    if (idx == -1) {
+      console.debug('ComponentService: cannot remove conponent with id ' + component.id + ' because it does not exist');
+      return;
+    }
+    this.components.splice(idx, 1);
   }
   createComponentFromUrl(url: string): Promise<void> {
     return new Promise<void>(resolve => {

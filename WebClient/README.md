@@ -1,6 +1,13 @@
-# TBWeb
+# WebClient
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.15.
+Progetto che contiene i sorgenti del client di MagoWeb.
+E' organizzato in diversi sottomoduli, in particolare:
+- core: contiene i servizi di base
+- shared: contiene i componenti condivisi
+- menu: contiene i componenti ed i servizi del menu
+- applications: contiene i componenti di ERP e dei verticali, generati automaticamente a partire dai file tbjson 
+
+Al momento comunica col server tbloader.exe sulla porta 10000; il server va lanciato a mano.
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
