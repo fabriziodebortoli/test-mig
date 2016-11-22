@@ -1,0 +1,12 @@
+<ul class="toolbar" #toolbar>
+    <li>
+        <md-icon *ngIf="!running" (click)="play()">play_arrow</md-icon>
+        <md-icon *ngIf="running" (click)="stop()">stop</md-icon>
+    </li>
+    <li>
+        <md-icon (click)="prev()">chevron_left</md-icon>
+    </li>
+    <li>
+        <md-icon (click)="next()">chevron_right</md-icon>
+    </li>
+</ul>
