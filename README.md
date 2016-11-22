@@ -2,6 +2,6 @@
 
 Progetti per la piattaforma TaskBuilder Web
 
-# WebClient
-
-Applicazione basata su Angular 2 che gestisce il client side di TaskBuilder Web
+## Projects
+- [WebClient - Client side per TaskBuilder Web](https://github.com/Microarea/Taskbuilder/tree/master/WebClient)
+- [ReportingStudioClient - Client side per Reporting Studio](https://github.com/Microarea/Taskbuilder/tree/master/ReportingStudioClient)
