@@ -39,4 +39,20 @@ export class UtilsService {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
       s4() + '-' + s4() + s4() + s4();
   };
+
+  toArray(items) {
+    let filtered = [];
+
+    if (items === undefined) {
+      return filtered;
+    }
+
+    if (Object.prototype.toString.call(items) === '[object Array]') {
+      return items;
+    }
+    else {
+      filtered.push(items);
+      return filtered;
+    }
+  };
 }

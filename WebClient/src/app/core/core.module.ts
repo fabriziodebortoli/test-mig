@@ -5,6 +5,7 @@ import { Logger } from './logger.service';
 import { UtilsService } from './utils.service';
 import { HttpService } from './http.service';
 import { LoginSessionService } from './login-session.service';
+import { MenuService } from './../menu/components/menu/services/menu.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import { MaterialModule } from '@angular/material';
@@ -28,14 +29,22 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
   ],
   exports: [],
   providers: [
-    CookieService, HttpService, UtilsService, Logger, LoginSessionService, WebSocketService, SidenavService, ComponentService]
+    CookieService, HttpService, UtilsService, Logger, LoginSessionService, WebSocketService, SidenavService, ComponentService, MenuService]
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule,
       providers: [
-        CookieService, HttpService, UtilsService, Logger, LoginSessionService, WebSocketService, SidenavService, ComponentService
+        CookieService,
+        HttpService,
+        UtilsService,
+        Logger,
+        LoginSessionService,
+        WebSocketService,
+        SidenavService,
+        ComponentService,
+        MenuService
       ]
     };
   }

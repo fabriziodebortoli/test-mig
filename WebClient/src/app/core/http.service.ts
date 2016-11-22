@@ -30,7 +30,7 @@ export class HttpService {
     login(connectionData: LoginSession): Observable<boolean> {
         return this.postData(this.getMenuBaseUrl() + 'doLogin/', connectionData)
             .map((res: Response) => {
-                return res.ok && res.json().success === true;
+                 return res.ok && res.json().success === true;
             })
             .catch(this.handleError);
     }
@@ -104,6 +104,10 @@ export class HttpService {
         return this.baseUrl + 'tb/menu/';
     }
 
+     getNeedLoginThread() {
+        return 'needLoginThread/';
+    }
+
 
     private handleError(error: any) {
         // In a real world app, we might use a remote logging infrastructure
@@ -112,5 +116,13 @@ export class HttpService {
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         console.error(errMsg);
         return Observable.throw(errMsg);
+    }
+
+    getMenuElements(): Observable<any> {
+              return this.http.get(this.getMenuBaseUrl() + this.getNeedLoginThread() + 'getMenuElements/', { withCredentials: true })
+            .map((res: Response) => {
+                return  res.json();
+            })
+            .catch(this.handleError);
     }
 }

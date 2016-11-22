@@ -2,7 +2,6 @@
 import { HttpService } from './http.service';
 import { LoginSession } from './../shared';
 import { Injectable } from '@angular/core';
-
 import { WebSocketService } from './websocket.service';
 import { Logger } from './logger.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -39,7 +38,7 @@ export class LoginSessionService {
         );
     }
 
-    login(connectionData: LoginSession): Observable<boolean> {
+  login(connectionData: LoginSession): Observable<boolean> {
         return Observable.create(observer => {
             this.httpService.login(connectionData).subscribe(
                 logged => {
@@ -50,6 +49,7 @@ export class LoginSessionService {
                     }
                     observer.next(logged);
                     observer.complete();
+
                 },
                 error => {
                     this.logger.error('login HTTP error: ' + error);

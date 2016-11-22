@@ -1,4 +1,5 @@
 import { LoginSessionService, WebSocketService, Logger, SidenavService, ComponentService } from './core';
+import { MenuService } from './menu/components/menu/services/menu.service';
 import {TabComponent} from './shared';
 
 import { Component, ViewChild } from '@angular/core';
@@ -16,7 +17,8 @@ export class AppComponent {
     private socket: WebSocketService,
     private logger: Logger,
     private sidenavService: SidenavService,
-    private componentService: ComponentService) {
+    private componentService: ComponentService,
+    private menuService: MenuService) {
 
     sidenavService.sidenavOpened$.subscribe(
       sidebarOpened => {
