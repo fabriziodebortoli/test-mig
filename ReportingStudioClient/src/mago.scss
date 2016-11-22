@@ -1,0 +1,15 @@
+/*
+    Material Design theming
+
+    md-palette($base-palette, $default: 500, $lighter: 100, $darker: 700)
+    md-light-theme($primary, $accent, $warn: md-palette($md-red))
+    md-dark-theme($primary, $accent, $warn: md-palette($md-red))
+*/
+
+@import '~@angular/material/core/theming/all-theme';
+@include md-core();
+$tb-app-primary: md-palette($md-blue, 700, 300, 900);
+$tb-app-accent: md-palette($md-green, 600, 200, 800);
+$tb-app-warn: md-palette($md-red);
+$tb-app-theme: md-light-theme($tb-app-primary, $tb-app-accent, $tb-app-warn);
+@include angular-material-theme($tb-app-theme);

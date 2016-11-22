@@ -1,7 +1,7 @@
 {
     "project": {
-        "version": "1.0.0-beta.15",
-        "name": "tbweb"
+        "version": "1.0.0-beta.17",
+        "name": "warm-web"
     },
     "apps": [{
         "root": "src",
@@ -11,10 +11,10 @@
         "main": "main.ts",
         "test": "test.ts",
         "tsconfig": "tsconfig.json",
-        "prefix": "tb",
+        "prefix": "app",
         "mobile": false,
         "styles": [
-            "tb.scss",
+            "mago.scss",
             "styles.scss"
         ],
         "scripts": [],

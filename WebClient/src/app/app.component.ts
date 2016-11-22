@@ -1,17 +1,22 @@
 import { LoginSessionService, WebSocketService, Logger, SidenavService, ComponentService } from './core';
+<<<<<<< HEAD
 import { MenuService } from './menu/components/menu/services/menu.service';
 import {TabComponent} from './shared';
+=======
+import { TabComponent } from './shared';
+>>>>>>> origin/master
 
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'tb-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
 
   @ViewChild('sidenav') sidenav;
 
+  sidenavSubscription: any;
   constructor(
     private loginSession: LoginSessionService,
     private socket: WebSocketService,
@@ -20,7 +25,7 @@ export class AppComponent {
     private componentService: ComponentService,
     private menuService: MenuService) {
 
-    sidenavService.sidenavOpened$.subscribe(
+    this.sidenavSubscription = sidenavService.sidenavOpened$.subscribe(
       sidebarOpened => {
         if (sidebarOpened) {
           this.sidenav.close();
@@ -31,11 +36,14 @@ export class AppComponent {
       });
   }
 
+  ngOnDestroy() {
+    this.sidenavSubscription.unsubscribe();
+  }
   isConnected(): boolean {
     return this.loginSession.isConnected();
   }
 
-  
+
   logout(): void {
     return this.loginSession.logout();
   }

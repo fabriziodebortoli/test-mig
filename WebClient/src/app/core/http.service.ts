@@ -52,24 +52,28 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    runObject(documentData: DocumentInfo): Observable<boolean> {
-        return this.postData(this.getMenuBaseUrl() + 'runObject/', documentData)
+    runObject(documentData: DocumentInfo): void {
+        let subs = this.postData(this.getMenuBaseUrl() + 'runObject/', documentData)
             .map((res: Response) => {
                 return res.ok && res.json().success === true;
             })
-            .catch(this.handleError);
+            .catch(this.handleError)
+            .subscribe(result => {
+                console.log(result);
+                subs.unsubscribe();
+            });
     }
 
-    doCommand(cmpId: String, id: String) {
-        let resOuter: Observable<Response> = this.postData(this.getDocumentBaseUrl() + 'command/', { cmpId: cmpId, id: id })
+    doCommand(cmpId: String, id: String): void {
+        let subs = this.postData(this.getDocumentBaseUrl() + 'command/', { cmpId: cmpId, id: id })
             .map((res: Response) => {
                 return res.ok && res.json().success === true;
             })
-            .catch(this.handleError);
-
-        resOuter.subscribe(result => {
-            console.log(result);
-        });
+            .catch(this.handleError)
+            .subscribe(result => {
+                console.log(result);
+                subs.unsubscribe();
+            });
     }
 
     getLoginActiveThreads() {
