@@ -12,6 +12,6 @@ import { CommonModule } from '@angular/common';
     FormsModule,
   ],
   declarations: [LoginComponent, MenuComponent],
-  exports:[LoginComponent, MenuComponent]
+  exports: [LoginComponent, MenuComponent]
 })
 export class MenuModule { }
