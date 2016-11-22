@@ -1,6 +1,5 @@
-import { WebSocketService } from './web-socket.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ReportStudioService } from './report-studio.service';
+import { ReportStudioService, Message, Command } from './report-studio.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
@@ -11,9 +10,9 @@ import { Subscription } from 'rxjs/Rx';
 })
 export class ReportStudioComponent implements OnInit, AfterViewInit {
 
-  private wsUrl = 'ws://localhost:5000';
-
   private logs: string[] = [''];
+
+  private serverReportId:number;
 
   private connected: boolean = false;
 
@@ -23,8 +22,7 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private reportService: ReportStudioService,
-    private websocketService: WebSocketService) {
+    private reportService: ReportStudioService) {
   }
 
   ngOnInit() {
@@ -37,20 +35,42 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
 
     this.logs.push('Richiesta in corso...');
     this.reportService.runReportTest(this.reportNamespace).subscribe(response => {
-      if (response.result === 'OK') {
-        this.logs.push(response.message);
-        this.wsConnect();
-      } else {
-        console.error('Errore runReport');
-      }
+        this.serverReportId = response.id;
+
+        this.logs.push("serverReportId: " + this.serverReportId);
+        this.reportService.connect();
+        this.reportService.messages.subscribe((msg: Message) => this.execute(msg));
     });
   }
 
-  wsConnect() {
-    this.websocketService.connect(this.wsUrl);
+  execute(msg: Message) {
+    let command = msg.command;
+    let message = msg.message;
+
+    console.log('execute', command, message);
+    switch (command) {
+      case Command.STRUCT:
+
+        break;
+      case Command.DATA:
+
+        break;
+      case Command.ASK:
+
+        break;
+    }
   }
 
   ngAfterViewInit() {
+  }
+
+  // send message to server
+  sendMessage() {
+    let message = {
+      command: Command.TEST,
+      message: 'yeah'
+    };
+    this.reportService.messages.next(message);
   }
 
 }

@@ -3,7 +3,7 @@
 @Injectable()
 export class Logger {
 
-    constructor() {
+	constructor() {
         console.log('LoggerService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
