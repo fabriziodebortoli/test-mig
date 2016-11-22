@@ -13,7 +13,9 @@
             <tb-tab [tabTitle]="Menu" (close)="logoff($event)">
                 <tb-menu></tb-menu>
             </tb-tab>
-            <tb-tab *ngFor="let info of componentService.components" [componentInfo]='info' (close)="closeTab($event)"></tb-tab>
+            <tb-tab *ngFor="let info of componentService.components" (close)="componentService.tryDestroyComponent(info)">
+                <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
+            </tb-tab>
         </tb-tabs>
     </div>
     <router-outlet></router-outlet>

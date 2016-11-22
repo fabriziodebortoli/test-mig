@@ -1,3 +1,4 @@
+import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { MaterialModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { TabberComponent } from './tabber/tabber.component';
@@ -13,7 +14,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     MaterialModule.forRoot()
   ],
-  declarations: [PageNotFoundComponent, ToolbarComponent, TabComponent, TabberComponent],
-  exports: [CommonModule, PageNotFoundComponent, ToolbarComponent, TabComponent, TabberComponent]
+  declarations: [PageNotFoundComponent, ToolbarComponent, TabComponent, TabberComponent, DynamicCmpComponent],
+  exports: [CommonModule, PageNotFoundComponent, ToolbarComponent, TabComponent, TabberComponent, DynamicCmpComponent]
 })
 export class SharedModule { }

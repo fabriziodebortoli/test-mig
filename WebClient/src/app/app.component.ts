@@ -62,7 +62,7 @@ export class AppComponent implements OnDestroy {
 
 
   closeTab(tab: TabComponent) {
-    this.componentService.tryDestroyComponent(tab.componentInfo);
+    //this.componentService.tryDestroyComponent(tab.componentInfo);
   }
 
   logoff(tab: TabComponent) {
