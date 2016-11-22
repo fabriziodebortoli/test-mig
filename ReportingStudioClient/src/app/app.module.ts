@@ -1,3 +1,4 @@
+import { ReportStudioModule } from './report-studio/report-studio.module';
 import { HomeComponent } from './home.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -17,7 +18,9 @@ import { routing } from './app.routing';
     BrowserModule,
     HttpModule,
     MaterialModule.forRoot(),
-    routing
+    routing,
+
+    ReportStudioModule
   ],
   bootstrap: [AppComponent]
 })

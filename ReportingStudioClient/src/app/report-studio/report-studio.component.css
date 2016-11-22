@@ -11,3 +11,14 @@
     overflow: auto;
     margin: 10px;
 }
+
+.div-loading {
+    margin: 20px auto;
+    width: 400px;
+    text-align: center;
+}
+
+.div-loading md-progress-circle {
+    width: 40px;
+    margin: 20px auto;
+}

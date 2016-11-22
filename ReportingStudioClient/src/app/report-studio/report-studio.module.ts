@@ -1,3 +1,4 @@
+import { WebSocketService } from './web-socket.service';
 import { ReportStudioService } from './report-studio.service';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -15,7 +16,7 @@ import { CanvasComponent } from './canvas/canvas.component';
       { path: ':namespace', component: ReportStudioComponent }
     ])
   ],
-  providers: [ReportStudioService],
+  providers: [ReportStudioService, WebSocketService],
   declarations: [ReportStudioComponent, ToolbarComponent, CanvasComponent]
 })
 export class ReportStudioModule { }

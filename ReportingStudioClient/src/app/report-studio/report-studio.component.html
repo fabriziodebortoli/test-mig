@@ -1,6 +1,15 @@
 <div class=report-studio>
-    <rs-toolbar></rs-toolbar>
-    <div [style.height.px]="containerHeight" class=container>
-        <rs-canvas></rs-canvas>
+    <div class=div-loading *ngIf="!connected">
+        <md-progress-circle mode="indeterminate" color="primary"></md-progress-circle>
+
+        <div class=logger>
+            <p *ngFor="let msg of logs">{{msg}}</p>
+        </div>
+    </div>
+    <div *ngIf="connected">
+        <rs-toolbar></rs-toolbar>
+        <div class=container>
+            <rs-canvas></rs-canvas>
+        </div>
     </div>
 </div>
