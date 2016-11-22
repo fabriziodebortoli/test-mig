@@ -23,6 +23,13 @@ export class MenuComponent implements OnInit {
   }
 
   runDocument(ns: string) {
+<<<<<<< HEAD
+    this.httpService.runObject(new DocumentInfo(0, ns, this.utilService.generateGUID()))
+      .subscribe(result => {
+        console.log(result);
+      });
+=======
     this.httpService.runObject(new DocumentInfo(0, ns, this.utilService.generateGUID()));
+>>>>>>> origin/master
   }
 }

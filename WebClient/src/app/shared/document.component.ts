@@ -1,15 +1,15 @@
+import { DocumentService } from './../core';
 import { TbComponent } from './tb.component';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'tb-document',
-  template: `
-  `,
+  template: '',
   styles: []
 })
-export class DocumentComponent extends TbComponent implements OnInit {
+export abstract class DocumentComponent extends TbComponent implements OnInit {
 title: string;
-  constructor() { 
+  constructor(private documentService: DocumentService) { 
     super();
   }
 
