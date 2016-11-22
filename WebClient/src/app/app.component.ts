@@ -1,10 +1,6 @@
 import { LoginSessionService, WebSocketService, Logger, SidenavService, ComponentService } from './core';
-<<<<<<< HEAD
 import { MenuService } from './menu/components/menu/services/menu.service';
-import {TabComponent} from './shared';
-=======
 import { TabComponent } from './shared';
->>>>>>> origin/master
 
 import { Component, ViewChild, OnDestroy } from '@angular/core';
 
