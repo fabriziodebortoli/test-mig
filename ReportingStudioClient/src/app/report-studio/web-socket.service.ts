@@ -3,35 +3,59 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class WebSocketService {
-    private subject: Subject<MessageEvent>;
 
-    public connect(url): Subject<MessageEvent> {
-        if(!this.subject) {
-            this.subject = this.create(url);
+  private ws: WebSocket;
+
+  private subject: Subject<MessageEvent>;
+
+  /**
+   * WS Ready state constants
+   *
+   * 0 => CONNECTING
+   *
+   * 1 => OPEN
+   *
+   * 2 => CLOSING
+   *
+   * 3 => CLOSED
+   */
+  wsConnectionState = new Observable<number>();
+
+  public connect(url): Subject<MessageEvent> {
+    if (!this.subject) {
+      this.subject = this.create(url);
+
+    }
+
+    return this.subject;
+  }
+
+  getConnectionState() {
+    let observable = this.wsConnectionState;
+    return Subject.create(observable);
+  }
+
+  private create(url): Subject<MessageEvent> {
+    this.ws = new WebSocket(url);
+
+    this.wsConnectionState = Observable.of(this.ws.readyState);
+
+    let observable = Observable.create((obs: Observer<MessageEvent>) => {
+      this.ws.onmessage = obs.next.bind(obs);
+      this.ws.onerror = obs.error.bind(obs);
+      this.ws.onclose = obs.complete.bind(obs);
+
+      return this.ws.close.bind(this.ws);
+    });
+
+    let observer = {
+      next: (data: Object) => {
+        if (this.ws.readyState === WebSocket.OPEN) {
+          this.ws.send(JSON.stringify(data));
         }
+      },
+    };
 
-        return this.subject;
-    }
-
-    private create(url): Subject<MessageEvent> {
-        let ws = new WebSocket(url);
-
-        let observable = Observable.create((obs: Observer<MessageEvent>) => {
-            ws.onmessage = obs.next.bind(obs);
-            ws.onerror = obs.error.bind(obs);
-            ws.onclose = obs.complete.bind(obs);
-
-            return ws.close.bind(ws);
-        });
-
-        let observer = {
-            next: (data: Object) => {
-                if (ws.readyState === WebSocket.OPEN) {
-                    ws.send(JSON.stringify(data));
-                }
-            },
-        };
-
-        return Subject.create(observer, observable);
-    }
+    return Subject.create(observer, observable);
+  }
 }
