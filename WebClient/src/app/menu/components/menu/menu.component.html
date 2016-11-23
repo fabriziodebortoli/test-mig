@@ -1,45 +1,18 @@
 <p>
     <a href="#" (click)="runDocument('ERP.Languages.Documents.Languages')">Languages</a>
 </p>
-<div *ngIf="menuService.applicationMenu != undefined"  >
+<div *ngIf="menuService.applicationMenu != undefined">
     <tb-application-selector [Menu]="menuService.applicationMenu"></tb-application-selector>
 </div>
 
 <div *ngIf="menuService.getSelectedApplication() != undefined">
-  <tb-group-selector></tb-group-selector>
+    <tb-group-selector></tb-group-selector>
 </div>
 
-<div *ngIf="menuService.getSelectedGroup() != undefined" class="settingsAndMenuSelector">
-   <tb-menu-selector></tb-menu-selector>
-
+<div *ngIf="menuService.getSelectedGroup() != undefined">
+    <tb-menu-selector></tb-menu-selector>
 </div>
 
 <div *ngIf="menuService.getSelectedMenu() != undefined">
-    <div *ngFor="let menu of utilService.toArray(menuService.getSelectedMenu().Menu)" class="tileContainer">
-
-        <div class="tileContent">
-            <h4>
-                {{menu.title}}
-            </h4>
-
-            <div *ngFor="let object of utilService.toArray(menu.Object)">
-                <div>
-                    {{object.title}}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!--voci posizionate male, sarebbero da togliere-->
-<div *ngIf="menuService.getSelectedMenu() != undefined && menuService.getSelectedMenu().Object">
-    <h4>
-        {{menuService.getSelectedMenu().title}}
-    </h4>
-    <div *ngFor="let object of utilService.toArray(menuService.getSelectedMenu().Object)">
-        <div>
-            {{object.title}}
-        </div>
-    </div>
+   <tb-tile-container></tb-tile-container>
 </div>

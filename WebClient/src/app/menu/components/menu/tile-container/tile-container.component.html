@@ -1,0 +1,28 @@
+<div *ngFor="let menu of utilService.toArray(menuService.getSelectedMenu().Menu)" class="tileContainer">
+
+  <div class="tileContent">
+    <h4>
+      {{menu.title}}
+    </h4>
+
+    <div *ngFor="let object of utilService.toArray(menu.Object)">
+      <div>
+        {{object.title}}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--voci posizionate male, sarebbero da togliere-->
+<div *ngIf="menuService.getSelectedMenu().Object">
+  <h4>
+    {{menuService.getSelectedMenu().title}}
+  </h4>
+  <div *ngFor="let object of utilService.toArray(menuService.getSelectedMenu().Object)">
+    <div>
+      {{object.title}}
+    </div>
+  </div>
+</div>

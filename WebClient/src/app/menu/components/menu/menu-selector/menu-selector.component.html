@@ -1,9 +1,11 @@
-<div class="menuSelectorPanel">
-  <!--manca-->
-  <!--ng-if="IfMenuHasObjects(menu)" ng-class="{ 'active': menu.active} " aria-label="{{::menu.title}}"-->
-  <button *ngFor="let menuTab of utilService.toArray(menuService.getSelectedGroup().Menu)" (click)=menuService.setSelectedMenu(menuTab)
-    class="btn btn-default">
+<div class="settingsAndMenuSelector">
+  <div class="menuSelectorPanel">
+    <!--manca-->
+    <!--ng-if="IfMenuHasObjects(menu)" ng-class="{ 'active': menu.active} " aria-label="{{::menu.title}}"-->
+    <button *ngFor="let menuTab of utilService.toArray(menuService.getSelectedGroup().Menu)" (click)=menuService.setSelectedMenu(menuTab)
+      class="btn btn-default">
             {{menuTab.title}}
         </button>
+  </div>
+  <div class="coloredMenuSeparator"></div>
 </div>
-<div class="coloredMenuSeparator"></div>
