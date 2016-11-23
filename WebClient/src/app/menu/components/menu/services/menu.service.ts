@@ -38,7 +38,7 @@ export class MenuService {
         this.selectedMenu = menu;
     }
 
-    getSelectedMenu(){
+    getSelectedMenu() {
         return this.selectedMenu;
     }
 
