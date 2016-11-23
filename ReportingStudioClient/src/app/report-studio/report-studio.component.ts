@@ -10,11 +10,9 @@ import { Subscription } from 'rxjs/Rx';
 })
 export class ReportStudioComponent implements OnInit, AfterViewInit {
 
-  private logs: string[] = [''];
+  private guid: number;
 
-  private serverReportId:number;
-
-  private connected: boolean = false;
+  private wsConnectionState: number = 3;
 
   private subscription: Subscription;
   private reportNamespace: string;
@@ -26,28 +24,41 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.logs.push('Report init');
+    console.debug('Report init');
     this.subscription = this.route.params.subscribe(
       (params: any) => {
         this.reportNamespace = params['namespace'];
       }
     );
 
-    this.logs.push('Richiesta in corso...');
-    this.reportService.runReportTest(this.reportNamespace).subscribe(response => {
-        this.serverReportId = response.id;
+    console.debug('Richiesta in corso...');
+    this.reportService.runReport(this.reportNamespace).subscribe(response => {
+      console.log(response);
+      this.guid = response.id;
 
-        this.logs.push("serverReportId: " + this.serverReportId);
-        this.reportService.connect();
-        this.reportService.messages.subscribe((msg: Message) => this.execute(msg));
+      console.info("guid: " + this.guid);
     });
+  }
+
+  wsConnect() {
+    this.reportService.connect();
+
+    this.reportService.wsConnectionState.subscribe((wsConnectionState: number) => this.wsConnectionState = wsConnectionState);
+
+    this.reportService.messages.subscribe((msg: Message) => this.execute(msg));
+
+    let message = {
+      command: Command.GUID,
+      message: '${this.guid}'
+    };
+    this.reportService.messages.next(message);
   }
 
   execute(msg: Message) {
     let command = msg.command;
     let message = msg.message;
 
-    console.log('execute', command, message);
+    console.info('execute', command, message);
     switch (command) {
       case Command.STRUCT:
 

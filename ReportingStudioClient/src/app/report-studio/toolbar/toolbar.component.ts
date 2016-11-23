@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ReportStudioService, Message, Command } from './../report-studio.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'rs-toolbar',
@@ -7,11 +8,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 })
 export class ToolbarComponent implements OnInit {
 
-  @ViewChild('toolbar') toolbar: ElementRef;
-
   private running: boolean = false;
 
-  constructor() { }
+  constructor(private reportService: ReportStudioService) { }
 
   ngOnInit() {
   }
@@ -36,8 +35,12 @@ export class ToolbarComponent implements OnInit {
 
   }
 
-  getHeight() {
-    return this.toolbar.nativeElement.offsetHeight;
+  test() {
+    let message: Message = {
+      command: Command.TEST,
+      message: 'toolbar'
+    }
+    this.reportService.sendTestMessage('from toolbar');
   }
 
 }

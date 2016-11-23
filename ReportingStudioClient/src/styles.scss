@@ -3,11 +3,36 @@ body {
     margin: 0;
     padding: 0;
     background: #eee;
+    height: 100%;
 }
 
-body {
-    display: block;
-    width: 100%;
-    /*position: fixed;*/
-    min-height: 100%;
+.fill-height {
+    display: flex;
+    flex-flow: column;
+    flex-direction: column;
+    height: 100%;
+}
+
+.fill-remaining-space {
+    flex: 1 1 auto;
+}
+
+.bgGreen {
+    background-color: green;
+}
+
+.bgRed {
+    background-color: red;
+}
+
+.bgPink {
+    background-color: pink;
+}
+
+.bgBlue {
+    background-color: blue;
+}
+
+.bgBlack {
+    background-color: #000;
 }
