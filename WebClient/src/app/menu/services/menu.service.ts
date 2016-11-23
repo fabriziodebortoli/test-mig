@@ -8,9 +8,13 @@ export class MenuService {
 
     private baseUrl = 'http://localhost:10000/';
 
-    private selectedApplication: undefined;
-    private selectedGroup: undefined;
-    private selectedMenu: undefined;
+    private selectedApplication: any;
+    private selectedGroup: any;
+    private selectedMenu: any;
+
+    public applicationMenu: any;
+    public environmentMenu: any;
+    
     constructor(private http: Http, private logger: Logger, private utils: UtilsService) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -42,17 +46,16 @@ export class MenuService {
         return this.selectedMenu;
     }
 
-    getApplicationIcon(application)
-    {
+    getApplicationIcon(application) {
         return this.getStaticImage(application);
     }
-    
-    getStaticImage(item)  {
+
+    getStaticImage(item) {
 
         if (item == undefined){
             return undefined;
         }
-        
+
         if (Object.prototype.toString.call(item) === '[object String]') {
             return 'staticimage/' + item;
         }
