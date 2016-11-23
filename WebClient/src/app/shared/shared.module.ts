@@ -3,7 +3,6 @@ import { MaterialModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { TabberComponent } from './tabber/tabber.component';
 import { TabComponent } from './tabber/tab.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,7 +13,8 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     MaterialModule.forRoot()
   ],
-  declarations: [PageNotFoundComponent, ToolbarComponent, TabComponent, TabberComponent, DynamicCmpComponent],
-  exports: [CommonModule, PageNotFoundComponent, ToolbarComponent, TabComponent, TabberComponent, DynamicCmpComponent]
+  declarations: [PageNotFoundComponent, TabComponent, TabberComponent, DynamicCmpComponent],
+  exports: [CommonModule, PageNotFoundComponent, TabComponent, TabberComponent, DynamicCmpComponent],
+  providers:[]
 })
 export class SharedModule { }

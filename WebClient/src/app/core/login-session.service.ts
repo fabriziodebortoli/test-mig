@@ -1,9 +1,9 @@
 ﻿import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
-import { LoginSession } from './../shared';
+import { LoginSession } from 'tb-shared';
 import { Injectable } from '@angular/core';
 import { WebSocketService } from './websocket.service';
-import {Logger} from 'tbcore';
+import {Logger} from 'libclient';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()

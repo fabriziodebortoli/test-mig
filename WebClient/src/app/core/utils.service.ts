@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import {Logger} from 'tbcore';
+import {Logger} from 'libclient';
 
 @Injectable()
 export class UtilsService {

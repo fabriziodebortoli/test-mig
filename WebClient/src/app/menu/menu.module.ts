@@ -1,5 +1,5 @@
 import { MenuService } from './services/menu.service';
-import { SharedModule } from './../shared/shared.module';
+import { SharedModule } from 'tb-shared';
 import { FormsModule } from '@angular/forms';
 import { MenuComponent } from './components/menu/menu.component';
 import { LoginComponent } from './components/login/login.component';

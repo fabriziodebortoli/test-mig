@@ -1,6 +1,6 @@
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { LoginSessionService } from './../../../core/';
-import { LoginSession } from './../../../shared/';
+import { LoginSessionService } from 'tb-core';
+import { LoginSession } from 'tb-shared';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
