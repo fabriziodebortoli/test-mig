@@ -1,0 +1,7 @@
+<button *ngFor="let application of applications">
+        <div *ngIf="application!=undefined">
+            <div (click)=menuService.setSelectedApplication(application)>{{application.title}}</div>
+            <!--<img [src]="menuService.getApplicationIcon(application)" />-->
+            <!--<div ng-show="{{menuService.noImageOrDef(application)}}">{{menuService.getApplicationName(application)}}</div>-->
+        </div>
+</button>
