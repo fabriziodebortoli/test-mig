@@ -1,7 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import { HttpService } from './http.service';
-import { Logger } from './logger.service';
+import {Logger} from 'tbcore';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()

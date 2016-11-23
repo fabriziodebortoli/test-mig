@@ -1,5 +1,5 @@
 import { UtilsService } from './../../core/utils.service';
-import { Logger } from './../../core/logger.service';
+import {Logger} from 'tbcore';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 

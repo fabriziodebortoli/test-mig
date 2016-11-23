@@ -1,4 +1,6 @@
-import { LoginSessionService, WebSocketService, Logger, SidenavService, ComponentService } from './core';
+import { LoginSessionService, WebSocketService, SidenavService, ComponentService } from './core';
+import {Logger} from 'tbcore';
+
 import { TabComponent } from './shared';
 
 import { Component, ViewChild, OnDestroy } from '@angular/core';
