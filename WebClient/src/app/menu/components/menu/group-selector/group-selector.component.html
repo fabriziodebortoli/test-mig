@@ -1,0 +1,5 @@
+<div *ngFor="let group of utilService.toArray(menuService.getSelectedApplication().Group)" (click)=menuService.setSelectedGroup(group)
+    class="box">
+    <img [src]="menuService.getStaticImage(group)" />
+    <div>{{group.title}}</div>
+</div>

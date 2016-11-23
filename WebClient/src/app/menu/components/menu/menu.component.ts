@@ -1,7 +1,7 @@
+import { MenuService } from './../../services/menu.service';
 import { UtilsService } from './../../../core';
 import { DocumentInfo } from './../../../shared';
 import { HttpService } from './../../../core/';
-import { MenuService } from './services/menu.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -17,6 +17,8 @@ export class MenuComponent implements OnInit {
   constructor(private httpService: HttpService, private menuService: MenuService, private utilService: UtilsService) { }
   ngOnInit() {
     this.httpService.getMenuElements().subscribe(result => {
+      this.menuService.applicationMenu = result.Root.ApplicationMenu.AppMenu;
+      this.menuService.environmentMenu = result.Root.EnvironmentMenu.AppMenu;
       this.menu = result.Root.ApplicationMenu.AppMenu;
       this.applications = this.utilService.toArray(result.Root.ApplicationMenu.AppMenu.Application);
     });

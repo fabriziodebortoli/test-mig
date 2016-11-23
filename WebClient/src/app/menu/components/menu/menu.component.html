@@ -1,44 +1,18 @@
 <p>
     <a href="#" (click)="runDocument('ERP.Languages.Documents.Languages')">Languages</a>
 </p>
+<div *ngIf="menuService.applicationMenu != undefined">
+    <tb-application-selector [Menu]="menuService.applicationMenu"></tb-application-selector>
+</div>
 
-<div *ngIf="menu != undefined">
-    <button *ngFor="let application of applications">
-        <div *ngIf="application!=undefined">
-            <div (click)=menuService.setSelectedApplication(application)>{{application.title}}</div>
-            <!--<img [src]="menuService.getApplicationIcon(application)" />-->
-            <!--<div ng-show="{{menuService.noImageOrDef(application)}}">{{menuService.getApplicationName(application)}}</div>-->
-        </div>
-    </button>
+<div *ngIf="menuService.getSelectedApplication() != undefined">
+    <tb-group-selector></tb-group-selector>
+</div>
 
+<div *ngIf="menuService.getSelectedGroup() != undefined">
+    <tb-menu-selector></tb-menu-selector>
+</div>
 
-    <div *ngIf="menuService.getSelectedApplication() != undefined">
-
-        <div *ngFor="let group of utilService.toArray(menuService.getSelectedApplication().Group)" (click)=menuService.setSelectedGroup(group) class="box">
-            <img [src]="menuService.getStaticImage(group)" />
-            <div>{{group.title}}</div>
-        </div>
-        <div *ngIf="menuService.getSelectedGroup() != undefined">
-            <button *ngFor="let menuTab of utilService.toArray(menuService.getSelectedGroup().Menu)" (click)=menuService.setSelectedMenu(menuTab)>{{menuTab.title}}</button>
-        </div>
-    </div>
-
-    <div *ngIf="menuService.getSelectedMenu() != undefined">
-        <div *ngFor="let menu of utilService.toArray(menuService.getSelectedMenu().Menu)" class="tileContainer">
-
-            <div class="tileContent">
-                <h4>
-                    {{menu.title}}
-                </h4>
-
-                <div *ngFor="let object of utilService.toArray(menu.Object)">
-                    <div>
-                        {{object.title}}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+<div *ngIf="menuService.getSelectedMenu() != undefined">
+   <tb-tile-container></tb-tile-container>
 </div>

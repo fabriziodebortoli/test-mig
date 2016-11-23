@@ -1,0 +1,48 @@
+.tileContainer {
+	padding-left: 20px;
+	padding-top: 10px;
+	margin: 5px;
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+}
+
+/*title and pinimage container*/
+	.tileContainer > div:first-child {
+		width: 98%;
+		border-bottom: 1px solid;
+		border-bottom-color: lightgrey;
+		margin-bottom: 10px;
+	}
+
+	/*pin image*/
+	.tileContainer .unpinnedImage, .tileContainer .pinnedImage {
+		float: right;
+	}
+
+	/*tile title*/
+	.tileContainer > div:first-child > div:first-child {
+		display: inline-block;
+		margin-bottom: 7px;
+		width: 90%;
+	}
+
+
+.tileContent {
+	/*height:234px;*/ /*this parameter must be changed with javascript*/
+	/*height:235px;*/
+	overflow: auto;
+	padding-right: 5px;
+	padding-top: 2px;
+	line-height: 160%;
+}
+
+	.tileContent a {
+		text-decoration: none;
+	}
+
+	/*menu object image*/
+	.tileContent > div > div {
+		display: inline-block;
+	}
+

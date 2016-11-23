@@ -4,7 +4,7 @@ import { LoginSession } from './../shared/';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { Logger } from './logger.service';
+import {Logger} from 'tbcore';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()
