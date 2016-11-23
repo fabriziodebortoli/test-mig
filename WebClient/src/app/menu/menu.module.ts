@@ -1,5 +1,5 @@
+import { SharedModule } from './../shared/shared.module';
 import { FormsModule } from '@angular/forms';
-import { SharedModule } from '@shared/shared.module';
 import { MenuComponent } from './components/menu/menu.component';
 import { LoginComponent } from './components/login/login.component';
 import { NgModule } from '@angular/core';
