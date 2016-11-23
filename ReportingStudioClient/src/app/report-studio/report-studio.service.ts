@@ -29,20 +29,21 @@ export class ReportStudioService {
   private socket: Subject<MessageEvent>;
   public messages: Subject<Message>;
 
-  public wsConnectionState: Observable<number>;
+  public wsConnectionState: number = 3;
 
   constructor(
     private http: Http,
-    private websocketService: WebSocketService) { }
+    private websocketService: WebSocketService) {
+    this.websocketService.wsConnectionState$.subscribe((wsConnectionState: number) => {
+      console.log('RSService', wsConnectionState);
+      this.wsConnectionState = wsConnectionState;
+    });
+  }
 
   connect() {
     this.socket = this.websocketService.connect(WS_URL);
 
-    // this.wsConnectionState = <Subject<number>>this.websocketService.getConnectionState();
-    this.wsConnectionState = this.websocketService.wsConnectionState;
-    // this.websocketService.getConnectionState().subscribe((readyState: number) => {
-    //   this.wsConnectionState.next(readyState);
-    // });
+
 
     this.messages = <Subject<Message>>this.socket
       .map((response: MessageEvent): Message => {
@@ -60,7 +61,7 @@ export class ReportStudioService {
 
   sendTestMessage(message) {
     this.messages.next(message);
-    console.log(message)
+    console.log(message);
   }
 
   private handleError(error: any): Observable<any> {

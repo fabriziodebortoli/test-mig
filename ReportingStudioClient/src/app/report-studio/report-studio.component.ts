@@ -43,7 +43,8 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
   wsConnect() {
     this.reportService.connect();
 
-    this.reportService.wsConnectionState.subscribe((wsConnectionState: number) => this.wsConnectionState = wsConnectionState);
+    this.wsConnectionState = this.reportService.wsConnectionState
+    // this.reportService.wsConnectionState.subscribe((wsConnectionState: number) => this.wsConnectionState = wsConnectionState);
 
     this.reportService.messages.subscribe((msg: Message) => this.execute(msg));
 

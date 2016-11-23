@@ -1,5 +1,6 @@
 import { Subject, Observable, Observer } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
+import 'rxjs/add/observable/of';
 
 @Injectable()
 export class WebSocketService {
@@ -19,26 +20,25 @@ export class WebSocketService {
    *
    * 3 => CLOSED
    */
-  wsConnectionState = new Observable<number>();
+  wsConnectionState$: Observable<number>;
+  wsConnectionStateObserver: Observer<number>;
 
   public connect(url): Subject<MessageEvent> {
     if (!this.subject) {
       this.subject = this.create(url);
-
     }
 
     return this.subject;
   }
 
-  getConnectionState() {
-    let observable = this.wsConnectionState;
-    return Subject.create(observable);
-  }
-
   private create(url): Subject<MessageEvent> {
     this.ws = new WebSocket(url);
 
-    this.wsConnectionState = Observable.of(this.ws.readyState);
+    this.wsConnectionState$ = new Observable<number>(
+      observer => {
+        this.wsConnectionStateObserver = observer;
+      }
+    ).share();
 
     let observable = Observable.create((obs: Observer<MessageEvent>) => {
       this.ws.onmessage = obs.next.bind(obs);
