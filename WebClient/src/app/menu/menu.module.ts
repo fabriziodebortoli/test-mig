@@ -1,5 +1,6 @@
-import { FormsModule } from '@angular/forms';
+import { MenuService } from './services/menu.service';
 import { SharedModule } from './../shared/shared.module';
+import { FormsModule } from '@angular/forms';
 import { MenuComponent } from './components/menu/menu.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
@@ -15,8 +16,10 @@ import { CommonModule } from '@angular/common';
     SharedModule,
     FormsModule,
   ],
+
   declarations: [LoginComponent, MenuComponent, ApplicationSelectorComponent, GroupSelectorComponent, MenuSelectorComponent],
-  exports: [LoginComponent, MenuComponent, ApplicationSelectorComponent, GroupSelectorComponent, MenuSelectorComponent]
+  exports: [LoginComponent, MenuComponent, ApplicationSelectorComponent, GroupSelectorComponent, MenuSelectorComponent],
+  providers:[MenuService]
 })
 export class MenuModule { }
 

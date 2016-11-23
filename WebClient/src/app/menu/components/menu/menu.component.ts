@@ -1,7 +1,7 @@
+import { MenuService } from './../../services/menu.service';
 import { UtilsService } from './../../../core';
 import { DocumentInfo } from './../../../shared';
 import { HttpService } from './../../../core/';
-import { MenuService } from './services/menu.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

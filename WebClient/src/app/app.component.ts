@@ -1,5 +1,6 @@
-import { LoginSessionService, WebSocketService, Logger, SidenavService, ComponentService } from './core';
-import { MenuService } from './menu/components/menu/services/menu.service';
+import { LoginSessionService, WebSocketService, SidenavService, ComponentService } from './core';
+import {Logger} from 'tbcore';
+
 import { TabComponent } from './shared';
 
 import { Component, ViewChild, OnDestroy } from '@angular/core';
@@ -18,8 +19,7 @@ export class AppComponent implements OnDestroy {
     private socket: WebSocketService,
     private logger: Logger,
     private sidenavService: SidenavService,
-    private componentService: ComponentService,
-    private menuService: MenuService) {
+    private componentService: ComponentService) {
 
     this.sidenavSubscription = sidenavService.sidenavOpened$.subscribe(
       sidebarOpened => {

@@ -1,5 +1,4 @@
 export { ComponentService } from './component.service';
-export { Logger } from './logger.service';
 export { HttpService } from './http.service';
 export { LoginSessionService } from './login-session.service';
 export { UtilsService } from './utils.service';
