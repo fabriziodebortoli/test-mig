@@ -1,3 +1,4 @@
+import { MenuService } from './services/menu.service';
 import { SharedModule } from './../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { MenuComponent } from './components/menu/menu.component';
@@ -12,6 +13,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
   ],
   declarations: [LoginComponent, MenuComponent],
-  exports: [LoginComponent, MenuComponent]
+  exports: [LoginComponent, MenuComponent],
+  providers:[MenuService]
 })
 export class MenuModule { }

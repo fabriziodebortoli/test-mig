@@ -1,7 +1,7 @@
+import { UtilsService } from './../../core/utils.service';
+import { Logger } from './../../core/logger.service';
 import { Http } from '@angular/http';
-import { UtilsService } from './../../../../core/utils.service';
 import { Injectable } from '@angular/core';
-import { Logger } from './../../../../core/logger.service';
 
 @Injectable()
 export class MenuService {
@@ -38,7 +38,7 @@ export class MenuService {
         this.selectedMenu = menu;
     }
 
-    getSelectedMenu(){
+    getSelectedMenu() {
         return this.selectedMenu;
     }
 
