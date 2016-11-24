@@ -1,5 +1,5 @@
 import { UtilsService } from 'tb-core';
-import {Logger} from 'libclient';
+import { Logger } from 'libclient';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 
@@ -14,7 +14,7 @@ export class MenuService {
 
     public applicationMenu: any;
     public environmentMenu: any;
-    
+
     constructor(private http: Http, private logger: Logger, private utils: UtilsService) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -52,7 +52,7 @@ export class MenuService {
 
     getStaticImage(item) {
 
-        if (item == undefined){
+        if (item == undefined) {
             return undefined;
         }
 
@@ -61,7 +61,52 @@ export class MenuService {
         }
 
         let imageFile = item['image_file'];
-        return  imageFile === undefined ? 'Images/Default.png' :  this.baseUrl +'tb/menu/staticimage/' + imageFile;
+        return imageFile === undefined ? 'Images/Default.png' : this.baseUrl + 'tb/menu/staticimage/' + imageFile;
     }
+
+
+
+
+    //---------------------------------------------------------------------------------------------
+    getObjectIcon = function (object) {
+        if (object.sub_type != undefined) {
+            if (object.application == undefined)
+                return object.sub_type;
+
+            return object.sub_type + object.application;
+        }
+        return object.objectType;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    isCustomImage = function (object) {
+        return object.isCustomImage == undefined || object.isCustomImage == 'Images/Default.png';
+    }
+
+
+    //---------------------------------------------------------------------------------------------
+    getStaticThumbnail = function (document) {
+
+        var urlToRun = 'staticThumbnail/?ns=' + document.target;
+        return urlToRun;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    getWorkerImage = function (item) {
+
+        if (item == undefined)
+            return;
+
+        var imageFile = item['image_file'];
+        if (imageFile == undefined || imageFile == '')
+            return undefined;
+
+        return 'staticimage/' + imageFile;
+    }
+
+
+
+
+
 
 }
