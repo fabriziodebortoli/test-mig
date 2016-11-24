@@ -40,13 +40,15 @@ namespace WebApplication
         {
             // Add framework services.
             //services.AddDbContext<ApplicationDbContext>(options =>
-             //   options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            //   options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-          //  services.AddIdentity<ApplicationUser, IdentityRole>()
-           //     .AddEntityFrameworkStores<ApplicationDbContext>()
-           //     .AddDefaultTokenProviders();
+            //  services.AddIdentity<ApplicationUser, IdentityRole>()
+            //     .AddEntityFrameworkStores<ApplicationDbContext>()
+            //     .AddDefaultTokenProviders();
 
-           // Assembly asm = Assembly.Load(new AssemblyName("ControllerLib"));
+            services.AddSession();
+
+            // Assembly asm = Assembly.Load(new AssemblyName("ControllerLib"));
             IMvcBuilder builder = services.AddMvc();//.AddApplicationPart(asm);
             foreach (string appPart in Directory.GetFiles(AppContext.BaseDirectory, "*.module.dll"))
                 builder.AddApplicationPart(Assembly.Load(new AssemblyName(Path.GetFileNameWithoutExtension(appPart))));
@@ -74,7 +76,7 @@ namespace WebApplication
             //app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

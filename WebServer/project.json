@@ -18,6 +18,7 @@
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
+    "Microsoft.AspNetCore.Session": "1.1.0",
     "Microsoft.EntityFrameworkCore.Sqlite": "1.0.1",
     "Microsoft.EntityFrameworkCore.Tools": {
       "version": "1.0.0-preview2-final",
@@ -82,7 +83,8 @@
     "preserveCompilationContext": true,
     "copyToOutput": {
       "mappings": {
-        "TBLoaderGate.module.dll": "../TbLoaderGate/bin/Debug/netstandard1.6/TBLoaderGate.module.dll"
+        "TBLoaderGate.module.dll": "../TbLoaderGate/bin/Debug/netstandard1.6/TBLoaderGate.module.dll",
+        "TBLoaderGate.module.pdb": "../TbLoaderGate/bin/Debug/netstandard1.6/TBLoaderGate.module.pdb"
       }
     }
   },
