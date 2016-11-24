@@ -1,24 +1,8 @@
-.report-studio {
-    display: block;
-    width: 100%;
-    position: fixed;
-    min-height: 100%;
-}
+.report-studio {}
 
-.container {
-    padding: 10px;
-    background: red;
-    overflow: auto;
-    margin: 10px;
-}
-
-.div-loading {
-    margin: 20px auto;
-    width: 400px;
-    text-align: center;
-}
-
-.div-loading md-progress-circle {
-    width: 40px;
-    margin: 20px auto;
+.canvas-container {
+    -webkit-flex: 1 1 auto;
+    overflow-y: auto;
+    height: 0px;
+    padding: 20px;
 }

@@ -1,7 +1,7 @@
-import { LoginSessionService, WebSocketService, SidenavService, ComponentService } from './core';
-import {Logger} from 'tbcore';
+import { LoginSessionService, WebSocketService, SidenavService, ComponentService } from 'tb-core';
+import {Logger} from 'libclient';
 
-import { TabComponent } from './shared';
+import { TabComponent } from 'tb-shared';
 
 import { Component, ViewChild, OnDestroy } from '@angular/core';
 

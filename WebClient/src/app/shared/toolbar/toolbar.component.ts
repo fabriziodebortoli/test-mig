@@ -1,5 +1,5 @@
-import { SidenavService } from './../../core/';
 import { Component, OnInit } from '@angular/core';
+import { ToolbarButtonComponent } from './toolbarbutton.component' 
 
 @Component({
   selector: 'tb-toolbar',
@@ -8,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private sidenavService: SidenavService) {
+  buttons: ToolbarButtonComponent[] = [];
+
+  constructor() {
 
   }
 
@@ -16,7 +18,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   toggleSidenav() {
-    this.sidenavService.toggleSidenav();
+   //this.sidenavService.toggleSidenav();
   }
 
 }

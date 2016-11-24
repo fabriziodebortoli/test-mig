@@ -1,15 +1,15 @@
-import { SharedModule } from './shared/shared.module';
+import { SharedModule } from 'tb-shared';
 import { MenuModule } from './menu/menu.module';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home.component';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { routing, appRoutingProviders } from './app.routing';
+import { routing } from './app.routing';
 
 import { MaterialModule } from '@angular/material';
 
-import { CoreModule } from './core/core.module';
+import { CoreModule, SidenavService } from 'tb-core';
 
 import { AppComponent } from './app.component';
 
@@ -29,6 +29,6 @@ import { AppComponent } from './app.component';
     routing
   ],
   bootstrap: [AppComponent],
-  providers: [appRoutingProviders]
+  providers: [SidenavService]
 })
 export class AppModule { }

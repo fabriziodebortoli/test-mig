@@ -1,7 +1,6 @@
 import { MenuService } from './../../services/menu.service';
-import { UtilsService } from './../../../core';
-import { DocumentInfo } from './../../../shared';
-import { HttpService } from './../../../core/';
+import { UtilsService, HttpService } from 'tb-core';
+import { DocumentInfo } from 'tb-shared';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

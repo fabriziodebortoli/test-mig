@@ -9,13 +9,18 @@ const SERVER_URL = 'http://localhost:5000';
 export interface Message {
   command: Command;
   message: string;
+  response?: string;
 }
 
 export enum Command {
   DATA,
   STRUCT,
   ASK,
-  TEST
+  TEST,
+  GUID,
+  ERROR,
+  PAGE,
+  PDF
 }
 
 @Injectable()
@@ -24,12 +29,21 @@ export class ReportStudioService {
   private socket: Subject<MessageEvent>;
   public messages: Subject<Message>;
 
+  public wsConnectionState: number = 3;
+
   constructor(
     private http: Http,
-    private websocketService: WebSocketService) { }
+    private websocketService: WebSocketService) {
+    this.websocketService.wsConnectionState$.subscribe((wsConnectionState: number) => {
+      console.log('RSService', wsConnectionState);
+      this.wsConnectionState = wsConnectionState;
+    });
+  }
 
   connect() {
     this.socket = this.websocketService.connect(WS_URL);
+
+
 
     this.messages = <Subject<Message>>this.socket
       .map((response: MessageEvent): Message => {
@@ -40,14 +54,19 @@ export class ReportStudioService {
 
   runReport(namespace: string): Observable<any> {
     return this.http
-      .get(SERVER_URL + `/api/report/${namespace}`)
-      .map((r: Response) => r.json());
+      .get(SERVER_URL + `/api/RSWeb/${namespace}`)
+      .map((r: Response) => r.json())
+      .catch(this.handleError);
   }
 
-  runReportTest(namespace: string): Observable<any> {
-    return this.http
-      .get('http://localhost:4200/runreport.json')
-      .map((r: Response) => r.json());
+  sendTestMessage(message) {
+    this.messages.next(message);
+    console.log(message);
+  }
+
+  private handleError(error: any): Observable<any> {
+    console.error('An error occurred', error);
+    return Observable.onErrorResumeNext(error.message || error);
   }
 
 }

@@ -1,11 +1,11 @@
-.fill-remaining-space {
-    flex: 1 1 auto;
-}
-
 nav.toolbar-nav,
 nav.toolbar-nav>a {
     color: #fff;
     font-size: 12px
 }
 
-.main {}
+.main {
+    -webkit-flex: 1 1 auto;
+    overflow-y: auto;
+    height: 0px;
+}

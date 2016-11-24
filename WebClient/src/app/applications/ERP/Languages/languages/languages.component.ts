@@ -1,5 +1,5 @@
-import { ComponentService, DocumentService } from './../../../../core/';
-import { DocumentComponent } from './../../../../shared/';
+import { ComponentService, DocumentService } from 'tb-core';
+import { DocumentComponent } from 'tb-shared';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
 @Component({
