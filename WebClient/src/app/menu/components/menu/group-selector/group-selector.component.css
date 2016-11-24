@@ -4,6 +4,7 @@
 	font-size: 15px;
 	width: 130px;
 	height: 130px;
+	overflow:hidden;
 }
 
 	.box > div {

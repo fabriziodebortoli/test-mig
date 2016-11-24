@@ -1,7 +1,7 @@
 ﻿import { ComponentService } from './component.service';
 import { SidenavService } from './sidenav.service';
 import { WebSocketService } from './websocket.service';
-import {Logger} from 'tbcore';
+import {Logger} from 'libclient';
 import { UtilsService } from './utils.service';
 import { HttpService } from './http.service';
 import { LoginSessionService } from './login-session.service';

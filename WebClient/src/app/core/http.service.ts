@@ -1,10 +1,9 @@
-﻿import { DocumentInfo } from './../shared';
+﻿import { DocumentInfo, LoginSession } from 'tb-shared';
 import { UtilsService } from './utils.service';
-import { LoginSession } from './../shared/';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import {Logger} from 'tbcore';
+import {Logger} from 'libclient';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()

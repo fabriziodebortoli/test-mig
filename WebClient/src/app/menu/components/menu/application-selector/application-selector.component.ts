@@ -1,4 +1,4 @@
-import { UtilsService } from './../../../../core/utils.service';
+import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
 import { Component, Input, OnInit } from '@angular/core';
 

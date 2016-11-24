@@ -1,18 +1,15 @@
 <p>
     <a href="#" (click)="runDocument('ERP.Languages.Documents.Languages')">Languages</a>
 </p>
-<div *ngIf="menuService.applicationMenu != undefined">
-    <tb-application-selector [Menu]="menuService.applicationMenu"></tb-application-selector>
-</div>
 
-<div *ngIf="menuService.getSelectedApplication() != undefined">
-    <tb-group-selector></tb-group-selector>
-</div>
+<span *ngIf="menuService.applicationMenu != undefined">
+        <tb-application-selector [Menu]="menuService.applicationMenu"></tb-application-selector>
+    </span>
 
+<span *ngIf="menuService.getSelectedApplication() != undefined">
+        <tb-group-selector></tb-group-selector>
+    </span>
 <div *ngIf="menuService.getSelectedGroup() != undefined">
     <tb-menu-selector></tb-menu-selector>
 </div>
 
-<div *ngIf="menuService.getSelectedMenu() != undefined">
-   <tb-tile-container></tb-tile-container>
-</div>

@@ -1,5 +1,12 @@
-<div *ngFor="let group of utilService.toArray(menuService.getSelectedApplication().Group)" (click)=menuService.setSelectedGroup(group)
-    class="box">
-    <img [src]="menuService.getStaticImage(group)" />
-    <div>{{group.title}}</div>
-</div>
+<button md-icon-button [md-menu-trigger-for]="menu">
+   {{menuService.getSelectedApplication().title}}
+</button>
+<md-menu #menu="mdMenu">
+    <button md-menu-item *ngFor="let group of utilService.toArray(menuService.getSelectedApplication().Group)" (click)=menuService.setSelectedGroup(group)
+        class="box">
+    <div>
+        <img [src]="menuService.getStaticImage(group)" />
+        <div>{{group.title}}</div>
+    </div>
+    </button>
+</md-menu>

@@ -1,11 +1,17 @@
-<div class="settingsAndMenuSelector">
-  <div class="menuSelectorPanel">
-    <!--manca-->
-    <!--ng-if="IfMenuHasObjects(menu)" ng-class="{ 'active': menu.active} " aria-label="{{::menu.title}}"-->
-    <button *ngFor="let menuTab of utilService.toArray(menuService.getSelectedGroup().Menu)" (click)=menuService.setSelectedMenu(menuTab)
-      class="btn btn-default">
-            {{menuTab.title}}
-        </button>
-  </div>
-  <div class="coloredMenuSeparator"></div>
-</div>
+<md-tab-group>
+  <md-tab *ngFor="let menuTab of utilService.toArray(menuService.getSelectedGroup().Menu)">
+    <template md-tab-label>
+     <div (click)="changeTab(menuTab)">  <!-- da spostare il click nel selectChange del tabgroup-->
+        {{menuTab.title}}
+      </div>
+    </template>
+
+    <!--<template md-tab-content>-->
+    <div *ngIf="menuService.getSelectedMenu() != undefined">
+      <tb-tile-container></tb-tile-container>
+    </div>
+    <!--</template>-->
+
+  </md-tab>
+
+</md-tab-group>
