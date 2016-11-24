@@ -13,6 +13,7 @@ export interface Message {
 }
 
 export enum CommandType {
+  OK,
   DATA,
   STRUCT,
   ASK,
@@ -27,7 +28,7 @@ export enum CommandType {
 export class ReportStudioService {
 
   private socket: Subject<MessageEvent>;
-  public messages: Subject<Message>;
+  public messages: Subject<Message> = new Subject<Message>();
 
   public wsConnectionState$: Observable<number> = Observable.of(WebSocket.CLOSED);
 
@@ -62,7 +63,6 @@ export class ReportStudioService {
   }
 
   sendTestMessage(text: string) {
-    console.log('sendTestMessage', text);
     let m: Message = {
       commandType: CommandType.TEST,
       message: text
@@ -73,9 +73,8 @@ export class ReportStudioService {
   send(message: Message) {
     if (this.websocketService.getConnectionState() === WebSocket.OPEN) {
       this.messages.next(message);
-      console.log('sendTestMessage', message);
     } else {
-      console.error('WebSocket disconnected');
+      console.error('WebSocket disconnected - Cannot send message');
     }
   }
 

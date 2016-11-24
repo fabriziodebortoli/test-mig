@@ -51,6 +51,10 @@ export class WebSocketService {
    * 3 => WebSocket.CLOSED
    */
   public getConnectionState(): number {
-    return this.ws.readyState;
+    if (this.ws) {
+      return this.ws.readyState;
+    } else {
+      return WebSocket.CLOSED;
+    }
   }
 }
