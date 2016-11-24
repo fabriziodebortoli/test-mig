@@ -13,6 +13,7 @@ export class ReportObjectRectangleComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // console.log('ReportObjectRectangleComponent', this.ro);
   }
 
 }

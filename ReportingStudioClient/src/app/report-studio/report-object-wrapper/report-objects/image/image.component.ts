@@ -13,6 +13,8 @@ export class ReportObjectImageComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // console.log('ReportObjectImageComponent', this.ro);
+
   }
 
 }

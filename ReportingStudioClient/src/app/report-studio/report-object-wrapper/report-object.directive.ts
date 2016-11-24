@@ -2,7 +2,7 @@ import { Directive, OnInit, Input, ElementRef, Renderer } from '@angular/core';
 import { ReportObject } from './report-object.model';
 
 @Directive({
-  selector: '[rsReportObject]'
+  selector: '[rsObject]'
 })
 export class ReportObjectDirective implements OnInit {
 
@@ -11,7 +11,7 @@ export class ReportObjectDirective implements OnInit {
   constructor(private el: ElementRef, private renderer: Renderer) { }
 
   ngOnInit() {
-    console.log('DIRECTIVE', this.ro);
+    // console.log('DIRECTIVE', this.ro);
     this.style();
   }
 
@@ -33,11 +33,6 @@ export class ReportObjectDirective implements OnInit {
     }
 
     this.renderer.setElementStyle(this.el.nativeElement, 'boxShadow', this.ro.shadowSize + 'px ' + this.ro.shadowSize + 'px ' + this.ro.shadowSize + 'px ' + this.ro.shadowColor);
-    // -webkit-box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.75);
-    // -moz-box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.75);
-    // box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.75);
-
-
   }
 
 }

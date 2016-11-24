@@ -13,6 +13,7 @@ export class ReportObjectTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // console.log('ReportObjectTableComponent', this.ro);
   }
 
 }

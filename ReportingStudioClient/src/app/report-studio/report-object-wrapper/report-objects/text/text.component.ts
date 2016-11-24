@@ -10,12 +10,10 @@ export class ReportObjectTextComponent implements OnInit {
 
   @Input() ro: ReportObject;
 
-  constructor() {
-
-  }
+  constructor() { }
 
   ngOnInit() {
-    console.log('ReportObjectTextComponent', this.ro);
+    // console.log('ReportObjectTextComponent', this.ro);
   }
 
 }

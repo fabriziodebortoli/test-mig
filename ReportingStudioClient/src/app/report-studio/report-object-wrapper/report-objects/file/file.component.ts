@@ -13,6 +13,7 @@ export class ReportObjectFileComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // console.log('ReportObjectFileComponent', this.ro);
   }
 
 }
