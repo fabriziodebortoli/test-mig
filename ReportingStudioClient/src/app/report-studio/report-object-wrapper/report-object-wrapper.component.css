@@ -1,0 +1,6 @@
+.rectangle {
+    background: #efefef;
+    display: block;
+    border: 1px dotted #ccc;
+    position: absolute;
+}

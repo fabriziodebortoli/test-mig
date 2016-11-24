@@ -1,0 +1,7 @@
+<div [ngSwitch]="ro.controlType">
+
+    <rs-text *ngSwitchCase="ReportObjectType.TEXT"> </rs-text>
+    <rs-rectangle *ngSwitchCase="ReportObjectType.RECTANGLE"> </rs-rectangle>
+
+    <img *ngSwitchCase="'image'" src="{{ro.src}}">
+</div>
