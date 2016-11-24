@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ReportObject } from './../../report-object.model';
 
 @Component({
   selector: 'rs-text',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportObjectTextComponent implements OnInit {
 
-  constructor() { }
+  @Input() ro: ReportObject;
+
+  constructor() {
+
+  }
 
   ngOnInit() {
+    console.log('ReportObjectTextComponent', this.ro);
   }
 
 }

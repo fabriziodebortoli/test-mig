@@ -1,6 +1,8 @@
-.rectangle {
-    background: #efefef;
+rs-text,
+rs-rectangle,
+rs-image,
+rs-file,
+rs-table {
     display: block;
-    border: 1px dotted #ccc;
     position: absolute;
 }

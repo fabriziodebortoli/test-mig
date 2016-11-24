@@ -1,7 +1,13 @@
 <div [ngSwitch]="ro.controlType">
 
-    <rs-text *ngSwitchCase="ReportObjectType.TEXT"> </rs-text>
-    <rs-rectangle *ngSwitchCase="ReportObjectType.RECTANGLE"> </rs-rectangle>
+    <rs-rectangle [ro]="ro" rsReportObject="ro" *ngSwitchCase="reportObjectType.RECTANGLE"> </rs-rectangle>
 
-    <img *ngSwitchCase="'image'" src="{{ro.src}}">
+    <rs-image [ro]="ro" rsReportObject="ro" *ngSwitchCase="reportObjectType.IMAGE"> </rs-image>
+
+    <rs-text [ro]="ro" rsReportObject="ro" *ngSwitchCase="reportObjectType.TEXT"> </rs-text>
+
+    <rs-file [ro]="ro" rsReportObject="ro" *ngSwitchCase="reportObjectType.FILE"> </rs-file>
+
+    <rs-table [ro]="ro" rsReportObject="ro" *ngSwitchCase="reportObjectType.TABLE"> </rs-table>
+
 </div>

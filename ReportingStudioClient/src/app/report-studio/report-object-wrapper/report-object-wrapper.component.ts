@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ReportObject } from './report-object';
+import { ReportObject, ReportObjectType } from './report-object.model';
 
 @Component({
   selector: 'rs-report-object',
@@ -8,12 +8,14 @@ import { ReportObject } from './report-object';
 })
 export class ReportObjectWrapperComponent implements OnInit {
 
+  public reportObjectType = ReportObjectType;
+
   @Input() ro: ReportObject;
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this.ro);
+    // console.log(this.ro);
   }
 
 }

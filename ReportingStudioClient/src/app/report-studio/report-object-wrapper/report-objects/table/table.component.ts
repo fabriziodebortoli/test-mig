@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ReportObject } from './../../report-object.model';
 
 @Component({
   selector: 'rs-table',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./table.component.css']
 })
 export class ReportObjectTableComponent implements OnInit {
+
+  @Input() ro: ReportObject;
 
   constructor() { }
 
