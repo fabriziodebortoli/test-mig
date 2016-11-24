@@ -6,25 +6,27 @@ export class ReportObject {
 
   styleClass: string;
   transparent: boolean;
-  bgColor: string;
+
+  backgroundColor: string;
+
+  borderColor: string;
+  borderSize: number;
+
+  shadowColor: string;
+  shadowSize: number;
 
   id?: string;
 
-  posX?: string;
-  posY?: string;
+  tooltip?: string;
+  hidden: boolean = false;
+
+  posXpx?: number;
+  posYpx?: number;
+  posXmm?: number;
+  posYmm?: number;
+
   src?: string;
 
-  constructor(
-    controlType: ReportObjectType,
-
-    styleClass: string,
-    transparent: boolean,
-    bgColor: string,
-
-    id?: string,
-
-    posX?: string,
-    posY?: string,
-    src?: string) { }
+  constructor() { }
 
 }
