@@ -6,6 +6,7 @@ import { TabComponent } from './tabber/tab.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ToolbarButtonComponent } from './toolbar/toolbarbutton.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     MaterialModule.forRoot()
   ],
-  declarations: [PageNotFoundComponent, TabComponent, TabberComponent, DynamicCmpComponent],
+  declarations: [PageNotFoundComponent, ToolbarButtonComponent, TabComponent, TabberComponent, DynamicCmpComponent],
   exports: [CommonModule, PageNotFoundComponent, TabComponent, TabberComponent, DynamicCmpComponent],
   providers:[]
 })

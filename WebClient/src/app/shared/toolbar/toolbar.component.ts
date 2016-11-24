@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToolbarButtonComponent } from './toolbarbutton.component' 
 
 @Component({
   selector: 'tb-toolbar',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
+
+  buttons: ToolbarButtonComponent[] = [];
 
   constructor() {
 
