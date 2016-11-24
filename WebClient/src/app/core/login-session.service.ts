@@ -1,15 +1,16 @@
-﻿import { Observable } from 'rxjs';
+﻿import { OperationResult } from './operation.result';
+import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
 import { LoginSession } from 'tb-shared';
 import { Injectable } from '@angular/core';
 import { WebSocketService } from './websocket.service';
-import {Logger} from 'libclient';
+import { Logger } from 'libclient';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()
 export class LoginSessionService {
     connected: boolean = false;
-    error: string;
+    errorMessages: string[] = [];
     constructor(private httpService: HttpService,
         private socket: WebSocketService,
         private cookieService: CookieService,
@@ -33,28 +34,30 @@ export class LoginSessionService {
                 subs.unsubscribe();
             },
             error => {
-                this.error = error;
+                this.errorMessages = [ error ];
                 this.logger.error('isLogged HTTP error: ' + error);
                 subs.unsubscribe();
             }
         );
     }
 
-  login(connectionData: LoginSession): Observable<boolean> {
+    login(connectionData: LoginSession): Observable<OperationResult> {
         return Observable.create(observer => {
             this.httpService.login(connectionData).subscribe(
-                logged => {
-                    this.logger.debug('login returns: ' + logged);
-                    this.connected = logged;
-                    if (logged) {
+                result => {
+                    this.connected = !result.error;
+                    this.errorMessages = result.messages;
+                    ;
+                    if (this.connected) {
                         this.socket.wsConnect();
                     }
-                    observer.next(logged);
+                    observer.next(result);
                     observer.complete();
 
                 },
                 error => {
                     this.logger.error('login HTTP error: ' + error);
+                    this.errorMessages = [ error ];
                     observer.error(error);
                     observer.complete();
                 }

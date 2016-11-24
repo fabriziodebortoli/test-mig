@@ -4,7 +4,7 @@
     <div><label for="user">Password:</label><input type="password" [(ngModel)]="connectionData.password"></div>
     <div><label for="user">Company:</label><input type="text" [(ngModel)]="connectionData.company"></div>
     <button (click)="login();">Login</button>
-    <div class="error" *ngIf="loginSessionService.error">{{loginSessionService.error}}</div>
+    <div class="error" *ngFor="let errorMessage of loginSessionService.errorMessages">{{errorMessage.text}}</div>
   </div>
   <img *ngIf="working" src='assets/img/loading.gif' />
 </div>

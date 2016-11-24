@@ -1,5 +1,9 @@
-import { UtilsService, HttpService } from 'tb-core';
+import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
+import { HttpMenuService } from './../../../services/http-menu.service';
+
+
+import { ImageService } from './../../../services/image.service';
 import { Component, OnInit } from '@angular/core';
 import { DocumentInfo } from 'tb-shared';
 @Component({
@@ -9,20 +13,24 @@ import { DocumentInfo } from 'tb-shared';
 })
 export class TileContainerComponent implements OnInit {
 
- constructor(private httpService: HttpService, private menuService: MenuService, private utilService: UtilsService) {
-    }
+  constructor(
+    private httpMenuService: HttpMenuService,
+    private menuService: MenuService,
+    private utilService: UtilsService,
+    private imageService: ImageService
+  ) {
+  }
 
   ngOnInit() {
   }
 
-runFunction = function(object)
-{
-  this.httpService.runObject(new DocumentInfo(0, object.target, this.utilService.generateGUID()));
+  runFunction = function (object) {
+    this.httpMenuService.runObject(new DocumentInfo(0, object.target, this.utilService.generateGUID()));
 
   }
 
-  getImageClass(object){
-    return this.menuService.getObjectIcon(object); //": !object.isLoading, 'loading': object.isLoading}
+  getImageClass(object) {
+    return this.imageService.getObjectIcon(object); //": !object.isLoading, 'loading': object.isLoading}
   }
 
 }
