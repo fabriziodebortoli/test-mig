@@ -9,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 export class MenuSelectorComponent implements OnInit {
 
   constructor(private menuService: MenuService, private utilService: UtilsService) {
-    }
+  }
 
   ngOnInit() {
   }
 
+  changeTab = function (tab) {
+    this.menuService.setSelectedMenu(tab);
+  }
 }
