@@ -4,46 +4,28 @@ import { Http, Response } from '@angular/http';
 import { Observable, Subject } from 'rxjs';
 
 const WS_URL = 'ws://localhost:5000';
-const SERVER_URL = 'http://localhost:5000';
 
 export interface Message {
-  command: Command;
+  commandType: CommandType;
   message: string;
   response?: string;
 }
 
-export enum Command {
-  DATA,
-  STRUCT,
-  ASK,
-  TEST,
-  GUID,
-  ERROR,
-  PAGE,
-  PDF
-}
+export enum CommandType { OK, NAMESPACE, DATA, STRUCT, ASK, TEST, GUID, ERROR, PAGE, PDF }
 
 @Injectable()
 export class ReportStudioService {
 
   private socket: Subject<MessageEvent>;
-  public messages: Subject<Message>;
 
-  public wsConnectionState: number = 3;
+  public messages: Subject<Message> = new Subject<Message>();
 
   constructor(
     private http: Http,
-    private websocketService: WebSocketService) {
-    this.websocketService.wsConnectionState$.subscribe((wsConnectionState: number) => {
-      console.log('RSService', wsConnectionState);
-      this.wsConnectionState = wsConnectionState;
-    });
-  }
+    private websocketService: WebSocketService) { }
 
   connect() {
     this.socket = this.websocketService.connect(WS_URL);
-
-
 
     this.messages = <Subject<Message>>this.socket
       .map((response: MessageEvent): Message => {
@@ -52,21 +34,34 @@ export class ReportStudioService {
       });
   }
 
-  runReport(namespace: string): Observable<any> {
-    return this.http
-      .get(SERVER_URL + `/api/RSWeb/${namespace}`)
-      .map((r: Response) => r.json())
-      .catch(this.handleError);
+  sendNamespace(ns: string) {
+    let message: Message = {
+      commandType: CommandType.NAMESPACE,
+      message: ns
+    };
+    this.send(message);
   }
 
-  sendTestMessage(message) {
-    this.messages.next(message);
-    console.log(message);
+  sendTestMessage(text: string) {
+    let m: Message = {
+      commandType: CommandType.TEST,
+      message: text
+    };
+    this.send(m);
+  }
+
+  send(message: Message) {
+    if (this.websocketService.getConnectionState() === WebSocket.OPEN) {
+      this.messages.next(message);
+      console.log('WebSocket, sent message', message);
+    } else {
+      console.error('WebSocket disconnected - Cannot send message');
+    }
   }
 
   private handleError(error: any): Observable<any> {
-    console.error('An error occurred', error);
-    return Observable.onErrorResumeNext(error.message || error);
+    console.log('An error occurred:', error);
+    return Observable.throw(error || 'An error occurred');
   }
 
 }

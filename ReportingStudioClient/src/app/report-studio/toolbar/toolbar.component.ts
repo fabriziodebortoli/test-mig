@@ -1,5 +1,7 @@
-import { ReportStudioService, Message, Command } from './../report-studio.service';
+import { ReportStudioService, Message, CommandType } from './../report-studio.service';
 import { Component, OnInit } from '@angular/core';
+
+import { reportTest } from '../test/report-test';
 
 @Component({
   selector: 'rs-toolbar',
@@ -35,12 +37,20 @@ export class ToolbarComponent implements OnInit {
 
   }
 
-  test() {
+  testSTRUCT() {
     let message: Message = {
-      command: Command.TEST,
-      message: 'toolbar'
+      commandType: CommandType.STRUCT,
+      message: JSON.stringify(reportTest)
     }
-    this.reportService.sendTestMessage('from toolbar');
+    this.reportService.send(message);
+  }
+
+  testDATA() {
+    let message: Message = {
+      commandType: CommandType.DATA,
+      message: ''
+    }
+    this.reportService.send(message);
   }
 
 }

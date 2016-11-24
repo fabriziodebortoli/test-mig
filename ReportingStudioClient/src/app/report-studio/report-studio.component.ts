@@ -1,88 +1,77 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ReportStudioService, Message, Command } from './report-studio.service';
+import { ReportStudioService, Message, CommandType } from './report-studio.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
+
+
 @Component({
-  selector: 'app-report-studio',
-  templateUrl: './report-studio.component.html',
-  styleUrls: ['./report-studio.component.css']
+    selector: 'app-report-studio',
+    templateUrl: './report-studio.component.html',
+    styleUrls: ['./report-studio.component.css']
 })
 export class ReportStudioComponent implements OnInit, AfterViewInit {
 
-  private guid: number;
+    private subscription: Subscription;
+    private reportNamespace: string;
 
-  private wsConnectionState: number = 3;
-
-  private subscription: Subscription;
-  private reportNamespace: string;
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private reportService: ReportStudioService) {
-  }
-
-  ngOnInit() {
-    console.debug('Report init');
-    this.subscription = this.route.params.subscribe(
-      (params: any) => {
-        this.reportNamespace = params['namespace'];
-      }
-    );
-
-    console.debug('Richiesta in corso...');
-    this.reportService.runReport(this.reportNamespace).subscribe(response => {
-      console.log(response);
-      this.guid = response.id;
-
-      console.info("guid: " + this.guid);
-    });
-  }
-
-  wsConnect() {
-    this.reportService.connect();
-
-    this.wsConnectionState = this.reportService.wsConnectionState
-    // this.reportService.wsConnectionState.subscribe((wsConnectionState: number) => this.wsConnectionState = wsConnectionState);
-
-    this.reportService.messages.subscribe((msg: Message) => this.execute(msg));
-
-    let message = {
-      command: Command.GUID,
-      message: '${this.guid}'
-    };
-    this.reportService.messages.next(message);
-  }
-
-  execute(msg: Message) {
-    let command = msg.command;
-    let message = msg.message;
-
-    console.info('execute', command, message);
-    switch (command) {
-      case Command.STRUCT:
-
-        break;
-      case Command.DATA:
-
-        break;
-      case Command.ASK:
-
-        break;
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private reportService: ReportStudioService) {
     }
-  }
 
-  ngAfterViewInit() {
-  }
+    ngOnInit() {
+        console.log('Report init');
+        this.subscription = this.route.params.subscribe(
+            (params: any) => {
+                this.reportNamespace = params['namespace'];
+            }
+        );
 
-  // send message to server
-  sendMessage() {
-    let message = {
-      command: Command.TEST,
-      message: 'yeah'
-    };
-    this.reportService.messages.next(message);
-  }
+        console.log('WebSocket, connecting...');
+        this.wsConnect();
+    }
+
+    /**
+     * Connessione al WebSocket, invio del GUID ricevuto dall'API e sottoscrizione ai messaggi
+     */
+    wsConnect() {
+        this.reportService.connect();
+
+        this.reportService.messages.subscribe(
+            (msg: Message) => this.execute(msg),
+            (error) => console.log('WS_ERROR', error),
+            () => console.log('WS_CLOSED')
+        );
+    }
+
+    execute(msg: Message) {
+        let commandType = msg.commandType;
+        let message = msg.message;
+
+        console.log('Ricevuto messaggio', msg);
+        switch (commandType) {
+            case CommandType.OK:
+                console.log('WebSocket, connected');
+                this.reportService.sendNamespace(this.reportNamespace);
+                break;
+
+            case CommandType.STRUCT:
+                console.log('WebSocket, received Report Structure', message);
+                break;
+
+            case CommandType.DATA:
+                console.log('WebSocket, received Report Data', message);
+                break;
+
+            case CommandType.ASK:
+
+                break;
+        }
+    }
+
+    ngAfterViewInit() {
+    }
 
 }

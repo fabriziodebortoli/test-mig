@@ -7,6 +7,7 @@ import { MaterialModule } from '@angular/material';
 import { ReportStudioComponent } from './report-studio.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { CanvasComponent } from './canvas/canvas.component';
+import { ToolbarItemComponent } from './toolbar/toolbar-item/toolbar-item.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { CanvasComponent } from './canvas/canvas.component';
     ])
   ],
   providers: [ReportStudioService, WebSocketService],
-  declarations: [ReportStudioComponent, ToolbarComponent, CanvasComponent]
+  declarations: [ReportStudioComponent, ToolbarComponent, CanvasComponent, ToolbarItemComponent]
 })
 export class ReportStudioModule { }

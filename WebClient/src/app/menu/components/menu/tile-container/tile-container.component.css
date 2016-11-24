@@ -5,6 +5,7 @@
 	height: auto;
 	display: inline-block;
 	vertical-align: top;
+	background-color: antiquewhite;
 }
 
 /*title and pinimage container*/
@@ -46,3 +47,70 @@
 		display: inline-block;
 	}
 
+.link {
+	cursor: pointer;
+}
+
+
+.imageSmall {
+	width: 16px;
+	height: 16px;
+}
+
+
+/*trucate text if doesnt fit*/
+.truncate {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 85%;
+	overflow: hidden;
+}
+
+.titleFont .truncate {
+	width: 95%;
+}
+
+#user .truncate {
+	width: 50%;
+}
+
+.menuItemImage {
+	width: 19px;
+	height: 19px;
+}
+
+.Document {
+	content: url(Document.png);
+}
+
+.Report {
+	content: url(../Images/Report.png);
+}
+
+.Batch {
+	content: url(../Images/Batch.png);
+}
+
+.Function {
+	content: url(../Images/Function.png);
+}
+
+.Wizard {
+	content: url(../Images/Wizard.png);
+}
+
+.OfficeItem {
+	content: url(../Images/OfficeItem.png);
+}
+
+.Unknown {
+	content: url(../Images/Unknown.png);
+}
+
+.pinnedImage {
+	content: url(../Images/PinnedMenu.png);
+}
+
+.unpinnedImage {
+	content: url(../Images/unpin.png);
+}

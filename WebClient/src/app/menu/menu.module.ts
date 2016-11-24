@@ -10,12 +10,14 @@ import { TileContainerComponent } from './components/menu/tile-container/tile-co
 import { LoginComponent } from './components/login/login.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MaterialModule } from '@angular/material';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     FormsModule,
+    MaterialModule.forRoot()
   ],
 
   declarations: [LoginComponent, MenuComponent, ApplicationSelectorComponent, GroupSelectorComponent, MenuSelectorComponent, TileContainerComponent],
