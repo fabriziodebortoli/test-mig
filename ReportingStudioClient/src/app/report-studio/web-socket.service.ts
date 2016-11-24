@@ -9,20 +9,6 @@ export class WebSocketService {
 
   private subject: Subject<MessageEvent>;
 
-  /**
-   * WS Ready state constants
-   *
-   * 0 => CONNECTING
-   *
-   * 1 => OPEN
-   *
-   * 2 => CLOSING
-   *
-   * 3 => CLOSED
-   */
-  wsConnectionState$: Observable<number>;
-  wsConnectionStateObserver: Observer<number>;
-
   public connect(url): Subject<MessageEvent> {
     if (!this.subject) {
       this.subject = this.create(url);
@@ -33,12 +19,6 @@ export class WebSocketService {
 
   private create(url): Subject<MessageEvent> {
     this.ws = new WebSocket(url);
-
-    this.wsConnectionState$ = new Observable<number>(
-      observer => {
-        this.wsConnectionStateObserver = observer;
-      }
-    ).share();
 
     let observable = Observable.create((obs: Observer<MessageEvent>) => {
       this.ws.onmessage = obs.next.bind(obs);
@@ -57,5 +37,24 @@ export class WebSocketService {
     };
 
     return Subject.create(observer, observable);
+  }
+
+  /**
+   * WS Ready state constants
+   *
+   * 0 => WebSocket.CONNECTING
+   *
+   * 1 => WebSocket.OPEN
+   *
+   * 2 => WebSocket.CLOSING
+   *
+   * 3 => WebSocket.CLOSED
+   */
+  public getConnectionState(): number {
+    if (this.ws) {
+      return this.ws.readyState;
+    } else {
+      return WebSocket.CLOSED;
+    }
   }
 }

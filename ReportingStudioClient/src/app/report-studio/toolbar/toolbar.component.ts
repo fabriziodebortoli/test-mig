@@ -1,4 +1,4 @@
-import { ReportStudioService, Message, Command } from './../report-studio.service';
+import { ReportStudioService } from './../report-studio.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -36,11 +36,8 @@ export class ToolbarComponent implements OnInit {
   }
 
   test() {
-    let message: Message = {
-      command: Command.TEST,
-      message: 'toolbar'
-    }
-    this.reportService.sendTestMessage('from toolbar');
+    let message = 'TOOLBAR';
+    this.reportService.sendTestMessage(message);
   }
 
 }
