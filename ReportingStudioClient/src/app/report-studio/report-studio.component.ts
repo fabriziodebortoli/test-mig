@@ -3,14 +3,14 @@ import { ReportStudioService, Message, CommandType } from './report-studio.servi
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
+import { reportTest } from './test/report-test';
+
 @Component({
     selector: 'app-report-studio',
     templateUrl: './report-studio.component.html',
     styleUrls: ['./report-studio.component.css']
 })
 export class ReportStudioComponent implements OnInit, AfterViewInit {
-
-    private guid: string;
 
     private subscription: Subscription;
     private reportNamespace: string;
@@ -29,22 +29,8 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
             }
         );
 
-        console.log('Richiesta GUID in corso...');
-        this.reportService.runReport(this.reportNamespace).subscribe(
-            (message: Message) => {
-
-                if (message.commandType === CommandType.GUID) {
-                    this.guid = message.message;
-                    console.log('GUID: ' + this.guid);
-                    this.wsConnect();
-                } else {
-                    console.log(message);
-                }
-
-            },
-            (error: any) => {
-                console.error('ERROR', error);
-            });
+        console.log('WebSocket, connecting...');
+        this.wsConnect();
     }
 
     /**
@@ -58,12 +44,6 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
             (error) => console.log('WS_ERROR', error),
             () => console.log('WS_CLOSED')
         );
-
-        this.sendGuid()
-    }
-
-    sendGuid() {
-        this.reportService.sendGUID(this.guid);
     }
 
     execute(msg: Message) {
@@ -72,12 +52,19 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
 
         console.log('Ricevuto messaggio', msg);
         switch (commandType) {
+            case CommandType.OK:
+                console.log('WebSocket, connected');
+                this.reportService.sendNamespace(this.reportNamespace);
+                break;
+
             case CommandType.STRUCT:
 
                 break;
+
             case CommandType.DATA:
 
                 break;
+
             case CommandType.ASK:
 
                 break;
@@ -87,13 +74,20 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
     }
 
-    // send message to server
-    sendMessage() {
-        let message = {
-            commandType: CommandType.TEST,
-            message: 'yeah'
-        };
-        this.reportService.messages.next(message);
+    testSTRUCT() {
+        let message: Message = {
+            commandType: CommandType.STRUCT,
+            message: JSON.stringify(reportTest)
+        }
+        this.reportService.send(message);
+    }
+
+    testDATA() {
+        let message: Message = {
+            commandType: CommandType.DATA,
+            message: ''
+        }
+        this.reportService.send(message);
     }
 
 }

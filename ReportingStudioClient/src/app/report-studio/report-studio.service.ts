@@ -4,7 +4,6 @@ import { Http, Response } from '@angular/http';
 import { Observable, Subject } from 'rxjs';
 
 const WS_URL = 'ws://localhost:5000';
-const SERVER_URL = 'http://localhost:5000';
 
 export interface Message {
   commandType: CommandType;
@@ -12,25 +11,14 @@ export interface Message {
   response?: string;
 }
 
-export enum CommandType {
-  OK,
-  DATA,
-  STRUCT,
-  ASK,
-  TEST,
-  GUID,
-  ERROR,
-  PAGE,
-  PDF
-}
+export enum CommandType { OK, NAMESPACE, DATA, STRUCT, ASK, TEST, GUID, ERROR, PAGE, PDF }
 
 @Injectable()
 export class ReportStudioService {
 
   private socket: Subject<MessageEvent>;
-  public messages: Subject<Message> = new Subject<Message>();
 
-  public wsConnectionState$: Observable<number> = Observable.of(WebSocket.CLOSED);
+  public messages: Subject<Message> = new Subject<Message>();
 
   constructor(
     private http: Http,
@@ -46,20 +34,12 @@ export class ReportStudioService {
       });
   }
 
-  runReport(namespace: string): Observable<Message> {
-    return this.http
-      .get(SERVER_URL + `/api/RSWeb/${namespace}`)
-
-      .map((r: Response) => <Message>r.json())
-      .catch(this.handleError);
-  }
-
-  sendGUID(guid: string) {
-    let m: Message = {
-      commandType: CommandType.GUID,
-      message: guid
+  sendNamespace(ns: string) {
+    let message: Message = {
+      commandType: CommandType.NAMESPACE,
+      message: ns
     };
-    this.send(m);
+    this.send(message);
   }
 
   sendTestMessage(text: string) {
@@ -73,6 +53,7 @@ export class ReportStudioService {
   send(message: Message) {
     if (this.websocketService.getConnectionState() === WebSocket.OPEN) {
       this.messages.next(message);
+      console.log('WebSocket, sent message', message);
     } else {
       console.error('WebSocket disconnected - Cannot send message');
     }

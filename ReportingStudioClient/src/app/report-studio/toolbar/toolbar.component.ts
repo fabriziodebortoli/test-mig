@@ -37,7 +37,8 @@ export class ToolbarComponent implements OnInit {
 
   test() {
     let message = 'TOOLBAR';
-    this.reportService.sendTestMessage(message);
+    // this.reportService.sendTestMessage(message);
+    this.reportService.sendNamespace('namespace');
   }
 
 }
