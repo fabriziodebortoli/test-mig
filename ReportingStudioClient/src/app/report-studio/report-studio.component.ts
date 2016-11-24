@@ -12,8 +12,6 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
 
   private guid: string;
 
-  private wsConnectionState: number = 3;
-
   private subscription: Subscription;
   private reportNamespace: string;
 
@@ -51,18 +49,15 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
 
   wsConnect() {
     this.reportService.connect();
-    console.log("RSC.wsConnect", "connesso");
+    console.log('RSC.wsConnect', 'connesso');
 
-    this.wsConnectionState = this.reportService.wsConnectionState;
-    // this.reportService.wsConnectionState.subscribe((wsConnectionState: number) => this.wsConnectionState = wsConnectionState);
+    this.reportService.messages.subscribe(
+      (msg: Message) => this.execute(msg),
+      (error) => console.log('WS_ERROR', error),
+      () => console.log('WS_CLOSED')
+    );
 
-    this.reportService.messages.subscribe((msg: Message) => this.execute(msg));
-
-    let message = {
-      commandType: CommandType.GUID,
-      message: '${this.guid}'
-    };
-    this.reportService.messages.next(message);
+    //this.reportService.sendGUID(this.guid);
   }
 
   execute(msg: Message) {

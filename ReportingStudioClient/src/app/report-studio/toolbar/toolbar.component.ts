@@ -36,11 +36,8 @@ export class ToolbarComponent implements OnInit {
   }
 
   test() {
-    let message: Message = {
-      commandType: CommandType.TEST,
-      message: 'toolbar'
-    }
-    this.reportService.sendTestMessage('from toolbar');
+    let message: 'TOOLBAR';
+    this.reportService.sendTestMessage(message);
   }
 
 }

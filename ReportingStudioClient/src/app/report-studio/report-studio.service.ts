@@ -29,7 +29,7 @@ export class ReportStudioService {
   private socket: Subject<MessageEvent>;
   public messages: Subject<Message>;
 
-  public wsConnectionState: number = 3;
+  public wsConnectionState$: Observable<number> = Observable.of(WebSocket.CLOSED);
 
   constructor(
     private http: Http,
@@ -53,7 +53,23 @@ export class ReportStudioService {
       .catch(this.handleError);
   }
 
+  sendGUID(guid: string) {
+    let m: Message = {
+      commandType: CommandType.GUID,
+      message: guid
+    };
+    this.send(m);
+  }
+
   sendTestMessage(message) {
+    let m: Message = {
+      commandType: CommandType.TEST,
+      message: message
+    };
+    this.send(m);
+  }
+
+  send(message: Message) {
     if (this.websocketService.getConnectionState() === WebSocket.OPEN) {
       this.messages.next(message);
       console.log('sendTestMessage', message);
