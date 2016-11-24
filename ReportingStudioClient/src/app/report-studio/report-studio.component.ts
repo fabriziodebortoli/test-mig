@@ -1,9 +1,8 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ReportObject } from './report-object-wrapper/report-object';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ReportStudioService, Message, CommandType } from './report-studio.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-
-
 
 @Component({
     selector: 'app-report-studio',
@@ -13,7 +12,10 @@ import { Subscription } from 'rxjs/Rx';
 export class ReportStudioComponent implements OnInit, AfterViewInit {
 
     private subscription: Subscription;
+
     private reportNamespace: string;
+
+    @Input() report: ReportObject[];
 
     constructor(
         private route: ActivatedRoute,
@@ -59,6 +61,7 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
 
             case CommandType.STRUCT:
                 console.log('WebSocket, received Report Structure', message);
+                this.report = <ReportObject[]>(JSON.parse(message));
                 break;
 
             case CommandType.DATA:

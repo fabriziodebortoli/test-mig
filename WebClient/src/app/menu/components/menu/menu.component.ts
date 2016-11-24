@@ -1,5 +1,6 @@
-import { MenuService } from './../../services/menu.service';
-import { UtilsService, HttpService } from 'tb-core';
+import { MenuService  } from './../../services/menu.service';
+import { HttpMenuService  } from './../../services/http-menu.service';
+import { UtilsService } from 'tb-core';
 import { DocumentInfo } from 'tb-shared';
 import { Component, OnInit } from '@angular/core';
 
@@ -13,15 +14,15 @@ export class MenuComponent implements OnInit {
 
   private menu: undefined;
   private applications: undefined;
-  constructor(private httpService: HttpService, private menuService: MenuService, private utilService: UtilsService) { }
+  constructor(private httpMenuService: HttpMenuService, private menuService: MenuService, private utilService: UtilsService) { }
   ngOnInit() {
-    this.httpService.getMenuElements().subscribe(result => {
+    this.httpMenuService.getMenuElements().subscribe(result => {
       this.menuService.applicationMenu = result.Root.ApplicationMenu.AppMenu;
       this.menuService.environmentMenu = result.Root.EnvironmentMenu.AppMenu;
     });
   }
 
   runDocument(ns: string) {
-    this.httpService.runObject(new DocumentInfo(0, ns, this.utilService.generateGUID()));
+    this.httpMenuService.runObject(new DocumentInfo(0, ns, this.utilService.generateGUID()));
   }
 }

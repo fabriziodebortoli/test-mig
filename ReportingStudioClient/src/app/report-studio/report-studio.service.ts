@@ -1,6 +1,6 @@
 import { WebSocketService } from './web-socket.service';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import { Observable, Subject } from 'rxjs';
 
 const WS_URL = 'ws://localhost:5000';
