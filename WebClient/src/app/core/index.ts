@@ -1,3 +1,4 @@
+export * from './operation.result';
 export * from './core.module';
 export * from './component.service';
 export * from './http.service';
