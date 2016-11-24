@@ -11,10 +11,11 @@ export class HttpService {
 
     private baseUrl = 'http://localhost:10000/';
 
-    constructor(private http: Http,
-        private utils: UtilsService,
-        private logger: Logger,
-        private cookieService: CookieService) {
+    constructor(
+        protected http: Http,
+        protected utils: UtilsService,
+        protected logger: Logger,
+        protected cookieService: CookieService) {
         console.log('HttpService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
@@ -49,18 +50,6 @@ export class HttpService {
         return this.http.get(this.getMenuBaseUrl() + 'getWebSocketsPort/')
             .map((res: Response) => res.json())
             .catch(this.handleError);
-    }
-
-    runObject(documentData: DocumentInfo): void {
-        let subs = this.postData(this.getMenuBaseUrl() + 'runObject/', documentData)
-            .map((res: Response) => {
-                return res.ok && res.json().success === true;
-            })
-            .catch(this.handleError)
-            .subscribe(result => {
-                console.log(result);
-                subs.unsubscribe();
-            });
     }
 
     doCommand(cmpId: String, id: String): void {
@@ -110,9 +99,22 @@ export class HttpService {
      getNeedLoginThread() {
         return 'needLoginThread/';
     }
+ 
+     public runObject(documentData: DocumentInfo): void {
+        let subs = this.postData(this.getMenuBaseUrl() + 'runObject/', documentData)
+            .map((res: Response) => {
+                return res.ok && res.json().success === true;
+            })
+            .catch(this.handleError)
+            .subscribe(result => {
+                console.log(result);
+                subs.unsubscribe();
+            });
+    }
 
 
-    private handleError(error: any) {
+
+    protected handleError(error: any) {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
         let errMsg = (error.message) ? error.message :
@@ -121,11 +123,5 @@ export class HttpService {
         return Observable.throw(errMsg);
     }
 
-    getMenuElements(): Observable<any> {
-              return this.http.get(this.getMenuBaseUrl() + this.getNeedLoginThread() + 'getMenuElements/', { withCredentials: true })
-            .map((res: Response) => {
-                return  res.json();
-            })
-            .catch(this.handleError);
-    }
+   
 }

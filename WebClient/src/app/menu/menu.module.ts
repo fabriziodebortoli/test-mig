@@ -1,4 +1,6 @@
+import { HttpMenuService } from './services/http-menu.service';
 import { MenuService } from './services/menu.service';
+import { ImageService } from './services/image.service';
 import { SharedModule } from 'tb-shared';
 import { FormsModule } from '@angular/forms';
 import { MenuComponent } from './components/menu/menu.component';
@@ -22,7 +24,7 @@ import { MaterialModule } from '@angular/material';
 
   declarations: [LoginComponent, MenuComponent, ApplicationSelectorComponent, GroupSelectorComponent, MenuSelectorComponent, TileContainerComponent],
   exports: [LoginComponent, MenuComponent, ApplicationSelectorComponent, GroupSelectorComponent, MenuSelectorComponent, TileContainerComponent],
-  providers:[MenuService]
+  providers:[MenuService, ImageService, HttpMenuService]
 })
 export class MenuModule { }
 
