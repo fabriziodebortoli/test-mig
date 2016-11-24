@@ -61,10 +61,11 @@ export class ReportStudioService {
     this.send(m);
   }
 
-  sendTestMessage(message) {
+  sendTestMessage(text: string) {
+    console.log('sendTestMessage', text);
     let m: Message = {
       commandType: CommandType.TEST,
-      message: message
+      message: text
     };
     this.send(m);
   }
