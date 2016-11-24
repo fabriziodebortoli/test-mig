@@ -7,12 +7,12 @@ const WS_URL = 'ws://localhost:5000';
 const SERVER_URL = 'http://localhost:5000';
 
 export interface Message {
-  command: Command;
+  commandType: CommandType;
   message: string;
   response?: string;
 }
 
-export enum Command {
+export enum CommandType {
   DATA,
   STRUCT,
   ASK,
@@ -33,17 +33,10 @@ export class ReportStudioService {
 
   constructor(
     private http: Http,
-    private websocketService: WebSocketService) {
-    this.websocketService.wsConnectionState$.subscribe((wsConnectionState: number) => {
-      console.log('RSService', wsConnectionState);
-      this.wsConnectionState = wsConnectionState;
-    });
-  }
+    private websocketService: WebSocketService) { }
 
   connect() {
     this.socket = this.websocketService.connect(WS_URL);
-
-
 
     this.messages = <Subject<Message>>this.socket
       .map((response: MessageEvent): Message => {
@@ -52,21 +45,26 @@ export class ReportStudioService {
       });
   }
 
-  runReport(namespace: string): Observable<any> {
+  runReport(namespace: string): Observable<Message> {
     return this.http
       .get(SERVER_URL + `/api/RSWeb/${namespace}`)
-      .map((r: Response) => r.json())
+
+      .map((r: Response) => <Message>r.json())
       .catch(this.handleError);
   }
 
   sendTestMessage(message) {
-    this.messages.next(message);
-    console.log(message);
+    if (this.websocketService.getConnectionState() === WebSocket.OPEN) {
+      this.messages.next(message);
+      console.log('sendTestMessage', message);
+    } else {
+      console.error('WebSocket disconnected');
+    }
   }
 
   private handleError(error: any): Observable<any> {
-    console.error('An error occurred', error);
-    return Observable.onErrorResumeNext(error.message || error);
+    console.log('An error occurred:', error);
+    return Observable.throw(error || 'An error occurred');
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ReportStudioService, Message, Command } from './report-studio.service';
+import { ReportStudioService, Message, CommandType } from './report-studio.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs/Rx';
 })
 export class ReportStudioComponent implements OnInit, AfterViewInit {
 
-  private guid: number;
+  private guid: string;
 
   private wsConnectionState: number = 3;
 
@@ -24,50 +24,60 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.debug('Report init');
+    console.log('Report init');
     this.subscription = this.route.params.subscribe(
       (params: any) => {
         this.reportNamespace = params['namespace'];
       }
     );
 
-    console.debug('Richiesta in corso...');
-    this.reportService.runReport(this.reportNamespace).subscribe(response => {
-      console.log(response);
-      this.guid = response.id;
+    console.log('Richiesta GUID in corso...');
+    this.reportService.runReport(this.reportNamespace).subscribe(
+      (message: Message) => {
 
-      console.info("guid: " + this.guid);
-    });
+        if (message.commandType === CommandType.GUID) {
+          this.guid = message.message;
+          console.log('GUID: ' + this.guid);
+          this.wsConnect();
+        } else {
+          console.log(message);
+        }
+
+      },
+      (error: any) => {
+        console.error('ERROR', error);
+      });
   }
 
   wsConnect() {
     this.reportService.connect();
+    console.log("RSC.wsConnect", "connesso");
 
-    this.wsConnectionState = this.reportService.wsConnectionState
+    this.wsConnectionState = this.reportService.wsConnectionState;
     // this.reportService.wsConnectionState.subscribe((wsConnectionState: number) => this.wsConnectionState = wsConnectionState);
 
     this.reportService.messages.subscribe((msg: Message) => this.execute(msg));
 
     let message = {
-      command: Command.GUID,
+      commandType: CommandType.GUID,
       message: '${this.guid}'
     };
     this.reportService.messages.next(message);
   }
 
   execute(msg: Message) {
-    let command = msg.command;
+    let commandType = msg.commandType;
     let message = msg.message;
 
-    console.info('execute', command, message);
-    switch (command) {
-      case Command.STRUCT:
+    console.log('execute', commandType, message);
+    switch (commandType) {
+      case CommandType.STRUCT:
 
         break;
-      case Command.DATA:
+      case CommandType.DATA:
 
         break;
-      case Command.ASK:
+      case CommandType.ASK:
 
         break;
     }
@@ -79,7 +89,7 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
   // send message to server
   sendMessage() {
     let message = {
-      command: Command.TEST,
+      commandType: CommandType.TEST,
       message: 'yeah'
     };
     this.reportService.messages.next(message);
