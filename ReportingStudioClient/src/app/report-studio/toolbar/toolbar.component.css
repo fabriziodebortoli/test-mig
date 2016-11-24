@@ -14,11 +14,13 @@
     display: flex;
 }
 
-.toolbar md-icon {
+.toolbar md-icon,
+.toolbar tb-toolbar-item {
     float: left;
 }
 
-.toolbar md-icon {
+.toolbar md-icon,
+.toolbar tb-toolbar-item {
     border: none;
     background: transparent;
     display: block;
@@ -28,6 +30,7 @@
     cursor: pointer;
 }
 
-.toolbar md-icon:hover {
+.toolbar md-icon:hover,
+.toolbar tb-toolbar-item:hover {
     background: #ddd;
 }
