@@ -3,7 +3,7 @@ import { ReportStudioService, Message, CommandType } from './report-studio.servi
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { reportTest } from './test/report-test';
+
 
 @Component({
     selector: 'app-report-studio',
@@ -58,11 +58,11 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
                 break;
 
             case CommandType.STRUCT:
-
+                console.log('WebSocket, received Report Structure', message);
                 break;
 
             case CommandType.DATA:
-
+                console.log('WebSocket, received Report Data', message);
                 break;
 
             case CommandType.ASK:
@@ -72,22 +72,6 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-    }
-
-    testSTRUCT() {
-        let message: Message = {
-            commandType: CommandType.STRUCT,
-            message: JSON.stringify(reportTest)
-        }
-        this.reportService.send(message);
-    }
-
-    testDATA() {
-        let message: Message = {
-            commandType: CommandType.DATA,
-            message: ''
-        }
-        this.reportService.send(message);
     }
 
 }
