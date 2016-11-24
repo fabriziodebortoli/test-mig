@@ -1,4 +1,4 @@
-import { DocumentService } from './../core';
+import { DocumentService } from 'tb-core';
 import { TbComponent } from './tb.component';
 import { Component, OnInit } from '@angular/core';
 
