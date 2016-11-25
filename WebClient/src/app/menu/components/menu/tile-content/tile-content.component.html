@@ -1,15 +1,16 @@
-<div class="tileContent">
-  <h4>
-    {{menu.title}}
-  </h4>
-
-  <div *ngFor="let object of utilService.toArray(menu.Object)">
-    <div style="display:inline-block; white-space:nowrap; overflow:hidden;text-overflow: ellipsis; width:100%; height:24px;">
-      <div class="truncate link" style="display:inline-block" (click)="runFunction(object)">
-        <!--<img [src]="imageService.getStaticImage(object)" class="menuItemImage" />-->
-        <img [src]="getImageClass(object)" class="menuItemImage" /> 
-        {{object.title}}
+<md-card>
+  <md-card-header>
+    <md-card-title> {{menu.title}}</md-card-title>
+ </md-card-header>
+  <md-card-content>
+    <div *ngFor="let object of utilService.toArray(menu.Object)">
+      <div style="display:inline-block; white-space:nowrap; overflow:hidden;text-overflow: ellipsis; width:100%; height:24px;">
+        <div class="truncate link" style="display:inline-block" (click)="runFunction(object)">
+          <!--<img [src]="imageService.getStaticImage(object)" class="menuItemImage" />-->
+          <img [src]="getImageClass(object)" class="menuItemImage" /> {{object.title}}
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </md-card-content>
+
+</md-card>
