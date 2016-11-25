@@ -5,7 +5,7 @@
     <button md-menu-item *ngFor="let group of utilService.toArray(menuService.getSelectedApplication().Group)" (click)=menuService.setSelectedGroup(group)
         class="box">
     <div>
-        <img [src]="menuService.getStaticImage(group)" />
+        <img [src]="imageService.getStaticImage(group)" />
         <div>{{group.title}}</div>
     </div>
     </button>
