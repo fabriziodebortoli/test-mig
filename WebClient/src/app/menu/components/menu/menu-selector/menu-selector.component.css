@@ -18,3 +18,18 @@
 	background: -webkit-linear-gradient(0deg, #25b767 0%, #0abaee 33%, #cbcbcb 65%, #000000 100%);
 	height: 2px;
 }
+
+.tabItem{
+	
+	color:white; 
+}
+
+.tabHeader{
+	background-color:dodgerblue;
+}
+
+.tabContent
+{
+	background-color:lightskyblue;
+}
+

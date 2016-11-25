@@ -1,13 +1,13 @@
-<md-tab-group>
+<md-tab-group class="tabHeader">
   <md-tab *ngFor="let menuTab of utilService.toArray(menuService.getSelectedGroup().Menu)">
-    <template md-tab-label>
-     <div (click)="changeTab(menuTab)">  <!-- da spostare il click nel selectChange del tabgroup-->
+    <template md-tab-label >
+     <div (click)="changeTab(menuTab)" class="tabItem">  <!-- da spostare il click nel selectChange del tabgroup-->
         {{menuTab.title}}
       </div>
     </template>
 
     <!--<template md-tab-content>-->
-    <div *ngIf="menuService.getSelectedMenu() != undefined">
+    <div *ngIf="menuService.getSelectedMenu() != undefined" class="tabContent">
       <tb-tile-container></tb-tile-container>
     </div>
     <!--</template>-->

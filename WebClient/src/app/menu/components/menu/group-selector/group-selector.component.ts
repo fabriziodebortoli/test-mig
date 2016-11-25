@@ -1,5 +1,7 @@
 import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
+import { ImageService } from './../../../services/image.service';
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class GroupSelectorComponent implements OnInit {
 
-    constructor(private menuService: MenuService, private utilService: UtilsService) {
+    constructor(private menuService: MenuService, private imageService: ImageService, private utilService: UtilsService) {
     }
 
     ngOnInit() {
