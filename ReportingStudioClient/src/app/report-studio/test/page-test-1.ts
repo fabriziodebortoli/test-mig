@@ -1,3 +1,6 @@
+const reportTest =
+
+
 const reportTest = [
   {
     id: 'img-1',
@@ -38,7 +41,7 @@ const reportTest = [
   {
     id: 'text-2',
     controlType: 0,
-    hidden: false,
+    hidden: true,
     posXpx: 300,
     posYpx: 300,
   }

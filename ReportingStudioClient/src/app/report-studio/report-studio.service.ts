@@ -3,15 +3,17 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable, Subject } from 'rxjs';
 
+import { reportTest } from './test/report-test';
+
 const WS_URL = 'ws://localhost:5000';
 
 export interface Message {
   commandType: CommandType;
-  message: string;
+  message?: string;
   response?: string;
 }
 
-export enum CommandType { OK, NAMESPACE, DATA, STRUCT, ASK, TEST, GUID, ERROR, PAGE, PDF }
+export enum CommandType { OK, NAMESPACE, DATA, STRUCT, ASK, TEST, GUID, ERROR, PAGE, PDF, RUN, PAUSE, STOP }
 
 @Injectable()
 export class ReportStudioService {
@@ -40,6 +42,43 @@ export class ReportStudioService {
       message: ns
     };
     this.send(message);
+  }
+
+  sendRun() {
+    let message: Message = {
+      commandType: CommandType.RUN
+    };
+    this.send(message);
+  }
+
+  sendPause() {
+    let message: Message = {
+      commandType: CommandType.PAUSE
+    };
+    this.send(message);
+  }
+
+  sendStop() {
+    let message: Message = {
+      commandType: CommandType.STOP
+    };
+    this.send(message);
+  }
+
+  testSTRUCT() {
+    let m: Message = {
+      commandType: CommandType.STRUCT,
+      message: JSON.stringify(reportTest)
+    };
+    this.send(m);
+  }
+
+  testDATA() {
+    let m: Message = {
+      commandType: CommandType.DATA,
+      message: ''
+    };
+    this.send(m);
   }
 
   sendTestMessage(text: string) {
