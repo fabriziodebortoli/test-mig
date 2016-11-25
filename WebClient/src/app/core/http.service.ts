@@ -10,6 +10,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 @Injectable()
 export class HttpService {
 
+    //private baseUrl = 'http://localhost:5000/tbloader/api/';
     private baseUrl = 'http://localhost:10000/';
 
     constructor(

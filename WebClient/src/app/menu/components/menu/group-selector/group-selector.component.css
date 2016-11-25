@@ -28,3 +28,13 @@
 			text-overflow: ellipsis;
 			text-align: center;
 		}
+
+.applicationTitle {
+
+	text-align: center;
+	display: inline-block;
+	line-height: 150%;
+	font-size: 25px;
+	max-width: 300px;
+	margin-left: 15px;
+}

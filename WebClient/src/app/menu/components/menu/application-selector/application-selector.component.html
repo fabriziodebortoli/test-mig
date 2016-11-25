@@ -1,11 +1,11 @@
 <button md-icon-button [md-menu-trigger-for]="menu">
-    <md-icon> dialpad </md-icon>
+    <md-icon>reorder</md-icon>
 </button>
-<md-menu #menu="mdMenu">
-    <button md-menu-item *ngFor="let application of applications" (click)=menuService.setSelectedApplication(application)>
+<md-menu #menu="mdMenu" x-position="after" y-position="below">
+    <button md-menu-item *ngFor="let application of applications" (click)=menuService.setSelectedApplication(application) class="applicationItem">
+    
      {{application.title}}
         <!--<img [src]="menuService.getApplicationIcon(application)" />-->
             <!--<div ng-show="{{menuService.noImageOrDef(application)}}">{{menuService.getApplicationName(application)}}</div>-->
-
-         </button>
+     </button>
 </md-menu>

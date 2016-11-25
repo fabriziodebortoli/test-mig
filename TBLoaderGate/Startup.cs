@@ -48,10 +48,7 @@ namespace WebApplication
 
             services.AddSession();
 
-            // Assembly asm = Assembly.Load(new AssemblyName("ControllerLib"));
-            IMvcBuilder builder = services.AddMvc();//.AddApplicationPart(asm);
-            foreach (string appPart in Directory.GetFiles(AppContext.BaseDirectory, "*.module.dll"))
-                builder.AddApplicationPart(Assembly.Load(new AssemblyName(Path.GetFileNameWithoutExtension(appPart))));
+            IMvcBuilder builder = services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,7 +65,7 @@ namespace WebApplication
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/TBLoader/Error");
             }
 
             app.UseStaticFiles();
@@ -81,7 +78,7 @@ namespace WebApplication
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=TBLoader}/{action=Index}/{id?}");
             });
         }
     }
