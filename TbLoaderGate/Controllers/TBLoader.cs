@@ -13,7 +13,10 @@ namespace TBLoaderGate
         {
             return new ObjectResult("TBLoader Gate");
         }
-
+        public IActionResult Error()
+        {
+            return new ObjectResult("Error");
+        }
         [Route("[controller]/api/{*args}")]
         public async Task Api()
         {
