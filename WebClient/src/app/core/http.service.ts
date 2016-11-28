@@ -9,9 +9,11 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()
 export class HttpService {
-
-    //private baseUrl = 'http://localhost:5000/tbloader/api/';
-    private baseUrl = 'http://localhost:10000/';
+    private useGate = false;
+    private gatePort = 5000;
+    private baseUrl = this.useGate
+        ? 'http://localhost:' + this.gatePort + '/tbloader/api/'
+        : 'http://localhost:10000/';
 
     constructor(
         protected http: Http,
@@ -54,6 +56,11 @@ export class HttpService {
 
 
     getWebSocketPort(): Observable<string> {
+        if (this.useGate){
+            return new Observable<string>(subs => {
+                subs(this.gatePort);
+            });
+        }
         return this.http.get(this.getMenuBaseUrl() + 'getWebSocketsPort/')
             .map((res: Response) => res.json())
             .catch(this.handleError);
@@ -106,8 +113,8 @@ export class HttpService {
     getNeedLoginThread() {
         return 'needLoginThread/';
     }
- 
-     public runObject(documentData: DocumentInfo): void {
+
+    public runObject(documentData: DocumentInfo): void {
         let subs = this.postData(this.getMenuBaseUrl() + 'runObject/', documentData)
             .map((res: Response) => {
                 return res.ok && res.json().success === true;
