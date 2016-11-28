@@ -16,7 +16,7 @@ export interface Message {
 export enum CommandType { OK, NAMESPACE, DATA, STRUCT, ASK, TEST, GUID, ERROR, PAGE, PDF, RUN, PAUSE, STOP }
 
 @Injectable()
-export class ReportStudioService {
+export class ReportingStudioService {
 
   private socket: Subject<MessageEvent>;
 

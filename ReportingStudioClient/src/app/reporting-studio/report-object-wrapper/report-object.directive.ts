@@ -1,5 +1,5 @@
 import { Directive, OnInit, Input, ElementRef, Renderer } from '@angular/core';
-import { ReportObject } from './report-object.model';
+import { ReportObject } from '../report.model';
 
 @Directive({
   selector: '[rsObject]'

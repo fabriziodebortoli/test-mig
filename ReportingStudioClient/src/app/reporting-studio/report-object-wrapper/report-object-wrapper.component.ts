@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ReportObject, ReportObjectType } from './report-object.model';
+import { ReportObject, ReportObjectType } from '../report.model';
 
 @Component({
   selector: 'rs-report-object',

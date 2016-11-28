@@ -4,7 +4,7 @@ import { HomeComponent } from './home.component';
 const APP_ROUTES: Routes = [
   { path: '', component: HomeComponent },
 
-  { path: 'report', loadChildren: 'app/report-studio/report-studio.module#ReportStudioModule' },
+  { path: 'report', loadChildren: 'app/reporting-studio/reporting-studio.module#ReportingStudioModule' },
 
   { path: '**', component: HomeComponent }
 ];
