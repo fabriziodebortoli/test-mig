@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { ReportStudioService, Message, CommandType } from './report-studio.service';
-import { ReportObject } from './report-object-wrapper/report-object.model';
+import { ReportObject } from './report.model';
 
 @Component({
   selector: 'app-report-studio',
@@ -17,6 +17,7 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
   private reportNamespace: string;
 
   @Input() report: ReportObject[];
+
 
   constructor(
     private route: ActivatedRoute,
