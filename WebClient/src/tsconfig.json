@@ -6,19 +6,13 @@
         "mapRoot": "./",
         "module": "commonjs",
         "moduleResolution": "node",
-        "outDir": "../dist/out-tsc",
+        "outDir": "../dist",
         "sourceMap": true,
         "target": "es5",
         "noImplicitAny": false,
         "typeRoots": [
             "../node_modules/@types"
         ],
-        "experimentalDecorators": true,
-        "baseUrl": ".",
-        "paths": {
-            "@shared/*": ["app/shared/*"],
-            "@core/*": ["app/core/*"],
-            "@app/*": ["app/*"]
-        }
+        "experimentalDecorators": true
     }
 }

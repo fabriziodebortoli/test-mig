@@ -60,6 +60,9 @@
       "version": "1.0.0-preview2-final",
       "imports": "portable-net45+win8+dnxcore50"
     },
+    "Microsoft.DotNet.Watcher.Tools":{
+      "version": "1.1.0-preview4-final"
+    },
     "Microsoft.VisualStudio.Web.CodeGeneration.Tools": {
       "version": "1.0.0-preview2-final",
       "imports": [

@@ -1,11 +1,16 @@
 ﻿using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
 
 namespace TBLoaderGate
 {
+    class TBLoaderResult
+    {
+        public  bool result {get; set;}
+        public string message {get; set;}      
+    }
     public class TBLoaderController : Controller
     {
         static readonly int leftTrimCount = "/tbloader/api".Length;
@@ -15,7 +20,10 @@ namespace TBLoaderGate
         }
         public IActionResult Error()
         {
-            return new ObjectResult("Error");
+             var feature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
+    
+            return new JsonResult( new TBLoaderResult(){ message = feature?.Error.Message, result = false} );
+            
         }
         [Route("[controller]/api/{*args}")]
         public async Task Api()

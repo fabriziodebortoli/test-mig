@@ -1,7 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-
+namespace TBLoaderGate
+{
 public class TBLoaderEngine
 {
     private const string TBLoaderKey = "__TBLOADER__";
@@ -18,8 +19,8 @@ public class TBLoaderEngine
         else
         { 
             tbLoader = JsonConvert.DeserializeObject<TBLoaderInstance>(json);
-            tbLoader.Attach();
         }
         return tbLoader;
     }
+}
 }

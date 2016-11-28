@@ -68,7 +68,7 @@ namespace WebApplication
                 app.UseExceptionHandler("/TBLoader/Error");
             }
 
-            app.UseStaticFiles();
+            app.UseFileServer();
 
             //app.UseIdentity();
 
