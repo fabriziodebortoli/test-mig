@@ -2,15 +2,15 @@ import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { ReportStudioService, Message, CommandType } from './report-studio.service';
+import { ReportingStudioService, Message, CommandType } from './reporting-studio.service';
 import { ReportObject } from './report.model';
 
 @Component({
-  selector: 'app-report-studio',
-  templateUrl: './report-studio.component.html',
-  styleUrls: ['./report-studio.component.css']
+  selector: 'app-reporting-studio',
+  templateUrl: './reporting-studio.component.html',
+  styleUrls: ['./reporting-studio.component.css']
 })
-export class ReportStudioComponent implements OnInit, AfterViewInit {
+export class ReportingStudioComponent implements OnInit, AfterViewInit {
 
   private subscription: Subscription;
 
@@ -22,7 +22,7 @@ export class ReportStudioComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private reportService: ReportStudioService) {
+    private reportService: ReportingStudioService) {
   }
 
   ngOnInit() {

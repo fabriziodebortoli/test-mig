@@ -1,4 +1,4 @@
-import { ReportStudioService, Message, CommandType } from './../report-studio.service';
+import { ReportingStudioService, Message, CommandType } from './../reporting-studio.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,7 +10,7 @@ export class ToolbarComponent implements OnInit {
 
   private running: boolean = false;
 
-  constructor(private reportService: ReportStudioService) { }
+  constructor(private reportService: ReportingStudioService) { }
 
   ngOnInit() {
   }
