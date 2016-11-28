@@ -25,7 +25,6 @@ import {
       { path: ':namespace', component: ReportStudioComponent }
     ])
   ],
-  exports: [ReportStudioModule],
   providers: [ReportStudioService, WebSocketService],
   declarations: [ReportStudioComponent, ToolbarComponent, ToolbarItemComponent, ReportObjectWrapperComponent,
     ReportObjectRectangleComponent, ReportObjectImageComponent, ReportObjectTextComponent,
