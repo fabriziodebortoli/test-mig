@@ -39,6 +39,7 @@ namespace TBLoaderGate
                     using (MemoryStream ms = new MemoryStream())
                     {
                         HttpContext.Request.Body.CopyTo(ms);
+                        ms.Seek(0, SeekOrigin.Begin);
                         using (HttpContent content = new StreamContent(ms))
                         {
                             foreach (var header in HttpContext.Request.Headers)
