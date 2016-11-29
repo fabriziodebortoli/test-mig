@@ -14,7 +14,6 @@ namespace TBLoaderGate
     public class TBLoaderController : Controller
     {
         static readonly int leftTrimCount = "/tbloader/api".Length;
-        [Route("")]
         [Route("/gate")]
         public IActionResult Index()
         {
