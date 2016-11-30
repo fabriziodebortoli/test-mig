@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 namespace TBLoaderGate
@@ -12,7 +13,7 @@ namespace TBLoaderGate
             if (string.IsNullOrEmpty(json))
             {
                 tbLoader = new TBLoaderInstance();
-                tbLoader.Execute();
+                tbLoader.ExecuteAsync().Wait();
                 session.SetString(TBLoaderKey, JsonConvert.SerializeObject(tbLoader));
             }
             else
@@ -21,6 +22,6 @@ namespace TBLoaderGate
             }
             return tbLoader;
         }
-        
+
     }
 }

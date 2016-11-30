@@ -27,7 +27,7 @@ namespace TBLoaderGate
 
         }
         [Route("[controller]/api/{*args}")]
-        public async Task Api()
+        public async Task ApiAsync()
         {
             bool force = false;
 
@@ -36,34 +36,36 @@ namespace TBLoaderGate
                 try
                 {
                     TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(HttpContext.Session, force);
-                    var client = new HttpClient();
-                    using (MemoryStream ms = new MemoryStream())
+                    using (var client = new HttpClient())
                     {
-                        HttpContext.Request.Body.CopyTo(ms);
-                        ms.Seek(0, SeekOrigin.Begin);
-                        using (HttpContent content = new StreamContent(ms))
+                        using (MemoryStream ms = new MemoryStream())
                         {
-                            foreach (var header in HttpContext.Request.Headers)
+                            HttpContext.Request.Body.CopyTo(ms);
+                            ms.Seek(0, SeekOrigin.Begin);
+                            using (HttpContent content = new StreamContent(ms))
                             {
-                                try
+                                foreach (var header in HttpContext.Request.Headers)
                                 {
-                                    client.DefaultRequestHeaders.Add(header.Key, header.Value.ToArray());
+                                    try
+                                    {
+                                        client.DefaultRequestHeaders.Add(header.Key, header.Value.ToArray());
+                                    }
+                                    catch
+                                    {
+
+                                    }
                                 }
-                                catch
+                                string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
+                                string url = tb.BaseUrl + subUrl;
+                                HttpResponseMessage resp = await client.PostAsync(url, content);
+                                foreach (var h in resp.Headers)
                                 {
-
+                                    foreach (var sv in h.Value)
+                                        HttpContext.Response.Headers.Add(h.Key, sv);
                                 }
-                            }
-                            string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
-                            string url = tb.BaseUrl + subUrl;
-                            HttpResponseMessage resp = await client.PostAsync(url, content);
-                            foreach (var h in resp.Headers)
-                            {
-                                foreach (var sv in h.Value)
-                                    HttpContext.Response.Headers.Add(h.Key, sv);
-                            }
-                            await resp.Content.CopyToAsync(HttpContext.Response.Body);
+                                await resp.Content.CopyToAsync(HttpContext.Response.Body);
 
+                            }
                         }
                     }
                     break;

@@ -8,6 +8,7 @@ namespace TBLoaderGate
 {
     public class Startup
     {
+        SocketDispatcher wsDispatcher = new SocketDispatcher();
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -65,7 +66,7 @@ namespace TBLoaderGate
             {
                 if (http.WebSockets.IsWebSocketRequest)
                 {
-                    await MyWebSocketManager.Handle(http.WebSockets);
+                    await wsDispatcher.HandleAsync(http.Session, http.WebSockets);
                 }
                 else
                 {
