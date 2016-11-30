@@ -42,6 +42,7 @@ export class ImageService {
 
             return object.sub_type + object.application;
         }
+
         return object.objectType;
     }
 
