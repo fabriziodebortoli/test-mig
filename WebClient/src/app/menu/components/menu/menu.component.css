@@ -1,3 +1,8 @@
+@font-face {
+	font-family: 'Open Sans';
+	src: url('/.app/menu/images/font/OpenSans-Regular.ttf') format('truetype');
+}
+
 html, body {
 	height: 100%;
 	width: 100%;

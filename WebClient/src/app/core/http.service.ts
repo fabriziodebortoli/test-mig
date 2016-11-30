@@ -29,7 +29,7 @@ export class HttpService {
         return new OperationResult(!ok, messages);
     }
     isLogged(): Observable<string> {
-        return this.postData(this.getMenuBaseUrl() + 'isLogged/', {})
+        return this.postData(this.getMenuBaseUrl(false) + 'isLogged/', {})
             .map((res: Response) => {
                 return res.ok && res.json().success === true;
             })
@@ -37,7 +37,7 @@ export class HttpService {
     }
 
     login(connectionData: LoginSession): Observable<OperationResult> {
-        return this.postData(this.getMenuBaseUrl() + 'doLogin/', connectionData)
+        return this.postData(this.getMenuBaseUrl(false) + 'doLogin/', connectionData)
             .map((res: Response) => {
                 return this.createOperationResult(res);
             })
@@ -47,7 +47,7 @@ export class HttpService {
     logout(): Observable<OperationResult> {
         let token = this.cookieService.get('authtoken');
         this.logger.debug('httpService.logout (' + token + ')');
-        return this.postData(this.getMenuBaseUrl() + 'doLogoff/', token)
+        return this.postData(this.getMenuBaseUrl(false) + 'doLogoff/', token)
             .map((res: Response) => {
                 return this.createOperationResult(res);
             })
@@ -62,7 +62,7 @@ export class HttpService {
                 observer.complete();
             });
         }
-        return this.http.get(this.getMenuBaseUrl() + 'getWebSocketsPort/')
+        return this.http.get(this.getMenuBaseUrl(false) + 'getWebSocketsPort/')
             .map((res: Response) => parseInt(res.json(), 10))
             .catch(this.handleError);
     }
@@ -107,16 +107,15 @@ export class HttpService {
         return this.baseUrl + 'tb/document/';
     }
 
-    getMenuBaseUrl() {
-        return this.baseUrl + 'tb/menu/';
-    }
-
-    getNeedLoginThread() {
-        return 'needLoginThread/';
+    getMenuBaseUrl(needLoginThread: boolean ) {
+        let url = this.baseUrl + 'tb/menu/';
+        if (needLoginThread)
+            url +='needLoginThread/';
+        return url;
     }
 
     public runObject(documentData: DocumentInfo): void {
-        let subs = this.postData(this.getMenuBaseUrl() + 'runObject/', documentData)
+        let subs = this.postData(this.getMenuBaseUrl(false) + 'runObject/', documentData)
             .map((res: Response) => {
                 return res.ok && res.json().success === true;
             })

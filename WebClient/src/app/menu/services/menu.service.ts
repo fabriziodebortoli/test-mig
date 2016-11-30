@@ -1,3 +1,4 @@
+import { HttpMenuService } from './http-menu.service';
 import { UtilsService } from 'tb-core';
 import { Logger } from 'libclient';
 import { Http } from '@angular/http';
@@ -14,7 +15,7 @@ export class MenuService {
     public applicationMenu: any;
     public environmentMenu: any;
 
-    constructor(private http: Http, private logger: Logger, private utils: UtilsService, private imageService: ImageService) {
+    constructor(private httpMenuService: HttpMenuService, private logger: Logger, private utils: UtilsService, private imageService: ImageService) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
@@ -48,4 +49,27 @@ export class MenuService {
     getApplicationIcon(application) {
         return this.imageService.getStaticImage(application);
     }
+
+    //---------------------------------------------------------------------------------------------
+    toggleFavorites  (object) {
+
+        var isFavorite = object.isFavorite;
+        if (object.isFavorite == undefined || !object.isFavorite) {
+            object.isFavorite = true;
+            this.httpMenuService.favoriteObject(object);
+            //this.favoriteObject(object);
+           // $rootScope.$emit('favoritesAdded', object);
+        }
+        else {
+             object.isFavorite = false;
+             this.httpMenuService.unFavoriteObject(object);
+            //this.unFavoriteObject(object);
+           // $rootScope.$emit('favoritesRemoved', object);
+        }
+        object.isFavorite = !isFavorite;
+    }
+
+    
+   
+    //------------
 }

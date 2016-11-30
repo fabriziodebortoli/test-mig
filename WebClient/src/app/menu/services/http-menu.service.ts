@@ -17,10 +17,38 @@ export class HttpMenuService extends HttpService {
     }
 
     getMenuElements(): Observable<any> {
-        return this.http.get(this.getMenuBaseUrl() + this.getNeedLoginThread() + 'getMenuElements/', { withCredentials: true })
+        return this.http.get(this.getMenuBaseUrl(true) + 'getMenuElements/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
             .catch(this.handleError);
+    }
+
+     //---------------------------------------------------------------------------------------------
+    favoriteObject  (object) {
+        var urlToRun = this.getMenuBaseUrl(true) + 'favoriteObject/?target=' + object.target + '&objectType=' + object.objectType;
+         let subs = this.postData(urlToRun, undefined)
+            .map((res: Response) => {
+                return res.ok;
+            })
+            .catch(this.handleError)
+            .subscribe(result => {
+                console.log(result);
+                subs.unsubscribe();
+            });
+    }
+
+    //---------------------------------------------------------------------------------------------
+    unFavoriteObject (object) {
+        var urlToRun = this.getMenuBaseUrl(true) + 'unFavoriteObject/?target=' + object.target + '&objectType=' + object.objectType;
+          let subs = this.postData(urlToRun, undefined)
+            .map((res: Response) => {
+                return res.ok;
+            })
+            .catch(this.handleError)
+            .subscribe(result => {
+                console.log(result);
+                subs.unsubscribe();
+            });
     }
 }
