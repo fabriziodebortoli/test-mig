@@ -14,15 +14,26 @@ export class MenuComponent implements OnInit {
 
   private menu: undefined;
   private applications: undefined;
-  constructor(private httpMenuService: HttpMenuService, private menuService: MenuService, private utilService: UtilsService) { }
+  private menuService: MenuService;
+  constructor(private httpMenuService: HttpMenuService, private menuServiceTemp: MenuService, private utilService: UtilsService) { 
+    this.menuService = menuServiceTemp;
+  }
   ngOnInit() {
+  
     this.httpMenuService.getMenuElements().subscribe(result => {
       this.menuService.applicationMenu = result.Root.ApplicationMenu.AppMenu;
       this.menuService.environmentMenu = result.Root.EnvironmentMenu.AppMenu;
+
+        this.menuService.loadFavoriteObjects();
+      
     });
   }
 
   runDocument(ns: string) {
     this.httpMenuService.runObject(new DocumentInfo(0, ns, this.utilService.generateGUID()));
+  }
+
+  getFavoritesCount (){
+    return this.menuService.favoritesCount;
   }
 }

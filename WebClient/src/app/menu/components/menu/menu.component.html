@@ -5,6 +5,9 @@
 <md-sidenav-layout class="demo-sidenav-layout">
   <md-sidenav #start mode="over">
     <button md-button (click)="start.close()">Close</button>
+  
+      <tb-favorites></tb-favorites>
+   
   </md-sidenav>
 
   <div class="demo-sidenav-content">
@@ -15,13 +18,14 @@
         <md-icon>settings</md-icon>
       </button>
       </span>
+
       <span>
 
         <span *ngIf="menuService.applicationMenu != undefined">
           <tb-application-selector [Menu]="menuService.applicationMenu"></tb-application-selector>
         </span>
 
-        <span *ngIf="menuService.getSelectedApplication() != undefined">
+      <span *ngIf="menuService.getSelectedApplication() != undefined">
               <tb-group-selector></tb-group-selector>
         </span>
       </span>

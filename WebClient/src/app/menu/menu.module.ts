@@ -9,7 +9,7 @@ import { GroupSelectorComponent } from './components/menu/group-selector/group-s
 import { MenuSelectorComponent } from './components/menu/menu-selector/menu-selector.component';
 import { TileContainerComponent } from './components/menu/tile-container/tile-container.component';
 import { TileContentComponent } from './components/menu/tile-content/tile-content.component';
-
+import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 import { LoginComponent } from './components/login/login.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -23,9 +23,34 @@ import { MaterialModule } from '@angular/material';
     MaterialModule.forRoot()
   ],
 
-  declarations: [LoginComponent, MenuComponent, ApplicationSelectorComponent, GroupSelectorComponent, MenuSelectorComponent, TileContainerComponent, TileContentComponent],
-  exports: [LoginComponent, MenuComponent, ApplicationSelectorComponent, GroupSelectorComponent, MenuSelectorComponent, TileContainerComponent, TileContentComponent],
-  providers:[MenuService, ImageService, HttpMenuService]
+  declarations:
+  [
+    LoginComponent,
+    MenuComponent,
+    ApplicationSelectorComponent,
+    GroupSelectorComponent,
+    MenuSelectorComponent,
+    TileContainerComponent,
+    TileContentComponent,
+    FavoritesComponent
+  ],
+  exports:
+  [
+    LoginComponent,
+    MenuComponent,
+    ApplicationSelectorComponent,
+    GroupSelectorComponent,
+    MenuSelectorComponent,
+    TileContainerComponent,
+    TileContentComponent,
+    FavoritesComponent
+  ],
+  providers:
+  [
+    MenuService,
+    ImageService,
+    HttpMenuService
+  ]
 })
 export class MenuModule { }
 
