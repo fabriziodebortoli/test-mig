@@ -1,20 +1,34 @@
 <p>
-    <a href="#" (click)="runDocument('ERP.Languages.Documents.Languages')">Languages</a>
+  <a href="#" (click)="runDocument('ERP.Languages.Documents.Languages')">Languages</a>
 </p>
 
-<md-toolbar [color]="myColor">
-    <span>
-      
-      <span *ngIf="menuService.applicationMenu != undefined">
-        <tb-application-selector [Menu]="menuService.applicationMenu"></tb-application-selector>
+<md-sidenav-layout class="demo-sidenav-layout">
+  <md-sidenav #start mode="over">
+    <button md-button (click)="start.close()">Close</button>
+  </md-sidenav>
+
+  <div class="demo-sidenav-content">
+
+    <md-toolbar [color]="myColor">
+      <span>
+        <button md-button (click)="start.toggle()">
+        <md-icon>settings</md-icon>
+      </button>
       </span>
-    <span *ngIf="menuService.getSelectedApplication() != undefined">
-        <tb-group-selector></tb-group-selector>
-    </span>
-    </span>
-</md-toolbar>
+      <span>
 
+        <span *ngIf="menuService.applicationMenu != undefined">
+          <tb-application-selector [Menu]="menuService.applicationMenu"></tb-application-selector>
+        </span>
 
-<div *ngIf="menuService.getSelectedGroup() != undefined">
-    <tb-menu-selector></tb-menu-selector>
-</div>
+        <span *ngIf="menuService.getSelectedApplication() != undefined">
+              <tb-group-selector></tb-group-selector>
+        </span>
+      </span>
+    </md-toolbar>
+
+    <div *ngIf="menuService.getSelectedGroup() != undefined">
+      <tb-menu-selector></tb-menu-selector>
+    </div>
+  </div>
+</md-sidenav-layout>

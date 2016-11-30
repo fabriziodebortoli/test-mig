@@ -6,7 +6,12 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ImageService {
 
-    private baseUrl = 'http://localhost:10000/';
+   
+    private useGate = false;
+    private gatePort = 5000;
+    private baseUrl = this.useGate
+        ? 'http://localhost:' + this.gatePort + '/tbloader/api/'
+        : 'http://localhost:10000/';
 
     constructor(private http: Http, private logger: Logger, private utils: UtilsService) {
         this.logger.debug('ImageService instantiated - ' + Math.round(new Date().getTime() / 1000));
@@ -42,6 +47,7 @@ export class ImageService {
 
             return object.sub_type + object.application;
         }
+
         return object.objectType;
     }
 
