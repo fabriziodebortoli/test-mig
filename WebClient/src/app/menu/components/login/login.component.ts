@@ -24,12 +24,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.saveState();
   }
   loadState() {
-    this.connectionData.user = this.cookieService.get('user');
-    this.connectionData.company = this.cookieService.get('company');
+    this.connectionData.user = this.cookieService.get('_user');
+    this.connectionData.company = this.cookieService.get('_company');
   }
   saveState() {
-    this.cookieService.put('user', this.connectionData.user);
-    this.cookieService.put('company', this.connectionData.company);
+    this.cookieService.put('_user', this.connectionData.user);
+    this.cookieService.put('_company', this.connectionData.company);
   }
   login() {
     this.saveState();

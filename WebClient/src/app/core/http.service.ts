@@ -55,14 +55,15 @@ export class HttpService {
     }
 
 
-    getWebSocketPort(): Observable<string> {
-        if (this.useGate){
-            return new Observable<string>(subs => {
-                subs(this.gatePort);
+    getWebSocketPort(): Observable<number> {
+        if (this.useGate) {
+            return Observable.create(observer => {
+                observer.next(this.gatePort);
+                observer.complete();
             });
         }
         return this.http.get(this.getMenuBaseUrl() + 'getWebSocketsPort/')
-            .map((res: Response) => res.json())
+            .map((res: Response) => parseInt(res.json(), 10))
             .catch(this.handleError);
     }
 

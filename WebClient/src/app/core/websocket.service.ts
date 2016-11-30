@@ -1,7 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import { HttpService } from './http.service';
-import {Logger} from 'libclient';
+import { Logger } from 'libclient';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class WebSocketService {
 
     wsConnect(): void {
         let $this = this;
-        let subs = this.httpService.getWebSocketPort()
+        this.httpService.getWebSocketPort()
             .subscribe(port => {
                 let url = 'ws://' + window.location.hostname + ':' + port + '/TBWebSocketsController';
                 this.logger.debug('wsConnecting... ' + url);
@@ -58,8 +58,6 @@ export class WebSocketService {
                     this.fire('close', arg);
                     this.status = 'Closed';
                 };
-
-                subs.unsubscribe();
             });
     }
 
