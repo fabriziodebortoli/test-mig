@@ -4,11 +4,22 @@
 
   <md-card-content  class="tileContent">
     <div *ngFor="let object of utilService.toArray(menu.Object)">
-      <div style="display:inline-block; white-space:nowrap; overflow:hidden;text-overflow: ellipsis; width:100%; height:24px;">
-        <div class="truncate link" style="display:inline-block" (click)="runFunction(object)">
+      <div style="display:inline-block; white-space:nowrap; overflow:hidden;text-overflow: ellipsis; width:100%; height:24px;"  >
+        <div class="truncate link" style="display:inline-block" (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">
           <!--<img [src]="imageService.getStaticImage(object)" class="menuItemImage" />-->
-          <img [ngClass]="getImageClass(object)" class="menuItemImage" /> {{object.title}}
+          <img [ngClass]="getImageClass(object)" class="menuItemImage"  /> 
+         
+          <div class="truncate link" style="display:inline-block" (click)="runFunction(object)" >
+              {{object.title}}
+          </div>
+
+
+          <div style="display:inline-block; height:100%">
+              <img class="link imageSmall" [ngClass]="getFavoriteClass(object)" (click)=menuService.toggleFavorites(object) *ngIf="object.isFavorite || object.starHover"/>
+          </div>
+      
         </div>
+          
       </div>
     </div>
   </md-card-content>

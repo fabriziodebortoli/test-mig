@@ -110,3 +110,11 @@
 .unpinnedImage {
 	content: url(./app/menu/images/unpin.png);
 }
+
+.favorite {
+	content: url(./app/menu/images/favorite.png);
+}
+
+.unfavorite {
+	content: url(./app/menu/images/unfavorite.png);
+}

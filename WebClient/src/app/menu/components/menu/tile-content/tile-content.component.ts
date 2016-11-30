@@ -43,4 +43,8 @@ export class TileContentComponent implements OnInit {
   getImageClass(object) {
     return this.imageService.getObjectIcon(object); //": !object.isLoading, 'loading': object.isLoading}
   }
+
+  getFavoriteClass  (object) {
+    return object.isFavorite ? 'favorite' : 'unfavorite';
+  }
 }
