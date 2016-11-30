@@ -23,13 +23,11 @@ namespace TBLoaderGate
     }
     public class TBLoaderService
     {
-        private string serviceComputerName;
-        private int servicePort;
+        private string serviceComputerName = "localhost";
+        private int servicePort = 11000;
         //-----------------------------------------------------------------------
-        public TBLoaderService(string serviceComputerName, int servicePort)
+        public TBLoaderService()
         {
-            this.serviceComputerName = serviceComputerName;
-            this.servicePort = servicePort;
         }
 
         //-----------------------------------------------------------------------
@@ -130,15 +128,13 @@ namespace TBLoaderGate
         }
 
         //-----------------------------------------------------------------------
-        public int ExecuteRemoteProcess()
+        public async Task<int> ExecuteRemoteProcessAsync()
         {
             try
             {
                 TBLoaderCommand cmd = new TBLoaderCommand();
                 cmd.Type = TBLoaderCommand.CommandType.Start;
-                Task<TBLoaderResponse> t = SocketSendReceive(serviceComputerName, servicePort, cmd);
-                t.Wait();
-                TBLoaderResponse res = t.Result;
+                TBLoaderResponse res = await SocketSendReceive(serviceComputerName, servicePort, cmd);
                 if (!res.Result)
                     throw new Exception(res.Message);
                 return res.Port;
