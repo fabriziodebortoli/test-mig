@@ -11,15 +11,16 @@ namespace TaskBuilderNetCore.Data
 {
     public class DBConnection : IDisposable
     {
+      
         
         private Provider.DBType dbType { get; set; }
 
         private DbConnection connection;
 
         public DbConnection GetConnectionObject
-        {
+        {  
             get
-            {
+            {  
                 return connection;
             }
         }
@@ -71,7 +72,6 @@ namespace TaskBuilderNetCore.Data
             }
         }
 
-
         // constructor 
         public DBConnection(Provider.DBType dbType, string connectionString)
         {
@@ -100,9 +100,9 @@ namespace TaskBuilderNetCore.Data
             return connection.BeginTransaction();
         }
 
-        public DbTransaction BeginTransaction(IsolationLevel isolationLevel)
+        public DBTransaction BeginTransaction(IsolationLevel isolationLevel)
         {
-            return connection.BeginTransaction(isolationLevel);
+            return new DBTransaction (connection.BeginTransaction(isolationLevel), dbType);
         }
 
         public void ChangeDatabase(string databaseName)
@@ -137,8 +137,6 @@ namespace TaskBuilderNetCore.Data
                 connection.Close();
         }
 
-
-
         public void Open()
         {
             connection.Open();
@@ -147,9 +145,7 @@ namespace TaskBuilderNetCore.Data
         public Task OpenAsync(CancellationToken token)
         {
             return connection.OpenAsync(token);
-        }
-
-     
+        }   
 
     }
 }
