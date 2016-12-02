@@ -7,5 +7,5 @@
 
 */wwwroot/*
 
-*/project.lock.json
-*/*.xproj.user
+project.lock.json
+*.xproj.user
