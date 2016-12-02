@@ -70,51 +70,12 @@
 	width: 50%;
 }
 
-.menuItemImage {
-	width: 19px;
-	height: 19px;
-}
-
-.Document {
-	content: url(./app/menu/images/Document.png);
-}
-
-.Report {
-	content: url(./app/menu/images/Report.png);
-}
-
-.Batch {
-	content: url(./app/menu/images/Batch.png);
-}
-
-.Function {
-	content: url(./app/menu/images/Function.png);
-}
-
-.Wizard {
-	content: url(./app/menu/images/Wizard.png);
-}
-
-.OfficeItem {
-	content: url(./app/menu/images/OfficeItem.png);
-}
-
-.Unknown {
-	content: url(./app/menu/images/Unknown.png);
-}
-
-.pinnedImage {
-	content: url(./app/menu/images/PinnedMenu.png);
-}
-
-.unpinnedImage {
-	content: url(./app/menu/images/unpin.png);
-}
 
 .favorite {
 	content: url(./app/menu/images/favorite.png);
 }
 
 .unfavorite {
-	content: url(./app/menu/images/unfavorite.png);
+	content: url(./app/menu/images/Unfavorite.png);
 }
+

@@ -1,0 +1,32 @@
+.menuItemImage {
+	width: 19px;
+	height: 19px;
+}
+
+.Document {
+	content: url(./app/menu/images/Document.png);
+}
+
+.Report {
+	content: url(./app/menu/images/Report.png);
+}
+
+.Batch {
+	content: url(./app/menu/images/Batch.png);
+}
+
+.Function {
+	content: url(./app/menu/images/Function.png);
+}
+
+.Wizard {
+	content: url(./app/menu/images/Wizard.png);
+}
+
+.OfficeItem {
+	content: url(./app/menu/images/OfficeItem.png);
+}
+
+.Unknown {
+	content: url(./app/menu/images/Unknown.png);
+}

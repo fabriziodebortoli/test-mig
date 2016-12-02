@@ -1,0 +1,14 @@
+<md-card *ngIf="menuService != undefined">
+  <md-card-title>Most Used: {{menuService.mostUsedCount}}</md-card-title>
+  <md-card-content>
+
+    <!--| orderBy:'lastModified': true | filter:nameFilter.title-->
+    <div *ngFor="let object of utilsService.toArray(menuService.mostUsed)">
+
+      <tb-tile-element [Object]="object"></tb-tile-element>
+
+      <md-icon (click)=menuService.removeFromMostUsed(object)>close</md-icon>
+
+    </div>
+  </md-card-content>
+</md-card>
