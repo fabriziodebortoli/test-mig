@@ -6,16 +6,16 @@ namespace TBLoaderGate
     public class TBLoaderEngine
     {
         private const string TBLoaderKey = "__TBLOADER__";
-        internal static TBLoaderInstance GetTbLoader(ISession session, bool forceCreation)
+        internal static TBLoaderInstance GetTbLoader(ISession session)
         {
 
             TBLoaderInstance tbLoader = null;
-            string json = forceCreation ? null : session.GetString(TBLoaderKey);
+            string json = session.GetString(TBLoaderKey);
             if (string.IsNullOrEmpty(json))
             {
-                lock (session)
+                lock (typeof(TBLoaderEngine))
                 {
-                    json = forceCreation ? null : session.GetString(TBLoaderKey);
+                    json = session.GetString(TBLoaderKey);
                     if (string.IsNullOrEmpty(json))
                     {
                         tbLoader = new TBLoaderInstance();
@@ -30,6 +30,9 @@ namespace TBLoaderGate
             }
             return tbLoader;
         }
-
+        internal static void ClearTbLoader(ISession session)
+        {
+            session.Remove(TBLoaderKey);
+        }
     }
 }

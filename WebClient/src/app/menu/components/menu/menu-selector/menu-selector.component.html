@@ -1,5 +1,5 @@
 <md-tab-group class="tabHeader">
-  <md-tab *ngFor="let menuTab of utilService.toArray(menuService.getSelectedGroup().Menu)">
+  <md-tab *ngFor="let menuTab of utilsService.toArray(menuService.getSelectedGroup().Menu)">
     <template md-tab-label >
      <div (click)="changeTab(menuTab)" class="tabItem">  <!-- da spostare il click nel selectChange del tabgroup-->
         {{menuTab.title}}

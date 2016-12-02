@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
     styleUrls: ['./application-selector.component.css']
 })
 
-export class ApplicationSelectorComponent implements OnInit {
+export class ApplicationSelectorComponent {
 
 
     private menu: any ;
@@ -19,17 +19,12 @@ export class ApplicationSelectorComponent implements OnInit {
     @Input()
     set Menu(menu: any) {
         this.menu = menu;
-        this.applications =  this.utilService.toArray(menu.Application);
+        this.applications =  this.utilsService.toArray(menu.Application);
     }
 
    
     public applications: any;
 
-    constructor(private menuService: MenuService, private utilService: UtilsService) {
-    }
-
-    ngOnInit() {
-        // this.menu = this.menuService.applicationMenu;
-        // this.applications = this.utilService.toArray(this.menuService.applicationMenu.Application);
+    constructor(private menuService: MenuService, private utilsService: UtilsService) {
     }
 }

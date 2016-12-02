@@ -1,19 +1,18 @@
-import { UtilsService } from 'tb-core';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { UtilsService, HttpService } from 'tb-core';
 import { Logger } from 'libclient';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class ImageService {
+export class ImageService extends HttpService {
 
-   
-    private useGate = false;
-    private gatePort = 5000;
-    private baseUrl = this.useGate
-        ? 'http://localhost:' + this.gatePort + '/tbloader/api/'
-        : 'http://localhost:10000/';
 
-    constructor(private http: Http, private logger: Logger, private utils: UtilsService) {
+    constructor(protected http: Http,
+        protected utils: UtilsService,
+        protected logger: Logger,
+        protected cookieService: CookieService) {
+            super(http, utils, logger, cookieService);
         this.logger.debug('ImageService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
@@ -33,13 +32,11 @@ export class ImageService {
         }
 
         let imageFile = item['image_file'];
-        return imageFile === undefined ? 'Images/Default.png' : this.baseUrl + 'tb/menu/staticimage/' + imageFile;
+        return imageFile === undefined ? 'Images/Default.png' : super.getMenuBaseUrl(false) + '/staticimage/' + imageFile;
     }
 
-
-
-
     //---------------------------------------------------------------------------------------------
+    
     getObjectIcon = function (object) {
         if (object.sub_type != undefined) {
             if (object.application == undefined)

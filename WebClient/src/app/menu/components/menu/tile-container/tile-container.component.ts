@@ -15,7 +15,7 @@ export class TileContainerComponent implements OnInit {
   constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
-    private utilService: UtilsService,
+    private utilsService: UtilsService,
     private imageService: ImageService
   ) {
   }

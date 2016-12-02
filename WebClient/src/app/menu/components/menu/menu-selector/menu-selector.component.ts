@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuSelectorComponent implements OnInit {
 
-  constructor(private menuService: MenuService, private utilService: UtilsService) {
+  constructor(private menuService: MenuService, private utilsService: UtilsService) {
   }
 
   ngOnInit() {

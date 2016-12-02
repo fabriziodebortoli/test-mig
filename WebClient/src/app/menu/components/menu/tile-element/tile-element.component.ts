@@ -6,34 +6,31 @@ import { ImageService } from './../../../services/image.service';
 
 
 @Component({
-  selector: 'tb-tile-content',
-  templateUrl: './tile-content.component.html',
-  styleUrls: ['./tile-content.component.css']
+  selector: 'tb-tile-element',
+  templateUrl: './tile-element.component.html',
+  styleUrls: ['./tile-element.component.css']
 })
-export class TileContentComponent implements OnInit {
+export class TileElementComponent implements OnInit {
 
-   constructor(
+  constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
     private utilsService: UtilsService,
     private imageService: ImageService
   ) {
   }
+
   ngOnInit() {
   }
 
 
-  private menu: any ;
-    get Menu(): any {
-        return this.menu;
-    }
-    
-    @Input()
-    set Menu(menu: any) {
-        this.menu = menu;
-    }
+  private object: any;
+  get Object(): any {
+    return this.object;
+  }
 
-  getFavoriteClass  (object) {
-    return object.isFavorite ? 'favorite' : 'unfavorite';
+  @Input()
+  set Object(object: any) {
+    this.object = object;
   }
 }
