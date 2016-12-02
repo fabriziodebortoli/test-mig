@@ -30,6 +30,9 @@ namespace TBLoaderGate
             }
             return tbLoader;
         }
-
+        internal static void ClearTbLoader(ISession session)
+        {
+            session.Remove(TBLoaderKey);
+        }
     }
 }

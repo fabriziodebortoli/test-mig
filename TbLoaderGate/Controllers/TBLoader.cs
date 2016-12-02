@@ -32,48 +32,55 @@ namespace TBLoaderGate
         public async Task ApiAsync()
         {
             Debug.WriteLine(HttpContext.Request.Path);
-
-            TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(HttpContext.Session);
-            using (var client = new HttpClient())
+            try
             {
-
-                string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
-                string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
-
-                HttpRequestMessage msg = new HttpRequestMessage();
-                msg.Method = ParseMethod(HttpContext.Request.Method);
-                msg.RequestUri = new Uri(url);
-
-                //copy request headers
-                foreach (var header in HttpContext.Request.Headers)
+                TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(HttpContext.Session);
+                using (var client = new HttpClient())
                 {
-                    //sometimes some invalid headers arrives!?
-                    if (header.Key == "Content-Length" || header.Key == "Content-Type")
-                        continue;
-                    try
+
+                    string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
+                    string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
+
+                    HttpRequestMessage msg = new HttpRequestMessage();
+                    msg.Method = ParseMethod(HttpContext.Request.Method);
+                    msg.RequestUri = new Uri(url);
+
+                    //copy request headers
+                    foreach (var header in HttpContext.Request.Headers)
                     {
-                        msg.Headers.Add(header.Key, header.Value.ToArray());
+                        //sometimes some invalid headers arrives!?
+                        if (header.Key == "Content-Length" || header.Key == "Content-Type")
+                            continue;
+                        try
+                        {
+                            msg.Headers.Add(header.Key, header.Value.ToArray());
+                        }
+                        catch
+                        {
+                            Debug.WriteLine("Invalid header: " + header.Key);
+                        }
                     }
-                    catch
+
+                    MemoryStream ms = new MemoryStream();
+                    HttpContext.Request.Body.CopyTo(ms);
+                    ms.Seek(0, SeekOrigin.Begin);
+                    msg.Content = new StreamContent(ms);
+
+                    HttpResponseMessage resp = await client.SendAsync(msg);
+                    //copy back response headers
+                    foreach (var h in resp.Headers)
                     {
-                        Debug.WriteLine("Invalid header: " + header.Key);
+                        foreach (var sv in h.Value)
+                            HttpContext.Response.Headers.Add(h.Key, sv);
                     }
+
+                    await resp.Content.CopyToAsync(HttpContext.Response.Body);
                 }
-
-                MemoryStream ms = new MemoryStream();
-                HttpContext.Request.Body.CopyTo(ms);
-                ms.Seek(0, SeekOrigin.Begin);
-                msg.Content = new StreamContent(ms);
-
-                HttpResponseMessage resp = await client.SendAsync(msg);
-                //copy back response headers
-                foreach (var h in resp.Headers)
-                {
-                    foreach (var sv in h.Value)
-                        HttpContext.Response.Headers.Add(h.Key, sv);
-                }
-
-                await resp.Content.CopyToAsync(HttpContext.Response.Body);
+            }
+            catch
+            {
+                //todo mandare risposta al client
+                TBLoaderEngine.ClearTbLoader(HttpContext.Session);
             }
         }
 
