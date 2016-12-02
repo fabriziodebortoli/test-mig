@@ -95,9 +95,9 @@ namespace TaskBuilderNetCore.Data
         }
 
 
-        public DbTransaction BeginTransaction()
+        public DBTransaction BeginTransaction()
         {
-            return connection.BeginTransaction();
+            return new DBTransaction(connection.BeginTransaction(), dbType);
         }
 
         public DBTransaction BeginTransaction(IsolationLevel isolationLevel)
