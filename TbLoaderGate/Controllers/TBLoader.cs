@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -30,9 +31,7 @@ namespace TBLoaderGate
         [Route("[controller]/api/{*args}")]
         public async Task ApiAsync()
         {
-            #if DEBUG
-            Console.WriteLine(HttpContext.Request.PathBase);
-            #endif
+            Debug.WriteLine(HttpContext.Request.Path);
             bool force = false;
 
             while (true)
@@ -42,35 +41,44 @@ namespace TBLoaderGate
                     TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(HttpContext.Session, force);
                     using (var client = new HttpClient())
                     {
-                        using (MemoryStream ms = new MemoryStream())
+
+                        string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
+                        string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
+
+                        HttpRequestMessage msg = new HttpRequestMessage();
+                        msg.Method = ParseMethod(HttpContext.Request.Method);
+                        msg.RequestUri = new Uri(url);
+
+                        //copy request headers
+                        foreach (var header in HttpContext.Request.Headers)
                         {
-                            HttpContext.Request.Body.CopyTo(ms);
-                            ms.Seek(0, SeekOrigin.Begin);
-                            using (HttpContent content = new StreamContent(ms))
+                            //sometimes some invalid headers arrives!?
+                            if (header.Key == "Content-Length" || header.Key == "Content-Type")
+                                continue;
+                            try
                             {
-                                foreach (var header in HttpContext.Request.Headers)
-                                {
-                                    try
-                                    {
-                                        client.DefaultRequestHeaders.Add(header.Key, header.Value.ToArray());
-                                    }
-                                    catch
-                                    {
-
-                                    }
-                                }
-                                string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
-                                string url = tb.BaseUrl + subUrl;
-                                HttpResponseMessage resp = await client.PostAsync(url, content);
-                                foreach (var h in resp.Headers)
-                                {
-                                    foreach (var sv in h.Value)
-                                        HttpContext.Response.Headers.Add(h.Key, sv);
-                                }
-                                await resp.Content.CopyToAsync(HttpContext.Response.Body);
-
+                                msg.Headers.Add(header.Key, header.Value.ToArray());
+                            }
+                            catch
+                            {
+                                Debug.WriteLine("Invalid header: " + header.Key);
                             }
                         }
+
+                        MemoryStream ms = new MemoryStream();
+                        HttpContext.Request.Body.CopyTo(ms);
+                        ms.Seek(0, SeekOrigin.Begin);
+                        msg.Content = new StreamContent(ms);
+
+                        HttpResponseMessage resp = await client.SendAsync(msg);
+                        //copy back response headers
+                        foreach (var h in resp.Headers)
+                        {
+                            foreach (var sv in h.Value)
+                                HttpContext.Response.Headers.Add(h.Key, sv);
+                        }
+
+                        await resp.Content.CopyToAsync(HttpContext.Response.Body);
                     }
                     break;
                 }
@@ -82,6 +90,21 @@ namespace TBLoaderGate
                 }
             }
 
+        }
+
+        private HttpMethod ParseMethod(string method)
+        {
+            switch (method)
+            {
+                case "POST": return HttpMethod.Post;
+                case "GET": return HttpMethod.Get;
+                case "DELETE": return HttpMethod.Delete;
+                case "HEAD": return HttpMethod.Head;
+                case "OPTIONS": return HttpMethod.Options;
+                case "PUT": return HttpMethod.Put;
+                case "TRACE": return HttpMethod.Trace;
+                default: return HttpMethod.Post;
+            }
         }
     }
 }

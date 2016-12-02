@@ -13,9 +13,9 @@ namespace TBLoaderGate
             string json = forceCreation ? null : session.GetString(TBLoaderKey);
             if (string.IsNullOrEmpty(json))
             {
-                lock (session)
+                lock (typeof(TBLoaderEngine))
                 {
-                    json = forceCreation ? null : session.GetString(TBLoaderKey);
+                    json = session.GetString(TBLoaderKey);
                     if (string.IsNullOrEmpty(json))
                     {
                         tbLoader = new TBLoaderInstance();
