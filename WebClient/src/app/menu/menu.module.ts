@@ -1,3 +1,5 @@
+import { MostUsedComponent } from './components/menu/most-used/most-used.component';
+import { TileElementComponent } from './components/menu/tile-element/tile-element.component';
 import { HttpMenuService } from './services/http-menu.service';
 import { MenuService } from './services/menu.service';
 import { ImageService } from './services/image.service';
@@ -14,13 +16,17 @@ import { LoginComponent } from './components/login/login.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
+import { menuRouting } from './menu.routing';
+import { RouterModule, Routes } from '@angular/router';
+import { Logger } from 'libclient';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     FormsModule,
-    MaterialModule.forRoot()
+    MaterialModule.forRoot(),
+    menuRouting
   ],
 
   declarations:
@@ -32,10 +38,13 @@ import { MaterialModule } from '@angular/material';
     MenuSelectorComponent,
     TileContainerComponent,
     TileContentComponent,
-    FavoritesComponent
+    FavoritesComponent,
+    TileElementComponent,
+    MostUsedComponent
   ],
   exports:
   [
+    RouterModule,
     LoginComponent,
     MenuComponent,
     ApplicationSelectorComponent,
@@ -43,7 +52,9 @@ import { MaterialModule } from '@angular/material';
     MenuSelectorComponent,
     TileContainerComponent,
     TileContentComponent,
-    FavoritesComponent
+    FavoritesComponent,
+    TileElementComponent,
+    MostUsedComponent
   ],
   providers:
   [
@@ -52,5 +63,11 @@ import { MaterialModule } from '@angular/material';
     HttpMenuService
   ]
 })
-export class MenuModule { }
+export class MenuModule {
+
+  constructor(private logger: Logger) {
+    this.logger.debug('MenuModule instantiated - ' + Math.round(new Date().getTime() / 1000));
+
+  }
+}
 

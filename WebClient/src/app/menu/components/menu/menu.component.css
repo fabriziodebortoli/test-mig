@@ -36,3 +36,12 @@ button.my-fab {
   bottom: 10px;
 }
 
+
+
+.pinnedImage {
+	content: url(./app/menu/images/PinnedMenu.png);
+}
+
+.unpinnedImage {
+	content: url(./app/menu/images/unpin.png);
+}

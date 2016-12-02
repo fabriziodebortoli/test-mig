@@ -10,13 +10,8 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./group-selector.component.css']
 })
 
-export class GroupSelectorComponent implements OnInit {
+export class GroupSelectorComponent {
 
-    constructor(private menuService: MenuService, private imageService: ImageService, private utilService: UtilsService) {
-    }
-
-    ngOnInit() {
-        // this.menu = this.menuService.applicationMenu;
-        // this.applications = this.utilService.toArray(this.menuService.applicationMenu.Application);
+    constructor(private menuService: MenuService, private imageService: ImageService, private utilsService: UtilsService) {
     }
 }

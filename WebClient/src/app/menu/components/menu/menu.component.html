@@ -1,13 +1,18 @@
 <p>
   <a href="#" (click)="runDocument('ERP.Languages.Documents.Languages')">Languages</a>
 </p>
+  <router-outlet></router-outlet>
 
 <md-sidenav-layout class="demo-sidenav-layout">
   <md-sidenav #start mode="over">
     <button md-button (click)="start.close()">Close</button>
-  
-      <tb-favorites></tb-favorites>
-   
+ 
+    <!--<a [routerLink]="['menu', {outlets: { 'favorites': ['favorites'] }}]" routerLinkActive="active">Show Favorites2</a>
+    <a [routerLink]="['menu', {outlets: { 'favorites': undefined }}]" routerLinkActive="active">Close</a>
+    <router-outlet name="favorites"></router-outlet>-->
+    <tb-favorites></tb-favorites>
+    <tb-most-used></tb-most-used>
+
   </md-sidenav>
 
   <div class="demo-sidenav-content">

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
 import { ImageService } from './../../../services/image.service';
+
 @Component({
   selector: 'tb-favorites',
   templateUrl: './favorites.component.html',
@@ -9,9 +10,7 @@ import { ImageService } from './../../../services/image.service';
 })
 export class FavoritesComponent implements OnInit {
 
-  private menuService: MenuService;
-  constructor(public menuServiceTemp: MenuService, private utilService: UtilsService) {
-    this.menuService = menuServiceTemp;
+  constructor(public menuService: MenuService, private imageService: ImageService, private utilsService: UtilsService) {
   }
 
   ngOnInit() {
