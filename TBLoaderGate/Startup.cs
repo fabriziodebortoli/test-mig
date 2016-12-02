@@ -63,12 +63,7 @@ namespace TBLoaderGate
             app.UseWebSockets();
             app.Use(async (http, next) =>
             {
-                if (http.WebSockets.IsWebSocketRequest)
-                {
-                    var webSocket = await http.WebSockets.AcceptWebSocketAsync();
-                    await SocketDispatcher.HandleAsync(http.Session, webSocket);
-                }
-                else
+                if (!await SocketDispatcher.HandleAsync(http))
                 {
                     await next();
                 }

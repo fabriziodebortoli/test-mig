@@ -9,11 +9,8 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()
 export class HttpService {
-    private useGate = false;
-    private gatePort = 5000;
-    private baseUrl = this.useGate
-        ? 'http://localhost:' + this.gatePort + '/tbloader/api/'
-        : 'http://localhost:10000/';
+    public gatePort = 5000;
+    private baseUrl = 'http://localhost:' + this.gatePort + '/tbloader/api/';
 
     constructor(
         protected http: Http,
@@ -54,19 +51,15 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-
-    getWebSocketPort(): Observable<number> {
-        if (this.useGate) {
-            return Observable.create(observer => {
-                observer.next(this.gatePort);
-                observer.complete();
-            });
-        }
-        return this.http.get(this.getMenuBaseUrl(false) + 'getWebSocketsPort/')
-            .map((res: Response) => parseInt(res.json(), 10))
-            .catch(this.handleError);
+    openServerSocket(name: string) {
+        let subs = this.http.get(this.getMenuBaseUrl(false) + 'openWebSocket/?name=' + name)
+        .catch(this.handleError)
+        .subscribe(res => {
+            console.log(res);
+            subs.unsubscribe();
+        });
     }
-
+    
     doCommand(cmpId: String, id: String): void {
         let subs = this.postData(this.getDocumentBaseUrl() + 'command/', { cmpId: cmpId, id: id })
             .map((res: Response) => {
@@ -107,10 +100,10 @@ export class HttpService {
         return this.baseUrl + 'tb/document/';
     }
 
-    getMenuBaseUrl(needLoginThread: boolean ) {
+    getMenuBaseUrl(needLoginThread: boolean) {
         let url = this.baseUrl + 'tb/menu/';
         if (needLoginThread)
-            url +='needLoginThread/';
+            url += 'needLoginThread/';
         return url;
     }
 
