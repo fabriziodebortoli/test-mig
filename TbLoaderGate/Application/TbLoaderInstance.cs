@@ -12,10 +12,10 @@ namespace TBLoaderGate
         public string BaseUrl { get { return string.Concat("http://", server, ":", httpPort); } }
 
 
-        internal async Task ExecuteAsync()
+        internal async Task ExecuteAsync(string clientId)
         {
             TBLoaderService svc = new TBLoaderService();
-            httpPort = await svc.ExecuteRemoteProcessAsync();
+            httpPort = await svc.ExecuteRemoteProcessAsync(clientId);
         }
         internal async void RequireWebSocketConnection(string name)
         {
@@ -29,4 +29,4 @@ namespace TBLoaderGate
             }
         }
     }
-}
+} 

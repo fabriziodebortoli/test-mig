@@ -81,6 +81,7 @@ namespace TBLoaderGate
             {
                 //todo mandare risposta al client
                 TBLoaderEngine.ClearTbLoader(HttpContext.Session);
+                throw new Exception("Error communicating with backend");
             }
         }
 

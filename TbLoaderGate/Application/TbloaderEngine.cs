@@ -8,21 +8,13 @@ namespace TBLoaderGate
         private const string TBLoaderKey = "__TBLOADER__";
         internal static TBLoaderInstance GetTbLoader(ISession session)
         {
-
             TBLoaderInstance tbLoader = null;
             string json = session.GetString(TBLoaderKey);
             if (string.IsNullOrEmpty(json))
             {
-                lock (typeof(TBLoaderEngine))
-                {
-                    json = session.GetString(TBLoaderKey);
-                    if (string.IsNullOrEmpty(json))
-                    {
-                        tbLoader = new TBLoaderInstance();
-                        tbLoader.ExecuteAsync().Wait();
-                        session.SetString(TBLoaderKey, JsonConvert.SerializeObject(tbLoader));
-                    }
-                }
+                tbLoader = new TBLoaderInstance();
+                tbLoader.ExecuteAsync(session.Id).Wait();
+                session.SetString(TBLoaderKey, JsonConvert.SerializeObject(tbLoader));
             }
             else
             {
