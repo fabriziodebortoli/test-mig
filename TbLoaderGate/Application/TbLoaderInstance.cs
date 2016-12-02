@@ -7,7 +7,6 @@ namespace TBLoaderGate
     public class TBLoaderInstance
     {
         public int httpPort = 11000;
-        public int wsPort = 4502;
         public string server = "localhost";
 
         public string BaseUrl { get { return string.Concat("http://", server, ":", httpPort); } }
@@ -17,19 +16,16 @@ namespace TBLoaderGate
         {
             TBLoaderService svc = new TBLoaderService();
             httpPort = await svc.ExecuteRemoteProcessAsync();
-            wsPort = await GetWebSocketPortAsync();
         }
-
-        private async Task<int> GetWebSocketPortAsync()
+        internal async void RequireWebSocketConnection(string name)
         {
-            using (var client = new HttpClient())
+           using (var client = new HttpClient())
             {
-                string url = BaseUrl + "/tb/menu/getWebSocketsPort/";
+                string url = string.Concat(BaseUrl, "/tb/menu/openWebSocket/?name=", name);
                 HttpRequestMessage msg = new HttpRequestMessage();
                 msg.RequestUri = new Uri(url);
                 HttpResponseMessage resp = await client.SendAsync(msg);
                 string ret = await resp.Content.ReadAsStringAsync();
-                return int.Parse(ret);
             }
         }
     }

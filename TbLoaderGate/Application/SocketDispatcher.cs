@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -11,36 +12,21 @@ namespace TBLoaderGate
 {
     class WebSocketCouple
     {
-        private WebSocket first;
-        private WebSocket second;
-
-        internal bool Contains(WebSocket webSocket)
-        {
-            return first == webSocket || second == webSocket;
-        }
-
-        internal void Add(WebSocket webSocket)
-        {
-            if (first == null)
-                first = webSocket;
-            else if (second == null)
-                second = webSocket;
-            else
-                throw new Exception("Web sockets already assigned");
-        }
+        public WebSocket clientSocket;
+        public WebSocket serverSocket;
 
         internal WebSocket GetOther(WebSocket webSocket)
         {
-             return (first == webSocket) ? second : first;
+            return (clientSocket == webSocket) ? serverSocket : clientSocket;
         }
     }
     public class SocketDispatcher
     {
-        const string setWebSocketName = "SetWebSocketName:";
-        Dictionary<string, WebSocketCouple> socketMap = new Dictionary<string, WebSocketCouple>();
-        internal async Task HandleAsync(ISession session, WebSocketManager webSockets)
+        const string setClientWebSocketName = "SetClientWebSocketName:";
+        const string setServerWebSocketName = "SetServerWebSocketName:";
+        static Dictionary<string, WebSocketCouple> socketMap = new Dictionary<string, WebSocketCouple>();
+        public static async Task HandleAsync(ISession session, WebSocket webSocket)
         {
-            var webSocket = await webSockets.AcceptWebSocketAsync();
             string coupleName = "";
 
             while (webSocket.State == WebSocketState.Open)
@@ -57,17 +43,19 @@ namespace TBLoaderGate
                                                     buffer.Offset,
                                                     buffer.Count);
                             //se il messaggio imposta il nome del socket, metto da parte l'istanza per accoppiarla con la controparte
-                            if (message.StartsWith(setWebSocketName))
+                            if (message.StartsWith(setClientWebSocketName))
                             {
-                                coupleName = message.Substring(setWebSocketName.Length);
-                                WebSocketCouple couple = null;
-                                if (!socketMap.TryGetValue(coupleName, out couple))
-                                {
-                                    couple = new WebSocketCouple();
-                                    socketMap[coupleName] = couple;
-                                }
-                                if (!couple.Contains(webSocket))
-                                    couple.Add(webSocket);
+                                coupleName = message.Substring(setClientWebSocketName.Length);
+                                WebSocketCouple couple = GetWebCouple(coupleName);
+                                couple.clientSocket = webSocket;
+                                TBLoaderInstance tbLoader = TBLoaderEngine.GetTbLoader(session, true);
+                                tbLoader.RequireWebSocketConnection(coupleName);
+                            }
+                            else if (message.StartsWith(setServerWebSocketName))
+                            {
+                                coupleName = message.Substring(setServerWebSocketName.Length);
+                                WebSocketCouple couple = GetWebCouple(coupleName);
+                                couple.serverSocket = webSocket;
                             }
                             else
                             {
@@ -85,4 +73,19 @@ namespace TBLoaderGate
                 }
             }
         }
+
+        private static WebSocketCouple GetWebCouple(string coupleName)
+        {
+            lock (typeof(SocketDispatcher))
+            {
+                WebSocketCouple couple = null;
+                if (!socketMap.TryGetValue(coupleName, out couple))
+                {
+                    couple = new WebSocketCouple();
+                    socketMap[coupleName] = couple;
+                }
+                return couple;
+            }
+        }
     }
+}

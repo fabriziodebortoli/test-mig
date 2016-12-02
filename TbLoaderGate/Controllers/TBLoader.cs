@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Diagnostics;
@@ -29,6 +30,9 @@ namespace TBLoaderGate
         [Route("[controller]/api/{*args}")]
         public async Task ApiAsync()
         {
+            #if DEBUG
+            Console.WriteLine(HttpContext.Request.PathBase);
+            #endif
             bool force = false;
 
             while (true)

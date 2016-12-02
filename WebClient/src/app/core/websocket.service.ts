@@ -48,7 +48,7 @@ export class WebSocketService {
 
                 this.connection.onopen = (arg) => {
                     this.logger.debug('wsOnOpen');
-                    this.connection.send('SetWebSocketName:' + this.cookieService.get('authtoken'));
+                    this.connection.send('SetClientWebSocketName:' + this.cookieService.get('authtoken'));
                     this.status = 'Open';
                     this.fire('open', arg);
                 };
