@@ -6,11 +6,11 @@ namespace TBLoaderGate
     public class TBLoaderEngine
     {
         private const string TBLoaderKey = "__TBLOADER__";
-        internal static TBLoaderInstance GetTbLoader(ISession session, bool forceCreation)
+        internal static TBLoaderInstance GetTbLoader(ISession session)
         {
 
             TBLoaderInstance tbLoader = null;
-            string json = forceCreation ? null : session.GetString(TBLoaderKey);
+            string json = session.GetString(TBLoaderKey);
             if (string.IsNullOrEmpty(json))
             {
                 lock (typeof(TBLoaderEngine))
