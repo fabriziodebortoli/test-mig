@@ -8,3 +8,4 @@
 */wwwroot/*
 
 */project.lock.json
+*/*.xproj.user
