@@ -19,7 +19,7 @@ namespace TBLoaderGate
         }
         internal async void RequireWebSocketConnection(string name)
         {
-           using (var client = new HttpClient())
+            using (var client = new HttpClient())
             {
                 string url = string.Concat(BaseUrl, "/tb/menu/openWebSocket/?name=", name);
                 HttpRequestMessage msg = new HttpRequestMessage();
@@ -29,4 +29,4 @@ namespace TBLoaderGate
             }
         }
     }
-} 
+}
