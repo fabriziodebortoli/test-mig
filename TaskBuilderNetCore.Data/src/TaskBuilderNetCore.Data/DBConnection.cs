@@ -9,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace TaskBuilderNetCore.Data
 {
-    public class DBConnection : IDisposable
+    public class DBConnection :DbConnection, IDisposable
     {
-      
-        
-        private Provider.DBType dbType { get; set; }
+            
+        public Provider.DBType dbType { get; private set; }
 
         private DbConnection connection;
 
@@ -25,7 +24,7 @@ namespace TaskBuilderNetCore.Data
             }
         }
 
-        public string ConnectionString
+        public override string ConnectionString
         {
             get
             {
@@ -38,7 +37,7 @@ namespace TaskBuilderNetCore.Data
             }
         }
 
-        public string Database
+        public override string Database
         {
             get
             {
@@ -46,7 +45,7 @@ namespace TaskBuilderNetCore.Data
             }
         }
 
-        public string DataSource
+        public override string DataSource
         {
             get
             {
@@ -54,7 +53,7 @@ namespace TaskBuilderNetCore.Data
             }
         }
 
-        public string ServerVersion
+        public override string ServerVersion
         {
 
             get
@@ -64,7 +63,7 @@ namespace TaskBuilderNetCore.Data
             }
         }
 
-        public ConnectionState State
+        public override ConnectionState State
         {
             get
             {
@@ -72,6 +71,7 @@ namespace TaskBuilderNetCore.Data
             }
         }
 
+     
         // constructor 
         public DBConnection(Provider.DBType dbType, string connectionString)
         {
@@ -95,17 +95,27 @@ namespace TaskBuilderNetCore.Data
         }
 
 
-        public DBTransaction BeginTransaction()
+        public new DbTransaction BeginTransaction()
         {
-            return new DBTransaction(connection.BeginTransaction(), dbType);
+            return connection.BeginTransaction();
         }
 
-        public DBTransaction BeginTransaction(IsolationLevel isolationLevel)
+        public new DbTransaction BeginTransaction(IsolationLevel isolationLevel)
         {
-            return new DBTransaction (connection.BeginTransaction(isolationLevel), dbType);
+            return connection.BeginTransaction(isolationLevel);
         }
 
-        public void ChangeDatabase(string databaseName)
+        protected override DbTransaction BeginDbTransaction(IsolationLevel isolationLevel)
+        {
+           return connection.BeginTransaction(isolationLevel);
+        }
+
+        protected override DbCommand CreateDbCommand()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ChangeDatabase(string databaseName)
         {
             connection.ChangeDatabase(databaseName);
         }
@@ -121,31 +131,25 @@ namespace TaskBuilderNetCore.Data
                 throw new DBException(DBExceptionStrings.DatabaseNotSuported);
         }
 
-        public void Close()
+        public override void Close()
         {
             connection.Close();
         }
 
-        public DbCommand CreateCommand()
-        {
-            return connection.CreateCommand();
-        }
 
-        public void Dispose()
-        {
-            if (connection.State != ConnectionState.Open)
-                connection.Close();
-        }
-
-        public void Open()
+        public override void Open()
         {
             connection.Open();
         }
 
-        public Task OpenAsync(CancellationToken token)
+        public override Task OpenAsync(CancellationToken token)
         {
             return connection.OpenAsync(token);
-        }   
+        }
 
+        public new void Dispose()
+        {
+            connection.Dispose();
+        }
     }
 }
