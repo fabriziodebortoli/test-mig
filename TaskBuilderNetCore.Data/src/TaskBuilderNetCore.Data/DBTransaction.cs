@@ -5,13 +5,30 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace TaskBuilderNetCore.Data
 {
-    public class DBTransaction :IDisposable
+    public class DBTransaction :DbTransaction, IDisposable
     {
         private DbTransaction transaction;
         private Provider.DBType dbType { get; set; }
+
+        protected override DbConnection DbConnection
+        {
+            get
+            {
+                return transaction.Connection;
+            }
+        }
+
+        public override IsolationLevel IsolationLevel
+        {
+            get
+            {
+                return transaction.IsolationLevel;
+            }
+        }
 
         public DBTransaction(DbTransaction transaction, Provider.DBType dbType)
         {
@@ -19,12 +36,12 @@ namespace TaskBuilderNetCore.Data
             this.dbType = dbType;
         }
 
-        public void Commit()
+        public override void Commit()
         {
             transaction.Commit();
         }
 
-        public void Rollback()
+        public override void Rollback()
         {
             transaction.Rollback();
         }
@@ -67,11 +84,11 @@ namespace TaskBuilderNetCore.Data
             }
         }
 
-        public void Dispose()
+        public new void Dispose()
         {
             transaction.Dispose();
         }
 
-
+     
     }
 }

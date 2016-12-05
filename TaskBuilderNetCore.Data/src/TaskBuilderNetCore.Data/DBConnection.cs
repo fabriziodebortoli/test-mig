@@ -95,24 +95,29 @@ namespace TaskBuilderNetCore.Data
         }
 
 
-        public new DbTransaction BeginTransaction()
+        public new DBTransaction BeginTransaction()
         {
-            return connection.BeginTransaction();
+            return new DBTransaction(connection.BeginTransaction(),dbType);
         }
 
-        public new DbTransaction BeginTransaction(IsolationLevel isolationLevel)
+        public new DBTransaction BeginTransaction(IsolationLevel isolationLevel)
         {
-            return connection.BeginTransaction(isolationLevel);
+            return new DBTransaction(connection.BeginTransaction(isolationLevel), dbType);
         }
 
         protected override DbTransaction BeginDbTransaction(IsolationLevel isolationLevel)
         {
-           return connection.BeginTransaction(isolationLevel);
+            return connection.BeginTransaction(isolationLevel);
         }
-
+                                                                           
         protected override DbCommand CreateDbCommand()
         {
             throw new NotImplementedException();
+        }
+
+        protected new DbCommand CreateCommand()
+        {
+            return connection.CreateCommand();
         }
 
         public override void ChangeDatabase(string databaseName)
