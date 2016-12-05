@@ -1,3 +1,4 @@
+import { LocalizationService } from './../../services/localization.service';
 import { MenuService } from './../../services/menu.service';
 import { HttpMenuService } from './../../services/http-menu.service';
 import { UtilsService } from 'tb-core';
@@ -15,7 +16,12 @@ export class MenuComponent implements OnInit {
   private menu: undefined;
   private applications: undefined;
 
-  constructor(private httpMenuService: HttpMenuService, private menuService: MenuService, private utilsService: UtilsService) {
+  constructor(
+    private httpMenuService: HttpMenuService,
+     private menuService: MenuService, 
+     private utilsService: UtilsService,
+     private localizationService: LocalizationService
+     ) {
   }
   ngOnInit() {
 
@@ -23,9 +29,8 @@ export class MenuComponent implements OnInit {
       this.menuService.applicationMenu = result.Root.ApplicationMenu.AppMenu;
       this.menuService.environmentMenu = result.Root.EnvironmentMenu.AppMenu;
 
-      this.menuService.loadFavoriteObjects();
-      this.menuService.LoadMostUsedObjects();
-
+      this.menuService.loadFavoritesAndMostUsed();
+      this.localizationService.loadLocalizedElements(true);
     });
   }
 

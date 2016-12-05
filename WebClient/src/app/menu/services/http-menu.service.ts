@@ -51,20 +51,12 @@ export class HttpMenuService extends HttpService {
     }
 
     //---------------------------------------------------------------------------------------------
-    mostUsedClearAll = function () {
-
-        var urlToRun = this.getMenuBaseUrl(true) + 'clearAllMostUsed/';
-        let subs = this.postData(urlToRun, undefined)
+    mostUsedClearAll(): Observable<any> {
+        return this.http.get(this.getMenuBaseUrl(true) + 'clearAllMostUsed/', { withCredentials: true })
             .map((res: Response) => {
-
-                //                  $scope.mostUsed.splice(0, $scope.mostUsed.length);
-                //			    menuService.MostUsedCount = 0;
                 return res.ok;
             })
-            .catch(this.handleError)
-            .subscribe(result => {
-                subs.unsubscribe();
-            });
+            .catch(this.handleError);
 
     };
 
@@ -102,6 +94,15 @@ export class HttpMenuService extends HttpService {
         return this.http.get(this.getMenuBaseUrl(true) + 'removeFromMostUsed/?target=' + object.target + '&objectType=' + object.objectType, { withCredentials: true })
             .map((res: Response) => {
                 return res.ok;
+            })
+            .catch(this.handleError);
+    };
+
+     //---------------------------------------------------------------------------------------------
+    loadLocalizedElements(needLoginThread): Observable<any> {
+        return this.http.get(this.getMenuBaseUrl(needLoginThread) + 'getLocalizedElements/', { withCredentials: true })
+            .map((res: Response) => {
+                return res.json();
             })
             .catch(this.handleError);
     };

@@ -3,7 +3,7 @@ import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
 import { HttpMenuService } from './../../../services/http-menu.service';
 import { ImageService } from './../../../services/image.service';
-
+import { LocalizationService } from './../../../services/localization.service';
 
 @Component({
   selector: 'tb-most-used',
@@ -15,9 +15,18 @@ export class MostUsedComponent implements OnInit {
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private imageService: ImageService
+    private imageService: ImageService, 
+    private localizationService: LocalizationService
   ) {
   }
   ngOnInit() {
+  }
+
+  clearAll() {
+
+    this.httpMenuService.mostUsedClearAll().subscribe(result => {
+    this.menuService.clearMostUsed();
+    });
+
   }
 }

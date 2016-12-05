@@ -1,3 +1,4 @@
+import { LocalizationService } from './services/localization.service';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { TileElementComponent } from './components/menu/tile-element/tile-element.component';
 import { HttpMenuService } from './services/http-menu.service';
@@ -60,7 +61,8 @@ import { Logger } from 'libclient';
   [
     MenuService,
     ImageService,
-    HttpMenuService
+    HttpMenuService, 
+    LocalizationService
   ]
 })
 export class MenuModule {
