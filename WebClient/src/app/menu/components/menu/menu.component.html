@@ -5,7 +5,7 @@
 
 <md-sidenav-layout class="demo-sidenav-layout">
   <md-sidenav #start mode="over">
-    <button md-button (click)="start.close()">Close</button>
+    <button md-button (click)="start.close()">{{localizationService.getLocalizedElement('CloseLabel')}}</button>
  
     <!--<a [routerLink]="['menu', {outlets: { 'favorites': ['favorites'] }}]" routerLinkActive="active">Show Favorites2</a>
     <a [routerLink]="['menu', {outlets: { 'favorites': undefined }}]" routerLinkActive="active">Close</a>

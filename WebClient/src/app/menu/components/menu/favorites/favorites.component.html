@@ -1,5 +1,5 @@
 <md-card *ngIf="menuService != undefined">
-  <md-card-title>Favorites: {{menuService.favoritesCount}}</md-card-title>
+  <md-card-title>{{localizationService.getLocalizedElement('FavoritesLabel')}}: {{menuService.favoritesCount}}</md-card-title>
   <md-card-content>
     <div *ngFor="let favorite of menuService.favorites">
 

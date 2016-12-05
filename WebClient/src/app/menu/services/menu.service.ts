@@ -1,4 +1,3 @@
-import { MostUsedComponent } from './../components/menu/most-used/most-used.component';
 import { HttpMenuService } from './http-menu.service';
 import { UtilsService } from 'tb-core';
 import { Logger } from 'libclient';
@@ -19,8 +18,8 @@ export class MenuService {
     public favoritesCount: number = 0;
     public mostUsedCount: number = 0;
 
-    private favorites: Array<any>;
-    private mostUsed: Array<any>;
+    private favorites: Array<any> = [];
+    private mostUsed: Array<any> = [];
 
     private utilsService: UtilsService;
 
@@ -65,6 +64,11 @@ export class MenuService {
         this.addToMostUsed(object);
     }
 
+    clearMostUsed() {
+        this.mostUsed.splice(0, this.mostUsed.length);
+        this.mostUsedCount = 0;
+    }
+
     //---------------------------------------------------------------------------------------------
     toggleFavorites(object) {
 
@@ -73,14 +77,12 @@ export class MenuService {
             object.isFavorite = true;
             this.httpMenuService.favoriteObject(object);
             this.addToFavoritesInternal(object);
-            //this.favoriteObject(object);
             // $rootScope.$emit('favoritesAdded', object);
         }
         else {
             object.isFavorite = false;
             this.httpMenuService.unFavoriteObject(object);
             this.removeFromFavoritesInternal(object);
-            //this.unFavoriteObject(object);
             // $rootScope.$emit('favoritesRemoved', object);
         }
         object.isFavorite = !isFavorite;
@@ -127,7 +129,7 @@ export class MenuService {
 
 
     //---------------------------------------------------------------------------------------------
-    compare(a, b) {
+    compareFavorites(a, b) {
         if (a.position < b.position)
             return -1;
         if (a.position > b.position)
@@ -135,115 +137,54 @@ export class MenuService {
         return 0;
     }
 
-
     //---------------------------------------------------------------------------------------------
-    loadFavoriteObjects() {
-        // if ($rootScope.menu == undefined || this.isDragging)
-        //    return   this.favorites;
-        this.favorites = this.getFavoriteObjectsInternal().sort(this.compare);
+    compareMostUsed(a, b) {
+        if (a.lastModified < b.lastModified)
+            return -1;
+        if (a.lastModified > b.lastModified)
+            return 1;
+        return 0;
     }
-    //---------------------------------------------------------------------------------------------
-    getFavoriteObjectsInternal() {
-        var filtered = [];
 
+    //---------------------------------------------------------------------------------------------
+    loadFavoritesAndMostUsed() {
         if (this.applicationMenu != undefined)
-            this.findFavoritesInApplication(this.applicationMenu.Application, filtered);
+            this.findFavoritesAndMostUsedInApplication(this.applicationMenu.Application);
         if (this.environmentMenu != undefined)
-            this.findFavoritesInApplication(this.environmentMenu.Application, filtered);
+            this.findFavoritesAndMostUsedInApplication(this.environmentMenu.Application);
 
-        return filtered;
+        this.favorites = this.favorites.sort(this.compareFavorites);
+        this.mostUsed = this.mostUsed.sort(this.compareMostUsed);
     }
 
     //---------------------------------------------------------------------------------------------
-    findFavoritesInApplication(application, filtered) {
+    findFavoritesAndMostUsedInApplication(application) {
 
         var tempMenuArray = this.utilsService.toArray(application);
         for (var a = 0; a < tempMenuArray.length; a++) {
             var allGroupsArray = this.utilsService.toArray(tempMenuArray[a].Group);
             for (var d = 0; d < allGroupsArray.length; d++) {
-                this.getFavoritesObjectsFromMenu(allGroupsArray[d], filtered);
+                this.getFavoritesAndMostUsedObjectsFromMenu(allGroupsArray[d]);
             }
         }
-        return filtered;
     }
 
     //---------------------------------------------------------------------------------------------
-    getFavoritesObjectsFromMenu(menu, filtered) {
+    getFavoritesAndMostUsedObjectsFromMenu(menu) {
 
         var allSubObjects = this.utilsService.toArray(menu.Object);
         for (var i = 0; i < allSubObjects.length; i++) {
 
             if (allSubObjects[i].isFavorite) {
                 allSubObjects[i].position = parseInt(allSubObjects[i].position);
-                {
-                    this.favoritesCount++;
-                    filtered.push(allSubObjects[i]);
-                }
+                this.favoritesCount++;
+                this.favorites.push(allSubObjects[i]);
             }
-        }
-
-        var allSubMenus = this.utilsService.toArray(menu.Menu);
-        //cerca gli object dentro il menu
-        for (var j = 0; j < allSubMenus.length; j++) {
-
-            this.getFavoritesObjectsFromMenu(allSubMenus[j], filtered);
-        }
-
-        return filtered;
-    };
-
-    //------------most MostUsedComponent
-
-
-    //---------------------------------------------------------------------------------------------
-    LoadMostUsedObjects() {
-        // if ($rootScope.menu == undefined || this.isDragging)
-        //    return   this.favorites;
-        this.mostUsed = this.getMostUsedObjects().sort(this.compare);
-    }
-
-
-    //---------------------------------------------------------------------------------------------
-    getMostUsedObjects() {
-
-        var filtered = [];
-        if (this.applicationMenu != undefined) {
-            this.findMostUsedInApplication(this.applicationMenu.Application, filtered);
-        }
-
-        if (this.environmentMenu != undefined) {
-            this.findMostUsedInApplication(this.environmentMenu.Application, filtered);
-        }
-
-        return filtered;
-    };
-
-
-    //---------------------------------------------------------------------------------------------
-    findMostUsedInApplication(application, filtered) {
-
-        var tempMenuArray = this.utilsService.toArray(application);
-        for (var a = 0; a < tempMenuArray.length; a++) {
-            var allGroupsArray = this.utilsService.toArray(tempMenuArray[a].Group);
-            for (var d = 0; d < allGroupsArray.length; d++) {
-                this.getMostUsedObjectsFromMenu(allGroupsArray[d], filtered);
-            }
-        }
-        return filtered;
-    }
-
-    //---------------------------------------------------------------------------------------------
-    getMostUsedObjectsFromMenu(menu, filtered) {
-
-        var allSubObjects = this.utilsService.toArray(menu.Object);
-        for (var i = 0; i < allSubObjects.length; i++) {
 
             if (allSubObjects[i].isMostUsed) {
                 allSubObjects[i].lastModified = parseInt(allSubObjects[i].lastModified);
-                {
-                    filtered.push(allSubObjects[i]);
-                    this.mostUsedCount++;
-                }
+                this.mostUsed.push(allSubObjects[i]);
+                this.mostUsedCount++;
             }
         }
 
@@ -251,18 +192,10 @@ export class MenuService {
         //cerca gli object dentro il menu
         for (var j = 0; j < allSubMenus.length; j++) {
 
-            this.getMostUsedObjectsFromMenu(allSubMenus[j], filtered);
+            this.getFavoritesAndMostUsedObjectsFromMenu(allSubMenus[j]);
         }
-
-        return filtered;
     };
 
-
-
-    // //---------------------------------------------------------------------------------------------
-    // this.isMostUsedVisible = function () {
-    //     return settingsService.isMostUsedVisible;
-    // }
 
     // //---------------------------------------------------------------------------------------------
     // this.listenToMostUsed = function () {
@@ -324,64 +257,4 @@ export class MenuService {
             this.mostUsedCount--;
         }
     };
-
-
-    // //---------------------------------------------------------------------------------------------
-    // this.openOptions = function (size) {
-
-    //     var modalInstance = $uibModal.open({
-    //         templateUrl: 'templates/OldMenu/mostUsedShowOptions.html',
-    //         controller: ModalMostUsedOptionsCtrl,
-    //         size: size,
-    //         resolve: {
-    //             maxElementToShow: function () {
-    //                 return this.maxElementToShow;
-    //             },
-    //             menuService: function () {
-    //                 return menuService;
-    //             },
-    //         }
-    //     });
-
-    //     modalInstance.result.then(function (maxElementToShow) {
-    //         if (this.maxElementToShow == maxElementToShow)
-    //             return;
-
-    //         this.maxElementToShow = maxElementToShow;
-    //         var urlToRun = menuService.getNeedLoginThreadUrl() + 'updateMostUsedShowNr/?nr=' + maxElementToShow;
-
-    //         $http.post(urlToRun)
-    // 		.success(function (data, status, headers, config) {
-    // 		})
-    // 		.error(function (data, status, headers, config) {
-    // 			this.loggingService.handleError(urlToRun, status);
-    // 		});
-    //     });
-    // };
-
-    // //---------------------------------------------------------------------------------------------
-    // this.showAll = function () {
-    //     var modalInstance = $uibModal.open(
-    // 	{
-    // 	    templateUrl: 'templates/OldMenu/mostUsedShowAll.html',
-    // 	    controller: ModalMostUsedShowAllCtrl,
-    // 	    resolve:
-    // 		 {
-    // 		     mostUsed: function () {
-    // 		         return this.mostUsed;
-    // 		     },
-    // 		     menuService: function () {
-    // 		         return menuService;
-    // 		     },
-    // 		     scope: function () {
-    // 		         return this;
-    // 		     },
-    // 		     imageService: function () {
-    // 		         return imageService;
-    // 		     }
-    // 		 }
-    // 	})
-    // };
-
-
 }
