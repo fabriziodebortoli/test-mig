@@ -12,14 +12,14 @@ namespace TBLoaderGate
         public string BaseUrl { get { return string.Concat("http://", server, ":", httpPort); } }
 
 
-        internal async Task ExecuteAsync()
+        internal async Task ExecuteAsync(string clientId)
         {
             TBLoaderService svc = new TBLoaderService();
-            httpPort = await svc.ExecuteRemoteProcessAsync();
+            httpPort = await svc.ExecuteRemoteProcessAsync(clientId);
         }
         internal async void RequireWebSocketConnection(string name)
         {
-           using (var client = new HttpClient())
+            using (var client = new HttpClient())
             {
                 string url = string.Concat(BaseUrl, "/tb/menu/openWebSocket/?name=", name);
                 HttpRequestMessage msg = new HttpRequestMessage();

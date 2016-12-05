@@ -17,6 +17,8 @@ export class LoginSessionService {
         private logger: Logger) {
 
         this.isLogged();
+
+        this.socket.on('close', () => { this.connected = false; });
     }
 
     isLogged(): void {
@@ -34,7 +36,7 @@ export class LoginSessionService {
                 subs.unsubscribe();
             },
             error => {
-                this.errorMessages = [ error ];
+                this.errorMessages = [error];
                 this.logger.error('isLogged HTTP error: ' + error);
                 subs.unsubscribe();
             }
@@ -57,7 +59,7 @@ export class LoginSessionService {
                 },
                 error => {
                     this.logger.error('login HTTP error: ' + error);
-                    this.errorMessages = [ error ];
+                    this.errorMessages = [error];
                     observer.error(error);
                     observer.complete();
                 }

@@ -2,15 +2,17 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace TBLoaderGate
 {
     class TBLoaderResult
     {
-        public bool result { get; set; }
+        public bool success { get; set; }
         public string message { get; set; }
     }
     public class TBLoaderController : Controller
@@ -25,62 +27,74 @@ namespace TBLoaderGate
         {
             var feature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
 
-            return new JsonResult(new TBLoaderResult() { message = feature?.Error.Message, result = false });
+            return new JsonResult(new TBLoaderResult() { message = feature?.Error.Message, success = false });
 
         }
         [Route("[controller]/api/{*args}")]
         public async Task ApiAsync()
         {
-            Debug.WriteLine(HttpContext.Request.Path);
+            Debug.WriteLine(HttpContext.Request.Path.Value);
+            string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
+            bool createTB = subUrl == "/tb/menu/doLogin/";
             try
             {
-                TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(HttpContext.Session);
-                using (var client = new HttpClient())
+                TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(HttpContext.Session, createTB);
+                if (tb == null)
                 {
-
-                    string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
-                    string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
-
-                    HttpRequestMessage msg = new HttpRequestMessage();
-                    msg.Method = ParseMethod(HttpContext.Request.Method);
-                    msg.RequestUri = new Uri(url);
-
-                    //copy request headers
-                    foreach (var header in HttpContext.Request.Headers)
+                    TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };
+                    string json = JsonConvert.SerializeObject(res);
+                    byte[] buff = Encoding.UTF8.GetBytes(json);
+                    await HttpContext.Response.Body.WriteAsync(buff, 0, buff.Length);
+                }
+                else
+                {
+                    using (var client = new HttpClient())
                     {
-                        //sometimes some invalid headers arrives!?
-                        if (header.Key == "Content-Length" || header.Key == "Content-Type")
-                            continue;
-                        try
+
+                        string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
+
+                        HttpRequestMessage msg = new HttpRequestMessage();
+                        msg.Method = ParseMethod(HttpContext.Request.Method);
+                        msg.RequestUri = new Uri(url);
+
+                        //copy request headers
+                        foreach (var header in HttpContext.Request.Headers)
                         {
-                            msg.Headers.Add(header.Key, header.Value.ToArray());
+                            //sometimes some invalid headers arrives!?
+                            if (header.Key == "Content-Length" || header.Key == "Content-Type")
+                                continue;
+                            try
+                            {
+                                msg.Headers.Add(header.Key, header.Value.ToArray());
+                            }
+                            catch
+                            {
+                                Debug.WriteLine("Invalid header: " + header.Key);
+                            }
                         }
-                        catch
+
+                        MemoryStream ms = new MemoryStream();
+                        HttpContext.Request.Body.CopyTo(ms);
+                        ms.Seek(0, SeekOrigin.Begin);
+                        msg.Content = new StreamContent(ms);
+
+                        HttpResponseMessage resp = await client.SendAsync(msg);
+                        //copy back response headers
+                        foreach (var h in resp.Headers)
                         {
-                            Debug.WriteLine("Invalid header: " + header.Key);
+                            foreach (var sv in h.Value)
+                                HttpContext.Response.Headers.Add(h.Key, sv);
                         }
+
+                        await resp.Content.CopyToAsync(HttpContext.Response.Body);
                     }
-
-                    MemoryStream ms = new MemoryStream();
-                    HttpContext.Request.Body.CopyTo(ms);
-                    ms.Seek(0, SeekOrigin.Begin);
-                    msg.Content = new StreamContent(ms);
-
-                    HttpResponseMessage resp = await client.SendAsync(msg);
-                    //copy back response headers
-                    foreach (var h in resp.Headers)
-                    {
-                        foreach (var sv in h.Value)
-                            HttpContext.Response.Headers.Add(h.Key, sv);
-                    }
-
-                    await resp.Content.CopyToAsync(HttpContext.Response.Body);
                 }
             }
             catch
             {
                 //todo mandare risposta al client
                 TBLoaderEngine.ClearTbLoader(HttpContext.Session);
+                throw new Exception("Error communicating with backend");
             }
         }
 

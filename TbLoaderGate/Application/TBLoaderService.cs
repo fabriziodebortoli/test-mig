@@ -13,6 +13,7 @@ namespace TBLoaderGate
         public enum CommandType { Start, Stop }
         public CommandType Type { get; set; }
         public int ProcessId { get; set; }
+        public string ClientId { get; set; }
     }
 
     public class TBLoaderResponse
@@ -128,12 +129,13 @@ namespace TBLoaderGate
         }
 
         //-----------------------------------------------------------------------
-        public async Task<int> ExecuteRemoteProcessAsync()
+        public async Task<int> ExecuteRemoteProcessAsync(string clientID)
         {
             try
             {
                 TBLoaderCommand cmd = new TBLoaderCommand();
                 cmd.Type = TBLoaderCommand.CommandType.Start;
+                cmd.ClientId = clientID;
                 TBLoaderResponse res = await SocketSendReceive(serviceComputerName, servicePort, cmd);
                 if (!res.Result)
                     throw new Exception(res.Message);
