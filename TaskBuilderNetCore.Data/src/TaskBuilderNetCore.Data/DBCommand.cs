@@ -23,6 +23,15 @@ namespace TaskBuilderNetCore.Data
             dbType = connection.dbType;
         }
 
+        public DBCommand(string query, DBConnection connection, DbTransaction transaction)
+        {
+            command = connection.CreateCommand();
+            command.CommandText = query;
+            DbConnection = connection;
+            dbType = connection.dbType;
+            command.Transaction = transaction;
+        }
+
         public override string CommandText { get { return command.CommandText; } set { command.CommandText = value; } }
 
         public override int CommandTimeout { get { return command.CommandTimeout; } set { command.CommandTimeout = value; } }
