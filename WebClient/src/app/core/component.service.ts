@@ -13,10 +13,11 @@ export class ComponentService {
     private router: Router,
     private webSocketService: WebSocketService,
     private httpService: HttpService) {
-    this.webSocketService.on('WindowOpen', data => {
+    this.webSocketService.windowOpen.subscribe(data => {
       this.createComponents(data.components, 0);
+
     });
-    this.webSocketService.on('WindowClose', data => {
+    this.webSocketService.windowClose.subscribe(data => {
       if (data && data.id) {
         for (let i = 0; i < this.components.length; i++) {
           let info: ComponentInfo = this.components[i];

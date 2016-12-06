@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class DocumentService {
     constructor(private webSocketService: WebSocketService) {
 
-        this.webSocketService.on('DataReady', data => {
+        this.webSocketService.dataReady.subscribe(data => {
             console.debug(data);
         });
     }

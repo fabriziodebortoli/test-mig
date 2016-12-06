@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { Injectable, EventEmitter } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import { HttpService } from './http.service';
 import { Logger } from 'libclient';
@@ -7,8 +7,14 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 @Injectable()
 export class WebSocketService {
     public status: string = 'Undefined';
-    private events: Object = {};
     private connection: WebSocket;
+
+    public error: EventEmitter<any> = new EventEmitter();
+    public dataReady: EventEmitter<any> = new EventEmitter();
+    public windowOpen: EventEmitter<any> = new EventEmitter();
+    public windowClose: EventEmitter<any> = new EventEmitter();
+    public open: EventEmitter<any> = new EventEmitter();
+    public close: EventEmitter<any> = new EventEmitter();
 
     constructor(private httpService: HttpService,
         private cookieService: CookieService,
@@ -31,7 +37,13 @@ export class WebSocketService {
                     try {
                         let jsonObject = JSON.parse(jsonString);
                         $this.logger.debug('wsOnMessage', eventName, jsonObject);
-                        $this.fire(eventName, jsonObject);
+                        switch (eventName) {
+                            case 'DataReady': $this.dataReady.emit(jsonObject); break;
+                            case 'WindowOpen': $this.windowOpen.emit(jsonObject); break;
+                            case 'WindowClose': $this.windowClose.emit(jsonObject); break;
+                            default: break;
+                        }
+
                     } catch (e) {
                         $this.logger.error('Invalid json string:\n' + jsonString);
                         $this.logger.error('wsOnMessage', eventName, e);
@@ -42,7 +54,7 @@ export class WebSocketService {
         };
         this.connection.onerror = (arg) => {
             this.logger.error('wsOnError' + JSON.stringify(arg));
-            this.fire('error', arg);
+            this.error.emit(arg);
             this.status = 'Error';
         };
 
@@ -53,38 +65,26 @@ export class WebSocketService {
             //stimulate tbloader to open a client connection with the same name, so che gate can pass-through
             this.httpService.openServerSocket(this.cookieService.get('authtoken'));
             this.status = 'Open';
-            this.fire('open', arg);
+            this.open.emit(arg);
         };
 
         this.connection.onclose = (arg) => {
             this.logger.debug('wsOnClose');
-            this.fire('close', arg);
+            this.close.emit(arg);
             this.status = 'Closed';
         };
     }
 
-    on(evtName, fn) {
-        let evt = this.events[evtName];
-        if (!evt) {
-            evt = [];
-            this.events[evtName] = evt;
-        }
-        evt.push(fn);
-    }
 
-
-    fire(evtName, data) {
-        let evt = this.events[evtName];
-        if (evt) {
-            for (let i = 0; i < evt.length; i++) {
-                evt[i](data);
-            }
-        }
-    }
 
     wsClose() {
         if (this.connection) {
             this.connection.close();
         }
+    }
+}
+export class SocketMessage {
+    constructor(public name: string, public content: any) {
+
     }
 }

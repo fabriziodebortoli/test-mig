@@ -18,7 +18,7 @@ export class LoginSessionService {
 
         this.isLogged();
 
-        this.socket.on('close', () => { this.connected = false; });
+        this.socket.close.subscribe(() => { this.connected = false; });
     }
 
     isLogged(): void {
