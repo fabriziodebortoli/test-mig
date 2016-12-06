@@ -1,6 +1,6 @@
 import { ComponentService, DocumentService} from 'tb-core';
 import { DocumentComponent, ToolbarComponent, EditComponent } from 'tb-shared';
-import { Component, OnInit, ComponentFactoryResolver, } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
 
 @Component({
   selector: 'tb-languages',
