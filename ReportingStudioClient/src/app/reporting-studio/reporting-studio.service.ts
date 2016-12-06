@@ -13,7 +13,7 @@ export interface Message {
   response?: string;
 }
 
-export enum CommandType { OK, NAMESPACE, DATA, STRUCT, ASK, TEST, GUID, ERROR, PAGE, PDF, RUN, PAUSE, STOP }
+export enum CommandType { OK, NAMESPACE, DATA, TEMPLATE, ASK, TEST, GUID, ERROR, PAGE, PDF, RUN, PAUSE, STOP }
 
 @Injectable()
 export class ReportingStudioService {
@@ -65,9 +65,9 @@ export class ReportingStudioService {
     this.send(message);
   }
 
-  testSTRUCT() {
+  testTEMPLATE() {
     let m: Message = {
-      commandType: CommandType.STRUCT,
+      commandType: CommandType.TEMPLATE,
       message: JSON.stringify(reportTest)
     };
     this.send(m);
