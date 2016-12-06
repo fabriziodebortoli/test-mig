@@ -12,7 +12,7 @@ using System.Threading;
 namespace TaskBuilderNetCore.Data
 {
     public class DBCommand : DbCommand, IDisposable
-    {
+    {                                                                                    
         private Provider.DBType dbType { get; set; }
         private DbCommand command { get; set; }
         public DBCommand(string query, DBConnection connection)
@@ -79,14 +79,14 @@ namespace TaskBuilderNetCore.Data
             return command.ExecuteScalarAsync(token);
         }
 
-        public new DbDataReader ExecuteReader()
+        public new DBDataReader ExecuteReader()
         {
-            return command.ExecuteReader();
+            return new DBDataReader(command.ExecuteReader());
         }
 
-        public new DbDataReader ExecuteReader(CommandBehavior behavior)
+        public new DBDataReader ExecuteReader(CommandBehavior behavior)
         {
-            return command.ExecuteReader(behavior);       
+            return (DBDataReader)ExecuteDbDataReader(behavior);       
         }
 
         public override void Prepare()
@@ -106,7 +106,7 @@ namespace TaskBuilderNetCore.Data
 
         protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior)
         {
-            return command.ExecuteReader(behavior);
+            return new DBDataReader(command.ExecuteReader(behavior));
         }
 
 
