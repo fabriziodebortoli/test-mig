@@ -112,12 +112,12 @@ namespace TaskBuilderNetCore.Data
                                                                            
         protected override DbCommand CreateDbCommand()
         {
-            throw new NotImplementedException();
+            return connection.CreateCommand();
         }
 
         protected new DbCommand CreateCommand()
         {
-            return connection.CreateCommand();
+            return CreateDbCommand();
         }
 
         public override void ChangeDatabase(string databaseName)
