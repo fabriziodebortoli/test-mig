@@ -1,6 +1,6 @@
 <tb-toolbar> </tb-toolbar>
 
 <div style="margin-left:20px;">
-	<edit-cmp caption = "Language" cmpId="IDC_EDIT_LANGUAGE" ></edit-cmp>
-	<edit-cmp caption = "Description" cmpId="IDC_EDIT_DESCRIPTION"></edit-cmp>
+	<edit-cmp caption = "Language" cmpId="IDC_EDIT_LANGUAGE" [model]="documentService?.data?.models[0]?.DBT?.Languages?.Language"></edit-cmp>
+	<edit-cmp caption = "Description" cmpId="IDC_EDIT_DESCRIPTION" [model]="documentService?.data?.models[0]?.DBT?.Languages?.Description"></edit-cmp>
 </div>
