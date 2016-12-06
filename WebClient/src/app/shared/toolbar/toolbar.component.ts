@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Directive } from '@angular/core';
 import { ToolbarButtonComponent } from './toolbarbutton.component' 
 
 @Component({
@@ -6,6 +6,7 @@ import { ToolbarButtonComponent } from './toolbarbutton.component'
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
+
 export class ToolbarComponent implements OnInit {
 
   buttons: ToolbarButtonComponent[] = [];

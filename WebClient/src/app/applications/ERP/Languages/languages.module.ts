@@ -2,9 +2,12 @@ import { LanguagesFactoryComponent, LanguagesComponent } from './languages/langu
 import { routing } from './languages.routing';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SharedModule } from 'tb-shared';
+import { ToolbarComponent, EditComponent} from 'tb-shared'
 
 @NgModule({
   imports: [
+    SharedModule,
     CommonModule,
     routing
   ],
