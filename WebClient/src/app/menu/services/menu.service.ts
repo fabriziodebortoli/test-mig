@@ -18,9 +18,12 @@ export class MenuService {
     public environmentMenu: any;
     public favoritesCount: number = 0;
     public mostUsedCount: number = 0;
+    public hiddenTilesCount: number = 0;
 
     private favorites: Array<any> = [];
     private mostUsed: Array<any> = [];
+    public hiddenTiles: Array<any> = [];
+
 
     private ifMoreAppsExist: boolean;
 
@@ -167,6 +170,11 @@ export class MenuService {
     clearMostUsed() {
         this.mostUsed.splice(0, this.mostUsed.length);
         this.mostUsedCount = 0;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    hideTile(tile) {
+        //$rootScope.$emit('hiddenTileAdded', this.selectedMenu, tile);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -357,4 +365,44 @@ export class MenuService {
             this.mostUsedCount--;
         }
     };
+
+    loadHiddenTiles() {
+        if (this.applicationMenu != undefined)
+            this.findHiddenTilesInApplication(this.applicationMenu.Application);
+        if (this.environmentMenu != undefined)
+            this.findHiddenTilesInApplication(this.environmentMenu.Application);
+    }
+
+
+    //---------------------------------------------------------------------------------------------
+    findHiddenTilesInApplication(application) {
+
+        var tempAppArray = this.utilsService.toArray(application);
+        for (var a = 0; a < tempAppArray.length; a++) {
+            var allGroupsArray = this.utilsService.toArray(tempAppArray[a].Group);
+            for (var d = 0; d < allGroupsArray.length; d++) {
+
+                var allMenusArray = this.utilsService.toArray(allGroupsArray[d].Menu);
+                for (var m = 0; m < allMenusArray.length; m++) {
+
+                    var allTiles = this.utilsService.toArray(allMenusArray[m].Menu);
+                    for (var t = 0; t < allTiles.length; t++) {
+                        if (this.utilsService.parseBool(allTiles[t].hiddenTile) == true) {
+                            allTiles[t].currentApp = tempAppArray[a].name;
+                            allTiles[t].currentGroup = allGroupsArray[d].name;
+                            allTiles[t].currentMenu = allMenusArray[m].name;
+
+                            allTiles[t].currentAppTitle = tempAppArray[a].title;
+                            allTiles[t].currentGroupTitle = allGroupsArray[d].title;
+                            allTiles[t].currentMenuTitle = allMenusArray[m].title;
+
+                            this.hiddenTiles.push(allTiles[t]);
+                            this.hiddenTilesCount++;
+                        }
+                    }
+                }
+            }
+        }
+    };
+
 }

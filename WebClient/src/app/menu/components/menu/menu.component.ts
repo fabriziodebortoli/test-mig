@@ -41,6 +41,9 @@ export class MenuComponent implements OnInit {
       this.menuService.environmentMenu = result.Root.EnvironmentMenu.AppMenu;
       this.menuService.loadFavoritesAndMostUsed();
       this.localizationService.loadLocalizedElements(true);
+
+      this.menuService.loadHiddenTiles();
+     
       this.settingsService.getSettings();
     });
   }

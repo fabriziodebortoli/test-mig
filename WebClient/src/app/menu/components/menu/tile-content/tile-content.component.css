@@ -53,6 +53,11 @@
 	height: 16px;
 }
 
+.menuItemImage {
+	width: 19px;
+	height: 19px;
+}
+
 
 /*trucate text if doesnt fit*/
 .truncate {

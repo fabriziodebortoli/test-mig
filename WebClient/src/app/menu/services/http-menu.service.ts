@@ -50,7 +50,23 @@ export class HttpMenuService extends HttpService {
             .catch(this.handleError);
     }
 
-
+     addToHiddenTiles(tile, applicationName, groupName, menuName) : Observable<any> {
+        var urlToRun = this.getMenuBaseUrl(true) + 'addToHiddenTiles/?application=' + applicationName + '&group=' + groupName + '&menu=' + menuName + '&tile=' + tile.name;
+        return this.postData(urlToRun, undefined)
+            .map((res: Response) => {
+                return res.ok;
+            })
+            .catch(this.handleError);
+    }
+    
+    removeFromHiddenTiles(tile, applicationName, groupName, menuName) : Observable<any> {
+        var urlToRun = this.getMenuBaseUrl(true) + 'removeFromHiddenTiles/?application=' + applicationName + '&group=' + groupName + '&menu=' + menuName + '&tile=' + tile.name;
+        return this.postData(urlToRun, undefined)
+            .map((res: Response) => {
+                return res.ok;
+            })
+            .catch(this.handleError);
+    }
     //---------------------------------------------------------------------------------------------
     getThemedSettings(): Observable<any> {
         return this.http.get(this.getMenuBaseUrl(true) + 'getThemedSettings/', { withCredentials: true })

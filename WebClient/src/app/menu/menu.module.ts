@@ -1,3 +1,4 @@
+import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
 import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
 import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
 import { RightSidenavComponent } from './components/menu/sidenav-right-content/sidenav-right-content.component';
@@ -53,7 +54,8 @@ import { SettingsService } from './services/settings.service';
     LeftSidenavComponent, 
     RightSidenavComponent,
     ProductInfoDialogComponent,
-    ConnectionInfoDialogComponent
+    ConnectionInfoDialogComponent,
+    HiddenTilesComponent
   ],
   exports:
   [
@@ -69,7 +71,8 @@ import { SettingsService } from './services/settings.service';
     TileElementComponent,
     MostUsedComponent,
     LeftSidenavComponent, 
-    RightSidenavComponent
+    RightSidenavComponent,
+    HiddenTilesComponent
 
   ],
   providers:
