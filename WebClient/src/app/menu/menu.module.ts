@@ -5,9 +5,6 @@ import { LeftSidenavComponent } from './components/menu/sidenav-left-content/sid
 import { LocalizationService } from './services/localization.service';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { TileElementComponent } from './components/menu/tile-element/tile-element.component';
-import { HttpMenuService } from './services/http-menu.service';
-import { MenuService } from './services/menu.service';
-import { ImageService } from './services/image.service';
 import { SharedModule } from 'tb-shared';
 import { FormsModule } from '@angular/forms';
 import { MenuComponent } from './components/menu/menu.component';
@@ -24,6 +21,13 @@ import { MaterialModule } from '@angular/material';
 import { menuRouting } from './menu.routing';
 import { RouterModule, Routes } from '@angular/router';
 import { Logger } from 'libclient';
+
+import { HttpMenuService } from './services/http-menu.service';
+import { MenuService } from './services/menu.service';
+import { ImageService } from './services/image.service';
+import { EventManagerService } from './services/event-manager.service';
+import { SettingsService } from './services/settings.service';
+
 
 @NgModule({
   imports: [
@@ -73,7 +77,9 @@ import { Logger } from 'libclient';
     MenuService,
     ImageService,
     HttpMenuService, 
-    LocalizationService
+    SettingsService,
+    LocalizationService,
+    EventManagerService
   ],
   entryComponents:[
     ProductInfoDialogComponent,

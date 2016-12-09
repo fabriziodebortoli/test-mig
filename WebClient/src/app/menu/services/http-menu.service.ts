@@ -24,7 +24,7 @@ export class HttpMenuService extends HttpService {
             .catch(this.handleError);
     }
 
-    getProductInfo():Observable<any> {
+    getProductInfo(): Observable<any> {
         return this.http.get(this.getMenuBaseUrl(true) + 'getProductInfo/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
@@ -32,7 +32,36 @@ export class HttpMenuService extends HttpService {
             .catch(this.handleError);
     }
 
-    getConnectionInfo():Observable<any> {
+    getPreferences(): Observable<any> {
+        return this.http.get(this.getMenuBaseUrl(true) + 'getPreferences/', { withCredentials: true })
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    setPreference(referenceName, referenceValue): Observable<any> {
+        var urlToRun = this.getMenuBaseUrl(true) + 'setPreference/?name=' + referenceName + '&value=' + referenceValue;
+        return this.postData(urlToRun, undefined)
+            .map((res: Response) => {
+                return res.ok;
+            })
+            .catch(this.handleError);
+    }
+
+
+    //---------------------------------------------------------------------------------------------
+    getThemedSettings(): Observable<any> {
+        return this.http.get(this.getMenuBaseUrl(true) + 'getThemedSettings/', { withCredentials: true })
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+
+    getConnectionInfo(): Observable<any> {
         return this.http.get(this.getMenuBaseUrl(true) + 'getConnectionInfo/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
