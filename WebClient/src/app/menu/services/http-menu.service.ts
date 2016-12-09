@@ -24,6 +24,76 @@ export class HttpMenuService extends HttpService {
             .catch(this.handleError);
     }
 
+    getProductInfo():Observable<any> {
+        return this.http.get(this.getMenuBaseUrl(true) + 'getProductInfo/', { withCredentials: true })
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+    getConnectionInfo():Observable<any> {
+        return this.http.get(this.getMenuBaseUrl(true) + 'getConnectionInfo/', { withCredentials: true })
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    activateViaSMS() {
+        var urlToRun = this.getMenuBaseUrl(true) + 'activateViaSMS/';
+        let subs = this.postData(urlToRun, undefined)
+            .map((res: Response) => {
+                return res.ok;
+            })
+            .catch(this.handleError)
+            .subscribe(result => {
+                subs.unsubscribe();
+            });
+    }
+
+
+    //---------------------------------------------------------------------------------------------
+    goToSite() {
+        var urlToRun = this.getMenuBaseUrl(true) + 'producerSite/';
+        let subs = this.postData(urlToRun, undefined)
+            .map((res: Response) => {
+                return res.ok;
+            })
+            .catch(this.handleError)
+            .subscribe(result => {
+                subs.unsubscribe();
+            });
+    }
+
+    //---------------------------------------------------------------------------------------------
+    clearCachedData(): Observable<any> {
+        var urlToRun = this.getMenuBaseUrl(true) + 'clearCachedData/';
+        return this.postData(urlToRun, undefined)
+            .map((res: Response) => {
+                return res.ok;
+            })
+            .catch(this.handleError);
+    }
+
+
+
+    //---------------------------------------------------------------------------------------------
+    activateViaInternet() {
+        var urlToRun = this.getMenuBaseUrl(true) + 'activateViaInternet/';
+        let subs = this.postData(urlToRun, undefined)
+            .map((res: Response) => {
+                return res.ok;
+            })
+            .catch(this.handleError)
+            .subscribe(result => {
+                subs.unsubscribe();
+            });
+    }
+
+
+
     //---------------------------------------------------------------------------------------------
     favoriteObject(object) {
         var urlToRun = this.getMenuBaseUrl(true) + 'favoriteObject/?target=' + object.target + '&objectType=' + object.objectType;
@@ -66,9 +136,7 @@ export class HttpMenuService extends HttpService {
         var urlToRun = this.getMenuBaseUrl(true) + 'getMostUsedShowNr/';
         let subs = this.postData(urlToRun, undefined)
             .map((res: Response) => {
-
                 callback(res);
-
                 return res.ok;
             })
             .catch(this.handleError)
@@ -98,7 +166,7 @@ export class HttpMenuService extends HttpService {
             .catch(this.handleError);
     };
 
-     //---------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
     loadLocalizedElements(needLoginThread): Observable<any> {
         return this.http.get(this.getMenuBaseUrl(needLoginThread) + 'getLocalizedElements/', { withCredentials: true })
             .map((res: Response) => {

@@ -1,26 +1,26 @@
 <p>
   <a href="#" (click)="runDocument('ERP.Languages.Documents.Languages')">Languages</a>
 </p>
-  <router-outlet></router-outlet>
+<router-outlet></router-outlet>
 
 <md-sidenav-layout class="demo-sidenav-layout">
-  <md-sidenav #start mode="over">
-    <button md-button (click)="start.close()">{{localizationService.getLocalizedElement('CloseLabel')}}</button>
- 
-    <!--<a [routerLink]="['menu', {outlets: { 'favorites': ['favorites'] }}]" routerLinkActive="active">Show Favorites2</a>
-    <a [routerLink]="['menu', {outlets: { 'favorites': undefined }}]" routerLinkActive="active">Close</a>
-    <router-outlet name="favorites"></router-outlet>-->
-    <tb-favorites></tb-favorites>
-    <tb-most-used></tb-most-used>
 
+  <md-sidenav #leftSideNav mode="over">
+    <button md-button (click)="leftSideNav.close()"><md-icon>close</md-icon></button>
+    <tb-sidenav-left-content></tb-sidenav-left-content>
+  </md-sidenav>
+
+  <md-sidenav #rightSideNav mode="over" align="end">
+    <button md-button (click)="rightSideNav.close()"> <md-icon>close</md-icon></button>
+    <tb-sidenav-right-content></tb-sidenav-right-content>
   </md-sidenav>
 
   <div class="demo-sidenav-content">
 
     <md-toolbar [color]="myColor">
       <span>
-        <button md-button (click)="start.toggle()">
-        <md-icon>settings</md-icon>
+        <button md-button (click)="leftSideNav.toggle()">
+        <md-icon>keyboard_arrow_left</md-icon>
       </button>
       </span>
 
@@ -33,6 +33,14 @@
       <span *ngIf="menuService.getSelectedApplication() != undefined">
               <tb-group-selector></tb-group-selector>
         </span>
+      </span>
+
+      <span style="flex: 1 1 auto"></span>
+
+      <span>
+      <button md-button (click)="rightSideNav.toggle()">
+        <md-icon>keyboard_arrow_right</md-icon>
+      </button>
       </span>
     </md-toolbar>
 

@@ -3,6 +3,8 @@ import { MenuService } from './../../services/menu.service';
 import { HttpMenuService } from './../../services/http-menu.service';
 import { UtilsService } from 'tb-core';
 import { DocumentInfo } from 'tb-shared';
+import { RightSidenavComponent } from './../../components/menu/sidenav-right-content/sidenav-right-content.component';
+import { LeftSidenavComponent } from './../../components/menu/sidenav-left-content/sidenav-left-content.component';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -18,10 +20,10 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private httpMenuService: HttpMenuService,
-     private menuService: MenuService, 
-     private utilsService: UtilsService,
-     private localizationService: LocalizationService
-     ) {
+    private menuService: MenuService,
+    private utilsService: UtilsService,
+    private localizationService: LocalizationService
+  ) {
   }
   ngOnInit() {
 

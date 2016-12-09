@@ -1,3 +1,7 @@
+import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
+import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
+import { RightSidenavComponent } from './components/menu/sidenav-right-content/sidenav-right-content.component';
+import { LeftSidenavComponent } from './components/menu/sidenav-left-content/sidenav-left-content.component';
 import { LocalizationService } from './services/localization.service';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { TileElementComponent } from './components/menu/tile-element/tile-element.component';
@@ -41,7 +45,11 @@ import { Logger } from 'libclient';
     TileContentComponent,
     FavoritesComponent,
     TileElementComponent,
-    MostUsedComponent
+    MostUsedComponent, 
+    LeftSidenavComponent, 
+    RightSidenavComponent,
+    ProductInfoDialogComponent,
+    ConnectionInfoDialogComponent
   ],
   exports:
   [
@@ -55,7 +63,10 @@ import { Logger } from 'libclient';
     TileContentComponent,
     FavoritesComponent,
     TileElementComponent,
-    MostUsedComponent
+    MostUsedComponent,
+    LeftSidenavComponent, 
+    RightSidenavComponent
+
   ],
   providers:
   [
@@ -63,7 +74,12 @@ import { Logger } from 'libclient';
     ImageService,
     HttpMenuService, 
     LocalizationService
-  ]
+  ],
+  entryComponents:[
+    ProductInfoDialogComponent,
+    ConnectionInfoDialogComponent
+    ]
+  
 })
 export class MenuModule {
 
