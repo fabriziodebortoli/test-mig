@@ -1,8 +1,10 @@
+import { Input } from '@angular/core';
 
 export abstract class TbComponent {
-  title: string = '';
-  id: string = '';
-   constructor() {
+  @Input()
+  public cmpId: string = '';
+
+  constructor() {
   }
 
 }

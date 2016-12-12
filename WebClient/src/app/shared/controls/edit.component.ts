@@ -8,12 +8,8 @@ import { Component, Input } from '@angular/core';
 })
 
 export class EditComponent extends TbComponent {
-
     @Input()
-    cmpId: string;
+    public caption: string;
     @Input()
-    caption: string;
-    @Input()
-    model: any;
-
+    public model: any;
 }

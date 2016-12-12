@@ -1,5 +1,4 @@
 ﻿import { TbComponent } from '..';
-
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -7,11 +6,9 @@ import { Component, Input } from '@angular/core';
     template: '<div><label>{{caption}}</label><input id="{{cmpId}}" type="radio" [(ngModel)]="model"/></div>'
 })
 
-export class RadioComponent  extends TbComponent{
+export class RadioComponent extends TbComponent {
     @Input()
-    cmpId: string;
+    public caption: string;
     @Input()
-    caption: string;
-    @Input()
-    model: any;
+    public model: any;
 }

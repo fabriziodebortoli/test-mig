@@ -6,11 +6,9 @@ import { Component, Input } from '@angular/core';
     selector: 'tb-combo',
      template: '<div><label>{{caption}}</label><select id="{{cmpId}}" [(ngModel)]="model"></select></div>'
 })
-export class ComboComponent  extends TbComponent{
+export class ComboComponent  extends TbComponent {
+   @Input()
+    public caption: string;
     @Input()
-    cmpId: string;
-    @Input()
-    caption: string;
-    @Input()
-    model: any;
+    public model: any; 
 }

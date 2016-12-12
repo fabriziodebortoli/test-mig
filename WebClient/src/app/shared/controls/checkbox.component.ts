@@ -9,9 +9,7 @@ import { Component, Input } from '@angular/core';
 
 export class CheckBoxComponent  extends TbComponent{
     @Input()
-    cmpId: string;
+    public caption: string;
     @Input()
-    caption: string;
-    @Input()
-    model: any;   
+    public model: any;
 }

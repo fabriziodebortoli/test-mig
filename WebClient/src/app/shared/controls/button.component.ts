@@ -7,12 +7,9 @@ import { Component, Input } from '@angular/core';
     template: '<div><label>{{caption}}</label><input id="{{cmpId}}" type="button" [(ngModel)]="model"/></div>'
 })
 
-export class ButtonComponent   extends TbComponent{
-  
+export class ButtonComponent  extends TbComponent {
     @Input()
-    cmpId: string;
+    public caption: string;
     @Input()
-    caption: string;
-    @Input()
-    model: any;
+    public model: any;
 }
