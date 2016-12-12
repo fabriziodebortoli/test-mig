@@ -3,16 +3,18 @@ ul
 {
   padding: 10px 10px 10px 0px;
    margin:0px;
+   width: 50px;
+  display: inline-block;
 }
 li
 {
-  padding:10px;
+  margin:10px;
    background-color: lightgray;
    display: inline;
   border: solid 1px gray;
  position: relative;
  cursor: pointer;
- border-top-right-radius: 10px;
+ border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
 }
 li.active
@@ -28,9 +30,7 @@ a.tabTitle
   margin-left: 5px;
   margin-right: 5px;
 }
-a.close
+div.content
 {
-  position:absolute;
-  top:1px;
-  right:1px; 
+  display: inline-block;
 }
