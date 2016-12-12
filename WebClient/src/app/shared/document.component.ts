@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export abstract class DocumentComponent extends TbComponent implements OnInit {
 title: string;
-  constructor(private documentService: DocumentService) { 
+  constructor(public documentService: DocumentService) { 
     super();
   }
 
