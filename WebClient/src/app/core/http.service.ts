@@ -1,6 +1,6 @@
 ﻿import { environment } from './../../environments/environment';
 import { OperationResult } from './operation.result';
-import { DocumentInfo, LoginSession } from 'tb-shared';
+import { LoginSession } from 'tb-shared';
 import { UtilsService } from './utils.service';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';

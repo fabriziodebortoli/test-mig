@@ -4,7 +4,6 @@ import { EventManagerService } from './../../services/event-manager.service';
 import { SettingsService } from './../../services/settings.service';
 import { HttpMenuService } from './../../services/http-menu.service';
 import { UtilsService, WebSocketService } from 'tb-core';
-import { DocumentInfo } from 'tb-shared';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -48,6 +47,6 @@ export class MenuComponent implements OnInit {
   }
 
   runDocument(ns: string) {
-    this.webSocketService.runObject(new DocumentInfo(ns));
+    this.webSocketService.runObject(ns);
   }
 }

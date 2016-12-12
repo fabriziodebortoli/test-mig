@@ -7,6 +7,7 @@ import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
 @Injectable()
 export class ComponentService {
   components: Array<ComponentInfo> = [];
+  componentsToCreate = new Array<any>();
   currentComponentId: string; //id del componente in fase di creazione
 
   constructor(
@@ -14,7 +15,8 @@ export class ComponentService {
     private webSocketService: WebSocketService,
     private httpService: HttpService) {
     this.webSocketService.windowOpen.subscribe(data => {
-      this.createComponents(data.components, 0);
+      this.componentsToCreate.push(...data.components);
+      this.createNextComponent();
 
     });
     this.webSocketService.windowClose.subscribe(data => {
@@ -34,19 +36,20 @@ export class ComponentService {
   nel caso di più componenti, le creazioni vanno effettuate in cascata col meccanismo della promise
   per sfruttare lo stesso router outlet
   */
-  createComponents(components: Array<any>, current: number) {
-    if (current >= components.length) {
+  createNextComponent() {
+    if (this.componentsToCreate.length === 0) {
       this.currentComponentId = undefined;
       return;
     }
+    let cmp = this.componentsToCreate.pop();
     //"D.ERP.Languages.Languages\IDD_LANGUAGES"
-    let url: string = components[current].url;
-    this.currentComponentId = components[current].id;
+    let url: string = cmp.url;
+    this.currentComponentId = cmp.id;
 
     //TODO gestire meglio gli url, controllo errori
     url = url.substring(2, url.indexOf('\\')).replace(/\./g, '/');
     this.createComponentFromUrl(url).then(() => {
-      this.createComponents(components, ++current);
+      
     });
   }
 
@@ -59,7 +62,7 @@ export class ComponentService {
   }
   removeComponent(component: ComponentInfo) {
     let idx = this.components.indexOf(component);
-    if (idx == -1) {
+    if (idx === -1) {
       console.debug('ComponentService: cannot remove conponent with id ' + component.id + ' because it does not exist');
       return;
     }
@@ -81,5 +84,7 @@ export class ComponentService {
     info.id = this.currentComponentId;
     info.factory = resolver.resolveComponentFactory(component);
     this.addComponent(info);
+
+    this.createNextComponent();
   }
 }

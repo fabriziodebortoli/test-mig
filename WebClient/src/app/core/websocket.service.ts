@@ -1,5 +1,4 @@
-﻿import { DocumentInfo } from 'tb-shared';
-import { environment } from './../../environments/environment';
+﻿import { environment } from './../../environments/environment';
 import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import { HttpService } from './http.service';
@@ -37,12 +36,13 @@ export class WebSocketService {
                 let jsonString = e.data.substr(idx + 1);
                 if (jsonString !== '') {
                     try {
-                        let jsonObject = JSON.parse(jsonString);
-                        $this.logger.debug('wsOnMessage', eventName, jsonObject);
                         switch (eventName) {
-                            case 'DataReady': $this.dataReady.emit(jsonObject); break;
-                            case 'WindowOpen': $this.windowOpen.emit(jsonObject); break;
-                            case 'WindowClose': $this.windowClose.emit(jsonObject); break;
+                            case 'DataReady': $this.dataReady.emit(JSON.parse(jsonString)); break;
+                            case 'WindowOpen': $this.windowOpen.emit(JSON.parse(jsonString)); break;
+                            case 'WindowClose': $this.windowClose.emit(JSON.parse(jsonString)); break;
+                            //when tbloader has connected to gate, I receive this message; then I can
+                            //request the list of opened windows
+                            case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments'})); break;
                             default: break;
                         }
 
@@ -62,9 +62,10 @@ export class WebSocketService {
 
         this.connection.onopen = (arg) => {
             //sets the name for this client socket 
-            this.connection.send('SetClientWebSocketName:' + this.cookieService.get('authtoken'));
+            this.connection.send('SetClientWebSocketName-' + this.cookieService.get('authtoken'));
             //stimulate tbloader to open a client connection with the same name, so che gate can pass-through
             this.httpService.openServerSocket(this.cookieService.get('authtoken'));
+            
             this.status = 'Open';
             this.open.emit(arg);
         };
@@ -81,12 +82,12 @@ export class WebSocketService {
         }
     }
 
-     doCommand(cmpId: String, id: String): void {
-        this.connection.send( JSON.stringify({ cmd: 'doCommand', cmpId: cmpId, id: id }));
+    doCommand(cmpId: String, id: String): void {
+        this.connection.send(JSON.stringify({ cmd: 'doCommand', cmpId: cmpId, id: id }));
     }
 
-    public runObject(documentData: DocumentInfo): void {
-        this.connection.send(JSON.stringify(documentData));
+    runObject(ns: String): void {
+        this.connection.send(JSON.stringify({ cmd: 'runDocument', ns: ns }));
     }
 
 }

@@ -4,7 +4,6 @@ import { Logger } from 'libclient';
 import { Injectable } from '@angular/core';
 import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
-import { DocumentInfo } from 'tb-shared';
 
 @Injectable()
 export class MenuService {
@@ -163,7 +162,7 @@ export class MenuService {
     }
 
     runFunction = function (object) {
-        this.webSocketService.runObject(new DocumentInfo(object.target));
+        this.webSocketService.runObject(object.target);
         this.addToMostUsed(object);
     }
 

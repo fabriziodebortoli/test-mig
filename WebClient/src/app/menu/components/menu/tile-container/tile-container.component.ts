@@ -3,7 +3,6 @@ import { MenuService } from './../../../services/menu.service';
 import { HttpMenuService } from './../../../services/http-menu.service';
 import { ImageService } from './../../../services/image.service';
 import { Component, OnInit } from '@angular/core';
-import { DocumentInfo } from 'tb-shared';
 
 @Component({
   selector: 'tb-tile-container',

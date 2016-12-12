@@ -9,7 +9,6 @@ export * from './page-not-found.component';
 export * from './document.component';
 export * from './models/login-session';
 export * from './models/component.info';
-export * from './models/document.info';
 
 export * from './controls'
 export * from './containers'

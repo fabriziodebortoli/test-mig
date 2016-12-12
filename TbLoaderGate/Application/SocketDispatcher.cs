@@ -23,14 +23,14 @@ namespace TBLoaderGate
 
         internal void Remove(WebSocket webSocket)
         {
-           if (clientSocket == webSocket) clientSocket = null;
-           else if (serverSocket == webSocket) serverSocket = null;
+            if (clientSocket == webSocket) clientSocket = null;
+            else if (serverSocket == webSocket) serverSocket = null;
         }
     }
     public class SocketDispatcher
     {
-        const string setClientWebSocketName = "SetClientWebSocketName:";
-        const string setServerWebSocketName = "SetServerWebSocketName:";
+        const string setClientWebSocketName = "SetClientWebSocketName-";
+        const string setServerWebSocketName = "SetServerWebSocketName-";
         static Dictionary<string, WebSocketCouple> socketMap = new Dictionary<string, WebSocketCouple>();
 
         internal static async Task<bool> HandleAsync(HttpContext http)
@@ -55,28 +55,35 @@ namespace TBLoaderGate
                                 var message = Encoding.UTF8.GetString(buffer.Array,
                                                         buffer.Offset,
                                                         received.Count);
+
+                                WebSocketCouple couple = null;
                                 //se il messaggio imposta il nome del socket, metto da parte l'istanza per accoppiarla con la controparte
                                 if (message.StartsWith(setClientWebSocketName))
                                 {
                                     coupleName = message.Substring(setClientWebSocketName.Length);
-                                    WebSocketCouple couple = GetWebCouple(coupleName);
+                                    couple = GetWebCouple(coupleName);
                                     couple.clientSocket = webSocket;
                                 }
                                 else if (message.StartsWith(setServerWebSocketName))
                                 {
                                     coupleName = message.Substring(setServerWebSocketName.Length);
-                                    WebSocketCouple couple = GetWebCouple(coupleName);
+                                    couple = GetWebCouple(coupleName);
                                     couple.serverSocket = webSocket;
                                 }
                                 else
                                 {
                                     //altrimenti cerco il socket della controparte (by name) e gli mando una copia di quanto ricevuto
-                                    WebSocketCouple couple = GetWebCouple(coupleName);
+                                    couple = GetWebCouple(coupleName);
+                                }
+                                if (couple != null)
+                                {
                                     WebSocket otherSocket = couple.GetOther(webSocket);
-                                    Byte[] bufferCopy = new Byte[received.Count];
-                                    Array.Copy(buffer.Array, 0, bufferCopy, 0, received.Count);
-                                    await otherSocket.SendAsync(new ArraySegment<Byte>(bufferCopy), WebSocketMessageType.Text, true, token);
-
+                                    if (otherSocket != null)
+                                    {
+                                        Byte[] bufferCopy = new Byte[received.Count];
+                                        Array.Copy(buffer.Array, 0, bufferCopy, 0, received.Count);
+                                        await otherSocket.SendAsync(new ArraySegment<Byte>(bufferCopy), WebSocketMessageType.Text, true, token);
+                                    }
                                 }
                                 break;
                             }
@@ -107,7 +114,7 @@ namespace TBLoaderGate
         {
             lock (typeof(SocketDispatcher))
             {
-                socketMap.Remove(coupleName); 
+                socketMap.Remove(coupleName);
             }
         }
 
