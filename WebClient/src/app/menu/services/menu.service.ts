@@ -4,43 +4,128 @@ import { Logger } from 'libclient';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { ImageService } from './image.service';
+import { SettingsService } from './settings.service';
 import { DocumentInfo } from 'tb-shared';
 
 @Injectable()
 export class MenuService {
 
-    private selectedApplication: any;
-    private selectedGroup: any;
-    private selectedMenu: any;
+    public selectedApplication: any;
+    public selectedGroup: any;
+    public selectedMenu: any;
 
     public applicationMenu: any;
     public environmentMenu: any;
     public favoritesCount: number = 0;
     public mostUsedCount: number = 0;
+    public hiddenTilesCount: number = 0;
 
     private favorites: Array<any> = [];
     private mostUsed: Array<any> = [];
+    public hiddenTiles: Array<any> = [];
 
-    private utilsService: UtilsService;
 
-    constructor(private httpMenuService: HttpMenuService, private logger: Logger, private utils: UtilsService, private imageService: ImageService) {
-        this.utilsService = utils;
+    private ifMoreAppsExist: boolean;
+
+    constructor(
+        private httpMenuService: HttpMenuService,
+        private logger: Logger,
+        private utilsService: UtilsService,
+        private imageService: ImageService,
+        private settingsService: SettingsService
+    ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
-    setSelectedApplication(app) {
-        this.selectedApplication = app;
-        this.selectedGroup = undefined;
-        this.selectedMenu = undefined;
+    //---------------------------------------------------------------------------------------------
+    initApplicationAndGroup(applications) {
+
+        var queryStringLastApplicationName = this.utilsService.getApplicationFromQueryString();
+        if (queryStringLastApplicationName != '')
+            this.settingsService.lastApplicationName = queryStringLastApplicationName;
+
+        var tempAppArray = this.utilsService.toArray(applications);
+        this.ifMoreAppsExist = tempAppArray.length > 1;
+
+        if (this.settingsService.lastApplicationName != '' && this.settingsService.lastApplicationName != undefined) {
+            for (var i = 0; i < tempAppArray.length; i++) {
+                if (tempAppArray[i].name.toLowerCase() == this.settingsService.lastApplicationName.toLowerCase()) {
+                    this.selectedApplication = tempAppArray[i];
+                    this.selectedApplication.isSelected = true;
+                    this.settingsService.lastApplicationName = tempAppArray[i].name;
+                    break;
+                }
+            }
+        }
+
+        if (this.selectedApplication == undefined)
+            this.setSelectedApplication(tempAppArray[0]);
+
+        if (this.settingsService.lastGroupName != '' && this.settingsService.lastGroupName != undefined) {
+            var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
+            for (var i = 0; i < tempGroupArray.length; i++) {
+                if (tempGroupArray[i].name.toLowerCase() == this.settingsService.lastGroupName.toLowerCase()) {
+                    this.selectedGroup = tempGroupArray[i];
+                    this.selectedGroup.isSelected = true;
+                    this.settingsService.lastGroupName = tempGroupArray[i].name;
+                    break;
+                }
+            }
+        }
+
+        if (this.selectedGroup == undefined) {
+            this.setSelectedGroup(tempGroupArray[0]);
+            return;
+        }
+
+        // $location.path("/MenuTemplate");
+        // $route.reload();
+        return;
     }
+
+    setSelectedApplication(application) {
+        if (this.selectedApplication != undefined && this.selectedApplication.title == application.title)
+            return;
+
+        if (this.selectedApplication != undefined)
+            this.selectedApplication.isSelected = false;
+
+        this.selectedApplication = application;
+        this.selectedApplication.isSelected = true;
+
+        this.settingsService.lastApplicationName = application.name;
+        this.settingsService.setPreference('LastApplicationName', encodeURIComponent(this.settingsService.lastApplicationName), undefined);
+
+        var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
+        if (tempGroupArray[0] != undefined)
+            this.setSelectedGroup(tempGroupArray[0]);
+    }
+
+
 
     getSelectedApplication(app) {
         return this.selectedApplication;
     }
 
     setSelectedGroup(group) {
+        if (this.selectedGroup != undefined && this.selectedGroup == group)
+            return;
+
+        if (this.selectedGroup != undefined)
+            this.selectedGroup.isSelected = false;
+
         this.selectedGroup = group;
-        this.selectedMenu = undefined;
+        this.selectedGroup.isSelected = true;
+        this.settingsService.lastGroupName = group.name;
+        this.settingsService.setPreference('LastGroupName', encodeURIComponent(this.settingsService.lastGroupName), undefined);
+
+        var tempMenuArray = this.utilsService.toArray(this.selectedGroup.Menu);
+        if (tempMenuArray[0] != undefined)
+            this.setSelectedMenu(tempMenuArray[0]);
+
+        this.setSelectedMenu(undefined);
+        // $location.path("/MenuTemplate");
+        // $route.reload();
     }
 
     getSelectedGroup() {
@@ -48,7 +133,25 @@ export class MenuService {
     }
 
     setSelectedMenu(menu) {
+        if (this.selectedMenu != undefined && this.selectedMenu == menu)
+            return;
+
+        //deseleziono il vecchio se presente
+        //if (this.selectedMenu != undefined)
+        //    this.selectedMenu.active = false;
+
+        if (menu == undefined) {
+            this.selectedMenu = undefined;
+            this.settingsService.lastMenuName = '';
+            this.settingsService.setPreference('LastMenuName', encodeURIComponent(this.settingsService.lastMenuName), undefined);
+            return;
+        }
+
         this.selectedMenu = menu;
+        this.settingsService.lastMenuName = menu.name;
+        this.settingsService.setPreference('LastMenuName', encodeURIComponent(this.settingsService.lastMenuName), undefined);
+        this.selectedMenu.active = true;
+        menu.visible = true
     }
 
     getSelectedMenu() {
@@ -67,6 +170,11 @@ export class MenuService {
     clearMostUsed() {
         this.mostUsed.splice(0, this.mostUsed.length);
         this.mostUsedCount = 0;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    hideTile(tile) {
+        //$rootScope.$emit('hiddenTileAdded', this.selectedMenu, tile);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -257,4 +365,44 @@ export class MenuService {
             this.mostUsedCount--;
         }
     };
+
+    loadHiddenTiles() {
+        if (this.applicationMenu != undefined)
+            this.findHiddenTilesInApplication(this.applicationMenu.Application);
+        if (this.environmentMenu != undefined)
+            this.findHiddenTilesInApplication(this.environmentMenu.Application);
+    }
+
+
+    //---------------------------------------------------------------------------------------------
+    findHiddenTilesInApplication(application) {
+
+        var tempAppArray = this.utilsService.toArray(application);
+        for (var a = 0; a < tempAppArray.length; a++) {
+            var allGroupsArray = this.utilsService.toArray(tempAppArray[a].Group);
+            for (var d = 0; d < allGroupsArray.length; d++) {
+
+                var allMenusArray = this.utilsService.toArray(allGroupsArray[d].Menu);
+                for (var m = 0; m < allMenusArray.length; m++) {
+
+                    var allTiles = this.utilsService.toArray(allMenusArray[m].Menu);
+                    for (var t = 0; t < allTiles.length; t++) {
+                        if (this.utilsService.parseBool(allTiles[t].hiddenTile) == true) {
+                            allTiles[t].currentApp = tempAppArray[a].name;
+                            allTiles[t].currentGroup = allGroupsArray[d].name;
+                            allTiles[t].currentMenu = allMenusArray[m].name;
+
+                            allTiles[t].currentAppTitle = tempAppArray[a].title;
+                            allTiles[t].currentGroupTitle = allGroupsArray[d].title;
+                            allTiles[t].currentMenuTitle = allMenusArray[m].title;
+
+                            this.hiddenTiles.push(allTiles[t]);
+                            this.hiddenTilesCount++;
+                        }
+                    }
+                }
+            }
+        }
+    };
+
 }

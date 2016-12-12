@@ -1,0 +1,17 @@
+.my-layout {
+  width: 500px;
+  height: 300px;
+}
+
+.my-layout md-sidenav {
+  min-width: 200px;
+}
+
+.my-layout .md-sidenav-content,
+.my-layout md-sidenav {
+  display: flex;
+}
+
+.my-scrolling-content {
+  overflow: auto;
+}

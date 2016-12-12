@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import {Logger} from 'libclient';
+import { Logger } from 'libclient';
 
 @Injectable()
 export class UtilsService {
@@ -56,18 +56,46 @@ export class UtilsService {
     }
   };
 
-  
-	//---------------------------------------------------------------------------------------------
-	getCurrentDate = function () {
-		var d = new Date();
-		var p = parseInt(
-            d.getFullYear() +
-            ("00" + (d.getMonth() + 1)).slice(-2) +
-            ("00" + d.getDate()).slice(-2) +
-            ("00" + d.getHours()).slice(-2) +
-            ("00" + d.getMinutes()).slice(-2) +
-            ("00" + d.getSeconds()).slice(-2));
 
-		return p;
-	}
+  //---------------------------------------------------------------------------------------------
+  getCurrentDate = function () {
+    var d = new Date();
+    var p = parseInt(
+      d.getFullYear() +
+      ("00" + (d.getMonth() + 1)).slice(-2) +
+      ("00" + d.getDate()).slice(-2) +
+      ("00" + d.getHours()).slice(-2) +
+      ("00" + d.getMinutes()).slice(-2) +
+      ("00" + d.getSeconds()).slice(-2));
+
+    return p;
+  }
+
+
+  //---------------------------------------------------------------------------------------------
+  parseBool(str) {
+
+    if (typeof str === 'boolean')
+      return str;
+
+    if (typeof str === 'string' && str.toLowerCase() == 'true')
+      return true;
+
+    return (parseInt(str) > 0);
+  }
+
+  //---------------------------------------------------------------------------------------------
+  getApplicationFromQueryString() {
+    var application = '';
+    var pageUrl = window.location.search;
+    var index = pageUrl.indexOf("?app=");
+    if (index < 0)
+      return application;
+    application = pageUrl.substring(index + "?app=".length);
+    index = application.indexOf("&");
+    if (index < 0)
+      return application;
+
+    return application.substring(0, index);
+  }
 }

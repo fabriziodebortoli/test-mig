@@ -1,3 +1,4 @@
+import { EventManagerService } from './../../../services/event-manager.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
@@ -16,24 +17,34 @@ export class TileContentComponent implements OnInit {
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private imageService: ImageService
+    private imageService: ImageService, 
+    private eventManagerService: EventManagerService
   ) {
   }
   ngOnInit() {
   }
 
 
-  private menu: any ;
-    get Menu(): any {
-        return this.menu;
+  private tile: any ;
+    get Tile(): any {
+        return this.tile;
     }
     
     @Input()
-    set Menu(menu: any) {
-        this.menu = menu;
+    set Tile(menu: any) {
+        this.tile = menu;
     }
 
   getFavoriteClass  (object) {
-    return object.isFavorite ? 'favorite' : 'unfavorite';
+    return object.isFavorite ? 'star' : 'star_border';
+  }
+
+  getPinnedClass (tile) {
+    return tile.pinned ? 'hdr_strong' : 'hdr_weak';
+  }
+
+  hideTile(tile){
+    this.eventManagerService.emitTileHidden(tile);
   }
 }
+

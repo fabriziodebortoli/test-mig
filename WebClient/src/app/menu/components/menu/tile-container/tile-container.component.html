@@ -1,8 +1,9 @@
-<div *ngFor="let menu of utilsService.toArray(menuService.getSelectedMenu().Menu)" class="tileContainer">
-  <tb-tile-content [Menu]="menu"></tb-tile-content>
+<div *ngFor="let tile of getTiles()" class="tileContainer">
+    <tb-tile-content [Tile]="tile"></tb-tile-content>
 </div>
+
 
 <!--voci posizionate male, sarebbero da togliere-->
 <div *ngIf="menuService.getSelectedMenu().Object">
-  <tb-tile-content [Menu]="menuService.getSelectedMenu()"></tb-tile-content>
+  <tb-tile-content [Tile]="menuService.getSelectedMenu()"></tb-tile-content>
 </div>
