@@ -1,3 +1,4 @@
+import { TbComponent } from '..';
 import { TabComponent } from './tab.component';
 import {
   Component, Output, EventEmitter
@@ -15,7 +16,7 @@ import {
   `,
   styleUrls: ['./tabber.component.css']
 })
-export class TabberComponent {
+export class TabberComponent  extends TbComponent{
   tabs: TabComponent[] = [];
   @Output() close: EventEmitter<any> = new EventEmitter();
 

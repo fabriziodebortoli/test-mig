@@ -1,3 +1,4 @@
+import { TbComponent } from '..';
 import { TabberComponent } from './tabber.component';
 import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angular/core';
 
@@ -11,13 +12,14 @@ import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angu
   `,
   styleUrls: ['./tab.component.css']
 })
-export class TabComponent implements OnInit, OnDestroy {
+export class TabComponent  extends TbComponent implements OnInit, OnDestroy {
   active: boolean;
   @Input() tabTitle: string = '';
 
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   constructor(private tabs: TabberComponent) {
+    super();
     tabs.addTab(this);
   }
 

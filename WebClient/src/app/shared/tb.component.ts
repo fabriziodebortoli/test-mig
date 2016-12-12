@@ -1,13 +1,8 @@
-import { Component, OnInit } from '@angular/core';
 
-@Component({
-})
-export abstract class TbComponent implements OnInit {
+export abstract class TbComponent {
   title: string = '';
   id: string = '';
-  constructor() { }
-
-  ngOnInit() {
+   constructor() {
   }
 
 }

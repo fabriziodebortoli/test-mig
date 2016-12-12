@@ -1,12 +1,11 @@
 import { ComponentService, DocumentService} from 'tb-core';
-import { DocumentComponent, ToolbarComponent, EditComponent } from 'tb-shared';
+import { DocumentComponent } from 'tb-shared';
 import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
 
 @Component({
   selector: 'tb-languages',
   templateUrl: './languages.component.html',
-  styleUrls: ['./languages.component.css'],
-  providers:[DocumentService]
+  providers: [DocumentService]
 })
 
 export class LanguagesComponent extends DocumentComponent implements OnInit {
