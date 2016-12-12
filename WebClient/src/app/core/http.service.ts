@@ -60,18 +60,6 @@ export class HttpService {
             });
     }
 
-    doCommand(cmpId: String, id: String): void {
-        let subs = this.postData(this.getDocumentBaseUrl() + 'command/', { cmpId: cmpId, id: id })
-            .map((res: Response) => {
-                return res.ok && res.json().success === true;
-            })
-            .catch(this.handleError)
-            .subscribe(result => {
-                console.log(result);
-                subs.unsubscribe();
-            });
-    }
-
     getLoginActiveThreads() {
         /*return new Promise(function (resolve, reject) {
          me.http.get(me.getDocumentBaseUrl() + "getLoginActiveThreads/")
@@ -106,20 +94,6 @@ export class HttpService {
             url += 'needLoginThread/';
         return url;
     }
-
-    public runObject(documentData: DocumentInfo): void {
-        let subs = this.postData(this.getMenuBaseUrl(false) + 'runObject/', documentData)
-            .map((res: Response) => {
-                return res.ok && res.json().success === true;
-            })
-            .catch(this.handleError)
-            .subscribe(result => {
-                console.log(result);
-                subs.unsubscribe();
-            });
-    }
-
-
 
     protected handleError(error: any) {
         // In a real world app, we might use a remote logging infrastructure

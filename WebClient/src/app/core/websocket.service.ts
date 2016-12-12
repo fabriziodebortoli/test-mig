@@ -1,4 +1,5 @@
-﻿import { environment } from './../../environments/environment';
+﻿import { DocumentInfo } from 'tb-shared';
+import { environment } from './../../environments/environment';
 import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import { HttpService } from './http.service';
@@ -60,7 +61,6 @@ export class WebSocketService {
         };
 
         this.connection.onopen = (arg) => {
-            this.logger.debug('wsOnOpen');
             //sets the name for this client socket 
             this.connection.send('SetClientWebSocketName:' + this.cookieService.get('authtoken'));
             //stimulate tbloader to open a client connection with the same name, so che gate can pass-through
@@ -70,19 +70,25 @@ export class WebSocketService {
         };
 
         this.connection.onclose = (arg) => {
-            this.logger.debug('wsOnClose');
             this.close.emit(arg);
             this.status = 'Closed';
         };
     }
-
-
 
     wsClose() {
         if (this.connection) {
             this.connection.close();
         }
     }
+
+     doCommand(cmpId: String, id: String): void {
+        this.connection.send( JSON.stringify({ cmd: 'doCommand', cmpId: cmpId, id: id }));
+    }
+
+    public runObject(documentData: DocumentInfo): void {
+        this.connection.send(JSON.stringify(documentData));
+    }
+
 }
 export class SocketMessage {
     constructor(public name: string, public content: any) {

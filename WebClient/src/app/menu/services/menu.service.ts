@@ -1,7 +1,6 @@
 import { HttpMenuService } from './http-menu.service';
-import { UtilsService } from 'tb-core';
+import { UtilsService, WebSocketService } from 'tb-core';
 import { Logger } from 'libclient';
-import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
@@ -28,6 +27,7 @@ export class MenuService {
     private ifMoreAppsExist: boolean;
 
     constructor(
+        private webSocketService: WebSocketService,
         private httpMenuService: HttpMenuService,
         private logger: Logger,
         private utilsService: UtilsService,
@@ -151,7 +151,7 @@ export class MenuService {
         this.settingsService.lastMenuName = menu.name;
         this.settingsService.setPreference('LastMenuName', encodeURIComponent(this.settingsService.lastMenuName), undefined);
         this.selectedMenu.active = true;
-        menu.visible = true
+        menu.visible = true;
     }
 
     getSelectedMenu() {
@@ -163,7 +163,7 @@ export class MenuService {
     }
 
     runFunction = function (object) {
-        this.httpMenuService.runObject(new DocumentInfo(0, object.target, this.utilsService.generateGUID()));
+        this.webSocketService.runObject(new DocumentInfo(object.target));
         this.addToMostUsed(object);
     }
 
