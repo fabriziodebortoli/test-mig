@@ -1,13 +1,13 @@
-import { ComponentService, DocumentService } from 'tb-core';
+import { ComponentService, DocumentService} from 'tb-core';
 import { DocumentComponent } from 'tb-shared';
-import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
 
 @Component({
   selector: 'tb-languages',
   templateUrl: './languages.component.html',
-  styleUrls: ['./languages.component.css'],
-  providers:[DocumentService]
+  providers: [DocumentService]
 })
+
 export class LanguagesComponent extends DocumentComponent implements OnInit {
 
   constructor(documentService: DocumentService) {

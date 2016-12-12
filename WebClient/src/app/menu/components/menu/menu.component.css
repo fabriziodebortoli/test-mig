@@ -30,12 +30,6 @@ html, body {
   overflow: auto;
 }
 
-button.my-fab {
-  position: absolute;
-  right: 20px;
-  bottom: 10px;
-}
-
 
 
 .pinnedImage {

@@ -1,0 +1,37 @@
+<md-card *ngIf="menuService.selectedMenu != undefined && menuService.hiddenTilesCount > 0">
+  <md-card-title>{{localizationService.getLocalizedElement('HiddenTiles')}}: {{menuService.hiddenTilesCount}}</md-card-title>
+  <md-card-content>
+    <div *ngFor="let tile of getCurrentMenuHiddenTiles()">
+      <!--ng-init="getTileTooltip(tile)"-->
+
+      <div></div>
+      <!--NON RIMUOVERE!!!!!!-->
+
+      <md-icon style="display:inline-block" class="menuItemImage link" (click)="removeFromHiddenTiles(tile);$event.stopPropagation()">hdr_weak</md-icon>
+      <!--uib-tooltip="{{localizationService.getLocalizedElement('RestoreTile')}}"       tooltip-popup-delay="500" tooltip-animation="false" tooltip-append-to-body="true">-->
+      <div style="display:inline-block" class="truncate link" (click)="removeFromHiddenTiles(tile);$event.stopPropagation()">
+        <!--tooltip-popup-delay="500" tooltip-animation="false" tooltip-append-to-body="true" uib-tooltip-html="tile.tileTooltip"-->
+        {{tile?.title}}
+      </div>
+
+    </div>
+
+    <div [hidden]="!ifOtherTilesAreHidden()">
+      <hr />
+      <div class="currentMenuTitleInHidden showOthers" style="display:inline-block" (click)="hideOthers();$event.stopPropagation()">{{localizationService.getLocalizedElement('OtherElements')}}</div>
+      <div class="glyphicon glyphicon-chevron-down showOthers" style="display:inline-block" (click)="hideOthers();$event.stopPropagation()"></div>
+      <div *ngFor="let tile of getOtherMenuHiddenTiles()">
+        <!--ng-init="getTileTooltip(tile)"-->
+        <div></div>
+        <!--NON RIMUOVERE!!!!!!-->
+        <md-icon style="display:inline-block" class="menuItemImage link" (click)="removeFromHiddenTiles(tile);$event.stopPropagation()">hdr_weak</md-icon>
+        <!--uib-tooltip="{{localizationService.getLocalizedElement('RestoreTile')}}"      tooltip-popup-delay="500" tooltip-animation="false" tooltip-append-to-body="true">-->
+
+        <div style="display:inline-block" class="truncate link" (click)="removeFromHiddenTiles(tile);$event.stopPropagation()">
+          <!--tooltip-popup-delay="500" tooltip-animation="false" tooltip-append-to-body="true" uib-tooltip-html="tile.tileTooltip"-->
+          {{tile?.title}} - ({{tile?.currentMenuTitle}})
+        </div>
+      </div>
+    </div>
+  </md-card-content>
+</md-card>

@@ -38,8 +38,8 @@ export class ToolbarComponent implements OnInit {
 
   }
 
-  testSTRUCT() {
-    this.reportService.testSTRUCT();
+  testTEMPLATE() {
+    this.reportService.testTEMPLATE();
   }
 
   testDATA() {

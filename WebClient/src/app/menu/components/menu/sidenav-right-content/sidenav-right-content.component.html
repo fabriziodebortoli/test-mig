@@ -1,0 +1,48 @@
+<div>
+ <button  md-menu-item (click)=openProductInfoDialog()>{{localizationService.getLocalizedElement('ViewProductInfo')}}</button>
+ </div>
+
+ <div>
+ <button  md-menu-item (click)=openConnectionInfoDialog()>{{localizationService.getLocalizedElement('ConnectionInfo')}}</button>
+ </div>
+
+ <div>
+ <button  md-menu-item (click)=goToSite()>{{localizationService.getLocalizedElement('GotoProducerSite')}}</button>
+ </div>
+
+ <div>
+ <button  md-menu-item (click)=clearCachedData()>{{localizationService.getLocalizedElement('ClearCachedData')}}</button>
+ </div>
+
+ <div>
+ <button  md-menu-item (click)=activateViaSMS()>{{localizationService.getLocalizedElement('ActivateViaSMS')}}</button>
+ </div>
+
+ <div>
+ <button  md-menu-item (click)=activateViaInternet()>{{localizationService.getLocalizedElement('ActivateViaInternet')}}</button>
+ </div>
+
+
+  <!-- if (option == undefined)
+            return;
+
+        if (option.code == "0")
+            $scope.activateViaSMS();
+
+        if (option.code == "1")
+            $scope.activateViaInternet();
+
+        if (option.code == "2")
+            menuService.clearCachedData();
+
+        if (option.code == "3")
+            $scope.gotosite();
+
+        if (option.code == "4")
+            $scope.changeViewprodInfo();
+
+        if (option.code == "5")
+            $scope.viewOldMsg();
+
+        if (option.code == "6")
+            $scope.changeViewConnInfo();-->

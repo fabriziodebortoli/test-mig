@@ -1,4 +1,5 @@
-﻿import { Injectable, EventEmitter } from '@angular/core';
+﻿import { environment } from './../../environments/environment';
+import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import { HttpService } from './http.service';
 import { Logger } from 'libclient';
@@ -24,7 +25,7 @@ export class WebSocketService {
     wsConnect(): void {
         let $this = this;
 
-        let url = 'ws://' + window.location.hostname + ':' + this.httpService.gatePort;
+        let url = environment.wsBaseUrl;
         this.logger.debug('wsConnecting... ' + url);
 
         this.connection = new WebSocket(url);

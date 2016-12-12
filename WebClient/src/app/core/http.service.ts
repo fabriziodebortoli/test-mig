@@ -1,4 +1,5 @@
-﻿import { OperationResult } from './operation.result';
+﻿import { environment } from './../../environments/environment';
+import { OperationResult } from './operation.result';
 import { DocumentInfo, LoginSession } from 'tb-shared';
 import { UtilsService } from './utils.service';
 import { Injectable } from '@angular/core';
@@ -9,8 +10,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()
 export class HttpService {
-    public gatePort = 5000;
-    private baseUrl = 'http://localhost:' + this.gatePort + '/tbloader/api/';
+    private baseUrl = environment.apiBaseUrl;
 
     constructor(
         protected http: Http,
@@ -53,13 +53,13 @@ export class HttpService {
 
     openServerSocket(name: string) {
         let subs = this.http.get(this.getMenuBaseUrl(false) + 'openWebSocket/?name=' + name)
-        .catch(this.handleError)
-        .subscribe(res => {
-            console.log(res);
-            subs.unsubscribe();
-        });
+            .catch(this.handleError)
+            .subscribe(res => {
+                console.log(res);
+                subs.unsubscribe();
+            });
     }
-    
+
     doCommand(cmpId: String, id: String): void {
         let subs = this.postData(this.getDocumentBaseUrl() + 'command/', { cmpId: cmpId, id: id })
             .map((res: Response) => {

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { ReportingStudioService, Message, CommandType } from './reporting-studio.service';
-import { ReportObject } from './report.model';
+import { Report, ReportPage, ReportTemplate, ReportObjectStruct, ReportObjectData } from './report.model';
 
 @Component({
   selector: 'app-reporting-studio',
@@ -16,7 +16,8 @@ export class ReportingStudioComponent implements OnInit, AfterViewInit {
 
   private reportNamespace: string;
 
-  @Input() report: ReportObject[];
+  private report: Report;
+  private _template: ReportTemplate;
 
 
   constructor(
@@ -61,9 +62,9 @@ export class ReportingStudioComponent implements OnInit, AfterViewInit {
         this.reportService.sendNamespace(this.reportNamespace);
         break;
 
-      case CommandType.STRUCT:
-        console.log('WebSocket, received Report Structure', message);
-        let reportStruct = <ReportObject[]>(JSON.parse(message));
+      case CommandType.TEMPLATE:
+        console.log('WebSocket, received Report Template', message);
+        let reportStruct = <ReportTemplate[]>(JSON.parse(message));
         this.checkReportStruct(reportStruct);
         break;
 
@@ -80,10 +81,13 @@ export class ReportingStudioComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
   }
 
-  checkReportStruct(reportStruct: ReportObject[]) {
+  checkReportStruct(reportObject: ReportObject[]) {
+
+
+
     // TODO cache struttura pagina
     // TODO join con dati
-    this.report = reportStruct;
+    this.report = reportObject;
   }
 
 }

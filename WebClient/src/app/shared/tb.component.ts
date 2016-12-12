@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Input } from '@angular/core';
 
-@Component({
-})
-export abstract class TbComponent implements OnInit {
-  title: string = '';
-  id: string = '';
-  constructor() { }
+export abstract class TbComponent {
+  @Input()
+  public cmpId: string = '';
 
-  ngOnInit() {
+  constructor() {
   }
 
 }

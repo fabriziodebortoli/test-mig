@@ -24,4 +24,27 @@ export class TileContainerComponent implements OnInit {
   }
 
 
+  getTiles() {
+    let array = this.utilsService.toArray(this.menuService.getSelectedMenu().Menu);
+    let newArray = [];
+    for (let i = 0; i < array.length; i++) {
+      if (this.tileIsVisible(array[i]))
+        newArray.push(array[i]);
+    }
+    return newArray;
+  }
+
+  //---------------------------------------------------------------------------------------------
+  ifTileHasObjects(tile) {
+    if (tile == undefined || tile.Object == undefined)
+      return false;
+    var array = this.utilsService.toArray(tile.Object);
+
+    return array.length > 0;
+  }
+
+  tileIsVisible(tile) {
+    return this.ifTileHasObjects(tile) && !tile.hiddenTile;
+  }
+
 }
