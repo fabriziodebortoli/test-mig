@@ -42,10 +42,20 @@ export class ImageService extends HttpService {
             if (object.application == undefined)
                 return object.sub_type;
 
-            return object.sub_type + object.application;
+            return this.getObjectIconForMaterial(object.sub_type + object.application);
         }
 
-        return object.objectType;
+        return this.getObjectIconForMaterial(object.objectType);
+    }
+
+    getObjectIconForMaterial(target) {
+
+        if (target.toLowerCase() == "document")
+            return 'description';
+        if (target.toLowerCase() == "report")
+            return 'print';
+        if (target.toLowerCase() == "batch")
+            return 'brightness_low';
     }
 
     //---------------------------------------------------------------------------------------------

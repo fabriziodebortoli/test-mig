@@ -34,7 +34,18 @@
 	text-align: center;
 	display: inline-block;
 	line-height: 150%;
-	font-size: 25px;
+	font-size: 28px;
 	max-width: 300px;
 	margin-left: 15px;
 }
+
+.groupTitle {
+
+	text-align: center;
+	display: inline-block;
+	line-height: 150%;
+	font-size: 22px;
+	max-width: 300px;
+	margin-left: 15px;
+}
+

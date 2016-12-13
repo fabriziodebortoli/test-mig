@@ -1,4 +1,4 @@
-<md-card *ngIf="menuService.selectedMenu != undefined && menuService.hiddenTilesCount > 0">
+<md-card *ngIf="menuService.selectedMenu != undefined && menuService.hiddenTilesCount > 0g">
   <md-card-title>{{localizationService.getLocalizedElement('HiddenTiles')}}: {{menuService.hiddenTilesCount}}</md-card-title>
   <md-card-content>
     <div *ngFor="let tile of getCurrentMenuHiddenTiles()">

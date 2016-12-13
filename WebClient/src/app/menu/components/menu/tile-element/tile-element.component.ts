@@ -33,4 +33,5 @@ export class TileElementComponent implements OnInit {
   set Object(object: any) {
     this.object = object;
   }
+
 }

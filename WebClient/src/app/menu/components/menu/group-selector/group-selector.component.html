@@ -1,6 +1,8 @@
-<button md-icon-button [md-menu-trigger-for]="menu"class="applicationTitle">
-   {{menuService.getSelectedApplication().title}}
+<button md-icon-button [md-menu-trigger-for]="menu"class="applicationTitle" style="width:200px">
+<div>   {{menuService.getSelectedApplication().title}}</div>
 </button>
+ 
+ <div class="groupTitle"> {{menuService.getSelectedGroup().title}}</div>
 <md-menu #menu="mdMenu">
     <button md-menu-item *ngFor="let group of utilsService.toArray(menuService.getSelectedApplication().Group)" (click)=menuService.setSelectedGroup(group)
         class="box">
