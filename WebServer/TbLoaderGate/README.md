@@ -10,5 +10,5 @@ sulla porta 11000), fa da tramite con quest'ultimo inoltrando ad esso tutte le c
 * Compilare l'applicazione angular \Taskbuilder\WebClient\FormClient; per fare questo posizionarsi nella cartella e digitare l'istruzione  _ng build -w_
 * Compilare TaskBuilder ed ERP
 * Lanciare manualmente il servizio \standard\taskbuilder\TaskBuilderNet\Microarea.TaskBuilderNet.TBLoaderService\bin\Debug\TBLoaderService.exe
-* posizionarsi dal prompt dei comandi in \WebServer\TbLoaderGate e digitare il comand dotnet run
+* posizionarsi dal prompt dei comandi in \WebServer\TbLoaderGate e digitare il comando _dotnet run_
 * accedere col browser all'indirizzo http://localhost:5000
