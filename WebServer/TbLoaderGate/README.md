@@ -1,39 +1,14 @@
-# Welcome to ASP.NET Core
+# TbLoaderGate
 
-We've made some big updates in this release, so it’s **important** that you spend a few minutes to learn what’s new.
+Applicazione web che espone le funzionalità di TBLoader attraverso API REST.
 
-You've created a new ASP.NET Core project. [Learn what's new](https://go.microsoft.com/fwlink/?LinkId=518016)
+L'applicazione riceve chiamate da client remoti e, previo l'istanziazione di un processo 
+TBLoader (che viene istanziato indirettamente dal servizio TBLoaderService, il quale comunica col gate ricevendo chiamate
+sulla porta 11000), fa da tramite con quest'ultimo inoltrando ad esso tutte le chiamate http e websocket.
 
-## This application consists of:
-
-*   Sample pages using ASP.NET Core MVC
-*   [Gulp](https://go.microsoft.com/fwlink/?LinkId=518007) and [Bower](https://go.microsoft.com/fwlink/?LinkId=518004) for managing client-side libraries
-*   Theming using [Bootstrap](https://go.microsoft.com/fwlink/?LinkID=398939)
-
-## How to
-
-*   [Add a Controller and View](https://go.microsoft.com/fwlink/?LinkID=398600)
-*   [Add an appsetting in config and access it in app.](https://go.microsoft.com/fwlink/?LinkID=699562)
-*   [Manage User Secrets using Secret Manager.](https://go.microsoft.com/fwlink/?LinkId=699315)
-*   [Use logging to log a message.](https://go.microsoft.com/fwlink/?LinkId=699316)
-*   [Add packages using NuGet.](https://go.microsoft.com/fwlink/?LinkId=699317)
-*   [Add client packages using Bower.](https://go.microsoft.com/fwlink/?LinkId=699318)
-*   [Target development, staging or production environment.](https://go.microsoft.com/fwlink/?LinkId=699319)
-
-## Overview
-
-*   [Conceptual overview of what is ASP.NET Core](https://go.microsoft.com/fwlink/?LinkId=518008)
-*   [Fundamentals of ASP.NET Core such as Startup and middleware.](https://go.microsoft.com/fwlink/?LinkId=699320)
-*   [Working with Data](https://go.microsoft.com/fwlink/?LinkId=398602)
-*   [Security](https://go.microsoft.com/fwlink/?LinkId=398603)
-*   [Client side development](https://go.microsoft.com/fwlink/?LinkID=699321)
-*   [Develop on different platforms](https://go.microsoft.com/fwlink/?LinkID=699322)
-*   [Read more on the documentation site](https://go.microsoft.com/fwlink/?LinkID=699323)
-
-## Run & Deploy
-
-*   [Run your app](https://go.microsoft.com/fwlink/?LinkID=517851)
-*   [Run tools such as EF migrations and more](https://go.microsoft.com/fwlink/?LinkID=517853)
-*   [Publish to Microsoft Azure Web Apps](https://go.microsoft.com/fwlink/?LinkID=398609)
-
-We would love to hear your [feedback](https://go.microsoft.com/fwlink/?LinkId=518015)
+# Istruzioni per l'uso in sviluppo
+* Compilare l'applicazione angular \Taskbuilder\WebClient\FormClient; per fare questo posizionarsi nella cartella e digitare l'istruzione  _ng build -w_
+* Compilare TaskBuilder ed ERP
+* Lanciare manualmente il servizio \standard\taskbuilder\TaskBuilderNet\Microarea.TaskBuilderNet.TBLoaderService\bin\Debug\TBLoaderService.exe
+* posizionarsi dal prompt dei comandi in \WebServer\TbLoaderGate e digitare il comand dotnet run
+* accedere col browser all'indirizzo http://localhost:5000
