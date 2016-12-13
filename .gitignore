@@ -10,3 +10,4 @@
 project.lock.json
 *.xproj.user
 node_modules/
+WebServer/TbLoaderGate/wwwroot/
