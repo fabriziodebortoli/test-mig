@@ -9,6 +9,7 @@ export class ComponentService {
   components: Array<ComponentInfo> = [];
   componentsToCreate = new Array<any>();
   currentComponentId: string; //id del componente in fase di creazione
+  creatingComponent = false;//semaforo
 
   constructor(
     private router: Router,
@@ -37,10 +38,14 @@ export class ComponentService {
   per sfruttare lo stesso router outlet
   */
   createNextComponent() {
+    if (this.creatingComponent) {
+      return;
+    }
     if (this.componentsToCreate.length === 0) {
       this.currentComponentId = undefined;
       return;
     }
+    this.creatingComponent = true;
     let cmp = this.componentsToCreate.pop();
     //"D.ERP.Languages.Languages\IDD_LANGUAGES"
     let url: string = cmp.url;
@@ -49,7 +54,7 @@ export class ComponentService {
     //TODO gestire meglio gli url, controllo errori
     url = url.substring(2, url.indexOf('\\')).replace(/\./g, '/');
     this.createComponentFromUrl(url).then(() => {
-      
+
     });
   }
 
@@ -73,8 +78,13 @@ export class ComponentService {
       this.router.navigate([{ outlets: { dynamic: url }, skipLocationChange: false, replaceUrl: false }])
         .then(
         success => {
-          this.router.navigate([{ outlets: { dynamic: null }, skipLocationChange: false, replaceUrl: false }]);
-          resolve();
+          this.router.navigate([{ outlets: { dynamic: null }, skipLocationChange: false, replaceUrl: false }]).then(success1 => {
+            resolve();
+            this.creatingComponent = false;
+
+            this.createNextComponent();
+          });
+
         }
         );
     });
@@ -85,6 +95,5 @@ export class ComponentService {
     info.factory = resolver.resolveComponentFactory(component);
     this.addComponent(info);
 
-    this.createNextComponent();
   }
 }
