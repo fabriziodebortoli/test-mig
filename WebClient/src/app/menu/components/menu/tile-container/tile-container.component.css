@@ -15,10 +15,6 @@
 		margin-bottom: 10px;
 	}
 
-	/*pin image*/
-	.tileContainer .unpinnedImage, .tileContainer .pinnedImage {
-		float: right;
-	}
 
 	/*tile title*/
 	.tileContainer > div:first-child > div:first-child {

@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu-selector.component.css']
 })
 export class MenuSelectorComponent implements OnInit {
-
+private selectedIndex: number;
   constructor(private menuService: MenuService, private utilsService: UtilsService, private settingsService: SettingsService) {
   }
 
@@ -36,7 +36,7 @@ export class MenuSelectorComponent implements OnInit {
 
   }
 
-  changeTab = function (tab) {
+  changeTab (tab) {
     this.menuService.setSelectedMenu(tab);
   }
 }
