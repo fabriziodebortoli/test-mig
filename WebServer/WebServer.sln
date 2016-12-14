@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WebServer", "WebServer\WebServer.xproj", "{2158CD02-0A4C-4806-98FF-AA079FE998ED}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B2373B0A-B692-494A-B291-521C9B0DF4F3} = {B2373B0A-B692-494A-B291-521C9B0DF4F3}
+		{CCF7286F-D4B2-4BE4-9499-C0DD06B79961} = {CCF7286F-D4B2-4BE4-9499-C0DD06B79961}
+	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TbLoaderGate", "TbLoaderGate\TbLoaderGate.xproj", "{B2373B0A-B692-494A-B291-521C9B0DF4F3}"
 EndProject

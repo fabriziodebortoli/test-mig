@@ -66,8 +66,8 @@ namespace Microarea.RSWeb
             app.UseWebSockets();
 
             app.UseCors("CorsPolicy");
-
-            app.Use(async (http, next) =>
+			new WebAppConfigurator().Configure(app, env, loggerFactory);
+			app.Use(async (http, next) =>
             {
                 SocketHandler handler = new SocketHandler();
                 await handler.Listen(http, next);

@@ -83,18 +83,18 @@ namespace Microarea.TbLoaderGate
                         foreach (var h in resp.Headers)
                         {
                             foreach (var sv in h.Value)
-                                HttpContext.Response.Headers.Add(h.Key, sv);
+                                HttpContext.Response.Headers[h.Key] = sv;
                         }
 
                         await resp.Content.CopyToAsync(HttpContext.Response.Body);
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                //todo mandare risposta al client
-                TBLoaderEngine.ClearTbLoader(HttpContext.Session);
-                throw new Exception("Error communicating with backend");
+                //todo mandare risposta al client 
+                TBLoaderEngine.ClearTbLoader(HttpContext.Session); 
+                throw new Exception("Error communicating with backend", ex);
             }
         }
 

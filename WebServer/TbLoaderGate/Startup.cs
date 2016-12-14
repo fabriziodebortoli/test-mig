@@ -1,3 +1,4 @@
+using Microarea.TbLoaderGate.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -61,7 +62,7 @@ namespace Microarea.TbLoaderGate
             }
 
             app.UseWebSockets();
-            app.Use(SocketDispatcher.Listen);
+			new WebAppConfigurator().Configure(app, env, loggerFactory);
             app.UseFileServer();
 
             //app.UseIdentity();
@@ -70,9 +71,7 @@ namespace Microarea.TbLoaderGate
             app.UseSession();
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=TBLoader}/{action=Index}/{id?}");
+                
             });
         }
     }

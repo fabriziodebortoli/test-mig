@@ -11,88 +11,116 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microarea.Common;
 
 namespace WebApplication
 {
-    public class Startup
-    {
-        public Startup(IHostingEnvironment env)
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+	public class Startup
+	{
+		List<Assembly> modules = new List<Assembly>();
+		List<IWebAppConfigurator> configurators = new List<IWebAppConfigurator>();
+		public Startup(IHostingEnvironment env)
+		{
+			var builder = new ConfigurationBuilder()
+				.SetBasePath(env.ContentRootPath)
+				.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
-            if (env.IsDevelopment())
-            {
-                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets();
-            }
+			ReadModules();
 
-            builder.AddEnvironmentVariables();
-            Configuration = builder.Build();
-        }
+			if (env.IsDevelopment())
+			{
+				// For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
+				builder.AddUserSecrets();
+			}
 
-        public IConfigurationRoot Configuration { get; }
+			builder.AddEnvironmentVariables();
+			Configuration = builder.Build();
+		}
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // Add framework services.
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //   options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+		private void ReadModules()
+		{
+			string module = "TbLoaderGate";
+			//foreach (string appPart in Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "modules"), "*.dll"))
+			AssemblyName an = new AssemblyName(module);
+			var assembly = Assembly.Load(an);
+			foreach (Type t in assembly.GetTypes())
+				if (typeof(IWebAppConfigurator).IsAssignableFrom(t))
+				{
+					configurators.Add((IWebAppConfigurator)Activator.CreateInstance(t));
+				}
+			modules.Add(assembly);
 
-            //  services.AddIdentity<ApplicationUser, IdentityRole>()
-            //     .AddEntityFrameworkStores<ApplicationDbContext>()
-            //     .AddDefaultTokenProviders();
+		}
 
-            services.AddSession();
+		public IConfigurationRoot Configuration { get; }
 
-            // Add service and create Policy with options
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
-            });
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			// Add framework services.
+			//services.AddDbContext<ApplicationDbContext>(options =>
+			//   options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            // Assembly asm = Assembly.Load(new AssemblyName("ControllerLib"));
-            IMvcBuilder mvcBuilder = services.AddMvc();//.AddApplicationPart(asm);
-            foreach (string appPart in Directory.GetFiles(AppContext.BaseDirectory, "*.module.dll"))
-                mvcBuilder.AddApplicationPart(Assembly.Load(new AssemblyName(Path.GetFileNameWithoutExtension(appPart))));
-        }
+			//  services.AddIdentity<ApplicationUser, IdentityRole>()
+			//     .AddEntityFrameworkStores<ApplicationDbContext>()
+			//     .AddDefaultTokenProviders();
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+			services.AddSession();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+			// Add service and create Policy with options
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy",
+					builder => builder.AllowAnyOrigin()
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.AllowCredentials());
+			});
+
+			// Assembly asm = Assembly.Load(new AssemblyName("ControllerLib"));
+			IMvcBuilder mvcBuilder = services.AddMvc();//.AddApplicationPart(asm);
+			foreach (Assembly asm in modules)
+				mvcBuilder.AddApplicationPart(asm);
+		}
+
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+		{
+			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+			loggerFactory.AddDebug();
+
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+				app.UseDatabaseErrorPage();
+				app.UseBrowserLink();
+			}
+			else
+			{
+				app.UseExceptionHandler("/Home/Error");
+			}
 			app.UseFileServer();
-			
-            app.UseCors("CorsPolicy");
-            //app.UseIdentity();
+			app.UseWebSockets();
+			app.UseCors("CorsPolicy");
+			//app.UseIdentity();
 
-            // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-            app.UseSession();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
-        }
-    }
+			// Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+			app.UseSession();
+
+			foreach (Assembly asm in modules)
+			{
+				foreach (var configurator in configurators)
+					configurator.Configure(app, env, loggerFactory);
+			}
+			app.UseMvc(routes =>
+		{
+			foreach (Assembly asm in modules)
+			{
+				foreach (var configurator in configurators)
+					configurator.MapRoutes(routes);
+			}
+		});
+		}
+	}
 }
