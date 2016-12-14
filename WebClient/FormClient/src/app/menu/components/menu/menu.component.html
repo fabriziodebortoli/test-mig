@@ -45,7 +45,7 @@
     </md-toolbar>
 
     <div *ngIf="menuService.getSelectedGroup() != undefined">
-      <tb-menu-selector></tb-menu-selector>
+      <tb-menu-selector [Group]="menuService.getSelectedGroup()"></tb-menu-selector>
     </div>
   </div>
 </md-sidenav-layout>
