@@ -6,12 +6,12 @@ TaskBuilder Web projects.
 [web-client - Angular2 based projects](https://github.com/Microarea/Taskbuilder/tree/master/web-client)
 
 ## Server 
-- [WebServer - Backend services and API](https://github.com/Microarea/Taskbuilder/tree/master/WebServer)
+[web-server - Backend services and API](https://github.com/Microarea/Taskbuilder/tree/master/WebServer)
 
 ## Technology
-* Angular2(https://angular.io/)
-* TypeScript(https://www.typescriptlang.org/)
-* .Net Core 1.0(https://www.microsoft.com/net/core#windowsvs2015)
+* [Angular2](https://angular.io/)
+* [TypeScript](https://www.typescriptlang.org/)
+* [.Net Core 1.0](https://www.microsoft.com/net/core#windowsvs2015)
 
 ## Documentation
 - [Docs - Web Architecture](https://github.com/Microarea/Taskbuilder/tree/master/Docs)
