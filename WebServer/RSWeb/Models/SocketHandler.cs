@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 
 
-namespace RSWeb.Models
+namespace Microarea.RSWeb.Models
 {    
     /// <summary>
     /// Handle socket connections and messages reception

@@ -80,9 +80,8 @@ namespace WebApplication
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            app.UseStaticFiles();
-
+			app.UseFileServer();
+			
             app.UseCors("CorsPolicy");
             //app.UseIdentity();
 

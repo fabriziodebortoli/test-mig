@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace TBLoaderGate
+namespace Microarea.TbLoaderGate
 {
     public class Startup
     {
@@ -61,13 +61,7 @@ namespace TBLoaderGate
             }
 
             app.UseWebSockets();
-            app.Use(async (http, next) =>
-            {
-                if (!await SocketDispatcher.HandleAsync(http))
-                {
-                    await next();
-                }
-            });
+            app.Use(SocketDispatcher.Listen);
             app.UseFileServer();
 
             //app.UseIdentity();

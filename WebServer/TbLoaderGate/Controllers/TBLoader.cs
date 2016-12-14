@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace TBLoaderGate
+namespace Microarea.TbLoaderGate
 {
     class TBLoaderResult
     {

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-namespace TBLoaderGate
+namespace Microarea.TbLoaderGate
 {
     public class TBLoaderEngine
     {

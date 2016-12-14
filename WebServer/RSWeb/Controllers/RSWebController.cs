@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
-using RSWeb.Models;
+using Microarea.RSWeb.Models;
 
-namespace RSWeb.Controllers
+namespace Microarea.RSWeb.Controllers
 {
     [Route("api/[controller]")]
     public class RSWebController : Controller

@@ -1,4 +1,4 @@
-﻿namespace RSWeb.Models
+﻿namespace Microarea.RSWeb.Models
 {
     public class RSEngine
     {

@@ -23,6 +23,9 @@
 	cursor: pointer;
 }
 
+.themeFontColor {
+	color:steelblue;
+}
 
 	/*pin image*/
 	.showHideTile{
