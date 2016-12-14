@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace RSWeb.Models
+namespace Microarea.RSWeb.Models
 {
     public struct Message
     {

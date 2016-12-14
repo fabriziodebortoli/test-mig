@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace TBLoaderGate
+namespace Microarea.TbLoaderGate
 {
     public class TBLoaderCommand
     {

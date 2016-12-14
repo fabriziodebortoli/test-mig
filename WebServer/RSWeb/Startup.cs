@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RSWeb.Models;
+using Microarea.RSWeb.Models;
 
-namespace RSWeb
+namespace Microarea.RSWeb
 {
     public class Startup
     {

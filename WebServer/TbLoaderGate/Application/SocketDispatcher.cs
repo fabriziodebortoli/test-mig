@@ -8,8 +8,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microarea.Common;
+using Microsoft.AspNetCore.Builder;
 
-namespace TBLoaderGate
+namespace Microarea.TbLoaderGate
 {
     class WebSocketCouple
     {
@@ -28,12 +30,20 @@ namespace TBLoaderGate
         }
     }
     public class SocketDispatcher
-    {
-        const string setClientWebSocketName = "SetClientWebSocketName-";
+	{
+		public static async Task Listen(HttpContext http, Func<Task> next)
+		{
+			if (!await HandleAsync(http))
+			{
+				await next();
+			}
+		}
+		
+		const string setClientWebSocketName = "SetClientWebSocketName-";
         const string setServerWebSocketName = "SetServerWebSocketName-";
         static Dictionary<string, WebSocketCouple> socketMap = new Dictionary<string, WebSocketCouple>();
 
-        internal static async Task<bool> HandleAsync(HttpContext http)
+        public static async Task<bool> HandleAsync(HttpContext http)
         {
             if (!http.WebSockets.IsWebSocketRequest)
                 return false;

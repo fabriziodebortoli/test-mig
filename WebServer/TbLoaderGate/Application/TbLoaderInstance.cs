@@ -2,7 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace TBLoaderGate
+namespace Microarea.TbLoaderGate
 {
     public class TBLoaderInstance
     {
