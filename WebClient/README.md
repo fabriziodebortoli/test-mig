@@ -14,4 +14,3 @@ Angular2 based projects for the TaskBuilder Web Application frontend
 * [Visual Studio Code](http://code.visualstudio.com/)
 * [Typescript](https://www.typescriptlang.org): `npm install -g typescript@next`
 * [Visual Studio Typescript Extension](https://www.microsoft.com/en-us/download/details.aspx?id=48593)
----
