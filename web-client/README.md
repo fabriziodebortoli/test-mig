@@ -1,9 +1,9 @@
 # WebClient
 
 Angular2 based projects for the TaskBuilder Web Application frontend
-- [FormClient - Client side per TaskBuilder Web](https://github.com/Microarea/Taskbuilder/tree/master/WebClient/FormClient)
-- [ReportingStudioClient - Client side per Reporting Studio](https://github.com/Microarea/Taskbuilder/tree/master/WebClient/ReportingStudioClient)
-- [LibClient - Modulo di libreria condiviso dai diversi progetti](https://github.com/Microarea/Taskbuilder/tree/master/WebClient/LibClient)
+- [form-client - Client side per TaskBuilder Web](https://github.com/Microarea/Taskbuilder/tree/master/web-client/form-client)
+- [reporting-studio-client - Client side per Reporting Studio](https://github.com/Microarea/Taskbuilder/tree/master/web-client/reporting-studio-client)
+- [lib-client - Modulo di libreria condiviso dai diversi progetti](https://github.com/Microarea/Taskbuilder/tree/master/web-client/lib-client)
 
 ## Requirement
 * [Node.js](https://nodejs.org/dist/v6.9.1/node-v6.9.1-x64.msi) >= 6.9.1

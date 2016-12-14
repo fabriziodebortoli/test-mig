@@ -2,8 +2,8 @@
 
 TaskBuilder Web projects.
 
-## Frontend
-[WebClient - Single page application](https://github.com/Microarea/Taskbuilder/tree/master/WebClient)
+## Frontend Web Client
+[web-client - Angular2 based projects](https://github.com/Microarea/Taskbuilder/tree/master/web-client)
 
 ### Technology
 * Angular2(https://angular.io/)
