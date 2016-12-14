@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
 import { HttpMenuService } from './../../../services/http-menu.service';
@@ -10,8 +10,9 @@ import { ImageService } from './../../../services/image.service';
   templateUrl: './tile-element.component.html',
   styleUrls: ['./tile-element.component.css']
 })
-export class TileElementComponent implements OnInit {
+export class TileElementComponent{
 
+  private object: any;
   constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
@@ -20,11 +21,6 @@ export class TileElementComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
-  }
-
-
-  private object: any;
   get Object(): any {
     return this.object;
   }

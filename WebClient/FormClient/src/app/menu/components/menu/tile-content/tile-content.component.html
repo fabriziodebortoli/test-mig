@@ -2,19 +2,16 @@
 
   <md-card-title>
     <!--tooltip-placement="top" tooltip-append-to-body="true" uib-tooltip="{{::menuService.getTileTooltip(tile)}}" tooltip-popup-delay="500" tooltip-animation="false"  ng-bind-html="firstWord(tile.title)" -->
-    <md-icon class="showHideTile link" (click)="hideTile(tile);" (mouseenter)="tile.pinned=true" (mouseleave)="tile.pinned=false">{{getPinnedClass(tile)}}</md-icon>
-    <div class="truncate titlefont"> {{tile.title}} </div>
+    <md-icon class="showHideTile link themeFontColor" (click)="hideTile(tile);" (mouseenter)="tile.pinned=true" (mouseleave)="tile.pinned=false">{{getPinnedClass(tile)}}</md-icon>
+    <div class="truncate titlefont themeFontColor"> {{tile.title}} </div>
   </md-card-title>
 
   <md-card-content class="tileContent">
-    <div *ngFor="let object of utilsService.toArray(tile.Object)">
-      <div style="display:inline-block; white-space:nowrap; overflow:hidden;text-overflow: ellipsis; width:100%; height:24px;"
-        (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">
+    <div *ngFor="let object of utilsService.toArray(tile.Object)" style="display:inline-block; white-space:nowrap; overflow:hidden;text-overflow: ellipsis; width:100%; height:24px;"
+      (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">
 
-        <tb-tile-element [Object]="object" ></tb-tile-element>
-        <i class="material-icons link imageSmall floatRight" (click)=menuService.toggleFavorites(object) *ngIf="object.isFavorite || object.starHover">{{getFavoriteClass(object)}}</i>
-
-      </div>
+      <tb-tile-element [Object]="object"></tb-tile-element>
+      <i class="material-icons link imageSmall floatRight themeFontColor" (click)=menuService.toggleFavorites(object) *ngIf="object.isFavorite || object.starHover">{{getFavoriteClass(object)}}</i>
     </div>
   </md-card-content>
 
