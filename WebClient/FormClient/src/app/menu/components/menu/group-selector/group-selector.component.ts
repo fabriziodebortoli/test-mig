@@ -2,7 +2,7 @@ import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
 import { ImageService } from './../../../services/image.service';
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'tb-group-selector',

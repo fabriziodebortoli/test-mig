@@ -1,7 +1,7 @@
-<md-tab-group class="tabHeader" >
+<md-tab-group class="tabHeader" (selectChange)="changeTabByIndex($event.index)">
   <md-tab *ngFor="let menuTab of utilsService.toArray(menuService.getSelectedGroup().Menu)">
     <template md-tab-label >
-     <div (click)="changeTab(menuTab)" class="tabItem">  <!-- da spostare il click nel selectChange del tabgroup-->
+     <div class="tabItem">  <!-- da spostare il click nel selectChange del tabgroup-->
         {{menuTab.title}}
       </div>
     </template>
