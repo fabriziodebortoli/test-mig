@@ -8,7 +8,7 @@ TaskBuilder Web projects.
 ## Server 
 - [WebServer - Backend services and API](https://github.com/Microarea/Taskbuilder/tree/master/WebServer)
 
-### Technology
+## Technology
 * Angular2(https://angular.io/)
 * TypeScript(https://www.typescriptlang.org/)
 * .Net Core 1.0(https://www.microsoft.com/net/core#windowsvs2015)
