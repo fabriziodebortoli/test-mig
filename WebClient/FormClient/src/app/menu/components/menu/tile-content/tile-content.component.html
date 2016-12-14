@@ -2,8 +2,8 @@
 
   <md-card-title>
     <!--tooltip-placement="top" tooltip-append-to-body="true" uib-tooltip="{{::menuService.getTileTooltip(tile)}}" tooltip-popup-delay="500" tooltip-animation="false"  ng-bind-html="firstWord(tile.title)" -->
-    <md-icon class="showHideTile link" (click)="hideTile(tile);" (mouseenter)="tile.pinned=true" (mouseleave)="tile.pinned=false">{{getPinnedClass(tile)}}</md-icon>
-    <div class="truncate titlefont"> {{tile.title}} </div>
+    <md-icon class="showHideTile link themeFontColor" (click)="hideTile(tile);" (mouseenter)="tile.pinned=true" (mouseleave)="tile.pinned=false">{{getPinnedClass(tile)}}</md-icon>
+    <div class="truncate titlefont themeFontColor"> {{tile.title}} </div>
   </md-card-title>
 
   <md-card-content class="tileContent">
@@ -11,7 +11,7 @@
       (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">
 
       <tb-tile-element [Object]="object"></tb-tile-element>
-      <i class="material-icons link imageSmall floatRight" (click)=menuService.toggleFavorites(object) *ngIf="object.isFavorite || object.starHover">{{getFavoriteClass(object)}}</i>
+      <i class="material-icons link imageSmall floatRight themeFontColor" (click)=menuService.toggleFavorites(object) *ngIf="object.isFavorite || object.starHover">{{getFavoriteClass(object)}}</i>
     </div>
   </md-card-content>
 

@@ -55,8 +55,9 @@ export class ImageService extends HttpService {
             return 'print';
         if (target.toLowerCase() == "batch")
             return 'brightness_low';
-            
-        return 'close';
+        if (target.toLowerCase() == "wizard")
+            return 'color_lens';
+       return 'close';
     }
 
     //---------------------------------------------------------------------------------------------
