@@ -40,7 +40,7 @@ export class ImageService extends HttpService {
     getObjectIcon = function (object) {
         if (object.sub_type != undefined) {
             if (object.application == undefined)
-                return object.sub_type;
+                return this.getObjectIconForMaterial(object.sub_type);
 
             return this.getObjectIconForMaterial(object.sub_type + object.application);
         }
@@ -49,13 +49,14 @@ export class ImageService extends HttpService {
     }
 
     getObjectIconForMaterial(target) {
-
         if (target.toLowerCase() == "document")
             return 'description';
         if (target.toLowerCase() == "report")
             return 'print';
         if (target.toLowerCase() == "batch")
             return 'brightness_low';
+            
+        return 'close';
     }
 
     //---------------------------------------------------------------------------------------------
