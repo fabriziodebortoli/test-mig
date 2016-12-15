@@ -39,8 +39,8 @@
 			"version": "1.0.0-preview2-update1",
 			"type": "build"
 		},
-        "Common": "1.0.0-*",
-        "Microsoft.AspNetCore.WebSockets.Server": "0.1.0"
+		"Common": "1.0.0-*",
+		"Microsoft.AspNetCore.WebSockets.Server": "0.1.0"
 	},
 	"tools": {
 		"Microsoft.AspNetCore.Razor.Tools": {
@@ -114,9 +114,12 @@
 		],
 		"postpublish": [
 			"dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
+		],
+		"postcompile": [
+			"xcopy ..\\..\\web-client\\form-client\\dist wwwroot /S /Y"
 		]
 	},
 	"tooling": {
-		"defaultNamespace": "WebApplication"
+		"defaultNamespace": "WebServer"
 	}
 }
