@@ -20,6 +20,8 @@ namespace WebApplication
 	{
 		List<Assembly> modules = new List<Assembly>();
 		List<IWebAppConfigurator> configurators = new List<IWebAppConfigurator>();
+		private ILogger logger;
+
 		public Startup(IHostingEnvironment env)
 		{
 			var builder = new ConfigurationBuilder()
@@ -27,7 +29,7 @@ namespace WebApplication
 				.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
-			ReadModules();
+			
 
 			if (env.IsDevelopment())
 			{
@@ -37,21 +39,32 @@ namespace WebApplication
 
 			builder.AddEnvironmentVariables();
 			Configuration = builder.Build();
+
+			ReadModules();
 		}
 		 
 		private void ReadModules()
 		{
-			string module = "TbLoaderGate";
-			//foreach (string appPart in Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "modules"), "*.dll"))
-			AssemblyName an = new AssemblyName(module);
-			var assembly = Assembly.Load(an);
-			foreach (Type t in assembly.GetTypes())
-				if (typeof(IWebAppConfigurator).IsAssignableFrom(t))
+			IConfigurationSection section = Configuration.GetSection("Modules");
+			foreach (var module in section.GetChildren())
+			{
+				try
 				{
-					configurators.Add((IWebAppConfigurator)Activator.CreateInstance(t));
+					AssemblyName an = new AssemblyName(module.Value);
+					var assembly = Assembly.Load(an);
+					foreach (Type t in assembly.GetTypes())
+						if (typeof(IWebAppConfigurator).IsAssignableFrom(t))
+						{
+							configurators.Add((IWebAppConfigurator)Activator.CreateInstance(t));
+						}
+					modules.Add(assembly);
 				}
-			modules.Add(assembly);
-
+				catch (Exception ex)
+				{
+					if (logger != null)
+						logger.LogError(ex.Message);
+				}
+			}
 		}
 
 		public IConfigurationRoot Configuration { get; }
@@ -90,6 +103,9 @@ namespace WebApplication
 		{
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
+			//logger = loggerFactory.CreateLogger("WebServer");
+
+			
 
 			if (env.IsDevelopment())
 			{
