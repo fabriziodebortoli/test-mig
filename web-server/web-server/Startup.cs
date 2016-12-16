@@ -103,7 +103,7 @@ namespace WebApplication
 		{
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
-			//logger = loggerFactory.CreateLogger("WebServer");
+			logger = loggerFactory.CreateLogger("WebServer");
 
 			
 
