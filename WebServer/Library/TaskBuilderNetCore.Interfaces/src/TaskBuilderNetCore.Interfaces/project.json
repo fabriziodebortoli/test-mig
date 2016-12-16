@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Microsoft.ApplicationInsights": "2.1.0",
+    "NETStandard.Library": "1.6.0",
+    "System.Collections.Specialized": "4.3.0",
+    "System.ComponentModel": "4.3.0",
+    "System.ComponentModel.TypeConverter": "4.3.0",
+    "System.Diagnostics.Process": "4.3.0",
+    "System.Drawing.Primitives": "4.3.0",
+    "System.Net.Http": "4.3.0",
+    "System.Runtime.Serialization.Formatters": "4.3.0",
+    "System.Runtime.WindowsRuntime": "4.0.10",
+    "System.Xml.XmlDocument": "4.3.0"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  }
+}
