@@ -117,7 +117,7 @@
 			"dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
 		],
 		"postcompile": [
-			"xcopy ..\\..\\web-client\\form-client\\dist .\\wwwroot /S /Y"
+			//"xcopy ..\\..\\web-client\\form-client\\dist .\\wwwroot /S /Y"
 		]
 	},
 	"tooling": {
