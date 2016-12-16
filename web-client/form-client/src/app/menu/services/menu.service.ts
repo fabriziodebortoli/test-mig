@@ -171,6 +171,32 @@ export class MenuService {
         this.mostUsedCount = 0;
     }
 
+
+    getMenuHiddenTiles(menu) {
+        let array = []
+
+        for (var i = 0; i < this.hiddenTiles.length; i++) {
+            if (this.hiddenTiles[i].currentMenuTitle == menu.title)
+                array.push(this.hiddenTiles[i]);
+        }
+
+        return array;
+    }
+
+
+    getOtherMenuHiddenTiles() {
+        let array = []
+
+        for (var i = 0; i < this.hiddenTiles.length; i++) {
+            if (this.hiddenTiles[i].currentMenuTitle != this.selectedMenu.title)
+                array.push(this.hiddenTiles[i]);
+        }
+
+        return array;
+
+    }
+
+
     //---------------------------------------------------------------------------------------------
     hideTile(tile) {
         //$rootScope.$emit('hiddenTileAdded', this.selectedMenu, tile);

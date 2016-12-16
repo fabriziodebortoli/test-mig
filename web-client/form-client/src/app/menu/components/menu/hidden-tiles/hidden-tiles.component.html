@@ -1,7 +1,9 @@
-<md-card *ngIf="menuService.selectedMenu != undefined && menuService.hiddenTilesCount > 0g">
-  <md-card-title>{{localizationService.getLocalizedElement('HiddenTiles')}}: {{menuService.hiddenTilesCount}}</md-card-title>
+<md-card *ngIf="menuService.selectedMenu != undefined && menuService.hiddenTilesCount > 0">
+  
   <md-card-content>
-    <div *ngFor="let tile of getCurrentMenuHiddenTiles()">
+
+    <div>{{localizationService.getLocalizedElement('HiddenTiles')}}: {{menuService.getMenuHiddenTiles(menuService.selectedMenu).length}}</div>
+    <div *ngFor="let tile of menuService.getMenuHiddenTiles(menuService.selectedMenu)">
       <!--ng-init="getTileTooltip(tile)"-->
 
       <div></div>
@@ -16,11 +18,13 @@
 
     </div>
 
-    <div [hidden]="!ifOtherTilesAreHidden()">
+    <div *ngIf="!showHiddenOnlyCurrentMenu">
       <hr />
+       <div>{{localizationService.getLocalizedElement('HiddenTiles')}}: {{menuService.getOtherMenuHiddenTiles().length}}</div>
+   
       <div class="currentMenuTitleInHidden showOthers" style="display:inline-block" (click)="hideOthers();$event.stopPropagation()">{{localizationService.getLocalizedElement('OtherElements')}}</div>
       <div class="glyphicon glyphicon-chevron-down showOthers" style="display:inline-block" (click)="hideOthers();$event.stopPropagation()"></div>
-      <div *ngFor="let tile of getOtherMenuHiddenTiles()">
+      <div *ngFor="let tile of menuService.getOtherMenuHiddenTiles()">
         <!--ng-init="getTileTooltip(tile)"-->
         <div></div>
         <!--NON RIMUOVERE!!!!!!-->
