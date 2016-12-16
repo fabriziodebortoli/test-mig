@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microarea.Common;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApplication
 {
@@ -37,7 +38,7 @@ namespace WebApplication
 			builder.AddEnvironmentVariables();
 			Configuration = builder.Build();
 		}
-
+		 
 		private void ReadModules()
 		{
 			string module = "TbLoaderGate";
@@ -100,27 +101,22 @@ namespace WebApplication
 			{
 				app.UseExceptionHandler("/Home/Error");
 			}
-			app.UseFileServer();
 			app.UseWebSockets();
+			//aggiungo gli handler di chiamata, mettere prima della UseFileServer()
+			foreach (var configurator in configurators)
+				configurator.Configure(app, env, loggerFactory);
+			//ATTENZIONE: se questa chiamata è messa prima di aggiungere degli handler di chiamata, questi non vengono chiamati!
+			app.UseFileServer();
 			app.UseCors("CorsPolicy");
-			//app.UseIdentity();
-
 			// Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 			app.UseSession();
 
-			foreach (Assembly asm in modules)
-			{
-				foreach (var configurator in configurators)
-					configurator.Configure(app, env, loggerFactory);
-			}
 			app.UseMvc(routes =>
-		{
-			foreach (Assembly asm in modules)
 			{
 				foreach (var configurator in configurators)
 					configurator.MapRoutes(routes);
-			}
-		});
+			});
 		}
+		
 	}
 }

@@ -45,7 +45,7 @@ namespace Microarea.TbLoaderGate
 
         public static async Task<bool> HandleAsync(HttpContext http)
         {
-            if (!http.WebSockets.IsWebSocketRequest)
+            if (!http.WebSockets.IsWebSocketRequest || !http.Request.Path.StartsWithSegments("/tbloader"))
                 return false;
 
             var webSocket = await http.WebSockets.AcceptWebSocketAsync();

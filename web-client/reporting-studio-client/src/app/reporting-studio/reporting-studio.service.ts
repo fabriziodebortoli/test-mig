@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 
 import { reportTest } from './test/report-test';
 
-const WS_URL = 'ws://localhost:5000';
+const WS_URL = 'ws://localhost:5000/rsweb/';
 
 export interface Message {
   commandType: CommandType;
