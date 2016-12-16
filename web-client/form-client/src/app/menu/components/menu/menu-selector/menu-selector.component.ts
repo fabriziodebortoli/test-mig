@@ -1,3 +1,4 @@
+import { LocalizationService } from './../../../services/localization.service';
 import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
 import { SettingsService } from './../../../services/settings.service';
@@ -9,20 +10,20 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MenuSelectorComponent implements OnInit {
 
-  constructor(private menuService: MenuService, private utilsService: UtilsService, private settingsService: SettingsService) {
+  constructor(private menuService: MenuService, private utilsService: UtilsService, private settingsService: SettingsService, private localizationService: LocalizationService) {
   }
 
 
-  private group: any ;
-    get Group(): any {
-        return this.group;
-    }
-    
-    @Input()
-    set Group(group: any) {
-        this.group = group;
-        this.initTab();
-    }
+  private group: any;
+  get Group(): any {
+    return this.group;
+  }
+
+  @Input()
+  set Group(group: any) {
+    this.group = group;
+    this.initTab();
+  }
 
 
   ngOnInit() {
@@ -50,13 +51,13 @@ export class MenuSelectorComponent implements OnInit {
 
   }
 
-   changeTab(menu) {
+  changeTab(menu) {
 
     if (menu == undefined)
       return;
 
 
-      this.menuService.setSelectedMenu(menu);
+    this.menuService.setSelectedMenu(menu);
   }
 
   changeTabByIndex(index) {

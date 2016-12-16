@@ -5,7 +5,7 @@ import { Logger } from 'libclient';
 import { MenuService } from './../../../services/menu.service';
 import { ImageService } from './../../../services/image.service';
 import { LocalizationService } from './../../../services/localization.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'tb-hidden-tiles',
@@ -14,7 +14,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HiddenTilesComponent implements OnInit {
 
-
+private showHiddenOnlyCurrentMenu: boolean;
+ 
 
   constructor(
 
@@ -25,6 +26,18 @@ export class HiddenTilesComponent implements OnInit {
     private eventManagerService: EventManagerService,
     private httpMenuService: HttpMenuService,
     private logger: Logger) {
+
+  }
+
+  
+   get ShowHiddenOnlyCurrentMenu(): boolean {
+    return this.showHiddenOnlyCurrentMenu;
+  }
+
+  @Input()
+  set ShowHiddenOnlyCurrentMenu(showHiddenOnlyCurrentMenu: boolean) {
+    console.log(showHiddenOnlyCurrentMenu)
+    this.showHiddenOnlyCurrentMenu = showHiddenOnlyCurrentMenu;
 
   }
 
@@ -103,30 +116,7 @@ export class HiddenTilesComponent implements OnInit {
     //   this.localizationService.getLocalizedElement('MenuLabel') + ": " + tile.currentMenuTitle);
   };
 
-  getCurrentMenuHiddenTiles()
-  {
-    let array = []
 
-    for (var i = 0; i < this.menuService.hiddenTiles.length; i++) {
-      if (this.menuService.hiddenTiles[i].currentMenuTitle == this.menuService.selectedMenu.title)
-        array.push(this.menuService.hiddenTiles[i]);
-    }
-
-    return array;
-  }
-
-  getOtherMenuHiddenTiles(){
-   let array = []
-
-    for (var i = 0; i < this.menuService.hiddenTiles.length; i++) {
-      if (this.menuService.hiddenTiles[i].currentMenuTitle != this.menuService.selectedMenu.title)
-        array.push(this.menuService.hiddenTiles[i]);
-    }
-
-    return array;
-
-  }
-  
   /*controlla se ci sono dei tile nascosti nel menu corrente*/
   //---------------------------------------------------------------------------------------------
   ifMenuExistInHiddenTiles  () {
@@ -141,17 +131,17 @@ export class HiddenTilesComponent implements OnInit {
     return false;
   }
 
-  //---------------------------------------------------------------------------------------------
-  ifOtherTilesAreHidden  () {
-    if (this.menuService.selectedMenu == undefined)
-      return true;
+  // //---------------------------------------------------------------------------------------------
+  // ifOtherTilesAreHidden  () {
+  //   if (this.menuService.selectedMenu == undefined)
+  //     return true;
 
-    for (var i = 0; i < this.menuService.hiddenTiles.length; i++) {
-      if (this.menuService.hiddenTiles[i].currentMenuTitle != this.menuService.selectedMenu.title)
-        return true;
-    }
-    return false;
-  }
+  //   for (var i = 0; i < this.menuService.hiddenTiles.length; i++) {
+  //     if (this.menuService.hiddenTiles[i].currentMenuTitle != this.menuService.selectedMenu.title)
+  //       return true;
+  //   }
+  //   return false;
+  // }
 
   //---------------------------------------------------------------------------------------------
 
