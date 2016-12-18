@@ -62,10 +62,11 @@ export class WebSocketService {
 
         this.connection.onopen = (arg) => {
             //sets the name for this client socket 
-            this.connection.send('SetClientWebSocketName-' + this.cookieService.get('authtoken'));
-            //stimulate tbloader to open a client connection with the same name, so che gate can pass-through
-            this.httpService.openServerSocket(this.cookieService.get('authtoken'));
-            
+            this.connection.send('SetClientWebSocketName-' + JSON.stringify({
+                webSocketName: this.cookieService.get('authtoken'),
+                tbLoaderName: this.cookieService.get('tbloader-name')
+            }));
+
             this.status = 'Open';
             this.open.emit(arg);
         };
