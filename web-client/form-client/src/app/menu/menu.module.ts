@@ -23,12 +23,6 @@ import { menuRouting } from './menu.routing';
 import { RouterModule, Routes } from '@angular/router';
 import { Logger } from 'libclient';
 
-import { HttpMenuService } from './services/http-menu.service';
-import { MenuService } from './services/menu.service';
-import { ImageService } from './services/image.service';
-import { EventManagerService } from './services/event-manager.service';
-import { SettingsService } from './services/settings.service';
-
 
 @NgModule({
   imports: [
@@ -77,12 +71,7 @@ import { SettingsService } from './services/settings.service';
   ],
   providers:
   [
-    MenuService,
-    ImageService,
-    HttpMenuService, 
-    SettingsService,
-    LocalizationService,
-    EventManagerService
+    
   ],
   entryComponents:[
     ProductInfoDialogComponent,

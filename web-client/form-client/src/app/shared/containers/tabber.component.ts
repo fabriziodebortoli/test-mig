@@ -8,8 +8,8 @@ import {
   template: `
     <ul>
       <li (click)="selectTab(tab)" *ngFor="let tab of tabs" [ngClass]="tab.active ? 'active' : ''">
-       <a href="#" (click)="selectTab(tab)" title="activate" class='tabTitle'>{{tab.tabTitle}}</a>
-       <a href="#" (click)="closeTab(tab)" title="close" class='close'>x</a>
+       <a href="javascript:void(0)" (click)="selectTab(tab)" title="activate" class='tabTitle'>{{tab.tabTitle}}</a>
+       <a href="javascript:void(0)" (click)="closeTab(tab)" title="close" class='close'>x</a>
       </li>
     </ul>
     <ng-content></ng-content> 
