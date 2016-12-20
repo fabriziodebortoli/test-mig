@@ -91,15 +91,12 @@ export class LoginSessionService {
         return this.connected;
     }
     setConnected(val: boolean) {
-        if (this.connected !== val) {
-            this.connected = val;
-            if (this.connected) {
-                this.router.navigate(['home'], { skipLocationChange: false, replaceUrl: false });
-            }
-            else 
-            {
-                this.router.navigate(['login'], { skipLocationChange: false, replaceUrl: false });
-            }
+        this.connected = val;
+        if (this.connected) {
+            this.router.navigate(['home'], { skipLocationChange: false, replaceUrl: false });
+        }
+        else {
+            this.router.navigate(['login'], { skipLocationChange: false, replaceUrl: false });
         }
     }
 }
