@@ -1,3 +1,4 @@
+import { ApplicationSelectorComponent } from './../components/menu/application-selector/application-selector.component';
 import { HttpMenuService } from './http-menu.service';
 import { UtilsService, WebSocketService } from 'tb-core';
 import { Logger } from 'libclient';
@@ -18,9 +19,12 @@ export class MenuService {
     public mostUsedCount: number = 0;
     public hiddenTilesCount: number = 0;
 
+
     private favorites: Array<any> = [];
     private mostUsed: Array<any> = [];
+
     public hiddenTiles: Array<any> = [];
+    public searchSources: Array<any> = [];
 
 
     private ifMoreAppsExist: boolean;
@@ -162,6 +166,9 @@ export class MenuService {
     }
 
     runFunction = function (object) {
+        if (object == undefined)
+            return;
+
         this.webSocketService.runObject(object.target);
         this.addToMostUsed(object);
     }
@@ -170,6 +177,90 @@ export class MenuService {
         this.mostUsed.splice(0, this.mostUsed.length);
         this.mostUsedCount = 0;
     }
+
+    loadSearchObjects() {
+        this.getSearchObjects();
+    }
+
+    //---------------------------------------------------------------------------------------------
+    getSearchObjects() {
+        if (this.applicationMenu != undefined) {
+            this.findSearchesInApplication(this.applicationMenu.Application);
+        }
+
+        if (this.environmentMenu != undefined)
+            this.findSearchesInApplication(this.environmentMenu.Application);
+
+        this.searchSources = this.searchSources.sort(this.compareTitle);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    findSearchesInApplication(application) {
+
+        var tempApplicationArray = this.utilsService.toArray(application);
+        for (var a = 0; a < tempApplicationArray.length; a++) {
+            var allGroupsArray = this.utilsService.toArray(tempApplicationArray[a].Group);
+            for (var d = 0; d < allGroupsArray.length; d++) {
+                this.getSearchesObjectsFromMenu(allGroupsArray[d], tempApplicationArray[a].title, allGroupsArray[d].title, undefined, undefined);
+            }
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------
+    getSearchesObjectsFromMenu(menu, applicationTitle, groupTitle, menuTitle, tileTitle) {
+
+        var allSubObjects = this.utilsService.toArray(menu.Object);
+        if (allSubObjects != undefined) {
+
+            for (var i = 0; i < allSubObjects.length; i++) {
+
+                var temp = allSubObjects[i];
+                if (this.containsSameSearch(this.searchSources, temp)) {
+                    continue;
+                }
+
+                if (tileTitle != undefined)
+                    allSubObjects[i].tile = tileTitle;
+                if (menuTitle != undefined)
+                    allSubObjects[i].menu = menuTitle;
+
+                allSubObjects[i].groupTitle = groupTitle;
+                allSubObjects[i].applicationTitle = applicationTitle;
+
+                allSubObjects[i].itemTooltip = this.getSearchItemTooltip(allSubObjects[i]);
+                this.searchSources.push(allSubObjects[i]);
+            }
+        }
+
+        var allSubMenus = this.utilsService.toArray(menu.Menu);
+        if (allSubMenus != undefined) {
+
+            //cerca gli object dentro il menu
+            for (var j = 0; j < allSubMenus.length; j++) {
+
+                this.getSearchesObjectsFromMenu(allSubMenus[j], applicationTitle, groupTitle, menu.title, allSubMenus[j].title);
+            }
+        }
+    };
+
+    //---------------------------------------------------------------------------------------------
+    getSearchItemTooltip = function (object) {
+        // return $sce.trustAsHtml(object.title + "<br/>" + object.applicationTitle + " | " + object.groupTitle + " | " + object.menu + " | " + object.tile);
+        return "ciao";
+    }
+
+
+    //---------------------------------------------------------------------------------------------
+    containsSameSearch(array, obj) {
+        for (var i = 0; i < array.length; i++) {
+            var temp = array[i];
+            if (temp.target == obj.target && temp.objectType == obj.objectType && temp.title == obj.title) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     getMenuHiddenTiles(menu) {
@@ -275,6 +366,15 @@ export class MenuService {
         if (a.lastModified < b.lastModified)
             return -1;
         if (a.lastModified > b.lastModified)
+            return 1;
+        return 0;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    compareTitle(a, b) {
+        if (a.title < b.title)
+            return -1;
+        if (a.title > b.title)
             return 1;
         return 0;
     }
@@ -429,5 +529,35 @@ export class MenuService {
             }
         }
     };
+
+    //---------------------------------------------------------------------------------------------
+    getFilteredSearch(viewValue, Item, searchInReport, searchInDocument, searchInBatch, startsWith): boolean {
+        var target = Item['target'].toLowerCase();
+        var title = Item['title'].toLowerCase();
+        var objectType = Item['objectType'].toLowerCase();
+        var value = viewValue.toLowerCase();
+
+        if (!searchInReport && objectType == "report")
+            return false;
+
+        if (!searchInDocument && objectType == "document")
+            return false;
+
+        if (!searchInBatch && objectType == "batch")
+            return false;
+
+        let found: boolean = false;
+        if (!startsWith) {
+            return title.indexOf(value) >= 0;
+        }
+
+        return found = found || this.stringStartsWith(title, value);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    stringStartsWith(string, prefix): boolean {
+        return string.slice(0, prefix.length) == prefix;
+    }
+
 
 }

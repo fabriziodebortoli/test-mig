@@ -1,9 +1,9 @@
 <md-card *ngIf="tile != undefined">
 
-  <md-card-title>
+  <md-card-title class="tileTitleFont">
     <!--tooltip-placement="top" tooltip-append-to-body="true" uib-tooltip="{{::menuService.getTileTooltip(tile)}}" tooltip-popup-delay="500" tooltip-animation="false"  ng-bind-html="firstWord(tile.title)" -->
-    <md-icon class="showHideTile link themeFontColor" (click)="hideTile(tile);" (mouseenter)="tile.pinned=true" (mouseleave)="tile.pinned=false">{{getPinnedClass(tile)}}</md-icon>
-    <div class="truncate titlefont themeFontColor"> {{tile.title}} </div>
+    <md-icon class="showHideTile link themeFontColor" style="display: inline-block" (click)="hideTile(tile);" (mouseenter)="tile.pinned=true" (mouseleave)="tile.pinned=false">{{getPinnedClass(tile)}}</md-icon>
+    <div class="truncate titlefont themeFontColor" > {{tile.title}} </div>
   </md-card-title>
 
   <md-card-content class="tileContent">

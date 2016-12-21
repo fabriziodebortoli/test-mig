@@ -15,7 +15,8 @@
         "mobile": false,
         "styles": [
             "tb.scss",
-            "styles.scss"
+            "styles.scss",
+            "../node_modules/bootstrap/dist/css/bootstrap.css"
         ],
         "scripts": [],
         "environments": {

@@ -1,0 +1,17 @@
+<!--<ng2-completer [(ngModel)]="searchStr" [dataService]="dataService" [minSearchLength]="0" [clearSelected]="true" [pause]="1"
+    [placeholder]="localizationService.getLocalizedElement('SearchLabel')" (selected)="onSelect($event)" [textSearching]="a"></ng2-completer>
+-->
+
+<!--[resultTemplate]="resultTemplate"-->
+<!--<input type="text" class="form-control"  (selectItem)="onSelect($event)"
+          [(ngModel)]="searchStr" placeholder="Start typing a customer name..." [ngbTypeahead]="search"/>
+     -->
+<template #customItemTemplate let-model="item" >
+    <div style="min-width: 300px">
+        <tb-tile-element [Object]="model"></tb-tile-element>
+    </div>
+</template>
+
+<input [(ngModel)]="selected" [typeahead]="getSearchItems()" (typeaheadOnSelect)="onSelect($event)" [typeaheadOptionField]="'title'"
+    [typeaheadItemTemplate]="customItemTemplate" [typeaheadMinLength]="1"  [typeaheadOptionsLimit]="20"
+    [typeaheadAsync]="false" placeholder="{{localizationService.getLocalizedElement('SearchLabel')}}" class="form-control">

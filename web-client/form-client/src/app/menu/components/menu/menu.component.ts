@@ -43,6 +43,8 @@ export class MenuComponent implements OnInit {
       this.menuService.loadHiddenTiles();
      
       this.settingsService.getSettings();
+
+      this.menuService.loadSearchObjects();
     });
   }
 

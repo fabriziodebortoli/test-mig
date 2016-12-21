@@ -23,10 +23,6 @@
 	cursor: pointer;
 }
 
-.themeFontColor {
-	color:steelblue;
-}
-
 	/*pin image*/
 	.showHideTile{
 		float: right;
@@ -55,7 +51,6 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	width: 95%;
-	overflow: hidden;
 }
 
 .titleFont .truncate {
@@ -73,5 +68,9 @@
 
 .unfavorite {
 	content: url(./app/menu/images/Unfavorite.png);
+}
+
+.tileTitleFont {
+	font-size: 20px;
 }
 
