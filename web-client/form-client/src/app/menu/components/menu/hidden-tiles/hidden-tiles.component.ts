@@ -36,7 +36,6 @@ private showHiddenOnlyCurrentMenu: boolean;
 
   @Input()
   set ShowHiddenOnlyCurrentMenu(showHiddenOnlyCurrentMenu: boolean) {
-    console.log(showHiddenOnlyCurrentMenu)
     this.showHiddenOnlyCurrentMenu = showHiddenOnlyCurrentMenu;
 
   }

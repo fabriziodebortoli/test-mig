@@ -1,27 +1,2 @@
-<div *ngIf="!isConnected()">
-    <tb-login></tb-login>
-</div>
-<div *ngIf="isConnected()">
-    <md-sidenav-layout>
-        <md-sidenav #sidenav>
-            Start Sidenav.
-            <br>
-
-        </md-sidenav>
-
-        <!--<tb-toolbar (toggleSidebar)="toggleSidebar()"></tb-toolbar>-->
-
-        <tb-tabs>
-            <tb-tab [tabTitle]="Menu" (close)="logoff($event)">
-                <tb-menu></tb-menu>
-            </tb-tab>
-            <tb-tab *ngFor="let info of componentService.components" (close)="componentService.tryDestroyComponent(info)">
-                <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
-            </tb-tab>
-        </tb-tabs>
-
-    </md-sidenav-layout>
-</div>
-
 <router-outlet></router-outlet>
 <router-outlet name="dynamic"></router-outlet>

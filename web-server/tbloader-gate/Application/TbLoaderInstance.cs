@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Http;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -6,22 +8,39 @@ namespace Microarea.TbLoaderGate
 {
     public class TBLoaderInstance
     {
-        public int httpPort = 11000;
+		public string name;
+		public int httpPort = 11000;
         public string server = "localhost";
 
         public string BaseUrl { get { return string.Concat("http://", server, ":", httpPort); } }
 
-
-        internal async Task ExecuteAsync(string clientId)
+		public TBLoaderInstance()
+		{
+			this.name = Guid.NewGuid().ToString();
+		}
+        internal async Task ExecuteAsync()
         {
             TBLoaderService svc = new TBLoaderService();
-            httpPort = await svc.ExecuteRemoteProcessAsync(clientId);
+            httpPort = await svc.ExecuteRemoteProcessAsync(name);
         }
-        internal async void RequireWebSocketConnection(string name)
+        internal async void RequireWebSocketConnection(string name, HostString host)
         {
             using (var client = new HttpClient())
             {
-                string url = string.Concat(BaseUrl, "/tb/menu/openWebSocket/?name=", name);
+				IPAddress[] addresses = await Dns.GetHostAddressesAsync(host.Host);
+				IPAddress goodAddress = null;
+				foreach (IPAddress ip in addresses)
+					if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+					{
+						goodAddress = ip;
+						break;
+					}
+				if (goodAddress == null)
+					return;
+				int port = host.Port.HasValue ? host.Port.Value : 80;
+				string server = goodAddress.ToString();
+				string wsUrl = string.Concat("ws://", server, ":", port, "/tbloader/");  
+                string url = string.Concat(BaseUrl, "/tb/menu/openWebSocket/?name=", name, "&url=", WebUtility.HtmlEncode(wsUrl));
                 HttpRequestMessage msg = new HttpRequestMessage();
                 msg.RequestUri = new Uri(url);
                 HttpResponseMessage resp = await client.SendAsync(msg);

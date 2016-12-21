@@ -1,7 +1,10 @@
 <p>
-  <a href="#" (click)="runDocument('ERP.Languages.Documents.Languages')">Languages</a>
+  <a href="javascript:void(0)" (click)="runDocument('ERP.Languages.Documents.Languages')">Languages</a>
 </p>
 <router-outlet></router-outlet>
+
+
+
 
 <md-sidenav-layout class="demo-sidenav-layout">
 
@@ -17,7 +20,7 @@
 
   <div class="demo-sidenav-content">
 
-    <md-toolbar [color]="myColor">
+    <md-toolbar [color]="myColor" >
       <span>
         <button md-button (click)="leftSideNav.toggle()">
         <md-icon>keyboard_arrow_left</md-icon>
@@ -34,9 +37,14 @@
               <tb-group-selector></tb-group-selector>
         </span>
       </span>
-
+   
       <span style="flex: 1 1 auto"></span>
 
+      <span>
+         
+          <tb-search></tb-search> 
+      </span>
+    
       <span>
       <button md-button (click)="rightSideNav.toggle()">
         <md-icon>keyboard_arrow_right</md-icon>

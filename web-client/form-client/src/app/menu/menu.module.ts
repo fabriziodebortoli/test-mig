@@ -1,3 +1,5 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { SearchComponent } from './components/menu/search/search.component';
 import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
 import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
 import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
@@ -28,7 +30,8 @@ import { MenuService } from './services/menu.service';
 import { ImageService } from './services/image.service';
 import { EventManagerService } from './services/event-manager.service';
 import { SettingsService } from './services/settings.service';
-
+import { TypeaheadModule, ModalModule } from 'ng2-bootstrap';
+ 
 
 @NgModule({
   imports: [
@@ -36,7 +39,10 @@ import { SettingsService } from './services/settings.service';
     SharedModule,
     FormsModule,
     MaterialModule.forRoot(),
-    menuRouting
+    menuRouting,
+    BrowserModule,
+    ModalModule.forRoot(),
+    TypeaheadModule
   ],
 
   declarations:
@@ -50,12 +56,13 @@ import { SettingsService } from './services/settings.service';
     TileContentComponent,
     FavoritesComponent,
     TileElementComponent,
-    MostUsedComponent, 
-    LeftSidenavComponent, 
+    MostUsedComponent,
+    LeftSidenavComponent,
     RightSidenavComponent,
     ProductInfoDialogComponent,
     ConnectionInfoDialogComponent,
-    HiddenTilesComponent
+    HiddenTilesComponent,
+    SearchComponent
   ],
   exports:
   [
@@ -70,25 +77,25 @@ import { SettingsService } from './services/settings.service';
     FavoritesComponent,
     TileElementComponent,
     MostUsedComponent,
-    LeftSidenavComponent, 
+    LeftSidenavComponent,
     RightSidenavComponent,
-    HiddenTilesComponent
-
+    HiddenTilesComponent,
+    SearchComponent
   ],
   providers:
   [
     MenuService,
     ImageService,
-    HttpMenuService, 
+    HttpMenuService,
     SettingsService,
     LocalizationService,
-    EventManagerService
+    EventManagerService,
   ],
-  entryComponents:[
+  entryComponents: [
     ProductInfoDialogComponent,
     ConnectionInfoDialogComponent
-    ]
-  
+  ]
+
 })
 export class MenuModule {
 

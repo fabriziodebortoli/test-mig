@@ -1,15 +1,5 @@
 <md-toolbar color="primary">
-    <md-icon (click)="toggleSidenav()" id="toggle-sidebar">menu</md-icon>
-
-    <span>Mago Web</span>
-
-    <span class="fill-remaining-space"></span>
-
-    <span>Right Aligned Text</span>
-
-     <ul>
-      <li *ngFor="let button of buttons">
-       <a href="#">{{button.buttonCaption}}</a>
-      </li>
-    </ul>
+     <div>
+      <ng-content></ng-content>
+    </div>
 </md-toolbar>

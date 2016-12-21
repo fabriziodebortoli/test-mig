@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace Microarea.TbLoaderGate
 {
@@ -17,8 +18,9 @@ namespace Microarea.TbLoaderGate
     }
     public class TBLoaderController : Controller
     {
+		const string TbLoaderCookie = "tbloader-name";
         static readonly int leftTrimCount = "/tbloader/api".Length;
-        [Route("/gate")]
+        [Route("/controller")]
         public IActionResult Index()
         {
             return new ObjectResult("TBLoader Gate default page");
@@ -36,19 +38,26 @@ namespace Microarea.TbLoaderGate
             Debug.WriteLine(HttpContext.Request.Path.Value);
             string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
             bool createTB = subUrl == "/tb/menu/doLogin/";
+			string tbName = "";
             try
             {
-                TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(HttpContext.Session, createTB);
+				HttpContext.Request.Cookies.TryGetValue(TbLoaderCookie, out tbName);
+				bool newInstance;
+				TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbName, createTB, out newInstance);
                 if (tb == null)
                 {
                     TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };
                     string json = JsonConvert.SerializeObject(res);
                     byte[] buff = Encoding.UTF8.GetBytes(json);
-                    await HttpContext.Response.Body.WriteAsync(buff, 0, buff.Length);
+					HttpContext.Response.Cookies.Delete(TbLoaderCookie);
+
+					await HttpContext.Response.Body.WriteAsync(buff, 0, buff.Length);
                 }
                 else
                 {
-                    using (var client = new HttpClient())
+					tbName = tb.name;
+
+					using (var client = new HttpClient())
                     {
 
                         string url = tb.BaseUrl + subUrl + HttpContext.Request.QueryString.Value;
@@ -85,16 +94,18 @@ namespace Microarea.TbLoaderGate
                             foreach (var sv in h.Value)
                                 HttpContext.Response.Headers[h.Key] = sv;
                         }
-
-                        await resp.Content.CopyToAsync(HttpContext.Response.Body);
+						if (newInstance)
+							HttpContext.Response.Cookies.Append(TbLoaderCookie, tbName);
+						await resp.Content.CopyToAsync(HttpContext.Response.Body);
                     }
                 }
             }
             catch (Exception ex)
             {
                 //todo mandare risposta al client 
-                TBLoaderEngine.ClearTbLoader(HttpContext.Session); 
-                throw new Exception("Error communicating with backend", ex);
+                TBLoaderEngine.RemoveTbLoader(tbName);
+				HttpContext.Response.Cookies.Delete(TbLoaderCookie);
+				throw new Exception("Error communicating with backend", ex);
             }
         }
 

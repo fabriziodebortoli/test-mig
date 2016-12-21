@@ -7,8 +7,10 @@
     vertical-align: top;
 }
 
-.themeFontColor {
-	color:steelblue;
+
+
+.themeFontColor:hover {
+	background-color: rgba(230, 230, 230, 0.5);
 }
 
 .Document {
