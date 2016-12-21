@@ -20,7 +20,7 @@ namespace Microarea.TbLoaderGate
     {
 		const string TbLoaderCookie = "tbloader-name";
         static readonly int leftTrimCount = "/tbloader/api".Length;
-        [Route("/gate")]
+        [Route("/controller")]
         public IActionResult Index()
         {
             return new ObjectResult("TBLoader Gate default page");

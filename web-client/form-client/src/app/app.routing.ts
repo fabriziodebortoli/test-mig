@@ -5,9 +5,9 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 export const appRoutes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'home', component: HomeComponent },
+    { path: '', component: LoginComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'home', component: HomeComponent },
     { path: 'ERP/Languages', loadChildren: 'app/applications/ERP/Languages/languages.module#LanguagesModule', outlet: 'dynamic' },
     { path: 'menu', loadChildren: 'app/menu/menu.module#MenuModule' },
     { path: '**', component: PageNotFoundComponent },

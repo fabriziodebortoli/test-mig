@@ -16,14 +16,12 @@
 			<tb-edit 
 				caption="Language" 
 				cmpId="IDC_EDIT_LANGUAGE" 
-				[model]="documentService?.data?.DBT?.Languages?.Language.value"
-				[enabled]="documentService?.data?.DBT?.Languages?.Language.enabled">
+				[model]="documentService?.data?.DBT?.Languages?.Language">
 			</tb-edit>
 			<tb-edit 
 				caption="Description" 
 				cmpId="IDC_EDIT_DESCRIPTION" 
-				[model]="documentService?.data?.DBT?.Languages?.Description.value"
-				[enabled]="documentService?.data?.DBT?.Languages?.Description.enabled"></tb-edit>
+				[model]="documentService?.data?.DBT?.Languages?.Description"></tb-edit>
 		</tb-tile>
 	</tb-tilegroup>
 </tb-tilemanager>

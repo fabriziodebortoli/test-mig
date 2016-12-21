@@ -4,7 +4,10 @@ import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'tb-edit',
-     template: '<div><label>{{caption}}</label><input id="{{cmpId}}" type="text" [(ngModel)]="model" [disabled]="!enabled"/></div>'
+     template: `<div>
+     <label>{{caption}}</label>
+     <input id="{{cmpId}}" type="text" [disabled] = "!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event" />
+     </div>`
 })
 
 export class EditComponent extends TbComponent {
@@ -12,6 +15,4 @@ export class EditComponent extends TbComponent {
     public caption: string;
     @Input()
     public model: any;
-    @Input()
-    public enabled: boolean;
 }
