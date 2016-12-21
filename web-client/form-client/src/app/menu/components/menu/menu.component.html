@@ -3,6 +3,9 @@
 </p>
 <router-outlet></router-outlet>
 
+
+
+
 <md-sidenav-layout class="demo-sidenav-layout">
 
   <md-sidenav #leftSideNav mode="over">
@@ -34,9 +37,14 @@
               <tb-group-selector></tb-group-selector>
         </span>
       </span>
-
+   
       <span style="flex: 1 1 auto"></span>
 
+      <span>
+         
+          <tb-search></tb-search> 
+      </span>
+    
       <span>
       <button md-button (click)="rightSideNav.toggle()">
         <md-icon>keyboard_arrow_right</md-icon>

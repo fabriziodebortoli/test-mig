@@ -1,3 +1,5 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { SearchComponent } from './components/menu/search/search.component';
 import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
 import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
 import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
@@ -23,6 +25,13 @@ import { menuRouting } from './menu.routing';
 import { RouterModule, Routes } from '@angular/router';
 import { Logger } from 'libclient';
 
+import { HttpMenuService } from './services/http-menu.service';
+import { MenuService } from './services/menu.service';
+import { ImageService } from './services/image.service';
+import { EventManagerService } from './services/event-manager.service';
+import { SettingsService } from './services/settings.service';
+import { TypeaheadModule, ModalModule } from 'ng2-bootstrap';
+ 
 
 @NgModule({
   imports: [
@@ -30,7 +39,10 @@ import { Logger } from 'libclient';
     SharedModule,
     FormsModule,
     MaterialModule.forRoot(),
-    menuRouting
+    menuRouting,
+    BrowserModule,
+    ModalModule.forRoot(),
+    TypeaheadModule
   ],
 
   declarations:
@@ -44,12 +56,13 @@ import { Logger } from 'libclient';
     TileContentComponent,
     FavoritesComponent,
     TileElementComponent,
-    MostUsedComponent, 
-    LeftSidenavComponent, 
+    MostUsedComponent,
+    LeftSidenavComponent,
     RightSidenavComponent,
     ProductInfoDialogComponent,
     ConnectionInfoDialogComponent,
-    HiddenTilesComponent
+    HiddenTilesComponent,
+    SearchComponent
   ],
   exports:
   [
@@ -64,20 +77,25 @@ import { Logger } from 'libclient';
     FavoritesComponent,
     TileElementComponent,
     MostUsedComponent,
-    LeftSidenavComponent, 
+    LeftSidenavComponent,
     RightSidenavComponent,
-    HiddenTilesComponent
-
+    HiddenTilesComponent,
+    SearchComponent
   ],
   providers:
   [
-    
+    MenuService,
+    ImageService,
+    HttpMenuService,
+    SettingsService,
+    LocalizationService,
+    EventManagerService,
   ],
-  entryComponents:[
+  entryComponents: [
     ProductInfoDialogComponent,
     ConnectionInfoDialogComponent
-    ]
-  
+  ]
+
 })
 export class MenuModule {
 

@@ -1,0 +1,46 @@
+{
+    "name": "web-library",
+    "version": "0.1.2",
+    "scripts": {
+        "lint": "tslint src/**/*.ts",
+        "test": "tsc && karma start",
+        "postinstall": "typings install",
+        "prepublish": "tsc",
+        "tsc": "tsc",
+        "typings": "typings",
+        "build": "rimraf dist && tsc && gulp"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Microarea/web-library"
+    },
+    "author": {
+        "name": "Fabrizio De Bortoli",
+        "email": "fabrizio.debortoli@microarea.it"
+    },
+    "keywords": [
+        "angular",
+        "angular2"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Microarea/web-library/issues"
+    },
+    "main": "./dist/index.js",
+    "typings": "./dist/index.d.ts",
+    "dependencies": {},
+    "devDependencies": {
+        "@angular/common": "^2.0.0",
+        "@angular/core": "^2.0.0",
+        "codelyzer": "^0.0.28",
+        "gulp": "^3.9.1",
+        "rxjs": "5.0.0-beta.12",
+        "tslint": "^3.15.1",
+        "typescript": "2.0.2",
+        "typings": "^1.0.4",
+        "zone.js": "0.6.23"
+    },
+    "engines": {
+        "node": ">=0.8.0"
+    }
+}
