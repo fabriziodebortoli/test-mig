@@ -26,7 +26,7 @@ import { AppComponent } from './app.component';
     HttpModule,
     MaterialModule.forRoot(),
     CoreModule.forRoot(),
-    LibraryModule.forRoot(),
+    // LibraryModule.forRoot(),
     SharedModule,
     MenuModule,
     routing
