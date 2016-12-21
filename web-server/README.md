@@ -3,10 +3,11 @@ Questo è il progetto contenitore, che ospita i vari moduli che apportano i cont
 I sottoprogetti sono:
 
 ## rs-web:
-Gestore del motore di reportistica
+Gestore del [motore di reportistica](https://github.com/Microarea/Taskbuilder/tree/master/web-server/rs-web)
 
 ## tbloader-gate
-Applicazione web che fa da tramite verso il processo TBLoader, curandone l'istanziazione e l'esposizione delle API rest verso l'esterno
+[Applicazione web](https://github.com/Microarea/Taskbuilder/tree/master/web-server/tbloader-gate)
+che fa da tramite verso il processo TBLoader, curandone l'istanziazione e l'esposizione delle API rest verso l'esterno
 
 ## task-scheduler 
 ### (non ancora presente)
