@@ -1,5 +1,7 @@
 # web-server
-Questo è il progetto contenitore, che ospita i vari moduli che apportano i controllers per l'interfaccia rest. Ogni sottoprogetto rappresenta un modulo caricato dinamicamente allo startup. Tali moduli vanno elencati nella sezione _Modules_ del file di configurazione appsettings.json
+Questo è il progetto contenitore, che ospita i vari moduli che apportano i controllers per l'interfaccia rest.
+Ogni sottoprogetto rappresenta un modulo caricato dinamicamente allo startup.
+Tali moduli vanno elencati nella sezione _Modules_ del file di configurazione appsettings.json
 I sottoprogetti sono:
 
 ## rs-web:
