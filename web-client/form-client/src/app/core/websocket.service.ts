@@ -31,27 +31,22 @@ export class WebSocketService {
         this.connection = new WebSocket(url);
         this.connection.onmessage = function (e) {
             if (typeof (e.data) === 'string') {
-                let idx = e.data.indexOf('-');
-                let eventName = e.data.substr(0, idx);
-                let jsonString = e.data.substr(idx + 1);
-                if (jsonString !== '') {
-                    try {
-                        switch (eventName) {
-                            case 'DataReady': $this.dataReady.emit(JSON.parse(jsonString)); break;
-                            case 'WindowOpen': $this.windowOpen.emit(JSON.parse(jsonString)); break;
-                            case 'WindowClose': $this.windowClose.emit(JSON.parse(jsonString)); break;
-                            //when tbloader has connected to gate, I receive this message; then I can
-                            //request the list of opened windows
-                            case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments'})); break;
-                            default: break;
-                        }
+                try {
+                    let obj = JSON.parse(e.data);
 
-                    } catch (e) {
-                        $this.logger.error('Invalid json string:\n' + jsonString);
-                        $this.logger.error('wsOnMessage', eventName, e);
+                    switch (obj.cmd) {
+                        case 'DataReady': $this.dataReady.emit(obj.args); break;
+                        case 'WindowOpen': $this.windowOpen.emit(obj.args); break;
+                        case 'WindowClose': $this.windowClose.emit(obj.args); break;
+                        //when tbloader has connected to gate, I receive this message; then I can
+                        //request the list of opened windows
+                        case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
+                        default: break;
                     }
-                }
 
+                } catch (e) {
+                    $this.logger.error('Invalid json string:\n' + e.data);
+                }
             }
         };
         this.connection.onerror = (arg) => {
@@ -62,9 +57,13 @@ export class WebSocketService {
 
         this.connection.onopen = (arg) => {
             //sets the name for this client socket 
-            this.connection.send('SetClientWebSocketName-' + JSON.stringify({
-                webSocketName: this.cookieService.get('authtoken'),
-                tbLoaderName: this.cookieService.get('tbloader-name')
+            this.connection.send(JSON.stringify({
+                cmd: 'SetClientWebSocketName',
+                args:
+                {
+                    webSocketName: this.cookieService.get('authtoken'),
+                    tbLoaderName: this.cookieService.get('tbloader-name')
+                }
             }));
 
             this.status = 'Open';

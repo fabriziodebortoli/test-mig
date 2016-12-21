@@ -1,5 +1,5 @@
-import { Component, OnInit, Directive } from '@angular/core';
-import { ToolbarButtonComponent } from './toolbarbutton.component' 
+import { Component, OnInit } from '@angular/core';
+import { ToolbarButtonComponent } from './toolbarbutton.component';
 
 @Component({
   selector: 'tb-toolbar',

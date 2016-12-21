@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { LoginSessionService } from 'tb-core';
 import { LoginSession } from 'tb-shared';
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   working: boolean = false;
   constructor(
     private loginSessionService: LoginSessionService,
-    private cookieService: CookieService) {
+    private cookieService: CookieService,
+    private router: Router) {
 
   }
 
@@ -23,6 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.saveState();
   }
+  
   loadState() {
     this.connectionData.user = this.cookieService.get('_user');
     this.connectionData.company = this.cookieService.get('_company');

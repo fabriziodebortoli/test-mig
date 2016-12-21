@@ -1,3 +1,4 @@
+import { ImageService } from './../../services/image.service';
 import { LocalizationService } from './../../services/localization.service';
 import { MenuService } from './../../services/menu.service';
 import { EventManagerService } from './../../services/event-manager.service';
@@ -9,7 +10,14 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'tb-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  styleUrls: ['./menu.component.css'],
+  providers:[
+    MenuService,
+    ImageService,
+    HttpMenuService,
+    SettingsService,
+    LocalizationService,
+    EventManagerService]
 })
 
 export class MenuComponent implements OnInit {

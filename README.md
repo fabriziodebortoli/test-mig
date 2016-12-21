@@ -6,7 +6,7 @@ TaskBuilder Web projects.
 [web-client - Angular2 based projects](https://github.com/Microarea/Taskbuilder/tree/master/web-client)
 
 ## Server 
-[web-server - Backend services and API](https://github.com/Microarea/Taskbuilder/tree/master/WebServer)
+[web-server - Backend services and API](https://github.com/Microarea/Taskbuilder/tree/master/web-server)
 
 ## Technology
 * [Angular2](https://angular.io/)

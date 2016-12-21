@@ -40,8 +40,8 @@ namespace Microarea.TbLoaderGate
 			}
 		}
 
-		const string setClientWebSocketName = "SetClientWebSocketName-";
-		const string setServerWebSocketName = "SetServerWebSocketName-";
+		const string setClientWebSocketName = "SetClientWebSocketName";
+		const string setServerWebSocketName = "SetServerWebSocketName";
 		static Dictionary<string, WebSocketCouple> socketMap = new Dictionary<string, WebSocketCouple>();
 
 		public static async Task<bool> HandleAsync(HttpContext http)
@@ -69,22 +69,24 @@ namespace Microarea.TbLoaderGate
 
 								WebSocketCouple couple = null;
 								//se il messaggio imposta il nome del socket, metto da parte l'istanza per accoppiarla con la controparte
-								if (message.StartsWith(setClientWebSocketName))
+								JObject jObj = JObject.Parse(message);
+								string cmd = jObj["cmd"].ToString();
+								if (cmd == setClientWebSocketName)
 								{
-									string json = message.Substring(setClientWebSocketName.Length);
-									JObject jObject = JObject.Parse(json);
-									coupleName = jObject["webSocketName"].ToString();
+									JObject jArgs = (JObject)jObj["args"];
+									coupleName = jArgs["webSocketName"].ToString();
 									couple = GetWebCouple(coupleName);
 									couple.clientSocket = webSocket;
-									string tbName = jObject["tbLoaderName"].ToString();
+									string tbName = jArgs["tbLoaderName"].ToString();
 									bool dummy;
 									TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbName, false, out dummy);
 									if (tb != null)
 										tb.RequireWebSocketConnection(coupleName, http.Request.Host);
 								}
-								else if (message.StartsWith(setServerWebSocketName))
+								else if (cmd == setServerWebSocketName)
 								{
-									coupleName = message.Substring(setServerWebSocketName.Length);
+									JObject jArgs = (JObject)jObj["args"];
+									coupleName = jArgs["webSocketName"].ToString();
 									couple = GetWebCouple(coupleName);
 									couple.serverSocket = webSocket;
 								}
