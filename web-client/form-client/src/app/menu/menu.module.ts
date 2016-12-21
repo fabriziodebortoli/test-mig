@@ -25,15 +25,13 @@ import { menuRouting } from './menu.routing';
 import { RouterModule, Routes } from '@angular/router';
 import { Logger } from 'libclient';
 
-<<<<<<< HEAD
 import { HttpMenuService } from './services/http-menu.service';
 import { MenuService } from './services/menu.service';
 import { ImageService } from './services/image.service';
 import { EventManagerService } from './services/event-manager.service';
 import { SettingsService } from './services/settings.service';
 import { TypeaheadModule, ModalModule } from 'ng2-bootstrap';
-=======
->>>>>>> 843a482bbaed358d7c4ab1bef0e7ae38976e0d2c
+ 
 
 @NgModule({
   imports: [
@@ -86,16 +84,12 @@ import { TypeaheadModule, ModalModule } from 'ng2-bootstrap';
   ],
   providers:
   [
-<<<<<<< HEAD
     MenuService,
     ImageService,
     HttpMenuService,
     SettingsService,
     LocalizationService,
     EventManagerService,
-=======
-    
->>>>>>> 843a482bbaed358d7c4ab1bef0e7ae38976e0d2c
   ],
   entryComponents: [
     ProductInfoDialogComponent,
