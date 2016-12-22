@@ -31,7 +31,7 @@ import { ImageService } from './services/image.service';
 import { EventManagerService } from './services/event-manager.service';
 import { SettingsService } from './services/settings.service';
 import { TypeaheadModule, ModalModule } from 'ng2-bootstrap';
- 
+
 
 @NgModule({
   imports: [
@@ -41,7 +41,7 @@ import { TypeaheadModule, ModalModule } from 'ng2-bootstrap';
     MaterialModule.forRoot(),
     menuRouting,
     BrowserModule,
-    ModalModule.forRoot(),
+    ModalModule,
     TypeaheadModule
   ],
 
