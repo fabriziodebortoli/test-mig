@@ -1,6 +1,6 @@
 import { ConnectionInfoDialogComponent } from './../connection-info-dialog/connection-info-dialog.component';
 import { ProductInfoDialogComponent } from './../product-info-dialog/product-info-dialog.component';
-import { MaterialModule, MdDialog, MdDialogRef } from '@angular/material';
+import { MaterialModule, MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 import { HttpMenuService } from './../../../services/http-menu.service';
 import { MenuService } from './../../../services/menu.service';
 import { UtilsService } from 'tb-core';
@@ -53,11 +53,11 @@ export class RightSidenavComponent implements OnInit {
   }
 
   openProductInfoDialog() {
-    this.productInfoDialogRef = this.dialog.open(ProductInfoDialogComponent, { disableClose: false });
+    this.productInfoDialogRef = this.dialog.open(ProductInfoDialogComponent, <MdDialogConfig>{ });
   }
    
    openConnectionInfoDialog() {
-    this.connectionInfoDialogRef = this.dialog.open(ConnectionInfoDialogComponent, { disableClose: false });
+    this.connectionInfoDialogRef = this.dialog.open(ConnectionInfoDialogComponent, <MdDialogConfig>{ });
   }
 };
 
