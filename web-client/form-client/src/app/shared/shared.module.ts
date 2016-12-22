@@ -6,8 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ToolbarComponent} from './toolbar/toolbar.component';
-import { ToolbarButtonComponent } from './toolbar/toolbarbutton.component';
+import { TopbarComponent } from './topbar/topbar.component';
+// import { TopbarButtonComponent } from './topbar/topbar-button.component';
 
 
 @NgModule({
@@ -17,16 +17,18 @@ import { ToolbarButtonComponent } from './toolbar/toolbarbutton.component';
     MaterialModule.forRoot()
   ],
   declarations: [
-    PageNotFoundComponent, ToolbarComponent, ToolbarButtonComponent, 
+    PageNotFoundComponent, TopbarComponent,
+    // TopbarButtonComponent,
     TabComponent, TabberComponent, DynamicCmpComponent,
     EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,
     TileManagerComponent, TileGroupComponent, TileComponent
-    ],
+  ],
   exports: [
     CommonModule, PageNotFoundComponent, TabComponent, TabberComponent,
     EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,
     TileManagerComponent, TileGroupComponent, TileComponent,
-    ToolbarButtonComponent, ToolbarComponent, DynamicCmpComponent],
-  providers:[]
+    // TopbarButtonComponent, 
+    TopbarComponent, DynamicCmpComponent],
+  providers: []
 })
 export class SharedModule { }

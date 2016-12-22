@@ -1,14 +1,15 @@
-import { DocumentService } from './../../core/document.service';
-import { WebSocketService } from './../../core/websocket.service';
+import { DocumentService, WebSocketService } from 'tb-core';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'tb-toolbarbutton',
+  selector: 'tb-topbar-button',
   template: `<a href='javascript:void(0)' (click)='onCommand()'>{{caption}}</a>`
 })
-export class ToolbarButtonComponent implements OnInit {
+export class TopbarButtonComponent implements OnInit {
+
   @Input() caption: string = '';
   @Input() cmd: string = '';
+
   constructor(
     private webSocket: WebSocketService,
     private document: DocumentService
@@ -18,6 +19,7 @@ export class ToolbarButtonComponent implements OnInit {
 
   ngOnInit() {
   }
+
   onCommand() {
     this.webSocket.doCommand(this.document.mainCmpId, this.cmd);
   }

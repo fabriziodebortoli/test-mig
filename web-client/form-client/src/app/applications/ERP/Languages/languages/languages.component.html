@@ -1,27 +1,21 @@
-<tb-toolbar>
-	<tb-toolbarbutton caption="First" cmd="ID_EXTDOC_FIRST"></tb-toolbarbutton>
-	<tb-toolbarbutton caption="Previous" cmd="ID_EXTDOC_PREV"></tb-toolbarbutton>
-	<tb-toolbarbutton caption="Next" cmd="ID_EXTDOC_NEXT"></tb-toolbarbutton>
-	<tb-toolbarbutton caption="Last" cmd="ID_EXTDOC_LAST"></tb-toolbarbutton>
-	<tb-toolbarbutton caption="Save" cmd="ID_EXTDOC_SAVE"></tb-toolbarbutton>
-	<tb-toolbarbutton caption="Escape" cmd="ID_EXTDOC_ESCAPE"></tb-toolbarbutton>
-	<tb-toolbarbutton caption="New" cmd="ID_EXTDOC_NEW"></tb-toolbarbutton>
-	<tb-toolbarbutton caption="Edit" cmd="ID_EXTDOC_EDIT"></tb-toolbarbutton>
-	<tb-toolbarbutton caption="Delete" cmd="ID_EXTDOC_DELETE"></tb-toolbarbutton>
-	<tb-toolbarbutton caption="Exit" cmd="ID_EXTDOC_EXIT"></tb-toolbarbutton>
-</tb-toolbar>
+<tb-topbar>
+    <tb-topbar-button caption="First" cmd="ID_EXTDOC_FIRST"></tb-topbar-button>
+    <tb-topbar-button caption="Previous" cmd="ID_EXTDOC_PREV"></tb-topbar-button>
+    <tb-topbar-button caption="Next" cmd="ID_EXTDOC_NEXT"></tb-topbar-button>
+    <tb-topbar-button caption="Last" cmd="ID_EXTDOC_LAST"></tb-topbar-button>
+    <tb-topbar-button caption="Save" cmd="ID_EXTDOC_SAVE"></tb-topbar-button>
+    <tb-topbar-button caption="Escape" cmd="ID_EXTDOC_ESCAPE"></tb-topbar-button>
+    <tb-topbar-button caption="New" cmd="ID_EXTDOC_NEW"></tb-topbar-button>
+    <tb-topbar-button caption="Edit" cmd="ID_EXTDOC_EDIT"></tb-topbar-button>
+    <tb-topbar-button caption="Delete" cmd="ID_EXTDOC_DELETE"></tb-topbar-button>
+    <tb-topbar-button caption="Exit" cmd="ID_EXTDOC_EXIT"></tb-topbar-button>
+</tb-topbar>
 <tb-tilemanager>
-	<tb-tilegroup>
-		<tb-tile>
-			<tb-edit 
-				caption="Language" 
-				cmpId="IDC_EDIT_LANGUAGE" 
-				[model]="documentService?.data?.DBT?.Languages?.Language">
-			</tb-edit>
-			<tb-edit 
-				caption="Description" 
-				cmpId="IDC_EDIT_DESCRIPTION" 
-				[model]="documentService?.data?.DBT?.Languages?.Description"></tb-edit>
-		</tb-tile>
-	</tb-tilegroup>
+    <tb-tilegroup>
+        <tb-tile>
+            <tb-edit caption="Language" cmpId="IDC_EDIT_LANGUAGE" [model]="documentService?.data?.DBT?.Languages?.Language">
+            </tb-edit>
+            <tb-edit caption="Description" cmpId="IDC_EDIT_DESCRIPTION" [model]="documentService?.data?.DBT?.Languages?.Description"></tb-edit>
+        </tb-tile>
+    </tb-tilegroup>
 </tb-tilemanager>
