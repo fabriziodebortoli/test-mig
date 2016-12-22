@@ -4,6 +4,7 @@ npm-debug.log
 
 # TypeScript
 *.js
+!gulpfile.js
 *.map
 *.d.ts
 
