@@ -1,4 +1,5 @@
-﻿import { OperationResult } from './operation.result';
+﻿import { Router } from '@angular/router';
+import { OperationResult } from './operation.result';
 import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
 import { LoginSession } from 'tb-shared';
@@ -9,16 +10,17 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()
 export class LoginSessionService {
-    connected: boolean = false;
+    connected: boolean = undefined;
     errorMessages: string[] = [];
     constructor(private httpService: HttpService,
         private socket: WebSocketService,
         private cookieService: CookieService,
-        private logger: Logger) {
+        private logger: Logger,
+        private router: Router) {
 
         this.isLogged();
 
-        this.socket.close.subscribe(() => { this.connected = false; });
+        this.socket.close.subscribe(() => { this.setConnected(false); });
     }
 
     isLogged(): void {
@@ -27,10 +29,10 @@ export class LoginSessionService {
                 this.logger.debug('isLogged returns: ' + isLogged);
 
                 if (!isLogged) {
-                    this.connected = false;
+                    this.setConnected(false);
                 } else {
                     this.logger.debug('Just logged in');
-                    this.connected = true;
+                    this.setConnected(true);
                     this.socket.wsConnect();
                 }
                 subs.unsubscribe();
@@ -47,10 +49,10 @@ export class LoginSessionService {
         return Observable.create(observer => {
             this.httpService.login(connectionData).subscribe(
                 result => {
-                    this.connected = !result.error;
+                    this.setConnected(!result.error);
                     this.errorMessages = result.messages;
                     ;
-                    if (this.connected) {
+                    if (this.isConnected) {
                         this.socket.wsConnect();
                     }
                     observer.next(result);
@@ -73,7 +75,7 @@ export class LoginSessionService {
         let subscription = this.httpService.logout().subscribe(
             loggedOut => {
                 this.logger.debug('logout returns: ' + loggedOut);
-                this.connected = !loggedOut;
+                this.setConnected(!loggedOut);
                 this.socket.wsClose();
                 this.cookieService.remove('authtoken');
                 subscription.unsubscribe();
@@ -87,5 +89,14 @@ export class LoginSessionService {
 
     isConnected(): boolean {
         return this.connected;
+    }
+    setConnected(val: boolean) {
+        this.connected = val;
+        if (this.connected) {
+            this.router.navigate(['home'], { skipLocationChange: false, replaceUrl: false });
+        }
+        else {
+            this.router.navigate(['login'], { skipLocationChange: false, replaceUrl: false });
+        }
     }
 }

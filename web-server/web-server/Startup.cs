@@ -29,7 +29,7 @@ namespace WebApplication
 				.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
-			
+
 
 			if (env.IsDevelopment())
 			{
@@ -42,7 +42,7 @@ namespace WebApplication
 
 			ReadModules();
 		}
-		 
+
 		private void ReadModules()
 		{
 			IConfigurationSection section = Configuration.GetSection("Modules");
@@ -105,7 +105,7 @@ namespace WebApplication
 			loggerFactory.AddDebug();
 			logger = loggerFactory.CreateLogger("WebServer");
 
-			
+
 
 			if (env.IsDevelopment())
 			{
@@ -129,10 +129,11 @@ namespace WebApplication
 
 			app.UseMvc(routes =>
 			{
+				routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
 				foreach (var configurator in configurators)
 					configurator.MapRoutes(routes);
 			});
 		}
-		
+
 	}
 }

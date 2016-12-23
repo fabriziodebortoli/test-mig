@@ -51,15 +51,6 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    openServerSocket(name: string) {
-        let subs = this.http.get(this.getMenuBaseUrl(false) + 'openWebSocket/?name=' + name)
-            .catch(this.handleError)
-            .subscribe(res => {
-                console.log(res);
-                subs.unsubscribe();
-            });
-    }
-
     getLoginActiveThreads() {
         /*return new Promise(function (resolve, reject) {
          me.http.get(me.getDocumentBaseUrl() + "getLoginActiveThreads/")

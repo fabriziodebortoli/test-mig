@@ -1,0 +1,20 @@
+<md-sidenav-layout >
+  <md-sidenav #sidenav>
+    Start Sidenav.
+    <br>
+
+  </md-sidenav>
+
+  <div>
+    <tb-tabs>
+      <tb-tab [tabTitle]="Menu" (close)="loginSession.logout();">
+        <tb-menu></tb-menu>
+      </tb-tab>
+      <tb-tab *ngFor="let info of componentService.components" (close)="componentService.tryDestroyComponent(info)">
+        <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
+      </tb-tab>
+    </tb-tabs>
+  </div>
+
+
+</md-sidenav-layout>
