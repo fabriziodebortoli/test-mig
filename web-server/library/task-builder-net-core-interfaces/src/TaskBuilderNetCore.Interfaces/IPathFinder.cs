@@ -1,4 +1,4 @@
-﻿using Microarea.TaskBuilderNet.Core.NameSolver;
+﻿
 namespace TaskBuilderNetCore.Interfaces
 {
 	//=========================================================================
