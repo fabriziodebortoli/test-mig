@@ -1,3 +1,4 @@
+import { SidenavService } from '../../core/sidenav.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 
 export class TopbarComponent implements OnInit {
 
-  constructor() {
+  title: string = 'Mago Web';
+  subtitle: string = 'Microarea Spa';
+
+  constructor(private sidenavService: SidenavService) {
 
   }
 
@@ -16,7 +20,7 @@ export class TopbarComponent implements OnInit {
   }
 
   toggleSidenav() {
-    // this.sidenavService.toggleSidenav();
+    this.sidenavService.toggleSidenav();
   }
 
 }

@@ -1,5 +1,21 @@
 <md-toolbar color="primary">
-     <div>
-      <ng-content></ng-content>
+    <md-icon id="toggle-sidebar" (click)="toggleSidenav()">menu</md-icon>
+
+    <div class="topbar-title">
+        <h1>{{title}}</h1>
+        <h2>{{subtitle}}</h2>
     </div>
+
+    <span class="fill-remaining-space"></span>
+
+    <!--<button md-icon-button [mdMenuTriggerFor]="menu">
+   <md-icon>more_vert</md-icon>
+</button>
+
+    <md-menu #menu="mdMenu">
+        <button md-menu-item> Refresh </button>
+        <button md-menu-item> Settings </button>
+        <button md-menu-item> Help </button>
+        <button md-menu-item disabled> Sign Out </button>
+    </md-menu>-->
 </md-toolbar>

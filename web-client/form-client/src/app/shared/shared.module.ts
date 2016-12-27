@@ -1,14 +1,16 @@
+import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MaterialModule } from '@angular/material';
+
 import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent } from './containers';
 import { EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
-import { MaterialModule } from '@angular/material';
-import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './page-not-found.component';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TopbarComponent } from './topbar/topbar.component';
 // import { TopbarButtonComponent } from './topbar/topbar-button.component';
 
+import { SidenavService } from '../core/sidenav.service';
 
 @NgModule({
   imports: [
@@ -28,7 +30,16 @@ import { TopbarComponent } from './topbar/topbar.component';
     EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,
     TileManagerComponent, TileGroupComponent, TileComponent,
     // TopbarButtonComponent, 
-    TopbarComponent, DynamicCmpComponent],
-  providers: []
+    TopbarComponent, DynamicCmpComponent
+  ]
 })
-export class SharedModule { }
+export class SharedModule {
+
+  constructor( @Optional() @SkipSelf() parentModule: SharedModule) {
+    if (parentModule) {
+      throw new Error(
+        'SharedModule is already loaded. Import it in the AppModule only');
+    }
+  }
+
+}

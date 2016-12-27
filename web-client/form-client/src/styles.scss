@@ -35,3 +35,17 @@ body {
     margin: 5px;
     color: #fff
 }
+
+
+/*
+    issue 
+    toolbar: unable to specify attributes on first toolbar-row #1718
+    https://github.com/angular/material2/issues/1718
+
+    TODO togliere da qua e mettere in topbar.comnpnent.css quando risolveranno il baco
+*/
+
+md-toolbar md-toolbar-row {
+    height: 50px !important;
+    min-height: 50px !important;
+}

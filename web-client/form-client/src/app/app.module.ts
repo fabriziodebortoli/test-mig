@@ -9,7 +9,8 @@ import { routing } from './app.routing';
 
 import { MaterialModule } from '@angular/material';
 
-import { CoreModule, SidenavService } from 'tb-core';
+import { CoreModule } from 'tb-core';
+import { SidenavService } from './core/sidenav.service';
 
 import { LibraryModule } from 'web-library';
 
