@@ -1,3 +1,4 @@
+import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
 import { SharedModule } from 'tb-shared';
 import { MenuModule } from './menu/menu.module';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +18,9 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    UnsupportedFactoryComponent,
+    UnsupportedComponent
   ],
   imports: [
     FormsModule,
@@ -30,6 +33,7 @@ import { AppComponent } from './app.component';
     routing
   ],
   bootstrap: [AppComponent],
-  providers: [SidenavService]
+  providers: [SidenavService],
+  entryComponents:[UnsupportedComponent]
 })
 export class AppModule { }
