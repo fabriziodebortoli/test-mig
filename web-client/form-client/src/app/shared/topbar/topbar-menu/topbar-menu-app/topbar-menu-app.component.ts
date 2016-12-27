@@ -11,6 +11,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopbarMenuAppComponent implements OnInit {
 
+  private title: string = "App menu";
+
   constructor() { }
 
   ngOnInit() {
