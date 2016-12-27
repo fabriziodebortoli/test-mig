@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopbarSearchComponent implements OnInit {
 
+  private searchText: string = "Search"; //TODO localizzazione
+
   constructor() { }
 
   ngOnInit() {
