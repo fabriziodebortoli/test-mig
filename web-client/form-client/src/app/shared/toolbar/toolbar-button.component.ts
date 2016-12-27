@@ -1,11 +1,13 @@
-import { DocumentService, WebSocketService } from 'tb-core';
+import { DocumentService } from './../../core/document.service';
+import { WebSocketService } from './../../core/websocket.service';
+
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'tb-topbar-button',
+  selector: 'tb-toolbar-button',
   template: `<a href='javascript:void(0)' (click)='onCommand()'>{{caption}}</a>`
 })
-export class TopbarButtonComponent implements OnInit {
+export class ToolbarButtonComponent implements OnInit {
 
   @Input() caption: string = '';
   @Input() cmd: string = '';
