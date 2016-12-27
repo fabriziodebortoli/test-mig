@@ -31,6 +31,7 @@ import { ImageService } from './services/image.service';
 import { EventManagerService } from './services/event-manager.service';
 import { SettingsService } from './services/settings.service';
 import { TypeaheadModule, ModalModule } from 'ng2-bootstrap';
+import { ComponentLoaderFactory } from 'ng2-bootstrap/component-loader';
 
 
 @NgModule({
@@ -41,7 +42,7 @@ import { TypeaheadModule, ModalModule } from 'ng2-bootstrap';
     MaterialModule.forRoot(),
     menuRouting,
     BrowserModule,
-    ModalModule,
+    ModalModule.forRoot(),
     TypeaheadModule
   ],
 
@@ -90,6 +91,7 @@ import { TypeaheadModule, ModalModule } from 'ng2-bootstrap';
     SettingsService,
     LocalizationService,
     EventManagerService,
+    ComponentLoaderFactory
   ],
   entryComponents: [
     ProductInfoDialogComponent,

@@ -12,8 +12,6 @@ import { MaterialModule } from '@angular/material';
 import { CoreModule } from 'tb-core';
 import { SidenavService } from './core/sidenav.service';
 
-import { LibraryModule } from 'web-library';
-
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -27,7 +25,6 @@ import { AppComponent } from './app.component';
     HttpModule,
     MaterialModule.forRoot(),
     CoreModule.forRoot(),
-    // LibraryModule.forRoot(),
     SharedModule,
     MenuModule,
     routing
