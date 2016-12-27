@@ -1,3 +1,4 @@
+import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
 import { ToolbarButtonComponent } from './toolbar/toolbar-button.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
@@ -15,7 +16,7 @@ import { SidenavService } from '../core/sidenav.service';
 
 const TB_COMPONENTS = [
   PageNotFoundComponent,
-  TopbarComponent, TopbarMenuComponent, TopbarMenuUserComponent, TopbarMenuAppComponent,
+  TopbarComponent, TopbarMenuComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarSearchComponent,
   ToolbarComponent, ToolbarButtonComponent,
   TabComponent, TabberComponent,
   DynamicCmpComponent,
