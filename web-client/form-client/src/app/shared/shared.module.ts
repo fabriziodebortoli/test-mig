@@ -7,7 +7,8 @@ import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent
 import { EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
-import { TopbarComponent } from './topbar/topbar.component';
+
+import { TopbarComponent, TopbarMenuComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
 // import { TopbarButtonComponent } from './topbar/topbar-button.component';
 
 import { SidenavService } from '../core/sidenav.service';
@@ -19,8 +20,8 @@ import { SidenavService } from '../core/sidenav.service';
     MaterialModule.forRoot()
   ],
   declarations: [
-    PageNotFoundComponent, TopbarComponent,
-    // TopbarButtonComponent,
+    PageNotFoundComponent,
+    TopbarComponent, TopbarMenuComponent, TopbarMenuUserComponent, TopbarMenuAppComponent,
     TabComponent, TabberComponent, DynamicCmpComponent,
     EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,
     TileManagerComponent, TileGroupComponent, TileComponent
@@ -29,8 +30,8 @@ import { SidenavService } from '../core/sidenav.service';
     CommonModule, PageNotFoundComponent, TabComponent, TabberComponent,
     EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,
     TileManagerComponent, TileGroupComponent, TileComponent,
-    // TopbarButtonComponent, 
-    TopbarComponent, DynamicCmpComponent
+    TopbarComponent, TopbarMenuComponent, TopbarMenuUserComponent, TopbarMenuAppComponent,
+    DynamicCmpComponent
   ]
 })
 export class SharedModule {

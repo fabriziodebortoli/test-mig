@@ -1,0 +1,10 @@
+<button md-icon-button [md-menu-trigger-for]="menuUser">
+    <md-icon>person</md-icon>
+</button>
+
+<md-menu #menuUser="mdMenu">
+    <button md-menu-item> Refresh </button>
+    <button md-menu-item> Settings </button>
+    <button md-menu-item> Help </button>
+    <button md-menu-item disabled> Sign Out </button>
+</md-menu>
