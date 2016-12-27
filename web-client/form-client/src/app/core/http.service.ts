@@ -26,7 +26,7 @@ export class HttpService {
         return new OperationResult(!ok, messages);
     }
     isLogged(): Observable<string> {
-        return this.postData(this.getMenuBaseUrl(false) + 'isLogged/', {})
+        return this.postData(this.getMenuBaseUrl() + 'isLogged/', {})
             .map((res: Response) => {
                 return res.ok && res.json().success === true;
             })
@@ -34,7 +34,7 @@ export class HttpService {
     }
 
     login(connectionData: LoginSession): Observable<OperationResult> {
-        return this.postData(this.getMenuBaseUrl(false) + 'doLogin/', connectionData)
+        return this.postData(this.getMenuBaseUrl() + 'doLogin/', connectionData)
             .map((res: Response) => {
                 return this.createOperationResult(res);
             })
@@ -44,7 +44,7 @@ export class HttpService {
     logout(): Observable<OperationResult> {
         let token = this.cookieService.get('authtoken');
         this.logger.debug('httpService.logout (' + token + ')');
-        return this.postData(this.getMenuBaseUrl(false) + 'doLogoff/', token)
+        return this.postData(this.getMenuBaseUrl() + 'doLogoff/', token)
             .map((res: Response) => {
                 return this.createOperationResult(res);
             })
@@ -79,10 +79,8 @@ export class HttpService {
         return this.baseUrl + 'tb/document/';
     }
 
-    getMenuBaseUrl(needLoginThread: boolean) {
+    getMenuBaseUrl() {
         let url = this.baseUrl + 'tb/menu/';
-        if (needLoginThread)
-            url += 'needLoginThread/';
         return url;
     }
 

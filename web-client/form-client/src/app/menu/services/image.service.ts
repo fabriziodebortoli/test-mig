@@ -32,7 +32,7 @@ export class ImageService extends HttpService {
         }
 
         let imageFile = item['image_file'];
-        return imageFile === undefined ? 'Images/Default.png' : super.getMenuBaseUrl(false) + '/staticimage/' + imageFile;
+        return imageFile === undefined ? 'Images/Default.png' : super.getMenuBaseUrl() + '/staticimage/' + imageFile;
     }
 
     //---------------------------------------------------------------------------------------------
