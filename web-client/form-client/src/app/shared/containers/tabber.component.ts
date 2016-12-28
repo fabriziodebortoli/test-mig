@@ -5,19 +5,12 @@ import {
 } from '@angular/core';
 @Component({
   selector: 'tb-tabs',
-  template: `
-    <ul>
-      <li (click)="selectTab(tab)" *ngFor="let tab of tabs" [ngClass]="tab.active ? 'active' : ''">
-       <a href="javascript:void(0)" (click)="selectTab(tab)" title="activate" class='tabTitle'>{{tab.tabTitle}}</a>
-       <a href="javascript:void(0)" (click)="closeTab(tab)" title="close" class='close'>x</a>
-      </li>
-    </ul>
-    <ng-content></ng-content> 
-  `,
+  templateUrl: './tabber.component.html',
   styleUrls: ['./tabber.component.css']
 })
-export class TabberComponent  extends TbComponent{
+export class TabberComponent extends TbComponent {
   tabs: TabComponent[] = [];
+
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   selectTab(tab: TabComponent) {

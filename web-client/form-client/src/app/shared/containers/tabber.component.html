@@ -1,0 +1,7 @@
+<ul class="tabber">
+    <li (click)="selectTab(tab)" *ngFor="let tab of tabs" [ngClass]="tab.active ? 'active' : ''" title="activate" class='tabTitle'>
+        <span (click)="selectTab(tab)">{{tab.tabTitle}}</span>
+        <span (click)="closeTab(tab)" title="close" class='close'>x</span>
+    </li>
+</ul>
+<ng-content></ng-content>
