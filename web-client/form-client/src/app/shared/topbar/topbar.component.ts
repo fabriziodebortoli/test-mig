@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { SidenavService } from '../../core/sidenav.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,8 +10,8 @@ import { Component, OnInit } from '@angular/core';
 
 export class TopbarComponent implements OnInit {
 
-  title: string = 'Mago Web';
-  subtitle: string = 'Microarea Spa';
+  private appName = environment.appName;
+  private companyName = environment.companyName;
 
   constructor(private sidenavService: SidenavService) {
 

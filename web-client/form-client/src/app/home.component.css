@@ -1,0 +1,135 @@
+md-sidenav.md-sidenav-opened {
+    width: 250px;
+    background: #282828;
+}
+
+#close-sidebar {
+    cursor: pointer;
+    margin-left: 10px;
+    color: #fff;
+}
+
+.sidenav-header {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    min-height: 50px;
+}
+
+.sidenav-title {
+    padding-left: 15px;
+}
+
+.sidenav-title h1,
+.sidenav-title h2 {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+.sidenav-title h1 {
+    font-size: 18px;
+    margin-bottom: 3px;
+}
+
+.sidenav-title h2 {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.sidenav-subtitle {
+    height: 30px;
+    line-height: 30px;
+    text-transform: uppercase;
+    text-align: center;
+    color: #9f9f9f;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* Application selector */
+
+.application-selector {}
+
+ul.application-selector-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+ul.application-selector-list>li {
+    flex-grow: 2;
+    background: #3e3e3e;
+    color: #9f9f9f;
+    height: 66px;
+    cursor: pointer;
+    flex: 1 50%;
+}
+
+ul.application-selector-list>li.active,
+ul.application-selector-list>li:hover {
+    background: #282828;
+    color: #fff;
+}
+
+ul.application-selector-list>li md-icon {
+    display: block;
+    margin: 0 auto;
+    line-height: 50px;
+    height: 40px;
+    font-size: 40px;
+    width: 40px;
+}
+
+ul.application-selector-list>li span {
+    font-size: 12px;
+    line-height: 22px;
+    display: block;
+    text-align: center;
+}
+
+
+/* bookmarks */
+
+.bookmarks {
+    margin-top: 10px;
+}
+
+ul.bookmarks-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+ul.bookmarks-list>li {
+    line-height: 35px;
+    height: 35px;
+    margin-bottom: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    color: #9f9f9f;
+    background: #3e3e3e;
+}
+
+ul.bookmarks-list>li:hover {
+    background: #282828;
+    color: #fff;
+}
+
+ul.bookmarks-list>li>md-icon {
+    font-size: 18px;
+    line-height: 22px;
+}
+
+ul.bookmarks-list>li>span {
+    font-size: 12px;
+}

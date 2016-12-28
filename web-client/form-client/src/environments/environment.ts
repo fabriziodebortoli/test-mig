@@ -4,8 +4,11 @@
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
 export const environment = {
-
   production: false,
+
   apiBaseUrl: `http://localhost:5000/tbloader/api/`,
-  wsBaseUrl: 'ws://localhost:5000/tbloader/'
+  wsBaseUrl: 'ws://localhost:5000/tbloader/',
+
+  appName: 'MagoWeb',
+  companyName: 'Microarea Spa'
 };

@@ -25,7 +25,9 @@ md-toolbar md-toolbar-row {
     min-height: 50px !important;
 }
 
-.topbar-title {}
+.topbar-title {
+    margin-left: 5px;
+}
 
 .topbar-title h1,
 .topbar-title h2 {

@@ -8,6 +8,7 @@ export class SidenavService {
   sidenavOpened$ = this.sidenavOpenedSource.asObservable();
 
   openSidenav() {
+    console.log("openSidenav");
     this.sidenavOpenedSource.next(true);
   }
 

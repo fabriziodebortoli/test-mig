@@ -1,22 +1,75 @@
-<md-sidenav-layout fullscreen>
-    <md-sidenav #sidenav>
-        Start Sidenav.
-        <br>
+<md-sidenav-layout>
+    <md-sidenav mode="over" #sidenav>
+        <div class="sidenav-header">
+            <md-icon id="close-sidebar" (click)="closeSidenav()">menu</md-icon>
+
+            <div class="sidenav-title">
+                <h1>{{appName}}</h1>
+                <h2>{{companyName}}</h2>
+            </div>
+        </div>
+
+        <div class="application-selector">
+            <div class="sidenav-subtitle">menu</div>
+
+            <ul class="application-selector-list">
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+            </ul>
+        </div>
+
+        <div class="bookmarks">
+            <div class="sidenav-subtitle">bookmarks</div>
+
+            <ul class="bookmarks-list">
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+                <li>
+                    <md-icon>home</md-icon><span>Application</span></li>
+            </ul>
+        </div>
+
 
     </md-sidenav>
 
-    <tb-topbar></tb-topbar>
-
-    <div>
-        <tb-tabs>
-            <tb-tab [tabTitle]="Menu" (close)="loginSession.logout();">
-                <tb-menu></tb-menu>
-            </tb-tab>
-            <tb-tab *ngFor="let info of componentService.components" (close)="componentService.tryDestroyComponent(info)">
-                <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
-            </tb-tab>
-        </tb-tabs>
+    <div class="tb-content">
+        <tb-topbar></tb-topbar>
+        <div>
+            <tb-tabs>
+                <tb-tab [tabTitle]="Menu" (close)="loginSession.logout();">
+                    <tb-menu></tb-menu>
+                </tb-tab>
+                <tb-tab *ngFor="let info of componentService.components" (close)="componentService.tryDestroyComponent(info)">
+                    <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
+                </tb-tab>
+            </tb-tabs>
+        </div>
     </div>
-
 
 </md-sidenav-layout>
