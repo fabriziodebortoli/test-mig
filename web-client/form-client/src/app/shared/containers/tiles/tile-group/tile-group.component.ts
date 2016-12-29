@@ -1,11 +1,11 @@
-import { TileManagerComponent } from './tilemanager.component';
-import { TabComponent } from './tab.component';
 import { Component, OnInit } from '@angular/core';
+import { TileManagerComponent } from '../tile-manager/tile-manager.component';
+import { TabComponent } from '../../tabber/tab/tab.component';
 
 @Component({
   selector: 'tb-tilegroup',
-  templateUrl: './tilegroup.component.html',
-  styleUrls: ['./tilegroup.component.css']
+  templateUrl: './tile-group.component.html',
+  styleUrls: ['./tile-group.component.scss']
 })
 export class TileGroupComponent extends TabComponent implements OnInit {
 
