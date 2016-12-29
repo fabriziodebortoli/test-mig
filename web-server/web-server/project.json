@@ -42,7 +42,8 @@
 		"common-lib": "1.0.0-*",
 					"Microsoft.AspNetCore.WebSockets.Server": "0.1.0-*",
 					"rs-web": "1.0.0-*",
-					"tbloader-gate": "1.0.0-*"	},
+        "tbloader-gate": "1.0.0-*",
+        "login-manager": "1.0.0-*"	},
 	"tools": {
 		"Microsoft.AspNetCore.Razor.Tools": {
 			"version": "1.0.0-preview2-final",
