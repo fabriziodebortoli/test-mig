@@ -1,2 +1,2 @@
-export * from './toolbar.component';
+export * from './toolbar-top/toolbar-top.component';
 export * from './toolbar-button.component';

@@ -1,7 +1,7 @@
-import { DocumentService } from './../../core/document.service';
-import { WebSocketService } from './../../core/websocket.service';
-
 import { Component, OnInit, Input } from '@angular/core';
+
+import { DocumentService } from '../../core/document.service';
+import { WebSocketService } from '../../core/websocket.service';
 
 @Component({
   selector: 'tb-toolbar-button',
@@ -16,7 +16,6 @@ export class ToolbarButtonComponent implements OnInit {
     private webSocket: WebSocketService,
     private document: DocumentService
   ) {
-
   }
 
   ngOnInit() {

@@ -18,6 +18,7 @@ ul.tabber {
     flex-wrap: nowrap;
     justify-content: center;
     margin: 0;
+    border-bottom: 1px solid #ddd;
 }
 
 ul.tabber>li {
@@ -32,6 +33,7 @@ ul.tabber>li {
 
 li.active {
     background-color: #fff;
+    margin-bottom: -1px;
 }
 
 a.tabTitle {
