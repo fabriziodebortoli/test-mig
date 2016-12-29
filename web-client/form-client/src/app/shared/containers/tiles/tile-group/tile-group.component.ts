@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TileManagerComponent } from '../tile-manager/tile-manager.component';
-import { TabComponent } from '../../tabber/tab/tab.component';
+import { TabComponent } from '../../tabs';
 
 @Component({
   selector: 'tb-tilegroup',

@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { TbComponent } from '../../';
-import { TabComponent } from './tab/tab.component';
+import { TbComponent } from '../../../';
+import { TabComponent } from '../tab/tab.component';
 
 @Component({
   selector: 'tb-tabs',

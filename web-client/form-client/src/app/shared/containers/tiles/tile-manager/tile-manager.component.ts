@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TabberComponent } from '../../tabber/tabber.component';
+import { TabberComponent } from '../../tabs';
 
 @Component({
   selector: 'tb-tilemanager',

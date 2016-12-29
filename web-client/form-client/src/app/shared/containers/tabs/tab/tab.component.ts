@@ -1,5 +1,5 @@
 import { TbComponent } from '../../../';
-import { TabberComponent } from '../tabber.component';
+import { TabberComponent } from '../tabber/tabber.component';
 import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angular/core';
 
 @Component({
