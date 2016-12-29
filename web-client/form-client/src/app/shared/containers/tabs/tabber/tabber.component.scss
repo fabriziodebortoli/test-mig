@@ -1,3 +1,14 @@
+.tb-tabber {
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+}
+
+.tab-content {
+    overflow: auto;
+    flex: 1;
+}
+
 ul.tabber {
     list-style: none;
     padding: 0;
@@ -6,6 +17,7 @@ ul.tabber {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
+    margin: 0;
 }
 
 ul.tabber>li {

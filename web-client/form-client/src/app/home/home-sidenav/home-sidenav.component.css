@@ -1,8 +1,3 @@
-md-sidenav.md-sidenav-opened {
-    width: 250px;
-    background: #282828;
-}
-
 #close-sidebar {
     cursor: pointer;
     margin-left: 10px;

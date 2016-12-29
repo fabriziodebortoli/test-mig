@@ -1,8 +1,8 @@
+import { HomeComponent, HomeSidenavComponent } from './home';
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
 import { SharedModule } from 'tb-shared';
 import { MenuModule } from './menu/menu.module';
 import { FormsModule } from '@angular/forms';
-import { HomeComponent } from './home.component';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,7 +18,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    HomeComponent, HomeSidenavComponent,
     UnsupportedFactoryComponent,
     UnsupportedComponent
   ],
@@ -34,6 +34,6 @@ import { AppComponent } from './app.component';
   ],
   bootstrap: [AppComponent],
   providers: [SidenavService],
-  entryComponents:[UnsupportedComponent]
+  entryComponents: [UnsupportedComponent]
 })
 export class AppModule { }

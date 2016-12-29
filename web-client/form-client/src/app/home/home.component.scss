@@ -1,0 +1,20 @@
+md-sidenav.md-sidenav-opened {
+    width: 250px;
+    background: #282828;
+}
+
+material-app,
+md-sidenav-layout,
+.main-content {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+tb-tabber {
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+}

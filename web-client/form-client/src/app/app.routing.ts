@@ -1,7 +1,7 @@
 import { UnsupportedFactoryComponent } from './unsupported.component';
 import { LoginComponent } from './menu/components/login/login.component';
 import { PageNotFoundComponent } from 'tb-shared';
-import { HomeComponent } from './home.component';
+import { HomeComponent } from './home/home.component';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 

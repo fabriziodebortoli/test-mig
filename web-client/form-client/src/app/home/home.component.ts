@@ -1,21 +1,17 @@
-import { environment } from '../environments/environment';
-import { SidenavService } from './core/sidenav.service';
-import { LoginSessionService, ComponentService } from 'tb-core';
-import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { SidenavService, LoginSessionService, ComponentService } from './../core';
 
 @Component({
   selector: 'tb-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
   @ViewChild('sidenav') sidenav;
   sidenavSubscription: any;
-
-  private appName = environment.appName;
-  private companyName = environment.companyName;
 
   constructor(
     private loginSession: LoginSessionService,

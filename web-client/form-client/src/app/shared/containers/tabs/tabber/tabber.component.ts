@@ -3,7 +3,7 @@ import { TbComponent } from '../../../';
 import { TabComponent } from '../tab/tab.component';
 
 @Component({
-  selector: 'tb-tabs',
+  selector: 'tb-tabber',
   templateUrl: './tabber.component.html',
   styleUrls: ['./tabber.component.scss']
 })
