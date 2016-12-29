@@ -1,18 +1,16 @@
-import { TbComponent } from '..';
-import { TabberComponent } from './tabber.component';
+import { TbComponent } from '../../../';
+import { TabberComponent } from '../tabber.component';
 import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angular/core';
 
 @Component({
   selector: 'tb-tab',
-  template: `
-    <div [hidden]="!active" class="tabContent">
-      <ng-content></ng-content>
-    </div>
-  `,
-  styleUrls: ['./tab.component.css']
+  templateUrl: './tab.component.html',
+  styleUrls: ['./tab.component.scss']
 })
 export class TabComponent extends TbComponent implements OnInit, OnDestroy {
+
   active: boolean;
+
   @Input() tabTitle: string = 'tabTitle';
 
   @Output() close: EventEmitter<any> = new EventEmitter();
@@ -29,4 +27,5 @@ export class TabComponent extends TbComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.tabs.removeTab(this);
   }
+
 }
