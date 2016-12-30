@@ -54,6 +54,19 @@ body {
     text-overflow: ellipsis;
 }
 
+tb-dynamic-cmp {
+    display: flex;
+    flex-direction: column
+}
+
+tb-toolbar-top {}
+
+tb-view {
+    flex-grow: 1;
+}
+
+tb-toolbar-bottom {}
+
 
 /*
     issue 
