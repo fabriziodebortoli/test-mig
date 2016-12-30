@@ -1,0 +1,55 @@
+[md-icon-button] {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 0;
+    color: #1976d2;
+    font-size: 14px;
+}
+
+[md-icon-button] md-icon {
+    line-height: 22px;
+}
+
+.material-icons {
+    font-size: 22px;
+}
+
+.history-panel {
+    min-width: 280px;
+    max-width: 300px;
+    padding: 5px 20px;
+}
+
+.history-title {
+    font-size: 14px;
+    color: 666;
+    margin-bottom: 20px;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    padding: 0;
+}
+
+.history-list>li {
+    display: flex;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.history-list>li:hover {
+    background: #efefef;
+}
+
+.history-list>li md-icon {
+    font-size: 18px;
+    line-height: 30px;
+    color: #1976d2;
+}
+
+.history-list>li span {
+    font-size: 12px;
+}

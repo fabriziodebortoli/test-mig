@@ -1,6 +1,25 @@
 .toolbar-top {
     display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
     background: #fff;
     border-bottom: 1px solid #ddd;
     line-height: 30px;
+}
+
+.toolbar-top-item {}
+
+.title {
+    flex-grow: 1;
+    display: flex;
+}
+
+.document-title {
+    font-size: 14px;
+    line-height: 30px;
+    margin: 0 5px;
+    font-weight: 700;
+    font-size: 14px;
 }

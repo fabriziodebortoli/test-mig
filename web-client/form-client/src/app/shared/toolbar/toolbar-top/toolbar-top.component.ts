@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class ToolbarTopComponent implements OnInit {
 
+  private docTitle: string = 'Language'; // TODO read document title?
 
   constructor() {
 

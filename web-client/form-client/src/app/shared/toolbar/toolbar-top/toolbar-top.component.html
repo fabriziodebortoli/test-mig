@@ -1,3 +1,13 @@
 <div class="toolbar-top">
-    <ng-content></ng-content>
+    <div class="toolbar-top-item title">
+        <tb-history></tb-history>
+
+        <span class="document-title truncate">{{docTitle}}</span>
+    </div>
+
+    <div class="toolbar-top-item functions"></div>
+
+    <div class="toolbar-top-item navigation">
+        <ng-content></ng-content>
+    </div>
 </div>
