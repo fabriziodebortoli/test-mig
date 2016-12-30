@@ -1,27 +1,29 @@
-<tb-toolbar-top [document]="document">
-    <tb-toolbar-separator></tb-toolbar-separator>
-    <tb-toolbar-button icon="first_page" caption="First" cmd="ID_EXTDOC_FIRST"></tb-toolbar-button>
-    <tb-toolbar-button icon="chevron_left" caption="Previous" cmd="ID_EXTDOC_PREV"></tb-toolbar-button>
-    <tb-toolbar-button icon="chevron_right" caption="Next" cmd="ID_EXTDOC_NEXT"></tb-toolbar-button>
-    <tb-toolbar-button icon="last_page" caption="Last" cmd="ID_EXTDOC_LAST"></tb-toolbar-button>
-    <tb-toolbar-separator></tb-toolbar-separator>
-    <tb-toolbar-button icon="clear" caption="Exit" cmd="ID_EXTDOC_EXIT"></tb-toolbar-button>
-</tb-toolbar-top>
-<tb-view>
-    <tb-tilemanager>
-        <tb-tilegroup>
-            <tb-tile>
-                <tb-edit caption="Language" cmpId="IDC_EDIT_LANGUAGE" [model]="documentService?.data?.DBT?.Languages?.Language">
-                </tb-edit>
-                <tb-edit caption="Description" cmpId="IDC_EDIT_DESCRIPTION" [model]="documentService?.data?.DBT?.Languages?.Description"></tb-edit>
-            </tb-tile>
-        </tb-tilegroup>
-    </tb-tilemanager>
-</tb-view>
-<tb-toolbar-bottom [document]="document">
-    <tb-toolbar-button caption="Save" cmd="ID_EXTDOC_SAVE"></tb-toolbar-button>
-    <tb-toolbar-button caption="Escape" cmd="ID_EXTDOC_ESCAPE"></tb-toolbar-button>
-    <tb-toolbar-button caption="New" cmd="ID_EXTDOC_NEW"></tb-toolbar-button>
-    <tb-toolbar-button caption="Edit" cmd="ID_EXTDOC_EDIT"></tb-toolbar-button>
-    <tb-toolbar-button caption="Delete" cmd="ID_EXTDOC_DELETE"></tb-toolbar-button>
-</tb-toolbar-bottom>
+<tb-frame>
+    <tb-toolbar-top [document]="document">
+        <tb-toolbar-separator></tb-toolbar-separator>
+        <tb-toolbar-button icon="first_page" caption="First" cmd="ID_EXTDOC_FIRST"></tb-toolbar-button>
+        <tb-toolbar-button icon="chevron_left" caption="Previous" cmd="ID_EXTDOC_PREV"></tb-toolbar-button>
+        <tb-toolbar-button icon="chevron_right" caption="Next" cmd="ID_EXTDOC_NEXT"></tb-toolbar-button>
+        <tb-toolbar-button icon="last_page" caption="Last" cmd="ID_EXTDOC_LAST"></tb-toolbar-button>
+        <tb-toolbar-separator></tb-toolbar-separator>
+        <tb-toolbar-button icon="clear" caption="Exit" cmd="ID_EXTDOC_EXIT"></tb-toolbar-button>
+    </tb-toolbar-top>
+    <tb-view>
+        <tb-tilemanager>
+            <tb-tilegroup>
+                <tb-tile>
+                    <tb-edit caption="Language" cmpId="IDC_EDIT_LANGUAGE" [model]="documentService?.data?.DBT?.Languages?.Language">
+                    </tb-edit>
+                    <tb-edit caption="Description" cmpId="IDC_EDIT_DESCRIPTION" [model]="documentService?.data?.DBT?.Languages?.Description"></tb-edit>
+                </tb-tile>
+            </tb-tilegroup>
+        </tb-tilemanager>
+    </tb-view>
+    <tb-toolbar-bottom [document]="document">
+        <tb-toolbar-button caption="Save" cmd="ID_EXTDOC_SAVE"></tb-toolbar-button>
+        <tb-toolbar-button caption="Escape" cmd="ID_EXTDOC_ESCAPE"></tb-toolbar-button>
+        <tb-toolbar-button caption="New" cmd="ID_EXTDOC_NEW"></tb-toolbar-button>
+        <tb-toolbar-button caption="Edit" cmd="ID_EXTDOC_EDIT"></tb-toolbar-button>
+        <tb-toolbar-button caption="Delete" cmd="ID_EXTDOC_DELETE"></tb-toolbar-button>
+    </tb-toolbar-bottom>
+</tb-frame>

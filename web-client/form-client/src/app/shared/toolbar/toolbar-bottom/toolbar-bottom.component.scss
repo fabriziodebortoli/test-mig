@@ -5,6 +5,9 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: stretch;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

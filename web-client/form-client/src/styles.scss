@@ -54,18 +54,15 @@ body {
     text-overflow: ellipsis;
 }
 
-tb-dynamic-cmp {
-    display: flex;
-    flex-direction: column
-}
+tb-dynamic-cmp {}
 
 tb-toolbar-top {}
 
-tb-view {
-    flex-grow: 1;
-}
+tb-view {}
 
 tb-toolbar-bottom {}
+
+tb-frame {}
 
 
 /*

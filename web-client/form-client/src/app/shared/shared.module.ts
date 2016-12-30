@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 
-import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent } from './containers';
+import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, FrameComponent } from './containers';
 import { EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
@@ -17,7 +17,7 @@ const TB_COMPONENTS = [
   PageNotFoundComponent,
   TopbarComponent, TopbarMenuComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarSearchComponent,
   ToolbarTopComponent, ToolbarButtonComponent, HistoryComponent, ToolbarSeparatorComponent, ToolbarBottomComponent,
-  TabComponent, TabberComponent, ViewComponent,
+  TabComponent, TabberComponent, ViewComponent, FrameComponent,
   DynamicCmpComponent,
   EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,
   TileManagerComponent, TileGroupComponent, TileComponent

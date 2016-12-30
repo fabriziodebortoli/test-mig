@@ -4,3 +4,4 @@ export * from './tiles/tile-manager/tile-manager.component';
 export * from './tabs/tabber/tabber.component';
 export * from './tabs/tab/tab.component';
 export * from './view/view.component';
+export * from './frame/frame.component';
