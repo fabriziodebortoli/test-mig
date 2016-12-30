@@ -1,6 +1,6 @@
-import { ComponentService, DocumentService} from 'tb-core';
+import { ComponentService, DocumentService } from 'tb-core';
 import { DocumentComponent } from 'tb-shared';
-import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
 @Component({
   selector: 'tb-languages',
@@ -9,6 +9,11 @@ import { Component, OnInit, ComponentFactoryResolver} from '@angular/core';
 })
 
 export class LanguagesComponent extends DocumentComponent implements OnInit {
+
+  private document = {
+    id: 'IDD_LANGUAGES',
+    name: 'Languages'
+  }
 
   constructor(documentService: DocumentService) {
     super(documentService);

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Document } from './../../models/document.model';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'tb-toolbar-top',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class ToolbarTopComponent implements OnInit {
 
-  private docTitle: string = 'Language'; // TODO read document title?
+  @Input() document: Document;
 
   constructor() {
 
