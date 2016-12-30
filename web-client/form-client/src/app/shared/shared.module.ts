@@ -1,5 +1,5 @@
 import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
-import { ToolbarTopComponent, ToolbarButtonComponent, HistoryComponent, ToolbarSeparatorComponent, ToolbarBottomComponent } from './toolbar';
+import { ToolbarTopComponent, ToolbarTopButtonComponent, HistoryComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ import { SidenavService } from '../core/sidenav.service';
 const TB_COMPONENTS = [
   PageNotFoundComponent,
   TopbarComponent, TopbarMenuComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarSearchComponent,
-  ToolbarTopComponent, ToolbarButtonComponent, HistoryComponent, ToolbarSeparatorComponent, ToolbarBottomComponent,
+  ToolbarTopComponent, ToolbarTopButtonComponent, HistoryComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   TabComponent, TabberComponent, ViewComponent, FrameComponent,
   DynamicCmpComponent,
   EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,

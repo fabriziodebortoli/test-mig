@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { DocumentService } from '../../core/document.service';
-import { WebSocketService } from '../../core/websocket.service';
+import { DocumentService } from '../../../core/document.service';
+import { WebSocketService } from '../../../core/websocket.service';
 
 @Component({
-  selector: 'tb-toolbar-button',
+  selector: 'tb-toolbar-top-button',
   template: `<div (click)='onCommand()' title='{{caption}}'><md-icon>{{icon}}</md-icon></div>`,
   styles: [`
     div{
@@ -18,7 +18,7 @@ import { WebSocketService } from '../../core/websocket.service';
     }
   `]
 })
-export class ToolbarButtonComponent implements OnInit {
+export class ToolbarTopButtonComponent implements OnInit {
 
   @Input() caption: string = '';
   @Input() cmd: string = '';
