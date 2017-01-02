@@ -38,6 +38,6 @@ export class ToolbarBottomButtonComponent implements OnInit {
   }
 
   onCommand() {
-    this.webSocket.doCommand(this.document.mainCmpId, this.cmd);
+    this.webSocket.doCommand(this.document.mainCmpId, this.cmd, this.document.data);
   }
 }
