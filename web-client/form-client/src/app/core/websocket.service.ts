@@ -2,6 +2,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import { HttpService } from './http.service';
+import { CommandService } from './command.service' 
 import { Logger } from 'libclient';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
@@ -19,7 +20,8 @@ export class WebSocketService {
 
     constructor(private httpService: HttpService,
         private cookieService: CookieService,
-        private logger: Logger) {
+        private logger: Logger,
+        private commandService: CommandService) {
     }
 
     wsConnect(): void {
@@ -82,8 +84,12 @@ export class WebSocketService {
         }
     }
 
-    doCommand(cmpId: String, id: String): void {
-        this.connection.send(JSON.stringify({ cmd: 'doCommand', cmpId: cmpId, id: id }));
+    doCommand(cmpId: String, id: String, modelData?: any): void {
+        //questo if andrebbe anticipato nel chiamante, se so che non e' azione server side, non devo chiamare servizio websocket
+        if (this.commandService.isServerSideCommand(id))
+            this.connection.send(JSON.stringify({ cmd: 'doCommand', cmpId: cmpId, id: id, modelData: modelData }));
+        //else
+        //azione solo lato client. 
     }
 
     runObject(ns: String): void {

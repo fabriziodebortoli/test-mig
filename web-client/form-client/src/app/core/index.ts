@@ -7,3 +7,4 @@ export * from './utils.service';
 export * from './websocket.service';
 export * from './sidenav.service';
 export * from './document.service';
+export * from './command.service';

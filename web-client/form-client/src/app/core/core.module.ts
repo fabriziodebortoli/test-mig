@@ -4,6 +4,7 @@ import { WebSocketService } from './websocket.service';
 import {Logger} from 'libclient';
 import { UtilsService } from './utils.service';
 import { HttpService } from './http.service';
+import { CommandService } from './command.service';
 import { LoginSessionService } from './login-session.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
@@ -28,7 +29,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
   ],
   exports: [],
   providers: [
-    CookieService, HttpService, UtilsService, Logger, LoginSessionService, WebSocketService, SidenavService, ComponentService]
+    CookieService, HttpService, UtilsService, Logger, LoginSessionService, WebSocketService, SidenavService, ComponentService, CommandService]
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders {
@@ -42,7 +43,8 @@ export class CoreModule {
         LoginSessionService,
         WebSocketService,
         SidenavService,
-        ComponentService
+        ComponentService,
+        CommandService
       ]
     };
   }
