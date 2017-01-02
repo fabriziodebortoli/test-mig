@@ -10,6 +10,7 @@
         "ms-vscode.csharp",
         "msjsdiag.debugger-for-chrome",
         "naumovs.node-modules-resolve",
-        "robinbentley.sass-indented"
+        "robinbentley.sass-indented",
+        "steoates.autoimport"
     ]
 }
