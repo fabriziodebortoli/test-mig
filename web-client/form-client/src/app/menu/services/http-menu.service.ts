@@ -42,26 +42,30 @@ export class HttpMenuService extends HttpService {
 
     //---------------------------------------------------------------------------------------------
     setPreference(referenceName, referenceValue): Observable<any> {
-        var urlToRun = this.getMenuBaseUrl() + 'setPreference/?name=' + referenceName + '&value=' + referenceValue;
-        return this.postData(urlToRun, undefined)
+        let obj = { name: referenceName, value: referenceValue };
+        var urlToRun = this.getMenuBaseUrl() + 'setPreference/';
+        return this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
             })
             .catch(this.handleError);
     }
 
-     addToHiddenTiles(tile, applicationName, groupName, menuName) : Observable<any> {
-        var urlToRun = this.getMenuBaseUrl() + 'addToHiddenTiles/?application=' + applicationName + '&group=' + groupName + '&menu=' + menuName + '&tile=' + tile.name;
-        return this.postData(urlToRun, undefined)
+    addToHiddenTiles(tile, applicationName, groupName, menuName): Observable<any> {
+        let obj = { application: applicationName, group: groupName, menu: menuName, tile: tile.name };
+        var urlToRun = this.getMenuBaseUrl() + 'addToHiddenTiles/';
+        return this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
             })
             .catch(this.handleError);
     }
-    
-    removeFromHiddenTiles(tile, applicationName, groupName, menuName) : Observable<any> {
-        var urlToRun = this.getMenuBaseUrl() + 'removeFromHiddenTiles/?application=' + applicationName + '&group=' + groupName + '&menu=' + menuName + '&tile=' + tile.name;
-        return this.postData(urlToRun, undefined)
+
+    removeFromHiddenTiles(tile, applicationName, groupName, menuName): Observable<any> {
+
+        let obj = { application: applicationName, group: groupName, menu: menuName, tile: tile.name };
+        var urlToRun = this.getMenuBaseUrl() + 'removeFromHiddenTiles/';
+        return this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
             })
@@ -141,8 +145,9 @@ export class HttpMenuService extends HttpService {
 
     //---------------------------------------------------------------------------------------------
     favoriteObject(object) {
-        var urlToRun = this.getMenuBaseUrl() + 'favoriteObject/?target=' + object.target + '&objectType=' + object.objectType;
-        let subs = this.postData(urlToRun, undefined)
+        let obj = { target: object.target, objectType: object.objectType };
+        var urlToRun = this.getMenuBaseUrl() + 'favoriteObject/';
+        let subs = this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
             })
@@ -154,8 +159,9 @@ export class HttpMenuService extends HttpService {
 
     //---------------------------------------------------------------------------------------------
     unFavoriteObject(object) {
-        var urlToRun = this.getMenuBaseUrl() + 'unFavoriteObject/?target=' + object.target + '&objectType=' + object.objectType;
-        let subs = this.postData(urlToRun, undefined)
+        let obj = { target: object.target, objectType: object.objectType };
+        var urlToRun = this.getMenuBaseUrl() + 'unFavoriteObject/';
+        let subs = this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
             })
@@ -167,7 +173,7 @@ export class HttpMenuService extends HttpService {
 
     //---------------------------------------------------------------------------------------------
     mostUsedClearAll(): Observable<any> {
-        return this.http.get(this.getMenuBaseUrl() + 'clearAllMostUsed/', { withCredentials: true })
+        return this.postData(this.getMenuBaseUrl() + 'clearAllMostUsed/', undefined)
             .map((res: Response) => {
                 return res.ok;
             })
@@ -192,9 +198,8 @@ export class HttpMenuService extends HttpService {
 
     //---------------------------------------------------------------------------------------------
     addToMostUsed(object): Observable<any> {
-
-
-        return this.http.get(this.getMenuBaseUrl() + 'addToMostUsed/?target=' + object.target + '&objectType=' + object.objectType, { withCredentials: true })
+        let obj = { target: object.target, objectType: object.objectType };
+        return this.postData(this.getMenuBaseUrl() + 'addToMostUsed/', obj)
             .map((res: Response) => {
                 return res.ok;
             })
@@ -203,8 +208,8 @@ export class HttpMenuService extends HttpService {
 
     //---------------------------------------------------------------------------------------------
     removeFromMostUsed = function (object) {
-
-        return this.http.get(this.getMenuBaseUrl() + 'removeFromMostUsed/?target=' + object.target + '&objectType=' + object.objectType, { withCredentials: true })
+        let obj = { target: object.target, objectType: object.objectType };
+        return this.postData(this.getMenuBaseUrl() + 'removeFromMostUsed/', obj)
             .map((res: Response) => {
                 return res.ok;
             })
