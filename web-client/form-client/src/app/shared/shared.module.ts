@@ -11,8 +11,6 @@ import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { TopbarComponent, TopbarMenuComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
 
-import { SidenavService } from '../core/sidenav.service';
-
 const TB_COMPONENTS = [
   PageNotFoundComponent,
   TopbarComponent, TopbarMenuComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarSearchComponent,
