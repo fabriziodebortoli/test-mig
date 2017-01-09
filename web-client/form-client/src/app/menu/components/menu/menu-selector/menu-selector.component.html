@@ -12,7 +12,7 @@
 
 
       <div *ngIf="menuService.getMenuHiddenTiles(menuTab).length>0">
-          <button md-mini-fab [hidden]="" [md-menu-trigger-for]="hiddenTiles" md-tooltip="{{localizationService.getLocalizedElement('HiddenTiles')}}" tooltip-position="right">
+          <button md-mini-fab [hidden]="" [md-menu-trigger-for]="hiddenTiles" > <!--md-tooltip="{{localizationService.getLocalizedElement('HiddenTiles')}}" tooltip-position="right"-->
           <md-icon style="display:inline-block" class="menuItemImage link" (click)="removeFromHiddenTiles(tile);$event.stopPropagation()">hdr_weak</md-icon>
           {{menuService.getMenuHiddenTiles(menuTab).length}}
         </button>
