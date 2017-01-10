@@ -33,7 +33,6 @@ import { AppComponent } from './app.component';
     routing
   ],
   bootstrap: [AppComponent],
-  providers: [SidenavService],
   entryComponents: [UnsupportedComponent]
 })
 export class AppModule { }
