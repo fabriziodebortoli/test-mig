@@ -8,3 +8,4 @@ export * from './websocket.service';
 export * from './sidenav.service';
 export * from './document.service';
 export * from './command.service';
+export * from './core.guard';

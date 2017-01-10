@@ -1,7 +1,8 @@
-﻿import { ComponentService } from './component.service';
+﻿import { CoreGuard } from './core.guard';
+import { ComponentService } from './component.service';
 import { SidenavService } from './sidenav.service';
 import { WebSocketService } from './websocket.service';
-import {Logger} from 'libclient';
+import { Logger } from 'libclient';
 import { UtilsService } from './utils.service';
 import { HttpService } from './http.service';
 import { CommandService } from './command.service';
@@ -17,7 +18,18 @@ import 'hammerjs';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
-
+const TB_SERVICES = [
+  CookieService,
+  HttpService,
+  UtilsService,
+  Logger,
+  LoginSessionService,
+  WebSocketService,
+  SidenavService,
+  ComponentService,
+  CommandService,
+  CoreGuard
+];
 
 @NgModule({
   declarations: [],
@@ -28,24 +40,13 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     MaterialModule.forRoot()
   ],
   exports: [],
-  providers: [
-    CookieService, HttpService, UtilsService, Logger, LoginSessionService, WebSocketService, SidenavService, ComponentService, CommandService]
+  providers: [TB_SERVICES]
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule,
-      providers: [
-        CookieService,
-        HttpService,
-        UtilsService,
-        Logger,
-        LoginSessionService,
-        WebSocketService,
-        SidenavService,
-        ComponentService,
-        CommandService
-      ]
+      providers: [TB_SERVICES]
     };
   }
   constructor( @Optional() @SkipSelf() parentModule: CoreModule) {
