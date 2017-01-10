@@ -1,18 +1,12 @@
-<md-tab-group class="tabHeader" (selectChange)="changeTabByIndex($event.index)">
-  <md-tab *ngFor="let menuTab of utilsService.toArray(menuService.getSelectedGroup().Menu)">
-    <template md-tab-label>
-      <div class="tabItem">
-        <!-- da spostare il click nel selectChange del tabgroup-->
-        {{menuTab.title}}
-      </div>
-    </template>
 
-    <!--<template md-tab-content>-->
+<tb-tabber  (selectedTab)="changeTabByIndex($event)">
+
+<tb-tab [tabTitle]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService.getSelectedGroup().Menu)" [showCloseButton]="false" >
     <div *ngIf="menuService.getSelectedMenu() != undefined" class="tabContent">
 
 
       <div *ngIf="menuService.getMenuHiddenTiles(menuTab).length>0">
-          <button md-mini-fab [hidden]="" [md-menu-trigger-for]="hiddenTiles" > <!--md-tooltip="{{localizationService.getLocalizedElement('HiddenTiles')}}" tooltip-position="right"-->
+          <button md-mini-fab [md-menu-trigger-for]="hiddenTiles" > <!--md-tooltip="{{localizationService.getLocalizedElement('HiddenTiles')}}" tooltip-position="right"-->
           <md-icon style="display:inline-block" class="menuItemImage link" (click)="removeFromHiddenTiles(tile);$event.stopPropagation()">hdr_weak</md-icon>
           {{menuService.getMenuHiddenTiles(menuTab).length}}
         </button>
@@ -24,8 +18,6 @@
       <tb-tile-container></tb-tile-container>
 
     </div>
-    <!--</template>-->
+</tb-tab>
 
-  </md-tab>
-
-</md-tab-group>
+</tb-tabber>
