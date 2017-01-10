@@ -6,10 +6,12 @@ import { LoginSessionService } from './';
 
 export class CoreGuard implements CanActivate {
 
-    constructor(private loginService: LoginSessionService) { }
+    constructor() { }
+    // constructor(private loginService: LoginSessionService) { }
 
     canActivate(): Observable<boolean> | boolean {
-        return this.loginService.isConnected();
+        return true;
+        // return this.loginService.isConnected();
     }
 
 }
