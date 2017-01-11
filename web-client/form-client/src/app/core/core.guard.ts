@@ -2,16 +2,14 @@ import { Inject, forwardRef } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { LoginSessionService } from './';
+import { LoginSessionService } from './login-session.service';
 
 export class CoreGuard implements CanActivate {
 
-    constructor() { }
-    // constructor(private loginService: LoginSessionService) { }
+    constructor(private loginService: LoginSessionService) { }
 
     canActivate(): Observable<boolean> | boolean {
-        return true;
-        // return this.loginService.isConnected();
+        return this.loginService.isConnected();
     }
 
 }

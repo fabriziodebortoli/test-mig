@@ -1,5 +1,4 @@
 export * from './operation.result';
-export * from './core.module';
 export * from './component.service';
 export * from './http.service';
 export * from './login-session.service';
@@ -9,3 +8,4 @@ export * from './sidenav.service';
 export * from './document.service';
 export * from './command.service';
 export * from './core.guard';
+export * from './core.module';

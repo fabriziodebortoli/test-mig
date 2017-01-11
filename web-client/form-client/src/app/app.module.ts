@@ -1,18 +1,20 @@
-import { HomeComponent, HomeSidenavComponent } from './home';
-import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
-import { SharedModule } from 'tb-shared';
-import { MenuModule } from './menu/menu.module';
-import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { routing } from './app.routing';
 
 import { MaterialModule } from '@angular/material';
 
-import { CoreModule } from 'tb-core';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+import { MenuModule } from './menu/menu.module';
+
 import { SidenavService } from './core/sidenav.service';
 
+import { routing } from './app.routing';
+
+import { HomeComponent, HomeSidenavComponent } from './home';
+import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
 import { AppComponent } from './app.component';
 
 @NgModule({

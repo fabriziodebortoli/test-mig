@@ -1,21 +1,23 @@
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { UtilsService, HttpService } from 'tb-core';
 import { Logger } from 'libclient';
-import { Http } from '@angular/http';
-import { Injectable } from '@angular/core';
+
+import { environment } from '../../../environments/environment';
 
 @Injectable()
-export class ImageService extends HttpService {
+export class ImageService {
 
+    private baseUrl = environment.apiBaseUrl;
 
     constructor(protected http: Http,
         protected utils: UtilsService,
         protected logger: Logger,
         protected cookieService: CookieService) {
-            super(http, utils, logger, cookieService);
         this.logger.debug('ImageService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
-
 
     getApplicationIcon(application) {
         return this.getStaticImage(application);
@@ -32,13 +34,13 @@ export class ImageService extends HttpService {
         }
 
         let imageFile = item['image_file'];
-        return imageFile === undefined ? 'Images/Default.png' : super.getMenuBaseUrl() + '/staticimage/' + imageFile;
+        return imageFile === undefined ? 'Images/Default.png' : this.baseUrl + '/staticimage/' + imageFile;
     }
 
     //---------------------------------------------------------------------------------------------
-    
+
     getObjectIcon = function (object) {
-      
+
         if (object.sub_type != undefined) {
             if (object.application == undefined)
                 return this.getObjectIconForMaterial(object.sub_type);
@@ -60,7 +62,7 @@ export class ImageService extends HttpService {
             return 'brightness_low';
         if (target.toLowerCase() == "wizard")
             return 'color_lens';
-       return 'close';
+        return 'close';
     }
 
     //---------------------------------------------------------------------------------------------

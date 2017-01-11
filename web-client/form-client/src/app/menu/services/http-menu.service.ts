@@ -1,190 +1,253 @@
-import { UtilsService, HttpService } from 'tb-core';
-import { Observable } from 'rxjs';
-import { Logger } from 'libclient';
-import { Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs';
+
+import { Logger } from 'libclient';
+
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { UtilsService, HttpService } from 'tb-core';
+
+import { environment } from '../../../environments/environment';
 
 @Injectable()
-export class HttpMenuService extends HttpService {
+export class HttpMenuService {
+
+    private baseUrl = environment.apiBaseUrl;
 
     constructor(
-        protected http: Http,
-        protected utilsService: UtilsService,
-        protected logger: Logger,
-        protected cookieService: CookieService) {
-        super(http, utilsService, logger, cookieService)
+        private http: Http,
+        private utilsService: UtilsService,
+        private logger: Logger,
+        private cookieService: CookieService) {
     }
 
+    /**
+     * API /getMenuElements
+     * 
+     * @returns {Observable<any>} getMenuElements
+     */
     getMenuElements(): Observable<any> {
-        return this.http.get(this.getMenuBaseUrl() + 'getMenuElements/', { withCredentials: true })
+        return this.http.get(this.baseUrl + 'getMenuElements/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
             .catch(this.handleError);
     }
 
+    /**
+     * API /getProductInfo
+     * 
+     * @returns {Observable<any>} getProductInfo
+     */
     getProductInfo(): Observable<any> {
-        return this.http.get(this.getMenuBaseUrl() + 'getProductInfo/', { withCredentials: true })
+        return this.http.get(this.baseUrl + 'getProductInfo/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
             .catch(this.handleError);
     }
 
+    /**
+     * API /getPreferences
+     * 
+     * @returns {Observable<any>} getPreferences
+     */
     getPreferences(): Observable<any> {
-        return this.http.get(this.getMenuBaseUrl() + 'getPreferences/', { withCredentials: true })
+        return this.http.get(this.baseUrl + 'getPreferences/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
             .catch(this.handleError);
     }
 
-    //---------------------------------------------------------------------------------------------
-    setPreference(referenceName, referenceValue): Observable<any> {
+    /**
+     * API /setPreference
+     * 
+     * @param {string} referenceName
+     * @param {string} referenceValue
+     * 
+     * @returns {Observable<any>} setPreference
+     */
+    setPreference(referenceName: string, referenceValue: string): Observable<any> {
         let obj = { name: referenceName, value: referenceValue };
-        var urlToRun = this.getMenuBaseUrl() + 'setPreference/';
+        var urlToRun = this.baseUrl + 'setPreference/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
-            })
-            .catch(this.handleError);
+            });
     }
 
+    /**
+     * API /addToHiddenTiles
+     * 
+     * @returns {Observable<any>} addToHiddenTiles
+     */
     addToHiddenTiles(tile, applicationName, groupName, menuName): Observable<any> {
         let obj = { application: applicationName, group: groupName, menu: menuName, tile: tile.name };
-        var urlToRun = this.getMenuBaseUrl() + 'addToHiddenTiles/';
+        var urlToRun = this.baseUrl + 'addToHiddenTiles/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
-            })
-            .catch(this.handleError);
+            });
     }
 
+    /**
+     * API /removeFromHiddenTiles
+     * 
+     * @returns {Observable<any>} removeFromHiddenTiles
+     */
     removeFromHiddenTiles(tile, applicationName, groupName, menuName): Observable<any> {
 
         let obj = { application: applicationName, group: groupName, menu: menuName, tile: tile.name };
-        var urlToRun = this.getMenuBaseUrl() + 'removeFromHiddenTiles/';
+        var urlToRun = this.baseUrl + 'removeFromHiddenTiles/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
-            })
-            .catch(this.handleError);
+            });
     }
-    //---------------------------------------------------------------------------------------------
+
+    /**
+     * API /getThemedSettings
+     * 
+     * @returns {Observable<any>} getThemedSettings
+     */
     getThemedSettings(): Observable<any> {
-        return this.http.get(this.getMenuBaseUrl() + 'getThemedSettings/', { withCredentials: true })
+        return this.http.get(this.baseUrl + 'getThemedSettings/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
             .catch(this.handleError);
     }
 
-
+    /**
+     * API /getConnectionInfo
+     * 
+     * @returns {Observable<any>} getConnectionInfo
+     */
     getConnectionInfo(): Observable<any> {
-        return this.http.get(this.getMenuBaseUrl() + 'getConnectionInfo/', { withCredentials: true })
+        return this.http.get(this.baseUrl + 'getConnectionInfo/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
             .catch(this.handleError);
     }
 
-    //---------------------------------------------------------------------------------------------
+    /**
+     * API /activateViaSMS
+     * 
+     * @returns {Observable<any>} activateViaSMS
+     */
     activateViaSMS() {
-        var urlToRun = this.getMenuBaseUrl() + 'activateViaSMS/';
+        var urlToRun = this.baseUrl + 'activateViaSMS/';
         let subs = this.postData(urlToRun, undefined)
             .map((res: Response) => {
                 return res.ok;
             })
-            .catch(this.handleError)
             .subscribe(result => {
                 subs.unsubscribe();
             });
     }
 
-
-    //---------------------------------------------------------------------------------------------
+    /**
+     * API /goToSite
+     * 
+     * @returns {Observable<any>} goToSite
+     */
     goToSite() {
-        var urlToRun = this.getMenuBaseUrl() + 'producerSite/';
+        var urlToRun = this.baseUrl + 'producerSite/';
         let subs = this.postData(urlToRun, undefined)
             .map((res: Response) => {
                 return res.ok;
             })
-            .catch(this.handleError)
             .subscribe(result => {
                 subs.unsubscribe();
             });
     }
 
-    //---------------------------------------------------------------------------------------------
+    /**
+     * API /clearCachedData
+     * 
+     * @returns {Observable<any>} clearCachedData
+     */
     clearCachedData(): Observable<any> {
-        var urlToRun = this.getMenuBaseUrl() + 'clearCachedData/';
+        var urlToRun = this.baseUrl + 'clearCachedData/';
         return this.postData(urlToRun, undefined)
             .map((res: Response) => {
                 return res.ok;
-            })
-            .catch(this.handleError);
+            });
     }
 
-
-
-    //---------------------------------------------------------------------------------------------
+    /**
+     * API /activateViaInternet
+     * 
+     * @returns {Observable<any>} activateViaInternet
+     */
     activateViaInternet() {
-        var urlToRun = this.getMenuBaseUrl() + 'activateViaInternet/';
+        var urlToRun = this.baseUrl + 'activateViaInternet/';
         let subs = this.postData(urlToRun, undefined)
             .map((res: Response) => {
                 return res.ok;
             })
-            .catch(this.handleError)
             .subscribe(result => {
                 subs.unsubscribe();
             });
     }
 
-
-
-    //---------------------------------------------------------------------------------------------
+    /**
+     * API /favoriteObject
+     * 
+     * @returns {Observable<any>} favoriteObject
+     */
     favoriteObject(object) {
         let obj = { target: object.target, objectType: object.objectType };
-        var urlToRun = this.getMenuBaseUrl() + 'favoriteObject/';
+        var urlToRun = this.baseUrl + 'favoriteObject/';
         let subs = this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
             })
-            .catch(this.handleError)
             .subscribe(result => {
                 subs.unsubscribe();
             });
     }
 
-    //---------------------------------------------------------------------------------------------
+    /**
+     * API /unFavoriteObject
+     * 
+     * @returns {Observable<any>} unFavoriteObject
+     */
     unFavoriteObject(object) {
         let obj = { target: object.target, objectType: object.objectType };
-        var urlToRun = this.getMenuBaseUrl() + 'unFavoriteObject/';
+        var urlToRun = this.baseUrl + 'unFavoriteObject/';
         let subs = this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
             })
-            .catch(this.handleError)
             .subscribe(result => {
                 subs.unsubscribe();
             });
     }
 
-    //---------------------------------------------------------------------------------------------
+    /**
+     * API /mostUsedClearAll
+     *
+     * @returns {Observable<any>} mostUsedClearAll
+     */
     mostUsedClearAll(): Observable<any> {
-        return this.postData(this.getMenuBaseUrl() + 'clearAllMostUsed/', undefined)
+        return this.postData(this.baseUrl + 'clearAllMostUsed/', undefined)
             .map((res: Response) => {
                 return res.ok;
-            })
-            .catch(this.handleError);
+            });
 
     };
 
-    //---------------------------------------------------------------------------------------------
+    /**
+     * API /getMostUsedShowNr
+     * 
+     * @returns {Observable<any>} getMostUsedShowNr
+     */
     getMostUsedShowNr(callback) {
 
-        var urlToRun = this.getMenuBaseUrl() + 'getMostUsedShowNr/';
+        var urlToRun = this.baseUrl + 'getMostUsedShowNr/';
         let subs = this.postData(urlToRun, undefined)
             .map((res: Response) => {
                 callback(res);
@@ -196,32 +259,59 @@ export class HttpMenuService extends HttpService {
             });
     }
 
-    //---------------------------------------------------------------------------------------------
+    /**
+     * API /addToMostUsed
+     * 
+     * @returns {Observable<any>} addToMostUsed
+     */
     addToMostUsed(object): Observable<any> {
         let obj = { target: object.target, objectType: object.objectType };
-        return this.postData(this.getMenuBaseUrl() + 'addToMostUsed/', obj)
+        return this.postData(this.baseUrl + 'addToMostUsed/', obj)
             .map((res: Response) => {
                 return res.ok;
-            })
-            .catch(this.handleError);
+            });
     };
 
-    //---------------------------------------------------------------------------------------------
+    /**
+     * API /removeFromMostUsed
+     * 
+     * @returns {Observable<any>} removeFromMostUsed
+     */
     removeFromMostUsed = function (object) {
         let obj = { target: object.target, objectType: object.objectType };
-        return this.postData(this.getMenuBaseUrl() + 'removeFromMostUsed/', obj)
+        return this.postData(this.baseUrl + 'removeFromMostUsed/', obj)
             .map((res: Response) => {
                 return res.ok;
-            })
-            .catch(this.handleError);
+            });
     };
 
-    //---------------------------------------------------------------------------------------------
+    /**
+     * API /loadLocalizedElements
+     * 
+     * @returns {Observable<any>} loadLocalizedElements
+     */
     loadLocalizedElements(needLoginThread): Observable<any> {
-        return this.http.get(this.getMenuBaseUrl() + 'getLocalizedElements/?needLoginThread=' + needLoginThread, { withCredentials: true })
+        return this.http.get(this.baseUrl + 'getLocalizedElements/?needLoginThread=' + needLoginThread, { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
             .catch(this.handleError);
     };
+
+    private postData(url: string, data: Object): Observable<Response> {
+        return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true })
+            .catch(this.handleError);
+    }
+
+    /**
+     * TODO refactor with custom logger
+     */
+    private handleError(error: any) {
+        // In a real world app, we might use a remote logging infrastructure
+        // We'd also dig deeper into the error to get a better message
+        let errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        console.error(errMsg);
+        return Observable.throw(errMsg);
+    }
 }

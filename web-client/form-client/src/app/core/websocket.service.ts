@@ -1,10 +1,14 @@
-﻿import { environment } from './../../environments/environment';
-import { EventEmitter, Injectable } from '@angular/core';
+﻿import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import { HttpService } from './http.service';
-import { CommandService } from './command.service' 
-import { Logger } from 'libclient';
+
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+
+import { environment } from './../../environments/environment';
+
+import { HttpService } from './http.service';
+import { CommandService } from './command.service'
+
+import { Logger } from 'libclient';
 
 @Injectable()
 export class WebSocketService {
@@ -85,11 +89,10 @@ export class WebSocketService {
     }
 
     doCommand(cmpId: String, id: String, modelData?: any): void {
-        
+
         var data: any = { cmd: 'doCommand', cmpId: cmpId, id: id };
-        if (modelData != undefined)
-        {
-            data.model = modelData; 
+        if (modelData != undefined) {
+            data.model = modelData;
         }
         //questo if andrebbe anticipato nel chiamante, se so che non e' azione server side, non devo chiamare servizio websocket
         if (this.commandService.isServerSideCommand(id))

@@ -1,12 +1,16 @@
-﻿import { Router } from '@angular/router';
-import { OperationResult } from './operation.result';
+﻿import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { HttpService } from './http.service';
-import { LoginSession } from 'tb-shared';
-import { Injectable } from '@angular/core';
-import { WebSocketService } from './websocket.service';
-import { Logger } from 'libclient';
+
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+
+import { OperationResult } from './operation.result';
+import { LoginSession } from './../shared/models/login-session';
+
+import { HttpService } from './http.service';
+import { WebSocketService } from './websocket.service';
+
+import { Logger } from 'libclient';
 
 @Injectable()
 export class LoginSessionService {
