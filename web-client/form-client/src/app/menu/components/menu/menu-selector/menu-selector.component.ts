@@ -51,17 +51,7 @@ export class MenuSelectorComponent implements OnInit {
 
   }
 
-  changeTab(menu) {
-
-    if (menu == undefined)
-      return;
-
-
-    this.menuService.setSelectedMenu(menu);
-  }
-
   changeTabByIndex(index) {
-
     if (index < 0)
       return;
 

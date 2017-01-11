@@ -1,8 +1,10 @@
-import { Router } from '@angular/router';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { LoginSessionService } from 'tb-core';
-import { LoginSession } from 'tb-shared';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+
+import { LoginSession } from './../../../shared/models/login-session';
+import { LoginSessionService } from './../../../core/login-session.service';
 
 @Component({
   selector: 'tb-login',

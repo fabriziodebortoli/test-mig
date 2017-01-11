@@ -14,15 +14,15 @@ import { Logger } from 'libclient';
 
 @Injectable()
 export class LoginSessionService {
-    connected: boolean = undefined;
+
+    connected: boolean = false;
     errorMessages: string[] = [];
+
     constructor(private httpService: HttpService,
         private socket: WebSocketService,
         private cookieService: CookieService,
         private logger: Logger,
         private router: Router) {
-
-        this.isLogged();
 
         this.socket.close.subscribe(() => { this.setConnected(false); });
     }

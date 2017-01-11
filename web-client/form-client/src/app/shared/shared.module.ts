@@ -1,10 +1,10 @@
-import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
-import { ToolbarTopComponent, ToolbarTopButtonComponent, HistoryComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 
+import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
+import { ToolbarTopComponent, ToolbarTopButtonComponent, HistoryComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, FrameComponent } from './containers';
 import { EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';

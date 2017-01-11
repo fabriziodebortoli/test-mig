@@ -1,9 +1,11 @@
-import { HttpMenuService } from './http-menu.service';
-import { UtilsService, HttpService } from 'tb-core';
-import { Logger } from 'libclient';
-import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+
+import { UtilsService } from './../../core/utils.service';
+import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
+
+import { Logger } from 'libclient';
 
 @Injectable()
 export class LocalizationService {

@@ -12,6 +12,7 @@ export class TabComponent extends TbComponent implements OnInit, OnDestroy {
   active: boolean;
 
   @Input() tabTitle: string = 'tabTitle';
+  @Input() showCloseButton: boolean = true;
 
   @Output() close: EventEmitter<any> = new EventEmitter();
 

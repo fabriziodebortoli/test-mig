@@ -12,12 +12,14 @@ export class TabberComponent extends TbComponent {
   tabs: TabComponent[] = [];
 
   @Output() close: EventEmitter<any> = new EventEmitter();
+  @Output() selectedTab: EventEmitter<any> = new EventEmitter();
 
   selectTab(tab: TabComponent) {
     this.tabs.forEach((t) => {
       t.active = false;
     });
     tab.active = true;
+    this.selectedTab.emit(this.tabs.indexOf(tab));
   }
 
   closeTab(tab: TabComponent) {
@@ -34,6 +36,7 @@ export class TabberComponent extends TbComponent {
     this.tabs.splice(this.tabs.indexOf(tab), 1);
     if (tab.active && this.tabs.length > 0) {
       this.tabs[0].active = true;
+         this.selectedTab.emit(0);
     }
   }
 
