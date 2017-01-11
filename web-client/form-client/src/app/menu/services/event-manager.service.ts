@@ -1,5 +1,5 @@
-import { Observable, Observer } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
+import { Observable, Observer } from 'rxjs/Rx';
 
 @Injectable()
 export class EventManagerService {

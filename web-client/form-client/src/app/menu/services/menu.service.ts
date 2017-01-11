@@ -1,10 +1,14 @@
-import { ApplicationSelectorComponent } from './../components/menu/application-selector/application-selector.component';
-import { HttpMenuService } from './http-menu.service';
-import { UtilsService, WebSocketService } from 'tb-core';
-import { Logger } from 'libclient';
 import { Injectable } from '@angular/core';
+
+import { UtilsService } from './../../core/utils.service';
+import { WebSocketService } from './../../core/websocket.service';
+import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
+
+import { ApplicationSelectorComponent } from './../components/menu/application-selector/application-selector.component';
+
+import { Logger } from 'libclient';
 
 @Injectable()
 export class MenuService {

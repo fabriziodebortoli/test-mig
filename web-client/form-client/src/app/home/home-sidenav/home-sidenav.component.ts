@@ -1,3 +1,4 @@
+import { SidenavService } from './../../core/sidenav.service';
 import { Component, OnInit } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
@@ -12,9 +13,13 @@ export class HomeSidenavComponent implements OnInit {
   private appName = environment.appName;
   private companyName = environment.companyName;
 
-  constructor() { }
+  constructor(private sidenavService: SidenavService) { }
 
   ngOnInit() {
+  }
+
+  toggleSidenav() {
+    this.sidenavService.toggleSidenav();
   }
 
 }

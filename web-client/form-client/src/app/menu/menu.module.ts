@@ -1,4 +1,12 @@
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from '@angular/material';
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+
+import { SharedModule } from '../shared/shared.module';
+
 import { SearchComponent } from './components/menu/search/search.component';
 import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
 import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
@@ -8,8 +16,6 @@ import { LeftSidenavComponent } from './components/menu/sidenav-left-content/sid
 import { LocalizationService } from './services/localization.service';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { TileElementComponent } from './components/menu/tile-element/tile-element.component';
-import { SharedModule } from 'tb-shared';
-import { FormsModule } from '@angular/forms';
 import { MenuComponent } from './components/menu/menu.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
@@ -18,21 +24,19 @@ import { TileContainerComponent } from './components/menu/tile-container/tile-co
 import { TileContentComponent } from './components/menu/tile-content/tile-content.component';
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 import { LoginComponent } from './components/login/login.component';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MaterialModule } from '@angular/material';
-import { menuRouting } from './menu.routing';
-import { RouterModule, Routes } from '@angular/router';
-import { Logger } from 'libclient';
 
 import { HttpMenuService } from './services/http-menu.service';
 import { MenuService } from './services/menu.service';
 import { ImageService } from './services/image.service';
 import { EventManagerService } from './services/event-manager.service';
 import { SettingsService } from './services/settings.service';
+
 import { TypeaheadModule, ModalModule } from 'ng2-bootstrap';
 import { ComponentLoaderFactory } from 'ng2-bootstrap/component-loader';
 
+import { Logger } from 'libclient';
+
+import { menuRouting } from './menu.routing';
 
 @NgModule({
   imports: [

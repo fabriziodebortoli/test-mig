@@ -1,12 +1,17 @@
-﻿import { environment } from './../../environments/environment';
-import { OperationResult } from './operation.result';
-import { LoginSession } from 'tb-shared';
-import { UtilsService } from './utils.service';
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { Logger } from 'libclient';
+
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+
+import { environment } from './../../environments/environment';
+
+import { OperationResult } from './operation.result';
+import { LoginSession } from './../shared/models/login-session';
+import { UtilsService } from './utils.service';
+
+import { Logger } from 'libclient';
+
 
 @Injectable()
 export class HttpService {
