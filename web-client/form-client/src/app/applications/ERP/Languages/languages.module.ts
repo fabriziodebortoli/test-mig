@@ -1,7 +1,9 @@
-import { SharedModule } from 'tb-shared';
+import { NgModule } from '@angular/core';
+
+import { SharedModule } from './../../../shared/shared.module';
+
 import { LanguagesFactoryComponent, LanguagesComponent } from './languages/languages.component';
 import { routing } from './languages.routing';
-import { NgModule } from '@angular/core';
 
 @NgModule({
   imports: [
