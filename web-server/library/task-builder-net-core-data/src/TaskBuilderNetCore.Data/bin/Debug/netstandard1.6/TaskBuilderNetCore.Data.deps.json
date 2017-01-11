@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v1.6/",
-    "signature": "973cf24ace51bcbdad91552bcbd725dd444cc393"
+    "signature": "5fea0768624c7ed02162d988d206196ea38601d2"
   },
   "compilationOptions": {},
   "targets": {
@@ -11,7 +11,7 @@
         "dependencies": {
           "NETStandard.Library": "1.6.1",
           "Npgsql": "3.1.9",
-          "OnBuild.PackageAssemblyForNuget": "1.0.8",
+          "NuGet.CommandLine": "3.5.0",
           "System.Data.SqlClient": "4.3.0"
         },
         "runtime": {
@@ -107,12 +107,7 @@
           "lib/netstandard1.3/Npgsql.dll": {}
         }
       },
-      "NuGet.CommandLine/2.8.0": {},
-      "OnBuild.PackageAssemblyForNuget/1.0.8": {
-        "dependencies": {
-          "NuGet.CommandLine": "2.8.0"
-        }
-      },
+      "NuGet.CommandLine/3.5.0": {},
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
@@ -1152,15 +1147,10 @@
       "serviceable": true,
       "sha512": "sha512-maoOs4rudcIG1SlPHsLRTgwUQA8+06k037z2f9KSKe8KrVHu3tBUUePgt3U3saGFrACf80/j9CzsleCisnPo5A=="
     },
-    "NuGet.CommandLine/2.8.0": {
+    "NuGet.CommandLine/3.5.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-0GypPoE8zj2d6sVFrZUDT2ijGxa3c4pLqo6sBkNH4boKDDVvVLGVFYdRQw4jPZBsm/MpAfiQoXUiD2MO+6FGGg=="
-    },
-    "OnBuild.PackageAssemblyForNuget/1.0.8": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-EHcyIA7UuW/oW1M40dVs0yGofcAMRobhxpfgoLj/32lCutxyabGNfwCuvpWW96M5xuqM3T2pOxkn0ehpvD7Kow=="
+      "sha512": "sha512-hXv/6hCKfdvzvuD+ww9uOhHBb2YerRvswtfPNBzY0MdxZLXB3M8z9LvlYhCVJYt+OBmtbwof+cg6TlZ8kmFXfg=="
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Microarea.NetStandard.Interfaces</id>
+        <version>1.0.0</version>
+        <authors>Sarmant Anastasia</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Interfaces</description>
+    </metadata>
+    <files>
+        <file src="..\library\task-builder-net-core-interfaces\src\TaskBuilderNetCore.Interfaces\bin\Debug\netstandard1.6\TaskBuilderNetCore.Interfaces.dll" target="lib\netstandard1.6\TaskBuilderNetCore.Interfaces.dll" />
+    </files>
+</package>
