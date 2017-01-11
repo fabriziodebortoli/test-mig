@@ -15,5 +15,42 @@
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\DynamicObject.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\DynamicProxy.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\DynamicProxyException.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\DynamicProxyFactory.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\DynamicProxyFactoryOptions.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\HttpApi.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\SoapClient.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\Util.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\WCFService.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\WCFSoapClient.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WebControls\Helper.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WebControls\LinkDocument.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WebControls\TBFieldSet.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WebServicesWrapper\StubReferences.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormController\AskDialogController.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormController\HttpGenericHandler.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormController\WoormHandler.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\AspNetAskWebForm.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\AspNetRender.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\CssProvider.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\ErrorPage.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\ExportHandlerRender.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\HotLinkForm.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\PdfSharpHandler.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\PersisterControl.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\RSApiHandler.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\SimpleControl.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\WoormWebControl.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <DnxInvisibleContent Include="rs-web-backend\WebControls\LinkDocument.htm" />
+    <DnxInvisibleContent Include="rs-web-backend\WebControls\OpenDocumentJScript.js" />
+    <DnxInvisibleContent Include="rs-web-backend\WoormWebControl\WoormClientControl.css" />
+    <DnxInvisibleContent Include="rs-web-backend\WoormWebControl\WoormClientControl.js" />
+    <DnxInvisibleContent Include="rs-web-backend\WoormWebControl\WoormClientControlInfinity.css" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet.Web\Microsoft.DotNet.Web.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>
