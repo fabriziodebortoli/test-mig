@@ -1,10 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Microarea.TaskBuilderNet.Woorm.XmlPersister
+namespace Microarea.RSWeb.XmlPersister
 {
 	/// <summary>
 	/// La classe State è una classe abstract che rappresenta la base class
@@ -46,7 +47,7 @@ namespace Microarea.TaskBuilderNet.Woorm.XmlPersister
 		/// <summary>
 		/// attributo versione dell'oggetto descrittivo di uno stato
 		/// </summary>
-		[XmlAttribute]
+		[UrlAttribute]
 		public string ver;
 		// segue lista public di data members
 		
@@ -93,7 +94,7 @@ namespace Microarea.TaskBuilderNet.Woorm.XmlPersister
 					Directory.CreateDirectory(dirPath);
 				
 				XmlSerializer serializer = new XmlSerializer(this.GetType());
-				writer = new StreamWriter(filePath);
+				writer = new StreamWriter(File.OpenWrite(filePath));
 				serializer.Serialize(writer, this);
 				return true;
 			}
@@ -105,7 +106,7 @@ namespace Microarea.TaskBuilderNet.Woorm.XmlPersister
 			finally
 			{
 				if (writer != null)
-					writer.Close();
+					writer.Dispose();
 			}
 		}
 
@@ -148,8 +149,10 @@ namespace Microarea.TaskBuilderNet.Woorm.XmlPersister
 				// If the XML document has been altered with unknown 
 				// nodes or attributes, handle them with the 
 				// UnknownNode and UnknownAttribute events.
-				serializer.UnknownNode += new XmlNodeEventHandler(serializer_UnknownNode);
-				serializer.UnknownAttribute += new XmlAttributeEventHandler(serializer_UnknownAttribute);
+
+                //TODO RSWEB non esiste
+				//serializer..UnknownNode += new XmlNodeEventHandler(serializer_UnknownNode);
+				//serializer.UnknownAttribute += new XmlAttributeEventHandler(serializer_UnknownAttribute);
 				
 				fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
 				if (fs == null || fs.Length == 0)
@@ -172,24 +175,24 @@ namespace Microarea.TaskBuilderNet.Woorm.XmlPersister
 			finally
 			{
 				if (fs != null)
-					fs.Close();
+					fs.Dispose();
 			}
 		}
 
 		//---------------------------------------------------------------------
-		private static void serializer_UnknownNode(object sender, XmlNodeEventArgs e)
+		private static void serializer_UnknownNode(object sender/*, XmlNodeEventArgs e TODO RSWEb non esiste*/)
 		{
-			Debug.WriteLine("Unknown Node:" + e.Name + "\t" + e.Text);
+			//Debug.WriteLine("Unknown Node:" + e.Name + "\t" + e.Text);
 		}
 
 		//---------------------------------------------------------------------
-		private static void serializer_UnknownAttribute(object sender, XmlAttributeEventArgs e)
+		private static void serializer_UnknownAttribute(object sender/*, XmlAttributeEventArgs e TODO RSWEB non esiste*/)
 		{
-			if (e != null)
-			{
-				System.Xml.XmlAttribute attr = e.Attr;
-				Debug.WriteLine("Unknown attribute " + attr.Name + "='" + attr.Value + "'");
-			}
+			//if (e != null)
+			//{
+			//	System.Xml.XmlAttribute attr = e.Attr;
+			//	Debug.WriteLine("Unknown attribute " + attr.Name + "='" + attr.Value + "'");
+			//}
 		}
 
 		/// <summary>
@@ -254,7 +257,7 @@ namespace Microarea.TaskBuilderNet.Woorm.XmlPersister
 			finally
 			{
 				if (ms != null)
-					ms.Close();
+					ms.Dispose();
 			}
 		}
 
@@ -290,8 +293,10 @@ namespace Microarea.TaskBuilderNet.Woorm.XmlPersister
 				// If the XML document has been altered with unknown 
 				// nodes or attributes, handle them with the 
 				// UnknownNode and UnknownAttribute events.
-				serializer.UnknownNode += new XmlNodeEventHandler(serializer_UnknownNode);
-				serializer.UnknownAttribute += new XmlAttributeEventHandler(serializer_UnknownAttribute);
+
+                //TODO rsweb non esiste
+				//serializer.UnknownNode += new XmlNodeEventHandler(serializer_UnknownNode);
+				//serializer.UnknownAttribute += new XmlAttributeEventHandler(serializer_UnknownAttribute);
 				
 				sr = new StringReader(xmlString);
 				State state = (State) serializer.Deserialize(sr);
@@ -306,7 +311,7 @@ namespace Microarea.TaskBuilderNet.Woorm.XmlPersister
 			finally
 			{
 				if (sr != null)
-					sr.Close();
+					sr.Dispose();
 			}
 		}
 	}

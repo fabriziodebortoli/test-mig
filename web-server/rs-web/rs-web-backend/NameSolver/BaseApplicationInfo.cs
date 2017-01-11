@@ -7,10 +7,11 @@ using System.Threading;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Generic;
+using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+namespace Microarea.RSWeb.NameSolver
 {
 	# region LibraryInfo class
 	//=========================================================================

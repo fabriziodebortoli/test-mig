@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using Microarea.TaskBuilderNet.Interfaces.Model;
 
-namespace Microarea.TaskBuilderNet.Woorm.CoreTypes
+namespace Microarea.RSWeb.CoreTypes
 {
 	/// <summary>
 	/// Descrizione di riepilogo per DataArray.

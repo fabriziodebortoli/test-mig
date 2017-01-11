@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace Microarea.TaskBuilderNet.Woorm.SoapCall
+namespace Microarea.RSWeb.SoapCall
 {
 
     //================================================================================

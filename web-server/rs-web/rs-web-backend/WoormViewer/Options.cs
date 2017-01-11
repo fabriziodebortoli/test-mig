@@ -2,10 +2,10 @@ using System.Drawing;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.Lexan;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
+namespace Microarea.RSWeb.WoormViewer
 {
 	/// <summary>
 	/// Summary description for Options.

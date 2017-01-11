@@ -14,10 +14,10 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Security.Cryptography;
 
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.NameSolver;
 using Microarea.TaskBuilderNet.Interfaces;
 
-namespace Microarea.TaskBuilderNet.Woorm.Generic
+namespace Microarea.RSWeb.Generic
 {
     /// <summary>
     /// Classe per la lettura scrittura del file contenente le informazioni di connessione ad una installazione remota

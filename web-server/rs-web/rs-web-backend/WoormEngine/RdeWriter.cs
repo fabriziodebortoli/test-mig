@@ -2,9 +2,9 @@ using System;
 using System.Collections.Specialized;
 using System.IO;
 using System.Xml;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
+using Microarea.RSWeb.CoreTypes;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormEngine
+namespace Microarea.RSWeb.WoormEngine
 {
 	/// <summary>
 	/// Descrizione di riepilogo per RdeWriter.

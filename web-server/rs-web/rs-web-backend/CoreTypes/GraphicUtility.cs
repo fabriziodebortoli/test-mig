@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace Microarea.TaskBuilderNet.Woorm.CoreTypes
+namespace Microarea.RSWeb.CoreTypes
 {
 	
 

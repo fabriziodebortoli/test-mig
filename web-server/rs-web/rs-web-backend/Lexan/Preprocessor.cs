@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Microarea.TaskBuilderNet.Woorm.Lexan
+namespace Microarea.RSWeb.Lexan
 {
 
 	/// <summary>

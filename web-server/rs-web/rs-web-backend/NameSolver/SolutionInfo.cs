@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 
-namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+namespace Microarea.RSWeb.NameSolver
 {
 	/// <summary>
 	/// Parsa il file di solution specificato per riempire l'elenco dei 

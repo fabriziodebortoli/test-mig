@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+namespace Microarea.RSWeb.WoormWebControl
 {
 	/// <summary>
 	/// Gestisce l'eliminazione automatica del file quando muore l'oggetto

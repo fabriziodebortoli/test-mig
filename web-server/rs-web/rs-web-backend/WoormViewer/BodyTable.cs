@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
 using RSjson;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
+namespace Microarea.RSWeb.WoormViewer
 {
 	//==============================================================================
 	internal class BodyTable

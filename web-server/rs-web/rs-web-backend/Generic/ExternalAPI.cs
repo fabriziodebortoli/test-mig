@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Microarea.TaskBuilderNet.Woorm.Generic
+namespace Microarea.RSWeb.Generic
 {
 	public class ExternalAPI
 	{

@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using System.Globalization;
 
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.NameSolver;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.CoreTypes;
 
-namespace Microarea.TaskBuilderNet.Woorm.Applications
+namespace Microarea.RSWeb.Applications
 {
 
 	/// <summary>

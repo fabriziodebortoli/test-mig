@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace Microarea.TaskBuilderNet.Woorm.WebControls
+namespace Microarea.RSWeb.WebControls
 {
 	class LinkDocument : IHttpHandler
 	{

@@ -2,7 +2,7 @@ using System;
 using System.Drawing.Imaging;
 
 
-namespace Microarea.TaskBuilderNet.Woorm.Applications
+namespace Microarea.RSWeb.Applications
 {
 	//================================================================================
 	public class ManifestImageLoader

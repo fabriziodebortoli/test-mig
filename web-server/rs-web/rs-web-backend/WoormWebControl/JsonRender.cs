@@ -1,7 +1,7 @@
 ﻿
-using Microarea.TaskBuilderNet.Woorm.WoormViewer;
+using Microarea.RSWeb.WoormViewer;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+namespace Microarea.RSWeb.WoormWebControl
 {
     /// <summary>
     /// Descrizione di riepilogo per WoormWebControl.

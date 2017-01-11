@@ -6,10 +6,10 @@ using System.Xml;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.StringLoader;
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.StringLoader;
+using Microarea.RSWeb.Generic;
 
-namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+namespace Microarea.RSWeb.NameSolver
 {
 	/// <summary>
 	/// Per ogni nodo di tipo <Column> parsato nei file di struttura database versione 3.0 (.dbxml)

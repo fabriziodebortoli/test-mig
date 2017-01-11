@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Microarea.TaskBuilderNet.Woorm.Generic
+namespace Microarea.RSWeb.Generic
 {
 	//================================================================================
 	public static class StringExtensions

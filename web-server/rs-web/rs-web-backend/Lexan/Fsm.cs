@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace Microarea.TaskBuilderNet.Woorm.Lexan
+namespace Microarea.RSWeb.Lexan
 {
 	/// <summary>
 	/// Summary description for Fsm.

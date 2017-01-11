@@ -3,13 +3,13 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.NameSolver;
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Generic;
 
-namespace Microarea.TaskBuilderNet.Woorm.Applications
+namespace Microarea.RSWeb.Applications
 {
 	//================================================================================
 	public class RunnedReportMng

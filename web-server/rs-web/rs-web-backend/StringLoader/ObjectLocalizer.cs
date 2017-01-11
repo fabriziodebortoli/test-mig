@@ -1,10 +1,9 @@
+using TaskBuilderNetCore.Interfaces;
 
-using Microarea.TaskBuilderNet.Interfaces;
-
-namespace Microarea.TaskBuilderNet.Woorm.StringLoader
+namespace Microarea.RSWeb.StringLoader
 {
-	//================================================================================
-	public abstract class ObjectLocalizer : ILocalizer 
+    //================================================================================
+    public abstract class ObjectLocalizer : ILocalizer 
 	{
 		private string dictionaryPath	= string.Empty;
 		private string objectName		= string.Empty;				

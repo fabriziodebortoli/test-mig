@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
-using Microarea.TaskBuilderNet.Woorm.WoormEngine;
+using Microarea.RSWeb.Lexan;
+using Microarea.RSWeb.WoormEngine;
 using RSjson;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
+namespace Microarea.RSWeb.WoormViewer
 {
 	//==============================================================================
 	public class RepeaterObjects : List<BaseObjList>

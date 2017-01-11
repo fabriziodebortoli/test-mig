@@ -13,7 +13,7 @@ using System.ServiceModel.Channels;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
+using Microarea.RSWeb.CoreTypes;
 
 //	Legenda:
 //		FunctionName		nome della funzione
@@ -67,7 +67,7 @@ Content-Length: length
 </soap:Envelope>
 */
 
-namespace Microarea.TaskBuilderNet.Woorm.SoapCall
+namespace Microarea.RSWeb.SoapCall
 {
 	class DummyTbSoapArgument : TbSoapArgument
 	{

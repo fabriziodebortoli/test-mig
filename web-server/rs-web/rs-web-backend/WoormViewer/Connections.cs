@@ -7,15 +7,15 @@ using System.Xml;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
-using Microarea.TaskBuilderNet.Woorm.ExpressionManager;
-using Microarea.TaskBuilderNet.Woorm.WoormEngine;
-using Microarea.TaskBuilderNet.Woorm.WoormWebControl;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.Lexan;
+using Microarea.RSWeb.ExpressionManager;
+using Microarea.RSWeb.WoormEngine;
+using Microarea.RSWeb.WoormWebControl;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
+namespace Microarea.RSWeb.WoormViewer
 {
 	public enum ConnectionLinkType { Report, Form, Function, URL, Radar, FormByAlias, ReportByAlias, FunctionByAlias, URLByAlias, Empty }
 	public enum ConnectionLinkSubType { File = 0, Url = 1, MailTo = 2, CallTo = 3, GoogleMap = 4};
@@ -301,9 +301,9 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
 				else if (item.Data != null)
 					paramValue = item.Data.ToString();
 
-				sbLinkUrl.Append(Microarea.TaskBuilderNet.Woorm.WoormWebControl.GenericFunctions.UrlEncode(paramName));
+				sbLinkUrl.Append(Microarea.RSWeb.WoormWebControl.GenericFunctions.UrlEncode(paramName));
 				sbLinkUrl.Append('=');
-				sbLinkUrl.Append(Microarea.TaskBuilderNet.Woorm.WoormWebControl.GenericFunctions.UrlEncode(paramValue));
+				sbLinkUrl.Append(Microarea.RSWeb.WoormWebControl.GenericFunctions.UrlEncode(paramValue));
 			}
 			
 			return sbLinkUrl.ToString(); //es. http://www.sitoweb.it/search?param1=value1&param2=value2
@@ -875,9 +875,9 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
 	        aComp.Trim();
 	        if (!aComp.IsNullOrEmpty())
 		        if (completeAddress.IsNullOrEmpty())
-                    completeAddress = Microarea.TaskBuilderNet.Woorm.WoormWebControl.GenericFunctions.HtmlEncode(aComp);
+                    completeAddress = Microarea.RSWeb.WoormWebControl.GenericFunctions.HtmlEncode(aComp);
 		        else
-			        completeAddress += ",+" + Microarea.TaskBuilderNet.Woorm.WoormWebControl.GenericFunctions.HtmlEncode(aComp);
+			        completeAddress += ",+" + Microarea.RSWeb.WoormWebControl.GenericFunctions.HtmlEncode(aComp);
         }
 
 		//----------------------------------------------------------------------------

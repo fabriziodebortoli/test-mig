@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Threading;
 
-namespace Microarea.TaskBuilderNet.Woorm.Generic
+namespace Microarea.RSWeb.Generic
 {
 	/// <summary>
 	/// Funzioni generiche relative ai dizionari e culture infos

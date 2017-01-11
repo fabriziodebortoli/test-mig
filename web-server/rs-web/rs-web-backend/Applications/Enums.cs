@@ -4,23 +4,23 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Xml;
-
-using Microarea.TaskBuilderNet.Interfaces;
 
 //TODO RSWEB using Microarea.TaskBuilderNet.Core.WebServicesWrapper; // -> Country, ActivationExpression
 
-using Microarea.TaskBuilderNet.Woorm.StringLoader;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
+using Microarea.RSWeb.StringLoader;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.NameSolver;
+using Microarea.RSWeb.Lexan;
+using TaskBuilderNetCore.Interfaces;
+using Microarea.RSWeb.Applications;
+using System.Xml;
 
-namespace Microarea.TaskBuilderNet.Woorm.Applications
+namespace Microarea.RSWeb.Applications
 {
 
-	// Definizioni di ELEMENT e ATTRIBUTE dei files enums.xml
-	//=============================================================================        
-	public class EnumsXml
+    // Definizioni di ELEMENT e ATTRIBUTE dei files enums.xml
+    //=============================================================================        
+    public class EnumsXml
 	{
 		//================================================================================
 		public class Element
@@ -47,14 +47,14 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 	}
 
 	//=============================================================================
-	public class EnumsException : ApplicationException
+	public class EnumsException : Exception
 	{
 		//--------------------------------------------------------------------------------
 		public EnumsException(string message) : base(message) {}
 	}
 
 	//=============================================================================        
-	public class EnumItem : IComponent, /*ICustomTypeDescriptor, */INotifyPropertyChanged, INotifyPropertyChanging, ICloneable
+	public class EnumItem : IComponent, /*ICustomTypeDescriptor, */INotifyPropertyChanged, INotifyPropertyChanging
 	{
 		public readonly static ushort ItemError	= 0xFFFF;
 
@@ -417,7 +417,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		public EnumItem GetItem (string aName)
 		{
 			foreach (EnumItem ei in this)
-				if (string.Compare(ei.Name, aName, true, CultureInfo.InvariantCulture) == 0)
+				if (string.Compare(ei.Name, aName, StringComparison.OrdinalIgnoreCase) == 0)
 					return ei;
 
 			return null;
@@ -502,7 +502,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 
 
 	//=============================================================================        
-	public class EnumTag : IComponent, IContainer, /*ICustomTypeDescriptor, */INotifyPropertyChanged, INotifyPropertyChanging, ICloneable
+	public class EnumTag : IComponent, IContainer, /*ICustomTypeDescriptor, */INotifyPropertyChanged, INotifyPropertyChanging
 	{
 		public readonly static ushort TagError = 0xFFFF;
 		public readonly static ushort MaxValue =0xFFF0; // alcuni sono riservati
@@ -700,7 +700,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		public void DeleteItem(string aName)
 		{
 			foreach (EnumItem ei in EnumItems)
-				if (string.Compare(ei.Name, aName, true, CultureInfo.InvariantCulture) == 0)
+				if (string.Compare(ei.Name, aName, StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					EnumItems.Remove(ei);
 					return;
@@ -711,7 +711,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		public bool ExistItem(string aName)
 		{                       
 			foreach (EnumItem ei in EnumItems)
-				if (string.Compare(ei.Name, aName, true, CultureInfo.InvariantCulture) == 0)
+				if (string.Compare(ei.Name, aName, StringComparison.OrdinalIgnoreCase) == 0)
 					return true;
 			
 			return false;
@@ -728,7 +728,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		{                       
 			foreach (EnumItem ei in EnumItems)
 				if (
-					(string.Compare(ei.Name, aName, true, CultureInfo.InvariantCulture) == 0) ||
+					(string.Compare(ei.Name, aName, StringComparison.OrdinalIgnoreCase) == 0) ||
 					(ei.Value == aValue)
 					)
 					return true;
@@ -754,7 +754,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		public EnumItem GetItemByName(string name)
 		{
 			foreach (EnumItem ei in EnumItems)
-				if (string.Compare(ei.Name, name, true, CultureInfo.InvariantCulture) == 0)
+				if (string.Compare(ei.Name, name, StringComparison.OrdinalIgnoreCase) == 0)
 					return ei;
 			return null;
 		}
@@ -833,9 +833,10 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		public ComponentCollection Components
 		{
 			get
-			{
-				return new ComponentCollection(EnumItems.ToArray(typeof(IComponent)) as IComponent[]);
-			}
+            {    // TODO RSWeb       ComponentCollection vuoto;
+                 //return new ComponentCollection(EnumItems.ToArray(typeof(IComponent)) as IComponent[]);
+                return null;
+            }
 		}
 
 		//-----------------------------------------------------------------------------
@@ -1039,7 +1040,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		public EnumItems EnumItems(string aName)
 		{
 			foreach (EnumTag tag in this)
-				if (string.Compare(tag.Name, aName, true, CultureInfo.InvariantCulture) == 0)
+				if (string.Compare(tag.Name, aName, StringComparison.OrdinalIgnoreCase) == 0)
 					return tag.EnumItems;
 			
 			return null;
@@ -1069,7 +1070,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		public ushort GetValue (string	aName)
 		{
 			foreach (EnumTag tag in this)
-				if (string.Compare(tag.Name, aName, true, CultureInfo.InvariantCulture) == 0)
+				if (string.Compare(tag.Name, aName, StringComparison.OrdinalIgnoreCase) == 0)
 					return tag.Value;
 
 			return EnumTag.TagError;
@@ -1136,7 +1137,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		public void DeleteTag(string aName)
 		{
 			foreach (EnumTag tag in this)
-				if (string.Compare(tag.Name, aName, true,CultureInfo.InvariantCulture) == 0)
+				if (string.Compare(tag.Name, aName, StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					Remove(tag);
 					return;
@@ -1147,7 +1148,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		public EnumTag GetTag(string aName)
 		{
 			foreach (EnumTag tag in this)
-				if (string.Compare(tag.Name, aName, true,CultureInfo.InvariantCulture) == 0)
+				if (string.Compare(tag.Name, aName, StringComparison.OrdinalIgnoreCase) == 0)
 					return tag;
 			
 			return null;
@@ -1168,7 +1169,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		{                       
 			foreach (EnumTag tag in this)
 				if	(
-					(string.Compare(tag.Name, aName, true, CultureInfo.InvariantCulture ) == 0) ||
+					(string.Compare(tag.Name, aName, StringComparison.OrdinalIgnoreCase) == 0) ||
 					(tag.Value == aValue)
 					)
 					return true;
@@ -1352,8 +1353,9 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 			ushort		tagValue = 0;
 			ushort		nextItemValue = 0;
 
-			XmlDocument dom = new XmlDocument();
-			dom.Load(filename);
+
+            XmlDocument dom = new XmlDocument();
+			dom.Load(System.IO.File.OpenRead(filename));
 
 			if (!dom.DocumentElement.HasChildNodes)
 				return true;
@@ -1662,7 +1664,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 				for (int i = 0; i < array.Length; i++)
 				{
 					// faccio il Trim per togliere i blank (per pararci)
-					if (string.Compare(country, array[i].Trim(), true, CultureInfo.InvariantCulture) == 0)
+					if (string.Compare(country, array[i].Trim(), StringComparison.OrdinalIgnoreCase) == 0)
 						return true;
 				}
 
@@ -1675,7 +1677,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 			for (int i = 0; i < array.Length; i++)
 			{
 				// faccio il Trim per togliere i blank (per pararci)
-				if (string.Compare(country, array[i].Trim(), true, CultureInfo.InvariantCulture) == 0)
+				if (string.Compare(country, array[i].Trim(), StringComparison.OrdinalIgnoreCase) == 0)
 					return false;
 			}
 
@@ -1896,9 +1898,9 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 			try
 			{
 				string tempPath = Path.GetTempFileName();
-				using (StreamWriter sw = new StreamWriter(tempPath))
-				using (StreamReader sr = new StreamReader(xmlStream))
-					sw.Write(sr.ReadToEnd());
+                using (StreamWriter sw = new StreamWriter(File.OpenWrite(tempPath)))
+                using (StreamReader sr = new StreamReader(xmlStream))
+                    sw.Write(sr.ReadToEnd());
 
 				return enumTags.LoadXml(tempPath, null, false);
 			}
@@ -2025,7 +2027,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		// Costruisce un DataEnum a parire dalla conoscenza del Tag (numerico) e del
 		// suo ItemName localizzato. (usato ad esempio nelle combo di EasyLook)
 		//-----------------------------------------------------------------------------
-		public DataEnum LocalizedParse(string itemName, DataEnum template, CultureInfo companyCulture)
+		public DataEnum LocalizedParse(string itemName, DataEnum template)
 		{
 			string tagName = TagName(template);
 			EnumTag enumTag = enumTags.GetTag(tagName);
@@ -2033,7 +2035,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 				return template;
 			
 			foreach (EnumItem ei in enumTag.EnumItems)
-				if (string.Compare(ei.LocalizedName, itemName, true, companyCulture) == 0)
+				if (string.Compare(ei.LocalizedName, itemName, StringComparison.OrdinalIgnoreCase) == 0)
 					return new DataEnum(template.Tag, ei.Value);
 
 			return template;

@@ -5,10 +5,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
+using TaskBuilderNetCore.Interfaces;
 
-using Microarea.TaskBuilderNet.Interfaces;
-
-namespace Microarea.TaskBuilderNet.Woorm.Generic
+namespace Microarea.RSWeb.Generic
 {
 	/// <summary>
 	/// Associazione tra tipo namespace e numero di token
@@ -66,7 +65,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 	internal sealed class NameSpaceTable
 	{
 		private static readonly IDictionary<string, INameSpaceType> nameNameSpaceTypeTable =
-			new Dictionary<string, INameSpaceType>(StringComparer.InvariantCultureIgnoreCase);
+			new Dictionary<string, INameSpaceType>(StringComparer.OrdinalIgnoreCase);
 
 		private static readonly IDictionary<NameSpaceObjectType, INameSpaceType> nameSpaceObjectTypeNameSpaceTypeTable =
 			new Dictionary<NameSpaceObjectType, INameSpaceType>(EqualityComparer<NameSpaceObjectType>.Default);
@@ -434,7 +433,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 		{
 			string typeNs = nameSpaceObjectType.ToString() + TokenSeparator;
 
-			if (string.Compare(nameSpaceWithOutType, 0, typeNs, 0, typeNs.Length, true, CultureInfo.InvariantCulture) != 0)
+			if (string.Compare(nameSpaceWithOutType, 0, typeNs, 0, typeNs.Length,StringComparison.OrdinalIgnoreCase) != 0)
 				CreateNameSpace(typeNs + nameSpaceWithOutType);
 			else //c'e' già il prefisso del tipo
 				CreateNameSpace(nameSpaceWithOutType);
@@ -503,7 +502,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 				   if
 						(
 							nameSpaceType.Type == NameSpaceObjectType.Text && tokensAr.Length > 3 &&
-							!("texts".Equals(tokensAr[3], StringComparison.InvariantCultureIgnoreCase))
+							!("texts".Equals(tokensAr[3], StringComparison.OrdinalIgnoreCase))
 						)
 					{
 						this.fullNameSpace = InsertSegment(this.fullNameSpace, "texts", 4);
@@ -512,7 +511,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 					if
 						(
 							nameSpaceType.Type == NameSpaceObjectType.Image && tokensAr.Length > 3 &&
-							 !("images".Equals(tokensAr[3], StringComparison.InvariantCultureIgnoreCase))
+							 !("images".Equals(tokensAr[3], StringComparison.OrdinalIgnoreCase))
 						)
 					{
 						this.fullNameSpace = InsertSegment(this.fullNameSpace, "images", 4);
@@ -521,8 +520,8 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 					if
 						(
 							nameSpaceType.Type == NameSpaceObjectType.File && tokensAr.Length > 4 &&
-							("files".Equals(tokensAr[3], StringComparison.InvariantCultureIgnoreCase)) &&
-							("others".Equals(tokensAr[4], StringComparison.InvariantCultureIgnoreCase)) 
+							("files".Equals(tokensAr[3], StringComparison.OrdinalIgnoreCase)) &&
+							("others".Equals(tokensAr[4], StringComparison.OrdinalIgnoreCase)) 
 						)
 					{
 						this.fullNameSpace = RemoveSegment(this.fullNameSpace, 4);
@@ -531,7 +530,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 					if
 						(
 							nameSpaceType.Type == NameSpaceObjectType.File && tokensAr.Length > 3 &&
-							 !("others".Equals(tokensAr[3], StringComparison.InvariantCultureIgnoreCase))
+							 !("others".Equals(tokensAr[3], StringComparison.OrdinalIgnoreCase))
 						)
 					{
 						this.fullNameSpace = InsertSegment(this.fullNameSpace, "others", 4);
@@ -734,7 +733,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 			if (reportName.Length > NameSolverStrings.WrmExtension.Length)
 			{
 				string localExt = reportName.Substring(reportName.Length - NameSolverStrings.WrmExtension.Length);
-				if (string.Compare(localExt, NameSolverStrings.WrmExtension, true, CultureInfo.InvariantCulture) != 0)
+				if (string.Compare(localExt, NameSolverStrings.WrmExtension, StringComparison.OrdinalIgnoreCase) != 0)
 					reportName += NameSolverStrings.WrmExtension;
 			}
 			else
@@ -757,7 +756,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 			if (documentName.Length > NameSolverStrings.ExcelDocumentExtension.Length)
 			{
 				string localExt = documentName.Substring(documentName.Length - NameSolverStrings.ExcelDocumentExtension.Length);
-				if (string.Compare(localExt, NameSolverStrings.ExcelDocumentExtension, true, CultureInfo.InvariantCulture) != 0)
+				if (string.Compare(localExt, NameSolverStrings.ExcelDocumentExtension, StringComparison.OrdinalIgnoreCase) != 0)
 					documentName += NameSolverStrings.ExcelDocumentExtension;
 			}
 			else
@@ -779,7 +778,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 			if (templateName.Length > NameSolverStrings.ExcelTemplateExtension.Length)
 			{
 				string localExt = templateName.Substring(templateName.Length - NameSolverStrings.ExcelTemplateExtension.Length);
-				if (string.Compare(localExt, NameSolverStrings.ExcelTemplateExtension, true, CultureInfo.InvariantCulture) != 0)
+				if (string.Compare(localExt, NameSolverStrings.ExcelTemplateExtension, StringComparison.OrdinalIgnoreCase) != 0)
 					templateName += NameSolverStrings.ExcelTemplateExtension;
 			}
 			else
@@ -801,7 +800,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 			if (documentName.Length > NameSolverStrings.WordDocumentExtension.Length)
 			{
 				string localExt = documentName.Substring(documentName.Length - NameSolverStrings.WordDocumentExtension.Length);
-				if (string.Compare(localExt, NameSolverStrings.WordDocumentExtension, true, CultureInfo.InvariantCulture) != 0)
+				if (string.Compare(localExt, NameSolverStrings.WordDocumentExtension, StringComparison.OrdinalIgnoreCase) != 0)
 					documentName += NameSolverStrings.WordDocumentExtension;
 			}
 			else
@@ -823,7 +822,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 			if (templateName.Length > NameSolverStrings.WordTemplateExtension.Length)
 			{
 				string localExt = templateName.Substring(templateName.Length - NameSolverStrings.WordTemplateExtension.Length);
-				if (string.Compare(localExt, NameSolverStrings.WordTemplateExtension, true, CultureInfo.InvariantCulture) != 0)
+				if (string.Compare(localExt, NameSolverStrings.WordTemplateExtension, StringComparison.OrdinalIgnoreCase) != 0)
 					templateName += NameSolverStrings.WordTemplateExtension;
 			}
 			else
@@ -845,7 +844,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 			if (documentName.Length > NameSolverStrings.Excel2007DocumentExtension.Length)
 			{
 				string localExt = documentName.Substring(documentName.Length - NameSolverStrings.Excel2007DocumentExtension.Length);
-				if (string.Compare(localExt, NameSolverStrings.Excel2007DocumentExtension, true, CultureInfo.InvariantCulture) != 0)
+				if (string.Compare(localExt, NameSolverStrings.Excel2007DocumentExtension, StringComparison.OrdinalIgnoreCase) != 0)
 					documentName += NameSolverStrings.Excel2007DocumentExtension;
 			}
 			else
@@ -867,7 +866,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 			if (templateName.Length > NameSolverStrings.Excel2007TemplateExtension.Length)
 			{
 				string localExt = templateName.Substring(templateName.Length - NameSolverStrings.Excel2007TemplateExtension.Length);
-				if (string.Compare(localExt, NameSolverStrings.Excel2007TemplateExtension, true, CultureInfo.InvariantCulture) != 0)
+				if (string.Compare(localExt, NameSolverStrings.Excel2007TemplateExtension, StringComparison.OrdinalIgnoreCase) != 0)
 					templateName += NameSolverStrings.Excel2007TemplateExtension;
 			}
 			else
@@ -889,7 +888,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 			if (documentName.Length > NameSolverStrings.Word2007DocumentExtension.Length)
 			{
 				string localExt = documentName.Substring(documentName.Length - NameSolverStrings.Word2007DocumentExtension.Length);
-				if (string.Compare(localExt, NameSolverStrings.Word2007DocumentExtension, true, CultureInfo.InvariantCulture) != 0)
+				if (string.Compare(localExt, NameSolverStrings.Word2007DocumentExtension, StringComparison.OrdinalIgnoreCase) != 0)
 					documentName += NameSolverStrings.Word2007DocumentExtension;
 			}
 			else
@@ -911,7 +910,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Generic
 			if (templateName.Length > NameSolverStrings.Word2007TemplateExtension.Length)
 			{
 				string localExt = templateName.Substring(templateName.Length - NameSolverStrings.Word2007TemplateExtension.Length);
-				if (string.Compare(localExt, NameSolverStrings.Word2007TemplateExtension, true, CultureInfo.InvariantCulture) != 0)
+				if (string.Compare(localExt, NameSolverStrings.Word2007TemplateExtension, StringComparison.OrdinalIgnoreCase) != 0)
 					templateName += NameSolverStrings.Word2007TemplateExtension;
 			}
 			else

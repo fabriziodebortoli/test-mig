@@ -2,13 +2,13 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-using Microarea.TaskBuilderNet.Interfaces;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
+using Microarea.RSWeb.NameSolver;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.Lexan;
+
+namespace Microarea.RSWeb.WoormViewer
 {
     /// <summary>
     /// Summary description for TextObj.

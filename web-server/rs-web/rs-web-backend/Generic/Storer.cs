@@ -15,7 +15,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Microarea.TaskBuilderNet.Woorm.Generic
+namespace Microarea.RSWeb.Generic
 {
 	public class Storer
 	{

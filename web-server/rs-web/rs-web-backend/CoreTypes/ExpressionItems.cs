@@ -8,9 +8,9 @@ using System.Runtime.Serialization;
 using Microarea.TaskBuilderNet.Interfaces;
 using Microarea.TaskBuilderNet.Interfaces.Model;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.Generic;
 
-namespace Microarea.TaskBuilderNet.Woorm.CoreTypes
+namespace Microarea.RSWeb.CoreTypes
 {
 	/// <summary>
 	/// Summary description for Item.

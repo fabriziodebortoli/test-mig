@@ -8,18 +8,18 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Web;
 
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.NameSolver;
 
 using Microarea.TaskBuilderNet.Data.DatabaseLayer;
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Properties;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
-using Microarea.TaskBuilderNet.Woorm.WoormEngine;
+using Microarea.RSWeb.Properties;
+using Microarea.RSWeb.Lexan;
+using Microarea.RSWeb.WoormEngine;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormController
+namespace Microarea.RSWeb.WoormController
 {
 	class HttpGenericHandler
 	{

@@ -6,10 +6,10 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.NameSolver;
 
-namespace Microarea.TaskBuilderNet.Woorm.StringLoader
+namespace Microarea.RSWeb.StringLoader
 {
 	//=========================================================================
 	public class StringLoader

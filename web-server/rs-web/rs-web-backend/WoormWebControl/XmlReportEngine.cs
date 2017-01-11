@@ -2,19 +2,18 @@ using System;
 using System.Collections.Specialized;
 using System.Xml;
 
-using Microarea.TaskBuilderNet.Interfaces;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.WoormController;
+using TaskBuilderNetCore.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.WoormController;
-
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+namespace Microarea.RSWeb.WoormWebControl
 {
-	/// <summary>
-	/// Summary description for XmlReportEngine.
-	/// </summary>
-	public class XmlReportEngine
+    /// <summary>
+    /// Summary description for XmlReportEngine.
+    /// </summary>
+    public class XmlReportEngine
 	{
 		private string		ReportNamespace;
 		private string		AuthenticationToken;

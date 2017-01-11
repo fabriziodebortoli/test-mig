@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 
-namespace Microarea.TaskBuilderNet.Woorm.SerializableTypes
+namespace Microarea.RSWeb.SerializableTypes
 {
 	public class Serializable
 	{

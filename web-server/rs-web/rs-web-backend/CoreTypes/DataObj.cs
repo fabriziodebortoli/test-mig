@@ -6,7 +6,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using Microarea.TaskBuilderNet.Interfaces.Model;
 
-namespace Microarea.TaskBuilderNet.Woorm.CoreTypes
+namespace Microarea.RSWeb.CoreTypes
 {
 	//=========================================================================
 	[Serializable]

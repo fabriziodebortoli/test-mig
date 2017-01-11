@@ -11,10 +11,10 @@ using System.ServiceModel.Description;
 using System.Text;
 using System.Threading;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.NameSolver;
 
-namespace Microarea.TaskBuilderNet.Woorm.SoapCall
+namespace Microarea.RSWeb.SoapCall
 {
 	//================================================================================
 	public class TBSoapException : Exception

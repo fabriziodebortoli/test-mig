@@ -6,9 +6,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.Generic;
 
-namespace Microarea.TaskBuilderNet.Woorm.StringLoader
+namespace Microarea.RSWeb.StringLoader
 {
 	//================================================================================
 	public class LocalizerConnector

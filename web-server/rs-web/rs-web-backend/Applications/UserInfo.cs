@@ -5,11 +5,11 @@ using System.Threading;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
-using Microarea.TaskBuilderNet.Woorm.WebServicesWrapper;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.NameSolver;
+using Microarea.RSWeb.WebServicesWrapper;
 
-namespace Microarea.TaskBuilderNet.Woorm.Applications
+namespace Microarea.RSWeb.Applications
 {
 	//=========================================================================
 	public class UserInfo : IDisposable	
@@ -60,7 +60,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
             get
             {
                 if (brandLoader == null)
-                        brandLoader = new  Microarea.TaskBuilderNet.Woorm.NameSolver.BrandLoader();
+                        brandLoader = new  Microarea.RSWeb.NameSolver.BrandLoader();
                 return brandLoader;
         }
 }

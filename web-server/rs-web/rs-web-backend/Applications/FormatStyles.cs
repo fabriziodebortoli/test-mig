@@ -8,14 +8,14 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.NameSolver;
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.Lexan;
 
-namespace Microarea.TaskBuilderNet.Woorm.Applications
+namespace Microarea.RSWeb.Applications
 {
 	//=========================================================================
 	public class CurrentCulture

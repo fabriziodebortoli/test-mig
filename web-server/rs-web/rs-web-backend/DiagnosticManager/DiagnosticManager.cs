@@ -9,7 +9,7 @@ using Microarea.TaskBuilderNet.Interfaces;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Microarea.TaskBuilderNet.Woorm.DiagnosticManager
+namespace Microarea.RSWeb.DiagnosticManager
 {
 	#region ExtendedInfoItem
 	//=========================================================================
@@ -261,7 +261,7 @@ namespace Microarea.TaskBuilderNet.Woorm.DiagnosticManager
 		{
 			string result = string.Empty;
 			bool first = true;
-			string sep = Microarea.TaskBuilderNet.Woorm.DiagnosticManager.ExtendedInfo.Separator(separator);
+			string sep = Microarea.RSWeb.DiagnosticManager.ExtendedInfo.Separator(separator);
 
 			foreach (string s in explain)
 			{

@@ -10,10 +10,10 @@ using System.Collections.Generic;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.WebServicesWrapper;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.WebServicesWrapper;
 
-namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+namespace Microarea.RSWeb.NameSolver
 { 
     #region Class BrandLoader
 //============================================================================

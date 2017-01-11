@@ -1,8 +1,8 @@
 
 using Microarea.TaskBuilderNet.Interfaces;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.NameSolver;
 
-namespace Microarea.TaskBuilderNet.Woorm.StringLoader
+namespace Microarea.RSWeb.StringLoader
 {
 	//================================================================================
 	public class DatabaseLocalizer : ObjectLocalizer

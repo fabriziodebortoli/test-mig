@@ -1,4 +1,4 @@
-﻿namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+﻿namespace Microarea.RSWeb.NameSolver
 {
     using System.IO;
     using System.Xml;

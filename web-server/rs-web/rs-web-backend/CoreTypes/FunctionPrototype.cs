@@ -9,12 +9,12 @@ using System.Xml;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
-using Microarea.TaskBuilderNet.Woorm.StringLoader;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
+using Microarea.RSWeb.NameSolver;
+using Microarea.RSWeb.StringLoader;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.Lexan;
 
-namespace Microarea.TaskBuilderNet.Woorm.CoreTypes
+namespace Microarea.RSWeb.CoreTypes
 {
 	//=========================================================================
 	public class Parameter : IParameter

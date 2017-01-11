@@ -1,10 +1,10 @@
-﻿{
+{
   "title": "PDFSharp ",
   "description": "PDFSharp 3.5.0.4 beta 3 - without forms",
   "version": "3.5.0-4",
 
   "dependencies": {
-    "NETStandard.Library": "1.6.0"
+    "NETStandard.Library": "1.6.1"
   },
 
   "frameworks": {

@@ -5,10 +5,10 @@ using System.Xml;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.StringLoader;
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.StringLoader;
+using Microarea.RSWeb.Generic;
 
-namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+namespace Microarea.RSWeb.NameSolver
 {
 	/// <summary>
 	/// Classe che tiene in memoria le informazioni di un client doc

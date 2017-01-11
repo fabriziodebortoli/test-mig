@@ -4,14 +4,14 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Xml;
 
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.NameSolver;
 
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.Lexan;
 using Microarea.TaskBuilderNet.Interfaces;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormEngine
+namespace Microarea.RSWeb.WoormEngine
 {
 	/// <summary>
 	/// Summary description for TableNode.

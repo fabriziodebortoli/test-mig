@@ -7,12 +7,12 @@ using System.Xml;
 using Microarea.TaskBuilderNet.Interfaces;
 using Microarea.TaskBuilderNet.Interfaces.Model;
 
-using Microarea.TaskBuilderNet.Woorm.StringLoader;
-using Microarea.TaskBuilderNet.Woorm.DiagnosticManager;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
+using Microarea.RSWeb.StringLoader;
+using Microarea.RSWeb.DiagnosticManager;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.CoreTypes;
 
-namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+namespace Microarea.RSWeb.NameSolver
 {
     /*
 	//=========================================================================

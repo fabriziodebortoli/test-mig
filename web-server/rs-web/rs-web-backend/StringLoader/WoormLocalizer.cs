@@ -3,7 +3,7 @@ using System.Xml;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-namespace Microarea.TaskBuilderNet.Woorm.StringLoader
+namespace Microarea.RSWeb.StringLoader
 {
 	/// <summary>
 	/// Summary description for WoormLocalizer.

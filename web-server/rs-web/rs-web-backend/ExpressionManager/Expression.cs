@@ -13,15 +13,15 @@ using Microarea.TaskBuilderNet.Interfaces.Model;
 
 using Microarea.TaskBuilderNet.Data.DatabaseLayer;
 
-using Microarea.TaskBuilderNet.Woorm.StringLoader;
-using Microarea.TaskBuilderNet.Woorm.DiagnosticManager;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
+using Microarea.RSWeb.StringLoader;
+using Microarea.RSWeb.DiagnosticManager;
+using Microarea.RSWeb.NameSolver;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Lexan;
 
-namespace Microarea.TaskBuilderNet.Woorm.ExpressionManager
+namespace Microarea.RSWeb.ExpressionManager
 {
 	public enum CheckResultType { Compatible, Match, Ignore }
 	
@@ -3690,7 +3690,7 @@ namespace Microarea.TaskBuilderNet.Woorm.ExpressionManager
 		//-----------------------------------------------------------------------------
 		virtual public Value ApplySpecializedFunction(FunctionItem function, Stack paramStack)
 		{
-            //ridefinita in WoormExpression (Microarea.TaskBuilderNet.Woorm.WoormEngine, Actions.cs)
+            //ridefinita in WoormExpression (Microarea.RSWeb.WoormEngine, Actions.cs)
 			return null;
 		}
 		

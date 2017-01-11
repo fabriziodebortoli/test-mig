@@ -6,9 +6,9 @@ using System.Xml;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.StringLoader;
+using Microarea.RSWeb.StringLoader;
 
-namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+namespace Microarea.RSWeb.NameSolver
 {
 	/// <summary>
 	/// Nodo Entita'

@@ -8,13 +8,13 @@ using System.Web.UI.WebControls;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
-using Microarea.TaskBuilderNet.Woorm.WoormController;
-using Microarea.TaskBuilderNet.Woorm.WoormEngine;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Lexan;
+using Microarea.RSWeb.WoormController;
+using Microarea.RSWeb.WoormEngine;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+namespace Microarea.RSWeb.WoormWebControl
 {
     /// <summary>
     /// Descrizione di riepilogo per WebForm.
@@ -213,7 +213,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 		//------------------------------------------------------------------------------
 		private string EncodeForHtml(string text)	
 		{
-			return Microarea.TaskBuilderNet.Woorm.WebControls.Helper.AdjustAmpersand(Microarea.TaskBuilderNet.Woorm.WebControls.Helper.InsertBR(text));
+			return Microarea.RSWeb.WebControls.Helper.AdjustAmpersand(Microarea.RSWeb.WebControls.Helper.InsertBR(text));
 		}
 
 		// siccome i RadioButton di uno stesso gruppo lavorano in sintonia devo gestire 

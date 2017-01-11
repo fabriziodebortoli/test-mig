@@ -7,10 +7,10 @@ using System.IO;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.DiagnosticManager;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.DiagnosticManager;
 
-namespace Microarea.TaskBuilderNet.Woorm.Lexan
+namespace Microarea.RSWeb.Lexan
 {
     /// ================================================================================
     public class Comment : ArrayList

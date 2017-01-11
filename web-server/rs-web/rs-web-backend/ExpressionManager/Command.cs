@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-using Microarea.TaskBuilderNet.Woorm.DiagnosticManager;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
+using Microarea.RSWeb.DiagnosticManager;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.Lexan;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
 
-namespace Microarea.TaskBuilderNet.Woorm.ExpressionManager
+namespace Microarea.RSWeb.ExpressionManager
 {
     //================================================================================
     public interface IMessageProvider
@@ -844,11 +844,11 @@ namespace Microarea.TaskBuilderNet.Woorm.ExpressionManager
 		public object ReturnValue { get; set; }
 
 		//--------------------------------------------------------------------------------
-		public Microarea.TaskBuilderNet.Woorm.Applications.TbReportSession ScriptingSession { get { return scriptingSession; } }
+		public Microarea.RSWeb.Applications.TbReportSession ScriptingSession { get { return scriptingSession; } }
 		//--------------------------------------------------------------------------------
-		public Microarea.TaskBuilderNet.Woorm.Applications.Enums EnumsTable { get { return scriptingSession.Enums; } }
+		public Microarea.RSWeb.Applications.Enums EnumsTable { get { return scriptingSession.Enums; } }
 		//--------------------------------------------------------------------------------
-		public Microarea.TaskBuilderNet.Woorm.CoreTypes.FunctionsList FunctionsTable { get { return scriptingSession.Functions; } }
+		public Microarea.RSWeb.CoreTypes.FunctionsList FunctionsTable { get { return scriptingSession.Functions; } }
 		//--------------------------------------------------------------------------------
 		public SymbolTable SymbolTable { get { return symbolTable; } }
 		//--------------------------------------------------------------------------------

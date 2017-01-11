@@ -35,6 +35,7 @@
     <DnxInvisibleCompile Include="rs-web-backend\WoormController\WoormHandler.cs" />
     <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\AspNetAskWebForm.cs" />
     <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\AspNetRender.cs" />
+    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\ConditionalUpdatePanel.cs" />
     <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\CssProvider.cs" />
     <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\ErrorPage.cs" />
     <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\ExportHandlerRender.cs" />

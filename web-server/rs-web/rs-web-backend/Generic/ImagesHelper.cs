@@ -7,7 +7,7 @@ using System.Web;
 
 
 
-namespace Microarea.TaskBuilderNet.Woorm.Generic
+namespace Microarea.RSWeb.Generic
 {
     /// <summary>
     /// Classe per la gestione delle immagini

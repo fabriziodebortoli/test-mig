@@ -3,9 +3,9 @@ using System.IO;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.NameSolver;
 
-namespace Microarea.TaskBuilderNet.Woorm.DiagnosticManager
+namespace Microarea.RSWeb.DiagnosticManager
 {
 	///<summary>
 	/// Semplice writer di un log (al momento utilizzato per scrivere log del SOSConnector)

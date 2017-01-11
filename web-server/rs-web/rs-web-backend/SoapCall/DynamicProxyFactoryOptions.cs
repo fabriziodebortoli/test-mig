@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Microarea.TaskBuilderNet.Woorm.SoapCall
+namespace Microarea.RSWeb.SoapCall
 {
 
 	public delegate string ProxyCodeModifier(string proxyCode);

@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Web;
 using System.Web.SessionState;
-using Microarea.TaskBuilderNet.Woorm.WoormController;
-using Microarea.TaskBuilderNet.Woorm.WoormViewer;
+using Microarea.RSWeb.WoormController;
+using Microarea.RSWeb.WoormViewer;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+namespace Microarea.RSWeb.WoormWebControl
 {
 	class PdfSharpHandler : IHttpHandler, IReadOnlySessionState 
 	{

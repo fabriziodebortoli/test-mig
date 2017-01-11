@@ -8,12 +8,12 @@ using Microarea.TaskBuilderNet.Data.DatabaseLayer;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.WoormController;
-using Microarea.TaskBuilderNet.Woorm.WoormEngine;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.WoormController;
+using Microarea.RSWeb.WoormEngine;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+namespace Microarea.RSWeb.WoormWebControl
 {
 	/// <summary>
 	/// Descrizione di riepilogo per WebForm.
@@ -226,7 +226,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 			}
 
 			DataView source = currentQuery.Tables[0].DefaultView;
-			localizer = new Microarea.TaskBuilderNet.Woorm.StringLoader.DatabaseLocalizer(Hotlink.Prototype.DbFieldTableName);
+			localizer = new Microarea.RSWeb.StringLoader.DatabaseLocalizer(Hotlink.Prototype.DbFieldTableName);
 			
 			if (currentSort != null)
 				source.Sort = currentSort;

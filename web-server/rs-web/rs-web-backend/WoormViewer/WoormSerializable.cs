@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
+namespace Microarea.RSWeb.WoormViewer
 {
 	//================================================================================
 	[Serializable]

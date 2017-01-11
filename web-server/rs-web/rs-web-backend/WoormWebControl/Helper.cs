@@ -2,13 +2,15 @@ using System;
 using System.Drawing;
 using System.IO;
 
-using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.WoormViewer;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.WoormViewer;
+using Windows.UI;
+using TaskBuilderNetCore.Interfaces;
+
+namespace Microarea.RSWeb.WoormWebControl
 {
 	internal enum BoxType { Text, Cell, TableTitle, ColumnTitle, SubTotal, Total }	
 
@@ -22,13 +24,13 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 		//--------------------------------------------------------------------------------
 		public static string FormatParametersForRequest(string xmlDomParameters)
 		{
-			return Microarea.TaskBuilderNet.Woorm.WoormWebControl.GenericFunctions.UrlEncode(xmlDomParameters);
+			return Microarea.RSWeb.WoormWebControl.GenericFunctions.UrlEncode(xmlDomParameters);
 		}
 
 		//--------------------------------------------------------------------------------
 		public static string UnformatParametersFromRequest(string xmlFormattedParameters)
 		{
-			return Microarea.TaskBuilderNet.Woorm.WoormWebControl.GenericFunctions.UrlDecode(xmlFormattedParameters);
+			return Microarea.RSWeb.WoormWebControl.GenericFunctions.UrlDecode(xmlFormattedParameters);
 		}
 
 		//------------------------------------------------------------------------------
@@ -45,7 +47,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 			FontElement fe = woorm.GetFontElement(fontStyleName);
 			if (fe == null) return elementColor;
 
-			if (elementColor == BoxTypeDefaultColor(boxType) && fe.Color != Color.Black)
+			if (elementColor == BoxTypeDefaultColor(boxType) && fe.Color != Color.FromArgb(255,255,255,255))
 				return fe.Color;
 
 			return elementColor;
@@ -54,7 +56,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 		//------------------------------------------------------------------------------
 		internal static Color BoxTypeDefaultColor(BoxType boxType)
 		{
-			return (boxType == BoxType.TableTitle) ? Color.White : Color.Black;
+			return (boxType == BoxType.TableTitle) ? Color.FromArgb(255, 0, 0, 0) : Color.FromArgb(255, 255, 255, 255);
 		}
 
 		///<summary>
@@ -166,7 +168,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 				finally
 				{
 					if (inputFile != null)
-						inputFile.Close();
+						inputFile.Dispose();
 				}
 				return text;
 			}

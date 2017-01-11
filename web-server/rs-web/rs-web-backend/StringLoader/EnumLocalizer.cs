@@ -1,5 +1,5 @@
 
-namespace Microarea.TaskBuilderNet.Woorm.StringLoader
+namespace Microarea.RSWeb.StringLoader
 {
 	
 	//================================================================================

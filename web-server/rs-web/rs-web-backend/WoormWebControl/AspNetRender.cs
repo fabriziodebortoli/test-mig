@@ -10,19 +10,19 @@ using WebCtrLs = System.Web.UI.WebControls;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.WoormController;
-using Microarea.TaskBuilderNet.Woorm.WoormEngine;
-using Microarea.TaskBuilderNet.Woorm.WoormViewer;
-using Microarea.TaskBuilderNet.Woorm.WoormWebControl;
-using TbWebCtrLs = Microarea.TaskBuilderNet.Woorm.TBWebFormControl;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.WoormController;
+using Microarea.RSWeb.WoormEngine;
+using Microarea.RSWeb.WoormViewer;
+using Microarea.RSWeb.WoormWebControl;
+using TbWebCtrLs = Microarea.RSWeb.TBWebFormControl;
 
 using RSjson;
 
 [assembly: WebResource(AspNetRender.ScriptUrl, "text/javascript")]
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+namespace Microarea.RSWeb.WoormWebControl
 {
 
     /// <summary>
@@ -194,7 +194,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 	/// ================================================================================
 	public class AspNetRender : Control, INamingContainer
 	{
-		internal const string ScriptUrl = "Microarea.TaskBuilderNet.Woorm.WoormWebControl.WoormViewerClientControl.js";
+		internal const string ScriptUrl = "Microarea.RSWeb.WoormWebControl.WoormViewerClientControl.js";
 		internal const string InitScript = "initScript";
 		int zOrder = 100;
 		int offset = 3;
@@ -713,7 +713,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 		//------------------------------------------------------------------------------
 		private string InsertBR(string text)	
 		{
-			text = Microarea.TaskBuilderNet.Woorm.WebControls.Helper.InsertBR(text);
+			text = Microarea.RSWeb.WebControls.Helper.InsertBR(text);
 			// Devo rimpiazzare anche i \\n, operche il parser del lexan parsa i \n restituendo un doppio \\
 			// Vedere il metodo public bool Parse (WoormParser lex) dove parsa il titolo	
 			// (if (lex.LookAhead(Token.TEXTSTRING) && !lex.ParseString(out title)) ) di woorm.woormviewer.column
@@ -1527,7 +1527,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
                             bSpecific = false;
                             feb = woorm.GetFontElement("<Hyperlink_Browsed>");
                         }
-                        Color colorBrowsed = feb != null ? feb.Color : Color.FromArgb(128, 0, 128);
+                        Color colorBrowsed = feb != null ? feb.Color : Color.FromArgb(25528, 0, 128);
                         
                         //----
 						string parameters;
@@ -1559,7 +1559,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
                         if (fe == null)
                         {
 						    cell.Font.Underline = true;
-                            cell.ForeColor = browsed ? Color.FromArgb(128, 0, 128) : Color.Blue; 
+                            cell.ForeColor = browsed ? Color.FromArgb(25528, 0, 128) : Color.Blue; 
                         }
                         else
                         {
@@ -2217,7 +2217,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 				{
 					string htmlText = string.Format("<input type='hidden' value = '{0}' name = '{1}'/>",
 						Helper.FormatParametersForRequest(Session.ReportParameters),
-						Microarea.TaskBuilderNet.Woorm.WebControls.Helper.DocumentParametersControlName
+						Microarea.RSWeb.WebControls.Helper.DocumentParametersControlName
 						);
 					Controls.Add(new LiteralControl(htmlText));			
 				}
@@ -2284,7 +2284,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 		private void AddInitScript(string script)
 		{
 			//metto in un attributo "initScript" il javascript da eseguire (nome atrtibuto deve essere allineato con quello nel 
-			//file TaskBuilderNet\Microarea.TaskBuilderNet.Woorm\WoormWebControl\WoormViewerClientControl.js  )
+			//file TaskBuilderNet\Microarea.RSWeb\WoormWebControl\WoormViewerClientControl.js  )
 			if (updPageCount != null)
 				updPageCount.Attributes.Add(InitScript, script);
 		}
@@ -2438,14 +2438,14 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 				ErrorLabelDescription = WoormWebControlStrings.UnknownError;
 				return;
 			}
-			ErrorLabelDescription = Microarea.TaskBuilderNet.Woorm.WebControls.Helper.InsertBR(exception.Message);
+			ErrorLabelDescription = Microarea.RSWeb.WebControls.Helper.InsertBR(exception.Message);
 			string details = GetDetail(exception);
 
 			DetailLabelDescription.Visible = true;
-			DetailLabelDescription.Text = Microarea.TaskBuilderNet.Woorm.WebControls.Helper.InsertBR(details);
+			DetailLabelDescription.Text = Microarea.RSWeb.WebControls.Helper.InsertBR(details);
 			DetailLabel.Visible = true;
 
-			StackTraceDescription.Text = Microarea.TaskBuilderNet.Woorm.WebControls.Helper.InsertBR(exception.StackTrace);
+			StackTraceDescription.Text = Microarea.RSWeb.WebControls.Helper.InsertBR(exception.StackTrace);
 
 			//Prima riga
 			WebCtrLs.Table table = new WebCtrLs.Table();

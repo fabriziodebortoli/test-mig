@@ -4,12 +4,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
 using Microarea.TaskBuilderNet.Interfaces;
-using Microarea.TaskBuilderNet.Woorm.ExpressionManager;
+using Microarea.RSWeb.ExpressionManager;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormEngine
+namespace Microarea.RSWeb.WoormEngine
 {
 
 	//============================================================================

@@ -4,18 +4,14 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 
-using Microarea.TaskBuilderNet.Interfaces;
-
-using PdfSharp.Drawing;
-using PdfSharp.Drawing.Layout;
-using PdfSharp.Pdf;
-
+using TaskBuilderNetCore.Interfaces;
+using PdfSharp;
 using RSjson;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.WoormViewer;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.WoormViewer;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+namespace Microarea.RSWeb.WoormWebControl
 {
 
     /// <summary>

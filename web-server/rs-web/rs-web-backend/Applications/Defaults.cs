@@ -1,12 +1,13 @@
-﻿using System.Drawing;
+﻿using Microarea.RSWeb.Applications;
+using Windows.UI;
 
-namespace Microarea.TaskBuilderNet.Woorm.Applications
+namespace Microarea.RSWeb.Applications
 {
-	/// <summary>
-	/// Summary description for BorderPen.
-	/// </summary>
-	//================================================================================ 
-	public class Defaults
+    /// <summary>
+    /// Summary description for BorderPen.
+    /// </summary>
+    //================================================================================ 
+    public class Defaults
 	{
 		public static Color DefaultTextColor = Color.Black;
 		public static Color DefaultBackColor = Color.White;
@@ -31,7 +32,7 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 		public static int DefaultTotalNumAlign = BaseObjConsts.DT_RIGHT | BaseObjConsts.DT_TOP | BaseObjConsts.DT_NOPREFIX | BaseObjConsts.DT_EXPANDTABS;
 
 		public static Color DefaultColumnTitleForeground = Color.Black;
-		public static Color DefaultColumnTitleBackground = Color.FromArgb(192, 192, 192);
+		public static Color DefaultColumnTitleBackground = Color.FromArgb(255,192, 192, 192);
 
 		public static Color DefaultColumnBorderColor = Color.Black;
 		public static Color DefaultColumnTitleBorderColor = Color.Black;
@@ -41,8 +42,8 @@ namespace Microarea.TaskBuilderNet.Woorm.Applications
 
 		public static int DefaultColumnTitleAlign = DefaultAlign;
 
-		//public static Color AlternateColor = Color.FromArgb(188, 210, 155);
-		public static Color AlternateColor = Color.FromArgb(192, 220, 192);
+		//public static Color AlternateColor = Color.FromArgb(25588, 210, 155);
+		public static Color AlternateColor = Color.FromArgb(255, 192, 220, 192);
 		
 
 		public static Color DefaultEasyviewColor = Color.AliceBlue;

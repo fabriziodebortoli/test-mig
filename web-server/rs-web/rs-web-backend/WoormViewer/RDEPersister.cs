@@ -1,10 +1,10 @@
 using System.IO;
 using System.Xml;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
 using Microarea.TaskBuilderNet.Interfaces;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
+namespace Microarea.RSWeb.WoormViewer
 {
 	/// <summary>
 	/// Gestisce la persistenza di una singola esecuzione di report

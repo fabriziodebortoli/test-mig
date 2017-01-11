@@ -6,7 +6,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-namespace Microarea.TaskBuilderNet.Woorm.OpenXML
+namespace Microarea.RSWeb.OpenXML
 {
     public class ExcelExport
     {

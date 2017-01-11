@@ -1,10 +1,11 @@
 using System;
 using System.Drawing;
 
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.WoormViewer;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.WoormViewer;
+using static Microarea.RSWeb.WoormViewer.BarCodeWrapper;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+namespace Microarea.RSWeb.WoormWebControl
 {
 	
 	//================================================================================        
@@ -52,7 +53,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 
 				if (barCodeType == BarCodeWrapper.Type.BC_DEFAULT)
 					barCodeType = barCode.BCDefaultType;
-
+                                                                                                                                                             
 				//se l'alias e' diverso da 0, il tipo di barcode e' contenuto nella variabile di woorm con questo alias
 				if (barCode.BarCodeTypeAlias != 0)
 				{
@@ -60,8 +61,8 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 					barCodeType = BarCodeWrapper.GetBarCodeType(bcType);
 				}
 				 
-				bool italic = (FontStyle.Italic & fe.FontStyle) == FontStyle.Italic;
-				bool bold = (FontStyle.Bold & fe.FontStyle) == FontStyle.Bold;
+				bool italic = (FontStyle.HS_ITALIC & fe.FontStyle) == FontStyle.HS_ITALIC;
+				bool bold = (FontStyle.HS_BOLD & fe.FontStyle) == FontStyle.HS_BOLD;
 			
 				int x, y, height;
 				if

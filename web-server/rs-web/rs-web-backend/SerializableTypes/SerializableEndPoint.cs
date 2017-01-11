@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel.Description;
 
-namespace Microarea.TaskBuilderNet.Woorm.SerializableTypes
+namespace Microarea.RSWeb.SerializableTypes
 {
 	[Serializable]
 	///uso questo wrapper perche' la classe ServiceEndpoint non e' serializzabile!

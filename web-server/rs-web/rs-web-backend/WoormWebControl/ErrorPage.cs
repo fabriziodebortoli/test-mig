@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using Microarea.TaskBuilderNet.Woorm.WoormController;
+using Microarea.RSWeb.WoormController;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+namespace Microarea.RSWeb.WoormWebControl
 {
 	
 	/// <summary>

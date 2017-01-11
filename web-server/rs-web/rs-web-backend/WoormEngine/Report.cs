@@ -6,10 +6,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.Serialization;
 using System.Xml;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Lexan;
+using Microarea.RSWeb.NameSolver;
 using Microarea.TaskBuilderNet.Interfaces;
 using Microarea.TaskBuilderNet.Interfaces.Model;
 
@@ -87,7 +87,7 @@ Report
 	End
 */
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormEngine
+namespace Microarea.RSWeb.WoormEngine
 {
 	public enum EngineType { Standard, OfficeXML, OfficePDF }
 
@@ -201,8 +201,8 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormEngine
 			this.XmlDomParameters	= xmlDomParameters;
 			this.XmlResultReports	= null;
 
-			this.maxString = Microarea.TaskBuilderNet.Woorm.NameSolver.ReadSetting.GetMaxString(ReportSession.PathFinder,ReportSession.UserInfo.LoginManager.PreferredLanguage);
-			ObjectHelper.DataDblEpsilon = Microarea.TaskBuilderNet.Woorm.NameSolver.ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
+			this.maxString = Microarea.RSWeb.NameSolver.ReadSetting.GetMaxString(ReportSession.PathFinder,ReportSession.UserInfo.LoginManager.PreferredLanguage);
+			ObjectHelper.DataDblEpsilon = Microarea.RSWeb.NameSolver.ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
 
 			symTable		= new RepSymTable();
 			engine			= new ReportEngine(this,engineType);
@@ -229,8 +229,8 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormEngine
 			this.XmlDomParameters	= xmlDomParameters;
 			this.XmlResultReports	= xmlResultReports;
 
-			this.maxString = Microarea.TaskBuilderNet.Woorm.NameSolver.ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.LoginManager.PreferredLanguage);
-			ObjectHelper.DataDblEpsilon = Microarea.TaskBuilderNet.Woorm.NameSolver.ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
+			this.maxString = Microarea.RSWeb.NameSolver.ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.LoginManager.PreferredLanguage);
+			ObjectHelper.DataDblEpsilon = Microarea.RSWeb.NameSolver.ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
 
 			symTable		= new RepSymTable();
 			engine			= new ReportEngine(this, engineType);

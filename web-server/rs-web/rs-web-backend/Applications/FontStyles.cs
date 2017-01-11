@@ -5,13 +5,13 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.Lexan;
 
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
-using Microarea.TaskBuilderNet.Interfaces;
+using Microarea.RSWeb.NameSolver;
+using static Microarea.RSWeb.WoormViewer.BarCodeWrapper;
 
-namespace Microarea.TaskBuilderNet.Woorm.Applications
+namespace Microarea.RSWeb.Applications
 {
 	/// <summary>
 	/// Summary description for FontStyles.

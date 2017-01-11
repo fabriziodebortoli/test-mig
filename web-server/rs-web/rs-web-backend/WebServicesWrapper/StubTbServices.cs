@@ -3,10 +3,10 @@ using System.Xml;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.NameSolver;
 
-namespace Microarea.TaskBuilderNet.Woorm.WebServicesWrapper
+namespace Microarea.RSWeb.WebServicesWrapper
 {
     public class TbServices : ITbServices
     {

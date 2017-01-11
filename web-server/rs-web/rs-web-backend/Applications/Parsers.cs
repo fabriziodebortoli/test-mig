@@ -1,8 +1,8 @@
 using System;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Lexan;
 
-namespace Microarea.TaskBuilderNet.Woorm.Applications
+namespace Microarea.RSWeb.Applications
 {
 	//---------------------------------------------------------------------------
 	public class DataTypeParser

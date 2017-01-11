@@ -1,17 +1,16 @@
 using System;
 using System.IO;
 
-using System.Web;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.WoormViewer;
+using Microsoft.AspNetCore.Http;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.WoormViewer;
-
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+namespace Microarea.RSWeb.WoormWebControl
 {
-	/// <summary>
-	/// Crea un file temporaneo
-	/// </summary>
-	public  class FileProvider
+    /// <summary>
+    /// Crea un file temporaneo
+    /// </summary>
+    public  class FileProvider
 	{
 		private string			extension;
 		private WoormDocument	woorm;
@@ -76,7 +75,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 				if (GenericTmpFile == string.Empty)
 					return string.Empty;
 
-				string rootPath = HttpContext.Current.Server.MapPath(".");
+                string rootPath = ""; //TODO RsWEB HttpContext.Current.Server.MapPath(".");
 				if (GenericTmpFile.IndexOf(rootPath) == -1)
 					return string.Empty;
 

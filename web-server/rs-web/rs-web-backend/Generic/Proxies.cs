@@ -5,9 +5,9 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-using Microarea.TaskBuilderNet.Woorm.XmlPersister;
+using Microarea.RSWeb.XmlPersister;
 
-namespace Microarea.TaskBuilderNet.Woorm.Generic
+namespace Microarea.RSWeb.Generic
 {
 	//=========================================================================
 	[Serializable]

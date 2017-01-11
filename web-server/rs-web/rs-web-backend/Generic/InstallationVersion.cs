@@ -4,9 +4,9 @@ using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
 
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.NameSolver;
 
-namespace Microarea.TaskBuilderNet.Woorm.Generic
+namespace Microarea.RSWeb.Generic
 {
 	//================================================================================
 	/// <summary>

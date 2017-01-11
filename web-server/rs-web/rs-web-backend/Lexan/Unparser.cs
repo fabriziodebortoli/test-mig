@@ -3,10 +3,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.Generic;
 
-namespace Microarea.TaskBuilderNet.Woorm.Lexan
+namespace Microarea.RSWeb.Lexan
 {
 	/// <summary>
 	/// Summary description for Unparser.

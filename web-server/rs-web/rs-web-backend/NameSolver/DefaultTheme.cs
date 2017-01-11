@@ -6,11 +6,11 @@ using System.Drawing;
 using System.Xml;
 using System.IO;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.Generic;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+namespace Microarea.RSWeb.NameSolver
 {
     //=========================================================================
     /// <summary>

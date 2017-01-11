@@ -10,13 +10,13 @@ namespace Microarea.RSWeb.Applications
 	///================================================================================ 
 	public class BorderPen
 	{
-        public Color Color = Color.FromArgb(1, 255, 255, 255);
+        public Color Color = Color.FromArgb(255, 255, 255, 255);
 		public int Width = 1;
 
 		//------------------------------------------------------------------------------
 		public BorderPen()
 		{
-			Color = Color.FromArgb(1, 255, 255, 255);
+			Color = Color.FromArgb(255, 255, 255, 255);
             Width = 1;
 		}
 
@@ -41,7 +41,7 @@ namespace Microarea.RSWeb.Applications
 			{
 				return
 					(Width == 1) &&
-					(Color == Color.FromArgb(1, 255, 255, 255));
+					(Color == Color.FromArgb(255, 255, 255, 255));
 			}
 		}
 

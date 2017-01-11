@@ -1,10 +1,10 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Spreadsheet;
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.Generic;
 using System;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
 
-namespace Microarea.TaskBuilderNet.Woorm.WebServicesWrapper.LoginMngXml
+namespace Microarea.RSWeb.WebServicesWrapper.LoginMngXml
 {
 
     public class MicroareaLoginManager //: System.Web.Services.Protocols.SoapHttpClientProtocol
@@ -7789,7 +7789,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WebServicesWrapper.LoginMngXml
                 {
                     if (object.ReferenceEquals(resourceMan, null))
                     {
-                        global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microarea.TaskBuilderNet.Woorm.WebServicesWrapper.WebServicesWrapperStrings", typeof(WebServicesWrapperStrings).Assembly);
+                        global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microarea.RSWeb.WebServicesWrapper.WebServicesWrapperStrings", typeof(WebServicesWrapperStrings).Assembly);
                         resourceMan = temp;
                     }
                     return resourceMan;

@@ -7,11 +7,11 @@ using DocumentFormat.OpenXml.Drawing.Spreadsheet;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
-using Microarea.TaskBuilderNet.Woorm.WebServicesWrapper.LoginMngXml;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.NameSolver;
+using Microarea.RSWeb.WebServicesWrapper.LoginMngXml;
 
-namespace Microarea.TaskBuilderNet.Woorm.WebServicesWrapper
+namespace Microarea.RSWeb.WebServicesWrapper
 {
     /// <summary>
     /// Wrapper di LoginManager server

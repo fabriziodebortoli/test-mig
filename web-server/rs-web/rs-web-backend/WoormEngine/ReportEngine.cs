@@ -10,16 +10,16 @@ using Microarea.TaskBuilderNet.Data.DatabaseLayer;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.DiagnosticManager;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
-using Microarea.TaskBuilderNet.Woorm.ExpressionManager;
-using Microarea.TaskBuilderNet.Woorm.WoormViewer;
+using Microarea.RSWeb.DiagnosticManager;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Lexan;
+using Microarea.RSWeb.NameSolver;
+using Microarea.RSWeb.ExpressionManager;
+using Microarea.RSWeb.WoormViewer;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormEngine
+namespace Microarea.RSWeb.WoormEngine
 {
 
 	///<summary>

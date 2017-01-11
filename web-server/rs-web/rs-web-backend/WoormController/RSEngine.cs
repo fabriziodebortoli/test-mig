@@ -7,14 +7,14 @@ using System.Xml;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.StringLoader;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.WoormEngine;
-using Microarea.TaskBuilderNet.Woorm.WoormViewer;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
-using Microarea.TaskBuilderNet.Woorm.WoormWebControl;
+using Microarea.RSWeb.StringLoader;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.WoormEngine;
+using Microarea.RSWeb.WoormViewer;
+using Microarea.RSWeb.Lexan;
+using Microarea.RSWeb.WoormWebControl;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormController
+namespace Microarea.RSWeb.WoormController
 {
     // tipologia di renderizzazione
     public enum HtmlPageType { Error, Viewer, Form, HotLink, Persister, Print, None };

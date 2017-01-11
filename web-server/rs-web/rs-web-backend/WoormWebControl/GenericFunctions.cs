@@ -1,11 +1,12 @@
 //using System.IO;
 //using System.Reflection;
-using System.Web;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+using System.Net;
+
+namespace Microarea.RSWeb.WoormWebControl
 {
-	//================================================================================
-	public class GenericFunctions
+    //================================================================================
+    public class GenericFunctions
 	{
         //------------------------------------------------------------------------------
         /* TODO RSWEB
@@ -62,20 +63,21 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
                 */
         static public string UrlEncode(string s)
         {
-            return HttpUtility.UrlEncode(s);
+            return 
+                WebUtility.UrlEncode(s);
         }
 
         static public string UrlDecode(string s)
         {
-            return HttpUtility.UrlDecode(s);
+            return WebUtility.UrlDecode(s);
         }
         static public string HtmlEncode(string s)
         {
-            return HttpUtility.HtmlEncode(s);
+            return WebUtility.HtmlEncode(s);
         }
         static public string HtmlDecode(string s)
         {
-            return HttpUtility.HtmlDecode(s);
+            return WebUtility.HtmlDecode(s);
         }
 
     }

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Microarea.TaskBuilderNet.Woorm.DiagnosticManager
+namespace Microarea.RSWeb.DiagnosticManager
 {
 	public struct CrashInfo
 	{

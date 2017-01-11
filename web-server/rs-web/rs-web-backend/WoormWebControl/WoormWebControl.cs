@@ -1,23 +1,20 @@
 using System;
 using System.IO;
 using System.Reflection;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.WoormController;
-using Microarea.TaskBuilderNet.Woorm.WoormWebControl;
-using System.Web.UI.HtmlControls;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.WoormController;
 
 
-[assembly: WebResource(WoormWebControl.ScriptUrl,"text/javascript")]
+//TODO RSWEB non esiste
+//[assembly: WebResource(WoormWebControl.ScriptUrl,"text/javascript")]
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
+namespace Microarea.RSWeb.WoormWebControl
 {
-	/// <summary>
-	/// Nomi delle immagini utilizzate dal control
-	/// </summary>
-	/// ================================================================================
-	internal class ImageNames
+    /// <summary>
+    /// Nomi delle immagini utilizzate dal control
+    /// </summary>
+    /// ================================================================================
+    internal class ImageNames
 	{
 		public const string FirstPage			= "FirstPage.gif";
 		public const string PrevPage			= "PrevPage.gif";		
@@ -46,9 +43,9 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 		public static string ReportPath			= "ReportNameSpace";
 	}
 	//==================================================================================
-	public class WoormWebControl : Control, INamingContainer
+	public class WoormWebControl : Control//, INamingContainer   TODO RSWEB non esiste
 	{
-		internal const string ScriptUrl = "Microarea.TaskBuilderNet.Woorm.WoormWebControl.WoormClientControl.js";
+		internal const string ScriptUrl = "Microarea.RSWeb.WoormWebControl.WoormClientControl.js";
 		public static readonly Type DefaultReferringType = typeof(WoormWebControl);
 		private ReportController controller;
 		
@@ -67,7 +64,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 		//--------------------------------------------------------------------------
 		public RSEngine StateMachine { get { return controller.StateMachine; } }
 		//--------------------------------------------------------------------------
-		public static string AssemblyName = Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
+		public static string AssemblyName = Path.GetFileNameWithoutExtension(typeof(WoormWebControl).GetTypeInfo().Assembly.Location /*Assembly.GetExecutingAssembly().Location TODO RSWEB non esiste ancora. Non sono sicura che l'alternativa funzioni*/);
 		
 		//Memorizza l'ID del controllo che aveva il fuoco prima di ricostruire da zero 
 		//le ask dialog in presenza di campi auto assegnati, per reimpostarlo sulla
@@ -104,7 +101,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormWebControl
 				
 			controller = ReportController.FromSession(Page.Request.Params);
 
-			Microarea.TaskBuilderNet.Woorm.WebControls.Helper.RegisterLinkDocumentFunction(Page);
+			Microarea.RSWeb.WebControls.Helper.RegisterLinkDocumentFunction(Page);
 
 			controller.InitStateMachine(Page.IsPostBack);
 			controller.StateMachine.Step();

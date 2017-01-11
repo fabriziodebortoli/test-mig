@@ -25,11 +25,11 @@ using WsdlNS = System.Web.Services.Description;
 
 //TODO RSWEB using Microarea.TaskBuilderNet.Core.WebServicesWrapper;   //-> GetProxySettings(); -> Server e Port
 
-using Microarea.TaskBuilderNet.Woorm.SerializableTypes;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.SerializableTypes;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.NameSolver;
 
-namespace Microarea.TaskBuilderNet.Woorm.SoapCall
+namespace Microarea.RSWeb.SoapCall
 {
     //================================================================================
     public class DynamicProxyFactory

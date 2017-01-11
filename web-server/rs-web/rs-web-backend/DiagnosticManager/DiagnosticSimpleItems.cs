@@ -2,7 +2,7 @@
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-namespace Microarea.TaskBuilderNet.Woorm.DiagnosticManager
+namespace Microarea.RSWeb.DiagnosticManager
 {
 	//=========================================================================
 	/// <summary>

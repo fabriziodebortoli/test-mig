@@ -3,9 +3,9 @@ using System.Globalization;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.Generic;
 
-namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+namespace Microarea.RSWeb.NameSolver
 {
 	/// <summary>
 	/// Estensione di BaseModuleInfo con le informazioni relative alla custom

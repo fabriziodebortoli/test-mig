@@ -1,5 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Spreadsheet;
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microarea.TaskBuilderNet.Woorm.WebServicesWrapper.LoginMg
+namespace Microarea.RSWeb.WebServicesWrapper.LoginMg
 {
     
     public partial class MicroareaLoginManager : System.Web.Services.Protocols.SoapHttpClientProtocol
@@ -8992,7 +8992,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WebServicesWrapper.LoginMg
             {
                 if (object.ReferenceEquals(resourceMan, null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microarea.TaskBuilderNet.Woorm.WebServicesWrapper.WebServicesWrapperStrings", typeof(WebServicesWrapperStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microarea.RSWeb.WebServicesWrapper.WebServicesWrapperStrings", typeof(WebServicesWrapperStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -10583,7 +10583,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WebServicesWrapper.LoginMg
 }
 
 
-namespace Microarea.TaskBuilderNet.Woorm.WebServicesWrapper.TbSrv
+namespace Microarea.RSWeb.WebServicesWrapper.TbSrv
 {
 
 

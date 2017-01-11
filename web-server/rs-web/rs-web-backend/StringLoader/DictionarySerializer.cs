@@ -6,7 +6,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Microarea.TaskBuilderNet.Woorm.StringLoader
+namespace Microarea.RSWeb.StringLoader
 {
 	//================================================================================
 	public class DictionarySerializerException : ApplicationException

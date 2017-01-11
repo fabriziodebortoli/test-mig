@@ -5,7 +5,7 @@ using System.Xml;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+namespace Microarea.RSWeb.NameSolver
 {
 	//=========================================================================
 	public sealed class HelpInfo

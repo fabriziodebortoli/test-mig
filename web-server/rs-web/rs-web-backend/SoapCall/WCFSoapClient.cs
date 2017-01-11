@@ -7,9 +7,9 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.Threading;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.Generic;
 
-namespace Microarea.TaskBuilderNet.Woorm.SoapCall
+namespace Microarea.RSWeb.SoapCall
 {
 	
 	//================================================================================

@@ -15,11 +15,11 @@ using System.Linq;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.DiagnosticManager;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.Applications;
+using Microarea.RSWeb.DiagnosticManager;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.Applications;
 
-namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+namespace Microarea.RSWeb.NameSolver
 {
 	public enum ImageSize { None, Size16x16, Size20x20, Size24x24, Size32x32 }
 	/// <summary>

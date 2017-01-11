@@ -4,7 +4,7 @@ using System.IO;
 
 using Microarea.TaskBuilderNet.Interfaces;
 
-namespace Microarea.TaskBuilderNet.Woorm.NameSolver
+namespace Microarea.RSWeb.NameSolver
 {	
 	//=========================================================================
 	public class PathFinder : BasePathFinder, IPathFinder

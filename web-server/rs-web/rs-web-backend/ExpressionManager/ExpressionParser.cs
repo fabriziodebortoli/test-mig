@@ -6,12 +6,12 @@ using System.Globalization;
 using System.Text;
 using System.Diagnostics;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Lexan;
 
-namespace Microarea.TaskBuilderNet.Woorm.ExpressionManager
+namespace Microarea.RSWeb.ExpressionManager
 {
 	//-----------------------------------------------------------------------------
 	// An expression is stored in a ready-to-evaluate form as a stack of

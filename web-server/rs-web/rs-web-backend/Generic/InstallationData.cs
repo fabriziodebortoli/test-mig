@@ -10,9 +10,9 @@ using Microarea.TaskBuilderNet.Interfaces;
 
 //TODO RSWEB using Microarea.TaskBuilderNet.Core.WebServicesWrapper;   //unused -> Country + CheckDBSize
 
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.NameSolver;
 
-namespace Microarea.TaskBuilderNet.Woorm.Generic
+namespace Microarea.RSWeb.Generic
 {
     /// <summary>
     /// classe che contiene tutte le informazioni relative all'installazione; sono 

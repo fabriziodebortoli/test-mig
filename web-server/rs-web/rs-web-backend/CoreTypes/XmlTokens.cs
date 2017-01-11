@@ -1,6 +1,6 @@
 using System.Xml;
 
-namespace Microarea.TaskBuilderNet.Woorm.CoreTypes
+namespace Microarea.RSWeb.CoreTypes
 {	
 	/// <summary>
 	/// Summary description for XmlWriterHelper.

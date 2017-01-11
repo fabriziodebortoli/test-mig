@@ -4,12 +4,12 @@ using System.Globalization;
 using System.IO;
 using System.Xml;
 
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.WoormEngine;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.WoormEngine;
 using RSjson;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
+namespace Microarea.RSWeb.WoormViewer
 {
 	/// <summary>
 	/// Descrizione di riepilogo per reader.
@@ -341,7 +341,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
 
 			string val = string.Empty;
 			if (reader.MoveToAttribute(RdeWriterTokens.Attribute.Value))
-				val = Microarea.TaskBuilderNet.Woorm.WoormWebControl.GenericFunctions.HtmlDecode(reader.Value);
+				val = Microarea.RSWeb.WoormWebControl.GenericFunctions.HtmlDecode(reader.Value);
 
 			bool isCellTail = false;
 			if (reader.MoveToAttribute(RdeWriterTokens.Attribute.CellTail))

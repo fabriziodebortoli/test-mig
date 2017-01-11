@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Microarea.TaskBuilderNet.Woorm.XmlPersister
+namespace Microarea.RSWeb.XmlPersister
 {
 	/// <summary>
 	/// CLasse che si occupa di serializzare e deserializzare a strighe gli oggetti
@@ -58,7 +58,7 @@ namespace Microarea.TaskBuilderNet.Woorm.XmlPersister
 			finally
 			{
 				if (ms != null)
-					ms.Close();
+					ms.Dispose();
 			}
 		}
 
@@ -88,7 +88,7 @@ namespace Microarea.TaskBuilderNet.Woorm.XmlPersister
 			finally
 			{
 				if (sr != null)
-					sr.Close();
+					sr.Dispose();
 			}
 		}
 

@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace Microarea.TaskBuilderNet.Woorm.CoreTypes
+namespace Microarea.RSWeb.CoreTypes
 {
 	/// <summary>
 	/// DateTimeFunctions.

@@ -11,16 +11,16 @@ using Microarea.TaskBuilderNet.Data.DatabaseLayer;
 using Microarea.TaskBuilderNet.Interfaces;
 using Microarea.TaskBuilderNet.Interfaces.Model;
 
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.WoormEngine;
-using Microarea.TaskBuilderNet.Woorm.WoormViewer;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.WoormEngine;
+using Microarea.RSWeb.WoormViewer;
 
-using Microarea.TaskBuilderNet.Woorm.WoormWebControl;
+using Microarea.RSWeb.WoormWebControl;
 
 using RSjson;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormController
+namespace Microarea.RSWeb.WoormController
 {
 	//=========================================================================
 	[Serializable]
@@ -291,7 +291,7 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormController
 
 				ReadParameters(localReportSession);
 
-				localReportSession.Localizer = new Microarea.TaskBuilderNet.Woorm.StringLoader.WoormLocalizer(Filename, localReportSession.PathFinder);
+				localReportSession.Localizer = new Microarea.RSWeb.StringLoader.WoormLocalizer(Filename, localReportSession.PathFinder);
 
 				// istanzio una nuova macchina per la elaborazione del report e la memorizzo in reportSession
 				StateMachine = new RSEngine(localReportSession, Filename, TBWebContext.Current.SessionID, stateMachineSessionTag);

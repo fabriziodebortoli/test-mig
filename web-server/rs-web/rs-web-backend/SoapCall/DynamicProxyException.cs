@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ServiceModel.Description;
 using System.Text;
 
-namespace Microarea.TaskBuilderNet.Woorm.SoapCall
+namespace Microarea.RSWeb.SoapCall
 {
 
     //================================================================================

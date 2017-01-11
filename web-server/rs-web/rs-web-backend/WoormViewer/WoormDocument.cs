@@ -12,20 +12,20 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.NameSolver;
 
 using Microarea.TaskBuilderNet.Data.DatabaseLayer;
 using Microarea.TaskBuilderNet.Interfaces;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
-using Microarea.TaskBuilderNet.Woorm.WoormEngine;
-using Microarea.TaskBuilderNet.Woorm.Applications;
-using Microarea.TaskBuilderNet.Woorm.CoreTypes;
-using Microarea.TaskBuilderNet.Woorm.Lexan;
+using Microarea.RSWeb.Generic;
+using Microarea.RSWeb.WoormEngine;
+using Microarea.RSWeb.Applications;
+using Microarea.RSWeb.CoreTypes;
+using Microarea.RSWeb.Lexan;
 
 using RSjson;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
+namespace Microarea.RSWeb.WoormViewer
 {
 	public enum PageType { First, Last, Prev, Next, Current, Unknown }
 	public enum CellType { Cell, SubTotal, Total, LowerInput, UpperInput}

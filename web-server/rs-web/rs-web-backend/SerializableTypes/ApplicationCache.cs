@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 
-using Microarea.TaskBuilderNet.Woorm.NameSolver;
+using Microarea.RSWeb.NameSolver;
 
-namespace Microarea.TaskBuilderNet.Woorm.SerializableTypes
+namespace Microarea.RSWeb.SerializableTypes
 {
 	[Serializable]
 	public class ApplicationCache : Serializable

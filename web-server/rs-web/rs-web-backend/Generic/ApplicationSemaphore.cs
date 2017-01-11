@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Microarea.TaskBuilderNet.Woorm.Generic
+namespace Microarea.RSWeb.Generic
 {
 	//============================================================================
 	public class ApplicationSemaphore

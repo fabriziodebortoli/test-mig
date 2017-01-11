@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.SessionState;
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormController
+namespace Microarea.RSWeb.WoormController
 {
 	class WoormHandler : IHttpHandler, IReadOnlySessionState
 	{

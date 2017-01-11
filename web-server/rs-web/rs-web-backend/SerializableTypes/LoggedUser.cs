@@ -3,9 +3,9 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Collections.Generic;
 
-using Microarea.TaskBuilderNet.Woorm.Generic;
+using Microarea.RSWeb.Generic;
 
-namespace Microarea.TaskBuilderNet.Woorm.SerializableTypes
+namespace Microarea.RSWeb.SerializableTypes
 {
 	[Serializable]
 	public class LoggedUser

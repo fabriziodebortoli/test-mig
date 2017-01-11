@@ -1,5 +1,5 @@
 
-namespace Microarea.TaskBuilderNet.Woorm.WoormViewer
+namespace Microarea.RSWeb.WoormViewer
 {
 	public enum OSLTypes {Report, Form};
 

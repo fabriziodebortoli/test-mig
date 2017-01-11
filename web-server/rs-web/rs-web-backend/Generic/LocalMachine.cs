@@ -6,7 +6,7 @@ using System.Management;
 using System.Text;
 using System.Windows.Forms;	// wrap su WMI
 
-namespace Microarea.TaskBuilderNet.Woorm.Generic
+namespace Microarea.RSWeb.Generic
 {
 	/// <summary>
 	/// Summary description for LocalMachine.
