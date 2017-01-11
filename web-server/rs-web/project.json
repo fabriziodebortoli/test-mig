@@ -24,6 +24,7 @@
       "type": "platform"
     },
     "Newtonsoft.Json": "9.0.1",
+    "StandardPackageForRsWeb": "1.0.0",
     "System.Runtime.WindowsRuntime": "4.3.0"
 	},
 

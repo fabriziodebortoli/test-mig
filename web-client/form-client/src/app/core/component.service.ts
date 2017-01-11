@@ -1,8 +1,10 @@
+import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { HttpService } from './http.service';
 import { WebSocketService } from './websocket.service';
-import { ComponentInfo } from 'tb-shared';
-import { Router } from '@angular/router';
-import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
+
+import { ComponentInfo } from './../shared/models/component.info';
 
 @Injectable()
 export class ComponentService {

@@ -19,16 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private sidenavService: SidenavService,
     private router: Router
   ) {
-    this.sidenavSubscription = sidenavService.sidenavOpened$.subscribe(
-      sidebarOpened => {
-        console.log("sidebarOpened: ", sidebarOpened);
-        if (sidebarOpened) {
-          this.sidenav.close();
-        } else {
-          this.sidenav.open();
-        }
-
-      });
+    this.sidenavSubscription = sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle());
   }
 
   ngOnInit() {
@@ -36,9 +27,5 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sidenavSubscription.unsubscribe();
-  }
-
-  closeSidenav() {
-    this.sidenav.close();
   }
 }

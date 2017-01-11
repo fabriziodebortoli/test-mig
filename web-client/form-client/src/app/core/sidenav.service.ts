@@ -1,3 +1,8 @@
+/**
+ * La sidenav e' comandata da HomeComponent, il quale risulta sottoscritto all'observable sidenavOpened$
+ * 
+ * Ad ogni component che vuole aprire/chiudere la sidenav basta richiamare il metodo toggleSidenav di questo service (es: home-sidenav.component)
+ */
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
@@ -7,20 +12,7 @@ export class SidenavService {
   private sidenavOpenedSource = new Subject<boolean>();
   sidenavOpened$ = this.sidenavOpenedSource.asObservable();
 
-  openSidenav() {
-    console.log("openSidenav");
-    this.sidenavOpenedSource.next(true);
-  }
-
-  closeSidenav() {
-    this.sidenavOpenedSource.next(false);
-  }
-
   toggleSidenav() {
-    if (this.sidenavOpenedSource) {
-      this.closeSidenav();
-    } else {
-      this.openSidenav();
-    }
+    this.sidenavOpenedSource.next();
   }
 }
