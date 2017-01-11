@@ -1,0 +1,148 @@
+﻿/* AskDialog form section */
+
+.AskDialogTitle
+{
+	background: RoyalBlue;
+}
+
+.AskDialogLabel
+{
+	color: White;
+	font-family: Verdana, Tahoma, Helvetica;
+	font-size: medium;
+}
+
+.AskDialogParameterTable
+{
+	border-style: solid;
+	border-width: 2px;
+	border-color: Black;
+	background-color: LightBlue;
+}
+
+.AskDialogParameterRow
+{
+	background-color: RoyalBlue;
+	color: White;
+	font-weight: bold;
+}
+
+.AskDialogParameterCell
+{
+	font-family: Verdana, Tahoma, Helvetica;
+	font-size: medium;
+}
+
+
+.AskDialogGroupLabel
+{
+	font-weight: bold;
+	font-family: Verdana, Tahoma, Helvetica;
+	font-size: x-small;
+}
+
+.AskDialogGroupPanel
+{
+	border-style: solid;
+	border-width: 1px;
+	background-color: LightCyan;
+}
+
+.AskDialogGenericControl
+{			
+	font-family: Verdana, Tahoma, Helvetica;
+	font-size: x-small;
+}
+
+.AskDialogValidationSummary
+{
+	font-family: Verdana, Tahoma, Helvetica;
+	font-size: medium;
+}
+
+/*Hotlink results form section*/
+.HotLinkTable
+{
+	border-style: groove;
+	background-color: LightBlue;
+}
+
+.HotLinkTitle
+{
+	background-color: SkyBlue;
+}
+
+.HotLinkTitleLabel
+{
+	font-size: medium;
+	font-family: Verdana, Tahoma, Helvetica;
+	color: White;
+}
+
+.DataGridResults
+{
+	background-color: PowderBlue;
+	border-color: Black;
+	font-family: Verdana, Tahoma, Helvetica;
+	font-size: 8pt;
+}
+		
+.DataGridResults tr:nth-child(odd) 
+{
+	 background-color: Azure; 
+}
+
+.DataGridResults tr:first-child
+{
+	background-color: SkyBlue;
+}
+
+/*Persistent control section*/			
+.PersistentControlTitle
+{
+	background: RoyalBlue;
+}
+
+.PersistentControlLabel
+{
+	color: White;
+	font-family: Verdana, Tahoma, Helvetica;
+	font-size: medium;
+}
+
+.PersistentControlTable
+{
+	border-style: solid;
+	border-width: 2px;
+	border-color: Black;
+	background-color: LightBlue;
+}
+
+.ControlClass
+{
+	color: White;
+	background-color: LightBlue;
+	font-family: Verdana, Tahoma, Helvetica;
+}
+
+/*Toolbar report section*/
+
+.StatusInfo
+{
+	font-weight: bold;
+	font-family: Verdana, Tahoma, Helvetica;
+	font-size: 14px;
+	border-width: 3px;
+	border-style: groove;
+}
+			
+.StatusInfo.Enabled
+{
+	color: White;
+	background-color: MediumSlateBlue;
+}
+
+.ReportToolbar
+{
+	background-color: Lavender;
+}

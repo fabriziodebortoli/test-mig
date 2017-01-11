@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActionNotAllowed" xml:space="preserve">
+    <value>Action {0} not allowed for a request rule</value>
+  </data>
+  <data name="AliasExist" xml:space="preserve">
+    <value>Numerical alias {0} already exists</value>
+  </data>
+  <data name="AskDialogExist" xml:space="preserve">
+    <value>Request rule {0} already exists</value>
+  </data>
+  <data name="AskNotAllowed" xml:space="preserve">
+    <value>ASK can be called only in the BEFORE Event of the report</value>
+  </data>
+  <data name="BadControlStyle" xml:space="preserve">
+    <value>Style {0} is not valid for the data type.</value>
+  </data>
+  <data name="BadCopyData" xml:space="preserve">
+    <value>Error copying accumulation data</value>
+  </data>
+  <data name="BadGroupBy" xml:space="preserve">
+    <value>The grouping criterion does not match the rule application</value>
+  </data>
+  <data name="BadInterline" xml:space="preserve">
+    <value>Attempt to set line spacing while rastering a column of table {0}</value>
+  </data>
+  <data name="BadPromptIcon" xml:space="preserve">
+    <value>Illegal prompt icon</value>
+  </data>
+  <data name="BadReferenceObjectArgument" xml:space="preserve">
+    <value>The Hotlink {1} parameter {0} isn't valid.</value>
+  </data>
+  <data name="BadReferenceObjectResultType" xml:space="preserve">
+    <value>The HotLink {0} return value is not valid.</value>
+  </data>
+  <data name="CannotDisplayField" xml:space="preserve">
+    <value>Unable to view field {0}</value>
+  </data>
+  <data name="ColumnNameExpected" xml:space="preserve">
+    <value>Column name missing</value>
+  </data>
+  <data name="CreateScheraError" xml:space="preserve">
+    <value>Error in TableNames.CreateSchema: {0}</value>
+  </data>
+  <data name="DatatableRuleHaving" xml:space="preserve">
+    <value>Invalid HAVING expression for a table rule</value>
+  </data>
+  <data name="DisplayTableExist" xml:space="preserve">
+    <value>Graphical table {0} already defined</value>
+  </data>
+  <data name="EmptyProcedure" xml:space="preserve">
+    <value>Empty procedure {0} not allowed</value>
+  </data>
+  <data name="EvalCondition" xml:space="preserve">
+    <value>Error evaluating a condition</value>
+  </data>
+  <data name="EvalCondRuleExpression" xml:space="preserve">
+    <value>Error evaluating conditional expression {0}</value>
+  </data>
+  <data name="EvalEventExpression" xml:space="preserve">
+    <value>Error evaluating expression of event {0}</value>
+  </data>
+  <data name="EvalEventFunction" xml:space="preserve">
+    <value>Error in event of function {0}</value>
+  </data>
+  <data name="EvalGroupExpression" xml:space="preserve">
+    <value>Error evaluating a grouping</value>
+  </data>
+  <data name="EvalGroupFunction" xml:space="preserve">
+    <value>Unable to perfom a grouping function</value>
+  </data>
+  <data name="EvalHaving" xml:space="preserve">
+    <value>Error evaluating a HAVING expression</value>
+  </data>
+  <data name="EvalInitExpression" xml:space="preserve">
+    <value>Unable to initialize expression {0}</value>
+  </data>
+  <data name="EvalRuleElse" xml:space="preserve">
+    <value>Invalid ELSE expression {0}</value>
+  </data>
+  <data name="EvalRuleThen" xml:space="preserve">
+    <value>Invalid THEN expression {0}</value>
+  </data>
+  <data name="EvalWhenExpression" xml:space="preserve">
+    <value>Error evaluating WHEN expression</value>
+  </data>
+  <data name="EvalWhere" xml:space="preserve">
+    <value>Invalid WHERE expression {0}</value>
+  </data>
+  <data name="ExplicitDisplayNotAllowed" xml:space="preserve">
+    <value>In the report block Always or Finalize there is a not allowed action (es. Display...)</value>
+  </data>
+  <data name="FieldAlreadyUsed" xml:space="preserve">
+    <value>Variable {0} is already in use</value>
+  </data>
+  <data name="FieldExist" xml:space="preserve">
+    <value>Variable {0} already exists</value>
+  </data>
+  <data name="FieldNotColumn" xml:space="preserve">
+    <value>Variable {0} is not a column</value>
+  </data>
+  <data name="FunctionExist" xml:space="preserve">
+    <value>Function {0} already exists</value>
+  </data>
+  <data name="GroupByExist" xml:space="preserve">
+    <value>GROUPBY clause already defined</value>
+  </data>
+  <data name="HavingExist" xml:space="preserve">
+    <value>HAVING clause already defined</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>Error running report</value>
+  </data>
+  <data name="IllegalAction" xml:space="preserve">
+    <value>Action not allowed</value>
+  </data>
+  <data name="IllegalAlias" xml:space="preserve">
+    <value>Alias not allowed</value>
+  </data>
+  <data name="IllegalDataType" xml:space="preserve">
+    <value>Data type {0}  not allowed</value>
+  </data>
+  <data name="IllegalDefaultQuery" xml:space="preserve">
+    <value>Illegal default query {0}</value>
+  </data>
+  <data name="IllegalField" xml:space="preserve">
+    <value>Variable {0} not allowed</value>
+  </data>
+  <data name="IllegalFieldName" xml:space="preserve">
+    <value>The name of variable {0} cannot be qualified</value>
+  </data>
+  <data name="IllegalFormFeedOnColumnDisplay" xml:space="preserve">
+    <value>Viewing column {0} during a FormFeed is illegal</value>
+  </data>
+  <data name="IllegalFormFeedOnRowDisplay" xml:space="preserve">
+    <value>Viewing line {0} during a FormFeed is illegal</value>
+  </data>
+  <data name="IllegalFunction" xml:space="preserve">
+    <value>Function {0} not allowed</value>
+  </data>
+  <data name="IllegalGroupExpression" xml:space="preserve">
+    <value>The variable {0} is not valid in a GroupBy expression</value>
+  </data>
+  <data name="IllegalPrecision" xml:space="preserve">
+    <value>Precision not allowed</value>
+  </data>
+  <data name="IllegalTotalName" xml:space="preserve">
+    <value>Name of total {0} is not correct</value>
+  </data>
+  <data name="IncompatibleFunctionOperand" xml:space="preserve">
+    <value>Operand {0} not compatible with function</value>
+  </data>
+  <data name="InvalidHelp" xml:space="preserve">
+    <value>Invalid help file</value>
+  </data>
+  <data name="MissingAction" xml:space="preserve">
+    <value>Action missing</value>
+  </data>
+  <data name="MissingFuction" xml:space="preserve">
+    <value>Function {0} is missing</value>
+  </data>
+  <data name="MissingTableName" xml:space="preserve">
+    <value>Table name missing</value>
+  </data>
+  <data name="NameAmbiguity" xml:space="preserve">
+    <value>Name ambiguity</value>
+  </data>
+  <data name="NoRule" xml:space="preserve">
+    <value>Rule not found</value>
+  </data>
+  <data name="NotSameField" xml:space="preserve">
+    <value>{0} is not the same variable</value>
+  </data>
+  <data name="ProcedureExist" xml:space="preserve">
+    <value>Procedure {0} already defined</value>
+  </data>
+  <data name="QueryFailed" xml:space="preserve">
+    <value>Failed to run query!</value>
+  </data>
+  <data name="QueryObjectExist" xml:space="preserve">
+    <value>QueryObject {0} already defined</value>
+  </data>
+  <data name="RDEChannelClosed" xml:space="preserve">
+    <value>RDE communications channel not open</value>
+  </data>
+  <data name="ReadOnlyField" xml:space="preserve">
+    <value>Variable {0} is read-only</value>
+  </data>
+  <data name="RecursiveRule" xml:space="preserve">
+    <value>Crosslinked rules (recursiveness)</value>
+  </data>
+  <data name="RuleExpression" xml:space="preserve">
+    <value>Expression {0} not valid</value>
+  </data>
+  <data name="RuleNotFound" xml:space="preserve">
+    <value>At least one rule must be present</value>
+  </data>
+  <data name="RunFailed" xml:space="preserve">
+    <value>Run failed</value>
+  </data>
+  <data name="RuntimeErrorUnknownAction" xml:space="preserve">
+    <value>Unknown action</value>
+  </data>
+  <data name="SyntaxError" xml:space="preserve">
+    <value>Syntax error</value>
+  </data>
+  <data name="TableActionExist" xml:space="preserve">
+    <value>Table action {0} already defined</value>
+  </data>
+  <data name="TableFull" xml:space="preserve">
+    <value>Attempt to write on table {0}, which is already full</value>
+  </data>
+  <data name="TableUndefined" xml:space="preserve">
+    <value>Database table does not exist</value>
+  </data>
+  <data name="TbLoaderError" xml:space="preserve">
+    <value>TbLoader Server not available:</value>
+  </data>
+  <data name="UndefinedReferenceObject" xml:space="preserve">
+    <value>The HotLink {0} is not defined.</value>
+  </data>
+  <data name="UnknownAction" xml:space="preserve">
+    <value>Action {0} is unknown</value>
+  </data>
+  <data name="UnknownDataLevel" xml:space="preserve">
+    <value>Unknown DataLevel</value>
+  </data>
+  <data name="UnknownDisplayTable" xml:space="preserve">
+    <value>Graphical table {0} is not declared</value>
+  </data>
+  <data name="UnknownFuction" xml:space="preserve">
+    <value>Function {0} is unknown</value>
+  </data>
+  <data name="UnknownTableAlias" xml:space="preserve">
+    <value>Table alias {0} unknown</value>
+  </data>
+  <data name="UnsupportedOnAskDialog" xml:space="preserve">
+    <value>OnAsk dialogs not supported!</value>
+  </data>
+  <data name="UnsupportedRulesError" xml:space="preserve">
+    <value>No supported rules structure. Temporary file required!</value>
+  </data>
+  <data name="UserBreak" xml:space="preserve">
+    <value>Interrupted by the user</value>
+  </data>
+  <data name="WhereError" xml:space="preserve">
+    <value>WHERE expression {0} not valid</value>
+  </data>
+  <data name="WriteErrorCommand" xml:space="preserve">
+    <value>Write error</value>
+  </data>
+  <data name="WriteErrorNewPage" xml:space="preserve">
+    <value>Unable to write end of page</value>
+  </data>
+  <data name="XmlDomError" xml:space="preserve">
+    <value>TbLoader Server has returned an XMLDom not valid:</value>
+  </data>
+  <data name="BadAlternativeName" xml:space="preserve">
+    <value>Alternative field name {0} is not valid</value>
+  </data>
+</root>
