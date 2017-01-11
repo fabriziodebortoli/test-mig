@@ -24,10 +24,11 @@
       "type": "platform"
     },
     "Newtonsoft.Json": "9.0.1",
-    "StandardPackageForRsWeb": "1.0.0",
+    "StandardPackageForRsWeb": "1.0.6",
     "System.Collections.Specialized": "4.3.0",
     "System.Drawing.Primitives": "4.3.0",
     "System.Runtime.Serialization.Formatters": "4.3.0",
+    "System.Runtime.Serialization.Json": "4.0.1",
     "System.Runtime.WindowsRuntime": "4.3.0",
     "System.Xml.XmlDocument": "4.3.0",
     "System.Xml.XmlSerializer": "4.3.0",
