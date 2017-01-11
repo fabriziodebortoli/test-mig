@@ -1,10 +1,15 @@
 <div>
-  <ul class="selector">
-    <li (click)="selectTab(tab)" *ngFor="let tab of tabs" [ngClass]="tab.active ? 'active' : ''">
-      <a href="#" (click)="selectTab(tab)" title="activate" class='tabTitle'>{{tab.tabTitle}}</a>
-    </li>
-  </ul>
-  <div class="content">
+  <div>
+    <ul>
+      <li (click)="selectTab(tab)" *ngFor="let tab of tabs" href="#" [ngClass]="tab.active ? 'active' : ''">
+
+        {{tab.tabTitle}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="tabGroupContent">
     <ng-content></ng-content>
   </div>
+
 </div>

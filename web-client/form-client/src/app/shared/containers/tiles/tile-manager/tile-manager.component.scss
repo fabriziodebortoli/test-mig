@@ -1,3 +1,13 @@
+.selector {
+  background-color: lightskyblue;
+  width: 100%;
+  height: 100%;
+}
+
+.tabGroupContent
+{
+  padding-left: 20px;
+}
 
 ul
 {
@@ -8,13 +18,13 @@ ul
 }
 li
 {
-  margin:10px;
-   background-color: lightgray;
-   display: inline;
-  border: solid 1px gray;
- position: relative;
- cursor: pointer;
- border-bottom-left-radius: 10px;
+    margin:10px;
+    background-color: lightgray;
+    display: inline;
+    border: solid 1px gray;
+    position: relative;
+    cursor: pointer;
+    border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
 }
 li.active
@@ -30,6 +40,12 @@ a.tabTitle
   margin-left: 5px;
   margin-right: 5px;
 }
+
+.tab-content {
+   margin: 10;
+    flex: 1;
+}
+
 div.content
 {
   display: inline-block;
