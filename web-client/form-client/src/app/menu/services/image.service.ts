@@ -9,8 +9,8 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class ImageService {
-
-    private baseUrl = environment.apiBaseUrl;
+      
+    private baseUrl = environment.apiBaseUrl + 'tb/menu/';
 
     constructor(protected http: Http,
         protected utils: UtilsService,
