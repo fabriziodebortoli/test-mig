@@ -31,9 +31,6 @@ import { ImageService } from './services/image.service';
 import { EventManagerService } from './services/event-manager.service';
 import { SettingsService } from './services/settings.service';
 
-import { TypeaheadModule, ModalModule } from 'ng2-bootstrap';
-import { ComponentLoaderFactory } from 'ng2-bootstrap/component-loader';
-
 import { Logger } from 'libclient';
 
 import { menuRouting } from './menu.routing';
@@ -45,9 +42,7 @@ import { menuRouting } from './menu.routing';
     FormsModule,
     MaterialModule.forRoot(),
     menuRouting,
-    BrowserModule,
-    ModalModule.forRoot(),
-    TypeaheadModule
+    BrowserModule
   ],
 
   declarations:
@@ -94,8 +89,7 @@ import { menuRouting } from './menu.routing';
     HttpMenuService,
     SettingsService,
     LocalizationService,
-    EventManagerService,
-    ComponentLoaderFactory
+    EventManagerService
   ],
   entryComponents: [
     ProductInfoDialogComponent,
