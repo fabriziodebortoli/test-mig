@@ -26,7 +26,7 @@ export class DocumentService {
             let cmpId = this.mainCmpId;
                if (data.id === cmpId) {
                     this.serverSideCommandMap = data.map
-                    logger.debug("ServerSideComman received from server: " + JSON.stringify(this.serverSideCommandMap));
+                    logger.debug("Server-side commands received from server: " + JSON.stringify(this.serverSideCommandMap));
                 }
             });
 
