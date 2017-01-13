@@ -1,12 +1,3 @@
-<p>
-  <a href="javascript:void(0)" (click)="runDocument('ERP.Languages.Documents.Languages')">Languages</a>
-</p>
-<p>
-  <a href="javascript:void(0)" (click)="runDocument('ERP.Company.Documents.Titles')">Titles</a>
-</p>
-<router-outlet></router-outlet>
-
-
 
 
 <md-sidenav-layout class="demo-sidenav-layout">
@@ -14,11 +5,6 @@
   <md-sidenav #leftSideNav mode="over">
     <button md-button (click)="leftSideNav.close()"><md-icon>close</md-icon></button>
     <tb-sidenav-left-content></tb-sidenav-left-content>
-  </md-sidenav>
-
-  <md-sidenav #rightSideNav mode="over" align="end">
-    <button md-button (click)="rightSideNav.close()"> <md-icon>close</md-icon></button>
-    <tb-sidenav-right-content></tb-sidenav-right-content>
   </md-sidenav>
 
   <div class="demo-sidenav-content">
@@ -30,29 +16,17 @@
       </button>
       </span>
 
-      <span>
+ <span>
 
-        <span *ngIf="menuService.applicationMenu != undefined">
-          <tb-application-selector [Menu]="menuService.applicationMenu"></tb-application-selector>
+        <span *ngIf="menuService?.applicationMenu != undefined">
+          <tb-application-selector [Menu]="menuService?.applicationMenu"></tb-application-selector>
         </span>
 
-      <span *ngIf="menuService.getSelectedApplication() != undefined">
-              <tb-group-selector></tb-group-selector>
-        </span>
-      </span>
+      </span>    
    
       <span style="flex: 1 1 auto"></span>
-
-      <!--<span>
-         
-          <tb-search></tb-search> 
-      </span>-->
     
-      <span>
-      <button md-button (click)="rightSideNav.toggle()">
-        <md-icon>keyboard_arrow_right</md-icon>
-      </button>
-      </span>
+  
     </md-toolbar>
 
     <div *ngIf="menuService.getSelectedGroup() != undefined">
@@ -60,3 +34,13 @@
     </div>
   </div>
 </md-sidenav-layout>
+
+<p>
+  <a href="javascript:void(0)" (click)="runDocument('ERP.Languages.Documents.Languages')">Languages</a>
+</p>
+<p>
+  <a href="javascript:void(0)" (click)="runDocument('ERP.Company.Documents.Titles')">Titles</a>
+</p>
+<!--<router-outlet></router-outlet>
+-->
+

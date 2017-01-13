@@ -1,3 +1,5 @@
+import { UtilsService } from './../../../../core/utils.service';
+import { MenuService } from './../../../services/menu.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeftSidenavComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private menuService:MenuService,
+    private utilsService: UtilsService
+  ) { }
 
   ngOnInit() {
   }

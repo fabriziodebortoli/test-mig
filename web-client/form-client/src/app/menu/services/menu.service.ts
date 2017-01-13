@@ -383,6 +383,15 @@ export class MenuService {
         return 0;
     }
 
+     //---------------------------------------------------------------------------------------------
+    onAfterGetMenuElements(root) {
+        this.applicationMenu = root.ApplicationMenu.AppMenu;
+        this.environmentMenu = root.EnvironmentMenu.AppMenu;
+        this.loadHiddenTiles();
+        this.loadFavoritesAndMostUsed();
+        this.loadSearchObjects();
+    }
+
     //---------------------------------------------------------------------------------------------
     loadFavoritesAndMostUsed() {
         if (this.applicationMenu != undefined)

@@ -11,19 +11,9 @@ import { Component, OnInit } from '@angular/core';
   selector: 'tb-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
-  providers:[
-    MenuService,
-    ImageService,
-    HttpMenuService,
-    SettingsService,
-    LocalizationService,
-    EventManagerService]
 })
 
 export class MenuComponent implements OnInit {
-
-  private menu: undefined;
-  private applications: undefined;
 
   constructor(
     private webSocketService: WebSocketService,
@@ -34,26 +24,10 @@ export class MenuComponent implements OnInit {
     private localizationService: LocalizationService,
     private eventManagerService: EventManagerService
   ) {
-    this.eventManagerService.preferenceLoaded.subscribe(result => {
-      menuService.initApplicationAndGroup(this.menuService.applicationMenu.Application);  //qui bisogna differenziare le app da caricare, potrebbero essere app o environment
-    }
-    );
 
   }
   ngOnInit() {
 
-    this.httpMenuService.getMenuElements().subscribe(result => {
-      this.menuService.applicationMenu = result.Root.ApplicationMenu.AppMenu;
-      this.menuService.environmentMenu = result.Root.EnvironmentMenu.AppMenu;
-      this.menuService.loadFavoritesAndMostUsed();
-      this.localizationService.loadLocalizedElements(true);
-
-      this.menuService.loadHiddenTiles();
-     
-      this.settingsService.getSettings();
-
-      this.menuService.loadSearchObjects();
-    });
   }
 
   runDocument(ns: string) {

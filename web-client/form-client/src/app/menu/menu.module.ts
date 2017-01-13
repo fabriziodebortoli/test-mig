@@ -1,4 +1,11 @@
-import { NgModule } from '@angular/core';
+import { MenuService } from './services/menu.service';
+import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
+import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
+import { EventManagerService } from './services/event-manager.service';
+import { SettingsService } from './services/settings.service';
+import { HttpMenuService } from './services/http-menu.service';
+import { ImageService } from './services/image.service';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
@@ -9,9 +16,6 @@ import { SharedModule } from '../shared/shared.module';
 
 import { SearchComponent } from './components/menu/search/search.component';
 import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
-import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
-import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
-import { RightSidenavComponent } from './components/menu/sidenav-right-content/sidenav-right-content.component';
 import { LeftSidenavComponent } from './components/menu/sidenav-left-content/sidenav-left-content.component';
 import { LocalizationService } from './services/localization.service';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
@@ -24,16 +28,17 @@ import { TileContainerComponent } from './components/menu/tile-container/tile-co
 import { TileContentComponent } from './components/menu/tile-content/tile-content.component';
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 import { LoginComponent } from './components/login/login.component';
-
-import { HttpMenuService } from './services/http-menu.service';
-import { MenuService } from './services/menu.service';
-import { ImageService } from './services/image.service';
-import { EventManagerService } from './services/event-manager.service';
-import { SettingsService } from './services/settings.service';
-
 import { Logger } from 'libclient';
 
-import { menuRouting } from './menu.routing';
+
+const MENU_SERVICES = [
+    MenuService,
+    ImageService,
+    HttpMenuService,
+    SettingsService,
+    LocalizationService,
+    EventManagerService
+];
 
 @NgModule({
   imports: [
@@ -41,7 +46,6 @@ import { menuRouting } from './menu.routing';
     SharedModule,
     FormsModule,
     MaterialModule.forRoot(),
-    menuRouting,
     BrowserModule
   ],
 
@@ -58,11 +62,10 @@ import { menuRouting } from './menu.routing';
     TileElementComponent,
     MostUsedComponent,
     LeftSidenavComponent,
-    RightSidenavComponent,
-    ProductInfoDialogComponent,
-    ConnectionInfoDialogComponent,
     HiddenTilesComponent,
-    SearchComponent
+    SearchComponent,
+    ProductInfoDialogComponent,
+    ConnectionInfoDialogComponent
   ],
   exports:
   [
@@ -78,26 +81,23 @@ import { menuRouting } from './menu.routing';
     TileElementComponent,
     MostUsedComponent,
     LeftSidenavComponent,
-    RightSidenavComponent,
     HiddenTilesComponent,
     SearchComponent
-  ],
-  providers:
-  [
-    MenuService,
-    ImageService,
-    HttpMenuService,
-    SettingsService,
-    LocalizationService,
-    EventManagerService
-  ],
+  ]
+  ,
+  providers: [MENU_SERVICES],
   entryComponents: [
     ProductInfoDialogComponent,
     ConnectionInfoDialogComponent
   ]
-
 })
 export class MenuModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: MenuModule,
+      providers: [MENU_SERVICES]
+    };
+  }
 
   constructor(private logger: Logger) {
     this.logger.debug('MenuModule instantiated - ' + Math.round(new Date().getTime() / 1000));

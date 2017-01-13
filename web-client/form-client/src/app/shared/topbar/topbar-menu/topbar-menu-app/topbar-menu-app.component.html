@@ -3,10 +3,10 @@
 </button>
 
 <md-menu #menuApp="mdMenu">
-    <button md-menu-item (click)=openProductInfoDialog()>ViewProductInfo</button>
-    <button md-menu-item (click)=openConnectionInfoDialog()>ConnectionInfo</button>
-    <button md-menu-item (click)=goToSite()>GotoProducerSite</button>
-    <button md-menu-item (click)=clearCachedData()>ClearCachedData</button>
-    <button md-menu-item (click)=activateViaSMS()>ActivateViaSMS</button>
-    <button md-menu-item (click)=activateViaInternet()>ActivateViaInternet</button>
+    <button md-menu-item (click)=openProductInfoDialog()>{{localizationService.getLocalizedElement('ViewProductInfo')}}</button>
+    <button md-menu-item (click)=openConnectionInfoDialog()>{{localizationService.getLocalizedElement('ConnectionInfo')}}</button>
+    <button md-menu-item (click)=goToSite()>{{localizationService.getLocalizedElement('GotoProducerSite')}}</button>
+    <button md-menu-item (click)=clearCachedData()>{{localizationService.getLocalizedElement('ClearCachedData')}}</button>
+    <button md-menu-item (click)=activateViaSMS()>{{localizationService.getLocalizedElement('ActivateViaSMS')}}</button>
+    <button md-menu-item (click)=activateViaInternet()>{{localizationService.getLocalizedElement('ActivateViaInternet')}}</button>
 </md-menu>

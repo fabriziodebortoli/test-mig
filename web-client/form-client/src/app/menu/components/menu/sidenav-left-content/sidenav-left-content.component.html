@@ -1,8 +1,18 @@
+<div>
+  <ul>
+    <li *ngFor="let group of utilsService.toArray(menuService?.getSelectedApplication()?.Group)" (click)=menuService?.setSelectedGroup(group)> 
+       <md-icon>home</md-icon>
+      {{group?.title}}
+
+      <div>
+        <ul>
+          <li *ngFor="let menuTab of utilsService.toArray(group?.Menu)" (click)=menuService?.setSelectedMenu(menuTab)>
+               {{menuTab?.title}}
+          </li>
+        </ul>
+      </div>
+      </li>
+  </ul>
+  </div>
 
 
-  <!--<a [routerLink]="['menu', {outlets: { 'favorites': ['favorites'] }}]" routerLinkActive="active">Show Favorites2</a>
-    <a [routerLink]="['menu', {outlets: { 'favorites': undefined }}]" routerLinkActive="active">Close</a>
-    <router-outlet name="favorites"></router-outlet>-->
-  <tb-favorites></tb-favorites>
-  <tb-most-used></tb-most-used>
-  <tb-hidden-tiles [ShowHiddenOnlyCurrentMenu]=false></tb-hidden-tiles>

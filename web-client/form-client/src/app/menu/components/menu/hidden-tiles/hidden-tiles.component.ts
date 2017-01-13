@@ -14,9 +14,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class HiddenTilesComponent implements OnInit {
 
-private showHiddenOnlyCurrentMenu: boolean;
- 
-
+private showHiddenOnlyCurrentMenu: boolean = false;
   constructor(
 
     private menuService: MenuService,
