@@ -4,11 +4,11 @@ import { MenuService } from './../../../services/menu.service';
 import { SettingsService } from './../../../services/settings.service';
 import { Component, Input, OnInit } from '@angular/core';
 @Component({
-  selector: 'tb-menu-selector',
-  templateUrl: './menu-selector.component.html',
-  styleUrls: ['./menu-selector.component.css']
+  selector: 'tb-menu-container',
+  templateUrl: './menu-container.component.html',
+  styleUrls: ['./menu-container.component.css']
 })
-export class MenuSelectorComponent implements OnInit {
+export class MenuContainerComponent implements OnInit {
 
   constructor(private menuService: MenuService, private utilsService: UtilsService, private settingsService: SettingsService, private localizationService: LocalizationService) {
   }
@@ -51,6 +51,12 @@ export class MenuSelectorComponent implements OnInit {
 
   }
 
+  isGroupOpened(group) {
+    if (group == undefined || this.menuService.getSelectedGroup() == undefined)
+      return false;
+
+    return group.title == this.menuService.getSelectedGroup().title;
+  }
   changeTabByIndex(index) {
     if (index < 0)
       return;
@@ -59,5 +65,12 @@ export class MenuSelectorComponent implements OnInit {
     let tab = tempMenuArray[index];
     if (tab != undefined)
       this.menuService.setSelectedMenu(tab);
+  }
+
+  selectGroupAndMenu(group, menu) {
+    if (this.menuService.getSelectedGroup() != group)
+      this.menuService.setSelectedGroup(group);
+
+    this.menuService.setSelectedMenu(menu);
   }
 }

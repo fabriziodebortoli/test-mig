@@ -1,3 +1,5 @@
+import { MenuService } from './../../menu/services/menu.service';
+import { LocalizationService } from './../../menu/services/localization.service';
 import { SidenavService } from './../../core/sidenav.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -13,7 +15,10 @@ export class HomeSidenavComponent implements OnInit {
   private appName = environment.appName;
   private companyName = environment.companyName;
 
-  constructor(private sidenavService: SidenavService) { }
+  constructor(private sidenavService: SidenavService, 
+  private localizationService: LocalizationService,
+  private menuService: MenuService
+  ) { }
 
   ngOnInit() {
   }

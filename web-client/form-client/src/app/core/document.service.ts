@@ -7,6 +7,7 @@ import { Logger } from 'libclient';
 @Injectable()
 export class DocumentService {
     data: any;
+    serverSideCommandMap: any; //TODO SILVANO needs typing  
     mainCmpId: string;
     constructor(private webSocketService: WebSocketService,
         private logger: Logger) {
@@ -19,7 +20,15 @@ export class DocumentService {
                     logger.debug("Model received from server: " + JSON.stringify(this.data));
                 }
             });
-
         });
+
+        this.webSocketService.serverCommandMapReady.subscribe(data => {
+            let cmpId = this.mainCmpId;
+               if (data.id === cmpId) {
+                    this.serverSideCommandMap = data.map
+                    logger.debug("Server-side commands received from server: " + JSON.stringify(this.serverSideCommandMap));
+                }
+            });
+
     }
 }

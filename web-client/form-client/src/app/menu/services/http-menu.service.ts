@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class HttpMenuService {
 
-    private baseUrl = environment.apiBaseUrl;
+    private baseUrl = environment.apiBaseUrl + 'tb/menu/';
 
     constructor(
         private http: Http,

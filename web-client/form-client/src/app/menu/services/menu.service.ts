@@ -268,7 +268,11 @@ export class MenuService {
 
 
     getMenuHiddenTiles(menu) {
-        let array = []
+
+        let array = [];
+        if (menu == undefined)
+            return array;
+        
 
         for (var i = 0; i < this.hiddenTiles.length; i++) {
             if (this.hiddenTiles[i].currentMenuTitle == menu.title)
@@ -381,6 +385,15 @@ export class MenuService {
         if (a.title > b.title)
             return 1;
         return 0;
+    }
+
+     //---------------------------------------------------------------------------------------------
+    onAfterGetMenuElements(root) {
+        this.applicationMenu = root.ApplicationMenu.AppMenu;
+        this.environmentMenu = root.EnvironmentMenu.AppMenu;
+        this.loadHiddenTiles();
+        this.loadFavoritesAndMostUsed();
+        this.loadSearchObjects();
     }
 
     //---------------------------------------------------------------------------------------------
