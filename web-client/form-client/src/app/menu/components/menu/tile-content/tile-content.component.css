@@ -25,11 +25,6 @@
 	cursor: pointer;
 }
 
-	/*pin image*/
-	.showHideTile{
-		float: right;
-	}
-
 
 .floatRight {
 	float: right;
@@ -40,13 +35,6 @@
 	width: 14px;
 	height: 14px;
 }
-
-.menuItemImage {
-	font-size: larger;
-	width: 19px;
-	height: 19px;
-}
-
 
 /*trucate text if doesnt fit*/
 .truncate {

@@ -1,6 +1,3 @@
-.settingsAndMenuSelector {
-	height: 47px;
-}
 
 section {
     width: 100%;
@@ -27,3 +24,28 @@ div#two {
 .selected{
 	background-color: lightskyblue;
 }
+
+.tileContainer {
+	/*padding-left: 20px;
+	padding-top: 10px;
+	margin: 5px;*/
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+}
+
+/*title and pinimage container*/
+	.tileContainer > div:first-child {
+		width: 98%;
+		border-bottom: 1px solid;
+		border-bottom-color: lightgrey;
+		margin-bottom: 10px;
+	}
+
+
+	/*tile title*/
+	.tileContainer > div:first-child > div:first-child {
+		display: inline-block;
+		margin-bottom: 7px;
+		width: 90%;
+	}

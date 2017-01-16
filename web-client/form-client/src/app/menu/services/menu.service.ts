@@ -21,13 +21,11 @@ export class MenuService {
     public environmentMenu: any;
     public favoritesCount: number = 0;
     public mostUsedCount: number = 0;
-    public hiddenTilesCount: number = 0;
 
 
     private favorites: Array<any> = [];
     private mostUsed: Array<any> = [];
 
-    public hiddenTiles: Array<any> = [];
     public searchSources: Array<any> = [];
 
 
@@ -265,42 +263,6 @@ export class MenuService {
         return false;
     }
 
-
-
-    getMenuHiddenTiles(menu) {
-
-        let array = [];
-        if (menu == undefined)
-            return array;
-        
-
-        for (var i = 0; i < this.hiddenTiles.length; i++) {
-            if (this.hiddenTiles[i].currentMenuTitle == menu.title)
-                array.push(this.hiddenTiles[i]);
-        }
-
-        return array;
-    }
-
-
-    getOtherMenuHiddenTiles() {
-        let array = []
-
-        for (var i = 0; i < this.hiddenTiles.length; i++) {
-            if (this.hiddenTiles[i].currentMenuTitle != this.selectedMenu.title)
-                array.push(this.hiddenTiles[i]);
-        }
-
-        return array;
-
-    }
-
-
-    //---------------------------------------------------------------------------------------------
-    hideTile(tile) {
-        //$rootScope.$emit('hiddenTileAdded', this.selectedMenu, tile);
-    }
-
     //---------------------------------------------------------------------------------------------
     toggleFavorites(object) {
 
@@ -391,7 +353,6 @@ export class MenuService {
     onAfterGetMenuElements(root) {
         this.applicationMenu = root.ApplicationMenu.AppMenu;
         this.environmentMenu = root.EnvironmentMenu.AppMenu;
-        this.loadHiddenTiles();
         this.loadFavoritesAndMostUsed();
         this.loadSearchObjects();
     }
@@ -507,46 +468,7 @@ export class MenuService {
             this.mostUsedCount--;
         }
     };
-
-    loadHiddenTiles() {
-        if (this.applicationMenu != undefined)
-            this.findHiddenTilesInApplication(this.applicationMenu.Application);
-        if (this.environmentMenu != undefined)
-            this.findHiddenTilesInApplication(this.environmentMenu.Application);
-    }
-
-
-    //---------------------------------------------------------------------------------------------
-    findHiddenTilesInApplication(application) {
-
-        var tempAppArray = this.utilsService.toArray(application);
-        for (var a = 0; a < tempAppArray.length; a++) {
-            var allGroupsArray = this.utilsService.toArray(tempAppArray[a].Group);
-            for (var d = 0; d < allGroupsArray.length; d++) {
-
-                var allMenusArray = this.utilsService.toArray(allGroupsArray[d].Menu);
-                for (var m = 0; m < allMenusArray.length; m++) {
-
-                    var allTiles = this.utilsService.toArray(allMenusArray[m].Menu);
-                    for (var t = 0; t < allTiles.length; t++) {
-                        if (this.utilsService.parseBool(allTiles[t].hiddenTile) == true) {
-                            allTiles[t].currentApp = tempAppArray[a].name;
-                            allTiles[t].currentGroup = allGroupsArray[d].name;
-                            allTiles[t].currentMenu = allMenusArray[m].name;
-
-                            allTiles[t].currentAppTitle = tempAppArray[a].title;
-                            allTiles[t].currentGroupTitle = allGroupsArray[d].title;
-                            allTiles[t].currentMenuTitle = allMenusArray[m].title;
-
-                            this.hiddenTiles.push(allTiles[t]);
-                            this.hiddenTilesCount++;
-                        }
-                    }
-                }
-            }
-        }
-    };
-
+    
     //---------------------------------------------------------------------------------------------
     getFilteredSearch(viewValue, Item, searchInReport, searchInDocument, searchInBatch, startsWith): boolean {
         var target = Item['target'].toLowerCase();

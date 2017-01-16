@@ -1,11 +1,3 @@
-.menuItemImage {
-	width: 20px;
-	height: 20px;
-}
-
-.item {
-    vertical-align: top;
-}
 
 .themeFontColor:hover {
 	background-color: rgba(230, 230, 230, 0.5);

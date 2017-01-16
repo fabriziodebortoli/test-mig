@@ -14,8 +14,10 @@ export class LocalizationService {
 
     constructor(
         private httpMenuService: HttpMenuService,
-        private utils: UtilsService
+        private utils: UtilsService,
+        private logger: Logger
     ) {
+        this.logger.debug('LocalizationService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
     //---------------------------------------------------------------------------------------------

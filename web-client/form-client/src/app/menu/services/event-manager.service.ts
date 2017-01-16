@@ -1,31 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Logger } from 'libclient';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, Observer } from 'rxjs/Rx';
 
 @Injectable()
 export class EventManagerService {
 
-    preferenceLoaded: Observable<any>;
-    preferenceLoadObserver: Observer<any>;
+    preferenceLoaded: EventEmitter<any> = new EventEmitter();
+  
+    constructor(private logger: Logger) {
+        this.logger.debug('EventManagerService instantiated - ' + Math.round(new Date().getTime() / 1000));
 
-    tileHidden: Observable<any>;
-    tileHiddenObserver: Observer<any>;
-
-
-    constructor() {
-        this.preferenceLoaded = new Observable((observer: Observer<any>) => {
-            this.preferenceLoadObserver = observer;
-        });
-
-        this.tileHidden = new Observable((observer: Observer<any>) => {
-            this.tileHiddenObserver = observer;
-        });
     }
-
+    
     emitPreferenceLoaded() {
-        this.preferenceLoadObserver.next(undefined);
-    }
-
-    emitTileHidden(tile) {
-        this.tileHiddenObserver.next(tile);
+        this.preferenceLoaded.emit();
     }
 }

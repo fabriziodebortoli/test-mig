@@ -19,6 +19,7 @@ export class HttpMenuService {
         private utilsService: UtilsService,
         private logger: Logger,
         private cookieService: CookieService) {
+        this.logger.debug('HttpMenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
     /**
@@ -77,34 +78,6 @@ export class HttpMenuService {
             });
     }
 
-    /**
-     * API /addToHiddenTiles
-     * 
-     * @returns {Observable<any>} addToHiddenTiles
-     */
-    addToHiddenTiles(tile, applicationName, groupName, menuName): Observable<any> {
-        let obj = { application: applicationName, group: groupName, menu: menuName, tile: tile.name };
-        var urlToRun = this.baseUrl + 'addToHiddenTiles/';
-        return this.postData(urlToRun, obj)
-            .map((res: Response) => {
-                return res.ok;
-            });
-    }
-
-    /**
-     * API /removeFromHiddenTiles
-     * 
-     * @returns {Observable<any>} removeFromHiddenTiles
-     */
-    removeFromHiddenTiles(tile, applicationName, groupName, menuName): Observable<any> {
-
-        let obj = { application: applicationName, group: groupName, menu: menuName, tile: tile.name };
-        var urlToRun = this.baseUrl + 'removeFromHiddenTiles/';
-        return this.postData(urlToRun, obj)
-            .map((res: Response) => {
-                return res.ok;
-            });
-    }
 
     /**
      * API /getThemedSettings

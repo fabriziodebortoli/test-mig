@@ -15,14 +15,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from '../shared/shared.module';
 
 import { SearchComponent } from './components/menu/search/search.component';
-import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
 import { LocalizationService } from './services/localization.service';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { TileElementComponent } from './components/menu/tile-element/tile-element.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
-import { TileContainerComponent } from './components/menu/tile-container/tile-container.component';
 import { TileContentComponent } from './components/menu/tile-content/tile-content.component';
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 import { LoginComponent } from './components/login/login.component';
@@ -53,12 +51,10 @@ const MENU_SERVICES = [
     MenuComponent,
     ApplicationSelectorComponent,
     MenuContainerComponent,
-    TileContainerComponent,
     TileContentComponent,
     FavoritesComponent,
     TileElementComponent,
     MostUsedComponent,
-    HiddenTilesComponent,
     SearchComponent,
     ProductInfoDialogComponent,
     ConnectionInfoDialogComponent,
@@ -72,12 +68,10 @@ const MENU_SERVICES = [
     MenuComponent,
     ApplicationSelectorComponent,
     MenuContainerComponent,
-    TileContainerComponent,
     TileContentComponent,
     FavoritesComponent,
     TileElementComponent,
     MostUsedComponent,
-    HiddenTilesComponent,
     SearchComponent,
     Accordion,
     AccordionGroup

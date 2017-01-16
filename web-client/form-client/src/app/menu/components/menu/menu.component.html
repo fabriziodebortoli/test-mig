@@ -2,12 +2,9 @@
 
   <div class="demo-sidenav-content">
 
-    <md-toolbar [color]="myColor">
+    <md-toolbar>
 
-
-      <span *ngIf="menuService?.applicationMenu != undefined">
-          <tb-application-selector [Menu]="menuService?.applicationMenu"></tb-application-selector>
-      </span>
+      <tb-application-selector *ngIf="menuService.applicationMenu != undefined" [Menu]="menuService?.applicationMenu"></tb-application-selector>
 
       <span>
             {{menuService?.getSelectedApplication()?.title}} - {{menuService?.getSelectedGroup()?.title}} - {{menuService?.getSelectedMenu()?.title}}

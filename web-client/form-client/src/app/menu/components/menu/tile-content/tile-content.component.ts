@@ -13,11 +13,11 @@ import { ImageService } from './../../../services/image.service';
 })
 export class TileContentComponent implements OnInit {
 
-   constructor(
+  constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private imageService: ImageService, 
+    private imageService: ImageService,
     private eventManagerService: EventManagerService
   ) {
   }
@@ -25,26 +25,22 @@ export class TileContentComponent implements OnInit {
   }
 
 
-  private tile: any ;
-    get Tile(): any {
-        return this.tile;
-    }
-    
-    @Input()
-    set Tile(menu: any) {
-        this.tile = menu;
-    }
+  private tile: any;
+  get Tile(): any {
+    return this.tile;
+  }
 
-  getFavoriteClass  (object) {
+  @Input()
+  set Tile(menu: any) {
+    this.tile = menu;
+  }
+
+  getFavoriteClass(object) {
     return object.isFavorite ? 'star' : 'star_border';
   }
 
-  getPinnedClass (tile) {
+  getPinnedClass(tile) {
     return tile.pinned ? 'hdr_strong' : 'hdr_weak';
-  }
-
-  hideTile(tile){
-    this.eventManagerService.emitTileHidden(tile);
   }
 }
 
