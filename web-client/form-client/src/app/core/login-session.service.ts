@@ -25,6 +25,7 @@ export class LoginSessionService {
         private router: Router) {
 
         this.socket.close.subscribe(() => { this.setConnected(false); });
+        this.isLogged();
     }
 
     isLogged(): void {

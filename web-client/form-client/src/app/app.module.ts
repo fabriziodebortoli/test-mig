@@ -1,3 +1,4 @@
+import { appRouting } from './applications/app.routing';
 import { ConnectionInfoDialogComponent } from './menu/components/menu/connection-info-dialog/connection-info-dialog.component';
 import { ProductInfoDialogComponent } from './menu/components/menu/product-info-dialog/product-info-dialog.component';
 import { EventManagerService } from './menu/services/event-manager.service';
@@ -40,7 +41,8 @@ import { AppComponent } from './app.component';
     CoreModule.forRoot(),
     SharedModule,
     MenuModule.forRoot(),
-    routing
+    routing,
+    appRouting
   ],
   bootstrap: [AppComponent],
   entryComponents: [

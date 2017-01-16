@@ -4,7 +4,7 @@ import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
 @Component({
   selector: 'tb-languages',
-  templateUrl: './languages.component.html',
+  templateUrl: './IDD_LANGUAGES.component.html',
   providers: [DocumentService]
 })
 

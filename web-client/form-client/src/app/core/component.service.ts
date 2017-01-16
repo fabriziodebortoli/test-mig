@@ -1,3 +1,4 @@
+import { Logger } from 'libclient';
 import { Injectable, Type, ComponentFactoryResolver } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -16,7 +17,8 @@ export class ComponentService {
   constructor(
     private router: Router,
     private webSocketService: WebSocketService,
-    private httpService: HttpService) {
+    private httpService: HttpService,
+    private logger: Logger) {
     this.webSocketService.windowOpen.subscribe(data => {
       this.componentsToCreate.push(...data.components);
       this.createNextComponent();
@@ -26,7 +28,7 @@ export class ComponentService {
       if (data && data.id) {
         for (let i = 0; i < this.components.length; i++) {
           let info: ComponentInfo = this.components[i];
-          if (info.id == data.id) {
+          if (info.id === data.id) {
             this.components.splice(i, 1);
             break;
           }
@@ -52,9 +54,20 @@ export class ComponentService {
     //"D.ERP.Languages.Languages\IDD_LANGUAGES"
     let url: string = cmp.url;
     this.currentComponentId = cmp.id;
-
-    //TODO gestire meglio gli url, controllo errori
-    url = url.substring(2, url.indexOf('\\')).replace(/\./g, '/');
+    let tokens = url.split('.');
+    if (tokens.length !== 4) {
+      this.logger.error('Invalid component url: \'' + url + '\'');
+      return;
+    }
+    let app = tokens[1];
+    let mod = tokens[2];
+    tokens = tokens[3].split('\\');
+     if (tokens.length !== 2) {
+      this.logger.error('Invalid component url: \'' + url + '\'');
+      return;
+    }
+    let cmpName = tokens[1];
+    url = app + '/' + mod + '/' + cmpName;
     this.createComponentFromUrl(url).then(() => {
 
     });

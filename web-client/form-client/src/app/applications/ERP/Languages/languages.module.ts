@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from './../../../shared/shared.module';
 
-import { LanguagesFactoryComponent, LanguagesComponent } from './languages/languages.component';
+import { LanguagesFactoryComponent, LanguagesComponent } from './languages/IDD_LANGUAGES.component';
 import { routing } from './languages.routing';
 
 @NgModule({
