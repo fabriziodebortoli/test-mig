@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BadCellBordersExpression" xml:space="preserve">
+    <value>The dynamic borders expression is invalid</value>
+  </data>
+  <data name="BadCellSize" xml:space="preserve">
+    <value>Cell size incompatible with table size</value>
+  </data>
+  <data name="BadColorExpression" xml:space="preserve">
+    <value>The dynamic color expression is invalid</value>
+  </data>
+  <data name="BadColorToken" xml:space="preserve">
+    <value>Unknown color attribute </value>
+  </data>
+  <data name="BadColumnPenAttribute" xml:space="preserve">
+    <value>Column border feature not allowed</value>
+  </data>
+  <data name="BadColumnsSize" xml:space="preserve">
+    <value>Column total size exceeds table size</value>
+  </data>
+  <data name="BadColumnTitleAttribute" xml:space="preserve">
+    <value>Column title attributes not allowed</value>
+  </data>
+  <data name="BadExpression" xml:space="preserve">
+    <value>Invalid expression</value>
+  </data>
+  <data name="BadFieldProperty" xml:space="preserve">
+    <value>Invalid property for a database field object</value>
+  </data>
+  <data name="BadFontStyleNameExpression" xml:space="preserve">
+    <value>The dynamic font style name expression is invalid</value>
+  </data>
+  <data name="BadGeneralProperties" xml:space="preserve">
+    <value>Wrong general properties</value>
+  </data>
+  <data name="BadHiddenExpression" xml:space="preserve">
+    <value>The hidden expression is incorrect</value>
+  </data>
+  <data name="BadIndexValue" xml:space="preserve">
+    <value>Bad index value, cannot retrieve RDE data.</value>
+  </data>
+  <data name="BadLabelProperty" xml:space="preserve">
+    <value>Invalid property for a label object</value>
+  </data>
+  <data name="BadRelease" xml:space="preserve">
+    <value>Incorrect release</value>
+  </data>
+  <data name="BadSubTotalAttribute" xml:space="preserve">
+    <value>Subtotal attributes not allowed</value>
+  </data>
+  <data name="BadTextExpression" xml:space="preserve">
+    <value>The dynamic text expression is invalid</value>
+  </data>
+  <data name="BadTextRectProperty" xml:space="preserve">
+    <value>Invalid property for a text object</value>
+  </data>
+  <data name="BadTotalAttribute" xml:space="preserve">
+    <value>Total attributes not allowed</value>
+  </data>
+  <data name="DifferenceError" xml:space="preserve">
+    <value>Expected only one separator or alignment</value>
+  </data>
+  <data name="EndNotFound" xml:space="preserve">
+    <value>END not found</value>
+  </data>
+  <data name="ErrorReadingFile" xml:space="preserve">
+    <value>Read file error {0}</value>
+  </data>
+  <data name="IllegalTableAttribute" xml:space="preserve">
+    <value>Table attributes not allowed</value>
+  </data>
+  <data name="InvalidBooleanFilterOperator" xml:space="preserve">
+    <value>Invalid filter operator for boolean data type</value>
+  </data>
+  <data name="InvalidFilterOperator" xml:space="preserve">
+    <value>No valid operator in WHEN clause</value>
+  </data>
+  <data name="InvalidLinkElement" xml:space="preserve">
+    <value>Object with Link type... no admitted</value>
+  </data>
+  <data name="InvalidReport" xml:space="preserve">
+    <value>Wrong migration for report: it's impossible to execute it.</value>
+  </data>
+  <data name="LikeTypeNotAllowed" xml:space="preserve">
+    <value>LIKE operator has admitted only for String types</value>
+  </data>
+  <data name="MissedEnd" xml:space="preserve">
+    <value>END instruction is missing at the end of connections clause</value>
+  </data>
+  <data name="NoColorToken" xml:space="preserve">
+    <value>At least one color attribute must be present</value>
+  </data>
+  <data name="NoColumnPenAttribute" xml:space="preserve">
+    <value>At least one column border feature must be present</value>
+  </data>
+  <data name="NoColumnTitleAttribute" xml:space="preserve">
+    <value>At least one column title attribute must be present</value>
+  </data>
+  <data name="NoLastRelease" xml:space="preserve">
+    <value>the Release  is not updated</value>
+  </data>
+  <data name="NoSubTotalAttribute" xml:space="preserve">
+    <value>At least one subtotal attribute must be present</value>
+  </data>
+  <data name="NoTotalAttribute" xml:space="preserve">
+    <value>At least one total attribute must be present</value>
+  </data>
+  <data name="NoVisibleColumn" xml:space="preserve">
+    <value>At least one column must be visible!</value>
+  </data>
+  <data name="ObjectNotFound" xml:space="preserve">
+    <value>Object not found</value>
+  </data>
+  <data name="OutDateRelease" xml:space="preserve">
+    <value>The report was declared incompatible by productor. It's necessary to repeat customization from its standard version.</value>
+  </data>
+  <data name="PageLayOutNotFound" xml:space="preserve">
+    <value>PageLayout sintax wrong: layout name is missing</value>
+  </data>
+  <data name="UnexpectedEnd" xml:space="preserve">
+    <value>Unexpected END</value>
+  </data>
+  <data name="UnexpectedEOF" xml:space="preserve">
+    <value>Unexpected end file during compilation of connections clause</value>
+  </data>
+  <data name="UnknownTableObject" xml:space="preserve">
+    <value>Unknown symbol in the table structure definition</value>
+  </data>
+  <data name="WoormViewerErrorUnexpectedEof" xml:space="preserve">
+    <value>Unexpected End Of File</value>
+  </data>
+  <data name="ExecutionStopped" xml:space="preserve">
+    <value>Execution not completed. Report interrupted by user</value>
+  </data>
+  <data name="BadTooltipExpression" xml:space="preserve">
+    <value>The dynamic tooltip expression is invalid</value>
+  </data>
+  <data name="ErrorLoadingTemplate" xml:space="preserve">
+    <value>Impossible to load template.</value>
+  </data>
+  <data name="ErrorReadingTemplate" xml:space="preserve">
+    <value>Impossible to read template file</value>
+  </data>
+  <data name="UnknownVariableType" xml:space="preserve">
+    <value>Unknown type for variable with alias {0}</value>
+  </data>
+</root>

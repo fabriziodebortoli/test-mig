@@ -1,0 +1,4 @@
+﻿
+namespace TaskBuilderNetCore.Interfaces
+{
+}
