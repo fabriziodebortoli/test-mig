@@ -33,3 +33,17 @@
 	background-color:lightskyblue;
 }
 
+section {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    padding: 10px;
+}
+div#one {
+    width: 15%;
+    float: left;
+}
+div#two {
+    margin-left: 15%;
+    
+}

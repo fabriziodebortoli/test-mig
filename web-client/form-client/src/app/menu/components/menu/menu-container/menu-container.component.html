@@ -1,0 +1,39 @@
+<section>
+  <div id="one">
+    <ul>
+      <li *ngFor="let group of utilsService.toArray(menuService?.getSelectedApplication()?.Group)" (click)=menuService?.setSelectedGroup(group)>
+        <md-icon>home</md-icon>
+        {{group?.title}}
+
+        <div>
+          <ul>
+            <li *ngFor="let menuTab of utilsService.toArray(group?.Menu)" (click)="selectGroupAndMenu(group, menuTab)">
+              {{menuTab?.title}}
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div id="two">
+    <div style="display: inline-block" *ngIf="menuService.getSelectedMenu() != undefined" class="tabContent">
+
+
+<div *ngIf="menuService.getMenuHiddenTiles(menuService.getSelectedMenu()).length>0">
+  <button md-mini-fab [md-menu-trigger-for]="hiddenTiles"> <!--md-tooltip="{{localizationService.getLocalizedElement('HiddenTiles')}}" tooltip-position="right"-->
+          <md-icon style="display:inline-block" class="menuItemImage link" (click)="removeFromHiddenTiles(tile);$event.stopPropagation()">hdr_weak</md-icon>
+{{menuService.getMenuHiddenTiles(menuService.getSelectedMenu()).length}}
+</button>
+<md-menu #hiddenTiles="mdMenu">
+  <tb-hidden-tiles [ShowHiddenOnlyCurrentMenu]=true></tb-hidden-tiles>
+</md-menu>
+</div>
+
+<tb-tile-container></tb-tile-container>
+
+</div>
+
+
+</div>
+</section>

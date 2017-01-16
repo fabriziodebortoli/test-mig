@@ -1,7 +1,9 @@
 <!--<img [src]="imageService.getStaticImage(object)" class="menuItemImage" />-->
 <!--<img [ngClass]="imageService.getObjectIcon(object)" class="menuItemImage" />-->
-<i class="material-icons themeFontColor">{{imageService.getObjectIcon(object)}}</i>
 
-<div class="truncate link item themeFontColor" style="display:inline-block;" (click)="menuService.runFunction(object)">
-  {{object.title}}
+<div class="themeFontColor">
+  <i class="material-icons">{{imageService.getObjectIcon(object)}}</i>
+
+  <div class="truncate link item" style="display:inline-block;" (click)="menuService.runFunction(object)"> {{object.title}}
+</div>
 </div>

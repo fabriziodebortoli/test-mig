@@ -16,14 +16,13 @@ import { SharedModule } from '../shared/shared.module';
 
 import { SearchComponent } from './components/menu/search/search.component';
 import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
-import { LeftSidenavComponent } from './components/menu/sidenav-left-content/sidenav-left-content.component';
 import { LocalizationService } from './services/localization.service';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { TileElementComponent } from './components/menu/tile-element/tile-element.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
-import { MenuSelectorComponent } from './components/menu/menu-selector/menu-selector.component';
+import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
 import { TileContainerComponent } from './components/menu/tile-container/tile-container.component';
 import { TileContentComponent } from './components/menu/tile-content/tile-content.component';
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
@@ -32,12 +31,12 @@ import { Logger } from 'libclient';
 
 
 const MENU_SERVICES = [
-    MenuService,
-    ImageService,
-    HttpMenuService,
-    SettingsService,
-    LocalizationService,
-    EventManagerService
+  MenuService,
+  ImageService,
+  HttpMenuService,
+  SettingsService,
+  LocalizationService,
+  EventManagerService
 ];
 
 @NgModule({
@@ -55,13 +54,12 @@ const MENU_SERVICES = [
     MenuComponent,
     ApplicationSelectorComponent,
     GroupSelectorComponent,
-    MenuSelectorComponent,
+    MenuContainerComponent,
     TileContainerComponent,
     TileContentComponent,
     FavoritesComponent,
     TileElementComponent,
     MostUsedComponent,
-    LeftSidenavComponent,
     HiddenTilesComponent,
     SearchComponent,
     ProductInfoDialogComponent,
@@ -74,13 +72,12 @@ const MENU_SERVICES = [
     MenuComponent,
     ApplicationSelectorComponent,
     GroupSelectorComponent,
-    MenuSelectorComponent,
+    MenuContainerComponent,
     TileContainerComponent,
     TileContentComponent,
     FavoritesComponent,
     TileElementComponent,
     MostUsedComponent,
-    LeftSidenavComponent,
     HiddenTilesComponent,
     SearchComponent
   ]
