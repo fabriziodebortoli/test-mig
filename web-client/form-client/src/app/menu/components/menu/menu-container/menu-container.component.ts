@@ -57,15 +57,6 @@ export class MenuContainerComponent implements OnInit {
 
     return group.title == this.menuService.getSelectedGroup().title;
   }
-  changeTabByIndex(index) {
-    if (index < 0)
-      return;
-
-    let tempMenuArray = this.utilsService.toArray(this.menuService.selectedGroup.Menu);
-    let tab = tempMenuArray[index];
-    if (tab != undefined)
-      this.menuService.setSelectedMenu(tab);
-  }
 
   selectGroupAndMenu(group, menu) {
     if (this.menuService.getSelectedGroup() != group)

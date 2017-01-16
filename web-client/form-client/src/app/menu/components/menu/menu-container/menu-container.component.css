@@ -1,36 +1,5 @@
-
-
 .settingsAndMenuSelector {
 	height: 47px;
-}
-
-/*Black menu bar*/
-.menuSelectorPanel {
-	height: 45px;
-	overflow-x: auto;
-	overflow-y: hidden;
-	white-space: nowrap;
-	width: 100%;
-	background-color: rgba(0, 0, 0, 0.75);
-}
-
-.coloredMenuSeparator {
-	background: -webkit-linear-gradient(0deg, #25b767 0%, #0abaee 33%, #cbcbcb 65%, #000000 100%);
-	height: 2px;
-}
-
-.tabItem{
-	
-	color:white; 
-}
-
-.tabHeader{
-	background-color:dodgerblue;
-}
-
-.tabContent
-{
-	background-color:lightskyblue;
 }
 
 section {
@@ -46,4 +15,15 @@ div#one {
 div#two {
     margin-left: 15%;
     
+}
+
+.listItem {
+	display: block;
+	width: 80%;
+	padding: 0.5em 0 0.5em 2em;
+	text-decoration: none;
+}
+
+.selected{
+	background-color: lightskyblue;
 }

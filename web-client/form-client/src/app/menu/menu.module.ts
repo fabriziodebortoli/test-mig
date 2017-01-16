@@ -21,7 +21,6 @@ import { MostUsedComponent } from './components/menu/most-used/most-used.compone
 import { TileElementComponent } from './components/menu/tile-element/tile-element.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
-import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
 import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
 import { TileContainerComponent } from './components/menu/tile-container/tile-container.component';
 import { TileContentComponent } from './components/menu/tile-content/tile-content.component';
@@ -53,7 +52,6 @@ const MENU_SERVICES = [
     LoginComponent,
     MenuComponent,
     ApplicationSelectorComponent,
-    GroupSelectorComponent,
     MenuContainerComponent,
     TileContainerComponent,
     TileContentComponent,
@@ -73,7 +71,6 @@ const MENU_SERVICES = [
     LoginComponent,
     MenuComponent,
     ApplicationSelectorComponent,
-    GroupSelectorComponent,
     MenuContainerComponent,
     TileContainerComponent,
     TileContentComponent,

@@ -1,4 +1,6 @@
-
+.header {
+	background-color: lightskyblue;
+}
 
 .tileContent {
 	/*height:234px;*/ /*this parameter must be changed with javascript*/

@@ -1,13 +1,8 @@
 import {Component, Input, OnDestroy}  from '@angular/core';
 
 @Component({
-  selector: 'accordion',
-  template:`
-  <ng-content></ng-content>
-          `,
-  host: {
-    'class': 'panel-group'
-  }
+  selector: 'tb-accordion',
+  template: '<ng-content></ng-content>'
 })
 export class Accordion {
   groups: Array<AccordionGroup> = [];
@@ -32,23 +27,11 @@ export class Accordion {
   }
 }
 
-@Component({
-  selector: 'accordion-group',
-  templateUrl:`
-                <div class="panel panel-default" [ngClass]="{'panel-open': isOpen}">
-                  <div class="panel-heading" (click)="toggleOpen($event)">
-                    <h4 class="panel-title">
-                      <a href tabindex="0"><span>{{heading}}</span></a>
-                    </h4>
-                  </div>
-                  <div class="panel-collapse" [hidden]="!isOpen">
-                    <div class="panel-body">
-                        <ng-content></ng-content>
-                    </div>
-                  </div>
-                </div>
-          `,
 
+@Component({
+  selector: 'tb-accordion-group',
+  templateUrl: './accordion.component.html',  
+  styleUrls: ['./accordion.component.scss']
 })
 export class AccordionGroup implements OnDestroy {
   private _isOpen:boolean = false;
