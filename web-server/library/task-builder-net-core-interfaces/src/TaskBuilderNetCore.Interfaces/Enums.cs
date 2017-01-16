@@ -59,9 +59,9 @@ namespace TaskBuilderNetCore.Interfaces
 		Disabled,
 		Undefined
 	}
-}
+
 	//-----------------------------------------------------------------------
-	public enum SlotType
+	public enum LoginSlotType
 	{
 		Invalid,
 		Gdi,
@@ -70,8 +70,6 @@ namespace TaskBuilderNetCore.Interfaces
 		ThirdPart, 
         Mobile
 	}
-
-
 
 	/// <summary>
 	/// Esprime le possibili edition del prodotto
@@ -82,8 +80,9 @@ namespace TaskBuilderNetCore.Interfaces
 		Undefined,
 		Standard,
 		Professional,
-		Enterprise, ALL
-	}
+		Enterprise, ALL,
+        EditionA, EditionB, EditionC// edition aggiuntive
+    }
 
 	/// <summary>
 	/// Esprime i possibili sistemi operativi per il prodotto
@@ -94,7 +93,6 @@ namespace TaskBuilderNetCore.Interfaces
 		Undefined,
 		Windows
 	}
-
 
 	//============================================================================
 	public enum DBMSType
@@ -219,7 +217,6 @@ namespace TaskBuilderNetCore.Interfaces
         SsoTokenError=59,
         SSOIDNotAssociated =60,
         ImagoCompanyNotCorresponding = 61
-
     }
 
 	//----------------------------------------------------------------------------
@@ -233,76 +230,55 @@ namespace TaskBuilderNetCore.Interfaces
 		SetApplicationDateFailed = -5,
 	}
 
-/// <summary>
-/// Indica lo stato in cui si trova login manager
-/// </summary>
-//=========================================================================
-public enum LoginManagerState
-{
-    Undefined,
-    UnInitialized,  //è possibile chiamare solo funzioni indipendenti da utente o da company
-    Validated,      //è possibile chiamare solo funzioni slegate da una login
-    Logged          //ogni funzione è utilizzabile
-}
+	public enum DependencyEvaluationStatus { NotEvaluated, NotSatisfied, Satisfied }
 
-public enum MessageType
-{
-    None = 0x0,
-    Contract = 0x1,
-    Advrtsm = 0x2,
-    Updates = 0x4,
-    PostaLite = 0x8,
-    Default = 0x32,
+    /// <summary>
+    /// Indica lo stato in cui si trova login manager
+    /// </summary>
+    //=========================================================================
+    public enum LoginManagerState
+    {
+        Undefined,
+        UnInitialized,  //è possibile chiamare solo funzioni indipendenti da utente o da company
+        Validated,      //è possibile chiamare solo funzioni slegate da una login
+        Logged          //ogni funzione è utilizzabile
+    }
 
-}
+    /// <summary>
+    /// Tipo di errore per le eccezioni di login manager
+    /// </summary>
+    //=========================================================================
+    public enum LoginManagerError
+    {
+        NotLogged,
+        UnInitialized,
+        CommunicationError,
+        GenericError
+    }
 
-//=========================================================================
-public enum MessageSensation //come imagelist
-{
-    Information, ResultGreen, Warning, Error, AccessDenied, Help
-}
+    public enum WCFBinding
+    {
+        None,
+        BasicHttp,
+        NetTcp
+    }
 
-public enum GrantType
-{
-    Execute = 1,
-    Edit = 2,
-    New = 4,
-    Delete = 8,
-    Browse = 16,
-    CustomizeForm = 32,
-    EditQuery = 64,
-    Import = 128,
-    Export = 256,
-    SilentMode = 512
-}
+    /// <summary>
+    /// Esprime i possibili tipi di serial number
+    /// </summary>
+    //=========================================================================
+    public enum SerialNumberType
+    {
+        Normal,
+        Development,
+        Reseller,
+        Distributor,
+        Demo,
+        DevelopmentIU,
+        Multi, StandAlone, Backup, Test,
+        PersonalPlusK, DevelopmentPlusK, DevelopmentPlusUser, PersonalPlusUser,//seriali di tbs, plus per rivenditori plus 1 3 per utenti//questi ultimi gestiscono i nuovi serial number di sviluppo che permettono di attivare anche easy builder, il primo per i gold i secondi per i silver con cal da 1  e da 3.
+        UNDEFINED
 
-public enum LoginSlotType
-{
-    Invalid,
-    Gdi,
-    MagicDocument,
-    EasyLook,
-    ThirdPart,
-    Mobile
-}
-
-/// <summary>
-/// Esprime i possibili tipi di serial number
-/// </summary>
-//=========================================================================
-public enum SerialNumberType
-{
-    Normal,
-    Development,
-    Reseller,
-    Distributor,
-    Demo,
-    DevelopmentIU,
-    Multi, StandAlone, Backup, Test,
-    PersonalPlusK, DevelopmentPlusK, DevelopmentPlusUser, PersonalPlusUser,//seriali di tbs, plus per rivenditori plus 1 3 per utenti//questi ultimi gestiscono i nuovi serial number di sviluppo che permettono di attivare anche easy builder, il primo per i gold i secondi per i silver con cal da 1  e da 3.
-    UNDEFINED
+    }
 
 }
-
-public enum DependencyEvaluationStatus { NotEvaluated, NotSatisfied, Satisfied }
-
