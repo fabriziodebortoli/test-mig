@@ -1,20 +1,21 @@
+
 <section>
   <div id="one">
-    <ul>
-      <li *ngFor="let group of utilsService.toArray(menuService?.getSelectedApplication()?.Group)" (click)=menuService?.setSelectedGroup(group)>
-        <md-icon>home</md-icon>
-        {{group?.title}}
 
-        <div>
-          <ul>
+    <accordion *ngFor="let group of utilsService.toArray(menuService?.getSelectedApplication()?.Group)" (click)=menuService?.setSelectedGroup(group)>
+      <accordion-group heading="{{group?.title}}" [isOpen]="isGroupOpened(group)">
+        
+        <ul>
             <li *ngFor="let menuTab of utilsService.toArray(group?.Menu)" (click)="selectGroupAndMenu(group, menuTab)">
               {{menuTab?.title}}
             </li>
           </ul>
-        </div>
-      </li>
-    </ul>
+
+      </accordion-group>
+    </accordion>
   </div>
+
+
 
   <div id="two">
     <div style="display: inline-block" *ngIf="menuService.getSelectedMenu() != undefined" class="tabContent">

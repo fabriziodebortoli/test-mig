@@ -28,7 +28,7 @@ import { TileContentComponent } from './components/menu/tile-content/tile-conten
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 import { LoginComponent } from './components/login/login.component';
 import { Logger } from 'libclient';
-
+import { Accordion, AccordionGroup } from '../shared/containers/accordion/accordion.component';
 
 const MENU_SERVICES = [
   MenuService,
@@ -63,7 +63,9 @@ const MENU_SERVICES = [
     HiddenTilesComponent,
     SearchComponent,
     ProductInfoDialogComponent,
-    ConnectionInfoDialogComponent
+    ConnectionInfoDialogComponent,
+    Accordion,
+    AccordionGroup
   ],
   exports:
   [
@@ -79,7 +81,9 @@ const MENU_SERVICES = [
     TileElementComponent,
     MostUsedComponent,
     HiddenTilesComponent,
-    SearchComponent
+    SearchComponent,
+    Accordion,
+    AccordionGroup
   ]
   ,
   providers: [MENU_SERVICES],

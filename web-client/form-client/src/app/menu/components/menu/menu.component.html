@@ -3,17 +3,15 @@
   <div class="demo-sidenav-content">
 
     <md-toolbar [color]="myColor">
-    
+
 
       <span *ngIf="menuService?.applicationMenu != undefined">
           <tb-application-selector [Menu]="menuService?.applicationMenu"></tb-application-selector>
-        </span>
-        
-        <span>
-          {{menuService?.getSelectedGroup()?.title}} - {{menuService?.getSelectedMenu()?.title}}
-        </span>
+      </span>
 
-
+      <span>
+            {{menuService?.getSelectedApplication()?.title}} - {{menuService?.getSelectedGroup()?.title}} - {{menuService?.getSelectedMenu()?.title}}
+      </span>
 
     </md-toolbar>
 

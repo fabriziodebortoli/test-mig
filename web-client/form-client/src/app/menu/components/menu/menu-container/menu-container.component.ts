@@ -51,6 +51,12 @@ export class MenuContainerComponent implements OnInit {
 
   }
 
+  isGroupOpened(group) {
+    if (group == undefined || this.menuService.getSelectedGroup() == undefined)
+      return false;
+
+    return group.title == this.menuService.getSelectedGroup().title;
+  }
   changeTabByIndex(index) {
     if (index < 0)
       return;
@@ -61,11 +67,10 @@ export class MenuContainerComponent implements OnInit {
       this.menuService.setSelectedMenu(tab);
   }
 
-   selectGroupAndMenu(group, menu)
-  {
+  selectGroupAndMenu(group, menu) {
     if (this.menuService.getSelectedGroup() != group)
       this.menuService.setSelectedGroup(group);
-      
+
     this.menuService.setSelectedMenu(menu);
   }
 }
