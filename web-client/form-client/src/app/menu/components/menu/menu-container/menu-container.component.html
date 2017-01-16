@@ -1,0 +1,41 @@
+
+<section>
+  <div id="one">
+
+    <tb-accordion *ngFor="let group of utilsService.toArray(menuService?.getSelectedApplication()?.Group)" (click)=menuService?.setSelectedGroup(group)>
+      <tb-accordion-group heading="{{group?.title}}" [isOpen]="isGroupOpened(group)">
+        
+        <ul>
+            <li *ngFor="let menuTab of utilsService.toArray(group?.Menu)" (click)="selectGroupAndMenu(group, menuTab)" class="listItem" 
+            [ngClass]= "menuTab == menuService.getSelectedMenu() ? 'selected' : '' ">
+              {{menuTab?.title}}
+            </li>
+          </ul>
+
+      </tb-accordion-group>
+    </tb-accordion>
+  </div>
+
+
+
+  <div id="two">
+    <div style="display: inline-block" *ngIf="menuService.getSelectedMenu() != undefined" class="tabContent">
+
+
+    <div *ngIf="menuService.getMenuHiddenTiles(menuService.getSelectedMenu()).length>0">
+        <button md-mini-fab [md-menu-trigger-for]="hiddenTiles" color="primary"> <!--md-tooltip="{{localizationService.getLocalizedElement('HiddenTiles')}}" tooltip-position="right"-->
+              <md-icon style="display:inline-block" class="menuItemImage link" (click)="removeFromHiddenTiles(tile);$event.stopPropagation()">hdr_weak</md-icon>
+            {{menuService.getMenuHiddenTiles(menuService.getSelectedMenu()).length}}
+        </button>
+        <md-menu #hiddenTiles="mdMenu">
+          <tb-hidden-tiles [ShowHiddenOnlyCurrentMenu]=true></tb-hidden-tiles>
+        </md-menu>
+    </div>
+
+    <tb-tile-container></tb-tile-container>
+
+</div>
+
+
+</div>
+</section>

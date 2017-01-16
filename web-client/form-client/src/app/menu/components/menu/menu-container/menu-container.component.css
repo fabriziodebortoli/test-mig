@@ -1,0 +1,29 @@
+.settingsAndMenuSelector {
+	height: 47px;
+}
+
+section {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    padding: 10px;
+}
+div#one {
+    width: 15%;
+    float: left;
+}
+div#two {
+    margin-left: 15%;
+    
+}
+
+.listItem {
+	display: block;
+	width: 80%;
+	padding: 0.5em 0 0.5em 2em;
+	text-decoration: none;
+}
+
+.selected{
+	background-color: lightskyblue;
+}

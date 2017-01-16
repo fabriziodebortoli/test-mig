@@ -1,14 +1,12 @@
-<md-card *ngIf="menuService != undefined && menuService.mostUsedCount > 0" >
-    
-  <md-card-title style="display:inline-block">{{localizationService.getLocalizedElement('MostUsedLabel')}}: {{menuService.mostUsedCount}}</md-card-title>
-
-    <md-icon  style="display:inline-block" (click)=clearAll()>delete</md-icon>
-    <!--uib-tooltip="{{::localizationService.getLocalizedElement('DeleteAllElements')}}" tooltip-append-to-body="true" tooltip-popup-delay="500" tooltip-animation="false"></div>-->
-
-  <md-card-content>
-    <div *ngFor="let object of utilsService.toArray(menuService.mostUsed)">
-      <tb-tile-element [Object]="object"></tb-tile-element>
-      <md-icon (click)=menuService.removeFromMostUsed(object)>close</md-icon>
-    </div>
-  </md-card-content>
-</md-card>
+<div *ngIf="menuService?.mostUsedCount > 0">
+  <div>
+    {{localizationService.getLocalizedElement('MostUsedLabel')}}: {{menuService.mostUsedCount}}
+    <md-icon style="display:inline-block" (click)=clearAll()>delete</md-icon>
+</div>
+<ul>
+  <li *ngFor="let object of utilsService.toArray(menuService?.mostUsed)">
+    <tb-tile-element [Object]="object"></tb-tile-element>
+    <md-icon (click)=menuService.removeFromMostUsed(object)>close</md-icon>
+  </li>
+</ul>
+</div>

@@ -1,37 +1,21 @@
-
-
 <md-sidenav-layout class="demo-sidenav-layout">
-
-  <md-sidenav #leftSideNav mode="over">
-    <button md-button (click)="leftSideNav.close()"><md-icon>close</md-icon></button>
-    <tb-sidenav-left-content></tb-sidenav-left-content>
-  </md-sidenav>
 
   <div class="demo-sidenav-content">
 
-    <md-toolbar [color]="myColor" >
-      <span>
-        <button md-button (click)="leftSideNav.toggle()">
-        <md-icon>keyboard_arrow_left</md-icon>
-      </button>
+    <md-toolbar [color]="myColor">
+
+
+      <span *ngIf="menuService?.applicationMenu != undefined">
+          <tb-application-selector [Menu]="menuService?.applicationMenu"></tb-application-selector>
       </span>
 
- <span>
+      <span>
+            {{menuService?.getSelectedApplication()?.title}} - {{menuService?.getSelectedGroup()?.title}} - {{menuService?.getSelectedMenu()?.title}}
+      </span>
 
-        <span *ngIf="menuService?.applicationMenu != undefined">
-          <tb-application-selector [Menu]="menuService?.applicationMenu"></tb-application-selector>
-        </span>
-
-      </span>    
-   
-      <span style="flex: 1 1 auto"></span>
-    
-  
     </md-toolbar>
 
-    <div *ngIf="menuService.getSelectedGroup() != undefined">
-      <tb-menu-selector [Group]="menuService.getSelectedGroup()"></tb-menu-selector>
-    </div>
+    <tb-menu-container [Group]="menuService?.getSelectedGroup()"></tb-menu-container>
   </div>
 </md-sidenav-layout>
 
@@ -46,4 +30,3 @@
 </p>
 <!--<router-outlet></router-outlet>
 -->
-
