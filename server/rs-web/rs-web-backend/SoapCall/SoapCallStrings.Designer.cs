@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.rs-web-backend.SoapCall {
+namespace Microarea.RSWeb.SoapCall {
     using System;
     using System.Reflection;
     

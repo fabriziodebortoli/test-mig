@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.rs-web-backend.DiagnosticManager {
+namespace Microarea.RSWeb.DiagnosticManager {
     using System;
     using System.Reflection;
     

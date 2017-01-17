@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.rs-web-backend.Generic {
+namespace Microarea.RSWeb.Generic {
     using System;
     using System.Reflection;
     
