@@ -16,7 +16,7 @@ namespace Microarea.RSWeb.CoreTypes
 	/// <summary>
 	/// Summary description for Item.
 	/// </summary>
-	public class Item : ICloneable
+	public class Item //: ICloneable
 	{
 		//-----------------------------------------------------------------------------
 		public Item () {  }

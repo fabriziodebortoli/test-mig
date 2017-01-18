@@ -1,14 +1,14 @@
+using Microarea.RSWeb.Temp;
 using System;
-using Windows.UI;
 
 namespace Microarea.RSWeb.CoreTypes
 {
-	
 
-	/// <summary>
-	/// Summary description for GraphicUtility.
-	/// </summary>
-	public class HtmlUtility
+
+    /// <summary>
+    /// Summary description for GraphicUtility.
+    /// </summary>
+    public class HtmlUtility
 	{
 		//------------------------------------------------------------------------------
 		public static string ToHtml(Color aColor)

@@ -5,8 +5,7 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 using Microarea.RSWeb.XmlPersister;
-using Microarea.RSWeb.CoreTypes;
-using NuGet.Configuration;
+using System.Net;
 
 namespace Microarea.RSWeb.Generic
 {
@@ -63,7 +62,7 @@ namespace Microarea.RSWeb.Generic
 	/// </remarks>
 	//=========================================================================
 	[Serializable]
-	public class ProxySettings : State, ICloneable
+	public class ProxySettings : State
 	{
 		// public data members, persisted in XML state file
 		public ProxyAddress HttpProxy = new ProxyAddress();
@@ -95,7 +94,7 @@ namespace Microarea.RSWeb.Generic
 		}
 
 		//---------------------------------------------------------------------
-		private static WebProxy CreateProxy(string proxyUrl, int proxyPort)
+		private static IWebProxy CreateProxy(string proxyUrl, int proxyPort)
 		{
 			if (proxyUrl == null || proxyUrl.Length == 0)
 				return null;
@@ -107,7 +106,7 @@ namespace Microarea.RSWeb.Generic
 			try
 			{
 				Uri uri = new Uri(proxyUriExt);
-				return new WebProxy(uri);
+                return null;/*new WebProxy(uri); todo rsweb*/
 			}
 			catch (Exception exc)
 			{

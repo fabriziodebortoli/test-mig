@@ -1,5 +1,4 @@
-﻿using Microarea.RSWeb.Applications;
-using Windows.UI;
+﻿using Microarea.RSWeb.Temp;
 
 namespace Microarea.RSWeb.Applications
 {

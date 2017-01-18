@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ServiceModel.Description;
 
 namespace Microarea.RSWeb.SerializableTypes
 {
-	[Serializable]
+    [Serializable]
 	///uso questo wrapper perche' la classe ServiceEndpoint non e' serializzabile!
 	public class SerializableEndpoint
 	{
-		private ServiceEndpoint endpoint;
+		//private ServiceEndpoint endpoint;
 
-		//--------------------------------------------------------------------------------
-		public SerializableEndpoint(ServiceEndpoint endpoint)
-		{
-			this.endpoint = SanitizeContractInEndpoint(endpoint);
-		}
-		//--------------------------------------------------------------------------------
-		public SerializableEndpoint()
-		{
+		////--------------------------------------------------------------------------------
+		//public SerializableEndpoint(ServiceEndpoint endpoint)
+		//{
+		//	this.endpoint = SanitizeContractInEndpoint(endpoint);
+		//}
+		////--------------------------------------------------------------------------------
+		//public SerializableEndpoint()
+		//{
 
-		}
-		//--------------------------------------------------------------------------------
-		public ServiceEndpoint GetEndPoint() { return this.endpoint; }
+		//}
+		////--------------------------------------------------------------------------------
+		//public ServiceEndpoint GetEndPoint() { return this.endpoint; }
 
 
 
@@ -46,14 +45,14 @@ namespace Microarea.RSWeb.SerializableTypes
 		//}
 
 		//--------------------------------------------------------------------------------
-		private ServiceEndpoint SanitizeContractInEndpoint(ServiceEndpoint endpoint)
-		{
-			ServiceEndpoint newEndpoint = new ServiceEndpoint(new ContractDescription(endpoint.Contract.Name, endpoint.Contract.Namespace));
-			newEndpoint.Address = endpoint.Address;
-			newEndpoint.Binding = endpoint.Binding;
-			newEndpoint.Name = endpoint.Name;
-			return newEndpoint;
-		}
+		//private ServiceEndpoint SanitizeContractInEndpoint(ServiceEndpoint endpoint)
+		//{
+		//	ServiceEndpoint newEndpoint = new ServiceEndpoint(new ContractDescription(endpoint.Contract.Name, endpoint.Contract.Namespace));
+		//	newEndpoint.Address = endpoint.Address;
+		//	newEndpoint.Binding = endpoint.Binding;
+		//	newEndpoint.Name = endpoint.Name;
+		//	return newEndpoint;
+		//}
 	}
 
 	[Serializable]
