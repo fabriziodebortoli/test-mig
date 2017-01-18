@@ -16,13 +16,12 @@
 		},
 		"common-lib": "1.0.0-*",
 					"Microsoft.AspNetCore.WebSockets.Server": "0.1.0-*",
-					"rs-web": "1.0.0-*",
-        "tbloader-gate": "1.0.0-*",
+					"tbloader-gate": "1.0.0-*",
     "login-manager": "1.0.0-*",
     "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.Routing": "1.1.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
     "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.1.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
     "Microsoft.Extensions.Logging": "1.1.0",
@@ -38,7 +37,7 @@
     "Microsoft.AspNetCore.StaticFiles": "1.1.0",
     "Microsoft.EntityFrameworkCore.Sqlite": "1.1.0",
     "Microsoft.Extensions.Configuration.UserSecrets": "1.1.0",
-    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0"	},
+        "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0"},
 	"tools": {
 		"Microsoft.AspNetCore.Razor.Tools": {
 			"version": "1.0.0-preview2-final",
@@ -71,15 +70,7 @@
 	"buildOptions": {
 		"debugType": "portable",
 		"emitEntryPoint": true,
-		"preserveCompilationContext": true,
-		"copyToOutput": {
-			"mappings": {
-				"tbloader-gate.dll": "../tbloader-gate/bin/Debug/netcoreapp1.0/tbloader-gate.dll",
-				"tbloader-gate.pdb": "../tbloader-gate/bin/Debug/netcoreapp1.0/tbloader-gate.pdb",
-				"rs-web.dll": "../rs-web/bin/Debug/netcoreapp1.0/rs-web.dll",
-				"rs-web.pdb": "../rs-web/bin/Debug/netcoreapp1.0/rs-web.pdb"
-			}
-		}
+		"preserveCompilationContext": true
 	},
 	"runtimeOptions": {
 		"configProperties": {

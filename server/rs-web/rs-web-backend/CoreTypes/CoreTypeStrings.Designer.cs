@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.rs-web-backend.CoreTypes {
+namespace Microarea.RSWeb.CoreTypes {
     using System;
     using System.Reflection;
     

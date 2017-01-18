@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.rs-web-backend.WoormViewer {
+namespace Microarea.RSWeb.WoormViewer {
     using System;
     using System.Reflection;
     

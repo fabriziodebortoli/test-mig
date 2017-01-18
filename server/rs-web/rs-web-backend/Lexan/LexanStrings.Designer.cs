@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.rs-web-backend.Lexan {
+namespace Microarea.RSWeb.Lexan {
     using System;
     using System.Reflection;
     

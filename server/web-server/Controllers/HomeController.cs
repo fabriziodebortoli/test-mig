@@ -22,6 +22,10 @@ namespace WebServer
 		[HttpGet]
         public IActionResult Index()
         {
+			if (_env.WebRootPath == null)
+			{
+				return NotFound();
+			}
 			string file = Path.Combine(_env.WebRootPath, "index.html");
 			byte[] buff = System.IO.File.ReadAllBytes(file);
 			return File(buff, "text/html");
