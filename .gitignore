@@ -8,3 +8,4 @@ lib/
 bin/
 obj/
 .vs/
+client/web-form/src/app/applications
