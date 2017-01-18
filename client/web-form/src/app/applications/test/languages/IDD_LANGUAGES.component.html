@@ -1,0 +1,37 @@
+<tb-frame>
+    <tb-toolbar-top [document]="document">
+        <tb-toolbar-separator></tb-toolbar-separator>
+        <tb-toolbar-top-button icon="first_page" caption="First" cmd="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="chevron_left" caption="Previous" cmd="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="chevron_right" caption="Next" cmd="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="last_page" caption="Last" cmd="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+        <tb-toolbar-separator></tb-toolbar-separator>
+        <tb-toolbar-top-button icon="clear" caption="Exit" cmd="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+    </tb-toolbar-top>
+    <tb-view>
+        <tb-tilemanager>
+            <tb-tilegroup  [tabTitle]="'group1'">
+                <tb-tile>
+                    <tb-edit caption="Language" cmpId="IDC_EDIT_LANGUAGE" [model]="documentService?.data?.DBT?.Languages?.Language"></tb-edit>
+                    <tb-edit caption="Description" cmpId="IDC_EDIT_DESCRIPTION" [model]="documentService?.data?.DBT?.Languages?.Description"></tb-edit>
+                </tb-tile>
+            </tb-tilegroup>
+
+             <tb-tilegroup [tabTitle]="'group2'">
+                <tb-tile>
+                    <tb-edit caption="Language" cmpId="IDC_EDIT_LANGUAGE" [model]="documentService?.data?.DBT?.Languages?.Language"></tb-edit>
+                    <tb-edit caption="Description" cmpId="IDC_EDIT_DESCRIPTION" [model]="documentService?.data?.DBT?.Languages?.Description"></tb-edit>
+                     <tb-edit caption="Culture" cmpId="IDC_EDIT_CULTURE" [model]="documentService?.data?.DBT?.Languages?.Culture">
+                    </tb-edit>
+                </tb-tile>
+            </tb-tilegroup>
+        </tb-tilemanager>
+    </tb-view>
+    <tb-toolbar-bottom [document]="document">
+        <tb-toolbar-bottom-button caption="Save" cmd="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button caption="Escape" cmd="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button caption="New" cmd="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button caption="Edit" cmd="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button caption="Delete" cmd="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+    </tb-toolbar-bottom>
+</tb-frame>
