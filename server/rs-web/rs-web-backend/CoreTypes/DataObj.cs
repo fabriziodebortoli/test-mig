@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.Serialization.Json;
+
 using System.Text;
 
 using TaskBuilderNetCore.Interfaces.Model;
@@ -458,19 +458,21 @@ namespace Microarea.RSWeb.CoreTypes
 		//---------------------------------------------------------------------
 		public virtual string ConvertToJson()
 		{
-			DataContractJsonSerializer serializer = new DataContractJsonSerializer(GetType());
-			MemoryStream ms = new MemoryStream();
-			serializer.WriteObject(ms, this);
-			return Encoding.UTF8.GetString(ms.ToArray());
+            //DataContractJsonSerializer serializer = new DataContractJsonSerializer(GetType());      // todo rsweb
+            //MemoryStream ms = new MemoryStream();
+            //serializer.WriteObject(ms, this);
+            //return Encoding.UTF8.GetString(ms.ToArray());
+            return "";
 		}
 
 		//---------------------------------------------------------------------
 		public static IDataObj JsonToDataObj(string from, Type type)
 		{
-			DataContractJsonSerializer serializer = new DataContractJsonSerializer(type);
-			MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(from));
-			return (IDataObj)serializer.ReadObject(ms);
-		}
+            //DataContractJsonSerializer serializer = new DataContractJsonSerializer(type);                  //todo rsweb
+            //MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(from));
+            //return (IDataObj)serializer.ReadObject(ms);
+            return null;
+        }
 
 		#region IDataObj Members
 

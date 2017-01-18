@@ -1,14 +1,13 @@
 ﻿using System;
-using Microsoft.DotNet.Cli.Utils;
-using Windows.UI;
+using Microarea.RSWeb.Temp;
 
 namespace Microarea.RSWeb.Applications
 {
-	/// <summary>
-	/// Summary description for BorderPen.
-	/// </summary>
-	///================================================================================ 
-	public class BorderPen
+    /// <summary>
+    /// Summary description for BorderPen.
+    /// </summary>
+    ///================================================================================ 
+    public class BorderPen
 	{
         public Color Color = Color.FromArgb(255, 255, 255, 255);
 		public int Width = 1;

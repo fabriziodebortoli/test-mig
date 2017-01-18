@@ -5,15 +5,16 @@ using System.IO;
 
 using Microarea.RSWeb.Applications;
 using Microarea.RSWeb.Generic;
-using Windows.UI;
+using Microarea.RSWeb.Lexan;
+using Microarea.RSWeb.Temp;
 
 namespace Microarea.RSWeb.Lexan
 {
-	/// <summary>
-	/// Summary description for Unparser.
-	/// </summary>
-	//==================================================================================
-	public class Unparser : IDisposable
+    /// <summary>
+    /// Summary description for Unparser.
+    /// </summary>
+    //==================================================================================
+    public class Unparser : IDisposable
 	{
 		private int tabCounter = 0;
 		private int DEFAULT_PEN_WIDTH = 1;

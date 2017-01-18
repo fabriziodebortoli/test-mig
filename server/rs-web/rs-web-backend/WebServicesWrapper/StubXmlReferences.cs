@@ -4,6 +4,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
 using System.Data.SqlClient;
+using System.ComponentModel;
 
 namespace Microarea.RSWeb.WebServicesWrapper.LoginMngXml
 {
@@ -3720,7 +3721,7 @@ namespace Microarea.RSWeb.WebServicesWrapper.LoginMngXml
         /// <remarks/>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
         [System.Diagnostics.DebuggerStepThroughAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
+        [DesignerCategory("code")]
         public partial class InitCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs
         {
 
@@ -7766,7 +7767,7 @@ namespace Microarea.RSWeb.WebServicesWrapper.LoginMngXml
 
         /// <remarks/>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-        public delegate void SendBalloonCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+        public delegate void SendBalloonCompletedEventHandler(object sender, AsyncCompletedEventArgs e);
 
         public class WebServicesWrapperStrings
         {
