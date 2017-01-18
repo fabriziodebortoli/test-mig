@@ -1,3 +1,6 @@
+import { ImageService } from './../../menu/services/image.service';
+import { UtilsService } from 'tb-core';
+import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { MenuService } from './../../menu/services/menu.service';
 import { LocalizationService } from './../../menu/services/localization.service';
 import { SidenavService } from './../../core/sidenav.service';
@@ -16,8 +19,11 @@ export class HomeSidenavComponent implements OnInit {
   private companyName = environment.companyName;
 
   constructor(private sidenavService: SidenavService, 
-  private localizationService: LocalizationService,
-  private menuService: MenuService
+      private httpMenuService: HttpMenuService,
+    private menuService: MenuService,
+    private utilsService: UtilsService,
+    private imageService: ImageService, 
+    private localizationService: LocalizationService
   ) { }
 
   ngOnInit() {

@@ -1,0 +1,39 @@
+.bookmarks {
+    margin-top: 10px;
+    font-size: small;
+}
+
+ul.bookmarks-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+ul.bookmarks-list>li {
+    line-height: 35px;
+    height: 35px;
+    margin-bottom: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    color: #9f9f9f;
+    background: #3e3e3e;
+}
+
+ul.bookmarks-list>li:hover {
+    background: #282828;
+    color: #fff;
+}
+
+ul.bookmarks-list>li>md-icon {
+    font-size: 18px;
+    line-height: 22px;
+}
+
+ul.bookmarks-list>li>span {
+    font-size: 12px;
+}

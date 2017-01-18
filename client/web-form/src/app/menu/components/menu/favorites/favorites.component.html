@@ -1,10 +1,11 @@
-<div *ngIf="menuService != undefined">
-    <div>
+<div class="bookmarks" *ngIf="menuService != undefined">
+    <div class="sidenav-subtitle">
         {{localizationService?.getLocalizedElement('FavoritesLabel')}}: {{menuService?.favoritesCount}}
     </div>
-    <ul>
+    <ul class="bookmarks-list">
         <li *ngFor="let favorite of menuService?.favorites">
             <tb-tile-element [Object]="favorite"></tb-tile-element>
         </li>
     </ul>
 </div>
+

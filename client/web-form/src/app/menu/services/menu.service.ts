@@ -173,6 +173,7 @@ export class MenuService {
 
         this.webSocketService.runObject(object.target);
         this.addToMostUsed(object);
+        object.isLoading = true
     }
 
     clearMostUsed() {

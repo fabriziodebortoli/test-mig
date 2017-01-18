@@ -1,12 +1,11 @@
-<div *ngIf="menuService?.mostUsedCount > 0">
-  <div>
+<div class="bookmarks" *ngIf="menuService?.mostUsedCount > 0">
+  <div class="sidenav-subtitle">
     {{localizationService.getLocalizedElement('MostUsedLabel')}}: {{menuService.mostUsedCount}}
     <md-icon style="display:inline-block" (click)=clearAll()>delete</md-icon>
 </div>
-<ul>
+<ul class="bookmarks-list">
   <li *ngFor="let object of utilsService.toArray(menuService?.mostUsed)">
     <tb-tile-element [Object]="object"></tb-tile-element>
     <md-icon (click)=menuService.removeFromMostUsed(object)>close</md-icon>
   </li>
 </ul>
-</div>
