@@ -2,3 +2,9 @@
 .themeFontColor:hover {
 	background-color: rgba(230, 230, 230, 0.5);
 }
+
+.spinner {
+	width: 20px;
+	height: 20px;
+}
+

@@ -1,6 +1,7 @@
 <div >
-  <i class="material-icons">{{imageService.getObjectIcon(object)}}</i>
+  <i *ngIf="!object.isLoading" class="material-icons">{{imageService.getObjectIcon(object)}}</i>
 
-  <div class="truncate link" style="display:inline-block;" (click)="menuService.runFunction(object)"> {{object.title}}
+  <md-spinner mode="indeterminate" color="primary" class="spinner" *ngIf="object.isLoading"></md-spinner>
+  <div class="truncate link" style="display:inline-block;" (click)="menuService.runFunction(object); object.isLoading = true"> {{object.title}}
 </div>
 </div>
