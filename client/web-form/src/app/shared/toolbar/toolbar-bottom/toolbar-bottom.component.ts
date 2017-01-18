@@ -1,3 +1,4 @@
+import { DocumentService } from './../../../core/document.service';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -7,9 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ToolbarBottomComponent implements OnInit {
 
-  @Input() document: Document;
+ 
 
-  constructor() { }
+  constructor(private document: DocumentService) { }
 
   ngOnInit() {
   }

@@ -1,3 +1,4 @@
+import { WebSocketService } from './../../../../core/websocket.service';
 import { Component, Input } from '@angular/core';
 import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
@@ -10,15 +11,19 @@ import { ImageService } from './../../../services/image.service';
   templateUrl: './tile-element.component.html',
   styleUrls: ['./tile-element.component.css']
 })
-export class TileElementComponent{
+export class TileElementComponent {
 
   private object: any;
   constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private imageService: ImageService
+    private imageService: ImageService, 
+    private webSocketService: WebSocketService
   ) {
+    this.webSocketService.windowOpen.subscribe(data => {
+      this.object.isLoading = false;
+    });
   }
 
   get Object(): any {
