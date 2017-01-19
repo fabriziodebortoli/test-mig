@@ -172,7 +172,8 @@ export class HttpMenuService {
      * @returns {Observable<any>} favoriteObject
      */
     favoriteObject(object) {
-        let obj = { target: object.target, objectType: object.objectType };
+        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName };
+        
         var urlToRun = this.baseUrl + 'favoriteObject/';
         let subs = this.postData(urlToRun, obj)
             .map((res: Response) => {
@@ -189,7 +190,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} unFavoriteObject
      */
     unFavoriteObject(object) {
-        let obj = { target: object.target, objectType: object.objectType };
+        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName };
         var urlToRun = this.baseUrl + 'unFavoriteObject/';
         let subs = this.postData(urlToRun, obj)
             .map((res: Response) => {
@@ -238,7 +239,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} addToMostUsed
      */
     addToMostUsed(object): Observable<any> {
-        let obj = { target: object.target, objectType: object.objectType };
+        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName };
         return this.postData(this.baseUrl + 'addToMostUsed/', obj)
             .map((res: Response) => {
                 return res.ok;
@@ -251,7 +252,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} removeFromMostUsed
      */
     removeFromMostUsed = function (object) {
-        let obj = { target: object.target, objectType: object.objectType };
+        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName };
         return this.postData(this.baseUrl + 'removeFromMostUsed/', obj)
             .map((res: Response) => {
                 return res.ok;

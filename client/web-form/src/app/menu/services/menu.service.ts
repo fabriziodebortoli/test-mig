@@ -300,7 +300,9 @@ export class MenuService {
         object.position = undefined;
         for (var i = 0; i < this.favorites.length; i++) {
 
-            if (this.favorites[i].target == object.target && this.favorites[i].objectType == object.objectType) {
+          if (this.favorites[i].target == object.target && this.favorites[i].objectType == object.objectType &&
+                (object.objectName == undefined || (object.objectName != undefined && this.favorites[i].objectName == object.objectName))
+                ){
 
                 this.favorites.splice(i, 1);
                 this.favoritesCount--;
@@ -441,9 +443,10 @@ export class MenuService {
         var now = this.utilsService.getCurrentDate();
         for (var i = 0; i < this.mostUsed.length; i++) {
 
-            if (this.mostUsed[i].target == object.target && this.mostUsed[i].objectType == object.objectType) {
+           if (this.mostUsed[i].target == object.target && this.mostUsed[i].objectType == object.objectType &&
+                (object.objectName == undefined || (object.objectName != undefined && object.objectName == this.mostUsed[i].objectName))) {
                 this.mostUsed[i].lastModified = now;
-                return;
+                 return;
             }
         }
 
@@ -459,7 +462,9 @@ export class MenuService {
         var index = -1;
 
         for (var i = 0; i < this.mostUsed.length; i++) {
-            if (this.mostUsed[i].target == object.target && this.mostUsed[i].objectType == object.objectType) {
+          if (this.mostUsed[i].target == object.target && this.mostUsed[i].objectType == object.objectType &&
+                (object.objectName == undefined || (object.objectName != undefined && this.mostUsed[i].objectName == object.objectName)))
+                {
                 index = i;
                 break;
             }

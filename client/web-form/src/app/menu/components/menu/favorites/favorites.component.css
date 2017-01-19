@@ -1,3 +1,36 @@
+.sidenav-title {
+    padding-left: 15px;
+}
+
+.sidenav-title h1,
+.sidenav-title h2 {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+.sidenav-title h1 {
+    font-size: 18px;
+    margin-bottom: 3px;
+}
+
+.sidenav-title h2 {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.sidenav-subtitle {
+    height: 30px;
+    line-height: 30px;
+    text-transform: uppercase;
+    text-align: center;
+    color: #9f9f9f;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+
 .bookmarks {
     margin-top: 10px;
     font-size: small;
