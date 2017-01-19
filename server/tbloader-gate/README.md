@@ -7,8 +7,9 @@ TBLoader (che viene istanziato indirettamente dal servizio TBLoaderService, il q
 sulla porta 11000), fa da tramite con quest'ultimo inoltrando ad esso tutte le chiamate http e websocket.
 
 # Istruzioni per l'uso in sviluppo
-* Compilare l'applicazione angular \Taskbuilder\web-client\form-client; per fare questo posizionarsi nella cartella e digitare l'istruzione  _ng build -w_
-* Compilare TaskBuilder ed ERP
+* Clonare il contenuto del progetto Git TaskBuilder all'interno della cartella 'standard\web'
+* Compilare TaskBuilder ed ERP (questo step va eseguito rigorosamente prima di compilare l'applicazione angular)
+* Compilare l'applicazione angular \Taskbuilder\client\web-form; per fare questo posizionarsi nella cartella e digitare l'istruzione  _ng build -w_
 * Lanciare manualmente il servizio \standard\taskbuilder\TaskBuilderNet\Microarea.TaskBuilderNet.TBLoaderService\bin\Debug\TBLoaderService.exe
-* posizionarsi dal prompt dei comandi in \web-server\tbloader-gate e digitare il comando _dotnet run_
+* posizionarsi dal prompt dei comandi in \server\web-server e digitare il comando _dotnet run_
 * accedere col browser all'indirizzo http://localhost:5000
