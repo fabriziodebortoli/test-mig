@@ -8,3 +8,10 @@
 	height: 20px;
 }
 
+.tileElement {
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	height:24px;
+}
+

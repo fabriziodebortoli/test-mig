@@ -35,9 +35,6 @@ export class TileContentComponent implements OnInit {
     this.tile = menu;
   }
 
-  getFavoriteClass(object) {
-    return object.isFavorite ? 'star' : 'star_border';
-  }
 
   getPinnedClass(tile) {
     return tile.pinned ? 'hdr_strong' : 'hdr_weak';

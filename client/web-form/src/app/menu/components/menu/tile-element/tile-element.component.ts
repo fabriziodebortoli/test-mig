@@ -13,12 +13,14 @@ import { ImageService } from './../../../services/image.service';
 })
 export class TileElementComponent {
 
+  private showFavorites: boolean = true;
+
   private object: any;
   constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private imageService: ImageService, 
+    private imageService: ImageService,
     private webSocketService: WebSocketService
   ) {
     this.webSocketService.windowOpen.subscribe(data => {
@@ -35,4 +37,7 @@ export class TileElementComponent {
     this.object = object;
   }
 
+  getFavoriteClass(object) {
+    return object.isFavorite ? 'star' : 'star_border';
+  }
 }
