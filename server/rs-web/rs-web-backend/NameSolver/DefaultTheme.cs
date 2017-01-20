@@ -8,6 +8,7 @@ using TaskBuilderNetCore.Interfaces;
 using RSjson;
 using Microarea.RSWeb.Temp;
 
+
 namespace Microarea.RSWeb.NameSolver
 {
     //=========================================================================
@@ -277,9 +278,10 @@ namespace Microarea.RSWeb.NameSolver
 			}
 		}
 
-        //Color ITheme.GetThemeElementColor(string themeElement)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        int ITheme.GetThemeElementColor(string themeElement)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

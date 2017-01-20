@@ -1,0 +1,3 @@
+{
+  "projects": [ "library/task-builder-net-core-interfaces/src", "library/task-builder-net-core-data/src", "library" ]
+}
