@@ -1,8 +1,9 @@
 <div class="panel panel-default" [ngClass]="{'panel-open': isOpen}">
     <div class="panel-heading" (click)="toggleOpen($event)">
-        <h4 class="title">
-            <span tabindex="0">{{heading}}</span>
-        </h4>
+        <div style="display: inline-block" tabindex="0" class="title">{{heading}}</div>
+        <div style="display: inline-block">
+            <i class="material-icons expandCollapse">{{getExpandCollapseClass()}}</i>
+        </div>
     </div>
     <div class="panel-collapse" [hidden]="!isOpen">
         <div class="panel-body">

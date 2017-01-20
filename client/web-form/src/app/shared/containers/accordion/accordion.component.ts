@@ -62,4 +62,10 @@ export class AccordionGroup implements OnDestroy {
     event.preventDefault();
     this.isOpen = !this.isOpen;
   }
+
+  getExpandCollapseClass()
+  {
+    return this.isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+
+  }
 }

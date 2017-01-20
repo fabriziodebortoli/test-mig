@@ -13,12 +13,20 @@ div#two {
     margin-left: 15%;
     
 }
+ul {
+	padding-left: 10px;
+}
+
+.menuContainer {
+	background-color: #dcdcdc;
+}
 
 .listItem {
-	display: block;
-	width: 80%;
-	padding: 0.5em 0 0.5em 2em;
-	text-decoration: none;
+display: block;
+    width: 80%;
+    padding: 0.1em 0 0.1em 0em;
+    text-decoration: none;
+    font-weight: lighter;
 }
 
 .selected{
@@ -26,12 +34,10 @@ div#two {
 }
 
 .tileContainer {
-	/*padding-left: 20px;
-	padding-top: 10px;
-	margin: 5px;*/
 	height: auto;
 	display: inline-block;
 	vertical-align: top;
+	padding: 10px;
 }
 
 /*title and pinimage container*/

@@ -1,15 +1,15 @@
 .header {
-	background-color: lightskyblue;
+		height: 20px;
 }
-
 .tileContent {
 	/*height:234px;*/ /*this parameter must be changed with javascript*/
 	height:240px;
 	width:350px;
 	overflow: auto;
-	padding-right: 5px;
 	padding-top: 2px;
 	line-height: 140%;
+	font-weight: lighter;
+	font-size: medium;
 }
 
 	.tileContent a {
@@ -20,10 +20,6 @@
 	.tileContent > div > div {
 		display: inline-block;
 	}
-
-.link {
-	cursor: pointer;
-}
 
 
 .floatRight {
@@ -51,16 +47,7 @@
 	width: 50%;
 }
 
-
-.favorite {
-	content: url(./app/menu/images/favorite.png);
-}
-
-.unfavorite {
-	content: url(./app/menu/images/Unfavorite.png);
-}
-
 .tileTitleFont {
-	font-size: 20px;
+	font-size: 18px;
 }
 

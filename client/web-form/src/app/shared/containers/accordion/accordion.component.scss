@@ -1,6 +1,23 @@
+.panel {
+    border-color:lightgray;
+    border-width: 1px;
+    border-style: solid;
+}
+
 .title {
     display: block;
     width: 80%;
-    padding: 0.5em 0 0.5em 2em;
+   
     text-decoration: none;
+}
+.expandCollapse {
+    float: right;
+}
+
+.panel-heading {
+    padding: 5px 0px 0px 5px;
+}
+
+.panel-body {
+    padding-left: 2px;
 }

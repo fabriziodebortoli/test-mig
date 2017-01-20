@@ -6,7 +6,7 @@
       <tb-accordion-group heading="{{group?.title}}" [isOpen]="isGroupOpened(group)">
 
         <ul>
-          <li *ngFor="let menuTab of utilsService.toArray(group?.Menu)" (click)="selectGroupAndMenu(group, menuTab)" class="listItem"
+          <li *ngFor="let menuTab of utilsService.toArray(group?.Menu)" (click)="selectGroupAndMenu(group, menuTab)" class="listItem link"
             [ngClass]="menuTab == menuService.getSelectedMenu() ? 'selected' : '' ">
             {{menuTab?.title}}
           </li>
@@ -17,7 +17,7 @@
 
 
 <!--Contenitore tile di destra-->
-  <div id="two">
+  <div id="two" class="menuContainer">
     <div style="display: inline-block" *ngIf="menuService.getSelectedMenu() != undefined" class="tabContent">
       <div *ngFor="let tile of getTiles()" class="tileContainer">
         <tb-tile-content [Tile]="tile"></tb-tile-content>

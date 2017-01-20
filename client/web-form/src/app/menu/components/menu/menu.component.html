@@ -2,7 +2,6 @@
 
   <div class="demo-sidenav-content">
 
-    <md-toolbar>
 
       <tb-application-selector *ngIf="menuService.applicationMenu != undefined" [Menu]="menuService?.applicationMenu"></tb-application-selector>
 
@@ -10,7 +9,6 @@
             {{menuService?.getSelectedApplication()?.title}} - {{menuService?.getSelectedGroup()?.title}} - {{menuService?.getSelectedMenu()?.title}}
       </span>
 
-    </md-toolbar>
 
     <tb-menu-container [Group]="menuService?.getSelectedGroup()"></tb-menu-container>
   </div>
