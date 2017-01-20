@@ -18,7 +18,7 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
     if (this.componentInfo) {
       this.cmpRef = this.cmpContainer.createComponent(this.componentInfo.factory);
       this.cmpRef.instance.cmpId = this.componentInfo.id;//assegno l'id al componente
-      this.cmpRef.instance.documentService.mainCmpId = this.componentInfo.id;//assegno l'id al servizio (uguale a quello del componente)
+      this.cmpRef.instance.document.mainCmpId = this.componentInfo.id;//assegno l'id al servizio (uguale a quello del componente)
     }
   }
 

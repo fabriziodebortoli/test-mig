@@ -6,7 +6,7 @@ import { Logger } from 'libclient';
 
 @Injectable()
 export class DocumentService {
-    data: any;
+    model: any;
     serverSideCommandMap: any; //TODO SILVANO needs typing  
     mainCmpId: string;
     constructor(private webSocketService: WebSocketService,
@@ -16,8 +16,8 @@ export class DocumentService {
             let cmpId = this.mainCmpId;
             models.forEach(model => {
                 if (model.id === cmpId) {
-                    this.data = model;
-                    logger.debug("Model received from server: " + JSON.stringify(this.data));
+                    this.model = model;
+                    logger.debug("Model received from server: " + JSON.stringify(this.model));
                 }
             });
         });

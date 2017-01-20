@@ -1,11 +1,10 @@
+import { HttpService, DocumentService, WebSocketService } from 'tb-core';
 import { Component, OnInit, Input } from '@angular/core';
 
-import { DocumentService } from '../../../core/document.service';
-import { WebSocketService } from '../../../core/websocket.service';
 
 @Component({
   selector: 'tb-toolbar-top-button',
-  template: `<div (click)='onCommand()' title='{{caption}}'><md-icon>{{icon}}</md-icon></div>`,
+  template: `<div (click)='onCommand()' title='{{caption}}'><img src="{{getIconUrl()}}"/></div>`,
   styles: [`
     div{
       cursor:pointer;
@@ -22,17 +21,20 @@ export class ToolbarTopButtonComponent implements OnInit {
 
   @Input() caption: string = '';
   @Input() cmd: string = '';
-  @Input() icon: string = 'tag_faces';
+  @Input() icon: string = '';
 
   constructor(
     private webSocket: WebSocketService,
-    private document: DocumentService
+    private document: DocumentService,
+    private httpService: HttpService
   ) {
   }
 
   ngOnInit() {
   }
-
+  getIconUrl() {
+    return this.httpService.getDocumentBaseUrl() + 'getImage/?src=' + this.icon;
+  }
   onCommand() {
     this.webSocket.doCommand(this.document.mainCmpId, this.cmd);
   }
