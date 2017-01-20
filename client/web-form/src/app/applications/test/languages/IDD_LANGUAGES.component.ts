@@ -10,11 +10,6 @@ import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
 export class LanguagesComponent extends DocumentComponent implements OnInit {
 
-  private document = {
-    id: 'IDD_LANGUAGES',
-    name: 'Languages'
-  }
-
   constructor(documentService: DocumentService) {
     super(documentService);
   }
