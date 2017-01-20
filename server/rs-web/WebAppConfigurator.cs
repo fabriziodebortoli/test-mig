@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
+using Microarea.Common;
 
 namespace Microarea.RSWeb
 {
-    public class WebAppConfigurator
-	{
+    public class WebAppConfigurator: IWebAppConfigurator
+    {
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
 			SocketHandler handler = new SocketHandler();

@@ -36,7 +36,7 @@
     "Microsoft.EntityFrameworkCore.Sqlite": "1.1.0",
     "Microsoft.Extensions.Configuration.UserSecrets": "1.1.0",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
     "TaskBuilderNetCore.Interfaces": "1.0.0-*"
   },
   "tools": {
