@@ -91,9 +91,12 @@ export class WebSocketService {
     }
 
     doCommand(cmpId: String, id: String, modelData?: any): void {
-
-
         let data = { cmd: 'doCommand', cmpId: cmpId, id: id, model: modelData };
+        this.connection.send(JSON.stringify(data));
+    }
+
+    doValueChanged(cmpId: String, id: String, modelData?: any): void {
+        let data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
         //questo if andrebbe anticipato nel chiamante, se so che non e' azione server side, non devo chiamare servizio websocket
         if (this.commandService.isServerSideCommand(id)) {
             this.connection.send(JSON.stringify(data));
