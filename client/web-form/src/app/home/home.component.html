@@ -7,11 +7,11 @@
         <tb-topbar></tb-topbar>
 
         <tb-tabber>
-            <tb-tab [tabTitle]="'menu'" (close)="loginSession.logout();">
+            <tb-tab [tabTitle]="'Menu'" (close)="loginSession.logout();">
                 <tb-menu></tb-menu>
             </tb-tab>
             <tb-tab *ngFor="let info of componentService.components" (close)="componentService.tryDestroyComponent(info)">
-                <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
+                <tb-dynamic-cmp [componentInfo]='info'  ></tb-dynamic-cmp>
             </tb-tab>
         </tb-tabber>
     </div>

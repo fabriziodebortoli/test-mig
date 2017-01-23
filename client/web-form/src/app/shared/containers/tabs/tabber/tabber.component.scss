@@ -12,8 +12,8 @@
 ul.tabber {
     list-style: none;
     padding: 0;
-    display: flex;
-    background-color: #1976d2;
+    display: flex;  
+    background-color: #0277bd;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
@@ -24,21 +24,25 @@ ul.tabber {
 ul.tabber>li {
     line-height: 30px;
     padding: 0 10px;
-    font-size: 12px;
+    font-size: 14px;
     position: relative;
     cursor: pointer;
     border-top-right-radius: 3px;
     border-top-left-radius: 3px;
+    color:white;
+    font-weight: 300;
 }
 
-li.active {
-    background-color: #fff;
+ul.tabber>li.active {
+     background-color: #fff;
     margin-bottom: -1px;
+    color: #0277bd;
 }
 
 a.tabTitle {
     margin-left: 5px;
     margin-right: 5px;
+  
 }
 
 a.close {
