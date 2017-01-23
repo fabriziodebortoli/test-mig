@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   @ViewChild('sidenav') sidenav;
   sidenavSubscription: any;
+  getMenuElementsSubscription: any;
 
   constructor(
     private loginSession: LoginSessionService,
@@ -39,7 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.httpMenuService.getMenuElements().subscribe(result => {
+    this.getMenuElementsSubscription = this.httpMenuService.getMenuElements().subscribe(result => {
 
       this.menuService.onAfterGetMenuElements(result.Root);
 
@@ -50,5 +51,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sidenavSubscription.unsubscribe();
+    this.getMenuElementsSubscription.unsubscribe();
   }
 }
