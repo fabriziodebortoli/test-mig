@@ -26,16 +26,20 @@ export class DocumentService {
 
         this.serverCommandMapReadySubscription = this.webSocketService.serverCommandMapReady.subscribe(data => {
             let cmpId = this.mainCmpId;
-               if (data.id === cmpId) {
-                    this.serverSideCommandMap = data.map
-                    logger.debug("Server-side commands received from server: " + JSON.stringify(this.serverSideCommandMap));
-                }
-            });
-
+            if (data.id === cmpId) {
+                this.serverSideCommandMap = data.map
+                logger.debug("Server-side commands received from server: " + JSON.stringify(this.serverSideCommandMap));
+            }
+        });
+ 
     }
-
-    dispose()
-    {
+    getTitle() {
+        let title = 'Untitled';
+        if (this.model && this.model.Title && this.model.Title.value)
+            title = this.model.Title.value;
+        return title;
+    }
+    dispose() {
         delete this.model;
         delete this.serverSideCommandMap;
         delete this.mainCmpId;
