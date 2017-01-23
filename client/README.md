@@ -1,4 +1,4 @@
-# WebClient
+# Client
 
 Angular2 based projects for the TaskBuilder Web Application frontend
 - [form-client - Client side per TaskBuilder Web](https://github.com/Microarea/Taskbuilder/tree/master/client/web-form)
