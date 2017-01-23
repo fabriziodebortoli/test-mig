@@ -8,8 +8,6 @@ import { Component, ViewContainerRef, OnInit, OnDestroy, ComponentRef, Input, Vi
 })
 export class DynamicCmpComponent implements OnInit, OnDestroy {
   cmpRef: ComponentRef<DocumentComponent>;
-
-  title: string = "";
   @Input() componentInfo: ComponentInfo;
   @ViewChild('cmpContainer', { read: ViewContainerRef }) cmpContainer: ViewContainerRef;
 
@@ -21,7 +19,6 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
       this.cmpRef = this.cmpContainer.createComponent(this.componentInfo.factory);
       this.cmpRef.instance.cmpId = this.componentInfo.id;//assegno l'id al componente
       this.cmpRef.instance.document.mainCmpId = this.componentInfo.id;//assegno l'id al servizio (uguale a quello del componente)
-      this.title = this.cmpRef.instance.title;
     }
   }
 
