@@ -26,7 +26,7 @@ import { WebSocketService } from '../../../core/websocket.service';
 export class ToolbarBottomButtonComponent implements OnInit {
 
   @Input() caption: string = '--unknown--';
-  @Input() cmd: string = '';
+  @Input() cmpId: string = '';
 
   constructor(
     private webSocket: WebSocketService,
@@ -38,6 +38,6 @@ export class ToolbarBottomButtonComponent implements OnInit {
   }
 
   onCommand() {
-    this.webSocket.doCommand(this.document.mainCmpId, this.cmd, this.document.model);
+    this.webSocket.doCommand(this.document.mainCmpId, this.cmpId, this.document.model);
   }
 }

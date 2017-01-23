@@ -7,7 +7,8 @@
         <tb-topbar></tb-topbar>
 
         <tb-tabber>
-            <tb-tab [tabTitle]="'Menu'" (close)="loginSession.logout();">
+            <tb-tab [title]="'Menu'" (close)="loginSession.logout();">
+
                 <tb-menu></tb-menu>
             </tb-tab>
             <tb-tab *ngFor="let info of componentService.components" (close)="componentService.tryDestroyComponent(info)">

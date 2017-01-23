@@ -20,7 +20,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ToolbarTopButtonComponent implements OnInit {
 
   @Input() caption: string = '';
-  @Input() cmd: string = '';
+  @Input() cmpId: string = '';
   @Input() icon: string = '';
 
   constructor(
@@ -36,6 +36,6 @@ export class ToolbarTopButtonComponent implements OnInit {
     return this.httpService.getDocumentBaseUrl() + 'getImage/?src=' + this.icon;
   }
   onCommand() {
-    this.webSocket.doCommand(this.document.mainCmpId, this.cmd);
+    this.webSocket.doCommand(this.document.mainCmpId, this.cmpId);
   }
 }

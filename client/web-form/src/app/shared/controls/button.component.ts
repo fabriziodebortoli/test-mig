@@ -1,4 +1,4 @@
-﻿import { TbComponent } from '..';
+﻿import { ControlComponent } from './control.component';
 
 import { Component, Input } from '@angular/core';
 
@@ -7,9 +7,6 @@ import { Component, Input } from '@angular/core';
     template: '<div><label>{{caption}}</label><input id="{{cmpId}}" type="button" [(ngModel)]="model"/></div>'
 })
 
-export class ButtonComponent  extends TbComponent {
-    @Input()
-    public caption: string;
-    @Input()
-    public model: any;
+export class ButtonComponent  extends ControlComponent {
+   
 }

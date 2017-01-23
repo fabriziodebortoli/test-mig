@@ -13,7 +13,7 @@ export const appRoutes: Routes = [
     { path: '', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
-    { path: 'Framework/TbGes/Unsupported', component: UnsupportedFactoryComponent, outlet: 'dynamic' },
+    { path: 'Framework/TbGes/IDD_Unsupported', component: UnsupportedFactoryComponent, outlet: 'dynamic' },
     { path: 'menu', loadChildren: 'app/menu/menu.module#MenuModule' },
 
     { path: '**', component: PageNotFoundComponent },
