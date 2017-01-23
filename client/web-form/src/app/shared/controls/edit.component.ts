@@ -1,5 +1,4 @@
-﻿import { TbComponent } from '..';
-
+﻿import { ControlComponent } from './control.component';
 import { Component, Input } from '@angular/core';
 
 import { DocumentService } from '../../core/document.service';
@@ -12,7 +11,7 @@ import { WebSocketService } from '../../core/websocket.service';
      </div>`
 })
 
-export class EditComponent extends TbComponent{
+export class EditComponent extends ControlComponent{
     @Input()
     public caption: string;
     @Input()

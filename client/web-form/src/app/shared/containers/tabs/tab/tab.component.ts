@@ -11,14 +11,13 @@ export class TabComponent extends TbComponent implements OnInit, OnDestroy {
 
   active: boolean;
 
-  @Input() tabTitle: string = 'tabTitle';
+  @Input() title: string = '';
   @Input() showCloseButton: boolean = true;
 
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   constructor(private tabs: TabberComponent) {
     super();
-    console.log("tabTitle", this.tabTitle);
     tabs.addTab(this);
   }
 
