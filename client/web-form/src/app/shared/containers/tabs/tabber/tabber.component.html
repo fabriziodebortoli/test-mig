@@ -1,8 +1,8 @@
 <div class="tb-tabber">
     <ul class="tabber">
-        <li (click)="selectTab(tab)" *ngFor="let tab of tabs" [ngClass]="tab.active ? 'active' : ''" title="activate" class='tabTitle'>
+        <li (click)="selectTab(tab)" *ngFor="let tab of tabs" [ngClass]="tab.active ? 'active' : ''" title="activate" class='tabTitle' (mouseenter)="tab.hover=true" (mouseleave)="tab.hover=false">
             <span (click)="selectTab(tab)">{{tab.title}}</span>
-            <span (click)="closeTab(tab)" title="close" class='close' *ngIf="tab.showCloseButton"><md-icon>close</md-icon></span>
+            <span (click)="closeTab(tab)" title="close" class='close' [ngClass]="{'visibilityHidden': !tab.showCloseButton || !tab.hover}"><md-icon>close</md-icon></span>
         </li>
     </ul>
     <div class="tab-content">
