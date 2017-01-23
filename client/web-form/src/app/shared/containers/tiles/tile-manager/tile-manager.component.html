@@ -1,5 +1,7 @@
-<div>
-  <div>
+<section>
+
+  <!--Pannello laterale sinistro con i bottoni del selettore-->
+  <div id="one" class="selector">
     <ul>
       <li (click)="selectTab(tab)" *ngFor="let tab of tabs" href="#" [ngClass]="tab.active ? 'active' : ''">
         {{tab.title}}
@@ -7,8 +9,14 @@
     </ul>
   </div>
 
-  <div class="tabGroupContent">
-    <ng-content></ng-content>
+
+  <!--Contenitore tile di destra-->
+  <div id="two" class="menuContainer">
+    <div class="tabGroupContent">
+      <ng-content></ng-content>
+    </div>
+
   </div>
 
-</div>
+
+</section>
