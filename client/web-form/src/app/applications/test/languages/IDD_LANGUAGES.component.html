@@ -10,14 +10,14 @@
     </tb-toolbar-top>
     <tb-view>
         <tb-tilemanager>
-            <tb-tilegroup  [tabTitle]="'group1'">
+            <tb-tilegroup  [title]="'group1'">
                 <tb-tile>
                     <tb-edit caption="Language" cmpId="IDC_EDIT_LANGUAGE" [model]="document?.model?.DBT?.Languages?.Language"></tb-edit>
                     <tb-edit caption="Description" cmpId="IDC_EDIT_DESCRIPTION" [model]="document?.model?.DBT?.Languages?.Description"></tb-edit>
                 </tb-tile>
             </tb-tilegroup>
 
-             <tb-tilegroup [tabTitle]="'group2'">
+             <tb-tilegroup [title]="'group2'">
                 <tb-tile>
                     <tb-edit caption="Language" cmpId="IDC_EDIT_LANGUAGE" [model]="document?.model?.DBT?.Languages?.Language"></tb-edit>
                     <tb-edit caption="Description" cmpId="IDC_EDIT_DESCRIPTION" [model]="document?.model?.DBT?.Languages?.Description"></tb-edit>

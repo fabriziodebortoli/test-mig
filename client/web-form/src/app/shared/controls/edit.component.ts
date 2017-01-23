@@ -1,5 +1,4 @@
-﻿import { TbComponent } from '..';
-
+﻿import { ControlComponent } from './control.component';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -9,9 +8,6 @@ import { Component, Input } from '@angular/core';
      </div>`
 })
 
-export class EditComponent extends TbComponent {
-    @Input()
-    public caption: string;
-    @Input()
-    public model: any;
+export class EditComponent extends ControlComponent {
+   
 }

@@ -2,8 +2,7 @@
   <div>
     <ul>
       <li (click)="selectTab(tab)" *ngFor="let tab of tabs" href="#" [ngClass]="tab.active ? 'active' : ''">
-
-        {{tab.tabTitle}}
+        {{tab.title}}
       </li>
     </ul>
   </div>
