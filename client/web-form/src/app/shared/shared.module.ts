@@ -5,7 +5,7 @@ import { MaterialModule } from '@angular/material';
 
 import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
 import { ToolbarTopComponent, ToolbarTopButtonComponent, HistoryComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
-import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, FrameComponent } from './containers';
+import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, TilePanelComponent, FrameComponent } from './containers';
 import { EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
@@ -18,7 +18,7 @@ const TB_COMPONENTS = [
   TabComponent, TabberComponent, ViewComponent, FrameComponent,
   DynamicCmpComponent,
   EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,
-  TileManagerComponent, TileGroupComponent, TileComponent
+  TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent
 ];
 
 @NgModule({

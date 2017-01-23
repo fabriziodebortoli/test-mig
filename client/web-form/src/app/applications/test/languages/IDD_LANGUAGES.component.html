@@ -10,21 +10,23 @@
     </tb-toolbar-top>
     <tb-view>
         <tb-tilemanager>
-            <tb-tilegroup  [title]="'group1'">
-                <tb-tile>
-                    <tb-edit caption="Language" cmpId="IDC_LANGUAGES_LANGUAGE" [model]="document?.model?.DBT?.Languages?.Language"></tb-edit>
-                    <tb-edit caption="Description" cmpId="IDC_LANGUAGES_DESCRIPTION" [model]="document?.model?.DBT?.Languages?.Description"></tb-edit>
-                </tb-tile>
-            </tb-tilegroup>
+            <tb-tilegroup [title]="'gruppo1'">
+        <tb-tilepanel style="width: 100%">
+            <tb-tile [title]="'tile1'"  style="display: inline-block"> 
+                <tb-edit caption="Code" cmpId="IDC_LANGUAGES_LANGUAGE" [model]="document?.model?.DBT?.Languages?.Language"></tb-edit>
+                <tb-edit caption="Description" cmpId="IDC_LANGUAGES_DESCRIPTION" [model]="document?.model?.DBT?.Languages?.Description"></tb-edit>
+            </tb-tile>
 
-             <tb-tilegroup [title]="'group2'">
-                <tb-tile>
-                    <tb-edit caption="Language" cmpId="IDC_LANGUAGES_LANGUAGE" [model]="document?.model?.DBT?.Languages?.Language"></tb-edit>
-                    <tb-edit caption="Description" cmpId="IDC_LANGUAGES_DESCRIPTION" [model]="document?.model?.DBT?.Languages?.Description"></tb-edit>
-                     <tb-edit caption="Culture" cmpId="IDC_EDIT_CULTURE" [model]="document?.model?.DBT?.Languages?.Culture">
-                    </tb-edit>
-                </tb-tile>
-            </tb-tilegroup>
+            <tb-tile [title]="'tile2'" [ style="display: inline-block"> 
+                <tb-edit caption="Code" cmpId="IDC_LANGUAGES_LANGUAGE" [model]="document?.model?.DBT?.Languages?.Language"></tb-edit>
+                <tb-edit caption="Description" cmpId="IDC_LANGUAGES_DESCRIPTION" [model]="document?.model?.DBT?.Languages?.Description"></tb-edit>
+            </tb-tile>
+        </tb-tilepanel>
+       <tb-tile [title]="'tile3'" > 
+                <tb-edit caption="Code" cmpId="IDC_LANGUAGES_LANGUAGE" [model]="document?.model?.DBT?.Languages?.Language"></tb-edit>
+                <tb-edit caption="Description" cmpId="IDC_LANGUAGES_DESCRIPTION" [model]="document?.model?.DBT?.Languages?.Description"></tb-edit>
+        </tb-tile>
+    </tb-tilegroup>
         </tb-tilemanager>
     </tb-view>
     <tb-toolbar-bottom>
