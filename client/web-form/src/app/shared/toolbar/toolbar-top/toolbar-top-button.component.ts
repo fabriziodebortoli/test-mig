@@ -1,3 +1,4 @@
+import { TbComponent } from './../..';
 import { HttpService, DocumentService, WebSocketService } from 'tb-core';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -17,10 +18,9 @@ import { Component, OnInit, Input } from '@angular/core';
     }
   `]
 })
-export class ToolbarTopButtonComponent implements OnInit {
+export class ToolbarTopButtonComponent extends TbComponent implements OnInit {
 
   @Input() caption: string = '';
-  @Input() cmpId: string = '';
   @Input() icon: string = '';
 
   constructor(
@@ -28,6 +28,7 @@ export class ToolbarTopButtonComponent implements OnInit {
     private document: DocumentService,
     private httpService: HttpService
   ) {
+    super();
   }
 
   ngOnInit() {
