@@ -10,7 +10,7 @@
             <tb-tab [title]="'menu'" (close)="loginSession.logout();">
                 <tb-menu></tb-menu>
             </tb-tab>
-            <tb-tab *ngFor="let info of componentService.components" (close)="componentService.tryDestroyComponent(info)">
+            <tb-tab *ngFor="let info of componentService.components" (close)="componentService.tryDestroyComponent(info)" [title]="info.document?.model?.Title.value" >
                 <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
             </tb-tab>
         </tb-tabber>

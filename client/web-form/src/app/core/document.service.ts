@@ -9,9 +9,11 @@ export class DocumentService {
     model: any;
     serverSideCommandMap: any; //TODO SILVANO needs typing  
     mainCmpId: string;
+    dataReadySubscription: any;
+    serverCommandMapReadySubscription: any;
     constructor(private webSocketService: WebSocketService,
         private logger: Logger) {
-        this.webSocketService.dataReady.subscribe(data => {
+        this.dataReadySubscription = this.webSocketService.dataReady.subscribe(data => {
             let models: Array<any> = data.models;
             let cmpId = this.mainCmpId;
             models.forEach(model => {
@@ -22,7 +24,7 @@ export class DocumentService {
             });
         });
 
-        this.webSocketService.serverCommandMapReady.subscribe(data => {
+        this.serverCommandMapReadySubscription = this.webSocketService.serverCommandMapReady.subscribe(data => {
             let cmpId = this.mainCmpId;
                if (data.id === cmpId) {
                     this.serverSideCommandMap = data.map
@@ -30,5 +32,14 @@ export class DocumentService {
                 }
             });
 
+    }
+
+    dispose()
+    {
+        delete this.model;
+        delete this.serverSideCommandMap;
+        delete this.mainCmpId;
+        this.dataReadySubscription.unsubscribe();
+        this.serverCommandMapReadySubscription.unsubscribe();
     }
 }
