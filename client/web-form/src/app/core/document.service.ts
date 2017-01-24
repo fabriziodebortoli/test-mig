@@ -31,7 +31,12 @@ export class DocumentService {
                 logger.debug("Server-side commands received from server: " + JSON.stringify(this.serverSideCommandMap));
             }
         });
- 
+
+    }
+    init(cmpId: string)
+    {
+        this.mainCmpId = cmpId;
+        this.webSocketService.getDocumentData(this.mainCmpId);
     }
     getTitle() {
         let title = 'Untitled';

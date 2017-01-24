@@ -45,7 +45,7 @@ export class WebSocketService {
                         case 'DataReady': $this.dataReady.emit(obj.args); break;
                         case 'WindowOpen': $this.windowOpen.emit(obj.args); break;
                         case 'WindowClose': $this.windowClose.emit(obj.args); break;
-                        case 'ServerCommandMapReady': $this.serverCommandMapReady.emit(obj.args); break; 
+                        case 'ServerCommandMapReady': $this.serverCommandMapReady.emit(obj.args); break;
                         //when tbloader has connected to gate, I receive this message; then I can
                         //request the list of opened windows
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
@@ -109,6 +109,10 @@ export class WebSocketService {
         this.connection.send(JSON.stringify({ cmd: 'runDocument', ns: ns }));
     }
 
+    getDocumentData(cmpId: String) {
+        let data = { cmd: 'getDocumentData', cmpId: cmpId };
+        this.connection.send(JSON.stringify(data));
+    }
 }
 export class SocketMessage {
     constructor(public name: string, public content: any) {
