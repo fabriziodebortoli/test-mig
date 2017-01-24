@@ -3,12 +3,13 @@ using System.IO;
 using System.Text;
 using System.Xml;
 
+using TaskBuilderNetCore.Interfaces;
+
 using Microarea.RSWeb.Applications;
 using Microarea.RSWeb.CoreTypes;
 using Microarea.RSWeb.Generic;
 using Microarea.RSWeb.WoormController;
 using Microarea.RSWeb.WoormViewer;
-using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.RSWeb.WoormWebControl
 {
@@ -26,18 +27,20 @@ namespace Microarea.RSWeb.WoormWebControl
 
 		internal RSEngine StateMachine = null;
 		public TbReportSession ReportSession;
+
 		public XmlDocument XmlDomParameters = new XmlDocument();
 
 		//--------------------------------------------------------------------------
 		public PdfReportEngine
 			(
-				string authenticationToken,
+                string nameSpace,
+                string authenticationToken,
 				string parameters,
 				DateTime applicationDate,
 				string impersonatedUser,
-				bool useApproximation,
-                TBWebContext httpContext
-			)
+                TBWebContext httpContext,
+				bool useApproximation = true
+  			)
 		{
 			XmlDomParameters.LoadXml(parameters);
 

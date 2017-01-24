@@ -2,11 +2,12 @@ using System;
 using System.Collections.Specialized;
 using System.Xml;
 
+using TaskBuilderNetCore.Interfaces;
+
 using Microarea.RSWeb.Applications;
 using Microarea.RSWeb.CoreTypes;
 using Microarea.RSWeb.Generic;
 using Microarea.RSWeb.WoormController;
-using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.RSWeb.WoormWebControl
 {
@@ -22,29 +23,26 @@ namespace Microarea.RSWeb.WoormWebControl
 		private TBWebContext httpContext;
 		private bool		useApproximation;
 		
-		private bool		EInvoice = false;
-        private bool        writeNotValidField = false;  
-
 		internal	RSEngine		    StateMachine = null;
 		public		TbReportSession		ReportSession;
-		public		StringCollection	XmlResultReports = new StringCollection();
+
 		public		XmlDocument			XmlDomParameters = new XmlDocument();
 
-        //--------------------------------------------------------------------------
-        public bool WriteNotValidField
-        {
-            set { writeNotValidField = value; }
-        }
+ 		public		    StringCollection	XmlResultReports = new StringCollection();
+		private bool	EInvoice = false;
+        private bool    writeNotValidField = false;  
+
 		//--------------------------------------------------------------------------
 		public XmlReportEngine
 			(
-				string		authenticationToken,
+                string      nameSpace,
+                string		authenticationToken,
 				string		parameters,
 				DateTime	applicationDate,
 				string		impersonatedUser,
-				bool		useApproximation,
                 TBWebContext httpContext,
-				bool		eInvoice
+				bool		useApproximation = true,
+				bool		eInvoice = false
 			)
 		{
 			XmlDomParameters.LoadXml(parameters);
@@ -58,28 +56,6 @@ namespace Microarea.RSWeb.WoormWebControl
 			EInvoice				= eInvoice;
 		}
 	
-		//--------------------------------------------------------------------------
-		public StringCollection XmlExecuteReport()
-		{
-			if (ReportNamespace == null || ReportNamespace.Length == 0) 
-				return new StringCollection();
-
-			return ExecuteReport(XmlReturnType.ReportData);
-		}
-	
-		//--------------------------------------------------------------------------
-		public String XmlGetParameters()
-		{
-			if (ReportNamespace == null || ReportNamespace.Length == 0) 
-				return string.Empty;
-
-			StringCollection doms = ExecuteReport(XmlReturnType.ReportParameters);
-			if (doms == null || doms.Count <= 0) return string.Empty;
-
-			return doms[0];
-		}
-
-
 		// ITRI gestire meglio anche il ritorno di un diagnostic, in caso di errore (multiple righe)
 		// o di una collezione di stringhe di errore.
 		//--------------------------------------------------------------------------
@@ -135,5 +111,32 @@ namespace Microarea.RSWeb.WoormWebControl
 
 			return XmlResultReports;
 		}
-	}
+
+        //--------------------------------------------------------------------------
+        public StringCollection XmlExecuteReport()
+        {
+            if (ReportNamespace == null || ReportNamespace.Length == 0)
+                return new StringCollection();
+
+            return ExecuteReport(XmlReturnType.ReportData);
+        }
+
+        //--------------------------------------------------------------------------
+        public String XmlGetParameters()
+        {
+            if (ReportNamespace == null || ReportNamespace.Length == 0)
+                return string.Empty;
+
+            StringCollection doms = ExecuteReport(XmlReturnType.ReportParameters);
+            if (doms == null || doms.Count <= 0) return string.Empty;
+
+            return doms[0];
+        }
+
+        //--------------------------------------------------------------------------
+        public bool WriteNotValidField
+        {
+            set { writeNotValidField = value; }
+        }
+    }
 }

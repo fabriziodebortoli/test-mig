@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microarea.RSWeb.WoormController;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Net.WebSockets;
 using System.Text;
@@ -23,13 +24,11 @@ namespace Microarea.RSWeb.Models
         /// </summary>
         /// <param name="guid"></param>
         /// <returns></returns>
-        private RSEngine CreateEngine(string nameSpace)
+        private JsonReportEngine CreateEngine(string nameSpace)
         {
-        
-            // if valid namespace
+  
 
-            return new RSEngine(nameSpace);
-
+            return new JsonReportEngine(nameSpace, "", "", DateTime.Today, "sa", null);
         }
 
         /// <summary>
@@ -69,18 +68,16 @@ namespace Microarea.RSWeb.Models
                 /// sends OK message
                 await SendMessage(MessageBuilder.GetJSONMessage(MessageBuilder.CommandType.OK, string.Empty, string.Empty), webSocket);
 
-
                 /// waits for the namespace
-                /// 
                 var nsBuffer = new ArraySegment<Byte>(new Byte[4096]);
                 var recNsBuffer = await webSocket.ReceiveAsync(nsBuffer, CancellationToken.None);
 
                 var nameSpace = Encoding.UTF8.GetString(nsBuffer.Array, nsBuffer.Offset, nsBuffer.Count).Replace("\0", ""); 
                
                 /// creates states machine associated with pipe               
-                RSEngine engine = CreateEngine(MessageBuilder.GetMessagFromJson(nameSpace).message);
+                JsonReportEngine jengine = CreateEngine(MessageBuilder.GetMessagFromJson(nameSpace).message);
                 
-                if (engine == null)
+                if (jengine == null)
                 {    /// handle errors
                     /// if guid is not found on server the web socket will be closed and disposed
                    await webSocket.CloseAsync(WebSocketCloseStatus.PolicyViolation, string.Format(ErrorHandler.NsNotValid, MessageBuilder.GetMessagFromJson(nameSpace).message), CancellationToken.None);
@@ -108,7 +105,7 @@ namespace Microarea.RSWeb.Models
                                 //parse
                                 Message msg = MessageBuilder.GetMessagFromJson(recMeg);
 
-                                msg = engine.GetResponseFor(msg);
+                                msg = jengine.StateMachine.GetResponseFor(msg);
 
                                 await SendMessage(MessageBuilder.GetJSONMessage(msg),webSocket);
                                 //send

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Xml;
+
+using TaskBuilderNetCore.Interfaces;
 
 using Microarea.RSWeb.StringLoader;
 using Microarea.RSWeb.Applications;
@@ -11,7 +12,7 @@ using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Lexan;
 using Microarea.RSWeb.WoormWebControl;
-using TaskBuilderNetCore.Interfaces;
+using Microarea.RSWeb.Models;
 
 namespace Microarea.RSWeb.WoormController
 {
@@ -100,10 +101,19 @@ namespace Microarea.RSWeb.WoormController
 		public InternalState 	CurrentInternalState;
 		public bool 			Working = false;
 
-		//Siccome il currentState puo essere modificato dal thread di esecuzione e da quello del viewer, devo sincronizzarne
-		//l'accesso
-		//--------------------------------------------------------------------------
-		public State CurrentState
+        public Message GetResponseFor(Message msg)
+        {
+            Message nMsg = new Message();
+            nMsg.commandType = msg.commandType;
+            nMsg.message = msg.message;
+            nMsg.response = "This Is Response for " + msg.message;
+            return nMsg;
+        }
+
+        //Siccome il currentState puo essere modificato dal thread di esecuzione e da quello del viewer, devo sincronizzarne
+        //l'accesso
+        //--------------------------------------------------------------------------
+        public State CurrentState
 		{
 			get
 			{
