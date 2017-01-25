@@ -32,7 +32,7 @@ using System;
 #endif
 #if GDI
 using System.Drawing;
-using System.Drawing.Drawing2D;
+//using System.Drawing.Drawing2D;
 #endif
 #if WPF
 using System.Windows.Media;
@@ -194,7 +194,7 @@ namespace PdfSharp.Drawing
 
 #if GDI
         //#if UseGdiObjects
-        internal StringFormat RealizeGdiStringFormat()
+        internal System.Drawing.StringFormat RealizeGdiStringFormat()
         {
             if (_stringFormat == null)
             {

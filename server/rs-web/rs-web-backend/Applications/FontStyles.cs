@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Drawing;
 
 using Microarea.RSWeb.Generic;
 using Microarea.RSWeb.Lexan;
-
 using Microarea.RSWeb.NameSolver;
 
 using TaskBuilderNetCore.Interfaces;
-using System.Collections.Generic;
 using Microarea.RSWeb.Temp;
 
 namespace Microarea.RSWeb.Applications
@@ -20,37 +20,36 @@ namespace Microarea.RSWeb.Applications
     public class FontElement
 	{
 		public enum FontSource { STANDARD, CUSTOM, WOORM, WOORM_TEMPLATE}
-		
-		private const string fontDefault = "<Default>"; //ghost font style used by report template
+
+        private const string fontDefault = "<Default>"; //ghost font style used by report template
 		private char[] areaSeparators = new char[] { ',' };
 
 		private string		styleName;
 		private string		faceName;
 		private int			size;
-	//	private FontStyle	fontStyle;     TODO RSWEB 
+		private FontStyle	fontStyle;     
 		private Color		color = Color.FromArgb(255,255,255,255);
 		private INameSpace	owner;
 		private FontSource	source;
 		private List<string> limitedContextArea = new List<string>();
 		private ExternalAPI.LOGFONT logFont;
 
-	
 		// properties
 		public string		StyleName			{ get { return styleName;}}
 		public string		FaceName			{ get { return faceName;}}
 		public int			Size				{ get { return size;}}
-		//public FontStyle	FontStyle			{ get { return fontStyle;}}      TODO rsweb
+		public FontStyle	FontStyle			{ get { return fontStyle;}}     
 		public Color		Color				{ get { return color;}}
 		public INameSpace	Owner				{ get { return owner;}}
 		public FontSource	Source				{ get { return source;}}
 		public List<string>	LimitedContextArea	{ get { return limitedContextArea;} set { limitedContextArea = value; } }
 
 		//------------------------------------------------------------------------------
-		public FontElement(string styleName, string faceName, int size,/* FontStyle fontStyle,*/ Color color, INameSpace owner, FontSource source, ExternalAPI.LOGFONT logFont)
+		public FontElement(string styleName, string faceName, int size, FontStyle fontStyle, Color color, INameSpace owner, FontSource source, ExternalAPI.LOGFONT logFont)
 		{																								  
 			this.styleName = styleName;
 			this.faceName = faceName;
-            //this.fontStyle = fontStyle;      TODO rsweb
+            this.fontStyle = fontStyle;      
             this.size = size;
 			this.color = color;
 			this.owner = owner;
@@ -395,7 +394,7 @@ namespace Microarea.RSWeb.Applications
 			// Make conversion from Tipographic point to logical inch point (sett pag 664 of Petzold book)
 			size = ((size * 100) / 72);
 
-            //FontStyle fontStyle = FontStyle.HS_NORMAL;          TODO rsweb
+            FontStyle fontStyle = FontStyle.Regular;         
 
             ExternalAPI.LOGFONT logFont = new ExternalAPI.LOGFONT();
 			if (lex.LookAhead(Token.STYLE)) 
@@ -421,10 +420,10 @@ namespace Microarea.RSWeb.Applications
 					return false;
 
                 // FW_NORMAL è uguale a 400 come definito in WINGDI.H
-                //if (logFont.lfWeight != 400) fontStyle |= FontStyle.Bold;
-                //if (logFont.lfItalic != 0) fontStyle |= FontStyle.Italic;                             TODO rsweb
-                //if (logFont.lfUnderline != 0) fontStyle |= FontStyle.Underline;
-                //if (logFont.lfStrikeOut != 0) fontStyle |= FontStyle.Strikeout;
+                if (logFont.lfWeight != 400) fontStyle |= FontStyle.Bold;
+                if (logFont.lfItalic != 0) fontStyle |= FontStyle.Italic; 
+                if (logFont.lfUnderline != 0) fontStyle |= FontStyle.Underline;
+                if (logFont.lfStrikeOut != 0) fontStyle |= FontStyle.Strikeout;
             }
 
             // parso le aree di applicazione se esistono
@@ -435,7 +434,7 @@ namespace Microarea.RSWeb.Applications
 			if (!lex.ParseSep())
 				return false;
 
-			FontElement font = new FontElement(styleName, faceName, size,/* fontStyle, TODO rsweb*/ color, owner, source, logFont);
+			FontElement font = new FontElement(styleName, faceName, size, fontStyle, color, owner, source, logFont);
 			font.LimitedContextArea = limitedArea;
 			AddFont (font);
 			return true;
@@ -489,7 +488,7 @@ namespace Microarea.RSWeb.Applications
 			// Make conversion from Tipographic point to logical inch point (sett pag 664 of Petzold book)
 			size = ((size * 100) / 72);
 
-            //FontStyle fontStyle = FontStyle.Regular;          TODO rsweb
+            FontStyle fontStyle = FontStyle.Regular;         
             if (lex.LookAhead(Token.STYLE)) 
 			{
 				lex.SkipToken();
@@ -498,10 +497,10 @@ namespace Microarea.RSWeb.Applications
 				{
 					switch (lex.LookAhead())
 					{
-						case Token.ITALIC: lex.SkipToken(); logFont.lfItalic = 1;/* fontStyle |= FontStyle.Italic; TODO rsweb*/ break;
-						case Token.BOLD: lex.SkipToken(); logFont.lfWeight = 700; /*fontStyle |= FontStyle.Bold; TODO rsweb*/ break;
-						case Token.UNDERLINE: lex.SkipToken(); logFont.lfUnderline = 1;/* fontStyle |= FontStyle.Underline; TODO rsweb*/ break;
-						case Token.STRIKEOUT: lex.SkipToken(); logFont.lfStrikeOut = 1; /*fontStyle |= FontStyle.Strikeout; TODO rsweb*/ break;
+						case Token.ITALIC: lex.SkipToken(); logFont.lfItalic = 1; fontStyle |= FontStyle.Italic;  break;
+						case Token.BOLD: lex.SkipToken(); logFont.lfWeight = 700; fontStyle |= FontStyle.Bold;break;
+						case Token.UNDERLINE: lex.SkipToken(); logFont.lfUnderline = 1; fontStyle |= FontStyle.Underline;  break;
+						case Token.STRIKEOUT: lex.SkipToken(); logFont.lfStrikeOut = 1; fontStyle |= FontStyle.Strikeout; break;
 						case Token.TEXTCOLOR:	lex.ParseColor(Token.TEXTCOLOR, out color);break;
 
 						case Token.EOF:			lex.SetError(ApplicationsStrings.FontStyleUnexpectedEof); return false;
@@ -515,7 +514,7 @@ namespace Microarea.RSWeb.Applications
 			if (!lex.ParseSep())
 				return false;
 
-			FontElement font = new FontElement(styleName, faceName, size,/* fontStyle, TODO rsweb*/color, owner, source, logFont);
+			FontElement font = new FontElement(styleName, faceName, size, fontStyle, color, owner, source, logFont);
 			AddFont(font);
 
 			return true;

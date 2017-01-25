@@ -46,7 +46,7 @@ namespace PdfSharp.Internal
         /// Reflected from System.Drawing.SafeNativeMethods+LOGFONT
         /// </summary>
         //[SuppressUnmanagedCodeSecurity]
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public class LOGFONT
         {
             // Preserve us for warning CS0649...

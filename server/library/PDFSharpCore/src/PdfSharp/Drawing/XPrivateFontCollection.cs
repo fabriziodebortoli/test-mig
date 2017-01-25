@@ -32,22 +32,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+
 using PdfSharp.Fonts;
+
 #if CORE || GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using GdiFontFamily = System.Drawing.FontFamily;
+
 using GdiFont = System.Drawing.Font;
 using GdiFontStyle = System.Drawing.FontStyle;
 using GdiPrivateFontCollection = System.Drawing.Text.PrivateFontCollection;
 #endif
-#if WPF
-using System.Windows.Markup;
-using WpfFonts = System.Windows.Media.Fonts;
-using WpfFontFamily = System.Windows.Media.FontFamily;
-using WpfTypeface = System.Windows.Media.Typeface;
-using WpfGlyphTypeface = System.Windows.Media.GlyphTypeface;
-#endif
+
 
 namespace PdfSharp.Drawing
 {

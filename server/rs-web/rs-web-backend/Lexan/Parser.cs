@@ -1076,7 +1076,7 @@ namespace Microarea.RSWeb.Lexan
 		}
 
 		//------------------------------------------------------------------------------
-		public bool ParseColor (Token token, out Color aColor)
+		public bool ParseColor (Token token, out System.Drawing.Color aColor)
 		{
 			byte nRed = 0;
             byte nGreen = 0;
@@ -1094,7 +1094,7 @@ namespace Microarea.RSWeb.Lexan
                 ParseByte(out nBlue)	&&
 				ParseClose	();
 
-			aColor = Color.FromArgb(255, nRed, nGreen, nBlue);
+			aColor = System.Drawing.Color.FromArgb(255, nRed, nGreen, nBlue);
 			return ok;
 		}
 

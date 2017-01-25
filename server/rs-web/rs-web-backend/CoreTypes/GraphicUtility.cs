@@ -1,10 +1,9 @@
-using Microarea.RSWeb.Temp;
 using System;
+using System.Drawing;
+using Microarea.RSWeb.Temp;
 
 namespace Microarea.RSWeb.CoreTypes
 {
-
-
     /// <summary>
     /// Summary description for GraphicUtility.
     /// </summary>

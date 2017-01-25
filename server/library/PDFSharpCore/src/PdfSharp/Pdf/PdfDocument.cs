@@ -329,11 +329,9 @@ namespace PdfSharp.Pdf
                 if (stream != null)
                 {
                     if (closeStream)
-#if UWP
+
                         stream.Dispose();
-#else
-                        stream.Close();
-#endif
+
                     else
                         stream.Position = 0; // Reset the stream position if the stream is kept open.
                 }

@@ -168,7 +168,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
 
             if (!deflater_.IsFinished)
             {
-                throw new SharpZipBaseException("Can't deflate all input?");
+                throw new Exception("Can't deflate all input?");
             }
 
             baseOutputStream_.Flush();
@@ -381,7 +381,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
 
             if (!deflater_.IsNeedingInput)
             {
-                throw new SharpZipBaseException("DeflaterOutputStream can't deflate all input?");
+                throw new Exception("DeflaterOutputStream can't deflate all input?");
             }
         }
         #endregion
@@ -493,7 +493,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
             throw new NotSupportedException("DeflaterOutputStream Read not supported");
         }
 
-#if !NETFX_CORE && !UWP
+#if false //!NETFX_CORE && !UWP
 		/// <summary>
 		/// Asynchronous reads are not supported a NotSupportedException is always thrown
 		/// </summary>
@@ -510,7 +510,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
 		}
 #endif
 
-#if !NETFX_CORE && !UWP
+#if false //!NETFX_CORE && !UWP
         /// <summary>
 		/// Asynchronous writes arent supported, a NotSupportedException is always thrown
 		/// </summary>
@@ -538,7 +538,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
             baseOutputStream_.Flush();
         }
 
-#if !NETFX_CORE && !UWP
+#if false //!NETFX_CORE && !UWP
 		/// <summary>
 		/// Calls <see cref="Finish"/> and closes the underlying
 		/// stream when <see cref="IsStreamOwner"></see> is true.

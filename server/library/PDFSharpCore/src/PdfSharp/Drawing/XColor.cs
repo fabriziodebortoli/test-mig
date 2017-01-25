@@ -52,7 +52,7 @@ namespace PdfSharp.Drawing
     [DebuggerDisplay("clr=(A={A}, R={R}, G={G}, B={B} C={C}, M={M}, Y={Y}, K={K})")]
     public struct XColor
     {
-        XColor(uint argb)
+        public XColor(uint argb)
         {
             _cs = XColorSpace.Rgb;
             _a = (byte)((argb >> 24) & 0xff) / 255f;
@@ -68,7 +68,7 @@ namespace PdfSharp.Drawing
             //_cs.GetType(); // Suppress warning
         }
 
-        XColor(byte alpha, byte red, byte green, byte blue)
+        public XColor(byte alpha, byte red, byte green, byte blue)
         {
             _cs = XColorSpace.Rgb;
             _a = alpha / 255f;
@@ -84,7 +84,7 @@ namespace PdfSharp.Drawing
             //_cs.GetType(); // Suppress warning
         }
 
-        XColor(double alpha, double cyan, double magenta, double yellow, double black)
+        public XColor(double alpha, double cyan, double magenta, double yellow, double black)
         {
             _cs = XColorSpace.Cmyk;
             _a = (float)(alpha > 1 ? 1 : (alpha < 0 ? 0 : alpha));
@@ -99,11 +99,11 @@ namespace PdfSharp.Drawing
             CmykChanged();
         }
 
-        XColor(double cyan, double magenta, double yellow, double black)
+        public XColor(double cyan, double magenta, double yellow, double black)
             : this(1.0, cyan, magenta, yellow, black)
         { }
 
-        XColor(double gray)
+        public XColor(double gray)
         {
             _cs = XColorSpace.GrayScale;
             if (gray < 0)
@@ -124,7 +124,7 @@ namespace PdfSharp.Drawing
         }
 
 #if GDI
-        XColor(System.Drawing.Color color)
+        public XColor(System.Drawing.Color color)
             : this(color.A, color.R, color.G, color.B)
         { }
 #endif

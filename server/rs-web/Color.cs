@@ -1,6 +1,6 @@
 ﻿namespace Microarea.RSWeb.Temp
 {   //Temporary
-    public class Color
+    public class MyColor
     {
         public int A { get; set; }
 
@@ -8,7 +8,7 @@
         public int G { get; set; }
         public int B { get; set; }
 
-        public Color()
+        public MyColor()
         {
             A = 255;
             R = 255;
@@ -16,9 +16,9 @@
             B = 255;
         }
 
-        public static Color FromArgb(int a, int r, int g, int b)
+        public static MyColor FromArgb(int a, int r, int g, int b)
         {
-            Color c = new Color();
+            MyColor c = new MyColor();
             c.A = a;
             c.B = b;
             c.R = r;

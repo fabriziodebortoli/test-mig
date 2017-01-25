@@ -281,7 +281,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
                 Fill();
                 if (available <= 0)
                 {
-                    throw new ZipException("EOF in header");
+                    throw new Exception("EOF in header");
                 }
             }
             byte result = rawData[rawLength - available];
@@ -542,7 +542,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
                 inputBuffer.Fill();
                 if (inputBuffer.Available <= 0)
                 {
-                    throw new SharpZipBaseException("Unexpected EOF");
+                    throw new Exception("Unexpected EOF");
                 }
             }
             inputBuffer.SetInflaterInput(inf);
@@ -666,7 +666,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
             throw new NotSupportedException("InflaterInputStream WriteByte not supported");
         }
 
-#if !NETFX_CORE && !UWP
+#if false //!NETFX_CORE && !UWP
         /// <summary>
         /// Entry point to begin an asynchronous write.  Always throws a NotSupportedException.
         /// </summary>
@@ -683,7 +683,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
         }
 #endif
 
-#if !NETFX_CORE && !UWP
+#if false //!NETFX_CORE && !UWP
         /// <summary>
         /// Closes the input stream.  When <see cref="IsStreamOwner"></see>
         /// is true the underlying stream is also closed.
@@ -734,7 +734,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
         {
             if (inf.IsNeedingDictionary)
             {
-                throw new SharpZipBaseException("Need a dictionary");
+                throw new Exception("Need a dictionary");
             }
 
             int remainingBytes = count;
@@ -755,7 +755,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
                 }
                 else if (bytesRead == 0)
                 {
-                    throw new ZipException("Dont know what to do");
+                    throw new Exception("Dont know what to do");
                 }
             }
             return count - remainingBytes;

@@ -58,7 +58,7 @@ namespace PdfSharp.Drawing
     {
         internal StreamReaderHelper(Stream stream)
         {
-#if GDI || WPF
+#if false//GDI || WPF
             _stream = stream;
             MemoryStream ms = stream as MemoryStream;
             if (ms == null)

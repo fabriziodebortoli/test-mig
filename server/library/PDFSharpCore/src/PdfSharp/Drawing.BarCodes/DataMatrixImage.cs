@@ -31,7 +31,7 @@ using System;
 using System.Diagnostics;
 #if GDI
 using System.Drawing;
-using System.Drawing.Imaging;
+//using System.Drawing.Imaging;
 #endif
 #if WPF
 using System.Windows;
@@ -128,7 +128,7 @@ namespace PdfSharp.Drawing.BarCodes
             if (matrixColumns != 0 && matrixRows != 0 && (matrixColumns & 1) != 0 && (matrixRows & 1) != 0 && ecc == 200)
                 throw new ArgumentException(BcgSR.DataMatrixNotSupported);
 
-            grid = Iec16022Ecc200(matrixColumns, matrixRows, _encoding, _text.Length, _text, len, maxlen, ecclen);
+            grid = this.Iec16022Ecc200(matrixColumns, matrixRows, _encoding, _text.Length, _text, len, maxlen, ecclen);
 
             if (grid == null || matrixColumns == 0)
                 throw new ArgumentException(BcgSR.DataMatrixNull); //DaSt: ever happen?

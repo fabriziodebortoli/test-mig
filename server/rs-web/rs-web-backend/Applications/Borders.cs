@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+
 using Microarea.RSWeb.Temp;
 
 namespace Microarea.RSWeb.Applications
@@ -9,7 +11,7 @@ namespace Microarea.RSWeb.Applications
     ///================================================================================ 
     public class BorderPen
 	{
-        public Color Color = Color.FromArgb(255, 255, 255, 255);
+        public Color Color;
 		public int Width = 1;
 
 		//------------------------------------------------------------------------------
@@ -27,7 +29,7 @@ namespace Microarea.RSWeb.Applications
 		}
 
 		//------------------------------------------------------------------------------
-		public BorderPen(int aWidth, Color aColor)
+		public BorderPen(int aWidth, System.Drawing.Color aColor)
 		{
 			Width = aWidth;
 			Color = aColor;

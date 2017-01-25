@@ -40,16 +40,16 @@
 
 using System;
 using System.Diagnostics;
-#if !NETFX_CORE && !UWP
+
 using System.Security.Cryptography;
-#endif
+
 
 // ReSharper disable InconsistentNaming
 
-#if SILVERLIGHT || WINDOWS_PHONE || UWP || (GDI && DEBUG)
+
 namespace PdfSharp.Pdf.Security
 {
-#if UWP
+
     class HashAlgorithm
     {
         public int HashSizeValue { get; set; }
@@ -83,7 +83,7 @@ namespace PdfSharp.Pdf.Security
             get { return null; }
         }
     }
-#endif
+
     /// <summary>
     /// A managed implementation of the MD5 algorithm.
     /// Necessary because MD5 is not part of the framework in Silverlight and WP.
@@ -423,4 +423,3 @@ namespace PdfSharp.Pdf.Security
     }
 #endif
 }
-#endif

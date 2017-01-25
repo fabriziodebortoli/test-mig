@@ -50,7 +50,7 @@ namespace PdfSharp.SharpZipLib
 #if !NETCF_1_0 && !NETCF_2_0
     [Serializable]
 #endif
-    internal class SharpZipBaseException : ApplicationException
+    internal class SharpZipBaseException : Exception
     {
 #if false//!NETCF_1_0 && !NETCF_2_0
 		/// <summary>

@@ -193,7 +193,8 @@ namespace PdfSharp.Pdf
             //                Test.It();
             //            }
             //#endif
-#if !NETFX_CORE && !UWP
+
+#if false//!NETFX_CORE && !UWP
             FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             foreach (FieldInfo field in fields)
             {
@@ -208,7 +209,7 @@ namespace PdfSharp.Pdf
             }
 #else
             // Rewritten for WinRT.
-            CollectKeyDescriptors(type);
+            //CollectKeyDescriptors(type);
             //var fields = type.GetRuntimeFields();  // does not work
             //fields2.GetType();
             //foreach (FieldInfo field in fields)

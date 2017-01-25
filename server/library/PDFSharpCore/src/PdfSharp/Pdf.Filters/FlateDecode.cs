@@ -146,7 +146,7 @@ namespace PdfSharp.Pdf.Filters
             zip.Write(data, 0, data.Length);
             zip.Finish();
 #endif
-#if !NETFX_CORE && !UWP
+#if false//!NETFX_CORE && !UWP
             ms.Capacity = (int)ms.Length;
             return ms.GetBuffer();
 #else
@@ -206,7 +206,7 @@ namespace PdfSharp.Pdf.Filters
             msOutput.Flush();
             if (msOutput.Length >= 0)
             {
-#if NETFX_CORE || UWP
+#if true//NETFX_CORE || UWP
                 return msOutput.ToArray();
 #else
                 msOutput.Capacity = (int)msOutput.Length;

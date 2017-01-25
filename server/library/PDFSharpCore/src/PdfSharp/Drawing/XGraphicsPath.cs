@@ -1659,7 +1659,7 @@ namespace PdfSharp.Drawing
 #endif
 #if GDI
                 if (family.GdiFamily == null)
-                    throw new NotFiniteNumberException(PSSR.NotImplementedForFontsRetrievedWithFontResolver(family.Name));
+                    throw new Exception(PSSR.NotImplementedForFontsRetrievedWithFontResolver(family.Name));
 
                 PointF p = origin.ToPointF();
                 p.Y += SimulateBaselineOffset(family, style, emSize, format);
@@ -1744,7 +1744,7 @@ namespace PdfSharp.Drawing
         public void AddString(string s, XFontFamily family, XFontStyle style, double emSize, Rectangle layoutRect, XStringFormat format)
         {
             if (family.GdiFamily == null)
-                throw new NotFiniteNumberException(PSSR.NotImplementedForFontsRetrievedWithFontResolver(family.Name));
+                throw new Exception(PSSR.NotImplementedForFontsRetrievedWithFontResolver(family.Name));
 
             Rectangle rect = new Rectangle(layoutRect.X, layoutRect.Y, layoutRect.Width, layoutRect.Height);
             rect.Offset(new System.Drawing.Point(0, (int)SimulateBaselineOffset(family, style, emSize, format)));
@@ -1763,7 +1763,7 @@ namespace PdfSharp.Drawing
         public void AddString(string s, XFontFamily family, XFontStyle style, double emSize, RectangleF layoutRect, XStringFormat format)
         {
             if (family.GdiFamily == null)
-                throw new NotFiniteNumberException(PSSR.NotImplementedForFontsRetrievedWithFontResolver(family.Name));
+                throw new Exception(PSSR.NotImplementedForFontsRetrievedWithFontResolver(family.Name));
 
             RectangleF rect = new RectangleF(layoutRect.X, layoutRect.Y, layoutRect.Width, layoutRect.Height);
             rect.Offset(new PointF(0, SimulateBaselineOffset(family, style, emSize, format)));
@@ -1848,7 +1848,7 @@ namespace PdfSharp.Drawing
             //  format != null ? format.RealizeGdiStringFormat() : null);
 
             if (family.GdiFamily == null)
-                throw new NotFiniteNumberException(PSSR.NotImplementedForFontsRetrievedWithFontResolver(family.Name));
+                throw new Exception(PSSR.NotImplementedForFontsRetrievedWithFontResolver(family.Name));
 
             RectangleF rect = layoutRect.ToRectangleF();
             rect.Offset(new PointF(0, SimulateBaselineOffset(family, style, emSize, format)));

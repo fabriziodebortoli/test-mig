@@ -356,7 +356,7 @@ namespace PdfSharp
                             // Force the English language.
                             System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
 #endif
-#if !NETFX_CORE && !UWP
+#if false//!NETFX_CORE && !UWP
                             _resmngr = new ResourceManager("PdfSharp.Resources.Messages",
                                 Assembly.GetExecutingAssembly());
 #else

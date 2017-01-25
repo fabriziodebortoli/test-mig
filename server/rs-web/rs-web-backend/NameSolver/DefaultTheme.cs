@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.IO;
+using System.Drawing;
+
+using RSjson;
+
+using TaskBuilderNetCore.Interfaces;
 
 using Microarea.RSWeb.Generic;
-using TaskBuilderNetCore.Interfaces;
-using RSjson;
-using Microarea.RSWeb.Temp;
 
+using Microarea.RSWeb.Temp;
 
 namespace Microarea.RSWeb.NameSolver
 {
@@ -91,7 +94,7 @@ namespace Microarea.RSWeb.NameSolver
 		{
 			int colorRef = Int32.Parse(value);
 
-            return new Color(); //ColorTranslator.FromWin32(colorRef); TODO rsweb
+            return Color.FromArgb(colorRef); //ColorTranslator.FromWin32(colorRef); TODO rsweb
 		}
 
 		//---------------------------------------------------------------------
