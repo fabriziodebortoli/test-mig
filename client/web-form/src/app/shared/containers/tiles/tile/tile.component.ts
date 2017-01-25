@@ -13,6 +13,7 @@ export class TileComponent extends TbComponent implements OnInit {
 
   private _isCollapsed: boolean = false;
   private _isCollapsible: boolean = true;
+  private _hasTitle: boolean = true;
 
   ngOnInit() {
   }
@@ -22,6 +23,9 @@ export class TileComponent extends TbComponent implements OnInit {
   }
 
   toggleCollapse(event: MouseEvent): void {
+    if (!this._isCollapsible)
+      return;
+
     event.preventDefault();
     this._isCollapsed = !this._isCollapsed;
   }
@@ -44,4 +48,13 @@ export class TileComponent extends TbComponent implements OnInit {
     return this._isCollapsible;
   }
 
+
+  @Input()
+  set hasTitle(value: boolean) {
+    this._hasTitle = value;
+  }
+
+  get hasTitle() {
+    return this._hasTitle;
+  }
 }
