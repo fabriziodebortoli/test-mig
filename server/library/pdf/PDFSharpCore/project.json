@@ -2,14 +2,18 @@
   "title": "PDFSharp ",
   "description": "PDFSharp 3.5.0.4 beta 3 - without forms",
   "version": "3.5.0-4",
-
   "dependencies": {
-    "NETStandard.Library": "1.6.1"
+    "NETStandard.Library": "1.4.0"
   },
-
   "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50"
+    "netcoreapp1.1": {
+      "imports": [
+        "dnxcore50",
+        "portable-net45+win8"
+      ]
     }
+  },
+  "buildOptions": {
+    "define": [ "GDI" ]
   }
 }

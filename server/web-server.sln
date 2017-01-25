@@ -26,6 +26,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TaskBuilderNetCore.Interfac
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TaskBuilderNetCore.Data", "library\task-builder-net-core-data\src\TaskBuilderNetCore.Data\TaskBuilderNetCore.Data.xproj", "{CFD4EADA-3D3D-439A-8B68-147804BF9D0A}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PDFSharpCore", "library\pdf\PDFSharpCore\PDFSharpCore.xproj", "{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,10 @@ Global
 		{CFD4EADA-3D3D-439A-8B68-147804BF9D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFD4EADA-3D3D-439A-8B68-147804BF9D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFD4EADA-3D3D-439A-8B68-147804BF9D0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
