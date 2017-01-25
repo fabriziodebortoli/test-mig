@@ -1,13 +1,13 @@
 <div class="tile">
 
-    <div class="header" (click)="toggleCollapse($event)">
-        <div style="display: inline-block" tabindex="0" class="title">{{title}}</div>
-        <div style="display: inline-block">
+    <div class="header" (click)="toggleCollapse($event)" *ngIf="hasTitle">
+        <div style="display: inline-block" tabindex="0" class="title" >{{title}}</div>
+        <div style="display: inline-block" *ngIf="isCollapsible">
             <i class="material-icons expandCollapse">{{getExpandCollapseClass()}}</i>
         </div>
     </div>
 
-    <div class="panel-collapse" [hidden]="isCollapsed">
+    <div class="panel-collapse" [hidden]="isCollapsed" >
         <div class="tileContent">
             <ng-content></ng-content>
         </div>
