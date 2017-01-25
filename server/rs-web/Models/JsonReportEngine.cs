@@ -50,7 +50,7 @@ namespace Microarea.RSWeb.Models
         // ITRI gestire meglio anche il ritorno di un diagnostic, in caso di errore (multiple righe)
         // o di una collezione di stringhe di errore.
         //--------------------------------------------------------------------------
-        private StringCollection ExecuteReport(XmlReturnType xmlReturnType)
+        private StringCollection ExecuteReport()
         {
             UserInfo ui = new UserInfo();
 
