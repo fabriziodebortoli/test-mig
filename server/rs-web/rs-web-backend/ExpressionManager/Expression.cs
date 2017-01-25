@@ -2289,12 +2289,13 @@ namespace Microarea.RSWeb.ExpressionManager
                     {
 					    Value v2 = (Value) paramStack.Pop();
 					    string filename = CastString(v2);
-         //                   WoormLocalizer loc =new WoormLocalizer(filename, ReportSession.PathFinder);        TODO rsweb
-					    //if (loc != null) 
-         //                   localized = loc.Translate(localized);
-                    }
-                    else
-					    localized = Localizer.Translate(localized); 
+                        WoormLocalizer loc =new WoormLocalizer(filename, ReportSession.PathFinder);       
+
+                        if (loc != null)
+                                localized = loc.Translate(localized);
+                        }
+                        else
+					        localized = Localizer.Translate(localized); 
 					
 					return new Value(localized);
 				}	
@@ -2930,7 +2931,7 @@ namespace Microarea.RSWeb.ExpressionManager
 					string upper= "z";
 					if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null)
 					{
-						upper = ReadSetting.GetMaxString(/*ReportSession.PathFinder TODO RSWEB*/null, ReportSession.UserInfo.LoginManager.PreferredLanguage);
+						upper = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.LoginManager.PreferredLanguage);
 					}
 
                     string upperlimit;
@@ -2950,7 +2951,7 @@ namespace Microarea.RSWeb.ExpressionManager
 					string upper = "z";
 					if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null)
 					{
-						upper = ReadSetting.GetMaxString(/*ReportSession.PathFinder TODO RSWEB*/null, ReportSession.UserInfo.LoginManager.PreferredLanguage);
+						upper = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.LoginManager.PreferredLanguage);
 					}
 
 					while (s.EndsWith(upper))
@@ -2970,7 +2971,7 @@ namespace Microarea.RSWeb.ExpressionManager
 					string upper = "z";
 					if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null)
 					{
-						upper = ReadSetting.GetMaxString(/*ReportSession.PathFinder TODO RSWEB*/null, ReportSession.UserInfo.LoginManager.PreferredLanguage);
+						upper = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.LoginManager.PreferredLanguage);
 					}
 
 					if (s.Length == 0)

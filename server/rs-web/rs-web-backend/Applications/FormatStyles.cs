@@ -4289,7 +4289,7 @@ namespace Microarea.RSWeb.Applications
 		{
 			get
 			{
-                string sep = "";// TODO rsweb FormatStyles.ApplicationLocale.DateTimeFormat.DateSeparator;
+                string sep = "-";// TODO rsweb FormatStyles.ApplicationLocale.DateTimeFormat.DateSeparator;
 				string dateFormat = FormatStyles.ApplicationLocale.DateTimeFormat.ShortDatePattern;
 
 				string[] tokens = dateFormat.Split(new string[]{sep}, StringSplitOptions.None);

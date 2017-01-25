@@ -58,11 +58,11 @@ namespace Microarea.RSWeb.Applications
 		}
 
 		//------------------------------------------------------------------------------
-		public FontElement(string styleName, string faceName, int size, /*FontStyle fontStyle,*/ NameSpace owner, FontSource source)
+		public FontElement(string styleName, string faceName, int size, FontStyle fontStyle, NameSpace owner, FontSource source)
 		{
 			this.styleName = styleName;
 			this.faceName = faceName;
-            //this.fontStyle = fontStyle; TODO rsweb
+            this.fontStyle = fontStyle; 
             this.size = size;
 			this.owner = owner;
 			this.source = source;

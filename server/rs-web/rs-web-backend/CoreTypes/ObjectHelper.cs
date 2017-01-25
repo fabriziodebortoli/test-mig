@@ -861,12 +861,12 @@ namespace Microarea.RSWeb.CoreTypes
 				return to;
 			}
 
-            //if (from is System.Data.SqlClient.SqlParameter)
-            //{
-            //    return CastFromDBData((from as System.Data.SqlClient.SqlParameter).Value, to);                  TODO rsweb
-            //}
+            if (from is System.Data.SqlClient.SqlParameter)
+            {
+                return CastFromDBData((from as System.Data.SqlClient.SqlParameter).Value, to); 
+            }
 
-			switch (to.GetType().Name)
+            switch (to.GetType().Name)
 			{
 				case "Boolean"	: return CastBool(from);
 				case "Byte"		: return CastByte(from);
