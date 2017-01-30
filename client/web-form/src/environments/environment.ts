@@ -5,7 +5,8 @@
 
 export const environment = {
   production: false,
-
+  desktop: false,
+  
   apiBaseUrl: `http://localhost:5000/tbloader/api/`,
   wsBaseUrl: 'ws://localhost:5000/tbloader/',
 

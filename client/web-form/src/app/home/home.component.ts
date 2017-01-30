@@ -5,6 +5,7 @@ import { HttpMenuService } from './../menu/services/http-menu.service';
 import { MenuService } from './../menu/services/menu.service';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from './../../environments/environment';
 
 import { SidenavService, LoginSessionService, ComponentService } from './../core';
 
@@ -15,6 +16,7 @@ import { SidenavService, LoginSessionService, ComponentService } from './../core
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
+  private desktop: boolean= environment.desktop;
 
   @ViewChild('sidenav') sidenav;
   sidenavSubscription: any;
