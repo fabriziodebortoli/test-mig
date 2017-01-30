@@ -103,9 +103,6 @@ export class MenuService {
         this.settingsService.lastApplicationName = application.name;
         this.settingsService.setPreference('LastApplicationName', encodeURIComponent(this.settingsService.lastApplicationName), undefined);
 
-
-        this.selectedApplicationChanged.emit();
-
         var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
         if (tempGroupArray[0] != undefined)
             this.setSelectedGroup(tempGroupArray[0]);
@@ -123,8 +120,6 @@ export class MenuService {
         this.selectedGroup.isSelected = true;
         this.settingsService.lastGroupName = group.name;
         this.settingsService.setPreference('LastGroupName', encodeURIComponent(this.settingsService.lastGroupName), undefined);
-
-        this.selectedGroupChanged.emit();
 
         var tempMenuArray = this.utilsService.toArray(this.selectedGroup.Menu);
         if (tempMenuArray[0] != undefined)
