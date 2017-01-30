@@ -4,7 +4,7 @@
 .tileContent {
 	/*height:234px;*/ /*this parameter must be changed with javascript*/
 	height:240px;
-	width:450px;
+	width:430px;
 	overflow: auto;
 	padding-top: 2px;
 	line-height: 140%;

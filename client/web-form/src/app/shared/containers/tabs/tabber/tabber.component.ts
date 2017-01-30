@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, AfterContentInit, Input } from '@angular/core';
 import { TbComponent } from '../../../';
 import { TabComponent } from '../tab/tab.component';
 
@@ -10,15 +10,16 @@ import { TabComponent } from '../tab/tab.component';
 export class TabberComponent extends TbComponent {
 
   tabs: TabComponent[] = [];
-
   @Output() close: EventEmitter<any> = new EventEmitter();
-  @Output() selectedTab: EventEmitter<any> = new EventEmitter();
+  @Output() selectedTab: EventEmitter<any> = new EventEmitter(true);
 
   selectTab(tab: TabComponent) {
+
     this.tabs.forEach((t) => {
       t.active = false;
     });
     tab.active = true;
+
     this.selectedTab.emit(this.tabs.indexOf(tab));
   }
 
@@ -36,9 +37,7 @@ export class TabberComponent extends TbComponent {
     this.tabs.splice(this.tabs.indexOf(tab), 1);
     if (tab.active && this.tabs.length > 0) {
       this.tabs[0].active = true;
-         this.selectedTab.emit(0);
+      this.selectedTab.emit(0);
     }
   }
-
 }
-

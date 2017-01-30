@@ -1,35 +1,25 @@
-<section>
+<tb-tabber #tabber (selectedTab)="changeTabByIndex($event)">
 
-  <!--Pannello laterale sinistro con gruppi e menu-->
-  <div id="one">
-    <tb-accordion *ngFor="let group of utilsService.toArray(menuService?.getSelectedApplication()?.Group)" (click)=menuService?.setSelectedGroup(group)>
-      <tb-accordion-group heading="{{group?.title}}" [isOpen]="isGroupOpened(group)">
+  <tb-tab [title]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService?.selectedGroup?.Menu)" [showCloseButton]=false (click)="menuService?.setSelectedMenu(menuTab)">
+  </tb-tab>
+</tb-tabber>
 
-        <ul>
-          <li *ngFor="let menuTab of utilsService.toArray(group?.Menu)" (click)="selectGroupAndMenu(group, menuTab)" class="listItem link"
-            [ngClass]="menuTab == menuService.getSelectedMenu() ? 'selected' : '' ">
-            {{menuTab?.title}}
-          </li>
-        </ul>
-      </tb-accordion-group>
-    </tb-accordion>
-  </div>
+<div>
+  <!--{{menuService?.selectedMenu?.title}}-->
+  <tb-menu-stepper [Menu]="menuService?.applicationMenu"></tb-menu-stepper>
+</div>
 
 
-<!--Contenitore tile di destra-->
-  <div id="two" class="menuContainer">
-    <div style="display: inline-block" *ngIf="menuService.getSelectedMenu() != undefined" class="tabContent">
-      <div *ngFor="let tile of getTiles()" class="tileContainer">
-        <tb-tile-content [Tile]="tile"></tb-tile-content>
-      </div>
+<div class="menuContainer">
+  <div style="display: inline-block" *ngIf="menuService.selectedMenu != undefined" class="tabContent">
 
+    <div *ngFor="let tile of getTiles()" class="tileContainer">
+      <tb-tile-content [Tile]="tile"></tb-tile-content>
+    </div>
 
-      <!--voci posizionate male, sarebbero da togliere-->
-      <div *ngIf="menuService.getSelectedMenu().Object" class="tileContainer">
-        <tb-tile-content [Tile]="menuService.getSelectedMenu()"></tb-tile-content>
-      </div>
+    <!--voci posizionate male, sarebbero da togliere-->
+    <div *ngIf="menuService.selectedMenu.Object" class="tileContainer">
+      <tb-tile-content [Tile]="menuService.selectedMenu"></tb-tile-content>
     </div>
   </div>
-
-
-</section>
+</div>

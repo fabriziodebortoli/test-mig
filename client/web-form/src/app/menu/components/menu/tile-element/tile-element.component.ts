@@ -40,4 +40,10 @@ export class TileElementComponent {
   getFavoriteClass(object) {
     return object.isFavorite ? 'star' : 'star_border';
   }
+
+  runFunction(object)
+  {
+    this.menuService.runFunction(object); 
+    object.isLoading = true;
+  }
 }

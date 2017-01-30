@@ -1,10 +1,18 @@
-<div class="container">
-    <div *ngIf="!working">
-        <div><label for="user">User:</label> <input name="user" type="text" [(ngModel)]="connectionData.user"></div>
-        <div><label for="user">Password:</label><input type="password" [(ngModel)]="connectionData.password"></div>
-        <div><label for="user">Company:</label><input type="text" [(ngModel)]="connectionData.company"></div>
-        <button (click)="login();">Login</button>
-        <div class="error" *ngFor="let errorMessage of loginSessionService.errorMessages">{{errorMessage.text}}</div>
+<div class="backgroundLogin innnerdiv">
+    <div class="container">
+        <div *ngIf="!working">
+            <div>
+                <md-input type="text" [placeholder]="'User'" [(ngModel)]="connectionData.user"></md-input>
+            </div>
+            <div>
+                <md-input type="text" [placeholder]="'Password'" [(ngModel)]="connectionData.password"></md-input>
+            </div>
+            <div>
+                <md-input type="text" [placeholder]="'Company'" [(ngModel)]="connectionData.company"></md-input>
+            </div>
+            <button md-raised-button color="primary" (click)="login();">Login</button>
+            <div class="error" *ngFor="let errorMessage of loginSessionService.errorMessages">{{errorMessage.text}}</div>
+        </div>
+        <md-spinner mode="indeterminate" color="primary" class="spinner" *ngIf="working"></md-spinner>
     </div>
-    <img *ngIf="working" src='assets/img/loading.gif' />
 </div>

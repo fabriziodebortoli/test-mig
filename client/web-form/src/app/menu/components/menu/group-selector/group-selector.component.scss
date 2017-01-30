@@ -1,0 +1,81 @@
+
+.box {
+	cursor: pointer;
+	display: inline-block;
+	font-size: 15px;
+	width: 130px;
+	height: 130px;
+	overflow:hidden;
+}
+
+	.box > div {
+		display: inline-block;
+		vertical-align: middle;
+		align-self: center;
+		text-align: center;
+		width: 90%;
+		height: 100%;
+		margin-top: 20%;
+		margin-left: 5%;
+	}
+
+		/*module title*/
+		.box > div > div {
+			max-height: 60px;
+			line-height: 20px;
+			width: 100%;
+			white-space: initial;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			text-align: center;
+		}
+
+.applicationTitle {
+
+	text-align: center;
+	display: inline-block;
+	line-height: 150%;
+	font-size: 28px;
+	max-width: 300px;
+	margin-left: 15px;
+}
+
+.bookmarks {
+    margin-top: 10px;
+    font-size: small;
+}
+
+ul.bookmarks-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+ul.bookmarks-list>li {
+    line-height: 35px;
+    height: 35px;
+    margin-bottom: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    color: #9f9f9f;
+    background: #3e3e3e;
+}
+
+ul.bookmarks-list>li:hover {
+    background: #282828;
+    color: #fff;
+}
+
+ul.bookmarks-list>li>md-icon {
+    font-size: 18px;
+    line-height: 22px;
+}
+
+ul.bookmarks-list>li>span {
+    font-size: 12px;
+}

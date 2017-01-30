@@ -10,8 +10,8 @@ import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angu
 export class TabComponent extends TbComponent implements OnInit, OnDestroy {
 
   active: boolean;
-
   @Input() title: string = '';
+  @Input() icon: string = '';
   @Input() showCloseButton: boolean = true;
 
   @Output() close: EventEmitter<any> = new EventEmitter();

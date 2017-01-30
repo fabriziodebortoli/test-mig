@@ -4,6 +4,6 @@
 
 
 <!--voci posizionate male, sarebbero da togliere-->
-<div *ngIf="menuService.getSelectedMenu().Object" class="tileContainer">
-  <tb-tile-content [Tile]="menuService.getSelectedMenu()"></tb-tile-content>
+<div *ngIf="menuService.selectedMenu?.Object" class="tileContainer">
+  <tb-tile-content [Tile]="menuService.selectedMenu"></tb-tile-content>
 </div>

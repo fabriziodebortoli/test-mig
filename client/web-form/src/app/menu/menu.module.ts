@@ -1,3 +1,5 @@
+import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
+import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 import { MenuService } from './services/menu.service';
 import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
 import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
@@ -23,6 +25,7 @@ import { ApplicationSelectorComponent } from './components/menu/application-sele
 import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
 import { TileContentComponent } from './components/menu/tile-content/tile-content.component';
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
+
 import { LoginComponent } from './components/login/login.component';
 import { Logger } from 'libclient';
 import { Accordion, AccordionGroup } from '../shared/containers/accordion/accordion.component';
@@ -58,6 +61,8 @@ const MENU_SERVICES = [
     SearchComponent,
     ProductInfoDialogComponent,
     ConnectionInfoDialogComponent,
+    GroupSelectorComponent,
+    MenuStepperComponent,
     Accordion,
     AccordionGroup
   ],
@@ -73,6 +78,8 @@ const MENU_SERVICES = [
     TileElementComponent,
     MostUsedComponent,
     SearchComponent,
+    GroupSelectorComponent,
+    MenuStepperComponent,
     Accordion,
     AccordionGroup
   ]

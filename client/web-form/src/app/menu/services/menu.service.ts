@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 import { UtilsService } from './../../core/utils.service';
 import { WebSocketService } from './../../core/websocket.service';
@@ -27,9 +27,9 @@ export class MenuService {
     private mostUsed: Array<any> = [];
 
     public searchSources: Array<any> = [];
-
-
     private ifMoreAppsExist: boolean;
+
+    selectedMenuChanged: EventEmitter<any> = new EventEmitter(true);
 
     constructor(
         private webSocketService: WebSocketService,
@@ -85,9 +85,11 @@ export class MenuService {
 
         // $location.path("/MenuTemplate");
         // $route.reload();
+
         return;
     }
 
+    //---------------------------------------------------------------------------------------------
     setSelectedApplication(application) {
         if (this.selectedApplication != undefined && this.selectedApplication.title == application.title)
             return;
@@ -101,17 +103,15 @@ export class MenuService {
         this.settingsService.lastApplicationName = application.name;
         this.settingsService.setPreference('LastApplicationName', encodeURIComponent(this.settingsService.lastApplicationName), undefined);
 
+
+        this.selectedApplicationChanged.emit();
+
         var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
         if (tempGroupArray[0] != undefined)
             this.setSelectedGroup(tempGroupArray[0]);
     }
 
-
-
-    getSelectedApplication(app) {
-        return this.selectedApplication;
-    }
-
+    //---------------------------------------------------------------------------------------------
     setSelectedGroup(group) {
         if (this.selectedGroup != undefined && this.selectedGroup == group)
             return;
@@ -124,6 +124,8 @@ export class MenuService {
         this.settingsService.lastGroupName = group.name;
         this.settingsService.setPreference('LastGroupName', encodeURIComponent(this.settingsService.lastGroupName), undefined);
 
+        this.selectedGroupChanged.emit();
+
         var tempMenuArray = this.utilsService.toArray(this.selectedGroup.Menu);
         if (tempMenuArray[0] != undefined)
             this.setSelectedMenu(tempMenuArray[0]);
@@ -133,17 +135,10 @@ export class MenuService {
         // $route.reload();
     }
 
-    getSelectedGroup() {
-        return this.selectedGroup;
-    }
-
+    //---------------------------------------------------------------------------------------------
     setSelectedMenu(menu) {
         if (this.selectedMenu != undefined && this.selectedMenu == menu)
             return;
-
-        //deseleziono il vecchio se presente
-        //if (this.selectedMenu != undefined)
-        //    this.selectedMenu.active = false;
 
         if (menu == undefined) {
             this.selectedMenu = undefined;
@@ -157,16 +152,16 @@ export class MenuService {
         this.settingsService.setPreference('LastMenuName', encodeURIComponent(this.settingsService.lastMenuName), undefined);
         this.selectedMenu.active = true;
         menu.visible = true;
+
+        this.selectedMenuChanged.emit();
     }
 
-    getSelectedMenu() {
-        return this.selectedMenu;
-    }
-
+    //---------------------------------------------------------------------------------------------
     getApplicationIcon(application) {
         return this.imageService.getStaticImage(application);
     }
 
+    //---------------------------------------------------------------------------------------------
     runFunction = function (object) {
         if (object == undefined)
             return;
@@ -176,11 +171,13 @@ export class MenuService {
         object.isLoading = true
     }
 
+    //---------------------------------------------------------------------------------------------
     clearMostUsed() {
         this.mostUsed.splice(0, this.mostUsed.length);
         this.mostUsedCount = 0;
     }
 
+    //---------------------------------------------------------------------------------------------
     loadSearchObjects() {
         this.getSearchObjects();
     }
@@ -300,9 +297,9 @@ export class MenuService {
         object.position = undefined;
         for (var i = 0; i < this.favorites.length; i++) {
 
-          if (this.favorites[i].target == object.target && this.favorites[i].objectType == object.objectType &&
+            if (this.favorites[i].target == object.target && this.favorites[i].objectType == object.objectType &&
                 (object.objectName == undefined || (object.objectName != undefined && this.favorites[i].objectName == object.objectName))
-                ){
+            ) {
 
                 this.favorites.splice(i, 1);
                 this.favoritesCount--;
@@ -352,7 +349,7 @@ export class MenuService {
         return 0;
     }
 
-     //---------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
     onAfterGetMenuElements(root) {
         this.applicationMenu = root.ApplicationMenu.AppMenu;
         this.environmentMenu = root.EnvironmentMenu.AppMenu;
@@ -443,10 +440,10 @@ export class MenuService {
         var now = this.utilsService.getCurrentDate();
         for (var i = 0; i < this.mostUsed.length; i++) {
 
-           if (this.mostUsed[i].target == object.target && this.mostUsed[i].objectType == object.objectType &&
+            if (this.mostUsed[i].target == object.target && this.mostUsed[i].objectType == object.objectType &&
                 (object.objectName == undefined || (object.objectName != undefined && object.objectName == this.mostUsed[i].objectName))) {
                 this.mostUsed[i].lastModified = now;
-                 return;
+                return;
             }
         }
 
@@ -462,9 +459,8 @@ export class MenuService {
         var index = -1;
 
         for (var i = 0; i < this.mostUsed.length; i++) {
-          if (this.mostUsed[i].target == object.target && this.mostUsed[i].objectType == object.objectType &&
-                (object.objectName == undefined || (object.objectName != undefined && this.mostUsed[i].objectName == object.objectName)))
-                {
+            if (this.mostUsed[i].target == object.target && this.mostUsed[i].objectType == object.objectType &&
+                (object.objectName == undefined || (object.objectName != undefined && this.mostUsed[i].objectName == object.objectName))) {
                 index = i;
                 break;
             }
@@ -474,7 +470,7 @@ export class MenuService {
             this.mostUsedCount--;
         }
     };
-    
+
     //---------------------------------------------------------------------------------------------
     getFilteredSearch(viewValue, Item, searchInReport, searchInDocument, searchInBatch, startsWith): boolean {
         var target = Item['target'].toLowerCase();
@@ -503,6 +499,4 @@ export class MenuService {
     stringStartsWith(string, prefix): boolean {
         return string.slice(0, prefix.length) == prefix;
     }
-
-
 }

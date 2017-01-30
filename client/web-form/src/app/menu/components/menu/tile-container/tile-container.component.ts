@@ -24,7 +24,7 @@ export class TileContainerComponent implements OnInit {
 
 
   getTiles() {
-    let array = this.utilsService.toArray(this.menuService.getSelectedMenu().Menu);
+    let array = this.utilsService.toArray(this.menuService.selectedMenu.Menu);
     let newArray = [];
     for (let i = 0; i < array.length; i++) {
       if (this.tileIsVisible(array[i]))

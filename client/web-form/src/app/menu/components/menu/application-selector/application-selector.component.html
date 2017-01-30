@@ -1,11 +1,8 @@
-<button md-icon-button [md-menu-trigger-for]="menu">
-    <md-icon>apps</md-icon>
-</button>
-<md-menu #menu="mdMenu" x-position="after" y-position="below">
-    <button md-menu-item *ngFor="let application of applications" (click)=menuService.setSelectedApplication(application) class="applicationItem">
-    
-     {{application.title}}
-        <!--<img [src]="menuService.getApplicationIcon(application)" />-->
-            <!--<div ng-show="{{menuService.noImageOrDef(application)}}">{{menuService.getApplicationName(application)}}</div>-->
-     </button>
-</md-menu>
+<div class="bookmarks" *ngIf="menuService != undefined">
+    <ul class="bookmarks-list">
+        <li *ngFor="let application of applications" (click)=selecteApplication(application) class="applicationItem">
+             <img [src]="imageService.getStaticImage(application)" class="appTitle"/>
+            <div>{{application.title}}</div>
+        </li>
+    </ul>
+</div>

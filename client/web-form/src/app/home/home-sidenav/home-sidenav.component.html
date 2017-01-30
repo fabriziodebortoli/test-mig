@@ -7,6 +7,9 @@
     </div>
 </div>
 
+<tb-application-selector [Menu]="menuService?.applicationMenu"></tb-application-selector>
+
+<tb-group-selector (groupSelected)=toggleSidenav()></tb-group-selector>
 
 <tb-favorites></tb-favorites>
 

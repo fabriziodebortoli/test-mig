@@ -9,12 +9,24 @@ div.error {
     color: white;
 }
 
-label {
-    display: inline-block;
-    width: 200px;
-    text-align: left;
+.innnerdiv {
+	margin-top: 9%;
 }
 
-input {
-    width: 200px;
+.backgroundLogin {
+    padding-bottom: 10px;
+    width: 100%;
+    min-height:240px;
+    background-color: rgba(255, 255,255, 0.8);
 }
+
+.spinner {
+	width: 400px;
+	height: 400px;
+}
+
+.iconColor
+{
+	color:lightskyblue;
+}
+

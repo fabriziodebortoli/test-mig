@@ -1,0 +1,8 @@
+<div class="bookmarks" *ngIf="menuService != undefined">
+    <ul class="bookmarks-list">
+         <li *ngFor="let group of utilsService.toArray(menuService?.selectedApplication?.Group)" (click)=selectGroup(group)>
+            <img [src]="imageService.getStaticImage(group)" />
+            <div>{{group?.title}}</div>
+        </li>
+    </ul>
+</div>

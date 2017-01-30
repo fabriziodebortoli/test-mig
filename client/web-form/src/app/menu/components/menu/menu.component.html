@@ -1,18 +1,2 @@
-<md-sidenav-layout class="demo-sidenav-layout">
 
-  <div class="demo-sidenav-content">
-
-
-      <tb-application-selector *ngIf="menuService.applicationMenu != undefined" [Menu]="menuService?.applicationMenu"></tb-application-selector>
-
-      <span>
-            {{menuService?.getSelectedApplication()?.title}} - {{menuService?.getSelectedGroup()?.title}} - {{menuService?.getSelectedMenu()?.title}}
-      </span>
-
-
-    <tb-menu-container [Group]="menuService?.getSelectedGroup()"></tb-menu-container>
-  </div>
-</md-sidenav-layout>
-
-<!--<router-outlet></router-outlet>
--->
+<tb-menu-container ></tb-menu-container>
