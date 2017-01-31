@@ -37,6 +37,6 @@ export class ToolbarTopButtonComponent extends TbComponent implements OnInit {
     return this.httpService.getDocumentBaseUrl() + 'getImage/?src=' + this.icon;
   }
   onCommand() {
-    this.webSocket.doCommand(this.document.mainCmpId, this.cmpId);
+    this.webSocket.doCommand(this.document.mainCmpId, this.cmpId, this.document.model);
   }
 }
