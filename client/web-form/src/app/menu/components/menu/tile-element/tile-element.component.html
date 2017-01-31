@@ -1,4 +1,4 @@
-<div class="tileElement link">
+<div class="tileElement link" [ngClass]="object.starHover ? 'active' : ''">
   <i *ngIf="!object.isLoading"  (click)="runFunction(object)" class="material-icons iconColor">{{imageService.getObjectIcon(object)}}</i>
 
   <md-spinner mode="indeterminate" color="primary" class="spinner" *ngIf="object.isLoading"></md-spinner>
