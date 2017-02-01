@@ -46,6 +46,31 @@ export class HttpService {
             .catch(this.handleError);
     }
 
+    getCompaniesForUser(user: string): Observable<any> {
+        let obj = { user: user };
+        return this.postData(this.getMenuBaseUrl() + 'getloginCompanies/', obj)
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+    loginCompact(connectionData: LoginSession): Observable<OperationResult> {
+        return this.postData(this.getLoginManagerBaseUrl() + '/login-compact/', connectionData)
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+     logoff(connectionData: LoginSession): Observable<OperationResult> {
+        return this.postData(this.getLoginManagerBaseUrl() + 'logoff/', connectionData)
+             .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
     logout(): Observable<OperationResult> {
         let token = this.cookieService.get('authtoken');
         this.logger.debug('httpService.logout (' + token + ')');
@@ -70,6 +95,10 @@ export class HttpService {
     }
 
     postData(url: string, data: Object): Observable<Response> {
+        //questa è la post che permette di avere i parametri in Request.Form
+        // let headers = new Headers();
+        // headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        // return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers });
         return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
     }
 
@@ -86,6 +115,11 @@ export class HttpService {
 
     getMenuBaseUrl() {
         let url = this.baseUrl + 'tb/menu/';
+        return url;
+    }
+
+    getLoginManagerBaseUrl() {
+        let url = 'http://localhost:5000/' + 'login-manager/';
         return url;
     }
 

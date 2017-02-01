@@ -3,4 +3,5 @@ export class LoginSession {
     user: string;
     password: string;
     overwrite: boolean = true;
+    askingProcess: string;
 }

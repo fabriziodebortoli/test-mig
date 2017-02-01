@@ -37,7 +37,7 @@ namespace Microarea.TbLoaderGate
         {
             Debug.WriteLine(HttpContext.Request.Path.Value);
             string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
-            bool createTB = subUrl == "/tb/menu/doLogin/";
+			bool createTB = true;// subUrl == "/tb/menu/doLogin/";
 			string tbName = "";
             try
             {
