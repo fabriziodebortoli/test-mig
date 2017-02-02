@@ -2,14 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Http;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Http;
-using Microarea.Common;
-using Microsoft.AspNetCore.Builder;
+
 using Newtonsoft.Json.Linq;
 
 namespace Microarea.TbLoaderGate

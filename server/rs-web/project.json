@@ -28,8 +28,8 @@
     "system.xml.xpath.xmldocument": "4.3.0",
     "TaskBuilderNetCore.Data": "1.0.0-*",
     "TaskBuilderNetCore.Interfaces": "1.0.0-*",
-    "common-lib": "1.0.0-*",
-    "PDFSharpCore": "3.5.0-4"
+    "PDFSharpCore": "3.5.0-4",
+    "task-builder-net-core-common": "1.0.0-*"
   },
 
 	"tools": {
