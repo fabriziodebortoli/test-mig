@@ -3,8 +3,9 @@ using System.Collections;
 using System.Drawing;
 using System.Runtime.Serialization;
 
-using Microarea.RSWeb.NameSolver;
+using TaskBuilderNetCore.Interfaces;
 
+using Microarea.RSWeb.NameSolver;
 using Microarea.RSWeb.Applications;
 using Microarea.RSWeb.CoreTypes;
 using Microarea.RSWeb.Generic;
@@ -12,9 +13,7 @@ using Microarea.RSWeb.Lexan;
 using Microarea.RSWeb.ExpressionManager;
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
-using Microarea.RSWeb.WoormWebControl;
-using Microarea.RSWeb.Temp;
-using TaskBuilderNetCore.Interfaces;
+//using Microarea.RSWeb.Temp;
 
 namespace RSjson
 {
@@ -2700,14 +2699,6 @@ namespace RSjson
 			return null;
 		}
     }
-
-	//================================================================================
-	public interface IImage
-	{
-		Rectangle ImageRect { get; }
-
-		string ImageFile { get; }
-	}
 
 	//================================================================================
 	public static class Extensions

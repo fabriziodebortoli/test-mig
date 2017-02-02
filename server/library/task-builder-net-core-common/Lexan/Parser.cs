@@ -1,14 +1,16 @@
 using System;
+using System.Drawing;
 using System.Collections;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 
+using TaskBuilderNetCore.Interfaces;
+
 using Microarea.RSWeb.CoreTypes;
 using Microarea.RSWeb.DiagnosticManager;
-using TaskBuilderNetCore.Interfaces;
 using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.Temp;
+//using Microarea.RSWeb.Temp;
 
 namespace Microarea.RSWeb.Lexan
 {
@@ -1076,7 +1078,7 @@ namespace Microarea.RSWeb.Lexan
 		}
 
 		//------------------------------------------------------------------------------
-		public bool ParseColor (Token token, out System.Drawing.Color aColor)
+		public bool ParseColor (Token token, out Color aColor)
 		{
 			byte nRed = 0;
             byte nGreen = 0;
@@ -1094,7 +1096,7 @@ namespace Microarea.RSWeb.Lexan
                 ParseByte(out nBlue)	&&
 				ParseClose	();
 
-			aColor = System.Drawing.Color.FromArgb(255, nRed, nGreen, nBlue);
+			aColor = Color.FromArgb(255, nRed, nGreen, nBlue);
 			return ok;
 		}
 

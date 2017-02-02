@@ -13,6 +13,7 @@ using Microarea.RSWeb.ExpressionManager;
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormWebControl;
 using TaskBuilderNetCore.Interfaces;
+using System.Net;
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -300,9 +301,9 @@ namespace Microarea.RSWeb.WoormViewer
 				else if (item.Data != null)
 					paramValue = item.Data.ToString();
 
-				sbLinkUrl.Append(Microarea.RSWeb.WoormWebControl.GenericFunctions.UrlEncode(paramName));
+				sbLinkUrl.Append(WebUtility.UrlEncode(paramName));
 				sbLinkUrl.Append('=');
-				sbLinkUrl.Append(Microarea.RSWeb.WoormWebControl.GenericFunctions.UrlEncode(paramValue));
+				sbLinkUrl.Append(WebUtility.UrlEncode(paramValue));
 			}
 			
 			return sbLinkUrl.ToString(); //es. http://www.sitoweb.it/search?param1=value1&param2=value2
@@ -874,9 +875,9 @@ namespace Microarea.RSWeb.WoormViewer
 	        aComp.Trim();
 	        if (!aComp.IsNullOrEmpty())
 		        if (completeAddress.IsNullOrEmpty())
-                    completeAddress = Microarea.RSWeb.WoormWebControl.GenericFunctions.HtmlEncode(aComp);
+                    completeAddress = WebUtility.HtmlEncode(aComp);
 		        else
-			        completeAddress += ",+" + Microarea.RSWeb.WoormWebControl.GenericFunctions.HtmlEncode(aComp);
+			        completeAddress += ",+" + WebUtility.HtmlEncode(aComp);
         }
 
 		//----------------------------------------------------------------------------

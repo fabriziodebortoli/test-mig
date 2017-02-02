@@ -8,6 +8,7 @@ using Microarea.RSWeb.Applications;
 using Microarea.RSWeb.CoreTypes;
 using Microarea.RSWeb.WoormEngine;
 using RSjson;
+using System.Net;
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -341,7 +342,7 @@ namespace Microarea.RSWeb.WoormViewer
 
             string val = string.Empty;
             if (reader.MoveToAttribute(RdeWriterTokens.Attribute.Value))
-                val = Microarea.RSWeb.WoormWebControl.GenericFunctions.HtmlDecode(reader.Value);
+                val = WebUtility.HtmlDecode(reader.Value);
 
             bool isCellTail = false;
             if (reader.MoveToAttribute(RdeWriterTokens.Attribute.CellTail))
