@@ -48,7 +48,7 @@ export class HttpService {
 
     getCompaniesForUser(user: string): Observable<any> {
         let obj = { user: user };
-        return this.postDataForm(this.getLoginManagerBaseUrl() + 'getCompaniesForUser/', obj)
+        return this.postData(this.getLoginManagerBaseUrl() + 'getCompaniesForUser/', obj)
             .map((res: Response) => {
                 return res.json();
             })
@@ -98,14 +98,10 @@ export class HttpService {
     }
 
     postData(url: string, data: Object): Observable<Response> {
-        return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
-    }
-
-     postDataForm(url: string, data: Object): Observable<Response> {
-        //questa è la post che permette di avere i parametri in Request.Form
-         let headers = new Headers();
+          let headers = new Headers();
          headers.append('Content-Type', 'application/x-www-form-urlencoded');
          return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers });
+        //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
     }
 
     getComponentUrl(url: string) {
