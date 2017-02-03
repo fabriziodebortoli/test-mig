@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -48,7 +48,7 @@ export class HttpService {
 
     getCompaniesForUser(user: string): Observable<any> {
         let obj = { user: user };
-        return this.postData(this.getMenuBaseUrl() + 'getloginCompanies/', obj)
+        return this.postData(this.getLoginManagerBaseUrl() + 'getCompaniesForUser/', obj)
             .map((res: Response) => {
                 return res.json();
             })
@@ -63,8 +63,11 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-     logoff(connectionData: LoginSession): Observable<OperationResult> {
-        return this.postData(this.getLoginManagerBaseUrl() + 'logoff/', connectionData)
+     logoff(): Observable<OperationResult> {
+           let token = this.cookieService.get('authtoken');
+        this.logger.debug('httpService.logout (' + token + ')');
+      
+         return this.postData(this.getLoginManagerBaseUrl() + 'logoff/',  token)
              .map((res: Response) => {
                 return res.json();
             })
@@ -96,10 +99,10 @@ export class HttpService {
 
     postData(url: string, data: Object): Observable<Response> {
         //questa è la post che permette di avere i parametri in Request.Form
-        // let headers = new Headers();
-        // headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        // return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers });
-        return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
+         let headers = new Headers();
+         headers.append('Content-Type', 'application/x-www-form-urlencoded');
+         return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers });
+        //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
     }
 
     getComponentUrl(url: string) {
