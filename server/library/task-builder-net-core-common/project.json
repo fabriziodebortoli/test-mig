@@ -33,9 +33,6 @@
 
   "frameworks": {
     "netcoreapp1.1": {
-      //"imports": [
-      //  "dnxcore50"
-      //]
     }
   }
 }

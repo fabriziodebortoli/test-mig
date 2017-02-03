@@ -87,10 +87,6 @@
   },
   "frameworks": {
     "netcoreapp1.1": {
-      //"imports": [
-      //  //Package Microsoft.Composition 1.0.27 is not compatible with netcoreapp1.1
-      //  "portable-net45+win8"
-      //]
     }
   }
 }

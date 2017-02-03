@@ -25,10 +25,6 @@
   },
   "frameworks": {
     "netcoreapp1.1": {
-
-      "imports": [
-        "portable-net45+win8"
-      ],
       "dependencies": {
         "System.ServiceModel.Duplex": "4.3.0",
         "System.ServiceModel.Http": "4.3.0",
