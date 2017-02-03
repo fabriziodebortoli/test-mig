@@ -14,10 +14,7 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
-      "version": "1.0.0-preview2-update1",
-      "type": "build"
-    },
+
     "Microsoft.AspNetCore.WebSockets.Server": "0.1.0-*",
     "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.Routing": "1.1.0",
@@ -90,10 +87,10 @@
   },
   "frameworks": {
     "netcoreapp1.1": {
-      "imports": [
-        //Package Microsoft.Composition 1.0.27 is not compatible with netcoreapp1.1
-        "portable-net45+win8"
-      ]
+      //"imports": [
+      //  //Package Microsoft.Composition 1.0.27 is not compatible with netcoreapp1.1
+      //  "portable-net45+win8"
+      //]
     }
   }
 }

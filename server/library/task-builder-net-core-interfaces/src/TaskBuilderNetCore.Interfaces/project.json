@@ -3,7 +3,7 @@
 
   "dependencies": {
     "Microsoft.ApplicationInsights": "2.2.0",
-    "NETStandard.Library": "1.4.*",
+    "NETStandard.Library": "1.6",
     "System.Collections.Specialized": "4.3.0",
     "System.ComponentModel": "4.3.0",
     "System.ComponentModel.TypeConverter": "4.3.0",
@@ -18,9 +18,6 @@
 
   "frameworks": {
     "netcoreapp1.1": {
-      //"imports": [
-      //  "dnxcore50"
-      //]
     }
   }
 
