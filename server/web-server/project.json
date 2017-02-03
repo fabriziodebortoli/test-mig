@@ -1,5 +1,5 @@
 {
-    "userSecretsId": "aspnet-WebApplication-0799fe3e-6eaf-4c5f-b40e-7c6bfd5dfa9a",
+    //"userSecretsId": "aspnet-WebApplication-0799fe3e-6eaf-4c5f-b40e-7c6bfd5dfa9a",
 
     "dependencies": {
         "Microsoft.NETCore.App": {
@@ -32,10 +32,12 @@
         "Microsoft.Extensions.Configuration.UserSecrets": "1.1.0",
         "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
         "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
-        //"Microsoft.ApplicationInsights.AspNetCore": "1.0.2",
-        "task-builder-net-core-common": "1.0.0-*",
         "login-manager": "1.0.0-*",
-        "tbloader-gate": "1.0.0-*"
+        "rs-web": "1.0.0-*",
+        "tbloader-gate": "1.0.0-*",
+        "menu-gate": "1.0.0-*",
+        //"Microsoft.ApplicationInsights.AspNetCore": "1.1.0",
+        //"menu-gate": "1.0.0-*"
     },
     "tools": {
         "Microsoft.AspNetCore.Razor.Tools": {
