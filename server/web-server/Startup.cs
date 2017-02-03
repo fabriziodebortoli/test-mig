@@ -110,7 +110,7 @@ namespace WebApplication
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				app.UseDatabaseErrorPage();
+				//TODO RICCARDO app.UseDatabaseErrorPage();
 				app.UseBrowserLink();
 			}
 			else

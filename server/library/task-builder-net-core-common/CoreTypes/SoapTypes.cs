@@ -1,12 +1,13 @@
 using System;
-using System.Globalization;
+using System.Net;
 using System.Xml;
 
 
 namespace Microarea.RSWeb.CoreTypes
 {
-	///=============================================================================
-	public class SoapTypes
+
+    ///=============================================================================
+    public class SoapTypes
 	{
 		//-----------------------------------------------------------------------------
 		public static string	ToSoapBoolean	(bool d)		{ return XmlConvert.ToString(d).ToLower(); }
@@ -16,7 +17,7 @@ namespace Microarea.RSWeb.CoreTypes
 		public static string	ToSoapLong		(long d)		{ return XmlConvert.ToString(d); }
 		public static string	ToSoapFloat		(float d)		{ return XmlConvert.ToString(d); }
 		public static string	ToSoapDouble	(double d)		{ return XmlConvert.ToString(d); }
-		public static string	ToSoapString	(string s)		{ return Microarea.RSWeb.WoormWebControl.GenericFunctions.HtmlEncode(s); }
+		public static string	ToSoapString	(string s)		{ return WebUtility.HtmlEncode(s); }
 		public static string	ToSoapGuid		(Guid d)		{ return XmlConvert.ToString(d); }
 		public static string	ToSoapDateTime	(DateTime d)	{ return XmlConvert.ToString(d, @"yyyy-MM-ddTHH\:mm\:ss"); }
         public static string    ToSoapDate      (DateTime d)    { return XmlConvert.ToString(d, @"yyyy-MM-dd"); }
@@ -32,7 +33,7 @@ namespace Microarea.RSWeb.CoreTypes
 		public static long		FromSoapLong	(string s)	{ return XmlConvert.ToInt64(s); }
 		public static float		FromSoapFloat	(string s)	{ return XmlConvert.ToSingle(s); }
 		public static double	FromSoapDouble	(string s)	{ return XmlConvert.ToDouble(s); }
-		public static string	FromSoapString	(string s)	{ return Microarea.RSWeb.WoormWebControl.GenericFunctions.HtmlDecode(s); }
+		public static string	FromSoapString	(string s)	{ return WebUtility.HtmlDecode(s); }
 		public static Guid		FromSoapGuid	(string s)	{ return XmlConvert.ToGuid(s); }
 		public static DateTime FromSoapDateTime(string s) { return XmlConvert.ToDateTime(s, XmlDateTimeSerializationMode.Unspecified); }
 		public static DataEnum	FromSoapDataEnum(string s)	{ return DataEnum.XmlConvertToDataEnum(s); }

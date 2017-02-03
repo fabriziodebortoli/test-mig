@@ -281,4 +281,14 @@ namespace TaskBuilderNetCore.Interfaces
 
     }
 
+    //public enum FontStyle
+    //{
+    //    HS_NORMAL = 0,
+    //    HS_BOLD = 1,
+    //    HS_ITALIC = 2,
+    //    HS_BOLDITALIC = 3
+    //}
+    ////
+
+ 
 }

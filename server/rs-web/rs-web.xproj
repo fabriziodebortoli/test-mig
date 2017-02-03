@@ -16,20 +16,9 @@
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <ItemGroup>
-    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\DynamicObject.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\DynamicProxy.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\DynamicProxyException.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\DynamicProxyFactory.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\DynamicProxyFactoryOptions.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\HttpApi.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\SoapClient.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\Util.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\WCFService.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\SoapCall\WCFSoapClient.cs" />
     <DnxInvisibleCompile Include="rs-web-backend\WebControls\Helper.cs" />
     <DnxInvisibleCompile Include="rs-web-backend\WebControls\LinkDocument.cs" />
     <DnxInvisibleCompile Include="rs-web-backend\WebControls\TBFieldSet.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WebServicesWrapper\StubReferences.cs" />
     <DnxInvisibleCompile Include="rs-web-backend\WoormController\AskDialogController.cs" />
     <DnxInvisibleCompile Include="rs-web-backend\WoormController\HttpGenericHandler.cs" />
     <DnxInvisibleCompile Include="rs-web-backend\WoormController\WoormHandler.cs" />

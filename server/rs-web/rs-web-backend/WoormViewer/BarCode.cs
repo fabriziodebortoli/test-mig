@@ -160,13 +160,6 @@ namespace Microarea.RSWeb.WoormViewer
 
         }
 
-		public enum FontStyle
-		{
-			HS_NORMAL		= 0,
-			HS_BOLD			= 1,
-			HS_ITALIC		= 2,
-			HS_BOLDITALIC	= 3
-		}
 
 		public enum LabelType
 		{

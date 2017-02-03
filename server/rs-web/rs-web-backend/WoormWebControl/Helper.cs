@@ -7,6 +7,7 @@ using Microarea.RSWeb.Generic;
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Temp;
 using TaskBuilderNetCore.Interfaces;
+using System.Net;
 
 namespace Microarea.RSWeb.WoormWebControl
 {
@@ -22,13 +23,13 @@ namespace Microarea.RSWeb.WoormWebControl
 		//--------------------------------------------------------------------------------
 		public static string FormatParametersForRequest(string xmlDomParameters)
 		{
-			return Microarea.RSWeb.WoormWebControl.GenericFunctions.UrlEncode(xmlDomParameters);
+			return WebUtility.UrlEncode(xmlDomParameters);
 		}
 
 		//--------------------------------------------------------------------------------
 		public static string UnformatParametersFromRequest(string xmlFormattedParameters)
 		{
-			return Microarea.RSWeb.WoormWebControl.GenericFunctions.UrlDecode(xmlFormattedParameters);
+			return WebUtility.UrlDecode(xmlFormattedParameters);
 		}
 
 		//------------------------------------------------------------------------------

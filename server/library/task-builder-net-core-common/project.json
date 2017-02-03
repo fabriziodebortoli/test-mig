@@ -1,18 +1,16 @@
 {
+  "version": "1.0.0-*",
+
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.1.0",
       "type": "platform"
     },
-
-    "Microsoft.ApplicationInsights.AspNetCore": "1.0.2",
-
     "Microsoft.AspNetCore.Hosting": "1.1.0",
+    "Microsoft.AspNetCore.Http": "1.1.0",
     "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
-    "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.Routing": "1.1.0",
-    "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
+    "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.StaticFiles": "1.1.0",
     "Microsoft.AspNetCore.WebSockets.Server": "0.1.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
@@ -28,49 +26,16 @@
     "System.Xml.XmlDocument": "4.3.0",
     "System.Xml.XmlSerializer": "4.3.0",
     "system.xml.xpath.xmldocument": "4.3.0",
-    "TaskBuilderNetCore.Data": "1.0.0-*",
     "TaskBuilderNetCore.Interfaces": "1.0.0-*",
-    "PDFSharpCore": "3.5.0-4",
-    "task-builder-net-core-common": "1.0.0-*"
+    "TaskBuilderNetCore.Data": "1.0.0-*",
+    "CoreCompat.System.Drawing": "1.0.0-beta006"
   },
 
-	"tools": {
-		"Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final"
-	},
-
-	"frameworks": {
-		"netcoreapp1.1": {
+  "frameworks": {
+    "netcoreapp1.1": {
       //"imports": [
       //  "dnxcore50"
       //]
-		}
-	},
-
-	"buildOptions": {
-		"emitEntryPoint": true,
-		"preserveCompilationContext": true
-	},
-
-	"runtimeOptions": {
-		"configProperties": {
-			"System.GC.Server": true
-		}
-	},
-
-	"publishOptions": {
-		"include": [
-			"wwwroot",
-			"**/*.cshtml",
-			"appsettings.json",
-			"web.config"
-		]
-	},
-
-	"scripts": {
-		"postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
-	},
-  "tooling": {
-    "defaultNamespace": "Microarea.RSWeb"
-  },
-  "userSecretsId": "aspnet-rs-web-20170118112426"
+    }
+  }
 }

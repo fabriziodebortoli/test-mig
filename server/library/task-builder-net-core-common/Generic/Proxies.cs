@@ -1,11 +1,11 @@
 using System;
+using System.Net;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 using Microarea.RSWeb.XmlPersister;
-using System.Net;
 
 namespace Microarea.RSWeb.Generic
 {

@@ -1,4 +1,4 @@
-﻿
+﻿using System.Drawing;
 
 namespace TaskBuilderNetCore.Interfaces
 {
@@ -11,4 +11,13 @@ namespace TaskBuilderNetCore.Interfaces
 		bool GetBoolThemeElement(string themeElement);
 		string Name { get; set; }
 	}
+
+    //================================================================================
+    public interface IImage
+    {
+        Rectangle ImageRect { get; }
+
+        string ImageFile { get; }
+    }
+
 }
