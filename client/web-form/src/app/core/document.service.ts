@@ -33,8 +33,7 @@ export class DocumentService {
         });
 
     }
-    init(cmpId: string)
-    {
+    init(cmpId: string) {
         this.mainCmpId = cmpId;
         this.webSocketService.getDocumentData(this.mainCmpId);
     }
@@ -52,7 +51,7 @@ export class DocumentService {
         this.serverCommandMapReadySubscription.unsubscribe();
     }
 
-     isServerSideCommand(idCommand: String) {
+    isServerSideCommand(idCommand: string) {
         return this.serverSideCommandMap.indexOf(idCommand) > -1;
     }
 }
