@@ -10,7 +10,6 @@ import { WebSocketService } from './websocket.service';
 import { Logger } from 'libclient';
 import { UtilsService } from './utils.service';
 import { HttpService } from './http.service';
-import { CommandService } from './command.service';
 import { LoginSessionService } from './login-session.service';
 
 import { CoreGuard } from './core.guard';
@@ -28,7 +27,6 @@ const TB_SERVICES = [
   WebSocketService,
   SidenavService,
   ComponentService,
-  CommandService,
   CoreGuard
 ];
 

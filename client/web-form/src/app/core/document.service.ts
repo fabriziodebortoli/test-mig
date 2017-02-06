@@ -7,7 +7,7 @@ import { Logger } from 'libclient';
 @Injectable()
 export class DocumentService {
     model: any;
-    serverSideCommandMap: any; //TODO SILVANO needs typing  
+    serverSideCommandMap: string[];
     mainCmpId: string;
     dataReadySubscription: any;
     serverCommandMapReadySubscription: any;
@@ -50,5 +50,9 @@ export class DocumentService {
         delete this.mainCmpId;
         this.dataReadySubscription.unsubscribe();
         this.serverCommandMapReadySubscription.unsubscribe();
+    }
+
+     isServerSideCommand(idCommand: String) {
+        return this.serverSideCommandMap.indexOf(idCommand) > -1;
     }
 }

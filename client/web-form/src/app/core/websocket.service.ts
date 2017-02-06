@@ -6,7 +6,6 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { environment } from './../../environments/environment';
 
 import { HttpService } from './http.service';
-import { CommandService } from './command.service'
 
 import { Logger } from 'libclient';
 
@@ -25,8 +24,7 @@ export class WebSocketService {
 
     constructor(private httpService: HttpService,
         private cookieService: CookieService,
-        private logger: Logger,
-        private commandService: CommandService) {
+        private logger: Logger) {
     }
 
     wsConnect(): void {
@@ -97,12 +95,7 @@ export class WebSocketService {
 
     doValueChanged(cmpId: String, id: String, modelData?: any): void {
         let data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
-        //questo if andrebbe anticipato nel chiamante, se so che non e' azione server side, non devo chiamare servizio websocket
-        if (this.commandService.isServerSideCommand(id)) {
-            this.connection.send(JSON.stringify(data));
-        }
-        //else
-        //azione solo lato client. 
+        this.connection.send(JSON.stringify(data));
     }
 
     runObject(ns: String): void {

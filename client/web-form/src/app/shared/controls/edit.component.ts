@@ -21,6 +21,8 @@ export class EditComponent extends ControlComponent{
       }
 
     onBlur() {
-        this.webSocket.doValueChanged(this.document.mainCmpId, this.cmpId, this.document.model);
+        if (this.document.isServerSideCommand(this.cmpId)){
+            this.webSocket.doValueChanged(this.document.mainCmpId, this.cmpId, this.document.model);
+        }
     }
 }

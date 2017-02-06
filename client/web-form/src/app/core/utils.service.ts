@@ -69,6 +69,7 @@ export class UtilsService {
       ("00" + d.getMinutes()).slice(-2) +
       ("00" + d.getSeconds()).slice(-2));
 
+
     return p;
   }
 
