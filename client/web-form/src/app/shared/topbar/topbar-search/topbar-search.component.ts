@@ -1,3 +1,5 @@
+import { LocalizationService } from './../../../menu/services/localization.service';
+import { MenuService } from './../../../menu/services/menu.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,9 +11,15 @@ export class TopbarSearchComponent implements OnInit {
 
   private searchText: string = "Search"; //TODO localizzazione
 
-  constructor() { }
+  constructor(  
+    private menuService: MenuService,
+    private localizationService: LocalizationService
+    ) { 
+      
+    }
 
   ngOnInit() {
+   
   }
 
 }

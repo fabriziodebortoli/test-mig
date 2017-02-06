@@ -52,6 +52,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.menuService.SavePreferences();
+    this.menuService.Clear();
     this.sidenavSubscription.unsubscribe();
     this.getMenuElementsSubscription.unsubscribe();
   }

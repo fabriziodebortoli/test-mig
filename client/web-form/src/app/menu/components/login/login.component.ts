@@ -45,10 +45,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     let subs = this.httpService.getCompaniesForUser(user).subscribe((result) => {
 
       this.companies = result.Companies.Company;
-      if (this.companies.length > 0 && this.connectionData.company == undefined)
+      if (this.companies.length > 0) {
         this.connectionData.company = this.companies[0].name;
+      }
+      else {
+        this.connectionData.company = "";
+      }
 
-        subs.unsubscribe();
+      subs.unsubscribe();
     });
   }
 

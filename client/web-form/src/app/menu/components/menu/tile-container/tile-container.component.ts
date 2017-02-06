@@ -11,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TileContainerComponent implements OnInit {
 
+  private tiles: any = [];
   constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
@@ -20,17 +21,17 @@ export class TileContainerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getTiles();
   }
 
-
-  getTiles() {
+  private getTiles() {
     let array = this.utilsService.toArray(this.menuService.selectedMenu.Menu);
-    let newArray = [];
+
     for (let i = 0; i < array.length; i++) {
       if (this.tileIsVisible(array[i]))
-        newArray.push(array[i]);
+        this.tiles.push(array[i]);
     }
-    return newArray;
+    return this.tiles;
   }
 
   //---------------------------------------------------------------------------------------------

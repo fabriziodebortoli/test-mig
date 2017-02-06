@@ -101,12 +101,13 @@ export class MenuService {
         this.selectedApplication.isSelected = true;
 
         this.settingsService.lastApplicationName = application.name;
-        this.settingsService.setPreference('LastApplicationName', encodeURIComponent(this.settingsService.lastApplicationName), undefined);
 
         var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
         if (tempGroupArray[0] != undefined)
             this.setSelectedGroup(tempGroupArray[0]);
     }
+
+
 
     //---------------------------------------------------------------------------------------------
     setSelectedGroup(group) {
@@ -119,7 +120,6 @@ export class MenuService {
         this.selectedGroup = group;
         this.selectedGroup.isSelected = true;
         this.settingsService.lastGroupName = group.name;
-        this.settingsService.setPreference('LastGroupName', encodeURIComponent(this.settingsService.lastGroupName), undefined);
 
         var tempMenuArray = this.utilsService.toArray(this.selectedGroup.Menu);
         if (tempMenuArray[0] != undefined)
@@ -138,13 +138,11 @@ export class MenuService {
         if (menu == undefined) {
             this.selectedMenu = undefined;
             this.settingsService.lastMenuName = '';
-            this.settingsService.setPreference('LastMenuName', encodeURIComponent(this.settingsService.lastMenuName), undefined);
             return;
         }
 
         this.selectedMenu = menu;
         this.settingsService.lastMenuName = menu.name;
-        this.settingsService.setPreference('LastMenuName', encodeURIComponent(this.settingsService.lastMenuName), undefined);
         this.selectedMenu.active = true;
         menu.visible = true;
 
@@ -345,6 +343,23 @@ export class MenuService {
     }
 
     //---------------------------------------------------------------------------------------------
+    SavePreferences() {
+        this.settingsService.setPreference('LastApplicationName', encodeURIComponent(this.settingsService.lastApplicationName), undefined);
+        this.settingsService.setPreference('LastGroupName', encodeURIComponent(this.settingsService.lastGroupName), undefined);
+        this.settingsService.setPreference('LastMenuName', encodeURIComponent(this.settingsService.lastMenuName), undefined);
+
+    }
+
+    //---------------------------------------------------------------------------------------------
+    Clear() {
+        this.searchSources.splice(0, this.searchSources.length);
+        this.favorites.splice(0, this.favorites.length);
+        this.favoritesCount = 0;
+        this.mostUsed.splice(0, this.mostUsed.length);
+        this.mostUsedCount = 0;
+    }
+
+    //---------------------------------------------------------------------------------------------
     onAfterGetMenuElements(root) {
         this.applicationMenu = root.ApplicationMenu.AppMenu;
         this.environmentMenu = root.EnvironmentMenu.AppMenu;
@@ -354,6 +369,7 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     loadFavoritesAndMostUsed() {
+
         if (this.applicationMenu != undefined)
             this.findFavoritesAndMostUsedInApplication(this.applicationMenu.Application);
         if (this.environmentMenu != undefined)

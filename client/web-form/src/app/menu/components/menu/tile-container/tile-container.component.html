@@ -1,7 +1,6 @@
-<div *ngFor="let tile of getTiles()"  class="tileContainer">
+<div *ngFor="let tile of tiles"  class="tileContainer">
     <tb-tile-content [Tile]="tile"></tb-tile-content>
 </div>
-
 
 <!--voci posizionate male, sarebbero da togliere-->
 <div *ngIf="menuService.selectedMenu?.Object" class="tileContainer">
