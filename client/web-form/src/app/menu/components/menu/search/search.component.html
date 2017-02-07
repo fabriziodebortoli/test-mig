@@ -5,6 +5,6 @@
     </div>
 </template>
 
-<input [(ngModel)]="selected" [typeahead]="getSearchItems()" (typeaheadOnSelect)="onSelect($event)" [typeaheadOptionField]="'title'"
+<input [(ngModel)]="selected" [typeahead]="menuService.searchSources" (typeaheadOnSelect)="onSelect($event)" [typeaheadOptionField]="'title'"
     [typeaheadItemTemplate]="customItemTemplate" [typeaheadMinLength]="1"  [typeaheadOptionsLimit]="20"
     [typeaheadAsync]="false" placeholder="{{localizationService.getLocalizedElement('SearchLabel')}}" class="form-control">-->

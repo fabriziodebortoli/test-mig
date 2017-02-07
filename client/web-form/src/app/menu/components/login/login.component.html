@@ -13,7 +13,9 @@
                         {{ company?.name }}
                     </md-option>
                 </md-select>
-                {{connectionData.company}}
+                <div>
+                selected company: {{connectionData.company}}
+                </div>
             </div>
             
             <button md-raised-button color="primary" (click)="login();">Login</button>
