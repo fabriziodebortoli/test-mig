@@ -26,7 +26,7 @@ namespace Microarea.LoginManager.Controllers
 		private void ConfigureWebService()
 		{
 			string path = Assembly.GetEntryAssembly().Location;
-			int index = path.IndexOf("\\Standard\\Web\\");
+			int index = path.IndexOf("\\Standard\\Web\\", StringComparison.CurrentCultureIgnoreCase);
 			if (index < 0)
 			{
 				Debug.Assert(false, "Invalid Path");
