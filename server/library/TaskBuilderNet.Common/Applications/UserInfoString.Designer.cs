@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.Common.DiagnosticManager {
+namespace Microarea.Common.Applications {
     using System;
     using System.Reflection;
     
@@ -22,13 +22,13 @@ namespace Microarea.Common.DiagnosticManager {
     // with the /str option, or rebuild your VS project.
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class DiagnosticManagerStrings {
+    public class UserInfoString {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        internal DiagnosticManagerStrings() {
+        internal UserInfoString() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace Microarea.Common.DiagnosticManager {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("rs-web.rs-web-backend.DiagnosticManager.DiagnosticManagerStrings", typeof(DiagnosticManagerStrings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TaskBuilderNet.Common.Applications.UserInfoString", typeof(UserInfoString).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,29 +60,56 @@ namespace Microarea.Common.DiagnosticManager {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Error.
+        ///    Looks up a localized string similar to Login failed. {0}.
         /// </summary>
-        public static string Error {
+        public static string LoginError {
             get {
-                return ResourceManager.GetString("Error", resourceCulture);
+                return ResourceManager.GetString("LoginError", resourceCulture);
             }
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Information.
+        ///    Looks up a localized string similar to Authentication has not yet been performed.
         /// </summary>
-        public static string Info {
+        public static string LoginNotYetPerformed {
             get {
-                return ResourceManager.GetString("Info", resourceCulture);
+                return ResourceManager.GetString("LoginNotYetPerformed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Warning.
+        ///    Looks up a localized string similar to No companies are associated at selected user or user is not valid..
         /// </summary>
-        public static string Warning {
+        public static string NoCompanies {
             get {
-                return ResourceManager.GetString("Warning", resourceCulture);
+                return ResourceManager.GetString("NoCompanies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to User name or password not valid. {0}.
+        /// </summary>
+        public static string PasswordError {
+            get {
+                return ResourceManager.GetString("PasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Unable to contact authentication server services..
+        /// </summary>
+        public static string SoapError {
+            get {
+                return ResourceManager.GetString("SoapError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to TBLoader server is not available {0}.
+        /// </summary>
+        public static string TBLoaderError {
+            get {
+                return ResourceManager.GetString("TBLoaderError", resourceCulture);
             }
         }
     }

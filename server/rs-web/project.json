@@ -26,10 +26,10 @@
     "TaskBuilderNetCore.Data": "1.0.0-*",
     "TaskBuilderNetCore.Interfaces": "1.0.0-*",
     "PDFSharpCore": "3.5.0-4",
-    "task-builder-net-core-common": "1.0.0-*",
-    "Microsoft.AspNetCore.Mvc": "1.1.1",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
-    "Microsoft.ApplicationInsights.AspNetCore": "2.0.0"
+    "Microsoft.AspNetCore.Mvc": "1.1.0",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
+    "Microsoft.ApplicationInsights.AspNetCore": "2.0.0",
+    "TaskBuilderNet.Common": "1.0.0-*"
   },
 
 	"tools": {
