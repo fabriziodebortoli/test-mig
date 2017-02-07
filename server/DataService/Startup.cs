@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using Microarea.RSWeb.Models;
+using Microarea.DataService.Models;
 
-namespace Microarea.RSWeb
+namespace Microarea.DataService
 {
     public class Startup
     {
@@ -15,66 +16,68 @@ namespace Microarea.RSWeb
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
 
-            //if (env.IsEnvironment("Development"))
+            //if (env.IsDevelopment())
             //{
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 //builder.AddApplicationInsightsSettings(developerMode: true);
             //}
-
-            builder.AddEnvironmentVariables();
-
             Configuration = builder.Build();
         }
 
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
             //services.AddApplicationInsightsTelemetry(Configuration);
 
-            // Add service and create Policy with options
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
-            });
-
             services.AddMvc();
-           // services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
-            //services.AddSession();
         }
 
-   
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            //app.UseApplicationInsightsRequestTelemetry();
+           // app.UseApplicationInsightsRequestTelemetry();
+
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //    app.UseBrowserLink();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //}
+
             //app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
             app.UseWebSockets();
-            //app.UseCors("CorsPolicy");
 
-			//new WebAppConfigurator().Configure(app, env, loggerFactory);
-			app.Use(async (http, next) =>
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //});
+
+            app.Use(async (http, next) =>
             {
-                RSSocketHandler handler = new RSSocketHandler();
+                DSSocketHandler handler = new DSSocketHandler();
                 await handler.Listen(http, next);
-                
+
             });
 
             app.UseMvc();
+
+
         }
     }
 }

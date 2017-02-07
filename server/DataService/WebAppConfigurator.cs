@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
 using Microarea.Common;
-using Microarea.RSWeb.Models;
+using Microarea.DataService.Models;
 
 namespace Microarea.RSWeb
 {
@@ -13,7 +13,7 @@ namespace Microarea.RSWeb
     {
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
-			RSSocketHandler handler = new RSSocketHandler();
+			DSSocketHandler handler = new DSSocketHandler();
 			app.Use(handler.Listen);
 		}
 		public void MapRoutes(IRouteBuilder routes)
