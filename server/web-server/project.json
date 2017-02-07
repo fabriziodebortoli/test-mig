@@ -34,6 +34,7 @@
         "rs-web": "1.0.0-*",
         "tbloader-gate": "1.0.0-*",
         "menu-gate": "1.0.0-*",
+        "task-builder-net-core-common": "1.0.0-*",
         "Microsoft.AspNetCore.Mvc": "1.1.1",
         "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
         //"Microsoft.ApplicationInsights.AspNetCore": "1.1.0",
