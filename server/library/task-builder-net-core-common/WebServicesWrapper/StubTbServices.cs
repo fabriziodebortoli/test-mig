@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Xml;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.Generic;
+using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.WebServicesWrapper
+namespace Microarea.Common.WebServicesWrapper
 {
     public class TbServices : ITbServices
     {

@@ -5,9 +5,9 @@ using System.Globalization;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-using Microarea.RSWeb.XmlPersister;
+using Microarea.Common.XmlPersister;
 
-namespace Microarea.RSWeb.Generic
+namespace Microarea.Common.Generic
 {
     //=========================================================================
     [Serializable]

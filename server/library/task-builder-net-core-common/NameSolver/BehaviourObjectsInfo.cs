@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 
-using Microarea.RSWeb.StringLoader;
+using Microarea.Common.StringLoader;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.NameSolver
+namespace Microarea.Common.NameSolver
 {
     /// <summary>
     /// Nodo Entita'

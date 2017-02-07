@@ -7,11 +7,11 @@ using System.Runtime.Serialization;
 
 
 
-using Microarea.RSWeb.Generic;
+using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces.Model;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.CoreTypes
+namespace Microarea.Common.CoreTypes
 {
 	/// <summary>
 	/// Summary description for Item.

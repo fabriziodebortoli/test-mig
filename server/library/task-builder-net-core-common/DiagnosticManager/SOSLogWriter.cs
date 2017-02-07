@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.DiagnosticManager
+namespace Microarea.Common.DiagnosticManager
 {
     ///<summary>
     /// Semplice writer di un log (al momento utilizzato per scrivere log del SOSConnector)

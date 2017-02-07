@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Text;
 
-namespace Microarea.RSWeb.Generic
+namespace Microarea.Common.Generic
 {
     /// <summary>
     /// Summary description for LocalMachine.

@@ -5,7 +5,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Microarea.RSWeb.XmlPersister
+namespace Microarea.Common.XmlPersister
 {
 	/// <summary>
 	/// La classe State è una classe abstract che rappresenta la base class

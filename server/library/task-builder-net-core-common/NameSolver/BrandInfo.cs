@@ -9,12 +9,12 @@ using System.Collections.Generic;
 
 
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.WebServicesWrapper;
+using Microarea.Common.Generic;
+using Microarea.Common.WebServicesWrapper;
 using TaskBuilderNetCore.Interfaces;
 
 
-namespace Microarea.RSWeb.NameSolver
+namespace Microarea.Common.NameSolver
 {
     #region Class BrandLoader
     //============================================================================

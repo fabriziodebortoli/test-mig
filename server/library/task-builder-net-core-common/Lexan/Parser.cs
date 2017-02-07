@@ -7,12 +7,12 @@ using System.IO;
 
 using TaskBuilderNetCore.Interfaces;
 
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.DiagnosticManager;
-using Microarea.RSWeb.Lexan;
-//using Microarea.RSWeb.Temp;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.DiagnosticManager;
+using Microarea.Common.Lexan;
+//using Microarea.Common.Temp;
 
-namespace Microarea.RSWeb.Lexan
+namespace Microarea.Common.Lexan
 {
     /// ================================================================================
     public class Comment : ArrayList

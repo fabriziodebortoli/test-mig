@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Microarea.RSWeb.SerializableTypes
+namespace Microarea.Common.SerializableTypes
 {
     [Serializable]
 	///uso questo wrapper perche' la classe ServiceEndpoint non e' serializzabile!

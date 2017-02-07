@@ -1,6 +1,6 @@
 using System;
 
-namespace Microarea.RSWeb.CoreTypes
+namespace Microarea.Common.CoreTypes
 {
 	/// <summary>
 	/// Summary description for UnitConvertions.

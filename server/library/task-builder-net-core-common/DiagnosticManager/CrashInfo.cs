@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Microarea.RSWeb.DiagnosticManager
+namespace Microarea.Common.DiagnosticManager
 {
     public struct CrashInfo
 	{

@@ -2,10 +2,10 @@
 using System;
 using System.Drawing;
 using System.Runtime.Serialization;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
 
-namespace Microarea.RSWeb.Temp
+namespace Microarea.Common.Temp
 {   //Temporary
     public class __Color
     {

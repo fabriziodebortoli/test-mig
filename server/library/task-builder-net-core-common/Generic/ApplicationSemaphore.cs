@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Microarea.RSWeb.Generic
+namespace Microarea.Common.Generic
 {
 	//============================================================================
 	public class ApplicationSemaphore

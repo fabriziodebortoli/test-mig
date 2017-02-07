@@ -4,9 +4,9 @@ using System.Xml;
 
 using TaskBuilderNetCore.Interfaces;
 
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Generic;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormController;
 
 namespace Microarea.RSWeb.WoormWebControl

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.StringLoader {
+namespace Microarea.Common.StringLoader {
     using System;
     using System.Reflection;
     

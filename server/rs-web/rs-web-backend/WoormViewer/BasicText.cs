@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Runtime.Serialization;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
 using Microarea.RSWeb.WoormViewer;
 //using Microarea.RSWeb.Temp;
 

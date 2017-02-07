@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.CoreTypes {
+namespace Microarea.Common.CoreTypes {
     using System;
     using System.Reflection;
     

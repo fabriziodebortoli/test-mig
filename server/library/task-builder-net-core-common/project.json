@@ -10,7 +10,6 @@
     "Microsoft.AspNetCore.Http": "1.1.0",
     "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
     "Microsoft.AspNetCore.Routing": "1.1.0",
-    "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.StaticFiles": "1.1.0",
     "Microsoft.AspNetCore.WebSockets.Server": "0.1.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
@@ -28,7 +27,8 @@
     "system.xml.xpath.xmldocument": "4.3.0",
     "TaskBuilderNetCore.Interfaces": "1.0.0-*",
     "TaskBuilderNetCore.Data": "1.0.0-*",
-    "CoreCompat.System.Drawing": "1.0.0-beta006"
+    "CoreCompat.System.Drawing": "1.0.0-beta006",
+    "Microsoft.AspNetCore.Mvc": "1.1.1"
   },
 
   "frameworks": {

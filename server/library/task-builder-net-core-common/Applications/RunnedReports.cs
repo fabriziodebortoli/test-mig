@@ -3,14 +3,14 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.NameSolver;
 
 
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Generic;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.Applications
+namespace Microarea.Common.Applications
 {
 	//================================================================================
 	public class RunnedReportMng

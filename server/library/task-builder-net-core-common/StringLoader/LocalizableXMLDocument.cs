@@ -5,7 +5,7 @@ using System.IO;
 using System.Xml;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.StringLoader
+namespace Microarea.Common.StringLoader
 {
 
     /// <summary>

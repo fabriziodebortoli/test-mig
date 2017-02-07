@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace Microarea.RSWeb.CoreTypes
+namespace Microarea.Common.CoreTypes
 {
 	/// <summary>
 	/// DateTimeFunctions.

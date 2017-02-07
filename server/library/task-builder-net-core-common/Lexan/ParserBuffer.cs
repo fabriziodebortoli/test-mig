@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace Microarea.RSWeb.Lexan
+namespace Microarea.Common.Lexan
 {
 	/// <summary>
 	/// Summary description for Class1.

@@ -6,7 +6,7 @@
 //using Ap = DocumentFormat.OpenXml.ExtendedProperties;
 //using Vt = DocumentFormat.OpenXml.VariantTypes;
 
-namespace Microarea.RSWeb.OpenXML
+namespace Microarea.Common.OpenXML
 {
     /// <summary>
     /// This code was generated using the productivity tool included with

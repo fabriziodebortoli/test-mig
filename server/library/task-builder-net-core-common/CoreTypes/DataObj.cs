@@ -7,7 +7,7 @@ using System.Text;
 
 using TaskBuilderNetCore.Interfaces.Model;
 
-namespace Microarea.RSWeb.CoreTypes
+namespace Microarea.Common.CoreTypes
 {
 	//=========================================================================
 	[Serializable]

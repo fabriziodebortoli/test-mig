@@ -13,14 +13,14 @@ using System.Linq;
 //TODO RSWEB using Microarea.TaskBuilderNet.Core.MenuManagerLoader; //unused -> menu functions for office file
 
 
-using Microarea.RSWeb.DiagnosticManager;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Applications;
+using Microarea.Common.DiagnosticManager;
+using Microarea.Common.Generic;
+using Microarea.Common.Applications;
 using TaskBuilderNetCore.Interfaces;
 using System.Threading.Tasks;
-using static Microarea.RSWeb.Generic.InstallationInfo;
+using static Microarea.Common.Generic.InstallationInfo;
 
-namespace Microarea.RSWeb.NameSolver
+namespace Microarea.Common.NameSolver
 {
     public enum ImageSize { None, Size16x16, Size20x20, Size24x24, Size32x32 }
 	/// <summary>

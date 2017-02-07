@@ -4,11 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 
-using Microarea.RSWeb.StringLoader;
-using Microarea.RSWeb.Generic;
+using Microarea.Common.StringLoader;
+using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.NameSolver
+namespace Microarea.Common.NameSolver
 {
     ///<summary>
     /// Classe che mappa in memoria un nodo di tipo Entity "base", ovvero quello utilizzato 

@@ -1,7 +1,7 @@
-﻿using Microarea.RSWeb.Temp;
+﻿using Microarea.Common.Temp;
 using System.Drawing;
 
-namespace Microarea.RSWeb.Applications
+namespace Microarea.Common.Applications
 {
     /// <summary>
     /// Summary description for BorderPen.

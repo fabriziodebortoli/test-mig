@@ -5,7 +5,7 @@ using System.IO;
 
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.NameSolver
+namespace Microarea.Common.NameSolver
 {	
 	//=========================================================================
 	public class PathFinder : BasePathFinder, IPathFinder

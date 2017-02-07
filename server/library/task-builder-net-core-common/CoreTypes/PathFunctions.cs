@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Microarea.RSWeb.CoreTypes
+namespace Microarea.Common.CoreTypes
 {
 	/// <summary>
 	/// Descrizione di riepilogo per PathFunctions.

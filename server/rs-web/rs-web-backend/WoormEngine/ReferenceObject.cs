@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.ExpressionManager;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.ExpressionManager;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.RSWeb.WoormEngine

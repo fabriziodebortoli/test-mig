@@ -7,13 +7,13 @@ using System.Xml;
 
 
 
-using Microarea.RSWeb.NameSolver;
-using Microarea.RSWeb.StringLoader;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.CoreTypes;
+using Microarea.Common.NameSolver;
+using Microarea.Common.StringLoader;
+using Microarea.Common.Generic;
+using Microarea.Common.CoreTypes;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.Applications
+namespace Microarea.Common.Applications
 {
 	/*
 		Sintassi di ReferenceObjects.xml

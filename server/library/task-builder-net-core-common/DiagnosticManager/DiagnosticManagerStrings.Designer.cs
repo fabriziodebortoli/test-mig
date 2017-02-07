@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.DiagnosticManager {
+namespace Microarea.Common.DiagnosticManager {
     using System;
     using System.Reflection;
     

@@ -6,11 +6,11 @@ using System.Globalization;
 using System.IO;
 using System.Xml;
 
-using Microarea.RSWeb.StringLoader;
-using Microarea.RSWeb.Generic;
+using Microarea.Common.StringLoader;
+using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.NameSolver
+namespace Microarea.Common.NameSolver
 {
     //=========================================================================
     public class ViewMode : IViewMode

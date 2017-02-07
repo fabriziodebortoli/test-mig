@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.Xml;
 using TaskBuilderNetCore.Interfaces.Model;
 
-namespace Microarea.RSWeb.CoreTypes
+namespace Microarea.Common.CoreTypes
 {
 	/// <summary>
 	/// Descrizione di riepilogo per DataEnum.

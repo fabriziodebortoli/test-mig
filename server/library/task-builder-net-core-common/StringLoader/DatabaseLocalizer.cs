@@ -1,7 +1,7 @@
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.StringLoader
+namespace Microarea.Common.StringLoader
 {
     //================================================================================
     public class DatabaseLocalizer : ObjectLocalizer

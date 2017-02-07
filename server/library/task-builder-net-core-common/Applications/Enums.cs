@@ -7,15 +7,15 @@ using System.IO;
 
 //TODO RSWEB using Microarea.TaskBuilderNet.Core.WebServicesWrapper; // -> Country, ActivationExpression
 
-using Microarea.RSWeb.StringLoader;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.NameSolver;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.StringLoader;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.NameSolver;
+using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
-using Microarea.RSWeb.Applications;
+using Microarea.Common.Applications;
 using System.Xml;
 
-namespace Microarea.RSWeb.Applications
+namespace Microarea.Common.Applications
 {
 
     // Definizioni di ELEMENT e ATTRIBUTE dei files enums.xml

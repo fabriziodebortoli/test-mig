@@ -5,11 +5,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.ExpressionManager;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.Generic;
+using Microarea.Common.ExpressionManager;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.RSWeb.WoormEngine

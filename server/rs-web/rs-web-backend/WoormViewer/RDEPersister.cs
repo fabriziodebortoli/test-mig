@@ -1,7 +1,7 @@
 using System.IO;
 using System.Xml;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.RSWeb.WoormViewer

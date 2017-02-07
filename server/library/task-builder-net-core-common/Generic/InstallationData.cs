@@ -8,10 +8,10 @@ using System.Text.RegularExpressions;
 
 //TODO RSWEB using Microarea.TaskBuilderNet.Core.WebServicesWrapper;   //unused -> Country + CheckDBSize
 
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.Generic
+namespace Microarea.Common.Generic
 {
     /// <summary>
     /// classe che contiene tutte le informazioni relative all'installazione; sono 

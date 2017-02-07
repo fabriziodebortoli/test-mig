@@ -3,12 +3,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.Temp;
+using Microarea.Common.Applications;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
+using Microarea.Common.Temp;
 
-namespace Microarea.RSWeb.Lexan
+namespace Microarea.Common.Lexan
 {
     /// <summary>
     /// Summary description for Unparser.

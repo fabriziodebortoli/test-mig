@@ -8,19 +8,19 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-using Microarea.RSWeb.StringLoader;
-using Microarea.RSWeb.DiagnosticManager;
-using Microarea.RSWeb.NameSolver;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.StringLoader;
+using Microarea.Common.DiagnosticManager;
+using Microarea.Common.NameSolver;
+using Microarea.Common.Generic;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Lexan;
 
 using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.Data;
 using TaskBuilderNetCore.Interfaces.Model;
 
-namespace Microarea.RSWeb.ExpressionManager
+namespace Microarea.Common.ExpressionManager
 {
     public enum CheckResultType { Compatible, Match, Ignore }
 	

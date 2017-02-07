@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Text;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.Generic
+namespace Microarea.Common.Generic
 {
 	/// <summary>
 	/// Associazione tra tipo namespace e numero di token

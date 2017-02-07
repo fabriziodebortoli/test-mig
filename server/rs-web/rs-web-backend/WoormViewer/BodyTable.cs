@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
 using RSjson;
 //using Microarea.RSWeb.Temp;
 

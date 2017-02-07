@@ -6,11 +6,11 @@ using System.Drawing;
 
 using TaskBuilderNetCore.Interfaces;
 
-using Microarea.RSWeb.Generic;
+using Microarea.Common.Generic;
 
-//using Microarea.RSWeb.Temp;
+//using Microarea.Common.Temp;
 
-namespace Microarea.RSWeb.NameSolver
+namespace Microarea.Common.NameSolver
 {
     //=========================================================================
     /// <summary>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.ExpressionManager {
+namespace Microarea.Common.ExpressionManager {
     using System;
     using System.Reflection;
     

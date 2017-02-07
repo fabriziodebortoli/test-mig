@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microarea.RSWeb.Applications;
+using Microarea.Common.Applications;
 
 using TaskBuilderNetCore.Interfaces.Model;
 
-namespace Microarea.RSWeb.CoreTypes
+namespace Microarea.Common.CoreTypes
 {
 	//=========================================================================
 	//[CLSCompliant(false)]//l'uso di ushort rende non CLS compliant.

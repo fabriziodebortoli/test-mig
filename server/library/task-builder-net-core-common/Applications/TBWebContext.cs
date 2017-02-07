@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Microarea.RSWeb.Applications
+namespace Microarea.Common.Applications
 {
 	public class TBWebContext : IApplicationBag
 	{

@@ -2,7 +2,7 @@
 using System.Data;
 using System.Linq;
 
-namespace Microarea.RSWeb.OpenXML
+namespace Microarea.Common.OpenXML
 {
     ////public class ExcelExport
     ////{

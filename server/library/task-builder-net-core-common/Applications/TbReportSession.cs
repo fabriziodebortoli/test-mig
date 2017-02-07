@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Globalization;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.CoreTypes;
+using Microarea.Common.Generic;
+using Microarea.Common.CoreTypes;
 using TaskBuilderNetCore.Interfaces;
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.NameSolver;
 
-namespace Microarea.RSWeb.Applications
+namespace Microarea.Common.Applications
 {
 
     /// <summary>

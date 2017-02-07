@@ -3,7 +3,7 @@ using System.Net;
 using System.Xml;
 
 
-namespace Microarea.RSWeb.CoreTypes
+namespace Microarea.Common.CoreTypes
 {
 
     ///=============================================================================

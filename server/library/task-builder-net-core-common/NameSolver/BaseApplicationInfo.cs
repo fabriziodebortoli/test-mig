@@ -5,12 +5,12 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Generic;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces;
-using static Microarea.RSWeb.Generic.InstallationInfo;
+using static Microarea.Common.Generic.InstallationInfo;
 
-namespace Microarea.RSWeb.NameSolver
+namespace Microarea.Common.NameSolver
 {
     #region LibraryInfo class
     //=========================================================================

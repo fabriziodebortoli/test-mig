@@ -4,15 +4,10 @@
       "version": "1.1.0",
       "type": "platform"
     },
-
-    "Microsoft.ApplicationInsights.AspNetCore": "1.0.2",
-
     "Microsoft.AspNetCore.Hosting": "1.1.0",
     "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
-    "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.Routing": "1.1.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
     "Microsoft.AspNetCore.StaticFiles": "1.1.0",
     "Microsoft.AspNetCore.WebSockets.Server": "0.1.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
@@ -31,7 +26,10 @@
     "TaskBuilderNetCore.Data": "1.0.0-*",
     "TaskBuilderNetCore.Interfaces": "1.0.0-*",
     "PDFSharpCore": "3.5.0-4",
-    "task-builder-net-core-common": "1.0.0-*"
+    "task-builder-net-core-common": "1.0.0-*",
+    "Microsoft.AspNetCore.Mvc": "1.1.1",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
+    "Microsoft.ApplicationInsights.AspNetCore": "2.0.0"
   },
 
 	"tools": {

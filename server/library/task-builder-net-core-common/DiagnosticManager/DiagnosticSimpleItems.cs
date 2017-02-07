@@ -1,7 +1,7 @@
 ﻿using System;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.DiagnosticManager
+namespace Microarea.Common.DiagnosticManager
 {
     //=========================================================================
     /// <summary>

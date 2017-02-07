@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.NameSolver;
-using Microarea.RSWeb.WebServicesWrapper.LoginMngXml;
+using Microarea.Common.Generic;
+using Microarea.Common.NameSolver;
+using Microarea.Common.WebServicesWrapper.LoginMngXml;
 using TaskBuilderNetCore.Interfaces;
 using System.Xml;
 
-namespace Microarea.RSWeb.WebServicesWrapper
+namespace Microarea.Common.WebServicesWrapper
 {
     /// <summary>
     /// Wrapper di LoginManager server

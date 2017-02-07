@@ -1,5 +1,5 @@
 
-namespace Microarea.RSWeb.StringLoader
+namespace Microarea.Common.StringLoader
 {
 	
 	//================================================================================

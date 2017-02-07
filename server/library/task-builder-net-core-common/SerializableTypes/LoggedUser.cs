@@ -2,10 +2,10 @@
 using System.Xml.Serialization;
 using System.IO;
 
-using Microarea.RSWeb.Generic;
+using Microarea.Common.Generic;
 using System.Collections.ObjectModel;
 
-namespace Microarea.RSWeb.SerializableTypes
+namespace Microarea.Common.SerializableTypes
 {
     [Serializable]
 	public class LoggedUser

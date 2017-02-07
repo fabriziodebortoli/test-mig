@@ -6,7 +6,7 @@ using System.Threading;
 
 
 
-namespace Microarea.RSWeb.Generic
+namespace Microarea.Common.Generic
 {
     /// <summary>
     /// Classe per la gestione delle immagini

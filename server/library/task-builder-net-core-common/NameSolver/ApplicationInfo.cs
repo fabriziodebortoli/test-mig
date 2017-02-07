@@ -2,10 +2,10 @@ using System;
 using System.Globalization;
 
 
-using Microarea.RSWeb.Generic;
+using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.NameSolver
+namespace Microarea.Common.NameSolver
 {
 	/// <summary>
 	/// Estensione di BaseModuleInfo con le informazioni relative alla custom

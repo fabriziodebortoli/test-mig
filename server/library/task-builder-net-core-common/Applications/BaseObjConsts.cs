@@ -1,5 +1,5 @@
 ﻿
-namespace Microarea.RSWeb.Applications
+namespace Microarea.Common.Applications
 {
 	public class BaseObjConsts
 	{

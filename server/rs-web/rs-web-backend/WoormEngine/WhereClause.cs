@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.ExpressionManager;
+using Microarea.Common.Generic;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Lexan;
+using Microarea.Common.ExpressionManager;
 
 namespace Microarea.RSWeb.WoormEngine
 {

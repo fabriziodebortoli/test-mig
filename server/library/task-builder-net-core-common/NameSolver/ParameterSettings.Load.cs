@@ -1,4 +1,4 @@
-﻿namespace Microarea.RSWeb.NameSolver
+﻿namespace Microarea.Common.NameSolver
 {
     using System.IO;
     using System.Xml;

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-using Microarea.RSWeb.Generic;
+using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormViewer;
 
 namespace Microarea.RSWeb.WoormWebControl

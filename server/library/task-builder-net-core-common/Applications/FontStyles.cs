@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Drawing;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
+using Microarea.Common.NameSolver;
 
 using TaskBuilderNetCore.Interfaces;
-using Microarea.RSWeb.Temp;
+using Microarea.Common.Temp;
 
-namespace Microarea.RSWeb.Applications
+namespace Microarea.Common.Applications
 {
     /// <summary>
     /// Summary description for FontStyles.

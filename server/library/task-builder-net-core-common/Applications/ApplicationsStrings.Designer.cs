@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.Applications {
+namespace Microarea.Common.Applications {
     using System;
     using System.Reflection;
     

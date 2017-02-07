@@ -9,13 +9,13 @@ using System.Xml;
 
 
 
-using Microarea.RSWeb.NameSolver;
-using Microarea.RSWeb.StringLoader;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.NameSolver;
+using Microarea.Common.StringLoader;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.CoreTypes
+namespace Microarea.Common.CoreTypes
 {
 	//=========================================================================
 	public class Parameter : IParameter

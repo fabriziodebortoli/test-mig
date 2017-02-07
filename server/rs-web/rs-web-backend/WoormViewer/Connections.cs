@@ -5,11 +5,11 @@ using System.IO;
 using System.Text;
 using System.Xml;
 
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.ExpressionManager;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Generic;
+using Microarea.Common.Applications;
+using Microarea.Common.Lexan;
+using Microarea.Common.ExpressionManager;
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormWebControl;
 using TaskBuilderNetCore.Interfaces;

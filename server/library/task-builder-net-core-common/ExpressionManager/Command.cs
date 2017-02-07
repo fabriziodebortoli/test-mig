@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-using Microarea.RSWeb.DiagnosticManager;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
+using Microarea.Common.DiagnosticManager;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
 
-namespace Microarea.RSWeb.ExpressionManager
+namespace Microarea.Common.ExpressionManager
 {
     //================================================================================
     public interface IMessageProvider
@@ -844,11 +844,11 @@ namespace Microarea.RSWeb.ExpressionManager
 		public object ReturnValue { get; set; }
 
 		//--------------------------------------------------------------------------------
-		public Microarea.RSWeb.Applications.TbReportSession ScriptingSession { get { return scriptingSession; } }
+		public Microarea.Common.Applications.TbReportSession ScriptingSession { get { return scriptingSession; } }
 		//--------------------------------------------------------------------------------
-		public Microarea.RSWeb.Applications.Enums EnumsTable { get { return scriptingSession.Enums; } }
+		public Microarea.Common.Applications.Enums EnumsTable { get { return scriptingSession.Enums; } }
 		//--------------------------------------------------------------------------------
-		public Microarea.RSWeb.CoreTypes.FunctionsList FunctionsTable { get { return scriptingSession.Functions; } }
+		public Microarea.Common.CoreTypes.FunctionsList FunctionsTable { get { return scriptingSession.Functions; } }
 		//--------------------------------------------------------------------------------
 		public SymbolTable SymbolTable { get { return symbolTable; } }
 		//--------------------------------------------------------------------------------

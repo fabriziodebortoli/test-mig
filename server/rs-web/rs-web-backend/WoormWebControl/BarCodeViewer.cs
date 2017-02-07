@@ -1,8 +1,9 @@
 using System;
 using System.Drawing;
 
-using Microarea.RSWeb.Applications;
+using Microarea.Common.Applications;
 using Microarea.RSWeb.WoormViewer;
+
 
 namespace Microarea.RSWeb.WoormWebControl
 {
@@ -42,7 +43,7 @@ namespace Microarea.RSWeb.WoormWebControl
 				int type;
                 int realCheckSum;
                 string humanReadable;
-                if (ExpressionManager.Expression.DecodeBarCode(v.FormattedData, out barCodeValue, out type, out realCheckSum, out humanReadable))
+                if (Microarea.Common.ExpressionManager.Expression.DecodeBarCode(v.FormattedData, out barCodeValue, out type, out realCheckSum, out humanReadable))
 					barCodeType = (BarCodeWrapper.Type) type;
 				else
 					barCodeType = barCode.BarCodeType;

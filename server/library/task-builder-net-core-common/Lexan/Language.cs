@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace Microarea.RSWeb.Lexan
+namespace Microarea.Common.Lexan
 {
 	/// ================================================================================
 	public class TkSymbolTable : Hashtable

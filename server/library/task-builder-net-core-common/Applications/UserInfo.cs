@@ -4,12 +4,12 @@ using System.Text.RegularExpressions;
 using System.Threading;
 
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.NameSolver;
-using Microarea.RSWeb.WebServicesWrapper;
+using Microarea.Common.Generic;
+using Microarea.Common.NameSolver;
+using Microarea.Common.WebServicesWrapper;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.Applications
+namespace Microarea.Common.Applications
 {
 	//=========================================================================
 	public class UserInfo : IDisposable	

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace Microarea.RSWeb.Generic
+namespace Microarea.Common.Generic
 {
 	/// <summary>
 	/// Classe per la crittazione di stringhe

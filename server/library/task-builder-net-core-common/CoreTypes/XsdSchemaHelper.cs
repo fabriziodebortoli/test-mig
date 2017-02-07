@@ -1,5 +1,5 @@
 ﻿
-namespace Microarea.RSWeb.CoreTypes
+namespace Microarea.Common.CoreTypes
 {
 	//=========================================================================
 	// Valori inseriti da 'TaskBuilder\Framework\TbXmlCore\XMLSchema.h'

@@ -1,7 +1,7 @@
 using System;
 
 
-namespace Microarea.RSWeb.Applications
+namespace Microarea.Common.Applications
 {
     //================================================================================
     public class ManifestImageLoader

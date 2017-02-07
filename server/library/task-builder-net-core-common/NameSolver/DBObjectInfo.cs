@@ -5,7 +5,7 @@ using System.IO;
 using System.Xml;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.NameSolver
+namespace Microarea.Common.NameSolver
 {
     /// <summary>
     /// DBObjects - classe che espone la lista degli oggetti di database dichiarati dal modulo

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.NameSolver {
+namespace Microarea.Common.NameSolver {
     using System;
     using System.Reflection;
     

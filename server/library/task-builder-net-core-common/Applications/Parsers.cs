@@ -1,8 +1,8 @@
 using System;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Lexan;
 
-namespace Microarea.RSWeb.Applications
+namespace Microarea.Common.Applications
 {
 	//---------------------------------------------------------------------------
 	public class DataTypeParser

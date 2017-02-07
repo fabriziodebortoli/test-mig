@@ -3,11 +3,11 @@ using System.Collections;
 using System.Diagnostics;
 using System.IO;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.Generic;
+using Microarea.Common.NameSolver;
 using System.Runtime.Serialization;
 
-namespace Microarea.RSWeb.StringLoader
+namespace Microarea.Common.StringLoader
 {
     //=========================================================================
     public class StringLoader

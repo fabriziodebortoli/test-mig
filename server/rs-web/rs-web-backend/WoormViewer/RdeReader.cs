@@ -4,8 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Xml;
 
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
 using Microarea.RSWeb.WoormEngine;
 using RSjson;
 using System.Net;

@@ -1,6 +1,6 @@
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.WebServicesWrapper
+namespace Microarea.Common.WebServicesWrapper
 {
     /// <summary>
     /// Summary description for LoginManagerWrapperStrings.

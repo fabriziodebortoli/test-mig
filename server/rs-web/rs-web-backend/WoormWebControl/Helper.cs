@@ -2,10 +2,10 @@ using System;
 using System.Drawing;
 using System.IO;
 
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.Generic;
+using Microarea.Common.Applications;
+using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormViewer;
-using Microarea.RSWeb.Temp;
+using Microarea.Common.Temp;
 using TaskBuilderNetCore.Interfaces;
 using System.Net;
 

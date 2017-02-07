@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Threading;
 
-namespace Microarea.RSWeb.Generic
+namespace Microarea.Common.Generic
 {
 	/// <summary>
 	/// Funzioni generiche relative ai dizionari e culture infos

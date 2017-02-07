@@ -4,10 +4,10 @@ using System.Globalization;
 using System.Reflection;
 using System.Threading;
 
-using Microarea.RSWeb.Generic;
+using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces.Model;
 
-namespace Microarea.RSWeb.CoreTypes
+namespace Microarea.Common.CoreTypes
 {
 
     //================================================================================

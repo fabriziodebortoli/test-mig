@@ -6,12 +6,12 @@ using System.Globalization;
 using System.Text;
 using System.Diagnostics;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.Generic;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Lexan;
 
-namespace Microarea.RSWeb.ExpressionManager
+namespace Microarea.Common.ExpressionManager
 {
 	//-----------------------------------------------------------------------------
 	// An expression is stored in a ready-to-evaluate form as a stack of

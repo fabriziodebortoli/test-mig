@@ -1,5 +1,5 @@
 
-namespace Microarea.RSWeb.NameSolver
+namespace Microarea.Common.NameSolver
 {
     //=========================================================================
     public class NewObject

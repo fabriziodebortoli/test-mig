@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Microarea.RSWeb.XmlPersister
+namespace Microarea.Common.XmlPersister
 {
 	/// <summary>
 	/// CLasse che si occupa di serializzare e deserializzare a strighe gli oggetti

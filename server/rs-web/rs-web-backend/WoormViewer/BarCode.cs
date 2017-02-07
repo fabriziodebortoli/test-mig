@@ -1,9 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.NameSolver;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.RSWeb.WoormViewer

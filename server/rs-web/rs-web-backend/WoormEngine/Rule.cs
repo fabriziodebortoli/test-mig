@@ -5,11 +5,11 @@ using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.ExpressionManager;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
+using Microarea.Common.ExpressionManager;
 using TaskBuilderNetCore.Data;
 using static TaskBuilderNetCore.Data.Provider;
 using TaskBuilderNetCore.Interfaces;

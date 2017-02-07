@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.Serialization;
 
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.ExpressionManager;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
+using Microarea.Common.ExpressionManager;
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
 //using Microarea.RSWeb.Temp;

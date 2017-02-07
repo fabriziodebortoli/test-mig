@@ -1,6 +1,6 @@
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.StringLoader
+namespace Microarea.Common.StringLoader
 {
     //================================================================================
     public abstract class ObjectLocalizer : ILocalizer 
