@@ -38,7 +38,7 @@ namespace Microarea.Common.ExpressionManager {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("rs-web.rs-web-backend.ExpressionManager.ExpressionManagerStrings", typeof(ExpressionManagerStrings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TaskBuilderNet.Common.ExpressionManager.ExpressionManagerStrings", typeof(ExpressionManagerStrings).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

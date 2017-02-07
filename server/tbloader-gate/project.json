@@ -30,9 +30,9 @@
         "Microsoft.Extensions.Configuration.UserSecrets": "1.1.0",
         "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
         "TaskBuilderNetCore.Interfaces": "1.0.0-*",
-        "task-builder-net-core-common": "1.0.0-*",
-        "Microsoft.AspNetCore.Mvc": "1.1.1",
-        "Microsoft.AspNetCore.Server.Kestrel": "1.1.0"
+        "Microsoft.AspNetCore.Mvc": "1.1.0",
+        "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
+        "TaskBuilderNet.Common": "1.0.0-*"
     },
     "tools": {
         "Microsoft.AspNetCore.Razor.Tools": {

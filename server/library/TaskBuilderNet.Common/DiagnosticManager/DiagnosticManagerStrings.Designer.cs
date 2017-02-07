@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.Common.StringLoader {
+namespace Microarea.Common.DiagnosticManager {
     using System;
     using System.Reflection;
     
@@ -22,13 +22,13 @@ namespace Microarea.Common.StringLoader {
     // with the /str option, or rebuild your VS project.
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class StringLoaderStrings {
+    public class DiagnosticManagerStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        internal StringLoaderStrings() {
+        internal DiagnosticManagerStrings() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace Microarea.Common.StringLoader {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("rs-web.rs-web-backend.StringLoader.StringLoaderStrings", typeof(StringLoaderStrings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TaskBuilderNet.Common.DiagnosticManager.DiagnosticManagerStrings", typeof(DiagnosticManagerStrings).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,29 +60,29 @@ namespace Microarea.Common.StringLoader {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Error reading integer from dictionary file.
+        ///    Looks up a localized string similar to Error.
         /// </summary>
-        public static string InvalidInteger {
+        public static string Error {
             get {
-                return ResourceManager.GetString("InvalidInteger", resourceCulture);
+                return ResourceManager.GetString("Error", resourceCulture);
             }
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Error reading string from dictionary file.
+        ///    Looks up a localized string similar to Information.
         /// </summary>
-        public static string InvalidString {
+        public static string Info {
             get {
-                return ResourceManager.GetString("InvalidString", resourceCulture);
+                return ResourceManager.GetString("Info", resourceCulture);
             }
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Invalid dictionary file version; expected: &apos;{0}&apos;; found: &apos;{1}&apos;.
+        ///    Looks up a localized string similar to Warning.
         /// </summary>
-        public static string InvalidVersion {
+        public static string Warning {
             get {
-                return ResourceManager.GetString("InvalidVersion", resourceCulture);
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
     }
