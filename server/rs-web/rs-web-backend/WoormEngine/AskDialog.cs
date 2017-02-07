@@ -11,6 +11,7 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using Microarea.Common.ExpressionManager;
+using Microarea.Common.Hotlink;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -738,7 +739,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 			lex.Parsed(Token.ASSIGN);
 	
-			askEntry.Hotlink = new ReferenceObject(this);
+			askEntry.Hotlink = new ReferenceObject(this.Session);
 			
 			string name;
 			if (lex.LookAhead() == Token.ID)

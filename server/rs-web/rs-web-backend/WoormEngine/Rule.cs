@@ -13,6 +13,7 @@ using Microarea.Common.ExpressionManager;
 using TaskBuilderNetCore.Data;
 using static TaskBuilderNetCore.Data.Provider;
 using TaskBuilderNetCore.Interfaces;
+using Microarea.Common.Hotlink;
 
 namespace Microarea.RSWeb.WoormEngine
 {

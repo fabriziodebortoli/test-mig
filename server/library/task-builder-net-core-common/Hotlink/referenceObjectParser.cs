@@ -4,14 +4,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 
+using TaskBuilderNetCore.Interfaces;
+using TaskBuilderNetCore.Interfaces.Model;
+
 using Microarea.Common.StringLoader;
 using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
 using Microarea.Common.CoreTypes;
-using TaskBuilderNetCore.Interfaces;
-using TaskBuilderNetCore.Interfaces.Model;
+using Microarea.Common.NameSolver;
 
-namespace Microarea.Common.NameSolver
+namespace Microarea.Common.Hotlink
 {
     /*
 	//=========================================================================

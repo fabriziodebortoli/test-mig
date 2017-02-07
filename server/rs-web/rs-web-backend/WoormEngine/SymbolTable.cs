@@ -8,6 +8,7 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
+using Microarea.Common.Hotlink;
 
 namespace Microarea.RSWeb.WoormEngine
 {

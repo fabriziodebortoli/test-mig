@@ -1,19 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Xml;
-
-
 
 using Microarea.Common.NameSolver;
 using Microarea.Common.StringLoader;
 using Microarea.Common.Generic;
 using Microarea.Common.CoreTypes;
 using TaskBuilderNetCore.Interfaces;
+using Microarea.Common.Applications;
 
-namespace Microarea.Common.Applications
+namespace Microarea.Common.Hotlink
 {
 	/*
 		Sintassi di ReferenceObjects.xml

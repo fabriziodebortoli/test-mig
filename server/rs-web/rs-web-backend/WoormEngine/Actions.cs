@@ -7,6 +7,7 @@ using Microarea.Common.ExpressionManager;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using TaskBuilderNetCore.Data;
+using Microarea.Common.Hotlink;
 
 namespace Microarea.RSWeb.WoormEngine
 {

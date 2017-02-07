@@ -2,17 +2,16 @@ using System;
 using System.Collections;
 using System.Data;
 using System.Diagnostics;
-using System.Globalization;
+
+using TaskBuilderNetCore.Data;
 
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using Microarea.Common.ExpressionManager;
-using TaskBuilderNetCore.Data;
-using System.Data.SqlClient;
 
-namespace Microarea.RSWeb.WoormEngine
+namespace Microarea.Common.Hotlink
 {
     public enum Direction { IN, OUT, REF, COL, EXPAND, INCLUDE };
 
@@ -265,7 +264,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 			string name	= string.Empty;
 			object pObj	= null;
-			Field field	= null;
+			SymField field	= null;
             //bool bWhen = false;
 
             bool isOracle = false;
@@ -295,7 +294,7 @@ namespace Microarea.RSWeb.WoormEngine
 					if (!symbolTable.Contains(name)) 
 						return false;
 
-					field = symbolTable.Find(name) as Field;
+					field = symbolTable.Find(name) as SymField;
 					Debug.Assert(field != null);
 
 					if (field == null)
@@ -326,7 +325,7 @@ namespace Microarea.RSWeb.WoormEngine
 					if (!symbolTable.Contains(name)) 
 						return false;
 				
-					field = symbolTable.Find(name) as Field;
+					field = symbolTable.Find(name) as SymField;
 					Debug.Assert(field != null);
 					if (field == null)
 						return false;
@@ -506,7 +505,7 @@ namespace Microarea.RSWeb.WoormEngine
 				if (!symbolTable.Contains(name)) 
 					return false;
 			
-				field = symbolTable.Find(name) as Field;
+				field = symbolTable.Find(name) as SymField;
 				Debug.Assert(field != null);
 				if (field == null)
 					return false;
@@ -616,7 +615,7 @@ namespace Microarea.RSWeb.WoormEngine
 					    continue;
 				    }
 
-					Field field = symbolTable.Find(tagLink.name) as Field;
+					SymField field = symbolTable.Find(tagLink.name) as SymField;
 					Debug.Assert(field != null);
 					if (field == null) 
 						return false;
@@ -709,7 +708,7 @@ namespace Microarea.RSWeb.WoormEngine
 				if (tagLink.direction == Direction.OUT) 
 					continue;
 
-				Field field = symbolTable.Find(tagLink.name) as Field;
+				SymField field = symbolTable.Find(tagLink.name) as SymField;
                 tbParameter.Value = ObjectHelper.CastToDBData(field.Data);
 			}
 			return true;	
@@ -779,7 +778,7 @@ namespace Microarea.RSWeb.WoormEngine
 					tagLink.direction != Direction.REF
 					) continue;
 	
-				Field field = (Field) symbolTable.Find(tagLink.name);
+				SymField field = symbolTable.Find(tagLink.name) as SymField;
                 field.ClearAllData();
 
                 field.RuleDataFetched = true;
@@ -818,7 +817,7 @@ namespace Microarea.RSWeb.WoormEngine
 					tagLink.direction != Direction.REF
 					) continue;
 	
-				Field field = (Field) symbolTable.Find(tagLink.name);
+				SymField field = symbolTable.Find(tagLink.name) as SymField;
                 object o;
 				if (tagLink.direction == Direction.COL)
 				{

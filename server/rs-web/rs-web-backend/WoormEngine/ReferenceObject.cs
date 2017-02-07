@@ -9,9 +9,8 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.ExpressionManager;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.RSWeb.WoormEngine
+namespace Microarea.Common.Hotlink
 {
-
     //============================================================================
     public class ReferenceObject
 	{
@@ -23,20 +22,28 @@ namespace Microarea.RSWeb.WoormEngine
 		public string						QueryString = "";
 		public ArrayList					QueryParams = new ArrayList();
 		public Action						CurrentAction = Action.Upper;
-		public AskDialog					AskDialog = null;	
 
-		//----------------------------------------------------------------------------
-		public TbReportSession		Session				{ get { return AskDialog.Session; }}
+        //public AskDialog					AskDialog = null;	
+        public TbReportSession tbSession = null;
 
-		//----------------------------------------------------------------------------
-		public ReferenceObject(AskDialog askDialog)
-		{
-			this.AskDialog = askDialog;
-		}
+        //----------------------------------------------------------------------------
+        //public TbReportSession Session { get { return AskDialog.Session; } }
+        public TbReportSession Session { get { return tbSession; }}
+ 
+        //----------------------------------------------------------------------------
+        //public ReferenceObject(AskDialog askDialog)
+        //{
+        //	this.AskDialog = askDialog;
+        //}
 
-		// Chiamata a Taskbuilder via Soap 
-		//----------------------------------------------------------------------------
-		private	string GetHotLinkQuery(string aNamespace, string aParams, Action action)
+        public ReferenceObject(TbReportSession session)
+        {
+            tbSession = session;
+        }
+
+        // Chiamata a Taskbuilder via Soap 
+        //----------------------------------------------------------------------------
+        private string GetHotLinkQuery(string aNamespace, string aParams, Action action)
 		{
 			ITbLoaderClient hotlinkInterface = Session.GetTBClientInterface();
 			if (hotlinkInterface != null)
@@ -154,7 +161,7 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 			catch (XmlException e)
 			{
-				Debug.Fail(WoormEngineStrings.XmlDomError + e.Message);
+				Debug.Fail(e.Message);
 				return false;
 			}
 		}
