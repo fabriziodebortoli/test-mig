@@ -1,19 +1,16 @@
-﻿using Microarea.RSWeb.WoormController;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
-
+using Microsoft.AspNetCore.Http;
 
 namespace Microarea.RSWeb.Models
 {    
     /// <summary>
     /// Handle socket connections and messages reception
     /// </summary>
-    public class SocketHandler
+    public class RSSocketHandler
     {
       
         /// <summary>
@@ -45,7 +42,6 @@ namespace Microarea.RSWeb.Models
 
             }
             else
-
             { 
                 // disconnect
             }
