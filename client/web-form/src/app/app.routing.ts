@@ -5,9 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { ModuleWithProviders } from '@angular/core';
 import { DataServiceComponent } from './applications/test/data-service/data-service.component';
 import { Routes, RouterModule } from '@angular/router';
-
 import { CoreGuard } from './core/core.guard';
-
 
 export const appRoutes: Routes = [
 
@@ -17,9 +15,7 @@ export const appRoutes: Routes = [
     { path: 'Framework/TbGes/IDD_Unsupported', component: UnsupportedFactoryComponent, outlet: 'dynamic' },
     { path: 'menu', loadChildren: 'app/menu/menu.module#MenuModule' },
     { path: 'ds', component: DataServiceComponent },
-
     { path: '**', component: PageNotFoundComponent },
-
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
