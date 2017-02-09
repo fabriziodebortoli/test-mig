@@ -1,0 +1,60 @@
+import { Subject, Observable, Observer } from 'rxjs/Rx';
+import { Injectable } from '@angular/core';
+import 'rxjs/add/observable/of';
+
+@Injectable()
+export class WebSocketService {
+
+  private ws: WebSocket;
+
+  private subject: Subject<MessageEvent>;
+
+  public connect(url): Subject<MessageEvent> {
+    if (!this.subject) {
+      this.subject = this.create(url);
+    }
+
+    return this.subject;
+  }
+
+  private create(url): Subject<MessageEvent> {
+    this.ws = new WebSocket(url);
+
+    let observable = Observable.create((obs: Observer<MessageEvent>) => {
+      this.ws.onmessage = obs.next.bind(obs);
+      this.ws.onerror = obs.error.bind(obs);
+      this.ws.onclose = obs.complete.bind(obs);
+
+      return this.ws.close.bind(this.ws);
+    });
+
+    let observer = {
+      next: (data: Object) => {
+        if (this.ws.readyState === WebSocket.OPEN) {
+          this.ws.send(JSON.stringify(data));
+        }
+      },
+    };
+
+    return Subject.create(observer, observable);
+  }
+
+  /**
+   * WS Ready state constants
+   *
+   * 0 => WebSocket.CONNECTING
+   *
+   * 1 => WebSocket.OPEN
+   *
+   * 2 => WebSocket.CLOSING
+   *
+   * 3 => WebSocket.CLOSED
+   */
+  public getConnectionState(): number {
+    if (this.ws) {
+      return this.ws.readyState;
+    } else {
+      return WebSocket.CLOSED;
+    }
+  }
+}
