@@ -2,6 +2,7 @@
   "userSecretsId": "aspnet-WebApplication-095A7864-9B4A-44DE-BDEF-99A046BE5DE5",
 
   "dependencies": {
+    "DataService": "1.0.0-*",
     "login-manager": "1.0.0-*",
     "menu-gate": "1.0.0-*", //"Microsoft.ApplicationInsights.AspNetCore": "1.1.0",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",

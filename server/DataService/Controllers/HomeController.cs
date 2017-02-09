@@ -6,8 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DataService.Controllers
 {
+    [Route("ds")]
     public class HomeController : Controller
     {
+        [Route("data-service")]
+        public IActionResult GetData()
+        {
+            return new ContentResult { Content = "e mo ci vogliono i dati", ContentType = "application/json" };
+        }
+
         public IActionResult Index()
         {
             return View();

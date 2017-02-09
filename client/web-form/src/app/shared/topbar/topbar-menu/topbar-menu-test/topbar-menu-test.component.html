@@ -3,5 +3,5 @@
 </button>
 
 <md-menu #menuTest="mdMenu">
-    <button md-menu-item [routerLink]="['/ds']">Data Service</button>
+    <button md-menu-item (click)="openDataService()">Data Service</button>
 </md-menu>
