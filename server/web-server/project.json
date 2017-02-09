@@ -2,6 +2,7 @@
   "userSecretsId": "aspnet-WebApplication-095A7864-9B4A-44DE-BDEF-99A046BE5DE5",
 
   "dependencies": {
+    "DatabaseService": "1.0.0-*",
     "DataService": "1.0.0-*",
     "login-manager": "1.0.0-*",
     "menu-gate": "1.0.0-*", //"Microsoft.ApplicationInsights.AspNetCore": "1.1.0",
@@ -10,8 +11,8 @@
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.1.1",
     "Microsoft.AspNetCore.Razor.Tools": {
-      "version": "1.0.0-preview2-final",
-      "type": "build"
+        "version": "1.0.0-preview2-final",
+        "type": "build"
     },
     "Microsoft.AspNetCore.Routing": "1.1.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
