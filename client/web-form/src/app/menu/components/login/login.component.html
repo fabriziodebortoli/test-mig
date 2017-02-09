@@ -1,23 +1,43 @@
-<div class="backgroundLogin innerdiv">
-    <div class="container" *ngIf="!working">
-        <div>
-            <div>
-                <md-input type="text" [placeholder]="'User'" autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user)></md-input>
-            </div>
-            <div>
-                <md-input type="text" [placeholder]="'Password'" [(ngModel)]="connectionData.password"></md-input>
-            </div>
-            <div>
-                <md-select placeholder="Company" [(ngModel)]="connectionData.company">
+<header>
+    <md-toolbar color="primary">
+        <span>MagoWeb</span>
+        <span class="fill-remaining-space"></span>
+        <span>Microarea Spa</span>
+    </md-toolbar>
+</header>
+
+<main class="login-content">
+
+    <md-card class="login-form" *ngIf="!working">
+        <md-card-title>Log In</md-card-title>
+        <md-card-content>
+            <div class="form-group">
+                <md-input class="form-control" type="text" [placeholder]="'User'" autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user)></md-input>
+
+                <md-input class="form-control" type="password" [placeholder]="'Password'" [(ngModel)]="connectionData.password"></md-input>
+
+                <md-select class="form-control" placeholder="Company" [(ngModel)]="connectionData.company">
+                    <md-option *ngIf="!companies">Loading...</md-option>
                     <md-option *ngFor="let company of companies" [value]="company?.name">
                         {{ company?.name }}
                     </md-option>
                 </md-select>
+
+                <div class="error" *ngFor="let errorMessage of loginSessionService.errorMessages">{{errorMessage.text}}</div>
+
+                <button class="form-button" md-raised-button color="primary" (click)="login();">Login</button>
             </div>
-            
-            <button md-raised-button color="primary" (click)="login();">Login</button>
-            <div class="error" *ngFor="let errorMessage of loginSessionService.errorMessages">{{errorMessage.text}}</div>
-        </div>
+
+
+        </md-card-content>
+    </md-card>
+
+    <div class="spinner" *ngIf="working">
+        <md-spinner mode="indeterminate" color="primary"></md-spinner>
     </div>
-    <md-spinner mode="indeterminate" color="primary" class="spinner" *ngIf="working"></md-spinner>
-</div>
+
+</main>
+
+<footer>
+    <span>Copyright © 1984-2017 Microarea SpA - Tutti i diritti riservati | <a href="http://www.microarea.it">Microarea.It</a></span>
+</footer>
