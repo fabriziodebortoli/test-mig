@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.Lexan;
 using Microarea.RSWeb.WoormEngine;
 using RSjson;
 

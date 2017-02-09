@@ -4,11 +4,11 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Xml;
 
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.NameSolver;
 
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.RSWeb.WoormEngine

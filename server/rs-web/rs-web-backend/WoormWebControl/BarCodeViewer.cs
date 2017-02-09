@@ -1,8 +1,9 @@
 using System;
 using System.Drawing;
 
-using Microarea.RSWeb.Applications;
+using Microarea.Common.Applications;
 using Microarea.RSWeb.WoormViewer;
+
 
 namespace Microarea.RSWeb.WoormWebControl
 {
@@ -42,7 +43,7 @@ namespace Microarea.RSWeb.WoormWebControl
 				int type;
                 int realCheckSum;
                 string humanReadable;
-                if (ExpressionManager.Expression.DecodeBarCode(v.FormattedData, out barCodeValue, out type, out realCheckSum, out humanReadable))
+                if (Microarea.Common.ExpressionManager.Expression.DecodeBarCode(v.FormattedData, out barCodeValue, out type, out realCheckSum, out humanReadable))
 					barCodeType = (BarCodeWrapper.Type) type;
 				else
 					barCodeType = barCode.BarCodeType;
@@ -85,13 +86,13 @@ namespace Microarea.RSWeb.WoormWebControl
 					height = barCode.Vertical ? BarCodeWrapper.MulDiv(inside.Width + fe.Size, 2, 3) : BarCodeWrapper.MulDiv(inside.Height + fe.Size, 2, 3);
 				}
 
-				BarCodeWrapper.FontStyle fontStyle = italic 
-					? bold 
-					? BarCodeWrapper.FontStyle.HS_BOLDITALIC 
-					: BarCodeWrapper.FontStyle.HS_ITALIC
-					: bold
-					? BarCodeWrapper.FontStyle.HS_BOLD 
-					: BarCodeWrapper.FontStyle.HS_NORMAL;
+				//BarCodeWrapper.FontStyle fontStyle = italic 
+				//	? bold 
+				//	? BarCodeWrapper.FontStyle.HS_BOLDITALIC 
+				//	: BarCodeWrapper.FontStyle.HS_ITALIC
+				//	: bold
+				//	? BarCodeWrapper.FontStyle.HS_BOLD 
+				//	: BarCodeWrapper.FontStyle.HS_NORMAL;
 
 				// EAN128 Customizations
 				BarCodeWrapper.Type realBarCodeType =	
@@ -124,7 +125,7 @@ namespace Microarea.RSWeb.WoormWebControl
 					Convert.ToInt16(barCode.ShowLabel ? BarCodeWrapper.LabelType.HR_BELOW : BarCodeWrapper.LabelType.HR_OFF),
 					fe.FaceName,	
 					Convert.ToInt16(fe.Size),	
-					Convert.ToInt16(fontStyle),			
+					Convert.ToInt16(0),		//regular	
 					0,											
 																	
 					0,											

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.Serialization;
 
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.ExpressionManager;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
+using Microarea.Common.ExpressionManager;
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
-using Microarea.RSWeb.Temp;
+//using Microarea.RSWeb.Temp;
 
 namespace RSjson
 {
@@ -2682,12 +2682,15 @@ namespace RSjson
 			if (!ParseColumnIndex(out rect, lex)) return false;
 			while ((token = lex.LookAhead()) != Token.SEP)
 			{
+                Color color;
 				switch (token)
 				{
 					case Token.TEXTCOLOR:
-						if (!lex.ParseColor(Token.TEXTCOLOR, out allColors[(int)ElementColor.VALUE]))
+						if (!lex.ParseColor(Token.TEXTCOLOR, out color))
 							return false;
-						isAny = true;
+                        allColors[(int)ElementColor.VALUE] = color;
+
+                        isAny = true;
 						for (col = rect.Left; col <= rect.Right; col++)
 							Columns[col].TotalCell.Value.TextColor = allColors[(int)ElementColor.VALUE];
 						break;

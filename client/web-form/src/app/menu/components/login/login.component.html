@@ -1,23 +1,23 @@
-<div class="backgroundLogin innnerdiv">
-    <div class="container">
+<div class="backgroundLogin innerdiv">
+    <div class="container" *ngIf="!working">
         <div>
             <div>
-                <md-input type="text" [placeholder]="'User'" autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user)></md-input>  
+                <md-input type="text" [placeholder]="'User'" autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user)></md-input>
             </div>
             <div>
                 <md-input type="text" [placeholder]="'Password'" [(ngModel)]="connectionData.password"></md-input>
             </div>
             <div>
                 <md-select placeholder="Company" [(ngModel)]="connectionData.company">
-                    <md-option *ngFor="let company of companies" [value]="company?.name" >
+                    <md-option *ngFor="let company of companies" [value]="company?.name">
                         {{ company?.name }}
                     </md-option>
                 </md-select>
             </div>
             
-            <button md-raised-button color="primary" (click)="login();"  *ngIf="!working">Login</button>
+            <button md-raised-button color="primary" (click)="login();">Login</button>
             <div class="error" *ngFor="let errorMessage of loginSessionService.errorMessages">{{errorMessage.text}}</div>
         </div>
-        <md-spinner mode="indeterminate" color="primary" class="spinner" *ngIf="working"></md-spinner>
     </div>
+    <md-spinner mode="indeterminate" color="primary" class="spinner" *ngIf="working"></md-spinner>
 </div>

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.IO;
 using System.Xml;
-using Microarea.RSWeb.CoreTypes;
+using Microarea.Common.CoreTypes;
 
 namespace Microarea.RSWeb.WoormEngine
 {

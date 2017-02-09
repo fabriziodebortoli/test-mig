@@ -1,7 +1,7 @@
 
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Lexan;
 
 namespace Microarea.RSWeb.WoormViewer
 {

@@ -79,11 +79,11 @@ namespace TaskBuilderNetCore.Data
            
             switch (dbType)
             {
-                case Provider.DBType.POSTGRE:
-                    {
-                        connection = new NpgsqlConnection(new NpgsqlConnectionStringBuilder(connectionString));
-                        break;
-                    }
+                //case Provider.DBType.POSTGRE:
+                //    {
+                //        connection = new NpgsqlConnection(new NpgsqlConnectionStringBuilder(connectionString));
+                //        break;
+                //    }
                 case Provider.DBType.SQLSERVER:
                     {
                         connection = new SqlConnection(connectionString);

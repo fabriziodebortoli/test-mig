@@ -1,9 +1,9 @@
 using System;
 using System.Drawing;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.Temp;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Lexan;
+using Microarea.Common.Temp;
 
 namespace Microarea.RSWeb.WoormViewer
 {

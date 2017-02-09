@@ -2,32 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Globalization;
 using System.Runtime.Serialization;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.ExpressionManager;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Lexan;
 using TaskBuilderNetCore.Interfaces;
+
+using Microarea.Common.Generic;
+using Microarea.Common.ExpressionManager;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Lexan;
+using Microarea.Common.Hotlink;
 
 namespace Microarea.RSWeb.WoormEngine
 {
 
-    //=============================================================================
-    public class FieldException : Exception
-	{
-		public FieldException(string message) : base(message) {}
-		public FieldException(string message, Exception inner) : base(message, inner) {}
-	}	
-
+ 
 	/// <summary>
 	/// Field.
 	/// </summary>
 	//============================================================================
 	[Serializable]
-	public class Field : Variable, IDisposable
+	public class Field : SymField
 	{
 		const string DATA = "data";
 		const string DATATYPE = "dataType";
@@ -39,7 +34,6 @@ namespace Microarea.RSWeb.WoormEngine
 		protected bool		validEventData = true;
 		protected bool		validGroupByData = true;
 
-		private bool		ruleDataFetched = false;
 		private bool		groupByDataUpdated = false;
 		private bool		eventDataUpdated = false;
 
@@ -62,7 +56,6 @@ namespace Microarea.RSWeb.WoormEngine
 		private StringCollection		substrings = null;
 
 		private string		physicalName;			// nome fisico della colonna di database (se esiste)
-		private int			len = 0;				// they need for eventual store on // ITRI forse posso eliminarle
 		private int			numDec = 0;				// temporary file// ITRI forse posso eliminarle
 		private bool		readOnly = false;
 		private RuleObj		ownerRule = null;		// indica in quale rule il Field è referenziato.
@@ -132,13 +125,11 @@ namespace Microarea.RSWeb.WoormEngine
 		public object	EventData	{ get { return eventData;	} set { eventData = value; }}
 		public object	AskData		{ get { return eventData;	} set { eventData = value; this.data = value; }}
 
-		public bool	ValidRuleData		{ get { return this.valid;			} set { this.valid = value; }}
+		//public bool	ValidRuleData		{ get { return this.valid;			} set { this.valid = value; }}
 		public bool	ValidGroupByData	{ get { return validGroupByData;	} set { validGroupByData = value; }}
 		public bool	ValidEventData		{ get { return validEventData;		} set { validEventData = value; }}
 		public bool	ValidAskData		{ get { return validEventData;		} set { validEventData = value; this.valid = value; }}
 
-		//----------------------------------------------------------------------------
-		public int	Len		{ get { return len; } set { len = value; }}
 		public int	NumDec	{ get { return numDec; } set { numDec = value; }}
 
 		//----------------------------------------------------------------------------
@@ -147,7 +138,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public bool				OwnRule			{ get { return ownerRule != null; }}
 
 		//----------------------------------------------------------------------------
-		public bool	RuleDataFetched		{ get { return ruleDataFetched;		} set {ruleDataFetched  = value; }}
+		//public bool	RuleDataFetched		{ get { return ruleDataFetched;		} set {ruleDataFetched  = value; }}
 		public bool	GroupByDataUpdated	{ get { return groupByDataUpdated;	} set {groupByDataUpdated  = value; }}
 		public bool	EventDataUpdated	{ get { return eventDataUpdated;	} set {eventDataUpdated  = value; }}
 
@@ -205,7 +196,7 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
         //----------------------------------------------------------------------------
-        public object GetData(DataLevel lev)
+        override public object GetData(DataLevel lev)
         {
             if (this.engine == null)
                 return this.data;
@@ -219,7 +210,7 @@ namespace Microarea.RSWeb.WoormEngine
             }
         }
 
-        public void SetData(DataLevel lev, object value)
+        override public void SetData(DataLevel lev, object value)
         {
             if (DataType == "Boolean")
                 value = ObjectHelper.CastBool(value);
@@ -290,27 +281,28 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//----------------------------------------------------------------------------
-		public Field() : base()
-		{
-			//TODO SILVANo: per deserializzatore json del nuovo woorm
-		}
+		//public Field() : base()
+		//{
+		//	//TODO SILVANo: per deserializzatore json del nuovo woorm
+		//}
 
-		//-----------------------------------------------------------------------------
-		public Field(SerializationInfo info,StreamingContext context)
-		{
-			//TODO SILVANO: per deserializzatore json del nuovo woorm
-		}
+		////-----------------------------------------------------------------------------
+		//public Field(SerializationInfo info,StreamingContext context)
+		//{
+		//	//TODO SILVANO: per deserializzatore json del nuovo woorm
+		//}
 
 		//-----------------------------------------------------------------------------
 		public override void GetObjectData(SerializationInfo info,StreamingContext context)
 		{
 			base.GetObjectData(info, context);
+
 			info.AddValue(DATA, Data);
 			info.AddValue(DATATYPE, Data.GetType().Name); 
 		}
 
         //----------------------------------------------------------------------------
-        public void Dispose()
+        override public void Dispose()
         {
             if (this.fwf != null)
             {
@@ -346,7 +338,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 		//----------------------------------------------------------------------------
 		public bool IsArray 
-		{ get { return string.Compare(Language.GetTokenString(Token.ARRAY), WoormType,StringComparison.OrdinalIgnoreCase) == 0; } } 
+		{ get { return string.Compare(Language.GetTokenString(Token.ARRAY), WoormType, StringComparison.OrdinalIgnoreCase) == 0; } } 
 
 		//----------------------------------------------------------------------------
 		public string ArrayBaseType
@@ -469,7 +461,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public void AssignEventData		(object aData, bool aValid) { ObjectHelper.Assign(ref eventData, aData);	validEventData = aValid; }
 
 		//----------------------------------------------------------------------------
-		public void ClearRuleData		() { ObjectHelper.Clear(ref this.data);		this.valid = true; }
+		//public void ClearRuleData		() { ObjectHelper.Clear(ref this.data);		this.valid = true; }
 		public void ClearGroupByData	() { ObjectHelper.Clear(ref groupByData);	validGroupByData = true; }
 		public void ClearEventData		() { ObjectHelper.Clear(ref eventData);		validEventData = true;}
 
@@ -500,13 +492,13 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//----------------------------------------------------------------------------
-		public void ClearAllData()
+		override public void ClearAllData()
 		{
-			ClearRuleData();
+            base.ClearAllData();			
+
 			ClearGroupByData();
 			ClearEventData();
 
-			RuleDataFetched = true;
 			GroupByDataUpdated = true;
 			EventDataUpdated = true;
 		}

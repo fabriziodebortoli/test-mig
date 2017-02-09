@@ -11,13 +11,13 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.NameSolver;
 
-using Microarea.RSWeb.Generic;
+using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormEngine;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Lexan;
 
 using RSjson;
 using TaskBuilderNetCore.Interfaces;

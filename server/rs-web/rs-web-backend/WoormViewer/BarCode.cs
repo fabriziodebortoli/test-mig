@@ -1,9 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.NameSolver;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.RSWeb.WoormViewer
@@ -160,13 +160,6 @@ namespace Microarea.RSWeb.WoormViewer
 
         }
 
-		public enum FontStyle
-		{
-			HS_NORMAL		= 0,
-			HS_BOLD			= 1,
-			HS_ITALIC		= 2,
-			HS_BOLDITALIC	= 3
-		}
 
 		public enum LabelType
 		{

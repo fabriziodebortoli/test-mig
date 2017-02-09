@@ -1,22 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.Xml;
 
-using Microarea.RSWeb.DiagnosticManager;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.NameSolver;
-using Microarea.RSWeb.ExpressionManager;
-using Microarea.RSWeb.WoormViewer;
 using TaskBuilderNetCore.Data;
-using static TaskBuilderNetCore.Data.Provider;
 using TaskBuilderNetCore.Interfaces;
+using static TaskBuilderNetCore.Data.Provider;
+
+using Microarea.Common.DiagnosticManager;
+using Microarea.Common.Applications;
+using Microarea.Common.Generic;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Lexan;
+using Microarea.Common.NameSolver;
+using Microarea.Common.ExpressionManager;
+using Microarea.Common.Hotlink;
+
+using Microarea.RSWeb.WoormViewer;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -74,7 +76,6 @@ namespace Microarea.RSWeb.WoormEngine
 	//
 	//============================================================================
 	public enum RuleReturn { Abort, Backtrack, Success}
-	public enum DataLevel { Rules, GroupBy, Events }
 
     /// <summary>
 	/// TableNames contiene i nomi con cui è conosciuta la tabella
@@ -1538,7 +1539,7 @@ namespace Microarea.RSWeb.WoormEngine
 				if (!lex.ParseID(out name)) 
                     return false;
 
-				QueryObject queryObject = RepSymTable.QueryObjects.Find(name);
+                QueryObject queryObject = RepSymTable.QueryObjects.Find(name);
 				if (queryObject == null)
 				{
 					queryObject = new QueryObject(name, RepSymTable.Fields, Session, null);

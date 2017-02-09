@@ -6,11 +6,11 @@ using System.Xml;
 
 using TaskBuilderNetCore.Interfaces;
 
-using Microarea.RSWeb.StringLoader;
-using Microarea.RSWeb.Applications;
+using Microarea.Common.StringLoader;
+using Microarea.Common.Applications;
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.Lexan;
 using Microarea.RSWeb.WoormWebControl;
 using Microarea.RSWeb.Models;
 

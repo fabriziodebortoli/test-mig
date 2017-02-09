@@ -14,10 +14,10 @@ using PdfSharp.Pdf;
 
 using RSjson;
 
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
 using Microarea.RSWeb.WoormViewer;
-using Microarea.RSWeb.Temp;
+using Microarea.Common.Temp;
 
 namespace Microarea.RSWeb.WoormWebControl
 {

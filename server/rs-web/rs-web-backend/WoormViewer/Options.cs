@@ -1,7 +1,7 @@
 using System.Drawing;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.RSWeb.WoormViewer

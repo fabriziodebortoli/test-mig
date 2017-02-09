@@ -1,7 +1,7 @@
 using System.Collections;
 
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
 using Microarea.RSWeb.WoormViewer;
 
 namespace Microarea.RSWeb.WoormEngine

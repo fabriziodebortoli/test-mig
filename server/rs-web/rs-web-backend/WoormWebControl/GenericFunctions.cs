@@ -59,23 +59,6 @@ namespace Microarea.RSWeb.WoormWebControl
                     return Path.Combine(imageRelativeFolder, imageFile);
                 }	
                 */
-        static public string UrlEncode(string s)
-        {
-            return WebUtility.UrlEncode(s);
-        }
-
-        static public string UrlDecode(string s)
-        {
-            return WebUtility.UrlDecode(s);
-        }
-        static public string HtmlEncode(string s)
-        {
-            return WebUtility.HtmlEncode(s);
-        }
-        static public string HtmlDecode(string s)
-        {
-            return WebUtility.HtmlDecode(s);
-        }
-
+ 
     }
 }

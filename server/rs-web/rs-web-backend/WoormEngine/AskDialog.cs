@@ -6,11 +6,12 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Globalization;
 
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Generic;
-using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.ExpressionManager;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Generic;
+using Microarea.Common.Lexan;
+using Microarea.Common.ExpressionManager;
+using Microarea.Common.Hotlink;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -738,7 +739,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 			lex.Parsed(Token.ASSIGN);
 	
-			askEntry.Hotlink = new ReferenceObject(this);
+			askEntry.Hotlink = new ReferenceObject(this.Session);
 			
 			string name;
 			if (lex.LookAhead() == Token.ID)

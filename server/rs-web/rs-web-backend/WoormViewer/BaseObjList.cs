@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.Lexan;
 using Microarea.RSWeb.WoormEngine;
 using RSjson;
 

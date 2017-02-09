@@ -1,6 +1,6 @@
 using System;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.Lexan;
+using Microarea.Common.Applications;
+using Microarea.Common.Lexan;
 
 namespace Microarea.RSWeb.WoormViewer
 {

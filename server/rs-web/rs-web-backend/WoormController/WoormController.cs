@@ -6,10 +6,11 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
 
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.Generic;
+using Microarea.Common.Applications;
+using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
+using Microarea.Common.StringLoader;
 
 using Microarea.RSWeb.WoormWebControl;
 
@@ -288,7 +289,7 @@ namespace Microarea.RSWeb.WoormController
 
 				ReadParameters(localReportSession);
 
-				localReportSession.Localizer = new StringLoader.WoormLocalizer(Filename, localReportSession.PathFinder);
+				localReportSession.Localizer = new Microarea.Common.StringLoader.WoormLocalizer(Filename, localReportSession.PathFinder);
 
 				// istanzio una nuova macchina per la elaborazione del report e la memorizzo in reportSession
 				StateMachine = new RSEngine(localReportSession, Filename, TBWebContext.Current.SessionID, stateMachineSessionTag);
@@ -321,7 +322,7 @@ namespace Microarea.RSWeb.WoormController
         //--------------------------------------------------------------------------
         private void ReadParameters(TbReportSession session)
 		{
-			string filenameParam = requestParams[Helper.FileNameParam];
+			string filenameParam = requestParams[Microarea.RSWeb.WoormWebControl.Helper.FileNameParam];
 			if (filenameParam != null)
 			{
 				Filename = filenameParam;
@@ -343,7 +344,7 @@ namespace Microarea.RSWeb.WoormController
 			// potrei avere in sessione il namespace del report.
 			// Messo da selezione del TreeView di EasyLook che si era salvato il namespace del report selezionato
 			// Il tutto è necessario per evitare il blocco dei popup usando la redirect.
-			string namespaceParam = requestParams[Helper.NameSpaceParam];
+			string namespaceParam = requestParams[Microarea.RSWeb.WoormWebControl.Helper.NameSpaceParam];
 			if (namespaceParam == null || namespaceParam == string.Empty)
 			{
 				string s = TBWebContext.Current.FromSession(SessionKey.ReportPath) as string;
@@ -370,8 +371,8 @@ namespace Microarea.RSWeb.WoormController
 				namespaceParam != null &&
 				namespaceParam != string.Empty)
 			{
-				session.ReportParameters = Helper.UnformatParametersFromRequest(parametersParam);
-				TBWebContext.Current.ToSession(Helper.GetConnectionKey(namespaceParam, parametersParam), true); //if params come from linkreport, this is used to maintain the color of visited link
+				session.ReportParameters = Microarea.RSWeb.WoormWebControl.Helper.UnformatParametersFromRequest(parametersParam);
+				TBWebContext.Current.ToSession(Microarea.RSWeb.WoormWebControl.Helper.GetConnectionKey(namespaceParam, parametersParam), true); //if params come from linkreport, this is used to maintain the color of visited link
 			}
 		}
 

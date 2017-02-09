@@ -5,10 +5,10 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Xml;
-using Microarea.RSWeb.Applications;
-using Microarea.RSWeb.CoreTypes;
-using Microarea.RSWeb.Lexan;
-using Microarea.RSWeb.NameSolver;
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+using Microarea.Common.Lexan;
+using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.Interfaces.Model;
 
@@ -200,8 +200,8 @@ namespace Microarea.RSWeb.WoormEngine
 			this.XmlDomParameters	= xmlDomParameters;
 			this.XmlResultReports	= null;
 
-			this.maxString = Microarea.RSWeb.NameSolver.ReadSetting.GetMaxString(ReportSession.PathFinder,ReportSession.UserInfo.LoginManager.PreferredLanguage);
-			ObjectHelper.DataDblEpsilon = Microarea.RSWeb.NameSolver.ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
+			this.maxString = Microarea.Common.NameSolver.ReadSetting.GetMaxString(ReportSession.PathFinder,ReportSession.UserInfo.LoginManager.PreferredLanguage);
+			ObjectHelper.DataDblEpsilon = Microarea.Common.NameSolver.ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
 
 			symTable		= new RepSymTable();
 			engine			= new ReportEngine(this,engineType);
@@ -228,8 +228,8 @@ namespace Microarea.RSWeb.WoormEngine
 			this.XmlDomParameters	= xmlDomParameters;
 			this.XmlResultReports	= xmlResultReports;
 
-			this.maxString = Microarea.RSWeb.NameSolver.ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.LoginManager.PreferredLanguage);
-			ObjectHelper.DataDblEpsilon = Microarea.RSWeb.NameSolver.ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
+			this.maxString = Microarea.Common.NameSolver.ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.LoginManager.PreferredLanguage);
+			ObjectHelper.DataDblEpsilon = Microarea.Common.NameSolver.ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
 
 			symTable		= new RepSymTable();
 			engine			= new ReportEngine(this, engineType);
