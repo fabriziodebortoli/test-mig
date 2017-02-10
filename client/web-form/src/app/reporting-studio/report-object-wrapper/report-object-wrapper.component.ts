@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ReportObject, ReportObjectType } from '../report.model';
+import { ReportObject, ReportObjectType } from '../reporting-studio.model';
 
 @Component({
   selector: 'rs-report-object',
   templateUrl: './report-object-wrapper.component.html',
-  styleUrls: ['./report-object-wrapper.component.css']
+  styleUrls: ['./report-object-wrapper.component.scss']
 })
 export class ReportObjectWrapperComponent implements OnInit {
 

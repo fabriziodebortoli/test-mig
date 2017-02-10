@@ -1,6 +1,3 @@
-const reportTest =
-
-
 const reportTest = [
   {
     id: 'img-1',

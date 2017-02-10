@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ReportObject } from './../../../report.model';
+import { ReportObject } from './../../../reporting-studio.model';
 
 @Component({
   selector: 'rs-rectangle',
   templateUrl: './rectangle.component.html',
-  styleUrls: ['./rectangle.component.css']
+  styleUrls: ['./rectangle.component.scss']
 })
 export class ReportObjectRectangleComponent implements OnInit {
 

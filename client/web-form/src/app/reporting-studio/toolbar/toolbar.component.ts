@@ -1,10 +1,10 @@
-import { ReportingStudioService, Message, CommandType } from './../reporting-studio.service';
+import { ReportingStudioService } from './../reporting-studio.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'rs-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.css']
+  styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
 
@@ -17,17 +17,17 @@ export class ToolbarComponent implements OnInit {
 
   play() {
     this.running = true;
-    this.reportService.sendRun();
+    // this.reportService.sendRun();
   }
 
   stop() {
     this.running = false;
-    this.reportService.sendStop();
+    // this.reportService.sendStop();
   }
 
   pause() {
     this.running = false;
-    this.reportService.sendPause();
+    // this.reportService.sendPause();
   }
 
   prev() {
@@ -37,13 +37,4 @@ export class ToolbarComponent implements OnInit {
   next() {
 
   }
-
-  testTEMPLATE() {
-    this.reportService.testTEMPLATE();
-  }
-
-  testDATA() {
-    this.reportService.testDATA();
-  }
-
 }
