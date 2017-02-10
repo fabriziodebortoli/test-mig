@@ -41,7 +41,7 @@ namespace Microarea.Common.ExpressionManager
 		protected string			resultType = null;
 
 		protected SymbolTable		symbolTable;
-		protected TbReportSession   reportSession;
+		protected TbSession   tbSession;
 
 		public    bool				ForceSkipTypeChecking = false;
 
@@ -66,15 +66,15 @@ namespace Microarea.Common.ExpressionManager
 
 
 		//-----------------------------------------------------------------------------
-		public TbReportSession	ReportSession	{ get { return reportSession; }}
+		public TbSession	TbSession	        { get { return tbSession; }}
 		public StopTokens	StopTokens			{ get { return stopTokens; } set { stopTokens = value; }}
 		public string		ResultType			{ get { return resultType; }}
 		public Diagnostic	Diagnostic			{ get { return diagnostic; }}
 		public bool			Error				{ get { return diagnostic.Error; }}
 		virtual public bool	IsEmpty				{ get { return expressionStack.Count == 0; }}
 		public SymbolTable	SymbolTable			{ get { return symbolTable; }}
-        public ILocalizer   Localizer           { get { return ReportSession.Localizer; } /*set { localizer = value; }*/ }
-		public bool			SkipTypeChecking	{ get { return ForceSkipTypeChecking || ReportSession.SkipTypeChecking; } }
+        public ILocalizer   Localizer           { get { return TbSession.Localizer; } /*set { localizer = value; }*/ }
+		public bool			SkipTypeChecking	{ get { return ForceSkipTypeChecking || TbSession.SkipTypeChecking; } }
 
         override public string ToString()       { return auditExpr; }
 
@@ -85,10 +85,10 @@ namespace Microarea.Common.ExpressionManager
 		// Once parsed, the internal form is kept and used for repeated evaluations,
 		// until the user modify the string form and re-Assign it again.
 		//-----------------------------------------------------------------------------
-		public Expression(TbReportSession session, SymbolTable symbolTable)
+		public Expression(TbSession session, SymbolTable symbolTable)
 		{
 			this.symbolTable	= symbolTable;
-			this.reportSession	= session; 
+			this.tbSession	= session; 
 		}
 
 		//-----------------------------------------------------------------------------
@@ -1188,7 +1188,7 @@ namespace Microarea.Common.ExpressionManager
 		//-----------------------------------------------------------------------------
 		protected virtual ExpressionParser CreateParser()
 		{
-			return new ExpressionParser(reportSession, symbolTable, stopTokens);
+			return new ExpressionParser(tbSession, symbolTable, stopTokens);
 		}
 
 		// Determina se l'espressione parsata e` anche valutabile correttamente
@@ -1872,12 +1872,12 @@ namespace Microarea.Common.ExpressionManager
 					{
 					    string data = CastString(p1);   //lo converte
 						Value p2 = (Value) paramStack.Pop();
-						string r1 = ReportSession.ApplicationFormatStyles.Format(CastString(p2), data, null);
+						string r1 = TbSession.ApplicationFormatStyles.Format(CastString(p2), data, null);
 						return new Value(r1);
 					}
 
 					// usa i formattatori di default
-					string r2 = ReportSession.ApplicationFormatStyles.Format(p1.Data, null);
+					string r2 = TbSession.ApplicationFormatStyles.Format(p1.Data, null);
 					return new Value(r2);
 				}
 
@@ -2040,17 +2040,17 @@ namespace Microarea.Common.ExpressionManager
 
 				case Token.APPYEAR:
 				{
-					int y = (ReportSession.UserInfo == null) 
+					int y = (TbSession.UserInfo == null) 
 						? DateTime.Today.Year 
-						: ReportSession.UserInfo.ApplicationDate.Year;
+						: TbSession.UserInfo.ApplicationDate.Year;
 					return new Value(y);
 				}
 
 				case Token.APPDATE:
 				{
-					DateTime ad = (ReportSession.UserInfo == null) 
+					DateTime ad = (TbSession.UserInfo == null) 
 						? DateTime.Today 
-						: ReportSession.UserInfo.ApplicationDate;
+						: TbSession.UserInfo.ApplicationDate;
 					return new Value(ad);
 				}
 
@@ -2191,7 +2191,7 @@ namespace Microarea.Common.ExpressionManager
                         {
                             NameSpace ns = new NameSpace(filename);
                             if (ns.IsValid())
-                                filename = ReportSession.PathFinder.GetFilename(ns, string.Empty);
+                                filename = TbSession.PathFinder.GetFilename(ns, string.Empty);
                         }
 
                         if (File.Exists(filename)) 
@@ -2254,7 +2254,7 @@ namespace Microarea.Common.ExpressionManager
                         {
                             NameSpace ns = new NameSpace(filename);
                             if (ns.IsValid())
-                                filename = ReportSession.PathFinder.GetFilename(ns, string.Empty);
+                                filename = TbSession.PathFinder.GetFilename(ns, string.Empty);
                         }
 
                         if (File.Exists(filename)) 
@@ -2290,7 +2290,7 @@ namespace Microarea.Common.ExpressionManager
                     {
 					    Value v2 = (Value) paramStack.Pop();
 					    string filename = CastString(v2);
-                        WoormLocalizer loc =new WoormLocalizer(filename, ReportSession.PathFinder);       
+                        WoormLocalizer loc =new WoormLocalizer(filename, TbSession.PathFinder);       
 
                         if (loc != null)
                                 localized = loc.Translate(localized);
@@ -2310,14 +2310,14 @@ namespace Microarea.Common.ExpressionManager
 					string functionality = CastString(v2);
 
 					bool ok = 
-						ReportSession.UserInfo.LoginManager != null &&
-						ReportSession.UserInfo.LoginManager.IsActivated(application, functionality);
+						TbSession.UserInfo.LoginManager != null &&
+						TbSession.UserInfo.LoginManager.IsActivated(application, functionality);
 
 					return new Value(ok);
 				}
                 case Token.ISADMIN:
                 {
-                    bool ok = ReportSession.UserInfo.Admin;
+                    bool ok = TbSession.UserInfo.Admin;
 
                     return new Value(ok);
                 }
@@ -2752,7 +2752,7 @@ namespace Microarea.Common.ExpressionManager
 					Value v1 = (Value) paramStack.Pop();
 					string ns	= CastString(v1);
 					NameSpace aNameSpace = new NameSpace (ns, NameSpaceObjectType.Document);
-					IBaseModuleInfo baseModuleInfo = ReportSession.PathFinder.GetModuleInfoByName(aNameSpace.Application, aNameSpace.Module);
+					IBaseModuleInfo baseModuleInfo = TbSession.PathFinder.GetModuleInfoByName(aNameSpace.Application, aNameSpace.Module);
 					return new Value(baseModuleInfo.Title);
 				}	
 				case Token.GETDOCTITLE:
@@ -2760,25 +2760,25 @@ namespace Microarea.Common.ExpressionManager
 					Value v1 = (Value) paramStack.Pop();
 					string ns	= CastString(v1);
 					NameSpace documentNamespace = new NameSpace (ns, NameSpaceObjectType.Document);
-					IDocumentInfo documentInfo = ReportSession.PathFinder.GetDocumentInfo(documentNamespace);
+					IDocumentInfo documentInfo = TbSession.PathFinder.GetDocumentInfo(documentNamespace);
 					return new Value(documentInfo.Title);
 				}
 
                 case Token.GETDATABASETYPE:
                 {
-                    return new Value(ReportSession.UserInfo.LoginManager.GetDatabaseType());
+                    return new Value(TbSession.UserInfo.LoginManager.GetDatabaseType());
                 }
                 case Token.ISDATABASEUNICODE:
                 {
-                    return new Value(ReportSession.UserInfo.LoginManager.UseUnicode);
+                    return new Value(TbSession.UserInfo.LoginManager.UseUnicode);
                 }
                 case Token.GETEDITION:
 				{
-					return new Value(ReportSession.UserInfo.LoginManager.GetEdition());
+					return new Value(TbSession.UserInfo.LoginManager.GetEdition());
 				}
 				case Token.GETPRODUCTLANGUAGE:
 				{
-					return new Value(ReportSession.UserInfo.LoginManager.GetCountry());
+					return new Value(TbSession.UserInfo.LoginManager.GetCountry());
 				}
 				case Token.GETCOMPUTERNAME:							 
 				{
@@ -2805,7 +2805,7 @@ namespace Microarea.Common.ExpressionManager
 				}
 				case Token.GETLOGINNAME:							 
 				{
-					return new Value(ReportSession.PathFinder.User);
+					return new Value(TbSession.PathFinder.User);
 				}
 				case Token.GETUSERDESCRIPTION:
 				{
@@ -2815,15 +2815,15 @@ namespace Microarea.Common.ExpressionManager
 						if (v1.Data is String)
 						{
 							string sid = CastString(v1);
-							return new Value(ReportSession.UserInfo.LoginManager.GetUserDescriptionByName(sid));
+							return new Value(TbSession.UserInfo.LoginManager.GetUserDescriptionByName(sid));
 						}
 						else
 						{
 							int id = CastInt(v1);
-							return new Value(ReportSession.UserInfo.LoginManager.GetUserDescriptionById(id));
+							return new Value(TbSession.UserInfo.LoginManager.GetUserDescriptionById(id));
 						}
 					}
-				   return new Value(ReportSession.UserInfo.LoginManager.GetUserDescriptionById(ReportSession.UserInfo.LoginId));
+				   return new Value(TbSession.UserInfo.LoginManager.GetUserDescriptionById(TbSession.UserInfo.LoginId));
 				}
 				case Token.GETWINDOWUSER:							 
 				{
@@ -2841,24 +2841,24 @@ namespace Microarea.Common.ExpressionManager
 				}
 				case Token.GETINSTALLATIONNAME:							 
 				{
-					return new Value(ReportSession.PathFinder.Installation);
+					return new Value(TbSession.PathFinder.Installation);
 				}
 				case Token.GETINSTALLATIONPATH:
 				{
-					return new Value(ReportSession.PathFinder.GetInstallationPath());
+					return new Value(TbSession.PathFinder.GetInstallationPath());
 				}
 				case Token.GETINSTALLATIONVERSION:
 				{
-					if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null &&
-						ReportSession.UserInfo.LoginManager.LoginManagerState == LoginManagerState.Logged)
+					if (TbSession != null && TbSession.PathFinder != null && TbSession.UserInfo != null && TbSession.UserInfo.LoginManager != null &&
+						TbSession.UserInfo.LoginManager.LoginManagerState == LoginManagerState.Logged)
 					{
-						return new Value(ReportSession.UserInfo.LoginManager.GetInstallationVersion());
+						return new Value(TbSession.UserInfo.LoginManager.GetInstallationVersion());
 					}
 					return new Value("");
 				}
 				case Token.GETCOMPANYNAME:							 
 				{
-					return new Value(ReportSession.PathFinder.Company);
+					return new Value(TbSession.PathFinder.Company);
 				}
 				case Token.GETNEWGUID:							 
 				{
@@ -2886,7 +2886,7 @@ namespace Microarea.Common.ExpressionManager
 
                 case Token.GETREPORTNAME:
                 {
-                    string sName = ReportSession.ReportName;
+                    string sName = TbSession.ReportName;
 
                     Value v1 = (Value)paramStack.Pop();
                     if (v1.Data is bool)
@@ -2906,18 +2906,18 @@ namespace Microarea.Common.ExpressionManager
                 }
                 case Token.GETREPORTNAMESPACE:							 
 				{
-					return new Value(ReportSession.ReportNamespace);
+					return new Value(TbSession.ReportNamespace);
 				}
 				case Token.GETREPORTMODULENAMESPACE:							 
 				{
-					string [] sa = ReportSession.ReportNamespace.Split(new Char[] {'.'});
+					string [] sa = TbSession.ReportNamespace.Split(new Char[] {'.'});
 
 					return new Value(sa[0] + "." + sa[1]);
 				}
 				case Token.GETREPORTPATH:							 
 				{
-					return new Value(ReportSession.ReportPath);
-				}
+                    return new Value(TbSession.FilePath);
+                }
 				case Token.GETOWNERNAMESPACE:							 
 				{
 					//per forza nullo
@@ -2930,9 +2930,9 @@ namespace Microarea.Common.ExpressionManager
 					int len = CastInt(v1);
 
 					string upper= "z";
-					if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null)
+					if (TbSession != null && TbSession.PathFinder != null && TbSession.UserInfo != null && TbSession.UserInfo.LoginManager != null)
 					{
-						upper = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.LoginManager.PreferredLanguage);
+						upper = ReadSetting.GetMaxString(TbSession.PathFinder, TbSession.UserInfo.LoginManager.PreferredLanguage);
 					}
 
                     string upperlimit;
@@ -2950,9 +2950,9 @@ namespace Microarea.Common.ExpressionManager
 					s = s.Trim();
 
 					string upper = "z";
-					if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null)
+					if (TbSession != null && TbSession.PathFinder != null && TbSession.UserInfo != null && TbSession.UserInfo.LoginManager != null)
 					{
-						upper = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.LoginManager.PreferredLanguage);
+						upper = ReadSetting.GetMaxString(TbSession.PathFinder, TbSession.UserInfo.LoginManager.PreferredLanguage);
 					}
 
 					while (s.EndsWith(upper))
@@ -2970,9 +2970,9 @@ namespace Microarea.Common.ExpressionManager
 					s = s.Trim();
 
 					string upper = "z";
-					if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null)
+					if (TbSession != null && TbSession.PathFinder != null && TbSession.UserInfo != null && TbSession.UserInfo.LoginManager != null)
 					{
-						upper = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.LoginManager.PreferredLanguage);
+						upper = ReadSetting.GetMaxString(TbSession.PathFinder, TbSession.UserInfo.LoginManager.PreferredLanguage);
 					}
 
 					if (s.Length == 0)
@@ -3346,7 +3346,7 @@ namespace Microarea.Common.ExpressionManager
 					Value v4 = (Value) paramStack.Pop();
                 
 				    object setting = null;
-					if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null)
+					if (TbSession != null && TbSession.PathFinder != null && TbSession.UserInfo != null && TbSession.UserInfo.LoginManager != null)
 					{
 						setting = ReadSetting.GetSettings(/*ReportSession.PathFinder TODO rsweb*/null, nsSetting, sSection, sSetting, v4.Data);
 					} 
@@ -3364,7 +3364,7 @@ namespace Microarea.Common.ExpressionManager
                     Value v4 = (Value)paramStack.Pop();
 
                     object setting = null;
-                    if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null)
+                    if (TbSession != null && TbSession.PathFinder != null && TbSession.UserInfo != null && TbSession.UserInfo.LoginManager != null)
                     {
                         setting = ReadSetting.GetSettings(/*ReportSession.PathFinder TODO rsweb*/null, nsSetting, sSection, sSetting, v4.Data);
 
@@ -3400,8 +3400,8 @@ namespace Microarea.Common.ExpressionManager
 
                         string sPrevUICulture = "";// System.Threading.Thread.CurrentThread.CurrentUICulture.Name;     TODO rsweb
                    // System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(sUICulture);
-                    ReportSession.UICulture = sUICulture;
-                    this.Localizer.Build(ReportSession.ReportPath, ReportSession.PathFinder);
+                    TbSession.UICulture = sUICulture;
+                    this.Localizer.Build(TbSession.FilePath, TbSession.PathFinder);
 
                     return new Value(sPrevUICulture);
                 }
@@ -3432,10 +3432,10 @@ namespace Microarea.Common.ExpressionManager
 						if (sType == "company")	
 						{
 							//pData->Assign(AfxGetLoginInfos()->m_strCompanyLanguage);
-							if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null &&
-						ReportSession.UserInfo.LoginManager.LoginManagerState == LoginManagerState.Logged)
+							if (TbSession != null && TbSession.PathFinder != null && TbSession.UserInfo != null && TbSession.UserInfo.LoginManager != null &&
+						TbSession.UserInfo.LoginManager.LoginManagerState == LoginManagerState.Logged)
 							{
-								string s = ReportSession.UserInfo.LoginManager.PreferredCompanyLanguage;
+								string s = TbSession.UserInfo.LoginManager.PreferredCompanyLanguage;
 								return new Value(s);
 							}
 						}
@@ -3448,10 +3448,10 @@ namespace Microarea.Common.ExpressionManager
 						else if (sType == "user" || sType == "login")
 						{
 							//pData->Assign(AfxGetLoginInfos()->m_strPreferredLanguage);
-							if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null &&
-						ReportSession.UserInfo.LoginManager.LoginManagerState == LoginManagerState.Logged)
+							if (TbSession != null && TbSession.PathFinder != null && TbSession.UserInfo != null && TbSession.UserInfo.LoginManager != null &&
+						TbSession.UserInfo.LoginManager.LoginManagerState == LoginManagerState.Logged)
 							{
-								string s = ReportSession.UserInfo.LoginManager.PreferredLanguage;
+								string s = TbSession.UserInfo.LoginManager.PreferredLanguage;
 								return new Value(s);
 							}
 						}
@@ -3461,10 +3461,10 @@ namespace Microarea.Common.ExpressionManager
 						if (sType == "company")	//TODO M.4196
 						{
 							//pData->Assign(AfxGetLoginInfos()->m_strCompanyApplicationLanguage);
-							if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null &&
-						ReportSession.UserInfo.LoginManager.LoginManagerState == LoginManagerState.Logged)
+							if (TbSession != null && TbSession.PathFinder != null && TbSession.UserInfo != null && TbSession.UserInfo.LoginManager != null &&
+						TbSession.UserInfo.LoginManager.LoginManagerState == LoginManagerState.Logged)
 							{
-								string s = ReportSession.UserInfo.LoginManager.ApplicationCompanyLanguage;
+								string s = TbSession.UserInfo.LoginManager.ApplicationCompanyLanguage;
 								return new Value(s);
 							}
 						}
@@ -3477,10 +3477,10 @@ namespace Microarea.Common.ExpressionManager
 						else if (sType == "user" || sType == "login")
 						{
 							//pData->Assign(AfxGetLoginInfos()->m_strApplicationLanguage);
-							if (ReportSession != null && ReportSession.PathFinder != null && ReportSession.UserInfo != null && ReportSession.UserInfo.LoginManager != null &&
-						ReportSession.UserInfo.LoginManager.LoginManagerState == LoginManagerState.Logged)
+							if (TbSession != null && TbSession.PathFinder != null && TbSession.UserInfo != null && TbSession.UserInfo.LoginManager != null &&
+						TbSession.UserInfo.LoginManager.LoginManagerState == LoginManagerState.Logged)
 							{
-								string s = ReportSession.UserInfo.LoginManager.ApplicationLanguage;
+								string s = TbSession.UserInfo.LoginManager.ApplicationLanguage;
 								return new Value(s);
 							}
 						}
@@ -3493,7 +3493,7 @@ namespace Microarea.Common.ExpressionManager
                     Value v1 = (Value)paramStack.Pop();
                     string sPath = CastString(v1);
 
-					INameSpace ns = ReportSession.PathFinder.GetNamespaceFromPath(sPath);
+					INameSpace ns = TbSession.PathFinder.GetNamespaceFromPath(sPath);
 					if (ns != null && ns.IsValid())
 						return new Value(ns.FullNameSpace);
 
@@ -3514,14 +3514,14 @@ namespace Microarea.Common.ExpressionManager
 
 					if (sType == "auto")
 					{
-						String sPath = ReportSession.PathFinder.GetFilename(ns, string.Empty);
+						String sPath = TbSession.PathFinder.GetFilename(ns, string.Empty);
 						if (sPath != null)
 							return new Value(sPath);
 					}
 					//TODO M.4196
 					else if (sType == "user" || sType == "login")
 					{
-						String sPath = ReportSession.PathFinder.GetFilename(ns, string.Empty);
+						String sPath = TbSession.PathFinder.GetFilename(ns, string.Empty);
 						if (sPath != null)
 							return new Value(sPath);
 					}
@@ -3649,7 +3649,7 @@ namespace Microarea.Common.ExpressionManager
 				{
 					Value v1 = (Value)paramStack.Pop();
                     String script = CastString(v1);
-                    TbScript tbScript = new TbScript (ReportSession, this.SymbolTable, new SilentMessageProvider());
+                    TbScript tbScript = new TbScript (TbSession, this.SymbolTable, new SilentMessageProvider());
 					Parser lex = new Parser (Parser.SourceType.FromString);
                     if (!lex.Open(script))
                     {
@@ -3756,7 +3756,7 @@ namespace Microarea.Common.ExpressionManager
 		private ITbLoaderClient GetTBClientInterface()
 		{
 			
-			return reportSession.GetTBClientInterface();
+			return tbSession.GetTBClientInterface();
 		}
 
 		//-----------------------------------------------------------------------------

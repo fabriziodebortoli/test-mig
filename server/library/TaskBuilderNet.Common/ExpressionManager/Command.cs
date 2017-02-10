@@ -34,14 +34,14 @@ namespace Microarea.Common.ExpressionManager
 	class TBScriptExpression : Expression
 	{
 		//--------------------------------------------------------------------------------
-		public TBScriptExpression(TbReportSession tbReportSession, SymbolTable symTable)
+		public TBScriptExpression(TbSession tbReportSession, SymbolTable symTable)
 			: base(tbReportSession, symTable)
 		{
 		}
 		//--------------------------------------------------------------------------------
 		protected override ExpressionParser CreateParser()
 		{
-			ExpressionParser parser = new ExpressionParser(reportSession, symbolTable, stopTokens);
+			ExpressionParser parser = new ExpressionParser(tbSession, symbolTable, stopTokens);
 			parser.AllowThisCallMethods = true;
 			return parser;
 		}
@@ -828,7 +828,7 @@ namespace Microarea.Common.ExpressionManager
 		protected CommandBlock block;
 
 		private List<string> errors = new List<string>();
-		private TbReportSession scriptingSession = null;
+		private TbSession scriptingSession = null;
 
 		private IMessageProvider messageProvider;
 
@@ -844,7 +844,7 @@ namespace Microarea.Common.ExpressionManager
 		public object ReturnValue { get; set; }
 
 		//--------------------------------------------------------------------------------
-		public Microarea.Common.Applications.TbReportSession ScriptingSession { get { return scriptingSession; } }
+		public Microarea.Common.Applications.TbSession ScriptingSession { get { return scriptingSession; } }
 		//--------------------------------------------------------------------------------
 		public Microarea.Common.Applications.Enums EnumsTable { get { return scriptingSession.Enums; } }
 		//--------------------------------------------------------------------------------
@@ -879,7 +879,7 @@ namespace Microarea.Common.ExpressionManager
 #endif
 
 		//--------------------------------------------------------------------------------------
-		public TbScript(TbReportSession reportSession, SymbolTable globalSymTable, IMessageProvider messageProvider)
+		public TbScript(TbSession reportSession, SymbolTable globalSymTable, IMessageProvider messageProvider)
 		{
 			scriptingSession = reportSession;
 			this.messageProvider = messageProvider;

@@ -510,7 +510,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 		public List<AskGroup>	Groups			{ get { return this.groups; } }
 		public Report			Report			{ get { return report; }}
-		public TbReportSession	Session			{ get { return Report.ReportSession; }}
+		public TbReportSession Session			{ get { return Report.ReportSession; }}
 		public AskEntry			ActiveAskEntry	{ get { return activeAskEntry; } set { activeAskEntry = value; }}
 		public bool				OnAsk			{ get { return onAsk; }}
 
@@ -791,15 +791,20 @@ namespace Microarea.RSWeb.WoormEngine
             askEntry.MultiSelections = lex.Parsed(Token.MULTI_SELECTIONS);
 
 			// cerca il prototipo con quel numero di parametri.
-			askEntry.Hotlink.Prototype = Session.Hotlinks.GetPrototype(name, askEntry.Hotlink.ActualParams.Count);
+			askEntry.Hotlink.Prototype = Session.Hotlinks.GetPrototype(name);
 			if (askEntry.Hotlink.Prototype == null)
 			{
 				lex.SetError(string.Format(WoormEngineStrings.UndefinedReferenceObject, name));
 				return false;
 			}
+            if (askEntry.Hotlink.Prototype.NrParameters < askEntry.Hotlink.ActualParams.Count)
+            {
+                lex.SetError(string.Format(WoormEngineStrings.UndefinedReferenceObject, name));//TODO specificare errore
+                return false;
+            }
 
-			// controlla che i parametri attuali siano corretti come tipo definito nel prototipo
-			for (int i = 0; i < askEntry.Hotlink.ActualParams.Count; i++)
+            // controlla che i parametri attuali siano corretti come tipo definito nel prototipo
+            for (int i = 0; i < askEntry.Hotlink.ActualParams.Count; i++)
 			{
 				Expression actualParam = (Expression)askEntry.Hotlink.ActualParams[i];
 				Parameter  prototypeParam = askEntry.Hotlink.Prototype.Parameters[i];

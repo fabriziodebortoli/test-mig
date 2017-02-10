@@ -265,10 +265,10 @@ namespace Microarea.Common.ExpressionManager
 	{
 		public Stack CofExpression;
 		public SymbolTable SymbolTable;
-		public TbReportSession Session;
+		public TbSession Session;
 
 		//-----------------------------------------------------------------------------
-		public FunctionContentOfItem(FunctionPrototype prototype, Stack expression, TbReportSession session, SymbolTable symbolTable)
+		public FunctionContentOfItem(FunctionPrototype prototype, Stack expression, TbSession session, SymbolTable symbolTable)
 			: base(Token.CONTENTOF, prototype)
 		{
 			CofExpression = expression;
@@ -415,7 +415,7 @@ namespace Microarea.Common.ExpressionManager
 	{
 		private StopTokens stopTokens = null;
 		private SymbolTable	symbolTable = null;
-		private TbReportSession	session;
+		private TbSession	session;
 		
         private bool allowEasyBuilderThisCallMethods = false;
 
@@ -432,13 +432,13 @@ namespace Microarea.Common.ExpressionManager
 		}
 
 		//-----------------------------------------------------------------------------
-		public TbReportSession Session { get { return session; }}
+		public TbSession Session { get { return session; }}
 
 		//-----------------------------------------------------------------------------
-		public ExpressionParser(TbReportSession	session) { this.session = session; }
+		public ExpressionParser(TbSession	session) { this.session = session; }
 		
 		//-----------------------------------------------------------------------------
-		public ExpressionParser(TbReportSession session, SymbolTable symbolTable, StopTokens stopTokens)
+		public ExpressionParser(TbSession session, SymbolTable symbolTable, StopTokens stopTokens)
 		{
 			this.stopTokens				= stopTokens;
 			this.symbolTable			= symbolTable;

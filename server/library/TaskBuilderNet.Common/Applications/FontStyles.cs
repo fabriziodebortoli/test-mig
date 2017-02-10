@@ -269,14 +269,14 @@ namespace Microarea.Common.Applications
 	{
 		private FontStyles	fs;
 		private bool		loaded = true;
-		private TbReportSession		reportSession;
+		private TbSession		reportSession;
 
 		//-----------------------------------------------------------------------------
 		public bool		Loaded	{ get { return loaded; }}
-		public TbReportSession	ReportSession	{ get { return reportSession; } set { reportSession = value; }}																				
+		public TbSession	ReportSession	{ get { return reportSession; } set { reportSession = value; }}																				
 
 		//------------------------------------------------------------------------------
-		public ApplicationFontStyles(TbReportSession session)
+		public ApplicationFontStyles(TbSession session)
 		{
 			// è necessario inizializzare prima una sessione di lavoro.
 			this.reportSession = session;

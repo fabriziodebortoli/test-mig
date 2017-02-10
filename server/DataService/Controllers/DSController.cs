@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microarea.DataService.Models;
 
 namespace DataService.Controllers
 {
     [Route("ds")]
-    public class HomeController : Controller
+    public class DSController : Controller
     {
         [Route("data-service")]
         public IActionResult GetData()
         {
+            Datasource ds = new Datasource(null);
+            if (!ds.Load("erp.items.ds_ItemsSimple", "Code"))
+                return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
+
+            //---------------------
             return new ContentResult { Content = "e mo ci vogliono i dati", ContentType = "application/json" };
         }
 

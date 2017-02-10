@@ -90,7 +90,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//-----------------------------------------------------------------------------
 		public WhereClause
 			(
-				TbReportSession				session,
+				TbSession				session,
 				SymbolTable					symTable,
 				DataTableRule				dataTableRule
 			)
@@ -346,7 +346,7 @@ namespace Microarea.RSWeb.WoormEngine
 
                     if (lex.Parsed(Token.EVAL))
                     {
-                        Expression expr = new Expression(ReportSession, this.symbolTable);
+                        Expression expr = new Expression(TbSession, this.symbolTable);
                         expr.StopTokens = new StopTokens(new Token[] { Token.BRACECLOSE });
                         expr.StopTokens.skipInnerBraceBrackets = true;
                         if (!expr.Compile(lex, CheckResultType.Compatible, "Variant"))
@@ -368,7 +368,7 @@ namespace Microarea.RSWeb.WoormEngine
                     }
                     else
                     {
-                        if (!ComplexDataParser.Parse(lex, ReportSession.Enums, out data, false))
+                        if (!ComplexDataParser.Parse(lex, TbSession.Enums, out data, false))
                             return false;
                     }
 
@@ -425,7 +425,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 					PushSkippedToken(subExpression);
 
-                    ExpressionParser ep = new ExpressionParser(this.ReportSession, this.symbolTable, null);
+                    ExpressionParser ep = new ExpressionParser(this.TbSession, this.symbolTable, null);
 
 			        if (!ep.ParseFunctionContentOf(lex, expressionStack, true)) 
 				        return false;
@@ -448,7 +448,7 @@ namespace Microarea.RSWeb.WoormEngine
             return ConvertToNative
                 (
                     SymbolTable, 
-                    ReportSession,
+                    TbSession,
                     ForbiddenIdents,
                     source, out where
                );
@@ -458,7 +458,7 @@ namespace Microarea.RSWeb.WoormEngine
         static public bool ConvertToNative
             (
                 SymbolTable symTable, 
-                TbReportSession ReportSession,
+                TbSession ReportSession,
                 List<String> ForbiddenIdents,
                 string source, out string where
             )
@@ -946,7 +946,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//-----------------------------------------------------------------------------
 		public IfWhereClause
 			(
-				TbReportSession				session,
+				TbSession				session,
 				SymbolTable					symTable,
 				DataTableRule				dataTableRule
 			)
@@ -1015,7 +1015,7 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			if (!lex.ParseTag(Token.IF)) return false;
 			
-			conditionExpression = new Expression(ReportSession, SymbolTable);
+			conditionExpression = new Expression(TbSession, SymbolTable);
 			
 			conditionExpression.StopTokens = new StopTokens(new Token[] { Token.THEN });
 			if (!(conditionExpression.Compile(lex, CheckResultType.Match, "Boolean"))) 
@@ -1031,14 +1031,14 @@ namespace Microarea.RSWeb.WoormEngine
 			
 			if (lex.LookAhead(Token.IF))
 			{	
-				thenWhereClause = new IfWhereClause(ReportSession, SymbolTable, dataTableRule);
+				thenWhereClause = new IfWhereClause(TbSession, SymbolTable, dataTableRule);
                 thenWhereClause.ForbiddenIdents = ForbiddenIdents;
 				if (!((IfWhereClause)thenWhereClause).ParseCondWhere(lex, check, type)) 
                     return false;
 			}
 			else
 			{
-				thenWhereClause = new WhereClause(ReportSession, SymbolTable, dataTableRule);
+				thenWhereClause = new WhereClause(TbSession, SymbolTable, dataTableRule);
                 thenWhereClause.ForbiddenIdents = ForbiddenIdents;
 				if (!thenWhereClause.Compile(lex, check, type)) 
                     return false;
@@ -1049,13 +1049,13 @@ namespace Microarea.RSWeb.WoormEngine
 			
 			if (lex.LookAhead(Token.IF))
 			{
-				elseWhereClause = new IfWhereClause(ReportSession, SymbolTable, dataTableRule);
+				elseWhereClause = new IfWhereClause(TbSession, SymbolTable, dataTableRule);
                 elseWhereClause.ForbiddenIdents = ForbiddenIdents;
 				return ((IfWhereClause)elseWhereClause).ParseCondWhere(lex, check, type);
 			}
 			else
 			{
-				elseWhereClause = new WhereClause(ReportSession, SymbolTable, dataTableRule);
+				elseWhereClause = new WhereClause(TbSession, SymbolTable, dataTableRule);
                 elseWhereClause.ForbiddenIdents = ForbiddenIdents;
 				if (!elseWhereClause.Compile(lex, check, type)) 
                     return false;

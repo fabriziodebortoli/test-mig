@@ -2652,7 +2652,7 @@ namespace Microarea.Common.Applications
 		private Hashtable	numberToLiteral = new Hashtable();
 
 		//------------------------------------------------------------------------------
-		public TbReportSession	Session		{ get { return applicationFormatStyles.ReportSession; }}
+		public TbSession	Session		{ get { return applicationFormatStyles.ReportSession; }}
 		
 		//------------------------------------------------------------------------------
 		static public CultureInfo ApplicationLocale { get { return applicationLocale; } }
@@ -3722,15 +3722,15 @@ namespace Microarea.Common.Applications
 	{
 		private FormatStyles	fs;
 		private bool			loaded = true;
-		private TbReportSession			reportSession;
+		private TbSession			reportSession;
 
 		//-----------------------------------------------------------------------------
 		public FormatStyles	Fs		{ get { return fs; }}
 		public bool			Loaded	{ get { return loaded; }}
-		public TbReportSession		ReportSession	{ get { return reportSession; } set { reportSession = value; }}
+		public TbSession		ReportSession	{ get { return reportSession; } set { reportSession = value; }}
 
 		//------------------------------------------------------------------------------
-		public ApplicationFormatStyles(TbReportSession session)
+		public ApplicationFormatStyles(TbSession session)
 		{
 			// è necessario inizializzare prima una sessione di lavoro.
 			this.reportSession = session;

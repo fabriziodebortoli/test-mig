@@ -80,7 +80,7 @@ namespace Microarea.RSWeb.WoormController
 	public class RSEngine : IDisposable
 	{
 		private bool			disposed = false;	// Track whether Dispose has been called.
-		private TbReportSession	reportSession = null;
+		private TbReportSession reportSession = null;
 		private XmlReturnType	xmlReturnType = XmlReturnType.ReportData;
 		private Thread			extractionThread = null;
 		private State			currentState = State.Start;
@@ -165,7 +165,7 @@ namespace Microarea.RSWeb.WoormController
 		//--------------------------------------------------------------------------
 		public RSEngine
 			(
-				TbReportSession		reportSession,
+				TbReportSession	    reportSession,
 				XmlDocument			xmlDomParameters, 
 				StringCollection	xmlResultReports, 
 				XmlReturnType		xmlReturnType
@@ -187,7 +187,7 @@ namespace Microarea.RSWeb.WoormController
 		//--------------------------------------------------------------------------
 		public RSEngine
 			(
-				TbReportSession reportSession,
+                TbReportSession reportSession,
 				XmlDocument xmlDomParameters,
 				string sessionID, 
 				string uniqueID
