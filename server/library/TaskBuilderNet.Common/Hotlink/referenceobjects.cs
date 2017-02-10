@@ -178,6 +178,7 @@ namespace Microarea.Common.Hotlink
 		}
 
         //-----------------------------------------------------------------------------
+        //TODO RSWEB - data-service
         //vedere 
         // ...\Framework\TbGes\XmlReferenceObjectsParserEx.cpp
         // BOOL CXMLReferenceObjectsParser::ParseHotLink 
