@@ -1,4 +1,6 @@
+import { Response } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
+import { HttpService } from 'tb-core';
 
 @Component({
   selector: 'tb-data-service',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DataServiceComponent implements OnInit {
 
-  constructor() { }
+ constructor(private httpService: HttpService) { 
+     httpService.postData(httpService.getBaseUrl() + 'ds/data-service', {}).map((res: Response) => {
+                return res.ok && res.json().success === true;
+     }); 
+  }
 
   ngOnInit() {
   }
