@@ -20,6 +20,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   sidenavSubscription: any;
   getMenuElementsSubscription: any;
 
+  private appName = environment.appName;
+  private companyName = environment.companyName;
+
   constructor(
     private loginSession: LoginSessionService,
     private componentService: ComponentService,
@@ -52,5 +55,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sidenavSubscription.unsubscribe();
     this.getMenuElementsSubscription.unsubscribe();
+  }
+
+  toggleSidenav() {
+    this.sidenavService.toggleSidenav();
   }
 }
