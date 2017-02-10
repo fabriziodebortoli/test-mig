@@ -24,7 +24,7 @@ namespace Microarea.RSWeb.WoormWebControl
 		private bool		useApproximation;
 		
 		internal	RSEngine		    StateMachine = null;
-		public		TbReportSession		ReportSession;
+		public TbReportSession ReportSession;
 
 		public		XmlDocument			XmlDomParameters = new XmlDocument();
 

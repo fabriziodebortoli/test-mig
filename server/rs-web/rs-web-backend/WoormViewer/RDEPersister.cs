@@ -13,7 +13,7 @@ namespace Microarea.RSWeb.WoormViewer
 	public class RDEPersister
 	{
 		private WoormDocument	woorm;
-		private TbReportSession	reportSession;
+		private TbReportSession reportSession;
 		private RunnedReportMng runnedReports;
 
 		//--------------------------------------------------------------------------

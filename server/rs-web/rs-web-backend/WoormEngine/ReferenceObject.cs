@@ -24,11 +24,11 @@ namespace Microarea.Common.Hotlink
 		public Action						CurrentAction = Action.Upper;
 
         //public AskDialog					AskDialog = null;	
-        public TbReportSession tbSession = null;
+        public TbSession tbSession = null;
 
         //----------------------------------------------------------------------------
-        //public TbReportSession Session { get { return AskDialog.Session; } }
-        public TbReportSession Session { get { return tbSession; }}
+        //public TbSession Session { get { return AskDialog.Session; } }
+        public TbSession Session { get { return tbSession; }}
  
         //----------------------------------------------------------------------------
         //public ReferenceObject(AskDialog askDialog)
@@ -36,7 +36,7 @@ namespace Microarea.Common.Hotlink
         //	this.AskDialog = askDialog;
         //}
 
-        public ReferenceObject(TbReportSession session)
+        public ReferenceObject(TbSession session)
         {
             tbSession = session;
         }

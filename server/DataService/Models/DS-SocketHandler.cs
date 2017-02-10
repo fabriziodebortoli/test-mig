@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microarea.DataService.Models;
 
 namespace Microarea.DataService.Models
 {    
@@ -54,9 +55,9 @@ namespace Microarea.DataService.Models
 
                 string nameSpace = Encoding.UTF8.GetString(nsBuffer.Array, nsBuffer.Offset, nsBuffer.Count).Replace("\0", "");
 
-                //TODO  creates service   
-                object myDataService = null;
-                // = CreateDataService(MessageBuilder.GetMessagFromJson(nameSpace).message);
+                //TODO  creates service  provider 
+                Datasource myDataService = new Datasource(null);
+
                 if (myDataService == null)
                 {    /// handle errors
                      /// if guid is not found on server the web socket will be closed and disposed
@@ -81,11 +82,11 @@ namespace Microarea.DataService.Models
                         case WebSocketMessageType.Text:
                             {
 
-                                var recMeg = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count).Replace("\0", "");
+                                string recMeg = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count).Replace("\0", "");
                                 //parse
                                 Message msg = MessageBuilder.GetMessagFromJson(recMeg);
 
-                                //TODO msg = mydataService.GetResponseFor(msg);
+                                //msg = mydataService.GetResponseFor(msg);
 
                                 await SendMessage(MessageBuilder.GetJSONMessage(msg),webSocket);
                                 //send

@@ -10,6 +10,8 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using Microarea.Common.ExpressionManager;
+using static Microarea.Common.Lexan.Parser;
+using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.Common.Hotlink
 {
@@ -35,7 +37,7 @@ namespace Microarea.Common.Hotlink
 		private IDataReader		iDataReader		= null; 
 
 		private ArrayList			tagLinkArrayList	= null;
-		private TbReportSession	session		= null;
+		private TbSession	session		= null;
 		private QueryObject			parentQuery	= null;
 		private int bindNumber = 0;
 
@@ -52,13 +54,16 @@ namespace Microarea.Common.Hotlink
 		public long		Handle			{ get { return queryHandle; } }
 		public string	SqlString		{ get { return sqlString; }	}
 
-		public DBConnection TbConnection { get { return tbConnection; }			set { tbConnection = value; }}
+		public DBConnection TbConnection { get { return tbConnection; }			set { tbConnection = value; } }
 
-		#endregion
+        UserInfo UserInfo { get { return (this.session != null && this.session.UserInfo != null) ? this.session.UserInfo : null; } }
+        ILoginManager LoginManager { get { return (this.session != null && this.session.UserInfo != null && this.session.UserInfo.LoginManager != null) ? this.session.UserInfo.LoginManager : null; } }
 
-		#region Costructor + IDisposable
+        #endregion
 
-		public QueryObject(string name, SymbolTable aSymbolTable, TbReportSession aSession, QueryObject parent)
+        #region Costructor + IDisposable
+
+        public QueryObject(string name, SymbolTable aSymbolTable, TbSession aSession, QueryObject parent)
 		{
 			queryNameString		= name;
 			symbolTable			= aSymbolTable;
@@ -139,8 +144,17 @@ namespace Microarea.Common.Hotlink
 			return false;
 		}
 
-		//------------------------------------------------------------------------------
-		public bool Parse (ref Parser parser)
+        public bool Define(string sql)
+        {
+            sql = "QUERY _q" + " BEGIN { " + sql + " } END";
+            Parser parser = new Parser(SourceType.FromString);
+            if (!parser.Open(sql))
+                return false;
+            return Parse(ref parser);
+         }
+
+        //------------------------------------------------------------------------------
+        public bool Parse (ref Parser parser)
 		{
 			tagLinkArrayList.Clear();
 
@@ -269,14 +283,14 @@ namespace Microarea.Common.Hotlink
 
             bool isOracle = false;
             bool isUnicode = false;
-            DBMSType dbType = DBMSType.SQLSERVER;
+            TaskBuilderNetCore.Data.DBMSType dbType = TaskBuilderNetCore.Data.DBMSType.SQLSERVER;
 
-            if (this.session.UserInfo.LoginManager != null)
+            if (LoginManager != null)
             {   //Il TbLocalizer NON ha il LoginManager
-                string sdbType = this.session.UserInfo.LoginManager.GetDatabaseType();
-                //dbType = TBDatabaseType.GetDBMSType(sdbType);     TODO rsweb
-                isOracle = dbType == DBMSType.ORACLE;
-                isUnicode = this.session.UserInfo.LoginManager.UseUnicode;
+                string sdbType = LoginManager.GetDatabaseType();
+                //dbType = TBDatabaseType.GetDBMSType(sdbType);     TODO RSWEB
+                isOracle = (dbType == TaskBuilderNetCore.Data.DBMSType.ORACLE);
+                isUnicode = LoginManager.UseUnicode;
             }
   
 			Token token = parser.LookAhead();

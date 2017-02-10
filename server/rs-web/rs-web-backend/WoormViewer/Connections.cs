@@ -192,7 +192,7 @@ namespace Microarea.RSWeb.WoormViewer
         //private CommandBlock blockAfter;
 
 		//------------------------------------------------------------------------------
-		public TbReportSession	        Session 			{ get { return connections.Session; }}
+		public TbSession	        Session 			{ get { return connections.Session; }}
 		public bool					    Valid				{ get { return valid; }}
 		public ushort				    OnAlias				{ get { return onAlias; }}
 		public string				    Namespace			{ get { return tableName; }}
@@ -1253,7 +1253,7 @@ namespace Microarea.RSWeb.WoormViewer
 		//------------------------------------------------------------------------------------
 		public WoormDocument Document { get { return document;} set { document = value; } }
 		//------------------------------------------------------------------------------
-		public TbReportSession	Session { get { return document.ReportSession; }}
+		public TbReportSession Session { get { return document.ReportSession; }}
 
 		//------------------------------------------------------------------------------
 		public ConnectionLinks(WoormDocument document) : base()

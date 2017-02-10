@@ -99,7 +99,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public string	QualifiedPhysicalName	{ get { return physicalName; } set { physicalName = value; } }
 		public string	PublicName				{ get { return this.Name; }}
 		public int		InternalId				{ get { return Id; }}
-		public TbReportSession	Session		{ get { return engine.Session; }}
+		public TbReportSession Session		{ get { return engine.Session; }}
 
 		//----------------------------------------------------------------------------
 		public bool		Hidden		{ get { return hidden; } set { hidden = value; }} 

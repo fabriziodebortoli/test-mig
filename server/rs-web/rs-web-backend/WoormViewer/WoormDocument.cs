@@ -664,7 +664,7 @@ namespace Microarea.RSWeb.WoormViewer
 		public	StringCollection	Messages = new StringCollection();
 		public	RdeReader			RdeReader;
 		public	ReleaseChecker		ReleaseChecker;
-		public	TbReportSession	    ReportSession;
+		public  TbReportSession     ReportSession;
 		public	INameSpace			Namespace = new NameSpace("");
 		public	WoormTemplate       Template = new WoormTemplate();
 
@@ -773,7 +773,7 @@ namespace Microarea.RSWeb.WoormViewer
 		}
 
 		//------------------------------------------------------------------------------
-		public WoormDocument(string filename,TbReportSession session,string sessionID,string uniqueID)
+		public WoormDocument(string filename, TbReportSession session,string sessionID,string uniqueID)
 			:this(filename,session,sessionID,uniqueID,false/*default non e' template*/)
 		{
 		}

@@ -75,7 +75,7 @@ namespace Microarea.RSWeb.WoormEngine
 	
 		//-----------------------------------------------------------------------------
 		public RuleEngine	Engine	{ get { return engine; } set { engine = value; }}
-		public TbReportSession		Session	{ get { return Engine.Session; }}
+		public TbReportSession Session	{ get { return Engine.Session; }}
 
 		//-----------------------------------------------------------------------------
 		abstract public bool		IsParentOf	(RuleObj ro);

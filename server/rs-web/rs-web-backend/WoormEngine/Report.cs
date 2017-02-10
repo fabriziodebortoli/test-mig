@@ -134,7 +134,7 @@ namespace Microarea.RSWeb.WoormEngine
 		private string				sessionID = "";
 		private DataEnum			reportStatus;
 		private RuleReturn			exitStatus = RuleReturn.Success;
-		private TbReportSession	    reportSession;
+		private TbReportSession     reportSession;
 		private EngineType			engineType = EngineType.Standard;
 		private string				maxString = ObjectHelper.GetMaxString(string.Empty);
         private ParametersList      initParameters;
@@ -145,7 +145,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public RepSymTable		SymTable			{ get { return symTable; }}
 		public ReportEngine		Engine				{ get { return engine; } set { engine = value; }}
 		public string			HelpFileName		{ get { return helpFileName; } set { helpFileName = value; }}
-		public TbReportSession	ReportSession		{ get { return reportSession; }}
+		public TbReportSession ReportSession		{ get { return reportSession; }}
 		public EngineType		EngineType			{ get { return engineType; } set { engineType = value; }}
 
 		public string			UniqueID			{ get { return uniqueID; }}
@@ -183,7 +183,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public Report
 			(
 				string reportName,
-				TbReportSession reportSession,
+                TbReportSession reportSession,
 				XmlDocument xmlDomParameters,
 				string sessionID,
 				string uniqueID
@@ -213,7 +213,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public Report
 			(
 				string				reportName,
-				TbReportSession	    reportSession,
+                TbReportSession reportSession,
 				XmlDocument			xmlDomParameters,
 				StringCollection	xmlResultReports
 			)
@@ -242,7 +242,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public Report
 			(
 			string				reportName,
-			TbReportSession	session,
+            TbReportSession session,
 			string				sessionID,
 			string				uniqueID,
 			IWoormDocumentObj   woormDoumentObj = null

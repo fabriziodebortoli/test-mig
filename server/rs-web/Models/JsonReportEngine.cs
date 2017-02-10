@@ -7,6 +7,7 @@ using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
+
 using Microarea.RSWeb.WoormController;
 
 namespace Microarea.RSWeb.Models
@@ -72,7 +73,7 @@ namespace Microarea.RSWeb.Models
             ReportSession.ReportPath = ReportSession.UserInfo.PathFinder.GetCustomUserReportFile(ui.Company, impersonatedUser, nameSpace, true);
  
             // istanzio una nuova macchina per la elaborazione del report per generare solo XML
-            //TbReportSession reportSession, string filename, string sessionID, string uniqueID
+            //TbSession reportSession, string filename, string sessionID, string uniqueID
             StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, "sessionID", "uniqueID");
 
             // se ci sono stati errore nel caricamento fermo tutto (solo dopo aver istanziato la RSEngine)
