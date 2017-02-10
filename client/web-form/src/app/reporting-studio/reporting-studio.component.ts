@@ -14,8 +14,7 @@ export class ReportingStudioComponent implements OnInit, AfterViewInit {
 
   private subscription: Subscription;
 
-  private reportNamespace: string;
-  private reportParams: any = '';
+  private namespace: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -26,12 +25,11 @@ export class ReportingStudioComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.subscription = this.route.params.subscribe(
       (params: any) => {
-        this.reportNamespace = params['namespace'];
-        // this.reportParams = params['params'];
+        this.namespace = params['namespace'];
       }
     );
 
-    console.log('Reporting Studio Component Init ', this.reportNamespace, this.reportParams);
+    console.log('Reporting Studio Component Init with namespace:', this.namespace);
   }
 
   ngAfterViewInit() { }
