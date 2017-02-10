@@ -1,3 +1,4 @@
+import { ReportingStudioComponent } from './../../../../reporting-studio/reporting-studio.component';
 import { ComponentService } from 'tb-core';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
@@ -19,6 +20,10 @@ export class TopbarMenuTestComponent implements OnInit {
 
   openDataService() {
     this.componentService.createComponent(DataServiceComponent, this.resolver);
+  }
+
+  openRS() {
+    this.componentService.createComponent(ReportingStudioComponent, this.resolver);
   }
 
 }
