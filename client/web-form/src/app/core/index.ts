@@ -8,4 +8,5 @@ export * from './sidenav.service';
 export * from './document.service';
 export * from './command.service';
 export * from './core.guard';
+export * from './info.service';
 export * from './core.module';

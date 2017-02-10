@@ -1,8 +1,7 @@
 export const environment = {
   production: true,
-  desktop: false,
   
-  apiBaseUrl: `http://localhost:5000/tbloader/api/`,
+   baseUrl: `http://localhost:5000`,
   wsBaseUrl: 'ws://localhost:5000/tbloader/',
 
   appName: 'MagoWeb',

@@ -12,14 +12,13 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class HttpMenuService {
 
-    private baseUrl = environment.apiBaseUrl + 'tb/menu/';
-
+   
     constructor(
         private http: Http,
         private utilsService: UtilsService,
         private logger: Logger,
-        private cookieService: CookieService) {
-        this.logger.debug('HttpMenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
+        private cookieService: CookieService,
+         private httpService: HttpService) {
     }
 
     /**
@@ -28,7 +27,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} getMenuElements
      */
     getMenuElements(): Observable<any> {
-        return this.http.get(this.baseUrl + 'getMenuElements/', { withCredentials: true })
+        return this.http.get(this.httpService.getMenuBaseUrl() + 'getMenuElements/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
@@ -41,7 +40,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} getProductInfo
      */
     getProductInfo(): Observable<any> {
-        return this.http.get(this.baseUrl + 'getProductInfo/', { withCredentials: true })
+        return this.http.get(this.httpService.getMenuBaseUrl() + 'getProductInfo/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
@@ -54,7 +53,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} getPreferences
      */
     getPreferences(): Observable<any> {
-        return this.http.get(this.baseUrl + 'getPreferences/', { withCredentials: true })
+        return this.http.get(this.httpService.getMenuBaseUrl() + 'getPreferences/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
@@ -71,7 +70,7 @@ export class HttpMenuService {
      */
     setPreference(referenceName: string, referenceValue: string): Observable<any> {
         let obj = { name: referenceName, value: referenceValue };
-        var urlToRun = this.baseUrl + 'setPreference/';
+        var urlToRun = this.httpService.getMenuBaseUrl() + 'setPreference/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
@@ -85,7 +84,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} getThemedSettings
      */
     getThemedSettings(): Observable<any> {
-        return this.http.get(this.baseUrl + 'getThemedSettings/', { withCredentials: true })
+        return this.http.get(this.httpService.getMenuBaseUrl() + 'getThemedSettings/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
@@ -98,7 +97,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} getConnectionInfo
      */
     getConnectionInfo(): Observable<any> {
-        return this.http.get(this.baseUrl + 'getConnectionInfo/', { withCredentials: true })
+        return this.http.get(this.httpService.getMenuBaseUrl() + 'getConnectionInfo/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
@@ -111,7 +110,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} activateViaSMS
      */
     activateViaSMS() {
-        var urlToRun = this.baseUrl + 'activateViaSMS/';
+        var urlToRun = this.httpService.getMenuBaseUrl() + 'activateViaSMS/';
         let subs = this.postData(urlToRun, undefined)
             .map((res: Response) => {
                 return res.ok;
@@ -127,7 +126,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} goToSite
      */
     goToSite() {
-        var urlToRun = this.baseUrl + 'producerSite/';
+        var urlToRun = this.httpService.getMenuBaseUrl() + 'producerSite/';
         let subs = this.postData(urlToRun, undefined)
             .map((res: Response) => {
                 return res.ok;
@@ -143,7 +142,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} clearCachedData
      */
     clearCachedData(): Observable<any> {
-        var urlToRun = this.baseUrl + 'clearCachedData/';
+        var urlToRun = this.httpService.getMenuBaseUrl() + 'clearCachedData/';
         return this.postData(urlToRun, undefined)
             .map((res: Response) => {
                 return res.ok;
@@ -156,7 +155,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} activateViaInternet
      */
     activateViaInternet() {
-        var urlToRun = this.baseUrl + 'activateViaInternet/';
+        var urlToRun = this.httpService.getMenuBaseUrl() + 'activateViaInternet/';
         let subs = this.postData(urlToRun, undefined)
             .map((res: Response) => {
                 return res.ok;
@@ -174,7 +173,7 @@ export class HttpMenuService {
     favoriteObject(object) {
         let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName };
         
-        var urlToRun = this.baseUrl + 'favoriteObject/';
+        var urlToRun = this.httpService.getMenuBaseUrl() + 'favoriteObject/';
         let subs = this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
@@ -191,7 +190,7 @@ export class HttpMenuService {
      */
     unFavoriteObject(object) {
         let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName };
-        var urlToRun = this.baseUrl + 'unFavoriteObject/';
+        var urlToRun = this.httpService.getMenuBaseUrl() + 'unFavoriteObject/';
         let subs = this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
@@ -207,7 +206,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} mostUsedClearAll
      */
     mostUsedClearAll(): Observable<any> {
-        return this.postData(this.baseUrl + 'clearAllMostUsed/', undefined)
+        return this.postData(this.httpService.getMenuBaseUrl() + 'clearAllMostUsed/', undefined)
             .map((res: Response) => {
                 return res.ok;
             });
@@ -221,7 +220,7 @@ export class HttpMenuService {
      */
     getMostUsedShowNr(callback) {
 
-        var urlToRun = this.baseUrl + 'getMostUsedShowNr/';
+        var urlToRun = this.httpService.getMenuBaseUrl() + 'getMostUsedShowNr/';
         let subs = this.postData(urlToRun, undefined)
             .map((res: Response) => {
                 callback(res);
@@ -240,7 +239,7 @@ export class HttpMenuService {
      */
     addToMostUsed(object): Observable<any> {
         let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName };
-        return this.postData(this.baseUrl + 'addToMostUsed/', obj)
+        return this.postData(this.httpService.getMenuBaseUrl() + 'addToMostUsed/', obj)
             .map((res: Response) => {
                 return res.ok;
             });
@@ -265,7 +264,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} loadLocalizedElements
      */
     loadLocalizedElements(needLoginThread): Observable<any> {
-        return this.http.get(this.baseUrl + 'getLocalizedElements/?needLoginThread=' + needLoginThread, { withCredentials: true })
+        return this.http.get(this.httpService.getMenuBaseUrl() + 'getLocalizedElements/?needLoginThread=' + needLoginThread, { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })

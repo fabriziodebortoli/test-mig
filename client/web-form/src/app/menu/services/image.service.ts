@@ -10,12 +10,11 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class ImageService {
       
-    private baseUrl = environment.apiBaseUrl + 'tb/menu/';
-
     constructor(protected http: Http,
         protected utils: UtilsService,
         protected logger: Logger,
-        protected cookieService: CookieService) {
+        protected cookieService: CookieService,
+        private httpService: HttpService) {
         this.logger.debug('ImageService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
@@ -34,7 +33,7 @@ export class ImageService {
         }
 
         let imageFile = item['image_file'];
-        return imageFile === undefined ? 'Images/Default.png' : this.baseUrl + '/staticimage/' + imageFile;
+        return imageFile === undefined ? 'Images/Default.png' : this.httpService.getMenuBaseUrl() + '/staticimage/' + imageFile;
     }
 
     //---------------------------------------------------------------------------------------------

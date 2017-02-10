@@ -16,8 +16,6 @@ import { SidenavService, LoginSessionService, ComponentService } from './../core
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  private desktop: boolean= environment.desktop;
-
   @ViewChild('sidenav') sidenav;
   sidenavSubscription: any;
   getMenuElementsSubscription: any;

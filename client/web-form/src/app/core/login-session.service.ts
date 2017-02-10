@@ -29,12 +29,6 @@ export class LoginSessionService {
     }
 
     isLogged(): void {
-        if (environment.desktop) {
-            this.setConnected(true);
-            this.socket.wsConnect();
-            return;
-        }
-
         let subs = this.httpService.isLogged().subscribe(
             isLogged => {
                 this.logger.debug('isLogged returns: ' + isLogged);

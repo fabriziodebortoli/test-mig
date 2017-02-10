@@ -1,4 +1,5 @@
-﻿import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+﻿import { InfoService } from './info.service';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -29,7 +30,8 @@ const TB_SERVICES = [
   SidenavService,
   ComponentService,
   CommandService,
-  CoreGuard
+  CoreGuard,
+  InfoService
 ];
 
 @NgModule({
