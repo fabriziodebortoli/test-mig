@@ -12,7 +12,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -44,8 +43,7 @@ const MENU_SERVICES = [
     CommonModule,
     SharedModule,
     FormsModule,
-    MaterialModule.forRoot(),
-    BrowserModule
+    MaterialModule.forRoot()
   ],
 
   declarations:

@@ -15,7 +15,8 @@ export const appRoutes: Routes = [
     { path: 'Framework/TbGes/IDD_Unsupported', component: UnsupportedFactoryComponent, outlet: 'dynamic' },
     { path: 'menu', loadChildren: 'app/menu/menu.module#MenuModule' },
     { path: 'ds', component: DataServiceComponent },
+    { path: 'rs', loadChildren: 'app/reporting-studio/reporting-studio.module#ReportingStudioModule' },
     { path: '**', component: PageNotFoundComponent },
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes, { useHash: true });
+export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
