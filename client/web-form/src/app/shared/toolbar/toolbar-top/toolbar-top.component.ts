@@ -1,6 +1,5 @@
-import { DocumentService } from 'tb-core';
-import { Document } from './../../models/document.model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ViewModeType } from '../../';
 
 @Component({
   selector: 'tb-toolbar-top',
@@ -8,15 +7,13 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./toolbar-top.component.scss']
 })
 
-export class ToolbarTopComponent implements OnInit {
+export class ToolbarTopComponent {
 
-  constructor(private document: DocumentService) {
+  @Input('title') title: string = '...';
 
-  }
+  @Input('viewModeType') viewModeType: ViewModeType = ViewModeType.D;
+  viewModeTypeModel = ViewModeType;
 
-  ngOnInit() {
-  }
-
-
+  constructor() { }
 
 }

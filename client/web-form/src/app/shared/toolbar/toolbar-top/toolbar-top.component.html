@@ -1,8 +1,20 @@
 <div class="toolbar-top">
     <div class="toolbar-top-item title">
-        <tb-history></tb-history>
 
-        <span class="document-title truncate">{{document.name}}</span>
+        <div class="icon-type" [ngSwitch]="viewModeType">
+            <md-icon *ngSwitchCase="viewModeTypeModel.A">playlist_play</md-icon>
+            <md-icon *ngSwitchCase="viewModeTypeModel.B">schedule</md-icon>
+            <md-icon *ngSwitchCase="viewModeTypeModel.D">description</md-icon>
+            <md-icon *ngSwitchCase="viewModeTypeModel.F">find_in_page</md-icon>
+            <md-icon *ngSwitchCase="viewModeTypeModel.P">settings</md-icon>
+            <md-icon *ngSwitchCase="viewModeTypeModel.R">print</md-icon>
+            <md-icon *ngSwitchCase="viewModeTypeModel.W">playlist_play</md-icon>
+
+            <md-icon *ngSwitchDefault>dashboard</md-icon>
+        </div>
+
+
+        <span class="document-title truncate">{{title}}</span>
     </div>
 
     <div class="toolbar-top-item functions"></div>

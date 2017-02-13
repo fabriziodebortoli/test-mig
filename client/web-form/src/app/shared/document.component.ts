@@ -1,6 +1,7 @@
 import { DocumentService } from 'tb-core';
 import { TbComponent } from './tb.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ViewModeType } from './';
 
 @Component({
   selector: 'tb-document',
@@ -8,11 +9,19 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styles: []
 })
 export abstract class DocumentComponent extends TbComponent implements OnInit, OnDestroy {
+
+  viewModeType: ViewModeType;
+  title: string;
+
   constructor(public document: DocumentService) {
     super();
   }
 
   ngOnInit() {
+    this.viewModeType = ViewModeType.D;
+    // this.viewModeType = document.getViewModeType(); //TODO
+
+    this.title = this.document.getTitle();
   }
   ngOnDestroy() {
     this.document.dispose();
