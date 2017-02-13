@@ -7,5 +7,6 @@ export * from './websocket.service';
 export * from './sidenav.service';
 export * from './document.service';
 export * from './command.service';
+export * from './explorer.service';
 export * from './core.guard';
 export * from './core.module';
