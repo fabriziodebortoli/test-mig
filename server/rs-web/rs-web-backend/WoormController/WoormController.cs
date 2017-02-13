@@ -241,7 +241,7 @@ namespace Microarea.RSWeb.WoormController
 		public WoormDocument		Woorm					{ get { return StateMachine.Woorm; } set { StateMachine.Woorm = value; } }
 		public string				ReportTitle				{ get { return StateMachine.ReportTitle; } }
 		public string				LocalizedReportTitle	{ get { return Woorm.Localizer.Translate(ReportTitle); } }
-		public TbReportSession		ReportSession			{ get { return StateMachine != null ? StateMachine.ReportSession : null; } }
+		public TbSession		ReportSession			{ get { return StateMachine != null ? StateMachine.ReportSession : null; } }
 
 		//--------------------------------------------------------------------------
 		public static ReportController FromSession(NameValueCollection requestParams)
@@ -283,8 +283,8 @@ namespace Microarea.RSWeb.WoormController
 				if (StateMachine != null)
 					StateMachine.Dispose();
 
-				// instances the reportSession of work (parameters has to be set)
-				TbReportSession localReportSession = new TbReportSession(ui);
+                // instances the reportSession of work (parameters has to be set)
+                TbReportSession localReportSession = new TbReportSession(ui);
 				bool sessionOk = localReportSession.LoadSessionInfo();
 
 				ReadParameters(localReportSession);

@@ -109,7 +109,7 @@ namespace Microarea.RSWeb.WoormEngine
 			if (!lex.Error)
 				do
 				{
-					GroupFunction groupFuction = new GroupFunction(ReportSession, SymbolTable as FieldSymbolTable);
+					GroupFunction groupFuction = new GroupFunction(TbSession as TbReportSession, SymbolTable as FieldSymbolTable);
 					groupFunctions.Add(groupFuction);
 					if (!groupFuction.Parse(lex)) 
 						return false;

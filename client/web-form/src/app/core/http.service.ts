@@ -15,8 +15,8 @@ import { Logger } from 'libclient';
 
 @Injectable()
 export class HttpService {
-    private baseUrl = environment.apiBaseUrl;
-
+    private apiBaseUrl = environment.baseUrl + 'tbloader/api/';
+    private baseUrl = environment.baseUrl;
     constructor(
         protected http: Http,
         protected utils: UtilsService,
@@ -37,7 +37,13 @@ export class HttpService {
             })
             .catch(this.handleError);
     }
-
+    getInstallationInfo(): Observable<any> {
+        return this.postData(this.baseUrl + 'tb/menu/getInstallationInfo/', {})
+            .map((res: any) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
     login(connectionData: LoginSession): Observable<OperationResult> {
         return this.postData(this.getMenuBaseUrl() + 'doLogin/', connectionData)
             .map((res: Response) => {
@@ -63,12 +69,12 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-     logoff(): Observable<OperationResult> {
-           let token = this.cookieService.get('authtoken');
+    logoff(): Observable<OperationResult> {
+        let token = this.cookieService.get('authtoken');
         this.logger.debug('httpService.logout (' + token + ')');
-      
-         return this.postData(this.getLoginManagerBaseUrl() + 'logoff/',  token)
-             .map((res: Response) => {
+
+        return this.postData(this.getLoginManagerBaseUrl() + 'logoff/', token)
+            .map((res: Response) => {
                 return res.json();
             })
             .catch(this.handleError);
@@ -98,9 +104,9 @@ export class HttpService {
     }
 
     postData(url: string, data: Object): Observable<Response> {
-          let headers = new Headers();
-         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-         return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers });
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers });
         //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
     }
 
@@ -110,18 +116,22 @@ export class HttpService {
         }
         return 'app/htmlforms/' + url + '.js';
     }
+    
+    getBaseUrl() {
+        return this.apiBaseUrl;
+    }
 
     getDocumentBaseUrl() {
-        return this.baseUrl + 'tb/document/';
+        return this.apiBaseUrl + 'tb/document/';
     }
 
     getMenuBaseUrl() {
-        let url = this.baseUrl + 'tb/menu/';
+        let url = this.apiBaseUrl + 'tb/menu/';
         return url;
     }
 
     getLoginManagerBaseUrl() {
-        let url = 'http://localhost:5000/' + 'login-manager/';
+        let url = this.baseUrl + 'login-manager/';
         return url;
     }
 

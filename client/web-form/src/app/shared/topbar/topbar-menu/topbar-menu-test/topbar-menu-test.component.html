@@ -1,0 +1,8 @@
+<button md-icon-button [md-menu-trigger-for]="menuTest" title="{{title}}">
+    <md-icon>build</md-icon>
+</button>
+
+<md-menu #menuTest="mdMenu">
+    <button md-menu-item (click)="openDataService()">Data Service</button>
+    <button md-menu-item (click)="openRS()">Reporting Studio</button>
+</md-menu>

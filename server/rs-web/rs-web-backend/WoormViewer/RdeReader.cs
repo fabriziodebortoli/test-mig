@@ -54,7 +54,7 @@ namespace Microarea.RSWeb.WoormViewer
         public string WoormFile { get { return woormFile; } set { woormFile = value; } }
         public SymbolTable RdeSymbolTable { get { return SymbolTable; } }
         //---------------------------------------------------------------------------
-        public TbReportSession Session { get { return woorm.ReportSession; } }
+        public TbSession Session { get { return woorm.ReportSession; } }
 
         //---------------------------------------------------------------------------
         public string GetVariableTypeFromId(ushort id)

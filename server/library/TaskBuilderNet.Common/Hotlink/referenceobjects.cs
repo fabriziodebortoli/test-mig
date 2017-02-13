@@ -139,25 +139,31 @@ namespace Microarea.Common.Hotlink
 	public class ReferenceObjects
 	{
 		private ArrayList prototypes;
-		private TbReportSession reportSession;
+		private TbSession tbSession;
 
 		//-----------------------------------------------------------------------------
-		public TbReportSession	ReportSession	{ get { return reportSession; }}
+		public TbSession	TbSession	{ get { return tbSession; }}
 
-		//-----------------------------------------------------------------------------
-		public ReferenceObjects(TbReportSession session)
+        //-----------------------------------------------------------------------------
+        public IBasePathFinder PathFinder { get { return tbSession != null && tbSession.PathFinder != null ?
+                                                     (tbSession.PathFinder as IBasePathFinder) :
+                                                     BasePathFinder.BasePathFinderInstance; } }
+
+
+        //-----------------------------------------------------------------------------
+        public ReferenceObjects(TbSession session)
 		{
 			// è necessario inizializzare prima una sessione di lavoro.
-			this.reportSession = session;
-			if (session == null)
-				throw (new Exception(ApplicationsStrings.ReferenceObjectsSessionError));
+			this.tbSession = session;
+			//if (session == null)
+			//	throw (new Exception(ApplicationsStrings.ReferenceObjectsSessionError));
 
 			prototypes = new ArrayList();
 		}
 
 		// elimina il nome della tabella se esiste perche il grid vuole solo il nome della colonna.
 		//-----------------------------------------------------------------------------
-		private string ColumnName(string name)
+		static private string ColumnName(string name)
 		{
 			int pos = name.IndexOf('.');
 			return pos >= 0 ? name.Substring(pos + 1) : name;
@@ -165,18 +171,35 @@ namespace Microarea.Common.Hotlink
 
 		// serve per poter localizzare i nomi di colonna nel titolo del grid
 		//-----------------------------------------------------------------------------
-		private string TableName(string name)
+		static private string TableName(string name)
 		{
 			int pos = name.IndexOf('.');
 			return pos >= 0 ? name.Substring(0, pos) : "";
-		}	
+		}
 
-		//-----------------------------------------------------------------------------
-		public ReferenceObjectsPrototype LoadPrototypeFromXml(string name, int paramNo)
+        //-----------------------------------------------------------------------------
+        //TODO RSWEB - data-service
+        //vedere 
+        // ...\Framework\TbGes\XmlReferenceObjectsParserEx.cpp
+        // BOOL CXMLReferenceObjectsParser::ParseHotLink 
+        //classi dichiarate in 
+        // c:\DEV4_1x\Standard\Taskbuilder\Framework\TbGeneric\ReferenceObjectsInfo.h e .cpp
+        //esempio di utilizzo
+        // ...\Framework\TbGes\HOTLINK.H e .CPP
+        // void DynamicHotKeyLink::OnPrepareQuery (DataObj* pDataObj, SelectionType nSelection)
+        //Esempi eseguibili nella maschera di invio email di qualunque report 
+        //per selezionare gli indirizzi email dalle tabelle di Mago
+        //ReferenceObjects del modulo Extensions.TbMailer
+        //Gli oggetti query in C++ li trovi in
+        //...\Framework\TbWoormEngine\QueryObject.cpp        
+
+        static public ReferenceObjectsPrototype LoadPrototypeFromXml(string name, IBasePathFinder PathFinder)
 		{
 			NameSpace ns = new NameSpace(name, NameSpaceObjectType.HotKeyLink);
-			ModuleInfo mi = (ModuleInfo) reportSession.PathFinder.GetModuleInfo(ns);
+            if (!ns.IsValid())
+                return null;
 
+            IBaseModuleInfo mi = PathFinder.GetModuleInfo(ns);
 			if  (mi == null)
 				return null;
 
@@ -186,7 +209,7 @@ namespace Microarea.Common.Hotlink
 				return null;
 
 			// restituisce il dom già tradotto per i Tag o gli Attribute che sono localizzati
-			LocalizableXmlDocument dom = new LocalizableXmlDocument(ns.Application, ns.Module, reportSession.PathFinder);
+			LocalizableXmlDocument dom = new LocalizableXmlDocument(ns.Application, ns.Module, PathFinder);
 			dom.Load(path);
 
 			// cerca con XPath solo le funzioni con un dato nome per poi selezionare quella con i parametri giusti
@@ -212,7 +235,7 @@ namespace Microarea.Common.Hotlink
 
 				// se il numero di parametri non corrisponde allora cerca un'altra funzione con lo stesso nome
 				XmlNodeList paramNodeList = function.SelectNodes(ReferenceObjectsXML.Element.Param);
-				if ((paramNodeList == null) || (paramNodeList.Count != paramNo))
+				if (paramNodeList == null)
 					continue;
 
                 ParametersList parameters = new ParametersList();
@@ -283,9 +306,9 @@ namespace Microarea.Common.Hotlink
 						function.GetAttribute(ReferenceObjectsXML.Attribute.ServiceNamespace),
 						mi
 					);
+
                 fp.IsDatafile = isDatafile;
 
-				prototypes.Add(fp);
 				return fp;
 			}
 
@@ -293,14 +316,19 @@ namespace Microarea.Common.Hotlink
 			return null;
 		}
 
-		//-----------------------------------------------------------------------------
-		public ReferenceObjectsPrototype GetPrototype(string name, int paramNo)
+        //-----------------------------------------------------------------------------
+        public ReferenceObjectsPrototype GetPrototype(string name)
 		{
 			foreach (ReferenceObjectsPrototype fp in prototypes)
-                if (name.CompareNoCase(fp.FullName) && fp.NrParameters == paramNo)
+                if (name.CompareNoCase(fp.FullName))
 					return fp;
 
-			return LoadPrototypeFromXml(name, paramNo);
+            ReferenceObjectsPrototype fpNew = LoadPrototypeFromXml(name, PathFinder);
+            if (fpNew != null)
+            {
+                prototypes.Add(fpNew);
+            }
+            return fpNew;
 		}
-	}
+     }
 }

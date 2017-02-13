@@ -193,7 +193,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public Report		Report		{ get { return report; }}
 		public bool			UserBreak	{ get { return userBreak; } set { userBreak = value; }}
 		public DataLevel	DataLevel 	{ get { return dataLevel; } set { dataLevel = value; }}
-		public TbReportSession		Session		{ get { return Report.ReportSession; }}
+		public TbReportSession Session		{ get { return Report.ReportSession; }}
 		public Diagnostic	Diagnostic	{ get { return diagnostic; }}
 		#endregion
 
