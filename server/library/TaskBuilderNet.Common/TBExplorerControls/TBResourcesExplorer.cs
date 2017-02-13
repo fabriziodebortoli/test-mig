@@ -3,122 +3,138 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microarea.Common.Generic;
+using TaskBuilderNetCore.Interfaces;
+
 namespace Microarea.Common.TBExplorerControls
 {
+    // possibili stati della macchina
+    public enum ObjectType { Report, Image, Document};
+
     //==============================================================================
     public class TBResourcesExplorer
     {
+        private NameSpace nameSpace;
+        //--------------------------------------------------------------------------
+        public TBResourcesExplorer(ObjectType aObjectType, NameSpace aNameSpace)
+        {
+            if (aNameSpace.NameSpaceType.Type == NameSpaceObjectType.NotValid)
+                return;
 
-        ////--------------------------------------------------------------------------
-        //public TBResourcesExplorer(NameSpace aNameSpace)//TBExplorerType aType, const CTBNamespace& aNameSpace)
-        //{
-        //    if (!aNameSpace.IsValid())              //costruzione del NameSpace 
-        //    {
-        //        if (aNameSpace.GetType() == CTBNamespace::NOT_VALID)
-        //            m_NameSpace.SetType(CTBNamespace::REPORT);
-        //        else
-        //            m_NameSpace.SetType(aNameSpace.GetType());
+            if (aNameSpace.IsValid())              //costruzione del NameSpace 
+            {
+                nameSpace = aNameSpace;
+            }
+               // string typeNs = aNameSpace.NameSpaceType.Type.ToString() + ".";
 
-        //        if (aNameSpace.GetApplicationName().IsEmpty())
-        //        {
-        //            AddOnApplication* pApp = AfxGetBaseApp()->GetMasterAddOnApp();
-        //            m_NameSpace.SetApplicationName(pApp->m_strAddOnAppName);
-        //        }
-        //        else
-        //            m_NameSpace.SetApplicationName(aNameSpace.GetApplicationName());
+                //typeNs = typeNs + 
+                //nameSpace.CreateNameSpace();
+                //        if (aNameSpace.GetType() == CTBNamespace::NOT_VALID)
+                //            m_NameSpace.SetType(CTBNamespace::REPORT);
+                //        else
+                //            m_NameSpace.SetType(aNameSpace.GetType());
 
-        //        if (aNameSpace.GetObjectName(CTBNamespace::MODULE).IsEmpty())
-        //        {
-        //            AddOnApplication* pAddOnApp = AfxGetAddOnApp(m_NameSpace.GetApplicationName());
-        //            if (pAddOnApp)
-        //                pMods = pAddOnApp->m_pAddOnModules;
+                //        if (aNameSpace.GetApplicationName().IsEmpty())
+                //        {
+                //            AddOnApplication* pApp = AfxGetBaseApp()->GetMasterAddOnApp();
+                //            m_NameSpace.SetApplicationName(pApp->m_strAddOnAppName);
+                //        }
+                //        else
+                //            m_NameSpace.SetApplicationName(aNameSpace.GetApplicationName());
 
-        //            if (pMods && pMods->GetSize())
-        //            {
-        //                for (int i = 0; i <= pMods->GetUpperBound(); i++)
-        //                {
-        //                    //tra i moduli cerca il primo attivo e lo inizializza come primo namespace
-        //                    if (!AfxIsActivated(pMods->GetAt(i)->GetApplicationName(), pMods->GetAt(i)->GetModuleName()))
-        //                        continue;
+                //        if (aNameSpace.GetObjectName(CTBNamespace::MODULE).IsEmpty())
+                //        {
+                //            AddOnApplication* pAddOnApp = AfxGetAddOnApp(m_NameSpace.GetApplicationName());
+                //            if (pAddOnApp)
+                //                pMods = pAddOnApp->m_pAddOnModules;
 
-        //                    m_NameSpace.SetObjectName(CTBNamespace::MODULE, pMods->GetAt(i)->GetModuleName());
-        //                    break;
-        //                }
-        //            }
-        //        }
-        //        else
-        //            m_NameSpace.SetObjectName(CTBNamespace::MODULE, aNameSpace.GetObjectName(CTBNamespace::MODULE));
+                //            if (pMods && pMods->GetSize())
+                //            {
+                //                for (int i = 0; i <= pMods->GetUpperBound(); i++)
+                //                {
+                //                    //tra i moduli cerca il primo attivo e lo inizializza come primo namespace
+                //                    if (!AfxIsActivated(pMods->GetAt(i)->GetApplicationName(), pMods->GetAt(i)->GetModuleName()))
+                //                        continue;
 
-        //        CTBExplorerCachePtr cache = GetExplorerCache();
+                //                    m_NameSpace.SetObjectName(CTBNamespace::MODULE, pMods->GetAt(i)->GetModuleName());
+                //                    break;
+                //                }
+                //            }
+                //        }
+                //        else
+                //            m_NameSpace.SetObjectName(CTBNamespace::MODULE, aNameSpace.GetObjectName(CTBNamespace::MODULE));
 
-        //        //memorizza l'ultimo modulo selezionato
-        //        if (!cache->m_LastUsedNameSpace.IsEmpty())
-        //            m_NameSpace.SetObjectName(CTBNamespace::MODULE, cache->m_LastUsedNameSpace.GetModuleName());
+                //        CTBExplorerCachePtr cache = GetExplorerCache();
 
-        //    }
-        //    else
-        //        m_NameSpace = aNameSpace;
-        //}
+                //        //memorizza l'ultimo modulo selezionato
+                //        if (!cache->m_LastUsedNameSpace.IsEmpty())
+                //            m_NameSpace.SetObjectName(CTBNamespace::MODULE, cache->m_LastUsedNameSpace.GetModuleName());
 
-
-
-        //    {
-        //        CString strApp;
-        //        AddOnModsArray* pMods = NULL;
+                //    }
+                //    else
+                //        m_NameSpace = aNameSpace;
+                //}
 
 
-        //        m_ExplorerType = aType;
-        //        m_bCanLink = FALSE;
 
-        //        //Cancella le informazioni relative all'ultimo modulo selezionato
-        //        CTBExplorer::ClearStoredInfo();
+                //    {
+                //        CString strApp;
+                //        AddOnModsArray* pMods = NULL;
 
-        //        if (!aNameSpace.IsValid())              //costruzione del NameSpace 
-        //        {
-        //            if (aNameSpace.GetType() == CTBNamespace::NOT_VALID)
-        //                m_NameSpace.SetType(CTBNamespace::REPORT);
-        //            else
-        //                m_NameSpace.SetType(aNameSpace.GetType());
 
-        //            if (aNameSpace.GetApplicationName().IsEmpty())
-        //            {
-        //                AddOnApplication* pApp = AfxGetBaseApp()->GetMasterAddOnApp();
-        //                m_NameSpace.SetApplicationName(pApp->m_strAddOnAppName);
-        //            }
-        //            else
-        //                m_NameSpace.SetApplicationName(aNameSpace.GetApplicationName());
+                //        m_ExplorerType = aType;
+                //        m_bCanLink = FALSE;
 
-        //            if (aNameSpace.GetObjectName(CTBNamespace::MODULE).IsEmpty())
-        //            {
-        //                AddOnApplication* pAddOnApp = AfxGetAddOnApp(m_NameSpace.GetApplicationName());
-        //                if (pAddOnApp)
-        //                    pMods = pAddOnApp->m_pAddOnModules;
+                //        //Cancella le informazioni relative all'ultimo modulo selezionato
+                //        CTBExplorer::ClearStoredInfo();
 
-        //                if (pMods && pMods->GetSize())
-        //                {
-        //                    for (int i = 0; i <= pMods->GetUpperBound(); i++)
-        //                    {
-        //                        //tra i moduli cerca il primo attivo e lo inizializza come primo namespace
-        //                        if (!AfxIsActivated(pMods->GetAt(i)->GetApplicationName(), pMods->GetAt(i)->GetModuleName()))
-        //                            continue;
+                //        if (!aNameSpace.IsValid())              //costruzione del NameSpace 
+                //        {
+                //            if (aNameSpace.GetType() == CTBNamespace::NOT_VALID)
+                //                m_NameSpace.SetType(CTBNamespace::REPORT);
+                //            else
+                //                m_NameSpace.SetType(aNameSpace.GetType());
 
-        //                        m_NameSpace.SetObjectName(CTBNamespace::MODULE, pMods->GetAt(i)->GetModuleName());
-        //                        break;
-        //                    }
-        //                }
-        //            }
-        //            else
-        //                m_NameSpace.SetObjectName(CTBNamespace::MODULE, aNameSpace.GetObjectName(CTBNamespace::MODULE));
+                //            if (aNameSpace.GetApplicationName().IsEmpty())
+                //            {
+                //                AddOnApplication* pApp = AfxGetBaseApp()->GetMasterAddOnApp();
+                //                m_NameSpace.SetApplicationName(pApp->m_strAddOnAppName);
+                //            }
+                //            else
+                //                m_NameSpace.SetApplicationName(aNameSpace.GetApplicationName());
 
-        //            CTBExplorerCachePtr cache = GetExplorerCache();
+                //            if (aNameSpace.GetObjectName(CTBNamespace::MODULE).IsEmpty())
+                //            {
+                //                AddOnApplication* pAddOnApp = AfxGetAddOnApp(m_NameSpace.GetApplicationName());
+                //                if (pAddOnApp)
+                //                    pMods = pAddOnApp->m_pAddOnModules;
 
-        //            //memorizza l'ultimo modulo selezionato
-        //            if (!cache->m_LastUsedNameSpace.IsEmpty())
-        //                m_NameSpace.SetObjectName(CTBNamespace::MODULE, cache->m_LastUsedNameSpace.GetModuleName());
+                //                if (pMods && pMods->GetSize())
+                //                {
+                //                    for (int i = 0; i <= pMods->GetUpperBound(); i++)
+                //                    {
+                //                        //tra i moduli cerca il primo attivo e lo inizializza come primo namespace
+                //                        if (!AfxIsActivated(pMods->GetAt(i)->GetApplicationName(), pMods->GetAt(i)->GetModuleName()))
+                //                            continue;
 
-        //        }
-        //        else
-        //            m_NameSpace = aNameSpace;
-        //    }
+                //                        m_NameSpace.SetObjectName(CTBNamespace::MODULE, pMods->GetAt(i)->GetModuleName());
+                //                        break;
+                //                    }
+                //                }
+                //            }
+                //            else
+                //                m_NameSpace.SetObjectName(CTBNamespace::MODULE, aNameSpace.GetObjectName(CTBNamespace::MODULE));
+
+                //            CTBExplorerCachePtr cache = GetExplorerCache();
+
+                //            //memorizza l'ultimo modulo selezionato
+                //            if (!cache->m_LastUsedNameSpace.IsEmpty())
+                //                m_NameSpace.SetObjectName(CTBNamespace::MODULE, cache->m_LastUsedNameSpace.GetModuleName());
+
+                //        }
+                //        else
+                //            m_NameSpace = aNameSpace;
+            //}
+        }
     }
 }
