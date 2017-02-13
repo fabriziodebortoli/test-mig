@@ -161,6 +161,11 @@ export class MenuService {
         if (object == undefined)
             return;
 
+        if (object.objectType.toLowerCase() == 'report')
+        {
+            
+        }
+
         this.webSocketService.runObject(object.target);
         this.addToMostUsed(object);
         object.isLoading = true

@@ -1,5 +1,4 @@
 
-import { appRouting } from './applications/app.routing';
 import { ConnectionInfoDialogComponent } from './menu/components/menu/connection-info-dialog/connection-info-dialog.component';
 import { ProductInfoDialogComponent } from './menu/components/menu/product-info-dialog/product-info-dialog.component';
 import { EventManagerService } from './menu/services/event-manager.service';
@@ -21,7 +20,7 @@ import { MenuModule } from './menu/menu.module';
 
 import { SidenavService } from './core/sidenav.service';
 
-import { routing } from './app.routing';
+import { routing, appRoutes } from './app.routing';
 
 import { HomeComponent, HomeSidenavComponent } from './home';
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
@@ -45,7 +44,7 @@ import { DataServiceComponent } from './applications/test/data-service/data-serv
     SharedModule,
     MenuModule.forRoot(),
     routing,
-    appRouting
+    appRoutes
   ],
   bootstrap: [AppComponent],
   entryComponents: [
