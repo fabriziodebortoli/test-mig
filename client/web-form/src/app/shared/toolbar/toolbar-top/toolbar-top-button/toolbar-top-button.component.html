@@ -1,3 +1,9 @@
-<div (click)='onCommand()' title='{{caption}}'>
-    <img src="{{getIconUrl()}}" />
+<div (click)='onCommand()' title='{{caption}}' [ngSwitch]="iconType">
+
+    <img *ngSwitchCase="iconTypes.IMG" src="{{iconTxt}}" />
+
+    <md-icon *ngSwitchCase="iconTypes.MD">{{iconTxt}}</md-icon>
+
+    <!--<tb-icon *ngSwitchCase="iconTypes.TB" />{{iconTxt}}</tb-icon>-->
+
 </div>
