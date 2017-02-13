@@ -18,9 +18,7 @@ export abstract class DocumentComponent extends TbComponent implements OnInit, O
   }
 
   ngOnInit() {
-    this.viewModeType = ViewModeType.D;
-    // this.viewModeType = document.getViewModeType(); //TODO
-
+    this.viewModeType = this.document.getViewModeType();
     this.title = this.document.getTitle();
   }
   ngOnDestroy() {

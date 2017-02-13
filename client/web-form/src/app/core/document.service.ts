@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { WebSocketService } from './websocket.service';
 
+import { ViewModeType } from '../shared/models/view-mode-type.model';
+
 import { Logger } from 'libclient';
 
 @Injectable()
@@ -33,8 +35,7 @@ export class DocumentService {
         });
 
     }
-    init(cmpId: string)
-    {
+    init(cmpId: string) {
         this.mainCmpId = cmpId;
         this.webSocketService.getDocumentData(this.mainCmpId);
     }
@@ -44,6 +45,16 @@ export class DocumentService {
             title = this.model.Title.value;
         return title;
     }
+
+    getViewModeType() {
+        let viewModeType = ViewModeType.D;
+
+        if (this.model && this.model.viewModeType) {
+            viewModeType = this.model.viewModeType;
+        }
+        return viewModeType;
+    }
+
     dispose() {
         delete this.model;
         delete this.serverSideCommandMap;
