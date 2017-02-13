@@ -25,7 +25,7 @@ namespace Microarea.RSWeb.Models
         {
   
 
-            return new JsonReportEngine("erp.company.titles", "", "", DateTime.Today, "sa", null);
+            return new JsonReportEngine(nameSpace, "", "", DateTime.Today, "sa");
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Microarea.RSWeb.Models
         /// <returns></returns>
         public async Task Listen(HttpContext http, Func<Task> next)
         {
-            if (http.WebSockets.IsWebSocketRequest && http.Request.Path.StartsWithSegments("/api/RSWeb"))
+            if (http.WebSockets.IsWebSocketRequest && http.Request.Path.StartsWithSegments("/RSWeb"))
             {
                 /// accept connection               
                 var webSocket = await http.WebSockets.AcceptWebSocketAsync();
@@ -68,10 +68,10 @@ namespace Microarea.RSWeb.Models
                 var nsBuffer = new ArraySegment<Byte>(new Byte[4096]);
                 var recNsBuffer = await webSocket.ReceiveAsync(nsBuffer, CancellationToken.None);
 
-                string nameSpace = Encoding.UTF8.GetString(nsBuffer.Array, nsBuffer.Offset, nsBuffer.Count).Replace("\0", ""); 
-               
-                /// creates states machine associated with pipe               
-                JsonReportEngine jengine = CreateEngine(MessageBuilder.GetMessagFromJson(nameSpace).message);
+                string msgg = Encoding.UTF8.GetString(nsBuffer.Array, nsBuffer.Offset, nsBuffer.Count).Replace("\0", "");
+
+                /// creates states machine associated with pipe  
+                JsonReportEngine jengine = CreateEngine(MessageBuilder.GetMessagFromJson(msgg).message);
                 
                 if (jengine == null)
                 {    /// handle errors
