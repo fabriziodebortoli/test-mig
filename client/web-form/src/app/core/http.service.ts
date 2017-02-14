@@ -96,10 +96,10 @@ export class HttpService {
                 subs.unsubscribe();
             });
     }
-    runReport(ns: String): Observable<OperationResult> {
+    runReport(ns: String): Observable<any> {
          return this.postData(this.getMenuBaseUrl() + 'runReport/', { ns: ns })
             .map((res: Response) => {
-                return this.createOperationResult(res);
+                return res.json();
             })
             .catch(this.handleError);
     }
