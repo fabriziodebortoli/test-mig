@@ -161,7 +161,14 @@ export class MenuService {
         if (object == undefined)
             return;
 
-        this.httpService.runDocument(object.target);
+        if (object.objectType.toLowerCase() == 'report')
+        {
+            
+        }
+else{
+     this.httpService.runDocument(object.target);
+}
+       
         this.addToMostUsed(object);
         object.isLoading = true
     }

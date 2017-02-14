@@ -123,6 +123,10 @@ export class HttpService {
         }
         return 'app/htmlforms/' + url + '.js';
     }
+    
+    getBaseUrl() {
+        return this.apiBaseUrl;
+    }
 
     getDocumentBaseUrl() {
         return this.apiBaseUrl + 'tb/document/';

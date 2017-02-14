@@ -1,4 +1,5 @@
-﻿import { InfoService } from './info.service';
+﻿import { ReportsocketService } from './reportsocket.service';
+import { InfoService } from './info.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -27,6 +28,7 @@ const TB_SERVICES = [
   Logger,
   LoginSessionService,
   WebSocketService,
+  ReportsocketService,
   SidenavService,
   ComponentService,
   CommandService,
