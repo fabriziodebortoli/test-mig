@@ -40,7 +40,7 @@ export class DocumentService {
         this.webSocketService.getDocumentData(this.mainCmpId);
     }
     getTitle() {
-        let title = 'Untitled';
+        let title = '...';
         if (this.model && this.model.Title && this.model.Title.value)
             title = this.model.Title.value;
         return title;

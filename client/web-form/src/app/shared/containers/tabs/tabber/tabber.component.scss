@@ -1,7 +1,10 @@
-.tb-tabber {
+.tabber-container {
     display: flex;
-    flex-flow: column;
-    flex: 1;
+    background-color: #0277bd;
+}
+
+.page-tabber {
+    flex-grow: 1;
 }
 
 .tab-content {
@@ -12,42 +15,50 @@
 ul.tabber {
     list-style: none;
     padding: 0;
-    display: flex;  
-    background-color: #0277bd;
+    display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
     margin: 0;
     border-bottom: 1px solid #ddd;
+    height: 30px;
+    line-height: 30px;
 }
 
 ul.tabber>li {
     line-height: 30px;
-    padding: 0 10px;
+    padding: 0 27px 0 10px;
     font-size: 14px;
     position: relative;
     cursor: pointer;
     border-top-right-radius: 3px;
     border-top-left-radius: 3px;
-    color:white;
+    color: white;
     font-weight: 300;
 }
 
+ul.tabber>li md-icon {
+    line-height: 30px;
+}
+
+ul.tabber>li {
+    font-size: 12px;
+    font-weight: 500;
+}
+
 ul.tabber>li.active {
-     background-color: #fff;
+    background-color: #fff;
     margin-bottom: -1px;
     color: #0277bd;
 }
 
-a.tabTitle {
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-a.close {
+.close {
     position: absolute;
-    top: 1px;
-    right: 1px;
+    top: 0px;
+    right: 7px;
+    width: 14px;
+    font-size: 14px;
+    height: 14px;
 }
 
 .visibilityHidden {

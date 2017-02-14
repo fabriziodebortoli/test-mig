@@ -14,7 +14,5 @@ md-sidenav-layout,
 }
 
 tb-tabber {
-    overflow: hidden;
-    flex: 1;
-    display: flex;
+    flex-grow: 1
 }
