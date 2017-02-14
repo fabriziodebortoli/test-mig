@@ -161,14 +161,18 @@ export class MenuService {
         if (object == undefined)
             return;
 
-        if (object.objectType.toLowerCase() == 'report')
-        {
-            
+        if (object.objectType.toLowerCase() == 'report') {
+            let obs = this.httpService.runReport(object.target).subscribe((jsonObj)=>{
+                /*
+                testare se eseguire la navigate o meno
+                */
+                obs.unsubscribe();
+            });
         }
-else{
-     this.httpService.runDocument(object.target);
-}
-       
+        else {
+            this.httpService.runDocument(object.target);
+        }
+
         this.addToMostUsed(object);
         object.isLoading = true
     }
