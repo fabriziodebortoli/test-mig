@@ -26,6 +26,7 @@ namespace Microarea.RSWeb.Models
 
         public XmlDocument XmlDomParameters = new XmlDocument();
 
+        public UserInfo ui = null;
          //--------------------------------------------------------------------------
         public JsonReportEngine
                             (
@@ -50,13 +51,9 @@ namespace Microarea.RSWeb.Models
             this.applicationDate = applicationDate;
             this.impersonatedUser = impersonatedUser;
             this.useApproximation = useApproximation;
-           // this.httpContext = httpContext;
-        }
+            // this.httpContext = httpContext;
 
-         //--------------------------------------------------------------------------
-        private StringCollection ExecuteReport()
-        {
-            UserInfo ui = new UserInfo();
+            ui = new UserInfo();
 
             /////////////////////////////////////////////////////
             // TODO temporary
@@ -77,11 +74,19 @@ namespace Microarea.RSWeb.Models
             //if (!(ui.Login(AuthenticationToken)))
             //    return new StringCollection();
 
-            ui.SetCulture();
+            //ui.SetCulture();
             ui.ApplicationDate = applicationDate;
             ui.UseApproximation = useApproximation;
             ui.ImpersonatedUser = impersonatedUser;
 
+            CreateStateMachine();
+
+        }
+
+         //--------------------------------------------------------------------------
+        private void  CreateStateMachine()
+        {
+           
             // istanzio la mia sessione di lavoro 
             ReportSession = new TbReportSession(ui);
             bool sessionOk = ReportSession.LoadSessionInfo();
@@ -119,7 +124,6 @@ namespace Microarea.RSWeb.Models
             StateMachine.Dispose();
             StateMachine = null;
 
-            return null;
         }
     }
  }

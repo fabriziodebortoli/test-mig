@@ -72,11 +72,13 @@ namespace Microarea.RSWeb.Models
 
                 /// creates states machine associated with pipe  
                 JsonReportEngine jengine = CreateEngine(MessageBuilder.GetMessagFromJson(msgg).message);
+
+              
                 
                 if (jengine == null)
                 {    /// handle errors
                     /// if guid is not found on server the web socket will be closed and disposed
-                   await webSocket.CloseAsync(WebSocketCloseStatus.PolicyViolation, string.Format(ErrorHandler.NsNotValid, MessageBuilder.GetMessagFromJson(nameSpace).message), CancellationToken.None);
+                   await webSocket.CloseAsync(WebSocketCloseStatus.PolicyViolation, string.Format(ErrorHandler.NsNotValid, MessageBuilder.GetMessagFromJson(msgg).message), CancellationToken.None);
                    webSocket.Dispose();
                 }
                 
