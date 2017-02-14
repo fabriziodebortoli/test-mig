@@ -90,6 +90,13 @@ export class HttpService {
             .catch(this.handleError);
     }
 
+    runDocument(ns: String): void {
+
+        let subs = this.postData(this.getMenuBaseUrl() + 'runDocument/', { ns: ns })
+            .subscribe(() => {
+                subs.unsubscribe();
+            });
+    }
     getLoginActiveThreads() {
         /*return new Promise(function (resolve, reject) {
          me.http.get(me.getDocumentBaseUrl() + "getLoginActiveThreads/")
