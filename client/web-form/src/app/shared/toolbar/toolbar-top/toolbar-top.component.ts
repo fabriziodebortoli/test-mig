@@ -1,3 +1,4 @@
+import { EventDataService } from 'tb-core';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -8,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class ToolbarTopComponent implements OnInit {
 
-  constructor() {
+  constructor(protected eventData: EventDataService) {
 
   }
 

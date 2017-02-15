@@ -1,4 +1,4 @@
-import { EventService } from 'tb-core';
+import { EventDataService } from 'tb-core';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -27,7 +27,7 @@ export class ToolbarBottomButtonComponent implements OnInit {
   @Input() cmpId: string = '';
 
   constructor(
-    private events: EventService
+    private eventData: EventDataService
   ) {
   }
 
@@ -35,6 +35,6 @@ export class ToolbarBottomButtonComponent implements OnInit {
   }
 
   onCommand() {
-    this.events.command.emit(this.cmpId);
+    this.eventData.command.emit(this.cmpId);
   }
 }

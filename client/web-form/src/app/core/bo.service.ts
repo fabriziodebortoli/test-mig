@@ -1,4 +1,4 @@
-import { EventService } from 'tb-core';
+import { EventDataService } from 'tb-core';
 import { DocumentService } from './document.service';
 import { Injectable } from '@angular/core';
 
@@ -19,16 +19,16 @@ export class BOService extends DocumentService {
     constructor(
         private webSocketService: WebSocketService,
         logger: Logger,
-        eventService: EventService) {
-        super(logger, eventService);
+        eventData: EventDataService) {
+        super(logger, eventData);
 
         this.dataReadySubscription = this.webSocketService.dataReady.subscribe(data => {
             let models: Array<any> = data.models;
             let cmpId = this.mainCmpId;
             models.forEach(model => {
                 if (model.id === cmpId) {
-                    this.model = model;
-                    logger.debug("Model received from server: " + JSON.stringify(this.model));
+                    this.eventData.model = model;
+                    logger.debug("Model received from server: " + JSON.stringify(this.eventData.model));
                 }
             });
         });
@@ -40,12 +40,12 @@ export class BOService extends DocumentService {
                 logger.debug("Server-side commands received from server: " + JSON.stringify(this.serverSideCommandMap));
             }
         });
-        this.commandSubscription = this.eventService.command.subscribe((cmpId: String) => {
-            this.webSocketService.doCommand(this.mainCmpId, cmpId, this.model);
+        this.commandSubscription = this.eventData.command.subscribe((cmpId: String) => {
+            this.webSocketService.doCommand(this.mainCmpId, cmpId, this.eventData.model);
         });
 
-        this.changeSubscription = this.eventService.command.subscribe((cmpId: String) => {
-            this.webSocketService.doValueChanged(this.mainCmpId, cmpId, this.model);
+        this.changeSubscription = this.eventData.command.subscribe((cmpId: String) => {
+            this.webSocketService.doValueChanged(this.mainCmpId, cmpId, this.eventData.model);
         });
     }
     init(cmpId: string) {
