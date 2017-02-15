@@ -1,4 +1,4 @@
-import { BOService } from './../core/bo.service';
+import { EventDataService, BOService } from 'tb-core';
 import { TbComponent } from './tb.component';
 import { DocumentComponent } from './document.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -9,8 +9,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styles: []
 })
 export abstract class BOComponent extends DocumentComponent implements OnInit, OnDestroy {
-  constructor(public bo: BOService) {
-    super(bo);
+  constructor(public bo: BOService, eventData: EventDataService) {
+    super(bo, eventData);
   }
 
   ngOnInit() {

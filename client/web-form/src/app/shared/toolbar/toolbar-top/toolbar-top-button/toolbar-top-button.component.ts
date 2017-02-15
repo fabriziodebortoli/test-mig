@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TbComponent } from './../../..';
-import { HttpService, DocumentService, WebSocketService } from 'tb-core';
+import { HttpService, EventDataService } from 'tb-core';
 
 enum IconType { MD, TB, IMG };
 
@@ -19,8 +19,7 @@ export class ToolbarTopButtonComponent extends TbComponent implements OnInit {
   iconTxt: string;
 
   constructor(
-    private webSocket: WebSocketService,
-    private document: DocumentService,
+    private eventData: EventDataService,
     private httpService: HttpService
   ) {
     super();
@@ -44,6 +43,6 @@ export class ToolbarTopButtonComponent extends TbComponent implements OnInit {
   }
 
   onCommand() {
-    this.webSocket.doCommand(this.document.mainCmpId, this.cmpId, this.document.model);
+    this.eventData.command.emit(this.cmpId);
   }
 }

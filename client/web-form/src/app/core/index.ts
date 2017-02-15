@@ -6,7 +6,7 @@ export * from './utils.service';
 export * from './websocket.service';
 export * from './sidenav.service';
 export * from './document.service';
-export * from './event.service';
+export * from './eventdata.service';
 export * from './command.service';
 export * from './core.guard';
 export * from './info.service';

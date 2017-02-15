@@ -1,4 +1,4 @@
-﻿import { EventService } from 'tb-core';
+﻿import { EventDataService } from 'tb-core';
 import { ControlComponent } from './control.component';
 import { Component, Input } from '@angular/core';
 
@@ -13,13 +13,13 @@ import { Component, Input } from '@angular/core';
 export class EditComponent extends ControlComponent{
     
     constructor(
-        private events: EventService
+        private eventData: EventDataService
       ) {
         super();
       }
 
     onBlur() {
-        this.events.change.emit(this.cmpId);
+        this.eventData.change.emit(this.cmpId);
        
     }
 }

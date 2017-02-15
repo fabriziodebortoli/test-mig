@@ -1,4 +1,4 @@
-import { DocumentService } from 'tb-core';
+import { DocumentService, EventDataService } from 'tb-core';
 import { TbComponent } from './tb.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ViewModeType } from './';
@@ -13,7 +13,7 @@ export abstract class DocumentComponent extends TbComponent implements OnInit {
   viewModeType: ViewModeType;
   title: string;
 
-  constructor(public document: DocumentService) {
+  constructor(public document: DocumentService, public eventData: EventDataService) {
     super();
   }
 
