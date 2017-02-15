@@ -1,12 +1,3 @@
-
-import { ConnectionInfoDialogComponent } from './menu/components/menu/connection-info-dialog/connection-info-dialog.component';
-import { ProductInfoDialogComponent } from './menu/components/menu/product-info-dialog/product-info-dialog.component';
-import { EventManagerService } from './menu/services/event-manager.service';
-import { LocalizationService } from './menu/services/localization.service';
-import { SettingsService } from './menu/services/settings.service';
-import { HttpMenuService } from './menu/services/http-menu.service';
-import { ImageService } from './menu/services/image.service';
-import { MenuService } from './menu/services/menu.service';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
