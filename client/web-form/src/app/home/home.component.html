@@ -6,7 +6,7 @@
 <div class="main-content">
     <tb-topbar></tb-topbar>
 
-    <div onselectstart="return false;" *ngIf="!desktop" >
+    <div onselectstart="return false;">
         <tb-tabber>
             <tb-tab [icon]="'home'" (close)="loginSession.logout();">
                 <tb-menu></tb-menu>
