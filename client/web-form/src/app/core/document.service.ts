@@ -1,4 +1,4 @@
-import { EventService } from 'tb-core';
+import { EventService } from './event.service';
 import { Injectable } from '@angular/core';
 
 import { WebSocketService } from './websocket.service';
@@ -18,5 +18,11 @@ export class DocumentService {
     dispose() {
         delete this.model;
         delete this.mainCmpId;
+    }
+    getTitle() {
+        let title = 'Untitled';
+        if (this.model && this.model.Title && this.model.Title.value)
+            title = this.model.Title.value;
+        return title;
     }
 }

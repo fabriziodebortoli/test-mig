@@ -4,10 +4,11 @@ import { PageNotFoundComponent } from 'tb-shared';
 import { HomeComponent } from './home/home.component';
 import { ModuleWithProviders } from '@angular/core';
 import { DataServiceComponent } from './applications/test/data-service/data-service.component';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CoreGuard } from './core/core.guard';
 
-export const appRoutes: Routes = [
+
+export const routing: ModuleWithProviders = RouterModule.forRoot([
 
     { path: '', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'login', component: LoginComponent },
@@ -17,6 +18,4 @@ export const appRoutes: Routes = [
     { path: 'ds', component: DataServiceComponent },
     { path: 'rs', loadChildren: 'app/reporting-studio/reporting-studio.module#ReportingStudioModule' },
     { path: '**', component: PageNotFoundComponent },
-];
-
-export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
+]);

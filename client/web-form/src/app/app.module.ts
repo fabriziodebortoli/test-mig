@@ -1,3 +1,5 @@
+import { appRouting } from './applications/app.routing';
+import { routing } from './app.routing';
 
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
@@ -12,7 +14,6 @@ import { MenuModule } from './menu/menu.module';
 
 import { SidenavService } from './core/sidenav.service';
 
-import { routing, appRoutes } from './app.routing';
 
 import { HomeComponent, HomeSidenavComponent } from './home';
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
@@ -36,7 +37,7 @@ import { DataServiceComponent } from './applications/test/data-service/data-serv
     SharedModule,
     MenuModule.forRoot(),
     routing,
-    appRoutes
+    appRouting
   ],
   bootstrap: [AppComponent],
   entryComponents: [

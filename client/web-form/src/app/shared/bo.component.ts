@@ -1,6 +1,6 @@
-import { DocumentComponent } from 'tb-shared';
-import { BOService } from 'tb-core';
+import { BOService } from './../core/bo.service';
 import { TbComponent } from './tb.component';
+import { DocumentComponent } from './document.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
