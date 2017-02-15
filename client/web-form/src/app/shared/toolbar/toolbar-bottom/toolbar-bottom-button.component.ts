@@ -1,7 +1,5 @@
+import { EventService } from 'tb-core';
 import { Component, OnInit, Input } from '@angular/core';
-
-import { DocumentService } from '../../../core/document.service';
-import { WebSocketService } from '../../../core/websocket.service';
 
 @Component({
   selector: 'tb-toolbar-bottom-button',
@@ -29,8 +27,7 @@ export class ToolbarBottomButtonComponent implements OnInit {
   @Input() cmpId: string = '';
 
   constructor(
-    private webSocket: WebSocketService,
-    private document: DocumentService
+    private events: EventService
   ) {
   }
 
@@ -38,6 +35,6 @@ export class ToolbarBottomButtonComponent implements OnInit {
   }
 
   onCommand() {
-    this.webSocket.doCommand(this.document.mainCmpId, this.cmpId, this.document.model);
+    this.events.command.emit(this.cmpId);
   }
 }

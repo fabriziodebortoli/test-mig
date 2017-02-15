@@ -7,15 +7,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   template: '',
   styles: []
 })
-export abstract class DocumentComponent extends TbComponent implements OnInit, OnDestroy {
+export abstract class DocumentComponent extends TbComponent {
   constructor(public document: DocumentService) {
     super();
   }
 
-  ngOnInit() {
-  }
-  ngOnDestroy() {
-    this.document.dispose();
-  }
 
 }

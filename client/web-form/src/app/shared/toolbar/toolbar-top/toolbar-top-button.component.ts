@@ -1,5 +1,5 @@
 import { TbComponent } from './../..';
-import { HttpService, DocumentService, WebSocketService } from 'tb-core';
+import { HttpService, WebSocketService, EventService } from 'tb-core';
 import { Component, OnInit, Input } from '@angular/core';
 
 
@@ -24,8 +24,7 @@ export class ToolbarTopButtonComponent extends TbComponent implements OnInit {
   @Input() icon: string = '';
 
   constructor(
-    private webSocket: WebSocketService,
-    private document: DocumentService,
+    private events: EventService,
     private httpService: HttpService
   ) {
     super();
@@ -37,6 +36,6 @@ export class ToolbarTopButtonComponent extends TbComponent implements OnInit {
     return this.httpService.getDocumentBaseUrl() + 'getImage/?src=' + this.icon;
   }
   onCommand() {
-    this.webSocket.doCommand(this.document.mainCmpId, this.cmpId, this.document.model);
+    this.events.command.emit(this.cmpId);
   }
 }
