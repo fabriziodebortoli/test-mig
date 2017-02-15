@@ -105,10 +105,6 @@ export class WebSocketService {
         //azione solo lato client. 
     }
 
-    runObject(ns: String): void {
-        this.connection.send(JSON.stringify({ cmd: 'runDocument', ns: ns }));
-    }
-
     getDocumentData(cmpId: String) {
         let data = { cmd: 'getDocumentData', cmpId: cmpId };
         this.connection.send(JSON.stringify(data));

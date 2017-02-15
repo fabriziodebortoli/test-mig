@@ -18,7 +18,7 @@ namespace Microarea.RSWeb.Models
         private string AuthenticationToken;
         private DateTime applicationDate;
         private string impersonatedUser;
-        private TBWebContext httpContext;
+        //private TBWebContext httpContext;
         private bool useApproximation;
 
         public RSEngine StateMachine = null;
@@ -26,6 +26,7 @@ namespace Microarea.RSWeb.Models
 
         public XmlDocument XmlDomParameters = new XmlDocument();
 
+        public UserInfo ui = null;
          //--------------------------------------------------------------------------
         public JsonReportEngine
                             (
@@ -34,35 +35,58 @@ namespace Microarea.RSWeb.Models
                                 string parameters,
                                 DateTime applicationDate,
                                 string impersonatedUser,
-                                TBWebContext httpContext,
+                               // TBWebContext httpContext,
                                 bool useApproximation = true
                             )
         {
-            XmlDomParameters.LoadXml(parameters);
+            if (!parameters.IsNullOrEmpty())
+            {
+                XmlDomParameters.LoadXml(parameters);
+                ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
+            }
+            else
+                ReportNamespace = nameSpace;
 
-            AuthenticationToken = authenticationToken;
-            ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
+            AuthenticationToken = authenticationToken;         
             this.applicationDate = applicationDate;
             this.impersonatedUser = impersonatedUser;
             this.useApproximation = useApproximation;
-            this.httpContext = httpContext;
-        }
+            // this.httpContext = httpContext;
 
-        // ITRI gestire meglio anche il ritorno di un diagnostic, in caso di errore (multiple righe)
-        // o di una collezione di stringhe di errore.
-        //--------------------------------------------------------------------------
-        private StringCollection ExecuteReport()
-        {
-            UserInfo ui = new UserInfo();
+            ui = new UserInfo();
 
-            if (!(ui.Login(AuthenticationToken)))
-                return new StringCollection();
+            /////////////////////////////////////////////////////
+            // TODO temporary
+            //in future get login information
+            ui.Valid = true;
+            ui.Company = "Company_ERP"; //to change if needed
+            ui.CompanyId = 20;          //to change 
+            ui.User = "sa";             //to change
+            ui.LoginId = 1;             // to change
+            ui.Password = "";           // to change
+            ui.CompanyDbConnection = string.Format("Server = USR-SARMANTANA1;Database = {0};User Id = {1};Password = {2};", ui.Company, ui.User, ui.Password);
 
-            ui.SetCulture();
+            ui.Provider = "SQL"; //?
+            ui.Admin = true;    //to change
+
+            /////////////////////////////////////////////////////
+
+            //if (!(ui.Login(AuthenticationToken)))
+            //    return new StringCollection();
+
+            //ui.SetCulture();
             ui.ApplicationDate = applicationDate;
             ui.UseApproximation = useApproximation;
             ui.ImpersonatedUser = impersonatedUser;
 
+            CreateStateMachine();
+
+        }
+
+         //--------------------------------------------------------------------------
+        private void  CreateStateMachine()
+        {
+           
             // istanzio la mia sessione di lavoro 
             ReportSession = new TbReportSession(ui);
             bool sessionOk = ReportSession.LoadSessionInfo();
@@ -100,7 +124,6 @@ namespace Microarea.RSWeb.Models
             StateMachine.Dispose();
             StateMachine = null;
 
-            return null;
         }
     }
  }
