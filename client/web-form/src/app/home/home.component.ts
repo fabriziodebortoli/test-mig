@@ -4,7 +4,6 @@ import { LocalizationService } from './../menu/services/localization.service';
 import { HttpMenuService } from './../menu/services/http-menu.service';
 import { MenuService } from './../menu/services/menu.service';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { environment } from './../../environments/environment';
 
 import { SidenavService, LoginSessionService, ComponentService } from './../core';
@@ -31,8 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private menuService: MenuService,
     private localizationService: LocalizationService,
     private settingsService: SettingsService,
-    private eventManagerService: EventManagerService,
-    private router: Router
+    private eventManagerService: EventManagerService
   ) {
     this.sidenavSubscription = sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle());
 

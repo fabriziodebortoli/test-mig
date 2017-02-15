@@ -8,7 +8,7 @@ import { ViewModeType } from './';
   template: '',
   styles: []
 })
-export abstract class DocumentComponent extends TbComponent implements OnInit, OnDestroy {
+export abstract class DocumentComponent extends TbComponent implements OnInit {
 
   viewModeType: ViewModeType;
   title: string;
@@ -20,9 +20,6 @@ export abstract class DocumentComponent extends TbComponent implements OnInit, O
   ngOnInit() {
     this.viewModeType = this.document.getViewModeType();
     this.title = this.document.getTitle();
-  }
-  ngOnDestroy() {
-    this.document.dispose();
   }
 
 }
