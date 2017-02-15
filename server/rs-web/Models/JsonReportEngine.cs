@@ -9,6 +9,7 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
 
 using Microarea.RSWeb.WoormController;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.RSWeb.Models
 {
@@ -78,7 +79,7 @@ namespace Microarea.RSWeb.Models
             ui.ApplicationDate = applicationDate;
             ui.UseApproximation = useApproximation;
             ui.ImpersonatedUser = impersonatedUser;
-
+            ui.PathFinder = new PathFinder(ui.Company, ui.User); //temp
             CreateStateMachine();
 
         }
@@ -89,7 +90,7 @@ namespace Microarea.RSWeb.Models
            
             // istanzio la mia sessione di lavoro 
             ReportSession = new TbReportSession(ui);
-            bool sessionOk = ReportSession.LoadSessionInfo();
+           // bool sessionOk = ReportSession.LoadSessionInfo();
 
             // servono per le funzioni interne implementate da Expression
             NameSpace nameSpace = new NameSpace(ReportNamespace, NameSpaceObjectType.Report);
@@ -101,24 +102,24 @@ namespace Microarea.RSWeb.Models
             StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, "sessionID", "uniqueID");
 
             // se ci sono stati errore nel caricamento fermo tutto (solo dopo aver istanziato la RSEngine)
-            if (!sessionOk)
-                StateMachine.CurrentState = State.LoadSessionError;
+            //if (!sessionOk)
+            //    StateMachine.CurrentState = State.LoadSessionError;
 
             // devo essere autenticato
-            if (ui == null)
-                StateMachine.CurrentState = State.AuthenticationError;
+            //if (ui == null)
+            //    StateMachine.CurrentState = State.AuthenticationError;
 
             // deve essere indicata anche la connection su cui si estraggono i dati
-            if (ui != null && (ui.CompanyDbConnection == null || ui.CompanyDbConnection.Length == 0))
-                StateMachine.CurrentState = State.ConnectionError;
+            //if (ui != null && (ui.CompanyDbConnection == null || ui.CompanyDbConnection.Length == 0))
+            //    StateMachine.CurrentState = State.ConnectionError;
 
             // faccio partire la macchina a stati che si ferma o su completamento dell'estrazione
             // o su errore. A differenza del caso Web non rientra mai su se stessa perchè non ci sono postback.
             StateMachine.Step();
 
             // se ci sono stati errori li trasmetto nel file XML stesso
-            if (StateMachine.HtmlPage == HtmlPageType.Error)
-                StateMachine.XmlGetErrors();
+            //if (StateMachine.HtmlPage == HtmlPageType.Error)
+            //    StateMachine.XmlGetErrors();
 
             // rilascio la macchina per risparmiare memoria
             StateMachine.Dispose();
