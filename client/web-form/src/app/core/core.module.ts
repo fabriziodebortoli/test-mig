@@ -32,8 +32,7 @@ const TB_SERVICES = [
   ComponentService,
   CommandService,
   CoreGuard,
-  InfoService,
-  EventDataService
+  InfoService
 ];
 
 @NgModule({
