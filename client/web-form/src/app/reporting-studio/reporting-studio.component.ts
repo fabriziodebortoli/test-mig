@@ -1,37 +1,31 @@
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
+import { ReportingStudioConnection } from './reporting-studio-connection.component';
+import { MenuService } from './../menu/services/menu.service';
 
-import { ReportingStudioService } from './reporting-studio.service';
-import { ReportObject } from './reporting-studio.model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+
 
 @Component({
   selector: 'app-reporting-studio',
   templateUrl: './reporting-studio.component.html',
   styleUrls: ['./reporting-studio.component.scss']
 })
-export class ReportingStudioComponent implements OnInit, AfterViewInit {
+export class ReportingStudioComponent implements OnInit, OnDestroy {
 
-  private subscription: Subscription;
+  private nameSpace: string;
+  private rsConn: ReportingStudioConnection;
 
-  private namespace: string = '';
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private reportService: ReportingStudioService) {
+  constructor(private menuService: MenuService) {
+    this.nameSpace = menuService.nameSpace;
   }
 
   ngOnInit() {
-    this.subscription = this.route.params.subscribe(
-      (params: any) => {
-        this.namespace = params['namespace'];
-      }
-    );
-
-    console.log('Reporting Studio Component Init with namespace:', this.namespace);
+    this.rsConn = new ReportingStudioConnection();
+    this.rsConn.rsInitStateMachine(this.nameSpace);
   }
 
-  ngAfterViewInit() { }
+  ngOnDestroy() {
+
+  }
 
 }

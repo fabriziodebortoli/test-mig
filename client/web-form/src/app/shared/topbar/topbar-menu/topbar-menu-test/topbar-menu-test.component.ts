@@ -1,8 +1,8 @@
+import { DataServiceComponent } from './../../../../applications/test/data-service/data-service.component';
 import { ReportingStudioComponent } from './../../../../reporting-studio/reporting-studio.component';
 import { ComponentService } from 'tb-core';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
-import { DataServiceComponent } from './../../../../applications/test/data-service/data-service.component';
 
 @Component({
   selector: 'tb-topbar-menu-test',

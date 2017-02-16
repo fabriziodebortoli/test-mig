@@ -33,7 +33,7 @@
         "zone.js": "0.7.7"
     },
     "devDependencies": {
-        "@types/jasmine": "^2.2.30",
+        "@types/jasmine": "2.5.41",
         "angular-cli": "1.0.0-beta.15",
         "angular2-router-loader": "^0.2.2",
         "awesome-typescript-loader": "3.0.0-beta.9",

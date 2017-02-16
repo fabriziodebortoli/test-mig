@@ -1,5 +1,11 @@
-import { HttpService } from 'tb-core';
-import { Injectable, EventEmitter } from '@angular/core';
+
+import { ReportingStudioComponent } from './../../reporting-studio/reporting-studio.component';
+
+
+import { Router } from '@angular/router';
+
+import { HttpService, ComponentService } from 'tb-core';
+import { Injectable, EventEmitter, ComponentFactoryResolver } from '@angular/core';
 
 import { UtilsService } from './../../core/utils.service';
 import { HttpMenuService } from './http-menu.service';
@@ -22,7 +28,7 @@ export class MenuService {
     public favoritesCount: number = 0;
     public mostUsedCount: number = 0;
 
-
+    public nameSpace: string;
     private favorites: Array<any> = [];
     private mostUsed: Array<any> = [];
 
@@ -37,7 +43,10 @@ export class MenuService {
         private logger: Logger,
         private utilsService: UtilsService,
         private imageService: ImageService,
-        private settingsService: SettingsService
+        private settingsService: SettingsService,
+        private router: Router,
+        private componentService: ComponentService,
+        private resolver: ComponentFactoryResolver,
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -160,12 +169,14 @@ export class MenuService {
     runFunction = function (object) {
         if (object == undefined)
             return;
-
+  
         if (object.objectType.toLowerCase() == 'report') {
+            this.nameSpace=object.target;
             let obs = this.httpService.runReport(object.target).subscribe((jsonObj)=>{
-                /*
-                testare se eseguire la navigate o meno
-                */
+                if (!jsonObj.desktop){                  
+                    this.componentService.createComponent(ReportingStudioComponent, this.resolver);                   
+                }          
+                
                 obs.unsubscribe();
             });
         }
@@ -505,4 +516,6 @@ export class MenuService {
     stringStartsWith(string, prefix): boolean {
         return string.slice(0, prefix.length) == prefix;
     }
+
+  
 }
