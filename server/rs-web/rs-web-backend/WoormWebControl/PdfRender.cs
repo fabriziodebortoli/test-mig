@@ -9,7 +9,6 @@ using TaskBuilderNetCore.Interfaces;
 using PdfSharp.Drawing.Layout;
 
 using PdfSharp.Drawing;
-using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
 
 using RSjson;

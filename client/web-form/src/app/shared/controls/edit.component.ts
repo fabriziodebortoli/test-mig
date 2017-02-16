@@ -1,8 +1,7 @@
-﻿import { ControlComponent } from './control.component';
+﻿import { EventDataService } from 'tb-core';
+import { ControlComponent } from './control.component';
 import { Component, Input } from '@angular/core';
 
-import { DocumentService } from '../../core/document.service';
-import { WebSocketService } from '../../core/websocket.service';
 
 @Component({
     selector: 'tb-edit',
@@ -14,13 +13,13 @@ import { WebSocketService } from '../../core/websocket.service';
 export class EditComponent extends ControlComponent{
     
     constructor(
-        private webSocket: WebSocketService,
-        private document: DocumentService
+        private eventData: EventDataService
       ) {
         super();
       }
 
     onBlur() {
-        this.webSocket.doValueChanged(this.document.mainCmpId, this.cmpId, this.document.model);
+        this.eventData.change.emit(this.cmpId);
+       
     }
 }

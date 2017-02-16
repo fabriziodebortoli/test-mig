@@ -1,5 +1,4 @@
-import { DocumentService } from 'tb-core';
-import { Document } from './../../models/document.model';
+import { EventDataService } from 'tb-core';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -10,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class ToolbarTopComponent implements OnInit {
 
-  constructor(private document: DocumentService) {
+  constructor(protected eventData: EventDataService) {
 
   }
 

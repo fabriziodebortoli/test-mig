@@ -1,7 +1,7 @@
+import { HttpService } from 'tb-core';
 import { Injectable, EventEmitter } from '@angular/core';
 
 import { UtilsService } from './../../core/utils.service';
-import { WebSocketService } from './../../core/websocket.service';
 import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
@@ -32,7 +32,7 @@ export class MenuService {
     selectedMenuChanged: EventEmitter<any> = new EventEmitter(true);
 
     constructor(
-        private webSocketService: WebSocketService,
+        private httpService: HttpService,
         private httpMenuService: HttpMenuService,
         private logger: Logger,
         private utilsService: UtilsService,
@@ -161,7 +161,18 @@ export class MenuService {
         if (object == undefined)
             return;
 
-        this.webSocketService.runObject(object.target);
+        if (object.objectType.toLowerCase() == 'report') {
+            let obs = this.httpService.runReport(object.target).subscribe((jsonObj)=>{
+                /*
+                testare se eseguire la navigate o meno
+                */
+                obs.unsubscribe();
+            });
+        }
+        else {
+            this.httpService.runDocument(object.target);
+        }
+
         this.addToMostUsed(object);
         object.isLoading = true
     }

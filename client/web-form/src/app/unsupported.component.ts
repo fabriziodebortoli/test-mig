@@ -1,5 +1,5 @@
 import { DocumentComponent } from 'tb-shared';
-import { DocumentService, ComponentService } from 'tb-core';
+import { DocumentService, ComponentService, EventDataService } from 'tb-core';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
 @Component({
@@ -14,8 +14,8 @@ import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 })
 export class UnsupportedComponent extends DocumentComponent implements OnInit {
 
-  constructor(documentService: DocumentService) {
-    super(documentService);
+  constructor(documentService: DocumentService, eventData: EventDataService) {
+    super(documentService, eventData);
   }
 
   ngOnInit() {
