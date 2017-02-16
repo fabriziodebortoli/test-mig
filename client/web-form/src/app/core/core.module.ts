@@ -1,4 +1,3 @@
-﻿import { InfoService } from './info.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -13,6 +12,8 @@ import { UtilsService } from './utils.service';
 import { HttpService } from './http.service';
 import { CommandService } from './command.service';
 import { LoginSessionService } from './login-session.service';
+import { ExplorerService } from './explorer.service';
+import { InfoService } from './info.service';
 
 import { CoreGuard } from './core.guard';
 
@@ -31,6 +32,7 @@ const TB_SERVICES = [
   ComponentService,
   CommandService,
   CoreGuard,
+  ExplorerService,
   InfoService
 ];
 
