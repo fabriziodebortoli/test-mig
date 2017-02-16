@@ -14,6 +14,6 @@ export class ToolbarTopComponent {
   @Input('viewModeType') viewModeType: ViewModeType = ViewModeType.D;
   viewModeTypeModel = ViewModeType;
 
-  constructor(protected eventData: EventDataService) { }
+  constructor(private eventData: EventDataService) { }
 
 }
