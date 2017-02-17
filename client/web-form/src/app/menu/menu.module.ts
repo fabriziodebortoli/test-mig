@@ -1,3 +1,4 @@
+import { EventDataService } from './../core/eventdata.service';
 import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
 import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 import { MenuService } from './services/menu.service';
@@ -35,7 +36,8 @@ const MENU_SERVICES = [
   HttpMenuService,
   SettingsService,
   LocalizationService,
-  EventManagerService
+  EventManagerService,
+  EventDataService
 ];
 
 @NgModule({

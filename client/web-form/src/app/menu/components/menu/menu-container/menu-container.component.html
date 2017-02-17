@@ -1,25 +1,30 @@
-<tb-tabber #tabber (selectedTab)="changeTabByIndex($event)">
+<tb-frame>
+    <tb-toolbar-top></tb-toolbar-top>
+    <tb-view>
+        <tb-tabber #tabber (selectedTab)="changeTabByIndex($event)">
 
-  <tb-tab [title]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService?.selectedGroup?.Menu)" [showCloseButton]=false (click)="menuService?.setSelectedMenu(menuTab)">
-  </tb-tab>
-</tb-tabber>
+            <tb-tab [title]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService?.selectedGroup?.Menu)" [showCloseButton]=false (click)="menuService?.setSelectedMenu(menuTab)">
+            </tb-tab>
+        </tb-tabber>
 
-<div>
-  <!--{{menuService?.selectedMenu?.title}}-->
-  <tb-menu-stepper [Menu]="menuService?.applicationMenu"></tb-menu-stepper>
-</div>
+        <div>
+            <!--{{menuService?.selectedMenu?.title}}-->
+            <tb-menu-stepper [Menu]="menuService?.applicationMenu"></tb-menu-stepper>
+        </div>
 
 
-<div class="menuContainer">
-  <div style="display: inline-block" *ngIf="menuService.selectedMenu != undefined" class="tabContent">
+        <div class="menuContainer">
+            <div style="display: inline-block" *ngIf="menuService.selectedMenu != undefined" class="tabContent">
 
-    <div *ngFor="let tile of getTiles()" class="tileContainer">
-      <tb-tile-content [Tile]="tile"></tb-tile-content>
-    </div>
+                <div *ngFor="let tile of getTiles()" class="tileContainer">
+                    <tb-tile-content [Tile]="tile"></tb-tile-content>
+                </div>
 
-    <!--voci posizionate male, sarebbero da togliere-->
-    <div *ngIf="menuService.selectedMenu.Object" class="tileContainer">
-      <tb-tile-content [Tile]="menuService.selectedMenu"></tb-tile-content>
-    </div>
-  </div>
-</div>
+                <!--voci posizionate male, sarebbero da togliere-->
+                <div *ngIf="menuService.selectedMenu.Object" class="tileContainer">
+                    <tb-tile-content [Tile]="menuService.selectedMenu"></tb-tile-content>
+                </div>
+            </div>
+        </div>
+    </tb-view>
+</tb-frame>

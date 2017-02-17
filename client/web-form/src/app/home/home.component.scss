@@ -13,6 +13,7 @@ md-sidenav-layout,
     flex-flow: column;
 }
 
-tb-tabber {
-    flex-grow: 1
+tb-tabber,
+.tb-tabber {
+    flex-grow: 1;
 }

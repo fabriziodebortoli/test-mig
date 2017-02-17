@@ -1,4 +1,5 @@
-import { HttpService } from 'tb-core';
+import { ViewModeType } from 'tb-shared';
+import { HttpService, EventDataService } from 'tb-core';
 import { Injectable, EventEmitter } from '@angular/core';
 
 import { UtilsService } from './../../core/utils.service';
@@ -37,9 +38,21 @@ export class MenuService {
         private logger: Logger,
         private utilsService: UtilsService,
         private imageService: ImageService,
-        private settingsService: SettingsService
+        private settingsService: SettingsService,
+        private eventData: EventDataService
     ) {
+        this.setModel();
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
+    }
+
+    setModel() {
+        let model: any = {
+            Title: {
+                value: "Menu"
+            },
+            viewModeType: ViewModeType.M
+        }
+        this.eventData.model = model
     }
 
     //---------------------------------------------------------------------------------------------
@@ -148,6 +161,8 @@ export class MenuService {
         this.selectedMenu.active = true;
         menu.visible = true;
 
+        this.eventData.model.Title.value = "Menu > " + menu.name;
+
         this.selectedMenuChanged.emit();
     }
 
@@ -162,7 +177,7 @@ export class MenuService {
             return;
 
         if (object.objectType.toLowerCase() == 'report') {
-            let obs = this.httpService.runReport(object.target).subscribe((jsonObj)=>{
+            let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
                 /*
                 testare se eseguire la navigate o meno
                 */
