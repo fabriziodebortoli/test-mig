@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs/Subject';
 import { Component, OnDestroy } from '@angular/core';
 import { CommandType } from "./reporting-studio.model";
 
@@ -9,6 +10,8 @@ import { CommandType } from "./reporting-studio.model";
 export class ReportingStudioConnection implements OnDestroy {
     private rsServer: string = "ws://localhost:5001/rsweb";
     websocket: WebSocket;
+
+    public message:Subject<string> =new Subject<string>();
 
     constructor() {
         this.websocket = new WebSocket(this.rsServer);
@@ -45,6 +48,7 @@ export class ReportingStudioConnection implements OnDestroy {
     }
 
     onMessage(evt) {
+        this.message.next(evt.data);
         this.writeToScreen(evt.data);
     }
 

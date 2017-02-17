@@ -2,7 +2,7 @@ import { ReportingStudioConnection } from './reporting-studio-connection.compone
 import { MenuService } from './../menu/services/menu.service';
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -12,8 +12,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class ReportingStudioComponent implements OnInit, OnDestroy {
 
+  sub: Subscription;
   private nameSpace: string;
   private rsConn: ReportingStudioConnection;
+
+  private message: string = '';
 
   constructor(private menuService: MenuService) {
     this.nameSpace = menuService.nameSpace;
@@ -21,10 +24,21 @@ export class ReportingStudioComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.rsConn = new ReportingStudioConnection();
+
+    this.sub = this.rsConn.message.subscribe(recieved => {
+      this.onMessage(recieved);
+    });
+
     this.rsConn.rsInitStateMachine(this.nameSpace);
   }
 
   ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
+  onMessage(message: string) {
+    //elaborate
+    this.message = message;
 
   }
 
