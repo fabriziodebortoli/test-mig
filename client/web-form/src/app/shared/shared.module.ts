@@ -11,6 +11,7 @@ import { EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, Butto
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
+import { HeaderStripComponent } from './header-strip/header-strip.component';
 
 const TB_COMPONENTS = [
   PageNotFoundComponent,
@@ -19,7 +20,8 @@ const TB_COMPONENTS = [
   TabComponent, TabberComponent, ViewComponent, FrameComponent,
   DynamicCmpComponent,
   EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,
-  TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent
+  TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent,
+  HeaderStripComponent
 ];
 
 @NgModule({

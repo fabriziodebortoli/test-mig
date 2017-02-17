@@ -29,6 +29,8 @@ import { FavoritesComponent } from './components/menu/favorites/favorites.compon
 import { LoginComponent } from './components/login/login.component';
 import { Logger } from 'libclient';
 import { Accordion, AccordionGroup } from '../shared/containers/accordion/accordion.component';
+import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
+import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 
 const MENU_SERVICES = [
   MenuService,
@@ -64,7 +66,9 @@ const MENU_SERVICES = [
     GroupSelectorComponent,
     MenuStepperComponent,
     Accordion,
-    AccordionGroup
+    AccordionGroup,
+    MenuTabberComponent,
+    MenuTabComponent
   ],
   exports:
   [

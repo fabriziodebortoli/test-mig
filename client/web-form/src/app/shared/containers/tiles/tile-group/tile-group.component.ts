@@ -3,14 +3,13 @@ import { TileManagerComponent } from '../tile-manager/tile-manager.component';
 import { TabComponent } from '../../tabs';
 
 @Component({
-  selector: 'tb-tilegroup',
+  selector: 'tb-tile-group',
   templateUrl: './tile-group.component.html',
   styleUrls: ['./tile-group.component.scss']
 })
-export class TileGroupComponent extends TabComponent implements OnInit {
+export class TileGroupComponent implements OnInit {
 
-  constructor(tabs: TileManagerComponent) {
-    super(tabs);
+  constructor() {
   }
   ngOnInit() {
   }

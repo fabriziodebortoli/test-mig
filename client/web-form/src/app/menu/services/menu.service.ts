@@ -145,6 +145,7 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     setSelectedMenu(menu) {
+        console.log("selected:", menu);
         if (this.selectedMenu != undefined && this.selectedMenu == menu)
             return;
 
@@ -161,7 +162,7 @@ export class MenuService {
         this.selectedMenu.active = true;
         menu.visible = true;
 
-        this.eventData.model.Title.value = "Menu > " + menu.name;
+        // this.eventData.model.Title.value = "Menu > " + menu.name;
 
         this.selectedMenuChanged.emit();
     }
