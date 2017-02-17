@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ViewModeType } from '../../';
+
+import { ViewModeType } from 'tb-shared';
 import { EventDataService } from 'tb-core';
 
 @Component({
@@ -9,10 +10,7 @@ import { EventDataService } from 'tb-core';
 })
 export class ToolbarTopComponent {
 
-  @Input('title') title: string = '...';
-
-  @Input('viewModeType') viewModeType: ViewModeType = ViewModeType.D;
-  viewModeTypeModel = ViewModeType;
+  private viewModeTypeModel = ViewModeType;
 
   constructor(private eventData: EventDataService) { }
 

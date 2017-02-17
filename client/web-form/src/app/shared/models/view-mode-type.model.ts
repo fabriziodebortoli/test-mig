@@ -1,1 +1,1 @@
-export enum ViewModeType { A, B, D, F, P, R, W };
+export enum ViewModeType { A, B, D, F, M, P, R, W };
