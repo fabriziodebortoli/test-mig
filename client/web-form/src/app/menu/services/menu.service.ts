@@ -1,8 +1,10 @@
+import { ViewModeType } from './../../shared/models/view-mode-type.model';
+import { ComponentService } from './../../core/component.service';
+import { EventDataService } from './../../core/eventdata.service';
+import { HttpService } from './../../core/http.service';
+import { UtilsService } from './../../core/utils.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { ViewModeType } from 'tb-shared';
-import { HttpService, EventDataService, ComponentService, UtilsService } from 'tb-core';
 
 import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
@@ -183,19 +185,12 @@ export class MenuService {
             return;
 
         if (object.objectType.toLowerCase() == 'report') {
-<<<<<<< HEAD
+            this.nameSpace = object.target;
             let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
-                /*
-                testare se eseguire la navigate o meno
-                */
-=======
-            this.nameSpace=object.target;
-            let obs = this.httpService.runReport(object.target).subscribe((jsonObj)=>{
-                if (!jsonObj.desktop){
+                if (!jsonObj.desktop) {
                     this.componentService.createComponent(ReportingStudioComponent, this.resolver);
                 }
 
->>>>>>> 4bcb03c73c9f596936eb0e38588717e47db5dea1
                 obs.unsubscribe();
             });
         }
