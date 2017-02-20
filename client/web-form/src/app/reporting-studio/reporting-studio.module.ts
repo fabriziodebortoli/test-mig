@@ -1,3 +1,4 @@
+import { ReportingStudioConnection } from './reporting-studio-connection.component';
 import { rsRouting } from './reporting-studio.routing';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -24,7 +25,7 @@ import { RouterModule } from '@angular/router';
   ],
   providers: [ReportingStudioService],
   declarations: [
-    ReportingStudioComponent, ReportingStudioHostComponent,
+    ReportingStudioComponent, ReportingStudioHostComponent, ReportingStudioConnection,
     ReportObjectWrapperComponent,
     ReportObjectDirective,
     ReportObjectRectangleComponent, ReportObjectImageComponent, ReportObjectTextComponent, ReportObjectFileComponent, ReportObjectTableComponent

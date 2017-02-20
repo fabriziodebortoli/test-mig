@@ -1,3 +1,5 @@
+import { ReportingStudioModule } from './reporting-studio/reporting-studio.module';
+import { ReportingStudioComponent } from './reporting-studio/reporting-studio.component';
 import { appRouting } from './applications/app.routing';
 import { routing } from './app.routing';
 
@@ -36,8 +38,10 @@ import { DataServiceComponent } from './applications/test/data-service/data-serv
     CoreModule.forRoot(),
     SharedModule,
     MenuModule.forRoot(),
+    ReportingStudioModule.forRoot(),
     routing,
     appRouting
+    
   ],
   bootstrap: [AppComponent],
   entryComponents: [

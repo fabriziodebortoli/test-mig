@@ -1,13 +1,15 @@
-import { ViewModeType } from 'tb-shared';
-import { HttpService, EventDataService } from 'tb-core';
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, ComponentFactoryResolver } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { UtilsService } from './../../core/utils.service';
+import { ViewModeType } from 'tb-shared';
+import { HttpService, EventDataService, ComponentService, UtilsService } from 'tb-core';
+
 import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
 
 import { ApplicationSelectorComponent } from './../components/menu/application-selector/application-selector.component';
+import { ReportingStudioComponent } from './../../reporting-studio/reporting-studio.component';
 
 import { Logger } from 'libclient';
 
@@ -23,7 +25,7 @@ export class MenuService {
     public favoritesCount: number = 0;
     public mostUsedCount: number = 0;
 
-
+    public nameSpace: string;
     private favorites: Array<any> = [];
     private mostUsed: Array<any> = [];
 
@@ -39,7 +41,10 @@ export class MenuService {
         private utilsService: UtilsService,
         private imageService: ImageService,
         private settingsService: SettingsService,
-        private eventData: EventDataService
+        private eventData: EventDataService,
+        private router: Router,
+        private componentService: ComponentService,
+        private resolver: ComponentFactoryResolver,
     ) {
         this.setModel();
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
@@ -178,10 +183,19 @@ export class MenuService {
             return;
 
         if (object.objectType.toLowerCase() == 'report') {
+<<<<<<< HEAD
             let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
                 /*
                 testare se eseguire la navigate o meno
                 */
+=======
+            this.nameSpace=object.target;
+            let obs = this.httpService.runReport(object.target).subscribe((jsonObj)=>{
+                if (!jsonObj.desktop){
+                    this.componentService.createComponent(ReportingStudioComponent, this.resolver);
+                }
+
+>>>>>>> 4bcb03c73c9f596936eb0e38588717e47db5dea1
                 obs.unsubscribe();
             });
         }
@@ -521,4 +535,6 @@ export class MenuService {
     stringStartsWith(string, prefix): boolean {
         return string.slice(0, prefix.length) == prefix;
     }
+
+
 }

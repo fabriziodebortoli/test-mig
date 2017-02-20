@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microarea.Common.NameSolver;
 
 namespace WebApplication
 {
@@ -17,8 +18,10 @@ namespace WebApplication
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
-
+Microarea.Common.Generic.InstallationInfo.TestInstallation();
             host.Run();
+            
+
         }
     }
 }
