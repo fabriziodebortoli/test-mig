@@ -108,7 +108,6 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
       if (this.tileIsVisible(array[i]))
         newArray.push(array[i]);
     }
-    console.log(newArray)
     return newArray;
   }
 

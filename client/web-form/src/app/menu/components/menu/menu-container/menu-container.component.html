@@ -12,14 +12,14 @@
 
         <div class="menu-container">
 
-            <tb-tile-group *ngIf="menuService.selectedMenu != undefined">
+            <tb-tilegroup *ngIf="menuService.selectedMenu != undefined">
                 <tb-tile-content *ngFor="let tile of getTiles()" [Tile]="tile"></tb-tile-content>
 
-                <!--<div *ngIf="menuService.selectedMenu.Object" class="tileContainer">
+                <div *ngIf="menuService.selectedMenu.Object" class="tileContainer">
                     <tb-tile-content [Tile]="menuService.selectedMenu"></tb-tile-content>
-                </div>-->
+                </div>
 
-            </tb-tile-group>
+            </tb-tilegroup>
         </div>
     </tb-view>
 </tb-frame>
