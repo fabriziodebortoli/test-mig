@@ -24,6 +24,7 @@ export class MenuTabberComponent extends TbComponent {
 
   addTab(tab: MenuTabComponent) {
     this.tabs.push(tab);
+    this.selectTab(tab);
   }
 
 }
