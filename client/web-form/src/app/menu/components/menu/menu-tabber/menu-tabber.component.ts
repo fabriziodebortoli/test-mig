@@ -27,4 +27,12 @@ export class MenuTabberComponent extends TbComponent {
     this.selectTab(tab);
   }
 
+  removeTab(tab: MenuTabComponent) {
+    this.tabs.splice(this.tabs.indexOf(tab), 1);
+    if (tab.active && this.tabs.length > 0) {
+      this.tabs[0].active = true;
+      this.selectedTab.emit(0);
+    }
+  }
+
 }
