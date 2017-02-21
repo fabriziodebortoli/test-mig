@@ -1,3 +1,4 @@
+import { ReportingStudioService } from './../../../../reporting-studio/reporting-studio.service';
 import { WebSocketService } from './../../../../core/websocket.service';
 import { Component, Input } from '@angular/core';
 import { UtilsService } from 'tb-core';
@@ -21,10 +22,16 @@ export class TileElementComponent {
     private menuService: MenuService,
     private utilsService: UtilsService,
     private imageService: ImageService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private rsService: ReportingStudioService
   ) {
     this.webSocketService.windowOpen.subscribe(data => {
       this.object.isLoading = false;
+    });
+
+    this.rsService.reportOpened.subscribe(arg=>
+    {
+       this.object.isLoading = false;
     });
   }
 

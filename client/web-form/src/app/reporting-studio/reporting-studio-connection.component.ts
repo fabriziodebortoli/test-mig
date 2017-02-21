@@ -8,7 +8,7 @@ import { CommandType } from "./reporting-studio.model";
 })
 
 export class ReportingStudioConnection implements OnDestroy {
-    private rsServer: string = "ws://localhost:5001/rsweb";
+    private rsServer: string = "ws://localhost:5000/rsweb";
     websocket: WebSocket;
 
     public message:Subject<string> =new Subject<string>();
