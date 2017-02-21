@@ -152,7 +152,6 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     setSelectedMenu(menu) {
-        console.log("selected:", menu);
         if (this.selectedMenu != undefined && this.selectedMenu == menu)
             return;
 
@@ -437,6 +436,10 @@ export class MenuService {
             this.getFavoritesAndMostUsedObjectsFromMenu(allSubMenus[j]);
         }
     };
+
+    getFavorites() {
+        return this.favorites;
+    }
 
 
     // //---------------------------------------------------------------------------------------------
