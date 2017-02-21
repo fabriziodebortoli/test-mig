@@ -1,7 +1,8 @@
+import { ReportingStudioService } from './reporting-studio.service';
 import { ReportingStudioConnection } from './reporting-studio-connection.component';
 import { MenuService } from './../menu/services/menu.service';
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 
@@ -15,10 +16,9 @@ export class ReportingStudioComponent implements OnInit, OnDestroy {
   sub: Subscription;
   private nameSpace: string;
   private rsConn: ReportingStudioConnection;
-
   private message: string = '';
 
-  constructor(private menuService: MenuService) {
+  constructor(private menuService: MenuService, private rsService: ReportingStudioService) {
     this.nameSpace = menuService.nameSpace;
   }
 
@@ -27,9 +27,11 @@ export class ReportingStudioComponent implements OnInit, OnDestroy {
 
     this.sub = this.rsConn.message.subscribe(recieved => {
       this.onMessage(recieved);
+      
     });
 
     this.rsConn.rsInitStateMachine(this.nameSpace);
+    this.rsService.reportOpened.emit(this.nameSpace);
   }
 
   ngOnDestroy() {
