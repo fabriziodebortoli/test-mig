@@ -1,8 +1,8 @@
-.most-used{
+.favorites{
     margin-bottom: 20px;
 }
 
-ul.most-used-list{
+ul.favorites-list{
     list-style: none;
     padding: 0;
     margin: 0;
@@ -11,7 +11,7 @@ ul.most-used-list{
     background: #3e3e3e;
 }
 
-.most-used-item{
+.favorite-item{
     display: flex;
     flex-direction: row;
     color: #9f9f9f;
@@ -20,17 +20,30 @@ ul.most-used-list{
     position:relative;    
 }
 
-.most-used-item>md-icon.type{
+.favorite-item>md-icon.type{
     margin: 0 2px 0 7px;
     line-height: 30px;
     font-size: 20px;
 }
 
-.most-used-item>span{
+.favorite-item>span{
     font-size:12px;
     cursor: pointer;
 }
 
-.most-used-item>span:hover{
+.favorite-item>span:hover{
     color: #fff;
+}
+
+.favorite-item>md-icon.close{
+    position: absolute;
+    right: 0;
+    font-size: 14px;
+    line-height: 30px;
+    cursor: pointer;
+    color: #646464;
+}
+
+.favorite-item>md-icon.close:hover{
+    color:#fff;
 }

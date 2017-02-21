@@ -7,10 +7,14 @@
     </div>
 </div>
 
+<div class="sidenav-subtitle">Applications</div>
 <tb-application-selector [Menu]="menuService?.applicationMenu"></tb-application-selector>
 
-<tb-group-selector (groupSelected)=toggleSidenav()></tb-group-selector>
+<div class="sidenav-subtitle">Groups</div>
+<tb-group-selector (itemSelected)="toggleSidenav()"></tb-group-selector>
 
-<tb-favorites></tb-favorites>
+<div class="sidenav-subtitle">{{localizationService?.getLocalizedElement('FavoritesLabel')}}</div>
+<tb-favorites (itemSelected)="toggleSidenav()"></tb-favorites>
 
-<tb-most-used></tb-most-used>
+<div class="sidenav-subtitle">{{localizationService.getLocalizedElement('MostUsedLabel')}}</div>
+<tb-most-used (itemSelected)="toggleSidenav()"></tb-most-used>

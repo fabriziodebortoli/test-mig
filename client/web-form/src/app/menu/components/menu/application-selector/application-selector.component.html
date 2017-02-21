@@ -1,6 +1,6 @@
 <div class="application-selector" *ngIf="menuService != undefined">
     <ul class="application-list">
-        <li *ngFor="let application of applications" (click)=selecteApplication(application)>
+        <li *ngFor="let application of applications" (click)="selecteApplication(application)">
             <img [src]="imageService.getStaticImage(application)" />
             <span>{{application.title}}</span>
         </li>
