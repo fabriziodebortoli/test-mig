@@ -1,8 +1,8 @@
+import { UtilsService } from './../../../../core/utils.service';
 
 import { MaterialModule, MdDialog, MdDialogRef } from '@angular/material';
 import { HttpMenuService } from './../../../services/http-menu.service';
 import { MenuService } from './../../../services/menu.service';
-import { UtilsService } from 'tb-core';
 import { LocalizationService } from './../../../services/localization.service';
 import { Component, OnInit } from '@angular/core';
 

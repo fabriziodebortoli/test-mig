@@ -1,5 +1,5 @@
+import { UtilsService } from './../../../../core/utils.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
 import { HttpMenuService } from './../../../services/http-menu.service';
 import { ImageService } from './../../../services/image.service';

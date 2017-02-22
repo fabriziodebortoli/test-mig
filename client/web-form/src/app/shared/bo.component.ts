@@ -1,5 +1,4 @@
 import { EventDataService, BOService } from 'tb-core';
-import { TbComponent } from './tb.component';
 import { DocumentComponent } from './document.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 

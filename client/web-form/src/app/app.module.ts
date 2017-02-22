@@ -23,7 +23,7 @@ import { DataServiceComponent } from './applications/test/data-service/data-serv
     AppComponent,
     HomeComponent, HomeSidenavComponent,
     UnsupportedFactoryComponent,
-    UnsupportedComponent,
+    UnsupportedComponent, 
     DataServiceComponent
   ],
   imports: [

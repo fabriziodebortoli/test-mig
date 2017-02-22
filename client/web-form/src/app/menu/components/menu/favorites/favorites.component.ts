@@ -1,6 +1,6 @@
+import { UtilsService } from './../../../../core/utils.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
-import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
 import { ImageService } from './../../../services/image.service';
 import { LocalizationService } from './../../../services/localization.service';

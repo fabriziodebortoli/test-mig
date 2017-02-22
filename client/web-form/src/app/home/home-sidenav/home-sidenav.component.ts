@@ -1,5 +1,5 @@
+import { UtilsService } from './../../core/utils.service';
 import { ImageService } from './../../menu/services/image.service';
-import { UtilsService } from 'tb-core';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { MenuService } from './../../menu/services/menu.service';
 import { LocalizationService } from './../../menu/services/localization.service';

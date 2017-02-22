@@ -1,16 +1,17 @@
+import { UtilsService } from './../../core/utils.service';
+import { HttpService } from './../../core/http.service';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { UtilsService, HttpService } from 'tb-core';
 import { Logger } from 'libclient';
 
-import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class ImageService {
       
-    constructor(protected http: Http,
+    constructor(
+        protected http: Http,
         protected utils: UtilsService,
         protected logger: Logger,
         protected cookieService: CookieService,

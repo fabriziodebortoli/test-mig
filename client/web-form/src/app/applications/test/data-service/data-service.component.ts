@@ -1,6 +1,6 @@
+import { HttpService } from './../../../core/http.service';
 import { Response } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from 'tb-core';
 
 @Component({
   selector: 'tb-data-service',
