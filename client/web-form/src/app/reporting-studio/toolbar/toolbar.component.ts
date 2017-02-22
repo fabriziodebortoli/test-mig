@@ -1,4 +1,3 @@
-import { ReportingStudioService } from './../reporting-studio.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,7 +9,7 @@ export class ToolbarComponent implements OnInit {
 
   private running: boolean = false;
 
-  constructor(private reportService: ReportingStudioService) { }
+  constructor() { }
 
   ngOnInit() {
   }

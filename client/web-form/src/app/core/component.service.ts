@@ -104,10 +104,11 @@ export class ComponentService {
         );
     });
   }
-  createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver) {
+  createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver, args: any = {})  {
     let info = new ComponentInfo();
     info.id = this.currentComponentId;
     info.factory = resolver.resolveComponentFactory(component);
+    info.args = args;
     this.addComponent(info);
 
   }
