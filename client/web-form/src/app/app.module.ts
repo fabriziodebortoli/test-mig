@@ -1,5 +1,4 @@
 import { ReportingStudioModule } from './reporting-studio/reporting-studio.module';
-import { ReportingStudioComponent } from './reporting-studio/reporting-studio.component';
 import { appRouting } from './applications/app.routing';
 import { routing } from './app.routing';
 
@@ -13,9 +12,6 @@ import { MaterialModule } from '@angular/material';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { MenuModule } from './menu/menu.module';
-
-import { SidenavService } from './core/sidenav.service';
-
 
 import { HomeComponent, HomeSidenavComponent } from './home';
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';

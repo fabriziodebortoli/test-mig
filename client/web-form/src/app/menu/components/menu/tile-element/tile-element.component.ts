@@ -1,7 +1,5 @@
-import { ReportingStudioService } from './../../../../reporting-studio/reporting-studio.service';
-import { WebSocketService } from './../../../../core/websocket.service';
 import { Component, Input } from '@angular/core';
-import { UtilsService } from 'tb-core';
+import { UtilsService, WebSocketService, EventDataService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
 import { HttpMenuService } from './../../../services/http-menu.service';
 import { ImageService } from './../../../services/image.service';
@@ -14,8 +12,6 @@ import { ImageService } from './../../../services/image.service';
 })
 export class TileElementComponent {
 
-  private showFavorites: boolean = true;
-
   private object: any;
   constructor(
     private httpMenuService: HttpMenuService,
@@ -23,15 +19,14 @@ export class TileElementComponent {
     private utilsService: UtilsService,
     private imageService: ImageService,
     private webSocketService: WebSocketService,
-    private rsService: ReportingStudioService
+    private eventData: EventDataService
   ) {
     this.webSocketService.windowOpen.subscribe(data => {
       this.object.isLoading = false;
     });
 
-    this.rsService.reportOpened.subscribe(arg=>
-    {
-       this.object.isLoading = false;
+    this.eventData.opened.subscribe(arg => {
+      this.object.isLoading = false;
     });
   }
 
@@ -48,9 +43,9 @@ export class TileElementComponent {
     return object.isFavorite ? 'star' : 'star_border';
   }
 
-  runFunction(object)
-  {
-    this.menuService.runFunction(object); 
+  runFunction(object) {
     object.isLoading = true;
+    this.menuService.runFunction(object);
+
   }
 }
