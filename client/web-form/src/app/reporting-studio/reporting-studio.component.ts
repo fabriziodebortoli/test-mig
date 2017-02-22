@@ -1,6 +1,4 @@
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { LoginSession } from './../shared/models/login-session';
-import { HttpMenuService } from './../menu/services/http-menu.service';
 import { CommandType } from './reporting-studio.model';
 import { EventDataService } from 'tb-core';
 import { DocumentComponent } from 'tb-shared';
