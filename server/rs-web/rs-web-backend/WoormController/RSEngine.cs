@@ -142,7 +142,7 @@ namespace Microarea.RSWeb.WoormController
 		public RSEngine(TbReportSession reportSession, string filename, string sessionID, string uniqueID)
 		{
 			this.reportSession = reportSession;
-			if (reportSession.IsAuthenticated)
+			if (reportSession.UserInfo.IsAuthenticated())
 			{
 				// Se sono  un file XML allora sono uno snapshot e quindi serve solo il visualizzatore altrimenti
 				// eseguo tutto normalmente ed estraggo dati e li visualizzo
@@ -174,7 +174,7 @@ namespace Microarea.RSWeb.WoormController
 			this.reportSession = reportSession;
 			this.xmlReturnType = xmlReturnType;
 
-			if (reportSession.IsAuthenticated)
+			if (reportSession.UserInfo.IsAuthenticated())
 			{
 				this.reportSession.Localizer = 	new WoormLocalizer(reportSession.ReportPath, ReportSession.PathFinder);
 				// Woorm serve per gestire il parse delle release
@@ -195,7 +195,7 @@ namespace Microarea.RSWeb.WoormController
 		{
 			this.reportSession = reportSession;
 
-			if (reportSession.IsAuthenticated)
+			if (reportSession.UserInfo.IsAuthenticated())
 			{
 				this.reportSession.Localizer = 	new WoormLocalizer(reportSession.ReportPath,ReportSession.PathFinder);
 				//serve sia visualizzatore (WoormDocument) che motore (Report), per generare il pdf.
@@ -284,19 +284,15 @@ namespace Microarea.RSWeb.WoormController
 
                 bool applySecurityFilter = false;
 
-                if (reportSession.UserInfo.LoginManager != null)
+                if (reportSession.UserInfo != null)
                 {
-                    if (reportSession.UserInfo.LoginManager.IsSecurityLightEnabled() && !reportSession.UserInfo.LoginManager.IsSecurityLightAccessAllowed(Woorm.Namespace.ToString(), false))
+                    if (reportSession.UserInfo.IsSecurityLightEnabled() && !reportSession.UserInfo.IsSecurityLightAccessAllowed(Woorm.Namespace.ToString(), false))
                         return false;
 
-                    applySecurityFilter = reportSession.UserInfo.LoginManager.IsActivated("MicroareaConsole", "SecurityAdmin") && 
-                        (
-                        reportSession.UserInfo.LoginManager.LoginManagerState != LoginManagerState.Logged ||
-                        reportSession.UserInfo.LoginManager.Security
-                        );
+                    applySecurityFilter = reportSession.UserInfo.IsActivated("MicroareaConsole", "SecurityAdmin");
                 }
                 //Controllo se ho i grant per vedere il report 
-                ISecurity security = reportSession.UserInfo.LoginManager.NewSecurity
+                ISecurity security = reportSession.UserInfo.NewSecurity
                                         (
                                             reportSession.UserInfo.Company, 
                                             reportSession.UserInfo.User,
@@ -336,8 +332,8 @@ namespace Microarea.RSWeb.WoormController
 						}
 
 						if (reportSession.UserInfo == null || 
-							!reportSession.UserInfo.LoginManager.IsValidToken(reportSession.UserInfo.LoginManager.AuthenticationToken) ||
-							!reportSession.UserInfo.LoginManager.IsActivated(StateMachineConstStrings.WebFramework, StateMachineConstStrings.EasyLook))
+							!reportSession.UserInfo.IsValidToken(reportSession.UserInfo.AuthenticationToken) ||
+							!reportSession.UserInfo.IsActivated(StateMachineConstStrings.WebFramework, StateMachineConstStrings.EasyLook))
 						{
 							CurrentState = State.AuthenticationError;		
 							break;

@@ -24,8 +24,8 @@ namespace Microarea.RSWeb.Models
         private JsonReportEngine CreateEngine(string nameSpace)
         {
   
-
-            return new JsonReportEngine(nameSpace, "", "", DateTime.Today, "sa");
+            //TODO RSWEB
+            return null ;
         }
 
         /// <summary>

@@ -8,6 +8,7 @@ using Microarea.Common.Generic;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.NameSolver;
 using Microarea.Common.Hotlink;
+using static Microarea.Common.Generic.InstallationInfo;
 
 namespace Microarea.Common.Applications
 {
@@ -27,18 +28,16 @@ namespace Microarea.Common.Applications
     public class TbSession
     {
         public UserInfo UserInfo = null;
+        public IPathFinder PathFinder = null;
+
         public ILocalizer Localizer = null;
 
-        public Enums Enums;
-        public ApplicationFontStyles ApplicationFontStyles;
-        public ApplicationFormatStyles ApplicationFormatStyles;
-        //public Functions				Functions;
-        public ReferenceObjects Hotlinks;
+        public Enums Enums = null;
+        public ApplicationFontStyles ApplicationFontStyles = null;
+        public ApplicationFormatStyles ApplicationFormatStyles = null;
+        public ReferenceObjects Hotlinks = null;
 
         private Hashtable cache; // used to store application reportSession values
-
-        private CultureInfo companyCulture = CultureInfo.InvariantCulture;
-        public string UICulture;
 
         private string sNamespace;
         public string Namespace { get { return sNamespace; } set { sNamespace = value; } }
@@ -69,14 +68,16 @@ namespace Microarea.Common.Applications
             }
         }
 
+        //---------------------------------------------------------------------
+        private DateTime applicationDate = DateTime.Today;
+        public DateTime ApplicationDate
+        {
+            get { return applicationDate; }
+            set { applicationDate = value; }
+        }
 
-        public IPathFinder PathFinder { get { return UserInfo == null ? null : UserInfo.PathFinder; } }
-        public string LoggedUser { get { return UserInfo == null ? "" : UserInfo.User; } }
         public string CompanyDbConnection { get { return UserInfo == null ? "" : UserInfo.CompanyDbConnection; } }
-        public string Provider { get { return UserInfo == null ? "" : UserInfo.Provider; } }
-        public bool IsAuthenticated { get { return UserInfo != null; } }
-        public CultureInfo CompanyCulture { get { return companyCulture; } set { companyCulture = value; } }
-
+ 
         public Hashtable Cache
         {
             get
@@ -86,6 +87,7 @@ namespace Microarea.Common.Applications
                 return cache;
             }
         }
+
         virtual public bool SkipTypeChecking { get { return string.IsNullOrEmpty(CompanyDbConnection); } }
 
         // Il caricamento di function per le funzioni interne pesa poco e quelle esterne sono caricate on demand
@@ -99,10 +101,7 @@ namespace Microarea.Common.Applications
                 throw new InvalidSessionException();
 
             this.UserInfo = UserInfo;
-            this.CompanyCulture = UserInfo.CompanyCulture;
-
-            //Functions = new Functions();
-            Hotlinks = new ReferenceObjects(this);
+ 
         }
 
         public FunctionsList Functions
@@ -157,6 +156,8 @@ namespace Microarea.Common.Applications
                 ApplicationFontStyles.Load();
                 //Load dei format
                 ApplicationFormatStyles.Load();
+
+                Hotlinks = new ReferenceObjects(this);
             }
             else
             {
@@ -215,11 +216,10 @@ namespace Microarea.Common.Applications
             return Enums.Loaded && ApplicationFontStyles.Loaded && ApplicationFormatStyles.Loaded;
         }
 
-        //--------------------------------------------------------------------------------
-        public virtual ITbLoaderClient GetTBClientInterface()
-        {
-            return UserInfo.GetTbLoaderInterface();
-        }
+        //-------------------------------------------------------------------------------------------------
+        public ILoginManager LoginManager = null;
+        public ITbServices TbServices = null;
+
     }
 
     /// <summary>
@@ -228,7 +228,7 @@ namespace Microarea.Common.Applications
     ///=============================================================================
     public class TbReportSession : TbSession
     {
-        private string reportParameters;
+         private string reportParameters;
 
         public int PageRendered = -1;
         public bool StoppedByUser = false;
@@ -237,14 +237,22 @@ namespace Microarea.Common.Applications
         public bool EInvoice = false;
         public bool WriteNotValidField = false;
         public string ReportParameters { get { return reportParameters; } set { reportParameters = value; } }
-  
-  
+
+        public bool UseApproximation = true; // enable TaskBuilder Approximation for real
+        public bool StripTrailingSpaces = true;
+
+
         public TbReportSession(UserInfo UserInfo)
             : base(UserInfo)
         {
 
         }
-    }
+
+  
+       //---------------------------------------------------------------------
+      // private IBrandLoader BrandLoader = new BrandLoader();
+
+     }
 
     //=========================================================================
     public class ApplicationKey

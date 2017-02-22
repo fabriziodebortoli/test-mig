@@ -129,7 +129,7 @@ namespace Microarea.RSWeb.WoormViewer
 
                 case SPECIAL_LICENSEE:
                 case OLD_SPECIAL_LICENSEE:
-                    return document.ReportSession.UserInfo.LoginManager.UserInfoLicensee;
+                    return document.ReportSession.UserInfo.UserInfoLicensee;
 
                 case SPECIAL_PAGE:
                 case OLD_SPECIAL_PAGE:
@@ -140,7 +140,7 @@ namespace Microarea.RSWeb.WoormViewer
 
                 case SPECIAL_APPDATE:
                 case OLD_SPECIAL_APPDATE:
-                    DateTime d = document.ReportSession.UserInfo.ApplicationDate;
+                    DateTime d = document.ReportSession.ApplicationDate;
                     //return document.FormatStyles.Format(d.GetType().Name, d, document.Namespace);
                     return d.ToString(shortDatePattern);
 
@@ -209,7 +209,7 @@ namespace Microarea.RSWeb.WoormViewer
                     return document.DBCompanyName;
                 }
                 case SPECIAL_PRODUCER_NAME:
-                    return document.ReportSession.UserInfo.Brand.GetCompanyName();
+                    return "Microarea SpA - Zucchetti"; //TODO RSWEB document.ReportSession.UserInfo.Brand.GetCompanyName();
 
                 case SPECIAL_PRODUCT_DATE:
                     {
@@ -468,7 +468,7 @@ namespace Microarea.RSWeb.WoormViewer
 			if ((woorm.Filename == null) || woorm.Filename == string.Empty)
 				return true;
 
-			INameSpace ns = woorm.ReportSession.UserInfo.PathFinder.GetNamespaceFromPath(woorm.Filename);
+			INameSpace ns = woorm.ReportSession.PathFinder.GetNamespaceFromPath(woorm.Filename);
 			string reportNamespace = ns.FullNameSpace;
 
 			ModuleInfo mi = (ModuleInfo)woorm.ReportSession.PathFinder.GetModuleInfo(ns);

@@ -508,14 +508,14 @@ namespace Microarea.Common.NameSolver
             nodeValue.Value = masterSolutionName;
             masterSolutionNameNode.Attributes.Append(nodeValue);
             root.AppendChild(masterSolutionNameNode);
-            //PreferredLanguage
+            //UserUICulture
             XmlNode preferredLanguageNode = serverConnectionDocument.CreateNode(XmlNodeType.Element, ServerConnectionInfoXML.Element.PreferredLanguage, "");
             nodeValue = serverConnectionDocument.CreateAttribute(ServerConnectionInfoXML.Attribute.Value);
             nodeValue.Value = preferredLanguage;
             preferredLanguageNode.Attributes.Append(nodeValue);
             root.AppendChild(preferredLanguageNode);
 
-            //ApplicationLanguage
+            //UserCulture
             XmlNode applicationLanguageNode = serverConnectionDocument.CreateNode(XmlNodeType.Element, ServerConnectionInfoXML.Element.ApplicationLanguage, "");
             nodeValue = serverConnectionDocument.CreateAttribute(ServerConnectionInfoXML.Attribute.Value);
             nodeValue.Value = applicationLanguage;

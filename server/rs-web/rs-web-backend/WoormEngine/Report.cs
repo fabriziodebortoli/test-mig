@@ -5,12 +5,14 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Xml;
+
+using TaskBuilderNetCore.Interfaces;
+using TaskBuilderNetCore.Interfaces.Model;
+
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Lexan;
 using Microarea.Common.NameSolver;
-using TaskBuilderNetCore.Interfaces;
-using TaskBuilderNetCore.Interfaces.Model;
 
 /*  parte di report di woorm interessata a questa componente
 
@@ -200,8 +202,8 @@ namespace Microarea.RSWeb.WoormEngine
 			this.XmlDomParameters	= xmlDomParameters;
 			this.XmlResultReports	= null;
 
-			this.maxString = Microarea.Common.NameSolver.ReadSetting.GetMaxString(ReportSession.PathFinder,ReportSession.UserInfo.LoginManager.PreferredLanguage);
-			ObjectHelper.DataDblEpsilon = Microarea.Common.NameSolver.ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
+			this.maxString = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.UserUICulture.ToString());
+			ObjectHelper.DataDblEpsilon = ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
 
 			symTable		= new RepSymTable();
 			engine			= new ReportEngine(this,engineType);
@@ -228,8 +230,8 @@ namespace Microarea.RSWeb.WoormEngine
 			this.XmlDomParameters	= xmlDomParameters;
 			this.XmlResultReports	= xmlResultReports;
 
-			this.maxString = Microarea.Common.NameSolver.ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.LoginManager.PreferredLanguage);
-			ObjectHelper.DataDblEpsilon = Microarea.Common.NameSolver.ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
+			this.maxString = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.UserUICulture.ToString());
+			ObjectHelper.DataDblEpsilon = ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
 
 			symTable		= new RepSymTable();
 			engine			= new ReportEngine(this, engineType);
@@ -260,8 +262,8 @@ namespace Microarea.RSWeb.WoormEngine
 
 			this.woormDoumentObj = woormDoumentObj;
 
-			if (ReportSession!= null && ReportSession.UserInfo.LoginManager != null)
-				this.maxString = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.LoginManager.PreferredLanguage);
+			if (ReportSession!= null && ReportSession.UserInfo != null)
+				this.maxString = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.UserUICulture.ToString());
 
 			symTable		= new RepSymTable();
 			engine			= new ReportEngine(this, engineType);

@@ -54,9 +54,9 @@ namespace Microarea.Common.NameSolver
         //-----------------------------------------------------------------------------
         public static void PreLoadMasterSolutionName()
         {
-            LoginManager loginManager = new LoginManager();
+            //LoginManager loginManager = new LoginManager();
 
-            InstallationData.ServerConnectionInfo.MasterSolutionName = loginManager.GetMasterSolution();
+            //InstallationData.ServerConnectionInfo.MasterSolutionName = loginManager.GetMasterSolution();
             InstallationData.ServerConnectionInfo.UnParse(BasePathFinder.BasePathFinderInstance.ServerConnectionFile);
         }
 

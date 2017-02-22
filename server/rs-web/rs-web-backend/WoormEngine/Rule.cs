@@ -846,14 +846,14 @@ namespace Microarea.RSWeb.WoormEngine
 				{
                     if (string.IsNullOrEmpty(Engine.Report.ReportSession.CompanyDbConnection))
                         return CultureInfo.InvariantCulture;
-
+                    /*TODO RSWEB new DBConnection (tipo database e collate) */
 					tbConnection = new DBConnection(DBType.SQLSERVER, Engine.Report.ReportSession.CompanyDbConnection/*, TBDatabaseType.GetDBMSType(Engine.Report.ReportSession.Provider TODO rsweb*/);
 					tbConnection.Open();
 				}
-                string collation = "";/*Microarea.TaskBuilderNet.Data.DatabaseLayer.TBCheckDatabase.GetColumnCollation(tbConnection, table, column); TODO rsweb*/
-				return (collation.Length == 0 || collation == TaskBuilderNetCore.Data.NameSolverDatabaseStrings.SQLLatinCollation)
+                string collation = "";/*TODO RSWEB Microarea.TaskBuilderNet.Data.DatabaseLayer.TBCheckDatabase.GetColumnCollation(tbConnection, table, column); */
+                return (collation.Length == 0 || collation == TaskBuilderNetCore.Data.NameSolverDatabaseStrings.SQLLatinCollation)
 					? CultureInfo.InvariantCulture 
-					: Session.CompanyCulture;
+					: Session.UserInfo.CompanyCulture;
 			}
 	
 			catch (DBException e)
@@ -893,7 +893,7 @@ namespace Microarea.RSWeb.WoormEngine
 
                 numTables++;
 
-				TableNames tableNames = new TableNames(dataTableName, aliasTableName, Engine.Report.ReportSession.CompanyDbConnection, Engine.Report.ReportSession.Provider);
+				TableNames tableNames = new TableNames(dataTableName, aliasTableName, Engine.Report.ReportSession.CompanyDbConnection, Engine.Report.ReportSession.UserInfo.Provider);
 				if (tableNames.Diagnostic.Error)
 				{
 					lex.SetError(tableNames.Diagnostic);
@@ -1100,8 +1100,10 @@ namespace Microarea.RSWeb.WoormEngine
                 if (!whenExpr.Compile(lex, CheckResultType.Match, "Boolean"))
                     return false;
             }
+
+            /* TODO RSWEB - gestione ExtraFiltering dagli SqlRecords (RowSecurity/Ge)
 			//nel caso dell'uso all'interno del Localizer, non ho una connessione attiva
-			//e non mi servono queste informazioni agiuntive, quindi salto tutto
+			//e non mi servono queste informazioni aggiuntive, quindi salto tutto
 			if (!engine.Report.ForLocalizer)
 			{
 				// aggiunge la clausola WHERE
@@ -1114,7 +1116,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 				extraFilter = tbLoader.GetExtraFiltering(tables, string.Empty);
 			}
-
+            */
             return lex.ParseSep();
 		}
 
@@ -1267,7 +1269,7 @@ namespace Microarea.RSWeb.WoormEngine
 
             if (top > 0)
             {
-                bool isOracle = this.Session.UserInfo.LoginManager.GetDatabaseType().ContainsNoCase("ORACLE");
+                bool isOracle = this.Session.UserInfo.DatabaseType == TaskBuilderNetCore.Data.DBMSType.ORACLE;
                 if (!isOracle)
                     select += " TOP " + top.ToString() + ' ';
             }
@@ -1445,7 +1447,7 @@ namespace Microarea.RSWeb.WoormEngine
 			try
 			{
                 int rowsFetched = 0;
-				bool bStrip = Session != null && Session.UserInfo != null && Session.UserInfo.StripTrailingSpaces;
+				bool bStrip = Session != null && Session.StripTrailingSpaces;
 				while (iDataReader.Read())
 				{
                     rowsFetched++;
