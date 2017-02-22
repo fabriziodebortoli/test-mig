@@ -61,15 +61,9 @@ namespace Microarea.RSWeb.WoormWebControl
 		//--------------------------------------------------------------------------
 		private StringCollection ExecuteReport(XmlReturnType xmlReturnType)
 		{
+            //TODO RSWEB
 			UserInfo ui = new UserInfo();
-			if (!(ui.Login(AuthenticationToken)))
-				return new StringCollection();
-
-			ui.SetCulture();
-			ui.ApplicationDate	= applicationDate;
-			ui.UseApproximation = useApproximation;
-			ui.ImpersonatedUser	= impersonatedUser;
-
+	
 			// istanzio la mia sessione di lavoro 
 			ReportSession = new TbReportSession(ui);
 			ReportSession.EInvoice = EInvoice;
@@ -79,7 +73,7 @@ namespace Microarea.RSWeb.WoormWebControl
 			// servono per le funzioni interne implementate da Expression
 			NameSpace nameSpace = new NameSpace(ReportNamespace, NameSpaceObjectType.Report);
 			ReportSession.ReportNamespace = ReportNamespace;
-			ReportSession.ReportPath = ReportSession.UserInfo.PathFinder.GetCustomUserReportFile(ui.Company, impersonatedUser, nameSpace, true);
+			ReportSession.ReportPath = ReportSession.PathFinder.GetCustomUserReportFile(ui.Company, impersonatedUser, nameSpace, true);
             ReportSession.XmlReport = true;
 
 			// istanzio una nuova macchina per la elaborazione del report per generare solo XML

@@ -96,7 +96,7 @@ namespace Microarea.RSWeb.Models
             // servono per le funzioni interne implementate da Expression
             NameSpace nameSpace = new NameSpace(ReportNamespace, NameSpaceObjectType.Report);
             ReportSession.ReportNamespace = ReportNamespace;
-            ReportSession.ReportPath = ReportSession.UserInfo.PathFinder.GetCustomUserReportFile(ui.Company, impersonatedUser, nameSpace, true);
+            //ReportSession.ReportPath = ReportSession.UserInfo.PathFinder.GetCustomUserReportFile(ui.Company, impersonatedUser, nameSpace, true);
  
             // istanzio una nuova macchina per la elaborazione del report per generare solo XML
             //TbSession reportSession, string filename, string sessionID, string uniqueID

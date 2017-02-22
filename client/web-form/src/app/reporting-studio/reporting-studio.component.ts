@@ -1,3 +1,4 @@
+import { HttpMenuService } from './../menu/services/http-menu.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { CommandType } from './reporting-studio.model';
 import { EventDataService } from 'tb-core';
@@ -26,7 +27,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private rsConn: ReportingStudioConnection;
   private message: string = '';
 
-  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
+  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService, private httpMenuService:HttpMenuService) {
     super(rsService, eventData);
   }
 
@@ -40,7 +41,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     });
 
-    this.rsInitStateMachine();
+    let subinfo = this.httpMenuService.getConnectionInfo().subscribe(result=>{
+      this.rsInitStateMachine(result);
+      subinfo.unsubscribe();
+    })
     this.eventData.opened.emit('');
 
   }
@@ -56,7 +60,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   }
 
-  rsInitStateMachine() {
+  rsInitStateMachine(result:any) {
 
     let message = {
         commandType: CommandType.NAMESPACE.toString(),

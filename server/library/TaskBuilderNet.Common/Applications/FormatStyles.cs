@@ -32,15 +32,12 @@ namespace Microarea.Common.Applications
 		//---------------------------------------------------------------------
 		public CurrentCulture(UserInfo userInfo)
 		{
-			if (userInfo == null || userInfo.PathFinder == null)
+			if (userInfo == null )
 				return;
 			
 			serverConnectionPreferredLanguage	= InstallationData.ServerConnectionInfo.PreferredLanguage;
-			
-			if (userInfo.LoginManager == null)
-				return;
 
-			currentUserPreferredLanguage	= userInfo.LoginManager.PreferredLanguage;
+			currentUserPreferredLanguage	= userInfo.UserUICulture.ToString();
 		}
 		
 		//---------------------------------------------------------------------
