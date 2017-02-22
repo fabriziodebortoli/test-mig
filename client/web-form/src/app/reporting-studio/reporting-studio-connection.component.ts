@@ -1,6 +1,5 @@
 import { Subject } from 'rxjs/Subject';
 import { Component, OnDestroy } from '@angular/core';
-import { CommandType } from "./reporting-studio.model";
 
 @Component({
     selector: 'tb-reporting-studio-connection',
@@ -19,25 +18,7 @@ export class ReportingStudioConnection implements OnDestroy {
         this.websocket.onclose = evt => { this.onClose(evt) };
         this.websocket.onmessage = evt => { this.onMessage(evt) };
         this.websocket.onerror = evt => { this.onError(evt) };
-    }
-
-
-
-    rsInitStateMachine(ns: string) {
-
-        let message = [
-            {
-                commandType: CommandType.NAMESPACE,
-                message: ns,
-                response: ""
-            }
-        ];
-
-
-
-        this.doSend(JSON.stringify(message));
-
-    }
+    }   
 
     onOpen(evt: any) {
         this.writeToScreen("CONNECTED");

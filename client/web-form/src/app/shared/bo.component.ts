@@ -14,6 +14,7 @@ export abstract class BOComponent extends DocumentComponent implements OnInit, O
   }
 
   ngOnInit() {
+    super.ngOnInit();
   }
   ngOnDestroy() {
     this.bo.dispose();

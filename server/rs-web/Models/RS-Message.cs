@@ -1,14 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 namespace Microarea.RSWeb.Models
-{
-    public struct Message
-    {
-        public MessageBuilder.CommandType commandType { get; set; }
-        public string message { get; set; }
-        public string response { get; set; }
-    }
-
+{  
     public class MessageBuilder
     {
         public enum CommandType { OK, NAMESPACE, DATA, TEMPLATE, ASK, TEST, GUID, ERROR, PAGE, PDF, RUN, PAUSE, STOP }
@@ -28,6 +21,12 @@ namespace Microarea.RSWeb.Models
         {
             Message msg = JsonConvert.DeserializeObject<Message>(jsonMsg);
             return JsonConvert.DeserializeObject<Message>(jsonMsg);
+        }
+
+        public static InitialMessage GetInitialFromJson(string jsonMsg)
+        {
+            InitialMessage msg = JsonConvert.DeserializeObject<InitialMessage>(jsonMsg);
+            return JsonConvert.DeserializeObject<InitialMessage>(jsonMsg);
         }
 
         public static string GetJSONMessage(CommandType cmdt, string message, string response = "")
