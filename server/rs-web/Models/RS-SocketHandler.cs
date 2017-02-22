@@ -21,17 +21,11 @@ namespace Microarea.RSWeb.Models
         /// </summary>
         /// <param name="guid"></param>
         /// <returns></returns>
-<<<<<<< HEAD
         private JsonReportEngine CreateEngine(InitialMessage msg)
-        { 
-            return new JsonReportEngine("", "", DateTime.Today, msg);
-=======
-        private JsonReportEngine CreateEngine(string nameSpace)
         {
   
-            //TODO RSWEB
-            return null ;
->>>>>>> 3ffc4a13c60c3df194d9e10aa9564407db7b776e
+
+            return new JsonReportEngine("", "", DateTime.Today, msg);
         }
 
         /// <summary>

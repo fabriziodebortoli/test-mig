@@ -15,23 +15,30 @@ namespace Microarea.RSWeb.Models
 {
     public class JsonReportEngine
     {
+        private string ReportNamespace;
+        private string AuthenticationToken;
+        private DateTime applicationDate;
+        private string impersonatedUser;
         //private TBWebContext httpContext;
-        public  TbReportSession ReportSession = null;
+        private bool useApproximation;
 
         public RSEngine StateMachine = null;
- 
+        public TbReportSession ReportSession;
+
         public XmlDocument XmlDomParameters = new XmlDocument();
 
-          //--------------------------------------------------------------------------
+        public UserInfo ui = null;
+         //--------------------------------------------------------------------------
         public JsonReportEngine
-<<<<<<< HEAD
-                            (                              
+                            (
+                               
                                 string authenticationToken,
                                 string parameters,
                                 DateTime applicationDate,
                                  InitialMessage msg,
                                // TBWebContext httpContext,
-                                bool useApproximation = true                             
+                                bool useApproximation = true
+                                
                             )
         {
             if (!parameters.IsNullOrEmpty())
@@ -50,62 +57,47 @@ namespace Microarea.RSWeb.Models
 
             ui = new UserInfo();
 
-=======
-                            (
-                                string authenticationToken,
-                                string nameSpace,
-                                string parameters
-                            )
-        {
->>>>>>> 3ffc4a13c60c3df194d9e10aa9564407db7b776e
             /////////////////////////////////////////////////////
             // TODO temporary
             //in future get login information
-            UserInfo ui = new UserInfo();
-            ui.AuthenticationToken = authenticationToken;
-
             ui.Valid = true;
             ui.Company = msg.company; //to change if needed
             ui.CompanyId = 20;          //to change 
-<<<<<<< HEAD
             ui.User = msg.user;             //to change
             ui.LoginId = 1;             // to change
             ui.Password = msg.password;           // to change
-=======
-            ui.User = "sa";             //to change
-            ui.ImpersonatedUser = ui.User;
-            ui.LoginId = 1;             // to change
-            ui.Password = "";           // to change
-            ui.Admin = true;    //to change
-            ui.Provider = "SQL"; //?
->>>>>>> 3ffc4a13c60c3df194d9e10aa9564407db7b776e
             ui.CompanyDbConnection = string.Format("Server = USR-SARMANTANA1;Database = {0};User Id = {1};Password = {2};", ui.Company, ui.User, ui.Password);
 
-            ui.SetCulture("it-IT", "it-IT");
-            ////////////////////////////////////////////////
-            ReportSession = new TbReportSession(ui);
+            ui.Provider = "SQL"; //?
+            ui.Admin = true;    //to change
 
-            ReportSession.ApplicationDate = DateTime.Today; //TODO
-            ReportSession.PathFinder = new PathFinder(ui.Company, ui.User);  
+            /////////////////////////////////////////////////////
 
-            if (!parameters.IsNullOrEmpty())
-            {
-                XmlDomParameters.LoadXml(parameters);
-                ReportSession.ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
-            }
-            else
-                ReportSession.ReportNamespace = nameSpace;
+            //if (!(ui.Login(AuthenticationToken)))
+            //    return new StringCollection();
 
-            NameSpace ns = new NameSpace(ReportSession.ReportNamespace, NameSpaceObjectType.Report);
-            ReportSession.ReportPath = ReportSession.PathFinder.GetCustomUserReportFile(ReportSession.UserInfo.Company, ReportSession.UserInfo.ImpersonatedUser, ns, true);
-
+            //ui.SetCulture();
+            //ui.ApplicationDate = applicationDate;
+            //ui.UseApproximation = useApproximation;
+            ui.ImpersonatedUser = impersonatedUser;
+            //ui.PathFinder = new PathFinder(ui.Company, ui.User); //temp
             CreateStateMachine();
+
         }
 
          //--------------------------------------------------------------------------
         private void  CreateStateMachine()
         {
-             // servono per le funzioni interne implementate da Expression
+           
+            // istanzio la mia sessione di lavoro 
+            ReportSession = new TbReportSession(ui);
+           // bool sessionOk = ReportSession.LoadSessionInfo();
+
+            // servono per le funzioni interne implementate da Expression
+            NameSpace nameSpace = new NameSpace(ReportNamespace, NameSpaceObjectType.Report);
+            ReportSession.ReportNamespace = ReportNamespace;
+            ReportSession.ReportPath = ReportSession.UserInfo.PathFinder.GetCustomUserReportFile(ui.Company, impersonatedUser, nameSpace, true);
+ 
             // istanzio una nuova macchina per la elaborazione del report per generare solo XML
             //TbSession reportSession, string filename, string sessionID, string uniqueID
             StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, "sessionID", "uniqueID");
