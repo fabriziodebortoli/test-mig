@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { MaterialModule } from '@angular/material';
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -35,13 +36,14 @@ import { DataServiceComponent } from './applications/test/data-service/data-serv
     BrowserModule,
     HttpModule,
     MaterialModule.forRoot(),
+    FlexLayoutModule,
     CoreModule.forRoot(),
     SharedModule,
     MenuModule.forRoot(),
     ReportingStudioModule.forRoot(),
     routing,
     appRouting
-    
+
   ],
   bootstrap: [AppComponent],
   entryComponents: [
