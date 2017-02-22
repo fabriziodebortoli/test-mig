@@ -18,11 +18,12 @@ export class HomeSidenavComponent implements OnInit {
   private appName = environment.appName;
   private companyName = environment.companyName;
 
-  constructor(private sidenavService: SidenavService, 
-      private httpMenuService: HttpMenuService,
+  constructor(
+    private sidenavService: SidenavService,
+    private httpMenuService: HttpMenuService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private imageService: ImageService, 
+    private imageService: ImageService,
     private localizationService: LocalizationService
   ) { }
 

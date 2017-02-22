@@ -27,7 +27,6 @@ export class MenuService {
     public favoritesCount: number = 0;
     public mostUsedCount: number = 0;
 
-    public nameSpace: string;
     private favorites: Array<any> = [];
     private mostUsed: Array<any> = [];
 
@@ -152,7 +151,6 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     setSelectedMenu(menu) {
-        console.log("selected:", menu);
         if (this.selectedMenu != undefined && this.selectedMenu == menu)
             return;
 
@@ -181,17 +179,15 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     runFunction = function (object) {
-        if (object == undefined)
+        if (object === undefined)
             return;
 
         if (object.objectType.toLowerCase() == 'report') {
-            this.nameSpace = object.target;
             let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
                 if (!jsonObj.desktop) {
-                    this.componentService.createComponent(ReportingStudioComponent, this.resolver);
+                    this.componentService.createComponent(ReportingStudioComponent, this.resolver, {'nameSpace': object.target} );
                 }
-
-                obs.unsubscribe();
+                 obs.unsubscribe();
             });
         }
         else {
@@ -437,6 +433,10 @@ export class MenuService {
             this.getFavoritesAndMostUsedObjectsFromMenu(allSubMenus[j]);
         }
     };
+
+    getFavorites() {
+        return this.favorites;
+    }
 
 
     // //---------------------------------------------------------------------------------------------
