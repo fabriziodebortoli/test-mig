@@ -1,15 +1,12 @@
-<div class="tile">
+<md-card>
 
-    <div class="header" (click)="toggleCollapse($event)" *ngIf="hasTitle">
-        <div style="display: inline-block" tabindex="0" class="title" >{{title}}</div>
-        <div style="display: inline-block" *ngIf="isCollapsible">
-            <i class="material-icons expandCollapse">{{getExpandCollapseClass()}}</i>
-        </div>
-    </div>
+    <md-card-title (click)="toggleCollapse($event)" *ngIf="hasTitle">
+        <span>{{title}}</span>
+        <md-icon *ngIf="isCollapsible">{{getArrowIcon()}}</md-icon>
+    </md-card-title>
 
-    <div class="panel-collapse" [hidden]="isCollapsed" >
-        <div class="tileContent">
-            <ng-content></ng-content>
-        </div>
-    </div>
-</div>
+    <md-card-content *ngIf="!isCollapsed">
+        <ng-content></ng-content>
+    </md-card-content>
+
+</md-card>
