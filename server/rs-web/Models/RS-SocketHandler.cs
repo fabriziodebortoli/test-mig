@@ -21,11 +21,9 @@ namespace Microarea.RSWeb.Models
         /// </summary>
         /// <param name="guid"></param>
         /// <returns></returns>
-        private JsonReportEngine CreateEngine(string nameSpace)
-        {
-  
-
-            return new JsonReportEngine(nameSpace, "", "", DateTime.Today, "sa");
+        private JsonReportEngine CreateEngine(InitialMessage msg)
+        { 
+            return new JsonReportEngine("", "", DateTime.Today, msg);
         }
 
         /// <summary>
@@ -71,7 +69,7 @@ namespace Microarea.RSWeb.Models
                 string msgg = Encoding.UTF8.GetString(nsBuffer.Array, nsBuffer.Offset, nsBuffer.Count).Replace("\0", "");
 
                 /// creates states machine associated with pipe  
-                JsonReportEngine jengine = CreateEngine(MessageBuilder.GetMessagFromJson(msgg).message);
+                JsonReportEngine jengine = CreateEngine(MessageBuilder.GetInitialFromJson(msgg));
 
               
                 

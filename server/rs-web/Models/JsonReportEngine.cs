@@ -30,14 +30,13 @@ namespace Microarea.RSWeb.Models
         public UserInfo ui = null;
          //--------------------------------------------------------------------------
         public JsonReportEngine
-                            (
-                                string nameSpace,
+                            (                              
                                 string authenticationToken,
                                 string parameters,
                                 DateTime applicationDate,
-                                string impersonatedUser,
+                                 InitialMessage msg,
                                // TBWebContext httpContext,
-                                bool useApproximation = true
+                                bool useApproximation = true                             
                             )
         {
             if (!parameters.IsNullOrEmpty())
@@ -46,11 +45,11 @@ namespace Microarea.RSWeb.Models
                 ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
             }
             else
-                ReportNamespace = nameSpace;
+                ReportNamespace = msg.nameSpace;
 
             AuthenticationToken = authenticationToken;         
             this.applicationDate = applicationDate;
-            this.impersonatedUser = impersonatedUser;
+            this.impersonatedUser = msg.user;
             this.useApproximation = useApproximation;
             // this.httpContext = httpContext;
 
@@ -60,11 +59,11 @@ namespace Microarea.RSWeb.Models
             // TODO temporary
             //in future get login information
             ui.Valid = true;
-            ui.Company = "Company_ERP"; //to change if needed
+            ui.Company = msg.company; //to change if needed
             ui.CompanyId = 20;          //to change 
-            ui.User = "sa";             //to change
+            ui.User = msg.user;             //to change
             ui.LoginId = 1;             // to change
-            ui.Password = "";           // to change
+            ui.Password = msg.password;           // to change
             ui.CompanyDbConnection = string.Format("Server = USR-SARMANTANA1;Database = {0};User Id = {1};Password = {2};", ui.Company, ui.User, ui.Password);
 
             ui.Provider = "SQL"; //?

@@ -6,7 +6,6 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { OperationResult } from './operation.result';
 import { LoginSession } from './../shared/models/login-session';
-import { environment } from './../../environments/environment';
 import { HttpService } from './http.service';
 import { WebSocketService } from './websocket.service';
 
