@@ -19,7 +19,7 @@ export class MenuTabberComponent extends TbComponent {
     });
     tab.active = true;
 
-    this.selectedTab.emit(this.tabs.indexOf(tab) - 1);
+    this.selectedTab.emit(this.tabs.indexOf(tab));
   }
 
   addTab(tab: MenuTabComponent) {

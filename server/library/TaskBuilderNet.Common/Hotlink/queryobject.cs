@@ -57,7 +57,7 @@ namespace Microarea.Common.Hotlink
 		public DBConnection TbConnection { get { return tbConnection; }			set { tbConnection = value; } }
 
         UserInfo UserInfo { get { return (this.session != null && this.session.UserInfo != null) ? this.session.UserInfo : null; } }
-        ILoginManager LoginManager { get { return (this.session != null && this.session.UserInfo != null && this.session.UserInfo.LoginManager != null) ? this.session.UserInfo.LoginManager : null; } }
+        //ILoginManager LoginManager { get { return (this.session != null && this.session.UserInfo != null && this.session.UserInfo.LoginManager != null) ? this.session.UserInfo.LoginManager : null; } }
 
         #endregion
 
@@ -279,19 +279,9 @@ namespace Microarea.Common.Hotlink
 			string name	= string.Empty;
 			object pObj	= null;
 			SymField field	= null;
-            //bool bWhen = false;
 
-            bool isOracle = false;
-            bool isUnicode = false;
-            TaskBuilderNetCore.Data.DBMSType dbType = TaskBuilderNetCore.Data.DBMSType.SQLSERVER;
-
-            if (LoginManager != null)
-            {   //Il TbLocalizer NON ha il LoginManager
-                string sdbType = LoginManager.GetDatabaseType();
-                //dbType = TBDatabaseType.GetDBMSType(sdbType);     TODO RSWEB
-                isOracle = (dbType == TaskBuilderNetCore.Data.DBMSType.ORACLE);
-                isUnicode = LoginManager.UseUnicode;
-            }
+            bool isOracle = (UserInfo.DatabaseType == TaskBuilderNetCore.Data.DBMSType.ORACLE);
+            bool isUnicode = UserInfo.UseUnicode;
   
 			Token token = parser.LookAhead();
 			switch (token)

@@ -413,7 +413,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		private object Approximate(object o)		
 		{ 
-			if (!this.report.ReportSession.UserInfo.UseApproximation)
+			if (!this.report.ReportSession.UseApproximation)
 				return o;
 
 			switch (o.GetType().Name)

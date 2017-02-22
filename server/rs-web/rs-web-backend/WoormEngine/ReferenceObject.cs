@@ -45,7 +45,7 @@ namespace Microarea.Common.Hotlink
         //----------------------------------------------------------------------------
         private string GetHotLinkQuery(string aNamespace, string aParams, Action action)
 		{
-			ITbLoaderClient hotlinkInterface = Session.GetTBClientInterface();
+            ITbLoaderClient hotlinkInterface = null; //TODO RSWEB Session.GetTBClientInterface();
 			if (hotlinkInterface != null)
 				return hotlinkInterface.GetHotlinkQuery(aNamespace, aParams, (int)action);
 

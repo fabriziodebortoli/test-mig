@@ -58,21 +58,9 @@ namespace Microarea.RSWeb.WoormWebControl
 		//--------------------------------------------------------------------------
 		public byte[] ExecuteReport(ref string diagnostic)
 		{
-			if (ReportNamespace == null || ReportNamespace.Length == 0)
-			{
-				diagnostic = WoormWebControlStrings.EmptyReportNamespace;
-				return new byte[0]; //array vuoto
-			}
+		
 			UserInfo ui = new UserInfo();
-			if (!(ui.Login(AuthenticationToken)))
-			{
-				diagnostic = string.Format("{0}:{1}", WoormWebControlStrings.AuthenticationError, ui.ErrorExplain);
-				return new byte[0]; //array vuoto
-			}
-			ui.SetCulture();
-			ui.ApplicationDate	= applicationDate;
-			ui.UseApproximation = useApproximation;
-			ui.ImpersonatedUser	= impersonatedUser;
+			//TODO RSWEB
 
 			// istanzio la mia sessione di lavoro 
 			ReportSession = new TbReportSession(ui);
@@ -81,7 +69,7 @@ namespace Microarea.RSWeb.WoormWebControl
 			// servono per le funzioni interne implementate da Expression
 			NameSpace nameSpace = new NameSpace(ReportNamespace,NameSpaceObjectType.Report);
 			ReportSession.ReportNamespace = ReportNamespace;
-			ReportSession.ReportPath = ReportSession.UserInfo.PathFinder.GetCustomUserReportFile(ui.Company,impersonatedUser,nameSpace,true);
+			ReportSession.ReportPath = ReportSession.PathFinder.GetCustomUserReportFile(ui.Company,impersonatedUser,nameSpace,true);
 
 			// istanzio una nuova macchina per la elaborazione del report per generare solo XML
 			//uso il sessionId della sessione e genero un GUID come uniqueID, sono usati per determinare il percorso
