@@ -1,6 +1,4 @@
-import { ViewModeType } from './../../shared/models/view-mode-type.model';
 import { ComponentService } from './../../core/component.service';
-import { EventDataService } from './../../core/eventdata.service';
 import { HttpService } from './../../core/http.service';
 import { UtilsService } from './../../core/utils.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver } from '@angular/core';
@@ -10,7 +8,6 @@ import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
 
-import { ApplicationSelectorComponent } from './../components/menu/application-selector/application-selector.component';
 import { ReportingStudioComponent } from './../../reporting-studio/reporting-studio.component';
 
 import { Logger } from 'libclient';
@@ -42,25 +39,14 @@ export class MenuService {
         private utilsService: UtilsService,
         private imageService: ImageService,
         private settingsService: SettingsService,
-        private eventData: EventDataService,
         private router: Router,
         private componentService: ComponentService,
-        private resolver: ComponentFactoryResolver,
+        private resolver: ComponentFactoryResolver
     ) {
-        this.setModel();
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
-    }
 
-    setModel() {
-        let model: any = {
-            Title: {
-                value: "Menu"
-            },
-            viewModeType: ViewModeType.M
-        }
-        this.eventData.model = model
     }
-
+   
     //---------------------------------------------------------------------------------------------
     initApplicationAndGroup(applications) {
 
@@ -185,9 +171,9 @@ export class MenuService {
         if (object.objectType.toLowerCase() == 'report') {
             let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
                 if (!jsonObj.desktop) {
-                    this.componentService.createComponent(ReportingStudioComponent, this.resolver, {'nameSpace': object.target} );
+                    this.componentService.createComponent(ReportingStudioComponent, this.resolver, { 'nameSpace': object.target });
                 }
-                 obs.unsubscribe();
+                obs.unsubscribe();
             });
         }
         else {
@@ -195,7 +181,11 @@ export class MenuService {
         }
 
         this.addToMostUsed(object);
-        object.isLoading = true
+        object.isLoading = true;
+        let subs = this.componentService.componentCreated.subscribe(info => {
+            object.isLoading = false;
+            subs.unsubscribe();
+        });
     }
 
     //---------------------------------------------------------------------------------------------

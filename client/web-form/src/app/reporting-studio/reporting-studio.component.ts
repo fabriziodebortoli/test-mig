@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-reporting-studio',
   templateUrl: './reporting-studio.component.html',
   styleUrls: ['./reporting-studio.component.scss'],
-  providers: [ReportingStudioService]
+  providers: [ReportingStudioService, EventDataService],
 })
 export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy {
 
@@ -41,11 +41,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     });
 
+
     let subinfo = this.httpMenuService.getConnectionInfo().subscribe(result=>{
       this.rsInitStateMachine(result);
       subinfo.unsubscribe();
-    })
-    this.eventData.opened.emit('');
+    });
+
 
   }
 

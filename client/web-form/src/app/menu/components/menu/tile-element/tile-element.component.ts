@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UtilsService, WebSocketService, EventDataService } from 'tb-core';
+import { UtilsService} from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
 import { HttpMenuService } from './../../../services/http-menu.service';
 import { ImageService } from './../../../services/image.service';
@@ -17,17 +17,9 @@ export class TileElementComponent {
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private imageService: ImageService,
-    private webSocketService: WebSocketService,
-    private eventData: EventDataService
+    private imageService: ImageService
   ) {
-    this.webSocketService.windowOpen.subscribe(data => {
-      this.object.isLoading = false;
-    });
-
-    this.eventData.opened.subscribe(arg => {
-      this.object.isLoading = false;
-    });
+  
   }
 
   get Object(): any {
@@ -44,7 +36,6 @@ export class TileElementComponent {
   }
 
   runFunction(object) {
-    object.isLoading = true;
     this.menuService.runFunction(object);
 
   }

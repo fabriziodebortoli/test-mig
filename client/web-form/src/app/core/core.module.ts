@@ -1,4 +1,3 @@
-import { EventDataService } from './eventdata.service';
 import { InfoService } from './info.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpModule } from '@angular/http';

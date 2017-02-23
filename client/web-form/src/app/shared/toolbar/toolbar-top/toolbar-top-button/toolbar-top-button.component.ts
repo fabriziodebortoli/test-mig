@@ -1,6 +1,7 @@
+import { HttpService } from './../../../../core/http.service';
+import { EventDataService } from './../../../../core/eventdata.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { TbComponent } from './../../..';
-import { HttpService, EventDataService } from '../../../../core';
 
 enum IconType { MD, TB, IMG };
 

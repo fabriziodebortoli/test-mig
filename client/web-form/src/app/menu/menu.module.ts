@@ -1,4 +1,3 @@
-import { EventDataService } from './../core/eventdata.service';
 import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
 import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 import { MenuService } from './services/menu.service';
@@ -12,7 +11,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -32,14 +31,14 @@ import { Accordion, AccordionGroup } from '../shared/containers/accordion/accord
 import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 
+//WARNING: put here only GLOBAL services, NOT component level services
 const MENU_SERVICES = [
   MenuService,
   ImageService,
   HttpMenuService,
   SettingsService,
   LocalizationService,
-  EventManagerService,
-  EventDataService
+  EventManagerService
 ];
 
 @NgModule({
