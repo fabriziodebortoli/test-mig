@@ -1,6 +1,6 @@
 <md-card>
 
-    <md-card-title (click)="toggleCollapse($event)" *ngIf="hasTitle">
+    <md-card-title (click)="toggleCollapse($event)" *ngIf="hasTitle" [ngClass]="{'c-pointer': isCollapsible }">
         <span>{{title}}</span>
         <md-icon *ngIf="isCollapsible">{{getArrowIcon()}}</md-icon>
     </md-card-title>
