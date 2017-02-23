@@ -7,8 +7,8 @@
 
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>cfd4eada-3d3d-439a-8b68-147804bf9d0a</ProjectGuid>
-    <RootNamespace>TaskBuilderNetCore.Data</RootNamespace>
+    <ProjectGuid>b30db4c6-4a8c-4005-a93e-05093dbb7eb4</ProjectGuid>
+    <RootNamespace>Microarea.Interfaces</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
