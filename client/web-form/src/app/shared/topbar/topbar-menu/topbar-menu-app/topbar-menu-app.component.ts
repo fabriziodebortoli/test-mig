@@ -1,4 +1,4 @@
-import { UtilsService } from 'tb-core';
+import { UtilsService } from './../../../../core/utils.service';
 import { MenuService } from './../../../../menu/services/menu.service';
 import { HttpMenuService } from './../../../../menu/services/http-menu.service';
 import { ConnectionInfoDialogComponent } from './../../../../menu/components/menu/connection-info-dialog/connection-info-dialog.component';

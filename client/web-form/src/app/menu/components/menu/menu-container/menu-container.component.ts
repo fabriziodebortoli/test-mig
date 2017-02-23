@@ -1,6 +1,5 @@
-import { TabberComponent } from './../../../../shared/containers/tabs/tabber/tabber.component';
+import { UtilsService } from './../../../../core/utils.service';
 import { LocalizationService } from './../../../services/localization.service';
-import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
 import { SettingsService } from './../../../services/settings.service';
 import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';

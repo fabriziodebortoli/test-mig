@@ -1,4 +1,4 @@
-import { EventDataService } from 'tb-core';
+import { EventDataService } from './../../../core/eventdata.service';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({

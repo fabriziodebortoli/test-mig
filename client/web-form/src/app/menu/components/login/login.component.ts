@@ -1,5 +1,5 @@
 import { HttpService } from 'tb-core';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';

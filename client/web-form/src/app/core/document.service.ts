@@ -1,9 +1,7 @@
 import { EventDataService } from './eventdata.service';
 import { Injectable } from '@angular/core';
 
-import { WebSocketService } from './websocket.service';
-
-import { ViewModeType } from '../shared/models/view-mode-type.model';
+import { ViewModeType } from 'tb-shared';
 
 import { Logger } from 'libclient';
 
