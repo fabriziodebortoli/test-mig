@@ -1,12 +1,14 @@
 {
   "dependencies": {
-    "CoreCompat.System.Drawing": "1.0.0-beta006",
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.3"
+    },
     "Microsoft.AspNetCore.Hosting": "1.1.0",
-    "Microsoft.AspNetCore.Http": "1.1.0",
     "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.Routing": "1.1.0",
-    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
     "Microsoft.AspNetCore.StaticFiles": "1.1.0",
     "Microsoft.AspNetCore.WebSockets.Server": "0.1.0",
@@ -14,10 +16,6 @@
     "Microsoft.Extensions.Logging": "1.1.0",
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.0.3"
-    },
     "Newtonsoft.Json": "9.0.1",
     "System.Collections.Specialized": "4.3.0",
     "System.ComponentModel.EventBasedAsync": "4.3.0",
@@ -27,11 +25,13 @@
     "System.Xml.XmlDocument": "4.3.0",
     "System.Xml.XmlSerializer": "4.3.0",
     "system.xml.xpath.xmldocument": "4.3.0",
-    "TaskBuilderNetCore.Data": "1.0.0-*",
-    "TaskBuilderNetCore.Interfaces": "1.0.0-*"
+    "taskbuilder-netcore-interfaces": "1.0.0-*",
+    "taskbuilder-netcore-data": "1.0.0-*",
+    "taskbuilder-netcore-common": "1.0.0-*"
   },
 
   "tools": {
+     "Microsoft.AspNetCore.Razor.Tools": "1.0.0-preview2-final",
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final"
   },
 
@@ -54,11 +54,19 @@
   "publishOptions": {
     "include": [
       "wwwroot",
+      "**/*.cshtml",
+      "appsettings.json",
       "web.config"
     ]
   },
 
   "scripts": {
+    "prepublish": [ "bower install", "dotnet bundle" ],
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+  },
+
+  "tooling": {
+    "defaultNamespace": "Microarea.DataService"
   }
+
 }

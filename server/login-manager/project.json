@@ -14,8 +14,7 @@
       "Microsoft.NETCore.App": {
         "type": "platform",
         "version": "1.0.3"
-      },
-      "TaskBuilderNet.Common": "1.0.0-*"
+      }
     },
 
   "tools": {

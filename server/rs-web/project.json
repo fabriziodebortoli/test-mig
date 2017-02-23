@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.3"
+    },
     "Microsoft.AspNetCore.Hosting": "1.1.0",
     "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.1.0",
@@ -12,10 +16,6 @@
     "Microsoft.Extensions.Logging": "1.1.0",
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.0.3"
-    },
     "Newtonsoft.Json": "9.0.1",
     "PDFSharpCore": "3.5.0-4",
     "System.Collections.Specialized": "4.3.0",
@@ -26,9 +26,7 @@
     "System.Xml.XmlDocument": "4.3.0",
     "System.Xml.XmlSerializer": "4.3.0",
     "system.xml.xpath.xmldocument": "4.3.0",
-    "TaskBuilderNet.Common": "1.0.0-*",
-    "TaskBuilderNetCore.Data": "1.0.0-*",
-    "TaskBuilderNetCore.Interfaces": "1.0.0-*"
+    "taskbuilder-netcore-common": "1.0.0-*"
   },
 
 	"tools": {
