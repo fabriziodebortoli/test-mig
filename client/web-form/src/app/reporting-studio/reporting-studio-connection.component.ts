@@ -6,11 +6,11 @@ import { Component, OnDestroy } from '@angular/core';
     template: ``
 })
 
-export class ReportingStudioConnection implements OnDestroy {
-    private rsServer: string = "ws://localhost:5000/rsweb";
+export class ReportingStudioConnectionComponent implements OnDestroy {
+    private rsServer: string = 'ws://localhost:5000/rsweb';
     websocket: WebSocket;
 
-    public message:Subject<string> =new Subject<string>();
+    public message: Subject<string> = new Subject<string>();
 
     constructor() {
         this.websocket = new WebSocket(this.rsServer);
@@ -18,14 +18,14 @@ export class ReportingStudioConnection implements OnDestroy {
         this.websocket.onclose = evt => { this.onClose(evt) };
         this.websocket.onmessage = evt => { this.onMessage(evt) };
         this.websocket.onerror = evt => { this.onError(evt) };
-    }   
+    }
 
     onOpen(evt: any) {
-        this.writeToScreen("CONNECTED");
+        this.writeToScreen('CONNECTED');
     }
 
     onClose(evt) {
-        this.writeToScreen("DISCONNECTED");
+        this.writeToScreen('DISCONNECTED');
     }
 
     onMessage(evt) {
@@ -39,16 +39,16 @@ export class ReportingStudioConnection implements OnDestroy {
 
     doSend(message) {
         this.waitForConnection(() => {
-            this.writeToScreen("SENT: " + message);
+            this.writeToScreen('SENT: ' + message);
             this.websocket.send(message);
-        }, 100)
+        }, 100);
     }
 
     waitForConnection(callback, interval) {
         if (this.websocket.readyState === 1) {
             callback();
         } else {
-            var that = this;
+            let that = this;
             setTimeout(function () {
                 that.waitForConnection(callback, interval);
             }, interval);

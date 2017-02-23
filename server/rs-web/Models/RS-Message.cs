@@ -17,17 +17,6 @@ namespace Microarea.RSWeb.Models
 
         public MessageBuilder() { }
 
-        public static Message GetMessagFromJson(string jsonMsg)
-        {
-            Message msg = JsonConvert.DeserializeObject<Message>(jsonMsg);
-            return JsonConvert.DeserializeObject<Message>(jsonMsg);
-        }
-
-        public static InitialMessage GetInitialFromJson(string jsonMsg)
-        {
-            InitialMessage msg = JsonConvert.DeserializeObject<InitialMessage>(jsonMsg);
-            return JsonConvert.DeserializeObject<InitialMessage>(jsonMsg);
-        }
 
         public static string GetJSONMessage(CommandType cmdt, string message, string response = "")
         {
