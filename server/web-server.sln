@@ -28,11 +28,11 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PDFSharpCore", "library\PDF
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "menu-gate", "menu-gate\menu-gate.xproj", "{E33B70BB-1E54-4B58-A76F-D0288C52A329}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TaskBuilderNet.Common", "library\TaskBuilderNet.Common\TaskBuilderNet.Common.xproj", "{FA2DC93E-EDCF-40E4-AD84-A36CCAA2ED3E}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TaskBuilderNetCore.Common", "library\TaskBuilderNet.Common\TaskBuilderNetCore.Common.xproj", "{FA2DC93E-EDCF-40E4-AD84-A36CCAA2ED3E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DataService", "DataService\DataService.xproj", "{69DA0003-A3D6-4F7F-8BD4-6A7352ABBBF0}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "data-service", "DataService\data-service.xproj", "{69DA0003-A3D6-4F7F-8BD4-6A7352ABBBF0}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DatabaseService", "DatabaseService\DatabaseService.xproj", "{E8263925-0B7E-499F-BB89-887C9EDE14DC}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "database-service", "DatabaseService\database-service.xproj", "{E8263925-0B7E-499F-BB89-887C9EDE14DC}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "provisioning-server", "provisioning-server\provisioning-server.xproj", "{780F22E8-D071-4859-A6D6-40A7DCEE5382}"
 EndProject
