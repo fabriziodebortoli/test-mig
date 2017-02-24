@@ -22,7 +22,6 @@ import { TileElementComponent } from './components/menu/tile-element/tile-elemen
 import { MenuComponent } from './components/menu/menu.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
-import { TileContentComponent } from './components/menu/tile-content/tile-content.component';
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 
 import { LoginComponent } from './components/login/login.component';
@@ -55,7 +54,6 @@ const MENU_SERVICES = [
     MenuComponent,
     ApplicationSelectorComponent,
     MenuContainerComponent,
-    TileContentComponent,
     FavoritesComponent,
     TileElementComponent,
     MostUsedComponent,
@@ -76,7 +74,6 @@ const MENU_SERVICES = [
     MenuComponent,
     ApplicationSelectorComponent,
     MenuContainerComponent,
-    TileContentComponent,
     FavoritesComponent,
     TileElementComponent,
     MostUsedComponent,
