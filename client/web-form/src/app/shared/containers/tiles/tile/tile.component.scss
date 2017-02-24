@@ -21,8 +21,8 @@ md-card-title md-icon {
     font-size: 20px;
 }
 
-md-card-content {
-    min-height: 150px;
+:host(.h200) md-card-content {
+    min-height: 200px;
     max-height: 200px;
     overflow: auto;
 }
