@@ -43,8 +43,8 @@ namespace Microarea.RSWeb.Controllers
                 catch (HttpRequestException e)
                 {
                     Console.WriteLine($"Request exception: {e.Message}");
+                    return null;
                 }
-                return null;
             }
         }
     }
