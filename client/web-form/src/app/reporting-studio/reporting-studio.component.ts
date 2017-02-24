@@ -41,11 +41,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     });
 
-
     this.rsInitStateMachine();
-
-    this.eventData.opened.emit('');
-
   }
 
 

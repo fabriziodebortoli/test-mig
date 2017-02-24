@@ -2,9 +2,6 @@
 using System;
 
 using Microarea.RSWeb.Models;
-using System.Net;
-using System.Text;
-using System.IO;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -50,20 +47,5 @@ namespace Microarea.RSWeb.Controllers
                 return null;
             }
         }
-
-
-        //UTF8Encoding enc = new UTF8Encoding();
-        //    string data = "[\"some.data\"]";
-        //    WebRequest request = WebRequest.Create("http://localhost:5000/login-manager/getLoginInformation/authtoken=" + authtoken);
-        //    request.Method = "POST";
-        //    request.ContentType = "application/json";
-        //    Stream dataStream = await request.GetRequestStreamAsync();
-        //    dataStream.Write(enc.GetBytes(data), 0, data.Length);
-        //    WebResponse wr = await request.GetResponseAsync();
-        //    Stream receiveStream = wr.GetResponseStream();
-        //    StreamReader reader = new StreamReader(receiveStream, Encoding.UTF8);
-        //    string content = reader.ReadToEnd();
-
-        //    return content;
     }
 }
