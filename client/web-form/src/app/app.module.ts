@@ -37,7 +37,7 @@ import { DataServiceComponent } from './applications/test/data-service/data-serv
     ReportingStudioModule.forRoot(),
     routing,
     appRouting
-    
+
   ],
   bootstrap: [AppComponent],
   entryComponents: [
