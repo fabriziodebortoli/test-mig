@@ -54,7 +54,7 @@ export class HttpService {
 
     getCompaniesForUser(user: string): Observable<any> {
         let obj = { user: user };
-        return this.postData(this.getLoginManagerBaseUrl() + 'getCompaniesForUser/', obj)
+        return this.postData(this.getAccountManagerBaseUrl() + 'getCompaniesForUser/', obj)
             .map((res: Response) => {
                 return res.json();
             })
@@ -62,7 +62,7 @@ export class HttpService {
     }
 
     loginCompact(connectionData: LoginSession): Observable<OperationResult> {
-        return this.postData(this.getLoginManagerBaseUrl() + '/login-compact/', connectionData)
+        return this.postData(this.getAccountManagerBaseUrl() + '/login-compact/', connectionData)
             .map((res: Response) => {
                 return res.json();
             })
@@ -73,7 +73,7 @@ export class HttpService {
         let token = this.cookieService.get('authtoken');
         this.logger.debug('httpService.logout (' + token + ')');
 
-        return this.postData(this.getLoginManagerBaseUrl() + 'logoff/', token)
+        return this.postData(this.getAccountManagerBaseUrl() + 'logoff/', token)
             .map((res: Response) => {
                 return res.json();
             })
@@ -143,8 +143,8 @@ export class HttpService {
         return url;
     }
 
-    getLoginManagerBaseUrl() {
-        let url = this.baseUrl + 'login-manager/';
+    getAccountManagerBaseUrl() {
+        let url = this.baseUrl + 'account-manager/';
         return url;
     }
 
