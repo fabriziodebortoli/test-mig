@@ -32,10 +32,10 @@ namespace Microarea.RSWeb.Models
         public JsonReportEngine
                             (
                                
-                                string authenticationToken,
                                 string parameters,
                                 DateTime applicationDate,
-                                 InitialMessage msg,
+                                NamespaceMessage nsMsg,
+                                LoginInfoMessage logMsg,
                                // TBWebContext httpContext,
                                 bool useApproximation = true
                                 
@@ -47,11 +47,11 @@ namespace Microarea.RSWeb.Models
                 ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
             }
             else
-                ReportNamespace = msg.nameSpace;
+                ReportNamespace = nsMsg.nameSpace;
 
-            AuthenticationToken = authenticationToken;         
+            AuthenticationToken = nsMsg.authtoken;         
             this.applicationDate = applicationDate;
-            this.impersonatedUser = msg.user;
+            this.impersonatedUser = "";// msg.user;
             this.useApproximation = useApproximation;
             // this.httpContext = httpContext;
 
@@ -60,16 +60,15 @@ namespace Microarea.RSWeb.Models
             /////////////////////////////////////////////////////
             // TODO temporary
             //in future get login information
-            ui.Valid = true;
-            ui.Company = msg.company; //to change if needed
-            ui.CompanyId = 20;          //to change 
-            ui.User = msg.user;             //to change
-            ui.LoginId = 1;             // to change
-            ui.Password = msg.password;           // to change
-            ui.CompanyDbConnection = string.Format("Server = USR-SARMANTANA1;Database = {0};User Id = {1};Password = {2};", ui.Company, ui.User, ui.Password);
-
-            ui.Provider = "SQL"; //?
-            ui.Admin = true;    //to change
+            ui.Valid                    = true;
+            ui.Company                  = logMsg.companyName;
+            ui.Admin                    = logMsg.admin;
+            ui.AuthenticationToken      = nsMsg.authtoken;
+            ui.UseUnicode               = logMsg.useUnicode;
+            ui.Provider                 = logMsg.providerName;
+            ui.User                     = logMsg.userName;
+            ui.CompanyDbConnection      = logMsg.connectionString;
+           
 
             /////////////////////////////////////////////////////
 
@@ -79,7 +78,7 @@ namespace Microarea.RSWeb.Models
             //ui.SetCulture();
             //ui.ApplicationDate = applicationDate;
             //ui.UseApproximation = useApproximation;
-            ui.ImpersonatedUser = impersonatedUser;
+           // ui.ImpersonatedUser = impersonatedUser;
             //ui.PathFinder = new PathFinder(ui.Company, ui.User); //temp
             CreateStateMachine();
 

@@ -6,7 +6,7 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>e8263925-0b7e-499f-bb89-887c9ede14dc</ProjectGuid>
+    <ProjectGuid>9699e3fb-025a-4ba5-b345-9a25af7b9cb1</ProjectGuid>
     <RootNamespace>Microarea.DatabaseService</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>

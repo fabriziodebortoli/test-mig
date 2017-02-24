@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using LoginManagerWcf;
 
 namespace Microarea.LoginManager.Controllers
 {
@@ -81,7 +82,55 @@ namespace Microarea.LoginManager.Controllers
 			return new JsonResult(result);
 		}
 
-		[Route("getCompaniesForUser")]
+
+        [Route("getLoginInformation")]
+        public IActionResult getLoginInformation()
+        {
+            string user = HttpContext.Request.Form["authtoken"];
+
+            GetLoginInformationRequest request = new GetLoginInformationRequest(user);
+            Task<GetLoginInformationResponse> task = loginManagerClient.GetLoginInformationAsync(request);
+            GetLoginInformationResponse result = task.Result;
+
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            JsonWriter jsonWriter = new JsonTextWriter(sw);
+
+            jsonWriter.WriteStartObject();
+
+            jsonWriter.WritePropertyName("userName");
+            jsonWriter.WriteValue(result.userName);
+
+            jsonWriter.WritePropertyName("companyName");
+            jsonWriter.WriteValue(result.companyName);
+
+            jsonWriter.WritePropertyName("admin");
+            jsonWriter.WriteValue(result.admin);
+
+            jsonWriter.WritePropertyName("connectionString");
+            jsonWriter.WriteValue(result.providerCompanyConnectionString);
+
+            jsonWriter.WritePropertyName("providerName");
+            jsonWriter.WriteValue(result.providerName);
+
+            jsonWriter.WritePropertyName("useUnicode");
+            jsonWriter.WriteValue(result.useUnicode);
+
+            jsonWriter.WritePropertyName("preferredLanguage");
+            jsonWriter.WriteValue(result.preferredLanguage);
+
+            jsonWriter.WritePropertyName("applicationLanguage");
+            jsonWriter.WriteValue(result.applicationLanguage);
+
+            jsonWriter.WriteEndObject();
+
+            string s = sb.ToString();
+            return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
+
+        }
+
+
+        [Route("getCompaniesForUser")]
 		public IActionResult getCompanyForUser()
 		{
 			//string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";

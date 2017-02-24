@@ -1,10 +1,10 @@
-import { HttpMenuService } from './../menu/services/http-menu.service';
+
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { CommandType } from './reporting-studio.model';
 import { EventDataService } from 'tb-core';
 import { DocumentComponent } from 'tb-shared';
 import { ReportingStudioService } from './reporting-studio.service';
-import { ReportingStudioConnection } from './reporting-studio-connection.component';
+import { ReportingStudioConnectionComponent } from './reporting-studio-connection.component';
 
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -24,16 +24,16 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
 
   private subMessage: Subscription;
-  private rsConn: ReportingStudioConnection;
+  private rsConn: ReportingStudioConnectionComponent;
   private message: string = '';
 
-  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService, private httpMenuService:HttpMenuService) {
+  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
     super(rsService, eventData);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    this.rsConn = new ReportingStudioConnection();
+    this.rsConn = new ReportingStudioConnectionComponent();
     this.eventData.model = { 'Title': { 'value': this.args.nameSpace } };
 
     this.subMessage = this.rsConn.message.subscribe(received => {
@@ -42,11 +42,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     });
 
 
-    let subinfo = this.httpMenuService.getConnectionInfo().subscribe(result=>{
-      this.rsInitStateMachine(result);
-      subinfo.unsubscribe();
-    });
+    this.rsInitStateMachine();
 
+    this.eventData.opened.emit('');
 
   }
 
@@ -58,21 +56,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   onMessage(message: string) {
     //elaborate
     this.message = message;
-
   }
 
-  rsInitStateMachine(result:any) {
+  rsInitStateMachine() {
 
     let message = {
         commandType: CommandType.NAMESPACE.toString(),
         nameSpace: this.args.nameSpace,
-        user: this.cookieService.get('_user'),
-        password: this.cookieService.get('_password'),
-        company: this.cookieService.get('_company')
-
+        authtoken: this.cookieService.get('authtoken')
       };
-
-
 
     this.rsConn.doSend(JSON.stringify(message));
 

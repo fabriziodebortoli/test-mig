@@ -62,7 +62,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   saveState() {
     this.cookieService.put('_user', this.connectionData.user);
     this.cookieService.put('_company', this.connectionData.company);
-     this.cookieService.put('_password', this.connectionData.password);
   }
 
   //-------------------------------------------------------------------------------------
