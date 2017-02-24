@@ -25,8 +25,12 @@ namespace Microarea.RSWeb.Models
         /// <returns></returns>
         private JsonReportEngine CreateEngine(NamespaceMessage msg)
         {
-           LoginInfoMessage lMsg = RSWebController.GetLoginInformation(msg.authtoken).Result;
-           return new JsonReportEngine("", DateTime.Today, msg, lMsg);
+            if (msg == null)
+                return null;
+            LoginInfoMessage lMsg = RSWebController.GetLoginInformation(msg.authtoken).Result;
+            if (lMsg == null)
+                return null;
+            return new JsonReportEngine("", DateTime.Today, msg, lMsg);
         }
 
         /// <summary>

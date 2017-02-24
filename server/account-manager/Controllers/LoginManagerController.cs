@@ -14,7 +14,7 @@ using LoginManagerWcf;
 
 namespace Microarea.LoginManager.Controllers
 {
-	[Route("login-manager")]
+	[Route("account-manager")]
 	public class LoginManagerController : Controller
 	{
 		LoginManagerWcf.MicroareaLoginManagerSoapClient loginManagerClient = new LoginManagerWcf.MicroareaLoginManagerSoapClient(LoginManagerWcf.MicroareaLoginManagerSoapClient.EndpointConfiguration.MicroareaLoginManagerSoap);
