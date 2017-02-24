@@ -35,7 +35,7 @@ namespace Microarea.RSWeb.Controllers
                         new KeyValuePair<string, string>("authtoken", authtoken)
                     });
                    
-                    var response = await client.PostAsync("login-manager/getLoginInformation/", content);
+                    var response = await client.PostAsync("account-manager/getLoginInformation/", content);
                     response.EnsureSuccessStatusCode(); // Throw in not success
 
                     var stringResponse = await response.Content.ReadAsStringAsync();
@@ -54,7 +54,7 @@ namespace Microarea.RSWeb.Controllers
 
         //UTF8Encoding enc = new UTF8Encoding();
         //    string data = "[\"some.data\"]";
-        //    WebRequest request = WebRequest.Create("http://localhost:5000/login-manager/getLoginInformation/authtoken=" + authtoken);
+        //    WebRequest request = WebRequest.Create("http://localhost:5000/account-manager/getLoginInformation/authtoken=" + authtoken);
         //    request.Method = "POST";
         //    request.ContentType = "application/json";
         //    Stream dataStream = await request.GetRequestStreamAsync();

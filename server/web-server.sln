@@ -18,21 +18,9 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "web-server", "web-server\we
 		{CCF7286F-D4B2-4BE4-9499-C0DD06B79961} = {CCF7286F-D4B2-4BE4-9499-C0DD06B79961}
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "login-manager", "login-manager\login-manager.xproj", "{FB250C8B-DF77-4D54-9548-328D24193388}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TaskBuilderNetCore.Interfaces", "library\task-builder-net-core-interfaces\src\TaskBuilderNetCore.Interfaces\TaskBuilderNetCore.Interfaces.xproj", "{B30DB4C6-4A8C-4005-A93E-05093DBB7EB4}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TaskBuilderNetCore.Data", "library\task-builder-net-core-data\src\TaskBuilderNetCore.Data\TaskBuilderNetCore.Data.xproj", "{CFD4EADA-3D3D-439A-8B68-147804BF9D0A}"
-EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PDFSharpCore", "library\PDFSharpCore\PDFSharpCore.xproj", "{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "menu-gate", "menu-gate\menu-gate.xproj", "{E33B70BB-1E54-4B58-A76F-D0288C52A329}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TaskBuilderNet.Common", "library\TaskBuilderNet.Common\TaskBuilderNet.Common.xproj", "{FA2DC93E-EDCF-40E4-AD84-A36CCAA2ED3E}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DataService", "DataService\DataService.xproj", "{69DA0003-A3D6-4F7F-8BD4-6A7352ABBBF0}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DatabaseService", "DatabaseService\DatabaseService.xproj", "{E8263925-0B7E-499F-BB89-887C9EDE14DC}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "taskbuilder-netcore-common", "library\taskbuilder-netcore-common\taskbuilder-netcore-common.xproj", "{97589AEC-B103-4568-A0DA-4847FF657DB9}"
 EndProject
@@ -43,6 +31,8 @@ EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "database-service", "database-service\database-service.xproj", "{9699E3FB-025A-4BA5-B345-9A25AF7B9CB1}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "data-service", "data-service\data-service.xproj", "{9424BAC1-A48D-40B5-8889-6E1B89616F91}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "account-manager", "account-manager\account-manager.xproj", "{FB250C8B-DF77-4D54-9548-328D24193388}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,18 +52,6 @@ Global
 		{2158CD02-0A4C-4806-98FF-AA079FE998ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2158CD02-0A4C-4806-98FF-AA079FE998ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2158CD02-0A4C-4806-98FF-AA079FE998ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB250C8B-DF77-4D54-9548-328D24193388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB250C8B-DF77-4D54-9548-328D24193388}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB250C8B-DF77-4D54-9548-328D24193388}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB250C8B-DF77-4D54-9548-328D24193388}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B30DB4C6-4A8C-4005-A93E-05093DBB7EB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B30DB4C6-4A8C-4005-A93E-05093DBB7EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B30DB4C6-4A8C-4005-A93E-05093DBB7EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B30DB4C6-4A8C-4005-A93E-05093DBB7EB4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CFD4EADA-3D3D-439A-8B68-147804BF9D0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CFD4EADA-3D3D-439A-8B68-147804BF9D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CFD4EADA-3D3D-439A-8B68-147804BF9D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CFD4EADA-3D3D-439A-8B68-147804BF9D0A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -82,18 +60,6 @@ Global
 		{E33B70BB-1E54-4B58-A76F-D0288C52A329}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E33B70BB-1E54-4B58-A76F-D0288C52A329}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E33B70BB-1E54-4B58-A76F-D0288C52A329}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FA2DC93E-EDCF-40E4-AD84-A36CCAA2ED3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FA2DC93E-EDCF-40E4-AD84-A36CCAA2ED3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FA2DC93E-EDCF-40E4-AD84-A36CCAA2ED3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FA2DC93E-EDCF-40E4-AD84-A36CCAA2ED3E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{69DA0003-A3D6-4F7F-8BD4-6A7352ABBBF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{69DA0003-A3D6-4F7F-8BD4-6A7352ABBBF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{69DA0003-A3D6-4F7F-8BD4-6A7352ABBBF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{69DA0003-A3D6-4F7F-8BD4-6A7352ABBBF0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E8263925-0B7E-499F-BB89-887C9EDE14DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8263925-0B7E-499F-BB89-887C9EDE14DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8263925-0B7E-499F-BB89-887C9EDE14DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8263925-0B7E-499F-BB89-887C9EDE14DC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{97589AEC-B103-4568-A0DA-4847FF657DB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{97589AEC-B103-4568-A0DA-4847FF657DB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97589AEC-B103-4568-A0DA-4847FF657DB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -114,6 +80,10 @@ Global
 		{9424BAC1-A48D-40B5-8889-6E1B89616F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9424BAC1-A48D-40B5-8889-6E1B89616F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9424BAC1-A48D-40B5-8889-6E1B89616F91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB250C8B-DF77-4D54-9548-328D24193388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB250C8B-DF77-4D54-9548-328D24193388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB250C8B-DF77-4D54-9548-328D24193388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB250C8B-DF77-4D54-9548-328D24193388}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
