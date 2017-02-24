@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using LoginManagerWcf;
 
-namespace Microarea.LoginManager.Controllers
+namespace Microarea.AccountManager.Controllers
 {
 	[Route("account-manager")]
 	public class LoginManagerController : Controller
