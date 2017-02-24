@@ -1,18 +1,21 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TbComponent } from '../../../';
 
+
 @Component({
   selector: 'tb-tile',
   templateUrl: './tile.component.html',
   styleUrls: ['./tile.component.scss']
 })
-export class TileComponent extends TbComponent implements OnInit {
+export class TileComponent implements OnInit {
 
   @Input('title') title: string;
 
   private _isCollapsed: boolean = false;
   private _isCollapsible: boolean = true;
   private _hasTitle: boolean = true;
+
+  constructor() { }
 
   ngOnInit() { }
 

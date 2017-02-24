@@ -13,11 +13,13 @@
         <div class="menu-container">
 
             <tb-tilegroup *ngIf="menuService.selectedMenu != undefined">
-                <tb-tile-content *ngFor="let tile of getTiles()" [Tile]="tile"></tb-tile-content>
-
+                <tb-tile tbTileMini *ngFor="let tile of getTiles()" [title]="tile.title">
+                    <tb-tile-element *ngFor="let object of utilsService.toArray(tile.Object)" [Object]="object" (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false"></tb-tile-element>
+                </tb-tile>
+                <!--
                 <div *ngIf="menuService.selectedMenu.Object" class="tileContainer">
                     <tb-tile-content [Tile]="menuService.selectedMenu"></tb-tile-content>
-                </div>
+                </div>-->
 
             </tb-tilegroup>
         </div>
