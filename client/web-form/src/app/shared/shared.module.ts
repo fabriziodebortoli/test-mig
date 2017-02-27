@@ -32,7 +32,8 @@ const TB_COMPONENTS = [
     RouterModule
   ],
   declarations: [TB_COMPONENTS],
-  exports: [TB_COMPONENTS]
+  exports: [TB_COMPONENTS],
+  entryComponents:[OpenComponent, SaveComponent]
 })
 export class SharedModule {
 
