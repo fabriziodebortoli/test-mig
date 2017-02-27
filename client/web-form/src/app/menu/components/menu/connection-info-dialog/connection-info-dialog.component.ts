@@ -1,8 +1,5 @@
-import { UtilsService } from './../../../../core/utils.service';
-
 import { MaterialModule, MdDialog, MdDialogRef } from '@angular/material';
 import { HttpMenuService } from './../../../services/http-menu.service';
-import { MenuService } from './../../../services/menu.service';
 import { LocalizationService } from './../../../services/localization.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -19,8 +16,6 @@ export class ConnectionInfoDialogComponent implements OnInit {
   constructor(
     public dialogRef: MdDialogRef<ConnectionInfoDialogComponent>,
     private httpMenuService: HttpMenuService,
-    private menuService: MenuService,
-    private utilsService: UtilsService,
     private localizationService: LocalizationService
   ) {
 
