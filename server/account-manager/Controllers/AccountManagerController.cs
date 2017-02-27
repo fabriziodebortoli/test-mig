@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microarea.AccountManager.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -11,6 +12,13 @@ namespace Microarea.AccountManager.Controllers
     //---------------------------------------------------------------------
     public class AccountManagerService : Controller
     {
+        private readonly IAccountManagerProvider accountManagerProvider;
+
+        //---------------------------------------------------------------------
+        public AccountManagerService(IAccountManagerProvider accountManagerProvider)
+        {
+            this.accountManagerProvider = accountManagerProvider;
+        }
 
         [Route("prelogin")]
         //---------------------------------------------------------------------
@@ -18,13 +26,20 @@ namespace Microarea.AccountManager.Controllers
         {
             string user = HttpContext.Request.Form["user"];
             string password = HttpContext.Request.Form["password"];
-            //int PRELOGIN(user, password);       
+
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
             JsonWriter jsonWriter = new JsonTextWriter(sw);
             jsonWriter.Formatting = Formatting.Indented;
             jsonWriter.WritePropertyName("result");
-            jsonWriter.WriteValue("0");//0 is ok in LoginReturnCodes
+            string res = "0";
+
+            if (!this.accountManagerProvider.ValidateLogin(user, password))
+            {
+                res = "-1";
+            }
+
+            jsonWriter.WriteValue(res);//0 is ok in LoginReturnCodes
 
             return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
         }

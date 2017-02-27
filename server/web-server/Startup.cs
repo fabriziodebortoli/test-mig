@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microarea.Common;
 using Microsoft.AspNetCore.Http;
+using Microarea.AccountManager.Interfaces;
 
 namespace WebApplication
 {
@@ -91,6 +92,8 @@ namespace WebApplication
 					.AllowAnyHeader()
 					.AllowCredentials());
 			});
+
+            services.AddTransient<IAccountManagerProvider, AccountManagerProvider>();
 
 			// Assembly asm = Assembly.Load(new AssemblyName("ControllerLib"));
 			IMvcBuilder mvcBuilder = services.AddMvc();//.AddApplicationPart(asm);
