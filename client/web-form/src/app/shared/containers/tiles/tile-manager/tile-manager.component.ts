@@ -7,5 +7,5 @@ import { TabberComponent } from '../../tabs';
   styleUrls: ['./tile-manager.component.scss']
 })
 
-export class TileManagerComponent extends TabberComponent {
+export class TileManagerComponent {
 }

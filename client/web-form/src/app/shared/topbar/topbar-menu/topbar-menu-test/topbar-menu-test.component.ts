@@ -1,9 +1,10 @@
+import { ComponentService } from './../../../../core/component.service';
 import { ReportingStudioComponent } from './../../../../reporting-studio/reporting-studio.component';
-import { ComponentService } from 'tb-core';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
 import { DataServiceComponent } from './../../../../applications/test/data-service/data-service.component';
 import { OpenComponent } from './../../../../shared/explorer/open/open.component';
+
 @Component({
   selector: 'tb-topbar-menu-test',
   templateUrl: './topbar-menu-test.component.html',

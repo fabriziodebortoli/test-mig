@@ -1,12 +1,14 @@
-import { HttpService } from 'tb-core';
-import { Injectable, EventEmitter } from '@angular/core';
-
+import { ComponentService } from './../../core/component.service';
+import { HttpService } from './../../core/http.service';
 import { UtilsService } from './../../core/utils.service';
+import { Injectable, EventEmitter, ComponentFactoryResolver } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
 
-import { ApplicationSelectorComponent } from './../components/menu/application-selector/application-selector.component';
+import { ReportingStudioComponent } from './../../reporting-studio/reporting-studio.component';
 
 import { Logger } from 'libclient';
 
@@ -22,7 +24,6 @@ export class MenuService {
     public favoritesCount: number = 0;
     public mostUsedCount: number = 0;
 
-
     private favorites: Array<any> = [];
     private mostUsed: Array<any> = [];
 
@@ -37,11 +38,15 @@ export class MenuService {
         private logger: Logger,
         private utilsService: UtilsService,
         private imageService: ImageService,
-        private settingsService: SettingsService
+        private settingsService: SettingsService,
+        private router: Router,
+        private componentService: ComponentService,
+        private resolver: ComponentFactoryResolver
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
-    }
 
+    }
+   
     //---------------------------------------------------------------------------------------------
     initApplicationAndGroup(applications) {
 
@@ -148,6 +153,8 @@ export class MenuService {
         this.selectedMenu.active = true;
         menu.visible = true;
 
+        // this.eventData.model.Title.value = "Menu > " + menu.name;
+
         this.selectedMenuChanged.emit();
     }
 
@@ -158,14 +165,14 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     runFunction = function (object) {
-        if (object == undefined)
+        if (object === undefined)
             return;
 
         if (object.objectType.toLowerCase() == 'report') {
-            let obs = this.httpService.runReport(object.target).subscribe((jsonObj)=>{
-                /*
-                testare se eseguire la navigate o meno
-                */
+            let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
+                if (!jsonObj.desktop) {
+                    this.componentService.createComponent(ReportingStudioComponent, this.resolver, { 'nameSpace': object.target });
+                }
                 obs.unsubscribe();
             });
         }
@@ -174,7 +181,11 @@ export class MenuService {
         }
 
         this.addToMostUsed(object);
-        object.isLoading = true
+        object.isLoading = true;
+        let subs = this.componentService.componentCreated.subscribe(info => {
+            object.isLoading = false;
+            subs.unsubscribe();
+        });
     }
 
     //---------------------------------------------------------------------------------------------
@@ -413,6 +424,10 @@ export class MenuService {
         }
     };
 
+    getFavorites() {
+        return this.favorites;
+    }
+
 
     // //---------------------------------------------------------------------------------------------
     // this.listenToMostUsed = function () {
@@ -505,4 +520,6 @@ export class MenuService {
     stringStartsWith(string, prefix): boolean {
         return string.slice(0, prefix.length) == prefix;
     }
+
+
 }

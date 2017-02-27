@@ -31,8 +31,7 @@
       "version": "1.0.3"
     },
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
-    "TaskBuilderNet.Common": "1.0.0-*",
-    "TaskBuilderNetCore.Interfaces": "1.0.0-*"
+    "taskbuilder-netcore-common": "1.0.0-*"
   },
     "tools": {
         "Microsoft.AspNetCore.Razor.Tools": {

@@ -16,31 +16,31 @@
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <ItemGroup>
-    <DnxInvisibleCompile Include="rs-web-backend\WebControls\Helper.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WebControls\LinkDocument.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WebControls\TBFieldSet.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormController\AskDialogController.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormController\HttpGenericHandler.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormController\WoormHandler.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\AspNetAskWebForm.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\AspNetRender.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\ConditionalUpdatePanel.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\CssProvider.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\ErrorPage.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\ExportHandlerRender.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\HotLinkForm.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\PdfSharpHandler.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\PersisterControl.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\RSApiHandler.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\SimpleControl.cs" />
-    <DnxInvisibleCompile Include="rs-web-backend\WoormWebControl\WoormWebControl.cs" />
+    <DnxInvisibleCompile Include="WebControls\Helper.cs" />
+    <DnxInvisibleCompile Include="WebControls\LinkDocument.cs" />
+    <DnxInvisibleCompile Include="WebControls\TBFieldSet.cs" />
+    <DnxInvisibleCompile Include="WoormController\AskDialogController.cs" />
+    <DnxInvisibleCompile Include="WoormController\HttpGenericHandler.cs" />
+    <DnxInvisibleCompile Include="WoormController\WoormHandler.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\AspNetAskWebForm.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\AspNetRender.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\ConditionalUpdatePanel.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\CssProvider.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\ErrorPage.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\ExportHandlerRender.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\HotLinkForm.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\PdfSharpHandler.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\PersisterControl.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\RSApiHandler.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\SimpleControl.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\WoormWebControl.cs" />
+    <DnxInvisibleContent Include="WoormWebControl\WoormClientControl.css" />
+    <DnxInvisibleContent Include="WoormWebControl\WoormClientControl.js" />
+    <DnxInvisibleContent Include="WoormWebControl\WoormClientControlInfinity.css" />
   </ItemGroup>
   <ItemGroup>
-    <DnxInvisibleContent Include="rs-web-backend\WebControls\LinkDocument.htm" />
-    <DnxInvisibleContent Include="rs-web-backend\WebControls\OpenDocumentJScript.js" />
-    <DnxInvisibleContent Include="rs-web-backend\WoormWebControl\WoormClientControl.css" />
-    <DnxInvisibleContent Include="rs-web-backend\WoormWebControl\WoormClientControl.js" />
-    <DnxInvisibleContent Include="rs-web-backend\WoormWebControl\WoormClientControlInfinity.css" />
+    <DnxInvisibleContent Include="WebControls\LinkDocument.htm" />
+    <DnxInvisibleContent Include="WebControls\OpenDocumentJScript.js" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet.Web\Microsoft.DotNet.Web.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

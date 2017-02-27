@@ -1,8 +1,8 @@
-<div class="bookmarks" *ngIf="menuService != undefined">
-    <ul class="bookmarks-list">
-        <li *ngFor="let application of applications" (click)=selecteApplication(application) class="applicationItem">
-             <img [src]="imageService.getStaticImage(application)" class="appTitle"/>
-            <div>{{application.title}}</div>
+<div class="application-selector" *ngIf="menuService != undefined">
+    <ul class="application-list">
+        <li *ngFor="let application of applications" (click)="selecteApplication(application)">
+            <img [src]="imageService.getStaticImage(application)" />
+            <span>{{application.title}}</span>
         </li>
     </ul>
 </div>

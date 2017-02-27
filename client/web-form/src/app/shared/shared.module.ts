@@ -5,22 +5,26 @@ import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
 import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
-import { ToolbarTopComponent, ToolbarTopButtonComponent, HistoryComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
+import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, TilePanelComponent, FrameComponent } from './containers';
+import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
 import { EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
-import { OpenComponent, SaveComponent} from './explorer';
+import { OpenComponent, SaveComponent } from './explorer';
 import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
+import { HeaderStripComponent } from './header-strip/header-strip.component';
 
 const TB_COMPONENTS = [
   PageNotFoundComponent,
   TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarSearchComponent,
-  ToolbarTopComponent, ToolbarTopButtonComponent, HistoryComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
+  ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   TabComponent, TabberComponent, ViewComponent, FrameComponent,
   DynamicCmpComponent,
   EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent,
+  TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
+  HeaderStripComponent,
   OpenComponent, SaveComponent
 ];
 

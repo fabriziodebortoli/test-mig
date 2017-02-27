@@ -1,0 +1,26 @@
+.search-card {
+    background: #78aedb;
+    border-radius: 3px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.md-input-underline {
+    border: none;
+}
+
+.md-input-wrapper {
+    margin: 5px 0 !important;
+    background: red
+}
+
+.md-input-placeholder.md-empty {
+    color: #fff;
+    font-weight: 300;
+}
+
+.md-input-prefix md-icon,
+.material-icons {
+    font-weight: 300;
+    font-size: 18px;
+}

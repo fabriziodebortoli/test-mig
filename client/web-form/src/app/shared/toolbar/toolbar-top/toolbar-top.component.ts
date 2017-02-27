@@ -1,21 +1,16 @@
-import { EventDataService } from 'tb-core';
-import { Component, OnInit, Input } from '@angular/core';
+import { EventDataService } from './../../../core/eventdata.service';
+import { ViewModeType } from '../../';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'tb-toolbar-top',
   templateUrl: './toolbar-top.component.html',
   styleUrls: ['./toolbar-top.component.scss']
 })
+export class ToolbarTopComponent {
 
-export class ToolbarTopComponent implements OnInit {
+  private viewModeTypeModel = ViewModeType;
 
-  constructor(protected eventData: EventDataService) {
-
-  }
-
-  ngOnInit() {
-  }
-
-
+  constructor(private eventData: EventDataService) { }
 
 }

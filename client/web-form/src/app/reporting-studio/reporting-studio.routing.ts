@@ -4,10 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 const RS_ROUTES: Routes = [
     {
-        path: '', component: ReportingStudioHostComponent, children: [
+        path: 'rs', component: ReportingStudioComponent/*, children: [
             { path: '', component: ReportingStudioHostComponent },
             { path: ':namespace', component: ReportingStudioComponent }
-        ]
+        ]*/
     }
 ];
 

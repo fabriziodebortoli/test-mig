@@ -3,18 +3,30 @@
         <tb-home-sidenav></tb-home-sidenav>
     </md-sidenav>
 
-<div class="main-content">
-    <tb-topbar></tb-topbar>
+    <div class="main-content">
+        <tb-topbar>
+            <div class="topbar-title-content">
+                <h1>{{appName}}</h1>
+                <h2>{{companyName}}</h2>
+            </div>
 
-    <div onselectstart="return false;">
-        <tb-tabber>
-            <tb-tab [icon]="'home'" (close)="loginSession.logout();">
+            <div class="topbar-center">
+                <tb-topbar-search></tb-topbar-search>
+            </div>
+
+            <div class="topbar-menu-content">
+                <tb-topbar-menu></tb-topbar-menu>
+            </div>
+        </tb-topbar>
+
+        <tb-tabber onselectstart="return false;" *ngIf="!desktop">
+            <tb-tab>
                 <tb-menu></tb-menu>
             </tb-tab>
             <tb-tab *ngFor="let info of componentService.components" (close)="componentService.tryDestroyComponent(info)" [title]="info.document?.getTitle()">
                 <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
             </tb-tab>
         </tb-tabber>
+
     </div>
-</div>
 </md-sidenav-layout>

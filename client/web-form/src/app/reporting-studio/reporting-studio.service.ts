@@ -1,8 +1,11 @@
+import { Logger } from 'libclient';
+import { DocumentService, EventDataService } from 'tb-core';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class ReportingStudioService {
+export class ReportingStudioService extends DocumentService {
 
-  constructor() { }
-
+    constructor(logger: Logger, eventData: EventDataService) {
+        super(logger, eventData);
+    }
 }

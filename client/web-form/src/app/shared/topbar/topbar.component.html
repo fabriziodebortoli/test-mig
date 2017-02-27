@@ -2,11 +2,14 @@
     <md-icon id="toggle-sidebar" (click)="toggleSidenav()">menu</md-icon>
 
     <div class="topbar-title">
-        <h1>{{appName}}</h1>
-        <h2>{{companyName}}</h2>
+        <ng-content select=".topbar-title-content"></ng-content>
     </div>
 
-    <tb-topbar-search class="fill-remaining-space"></tb-topbar-search>
+    <div class="fill-remaining-space">
+        <ng-content select=".topbar-center"></ng-content>
+    </div>
 
-    <tb-topbar-menu></tb-topbar-menu>
+    <div class="topbar-menu">
+        <ng-content select=".topbar-menu-content"></ng-content>
+    </div>
 </md-toolbar>

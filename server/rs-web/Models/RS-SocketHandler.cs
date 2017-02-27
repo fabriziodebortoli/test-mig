@@ -4,6 +4,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microarea.RSWeb.Controllers;
+using Newtonsoft.Json;
 
 namespace Microarea.RSWeb.Models
 {    
@@ -12,7 +14,7 @@ namespace Microarea.RSWeb.Models
     /// </summary>
     public class RSSocketHandler
     {
-      
+
         /// <summary>
         /// creates engine so..
         /// search for the namespace associated with the exclusive guid
@@ -21,11 +23,14 @@ namespace Microarea.RSWeb.Models
         /// </summary>
         /// <param name="guid"></param>
         /// <returns></returns>
-        private JsonReportEngine CreateEngine(string nameSpace)
+        private JsonReportEngine CreateEngine(NamespaceMessage msg)
         {
-  
-
-            return new JsonReportEngine(nameSpace, "", "", DateTime.Today, "sa");
+            if (msg == null)
+                return null;
+            LoginInfoMessage lMsg = RSWebController.GetLoginInformation(msg.authtoken).Result;
+            if (lMsg == null)
+                return null;
+            return new JsonReportEngine("", DateTime.Today, msg, lMsg);
         }
 
         /// <summary>
@@ -71,14 +76,14 @@ namespace Microarea.RSWeb.Models
                 string msgg = Encoding.UTF8.GetString(nsBuffer.Array, nsBuffer.Offset, nsBuffer.Count).Replace("\0", "");
 
                 /// creates states machine associated with pipe  
-                JsonReportEngine jengine = CreateEngine(MessageBuilder.GetMessagFromJson(msgg).message);
+                JsonReportEngine jengine = CreateEngine(JsonConvert.DeserializeObject<NamespaceMessage>(msgg));
 
               
                 
                 if (jengine == null)
                 {    /// handle errors
                     /// if guid is not found on server the web socket will be closed and disposed
-                   await webSocket.CloseAsync(WebSocketCloseStatus.PolicyViolation, string.Format(ErrorHandler.NsNotValid, MessageBuilder.GetMessagFromJson(msgg).message), CancellationToken.None);
+                   await webSocket.CloseAsync(WebSocketCloseStatus.PolicyViolation, string.Format(ErrorHandler.NsNotValid, JsonConvert.DeserializeObject<Message>(msgg).message), CancellationToken.None);
                    webSocket.Dispose();
                 }
                 
@@ -101,7 +106,7 @@ namespace Microarea.RSWeb.Models
 
                                 var recMeg = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count).Replace("\0", "");
                                 //parse
-                                Message msg = MessageBuilder.GetMessagFromJson(recMeg);
+                                Message msg = JsonConvert.DeserializeObject<Message>(recMeg);
 
                                 msg = jengine.StateMachine.GetResponseFor(msg);
 

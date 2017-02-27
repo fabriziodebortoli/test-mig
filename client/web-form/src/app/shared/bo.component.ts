@@ -1,5 +1,4 @@
 import { EventDataService, BOService } from 'tb-core';
-import { TbComponent } from './tb.component';
 import { DocumentComponent } from './document.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
@@ -14,6 +13,7 @@ export abstract class BOComponent extends DocumentComponent implements OnInit, O
   }
 
   ngOnInit() {
+    super.ngOnInit();
   }
   ngOnDestroy() {
     this.bo.dispose();

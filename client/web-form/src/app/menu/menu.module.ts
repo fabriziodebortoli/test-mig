@@ -11,7 +11,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -22,13 +22,15 @@ import { TileElementComponent } from './components/menu/tile-element/tile-elemen
 import { MenuComponent } from './components/menu/menu.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
-import { TileContentComponent } from './components/menu/tile-content/tile-content.component';
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 
 import { LoginComponent } from './components/login/login.component';
 import { Logger } from 'libclient';
 import { Accordion, AccordionGroup } from '../shared/containers/accordion/accordion.component';
+import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
+import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 
+//WARNING: put here only GLOBAL services, NOT component level services
 const MENU_SERVICES = [
   MenuService,
   ImageService,
@@ -52,7 +54,6 @@ const MENU_SERVICES = [
     MenuComponent,
     ApplicationSelectorComponent,
     MenuContainerComponent,
-    TileContentComponent,
     FavoritesComponent,
     TileElementComponent,
     MostUsedComponent,
@@ -62,7 +63,9 @@ const MENU_SERVICES = [
     GroupSelectorComponent,
     MenuStepperComponent,
     Accordion,
-    AccordionGroup
+    AccordionGroup,
+    MenuTabberComponent,
+    MenuTabComponent
   ],
   exports:
   [
@@ -71,7 +74,6 @@ const MENU_SERVICES = [
     MenuComponent,
     ApplicationSelectorComponent,
     MenuContainerComponent,
-    TileContentComponent,
     FavoritesComponent,
     TileElementComponent,
     MostUsedComponent,

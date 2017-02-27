@@ -1,3 +1,4 @@
+import { ReportingStudioModule } from './reporting-studio/reporting-studio.module';
 import { appRouting } from './applications/app.routing';
 import { routing } from './app.routing';
 
@@ -12,9 +13,6 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { MenuModule } from './menu/menu.module';
 
-import { SidenavService } from './core/sidenav.service';
-
-
 import { HomeComponent, HomeSidenavComponent } from './home';
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
 import { AppComponent } from './app.component';
@@ -25,7 +23,7 @@ import { DataServiceComponent } from './applications/test/data-service/data-serv
     AppComponent,
     HomeComponent, HomeSidenavComponent,
     UnsupportedFactoryComponent,
-    UnsupportedComponent,
+    UnsupportedComponent, 
     DataServiceComponent
   ],
   imports: [
@@ -36,8 +34,10 @@ import { DataServiceComponent } from './applications/test/data-service/data-serv
     CoreModule.forRoot(),
     SharedModule,
     MenuModule.forRoot(),
+    ReportingStudioModule.forRoot(),
     routing,
     appRouting
+
   ],
   bootstrap: [AppComponent],
   entryComponents: [

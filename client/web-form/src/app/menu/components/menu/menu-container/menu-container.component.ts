@@ -1,6 +1,5 @@
-import { TabberComponent } from './../../../../shared/containers/tabs/tabber/tabber.component';
+import { UtilsService } from './../../../../core/utils.service';
 import { LocalizationService } from './../../../services/localization.service';
-import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../services/menu.service';
 import { SettingsService } from './../../../services/settings.service';
 import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
@@ -25,31 +24,9 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
 
     this.selectedMenuChangedSubscription = this.menuService.selectedMenuChanged.subscribe(() => {
       this.changeTabWhenMenuChanges();
-
     });
+
     this.initTab();
-  }
-
-  changeTabWhenMenuChanges() {
-    if (this.menuService.selectedMenu == undefined)
-    return;
-    
-    let idx = this.findTabIndexByMenu();
-    if (idx >= 0 && !this.tabber.tabs[idx].active)
-      this.tabber.selectTab(this.tabber.tabs[idx]);
-  }
-
-  findTabIndexByMenu(): number {
-
-    for (let i = 0; i < this.tabber.tabs.length; i++) {
-      if (this.tabber.tabs[i].title == this.menuService.selectedMenu.title)
-        return i;
-    }
-    return -1;
-  }
-
-  ngOnDestroy() {
-    this.selectedMenuChangedSubscription.unsubscribe();
   }
 
   initTab() {
@@ -73,8 +50,32 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
 
   }
 
+  changeTabWhenMenuChanges() {
+    if (this.menuService.selectedMenu == undefined)
+      return;
+
+    let idx = this.findTabIndexByMenu();
+    if (idx >= 0 && !this.tabber.tabs[idx].active)
+      this.tabber.selectTab(this.tabber.tabs[idx]);
+  }
+
+  findTabIndexByMenu(): number {
+
+    for (let i = 0; i < this.tabber.tabs.length; i++) {
+      if (this.tabber.tabs[i].title == this.menuService.selectedMenu.title)
+        return i;
+    }
+    return -1;
+  }
+
+  ngOnDestroy() {
+    this.selectedMenuChangedSubscription.unsubscribe();
+  }
+
+
+
   changeTabByIndex(index) {
-    //let index = $event;
+
     if (index < 0 || this.menuService.selectedGroup == undefined)
       return;
 

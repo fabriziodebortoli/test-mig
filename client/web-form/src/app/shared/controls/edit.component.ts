@@ -1,6 +1,6 @@
-﻿import { EventDataService } from 'tb-core';
+﻿import { EventDataService } from './../../core/eventdata.service';
 import { ControlComponent } from './control.component';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 
 @Component({

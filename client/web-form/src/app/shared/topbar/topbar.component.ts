@@ -1,21 +1,15 @@
-import { environment } from '../../../environments/environment';
 import { SidenavService } from '../../core/sidenav.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'tb-topbar',
   templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.css']
+  styleUrls: ['./topbar.component.scss']
 })
 
 export class TopbarComponent implements OnInit {
 
-  private appName = environment.appName;
-  private companyName = environment.companyName;
-
-  constructor(private sidenavService: SidenavService) {
-
-  }
+  constructor(private sidenavService: SidenavService) { }
 
   ngOnInit() {
   }

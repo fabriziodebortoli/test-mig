@@ -1,12 +1,21 @@
 <div class="tb-tabber">
-    <ul class="tabber">
-        <li (click)="selectTab(tab)" *ngFor="let tab of tabs" [ngClass]="tab.active ? 'active' : ''" title="activate" 
-        class='tabTitle' (mouseenter)="tab.hover=true" (mouseleave)="tab.hover=false">
-            <md-icon>{{tab.icon}}</md-icon>
-            <span (click)="selectTab(tab)">{{tab.title}}</span>
-            <span (click)="closeTab(tab)" title="close" class='close' [ngClass]="{'visibilityHidden': !tab.showCloseButton || !tab.hover}"><md-icon>close</md-icon></span>
-        </li>
-    </ul>
+
+    <div class="tabber-container">
+        <ul class="menu-tabber tabber">
+            <li (click)="selectTab(tab)" *ngFor="let tab of tabs | slice:0:1" [ngClass]="tab.active ? 'active' : ''" title="Menu">
+                <md-icon>home</md-icon>
+                <span (click)="selectTab(tab)">{{tab.title}}</span>
+            </li>
+        </ul>
+        <ul class="page-tabber tabber">
+            <li (click)="selectTab(tab)" *ngFor="let tab of tabs | slice:1" [ngClass]="tab.active ? 'active' : ''" title="Activate">
+                <span (click)="selectTab(tab)">{{tab.title}}</span>
+                <md-icon (click)="closeTab(tab)" title="Close" class='close' *ngIf="tab.showCloseButton && !tab.hover" (mouseenter)="tab.hover=true">close</md-icon>
+                <md-icon (click)="closeTab(tab)" title="Close" class='close' *ngIf="tab.showCloseButton && tab.hover" (mouseleave)="tab.hover=false">cancel</md-icon>
+            </li>
+        </ul>
+    </div>
+
     <div class="tab-content">
         <ng-content></ng-content>
     </div>
