@@ -1,3 +1,5 @@
+import { DocumentService } from './../../../core/document.service';
+import { EventDataService } from './../../../core/eventdata.service';
 import { HttpService } from './../../../core/http.service';
 import { UtilsService } from './../../../core/utils.service';
 import { Observable } from 'rxjs';
@@ -7,19 +9,23 @@ import { Component, OnInit } from '@angular/core';
 import { MenuService } from './../../../menu/services/menu.service';
 import { Response } from '@angular/http';
 import { OperationResult } from 'tb-core';
+import { DocumentComponent } from '../../document.component';
 
 @Component({
   selector: 'tb-open',
   templateUrl: './open.component.html',
   styleUrls: ['./open.component.css']
 })
-export class OpenComponent implements OnInit {
+export class OpenComponent extends DocumentComponent implements OnInit {
 
   constructor(private explorerService: ExplorerService,
     private imageService: ImageService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private httpService: HttpService) {
+    private httpService: HttpService,
+    eventData: EventDataService) {
+
+    super(explorerService, eventData);
 
     httpService.postData('http://localhost:5000/explorer-open/get-applications', {}).map((res: Response) => {
       return this.createOperationResult(res);
