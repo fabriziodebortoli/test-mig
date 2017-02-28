@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 using System.IO;
-
+using Microarea.Common.NameSolver;
 using Microarea.Common.Generic;
 using System.Collections;
 
-namespace Microarea.LoginManager.Controllers
+namespace Microarea.Menu.Controllers
 {
     public enum ObjectType { Report, Image, Document };
 
@@ -25,7 +25,7 @@ namespace Microarea.LoginManager.Controllers
         private string[] GetApplications()
         {
 
-            IList apps=  Common.NameSolver.BasePathFinder.BasePathFinderInstance.ApplicationInfos;
+            IList apps=  BasePathFinder.BasePathFinderInstance.ApplicationInfos;
             return null; 
         } 
         [Route("get-applications")]

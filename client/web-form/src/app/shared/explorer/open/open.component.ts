@@ -1,10 +1,10 @@
+import { HttpService } from './../../../core/http.service';
+import { UtilsService } from './../../../core/utils.service';
 import { Observable } from 'rxjs';
 import { ExplorerService } from './../../../core/explorer.service';
 import { ImageService } from '../../../menu/services/image.service';
 import { Component, OnInit } from '@angular/core';
-import { UtilsService } from 'tb-core';
 import { MenuService } from './../../../menu/services/menu.service';
-import { HttpService } from 'tb-core';
 import { Response } from '@angular/http';
 import { OperationResult } from 'tb-core';
 
