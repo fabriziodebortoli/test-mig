@@ -1,11 +1,12 @@
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { CommandType } from './reporting-studio.model';
-import { EventDataService } from 'tb-core';
+import { EventDataService, ComponentService } from 'tb-core';
 import { DocumentComponent } from 'tb-shared';
 import { ReportingStudioService } from './reporting-studio.service';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ComponentFactoryResolver } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute, Params } from '@angular/router';
 
 
 @Component({
@@ -52,13 +53,25 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   rsInitStateMachine() {
 
     let message = {
-        commandType: CommandType.NAMESPACE.toString(),
-        nameSpace: this.args.nameSpace,
-        authtoken: this.cookieService.get('authtoken')
-      };
+      commandType: CommandType.NAMESPACE.toString(),
+      nameSpace: this.args.nameSpace,
+      authtoken: this.cookieService.get('authtoken')
+    };
 
     this.rsService.doSend(JSON.stringify(message));
 
   }
 
+}
+
+@Component({
+  template: ''
+})
+export class ReportingStudioFactoryComponent {
+  constructor(componentService: ComponentService, resolver: ComponentFactoryResolver, private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.params.subscribe((params: Params) => {
+      let ns = params['ns'];
+      componentService.createComponent(ReportingStudioComponent, resolver, { 'nameSpace': ns });
+    });
+  }
 }
