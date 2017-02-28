@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 
 using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
+using Microarea.Common.MenuLoader;
 
 namespace Microarea.Common.Generic
 {
@@ -200,14 +201,41 @@ namespace Microarea.Common.Generic
         public class Functions
         {
 
+			/// <summary>
+			/// clear cached data
+			/// </summary>
+			/// <returns></returns>
+			//---------------------------------------------------------------------
+			public static void ClearCachedData(string currentUser)
+			{
+				Microarea.Common.StringLoader.StringLoader.ClearDictionaryCache();
+				MenuInfo.CachedMenuInfos.Delete(currentUser);
+				ClearThumbnails();
 
-            /// <summary>
-            /// DevelopmentIstance
-            /// Legge la variabile di ambiente MicroareaVersion
-            /// </summary>
-            /// <returns></returns>
-            //---------------------------------------------------------------------
-            public static string GetDevelopmentIstance()
+			}
+
+			//--------------------------------------------------------------------------------------------------------------------------------
+			private static void ClearThumbnails()
+			{
+				try
+				{
+					string file = BasePathFinder.BasePathFinderInstance.GetMenuThumbnailsFolderPath(false);
+					DirectoryInfo di = new DirectoryInfo(file);
+					if (di != null && di.Exists)
+						di.Delete(true);
+				}
+				catch (Exception)
+				{
+				}
+			}
+
+			/// <summary>
+			/// DevelopmentIstance
+			/// Legge la variabile di ambiente MicroareaVersion
+			/// </summary>
+			/// <returns></returns>
+			//---------------------------------------------------------------------
+			public static string GetDevelopmentIstance()
             {
                 string MicroareaVersion = string.Empty;
                 MicroareaVersion = Environment.GetEnvironmentVariable("MicroareaVersion");
