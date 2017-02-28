@@ -1,5 +1,4 @@
 import { ReportingStudioComponent } from './reporting-studio.component';
-import { ReportingStudioHostComponent } from './reporting-studio-host.component';
 import { Routes, RouterModule } from '@angular/router';
 
 const RS_ROUTES: Routes = [

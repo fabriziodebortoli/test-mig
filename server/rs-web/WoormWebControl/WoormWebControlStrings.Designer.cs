@@ -38,7 +38,7 @@ namespace Microarea.RSWeb.WoormWebControl {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("rs-web.rs-web-backend.WoormWebControl.WoormWebControlStrings", typeof(WoormWebControlStrings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("rs-web.WoormWebControl.WoormWebControlStrings", typeof(WoormWebControlStrings).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

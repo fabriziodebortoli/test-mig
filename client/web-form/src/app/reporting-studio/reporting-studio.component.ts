@@ -4,8 +4,6 @@ import { CommandType } from './reporting-studio.model';
 import { EventDataService } from 'tb-core';
 import { DocumentComponent } from 'tb-shared';
 import { ReportingStudioService } from './reporting-studio.service';
-import { ReportingStudioConnectionComponent } from './reporting-studio-connection.component';
-
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -24,7 +22,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
 
   private subMessage: Subscription;
-  private rsConn: ReportingStudioConnectionComponent;
   private message: string = '';
 
   constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
@@ -33,17 +30,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   ngOnInit() {
     super.ngOnInit();
-    this.rsConn = new ReportingStudioConnectionComponent();
     this.eventData.model = { 'Title': { 'value': this.args.nameSpace } };
 
-    this.subMessage = this.rsConn.message.subscribe(received => {
+    this.subMessage = this.rsService.message.subscribe(received => {
       this.onMessage(received);
 
     });
 
     this.rsInitStateMachine();
   }
-
 
   ngOnDestroy() {
     this.subMessage.unsubscribe();
@@ -62,7 +57,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         authtoken: this.cookieService.get('authtoken')
       };
 
-    this.rsConn.doSend(JSON.stringify(message));
+    this.rsService.doSend(JSON.stringify(message));
 
   }
 

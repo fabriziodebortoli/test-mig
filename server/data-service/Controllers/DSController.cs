@@ -10,10 +10,10 @@ namespace DataService.Controllers
     [Route("data-service")]
     public class DSController : Controller
     {
-        [Route("GetData/{namespace}/{queryname}")]
-        public IActionResult GetData()
+        [Route("getdata/{namespace}")]
+        public IActionResult GetData(string nameSpace)
         {
-            string sAuthT = HttpContext.Request.Cookies["AuthToken"];
+            string sAuthT = HttpContext.Request.Cookies["authtoken"];
             if (string.IsNullOrEmpty(sAuthT))
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 

@@ -16,15 +16,13 @@ import { MenuModule } from './menu/menu.module';
 import { HomeComponent, HomeSidenavComponent } from './home';
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
 import { AppComponent } from './app.component';
-import { DataServiceComponent } from './applications/test/data-service/data-service.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent, HomeSidenavComponent,
     UnsupportedFactoryComponent,
-    UnsupportedComponent, 
-    DataServiceComponent
+    UnsupportedComponent
   ],
   imports: [
     FormsModule,
