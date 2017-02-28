@@ -14,7 +14,7 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'Framework/TbGes/IDD_Unsupported', component: UnsupportedFactoryComponent, outlet: 'dynamic' },
     { path: 'menu', loadChildren: './menu/menu.module#MenuModule' },
-    { path: 'ds', loadChildren: './applications/test/data-service/data-service.module#DataServiceModule', outlet: 'dynamic'},
+    { path: 'test', loadChildren: './test/test.module#TestModule', outlet: 'dynamic'},
     { path: 'rs', loadChildren: './reporting-studio/reporting-studio.module#ReportingStudioModule', outlet: 'dynamic'},
     { path: '**', component: PageNotFoundComponent }
 ]);

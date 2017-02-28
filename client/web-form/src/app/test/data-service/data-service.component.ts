@@ -1,14 +1,13 @@
-import { ComponentService } from 'tb-core';
+import { EventDataService } from './../../core/eventdata.service';
+import { ComponentService, DataService } from 'tb-core';
 import { DocumentComponent } from 'tb-shared';
-import { EventDataService } from './../../../core/eventdata.service';
-import { DataServiceService } from './data-service.service';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
 @Component({
   selector: 'tb-data-service',
   templateUrl: './data-service.component.html',
   styleUrls: ['./data-service.component.css'],
-  providers: [DataServiceService, EventDataService/*, DocumentService*/]
+  providers: [DataService, EventDataService]
 })
 export class DataServiceComponent extends DocumentComponent implements OnInit {
 
@@ -18,7 +17,7 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
   private disabled: string;
   private good_type: string;
 
-  constructor(public eventData: EventDataService, private dataService: DataServiceService) {
+  constructor(public eventData: EventDataService, private dataService: DataService) {
     super(dataService, eventData);
 
     /*httpService.postData(httpService.getBaseUrl() + 'ds/data-service', {}).map((res: Response) => {

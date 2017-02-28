@@ -1,8 +1,8 @@
+import { SharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from './../../../shared/shared.module';
 
 import { NgModule } from '@angular/core';
-import { DataServiceComponent, DataServiceFactoryComponent } from './data-service.component';
+import { DataServiceComponent, DataServiceFactoryComponent } from './data-service/data-service.component';
 
 
 @NgModule({
@@ -18,4 +18,4 @@ imports: [
 })
 
 
-export class DataServiceModule { }
+export class TestModule { }

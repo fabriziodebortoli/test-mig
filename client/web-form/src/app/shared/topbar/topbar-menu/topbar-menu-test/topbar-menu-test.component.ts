@@ -17,7 +17,7 @@ export class TopbarMenuTestComponent implements OnInit {
   }
 
   openDataService() {
-    this.componentService.createComponentFromUrl('ds/dataservice');
+    this.componentService.createComponentFromUrl('test/dataservice');
   }
 
   openRS() {

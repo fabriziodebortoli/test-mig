@@ -1,11 +1,11 @@
-import { EventDataService } from 'tb-core';
+import { EventDataService } from './eventdata.service';
+import { DocumentService } from './document.service';
 import { Logger } from 'libclient';
-import { DocumentService } from './../../../core/document.service';
 import { Injectable } from '@angular/core';
 
 
 @Injectable()
-export class DataServiceService extends DocumentService{
+export class DataService extends DocumentService{
 
   constructor(logger: Logger, eventData: EventDataService) {
         super(logger, eventData);
