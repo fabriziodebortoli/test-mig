@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microarea.Common;
 using Microsoft.AspNetCore.Http;
+using Microarea.AccountManager.Interfaces;
+using Microarea.AccountManager.Library;
 
 namespace WebApplication
 {
@@ -92,6 +94,8 @@ namespace WebApplication
 					.AllowCredentials());
 			});
 
+            services.AddTransient<IAccountManagerProvider, AccountManagerProvider>();
+
 			// Assembly asm = Assembly.Load(new AssemblyName("ControllerLib"));
 			IMvcBuilder mvcBuilder = services.AddMvc();//.AddApplicationPart(asm);
 			foreach (Assembly asm in modules)
@@ -130,7 +134,8 @@ namespace WebApplication
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
-				foreach (var configurator in configurators)
+                routes.MapRoute("provisioning", "{controller=Home}/{action=ProvisioningIndex}/{id?}");
+                foreach (var configurator in configurators)
 					configurator.MapRoutes(routes);
 			});
 		}

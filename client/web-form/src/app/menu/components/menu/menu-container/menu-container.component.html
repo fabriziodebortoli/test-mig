@@ -13,12 +13,9 @@
         <div class="menu-container">
 
             <tb-tilegroup *ngIf="menuService.selectedMenu != undefined">
-                <tb-tile-content *ngFor="let tile of getTiles()" [Tile]="tile"></tb-tile-content>
-
-                <div *ngIf="menuService.selectedMenu.Object" class="tileContainer">
-                    <tb-tile-content [Tile]="menuService.selectedMenu"></tb-tile-content>
-                </div>
-
+                <tb-tile class="h200" tbTileMini *ngFor="let tile of getTiles()" [title]="tile.title">
+                    <tb-tile-element *ngFor="let object of utilsService.toArray(tile.Object)" [Object]="object" (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false"></tb-tile-element>
+                </tb-tile>
             </tb-tilegroup>
         </div>
     </tb-view>

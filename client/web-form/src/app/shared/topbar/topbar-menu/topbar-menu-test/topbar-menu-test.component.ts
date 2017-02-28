@@ -1,8 +1,9 @@
 import { ComponentService } from './../../../../core/component.service';
-import { DataServiceComponent } from './../../../../applications/test/data-service/data-service.component';
 import { ReportingStudioComponent } from './../../../../reporting-studio/reporting-studio.component';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
+import { DataServiceComponent } from './../../../../applications/test/data-service/data-service.component';
+import { OpenComponent } from './../../../../shared/explorer/open/open.component';
 
 @Component({
   selector: 'tb-topbar-menu-test',
@@ -24,6 +25,10 @@ export class TopbarMenuTestComponent implements OnInit {
 
   openRS() {
     this.componentService.createComponent(ReportingStudioComponent, this.resolver);
+  }
+
+  openTBExplorer(){
+    this.componentService.createComponent(OpenComponent, this.resolver);
   }
 
 }

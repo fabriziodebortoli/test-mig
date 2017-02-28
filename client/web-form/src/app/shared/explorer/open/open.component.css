@@ -1,0 +1,16 @@
+.appTitle{
+    height: 30px;
+}
+
+.bookmarks {
+    margin-top: 10px;
+    font-size: small;
+}
+
+ul.bookmarks-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}

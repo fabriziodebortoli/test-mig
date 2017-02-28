@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, TilePanelComponent, FrameComponent } from './containers';
+import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
 import { EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
@@ -22,6 +23,7 @@ const TB_COMPONENTS = [
   DynamicCmpComponent,
   EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent,
+  TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
   HeaderStripComponent,
   OpenComponent, SaveComponent
 ];
@@ -34,7 +36,8 @@ const TB_COMPONENTS = [
     RouterModule
   ],
   declarations: [TB_COMPONENTS],
-  exports: [TB_COMPONENTS]
+  exports: [TB_COMPONENTS],
+  entryComponents:[OpenComponent, SaveComponent]
 })
 export class SharedModule {
 
