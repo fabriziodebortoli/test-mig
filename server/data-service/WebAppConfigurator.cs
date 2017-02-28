@@ -13,10 +13,16 @@ namespace Microarea.RSWeb
     {
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
-			DSSocketHandler handler = new DSSocketHandler();
-			app.Use(handler.Listen);
-		}
-		public void MapRoutes(IRouteBuilder routes)
+           
+            loggerFactory.AddDebug();
+
+            app.UseStaticFiles();
+
+
+            app.UseMvc();
+
+        }
+        public void MapRoutes(IRouteBuilder routes)
 		{
 		}
 
