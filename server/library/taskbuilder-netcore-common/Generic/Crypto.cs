@@ -15,11 +15,15 @@ namespace Microarea.Common.Generic
 		private const string defaultCryptBlock	= "GiustiBalestriCalandriniBauzoneManzoni";
 
 		public const string DesAlgorithmName	= "DES";
+        /*
+        IMPORATNTE< da .netFramework a .netCORE potrebbe cambiare:
+        http://stackoverflow.com/questions/38333722/how-to-use-rijndael-encryption-with-a-net-core-class-library-not-net-framewo
+         */
 
-		//---------------------------------------------------------------------
-		public static byte[] ToByteArray(string text)
+        //---------------------------------------------------------------------
+        public static byte[] ToByteArray(string text)
 		{
-			return ToByteArray(text, 8);
+			return ToByteArray(text, 16);
 		}
 
 		/// <summary>
@@ -61,7 +65,10 @@ namespace Microarea.Common.Generic
 
 			try
 			{
-				symmetricAlgorithm = Aes.Create(/*algoritmName TODO rsweb*/);
+                //DIVERSO!!/*/*/*/*/*/*/*/*/*/
+                /*prima era des, Rijndael, pare che rijndael sia come aes se il block è 16 bit, quindi per noi no , tutti i cypt cambieranno.
+                symmetricAlgorithm = SymmetricAlgorithm.Create(algoritmName);*/
+                symmetricAlgorithm = Aes.Create(/*algoritmName TODO rsweb*/);
               
 
                 if (symmetricAlgorithm == null)
@@ -141,8 +148,8 @@ namespace Microarea.Common.Generic
 		//---------------------------------------------------------------------
 		public static string Encrypt(string val, string algoritmName, string key, string block)
 		{
-			byte[] bkey		= Crypto.ToByteArray(key);
-			byte[] ivbBlock	= Crypto.ToByteArray(block);
+			byte[] bkey		= Crypto.ToByteArray("1234567887654321");
+			byte[] ivbBlock	= Crypto.ToByteArray("8765432112345678");
 
 			return Encrypt(val, algoritmName, bkey, ivbBlock);
 		}
@@ -164,7 +171,7 @@ namespace Microarea.Common.Generic
 			SymmetricAlgorithm cryptoProvider = Init(algoritmName, key, ivBlock);
 			if (cryptoProvider == null)
 				return string.Empty;
-
+            
 			MemoryStream ms = new MemoryStream();
 
 			try
@@ -186,6 +193,13 @@ namespace Microarea.Common.Generic
 				Debug.Fail(err.Message);
 				return string.Empty;
 			}
+
+            //DIVERSO!**-*-*-*-*-*-*-***-*-*-*-*-*--*-*-*-*-
+            /*
+            byte[] buf = new byte[256];
+            buf = ms.GetBuffer();
+            return Convert.ToBase64String(buf, 0, (int)ms.Length);
+            */
 
             ArraySegment<byte> buf = new ArraySegment<byte>();
             ms.TryGetBuffer(out buf);

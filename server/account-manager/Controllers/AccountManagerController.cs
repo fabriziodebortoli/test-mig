@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
+using Microarea.AccountManager.Library;
 
 namespace Microarea.AccountManager.Controllers
 {
@@ -18,13 +18,14 @@ namespace Microarea.AccountManager.Controllers
         {
             string user = HttpContext.Request.Form["user"];
             string password = HttpContext.Request.Form["password"];
-            //int PRELOGIN(user, password);       
+            LoginEngine le = new LoginEngine();
+            string crypted = le.Crypt(password);   
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
             JsonWriter jsonWriter = new JsonTextWriter(sw);
             jsonWriter.Formatting = Formatting.Indented;
             jsonWriter.WritePropertyName("result");
-            jsonWriter.WriteValue("0");//0 is ok in LoginReturnCodes
+            jsonWriter.WriteValue(crypted);//0 is ok in LoginReturnCodes
 
             return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
         }
