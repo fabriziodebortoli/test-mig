@@ -19,9 +19,6 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
       this.cmpRef = this.cmpContainer.createComponent(this.componentInfo.factory);
       this.cmpRef.instance.cmpId = this.componentInfo.id; //assegno l'id al componente
 
-      if (this.cmpRef.instance.document) {
-        console.error("Microarea", "Questo componente deve estendere DocumentService");
-      }
       this.cmpRef.instance.document.init(this.componentInfo.id); //assegno l'id al servizio (uguale a quello del componente)
 
       this.cmpRef.instance.args = this.componentInfo.args;

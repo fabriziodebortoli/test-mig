@@ -1,6 +1,6 @@
+import { Component, OnInit } from '@angular/core';
+
 import { ComponentService } from './../../../../core/component.service';
-import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
-import { OpenComponent } from './../../../../shared/explorer/open/open.component';
 
 @Component({
   selector: 'tb-topbar-menu-test',
@@ -11,7 +11,7 @@ export class TopbarMenuTestComponent implements OnInit {
 
   private title: string = "Test menu";
 
-  constructor(private componentService: ComponentService, private resolver: ComponentFactoryResolver) { }
+  constructor(private componentService: ComponentService) { }
 
   ngOnInit() {
   }
@@ -21,11 +21,11 @@ export class TopbarMenuTestComponent implements OnInit {
   }
 
   openRS() {
-   this.componentService.createComponentFromUrl('rs/reportingstudio/');
+    this.componentService.createComponentFromUrl('rs/reportingstudio/');
   }
 
-  openTBExplorer(){
-    this.componentService.createComponent(OpenComponent, this.resolver);
+  openTBExplorer() {
+    this.componentService.createComponentFromUrl('test/explorer');
   }
 
 }

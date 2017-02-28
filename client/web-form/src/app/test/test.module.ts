@@ -1,21 +1,21 @@
-import { SharedModule } from './../shared/shared.module';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { NgModule } from '@angular/core';
-import { DataServiceComponent, DataServiceFactoryComponent } from './data-service/data-service.component';
+import { SharedModule } from './../shared/shared.module';
 
+import { DataServiceComponent, DataServiceFactoryComponent } from './data-service/data-service.component';
+import { ExplorerComponent, ExplorerFactoryComponent } from './explorer/explorer.component';
 
 @NgModule({
-imports: [
+    imports: [
         SharedModule,
         RouterModule.forChild([
             { path: 'dataservice', component: DataServiceFactoryComponent },
+            { path: 'explorer', component: ExplorerFactoryComponent },
         ])],
     declarations: [
-        DataServiceComponent, DataServiceFactoryComponent
+        DataServiceComponent, DataServiceFactoryComponent, ExplorerComponent, ExplorerFactoryComponent
     ],
-    entryComponents:[DataServiceComponent]
+    entryComponents: [DataServiceComponent, ExplorerComponent]
 })
-
-
 export class TestModule { }
