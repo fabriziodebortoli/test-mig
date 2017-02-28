@@ -8,5 +8,6 @@ namespace Microarea.AccountManager.Interfaces
     public interface IAccountManagerProvider
     {
         bool ValidateLogin(string userName, string password);
+        bool CreateLogin(IAccount userAccount);
     }
 }
