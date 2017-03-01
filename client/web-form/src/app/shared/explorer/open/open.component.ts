@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { HttpService } from './../../../core/http.service';
 import { UtilsService } from './../../../core/utils.service';
 import { Observable, Subscription } from 'rxjs';
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuService } from './../../../menu/services/menu.service';
 import { Response, Http } from '@angular/http';
 import { OperationResult } from 'tb-core';
+
 
 @Component({
   selector: 'tb-open',
