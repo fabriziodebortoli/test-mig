@@ -22,8 +22,11 @@ namespace DataService.Controllers
             if (string.IsNullOrEmpty(sAuthT))
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
-            var jsonObj = JsonConvert.SerializeObject(HttpContext.Request.Query);
-            DSInitMessage message = JsonConvert.DeserializeObject<DSInitMessage>(jsonObj);
+            DSInitMessage message = new DSInitMessage();
+            message.selection_type = HttpContext.Request.Query["selection_type"];
+            message.like_value = HttpContext.Request.Query["like_value"];
+            message.disabled = HttpContext.Request.Query["disabled"];
+            message.good_type = HttpContext.Request.Query["good_type"]; 
 
             if (loginInfo == null)
             {
