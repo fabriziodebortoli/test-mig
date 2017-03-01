@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angular/core';
+
+import { TbComponent } from '../../../../../shared/tb.component';
 import { MenuTabberComponent } from '../menu-tabber.component';
-import { TbComponent } from 'tb-shared';
 
 @Component({
   selector: 'tb-menu-tab',

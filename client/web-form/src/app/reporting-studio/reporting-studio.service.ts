@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Logger } from 'libclient';
-import { DocumentService, EventDataService } from 'tb-core';
 
+import { Logger } from 'libclient';
+
+import { EventDataService } from './../core/eventdata.service';
+import { DocumentService } from './../core/document.service';
 
 @Injectable()
 export class ReportingStudioService extends DocumentService {

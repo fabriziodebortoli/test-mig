@@ -1,11 +1,12 @@
-import { HttpService } from 'tb-core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
-
 import { LoginSession } from './../../../shared/models/login-session';
+
+import { HttpService } from './../../../core/http.service';
 import { LoginSessionService } from './../../../core/login-session.service';
+
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Component({
   selector: 'tb-login',
@@ -48,7 +49,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (this.companies.length > 0 && this.connectionData.company == undefined)
         this.connectionData.company = this.companies[0].name;
 
-        subs.unsubscribe();
+      subs.unsubscribe();
     });
   }
 

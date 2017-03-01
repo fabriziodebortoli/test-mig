@@ -1,17 +1,20 @@
-import { ViewModeType } from 'tb-shared';
-import { EventDataService } from 'tb-core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { ViewModeType } from '../../../shared/models/view-mode-type.model';
+
+import { EventDataService } from './../../../core/eventdata.service';
+
 import { EventManagerService } from './../../services/event-manager.service';
 import { SettingsService } from './../../services/settings.service';
 import { LocalizationService } from './../../services/localization.service';
 import { MenuService } from './../../services/menu.service';
 import { HttpMenuService } from './../../services/http-menu.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'tb-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
-  providers:[EventDataService]
+  providers: [EventDataService]
 })
 
 export class MenuComponent implements OnInit, OnDestroy {
@@ -29,11 +32,11 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
 
     this.eventData.model = {
-            Title: {
-                value: 'Menu'
-            },
-            viewModeType: ViewModeType.M
-        };
+      Title: {
+        value: 'Menu'
+      },
+      viewModeType: ViewModeType.M
+    };
   }
 
   ngOnInit() {

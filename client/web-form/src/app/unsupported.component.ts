@@ -1,6 +1,10 @@
-import { DocumentComponent } from 'tb-shared';
-import { DocumentService, ComponentService, EventDataService } from 'tb-core';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+
+import { DocumentComponent } from './shared/document.component';
+
+import { DocumentService } from './core/document.service';
+import { ComponentService } from './core/component.service';
+import { EventDataService } from './core/eventdata.service';
 
 @Component({
   selector: 'tb-unsupported',

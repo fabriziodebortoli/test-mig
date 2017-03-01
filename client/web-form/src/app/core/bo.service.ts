@@ -1,10 +1,11 @@
-import { EventDataService } from 'tb-core';
-import { DocumentService } from './document.service';
 import { Injectable } from '@angular/core';
 
+import { Logger } from 'libclient';
+
+import { EventDataService } from './eventdata.service';
+import { DocumentService } from './document.service';
 import { WebSocketService } from './websocket.service';
 
-import { Logger } from 'libclient';
 
 @Injectable()
 export class BOService extends DocumentService {
