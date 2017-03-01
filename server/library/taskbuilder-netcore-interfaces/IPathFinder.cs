@@ -26,6 +26,7 @@ namespace TaskBuilderNetCore.Interfaces
 		string GetStandardDataManagerDefaultPath(string application, string module, string language);
 		string GetStandardDataManagerSamplePath(string application, string module, string language);
 		string GetCustomUserApplicationDataPath();
+		string GetApplicationModulePath(string application, string module);
 		string User { get; }
 		string UserForFileSystem { get; }
 	}

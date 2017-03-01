@@ -30,7 +30,7 @@
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.NETCore.App": {
       "type": "platform",
-      "version": "1.0.3"
+      "version": "1.1.0"
     },
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
     "data-service": "1.0.0-*",

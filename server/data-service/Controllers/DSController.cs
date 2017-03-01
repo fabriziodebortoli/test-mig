@@ -4,26 +4,40 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microarea.DataService.Models;
+using System.Net.Http;
+using Newtonsoft.Json;
+using Microarea.Common.Applications;
 
 namespace DataService.Controllers
 {
     [Route("data-service")]
     public class DSController : Controller
     {
-        [Route("GetData/{namespace}/{queryname}")]
-        public IActionResult GetData()
+        private LoginInfoMessage loginInfo;
+
+        [Route("getdata/{namespace}")]
+        public IActionResult GetData(string nameSpace)
         {
-            string sAuthT = HttpContext.Request.Cookies["AuthToken"];
+            string sAuthT = HttpContext.Request.Cookies["authtoken"];
             if (string.IsNullOrEmpty(sAuthT))
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
-            //HttpContext.Context.Request.Query
+            DSInitMessage message = new DSInitMessage();
+            message.selection_type = HttpContext.Request.Query["selection_type"];
+            message.like_value = HttpContext.Request.Query["like_value"];
+            message.disabled = HttpContext.Request.Query["disabled"];
+            message.good_type = HttpContext.Request.Query["good_type"]; 
 
+            if (loginInfo == null)
+            {
+                loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
+            }
+           
             //TODO login come RS
             //  var response = await client.PostAsync("account-manager/getLoginInformation/", content);
 
             Datasource ds = new Datasource(null);
-            if (!ds.Load("erp.items.ds_ItemsSimple", "Code"))
+            if (!ds.Load(nameSpace, message.selection_type))
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
             //---------------------

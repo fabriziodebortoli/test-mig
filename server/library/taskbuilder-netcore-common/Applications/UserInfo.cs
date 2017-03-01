@@ -2,12 +2,20 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Net.Http;
 
+using Microsoft.AspNetCore.Mvc;
 
+using Newtonsoft.Json;
+
+using TaskBuilderNetCore.Interfaces;
+
+using Microarea.Common.Applications;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using Microarea.Common.WebServicesWrapper;
-using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.Common.Applications
 {
@@ -144,6 +152,48 @@ namespace Microarea.Common.Applications
     }
 
     /// ================================================================================
+    public class LoginInfoMessage
+    {
+        public string userName { get; set; }
+        public string companyName { get; set; }
+        public bool admin { get; set; }
+        public string connectionString { get; set; }
+        public string providerName { get; set; }
+        public bool useUnicode { get; set; }
+        public string preferredLanguage { get; set; }
+        public string applicationLanguage { get; set; }
+
+        public static async Task<LoginInfoMessage> GetLoginInformation(string authtoken)
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri("http://localhost:5000/");
+
+                    var content = new FormUrlEncodedContent(new[]
+                    {
+                        new KeyValuePair<string, string>("authtoken", authtoken)
+                    });
+
+                    var response = await client.PostAsync("account-manager/getLoginInformation/", content);
+                    response.EnsureSuccessStatusCode(); // Throw in not success
+
+                    var stringResponse = await response.Content.ReadAsStringAsync();
+                    LoginInfoMessage msg = JsonConvert.DeserializeObject<LoginInfoMessage>(stringResponse);
+                    return msg;
+
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"Request exception: {e.Message}");
+                    return null;
+                }
+            }
+        }
+    }
+
+/// ================================================================================
     public class SessionKey
     {
         public static string ReportPath = "ReportNameSpace";

@@ -8,7 +8,6 @@ import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
 
-import { ReportingStudioComponent } from './../../reporting-studio/reporting-studio.component';
 
 import { Logger } from 'libclient';
 
@@ -171,7 +170,7 @@ export class MenuService {
         if (object.objectType.toLowerCase() == 'report') {
             let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
                 if (!jsonObj.desktop) {
-                    this.componentService.createComponent(ReportingStudioComponent, this.resolver, { 'nameSpace': object.target });
+                    this.componentService.createComponentFromUrl('rs/reportingstudio/' + object.target);
                 }
                 obs.unsubscribe();
             });

@@ -1,3 +1,5 @@
+import { OpenComponent } from './explorer/open/open.component';
+import { SaveComponent } from './explorer/save/save.component';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +13,6 @@ import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideD
 import { EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
-import { OpenComponent, SaveComponent } from './explorer';
 import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
 import { HeaderStripComponent } from './header-strip/header-strip.component';
 

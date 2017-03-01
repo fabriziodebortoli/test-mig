@@ -11,10 +11,11 @@
       "Microsoft.Extensions.Logging.Console": "1.1.0",
       "Microsoft.Extensions.Logging.Debug": "1.1.0",
       "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
-      "Microsoft.NETCore.App": {
-        "type": "platform",
-        "version": "1.0.3"
-      }
+        "Microsoft.NETCore.App": {
+            "type": "platform",
+            "version": "1.1.0"
+        },
+        "taskbuilder-netcore-common": "1.0.0-*"
     },
 
   "tools": {

@@ -346,11 +346,11 @@ namespace Microarea.Common.Generic
 	//=========================================================================
 	public class Drive
 	{
-		private DriveType type;
-		private string name;
-		private string deviceID;
-		private string description;
-		private string fileSystem;
+		private DriveType type = DriveType.Unknown;
+		private string name = string.Empty;
+		private string deviceID = string.Empty;
+		private string description = string.Empty;
+		private string fileSystem = string.Empty;
 
 		public DriveType Type     { get { return this.type; } }
 		public string Name        { get { return this.name; } }

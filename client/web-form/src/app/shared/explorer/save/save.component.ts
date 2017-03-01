@@ -1,4 +1,3 @@
-import { ExplorerService } from './../../../core/explorer.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SaveComponent implements OnInit {
 
-  constructor( private explorerService:ExplorerService) { }
+  constructor() { }
 
   ngOnInit() {
   }
