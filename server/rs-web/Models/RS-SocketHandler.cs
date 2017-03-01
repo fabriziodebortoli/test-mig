@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microarea.RSWeb.Controllers;
 using Newtonsoft.Json;
+using Microarea.Common.Applications;
 
 namespace Microarea.RSWeb.Models
 {    
@@ -27,9 +28,11 @@ namespace Microarea.RSWeb.Models
         {
             if (msg == null)
                 return null;
-            LoginInfoMessage lMsg = RSWebController.GetLoginInformation(msg.authtoken).Result;
+
+            LoginInfoMessage lMsg = LoginInfoMessage.GetLoginInformation(msg.authtoken).Result;
             if (lMsg == null)
                 return null;
+
             return new JsonReportEngine("", DateTime.Today, msg, lMsg);
         }
 
@@ -78,8 +81,6 @@ namespace Microarea.RSWeb.Models
                 /// creates states machine associated with pipe  
                 JsonReportEngine jengine = CreateEngine(JsonConvert.DeserializeObject<NamespaceMessage>(msgg));
 
-              
-                
                 if (jengine == null)
                 {    /// handle errors
                     /// if guid is not found on server the web socket will be closed and disposed
