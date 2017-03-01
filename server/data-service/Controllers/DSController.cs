@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microarea.DataService.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
+using Microarea.Common.Applications;
 
 namespace DataService.Controllers
 {
@@ -24,9 +25,9 @@ namespace DataService.Controllers
             var jsonObj = JsonConvert.SerializeObject(HttpContext.Request.Query);
             DSInitMessage message = JsonConvert.DeserializeObject<DSInitMessage>(jsonObj);
 
-            if (loginInfo==null)
+            if (loginInfo == null)
             {
-                loginInfo = GetLoginInformation(sAuthT).Result;
+                loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
             }
            
             //TODO login come RS
@@ -39,8 +40,6 @@ namespace DataService.Controllers
             //---------------------
             return new ContentResult { Content = "e mo ci vogliono i dati", ContentType = "application/json" };
         }
-
-
 
         public IActionResult Index()
         {
@@ -64,37 +63,6 @@ namespace DataService.Controllers
         public IActionResult Error()
         {
             return View();
-        }
-
-
-        public static async Task<LoginInfoMessage> GetLoginInformation(string authtoken)
-        {
-
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    client.BaseAddress = new Uri("http://localhost:5000/");
-
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                        new KeyValuePair<string, string>("authtoken", authtoken)
-                    });
-
-                    var response = await client.PostAsync("account-manager/getLoginInformation/", content);
-                    response.EnsureSuccessStatusCode(); // Throw in not success
-
-                    var stringResponse = await response.Content.ReadAsStringAsync();
-                    LoginInfoMessage msg = JsonConvert.DeserializeObject<LoginInfoMessage>(stringResponse);
-                    return msg;
-
-                }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return null;
-                }
-            }
         }
     }
 }
