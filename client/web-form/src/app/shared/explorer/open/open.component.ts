@@ -19,7 +19,7 @@ import { ExplorerService } from './../../../core/explorer.service';
 })
 export class OpenComponent extends DocumentComponent implements OnInit {
 
-  public applications: any = {};
+  public applications: any;
   public menu: any;
 
   applicationsSubscription: Subscription;
@@ -41,9 +41,8 @@ export class OpenComponent extends DocumentComponent implements OnInit {
   ngOnInit() {
 
     this.applicationsSubscription = this.getApplications().subscribe(result => {
-      let obj = JSON.parse(result);
-      console.log(obj);
-      this.applications = result;
+      console.log(result);
+      this.applications = result.Applications.Application;
       console.log(this.applications);
     });
 

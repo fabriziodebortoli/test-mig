@@ -2,11 +2,11 @@
     open workccccccccccccs!
 </p>
 
-<div class="bookmarks" *ngIf="menuService != undefined">
+<div class="bookmarks">
 
     <ul class="bookmarks-list">
         <li *ngFor="let application of applications" (click)=selecteApplication(application) class="applicationItem">
-            <div>{{application.title}}</div>
+            <div>{{application.name}}</div>
         </li>
     </ul>
 </div>
