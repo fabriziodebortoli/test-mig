@@ -14,8 +14,8 @@ Gestore del [motore di query](https://github.com/Microarea/Taskbuilder/tree/mast
 [Applicazione web](https://github.com/Microarea/Taskbuilder/tree/master/server/tbloader-gate)
 che fa da tramite verso il processo TBLoader, curandone l'istanziazione e l'esposizione delle API rest verso l'esterno
 
-## accounting-manager
-### [Applicazione web](https://github.com/Microarea/Taskbuilder/tree/master/server/accounting-manager)
+## account-manager
+### [Applicazione web](https://github.com/Microarea/Taskbuilder/tree/master/server/account-manager)
 Gestione dell'autenticazione degli utenti
 
 ## provisioning-server
