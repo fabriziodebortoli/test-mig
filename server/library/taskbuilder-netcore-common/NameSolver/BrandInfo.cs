@@ -152,7 +152,7 @@ namespace Microarea.Common.NameSolver
 		}
 
         //-----------------------------------------------------------------------------
-        public BrandInfo GetMainBrandInfo()
+        public IBrandInfo GetMainBrandInfo()
         {
             foreach (BrandInfo aBrandInfo in brands)
             {
@@ -283,66 +283,65 @@ namespace Microarea.Common.NameSolver
             return null; // return ImagesHelper.LoadImageWithoutLockFile(image);             TODO rsweb
         }
 
+		//--------------------------------------------------------------------------------
+		//      public Icon GetTbAppManagerApplicationIcon()           TODO rsweb
+		//{
+		//	try
+		//	{
+		//		if (brandedTbAppManagerApplicationIcon == null)
+		//		{
+		//			string appIconNS = GetBrandedStringBySourceString("TbAppManagerApplicationIcon");
+		//                  if (!String.IsNullOrWhiteSpace(appIconNS) && (String.Compare(appIconNS, "TbAppManagerApplicationIcon", true) != 0))
+		//			{
+		//				string appIconPath = PathFinder.BasePathFinderInstance.GetImagePath(new NameSpace(appIconNS));
+		//				if (File.Exists(appIconPath))
+		//					brandedTbAppManagerApplicationIcon = new Icon(appIconPath);
 
-        //--------------------------------------------------------------------------------
-        //      public Icon GetTbAppManagerApplicationIcon()           TODO rsweb
-        //{
-        //	try
-        //	{
-        //		if (brandedTbAppManagerApplicationIcon == null)
-        //		{
-        //			string appIconNS = GetBrandedStringBySourceString("TbAppManagerApplicationIcon");
-        //                  if (!String.IsNullOrWhiteSpace(appIconNS) && (String.Compare(appIconNS, "TbAppManagerApplicationIcon", true) != 0))
-        //			{
-        //				string appIconPath = PathFinder.BasePathFinderInstance.GetImagePath(new NameSpace(appIconNS));
-        //				if (File.Exists(appIconPath))
-        //					brandedTbAppManagerApplicationIcon = new Icon(appIconPath);
+		//				if (brandedTbAppManagerApplicationIcon == null)
+		//					return null;//errore
+		//			}
+		//		}
+		//	}
+		//	catch
+		//	{
+		//		return null;//errore
+		//	}
 
-        //				if (brandedTbAppManagerApplicationIcon == null)
-        //					return null;//errore
-        //			}
-        //		}
-        //	}
-        //	catch
-        //	{
-        //		return null;//errore
-        //	}
+		//	return brandedTbAppManagerApplicationIcon;
 
-        //	return brandedTbAppManagerApplicationIcon;
+		//}
 
-        //}
+		//--------------------------------------------------------------------------------
+		//      public Icon GetConsoleApplicationIcon()                             TODO rsweb
+		//{
+		//	try
+		//	{
+		//		if (brandedConsoleApplicationIcon == null)
+		//		{
+		//			string appIconNS = GetBrandedStringBySourceString("ConsoleApplicationIcon");
+		//			if (!String.IsNullOrWhiteSpace(appIconNS))
+		//			{
+		//				string appIconPath = PathFinder.BasePathFinderInstance.GetImagePath(new NameSpace(appIconNS));
+		//				if (File.Exists(appIconPath))
+		//					brandedConsoleApplicationIcon = new Icon(appIconPath);
 
-        //--------------------------------------------------------------------------------
-        //      public Icon GetConsoleApplicationIcon()                             TODO rsweb
-        //{
-        //	try
-        //	{
-        //		if (brandedConsoleApplicationIcon == null)
-        //		{
-        //			string appIconNS = GetBrandedStringBySourceString("ConsoleApplicationIcon");
-        //			if (!String.IsNullOrWhiteSpace(appIconNS))
-        //			{
-        //				string appIconPath = PathFinder.BasePathFinderInstance.GetImagePath(new NameSpace(appIconNS));
-        //				if (File.Exists(appIconPath))
-        //					brandedConsoleApplicationIcon = new Icon(appIconPath);
+		//				if (brandedConsoleApplicationIcon == null)
+		//					return null;//errore
+		//			}
+		//		}
+		//	}
+		//	catch
+		//	{
+		//		return null;//errore
+		//	}
 
-        //				if (brandedConsoleApplicationIcon == null)
-        //					return null;//errore
-        //			}
-        //		}
-        //	}
-        //	catch
-        //	{
-        //		return null;//errore
-        //	}
+		//	return brandedConsoleApplicationIcon;
 
-        //	return brandedConsoleApplicationIcon;
-
-        //}
+		//}
 
 
-        #endregion
-    }
+		#endregion
+	}
     #endregion
 
     #region Class BrandInfo

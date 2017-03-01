@@ -287,14 +287,14 @@ namespace Microarea.Common.StringLoader
                         //dictionaries = bf.Deserialize(s) as DictionaryTable;
                         //failedDictionaries = bf.Deserialize(s) as DictionaryTable;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
 					{
 						//Trace.WriteLine("Error loading dictionary cache! - " + ex.Message);
 						File.Delete(path);
 					}
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				//Trace.WriteLine("Error loading dictionary cache! - " + ex.Message);
 			}

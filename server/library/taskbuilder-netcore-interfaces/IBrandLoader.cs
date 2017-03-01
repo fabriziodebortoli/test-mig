@@ -16,5 +16,7 @@ namespace TaskBuilderNetCore.Interfaces
        // Image GetCompanyLogo();
         string GetApplicationBrandMenuTitle(string aApplicationName);
         string GetApplicationBrandMenuImage(string aApplicationName);
-    }
+		IBrandInfo GetMainBrandInfo();
+
+	}
 }

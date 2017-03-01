@@ -44,37 +44,9 @@ namespace Microarea.DataService
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-           // app.UseApplicationInsightsRequestTelemetry();
-
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //    app.UseBrowserLink();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Home/Error");
-            //}
-
-            //app.UseApplicationInsightsExceptionTelemetry();
-
             app.UseStaticFiles();
-            app.UseWebSockets();
-
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-            //});
-
-            app.Use(async (http, next) =>
-            {
-                DSSocketHandler handler = new DSSocketHandler();
-                await handler.Listen(http, next);
-
-            });
-
+            
+           
             app.UseMvc();
 
 

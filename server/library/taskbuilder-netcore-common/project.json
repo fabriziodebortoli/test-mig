@@ -15,8 +15,8 @@
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.0.3"
+        "type": "platform",
+        "version": "1.1.0"
     },
     "Newtonsoft.Json": "9.0.1",
     "System.Collections.Specialized": "4.3.0",
@@ -27,9 +27,9 @@
     "System.Xml.XmlDocument": "4.3.0",
     "System.Xml.XmlSerializer": "4.3.0",
     "system.xml.xpath.xmldocument": "4.3.0",
-
     "taskbuilder-netcore-interfaces": "1.0.0-*",
-    "taskbuilder-netcore-data": "1.0.0-*"
+    "taskbuilder-netcore-data": "1.0.0-*",
+    "System.Collections": "4.3.0"
   },
 
  
