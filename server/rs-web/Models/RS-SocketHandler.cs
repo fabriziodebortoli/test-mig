@@ -4,12 +4,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microarea.RSWeb.Controllers;
 using Newtonsoft.Json;
 using Microarea.Common.Applications;
 
 namespace Microarea.RSWeb.Models
-{    
+{
     /// <summary>
     /// Handle socket connections and messages reception
     /// </summary>
