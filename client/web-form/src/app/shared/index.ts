@@ -1,7 +1,5 @@
 export * from './tb.component';
 
-export * from './shared.module';
-
 export * from './containers';
 export * from './topbar';
 export * from './toolbar';
@@ -13,3 +11,5 @@ export * from './bo.component';
 export * from './models/login-session';
 export * from './models/component.info';
 export * from './models/view-mode-type.model';
+
+export * from './shared.module';

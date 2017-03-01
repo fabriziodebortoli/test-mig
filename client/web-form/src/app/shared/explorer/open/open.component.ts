@@ -1,14 +1,14 @@
-<<<<<<< HEAD
-import { HttpService } from './../../../core/http.service';
-import { UtilsService } from './../../../core/utils.service';
-import { Observable, Subscription } from 'rxjs';
-import { ExplorerService } from './../../../core/explorer.service';
-import { ImageService } from '../../../menu/services/image.service';
 import { Component, OnInit } from '@angular/core';
-import { MenuService } from './../../../menu/services/menu.service';
 import { Response, Http } from '@angular/http';
+import { Observable, Subscription } from 'rxjs';
+
 import { OperationResult } from 'tb-core';
 
+import { HttpService } from './../../../core/http.service';
+import { UtilsService } from './../../../core/utils.service';
+// import { ExplorerService } from './../../../core/explorer.service';
+import { ImageService } from '../../../menu/services/image.service';
+import { MenuService } from './../../../menu/services/menu.service';
 
 @Component({
   selector: 'tb-open',
@@ -17,12 +17,13 @@ import { OperationResult } from 'tb-core';
 })
 export class OpenComponent implements OnInit {
 
-  public applications: any;
+  public applications: any = {};
   public menu: any;
 
   applicationsSubscription: Subscription;
 
-  constructor(private explorerService: ExplorerService,
+  constructor(
+    // private explorerService: ExplorerService,
     private imageService: ImageService,
     private menuService: MenuService,
     private utilsService: UtilsService,
@@ -40,10 +41,10 @@ export class OpenComponent implements OnInit {
       let obj = JSON.parse(result);
       console.log(obj);
       this.applications = result;
-          console.log(this.applications);
+      console.log(this.applications);
     });
 
-    
+
   }
 
   getApplications() {
@@ -68,7 +69,7 @@ export class OpenComponent implements OnInit {
 
 
   selecteApplication(application) {
-    this.explorerService.setSelectedApplication(application);
+    // this.explorerService.setSelectedApplication(application);
   }
 
 }

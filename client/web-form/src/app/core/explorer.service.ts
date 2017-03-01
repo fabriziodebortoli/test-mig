@@ -9,12 +9,9 @@ export class ExplorerService extends DocumentService {
 
     constructor(logger: Logger, eventData: EventDataService) {
         super(logger, eventData);
-<<<<<<< HEAD
     }
 
     setSelectedApplication(application) {
-        
-=======
->>>>>>> origin/master
+
     }
 }

@@ -1,7 +1,11 @@
-import { EventDataService } from './../../core/eventdata.service';
-import { DocumentComponent } from 'tb-shared';
-import { ComponentService, ExplorerService } from 'tb-core';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { Http } from '@angular/http';
+
+import { DocumentComponent } from 'tb-shared';
+
+import { ComponentService } from './../../core/component.service';
+import { ExplorerService } from './../../core/explorer.service';
+import { EventDataService } from './../../core/eventdata.service';
 
 @Component({
   selector: 'tb-explorer',
@@ -11,7 +15,7 @@ import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 })
 export class ExplorerComponent extends DocumentComponent implements OnInit {
 
-  constructor(public eventData: EventDataService, private explorerService: ExplorerService) {
+  constructor(public eventData: EventDataService, private explorerService: ExplorerService, private http: Http) {
     super(explorerService, eventData);
   }
 
