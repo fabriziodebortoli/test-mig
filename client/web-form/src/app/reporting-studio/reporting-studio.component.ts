@@ -1,13 +1,16 @@
+import { Component, OnInit, OnDestroy, Input, ComponentFactoryResolver } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { CommandType } from './reporting-studio.model';
+
+import { DocumentComponent } from '../shared/document.component';
+
+import { ComponentService } from './../core/component.service';
+import { EventDataService } from './../core/eventdata.service';
+import { ReportingStudioService } from './reporting-studio.service';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { CommandType } from './reporting-studio.model';
-import { EventDataService, ComponentService } from 'tb-core';
-import { DocumentComponent } from 'tb-shared';
-import { ReportingStudioService } from './reporting-studio.service';
-import { Component, OnInit, OnDestroy, Input, ComponentFactoryResolver } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute, Params } from '@angular/router';
-
 
 @Component({
   selector: 'app-reporting-studio',

@@ -1,7 +1,11 @@
-import { DocumentService, EventDataService } from 'tb-core';
-import { TbComponent } from './tb.component';
 import { Component, OnInit } from '@angular/core';
-import { ViewModeType } from './';
+
+import { ViewModeType } from './models/view-mode-type.model';
+
+import { TbComponent } from './tb.component';
+
+import { DocumentService } from './../core/document.service';
+import { EventDataService } from './../core/eventdata.service';
 
 @Component({
   selector: 'tb-document',

@@ -1,7 +1,7 @@
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { DocumentComponent } from 'tb-shared';
+import { DocumentComponent } from '../../shared/document.component';
 
 import { ComponentService } from './../../core/component.service';
 import { ExplorerService } from './../../core/explorer.service';

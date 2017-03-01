@@ -2,33 +2,36 @@ import { Component, OnInit } from '@angular/core';
 import { Response, Http } from '@angular/http';
 import { Observable, Subscription } from 'rxjs';
 
-import { OperationResult } from 'tb-core';
+import {DocumentComponent} from '../../document.component';
 
 import { HttpService } from './../../../core/http.service';
 import { UtilsService } from './../../../core/utils.service';
-// import { ExplorerService } from './../../../core/explorer.service';
 import { ImageService } from '../../../menu/services/image.service';
 import { MenuService } from './../../../menu/services/menu.service';
+import { EventDataService } from './../../../core/eventdata.service';
+import { ExplorerService } from './../../../core/explorer.service';
 
 @Component({
   selector: 'tb-open',
   templateUrl: './open.component.html',
-  styleUrls: ['./open.component.css']
+  styleUrls: ['./open.component.css'],
+  providers: [ExplorerService, EventDataService]
 })
-export class OpenComponent implements OnInit {
+export class OpenComponent extends DocumentComponent implements OnInit {
 
-  public applications: any = {};
+  public applications: any;
   public menu: any;
 
   applicationsSubscription: Subscription;
 
   constructor(
-    // private explorerService: ExplorerService,
+    private explorerService: ExplorerService,
+    eventData: EventDataService,
     private imageService: ImageService,
     private menuService: MenuService,
     private utilsService: UtilsService,
     private http: Http) {
-
+    super(explorerService, eventData);
   }
 
   ngOnDestroy() {
@@ -38,9 +41,8 @@ export class OpenComponent implements OnInit {
   ngOnInit() {
 
     this.applicationsSubscription = this.getApplications().subscribe(result => {
-      let obj = JSON.parse(result);
-      console.log(obj);
-      this.applications = result;
+      console.log(result);
+      this.applications = result.Applications.Application;
       console.log(this.applications);
     });
 

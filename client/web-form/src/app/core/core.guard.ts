@@ -1,8 +1,10 @@
-import { InfoService } from 'tb-core';
 import { Inject, forwardRef } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
+
 import { environment } from './../../environments/environment';
+
+import { InfoService } from './info.service';
 import { LoginSessionService } from './login-session.service';
 
 export class CoreGuard implements CanActivate {

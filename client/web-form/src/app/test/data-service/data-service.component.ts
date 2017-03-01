@@ -1,9 +1,13 @@
-import { URLSearchParams, Http } from '@angular/http';
-import { environment } from './../../../environments/environment';
-import { EventDataService } from './../../core/eventdata.service';
-import { ComponentService, DataService } from 'tb-core';
-import { DocumentComponent } from 'tb-shared';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { URLSearchParams, Http } from '@angular/http';
+
+import { environment } from './../../../environments/environment';
+
+import { DocumentComponent } from '../../shared/document.component';
+
+import { ComponentService } from './../../core/component.service';
+import { EventDataService } from './../../core/eventdata.service';
+import { DataService } from './../../core/data.service';
 
 @Component({
   selector: 'tb-data-service',

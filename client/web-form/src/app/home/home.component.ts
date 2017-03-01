@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+
 import { environment } from './../../environments/environment';
 
-import { SidenavService, LoginSessionService, ComponentService } from 'tb-core';
+import { ComponentService } from './../core/component.service';
+import { LoginSessionService } from './../core/login-session.service';
+import { SidenavService } from './../core/sidenav.service';
 
 @Component({
   selector: 'tb-home',

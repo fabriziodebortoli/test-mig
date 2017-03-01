@@ -1,9 +1,10 @@
-import { EventDataService } from './eventdata.service';
 import { Injectable } from '@angular/core';
 
-import { ViewModeType } from 'tb-shared';
+import { ViewModeType } from '../shared/models/view-mode-type.model';
 
 import { Logger } from 'libclient';
+
+import { EventDataService } from './eventdata.service';
 
 @Injectable()
 export class DocumentService {
