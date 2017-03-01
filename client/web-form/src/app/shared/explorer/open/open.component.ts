@@ -1,11 +1,11 @@
 import { HttpService } from './../../../core/http.service';
 import { UtilsService } from './../../../core/utils.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ExplorerService } from './../../../core/explorer.service';
 import { ImageService } from '../../../menu/services/image.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from './../../../menu/services/menu.service';
-import { Response } from '@angular/http';
+import { Response, Http } from '@angular/http';
 import { OperationResult } from 'tb-core';
 
 @Component({
@@ -15,16 +15,41 @@ import { OperationResult } from 'tb-core';
 })
 export class OpenComponent implements OnInit {
 
+  public applications: any;
+  public menu: any;
+
+  applicationsSubscription: Subscription;
+
   constructor(private explorerService: ExplorerService,
     private imageService: ImageService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private httpService: HttpService) {
+    private http: Http) {
 
-    httpService.postData('http://localhost:5000/explorer-open/get-applications', {}).map((res: Response) => {
-      return this.createOperationResult(res);
+  }
+
+  ngOnDestroy() {
+    this.applicationsSubscription.unsubscribe();
+  }
+
+  ngOnInit() {
+
+    this.applicationsSubscription = this.getApplications().subscribe(result => {
+      let obj = JSON.parse(result);
+      console.log(obj);
+      this.applications = result;
+          console.log(this.applications);
+    });
+
+    
+  }
+
+  getApplications() {
+    return this.http.get('http://localhost:5000/explorer-open/get-applications/', { withCredentials: true }).map((res: Response) => {
+
+      return res.json();
+
     }).catch(this.handleError);
-
   }
 
   protected handleError(error: any) {
@@ -36,27 +61,12 @@ export class OpenComponent implements OnInit {
     return Observable.throw(errMsg);
   }
 
-  createOperationResult(res: Response): OperationResult {
-    console.log('dddddddddddddd');
-    let jObject = res.ok ? res.json() : null;
-    let ok = jObject && jObject.success === true;
-    let messages = jObject ? jObject.messages : [];
-    return new OperationResult(!ok, messages);
-  }
-
-  public applications: any;
-  public menu: any;
-
-  ngOnInit() {
 
 
-    this.menu = this.menuService.applicationMenu;
-    this.applications = this.utilsService.toArray(this.menu.Application);
 
-  }
 
   selecteApplication(application) {
-    this.explorerService.setSelectedApplication(application)
+    this.explorerService.setSelectedApplication(application);
   }
 
 }

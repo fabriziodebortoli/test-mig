@@ -15,25 +15,26 @@ namespace Microarea.Menu.Controllers
 {
     public enum ObjectType { Report, Image, Document };
 
-    [Route("explorer-open")]
+    //[Route("explorer-open")]
     //==============================================================================
-    public class TBResourcesController
+    public class TBResourcesController : Controller
     {
         private NameSpace nameSpace;
 
         //--------------------------------------------------------------------------
-        private string[] GetApplications()
+        private IList GetApplications()
         {
 
             IList apps=  BasePathFinder.BasePathFinderInstance.ApplicationInfos;
-            return null; 
+            return apps; 
         } 
-        [Route("get-applications")]
+
+        [Route("explorer-open/get-applications")]
         //--------------------------------------------------------------------------
         public IActionResult GetApplicationsJson()
         {
             //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
-            string[] applications = GetApplications();
+            IList applications = GetApplications();
 
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
@@ -47,14 +48,16 @@ namespace Microarea.Menu.Controllers
             jsonWriter.WritePropertyName("Application");
 
             jsonWriter.WriteStartArray();
-
-            //foreach (string item in applications)
-            //{
-            //    jsonWriter.WriteStartObject();
-            //    jsonWriter.WritePropertyName("name");
-            //    jsonWriter.WriteValue(item);
-            //    jsonWriter.WriteEndObject();
-            //}
+            
+            foreach (BaseApplicationInfo item in applications)
+            {
+                jsonWriter.WriteStartObject();
+                jsonWriter.WritePropertyName("name");
+                jsonWriter.WriteValue(item.Name);
+                jsonWriter.WritePropertyName("path");
+                jsonWriter.WriteValue(item.Path);
+                jsonWriter.WriteEndObject();
+            }
             jsonWriter.WriteEndArray();
 
             jsonWriter.WriteEndObject();

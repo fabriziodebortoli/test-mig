@@ -1,10 +1,9 @@
 <p>
-  open workccccccccccccs!
+    open workccccccccccccs!
 </p>
-<div class="bookmarks" *ngIf="menuService != undefined">
+<div class="bookmarks">
     <ul class="bookmarks-list">
         <li *ngFor="let application of applications" (click)=selecteApplication(application) class="applicationItem">
-             <img [src]="imageService.getStaticImage(application)" class="appTitle"/>
             <div>{{application.title}}</div>
         </li>
     </ul>
