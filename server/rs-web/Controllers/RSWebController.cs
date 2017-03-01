@@ -1,12 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-
-using Microarea.RSWeb.Models;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microarea.Common.Applications;
 
 namespace Microarea.RSWeb.Controllers
 {
