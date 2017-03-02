@@ -14,25 +14,20 @@ namespace Microarea.RSWeb.Models
     /// </summary>
     public class RSSocketHandler
     {
-
-        /// <summary>
-        /// creates engine so..
-        /// search for the namespace associated with the exclusive guid
-        /// creates engine 
-        /// removes guid and namespace from hash
-        /// </summary>
-        /// <param name="guid"></param>
-        /// <returns></returns>
-        private JsonReportEngine CreateEngine(NamespaceMessage msg)
+        private JsonReportEngine CreateEngine(NamespaceMessage nsMsg)
         {
-            if (msg == null)
+            if (nsMsg == null)
                 return null;
 
-            LoginInfoMessage lMsg = LoginInfoMessage.GetLoginInformation(msg.authtoken).Result;
-            if (lMsg == null)
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(nsMsg.authtoken).Result;
+            if (loginInfo == null)
                 return null;
+ 
+            UserInfo ui = new UserInfo(loginInfo, nsMsg.authtoken);
 
-            return new JsonReportEngine("", DateTime.Today, msg, lMsg);
+            TbReportSession session = new TbReportSession(ui, nsMsg.nameSpace);
+
+            return new JsonReportEngine(session);
         }
 
         /// <summary>
@@ -75,15 +70,15 @@ namespace Microarea.RSWeb.Models
                 var nsBuffer = new ArraySegment<Byte>(new Byte[4096]);
                 var recNsBuffer = await webSocket.ReceiveAsync(nsBuffer, CancellationToken.None);
 
-                string msgg = Encoding.UTF8.GetString(nsBuffer.Array, nsBuffer.Offset, nsBuffer.Count).Replace("\0", "");
+                string msgNs = Encoding.UTF8.GetString(nsBuffer.Array, nsBuffer.Offset, nsBuffer.Count).Replace("\0", "");
 
                 /// creates states machine associated with pipe  
-                JsonReportEngine jengine = CreateEngine(JsonConvert.DeserializeObject<NamespaceMessage>(msgg));
+                JsonReportEngine jengine = CreateEngine(JsonConvert.DeserializeObject<NamespaceMessage>(msgNs));
 
                 if (jengine == null)
                 {    /// handle errors
                     /// if guid is not found on server the web socket will be closed and disposed
-                   await webSocket.CloseAsync(WebSocketCloseStatus.PolicyViolation, string.Format(ErrorHandler.NsNotValid, JsonConvert.DeserializeObject<Message>(msgg).message), CancellationToken.None);
+                   await webSocket.CloseAsync(WebSocketCloseStatus.PolicyViolation, string.Format(ErrorHandler.NsNotValid, JsonConvert.DeserializeObject<Message>(msgNs).message), CancellationToken.None);
                    webSocket.Dispose();
                 }
                 
@@ -103,7 +98,6 @@ namespace Microarea.RSWeb.Models
                             }
                         case WebSocketMessageType.Text:
                             {
-
                                 var recMeg = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count).Replace("\0", "");
                                 //parse
                                 Message msg = JsonConvert.DeserializeObject<Message>(recMeg);
@@ -114,12 +108,9 @@ namespace Microarea.RSWeb.Models
                                 //send
                                 break;
                             }
-                        default: break;
-                        
+                        default: break;  
                     }
-
                 }
-
             }
             else
             {

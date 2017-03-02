@@ -26,7 +26,7 @@ namespace Microarea.Common.Applications
         public string                   AuthenticationToken     = string.Empty;
 
         public string					Company					= string.Empty;
-		public int						CompanyId				= -1;
+		//public int						CompanyId				= -1;
 		public CultureInfo				CompanyCulture			= CultureInfo.InvariantCulture;
 		public bool						UseUnicode				= false;
 		public string					CompanyDbConnection		= string.Empty;
@@ -34,12 +34,12 @@ namespace Microarea.Common.Applications
         public TaskBuilderNetCore.Data.DBMSType DatabaseType    = TaskBuilderNetCore.Data.DBMSType.SQLSERVER;
  
         public string					User					= string.Empty;
-		public int						LoginId					= -1;
+		public string					ImpersonatedUser		= string.Empty;
+		//public int						LoginId					= -1;
 		public string					Password				= string.Empty;
 		public bool						Admin					= false;
         public CultureInfo              UserUICulture           = CultureInfo.InvariantCulture;
         public CultureInfo              UserCulture             = CultureInfo.InvariantCulture;
-		public string					ImpersonatedUser		= string.Empty;
 
         public bool                     Valid = true;
         public string                   ErrorExplain = string.Empty;
@@ -50,13 +50,23 @@ namespace Microarea.Common.Applications
 		public ActivationState			ActivationState         = ActivationState.Undefined;
       
 		//---------------------------------------------------------------------
-		public UserInfo ()
+		public UserInfo (LoginInfoMessage msg, string sAuthT)
 		{
-		}
-		
-        //---------------------------------------------------------------------
-		//modifica la stringa di connessione in modo da farle usare il connection pool
-        private string AdjustConnectionString(string connectionString)
+           this.AuthenticationToken = sAuthT;
+
+           this.ImpersonatedUser = this.User = msg.userName;
+           this.Company                     = msg.companyName;
+           this.Admin                       = msg.admin;
+           this.CompanyDbConnection         = msg.connectionString;
+           this.Provider                    = msg.providerName;
+           this.UseUnicode                  = msg.useUnicode;
+           this.UserUICulture               = new CultureInfo(msg.preferredLanguage);
+           this.UserCulture                 = new CultureInfo(msg.applicationLanguage);
+        }
+
+    //---------------------------------------------------------------------
+    //modifica la stringa di connessione in modo da farle usare il connection pool
+    private string AdjustConnectionString(string connectionString)
         {
             string pattern = @"Pooling\s*=\s*false";
             return Regex.Replace(connectionString, pattern, "Pooling=true", RegexOptions.IgnoreCase);

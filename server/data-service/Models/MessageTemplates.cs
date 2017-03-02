@@ -1,3 +1,4 @@
+/*
 public class DSInitMessage
 {
   
@@ -7,3 +8,4 @@ public class DSInitMessage
     public string good_type { get; set; }
 }
 
+*/
