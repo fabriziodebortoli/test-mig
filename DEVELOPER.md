@@ -42,10 +42,10 @@ npm install -g @angular-cli
 
 ## Getting the Sources
 
-Clone the repository into the ~/development/standard with alias **Web**:
+Clone the repository into the <installation path>/standard with alias **Web**:
 
 ```shell
-# Move to the ~/development/standard
+# Move to the <installation path>/standard
 # for example:
 cd c:/development/standard
 
@@ -58,7 +58,7 @@ clone https://github.com/Microarea/Taskbuilder.git Web
 Install **VS Code** recommended extensions
 
 ```shell
-# Move to the ~/development/standard/Web
+# Move to the <installation path>/standard/Web
 cd c:/development/standard/Web
 
 # Open VS Code
