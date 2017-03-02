@@ -1,7 +1,7 @@
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { DocumentComponent } from '../../shared/document.component';
+import { DocumentComponent } from 'tb-shared';
 
 import { ComponentService } from './../../core/component.service';
 import { ExplorerService } from './../../core/explorer.service';
@@ -20,7 +20,7 @@ export class ExplorerComponent extends DocumentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.eventData.model = { 'Title': { 'value': "Explorer Component Demo" } };
+    this.eventData.model = { 'Title': { 'value': 'Explorer Component Demo' } };
   }
 
 }
@@ -32,4 +32,4 @@ export class ExplorerFactoryComponent {
   constructor(componentService: ComponentService, resolver: ComponentFactoryResolver) {
     componentService.createComponent(ExplorerComponent, resolver);
   }
-} 
+}
