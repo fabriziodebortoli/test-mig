@@ -13,6 +13,7 @@ export class BOService extends DocumentService {
 
     //subscriptions
     dataReadySubscription: any;
+    activationDataSubscription: any;
     serverCommandMapReadySubscription: any;
     commandSubscription: any;
     changeSubscription: any;
@@ -27,9 +28,23 @@ export class BOService extends DocumentService {
             let models: Array<any> = data.models;
             let cmpId = this.mainCmpId;
             models.forEach(model => {
-                if (model.id === cmpId) {
-                    this.eventData.model = model;
+                if (model.id === cmpId && model.data) {
+                    for (let prop in model.data) {
+                        if (model.data.hasOwnProperty(prop)) {
+                            this.eventData.model[prop] = model.data[prop];
+                        }
+                    }
                     logger.debug("Model received from server: " + JSON.stringify(this.eventData.model));
+                }
+            });
+        });
+
+        this.activationDataSubscription = this.webSocketService.activationData.subscribe(data => {
+            let components: Array<any> = data.components;
+            let cmpId = this.mainCmpId;
+            components.forEach(cmp => {
+                if (cmp.id === cmpId) {
+                    this.eventData.model._activation = cmp.activation;
                 }
             });
         });
@@ -60,5 +75,6 @@ export class BOService extends DocumentService {
         this.serverCommandMapReadySubscription.unsubscribe();
         this.commandSubscription.unsubscribe();
         this.changeSubscription.unsubscribe();
+        this.activationDataSubscription.unsubscribe();
     }
 }
