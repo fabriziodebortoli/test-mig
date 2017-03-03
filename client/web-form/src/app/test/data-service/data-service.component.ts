@@ -1,5 +1,5 @@
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
-import { URLSearchParams, Http } from '@angular/http';
+import { URLSearchParams, Http, Response } from '@angular/http';
 
 import { environment } from './../../../environments/environment';
 
@@ -17,12 +17,12 @@ import { DataService } from './../../core/data.service';
 })
 export class DataServiceComponent extends DocumentComponent implements OnInit {
 
-  private nameSpace: string = 'erp.items.ds_ItemsSimple';
-  private selection_type: string = 'Core';
-  private like_value: string = '';
-  private disabled: string = '';
-  private good_type: string = '';
-
+  private nameSpace: string;
+  private selection_type: string;
+  private like_value: string;
+  private disabled: string;
+  private good_type: string;
+  private response: any;
 
 
   constructor(public eventData: EventDataService, private dataService: DataService, private http: Http) {
@@ -35,6 +35,12 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
 
   ngOnInit() {
     this.eventData.model = { 'Title': { 'value': this.nameSpace } };
+    this.nameSpace = 'erp.items.ds_ItemsSimple';
+    this.selection_type = 'Core';
+    this.like_value = '';
+    this.disabled = '';
+    this.good_type = '';
+    this.response = '';
   }
 
   SendData() {
@@ -46,8 +52,13 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
     params.set('disabled', this.disabled);
     params.set('good_type', this.good_type);
 
-    let subs = this.http.get(url, { search: params }).subscribe(res => {
-      // handle Response
+    let subs = this.http.get(url, { search: params }).subscribe((res: Response) => {
+      try {
+        this.response = res.json();
+      }
+      catch (err) {
+        this.response = res.toString();
+      }
       subs.unsubscribe();
     });
   }

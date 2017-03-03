@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -8,6 +10,7 @@ import { ExplorerComponent, ExplorerFactoryComponent } from './explorer/explorer
 
 @NgModule({
     imports: [
+        FormsModule,
         SharedModule,
         RouterModule.forChild([
             { path: 'dataservice', component: DataServiceFactoryComponent },

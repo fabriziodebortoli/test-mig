@@ -1,15 +1,18 @@
 <h1>Parameters</h1>
 <div>Namespace:</div>
- <input [value]="nameSpace">
+ <input [(ngModel)]="nameSpace" required>
  <div>Selection Type:</div>
- <input [value]="selection_type">
+ <input [(ngModel)]="selection_type" required>
  <div>Like-value:</div>
- <input [value]="like_value">
+ <input [(ngModel)]="like_value">
  <div>Disabled:</div>
- <input [value]="disabled">
+ <input [(ngModel)]="disabled">
  <div>Good-type:</div>
- <input [value]="good_type">
+ <input [(ngModel)]="good_type">
  <br><br>
  <button (click)="SendData()">Send</button>
+
+ <h1>Response</h1>
+ <div>{{response}}</div>
  
 

@@ -17,10 +17,11 @@ namespace DataService.Controllers
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
             //DSInitMessage message = new DSInitMessage();
-            //message.selection_type = HttpContext.Request.Query["selection_type"];
+            //message.selection_type = 
+            string s = HttpContext.Request.Query["selection_type"];
             //message.like_value = HttpContext.Request.Query["like_value"];
             //message.disabled = HttpContext.Request.Query["disabled"];
-            //message.good_type = HttpContext.Request.Query["good_type"]; 
+            //message.good_type = HttpContext.Request.Query["good_type"];
 
             if (loginInfo == null)
             {
