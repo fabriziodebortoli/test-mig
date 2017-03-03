@@ -36,11 +36,12 @@ namespace DataService.Controllers
             if (!ds.Load(HttpContext.Request.Query))
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
-            
-
+            string records;
+            if (!ds.GetCompactJson(out records))
+                return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
             //---------------------
-            return new ContentResult { Content = "e mo ci vogliono i dati", ContentType = "application/json" };
+            return new ContentResult { Content = records, ContentType = "application/json" };
         }
 
         public IActionResult Index()

@@ -76,35 +76,57 @@ namespace Microarea.DataService.Models
 
             return true;
         }
+
         //---------------------------------------------------------------------
-        public bool Execute(ref string records)
+        public bool GetCompactJson(out string records)
         {
+            records = string.Empty;
+
             if (!CurrentQuery.Open())
                 return false;
 
             ArrayList columns = new ArrayList();
             CurrentQuery.EnumColumns(columns);
 
-            //TODO emit json record header (localized title column, column name, datatype column
+            //emit json record header (localized title column, column name, datatype column
+            bool first = true;
+            records = "{\"titles\":[";
             foreach (SymField f in columns)
             {
-                records += f.Name + ';';
+                if (!first) records += ',';
+                records += '\"' + f.Name + '\"';
+                first = false;
             }
-            records += '\n';
+            records += "],\n\"rows\":[";
 
+            first = true;
             while (CurrentQuery.Read())
             {
-                //TODO emit json record
+                //emit json record
                 foreach (SymField f in columns)
                 {
                     object o = f.Data;
 
-                    records += o.ToString() + ';';
+                    if (first)
+                        records += '[';
+                    else
+                        records += ',';
+
+                    records += o.ToString();
                 }
-                records += '\n';
+                records += "]\n";
             }
+            records += "]}";
+
             CurrentQuery.Close();
             return true;
+        }
+
+        //---------------------------------------------------------------------
+        public bool GetKendoJson(out string records)
+        {
+            //TODO occorre cambiare la sintassi
+            return GetCompactJson(out records);
         }
     }
 }
