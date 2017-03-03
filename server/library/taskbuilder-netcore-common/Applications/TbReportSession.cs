@@ -30,17 +30,15 @@ namespace Microarea.Common.Applications
         public UserInfo UserInfo = null;
         public IPathFinder PathFinder = null;
 
+        private string sNamespace;
+        public string Namespace { get { return sNamespace; } set { sNamespace = value; } }
+
         public ILocalizer Localizer = null;
 
         public Enums Enums = null;
         public ApplicationFontStyles ApplicationFontStyles = null;
         public ApplicationFormatStyles ApplicationFormatStyles = null;
         public ReferenceObjects Hotlinks = null;
-
-        private Hashtable cache; // used to store application reportSession values
-
-        private string sNamespace;
-        public string Namespace { get { return sNamespace; } set { sNamespace = value; } }
 
         private string filePath;
         public string FilePath { get { return filePath; } set { filePath = value; } }
@@ -77,16 +75,29 @@ namespace Microarea.Common.Applications
         }
 
         public string CompanyDbConnection { get { return UserInfo == null ? "" : UserInfo.CompanyDbConnection; } }
- 
-        public Hashtable Cache
+
+        public TbSession(UserInfo ui, string ns)
         {
-            get
-            {
-                if (cache == null)
-                    cache = new Hashtable(StringComparer.OrdinalIgnoreCase);
-                return cache;
-            }
+            //solleva l'eccezione per far si che easylook reindirizzi sulla pagina di login
+            if (ui == null)
+                throw new InvalidSessionException();
+
+            this.UserInfo = ui;
+            this.Namespace = ns;
+            this.PathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
         }
+
+
+        //private Hashtable cache; // used to store application reportSession values
+        //public Hashtable Cache
+        //{
+        //    get
+        //    {
+        //        if (cache == null)
+        //            cache = new Hashtable(StringComparer.OrdinalIgnoreCase);
+        //        return cache;
+        //    }
+        //}
 
         virtual public bool SkipTypeChecking { get { return string.IsNullOrEmpty(CompanyDbConnection); } }
 
@@ -94,17 +105,7 @@ namespace Microarea.Common.Applications
         // gli Hotlinks sono solo caricati on demand e quindi non pesano.
         // Enumerativi, Fonts, Formaters sono invece caricati solo allo start della applicazione
         //-----------------------------------------------------------------------------
-        public TbSession(UserInfo UserInfo)
-        {
-            //solleva l'eccezione per far si che easylook reindirizzi sulla pagina di login
-            if (UserInfo == null)
-                throw new InvalidSessionException();
-
-            this.UserInfo = UserInfo;
- 
-        }
-
-        public FunctionsList Functions
+         public FunctionsList Functions
         {
             get
             {
@@ -241,9 +242,8 @@ namespace Microarea.Common.Applications
         public bool UseApproximation = true; // enable TaskBuilder Approximation for real
         public bool StripTrailingSpaces = true;
 
-
-        public TbReportSession(UserInfo UserInfo)
-            : base(UserInfo)
+        public TbReportSession(UserInfo UserInfo, string ns)
+            : base (UserInfo, ns)
         {
 
         }

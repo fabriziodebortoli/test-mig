@@ -2822,8 +2822,8 @@ namespace Microarea.Common.ExpressionManager
 							return new Value(TbSession.UserInfo.GetUserDescriptionById(id));
 						}
 					}
-				   return new Value(TbSession.UserInfo.GetUserDescriptionById(TbSession.UserInfo.LoginId));
-				}
+                        return new Value(TbSession.UserInfo.User); //TODO RSWEB GetUserDescriptionById(TbSession.UserInfo.LoginId));
+                    }
 				case Token.GETWINDOWUSER:							 
 				{
                         //Se servisse anche il Domain
