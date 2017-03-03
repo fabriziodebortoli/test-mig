@@ -79,7 +79,7 @@ namespace Microarea.Common.Applications
         public TbSession(UserInfo ui, string ns)
         {
             //solleva l'eccezione per far si che easylook reindirizzi sulla pagina di login
-            if (UserInfo == null)
+            if (ui == null)
                 throw new InvalidSessionException();
 
             this.UserInfo = ui;
