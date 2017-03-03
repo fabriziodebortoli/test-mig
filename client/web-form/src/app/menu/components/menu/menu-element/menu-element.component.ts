@@ -5,23 +5,21 @@ import { MenuService } from './../../../services/menu.service';
 import { HttpMenuService } from './../../../services/http-menu.service';
 import { ImageService } from './../../../services/image.service';
 
-
 @Component({
-  selector: 'tb-tile-element',
-  templateUrl: './tile-element.component.html',
-  styleUrls: ['./tile-element.component.css']
+  selector: 'tb-menu-element',
+  templateUrl: './menu-element.component.html',
+  styleUrls: ['./menu-element.component.scss']
 })
-export class TileElementComponent {
+export class MenuElementComponent {
 
   private object: any;
+
   constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
     private utilsService: UtilsService,
     private imageService: ImageService
-  ) {
-
-  }
+  ) { }
 
   get Object(): any {
     return this.object;
@@ -38,6 +36,5 @@ export class TileElementComponent {
 
   runFunction(object) {
     this.menuService.runFunction(object);
-
   }
 }

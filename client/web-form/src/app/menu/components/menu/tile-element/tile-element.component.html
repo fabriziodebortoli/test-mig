@@ -1,9 +1,0 @@
-<div class="tileElement link" [ngClass]="object.starHover ? 'active' : ''">
-  <i *ngIf="!object.isLoading"  (click)="runFunction(object)" class="material-icons iconColor">{{imageService.getObjectIcon(object)}}</i>
-
-  <md-spinner mode="indeterminate" color="primary" class="spinner" *ngIf="object.isLoading"></md-spinner>
-  <div class="truncate" style="display:inline-block;" (click)="runFunction(object)"> {{object.title}}
-  </div>
-<i class="material-icons imageSmall iconColor" (click)=menuService.toggleFavorites(object) *ngIf="object.isFavorite || object.starHover">{{getFavoriteClass(object)}}</i>
-
-</div>
