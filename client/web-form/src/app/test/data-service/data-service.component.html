@@ -1,4 +1,5 @@
-<h1>Parameters</h1>
+<h1>Get Data</h1>
+<h3>Parameters</h3>
 <div>Namespace:</div>
  <input [(ngModel)]="nameSpace" required>
  <div>Selection Type:</div>
@@ -10,9 +11,13 @@
  <div>Good-type:</div>
  <input [(ngModel)]="good_type">
  <br><br>
- <button (click)="SendData()">Send</button>
+ <button (click)="GetData()">Send</button>
 
- <h1>Response</h1>
- <div>{{response}}</div>
+ <h3>Response</h3>
+ <div>{{responseData}}</div>
  
+<h1>Get Selections</h1>
+<button (click)="GetSelections()">Send</button>
 
+ <h3>Response</h3>
+ <div>{{responseSelection}}</div>

@@ -22,15 +22,11 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
   private like_value: string;
   private disabled: string;
   private good_type: string;
-  private response: any;
-
+  private responseData: any;
+private responseSelection: any;
 
   constructor(public eventData: EventDataService, private dataService: DataService, private http: Http) {
     super(dataService, eventData);
-
-    /*httpService.postData(httpService.getBaseUrl() + 'ds/data-service', {}).map((res: Response) => {
-               return res.ok && res.json().success === true;
-    }); */
   }
 
   ngOnInit() {
@@ -40,10 +36,9 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
     this.like_value = '';
     this.disabled = '';
     this.good_type = '';
-    this.response = '';
   }
 
-  SendData() {
+  GetData() {
     let url: string = environment.baseUrl + 'data-service/getdata/' + this.nameSpace;
 
     let params: URLSearchParams = new URLSearchParams();
@@ -54,15 +49,27 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
 
     let subs = this.http.get(url, { search: params }).subscribe((res: Response) => {
       try {
-        this.response = res.json();
+        this.responseData = res.json();
       }
       catch (err) {
-        this.response = res.toString();
+        this.responseData = res.toString();
       }
       subs.unsubscribe();
     });
   }
 
+  GetSelections(){
+    let url: string = environment.baseUrl + 'data-service/getselections/' + this.nameSpace;
+    let subs = this.http.get(url).subscribe((res: Response) => {
+      try {
+        this.responseSelection = res.json();
+      }
+      catch (err) {
+        this.responseSelection = res.toString();
+      }
+      subs.unsubscribe();
+    });
+  }
 }
 
 @Component({
