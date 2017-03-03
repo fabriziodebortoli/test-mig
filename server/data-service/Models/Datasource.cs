@@ -36,7 +36,7 @@ namespace Microarea.DataService.Models
             this.Session = session;
         }
 
-        public bool Load(IQueryCollection requestQuery)
+        public bool PrepareQuery(IQueryCollection requestQuery)
         {
             selection_type.Data = requestQuery["selection_type"];
             like_value.Data = requestQuery["like_value"];
@@ -45,12 +45,12 @@ namespace Microarea.DataService.Models
             if (XmlDescription == null)
                 return false;
 
-            //Aggiungere alla SymbolTable i parametri espliciti della descrizione
-            /*           
+             /*    nell'esempio       
 *              disabled = HttpContext.Request.Query["disabled"];
             good_type = HttpContext.Request.Query["good_type"]; 
             */
-            foreach (IParameter p in XmlDescription.HotLinkParameters)
+            //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
+           foreach (IParameter p in XmlDescription.HotLinkParameters)
             {
                 SymField paramField = new SymField(p.TbType, p.Name);
                 if (p.Optional)
@@ -63,16 +63,64 @@ namespace Microarea.DataService.Models
                 SymTable.Add(paramField);
             }
 
-            this.CurrentQuery = new QueryObject(selection_type.Data as string, SymTable, Session, null);
-
+            //viene cercato il corpo della query ------------------
+            string modeName = string.Empty;
             string sQuery = string.Empty;
-            //TODO manca la lettura ed il metodo
-            //sQuery = XmlDescription.GetModeQueryText(selectionType);
+
+            string selectionName = selection_type.Data as string;
+            for (int i = 0; i < XmlDescription.SelectionTypeList.Count; i++)
+            {
+                SelectionType st = XmlDescription.SelectionTypeList[i];
+                if (string.Compare(selectionName, st.SelectionName) == 0)
+                {
+                    modeName = st.ModeName;
+                    break;
+                }
+            }
+            if (modeName == string.Empty)
+                return false;
+
+            for (int i = 0; i < XmlDescription.SelectionModeList.Count; i++)
+            {
+                SelectionMode sm = XmlDescription.SelectionModeList[i];
+                if (string.Compare(modeName, sm.ModeName) == 0)
+                {
+                    sQuery = sm.Body;
+                    break;
+                }
+            }
             if (sQuery == string.Empty)
                 return false;
+            //-------------------------------
+
+            this.CurrentQuery = new QueryObject(modeName, SymTable, Session, null);
 
             if (!this.CurrentQuery.Define(sQuery))
                 return false;
+
+            return true;
+        }
+
+        public bool EnumSelectionTypes(out string selections)
+        {
+            selections = string.Empty;
+
+            XmlDescription = ReferenceObjects.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
+            if (XmlDescription == null)
+                return false;
+
+            if (XmlDescription.SelectionTypeList.Count == 0)
+                return false;
+
+            bool first = true;
+            selections = "{\"selections\":[";
+            foreach (SelectionType st in XmlDescription.SelectionTypeList)
+            {
+                if (!first) selections += ',';
+                selections += '\"' + st.SelectionName + '\"';
+                first = false;
+            }
+            selections += "]}";
 
             return true;
         }

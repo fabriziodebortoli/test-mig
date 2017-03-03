@@ -13,7 +13,7 @@ using Microarea.Common.Applications;
 
 namespace Microarea.Common.Hotlink
 {
-	/*
+    /*
 		Sintassi di ReferenceObjects.xml
 
 		<?xml version="1.0" encoding="utf-8" ?> 
@@ -57,12 +57,31 @@ namespace Microarea.Common.Hotlink
 							Se non è in combinazione con l’ attributo source identifica una stringa letterale in lingua.
 	 */
 
+    public class SelectionMode
+    {
+        public string ModeName;
+        public string ModeType; //QUERY, SCRIPT, ...
+        public string Body;        
 
-	/// <summary>
-	/// Summary description for Functions.
-	/// </summary>
-	///=============================================================================
-	public class ReferenceObjectsPrototype : FunctionPrototype
+        public SelectionMode(string n, string t, string b) 
+            { ModeName = n;  ModeType = t;  Body = b;  }
+    }
+
+    public class SelectionType
+    {
+        public string SelectionName;
+        public string ModeName;
+        public string Title;
+
+        public SelectionType(string n, string m, string t)
+            { SelectionName = n; ModeName = m; Title = t; }
+    }
+
+    /// <summary>
+    /// Summary description for Functions.
+    /// </summary>
+    ///=============================================================================
+    public class ReferenceObjectsPrototype : FunctionPrototype
 	{
 		string dbFieldName = "";
 		string dbFieldTableName = "";
@@ -72,8 +91,11 @@ namespace Microarea.Common.Hotlink
 		List<Parameter> hotLinkParameters = new List<Parameter>(); 
         public bool IsDatafile = false;
 
-		//-----------------------------------------------------------------------------
-		public string DbFieldName				{ get { return dbFieldName; }}
+        public List<SelectionType> SelectionTypeList = new List<SelectionType>();
+        public List<SelectionMode> SelectionModeList = new List<SelectionMode>();
+ 
+        //-----------------------------------------------------------------------------
+        public string DbFieldName				{ get { return dbFieldName; }}
 		public string DbFieldTableName			{ get { return dbFieldTableName; }}
 		public string DbTableName				{ get { return dbTableName; } }
 		public string DbFieldDescriptionName	{ get { return dbFieldDescriptionName; } }
@@ -286,9 +308,45 @@ namespace Microarea.Common.Hotlink
                 int port;
                 if (!int.TryParse(function.GetAttribute(ReferenceObjectsXML.Attribute.Port), out port))
                     port = 80;
-				
-				// crea il nuovo prototipo e lo aggiunge all'elenco indicando anche in che dll si trova
-				ReferenceObjectsPrototype fp = new ReferenceObjectsPrototype
+
+                //---------------------
+                List<SelectionMode> selectionModeList = new List<SelectionMode>();
+                XmlElement selModeRoot = (XmlElement)function.ParentNode.SelectSingleNode("SelectionModes");
+                if (selModeRoot != null)
+                {
+                    foreach (XmlElement mode in selModeRoot.ChildNodes)
+                    {
+                        string modeName = mode.GetAttribute("name");
+                        string modeType = mode.GetAttribute("type");
+
+                        string body = string.Empty;
+                        XmlNode node = mode.ChildNodes[0];
+                        if (node is XmlCDataSection)
+                        {
+                            XmlCDataSection cdataSection = node as XmlCDataSection;
+                            body = cdataSection.Value;
+                        }
+                        selectionModeList.Add(new SelectionMode(modeName, modeType, body));
+                    }
+                }
+
+                List<SelectionType> selectionTypeList = new List<SelectionType>();
+                XmlElement selTypeRoot = (XmlElement)function.ParentNode.SelectSingleNode("SelectionTypes");
+                if (selTypeRoot != null)
+                {
+                    foreach (XmlElement sel in selTypeRoot.ChildNodes)
+                    {
+                        string selectionName    = sel.GetAttribute("type");
+                        string modeName         = sel.GetAttribute("name");
+                        string title            = sel.GetAttribute("localize");
+
+                        selectionTypeList.Add(new SelectionType(selectionName, modeName, title));
+                    }
+                }
+
+                //---------------------
+                // crea il nuovo prototipo e lo aggiunge all'elenco indicando anche in che dll si trova
+                ReferenceObjectsPrototype fp = new ReferenceObjectsPrototype
 					(
 						ns,
 						function.GetAttribute(ReferenceObjectsXML.Attribute.Localize),
@@ -309,7 +367,12 @@ namespace Microarea.Common.Hotlink
 
                 fp.IsDatafile = isDatafile;
 
-				return fp;
+                if (selectionModeList.Count > 0)
+                    fp.SelectionModeList = selectionModeList;
+                if (selectionTypeList.Count > 0)
+                    fp.SelectionTypeList = selectionTypeList;
+
+                return fp;
 			}
 
 			// la funzione non è dichiarata

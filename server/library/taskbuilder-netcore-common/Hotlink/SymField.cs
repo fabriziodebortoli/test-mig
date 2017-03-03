@@ -20,7 +20,8 @@ namespace Microarea.Common.Hotlink
     {
         protected  bool ruleDataFetched = false;
 
-        protected int len = 0;				// they need for eventual store on
+        protected int len = 0;              // they need for eventual store on
+        public string Title = string.Empty;
 
         public SymField(string name) : base(name)
         {

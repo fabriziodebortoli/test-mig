@@ -292,19 +292,37 @@ namespace Microarea.Common.Hotlink
 					if (parser.LookAhead() != Token.ID) 
 						return false;
 
-					if (!parser.ParseID( out name)) 
+					if (!parser.ParseID(out name)) 
 						return false;
 
-					if (!symbolTable.Contains(name)) 
-						return false;
+                    if (!symbolTable.Contains(name))
+                    {
+                        string aType = "String";
+                        if (parser.Parsed(Token.TYPE))
+                        {
+                            ushort tag = 0;
+                            string woormType = "";
+                            string baseType = "";
+
+                            if (!DataTypeParser.Parse(parser, this.session.Enums, out aType, out woormType, out tag, out baseType))
+                                return false;
+                        }
+                        field = new SymField(aType, name);
+                        symbolTable.Add(field);
+                    }
 
 					field = symbolTable.Find(name) as SymField;
 					Debug.Assert(field != null);
-
 					if (field == null)
 						return false;
 
-					pObj = field.Data;
+                   if (parser.Parsed(Token.TITLE))
+                   {
+                        if (!parser.ParseString(out field.Title))
+                            return false;
+                   }
+
+                    pObj = field.Data;
 					if (pObj == null) 
 						return false;
 
