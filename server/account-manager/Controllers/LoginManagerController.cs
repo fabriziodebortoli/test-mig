@@ -108,7 +108,7 @@ namespace Microarea.AccountManager.Controllers
             jsonWriter.WriteValue(result.admin);
 
             jsonWriter.WritePropertyName("connectionString");
-            jsonWriter.WriteValue(result.providerCompanyConnectionString);
+            jsonWriter.WriteValue(result.nonProviderCompanyConnectionString);
 
             jsonWriter.WritePropertyName("providerName");
             jsonWriter.WriteValue(result.providerName);
