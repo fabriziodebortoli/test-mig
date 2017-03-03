@@ -69,15 +69,12 @@ namespace DataService.Controllers
 
             Datasource ds = new Datasource(session);
 
-            if (!ds.PrepareQuery(HttpContext.Request.Query))
-                return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
-
-            string records;
-            if (!ds.GetCompactJson(out records))
+            string selections;
+            if (!ds.EnumSelectionTypes(out selections))
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
             //---------------------
-            return new ContentResult { Content = records, ContentType = "application/json" };
+            return new ContentResult { Content = selections, ContentType = "application/json" };
         }
 
         public IActionResult Index()
