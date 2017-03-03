@@ -103,7 +103,25 @@ $ ./restore.sh # Unix
 $ dotnet build ./web-server/project.json 
 ```
 
+### Generate ERP Modules
+
+Building ERP solution, the **TbJson** process generate TypeScript and HTML files into the folder:
+
+`<installation path>/standard/web/client/web-form/src/app/applications` 
+
+To re-generate modules, execute the *tbjson* script:
+
+```shell
+Move to the `<installation path>/standard/web/script/`
+cd c:/development/standard/web/script # example
+
+$ ./tbjson.bat # Windows
+$ ./tbjson.sh # Unix
+```
+
 ### Front-end Angular 
+
+Building `web-form` Angular project, the `dist` folder will be moved into the `web-server\wwwroot` folder of the .NET Core server.
 
 ```shell
 # Move to the <installation path>/standard/web/client/web-form
@@ -115,9 +133,6 @@ $ npm install
 # Build
 $ ng build
 ```
-Building `web-form` Angular project, the `dist` folder will be moved into the `web-server\wwwroot` folder of the .NET Core server.
-
-Seeing an error about *missing application routing*, you need to [execute TbJson process to generate TypeScript/HTML](#generate-erp-modules).
 
 ## Running
 
@@ -140,19 +155,5 @@ Developers can also use the VS solution
 
 **Set web-server as StartUp Project** and **run WebServer** instead of IIS Express.
 
-## Generate ERP Modules
 
-Building ERP solution, the **TbJson** process generate TypeScript and HTML files into the folder:
-
-`<installation path>/standard/web/client/web-form/src/app/applications` 
-
-To re-generate modules, execute the *tbjson* script:
-
-```shell
-Move to the `<installation path>/standard/web/script/`
-cd c:/development/standard/web/script # example
-
-$ ./tbjson.bat # Windows
-$ ./tbjson.sh # Unix
-```
  or **ReBuild ERP solution**
