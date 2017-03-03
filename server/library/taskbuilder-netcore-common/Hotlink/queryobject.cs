@@ -851,8 +851,35 @@ namespace Microarea.Common.Hotlink
 			return true;
 		}
 
-		//------------------------------------------------------------------------------
-		public bool Read ()
+        //------------------------------------------------------------------------------
+        public void EnumColumns(ArrayList columns)
+        {
+            for (int i = 0; i < tagLinkArrayList.Count; i++)
+            {
+                TagLink tagLink = (TagLink)tagLinkArrayList[i];
+
+                if (
+                    tagLink.direction == Direction.EXPAND ||
+                    tagLink.direction == Direction.INCLUDE
+                    )
+                {
+                    if (tagLink.isWhen)
+                        tagLink.expandClause.EnumColumns(columns);
+                    else if (tagLink.elseClause != null)
+                        tagLink.elseClause.EnumColumns(columns);
+                    continue;
+                }
+
+                if (tagLink.direction != Direction.COL) 
+                    continue;
+
+                SymField field = symbolTable.Find(tagLink.name) as SymField;
+                columns.Add(field);
+            }
+         }
+
+        //------------------------------------------------------------------------------
+        public bool Read ()
 		{
             if (!IsOpen() && !Open())
                 return false;

@@ -20,6 +20,7 @@ export class WebSocketService {
     public serverCommandMapReady: EventEmitter<any> = new EventEmitter();
     public windowOpen: EventEmitter<any> = new EventEmitter();
     public windowClose: EventEmitter<any> = new EventEmitter();
+    public activationData: EventEmitter<any> = new EventEmitter();
     public open: EventEmitter<any> = new EventEmitter();
     public close: EventEmitter<any> = new EventEmitter();
 
@@ -44,6 +45,7 @@ export class WebSocketService {
                     switch (obj.cmd) {
                         case 'DataReady': $this.dataReady.emit(obj.args); break;
                         case 'WindowOpen': $this.windowOpen.emit(obj.args); break;
+                        case 'ActivationData': $this.activationData.emit(obj.args); break;
                         case 'WindowClose': $this.windowClose.emit(obj.args); break;
                         case 'ServerCommandMapReady': $this.serverCommandMapReady.emit(obj.args); break;
                         //when tbloader has connected to gate, I receive this message; then I can
