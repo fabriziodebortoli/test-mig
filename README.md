@@ -9,4 +9,4 @@ TaskBuilder Web projects.
 [server - Backend services and API](https://github.com/Microarea/Taskbuilder/tree/master/server)
 
 ## Developers
-[guide - Building and running TaskBuilder Web](https://github.com/Microarea/Taskbuilder/blob/master/DEVELOPER.md)
+[Building and Running TaskBuilder Web](https://github.com/Microarea/Taskbuilder/blob/master/DEVELOPER.md)

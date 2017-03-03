@@ -1,6 +1,6 @@
 # Building and Running TaskBuilder Web
 
-This document describes how to set up your development environment to build and test Angular.
+This document describes how to set up your development environment to build and test TaskBuilder Web.
 It also explains the basic mechanics of using `git`, `node`, and `npm`.
 
 * [Prerequisite Software](#prerequisite-software)
