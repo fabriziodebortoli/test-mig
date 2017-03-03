@@ -5,8 +5,12 @@
 <div class="bookmarks">
 
     <ul class="bookmarks-list">
-        <li *ngFor="let application of applications" (click)=selecteApplication(application) class="applicationItem">
+        <li *ngFor="let application of applications" (click)=selecteApplication(application.path) class="appTitle">
             <div>{{application.name}}</div>
         </li>
+        <li *ngFor="let folder of folders" class="applicationItem">
+            <div>{{folder.name}}</div>
+        </li>
+
     </ul>
 </div>
