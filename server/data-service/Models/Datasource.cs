@@ -12,33 +12,34 @@ using Microarea.Common.Lexan;
 using Microarea.Common.ExpressionManager;
 using Microarea.Common.NameSolver;
 using Microsoft.AspNetCore.Http;
+using System.Collections;
 
 namespace Microarea.DataService.Models
 {
     public class Datasource
     {
         public TbSession Session = null;
-       
+
         ReferenceObjectsPrototype XmlDescription = null;
 
         public SymbolTable SymTable = new SymbolTable();
-          public SymField selection_type     = new SymField("string", "selection_type");
-          public SymField like_value         = new SymField("string", "like_value");
- 
+        public SymField selection_type = new SymField("string", "selection_type");
+        public SymField like_value = new SymField("string", "like_value");
+
         public QueryObject CurrentQuery = null;
 
         public Datasource(TbSession session)
         {
             SymTable.Add(selection_type);
-            SymTable.Add(like_value); 
- 
+            SymTable.Add(like_value);
+
             this.Session = session;
         }
 
         public bool Load(IQueryCollection requestQuery)
         {
             selection_type.Data = requestQuery["selection_type"];
-            like_value.Data     = requestQuery["like_value"];
+            like_value.Data = requestQuery["like_value"];
 
             XmlDescription = ReferenceObjects.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
@@ -49,7 +50,7 @@ namespace Microarea.DataService.Models
 *              disabled = HttpContext.Request.Query["disabled"];
             good_type = HttpContext.Request.Query["good_type"]; 
             */
-           foreach (IParameter p in XmlDescription.HotLinkParameters)
+            foreach (IParameter p in XmlDescription.HotLinkParameters)
             {
                 SymField paramField = new SymField(p.TbType, p.Name);
                 if (p.Optional)
@@ -73,6 +74,36 @@ namespace Microarea.DataService.Models
             if (!this.CurrentQuery.Define(sQuery))
                 return false;
 
+            return true;
+        }
+        //---------------------------------------------------------------------
+        public bool Execute(ref string records)
+        {
+            if (!CurrentQuery.Open())
+                return false;
+
+            ArrayList columns = new ArrayList();
+            CurrentQuery.EnumColumns(columns);
+
+            //TODO emit json record header (localized title column, column name, datatype column
+            foreach (SymField f in columns)
+            {
+                records += f.Name + ';';
+            }
+            records += '\n';
+
+            while (CurrentQuery.Read())
+            {
+                //TODO emit json record
+                foreach (SymField f in columns)
+                {
+                    object o = f.Data;
+
+                    records += o.ToString() + ';';
+                }
+                records += '\n';
+            }
+            CurrentQuery.Close();
             return true;
         }
     }

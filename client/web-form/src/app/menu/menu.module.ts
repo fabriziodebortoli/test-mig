@@ -18,7 +18,6 @@ import { SharedModule } from '../shared/shared.module';
 import { SearchComponent } from './components/menu/search/search.component';
 import { LocalizationService } from './services/localization.service';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
-import { TileElementComponent } from './components/menu/tile-element/tile-element.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
@@ -29,6 +28,7 @@ import { Logger } from 'libclient';
 import { Accordion, AccordionGroup } from '../shared/containers/accordion/accordion.component';
 import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
+import { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
 
 //WARNING: put here only GLOBAL services, NOT component level services
 const MENU_SERVICES = [
@@ -55,7 +55,6 @@ const MENU_SERVICES = [
     ApplicationSelectorComponent,
     MenuContainerComponent,
     FavoritesComponent,
-    TileElementComponent,
     MostUsedComponent,
     SearchComponent,
     ProductInfoDialogComponent,
@@ -65,7 +64,8 @@ const MENU_SERVICES = [
     Accordion,
     AccordionGroup,
     MenuTabberComponent,
-    MenuTabComponent
+    MenuTabComponent,
+    MenuElementComponent
   ],
   exports:
   [
@@ -75,7 +75,6 @@ const MENU_SERVICES = [
     ApplicationSelectorComponent,
     MenuContainerComponent,
     FavoritesComponent,
-    TileElementComponent,
     MostUsedComponent,
     SearchComponent,
     GroupSelectorComponent,
@@ -100,7 +99,6 @@ export class MenuModule {
 
   constructor(private logger: Logger) {
     this.logger.debug('MenuModule instantiated - ' + Math.round(new Date().getTime() / 1000));
-
   }
 }
 

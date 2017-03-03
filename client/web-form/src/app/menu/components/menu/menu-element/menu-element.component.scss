@@ -1,0 +1,34 @@
+.menu-element {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: stretch;
+    align-items: flex-start;
+}
+
+.object-type {
+    color: #0277bd;
+}
+
+md-spinner {
+    width: 30px;
+    height: 21px;
+    margin-top: 2px;
+}
+
+span {
+    font-size: 12px;
+    line-height: 24px;
+    cursor: pointer;
+    flex: 1 1 auto;
+    padding: 0 5px;
+}
+
+.isLoading {
+    color: #999;
+}
+
+.star {
+    color: #d4eafd;
+}

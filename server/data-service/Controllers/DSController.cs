@@ -35,6 +35,9 @@ namespace DataService.Controllers
             if (!ds.Load(HttpContext.Request.Query))
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
+            
+
+
             //---------------------
             return new ContentResult { Content = "e mo ci vogliono i dati", ContentType = "application/json" };
         }
