@@ -279,6 +279,8 @@ namespace Microarea.RSWeb.WoormController
 		{
 			get
 			{
+                return true;
+/* TODO RSWEB check della security light/full
                  if (Woorm.Namespace == null) 
                     return true;
 
@@ -303,6 +305,7 @@ namespace Microarea.RSWeb.WoormController
                 security.Dispose();
 
                 return existGrants;
+*/
             }
         }
 

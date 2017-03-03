@@ -57,16 +57,16 @@ namespace Microarea.Common.Applications
            this.ImpersonatedUser = this.User = msg.userName;
            this.Company                     = msg.companyName;
            this.Admin                       = msg.admin;
-           this.CompanyDbConnection         = msg.connectionString;
+           this.CompanyDbConnection         = AdjustConnectionString(msg.connectionString);
            this.Provider                    = msg.providerName;
            this.UseUnicode                  = msg.useUnicode;
            this.UserUICulture               = new CultureInfo(msg.preferredLanguage);
            this.UserCulture                 = new CultureInfo(msg.applicationLanguage);
         }
 
-    //---------------------------------------------------------------------
-    //modifica la stringa di connessione in modo da farle usare il connection pool
-    private string AdjustConnectionString(string connectionString)
+        //---------------------------------------------------------------------
+        //modifica la stringa di connessione in modo da farle usare il connection pool
+        static private string AdjustConnectionString(string connectionString)
         {
             string pattern = @"Pooling\s*=\s*false";
             return Regex.Replace(connectionString, pattern, "Pooling=true", RegexOptions.IgnoreCase);

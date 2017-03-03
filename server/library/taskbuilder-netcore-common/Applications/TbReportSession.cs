@@ -85,6 +85,10 @@ namespace Microarea.Common.Applications
             this.UserInfo = ui;
             this.Namespace = ns;
             this.PathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
+
+            if (!LoadSessionInfo(null, false))
+                //throw new InvalidSessionException();
+                ;
         }
 
 
@@ -229,7 +233,8 @@ namespace Microarea.Common.Applications
     ///=============================================================================
     public class TbReportSession : TbSession
     {
-         private string reportParameters;
+        private string reportParameters;
+        NameSpace ReportNameSpace = null;
 
         public int PageRendered = -1;
         public bool StoppedByUser = false;
@@ -242,17 +247,20 @@ namespace Microarea.Common.Applications
         public bool UseApproximation = true; // enable TaskBuilder Approximation for real
         public bool StripTrailingSpaces = true;
 
-        public TbReportSession(UserInfo UserInfo, string ns)
-            : base (UserInfo, ns)
+        public TbReportSession(UserInfo ui, string ns)
+            : base (ui, ns)
         {
+            ReportNameSpace = new NameSpace(ns, NameSpaceObjectType.Report);
+
+            ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
 
         }
 
-  
-       //---------------------------------------------------------------------
-      // private IBrandLoader BrandLoader = new BrandLoader();
 
-     }
+        //---------------------------------------------------------------------
+        // private IBrandLoader BrandLoader = new BrandLoader();
+
+    }
 
     //=========================================================================
     public class ApplicationKey
