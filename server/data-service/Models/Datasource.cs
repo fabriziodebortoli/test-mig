@@ -11,52 +11,58 @@ using Microarea.Common.Hotlink;
 using Microarea.Common.Lexan;
 using Microarea.Common.ExpressionManager;
 using Microarea.Common.NameSolver;
+using Microsoft.AspNetCore.Http;
 
 namespace Microarea.DataService.Models
 {
     public class Datasource
     {
-        public string Namespace;
+        public TbSession Session = null;
+       
         ReferenceObjectsPrototype XmlDescription = null;
 
         public SymbolTable SymTable = new SymbolTable();
-          public SymField dsSelectionType     = new SymField("string", "dsSelectionType");
-          public SymField dsValue             = new SymField("string", "dsValue");
+          public SymField selection_type     = new SymField("string", "selection_type");
+          public SymField like_value         = new SymField("string", "like_value");
  
-        public TbSession tbSession = null;
-
         public QueryObject CurrentQuery = null;
 
         public Datasource(TbSession session)
         {
-            SymTable.Add(dsValue); 
-            SymTable.Add(dsSelectionType);
-
-            tbSession = session;
+            SymTable.Add(selection_type);
+            SymTable.Add(like_value); 
+ 
+            this.Session = session;
         }
 
-        public bool Load(string ns, string selectionType,  string prefix = "")
+        public bool Load(IQueryCollection requestQuery)
         {
-            Namespace = ns;
-            dsSelectionType.Data = selectionType;
-            dsValue.Data = prefix;
+            selection_type.Data = requestQuery["selection_type"];
+            like_value.Data     = requestQuery["like_value"];
 
-            XmlDescription = ReferenceObjects.LoadPrototypeFromXml(ns, BasePathFinder.BasePathFinderInstance);
+            XmlDescription = ReferenceObjects.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
                 return false;
 
             //Aggiungere alla SymbolTable i parametri espliciti della descrizione
-            foreach (IParameter p in XmlDescription.HotLinkParameters)
+            /*           
+*              disabled = HttpContext.Request.Query["disabled"];
+            good_type = HttpContext.Request.Query["good_type"]; 
+            */
+           foreach (IParameter p in XmlDescription.HotLinkParameters)
             {
                 SymField paramField = new SymField(p.TbType, p.Name);
                 if (p.Optional)
                 {
-                    //TODO paramField.Data = p.Value;
+                    //TODO parsed optional value paramField.Data = p.Value;
                 }
+
+                paramField.Data = requestQuery[p.Name];
+
                 SymTable.Add(paramField);
             }
 
-            this.CurrentQuery = new QueryObject(selectionType, SymTable, tbSession, null);
+            this.CurrentQuery = new QueryObject(selection_type.Data as string, SymTable, Session, null);
 
             string sQuery = string.Empty;
             //TODO manca la lettura ed il metodo

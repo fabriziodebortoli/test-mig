@@ -20,7 +20,7 @@ export class ExplorerComponent extends DocumentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.eventData.model = { 'Title': { 'value': "Explorer Component Demo" } };
+    this.eventData.model = { 'Title': { 'value': 'Explorer Component Demo' } };
   }
 
 }
@@ -32,4 +32,4 @@ export class ExplorerFactoryComponent {
   constructor(componentService: ComponentService, resolver: ComponentFactoryResolver) {
     componentService.createComponent(ExplorerComponent, resolver);
   }
-} 
+}

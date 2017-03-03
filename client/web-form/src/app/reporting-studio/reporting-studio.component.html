@@ -1,5 +1,23 @@
-<p>Reporting Studio Component con namespace: {{args.nameSpace}}</p>
+<tb-frame>
+    <tb-toolbar-top>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.PlayFilled.png" caption="Run Report" *ngIf="!running" cmpId="ID_EXTDOC_FIND" (click) = "RunReport()"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Stop.png" caption="Abort Report"  *ngIf="running" cmpId="ID_EXTDOC_FIND" (click) = "AbortReport()"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Find.png" caption="Search" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+    </tb-toolbar-top>
+    <tb-view>
+        <p>Reporting Studio Component con namespace: {{args.nameSpace}}</p>
 
-<p>Message received: {{message}}</p>
+        <p>Message received: {{message}}</p>
 
-<p>Company received: {{cookieService.get('_company')}}</p>
+        <p>Company received: {{cookieService.get('_company')}}</p>
+    </tb-view>
+    <tb-toolbar-bottom>
+        <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Radar.png" caption="Radar" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button> -->
+        <tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Save.png" caption="Save" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+        <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Escape.png" caption="Undo Changes" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>-->
+        <tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.New.png" caption="New" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Exit.png" caption="Exit" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-bottom-button>
+        <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Delete.png" caption="Delete" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>-->
+        <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Print.png" caption="Print" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>-->
+    </tb-toolbar-bottom>
+</tb-frame>

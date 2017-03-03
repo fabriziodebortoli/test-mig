@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit, OnDestroy, Input, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -11,6 +13,8 @@ import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+
+
 
 @Component({
   selector: 'app-reporting-studio',
@@ -27,6 +31,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   private subMessage: Subscription;
   private message: string = '';
+
+  private running: boolean = false;
 
   constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
     super(rsService, eventData);
@@ -63,6 +69,14 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     this.rsService.doSend(JSON.stringify(message));
 
+  }
+
+  RunReport() {
+    this.running = true;
+  }
+
+  AbortReport() {
+    this.running = false;
   }
 
 }

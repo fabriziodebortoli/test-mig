@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
@@ -16,6 +17,7 @@ import {
 
 @NgModule({
   imports: [
+    SharedModule,
     CommonModule,
     MaterialModule.forRoot(),
     RouterModule.forChild([
