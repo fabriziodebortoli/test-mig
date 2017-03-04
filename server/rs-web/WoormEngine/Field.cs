@@ -774,10 +774,10 @@ namespace Microarea.RSWeb.WoormEngine
             if (EventData != null && EventData.GetType().Name == "String" && multiLine)
 			{
 				string data = (string)EventData;
-
-                if (engine.OptimizedLineBreak)
-                    substrings = SplitStringOptimized(data);
-                else
+                //TODO RSWEB splitstring 
+                //if (engine.OptimizedLineBreak)
+                //    substrings = SplitStringOptimized(data);
+                //else
                     substrings = SplitStringOld(data);
 
 				// si incrementa il numero di colonne rasterizzate
