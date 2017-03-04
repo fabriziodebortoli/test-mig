@@ -44,7 +44,8 @@ namespace TaskBuilderNetCore.Data
 
         protected override DbConnection DbConnection {get; set;}
                                                                        
-        protected override DbParameterCollection DbParameterCollection { get; }
+        protected override DbParameterCollection DbParameterCollection { get { return command.Parameters; } }
+        protected new DbParameterCollection Parameters { get { return command.Parameters; } }
 
         protected override DbTransaction DbTransaction { get; set; }
 

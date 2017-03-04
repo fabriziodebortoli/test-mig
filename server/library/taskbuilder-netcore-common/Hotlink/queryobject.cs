@@ -722,11 +722,12 @@ namespace Microarea.Common.Hotlink
 				
 	            tagLink.bindPos = bindPos++;
 
-                if (tbCommand.Parameters == null)
-                {
-                    tbCommand.CreateParameter();
-                }
-                int paramNumber = tbCommand.Parameters.Add(/*tagLink.sqlStringName, */tagLink.data);
+                //TODO RSWEB add command parameter
+                IDbDataParameter p = tbCommand.CreateParameter();
+                p.ParameterName = tagLink.sqlStringName;
+                p.Value = tagLink.data;
+                int paramNumber = tbCommand.Parameters.Add(p);
+                //int paramNumber = tbCommand.Parameters.Add(tagLink.sqlStringName, tagLink.data);
 
 				IDataParameter tbParameter = tbCommand.Parameters[paramNumber];
 				tbParameter.Direction	= directionType;

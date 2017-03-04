@@ -1363,11 +1363,11 @@ namespace Microarea.RSWeb.WoormEngine
                     }
                     else
                     {
-                        if (tbCommand.Parameters == null)
-                        {
-                            tbCommand.CreateParameter();
-                        }
-                        tbCommand.Parameters.Add(/*param.Name,*/ param.Data);
+                        //TODO RSWEB add command parameter
+                        IDbDataParameter p = tbCommand.CreateParameter();
+                        p.ParameterName = param.Name;
+                        p.Value = param.Data;
+                        tbCommand.Parameters.Add(p);
                     }
 				}
 
@@ -1524,12 +1524,18 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 			finally
 			{
-				iDataReader.Close();
-				tbCommand.Dispose();
-                //tbConnection.Close();
+                if (iDataReader != null)
+                {
+                    iDataReader.Close();
+                    iDataReader = null;
+                }
+                if (tbCommand != null)
+                {
+                    tbCommand.Dispose();
+                    tbCommand = null;
+                }
 
-				iDataReader = null;
- 				tbCommand	= null;
+                //tbConnection.Close();
                //tbConnection= null;
 			}
 
