@@ -272,7 +272,7 @@ namespace Microarea.RSWeb.WoormViewer
                                     if (reader.MoveToAttribute(RdeWriterTokens.Attribute.Culture))
                                     {
                                         int lcid = int.Parse(reader.Value);
-                                        v.CollateCulture = new System.Globalization.CultureInfo(reader.Value);               //todo rsweb
+                                        v.CollateCulture = new System.Globalization.CultureInfo(reader.Value);  //TODO RSWEB CollateCulture (2)
                                     }
 
                                     AliasTable[id] = dataType;

@@ -722,6 +722,10 @@ namespace Microarea.Common.Hotlink
 				
 	            tagLink.bindPos = bindPos++;
 
+                if (tbCommand.Parameters == null)
+                {
+                    tbCommand.CreateParameter();
+                }
                 int paramNumber = tbCommand.Parameters.Add(/*tagLink.sqlStringName, */tagLink.data);
 
 				IDataParameter tbParameter = tbCommand.Parameters[paramNumber];

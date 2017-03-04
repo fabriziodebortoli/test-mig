@@ -37,7 +37,7 @@ namespace Microarea.RSWeb.Models
             //    ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
             //}
 
-            StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, "sessionID", "uniqueID"); //, Guid.NewGuid().ToString());
+            StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, Guid.NewGuid().ToString(), Guid.NewGuid().ToString()); 
 
             // se ci sono stati errore nel caricamento fermo tutto (solo dopo aver istanziato la RSEngine)
             //if (!sessionOk)
@@ -60,8 +60,8 @@ namespace Microarea.RSWeb.Models
             //    StateMachine.XmlGetErrors();
 
             // rilascio la macchina per risparmiare memoria
-            StateMachine.Dispose();
-            StateMachine = null;
+            //StateMachine.Dispose();
+            //StateMachine = null;
 
         }
     }

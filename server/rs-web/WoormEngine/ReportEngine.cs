@@ -85,7 +85,7 @@ namespace Microarea.RSWeb.WoormEngine
 	{
 		private string		tableName;
 		private string		aliasName;
-		//private DataTable	schema = null;          todo rsweb
+		//private DataTable	schema = null;          TODO RSWEB get Column datatype (1)
 
 		public	Diagnostic	Diagnostic = new Diagnostic("TableNames");
 
@@ -112,12 +112,11 @@ namespace Microarea.RSWeb.WoormEngine
 			{
 				using (DBConnection connection = new DBConnection(DBType.SQLSERVER,  connectionString/*TBDatabaseType.GetDBMSType(provider) TODO rsweb*/))
 				{
-					connection.Open();
-
-					//TBDatabaseSchema dbSchema = new TBDatabaseSchema(connection);          TODO rsweb
-					//schema = dbSchema.GetTableSchema(tableName, false);
-
-					connection.Close();
+                    //TODO RSWEB get Column datatype (2)
+					    //connection.Open();
+                        //TBDatabaseSchema dbSchema = new TBDatabaseSchema(connection);          
+                        //schema = dbSchema.GetTableSchema(tableName, false);
+                        //connection.Close();
 				}
 			}
 			catch (DBException e)
@@ -135,21 +134,23 @@ namespace Microarea.RSWeb.WoormEngine
 		//-----------------------------------------------------------------------------
 		public string GetColumnType(string columnName)
 		{
-			// se non ha la connessione al database o se la colonna non esiste assume
-			// che la colonna sia di tipo stringa.
-			//if (schema != null)
-				//foreach (DataRow row in schema.Rows)                             TODO rsweb DataRow rimosso dalla piattaforma
-				//{
-				//	if (string.Compare((string)row["ColumnName"], columnName, true, CultureInfo.InvariantCulture) == 0)
-				//	{
-				//		// nel caso contenga il Namespace completo ritorno il solo basename del tipo
-				//		// Es: System.Int32 torna Int32
-				//		string type = row["DataType"].ToString();
-				//		return type.Replace("System.", "");
-				//	}
-				//}
+            // se non ha la connessione al database o se la colonna non esiste assume
+            // che la colonna sia di tipo stringa.
 
-			return null;
+            //TODO RSWEB get Column datatype (3)
+            //if (schema != null)
+            //foreach (DataRow row in schema.Rows)                             TODO rsweb DataRow rimosso dalla piattaforma
+            //{
+            //	if (string.Compare((string)row["ColumnName"], columnName, true, CultureInfo.InvariantCulture) == 0)
+            //	{
+            //		// nel caso contenga il Namespace completo ritorno il solo basename del tipo
+            //		// Es: System.Int32 torna Int32
+            //		string type = row["DataType"].ToString();
+            //		return type.Replace("System.", "");
+            //	}
+            //}
+
+            return "string"; //TODO RSWEB null;
 		}
 	}
 
@@ -207,7 +208,7 @@ namespace Microarea.RSWeb.WoormEngine
             object setting1 = ReadSetting.GetSettings(Session.PathFinder, "Framework.TbWoormViewer.Woorm", "WoormGeneralOptions", "OptimizedLineBreak", true);
             this.OptimizedLineBreak = ObjectHelper.CastBool(setting1);
 
-            object setting2 = ReadSetting.GetSettings(Session.PathFinder, "Framework.TbWoormViewer.Woorm", "WoormGeneralOptions", "ColumnWidthPercentage", 90);
+            object setting2 = ReadSetting.GetSettings(Session.PathFinder, "Framework.TbWoormViewer.Woorm", "WoormGeneralOptions", "ColumnWidthPercentage", 95);
 			double columnPerc;
 			if (double.TryParse(setting2 as string, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out columnPerc))
 			{

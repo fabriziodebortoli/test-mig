@@ -834,7 +834,7 @@ namespace Microarea.RSWeb.WoormViewer
 		{
 			if(!disposed)
 			{
-				PathFunctions.DeleteTempData(SessionID, UniqueID);
+				//TODO RSWEB per debug lascio i temporanei - PathFunctions.DeleteTempData(SessionID, UniqueID);
 				if (Disposed != null)
 					Disposed(this, EventArgs.Empty);
 			}

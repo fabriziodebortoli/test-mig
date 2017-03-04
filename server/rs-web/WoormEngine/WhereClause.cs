@@ -165,7 +165,7 @@ namespace Microarea.RSWeb.WoormEngine
 			string columnType = dataTableRule.FromTables.GetColumnType(tableName, columnName);
 			if (columnType == null)
 			{
-				SetError(string.Format(WoormEngineStrings.IllegalDataType, ""));
+				SetError(string.Format(WoormEngineStrings.IllegalDataType, "") + ':' + tableName + '.' + columnName);
 				return null;
 			}
 

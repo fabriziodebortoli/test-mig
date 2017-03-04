@@ -1355,15 +1355,20 @@ namespace Microarea.RSWeb.WoormEngine
 
 				// faccio il bind dei parametri
 				foreach (ParamItem param in whereClause.Parameters)
-				{	
-					if (param.IsValueContentOf)
-					{
-						if (tbCommand.CommandText.Contains(param.Name))
-							tbCommand.CommandText = tbCommand.CommandText.Replace(param.Name, param.Data.ToString());
-
-					}
-					else
-						tbCommand.Parameters.Add(/*param.Name,*/ param.Data);
+				{
+                    if (param.IsValueContentOf)
+                    {
+                        if (tbCommand.CommandText.Contains(param.Name))
+                            tbCommand.CommandText = tbCommand.CommandText.Replace(param.Name, param.Data.ToString());
+                    }
+                    else
+                    {
+                        if (tbCommand.Parameters == null)
+                        {
+                            tbCommand.CreateParameter();
+                        }
+                        tbCommand.Parameters.Add(/*param.Name,*/ param.Data);
+                    }
 				}
 
 				foreach (ParamItem param in havingClause.Parameters)

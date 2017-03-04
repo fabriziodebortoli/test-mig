@@ -55,24 +55,28 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//------------------------------------------------------------------------------
+		virtual public void Close(string file)
+		{
+            if (output != null)
+            {
+                FileStream fs = File.OpenWrite(file);
+                output.Save(fs);
+                output = null;
+                fs.Dispose();
+            }
+			Dispose();
+		}
+
+		//------------------------------------------------------------------------------
 		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
-
-		//------------------------------------------------------------------------------
-		virtual public void Close(string file)
-		{
-			if (output != null)
-				output.Save(File.OpenWrite(file));
-			Dispose();
-		}
-
 		//------------------------------------------------------------------------------
 		protected virtual void Dispose(bool disposing)
 		{
-			output = null;
+ 			output = null;
 		}
 
 		//---------------------------------------------------------------------------
@@ -191,8 +195,10 @@ namespace Microarea.RSWeb.WoormEngine
 				else
 				    Attribute(RdeWriterTokens.Attribute.Value, SoapTypes.To(field.Data));
 
+                /* TODO RSWEB CollateCulture (1)
 				if (field.DataType == "String")
-					Attribute(RdeWriterTokens.Attribute.Culture, field.CollateCulture/*.LCID TODO rsweb*/);
+					Attribute(RdeWriterTokens.Attribute.Culture, field.CollateCulture.LCID);
+                */
 
 				if (field.IsColumn2)
 					Attribute(RdeWriterTokens.Attribute.IsColumn, "true");
