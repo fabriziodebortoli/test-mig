@@ -15,6 +15,9 @@ namespace TaskBuilderNetCore.Data
     {                                                                                    
         private Provider.DBType dbType { get; set; }
         private DbCommand command { get; set; }
+
+        DbDataReader reader = null;
+
         public DBCommand(string query, DBConnection connection)
         {
             command = connection.CreateCommand();
@@ -54,10 +57,13 @@ namespace TaskBuilderNetCore.Data
             command.Cancel();
         }
      
-
         public new void Dispose()
         {
+            if (reader != null) reader.Dispose();
+            reader = null;
+
             command.Dispose();
+            command = null;
         }
 
         public override int ExecuteNonQuery()
@@ -82,7 +88,8 @@ namespace TaskBuilderNetCore.Data
 
         public new DBDataReader ExecuteReader()
         {
-            return new DBDataReader(command.ExecuteReader());
+            reader = command.ExecuteReader();
+            return new DBDataReader(reader);
         }
 
         public new DBDataReader ExecuteReader(CommandBehavior behavior)

@@ -250,6 +250,7 @@ namespace TaskBuilderNetCore.Data
         public new void Dispose()
         {
             dt.Dispose();
+            dt = null;
         }
     }
 }

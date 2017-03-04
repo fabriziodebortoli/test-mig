@@ -1350,7 +1350,18 @@ namespace Microarea.RSWeb.WoormEngine
                 if (tbConnection.State != ConnectionState.Open)
                     tbConnection.Open();
 
-				tbCommand = new DBCommand(select, tbConnection);
+                if (iDataReader != null)
+                {
+                    iDataReader.Close();
+                    iDataReader = null;
+                }
+                if (tbCommand != null)
+                {
+                    tbCommand.Dispose();
+                    tbCommand = null;
+                }
+
+                tbCommand = new DBCommand(select, tbConnection);
                 tbCommand.CommandTimeout = 0; 
 
 				// faccio il bind dei parametri
@@ -1516,13 +1527,19 @@ namespace Microarea.RSWeb.WoormEngine
                     if (top > 0 && top == rowsFetched)
                         break;
 				}
-			}
-			catch(DBException e)
-			{
-				Engine.SetError(e.Message);
-				return RuleReturn.Abort;
-			}
-			finally
+
+                if (iDataReader != null)
+                {
+                    iDataReader.Close();
+                    iDataReader = null;
+                }
+                if (tbCommand != null)
+                {
+                    tbCommand.Dispose();
+                    tbCommand = null;
+                }
+            }
+            catch (DBException e)
 			{
                 if (iDataReader != null)
                 {
@@ -1535,6 +1552,12 @@ namespace Microarea.RSWeb.WoormEngine
                     tbCommand = null;
                 }
 
+
+                Engine.SetError(e.Message);
+				return RuleReturn.Abort;
+			}
+			finally
+			{
                 //tbConnection.Close();
                //tbConnection= null;
 			}
