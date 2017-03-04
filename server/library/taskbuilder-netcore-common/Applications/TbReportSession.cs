@@ -254,6 +254,8 @@ namespace Microarea.Common.Applications
 
             ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
 
+            //TODO RSWEB
+            //System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(StateMachine.ReportSession.UICulture);
         }
 
 

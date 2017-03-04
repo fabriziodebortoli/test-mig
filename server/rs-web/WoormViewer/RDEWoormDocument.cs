@@ -23,7 +23,7 @@ namespace Microarea.RSWeb.WoormViewer
 
 			this.filename	= RdeReader.WoormFile;
 			this.Namespace  = ReportSession.PathFinder.GetNamespaceFromPath(filename);
-            //localizer = new WoormLocalizer(filename, ReportSession.PathFinder);
+            //TODO RSWEB localizer = new WoormLocalizer(filename, ReportSession.PathFinder);
 		}
 
 		//---------------------------------------------------------------------------

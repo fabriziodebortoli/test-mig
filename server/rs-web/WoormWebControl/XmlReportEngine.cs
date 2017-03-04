@@ -27,8 +27,7 @@ namespace Microarea.RSWeb.WoormWebControl
 		//--------------------------------------------------------------------------
 		public XmlReportEngine
 			(
-                TbReportSession session,
-                string parameters = null
+                TbReportSession session
             )
         {
             ReportSession = session;
@@ -38,10 +37,17 @@ namespace Microarea.RSWeb.WoormWebControl
         // ITRI gestire meglio anche il ritorno di un diagnostic, in caso di errore (multiple righe)
         // o di una collezione di stringhe di errore.
         //--------------------------------------------------------------------------
-        private StringCollection ExecuteReport(XmlReturnType xmlReturnType)
+        private StringCollection ExecuteReport(XmlReturnType xmlReturnType, string parameters = null)
 		{
-			// istanzio una nuova macchina per la elaborazione del report per generare solo XML
-			StateMachine = new RSEngine(ReportSession, XmlDomParameters, XmlResultReports, xmlReturnType);
+            if (!string.IsNullOrEmpty(parameters))
+            {
+                ReportSession.ReportParameters = parameters;
+                XmlDomParameters.LoadXml(parameters);
+                ReportSession.ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
+            }
+
+            // istanzio una nuova macchina per la elaborazione del report per generare solo XML
+            StateMachine = new RSEngine(ReportSession, XmlDomParameters, XmlResultReports, xmlReturnType);
 
 			// se ci sono stati errore nel caricamento fermo tutto (solo dopo aver istanziato la RSEngine)
 			//if (!sessionOk)
@@ -71,12 +77,12 @@ namespace Microarea.RSWeb.WoormWebControl
 		}
 
         //--------------------------------------------------------------------------
-        public StringCollection XmlExecuteReport()
+        public StringCollection XmlExecuteReport(string parameters = null)
         {
             //if (ReportNamespace == null || ReportNamespace.Length == 0)
             //    return new StringCollection();
 
-            return ExecuteReport(XmlReturnType.ReportData);
+            return ExecuteReport(XmlReturnType.ReportData, parameters);
         }
 
         //--------------------------------------------------------------------------

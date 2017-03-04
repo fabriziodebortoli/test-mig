@@ -1009,8 +1009,10 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		public bool ExecuteLoadParamters()
 		{
-			string namespaceURI = Report.XmlDomParameters.DocumentElement.NamespaceURI;
-			foreach (Field field in RepSymTable.Fields)
+			string namespaceURI = Report.XmlDomParameters.DocumentElement != null ? Report.XmlDomParameters.DocumentElement.NamespaceURI : string.Empty;
+			
+            if (namespaceURI != string.Empty)
+                foreach (Field field in RepSymTable.Fields)
 				if (field.Input)
 				{
 					try
