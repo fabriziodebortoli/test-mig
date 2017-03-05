@@ -88,19 +88,46 @@ namespace Microarea.Common.Hotlink
 		string dbTableName = "";
 		string dbFieldDescriptionName = "";
 		string radarReportName = "";
-		List<Parameter> hotLinkParameters = new List<Parameter>(); 
         public bool IsDatafile = false;
 
         public List<SelectionType> SelectionTypeList = new List<SelectionType>();
         public List<SelectionMode> SelectionModeList = new List<SelectionMode>();
+
+        public SelectionMode GetMode(string selectionName)
+        {
+            string modeName = string.Empty;
  
+            for (int i = 0; i < this.SelectionTypeList.Count; i++)
+            {
+                SelectionType st = this.SelectionTypeList[i];
+
+                if (string.Compare(selectionName, st.SelectionName, true) == 0)
+                {
+                    modeName = st.ModeName;
+                    break;
+                }
+            }
+            if (modeName == string.Empty)
+                return null;
+
+            for (int i = 0; i < this.SelectionModeList.Count; i++)
+            {
+                SelectionMode sm = this.SelectionModeList[i];
+
+                if (string.Compare(modeName, sm.ModeName, true) == 0)
+                {
+                    return sm;
+                }
+            }
+            return null;
+        }
+
         //-----------------------------------------------------------------------------
         public string DbFieldName				{ get { return dbFieldName; }}
 		public string DbFieldTableName			{ get { return dbFieldTableName; }}
 		public string DbTableName				{ get { return dbTableName; } }
 		public string DbFieldDescriptionName	{ get { return dbFieldDescriptionName; } }
 		public string RadarReportName			{ get { return radarReportName; } }
-		public List<Parameter> HotLinkParameters { get { return hotLinkParameters; } }
 
 		public override string Title
 		{
@@ -129,8 +156,7 @@ namespace Microarea.Common.Hotlink
 			string		dbTableName,
 			string		radarReportName,
 			string		returnType,
-            ParametersList prs,
-            ParametersList hotLinkParameters,
+            ParametersList parameters,
 			string		server,
 			int		    port,
 			string		service,
@@ -146,14 +172,15 @@ namespace Microarea.Common.Hotlink
             this.ServiceNamespace = serviceNamespace;
 
             this.ModuleInfo = moduleInfo;
-            this.Parameters = prs;
+
+            this.Parameters = parameters;
 
 			this.dbFieldTableName = dbFieldTableName;
 			this.dbFieldName = dbFieldName;
 			this.dbFieldDescriptionName = dbFieldDescriptionName; 
 			this.dbTableName = dbTableName;
+
 			this.radarReportName = radarReportName;
-			this.hotLinkParameters = hotLinkParameters;
 		}
 	}
 
@@ -357,7 +384,6 @@ namespace Microarea.Common.Hotlink
 						radarReportName,
 						ObjectHelper.FromTBType(function.GetAttribute(ReferenceObjectsXML.Attribute.Type)),
 						parameters,
-						parametersHotLink,
 						function.GetAttribute(ReferenceObjectsXML.Attribute.Server),
 						port,
 						function.GetAttribute(ReferenceObjectsXML.Attribute.Service),

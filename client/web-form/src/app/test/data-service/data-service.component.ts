@@ -20,10 +20,12 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
   private nameSpace: string;
   private selection_type: string;
   private like_value: string;
+  
   private disabled: string;
   private good_type: string;
+
   private responseData: any;
-private responseSelection: any;
+  private responseSelection: any;
 
   constructor(public eventData: EventDataService, private dataService: DataService, private http: Http) {
     super(dataService, eventData);
@@ -31,8 +33,8 @@ private responseSelection: any;
 
   ngOnInit() {
     this.eventData.model = { 'Title': { 'value': this.nameSpace } };
-    this.nameSpace = 'erp.items.ds_ItemsSimple';
-    this.selection_type = 'Core';
+    this.nameSpace = 'erp.items.dbl.ds_ItemsSimple';
+    this.selection_type = 'Code';
     this.like_value = '';
     this.disabled = '';
     this.good_type = '';
@@ -43,7 +45,7 @@ private responseSelection: any;
 
     let params: URLSearchParams = new URLSearchParams();
     params.set('selection_type', this.selection_type);
-    params.set(' like_value', this.like_value);
+    params.set('like_value', this.like_value);
     params.set('disabled', this.disabled);
     params.set('good_type', this.good_type);
 

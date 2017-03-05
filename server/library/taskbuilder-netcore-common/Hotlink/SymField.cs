@@ -41,6 +41,14 @@ namespace Microarea.Common.Hotlink
         }
 
         //----------------------------------------------------------------------------
+        virtual public void Assign(string svalue)
+        {
+            object o = this.Data;
+            ObjectHelper.Assign(ref o, svalue);
+            Data = o;
+        }
+
+        //----------------------------------------------------------------------------
         virtual public object GetData(DataLevel l)
         {
             return this.data;

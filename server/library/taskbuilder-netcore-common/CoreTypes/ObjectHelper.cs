@@ -403,8 +403,9 @@ namespace Microarea.Common.CoreTypes
             if (fromType == "") return true;//(Variant) late binding (lo saprò solo in esecuzione se sono compatibili)
             if (fromType == "Variant") return true;//late binding (lo saprò solo in esecuzione se sono compatibili)
 			if (fromType == "Object") return true;//late binding (lo saprò solo in esecuzione se sono compatibili)
+            if (fromType == "String") return true;//posso convertirlo
 
-			switch (toType)
+            switch (toType)
 			{
 				case "Int16": return
 					(fromType == "Byte");

@@ -12,7 +12,9 @@ namespace TaskBuilderNetCore.Interfaces
         string TbType { get; }
         string BaseType { get; }
 		bool Optional { get; }
-		ParameterModeType Mode { get; }
+        string ValueString { get; }
+
+        ParameterModeType Mode { get; }
 	}
 
 	public interface IFunctionPrototype

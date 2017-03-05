@@ -38,8 +38,10 @@ namespace Microarea.DataService.Models
 
         public bool PrepareQuery(IQueryCollection requestQuery)
         {
-            selection_type.Data = requestQuery["selection_type"];
-            like_value.Data = requestQuery["like_value"];
+            string s = requestQuery["selection_type"];
+            selection_type.Data =  s;
+            s = requestQuery["like_value"];
+            like_value.Data = s;
 
             XmlDescription = ReferenceObjects.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
@@ -50,52 +52,37 @@ namespace Microarea.DataService.Models
             good_type = HttpContext.Request.Query["good_type"]; 
             */
             //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
-           foreach (IParameter p in XmlDescription.HotLinkParameters)
+           foreach (IParameter p in XmlDescription.Parameters)
             {
                 SymField paramField = new SymField(p.TbType, p.Name);
-                if (p.Optional)
-                {
-                    //TODO parsed optional value paramField.Data = p.Value;
-                }
 
-                paramField.Data = requestQuery[p.Name];
+                string sp = requestQuery[p.Name];
+
+                if (sp == null)
+                {
+                    if (p.Optional)
+                    {
+                        paramField.Assign(p.ValueString);
+                    }
+                }
+                else
+                {
+                    paramField.Assign(sp);
+                }
 
                 SymTable.Add(paramField);
             }
 
             //viene cercato il corpo della query ------------------
-            string modeName = string.Empty;
-            string sQuery = string.Empty;
-
             string selectionName = selection_type.Data as string;
-            for (int i = 0; i < XmlDescription.SelectionTypeList.Count; i++)
-            {
-                SelectionType st = XmlDescription.SelectionTypeList[i];
-                if (string.Compare(selectionName, st.SelectionName) == 0)
-                {
-                    modeName = st.ModeName;
-                    break;
-                }
-            }
-            if (modeName == string.Empty)
-                return false;
-
-            for (int i = 0; i < XmlDescription.SelectionModeList.Count; i++)
-            {
-                SelectionMode sm = XmlDescription.SelectionModeList[i];
-                if (string.Compare(modeName, sm.ModeName) == 0)
-                {
-                    sQuery = sm.Body;
-                    break;
-                }
-            }
-            if (sQuery == string.Empty)
+            SelectionMode  sm = XmlDescription.GetMode(selectionName); 
+            if (sm == null)
                 return false;
             //-------------------------------
 
-            this.CurrentQuery = new QueryObject(modeName, SymTable, Session, null);
+            this.CurrentQuery = new QueryObject(sm.ModeName, SymTable, Session, null);
 
-            if (!this.CurrentQuery.Define(sQuery))
+            if (!this.CurrentQuery.Define(sm.Body))
                 return false;
 
             return true;
