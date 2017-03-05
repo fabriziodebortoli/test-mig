@@ -10,6 +10,7 @@ using System.IO;
 using Microarea.Common.NameSolver;
 using Microarea.Common.Generic;
 using System.Collections;
+using Microarea.Common.Applications;
 
 namespace Microarea.Menu.Controllers
 {
@@ -24,12 +25,26 @@ namespace Microarea.Menu.Controllers
         //--------------------------------------------------------------------------
         private IList GetApplications()
         {
-
             IList apps=  BasePathFinder.BasePathFinderInstance.ApplicationInfos;
             return apps; 
-        } 
+        }
 
-      
+        private bool GetCurrentCompanyUser(out string company, out string user)
+        {
+            company = string.Empty;
+            user = string.Empty;
+
+            string sAuthT = HttpContext.Request.Cookies["authtoken"];
+            if (string.IsNullOrEmpty(sAuthT))
+                return false; //  StatusCode = 504, Content = "non sei autenticato!" 
+
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
+
+            company = loginInfo.companyName;
+            user = loginInfo.userName;
+            return true;
+        }
+
         [Route("explorer-open/get-applications")]
         //--------------------------------------------------------------------------
         public IActionResult GetApplicationsJson()
