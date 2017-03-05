@@ -19,23 +19,10 @@ namespace Microarea.RSWeb.Models
 
         public RSEngine StateMachine = null;
  
-        public XmlDocument XmlDomParameters = new XmlDocument();
-
          //--------------------------------------------------------------------------
-        public JsonReportEngine
-                            (
-                               TbReportSession session,
-                               string parameters = null
-                            )
+        public JsonReportEngine (TbReportSession session)
         {
             ReportSession = session;
-
-            //TODO RSWEB report lanciato con parametri
-            //if (!parameters.IsNullOrEmpty())
-            //{
-            //    XmlDomParameters.LoadXml(parameters);
-            //    ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
-            //}
 
             StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, Guid.NewGuid().ToString(), Guid.NewGuid().ToString()); 
 
@@ -56,13 +43,10 @@ namespace Microarea.RSWeb.Models
             StateMachine.Step();
 
             // se ci sono stati errori li trasmetto nel file XML stesso
-            //if (StateMachine.HtmlPage == HtmlPageType.Error)
-            //    StateMachine.XmlGetErrors();
+            if (StateMachine.HtmlPage == HtmlPageType.Error)
+                StateMachine.XmlGetErrors();
 
-            // rilascio la macchina per risparmiare memoria
-            //StateMachine.Dispose();
-            //StateMachine = null;
+         }
 
-        }
     }
  }

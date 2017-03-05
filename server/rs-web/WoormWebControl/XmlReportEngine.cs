@@ -8,29 +8,21 @@ using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormController;
+using Microarea.RSWeb.Models;
 
 namespace Microarea.RSWeb.WoormWebControl
 {
     /// <summary>
     /// Summary description for XmlReportEngine.
     /// </summary>
-    public class XmlReportEngine
-	{
-        public TbReportSession ReportSession;
-
-        public RSEngine StateMachine = null;
-
-        public XmlDocument XmlDomParameters = new XmlDocument();
-
-        public StringCollection	XmlResultReports = new StringCollection();
+    public class XmlReportEngine : JsonReportEngine
+    {
+         public StringCollection XmlResultReports = new StringCollection();
 
 		//--------------------------------------------------------------------------
-		public XmlReportEngine
-			(
-                TbReportSession session
-            )
+		public XmlReportEngine (TbReportSession session)
+            : base (session)
         {
-            ReportSession = session;
             ReportSession.XmlReport = true;
         }
 
@@ -42,12 +34,10 @@ namespace Microarea.RSWeb.WoormWebControl
             if (!string.IsNullOrEmpty(parameters))
             {
                 ReportSession.ReportParameters = parameters;
-                XmlDomParameters.LoadXml(parameters);
-                ReportSession.ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
             }
 
             // istanzio una nuova macchina per la elaborazione del report per generare solo XML
-            StateMachine = new RSEngine(ReportSession, XmlDomParameters, XmlResultReports, xmlReturnType);
+            StateMachine = new RSEngine(ReportSession, ReportSession.XmlDomParameters, XmlResultReports, xmlReturnType);
 
 			// se ci sono stati errore nel caricamento fermo tutto (solo dopo aver istanziato la RSEngine)
 			//if (!sessionOk)
@@ -69,8 +59,8 @@ namespace Microarea.RSWeb.WoormWebControl
 			if (StateMachine.HtmlPage == HtmlPageType.Error)
 				StateMachine.XmlGetErrors();
 
-			// rilascio la macchina per risparmiare memoria
-			StateMachine.Dispose();
+            // rilascio le risorse, il report e serializzato in XmlResultReports
+            StateMachine.Dispose();
 			StateMachine = null;
 
 			return XmlResultReports;

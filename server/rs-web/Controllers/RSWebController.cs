@@ -2,6 +2,7 @@
 using Microarea.Common.Applications;
 using Microarea.RSWeb.WoormWebControl;
 using System.Collections.Specialized;
+using System.Text;
 
 namespace Microarea.RSWeb.Controllers
 {
@@ -11,6 +12,7 @@ namespace Microarea.RSWeb.Controllers
         [Route("xml/{namespace}")]
         public IActionResult GetXmlData(string nameSpace)
         {
+            
             string sAuthT = HttpContext.Request.Cookies["authtoken"];
             if (string.IsNullOrEmpty(sAuthT))
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
@@ -31,7 +33,14 @@ namespace Microarea.RSWeb.Controllers
             StringCollection sc = report.XmlExecuteReport(parameters);
             report = null;
 
-            return new ContentResult { Content = sc.ToString(), ContentType = "application/xml" };
+            StringBuilder sb = new StringBuilder(sc.Count);
+            foreach (string entry in sc)
+            {
+                sb.Append(entry);
+            }
+            string xmlResult = sb.ToString();
+ 
+            return new ContentResult { Content = xmlResult, ContentType = "application/xml" };
         }
    }
 }

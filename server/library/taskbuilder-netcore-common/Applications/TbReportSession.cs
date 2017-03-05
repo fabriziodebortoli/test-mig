@@ -9,6 +9,8 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.NameSolver;
 using Microarea.Common.Hotlink;
 using static Microarea.Common.Generic.InstallationInfo;
+using Microarea.Common.StringLoader;
+using System.Xml;
 
 namespace Microarea.Common.Applications
 {
@@ -76,7 +78,7 @@ namespace Microarea.Common.Applications
 
         public string CompanyDbConnection { get { return UserInfo == null ? "" : UserInfo.CompanyDbConnection; } }
 
-        public TbSession(UserInfo ui, string ns)
+        public TbSession (UserInfo ui, string ns)
         {
             //solleva l'eccezione per far si che easylook reindirizzi sulla pagina di login
             if (ui == null)
@@ -87,7 +89,7 @@ namespace Microarea.Common.Applications
             this.PathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
 
             if (!LoadSessionInfo(null, false))
-                //throw new InvalidSessionException();
+                throw new InvalidSessionException();
                 ;
         }
 
@@ -132,7 +134,10 @@ namespace Microarea.Common.Applications
         }
 
         //-----------------------------------------------------------------------------
-        public bool LoadSessionInfo(bool checkActivation)
+        // Carica Enumerativi, Fonts, Formaters, Functions and ReferencesObjects-Hotlinks
+        // Il caricamento di function per le funzioni interne pesa poco e quelle esterne sono caricate on demand
+        // gli Hotlinks sono solo caricati on demand e quindi non pesano.
+         public bool LoadSessionInfo(bool checkActivation)
         {
             return LoadSessionInfo(null, checkActivation);
         }
@@ -222,9 +227,6 @@ namespace Microarea.Common.Applications
         }
 
         //-------------------------------------------------------------------------------------------------
-        public ILoginManager LoginManager = null;
-        public ITbServices TbServices = null;
-
     }
 
     /// <summary>
@@ -233,7 +235,6 @@ namespace Microarea.Common.Applications
     ///=============================================================================
     public class TbReportSession : TbSession
     {
-        private string reportParameters;
         NameSpace ReportNameSpace = null;
 
         public int PageRendered = -1;
@@ -242,7 +243,20 @@ namespace Microarea.Common.Applications
         public bool XmlReport = false;
         public bool EInvoice = false;
         public bool WriteNotValidField = false;
-        public string ReportParameters { get { return reportParameters; } set { reportParameters = value; } }
+       
+        private string reportParameters;
+        public string ReportParameters { 
+            get { return reportParameters; } 
+            set { 
+                    reportParameters = value;
+                    XmlDomParameters = new XmlDocument();
+                    XmlDomParameters.LoadXml(reportParameters);
+
+                    if (XmlReport)
+                        ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
+            }
+        }
+        public XmlDocument XmlDomParameters = null;
 
         public bool UseApproximation = true; // enable TaskBuilder Approximation for real
         public bool StripTrailingSpaces = true;
@@ -250,9 +264,10 @@ namespace Microarea.Common.Applications
         public TbReportSession(UserInfo ui, string ns)
             : base (ui, ns)
         {
-            ReportNameSpace = new NameSpace(ns, NameSpaceObjectType.Report);
+           this.ReportNameSpace = new NameSpace(ns, NameSpaceObjectType.Report);
+           this.ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
 
-            ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
+           this.Localizer = new StringLoader.WoormLocalizer(this.ReportPath, PathFinder);
 
             //TODO RSWEB
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(StateMachine.ReportSession.UICulture);
