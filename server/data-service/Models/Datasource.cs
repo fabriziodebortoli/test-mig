@@ -124,28 +124,36 @@ namespace Microarea.DataService.Models
             CurrentQuery.EnumColumns(columns);
 
             //emit json record header (localized title column, column name, datatype column
-            bool first = true;
-            records = "{\"titles\":[";
-            foreach (SymField f in columns)
+           records = "{\"titles\":[";
+           bool first = true;
+           foreach (SymField f in columns)
             {
-                if (!first) records += ',';
+                if (first) 
+                    first = false;
+                else
+                    records += ',';
+
                 records += '\"' + f.Name + '\"';
-                first = false;
             }
             records += "],\n\"rows\":[";
 
-            first = true;
             while (CurrentQuery.Read())
             {
                 //emit json record
+                first = true;
                 foreach (SymField f in columns)
                 {
                     object o = f.Data;
 
                     if (first)
+                    {
                         records += '[';
+                        first = false;
+                    }
                     else
+                    {
                         records += ',';
+                    }
 
                     records += o.ToString();
                 }
