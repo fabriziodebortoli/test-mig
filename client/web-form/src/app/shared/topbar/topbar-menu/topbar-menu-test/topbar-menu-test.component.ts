@@ -28,4 +28,8 @@ export class TopbarMenuTestComponent implements OnInit {
     this.componentService.createComponentFromUrl('test/explorer');
   }
 
+  openTestGrid() {
+    this.componentService.createComponentFromUrl('test/grid');
+  }
+
 }

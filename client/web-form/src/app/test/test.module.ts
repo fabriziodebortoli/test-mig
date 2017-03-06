@@ -7,6 +7,7 @@ import { SharedModule } from './../shared/shared.module';
 
 import { DataServiceComponent, DataServiceFactoryComponent } from './data-service/data-service.component';
 import { ExplorerComponent, ExplorerFactoryComponent } from './explorer/explorer.component';
+import { GridTestComponent, GridTestFactoryComponent } from './grid-test/grid-test.component';
 
 @NgModule({
     imports: [
@@ -15,10 +16,11 @@ import { ExplorerComponent, ExplorerFactoryComponent } from './explorer/explorer
         RouterModule.forChild([
             { path: 'dataservice', component: DataServiceFactoryComponent },
             { path: 'explorer', component: ExplorerFactoryComponent },
+            { path: 'grid', component: GridTestFactoryComponent },
         ])],
     declarations: [
-        DataServiceComponent, DataServiceFactoryComponent, ExplorerComponent, ExplorerFactoryComponent
+        DataServiceComponent, DataServiceFactoryComponent, ExplorerComponent, ExplorerFactoryComponent, GridTestComponent, GridTestFactoryComponent
     ],
-    entryComponents: [DataServiceComponent, ExplorerComponent]
+    entryComponents: [DataServiceComponent, ExplorerComponent, GridTestComponent]
 })
 export class TestModule { }
