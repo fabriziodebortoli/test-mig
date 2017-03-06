@@ -449,10 +449,39 @@ namespace Microarea.Common.Generic
 
 			return string.Concat(FirstLetter, SecondLetter, ThirdLetter).Trim();
 		}
-	}
 
-	//================================================================================
-	public static class ListStringExtensions
+        //---------------------------------------------------------------------
+        /*
+		 * Fields are separated by commas.
+		 * (In locales where the comma is used as a decimal separator, 
+		 * the semicolon is used instead as a delimiter).
+		*/
+        //--------------------------------------------------------------------------------
+        public static string ToJson(this string o)
+        {
+            string s = o.Trim();
+
+           // if (s.IndexOfAny(new char[] { sep, '"', '\n', ',', ';', '\t' }) >= 0)
+
+            s = s.Replace("\\", "\\\\");
+            s = s.Replace("/", "\\/");
+ 
+            s = s.Replace("\t", "\\t");
+            s = s.Replace("\r", "\\r");
+            s = s.Replace("\n", "\\n");
+
+            s = s.Replace("\"", "\\\"");
+
+            s = '"' + s + '"';
+
+            return s;
+        }
+
+
+    }
+
+    //================================================================================
+    public static class ListStringExtensions
 	{
 		/// <summary>
 		/// Effettua una contains No case

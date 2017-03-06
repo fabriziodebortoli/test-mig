@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text;
+using System.Text.RegularExpressions;
+
+using Microarea.Common.Generic;
 
 using TaskBuilderNetCore.Interfaces;
 
@@ -133,7 +137,7 @@ namespace Microarea.DataService.Models
                 else
                     records += ',';
 
-                records += '\"' + f.Name + '\"';
+                records += f.Name.ToJson();
             }
             records += "],\n\"rows\":[";
 
@@ -147,7 +151,7 @@ namespace Microarea.DataService.Models
 
                     if (first)
                     {
-                        records += '[';
+                        records += '{';
                         first = false;
                     }
                     else
@@ -155,10 +159,20 @@ namespace Microarea.DataService.Models
                         records += ',';
                     }
 
-                    records += o.ToString();
+                    records += '\"' + f.Name + "\":";
+                    if (string.Compare(f.DataType, "string", true) == 0)
+                    {
+                        string s = o.ToString();
+                        
+                        records += s.ToJson();
+                    }
+                    else
+                        records += o.ToString();
                 }
-                records += "]\n";
+                records += "},\n";
             }
+
+            records = records.Remove(records.Length - 2); //ultima ,
             records += "]}";
 
             CurrentQuery.Close();
