@@ -41,7 +41,6 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
   }
 
   GetData() {
-    let url: string = environment.baseUrl + 'data-service/getdata/' + this.nameSpace;
 
     let params: URLSearchParams = new URLSearchParams();
     params.set('selection_type', this.selection_type);
@@ -49,15 +48,15 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
     params.set('disabled', this.disabled);
     params.set('good_type', this.good_type);
 
-    let subs = this.http.get(url, { search: params }).map((res: Response) => res.text()).subscribe(data => {
+    let subs = this.dataService.getData(this.nameSpace, params).subscribe(data => {
       this.responseData = data;
       subs.unsubscribe();
     });
   }
 
   GetSelections() {
-    let url: string = environment.baseUrl + 'data-service/getselections/' + this.nameSpace;
-    let subs = this.http.get(url).map((res: Response) => res.text()).subscribe(data => {
+
+    let subs = this.dataService.getSelections(this.nameSpace).map((res: Response) => res.text()).subscribe(data => {
       this.responseSelection = data;
       subs.unsubscribe();
     });
