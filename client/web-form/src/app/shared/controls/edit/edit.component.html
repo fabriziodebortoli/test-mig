@@ -1,0 +1,3 @@
+<div>
+    <md-input id="{{cmpId}}" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [placeholder]="caption"></md-input>
+</div>
