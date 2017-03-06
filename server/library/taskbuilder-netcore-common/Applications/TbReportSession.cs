@@ -56,14 +56,15 @@ namespace Microarea.Common.Applications
                 string name = Namespace;
                 int idx = name.LastIndexOf('.');
                 if (idx < 0) return string.Empty;
-                string ext = name.Mid(idx + 1);
-                if (ext.CompareNoCase("wrm"))
+
+                string ext = name.Mid(idx);
+                if (ext.CompareNoCase(".wrm"))
                 {
                     name = name.Left(idx);
                     idx = name.LastIndexOf('.');
                     if (idx < 0) return string.Empty;
                 }
-                name = name.Mid(idx);
+                name = name.Mid(idx + 1);
                 return name;
             }
         }
