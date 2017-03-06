@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
+import { GridModule } from '@progress/kendo-angular-grid';
+
 import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, TilePanelComponent, FrameComponent } from './containers';
@@ -34,7 +36,8 @@ const TB_COMPONENTS = [
     CommonModule,
     FormsModule,
     MaterialModule.forRoot(),
-    RouterModule
+    RouterModule,
+    GridModule
   ],
   declarations: [TB_COMPONENTS],
   exports: [TB_COMPONENTS],
