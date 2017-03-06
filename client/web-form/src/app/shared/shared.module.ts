@@ -23,6 +23,7 @@ import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMe
 import { HeaderStripComponent } from './header-strip/header-strip.component';
 import { OpenComponent } from './explorer/open/open.component';
 import { SaveComponent } from './explorer/save/save.component';
+import { GridComponent } from './controls/grid/grid.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -39,7 +40,7 @@ const TB_COMPONENTS = [
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   TabComponent, TabberComponent, ViewComponent, FrameComponent,
   DynamicCmpComponent,
-  EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,
+  EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent,
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
   HeaderStripComponent,
