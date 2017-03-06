@@ -20,7 +20,7 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
   private nameSpace: string;
   private selection_type: string;
   private like_value: string;
-  
+
   private disabled: string;
   private good_type: string;
 
@@ -49,30 +49,21 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
     params.set('disabled', this.disabled);
     params.set('good_type', this.good_type);
 
-    let subs = this.http.get(url, { search: params }).subscribe((res: Response) => {
-      try {
-        this.responseData = res.json();
-      }
-      catch (err) {
-        this.responseData = res.toString();
-      }
+    let subs = this.http.get(url, { search: params }).map((res: Response) => res.text()).subscribe(data => {
+      this.responseData = data;
       subs.unsubscribe();
     });
   }
 
-  GetSelections(){
+  GetSelections() {
     let url: string = environment.baseUrl + 'data-service/getselections/' + this.nameSpace;
-    let subs = this.http.get(url).subscribe((res: Response) => {
-      try {
-        this.responseSelection = res.json();
-      }
-      catch (err) {
-        this.responseSelection = res.toString();
-      }
+    let subs = this.http.get(url).map((res: Response) => res.text()).subscribe(data => {
+      this.responseSelection = data;
       subs.unsubscribe();
     });
   }
 }
+
 
 @Component({
   template: ''
