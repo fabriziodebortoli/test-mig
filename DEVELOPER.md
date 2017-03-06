@@ -35,7 +35,7 @@ $ npm install -g typescript@next
 * [Angular CLI](https://cli.angular.io/), (version `>= 1.0.0-beta.31`) a command line interface for Angular
 ```shell
 # global installation Angular CLI
-$ npm install -g @angular-cli
+$ npm install -g @angular/cli
 ```
 
 * [.NET Core](https://www.microsoft.com/net/download/core#/current), (version `>= 1.1`) Download and install **SDK - Installer** and the **Visual Studio 2015 Tools (Preview 2)**
