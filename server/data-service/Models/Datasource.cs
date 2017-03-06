@@ -92,9 +92,10 @@ namespace Microarea.DataService.Models
             return true;
         }
 
-        public bool EnumSelectionTypes(out string selections)
+        //---------------------------------------------------------------------
+        public bool EnumSelectionTypes(out string list)
         {
-            selections = string.Empty;
+            list = string.Empty;
 
             XmlDescription = ReferenceObjects.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
@@ -104,14 +105,43 @@ namespace Microarea.DataService.Models
                 return false;
 
             bool first = true;
-            selections = "{\"selections\":[";
+            list = "{\"selections\":[";
             foreach (SelectionType st in XmlDescription.SelectionTypeList)
             {
-                if (!first) selections += ',';
-                selections += '\"' + st.SelectionName + '\"';
+                if (!first) list += ',';
+                list += '\"' + st.SelectionName + '\"';
                 first = false;
             }
-            selections += "]}";
+            list += "]}";
+
+            return true;
+        }
+
+        //---------------------------------------------------------------------
+        public bool EnumParameters(out string list)
+        {
+            list = string.Empty;
+
+            XmlDescription = ReferenceObjects.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
+            if (XmlDescription == null)
+                return false;
+
+            if (XmlDescription.SelectionTypeList.Count == 0)
+                return false;
+
+            bool first = true;
+            list = "{\"parameters\":[";
+            foreach (Parameter par in XmlDescription.Parameters)
+            {
+                if (!first) list += ',';
+
+                string sp = "{\"name\":\"" + par.Name + "\", \"title\":\"" + par.Title + "\", \"type\":\"" + par.Type + "\"}" ;
+
+                list += sp.ToJson();
+
+                first = false;
+            }
+            list += "]}";
 
             return true;
         }
@@ -141,6 +171,7 @@ namespace Microarea.DataService.Models
             }
             records += "],\n\"rows\":[";
 
+            string rows = string.Empty;
             while (CurrentQuery.Read())
             {
                 //emit json record
@@ -151,29 +182,30 @@ namespace Microarea.DataService.Models
 
                     if (first)
                     {
-                        records += '{';
+                        rows += '{';
                         first = false;
                     }
                     else
                     {
-                        records += ',';
+                        rows += ',';
                     }
 
-                    records += '\"' + f.Name + "\":";
+                    rows += '\"' + f.Name + "\":";
                     if (string.Compare(f.DataType, "string", true) == 0)
                     {
                         string s = o.ToString();
-                        
-                        records += s.ToJson();
+
+                        rows += s.ToJson();
                     }
                     else
-                        records += o.ToString();
+                        rows += o.ToString();
                 }
-                records += "},\n";
+                rows += "},\n";
             }
+            if (rows != string.Empty)
+                rows = rows.Remove(records.Length - 2); //ultima ,
 
-            records = records.Remove(records.Length - 2); //ultima ,
-            records += "]}";
+            records += records + rows + "]}";
 
             CurrentQuery.Close();
             return true;
