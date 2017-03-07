@@ -13,17 +13,23 @@
  <br><br>
  <button (click)="GetData()">Send</button>
 
- <h3>Rows</h3>
- <div>{{responseData}}</div>
+ <h3>Rows:</h3>
+ <div>{{responseData|json}}</div>
  
 <h1>Get Selections</h1>
 <button (click)="GetSelections()">Send</button>
 
- <h3>Selection list</h3>
- <div>{{responseSelection}}</div>
+ <h3>Selection list:</h3>
+ <div>{{responseSelection|json}}</div>
 
  <h1>Get Parameters</h1>
 <button (click)="GetParameters()">Send</button>
 
- <h3>Parameter list</h3>
- <div>{{responseParameters}}</div>
+ <h3>Parameter list:</h3>
+ <div>{{responseParameters|json}}</div>
+
+ <h1>Get Columnss</h1>
+<button (click)="GetColumns()">Send</button>
+
+ <h3>Columns list:</h3>
+ <div>{{responseColumns|json}}</div>

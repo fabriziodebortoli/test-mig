@@ -19,7 +19,7 @@ export class GridComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    let subs = this.dataService.getData(this.gridParams.nameSpace, this.gridParams.params).subscribe(data => {
+    let subs = this.dataService.getData(this.gridParams.nameSpace, this.gridParams.selectionType, this.gridParams.params).subscribe(data => {
       this.gridData = data;
       subs.unsubscribe();
     });

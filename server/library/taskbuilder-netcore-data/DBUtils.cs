@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using Microarea.Common.CoreTypes;
+
 namespace TaskBuilderNetCore.Data
 {
     public enum DBMSType
@@ -556,8 +556,6 @@ namespace TaskBuilderNetCore.Data
                 case "tinyint": return "Byte";
                 case "uniqueidentifier": return "Guid";
                 case "xml": return "Xml";
-
-
             }
             return "";
         }

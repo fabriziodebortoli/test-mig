@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SharedModule } from './../shared/shared.module';
+import { CommonModule } from '@angular/common';
 
 import { DataServiceComponent, DataServiceFactoryComponent } from './data-service/data-service.component';
 import { ExplorerComponent, ExplorerFactoryComponent } from './explorer/explorer.component';
@@ -11,6 +12,7 @@ import { GridTestComponent, GridTestFactoryComponent } from './grid-test/grid-te
 
 @NgModule({
     imports: [
+        CommonModule,
         FormsModule,
         SharedModule,
         RouterModule.forChild([

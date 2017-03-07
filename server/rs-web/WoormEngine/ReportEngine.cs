@@ -206,7 +206,7 @@ namespace Microarea.RSWeb.WoormEngine
 			report	= ownerReport;
 
             object setting1 = ReadSetting.GetSettings(Session.PathFinder, "Framework.TbWoormViewer.Woorm", "WoormGeneralOptions", "OptimizedLineBreak", true);
-            this.OptimizedLineBreak = ObjectHelper.CastBool(setting1);
+            this.OptimizedLineBreak = Common.CoreTypes.ObjectHelper.CastBool(setting1);
 
             object setting2 = ReadSetting.GetSettings(Session.PathFinder, "Framework.TbWoormViewer.Woorm", "WoormGeneralOptions", "ColumnWidthPercentage", 95);
 			double columnPerc;
@@ -1027,7 +1027,7 @@ namespace Microarea.RSWeb.WoormEngine
 							{
 								if (field.DataType.ContainsNoCase("String"))
 								{
-									field.AskData = ObjectHelper.GetMaxString(field.AskData as String, Report.MaxString, field.Len);
+									field.AskData = Common.CoreTypes.ObjectHelper.GetMaxString(field.AskData as String, Report.MaxString, field.Len);
 								}
 							}
 						}

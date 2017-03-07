@@ -40,10 +40,14 @@ namespace Microarea.DataService.Models
             this.Session = session;
         }
 
-        public bool PrepareQuery(IQueryCollection requestQuery)
+        public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "")
         {
             string s = requestQuery["selection_type"];
-            selection_type.Data =  s;
+            if (s.IsNullOrEmpty() && selectionType.IsNullOrEmpty())
+                return false;
+
+            selection_type.Data = (s.IsNullOrEmpty() ? selectionType : s);
+
             s = requestQuery["like_value"];
             like_value.Data = s;
 
@@ -203,9 +207,9 @@ namespace Microarea.DataService.Models
                 rows += "},\n";
             }
             if (rows != string.Empty)
-                rows = rows.Remove(records.Length - 2); //ultima ,
+                rows = rows.Remove(rows.Length - 2); //ultima ,
 
-            records += records + rows + "]}";
+            records += rows + "]}";
 
             CurrentQuery.Close();
             return true;

@@ -106,7 +106,8 @@ namespace TaskBuilderNetCore.Data
                 case "DataEnum":
                     {
 
-                        return ObjectHelper.CastToDBData(value).ToString();
+                        //return ObjectHelper.CastToDBData(value).ToString();
+                        break;
                     }
                 case "String":
                     {
