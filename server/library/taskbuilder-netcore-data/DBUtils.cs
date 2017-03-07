@@ -489,7 +489,7 @@ namespace TaskBuilderNetCore.Data
             switch (o.GetType().Name)
             {
                 case "Boolean": return CastToDBBool((bool)o);
-                case "DataEnum": return CastInt((DataEnum)o); //Occhio! il database si aspetta un int, non uint!
+               // case "DataEnum": return CastInt((DataEnum)o); //Occhio! il database si aspetta un int, non uint!
             }
 
             return o;
