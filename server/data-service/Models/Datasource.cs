@@ -49,7 +49,7 @@ namespace Microarea.DataService.Models
             selection_type.Data = (s.IsNullOrEmpty() ? selectionType : s);
 
             s = requestQuery["like_value"];
-            like_value.Data = s;
+            like_value.Data = s != null ? s : "%";
 
             XmlDescription = ReferenceObjects.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
@@ -162,7 +162,7 @@ namespace Microarea.DataService.Models
             CurrentQuery.EnumColumns(columns);
 
             //emit json record header (localized title column, column name, datatype column
-            list = "{\"columns\":[";
+            list = "{\"titles\":[";
             bool first = true;
             foreach (SymField f in columns)
             {
