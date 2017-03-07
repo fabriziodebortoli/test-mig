@@ -30,6 +30,7 @@
         "@progress/kendo-angular-l10n": "^0.1.0",
         "@progress/kendo-angular-layout": "^0.21.5",
         "@progress/kendo-data-query": "^0.3.6",
+        "@progress/kendo-theme-default": "^2.12.29",
         "@types/hammerjs": "^2.0.33",
         "angular2-cookie": "^1.2.4",
         "core-js": "^2.4.1",
