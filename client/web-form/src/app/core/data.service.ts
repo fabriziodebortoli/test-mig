@@ -26,4 +26,10 @@ export class DataService extends DocumentService {
     return this.http.get(url).map((res: Response) => res.text());
   }
 
+  getParameters(nameSpace: string): Observable<any> {
+    let url: string = environment.baseUrl + 'data-service/getparameters/' + nameSpace;
+
+    return this.http.get(url).map((res: Response) => res.text());
+  }
+
 }

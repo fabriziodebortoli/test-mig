@@ -42,5 +42,26 @@ namespace Microarea.RSWeb.Controllers
  
             return new ContentResult { Content = xmlResult, ContentType = "application/xml" };
         }
-   }
+
+        [Route("pdf/{namespace}")]
+        public IActionResult GetPdf(string nameSpace)
+        {
+            string sAuthT = HttpContext.Request.Cookies["authtoken"];
+            if (string.IsNullOrEmpty(sAuthT))
+                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
+
+            UserInfo ui = new UserInfo(loginInfo, sAuthT);
+
+            TbReportSession session = new TbReportSession(ui, nameSpace);
+
+            PdfReportEngine report = new PdfReportEngine(session);
+
+            string err = string.Empty;
+            byte[] pdf = report.ExecuteReport(ref err);
+
+            return new ContentResult { Content = pdf.ToString(), ContentType = "application/pdf" };
+        }
+    }
 }

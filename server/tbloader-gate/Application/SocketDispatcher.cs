@@ -55,20 +55,39 @@ namespace Microarea.TbLoaderGate
 				while (webSocket.State == WebSocketState.Open)
 				{
 					var token = CancellationToken.None;
-					var buffer = new ArraySegment<Byte>(new Byte[4096]);
-					var received = await webSocket.ReceiveAsync(buffer, token);
-
+					int segSize = 4096;
+					int offset = 0;
+					int totalBytes = 0;
+					Byte[] totalBuffer = new Byte[segSize];
+					var received = await webSocket.ReceiveAsync(new ArraySegment<Byte>(totalBuffer, offset, segSize), token);
+					totalBytes += received.Count;
+					while (!received.EndOfMessage)
+					{
+						offset = totalBuffer.Length;
+						Array.Resize(ref totalBuffer, offset + segSize);
+						received = await webSocket.ReceiveAsync(new ArraySegment<Byte>(totalBuffer, offset, segSize), token);
+						totalBytes += received.Count;
+					}
 					switch (received.MessageType)
 					{
 						case WebSocketMessageType.Text:
 							{
-								var message = Encoding.UTF8.GetString(buffer.Array,
-														buffer.Offset,
-														received.Count);
+								var message = Encoding.UTF8.GetString(totalBuffer,
+														0,
+														totalBuffer.Length);
 
 								WebSocketCouple couple = null;
 								//se il messaggio imposta il nome del socket, metto da parte l'istanza per accoppiarla con la controparte
-								JObject jObj = JObject.Parse(message);
+								JObject jObj = null;
+								try
+								{
+									jObj = JObject.Parse(message);
+								}
+								catch (Exception ex)
+								{
+									//TODO gestione errore
+									continue;
+								}
 								string cmd = jObj["cmd"].ToString();
 								if (cmd == setClientWebSocketName)
 								{
@@ -99,9 +118,7 @@ namespace Microarea.TbLoaderGate
 									WebSocket otherSocket = couple.GetOther(webSocket);
 									if (otherSocket != null)
 									{
-										Byte[] bufferCopy = new Byte[received.Count];
-										Array.Copy(buffer.Array, 0, bufferCopy, 0, received.Count);
-										await otherSocket.SendAsync(new ArraySegment<Byte>(bufferCopy), WebSocketMessageType.Text, true, token);
+										await otherSocket.SendAsync(new ArraySegment<Byte>(totalBuffer, 0, totalBytes), WebSocketMessageType.Text, true, token);
 									}
 								}
 								break;

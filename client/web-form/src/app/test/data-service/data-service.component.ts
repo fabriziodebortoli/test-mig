@@ -26,6 +26,7 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
 
   private responseData: any;
   private responseSelection: any;
+  private responseParameters: any;
 
   constructor(public eventData: EventDataService, private dataService: DataService, private http: Http) {
     super(dataService, eventData);
@@ -61,8 +62,16 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
       subs.unsubscribe();
     });
   }
-}
 
+ GetParameters() {
+
+    let subs = this.dataService.getParameters(this.nameSpace).map((res: Response) => res.text()).subscribe(data => {
+      this.responseParameters = data;
+      subs.unsubscribe();
+    });
+  }
+
+}
 
 @Component({
   template: ''

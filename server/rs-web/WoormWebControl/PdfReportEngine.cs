@@ -10,30 +10,20 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormController;
 using Microarea.RSWeb.WoormViewer;
+using Microarea.RSWeb.Models;
 
 namespace Microarea.RSWeb.WoormWebControl
 {
     /// <summary>
     /// Summary description for PdfReportEngine.
     /// </summary>
-    public class PdfReportEngine
-	{
-        public TbReportSession ReportSession;
-
-        public RSEngine StateMachine = null;
-
-        public XmlDocument XmlDomParameters = new XmlDocument();
+    public class PdfReportEngine: JsonReportEngine
+    {
 
         //--------------------------------------------------------------------------
-        public PdfReportEngine
-			(
-                TbReportSession session,
-                string parameters = null
-              )
+        public PdfReportEngine(TbReportSession session) : base (session)
 		{
-            ReportSession = session;
-
-        }
+         }
 
         ///<summary>
         ///Resituisce il report in formato pdf, sotto forma di stream binario
@@ -44,23 +34,23 @@ namespace Microarea.RSWeb.WoormWebControl
             // istanzio una nuova macchina per la elaborazione del report per generare solo XML
             //uso il sessionId della sessione e genero un GUID come uniqueID, sono usati per determinare il percorso
             //dove salvare  su file system i file delle pagina del report e di symbol table
-            StateMachine = new RSEngine(ReportSession, XmlDomParameters, Guid.NewGuid().ToString(), Guid.NewGuid().ToString()); 
+            StateMachine = new RSEngine(ReportSession, ReportSession.XmlDomParameters, Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
-			// se ci sono stati errore nel caricamento fermo tutto (solo dopo aver istanziato la RSEngine)
-			//if (!sessionOk)
-			//	StateMachine.CurrentState = State.LoadSessionError;
+            // se ci sono stati errore nel caricamento fermo tutto (solo dopo aver istanziato la RSEngine)
+            //if (!sessionOk)
+            //	StateMachine.CurrentState = State.LoadSessionError;
 
-			//// devo essere autenticato
-			//if (ui == null)
-			//	StateMachine.CurrentState = State.AuthenticationError;
+            //// devo essere autenticato
+            //if (ui == null)
+            //	StateMachine.CurrentState = State.AuthenticationError;
 
-			//// deve essere indicata anche la connection su cui si estraggono i dati
-			//if (ui != null && (ui.CompanyDbConnection == null || ui.CompanyDbConnection.Length == 0))
-			//	StateMachine.CurrentState = State.ConnectionError;
-
-			// faccio partire la macchina a stati che si ferma o su completamento dell'estrazione
-			// o su errore. A differenza del caso Web non rientra mai su se stessa perchè non ci sono postback.
-			StateMachine.Step();
+            //// deve essere indicata anche la connection su cui si estraggono i dati
+            //if (ui != null && (ui.CompanyDbConnection == null || ui.CompanyDbConnection.Length == 0))
+            //	StateMachine.CurrentState = State.ConnectionError;
+            string name = ReportSession.ReportName;
+            // faccio partire la macchina a stati che si ferma o su completamento dell'estrazione
+            // o su errore. A differenza del caso Web non rientra mai su se stessa perchè non ci sono postback.
+            StateMachine.Step();
 
 			if (StateMachine.HtmlPage == HtmlPageType.Error)
 			{
@@ -70,7 +60,7 @@ namespace Microarea.RSWeb.WoormWebControl
 
 			//genero il pdf
 			WoormDocument woorm = StateMachine.Woorm;
-			//PdfRender viewer = new PdfRender(woorm);      TODO rsweb
+			PdfRender pdfRender = new PdfRender(woorm);     
 			//salvo la pagina corrente
 			int current = woorm.RdeReader.CurrentPage;
 			//ciclo sulle pagine per generare un pdf
@@ -78,7 +68,7 @@ namespace Microarea.RSWeb.WoormWebControl
 			for (int i = 1; i <= woorm.RdeReader.TotalPages; i++)
 			{
 				woorm.LoadPage(i);
-				//viewer.ReportPage();      TODO rsweb
+                pdfRender.ReportPage();      //TODO rsweb
 			}
 
 			//reimposto la pagina iniziale
@@ -86,7 +76,7 @@ namespace Microarea.RSWeb.WoormWebControl
 
 			using (MemoryStream stream = new MemoryStream())
 			{
-				//viewer.SaveToStreamAndClose(stream,true);
+                pdfRender.SaveToStreamAndClose(stream,true);
 				// rilascio la macchina per risparmiare memoria           TODO rsweb
 				StateMachine.Dispose();
 				StateMachine = null;

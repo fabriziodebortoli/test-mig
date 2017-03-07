@@ -63,14 +63,41 @@ namespace DataService.Controllers
 
             Datasource ds = new Datasource(session);
 
-            string selections;
-            if (!ds.EnumSelectionTypes(out selections))
+            string list;
+            if (!ds.EnumSelectionTypes(out list))
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
             //---------------------
-            return new ContentResult { Content = selections, ContentType = "application/json" };
+            return new ContentResult { Content = list, ContentType = "application/json" };
         }
 
+        [Route("getparameters/{namespace}")]
+        public IActionResult GetParameters(string nameSpace)
+        {
+            string sAuthT = HttpContext.Request.Cookies["authtoken"];
+            if (string.IsNullOrEmpty(sAuthT))
+                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+
+            if (loginInfo == null)
+            {
+                loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
+            }
+
+            UserInfo ui = new UserInfo(loginInfo, sAuthT);
+
+            TbSession session = new TbSession(ui, nameSpace);
+
+            Datasource ds = new Datasource(session);
+
+            string list;
+            if (!ds.EnumParameters(out list))
+                return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
+
+            //---------------------
+            return new ContentResult { Content = list, ContentType = "application/json" };
+        }
+
+        //---------------------------------------------------------------------
         public IActionResult Index()
         {
             return View();
