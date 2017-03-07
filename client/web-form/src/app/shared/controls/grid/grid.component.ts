@@ -23,7 +23,7 @@ export class GridComponent implements OnInit, OnDestroy {
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.dataService.getColumns(this.gridNamespace, this.gridSelectionType).subscribe(columns => this.gridColumns = columns);
+    // this.dataService.getColumns(this.gridNamespace, this.gridSelectionType).subscribe(columns => this.gridColumns = columns);
 
     this.dataSubscription = this.dataService.getData(this.gridNamespace, this.gridSelectionType, this.gridParams).subscribe(data => {
       this.gridColumns = data.titles;
