@@ -207,9 +207,9 @@ namespace Microarea.DataService.Models
                 rows += "},\n";
             }
             if (rows != string.Empty)
-                rows = rows.Remove(records.Length - 2); //ultima ,
+                rows = rows.Remove(rows.Length - 2); //ultima ,
 
-            records += records + rows + "]}";
+            records += rows + "]}";
 
             CurrentQuery.Close();
             return true;

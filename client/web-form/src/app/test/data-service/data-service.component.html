@@ -14,22 +14,22 @@
  <button (click)="GetData()">Send</button>
 
  <h3>Rows:</h3>
- <div>{{responseData}}</div>
+ <div>{{responseData|json}}</div>
  
 <h1>Get Selections</h1>
 <button (click)="GetSelections()">Send</button>
 
  <h3>Selection list:</h3>
- <div>{{responseSelection}}</div>
+ <div>{{responseSelection|json}}</div>
 
  <h1>Get Parameters</h1>
 <button (click)="GetParameters()">Send</button>
 
  <h3>Parameter list:</h3>
- <div>{{responseParameters}}</div>
+ <div>{{responseParameters|json}}</div>
 
  <h1>Get Columnss</h1>
 <button (click)="GetColumns()">Send</button>
 
  <h3>Columns list:</h3>
- <div>{{responseColumns}}</div>
+ <div>{{responseColumns|json}}</div>

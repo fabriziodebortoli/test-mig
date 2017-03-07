@@ -35,11 +35,12 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
 
   ngOnInit() {
     this.eventData.model = { 'Title': { 'value': this.nameSpace } };
+
     this.nameSpace = 'erp.items.dbl.ds_ItemsSimple';
     this.selection_type = 'Code';
-    this.like_value = '';
-    this.disabled = '';
-    this.good_type = '';
+    this.like_value = '%';
+    this.disabled = '2';
+    this.good_type = '2';
   }
 
   GetData() {
@@ -58,7 +59,7 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
 
   GetColumns() {
 
-    let subs = this.dataService.getColumns(this.nameSpace, this.selection_type).map((res: Response) => res.text()).subscribe(data => {
+    let subs = this.dataService.getColumns(this.nameSpace, this.selection_type).subscribe(data => {
       this.responseColumns = data;
       subs.unsubscribe();
     });
@@ -66,7 +67,7 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
 
   GetSelections() {
 
-    let subs = this.dataService.getSelections(this.nameSpace).map((res: Response) => res.text()).subscribe(data => {
+    let subs = this.dataService.getSelections(this.nameSpace).subscribe(data => {
       this.responseSelection = data;
       subs.unsubscribe();
     });
@@ -74,7 +75,7 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
 
  GetParameters() {
 
-    let subs = this.dataService.getParameters(this.nameSpace).map((res: Response) => res.text()).subscribe(data => {
+    let subs = this.dataService.getParameters(this.nameSpace).subscribe(data => {
       this.responseParameters = data;
       subs.unsubscribe();
     });
