@@ -200,8 +200,8 @@ namespace Microarea.DataService.Models
                 else
                     records += ',';
 
-                records += f.Name.Replace('.', '_');
-                //records += f.Name.ToJson();
+                records += f.Name.Replace('.', '_').ToJson();
+                //records += f.Name;
             }
             records += "],\n\"rows\":[";
 
