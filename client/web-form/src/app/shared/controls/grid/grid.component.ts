@@ -1,4 +1,9 @@
+import { GridParams } from './grid-params.model';
+import { DataService } from './../../../core/data.service';
+import { Subscription } from 'rxjs';
 import { Component, OnInit, Input } from '@angular/core';
+
+
 
 @Component({
   selector: 'tb-grid',
@@ -7,11 +12,17 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class GridComponent implements OnInit {
 
-  @Input('gridData') gridData: any[];
+  private gridData: any[];
 
-  constructor() { }
+  @Input('gridParams') gridParams: GridParams;
+
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
+    let subs = this.dataService.getData(this.gridParams.nameSpace, this.gridParams.params).subscribe(data => {
+      this.gridData = data;
+      subs.unsubscribe();
+    });
   }
 
 }
