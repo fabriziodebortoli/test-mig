@@ -18,15 +18,22 @@ namespace TaskBuilderNetCore.Data
                 {
                     using (DBDataReader reader = command.ExecuteReader())
                     {
-                        while (reader.Read())
-                            return true;
+                        try
+                        {
+                            if (reader.Read())
+                                return true;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
                     }
                 }
             }
                 return false;
         }
 
-        bool ExistColumn(string connectionString, string tableName, string columnName)
+        public static bool ExistColumn(string connectionString, string tableName, string columnName)
         {
             using (DBConnection conn = new DBConnection(Provider.DBType.SQLSERVER, connectionString))
             {
@@ -36,15 +43,22 @@ namespace TaskBuilderNetCore.Data
                 {
                     using (DBDataReader reader = command.ExecuteReader())
                     {
-                        while (reader.Read())
-                            return true;
+                        try
+                        {
+                            if(reader.Read())
+                                return true;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
                     }
                 }
             }
             return false;
         }
 
-        string GetColumnType(string connectionString, string tableName, string columnName)
+        public static string GetColumnType(string connectionString, string tableName, string columnName)
         {
             using (DBConnection conn = new DBConnection(Provider.DBType.SQLSERVER, connectionString))
             {
@@ -55,36 +69,51 @@ namespace TaskBuilderNetCore.Data
                 {
                     using (DBDataReader reader = command.ExecuteReader())
                     {
-                        while (reader.Read())
+                            
+                        try
+                        {
+                            reader.Read();
                             return ObjectHelper.GetDotNetType(reader.GetString(0), Provider.DBType.SQLSERVER);
+                        }
+                        catch
+                        {
+                            return string.Empty;
+                        }
                             
                     }
                 }
             }
-            return string.Empty;
         }
 
-        string GetColumnCollation(string connectionString, string tableName, string columnName)
+        public static string GetColumnCollation(string connectionString, string tableName, string columnName)
         {
             using (DBConnection conn = new DBConnection(Provider.DBType.SQLSERVER, connectionString))
             {
                 conn.Open();
-                string query = string.Format("SELECT c.collation_name FROM SYS.COLUMNS c JOIN SYS.TABLES t ON t.object_id = c.object_id WHERE t.name = '{0}' and c.name='{1{'",
+                string query = string.Format("SELECT c.collation_name FROM SYS.COLUMNS c JOIN SYS.TABLES t ON t.object_id = c.object_id WHERE t.name = '{0}' and c.name='{1}'",
                     tableName, columnName);
                 using (DBCommand command = new DBCommand(query, conn))
                 {
                     using (DBDataReader reader = command.ExecuteReader())
                     {
-                        while (reader.Read())
+                       
+                        try
+                        {
+                            reader.Read();
                             return reader.GetString(0);
+                        }
+                        catch
+                        {
+                            return string.Empty;
+                        }
 
                     }
                 }
             }
-            return string.Empty;
+           
         }
 
-        string GetNativeConvert(string connectionString, object value, bool useUnicode, Provider.DBType dbType)
+        public static string GetNativeConvert(string connectionString, object value, bool useUnicode, Provider.DBType dbType)
         {
             string strSqlServerDateTs = "{{ts '{0:D4}-{1:D2}-{2:D2} {3:D2}:{4:D2}:{5:D2}'}}";
             switch (value.GetType().Name)

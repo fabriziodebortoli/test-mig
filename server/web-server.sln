@@ -36,6 +36,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "account-manager", "account-
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "provisioning-server", "provisioning-server\provisioning-server.xproj", "{780F22E8-D071-4859-A6D6-40A7DCEE5382}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "unit-test", "unit-test\unit-test.xproj", "{C92058FC-08EC-426B-95CB-FCA842D60C20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,10 @@ Global
 		{780F22E8-D071-4859-A6D6-40A7DCEE5382}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{780F22E8-D071-4859-A6D6-40A7DCEE5382}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{780F22E8-D071-4859-A6D6-40A7DCEE5382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C92058FC-08EC-426B-95CB-FCA842D60C20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C92058FC-08EC-426B-95CB-FCA842D60C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C92058FC-08EC-426B-95CB-FCA842D60C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C92058FC-08EC-426B-95CB-FCA842D60C20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
