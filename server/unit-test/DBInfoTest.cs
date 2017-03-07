@@ -1,5 +1,5 @@
-﻿using System;
-using TaskBuilderNetCore.Data;
+﻿
+using TaskBuilderNetCore.DataFunctionaluty;
 using Xunit;
 
 namespace Tests

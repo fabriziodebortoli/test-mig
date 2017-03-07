@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microarea.Common.CoreTypes;
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using TaskBuilderNetCore.Data;
 
-namespace TaskBuilderNetCore.Data
+namespace TaskBuilderNetCore.DataFunctionaluty
 {
     public class DBInfo
     {

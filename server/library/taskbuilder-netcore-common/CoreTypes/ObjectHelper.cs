@@ -6,6 +6,7 @@ using System.Threading;
 
 using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces.Model;
+using TaskBuilderNetCore.Data;
 
 namespace Microarea.Common.CoreTypes
 {
@@ -1330,5 +1331,39 @@ namespace Microarea.Common.CoreTypes
 
 			return source;
 		}
-	}
+
+        public static string GetDotNetType(string type, Provider.DBType dbType)
+        {
+            switch (type)
+            {
+                case "bigint": return "Int64";
+                case "varbinary":
+                case "binary": return "Byte[]";
+                case "date":
+                case "smalldatetime":
+                case "datetime":
+                case "datetime2": return "DateTime";
+                case "datetimeoffset": return "DateTimeOffset";
+                case "numeric":
+                case "smallmoney":
+                case "decimal": return "Decimal";
+                case "money":
+                case "float": return "Double";
+                case "int": return "Int32";
+                case "char":
+                case "nvarchar":
+                case "varchar":
+                case "text":
+                case "ntext":
+                case "nchar": return "String";
+                case "real": return "Single";
+                case "smallint": return "Int16";
+                case "time": return "TimeSpan";
+                case "tinyint": return "Byte";
+                case "uniqueidentifier": return "Guid";
+                case "xml": return "Xml";
+            }
+            return "";
+        }
+    }
 }
