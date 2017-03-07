@@ -736,7 +736,7 @@ namespace Microarea.Common.Hotlink
 					continue;
 
 				SymField field = symbolTable.Find(tagLink.name) as SymField;
-                tbParameter.Value = ObjectHelper.CastToDBData(field.Data);
+                tbParameter.Value = CoreTypes.ObjectHelper.CastToDBData(field.Data);
 			}
 			return true;	
 		}
@@ -861,10 +861,10 @@ namespace Microarea.Common.Hotlink
 
                 if (this.IsQueryRule)
                 {
-                    field.SetData(DataLevel.Events,  ObjectHelper.CastFromDBData(o, field.GetData(DataLevel.Events) ));
+                    field.SetData(DataLevel.Events, CoreTypes.ObjectHelper.CastFromDBData(o, field.GetData(DataLevel.Events) ));
                 }
                 else
-                    field.Data = ObjectHelper.CastFromDBData(o, field.Data);
+                    field.Data = CoreTypes.ObjectHelper.CastFromDBData(o, field.Data);
 
                 Debug.WriteLine(string.Format("Field {0}: {1}\n", tagLink.name, field.Data.ToString()));
 

@@ -14,11 +14,18 @@ export class DataService extends DocumentService {
     super(logger, eventData);
   }
 
-  getData(nameSpace: string, params: URLSearchParams): Observable<any> {
+  getData(nameSpace: string, selectionType: string, params: URLSearchParams): Observable<any> {
 
-    let url: string = environment.baseUrl + 'data-service/getdata/' + nameSpace;
+    let url: string = environment.baseUrl + 'data-service/getdata/' + nameSpace + '/' + selectionType;
 
     return this.http.get(url, { search: params }).map((res: Response) => res.text());
+  }
+
+  getColumns(nameSpace: string, selectionType: string): Observable<any> {
+
+    let url: string = environment.baseUrl + 'data-service/getcolumns/' + nameSpace + '/' + selectionType;
+
+    return this.http.get(url).map((res: Response) => res.text());
   }
 
   getSelections(nameSpace: string): Observable<any> {

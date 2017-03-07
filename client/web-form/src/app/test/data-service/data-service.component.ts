@@ -27,6 +27,7 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
   private responseData: any;
   private responseSelection: any;
   private responseParameters: any;
+  private responseColumns: any;
 
   constructor(public eventData: EventDataService, private dataService: DataService, private http: Http) {
     super(dataService, eventData);
@@ -44,13 +45,21 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
   GetData() {
 
     let params: URLSearchParams = new URLSearchParams();
-    params.set('selection_type', this.selection_type);
+    //params.set('selection_type', this.selection_type);
     params.set('like_value', this.like_value);
     params.set('disabled', this.disabled);
     params.set('good_type', this.good_type);
 
-    let subs = this.dataService.getData(this.nameSpace, params).subscribe(data => {
+    let subs = this.dataService.getData(this.nameSpace, this.selection_type, params).subscribe(data => {
       this.responseData = data;
+      subs.unsubscribe();
+    });
+  }
+
+  GetColumns() {
+
+    let subs = this.dataService.getColumns(this.nameSpace, this.selection_type).map((res: Response) => res.text()).subscribe(data => {
+      this.responseColumns = data;
       subs.unsubscribe();
     });
   }

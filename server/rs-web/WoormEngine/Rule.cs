@@ -1485,7 +1485,7 @@ namespace Microarea.RSWeb.WoormEngine
                         //ATTENZIONE: se rf.NativeColumnExpr allora rf.PhysicalName contiene l'espressione dinamica non ancora espansa
                         object o = iDataReader[i]; 
 
-						rf.Data = ObjectHelper.CastFromDBData(o, rf.Data);
+						rf.Data = Common.CoreTypes.ObjectHelper.CastFromDBData(o, rf.Data);
 
 						//An. 17609
 						if (rf.Data is string && bStrip)
