@@ -200,7 +200,8 @@ namespace Microarea.DataService.Models
                 else
                     records += ',';
 
-                records += f.Name.ToJson();
+                records += f.Name.Replace('.', '_');
+                //records += f.Name.ToJson();
             }
             records += "],\n\"rows\":[";
 
@@ -223,7 +224,7 @@ namespace Microarea.DataService.Models
                         rows += ',';
                     }
 
-                    rows += '\"' + f.Name + "\":";
+                    rows += '\"' + f.Name.Replace('.', '_') + "\":";
                     if (string.Compare(f.DataType, "string", true) == 0)
                     {
                         string s = o.ToString();

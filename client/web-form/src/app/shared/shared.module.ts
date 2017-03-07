@@ -4,6 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
+import { GridModule } from '@progress/kendo-angular-grid';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { DialogModule } from '@progress/kendo-angular-dialog';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { LayoutModule } from '@progress/kendo-angular-layout';
+
+
 import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, TilePanelComponent, FrameComponent } from './containers';
@@ -15,6 +23,16 @@ import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMe
 import { HeaderStripComponent } from './header-strip/header-strip.component';
 import { OpenComponent } from './explorer/open/open.component';
 import { SaveComponent } from './explorer/save/save.component';
+import { GridComponent } from './controls/grid/grid.component';
+
+const KENDO_UI_MODULES = [
+  GridModule,
+  InputsModule,
+  DateInputsModule,
+  DialogModule,
+  DropDownsModule,
+  LayoutModule
+];
 
 const TB_COMPONENTS = [
   PageNotFoundComponent,
@@ -22,7 +40,7 @@ const TB_COMPONENTS = [
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   TabComponent, TabberComponent, ViewComponent, FrameComponent,
   DynamicCmpComponent,
-  EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent,
+  EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent,
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
   HeaderStripComponent,
@@ -34,7 +52,8 @@ const TB_COMPONENTS = [
     CommonModule,
     FormsModule,
     MaterialModule.forRoot(),
-    RouterModule
+    RouterModule,
+    KENDO_UI_MODULES
   ],
   declarations: [TB_COMPONENTS],
   exports: [TB_COMPONENTS],
