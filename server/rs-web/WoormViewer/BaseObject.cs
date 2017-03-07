@@ -11,11 +11,12 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using Microarea.Common.ExpressionManager;
+
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
 //using Microarea.RSWeb.Temp;
 
-namespace RSjson
+namespace Microarea.RSWeb.Objects
 {
     /// <summary>
     /// Summary description for BaseObj.
@@ -242,11 +243,13 @@ namespace RSjson
 	[Serializable]
 	public abstract class BaseRect : BaseObj
 	{
-		public BorderPen BorderPen = new BorderPen();
+		const string BORDERS = "Borders";
 		public Borders Borders = new Borders(true);
 
-		public int HRatio;
-		public int VRatio;
+		public BorderPen BorderPen = new BorderPen();
+
+		public int HRatio = 0;
+		public int VRatio = 0;
 
 		protected BaseRect Default = null;
         public WoormViewerExpression TextColorExpr = null;
@@ -257,9 +260,11 @@ namespace RSjson
 		public bool IsAnchorPageRight = false;
 		public ushort AnchorLeftColumnID = 0;
 		public ushort AnchorRightColumnID = 0;
-		const string BORDERS = "Borders";
-		public bool TemplateOverridden = false;
-        public int Layer = 0;   //only design mode
+
+        protected bool templateOverridden = false;
+        public bool TemplateOverridden { get { return templateOverridden; } set { templateOverridden = value; } }
+      
+        protected int Layer = 0;   //only design mode
 
         //------------------------------------------------------------------------------
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -278,7 +283,6 @@ namespace RSjson
 		public BaseRect(WoormDocument document)
 			: base(document)
 		{
-
 		}
 
 		//------------------------------------------------------------------------------

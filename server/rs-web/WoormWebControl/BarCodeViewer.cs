@@ -30,7 +30,7 @@ namespace Microarea.RSWeb.WoormWebControl
 		}
 
 		//--------------------------------------------------------------------------------
-		public string GetBarcodeImageFile(RSjson.WoormValue v, FontElement fe, Rectangle inside, string humanReadeableText)
+		public string GetBarcodeImageFile(Microarea.RSWeb.Objects.WoormValue v, FontElement fe, Rectangle inside, string humanReadeableText)
 		{
 			if (fe == null) 
 				return string.Empty;

@@ -13,7 +13,7 @@ using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
 //using Microarea.RSWeb.Temp;
 
-namespace RSjson
+namespace Microarea.RSWeb.Objects
 {
     internal enum ElementColor { LABEL, VALUE, BACKGROUND, BORDER, MAX };
 

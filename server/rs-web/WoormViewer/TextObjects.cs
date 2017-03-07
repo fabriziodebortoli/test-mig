@@ -5,7 +5,7 @@ using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.RSWeb.WoormViewer;
 
-namespace RSjson
+namespace Microarea.RSWeb.Objects
 {
 	/// <summary>
 	/// Summary description for GenericText.

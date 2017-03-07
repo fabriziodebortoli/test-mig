@@ -19,7 +19,7 @@ using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Lexan;
 
-using RSjson;
+using Microarea.RSWeb.Objects;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.RSWeb.WoormViewer
@@ -655,7 +655,6 @@ namespace Microarea.RSWeb.WoormViewer
 		protected string		uniqueID = "";
 		protected string		sessionID = "";
 		protected bool			forLocalizer = false;
-
 
 		public event EventHandler Disposed;
 

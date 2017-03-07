@@ -10,6 +10,10 @@ using Microarea.Common.Generic;
 
 using Microarea.RSWeb.WoormController;
 using Microarea.Common.NameSolver;
+using Microarea.RSWeb.WoormViewer;
+using System.Runtime.Serialization.Json;
+using Microarea.RSWeb.Objects;
+using System.IO;
 
 namespace Microarea.RSWeb.Models
 {
@@ -18,13 +22,13 @@ namespace Microarea.RSWeb.Models
         public TbReportSession ReportSession;
 
         public RSEngine StateMachine = null;
- 
-         //--------------------------------------------------------------------------
-        public JsonReportEngine (TbReportSession session)
+
+        //--------------------------------------------------------------------------
+        public JsonReportEngine(TbReportSession session)
         {
             ReportSession = session;
 
-            StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, Guid.NewGuid().ToString(), Guid.NewGuid().ToString()); 
+            StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
             // se ci sono stati errore nel caricamento fermo tutto (solo dopo aver istanziato la RSEngine)
             //if (!sessionOk)
@@ -48,5 +52,29 @@ namespace Microarea.RSWeb.Models
 
          }
 
+        public string GetJsonPage(int page = 1)
+        {
+            WoormDocument woorm = StateMachine.Woorm;
+            //salvo la pagina corrente
+            int current = woorm.RdeReader.CurrentPage;
+            //ciclo sulle pagine per generare un pdf
+            woorm.RdeReader.LoadTotPage();
+            woorm.LoadPage(page);
+
+            ReportData rd = new ReportData();
+            rd.reportObjects = woorm.Objects;
+            rd.paperLength = woorm.PageInfo.DmPaperLength;
+            rd.paperWidth = woorm.PageInfo.DmPaperWidth;
+
+            MemoryStream stream = new MemoryStream();
+            DataContractJsonSerializer jsonSer = new DataContractJsonSerializer(rd.GetType());
+            jsonSer.WriteObject(stream, rd);
+            stream.Position = 0;
+            // convert stream to string
+            StreamReader reader = new StreamReader(stream);
+            string text = reader.ReadToEnd();
+
+            return text;
+        }
     }
- }
+}

@@ -11,7 +11,7 @@ using PdfSharp.Drawing.Layout;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 
-using RSjson;
+using Microarea.RSWeb.Objects;
 
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
@@ -83,7 +83,7 @@ namespace Microarea.RSWeb.WoormWebControl
                     case "FileRect": FileRectPdf(xg, (FileRect)obj); break;
 
                     case "Table":
-                        TablePdf(xg, (RSjson.Table)obj);
+                        TablePdf(xg, (Microarea.RSWeb.Objects.Table)obj);
                         break;
 
                     case "Repeater":

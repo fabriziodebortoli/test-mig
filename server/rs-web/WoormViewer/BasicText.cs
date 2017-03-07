@@ -6,7 +6,7 @@ using Microarea.Common.CoreTypes;
 using Microarea.RSWeb.WoormViewer;
 //using Microarea.RSWeb.Temp;
 
-namespace RSjson
+namespace Microarea.RSWeb.Objects
 {
 	[Serializable]
 	public class FontData : ISerializable

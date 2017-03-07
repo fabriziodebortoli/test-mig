@@ -3,6 +3,7 @@ using Microarea.Common.Applications;
 using Microarea.RSWeb.WoormWebControl;
 using System.Collections.Specialized;
 using System.Text;
+using Microarea.RSWeb.Models;
 
 namespace Microarea.RSWeb.Controllers
 {
@@ -63,5 +64,27 @@ namespace Microarea.RSWeb.Controllers
 
             return new ContentResult { Content = pdf.ToString(), ContentType = "application/pdf" };
         }
+
+        [Route("json/{namespace}")] // /{page}
+        public IActionResult GetJson(string nameSpace)  //, string page)
+        {
+            string sAuthT = HttpContext.Request.Cookies["authtoken"];
+            if (string.IsNullOrEmpty(sAuthT))
+                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
+
+            UserInfo ui = new UserInfo(loginInfo, sAuthT);
+
+            TbReportSession session = new TbReportSession(ui, nameSpace);
+
+            JsonReportEngine report = new JsonReportEngine(session);
+
+            string pageLayout = report.GetJsonPage(/*page*/);
+
+            return new ContentResult { Content = pageLayout, ContentType = "application/json" };
+        }
+
+
     }
 }
