@@ -7,8 +7,6 @@ import { DataService } from './../../core/data.service';
 import { EventDataService } from './../../core/eventdata.service';
 import { ComponentService } from './../../core/component.service';
 
-import { products } from './products';
-
 @Component({
   selector: 'tb-grid-test',
   templateUrl: './grid-test.component.html',
@@ -16,8 +14,6 @@ import { products } from './products';
   providers: [DataService, EventDataService]
 })
 export class GridTestComponent extends DocumentComponent implements OnInit {
-
-  private gridData: any[] = products;
 
   constructor(public eventData: EventDataService, private dataService: DataService, private http: Http) {
     super(dataService, eventData);
