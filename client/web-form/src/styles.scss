@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,500,700');
 * {
     font-family: 'Open Sans', sans-serif;
-    /*font-family: 'Roboto', sans-serif;*/
 }
 
 html,
@@ -13,7 +12,8 @@ body {
     color: #222;
 }
 
-.link, .c-pointer {
+.link,
+.c-pointer {
     cursor: pointer;
 }
 
@@ -163,3 +163,6 @@ tb-topbar-search md-icon {
 .menu-container .tile-group {
     justify-content: space-around;
 }
+
+$accent:#0277bd;
+@import "~@progress/kendo-theme-default/scss/all";
