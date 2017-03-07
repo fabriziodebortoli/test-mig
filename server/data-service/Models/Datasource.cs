@@ -49,7 +49,7 @@ namespace Microarea.DataService.Models
             selection_type.Data = (s.IsNullOrEmpty() ? selectionType : s);
 
             s = requestQuery["like_value"];
-            like_value.Data = s;
+            like_value.Data = s != null ? s : "%";
 
             XmlDescription = ReferenceObjects.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
@@ -97,7 +97,7 @@ namespace Microarea.DataService.Models
         }
 
         //---------------------------------------------------------------------
-        public bool EnumSelectionTypes(out string list)
+        public bool GetSelectionTypes(out string list)
         {
             list = string.Empty;
 
@@ -122,7 +122,7 @@ namespace Microarea.DataService.Models
         }
 
         //---------------------------------------------------------------------
-        public bool EnumParameters(out string list)
+        public bool GetParameters(out string list)
         {
             list = string.Empty;
 
@@ -147,6 +147,35 @@ namespace Microarea.DataService.Models
             }
             list += "]}";
 
+            return true;
+        }
+
+        //---------------------------------------------------------------------
+        public bool GetColumns(out string list)
+        {
+            list = string.Empty;
+
+            if (!CurrentQuery.Open())
+                return false;
+
+            ArrayList columns = new ArrayList();
+            CurrentQuery.EnumColumns(columns);
+
+            //emit json record header (localized title column, column name, datatype column
+            list = "{\"titles\":[";
+            bool first = true;
+            foreach (SymField f in columns)
+            {
+                if (first)
+                    first = false;
+                else
+                    list += ',';
+
+                list += f.Name.ToJson();
+            }
+            list += "]}";
+
+            CurrentQuery.Close();
             return true;
         }
 

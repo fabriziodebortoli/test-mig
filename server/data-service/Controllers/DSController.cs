@@ -56,9 +56,12 @@ namespace DataService.Controllers
 
             Datasource ds = new Datasource(session);
 
-            string columns = "";
-            //if (!ds.EnumColumns(HttpContext.Request.Query, selectionType, out columns))
-            //    return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
+            if (!ds.PrepareQuery(HttpContext.Request.Query, selectionType))
+                return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
+
+            string columns;
+            if (!ds.GetColumns(out columns))
+                return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
             //---------------------
             return new ContentResult { Content = columns, ContentType = "application/json" };
@@ -83,7 +86,7 @@ namespace DataService.Controllers
             Datasource ds = new Datasource(session);
 
             string list;
-            if (!ds.EnumSelectionTypes(out list))
+            if (!ds.GetSelectionTypes(out list))
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
             //---------------------
@@ -109,7 +112,7 @@ namespace DataService.Controllers
             Datasource ds = new Datasource(session);
 
             string list;
-            if (!ds.EnumParameters(out list))
+            if (!ds.GetParameters(out list))
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
             //---------------------
