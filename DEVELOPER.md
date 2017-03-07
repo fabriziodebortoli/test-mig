@@ -5,6 +5,8 @@ It also explains the basic mechanics of using `git`, `node`, and `npm`.
 
 * [Prerequisite Software](#prerequisite-software)
 * [Getting the Sources](#getting-the-sources)
+* [VS Code Recommended Extensions](#vs-code-recommended-extensions)
+* [Kendo UI](#kendo-ui)
 * [Building](#building)
 * [Running](#running)
 * [Visual Studio 2015](#using-visual-studio-2015)
@@ -83,6 +85,24 @@ $ code .
 ```
 
 Follow the instructions: https://code.visualstudio.com/docs/editor/extension-gallery#_workspace-recommended-extensions)
+
+## Kendo UI
+
+TaskBuilder Web needs [**Kendo UI for Angular 2** ](http://www.telerik.com/kendo-angular-ui/) library.
+
+Before restoring npm packages, we needs to associate the Progress NPM registry with the @progress scope.
+
+```shell
+# Associate the Progress NPM registry with the @progress scope.
+$ npm login --registry=https://registry.npm.telerik.com/ --scope=@progress
+```
+NPM will ask you for your Telerik account credentials and an email, use:
+
+```
+Username: eitri
+Password: Microarea.2017
+Email: eitri@microarea.it
+```
 
 
 ## Building
