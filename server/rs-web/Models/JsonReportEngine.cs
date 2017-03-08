@@ -62,7 +62,12 @@ namespace Microarea.RSWeb.Models
             woorm.LoadPage(page);
 
             ReportData rd = new ReportData();
-            rd.reportObjects = woorm.Objects;
+
+            //rd.reportObjects = woorm.Objects;
+                rd.reportObjects = new Layout();
+                rd.reportObjects.Add(new SqrRect());
+            //---------------------------------
+
             rd.paperLength = woorm.PageInfo.DmPaperLength;
             rd.paperWidth = woorm.PageInfo.DmPaperWidth;
 

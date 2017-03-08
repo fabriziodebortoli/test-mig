@@ -24,27 +24,39 @@ namespace Microarea.RSWeb.Objects
     //================================================================================
     [Serializable]
 	[KnownType(typeof(Rectangle))]
-	[KnownType(typeof(Borders))]
 	[KnownType(typeof(BasicText))]
 	[KnownType(typeof(WoormValue))]
 	[KnownType(typeof(Label))]
-	abstract public class BaseObj : ISerializable
+    [KnownType(typeof(Borders))]
+    [KnownType(typeof(BorderPen))]
+    [KnownType(typeof(SqrRect))]
+    [KnownType(typeof(BaseObj))]
+
+    abstract public class BaseObj : ISerializable
 	{
+        [IgnoreDataMember]
+        public WoormDocument Document;
+
 		const string BASERECT = "BaseRect";
 		const string INTERNALID = "InternalID";
 		const string HIDDEN = "Hidden";
 
-		public Rectangle BaseRectangle;
+        [IgnoreDataMember]
+        public Rectangle BaseRectangle;
 		public bool Transparent;
-		public WoormDocument Document;
+
 		public ushort InternalID = 0;
 
 		public bool Hidden = false;
-		public WoormViewerExpression HideExpr = null;	// espressione che se valutata vera nasconde il campo
+
+        [IgnoreDataMember]
+        public WoormViewerExpression HideExpr = null;   // espressione che se valutata vera nasconde il campo
+        [IgnoreDataMember]
         public WoormViewerExpression TooltipExpr = null;
 
 		public int DropShadowHeight = 0;
-		public Color DropShadowColor = Defaults.DefaultShadowColor; 
+        [IgnoreDataMember]
+        public Color DropShadowColor = Defaults.DefaultShadowColor; 
 
 		public string ClassName = string.Empty;	//Nome della classe dello stile
 		public bool IsTemplate = false;			//Indica che gli attributi grafici di questo oggetto sono usati come template	
@@ -58,9 +70,9 @@ namespace Microarea.RSWeb.Objects
 		//------------------------------------------------------------------------------				
 		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
-			info.AddValue(INTERNALID, InternalID);
-			info.AddValue(BASERECT, BaseRectangle);
-			info.AddValue(HIDDEN, Hidden);
+             info.AddValue(INTERNALID, InternalID);
+			//info.AddValue(HIDDEN, Hidden);
+			//TODO RSWEB info.AddValue(BASERECT, BaseRectangle);
 		}
 		
 		//------------------------------------------------------------------------------
@@ -70,6 +82,7 @@ namespace Microarea.RSWeb.Objects
 			BaseRectangle = info.GetValue<Rectangle>(BASERECT);
 			Hidden = info.GetBoolean(HIDDEN);
 		}
+
 		//------------------------------------------------------------------------------	
 		public virtual BaseObj Clone()
 		{
@@ -241,18 +254,28 @@ namespace Microarea.RSWeb.Objects
 	/// </summary>
 	//================================================================================
 	[Serializable]
-	public abstract class BaseRect : BaseObj
+    [KnownType(typeof(Borders))]
+    [KnownType(typeof(BorderPen))]
+    [KnownType(typeof(SqrRect))]
+    [KnownType(typeof(BaseObj))]
+    public abstract class BaseRect : BaseObj
 	{
 		const string BORDERS = "Borders";
-		public Borders Borders = new Borders(true);
+        [IgnoreDataMember]
+        public Borders Borders = new Borders(true);
 
-		public BorderPen BorderPen = new BorderPen();
+        [IgnoreDataMember]
+        public BorderPen BorderPen = new BorderPen();
 
 		public int HRatio = 0;
 		public int VRatio = 0;
 
-		protected BaseRect Default = null;
+        [IgnoreDataMember]
+        protected BaseRect Default = null;
+
+        [IgnoreDataMember]
         public WoormViewerExpression TextColorExpr = null;
+        [IgnoreDataMember]
         public WoormViewerExpression BkgColorExpr = null;
 
 		//attributes not used in Easylook, used only for Z-print in woorm c++. Here they are only parsed
@@ -270,6 +293,7 @@ namespace Microarea.RSWeb.Objects
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			base.GetObjectData(info, context);
+
 			info.AddValue(BORDERS, Borders);
 		}
 		//------------------------------------------------------------------------------
@@ -802,9 +826,12 @@ namespace Microarea.RSWeb.Objects
 	/// </summary>
 	//================================================================================
 	[Serializable]
-	public class SqrRect : BaseRect
+    [KnownType(typeof(BaseRect))]
+    public class SqrRect : BaseRect
 	{
-		public Color BkgColor = Defaults.DefaultBackColor;
+        [IgnoreDataMember]
+        public Color BkgColor = Defaults.DefaultBackColor;
+
 		public SqrRect(SerializationInfo info, StreamingContext context)
 			: base(info, context)
 		{

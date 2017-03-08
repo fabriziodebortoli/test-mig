@@ -11,7 +11,7 @@ namespace Microarea.RSWeb.WoormViewer
 	public class BaseObjList : List<BaseObj>
 	{
 		WoormDocument document = null;
-		public int CountAutoObjects { get; set; }
+        public int CountAutoObjects;
 
 		public BaseObjList()
 		{
