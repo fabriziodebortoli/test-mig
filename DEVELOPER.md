@@ -104,6 +104,18 @@ Password: Microarea.2017
 Email: eitri@microarea.it
 ```
 
+You should get this message:
+```
+Logged in as eitri to scope @progress on https://registry.npm.telerik.com/.
+```
+
+The actual packages will be downloaded when the npm install command will be executed (see below),
+under the folder
+```
+\Web\client\web-form\node_modules\@progress
+and
+\Web\client\web-form\node_modules\@telerik
+```
 
 ## Building
 
