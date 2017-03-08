@@ -1,6 +1,7 @@
-﻿import { EventDataService } from './../../../core/eventdata.service';
+﻿import { StateButton } from './../state-button/state-button.model';
+import { EventDataService } from './../../../core/eventdata.service';
 import { ControlComponent } from './../control.component';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 
 @Component({
@@ -10,7 +11,9 @@ import { Component } from '@angular/core';
 })
 
 export class EditComponent extends ControlComponent{
-    constructor(
+    @Input() buttons: StateButton[] = [];
+
+     constructor(
         private eventData: EventDataService
       ) {
         super();

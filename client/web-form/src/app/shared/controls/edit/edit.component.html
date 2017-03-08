@@ -1,3 +1,4 @@
 <div>
     <md-input id="{{cmpId}}" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [placeholder]="caption"></md-input>
+    <tb-state-button *ngFor="let button of buttons" [button]="button"></tb-state-button>
 </div>
