@@ -457,7 +457,7 @@ namespace Microarea.Common.Generic
 		 * the semicolon is used instead as a delimiter).
 		*/
         //--------------------------------------------------------------------------------
-        public static string ToJson(this string o)
+        public static string ToJson(this string o, string name = null, bool bracket = false)
         {
             string s = o.Trim();
 
@@ -473,6 +473,11 @@ namespace Microarea.Common.Generic
             s = s.Replace("\"", "\\\"");
 
             s = '"' + s + '"';
+
+            if (!name.IsNullOrEmpty())
+                s = '"' + name + '"' + ':' + s;
+            if (bracket)
+                s = '{' + s + '}' ;
 
             return s;
         }

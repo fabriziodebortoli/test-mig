@@ -66,7 +66,9 @@ namespace Microarea.AccountManager.Controllers
 			jsonWriter.Formatting = Formatting.Indented;
 			jsonWriter.WritePropertyName("result");
 			jsonWriter.WriteValue(result.ToString());
-			
+			jsonWriter.WritePropertyName("authenticationToken");
+			jsonWriter.WriteValue(result.ToString());
+
 
 			return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
 		}
