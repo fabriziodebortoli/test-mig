@@ -1,3 +1,4 @@
+import { Response } from '@angular/http';
 
 
 import { Component, OnInit, OnDestroy, Input, ComponentFactoryResolver } from '@angular/core';
@@ -73,10 +74,52 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   RunReport() {
     this.running = true;
+    let message = {
+      commandType: CommandType.RUN,
+      message: this.args.nameSpace,
+      Response: ''
+    };
+    this.rsService.doSend(JSON.stringify(message));
   }
 
-  AbortReport() {
+  PauseReport() {
     this.running = false;
+    let message = {
+      commandType: CommandType.PAUSE,
+      message: this.args.nameSpace,
+      Response: ''
+    };
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  StopReport() {
+    this.running = false;
+    let message = {
+      commandType: CommandType.RUN,
+      message: this.args.nameSpace,
+      Response: ''
+    };
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  NextPage() {
+    let message = {
+      commandType: CommandType.NEXTPAGE,
+      message: this.args.nameSpace,
+      Response: ''
+    };
+
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  PrevPage() {
+    let message = {
+      commandType: CommandType.PREVPAGE,
+      message: this.args.nameSpace,
+      Response: ''
+    };
+
+    this.rsService.doSend(JSON.stringify(message));
   }
 
 }

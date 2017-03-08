@@ -66,8 +66,6 @@ export class ReportingStudioService extends DocumentService {
         this.websocket.close();
     }
 
-
-
     ngOnDestroy() {
         this.closeConnection();
     }

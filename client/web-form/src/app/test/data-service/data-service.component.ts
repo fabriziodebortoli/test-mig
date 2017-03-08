@@ -46,7 +46,7 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
   GetData() {
 
     let params: URLSearchParams = new URLSearchParams();
-    //params.set('selection_type', this.selection_type);
+    // params.set('selection_type', this.selection_type);
     params.set('like_value', this.like_value);
     params.set('disabled', this.disabled);
     params.set('good_type', this.good_type);

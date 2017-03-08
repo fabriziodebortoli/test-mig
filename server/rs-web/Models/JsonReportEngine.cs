@@ -76,5 +76,94 @@ namespace Microarea.RSWeb.Models
 
             return text;
         }
+
+
+        public Message GetResponseFor(Message msg)
+        {
+            Message nMsg = new Message();
+            nMsg.commandType = msg.commandType;
+            nMsg.message = msg.message;
+            nMsg.response = "This Is Response for " + msg.message;
+
+            switch(msg.commandType)
+            {
+                case MessageBuilder.CommandType.ASK:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+                case MessageBuilder.CommandType.DATA:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+                case MessageBuilder.CommandType.ERROR:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+                case MessageBuilder.CommandType.GUID:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+                case MessageBuilder.CommandType.NAMESPACE:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+                case MessageBuilder.CommandType.NEXTPAGE:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+                case MessageBuilder.CommandType.PREVPAGE:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+                case MessageBuilder.CommandType.OK:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+                case MessageBuilder.CommandType.PAGE:
+                    {
+                        break;
+                    }
+                case MessageBuilder.CommandType.PAUSE:
+                    {
+                        break;
+                    }
+                case MessageBuilder.CommandType.PDF:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+                case MessageBuilder.CommandType.RUN:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+                case MessageBuilder.CommandType.STOP:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+                case MessageBuilder.CommandType.TEMPLATE:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+                case MessageBuilder.CommandType.TEST:
+                    {
+                        // this.stateMachine.Do()
+                        break;
+                    }
+
+
+            }
+            return nMsg;
+        }
     }
 }

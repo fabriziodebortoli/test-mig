@@ -102,7 +102,7 @@ namespace Microarea.RSWeb.Models
                                 //parse
                                 Message msg = JsonConvert.DeserializeObject<Message>(recMeg);
 
-                                msg = jengine.StateMachine.GetResponseFor(msg);
+                                msg = jengine.GetResponseFor(msg);
 
                                 await SendMessage(MessageBuilder.GetJSONMessage(msg),webSocket);
                                 //send
