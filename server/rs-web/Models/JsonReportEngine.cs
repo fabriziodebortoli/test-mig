@@ -87,82 +87,99 @@ namespace Microarea.RSWeb.Models
         {
             Message nMsg = new Message();
             nMsg.commandType = msg.commandType;
-            nMsg.message = msg.message;
-            nMsg.response = "This Is Response for " + msg.message;
+           
+            //nMsg.response = "This Is Response for " + msg.message;
 
             switch(msg.commandType)
             {
                 case MessageBuilder.CommandType.ASK:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed ASK()";
                         break;
                     }
                 case MessageBuilder.CommandType.DATA:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed DATA()";
                         break;
                     }
                 case MessageBuilder.CommandType.ERROR:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed ERROR()";
                         break;
                     }
                 case MessageBuilder.CommandType.GUID:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed GUID()";
                         break;
                     }
                 case MessageBuilder.CommandType.NAMESPACE:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed NAMESPACE()";
                         break;
                     }
                 case MessageBuilder.CommandType.NEXTPAGE:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed NEXTPAGE()";
                         break;
                     }
                 case MessageBuilder.CommandType.PREVPAGE:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed PREVPAGE()";
                         break;
                     }
                 case MessageBuilder.CommandType.OK:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed OK()";
                         break;
                     }
                 case MessageBuilder.CommandType.PAGE:
-                    {
+                    {         
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed PAGE()";
                         break;
                     }
                 case MessageBuilder.CommandType.PAUSE:
                     {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed PAUSE()";
                         break;
                     }
                 case MessageBuilder.CommandType.PDF:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed PDF()";
                         break;
                     }
                 case MessageBuilder.CommandType.RUN:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed ASK()";
                         break;
                     }
                 case MessageBuilder.CommandType.STOP:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed STOP()";
                         break;
                     }
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed TEMPLATE()";
                         break;
                     }
                 case MessageBuilder.CommandType.TEST:
                     {
                         // this.stateMachine.Do()
+                        nMsg.message = "Executed TEST()";
                         break;
                     }
 
