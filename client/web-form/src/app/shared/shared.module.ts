@@ -25,6 +25,7 @@ import { HeaderStripComponent } from './header-strip/header-strip.component';
 import { OpenComponent } from './explorer/open/open.component';
 import { SaveComponent } from './explorer/save/save.component';
 import { GridComponent } from './controls/grid/grid.component';
+import { CaptionComponent } from './controls/caption/caption.component';
 
 
 const KENDO_UI_MODULES = [
@@ -57,7 +58,7 @@ const TB_COMPONENTS = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, StateButtonComponent],
+  declarations: [TB_COMPONENTS, StateButtonComponent, CaptionComponent],
   exports: [TB_COMPONENTS],
   entryComponents: [OpenComponent, SaveComponent]
 })
