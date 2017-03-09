@@ -21,6 +21,7 @@ export class WebSocketService {
     public windowOpen: EventEmitter<any> = new EventEmitter();
     public windowClose: EventEmitter<any> = new EventEmitter();
     public activationData: EventEmitter<any> = new EventEmitter();
+    public itemSource: EventEmitter<any> = new EventEmitter();
     public open: EventEmitter<any> = new EventEmitter();
     public close: EventEmitter<any> = new EventEmitter();
 
@@ -47,6 +48,7 @@ export class WebSocketService {
                         case 'WindowOpen': $this.windowOpen.emit(obj.args); break;
                         case 'ActivationData': $this.activationData.emit(obj.args); break;
                         case 'WindowClose': $this.windowClose.emit(obj.args); break;
+                        case 'ItemSource': $this.itemSource.emit(obj.args); break;
                         case 'ServerCommandMapReady': $this.serverCommandMapReady.emit(obj.args); break;
                         //when tbloader has connected to gate, I receive this message; then I can
                         //request the list of opened windows
@@ -90,6 +92,11 @@ export class WebSocketService {
         if (this.connection) {
             this.connection.close();
         }
+    }
+
+     doFillListBox(cmpId: String, itemSourceName: string, itemSourceNamespace: string, itemSourceParameter: string): void {
+        let data = { cmd: 'doFillListBox', cmpId: cmpId, itemSourceName: itemSourceName, itemSourceNamespace: itemSourceNamespace, itemSourceParameter: itemSourceParameter };
+        this.connection.send(JSON.stringify(data));
     }
 
     doCommand(cmpId: String, id: String, modelData?: any): void {
