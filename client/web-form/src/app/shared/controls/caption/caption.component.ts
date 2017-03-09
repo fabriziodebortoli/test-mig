@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./caption.component.scss']
 })
 export class CaptionComponent {
-@Input() captionText: string;
+@Input() caption: string;
 
   constructor() { }
 }
