@@ -1,0 +1,25 @@
+<md-card class="login-form">
+    <md-card-title>Log In</md-card-title>
+    <md-card-content>
+        <div class="form-group">
+
+            <md-input-container>
+                <input type="text" mdInput placeholder="User" autofocus [(ngModel)]="loginModel.user" (blur)=getCompaniesForUser(loginModel.user)>
+            </md-input-container>
+            <md-input-container>
+                <input type="password" mdInput placeholder="Password" [(ngModel)]="loginModel.password">
+            </md-input-container>
+
+            <div *ngIf="loginModel.user">
+                <br>
+                <!--<div *ngIf="loginModel.user && companies.length > 1">-->
+                <kendo-dropdownlist [data]="companies" [valuePrimitive]="true" [textField]="'name'" [valueField]="'name'" [value]="loginModel.company" [(ngModel)]="loginModel.company"> </kendo-dropdownlist>
+            </div>
+
+            <!--<div class="error" *ngFor="let errorMessage of loginSessionService.errorMessages">{{errorMessage.text}}</div>-->
+
+            <button kendoButton [primary]="true" (click)="login()" class="login-button" [disabled]="loggingIn">Login</button>
+        </div>
+
+    </md-card-content>
+</md-card>
