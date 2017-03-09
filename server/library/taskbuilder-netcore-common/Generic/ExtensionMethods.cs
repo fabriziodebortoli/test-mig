@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -449,39 +450,111 @@ namespace Microarea.Common.Generic
 
 			return string.Concat(FirstLetter, SecondLetter, ThirdLetter).Trim();
 		}
-
+    }
+    //================================================================================
+    public static class TbJson
+    {
         //---------------------------------------------------------------------
         /*
-		 * Fields are separated by commas.
-		 * (In locales where the comma is used as a decimal separator, 
-		 * the semicolon is used instead as a delimiter).
+		 * Custom ToJson
 		*/
         //--------------------------------------------------------------------------------
-        public static string ToJson(this string o, string name = null, bool bracket = false)
+        public static string ToJson(this string o, string name = null, bool bracket = false, bool escape = false)
         {
             string s = o.Trim();
 
-           // if (s.IndexOfAny(new char[] { sep, '"', '\n', ',', ';', '\t' }) >= 0)
+            if (escape)
+            {
+                s = s.Replace("\\", "\\\\");
+                s = s.Replace("/", "\\/");
 
-            s = s.Replace("\\", "\\\\");
-            s = s.Replace("/", "\\/");
- 
-            s = s.Replace("\t", "\\t");
-            s = s.Replace("\r", "\\r");
-            s = s.Replace("\n", "\\n");
+                s = s.Replace("\t", "\\t");
+                s = s.Replace("\r", "\\r");
+                s = s.Replace("\n", "\\n");
 
-            s = s.Replace("\"", "\\\"");
+                s = s.Replace("\"", "\\\"");
+            }
 
             s = '"' + s + '"';
 
             if (!name.IsNullOrEmpty())
                 s = '"' + name + '"' + ':' + s;
             if (bracket)
-                s = '{' + s + '}' ;
+                s = '{' + s + '}';
 
             return s;
         }
 
+        public static string ToJson(this bool b, string name = null, bool bracket = false)
+        {
+            return b.ToString().ToJson(name, bracket);
+        }
+        public static string ToJson(this char c, string name = null, bool bracket = false, bool escape = false)
+        {
+            return c.ToString().ToJson(name, bracket, escape);
+        }
+        public static string ToJson(this int n, string name = null, bool bracket = false)
+        {
+            return n.ToString().ToJson(name, bracket);
+        }
+        public static string ToJson(this short n, string name = null, bool bracket = false)
+        {
+            return n.ToString().ToJson(name, bracket);
+        }
+        public static string ToJson(this ushort n, string name = null, bool bracket = false)
+        {
+            return n.ToString().ToJson(name, bracket);
+        }
+        public static string ToJson(this long n, string name = null, bool bracket = false)
+        {
+            return n.ToString().ToJson(name, bracket);
+        }
+        public static string ToJson(this byte n, string name = null, bool bracket = false)
+        {
+            return n.ToString().ToJson(name, bracket);
+        }
+
+        public static string ToJson(this double d, string name = null, bool bracket = false)
+        {
+            return d.ToString().ToJson(name, bracket);
+        }
+
+        public static string ToJson(this Rectangle rect, string name = null, bool bracket = false)
+        {
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '"' + name + "\":";
+
+            s += '{' +
+                    rect.Left   .ToJson("left") + ',' +
+                    rect.Right  .ToJson("right") + ',' +
+                    rect.Top    .ToJson("top") + ',' +
+                    rect.Bottom .ToJson("bottom") +
+                 '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+        public static string ToJson(this Color color, string name = null, bool bracket = false)
+        {
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '"' + name + "\":";
+
+            s += '{' +
+                    //color.ToArgb().ToJson("color") +
+                    color.R.ToJson("r") + ',' +
+                    color.G.ToJson("g") + ',' +
+                    color.B.ToJson("b") +
+                 '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
 
     }
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Runtime.Serialization;
+
+using Microarea.Common.Generic;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.RSWeb.WoormViewer;
@@ -11,19 +13,19 @@ namespace Microarea.RSWeb.Objects
 	[Serializable]
 	public class FontData : ISerializable
 	{
+		const string FAMILY = "Family";
+		const string SIZE = "Size";
 		const string ITALIC = "Italic";
 		const string BOLD = "Bold";
 		const string STRIKEOUT = "Strikeout";
 		const string UNDERLINE = "Underline";
-		const string FAMILY = "Family";
-		const string SIZE = "Size";
 
-		public bool Italic;
-		public bool Bold;
-		public bool Strikeout;
-		public bool Underline;
 		public string Family;
 		public int Size;
+		public bool Bold;
+		public bool Italic;
+		public bool Strikeout;
+		public bool Underline;
 		
 		public FontData()
 		{
@@ -57,20 +59,38 @@ namespace Microarea.RSWeb.Objects
 		//------------------------------------------------------------------------------
 		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
+			info.AddValue(FAMILY, Family);
+			info.AddValue(SIZE, Size);
 			info.AddValue(ITALIC, Italic);
 			info.AddValue(BOLD, Bold);
 			info.AddValue(STRIKEOUT, Strikeout);
 			info.AddValue(UNDERLINE, Underline);
-
-			info.AddValue(FAMILY, Family);
-			info.AddValue(SIZE, Size);
 		}
-	}
-	/// <summary>
-	/// Summary description for BasicText.
-	/// </summary>
-	/// ================================================================================
-	[Serializable]
+
+        //------------------------------------------------------------------------------
+        public string ToJson(bool bracket = false)
+        {
+            string s = "\"font\":{" +
+                                        Family.ToJson("face") + ',' +
+                                        Size.ToJson("size") + ',' +
+                                        Size.ToJson("italic") + ',' +
+                                        Size.ToJson("bold") + //',' +
+                                        //Size.ToJson("Underline") + ',' +
+                                        //Size.ToJson("Strikeout") + ',' +
+                                     '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+    }
+    /// <summary>
+    /// Summary description for BasicText.
+    /// </summary>
+    /// ================================================================================
+    [Serializable]
 	[KnownType(typeof(FontData))]
 	public class BasicText : ISerializable
 	{
@@ -79,7 +99,6 @@ namespace Microarea.RSWeb.Objects
 		const string FONTDATA = "FontData";
 		const string ALIGN = "Align";
 		
-
 		private FontData fontData = null;
 		private WoormDocument document; 
 		
@@ -101,7 +120,6 @@ namespace Microarea.RSWeb.Objects
 			set	{	fontData = value;	}
 		}
 		
-
 		//------------------------------------------------------------------------------
 		public BasicText(SerializationInfo info, StreamingContext context)
 		{

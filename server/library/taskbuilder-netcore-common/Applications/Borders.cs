@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-
+using Microarea.Common.Generic;
 //using Microarea.RSWeb.Temp;
 
 namespace Microarea.Common.Applications
@@ -36,8 +36,22 @@ namespace Microarea.Common.Applications
 			Color = aColor;
 		}
 
-		//------------------------------------------------------------------------------
-		public bool IsDefault
+        //------------------------------------------------------------------------------
+        public string ToJson(bool bracket = false)
+        {
+            string s = "\"borderpen\":{" +
+                                        Width.ToJson("width") + ',' +
+                                        Color.ToJson("color") +
+                                     '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        //------------------------------------------------------------------------------
+        public bool IsDefault
 		{
 			get
 			{
@@ -96,8 +110,24 @@ namespace Microarea.Common.Applications
 		public Borders(bool enabled) { Init(enabled); }
 		public Borders() { Init(true); }
 
-		//------------------------------------------------------------------------------
-		private void Init(bool enabled)
+        //------------------------------------------------------------------------------
+        public string ToJson(bool bracket = false)
+        {
+            string s = "\"borders\":{" +
+                                Left.ToJson("left") + ',' +
+                                Right.ToJson("right") + ',' +
+                                Top.ToJson("top") + ',' +
+                                Bottom.ToJson("bottom") + 
+                                '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        //------------------------------------------------------------------------------
+        private void Init(bool enabled)
 		{
 			Top = enabled;
 			Left = enabled;
