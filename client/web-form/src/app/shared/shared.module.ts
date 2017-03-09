@@ -60,7 +60,7 @@ const TB_COMPONENTS = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, StateButtonComponent, CaptionComponent, PlaceholderComponent],
+  declarations: [TB_COMPONENTS, StateButtonComponent, CaptionComponent, PlaceholderComponent, PasswordComponent],
   exports: [TB_COMPONENTS],
   entryComponents: [OpenComponent, SaveComponent]
 })
