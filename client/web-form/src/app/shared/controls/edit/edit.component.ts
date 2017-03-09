@@ -13,7 +13,7 @@ import {ControlTypes} from '../control-types.enum';
 export class EditComponent extends ControlComponent{
     @Input() buttons: StateButton[] = [];
     controlType = ControlTypes;
-    mycontrolType = ControlTypes.Numeric;
+    mycontrolType = ControlTypes.Text;
     
      constructor(
         private eventData: EventDataService
