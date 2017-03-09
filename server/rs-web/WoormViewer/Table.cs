@@ -482,11 +482,9 @@ namespace Microarea.RSWeb.Objects
 		private const int HIDDEN_DEFAULT_WIDTH = 100;
 		public bool TemplateOverridden = false;
 
-
 		//------------------------------------------------------------------------------
 		public Column()
 		{
-
 		}
 
 		//------------------------------------------------------------------------------
@@ -634,8 +632,34 @@ namespace Microarea.RSWeb.Objects
 			info.AddValue(ISHIDDEN, IsHidden);
 		}
 
-		//-------------------------------------------------------------------------------
-		public string LocalizedText
+        //------------------------------------------------------------------------------
+        public string ToJson()
+        {
+            return "\"column\":{" +
+
+/*
+                "\"label\":{" +
+                    this.LocalizedText.ToJson("caption", false, true) + ',' +
+                    this.FontData.ToJson() + ',' +
+                    this.Label.Align.ToJson("align") + ',' +
+                    this.LabelTextColor.ToJson("textcolor") +
+                "}," +
+
+                this.Value.FontData.ToJson() + ',' +
+                this.Value.Align.ToJson("align") + ',' +
+                this.BkgColor.ToJson("bkgcolor") + ',' +
+                this.TextColor.ToJson("textcolor") + ',' +
+
+                this.Value.FormattedData.ToJson("value", false, true) +
+
+                (this.IsHtml ? ',' + this.IsHtml.ToJson("ishtml") : "") +
+                (this.IsImage ? ',' + this.IsImage.ToJson("isimage") : "") +
+*/
+             '}';
+        }
+
+        //-------------------------------------------------------------------------------
+        public string LocalizedText
 		{
 			get
 			{
@@ -1904,6 +1928,7 @@ namespace Microarea.RSWeb.Objects
 
 		public BorderPen TitlePen = new BorderPen();
 		public BasicText Title = new BasicText();
+
 		public List<Column> Columns;
 		public bool[] Interlines;
 
@@ -2047,8 +2072,47 @@ namespace Microarea.RSWeb.Objects
 			info.AddValue(COLUMNS, Columns);
 		}
 
-		//---------------------------------------------------------------------------
-		public bool ExistsColumnWithDynamicAttributeOnRow()
+        //------------------------------------------------------------------------------
+        override public string ToJson()
+        {
+            return "\"table\":{" +
+                base.ToJson() + ',' +
+
+                (this.HideTableTitle ? 
+                "\"title\":{" +
+                    this.LocalizedText.ToJson("caption", false, true) + ',' +
+                    this.Title.FontData.ToJson() + ',' +
+                    this.Title.Align.ToJson("align") + ',' +
+                    this.TitleRect.ToJson("rect") + ',' +
+                    this.TitlePen.ToJson() + 
+                   "},"
+                : "") +
+
+                this.FiscalEnd.ToJson("FiscalEnd") + ',' +
+                this.EasyviewColor.ToJson("alternatecolor") + ',' +
+
+                this.BaseCellsRect.ToJson("rect") + ',' +
+                this.HideColumnsTitle.ToJson("hidecolumnstitle") + ',' +
+
+                ColumnsToJson() +
+            '}';
+        }
+
+        public string ColumnsToJson()
+        {
+            string s = "\"columns\":[";
+
+            foreach (Column column in this.Columns)
+            {
+                    
+                    
+            }
+
+            s += ']';
+            return s;
+        }
+        //---------------------------------------------------------------------------
+        public bool ExistsColumnWithDynamicAttributeOnRow()
 		{
 			for (int i = 0; i < ColumnNumber; i++)
 				if (Columns[i].HasDynamicAttributeOnRow)
