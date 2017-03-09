@@ -40,7 +40,7 @@ $ npm install -g typescript@next
 $ npm install -g @angular/cli
 ```
 
-* [.NET Core](https://www.microsoft.com/net/download/core#/current), (version `>= 1.1`) Download and install **SDK - Installer** and the **Visual Studio 2015 Tools (Preview 2)**
+* [.NET Core](https://www.microsoft.com/net/download/core#/runtime), (version `>= 1.1`) Download and install **.NET Core 1.1.1 runtime (Current)**
 
 * [Visual Studio Code](http://code.visualstudio.com/) source code editor
 
