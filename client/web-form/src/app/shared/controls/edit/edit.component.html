@@ -1,4 +1,19 @@
-<div>
-    <md-input id="{{cmpId}}" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [placeholder]="caption"></md-input>
-    <tb-state-button *ngFor="let button of buttons" [button]="button"></tb-state-button>
+<div [ngSwitch]="mycontrolType">
+    <div *ngSwitchCase="controlType.Text">
+        <md-input id="{{cmpId}}" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [placeholder]="caption"></md-input>
+        <tb-state-button *ngFor="let button of buttons" [button]="button"></tb-state-button>
+    </div>
+
+    <div *ngSwitchCase="controlType.Password">
+        password<br />
+        <tb-password caption="{{caption}}" forCmpID="{{cmpId}}"></tb-password>
+    </div>
+    <div *ngSwitchCase="controlType.Masked">
+        masked
+        <tb-masked-text-box caption="{{caption}}" forCmpID="{{cmpId}}" mask="99 999"></tb-masked-text-box>
+    </div>
+    <div *ngSwitchCase="controlType.Numeric">
+        Numeric<br />
+        <tb-numeric-text-box caption="{{caption}}" forCmpID="{{cmpId}}" mask="99 999"></tb-numeric-text-box>
+    </div>
 </div>
