@@ -162,7 +162,7 @@ namespace Microarea.DataService.Models
             CurrentQuery.EnumColumns(columns);
 
             //emit json record header (localized title column, column name, datatype column
-            list = "{\"titles\":[";
+            list = "{\"columns\":[";
             bool first = true;
             foreach (SymField f in columns)
             {
@@ -171,7 +171,11 @@ namespace Microarea.DataService.Models
                 else
                     list += ',';
 
-                list += f.Name.ToJson();
+                list += '{' +
+                             f.Name.Replace('.', '_').ToJson("id") +
+                             ',' +
+                             f.Title.ToJson("caption") +
+                         '}';
             }
             list += "]}";
 
@@ -191,7 +195,7 @@ namespace Microarea.DataService.Models
             CurrentQuery.EnumColumns(columns);
 
             //emit json record header (localized title column, column name, datatype column
-           records = "{\"titles\":[";
+           records = "{\"columns\":[";
            bool first = true;
            foreach (SymField f in columns)
             {
@@ -200,8 +204,11 @@ namespace Microarea.DataService.Models
                 else
                     records += ',';
 
-                records += f.Name.Replace('.', '_').ToJson();
-                //records += f.Name;
+                records += '{' +
+                           f.Name.Replace('.', '_').ToJson("id") +
+                           ',' +
+                           f.Title.ToJson("caption") +
+                           '}';
             }
             records += "],\n\"rows\":[";
 

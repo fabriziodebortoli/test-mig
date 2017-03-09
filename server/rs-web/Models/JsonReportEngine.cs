@@ -62,7 +62,12 @@ namespace Microarea.RSWeb.Models
             woorm.LoadPage(page);
 
             ReportData rd = new ReportData();
-            rd.reportObjects = woorm.Objects;
+
+            //rd.reportObjects = woorm.Objects;
+                rd.reportObjects = new Layout();
+                rd.reportObjects.Add(new SqrRect());
+            //---------------------------------
+
             rd.paperLength = woorm.PageInfo.DmPaperLength;
             rd.paperWidth = woorm.PageInfo.DmPaperWidth;
 
@@ -75,6 +80,112 @@ namespace Microarea.RSWeb.Models
             string text = reader.ReadToEnd();
 
             return text;
+        }
+
+
+        public Message GetResponseFor(Message msg)
+        {
+            Message nMsg = new Message();
+            nMsg.commandType = msg.commandType;
+           
+            //nMsg.response = "This Is Response for " + msg.message;
+
+            switch(msg.commandType)
+            {
+                case MessageBuilder.CommandType.ASK:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed ASK()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.DATA:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed DATA()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.ERROR:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed ERROR()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.GUID:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed GUID()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.NAMESPACE:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed NAMESPACE()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.NEXTPAGE:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed NEXTPAGE()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.PREVPAGE:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed PREVPAGE()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.OK:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed OK()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.PAGE:
+                    {         
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed PAGE()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.PAUSE:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed PAUSE()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.PDF:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed PDF()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.RUN:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed ASK()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.STOP:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed STOP()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.TEMPLATE:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed TEMPLATE()";
+                        break;
+                    }
+                case MessageBuilder.CommandType.TEST:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = "Executed TEST()";
+                        break;
+                    }
+
+
+            }
+            return nMsg;
         }
     }
 }

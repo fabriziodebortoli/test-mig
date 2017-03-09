@@ -65,8 +65,8 @@ namespace Microarea.RSWeb.Controllers
             return new ContentResult { Content = pdf.ToString(), ContentType = "application/pdf" };
         }
 
-        [Route("json/{namespace}")] // /{page}
-        public IActionResult GetJson(string nameSpace)  //, string page)
+        [Route("json/{namespace}/{page}")] // /{page}
+        public IActionResult GetJson(string nameSpace, int page)
         {
             string sAuthT = HttpContext.Request.Cookies["authtoken"];
             if (string.IsNullOrEmpty(sAuthT))
@@ -80,7 +80,7 @@ namespace Microarea.RSWeb.Controllers
 
             JsonReportEngine report = new JsonReportEngine(session);
 
-            string pageLayout = report.GetJsonPage(/*page*/);
+            string pageLayout = report.GetJsonPage(page);
 
             return new ContentResult { Content = pageLayout, ContentType = "application/json" };
         }

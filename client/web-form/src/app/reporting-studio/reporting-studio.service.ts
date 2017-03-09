@@ -11,7 +11,7 @@ export class ReportingStudioService extends DocumentService {
 
     private rsServer: string = 'ws://localhost:5000/rsweb';
     websocket: WebSocket;
-    public message: Subject<string> = new Subject<string>();
+    public message: Subject<any> = new Subject<string>();
 
     constructor(logger: Logger, eventData: EventDataService) {
         super(logger, eventData);
@@ -65,8 +65,6 @@ export class ReportingStudioService extends DocumentService {
     closeConnection() {
         this.websocket.close();
     }
-
-
 
     ngOnDestroy() {
         this.closeConnection();

@@ -102,14 +102,7 @@ namespace Microarea.RSWeb.WoormController
 		public InternalState 	CurrentInternalState;
 		public bool 			Working = false;
 
-        public Message GetResponseFor(Message msg)
-        {
-            Message nMsg = new Message();
-            nMsg.commandType = msg.commandType;
-            nMsg.message = msg.message;
-            nMsg.response = "This Is Response for " + msg.message;
-            return nMsg;
-        }
+       
 
         //Siccome il currentState puo essere modificato dal thread di esecuzione e da quello del viewer, devo sincronizzarne
         //l'accesso

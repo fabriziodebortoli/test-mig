@@ -40,7 +40,7 @@ $ npm install -g typescript@next
 $ npm install -g @angular/cli
 ```
 
-* [.NET Core](https://www.microsoft.com/net/download/core#/current), (version `>= 1.1`) Download and install **SDK - Installer** and the **Visual Studio 2015 Tools (Preview 2)**
+* [.NET Core](https://www.microsoft.com/net/download/core#/runtime), (version `>= 1.1`) Download and install **.NET Core 1.1.1 runtime (Current)**
 
 * [Visual Studio Code](http://code.visualstudio.com/) source code editor
 
@@ -104,6 +104,18 @@ Password: Microarea.2017
 Email: eitri@microarea.it
 ```
 
+You should get this message:
+```
+Logged in as eitri to scope @progress on https://registry.npm.telerik.com/.
+```
+
+The actual packages will be downloaded when the npm install command will be executed (see below),
+under the folder
+```
+\Web\client\web-form\node_modules\@progress
+and
+\Web\client\web-form\node_modules\@telerik
+```
 
 ## Building
 

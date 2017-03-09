@@ -9,6 +9,7 @@ namespace Microarea.Common.Applications
     /// Summary description for BorderPen.
     /// </summary>
     ///================================================================================ 
+    [Serializable]
     public class BorderPen
 	{
         public Color Color;
@@ -79,11 +80,12 @@ namespace Microarea.Common.Applications
 		}
 	}
 
-	/// <summary>
-	/// Summary description for Borders.
-	/// </summary>
-	//================================================================================ 
-	public class Borders
+    /// <summary>
+    /// Summary description for Borders.
+    /// </summary>
+    //================================================================================ 
+    [Serializable]
+    public class Borders
 	{
 		public bool Left = true;
 		public bool Right = true;
