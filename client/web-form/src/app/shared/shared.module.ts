@@ -29,6 +29,7 @@ import { CaptionComponent } from './controls/caption/caption.component';
 import { PlaceholderComponent } from './controls/placeholder/placeholder.component';
 import { PasswordComponent } from './controls/password/password.component';
 import { MaskedTextBoxComponent } from './controls/masked-text-box/masked-text-box.component';
+import { NumericTextBoxComponent } from './controls/numeric-text-box/numeric-text-box.component';
 
 
 const KENDO_UI_MODULES = [
@@ -61,7 +62,7 @@ const TB_COMPONENTS = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, StateButtonComponent, CaptionComponent, PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent],
+  declarations: [TB_COMPONENTS, StateButtonComponent, CaptionComponent, PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent],
   exports: [TB_COMPONENTS],
   entryComponents: [OpenComponent, SaveComponent]
 })
