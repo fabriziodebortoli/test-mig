@@ -9,12 +9,11 @@ namespace Microarea.RSWeb.Models
         public MessageBuilder() { }
 
 
-        public static string GetJSONMessage(CommandType cmdt, string message, string response = "")
+        public static string GetJSONMessage(CommandType cmdt, string message)
         {
             Message msg = new Message();
             msg.commandType = cmdt;
             msg.message = message;
-            msg.response = response;
             return JsonConvert.SerializeObject(msg);
         }
 
