@@ -26,6 +26,8 @@ import { OpenComponent } from './explorer/open/open.component';
 import { SaveComponent } from './explorer/save/save.component';
 import { GridComponent } from './controls/grid/grid.component';
 import { CaptionComponent } from './controls/caption/caption.component';
+import { PlaceholderComponent } from './controls/placeholder/placeholder.component';
+import { PasswordComponent } from './controls/password/password.component';
 
 
 const KENDO_UI_MODULES = [
@@ -58,7 +60,7 @@ const TB_COMPONENTS = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, StateButtonComponent, CaptionComponent],
+  declarations: [TB_COMPONENTS, StateButtonComponent, CaptionComponent, PlaceholderComponent],
   exports: [TB_COMPONENTS],
   entryComponents: [OpenComponent, SaveComponent]
 })
