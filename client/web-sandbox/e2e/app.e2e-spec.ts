@@ -1,10 +1,10 @@
-import { WebSaloonPage } from './app.po';
+import { WebSandboxPage } from './app.po';
 
-describe('web-saloon App', () => {
-  let page: WebSaloonPage;
+describe('web-sandbox App', () => {
+  let page: WebSandboxPage;
 
   beforeEach(() => {
-    page = new WebSaloonPage();
+    page = new WebSandboxPage();
   });
 
   it('should display message saying app works', () => {
