@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "Microsoft.AspNetCore.Cors": "1.1.1",
     "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.Routing": "1.1.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
@@ -12,8 +13,8 @@
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
     "Microsoft.NETCore.App": {
-        "type": "platform",
-        "version": "1.1.0"
+      "type": "platform",
+      "version": "1.1.0"
     }
   },
 

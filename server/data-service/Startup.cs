@@ -35,6 +35,16 @@ namespace Microarea.DataService
             // Add framework services.
             //services.AddApplicationInsightsTelemetry(Configuration);
 
+            // Add service and create Policy with options
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.AddMvc();
         }
 
@@ -45,8 +55,9 @@ namespace Microarea.DataService
             loggerFactory.AddDebug();
 
             app.UseStaticFiles();
-            
-           
+
+            app.UseCors("CorsPolicy");
+
             app.UseMvc();
 
 

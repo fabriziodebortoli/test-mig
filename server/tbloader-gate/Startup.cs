@@ -41,7 +41,17 @@ namespace Microarea.TbLoaderGate
 
             services.AddSession();
 
-            IMvcBuilder builder = services.AddMvc();
+            // Add service and create Policy with options
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
+            IMvcBuilder builder2 = services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +79,9 @@ namespace Microarea.TbLoaderGate
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
             app.UseSession();
+
+            app.UseCors("CorsPolicy");
+
             app.UseMvc(routes =>
             {
                 

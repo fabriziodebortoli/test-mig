@@ -130,7 +130,7 @@ namespace WebApplication
 			app.UseCors("CorsPolicy");
 			// Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 			app.UseSession();
-
+            
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");

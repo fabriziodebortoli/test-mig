@@ -74,6 +74,8 @@ namespace Microarea.RSWeb
                 
             });
 
+            app.UseCors("CorsPolicy");
+
             app.UseMvc();
         }
     }
