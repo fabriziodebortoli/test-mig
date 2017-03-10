@@ -1,6 +1,4 @@
 
-using System;
-using System.Runtime.Serialization;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.RSWeb.WoormViewer;
@@ -11,7 +9,7 @@ namespace Microarea.RSWeb.Objects
 	/// Summary description for GenericText.
 	/// </summary>
 	/// ================================================================================
-	[Serializable]
+	//[Serializable]
 	public class Label : BasicText
 	{
 		//------------------------------------------------------------------------------
@@ -22,23 +20,23 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//------------------------------------------------------------------------------
-		public Label(SerializationInfo info, StreamingContext context)
-		: base (info, context)
-		{
-		}
+		//public Label(SerializationInfo info, StreamingContext context)
+		//: base (info, context)
+		//{
+		//}
 	}
 	/// <summary>
 	/// Summary description for GenericText.
 	/// </summary>
 	/// ================================================================================
-	[Serializable]
+	//[Serializable]
 	public class WoormValue : BasicText
 	{
 		private object  rdeData = null;
 		private string  formattedData = string.Empty;
 		private bool    cellTail = false;		
 
-		const string FORMATTEDDATA = "FormattedData";
+		//const string FORMATTEDDATA = "FormattedData";
 		//--------------------------------------------------------------------------------
 		public object RDEData { get { return rdeData; } }
 		//--------------------------------------------------------------------------------
@@ -56,24 +54,24 @@ namespace Microarea.RSWeb.Objects
 			Align = Defaults.DefaultAlign;
 		}
 
-		//------------------------------------------------------------------------------
-		public WoormValue(SerializationInfo info, StreamingContext context)
-		{
-			formattedData = info.GetString(FORMATTEDDATA);
-		}
-
-        //------------------------------------------------------------------------------
+       //------------------------------------------------------------------------------
         public WoormValue(WoormValue s)
             : base (s)
         {
         }
 
+		//------------------------------------------------------------------------------
+		//public WoormValue(SerializationInfo info, StreamingContext context)
+		//{
+		//	formattedData = info.GetString(FORMATTEDDATA);
+		//}
+
 		//-------------------------------------------------------------------------------
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			base.GetObjectData(info, context);
-			info.AddValue(FORMATTEDDATA, formattedData);
-		}
+		//public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		//{
+		//	base.GetObjectData(info, context);
+		//	info.AddValue(FORMATTEDDATA, formattedData);
+		//}
 
         //------------------------------------------------------------------------------
         public WoormValue Clone()

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Runtime.Serialization;
+//using System.Runtime.Serialization;
 
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
@@ -22,31 +22,32 @@ namespace Microarea.RSWeb.Objects
 	/// </summary>
 	/// 
 	/// ================================================================================
-	[Serializable]
-	[KnownType(typeof(BasicText))]
-	public class Cell : ISerializable
+	//[Serializable]
+	//[KnownType(typeof(BasicText))]
+	public class Cell //: ISerializable
 	{
 		public bool SubTotal = false;	// dinamicamente dice se la cella contiene un subtotal
 		public WoormValue Value;
 		public Rectangle RectCell;
 		public int AtRowNumber = -1;
 		public Column column;
-		const string SUBTOTAL		= "SubTotal";
-		const string VALUE			= "Value";
-		const string RECTCELL		= "RectCell";
-		const string ATROWNUMBER	= "AtRowNumber";
+
+		//const string SUBTOTAL		= "SubTotal";
+		//const string VALUE			= "Value";
+		//const string RECTCELL		= "RectCell";
+		//const string ATROWNUMBER	= "AtRowNumber";
 			
 		//------------------------------------------------------------------------------
 		public Cell() { }
 
 		//-------------------------------------------------------------------------------
-		public Cell(SerializationInfo info, StreamingContext context)
-		{
-			SubTotal = info.GetBoolean(SUBTOTAL);
-			Value = info.GetValue<WoormValue>(VALUE);
-			RectCell = info.GetValue<Rectangle>(RECTCELL);
-			AtRowNumber = info.GetInt32(ATROWNUMBER);
-		}
+		//public Cell(SerializationInfo info, StreamingContext context)
+		//{
+		//	SubTotal = info.GetBoolean(SUBTOTAL);
+		//	Value = info.GetValue<WoormValue>(VALUE);
+		//	RectCell = info.GetValue<Rectangle>(RECTCELL);
+		//	AtRowNumber = info.GetInt32(ATROWNUMBER);
+		//}
 
 		//------------------------------------------------------------------------------
 		public Cell(Column col, Point origin, Size size)
@@ -186,13 +187,13 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//-------------------------------------------------------------------------------
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			info.AddValue(SUBTOTAL, SubTotal);
-			info.AddValue(VALUE, Value);
-			info.AddValue(RECTCELL, RectCell);
-			info.AddValue(ATROWNUMBER, AtRowNumber);
-		}
+		//public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		//{
+		//	info.AddValue(SUBTOTAL, SubTotal);
+		//	info.AddValue(VALUE, Value);
+		//	info.AddValue(RECTCELL, RectCell);
+		//	info.AddValue(ATROWNUMBER, AtRowNumber);
+		//}
 
 		//-------------------------------------------------------------------------------
 		public Color GetValueSubTotBkgColor(Color cr)
@@ -292,7 +293,7 @@ namespace Microarea.RSWeb.Objects
 	/// servono solo gli stili dei font e gli align. da sostituire a quelli della cella
 	/// </summary>
 	// ================================================================================
-	[Serializable]
+	//[Serializable]
 	public class SubTotalCell : BasicText
 	{
 		public SubTotalCell(WoormDocument doc) : base (doc) 
@@ -306,7 +307,7 @@ namespace Microarea.RSWeb.Objects
 	/// Summary description for TableCell.
 	/// </summary>
 	// ================================================================================
-	[Serializable]
+	//[Serializable]
 	public class TotalCell : Cell
 	{
 		public BorderPen TotalPen = new BorderPen();
@@ -382,20 +383,20 @@ namespace Microarea.RSWeb.Objects
 	/// Summary description for TableCell.
 	/// </summary>
 	/// ================================================================================
-	[Serializable]
-	[KnownType(typeof(Rectangle))]
-	[KnownType(typeof(BasicText))]
-	[KnownType(typeof(Column))]
-	[KnownType(typeof(Cell))]
-	[KnownType(typeof(List<Cell>))]
-	public class Column : ISerializable
+	//[Serializable]
+	//[KnownType(typeof(Rectangle))]
+	//[KnownType(typeof(BasicText))]
+	//[KnownType(typeof(Column))]
+	//[KnownType(typeof(Cell))]
+	//[KnownType(typeof(List<Cell>))]
+	public class Column //: ISerializable
 	{
-		const string COLUMNTITLERECT	= "ColumnTitleRect";
-		const string COLUMNCELLSRECT	= "ColumnCellsRect";
-		const string COLUMNRECT			= "ColumnRect";
-		const string TITLE				= "Title";
-		const string CELLS				= "Cells";
-		const string ISHIDDEN			= "IsHidden";
+		//const string COLUMNTITLERECT	= "ColumnTitleRect";
+		//const string COLUMNCELLSRECT	= "ColumnCellsRect";
+		//const string COLUMNRECT			= "ColumnRect";
+		//const string TITLE				= "Title";
+		//const string CELLS				= "Cells";
+		//const string ISHIDDEN			= "IsHidden";
 		
 		public Table Table;						// parent container
 		public Rectangle ColumnTitleRect;		// only column title
@@ -427,6 +428,7 @@ namespace Microarea.RSWeb.Objects
 		public BorderPen ColumnPen = new BorderPen();
 		public SubTotalCell SubTotal;
 		public List<Cell> Cells;
+
 		public bool IsTextFile = false;
 
 		//estensione sintattica [ HIDDEN [ WHEN bool-expr ] ]
@@ -488,31 +490,31 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//------------------------------------------------------------------------------
-		public Column(SerializationInfo info, StreamingContext context)
-		{
-			ColumnTitleRect = info.GetValue<Rectangle>(COLUMNTITLERECT);
-			ColumnCellsRect = info.GetValue<Rectangle>(COLUMNCELLSRECT);
-			ColumnRect = info.GetValue<Rectangle>(COLUMNRECT);
-			Title = info.GetValue<BasicText>(TITLE);
-			object[] arCells = info.GetValue<object[]>(CELLS);
-			if (arCells != null)
-			{
-				Cells = new List<Cell>();
-				foreach (object item in arCells)
-					Cells.Add(item as Cell);
-			}
-			IsHidden = info.GetBoolean(ISHIDDEN);
-		}
+		//public Column(SerializationInfo info, StreamingContext context)
+		//{
+		//	ColumnTitleRect = info.GetValue<Rectangle>(COLUMNTITLERECT);
+		//	ColumnCellsRect = info.GetValue<Rectangle>(COLUMNCELLSRECT);
+		//	ColumnRect = info.GetValue<Rectangle>(COLUMNRECT);
+		//	Title = info.GetValue<BasicText>(TITLE);
+		//	object[] arCells = info.GetValue<object[]>(CELLS);
+		//	if (arCells != null)
+		//	{
+		//		Cells = new List<Cell>();
+		//		foreach (object item in arCells)
+		//			Cells.Add(item as Cell);
+		//	}
+		//	IsHidden = info.GetBoolean(ISHIDDEN);
+		//}
 
 		//------------------------------------------------------------------------------
 		public Column
-			(
-			Table table,
-			Point columnOrigin,
-			Size titleSize,
-			Size cellSize,
-			int rows
-			)
+			        (
+			            Table table,
+			            Point columnOrigin,
+			            Size titleSize,
+			            Size cellSize,
+			            int rows
+			        )
 		{
 			Table = table;
 			Title = new BasicText(Table.Document);
@@ -622,15 +624,15 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//-------------------------------------------------------------------------------
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			info.AddValue(COLUMNTITLERECT, ColumnTitleRect);
-			info.AddValue(COLUMNCELLSRECT, ColumnCellsRect);
-			info.AddValue(COLUMNRECT, ColumnRect);
-			info.AddValue(TITLE, Title);
-			info.AddValue(CELLS, Cells);
-			info.AddValue(ISHIDDEN, IsHidden);
-		}
+		//public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		//{
+		//	info.AddValue(COLUMNTITLERECT, ColumnTitleRect);
+		//	info.AddValue(COLUMNCELLSRECT, ColumnCellsRect);
+		//	info.AddValue(COLUMNRECT, ColumnRect);
+		//	info.AddValue(TITLE, Title);
+		//	info.AddValue(CELLS, Cells);
+		//	info.AddValue(ISHIDDEN, IsHidden);
+		//}
 
         //------------------------------------------------------------------------------
         public string ToJson()
@@ -1904,12 +1906,12 @@ namespace Microarea.RSWeb.Objects
 	}
 
 	//================================================================================
-	[Serializable]
-	[KnownType(typeof(Column))]
-	[KnownType(typeof(List<Column>))]
+	//[Serializable]
+	//[KnownType(typeof(Column))]
+	//[KnownType(typeof(List<Column>))]
 	public class Table : BaseObj
 	{
-		const string COLUMNS = "Columns";
+		//const string COLUMNS = "Columns";
 		// private static data
 		private const int CELL_HEIGHT = 14;
 		private const int CELL_WIDTH = 60;
@@ -1942,7 +1944,6 @@ namespace Microarea.RSWeb.Objects
         public int ChartType = 0;
         public int Layer = 0;   //only design mode
 
-        //TODOLUCA
         public Color EasyviewColor = Defaults.AlternateColor;   //Defaults.DefaultEasyviewColor;
 
 		public ArrayList EasyViewDynamicOnPage = new ArrayList(); //memorizza con quale colore di sfondo deve iniziare la riga in caso di easyview dynamic (per mantenere coerenza sul cambio pagina)
@@ -1967,17 +1968,17 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//---------------------------------------------------------------------------
-		public Table(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-			object[] arCols = info.GetValue<object[]>(COLUMNS);
-			if (arCols != null)
-			{
-				Columns = new List<Column>();
-				foreach (object item in arCols)
-					Columns.Add(item as Column);	
-			}
-		}
+		//public Table(SerializationInfo info, StreamingContext context)
+		//	: base(info, context)
+		//{
+		//	object[] arCols = info.GetValue<object[]>(COLUMNS);
+		//	if (arCols != null)
+		//	{
+		//		Columns = new List<Column>();
+		//		foreach (object item in arCols)
+		//			Columns.Add(item as Column);	
+		//	}
+		//}
 
 		//------------------------------------------------------------------------------
 		public Table(WoormDocument document, int rows, int cols)
@@ -2019,7 +2020,8 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//---------------------------------------------------------------------------
-		public Table(Table source): base(source)
+		public Table(Table source)
+        : base(source)
 		{
 			this.BaseCellsRect = source.BaseCellsRect;
 			this.TitleRect = source.TitleRect;
@@ -2065,12 +2067,12 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//---------------------------------------------------------------------------
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			base.GetObjectData(info, context);
+		//public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		//{
+		//	base.GetObjectData(info, context);
 			
-			info.AddValue(COLUMNS, Columns);
-		}
+		//	info.AddValue(COLUMNS, Columns);
+		//}
 
         //------------------------------------------------------------------------------
         override public string ToJson()
@@ -2102,10 +2104,13 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "\"columns\":[";
 
+            bool first = true;
             foreach (Column column in this.Columns)
             {
-                    
-                    
+                if (first) first = false;
+                else s += ',';
+
+                s += column.ToJson();     
             }
 
             s += ']';

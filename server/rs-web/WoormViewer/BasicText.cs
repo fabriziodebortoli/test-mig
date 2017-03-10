@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Runtime.Serialization;
 
 using Microarea.Common.Generic;
 using Microarea.Common.Applications;
@@ -10,8 +9,8 @@ using Microarea.RSWeb.WoormViewer;
 
 namespace Microarea.RSWeb.Objects
 {
-	[Serializable]
-	public class FontData : ISerializable
+	//[Serializable]
+	public class FontData //: ISerializable
 	{
 		const string FAMILY = "Family";
 		const string SIZE = "Size";
@@ -46,26 +45,26 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//------------------------------------------------------------------------------
-		public FontData(SerializationInfo info, StreamingContext context)
-		{
-			Italic		= info.GetBoolean(ITALIC);
-			Bold		= info.GetBoolean(BOLD);
-			Strikeout	= info.GetBoolean(STRIKEOUT);
-			Underline	= info.GetBoolean(UNDERLINE);
+		//public FontData(SerializationInfo info, StreamingContext context)
+		//{
+		//	Italic		= info.GetBoolean(ITALIC);
+		//	Bold		= info.GetBoolean(BOLD);
+		//	Strikeout	= info.GetBoolean(STRIKEOUT);
+		//	Underline	= info.GetBoolean(UNDERLINE);
 
-			Family		= info.GetString(FAMILY);
-			Size		= info.GetInt32(SIZE); 
-		}
+		//	Family		= info.GetString(FAMILY);
+		//	Size		= info.GetInt32(SIZE); 
+		//}
 		//------------------------------------------------------------------------------
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			info.AddValue(FAMILY, Family);
-			info.AddValue(SIZE, Size);
-			info.AddValue(ITALIC, Italic);
-			info.AddValue(BOLD, Bold);
-			info.AddValue(STRIKEOUT, Strikeout);
-			info.AddValue(UNDERLINE, Underline);
-		}
+		//public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		//{
+		//	info.AddValue(FAMILY, Family);
+		//	info.AddValue(SIZE, Size);
+		//	info.AddValue(ITALIC, Italic);
+		//	info.AddValue(BOLD, Bold);
+		//	info.AddValue(STRIKEOUT, Strikeout);
+		//	info.AddValue(UNDERLINE, Underline);
+		//}
 
         //------------------------------------------------------------------------------
         public string ToJson(bool bracket = false)
@@ -90,14 +89,14 @@ namespace Microarea.RSWeb.Objects
     /// Summary description for BasicText.
     /// </summary>
     /// ================================================================================
-    [Serializable]
-	[KnownType(typeof(FontData))]
-	public class BasicText : ISerializable
+ //   [Serializable]
+	//[KnownType(typeof(FontData))]
+	public class BasicText //: ISerializable
 	{
 		//stringhe usate per serializzare
-		const string TEXT = "Text"; 
-		const string FONTDATA = "FontData";
-		const string ALIGN = "Align";
+		//const string TEXT = "Text"; 
+		//const string FONTDATA = "FontData";
+		//const string ALIGN = "Align";
 		
 		private FontData fontData = null;
 		private WoormDocument document; 
@@ -121,19 +120,19 @@ namespace Microarea.RSWeb.Objects
 		}
 		
 		//------------------------------------------------------------------------------
-		public BasicText(SerializationInfo info, StreamingContext context)
-		{
-			Text = info.GetString(TEXT);
-			FontData = info.GetValue<FontData>(FONTDATA);
-			Align = info.GetInt32(ALIGN);
-		}
+		//public BasicText(SerializationInfo info, StreamingContext context)
+		//{
+		//	Text = info.GetString(TEXT);
+		//	FontData = info.GetValue<FontData>(FONTDATA);
+		//	Align = info.GetInt32(ALIGN);
+		//}
 		//------------------------------------------------------------------------------
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			info.AddValue(TEXT, Text);
-			info.AddValue(FONTDATA, FontData);
-			info.AddValue(ALIGN, Align);
-		}
+		//public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		//{
+		//	info.AddValue(TEXT, Text);
+		//	info.AddValue(FONTDATA, FontData);
+		//	info.AddValue(ALIGN, Align);
+		//}
 		//-----------------------------------------------------------------------------
 		public BasicText()
 		{

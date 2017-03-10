@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 using Microarea.Common.Lexan;
 using Microarea.Common.Generic;
@@ -10,7 +9,7 @@ using Microarea.RSWeb.Objects;
 
 namespace Microarea.RSWeb.WoormViewer
 {
-	[Serializable]
+	//[Serializable]
 	public class BaseObjList : List<BaseObj>
 	{
 		WoormDocument document = null;
@@ -148,14 +147,14 @@ namespace Microarea.RSWeb.WoormViewer
     /// Array degli objects per un layout del report.
     /// </summary>
     /// ================================================================================
-    [Serializable]
-    [KnownType(typeof(BaseRect))]
-    [KnownType(typeof(BaseObj))]
-    [KnownType(typeof(SqrRect))]
-    [KnownType(typeof(TextRect))]
-    [KnownType(typeof(FileRect))]
-    [KnownType(typeof(FieldRect))]
-    [KnownType(typeof(Table))]
+    //[Serializable]
+    //[KnownType(typeof(BaseRect))]
+    //[KnownType(typeof(BaseObj))]
+    //[KnownType(typeof(SqrRect))]
+    //[KnownType(typeof(TextRect))]
+    //[KnownType(typeof(FileRect))]
+    //[KnownType(typeof(FieldRect))]
+    //[KnownType(typeof(Table))]
     public class Layout : BaseObjList
     {
         public const string DefaultName = "default";

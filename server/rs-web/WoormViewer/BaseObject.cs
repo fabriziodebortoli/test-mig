@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Drawing;
-using System.Runtime.Serialization;
 
 using TaskBuilderNetCore.Interfaces;
 
@@ -22,24 +21,24 @@ namespace Microarea.RSWeb.Objects
     /// Summary description for BaseObj.
     /// </summary>
     //================================================================================
-    [Serializable]
-	[KnownType(typeof(Rectangle))]
-	[KnownType(typeof(BasicText))]
-	[KnownType(typeof(WoormValue))]
-	[KnownType(typeof(Label))]
-    [KnownType(typeof(Borders))]
-    [KnownType(typeof(BorderPen))]
-    [KnownType(typeof(SqrRect))]
-    [KnownType(typeof(BaseObj))]
+ //   [Serializable]
+	//[KnownType(typeof(Rectangle))]
+	//[KnownType(typeof(BasicText))]
+	//[KnownType(typeof(WoormValue))]
+	//[KnownType(typeof(Label))]
+ //   [KnownType(typeof(Borders))]
+ //   [KnownType(typeof(BorderPen))]
+ //   [KnownType(typeof(SqrRect))]
+ //   [KnownType(typeof(BaseObj))]
 
-    abstract public class BaseObj : ISerializable
+    abstract public class BaseObj //: ISerializable
 	{
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public WoormDocument Document;
 
-		const string BASERECT = "BaseRect";
-		const string INTERNALID = "InternalID";
-		const string HIDDEN = "Hidden";
+		//const string BASERECT = "BaseRect";
+		//const string INTERNALID = "InternalID";
+		//const string HIDDEN = "Hidden";
 
  		public ushort InternalID = 0;
         public Rectangle BaseRectangle;
@@ -49,33 +48,38 @@ namespace Microarea.RSWeb.Objects
 		public int DropShadowHeight = 0;
         public Color DropShadowColor = Defaults.DefaultShadowColor;
 
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public WoormViewerExpression HideExpr = null;   // espressione che se valutata vera nasconde il campo
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public WoormViewerExpression TooltipExpr = null;
 
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public string ClassName = string.Empty; //Nome della classe dello stile
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public bool IsTemplate = false;         //Indica che gli attributi grafici di questo oggetto sono usati come template	
 
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public ushort AnchorRepeaterID = 0;
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public int RepeaterRow = -1;
 
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public bool InheritByTemplate { get; set; }
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public bool IsPersistent { get; set; }
 
+        public virtual bool IsDynamic()
+        {
+            return HideExpr != null || TooltipExpr != null;
+        }
+
 		//------------------------------------------------------------------------------				
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-            info.AddValue(INTERNALID, InternalID);
-			info.AddValue(HIDDEN, Hidden);
-			info.AddValue(BASERECT, BaseRectangle);
-		}
+		//public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		//{
+  //          info.AddValue(INTERNALID, InternalID);
+		//	info.AddValue(HIDDEN, Hidden);
+		//	info.AddValue(BASERECT, BaseRectangle);
+		//}
 
         //------------------------------------------------------------------------------
         virtual public string ToJson()
@@ -92,12 +96,12 @@ namespace Microarea.RSWeb.Objects
         }
 
         //------------------------------------------------------------------------------
-        public BaseObj(SerializationInfo info, StreamingContext context)
-		{
-			InternalID = info.GetUInt16(INTERNALID);
-			BaseRectangle = info.GetValue<Rectangle>(BASERECT);
-			Hidden = info.GetBoolean(HIDDEN);
-		}
+  //      public BaseObj(SerializationInfo info, StreamingContext context)
+		//{
+		//	InternalID = info.GetUInt16(INTERNALID);
+		//	BaseRectangle = info.GetValue<Rectangle>(BASERECT);
+		//	Hidden = info.GetBoolean(HIDDEN);
+		//}
 
 		//------------------------------------------------------------------------------	
 		public virtual BaseObj Clone()
@@ -286,14 +290,14 @@ namespace Microarea.RSWeb.Objects
 	/// Summary description for BaseRect.
 	/// </summary>
 	//================================================================================
-	[Serializable]
-    [KnownType(typeof(Borders))]
-    [KnownType(typeof(BorderPen))]
-    [KnownType(typeof(SqrRect))]
-    [KnownType(typeof(BaseObj))]
+	//[Serializable]
+ //   [KnownType(typeof(Borders))]
+ //   [KnownType(typeof(BorderPen))]
+ //   [KnownType(typeof(SqrRect))]
+ //   [KnownType(typeof(BaseObj))]
     public abstract class BaseRect : BaseObj
 	{
-		const string BORDERS = "Borders";
+		//const string BORDERS = "Borders";
 
         public Borders Borders = new Borders(true);
         public BorderPen BorderPen = new BorderPen();
@@ -301,36 +305,41 @@ namespace Microarea.RSWeb.Objects
 		public int HRatio = 0;
 		public int VRatio = 0;
 
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         protected BaseRect Default = null;
 
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public WoormViewerExpression TextColorExpr = null;
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public WoormViewerExpression BkgColorExpr = null;
 
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
 		public bool IsAnchorPageLeft = false;
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
  		public bool IsAnchorPageRight = false;
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public ushort AnchorLeftColumnID = 0;
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public ushort AnchorRightColumnID = 0;
        
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public bool TemplateOverridden = false;
     
 		//attributes not used in Easylook, used only for Z-print in woorm c++. Here they are only parsed
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         protected int Layer = 0;   //only design mode
 
+        public override bool IsDynamic()
+        {
+            return base.IsDynamic() || TextColorExpr != null || BkgColorExpr != null;
+        }
+
         //------------------------------------------------------------------------------
-        public BaseRect(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-			Borders = info.GetValue<Borders>(BORDERS);
-		}
+  //      public BaseRect(SerializationInfo info, StreamingContext context)
+		//	: base(info, context)
+		//{
+		//	Borders = info.GetValue<Borders>(BORDERS);
+		//}
 		
 		//------------------------------------------------------------------------------
 		public BaseRect(WoormDocument document)
@@ -359,12 +368,12 @@ namespace Microarea.RSWeb.Objects
 		}
 
         //------------------------------------------------------------------------------
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
+        //public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    base.GetObjectData(info, context);
 
-            info.AddValue(BORDERS, Borders);
-        }
+        //    info.AddValue(BORDERS, Borders);
+        //}
 
         //------------------------------------------------------------------------------
         override public string ToJson()
@@ -874,16 +883,16 @@ namespace Microarea.RSWeb.Objects
 	/// Summary description for SqrRect.
 	/// </summary>
 	//================================================================================
-	[Serializable]
-    [KnownType(typeof(BaseRect))]
+	//[Serializable]
+ //   [KnownType(typeof(BaseRect))]
     public class SqrRect : BaseRect
 	{
         public Color BkgColor = Defaults.DefaultBackColor;
 
-		public SqrRect(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-		}
+		//public SqrRect(SerializationInfo info, StreamingContext context)
+		//	: base(info, context)
+		//{
+		//}
 		public SqrRect()
 			: this((WoormDocument)null)
 		{
@@ -1134,24 +1143,21 @@ namespace Microarea.RSWeb.Objects
 	/// Summary description for TextRect.
 	/// </summary>
 	//================================================================================
-	[Serializable]
-	[KnownType(typeof(Color))]
+	//[Serializable]
+	//[KnownType(typeof(Color))]
 	public class TextRect : BaseRect
 	{
 		public BasicText Label = null;
+		    private string localizedText = String.Empty;
 
-        [IgnoreDataMember]
         public bool Special = false;
         public bool IsHtml = false;
-        [IgnoreDataMember]
         public BarCode BarCode = null;
 
-		private string localizedText = String.Empty;
-
-		const string LABEL = "Label";
-		const string LOCALIZEDTEXT = "LocalizedText";
-		const string TEXTCOLOR = "TextColor";
-		const string BACKCOLOR = "BackColor";
+		//const string LABEL = "Label";
+		//const string LOCALIZEDTEXT = "LocalizedText";
+		//const string TEXTCOLOR = "TextColor";
+		//const string BACKCOLOR = "BackColor";
 
 		//-------------------------------------------------------------------------------
 		public Color TextColor
@@ -1250,13 +1256,13 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//------------------------------------------------------------------------------
-		public TextRect(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-				Label = info.GetValue<BasicText>(LABEL);
-				LocalizedText = info.GetString(LOCALIZEDTEXT);
-				//TODO SILVANO recuperare il colore
-		}
+		//public TextRect(SerializationInfo info, StreamingContext context)
+		//	: base(info, context)
+		//{
+		//		Label = info.GetValue<BasicText>(LABEL);
+		//		LocalizedText = info.GetString(LOCALIZEDTEXT);
+		//		//TODO SILVANO recuperare il colore
+		//}
 
         //------------------------------------------------------------------------------
         public TextRect()
@@ -1285,15 +1291,15 @@ namespace Microarea.RSWeb.Objects
 		}
 
         //------------------------------------------------------------------------------
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
+        //public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    base.GetObjectData(info, context);
 
-            info.AddValue(LABEL, Label);
-            info.AddValue(LOCALIZEDTEXT, LocalizedText);
-            //info.AddValue(TEXTCOLOR, ForeColorToSerialize);
-            //info.AddValue(BACKCOLOR, BackColorToSerialize);
-        }
+        //    info.AddValue(LABEL, Label);
+        //    info.AddValue(LOCALIZEDTEXT, LocalizedText);
+        //    //info.AddValue(TEXTCOLOR, ForeColorToSerialize);
+        //    //info.AddValue(BACKCOLOR, BackColorToSerialize);
+        //}
 
         //------------------------------------------------------------------------------
         override public string ToJson()
@@ -1646,7 +1652,7 @@ namespace Microarea.RSWeb.Objects
 	/// Summary description for GraphRect.
 	/// </summary>
 	//================================================================================
-	[Serializable]
+	//[Serializable]
 	public class GraphRect : SqrRect, IImage
 	{
 		public string ImageFileName;
@@ -1656,21 +1662,21 @@ namespace Microarea.RSWeb.Objects
 		public Rectangle RectCutted;
         public int Align = BaseObjConsts.DT_CENTER | BaseObjConsts.DT_VCENTER;
 
-        const string ISCUT = "IsCut";
-        const string ALIGN = "Align";
+        //const string ISCUT = "IsCut";
+        //const string ALIGN = "Align";
 
         //------------------------------------------------------------------------------
-        public GraphRect(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-			IsCut = info.GetBoolean(ISCUT);
-		}
+  //      public GraphRect(SerializationInfo info, StreamingContext context)
+		//	: base(info, context)
+		//{
+		//	IsCut = info.GetBoolean(ISCUT);
+		//}
 		//------------------------------------------------------------------------------
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			base.GetObjectData(info, context);
-			info.AddValue(ISCUT, IsCut);
-		}
+		//public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		//{
+		//	base.GetObjectData(info, context);
+		//	info.AddValue(ISCUT, IsCut);
+		//}
 
         //------------------------------------------------------------------------------
         override public string ToJson()
@@ -1817,7 +1823,7 @@ namespace Microarea.RSWeb.Objects
 	/// Summary description for FileRect.
 	/// </summary>
 	//================================================================================
-	[Serializable]
+	//[Serializable]
 	public class FileRect : TextRect
 	{
 		protected string fileName = string.Empty;
@@ -1833,10 +1839,10 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//------------------------------------------------------------------------------
-		public FileRect(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-		}
+		//public FileRect(SerializationInfo info, StreamingContext context)
+		//	: base(info, context)
+		//{
+		//}
 
 		//------------------------------------------------------------------------------
 		public FileRect(FileRect s)
@@ -1896,7 +1902,7 @@ namespace Microarea.RSWeb.Objects
 	/// Summary description for FieldRect.
 	/// </summary>
 	//================================================================================
-	[Serializable]
+	//[Serializable]
 
 	public class FieldRect : BaseRect, IImage
 	{
@@ -1912,29 +1918,33 @@ namespace Microarea.RSWeb.Objects
             Last = To_by_Certified
         };
 
-		public WoormValue Value;
 		public Label Label;
+		public string FormatStyleName = DefaultFormat.None;
+
+		public WoormValue Value;
+            public bool IsHtml = false;
+		    public EmailParameter Email;
+            public bool AppendMailPart = false;
+
 		public BarCode BarCode = null;
 		public bool IsTextFile;
 		public bool IsUrlFile;
 		public bool IsImage;
 		    public bool IsCutted;
+		    public Rectangle RectCutted;
 		    public bool ShowProportional;
             public bool ShowNativeImageSize;
+
         public bool Bookmark;
-		public Rectangle RectCutted;
-		public EmailParameter Email;
-        public bool AppendMailPart = false;
-		public string FormatStyleName = DefaultFormat.None;
-        public bool IsHtml = false;
 
-        public WoormViewerExpression LabelTextColorExpr = null;
-        public WoormViewerExpression LabelTextExpr = null;
-        public WoormViewerExpression FormatStyleExpr = null;
+        public WoormViewerExpression LabelTextColorExpr = null; // UI
+        public WoormViewerExpression LabelTextExpr = null;      // UI
 
-		const string VALUE = "Value";
-		const string LABEL = "Label";
-		const string LOCALIZEDTEXT = "LocalizedText";
+        public WoormViewerExpression FormatStyleExpr = null;    //server-side si applica al value
+
+		//const string VALUE = "Value";
+		//const string LABEL = "Label";
+		//const string LOCALIZEDTEXT = "LocalizedText";
 
 		//-------------------------------------------------------------------------------
 		public Color TextColor
@@ -2037,53 +2047,60 @@ namespace Microarea.RSWeb.Objects
 			}
 		}
 
-		//------------------------------------------------------------------------------
-		public bool IsBarCode { get { return BarCode != null; } }
+        //------------------------------------------------------------------------------
+        public override bool IsDynamic()
+        {
+            return base.IsDynamic() || LabelTextColorExpr != null || this.LabelTextExpr != null;
+        }
 
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			base.GetObjectData(info, context);
+        //------------------------------------------------------------------------------
+        public bool IsBarCode { get { return BarCode != null; } }
 
-			info.AddValue(VALUE, Value);
-			info.AddValue(LABEL, Label);
-			info.AddValue(LOCALIZEDTEXT, LocalizedText);
-		}
+		//public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		//{
+		//	base.GetObjectData(info, context);
+
+		//	info.AddValue(VALUE, Value);
+		//	info.AddValue(LABEL, Label);
+		//	info.AddValue(LOCALIZEDTEXT, LocalizedText);
+		//}
 
         //------------------------------------------------------------------------------
         override public string ToJson()
         {
             return "\"fieldrect\":{" +
+
                 base.ToJson() + ',' +
 
                 "\"label\":{" +
-                    this.LocalizedText.ToJson("caption", false, true) + ',' +
-                    this.Label.FontData.ToJson() + ',' +
-                    this.Label.Align.ToJson("align") + ',' +
-                    this.LabelTextColor.ToJson("textcolor") + 
+                    this.LocalizedText  .ToJson("caption", false, true) + ',' +
+                    this.Label.FontData .ToJson() + ',' +
+                    this.Label.Align    .ToJson("align") + ',' +
+                    this.LabelTextColor .ToJson("textcolor") + 
                 "}," +
 
-                this.Value.FontData.ToJson() + ',' +
-                this.Value.Align.ToJson("align") + ',' +
-                this.BkgColor.ToJson("bkgcolor") + ',' +
-                this.TextColor.ToJson("textcolor") + ',' +
+                this.Value.FontData     .ToJson() + ',' +
+                this.Value.Align        .ToJson("align") + ',' +
+                this.BkgColor           .ToJson("bkgcolor") + ',' +
+                this.TextColor          .ToJson("textcolor") + ',' +
 
-                this.Value.FormattedData.ToJson("value", false, true) + 
+                this.Value.FormattedData    .ToJson("value", false, true) + 
  
-                (this.IsHtml    ? ',' + this.IsHtml.ToJson("ishtml") : "") +
-                (this.IsImage   ? ',' + this.IsImage.ToJson("isimage")  : "") +
+                (this.IsHtml    ? ',' + this.IsHtml     .ToJson("ishtml") : "") +
+                (this.IsImage   ? ',' + this.IsImage    .ToJson("isimage")  : "") +
 
              '}';
         }
 
-        public FieldRect(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-			Value = info.GetValue<WoormValue>(VALUE);
-			Label = info.GetValue<Label>(LABEL);
+  //      public FieldRect(SerializationInfo info, StreamingContext context)
+		//	: base(info, context)
+		//{
+		//	Value = info.GetValue<WoormValue>(VALUE);
+		//	Label = info.GetValue<Label>(LABEL);
 
-			//TODO silvano: deserializzare localized text
+		//	//TODO silvano: deserializzare localized text
 				
-		}
+		//}
 		//------------------------------------------------------------------------------
 		public FieldRect()
 			: this((WoormDocument)null)
@@ -2858,12 +2875,12 @@ namespace Microarea.RSWeb.Objects
     }
 
 	//================================================================================
-	public static class Extensions
-	{
-		public static T GetValue<T>(this SerializationInfo info, string name)
-		{
-			return (T)info.GetValue(name, typeof(T));
-		}
-	}
+	//public static class Extensions
+	//{
+	//	public static T GetValue<T>(this SerializationInfo info, string name)
+	//	{
+	//		return (T)info.GetValue(name, typeof(T));
+	//	}
+	//}
 
 }
