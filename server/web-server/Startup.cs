@@ -105,7 +105,9 @@ namespace WebApplication
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
-			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            app.UseCors("CorsPolicy");
+
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
 			logger = loggerFactory.CreateLogger("WebServer");
 
@@ -127,7 +129,7 @@ namespace WebApplication
 				configurator.Configure(app, env, loggerFactory);
 			//ATTENZIONE: se questa chiamata è messa prima di aggiungere degli handler di chiamata, questi non vengono chiamati!
 			app.UseFileServer();
-			app.UseCors("CorsPolicy");
+			
 			// Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 			app.UseSession();
             
