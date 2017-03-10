@@ -65,7 +65,7 @@ export class LoginService {
   isLogged(): boolean {
     this.authtoken = this.cookieService.get('authtoken');
 
-    return this.logged || (this.authtoken ? true : false);
+    return (this.logged || (this.authtoken ? true : false);
   }
 
   login(loginModel: LoginModel): Observable<LoginResponse> {

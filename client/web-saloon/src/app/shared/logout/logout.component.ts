@@ -4,7 +4,8 @@ import { LoginService } from './../../core/login.service';
 
 @Component({
   selector: 'app-logout',
-  template: ''
+  templateUrl: './logout.component.html',
+  styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent {
 

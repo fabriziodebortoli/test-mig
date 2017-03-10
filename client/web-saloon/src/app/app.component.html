@@ -1,1 +1,18 @@
+<md-toolbar color="primary" *ngIf="loginService.logged">
+    <a id="homeButton" routerLink='/'>Saloon</a>
+
+    <span class="fill-remaining-space"></span>
+
+    <div>
+        <button md-icon-button [md-menu-trigger-for]="menuApp" title="{{title}}">
+          <md-icon>more_vert</md-icon>
+        </button>
+
+        <md-menu #menuApp="mdMenu">
+            <a md-menu-item routerLink='/'>Home</a>
+            <a md-menu-item routerLink='/kendo'>Kendo Page</a>
+            <a md-menu-item routerLink='/logout'>Logout</a>
+        </md-menu>
+    </div>
+</md-toolbar>
 <router-outlet></router-outlet>
