@@ -2,6 +2,7 @@
   "userSecretsId": "aspnet-WebApplication-095A7864-9B4A-44DE-BDEF-99A046BE5DE5",
 
   "dependencies": {
+    "Microsoft.AspNetCore.Cors": "1.1.1",
     //"Microsoft.ApplicationInsights.AspNetCore": "1.1.0",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
@@ -39,7 +40,7 @@
     "menu-gate": "1.0.0-*",
     "rs-web": "1.0.0-*",
     "tbloader-gate": "1.0.0-*"
-   },
+  },
   "tools": {
     "Microsoft.AspNetCore.Razor.Tools": {
       "version": "1.0.0-preview2-final"
