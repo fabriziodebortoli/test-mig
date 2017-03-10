@@ -21,6 +21,10 @@ kendo-dropdownlist {
 }
 
 div.error {
-    color: red;
+    background: #e74c3c;
     margin: 20px 0 0;
+    padding: 10px 15px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
 }

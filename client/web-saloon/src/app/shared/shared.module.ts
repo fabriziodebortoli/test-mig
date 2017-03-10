@@ -17,6 +17,7 @@ import { ChartsModule } from '@progress/kendo-angular-charts';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const COMPONENTS = [
   PageNotFoundComponent
@@ -48,7 +49,8 @@ const KENDO_UI_MODULES = [
   ],
   declarations: [
     COMPONENTS,
-    LoginComponent
+    LoginComponent,
+    LogoutComponent
   ]
 })
 export class SharedModule { }

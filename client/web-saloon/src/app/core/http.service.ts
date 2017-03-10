@@ -1,22 +1,26 @@
-import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, Headers, RequestOptionsArgs } from '@angular/http';
+import { Router } from '@angular/router';
+
+import { Observable } from 'rxjs/Rx';
+
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+
+import { UtilsService } from './utils.service';
 
 @Injectable()
 export class HttpService {
 
-  constructor(private http: Http) { }
+  constructor(
+    private http: Http,
+    private utils: UtilsService
+  ) { }
 
-  post(url: string, params: URLSearchParams) {
+  postData(url: string, data: Object) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(url, {}, {
-      search: params,
-      withCredentials: true,
-      headers: headers
-    })
-      .catch(this.handleError);
+    return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers });
   }
 
   protected handleError(error: any) {

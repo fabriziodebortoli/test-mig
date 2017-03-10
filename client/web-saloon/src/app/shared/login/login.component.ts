@@ -1,10 +1,13 @@
-import { LoginService } from './../../core/login.service';
-import { LoginModel } from './../models/login.model';
-import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { Subscription } from 'rxjs/Subscription';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Subscription } from "rxjs/Subscription";
+
+import { LoginService } from './../../core/login.service';
+import { LoginModel } from './../models/login.model';
+import { LoginResponse } from './../models/login-response.model';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +22,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private companySubs: Subscription;
   private loginSubs: Subscription;
+
+  private errorCode: number;
+  private errorMessage: string;
 
   constructor(
     private cookieService: CookieService,
@@ -40,17 +46,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.saveLoginData();
     console.log('loginModel', this.loginModel);
 
     this.loggingIn = true;
     this.loginSubs = this.loginService.login(this.loginModel)
-      .subscribe(response => {
-        console.log(response);
+      .subscribe((loginResponse: LoginResponse) => {
+        console.log("l", loginResponse)
+        if (+loginResponse.result === 0) {
+          this.saveLoginData();
+        } else {
+          this.errorCode = +loginResponse.errorCode;
+          this.errorMessage = loginResponse.errorMessage;
 
-        this.cookieService.put('authtoken', response.authenticationToken);
-
-        this.loggingIn = false;
+          this.loggingIn = false;
+        }
       },
       error => {
         console.error(error);
@@ -75,10 +84,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginModel.company = this.cookieService.get('_company');
   }
 
-  //-------------------------------------------------------------------------------------
   saveLoginData() {
     this.cookieService.put('_user', this.loginModel.user);
     this.cookieService.put('_company', this.loginModel.company);
   }
 
+  keyDownFunction(event) {
+    if (event.keyCode === 13) {
+      this.login();
+    }
+  }
 }
