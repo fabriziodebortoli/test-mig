@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -9,6 +10,7 @@ import { KendoPageComponent } from './kendo-page/kendo-page.component';
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     routing
   ],
   declarations: [KendoPageComponent]

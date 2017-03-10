@@ -8,11 +8,13 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { HttpService } from './http.service';
 import { LoginService } from './login.service';
 import { UtilsService } from './utils.service';
+import { DataService } from './data.service';
 
 const TB_SERVICES = [
   HttpService,
   LoginService,
   UtilsService,
+  DataService,
   CoreGuard
 ];
 

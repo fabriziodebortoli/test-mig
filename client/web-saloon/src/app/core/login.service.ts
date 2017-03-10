@@ -26,7 +26,10 @@ export class LoginService {
     private httpService: HttpService,
     private utils: UtilsService,
     private cookieService: CookieService,
-    private router: Router) { }
+    private router: Router) {
+    this.authtoken = this.cookieService.get('authtoken');
+    this.logged = (this.logged || (this.authtoken ? true : false));
+  }
 
   getAccountManagerBaseUrl() {
     return this.baseUrl + 'account-manager/';
@@ -63,9 +66,7 @@ export class LoginService {
   };
 
   isLogged(): boolean {
-    this.authtoken = this.cookieService.get('authtoken');
-
-    return (this.logged || (this.authtoken ? true : false);
+    return this.logged;
   }
 
   login(loginModel: LoginModel): Observable<LoginResponse> {

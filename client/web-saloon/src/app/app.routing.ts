@@ -12,6 +12,6 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
   { path: '', component: HomeComponent, canActivate: [CoreGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
-  { path: 'kendo', loadChildren: './kendo-test/kendo-test.module#KendoTestModule' },
+  { path: 'kendo', loadChildren: './kendo-test/kendo-test.module#KendoTestModule', canActivate: [CoreGuard] },
   { path: '**', component: PageNotFoundComponent }
 ]);
