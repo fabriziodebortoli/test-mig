@@ -2086,8 +2086,8 @@ namespace Microarea.RSWeb.Objects
 
                 this.Value.FormattedData    .ToJson("value", false, true) + 
  
-                (this.IsHtml    ? ',' + this.IsHtml     .ToJson("ishtml") : "") +
-                (this.IsImage   ? ',' + this.IsImage    .ToJson("isimage")  : "") +
+                (this.IsHtml    ? ',' + this.IsHtml     .ToJson("html") : "") +
+                (this.IsImage   ? ',' + this.IsImage    .ToJson("image")  : "") +
 
              '}';
         }

@@ -67,9 +67,9 @@ namespace Microarea.RSWeb.Objects
 		//}
 
         //------------------------------------------------------------------------------
-        public string ToJson(bool bracket = false)
+        public string ToJson(string name = "font", bool bracket = false)
         {
-            string s = "\"font\":{" +
+            string s = name.ToJson() + ":{" +
                                         Family.ToJson("face") + ',' +
                                         Size.ToJson("size") + ',' +
                                         Size.ToJson("italic") + ',' +
@@ -93,19 +93,19 @@ namespace Microarea.RSWeb.Objects
 	//[KnownType(typeof(FontData))]
 	public class BasicText //: ISerializable
 	{
+		private WoormDocument document; 
 		//stringhe usate per serializzare
 		//const string TEXT = "Text"; 
 		//const string FONTDATA = "FontData";
 		//const string ALIGN = "Align";
-		
-		private FontData fontData = null;
-		private WoormDocument document; 
 		
 		public string Text;
 		public Color TextColor = Defaults.DefaultTextColor;
 		public Color BkgColor = Defaults.DefaultBackColor;
 		public int Align = Defaults.DefaultTextAlign;
 		public string FontStyleName = DefaultFont.Testo;
+		private FontData fontData = null;
+
 		public string DataType = "String";	// tipo del dato contenuto dal campo
 		
 		public FontData FontData { 

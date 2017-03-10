@@ -537,7 +537,27 @@ namespace Microarea.Common.Generic
 
             return s;
         }
+
+        public static string ToHtml(this Color color)
+        {
+            return ColorTranslator.ToHtml(color);
+        }
+
         public static string ToJson(this Color color, string name = null, bool bracket = false)
+        {
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '"' + name + "\":";
+
+            s += color.ToHtml().ToJson();
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        public static string ToJsonRGB(this Color color, string name = null, bool bracket = false)
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
