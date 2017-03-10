@@ -13,26 +13,26 @@ export class DataService {
 
     const url: string = environment.baseUrl + 'data-service/getdata/' + nameSpace + '/' + selectionType;
 
-    return this.http.get(url, { search: params }).map((res: Response) => res.json());
+    return this.http.get(url, { search: params, withCredentials: true }).map((res: Response) => res.json());
   }
 
   getColumns(nameSpace: string, selectionType: string) {
 
     const url: string = environment.baseUrl + 'data-service/getcolumns/' + nameSpace + '/' + selectionType;
 
-    return this.http.get(url).map((res: Response) => res.json());
+    return this.http.get(url, { withCredentials: true }).map((res: Response) => res.json());
   }
 
   getSelections(nameSpace: string) {
     const url: string = environment.baseUrl + 'data-service/getselections/' + nameSpace;
 
-    return this.http.get(url).map((res: Response) => res.json());
+    return this.http.get(url, { withCredentials: true }).map((res: Response) => res.json());
   }
 
   getParameters(nameSpace: string) {
     const url: string = environment.baseUrl + 'data-service/getparameters/' + nameSpace;
 
-    return this.http.get(url).map((res: Response) => res.json());
+    return this.http.get(url, { withCredentials: true }).map((res: Response) => res.json());
   }
 
 }
