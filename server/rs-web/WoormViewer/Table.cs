@@ -1911,22 +1911,14 @@ namespace Microarea.RSWeb.Objects
 	//[KnownType(typeof(List<Column>))]
 	public class Table : BaseObj
 	{
-		//const string COLUMNS = "Columns";
-		// private static data
-		private const int CELL_HEIGHT = 14;
-		private const int CELL_WIDTH = 60;
-		private const int COLUMN_TITLE_HEIGHT = 14;
-		private const int TITLE_HEIGHT = 14;
+        //public Rectangle BaseCellsRect { get { return base.Rect; } set { base.Rect = value; } } 	// include table title, columns titles and all cells
+        public Rectangle BaseCellsRect;
 
-		// private data
-		public Rectangle BaseCellsRect; 	// include table title, columns titles and all cells
-		public Rectangle TitleRect;
+        public Rectangle TitleRect;
 		public TableBorders Borders = new TableBorders();
+
 		public bool HideTableTitle = false;
 		public bool HideColumnsTitle = false;
-
-		Table Default = null;
-		public bool FiscalEnd = false;	// abilita la tracciatura  di una z a fine tabella
 
 		public BorderPen TitlePen = new BorderPen();
 		public BasicText Title = new BasicText();
@@ -1934,20 +1926,28 @@ namespace Microarea.RSWeb.Objects
 		public List<Column> Columns;
 		public bool[] Interlines;
 
-		public int CurrentRow = 0; // riga dove viene valorizzata la cella quando leggo da RDE
-        public int ViewCurrentRow = -1; // riga corrente in fase di renderizzazione (per attributi dinamici)
+		public bool FiscalEnd = false;	// abilita la tracciatura  di una z a fine tabella
 
 		public bool Easyview = false;
-		public bool EasyviewDynamic = false;
-		public bool UseEasyviewColor = false;
+		    public bool EasyviewDynamic = false;
+		    public bool UseEasyviewColor = false;
+            public Color EasyviewColor = Defaults.AlternateColor;   //Defaults.DefaultEasyviewColor;
+		    public ArrayList EasyViewDynamicOnPage = new ArrayList(); //memorizza con quale colore di sfondo deve iniziare la riga in caso di easyview dynamic (per mantenere coerenza sul cambio pagina)
 
-        public int ChartType = 0;
+		public int CurrentRow = 0; // riga dove viene valorizzata la cella quando leggo da RDE
+        public int ViewCurrentRow = -1; // riga corrente in fase di renderizzazione (per attributi dinamici)
+ 
+       public int ChartType = 0;
         public int Layer = 0;   //only design mode
 
-        public Color EasyviewColor = Defaults.AlternateColor;   //Defaults.DefaultEasyviewColor;
-
-		public ArrayList EasyViewDynamicOnPage = new ArrayList(); //memorizza con quale colore di sfondo deve iniziare la riga in caso di easyview dynamic (per mantenere coerenza sul cambio pagina)
-
+		Table Default = null;
+		//const string COLUMNS = "Columns";
+		// private static data
+		private const int CELL_HEIGHT = 14;
+		private const int CELL_WIDTH = 60;
+		private const int COLUMN_TITLE_HEIGHT = 14;
+		private const int TITLE_HEIGHT = 14;
+ 
 		public int ColumnNumber { get { return Columns.Count; } }
 		public string LocalizedText { get { return Document.Localizer.Translate(Title.Text); } }
 		public int RowNumber { get { return Columns[0].RowNumber; } }
@@ -2016,7 +2016,7 @@ namespace Microarea.RSWeb.Objects
 			// posso usare la posizione 0 perche' tutte le colonne hanno un totale anche se non mostrato
 			TitleRect = new Rectangle(0, 0, width, TITLE_HEIGHT);
 			BaseCellsRect = new Rectangle(0, 0, width, TITLE_HEIGHT + (cols == 0 ? 0 : Columns[0].ColumnCellsRect.Height));
-			BaseRectangle = new Rectangle(0, 0, width, TITLE_HEIGHT + (cols == 0 ? 0 : Columns[0].ColumnRect.Height));
+			Rect = new Rectangle(0, 0, width, TITLE_HEIGHT + (cols == 0 ? 0 : Columns[0].ColumnRect.Height));
 		}
 
 		//---------------------------------------------------------------------------
@@ -2080,21 +2080,26 @@ namespace Microarea.RSWeb.Objects
             return "\"table\":{" +
                 base.ToJson() + ',' +
 
-                (this.HideTableTitle ? 
+                this.ColumnNumber.ToJson("column_number") + ',' +
+                this.RowNumber.ToJson("row_number") + ',' +
+
+                this.BaseCellsRect.ToJson("cells_rect") + ',' +
+
+                this.Borders.ToJson("table_borders") + ',' +
+                this.HideTableTitle.ToJson("hide_table_title") + ',' +
+                this.HideColumnsTitle.ToJson("hide_columns_title") + ',' +
+
+                //(this.HideTableTitle ? 
                 "\"title\":{" +
                     this.LocalizedText.ToJson("caption", false, true) + ',' +
                     this.Title.FontData.ToJson() + ',' +
                     this.Title.Align.ToJson("align") + ',' +
                     this.TitleRect.ToJson("rect") + ',' +
                     this.TitlePen.ToJson() + 
-                   "},"
-                : "") +
+                   "}," +
 
-                this.FiscalEnd.ToJson("FiscalEnd") + ',' +
-                this.EasyviewColor.ToJson("alternatecolor") + ',' +
-
-                this.BaseCellsRect.ToJson("rect") + ',' +
-                this.HideColumnsTitle.ToJson("hidecolumnstitle") + ',' +
+                this.FiscalEnd.ToJson("fiscal_end") + ',' +
+                this.EasyviewColor.ToJson("alternate_color") + ',' +
 
                 ColumnsToJson() +
             '}';
@@ -2239,7 +2244,7 @@ namespace Microarea.RSWeb.Objects
 			for (int i = 0; i < ColumnNumber; i++)
 				row += Columns[i].ColumnTitleRect.Width;
 
-			BaseRectangle = new Rectangle
+			Rect = new Rectangle
 				(
 				origin,
 				new Size(row, tableTitleHeight + columnTitleHeight + rowHeight * RowNumber + totalHeight)
@@ -4169,7 +4174,7 @@ namespace Microarea.RSWeb.Objects
 
 			}
 
-			return (!lastRow && (rowSeparator || Interlines[cell.AtRowNumber])) || (lastRow && Borders.BodyBottom);
+			return (!lastRow && (rowSeparator || Interlines[cell.AtRowNumber])) || (lastRow && Borders.Body.Bottom);
 		}
 
 		/// <summary>
@@ -4307,12 +4312,12 @@ namespace Microarea.RSWeb.Objects
 					
 					// must be done after creation of new column
 					int width = pNewTplCol.ColumnCellsRect.Width;
-					int XOffset = BaseRectangle.Width - (pNewTplCol.ColumnCellsRect.Left - Default.BaseRectangle.Left);
+					int XOffset = Rect.Width - (pNewTplCol.ColumnCellsRect.Left - Default.Rect.Left);
 
 					// adjust table title and global size and shift
 					TitleRect = new Rectangle(TitleRect.X, TitleRect.Y, TitleRect.Width + width, TitleRect.Height);
 					BaseCellsRect = new Rectangle(BaseCellsRect.X, BaseCellsRect.Y, BaseCellsRect.Width + width, BaseCellsRect.Height);
-					BaseRectangle = new Rectangle(BaseRectangle.X, BaseRectangle.Y, BaseRectangle.Width + width, BaseRectangle.Height);
+					Rect = new Rectangle(Rect.X, Rect.Y, Rect.Width + width, Rect.Height);
 
 					// move new column for width of previosus column
 					pNewTplCol.HMoveColumn(XOffset);

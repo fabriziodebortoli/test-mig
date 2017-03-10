@@ -37,9 +37,9 @@ namespace Microarea.Common.Applications
 		}
 
         //------------------------------------------------------------------------------
-        public string ToJson(bool bracket = false)
+        public string ToJson(string name = "borderpen", bool bracket = false)
         {
-            string s = "\"borderpen\":{" +
+            string s = name.ToJson() + ":{" +
                                         Width.ToJson("width") + ',' +
                                         Color.ToJson("color") +
                                      '}';
@@ -111,9 +111,9 @@ namespace Microarea.Common.Applications
 		public Borders() { Init(true); }
 
         //------------------------------------------------------------------------------
-        public string ToJson(bool bracket = false)
+        public string ToJson(string name = "borders", bool bracket = false)
         {
-            string s = "\"borders\":{" +
+            string s = name.ToJson() + ":{" +
                                 Left.ToJson("left") + ',' +
                                 Right.ToJson("right") + ',' +
                                 Top.ToJson("top") + ',' +

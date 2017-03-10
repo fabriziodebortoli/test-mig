@@ -41,7 +41,7 @@ namespace Microarea.RSWeb.Objects
 		//const string HIDDEN = "Hidden";
 
  		public ushort InternalID = 0;
-        public Rectangle BaseRectangle;
+        public Rectangle Rect;
 		public bool Transparent;
 		public bool Hidden = false;
 
@@ -78,7 +78,7 @@ namespace Microarea.RSWeb.Objects
 		//{
   //          info.AddValue(INTERNALID, InternalID);
 		//	info.AddValue(HIDDEN, Hidden);
-		//	info.AddValue(BASERECT, BaseRectangle);
+		//	info.AddValue(BASERECT, Rect);
 		//}
 
         //------------------------------------------------------------------------------
@@ -88,10 +88,10 @@ namespace Microarea.RSWeb.Objects
                 InternalID          .ToJson("id") + ',' +
                 IsHidden            .ToJson("hidden") + ',' +
                 Transparent         .ToJson("transparent") + ',' +
-                BaseRectangle       .ToJson("rect") + ',' +
+                Rect       .ToJson("rect") + ',' +
                 GetTooltip          .ToJson("tooltip", false, true) + ',' +
-                DropShadowHeight    .ToJson("DropShadowHeight") + ',' +
-                DropShadowColor     .ToJson("DropShadowColor") + 
+                DropShadowHeight    .ToJson("shadow_height") + ',' +
+                DropShadowColor     .ToJson("shadow_color") + 
               '}';
         }
 
@@ -99,7 +99,7 @@ namespace Microarea.RSWeb.Objects
   //      public BaseObj(SerializationInfo info, StreamingContext context)
 		//{
 		//	InternalID = info.GetUInt16(INTERNALID);
-		//	BaseRectangle = info.GetValue<Rectangle>(BASERECT);
+		//	Rect = info.GetValue<Rectangle>(BASERECT);
 		//	Hidden = info.GetBoolean(HIDDEN);
 		//}
 
@@ -126,7 +126,7 @@ namespace Microarea.RSWeb.Objects
 		{
 			this.Document = s.Document;
 			this.InternalID = s.InternalID;
-			this.BaseRectangle = s.BaseRectangle;
+			this.Rect = s.Rect;
 			this.Transparent = s.Transparent;
 
 			this.Hidden = s.Hidden;
@@ -393,9 +393,9 @@ namespace Microarea.RSWeb.Objects
 			get
 			{
 				if (Document.Options.ConNoBorders) 
-					return BaseRectangle;
+					return Rect;
 
-				return CalculateInsideRect(BaseRectangle, Borders, BorderPen);
+				return CalculateInsideRect(Rect, Borders, BorderPen);
 			}
 		}
 
@@ -479,13 +479,13 @@ namespace Microarea.RSWeb.Objects
 				x1 -= BorderPen.Width;
 
 			//BaseRect.SetRect( x1 , y1, x2, y2);	
-			BaseRectangle = Rectangle.FromLTRB(x1, y1, x2, y2);
+			Rect = Rectangle.FromLTRB(x1, y1, x2, y2);
 		}
 
 		//------------------------------------------------------------------------------
         public override void MoveBaseRect(int xOffset, int yOffset, bool bIgnoreBorder = false)
 		{
-            MoveBaseRect(BaseRectangle.Left + xOffset, BaseRectangle.Top + yOffset, BaseRectangle.Right + xOffset, BaseRectangle.Bottom + yOffset, bIgnoreBorder);
+            MoveBaseRect(Rect.Left + xOffset, Rect.Top + yOffset, Rect.Right + xOffset, Rect.Bottom + yOffset, bIgnoreBorder);
 		}
 
 		//------------------------------------------------------------------------------
@@ -1047,7 +1047,7 @@ namespace Microarea.RSWeb.Objects
 					Token.SQRRECT;
 
 			return
-				lex.ParseRect(token, out BaseRectangle) &&
+				lex.ParseRect(token, out Rect) &&
 				lex.ParseRatio(out HRatio, out VRatio) &&
 				ParseBlock(lex);
 		}
@@ -1061,7 +1061,7 @@ namespace Microarea.RSWeb.Objects
 				Default = null;
 			//----
 
-			unparser.WriteRect(Token.SQRRECT, BaseRectangle, false);
+			unparser.WriteRect(Token.SQRRECT, Rect, false);
 
 			if (IsNotDefaultRatio())
 				unparser.WriteRatio(HRatio, VRatio, false);
@@ -1470,7 +1470,7 @@ namespace Microarea.RSWeb.Objects
 			string text = "";
 
 			bool ok =
-				lex.ParseRect(Token.TEXT, out BaseRectangle) &&
+				lex.ParseRect(Token.TEXT, out Rect) &&
 				lex.ParseRatio(out HRatio, out VRatio);
 
 			if (ok && lex.LookAhead(Token.ALIAS))
@@ -1493,7 +1493,7 @@ namespace Microarea.RSWeb.Objects
 				Default = null;
 			//----
 
-			unparser.WriteRect(Token.TEXT, this.BaseRectangle, false);
+			unparser.WriteRect(Token.TEXT, this.Rect, false);
 
 			if (IsNotDefaultRatio())
 				unparser.WriteRatio(HRatio, VRatio, false);
@@ -1726,7 +1726,7 @@ namespace Microarea.RSWeb.Objects
             ShowNativeImageSize = false;
             IsCut = false;
 
-			bool ok = lex.ParseRect(Token.BITMAP, out BaseRectangle);
+			bool ok = lex.ParseRect(Token.BITMAP, out Rect);
             if (!ok)
                 return false;
 
@@ -1770,7 +1770,7 @@ namespace Microarea.RSWeb.Objects
 				Default = null;
 			//----
 
-			unparser.WriteRect(Token.BITMAP, BaseRectangle, false);
+			unparser.WriteRect(Token.BITMAP, Rect, false);
 
 			if (ShowProportional)
 				unparser.WriteTag(Token.PROPORTIONAL, false);
@@ -1808,7 +1808,7 @@ namespace Microarea.RSWeb.Objects
 
     public Rectangle ImageRect
 		{
-			get { return BaseRectangle; }
+			get { return Rect; }
 		}
 
 		public string ImageFile
@@ -1860,7 +1860,7 @@ namespace Microarea.RSWeb.Objects
 		public override bool Parse(WoormParser lex)
 		{
 			return
-				lex.ParseRect(Token.FILE, out BaseRectangle) &&
+				lex.ParseRect(Token.FILE, out Rect) &&
 				lex.ParseString(out Label.Text) &&
 				lex.ParseRatio(out HRatio, out VRatio) &&
 				ParseBlock(lex);
@@ -1875,7 +1875,7 @@ namespace Microarea.RSWeb.Objects
 				Default = null;
 			//----
 
-			unparser.WriteRect(Token.FILE, BaseRectangle, false);
+			unparser.WriteRect(Token.FILE, Rect, false);
 
 			if (IsNotDefaultRatio())
 				unparser.WriteRatio(HRatio, VRatio, false);
@@ -2418,7 +2418,7 @@ namespace Microarea.RSWeb.Objects
 		public override bool Parse(WoormParser lex)
 		{
 			bool ok =
-				lex.ParseRect(Token.FIELD, out BaseRectangle) &&
+				lex.ParseRect(Token.FIELD, out Rect) &&
 				lex.ParseRatio(out HRatio, out VRatio) &&
 				lex.ParseAlias(out InternalID);
 
@@ -2457,7 +2457,7 @@ namespace Microarea.RSWeb.Objects
 				Default = null;
 			//----
 
-			unparser.WriteRect(Token.FIELD, BaseRectangle, false);
+			unparser.WriteRect(Token.FIELD, Rect, false);
 
 			if (IsNotDefaultRatio())
 				unparser.WriteRatio(HRatio, VRatio, false);
@@ -2764,7 +2764,7 @@ namespace Microarea.RSWeb.Objects
 
 		public Rectangle ImageRect
 		{
-			get { return BaseRectangle; }
+			get { return Rect; }
 		}
 
 		public string ImageFile
@@ -2792,7 +2792,7 @@ namespace Microarea.RSWeb.Objects
 		public override bool Parse(WoormParser lex)
 		{
 			return
-				lex.ParseRect(Token.METAFILE, out BaseRectangle) &&
+				lex.ParseRect(Token.METAFILE, out Rect) &&
 				lex.ParseString(out ImageFileName) &&
 				ParseBlock(lex);
 		}

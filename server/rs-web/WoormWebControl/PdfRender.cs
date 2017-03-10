@@ -181,8 +181,8 @@ namespace Microarea.RSWeb.WoormWebControl
                             (
                             false,
                             first,
-                            obj.Borders.TotalBottom,
-                            obj.Borders.TotalRight
+                            obj.Borders.Total.Bottom,
+                            obj.Borders.Total.Right
                             );
                     }
                     else
@@ -192,7 +192,7 @@ namespace Microarea.RSWeb.WoormWebControl
                             false,
                             false,
                             false,
-                            !last && nextColumnHasTotal && obj.Borders.TotalLeft
+                            !last && nextColumnHasTotal && obj.Borders.Total.Left
                             );
                         //disegno il bordo sx del prossimo totale con il suo Pen e non con quello della cella corrente
                         //(allinemento con comportamento di woorm c++)
@@ -282,9 +282,9 @@ namespace Microarea.RSWeb.WoormWebControl
                         Borders borders = new Borders
                             (
                             false,
-                            firstCol && obj.Borders.BodyLeft,
+                            firstCol && obj.Borders.Body.Left,
                             obj.HasBottomBorderAtCell(cell),
-                            (!lastCol && obj.Borders.ColumnSeparator) || (lastCol && obj.Borders.BodyRight)
+                            (!lastCol && obj.Borders.ColumnSeparator) || (lastCol && obj.Borders.Body.Right)
                             );
                         Borders cellBorders = borders;
                         if (cell.HasCellBordersExpr)
@@ -375,12 +375,12 @@ namespace Microarea.RSWeb.WoormWebControl
                 {
                     Borders borders = new Borders
                     (
-                        obj.Borders.ColumnTitleTop && !showTitle,
-                        first && obj.Borders.ColumnTitleLeft && !showTitle,
-                        obj.Borders.BodyTop,
+                        obj.Borders.ColumnTitle.Top && !showTitle,
+                        first && obj.Borders.ColumnTitle.Left && !showTitle,
+                        obj.Borders.Body.Top,
                         !showTitle &&
                         (
-                        (last && obj.Borders.ColumnTitleRight) ||
+                        (last && obj.Borders.ColumnTitle.Right) ||
                         (!last && obj.Borders.ColumnSeparator && obj.Borders.ColumnTitleSeparator)
                         )
                     );
@@ -404,10 +404,10 @@ namespace Microarea.RSWeb.WoormWebControl
         {
             Borders borders = new Borders
             (
-                obj.Borders.TableTitleTop,
-                obj.Borders.TableTitleLeft,
+                obj.Borders.TableTitle.Top,
+                obj.Borders.TableTitle.Left,
                 false,
-                obj.Borders.TableTitleRight
+                obj.Borders.TableTitle.Right
             );
 
             WriteSingleCell
@@ -518,7 +518,7 @@ namespace Microarea.RSWeb.WoormWebControl
             //disegno dei bordi
             WriteBorders(xg, obj);
             //disegno eventuale ombra
-            WriteDropShadowPdf(xg, obj.BaseRectangle, obj.DropShadowHeight, obj.DropShadowColor, obj.BorderPen);
+            WriteDropShadowPdf(xg, obj.Rect, obj.DropShadowHeight, obj.DropShadowColor, obj.BorderPen);
         }
 
         //------------------------------------------------------------------------------
@@ -529,7 +529,7 @@ namespace Microarea.RSWeb.WoormWebControl
 
             DrawText(xg,
                         obj.LocalizedText,
-                        obj.BaseRectangle,
+                        obj.Rect,
                         obj.Label.FontStyleName,
                         obj.Label.TextColor,
                         obj.Label.Align
@@ -538,7 +538,7 @@ namespace Microarea.RSWeb.WoormWebControl
             WriteBorders(xg, obj);
 
             //disegno eventuale ombra
-            WriteDropShadowPdf(xg, obj.BaseRectangle, obj.DropShadowHeight, obj.DropShadowColor, obj.BorderPen);
+            WriteDropShadowPdf(xg, obj.Rect, obj.DropShadowHeight, obj.DropShadowColor, obj.BorderPen);
         }
 
         //------------------------------------------------------------------------------
@@ -689,12 +689,12 @@ namespace Microarea.RSWeb.WoormWebControl
                 return;
             }
 
-            Rectangle labelRect = obj.BaseRectangle;
+            Rectangle labelRect = obj.Rect;
             labelRect.Inflate(-2, -2); //border from rect
             DrawText(xg, obj.LocalizedText, labelRect, obj.Label.FontStyleName, obj.LabelTextColor, obj.Label.Align);
 
             // costruisce una tabella trasparente con una sola cella inflatando dei bordi
-            Rectangle inflated = Helper.Inflate(obj.BaseRectangle, obj.Borders, obj.BorderPen);
+            Rectangle inflated = Helper.Inflate(obj.Rect, obj.Borders, obj.BorderPen);
 
             if (obj.IsTextFile)
                 DrawText(xg,
@@ -772,11 +772,11 @@ namespace Microarea.RSWeb.WoormWebControl
             // valuata dal motore del viewer durante il parse.
             if (obj.Hidden) return;
             XBrush brush = (new XSolidBrush(new XColor(backColor)));
-            xg.DrawRectangle(brush, ScaleFromWoorm(obj.BaseRectangle));
+            xg.DrawRectangle(brush, ScaleFromWoorm(obj.Rect));
             WriteBorders(xg, obj);
 
             //disegno eventuale ombra
-            WriteDropShadowPdf(xg, obj.BaseRectangle, obj.DropShadowHeight, obj.DropShadowColor, obj.BorderPen);
+            WriteDropShadowPdf(xg, obj.Rect, obj.DropShadowHeight, obj.DropShadowColor, obj.BorderPen);
         }
 
         //------------------------------------------------------------------------------
@@ -786,7 +786,7 @@ namespace Microarea.RSWeb.WoormWebControl
             if (obj.Hidden) return;
 
             SqrRectPdf(xg, obj, obj.BkgColor);
-            DrawText(xg, obj.LocalizedText, obj.BaseRectangle, obj.Label.FontStyleName, obj.TextColor, obj.Label.Align);
+            DrawText(xg, obj.LocalizedText, obj.Rect, obj.Label.FontStyleName, obj.TextColor, obj.Label.Align);
         }
 
         //------------------------------------------------------------------------------
@@ -839,7 +839,7 @@ namespace Microarea.RSWeb.WoormWebControl
         //------------------------------------------------------------------------------
         private void WriteBorders(XGraphics xg, BaseRect obj)
         {
-            WriteBorders(xg, obj.BorderPen, obj.BaseRectangle, obj.Borders);
+            WriteBorders(xg, obj.BorderPen, obj.Rect, obj.Borders);
         }
 
         //------------------------------------------------------------------------------
