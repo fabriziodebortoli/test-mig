@@ -61,25 +61,23 @@ namespace Microarea.RSWeb.Models
             woorm.RdeReader.LoadTotPage();
             woorm.LoadPage(page);
 
-            ReportData rd = new ReportData();
-
+            //ReportData rd = new ReportData();
             //rd.reportObjects = woorm.Objects;
-                rd.reportObjects = new Layout();
-                rd.reportObjects.Add(new SqrRect());
-            //---------------------------------
+            //    //rd.reportObjects = new Layout();
+            //    //rd.reportObjects.Add(new SqrRect());
+ 
+            //rd.paperLength = woorm.PageInfo.DmPaperLength;
+            //rd.paperWidth = woorm.PageInfo.DmPaperWidth;
 
-            rd.paperLength = woorm.PageInfo.DmPaperLength;
-            rd.paperWidth = woorm.PageInfo.DmPaperWidth;
+            //MemoryStream stream = new MemoryStream();
+            //DataContractJsonSerializer jsonSer = new DataContractJsonSerializer(rd.GetType());
+            //jsonSer.WriteObject(stream, rd);
+            //stream.Position = 0;
+            //// convert stream to string
+            //StreamReader reader = new StreamReader(stream);
+            //string text = reader.ReadToEnd();
 
-            MemoryStream stream = new MemoryStream();
-            DataContractJsonSerializer jsonSer = new DataContractJsonSerializer(rd.GetType());
-            jsonSer.WriteObject(stream, rd);
-            stream.Position = 0;
-            // convert stream to string
-            StreamReader reader = new StreamReader(stream);
-            string text = reader.ReadToEnd();
-
-            return text;
+            return woorm.ToJsonTemplate();
         }
 
 

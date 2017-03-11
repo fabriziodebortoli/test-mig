@@ -11,17 +11,17 @@ namespace Microarea.RSWeb.WoormViewer
 	/// </summary>
 	public class TableBorders
 	{
-        public Borders TableTitle;
-        public Borders ColumnTitle;
-        public Borders Body;
-        public Borders Total;
+        public Borders TableTitle = new Borders();
+        public Borders ColumnTitle = new Borders();
+        public Borders Body = new Borders();
+        public Borders Total = new Borders();
 
         public bool ColumnTitleSeparator;
 		public bool ColumnSeparator;
 
 		public bool RowSeparator;
 		public bool DynamicRowSeparator;
-		public BorderPen RowSepPen;
+		public BorderPen RowSepPen = new BorderPen();
 
         //------------------------------------------------------------------------------
         public TableBorders()

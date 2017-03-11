@@ -128,10 +128,12 @@ namespace Microarea.RSWeb.WoormViewer
             bool first = true;
             foreach (BaseObj item in this)
             {
+                if (item.Hidden && item.HideExpr == null) continue;
+
                 if (first) first = false;
                 else s += ',';
 
-                s += item.ToJson();
+                s += item.ToJson(bracket : true);
             }
             s += ']';
 
@@ -244,7 +246,7 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //---------------------------------------------------------------------
-        override public string ToJson(string name = null, bool bracket = false)
+        override public string ToJson(string name = "layout", bool bracket = false)
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())

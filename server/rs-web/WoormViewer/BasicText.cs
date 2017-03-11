@@ -19,12 +19,12 @@ namespace Microarea.RSWeb.Objects
 		const string STRIKEOUT = "Strikeout";
 		const string UNDERLINE = "Underline";
 
-		public string Family;
-		public int Size;
-		public bool Bold;
-		public bool Italic;
-		public bool Strikeout;
-		public bool Underline;
+		public string Family = "Arial";
+		public int Size = 8;
+		public bool Bold = false;
+		public bool Italic = false;
+		public bool Underline = false;
+		public bool Strikeout = false;
 		
 		public FontData()
 		{
@@ -110,9 +110,16 @@ namespace Microarea.RSWeb.Objects
 		
 		public FontData FontData { 
 			get 
-			{ 
-				if (fontData == null)
-					fontData =  document == null ? null : new FontData(document.GetFontElement(FontStyleName));
+			{
+                if (fontData == null)
+                {
+                    if (document == null) return new FontData();
+
+                    FontElement fe = document.GetFontElement(FontStyleName);
+                    if (fe == null) return new FontData();
+
+                    fontData = new FontData(fe);
+                }
  				return fontData;
 			}
 

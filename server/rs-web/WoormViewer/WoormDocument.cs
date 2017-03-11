@@ -689,7 +689,7 @@ namespace Microarea.RSWeb.WoormViewer
 		public string			Description				{ get { return description; }}
 		public string			LocalizedDescription	{ get { return Localizer.Translate(description); }}		
 		public bool				ForLocalizer			{ get { return forLocalizer; } set { forLocalizer= value; }}
-		public SymbolTable		SymbolTable				{ get { return (SymbolTable)RdeReader.RdeSymbolTable; } }
+		public SymbolTable		SymbolTable				{ get { return RdeReader.RdeSymbolTable; } }
 		public PageInfo			PageInfo				{ get { return pageInfo; } }
 		public bool				CanSaveForUser			{ get { return RDEPersister.CanSaveForUser; } }
 		public bool				CanSaveForAllUsers		{ get { return RDEPersister.CanSaveForAllUsers; } }
@@ -1511,15 +1511,13 @@ namespace Microarea.RSWeb.WoormViewer
 		}
 
 		//------------------------------------------------------------------------------
-		public void SynchronizeSymbolTable()
+		public void SynchronizeSymbolTable(int row = -1, bool updateOnlyTailCell = false)
 		{
-			SynchronizeSymbolTable(-1);
-		}
-		
-		//------------------------------------------------------------------------------
-		public void SynchronizeSymbolTable(int row, bool updateOnlyTailCell = false)
-		{	
-			bool found, tail;
+            if (SymbolTable.RdeRowNumber == row /*&& !updateOnlyTailCell*/)
+                return;
+            SymbolTable.RdeRowNumber = row;
+
+            bool found, tail;
 			foreach (Variable v in SymbolTable)
 			{
                 object dataObject = GetRDEData(v.Id, row, out found, out tail);
@@ -1529,7 +1527,6 @@ namespace Microarea.RSWeb.WoormViewer
 
 				if (found)
 				{
-
 					v.Data = dataObject;
 					v.Valid = true;
 				}
@@ -1882,5 +1879,22 @@ namespace Microarea.RSWeb.WoormViewer
 				fontStyles.Add(keyTemplateFont, templateFonts[keyTemplateFont]);
 			}
 		}
-	}
+        //---------------------------------------------------------------------
+        public string ToJsonTemplate(string name = "page", bool bracket = true)
+        {
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                   this.pageInfo.ToJson() + ',' +
+                   this.Objects.ToJson() +
+                 '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+    }
 }

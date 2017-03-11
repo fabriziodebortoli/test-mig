@@ -203,12 +203,12 @@ namespace Microarea.RSWeb.WoormWebControl
                         }
                     }
 
-                    Color fore = woorm.TrueColor(BoxType.Total, total.TotalTextColor, total.Value.FontStyleName);
-                    Color bkg = !column.ShowTotal || obj.Transparent ? Color.FromArgb(0, 255, 255, 255) : total.TotalBkgColor;
+                    Color fore = woorm.TrueColor(BoxType.Total, total.DynamicTotalTextColor, total.Value.FontStyleName);
+                    Color bkg = !column.ShowTotal || obj.Transparent ? Color.FromArgb(0, 255, 255, 255) : total.DynamicTotalBkgColor;
 
                     if (total.HasFormatStyleExpr)
                     {
-                        string formatStyleName = total.ValueFormatStyleName;
+                        string formatStyleName = total.DynamicFormatStyleName;
                         if (formatStyleName.Length > 0 && total.Value.RDEData != null)
                         {
                             total.Value.FormattedData = FormatFromSoapData(formatStyleName, column.InternalID, total.Value.RDEData);
@@ -272,7 +272,7 @@ namespace Microarea.RSWeb.WoormWebControl
 
                         if (cell.HasFormatStyleExpr)
                         {
-                            string formatStyleName = cell.ValueFormatStyleName;
+                            string formatStyleName = cell.DynamicFormatStyleName;
                             if (formatStyleName.Length > 0 && cell.Value.RDEData != null)
                             {
                                 cell.Value.FormattedData = FormatFromSoapData(formatStyleName, column.InternalID, cell.Value.RDEData);
@@ -286,16 +286,12 @@ namespace Microarea.RSWeb.WoormWebControl
                             obj.HasBottomBorderAtCell(cell),
                             (!lastCol && obj.Borders.ColumnSeparator) || (lastCol && obj.Borders.Body.Right)
                             );
-                        Borders cellBorders = borders;
-                        if (cell.HasCellBordersExpr)
-                        {
-                            cellBorders = cell.ValueCellBorders(borders);
-                        }
+                        Borders cellBorders = cell.DynamicCellBorders(borders);
 
                         string fontStyleName = string.Empty;
                         if (!cell.SubTotal && cell.HasTextFontStyleExpr)
                         {
-                            fontStyleName = cell.ValueTextFontStyleName;
+                            fontStyleName = cell.DynamicTextFontStyleName;
                         }
                         if (fontStyleName.Length == 0)
                             fontStyleName = cell.SubTotal
@@ -303,14 +299,14 @@ namespace Microarea.RSWeb.WoormWebControl
                                 : cell.Value.FontStyleName;
 
                         Color fore = cell.SubTotal
-                            ? woorm.TrueColor(BoxType.SubTotal, cell.ValueSubTotTextColor, fontStyleName)
-                            : woorm.TrueColor(BoxType.Cell, cell.ValueTextColor, fontStyleName);
+                            ? woorm.TrueColor(BoxType.SubTotal, cell.DynamicSubTotTextColor, fontStyleName)
+                            : woorm.TrueColor(BoxType.Cell, cell.DynamicTextColor, fontStyleName);
 
                         Color bkg = cell.SubTotal
                             ?
                                 cell.GetValueSubTotBkgColor(obj.UseColorEasyview(row) ? obj.EasyviewColor : cell.column.SubTotal.BkgColor)
                             :
-                                cell.GetValueBkgColor(obj.UseColorEasyview(row) ? obj.EasyviewColor : cell.DefaultBkgColor);
+                                cell.GetDynamicBkgColor(obj.UseColorEasyview(row) ? obj.EasyviewColor : cell.TemplateBkgColor);
 
                         if (obj.FiscalEnd && row >= obj.CurrentRow)
                         {
@@ -388,10 +384,10 @@ namespace Microarea.RSWeb.WoormWebControl
                     (
                         xg, column.ColumnTitleRect,
                         borders, column.ColumnTitlePen,
-                        woorm.TrueColor(BoxType.ColumnTitle, column.TitleTextColor, column.Title.FontStyleName),
-                        column.TitleBkgColor,
+                        woorm.TrueColor(BoxType.ColumnTitle, column.DynamicTitleTextColor, column.Title.FontStyleName),
+                        column.DynamicTitleBkgColor,
                         column.Title.FontStyleName,
-                        column.Title.Align, column.LocalizedText,
+                        column.Title.Align, column.DynamicTitleLocalizedText,
                         showTitle, null, null
                     );
                     first = false;
