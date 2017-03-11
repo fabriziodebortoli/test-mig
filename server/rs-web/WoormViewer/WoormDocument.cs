@@ -1888,7 +1888,7 @@ namespace Microarea.RSWeb.WoormViewer
 
             s += '{' +
                    this.pageInfo.ToJson() + ',' +
-                   this.Objects.ToJson() +
+                   this.Objects.ToJson("layout") +
                  '}';
 
             if (bracket)

@@ -1337,7 +1337,7 @@ namespace Microarea.RSWeb.Objects
         //}
 
         //------------------------------------------------------------------------------
-        override public string ToJson(bool bracket = false)
+        override public string ToJson(bool bracket)
         {
             string name = "textrect";
 

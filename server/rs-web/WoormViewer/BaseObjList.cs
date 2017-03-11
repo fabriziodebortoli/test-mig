@@ -118,7 +118,7 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //---------------------------------------------------------------------
-        virtual public string ToJson(string name = null, bool bracket = false)
+        virtual public string ToJson(string name, bool bracket = false)
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
@@ -133,7 +133,7 @@ namespace Microarea.RSWeb.WoormViewer
                 if (first) first = false;
                 else s += ',';
 
-                s += item.ToJson(bracket : true);
+                s += item.ToJson(true);
             }
             s += ']';
 
@@ -246,7 +246,7 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //---------------------------------------------------------------------
-        override public string ToJson(string name = "layout", bool bracket = false)
+        override public string ToJson(string name, bool bracket = false)
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())

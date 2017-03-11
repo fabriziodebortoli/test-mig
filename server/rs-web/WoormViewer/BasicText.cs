@@ -72,10 +72,10 @@ namespace Microarea.RSWeb.Objects
             string s = name.ToJson() + ":{" +
                                         Family.ToJson("face") + ',' +
                                         Size.ToJson("size") + ',' +
-                                        Size.ToJson("italic") + ',' +
-                                        Size.ToJson("bold") + //',' +
-                                        //Size.ToJson("Underline") + ',' +
-                                        //Size.ToJson("Strikeout") + ',' +
+                                        Bold.ToJson("italic") + ',' +
+                                        Italic.ToJson("bold") + ',' +
+                                        Underline.ToJson("underline") + //',' +
+                                        //Strikeout.ToJson("strikeout") + 
                                      '}';
 
             if (bracket)
