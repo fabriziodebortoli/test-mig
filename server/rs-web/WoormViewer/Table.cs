@@ -328,7 +328,36 @@ namespace Microarea.RSWeb.Objects
                 return s;
             }
         }
-	}
+
+        public string ToJson(Cell defaultCell = null)
+        {
+            string s = "{";
+
+            if (defaultCell != null)
+            {
+                s += this.AtRowNumber.ToJson("row") + ',';
+
+                s += this.RectCell.ToJson("rect");
+            }
+            //cell.DynamicTextColor     .ToJson("textcolor") + ',' +  //dynamic
+            //cell.DynamicBkgColor      .ToJson("bkgcolor") + ',' +   //dynamic
+
+            if (defaultCell == null || defaultCell.TemplateTextColor != this.TemplateTextColor)
+                s += (defaultCell == null ? "" : ",") + this.TemplateTextColor.ToJson("textcolor") ;
+
+            if (defaultCell == null || defaultCell.TemplateBkgColor != this.TemplateBkgColor)
+               s += ',' + this.TemplateBkgColor.ToJson("bkgcolor");
+
+            if (defaultCell == null || defaultCell.CellAlign != this.CellAlign)
+               s += ',' + this.CellAlign.ToJson("align") ;
+
+            if (defaultCell == null || !defaultCell.Value.FontData.Compare(this.Value.FontData))
+                s += ',' + this.Value.FontData.ToJson("font");
+
+            s += '}';
+            return s;
+        }
+    }
 
 	/// <summary>
 	/// SubTotalCell : 
@@ -439,7 +468,22 @@ namespace Microarea.RSWeb.Objects
 				return colors;
 			}
 		}
-     }
+
+        new public string ToJson()
+        {
+            return "\"total\":{" +
+
+                this.RectCell.ToJson("rect") + ',' +
+                this.TotalPen.ToJson("pen") + ',' +
+                this.TemplateTotalTextColor.ToJson("textcolor") + ',' +
+                this.TemplateTotalBkgColor.ToJson("bkgcolor") + ',' +
+                this.Align.ToJson("align") + ',' +
+                this.FontData.ToJson() +
+
+            '}';
+        }
+
+    }
 
     /// <summary>
     /// Summary description for TableCell.
@@ -494,9 +538,10 @@ namespace Microarea.RSWeb.Objects
 		    public bool ShowProportional = false;   // lo mostra in modo proporzionale
             public bool ShowNativeImageSize = false;   // lo mostra nella dimensione originale
         
-        public BarCode BarCode = null;					// mostra il dato come barcode
+        public BarCode BarCode = null;                  // mostra il dato come barcode
+        public bool ShowAsBarCode { get { return BarCode != null; } }
 
-		public string FormatStyleName = DefaultFormat.None;
+        public string FormatStyleName = DefaultFormat.None;
 		public string FontSyleName;
 
 		public SubTotalCell SubTotal;
@@ -727,27 +772,13 @@ namespace Microarea.RSWeb.Objects
                         "}," +
  
             this.ShowTotal     .ToJson("show_total") + ',' +
-            (this.ShowTotal ? ("\"total\":{" +
-                                this.TotalRect()                     .ToJson("rect") + ',' +
-                                this.TotalCell       .TotalPen       .ToJson("pen") + ',' +
-                                this.TotalCell       .TemplateTotalTextColor .ToJson("textcolor") + ',' +
-                                this.TotalCell       .TemplateTotalBkgColor  .ToJson("bkgcolor") + ',' +
-                                this.TotalCell       .Align          .ToJson("align") + ',' +
-                                this.TotalCell       .FontData       .ToJson() 
-                                + "},")
-                            : "")  +
+            (/*this.ShowTotal*/true ? (this.TotalCell.ToJson() + ',') : "")  +
 
-            //attributi opzionali rari
-            //(this.MultipleRow   ? this.MultipleRow  .ToJson("show_multiline") + ','  : "") +
-            //(this.IsHtml        ? this.IsHtml       .ToJson("value_is_html") + ',' : "") +
-            //(this.ShowAsBitmap  ? this.ShowAsBitmap .ToJson("value_is_image") + ',' : "") +
-            //(this.BarCode != null ? true            .ToJson("value_is_barcode") + ',' : "") +
-            this.MultipleRow.ToJson("show_multiline") + ',' +
-            this.IsHtml.ToJson("value_is_html") + ','  +
-            this.ShowAsBitmap.ToJson("value_is_image") + ','  +
-            true.ToJson("value_is_barcode") + ','  +
-            //-----------------------
-
+            (/*this.MultipleRow*/true    ? this.MultipleRow  .ToJson("show_multiline") + ',' : "") +
+            (/*this.IsHtml*/true         ? this.IsHtml       .ToJson("value_is_html") + ',' : "") +
+            (/*this.ShowAsBitmap*/true   ? this.ShowAsBitmap .ToJson("show_as_image") + ',' : "") +
+            (/*this.ShowAsBarCode*/true  ? this.ShowAsBarCode.ToJson("show_as_barcode") + ',' : "") +
+ 
             ToJsonCellsTemplate(false) +
             '}';
 
@@ -759,23 +790,17 @@ namespace Microarea.RSWeb.Objects
 
         public string ToJsonCellsTemplate(bool bracket)
         {
-            string s = "\"cells\":[";
+            string s = "\"default_cell\":" + Cells[0].ToJson();
+
+            s += ", \"cells\":[";
             bool first = true;
+            int row = 0;
             foreach (Cell cell in Cells)
             {
                 if (first) first = false; else s += ',';
+                cell.AtRowNumber = row++;
 
-                s += '{' +
-
-                    cell.RectCell           .ToJson("rect") + ',' +
-                    //cell.DynamicTextColor     .ToJson("textcolor") + ',' +  //dynamic
-                    //cell.DynamicBkgColor      .ToJson("bkgcolor") + ',' +   //dynamic
-                    cell.TemplateTextColor   .ToJson("textcolor") + ',' +
-                    cell.TemplateBkgColor    .ToJson("bkgcolor") + ',' +
-                    cell.CellAlign          .ToJson("align") + ',' +
-                    cell.Value.FontData     .ToJson("font") +
-
-                '}';
+                s += cell.ToJson(Cells[0]);
             }
             s += ']';
 

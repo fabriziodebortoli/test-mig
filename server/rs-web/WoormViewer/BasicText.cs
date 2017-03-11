@@ -84,6 +84,15 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
+        public bool Compare(FontData fd)
+        {
+            return this.Family.CompareNoCase(fd.Family) &&
+                this.Size == fd.Size &&
+                this.Bold == fd.Bold &&
+                this.Italic == fd.Italic &&
+                this.Underline == fd.Underline &&
+                this.Strikeout == fd.Strikeout;
+        }
     }
     /// <summary>
     /// Summary description for BasicText.
