@@ -118,7 +118,7 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //---------------------------------------------------------------------
-        virtual public string ToJson(string name, bool bracket = false)
+        virtual public string ToJson(bool template, string name, bool bracket = false)
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
@@ -130,10 +130,16 @@ namespace Microarea.RSWeb.WoormViewer
             {
                 if (item.Hidden && item.HideExpr == null) continue;
 
+                if (!template && !(item is FieldRect) && !(item is Table) && /*!(item is Repeater) &&*/ item.IsDynamic())
+                    continue;
+
                 if (first) first = false;
                 else s += ',';
-
-                s += item.ToJson(true);
+                
+                if (template)
+                    s += item.ToJson(true);
+                else 
+                    s += item.ToJsonData(true);
             }
             s += ']';
 
@@ -246,7 +252,7 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //---------------------------------------------------------------------
-        override public string ToJson(string name, bool bracket = false)
+        override public string ToJson(bool template, string name, bool bracket = false)
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
@@ -254,7 +260,7 @@ namespace Microarea.RSWeb.WoormViewer
 
             s += '{' +
                     Name.ToJson("name") + ',' +
-                    base.ToJson("objects") +
+                    base.ToJson(template, "objects") +
                     '}';
 
             if (bracket)

@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+
+using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
+
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
 
@@ -380,6 +383,51 @@ namespace Microarea.RSWeb.WoormViewer
             base.RemoveStyle();
             Rows.RemoveStyle();
         }
-	}
+
+        //------------------------------------------------------------------------------
+        override public string ToJson(bool bracket)
+        {
+            string name = "repeater";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                base.ToJson(false) + ',' +
+
+                this.nRows      .ToJson("rows") + ',' +
+                this.nColumns   .ToJson("columns") + ',' +
+
+                this.nXOffset   .ToJson("xoffset") + ',' +
+                this.nYOffset   .ToJson("yoffset") +
+
+              '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        override public string ToJsonData(bool bracket)
+        {
+            string name = "repeater";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                base.ToJsonData(false) +
+              '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+    }
 
 }

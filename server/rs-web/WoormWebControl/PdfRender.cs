@@ -79,7 +79,7 @@ namespace Microarea.RSWeb.WoormWebControl
                     case "FieldRect": FieldRectPdf(xg, (FieldRect)obj); break;
                     case "TextRect": TextRectPdf(xg, (TextRect)obj); break;
                     case "GraphRect": GraphRectPdf(xg, (GraphRect)obj); break;
-                    case "SqrRect": SqrRectPdf(xg, (SqrRect)obj, ((SqrRect)obj).BkgColor); break;
+                    case "SqrRect": SqrRectPdf(xg, (SqrRect)obj, ((SqrRect)obj).DynamicBkgColor); break;
                     case "FileRect": FileRectPdf(xg, (FileRect)obj); break;
 
                     case "Table":
@@ -101,7 +101,7 @@ namespace Microarea.RSWeb.WoormWebControl
         //------------------------------------------------------------------------------
         private void RepeaterPdf(XGraphics xg, WoormViewer.Repeater repeater)
         {
-            SqrRectPdf(xg, repeater, repeater.BkgColor);
+            SqrRectPdf(xg, repeater, repeater.DynamicBkgColor);
 
             foreach (BaseObjList list in repeater.Rows)
             {
@@ -527,7 +527,7 @@ namespace Microarea.RSWeb.WoormWebControl
                         obj.LocalizedText,
                         obj.Rect,
                         obj.Label.FontStyleName,
-                        obj.Label.TextColor,
+                        obj.DynamicTextColor,
                         obj.Label.Align
                 );
 
@@ -675,7 +675,7 @@ namespace Microarea.RSWeb.WoormWebControl
             // valuata dal motore del viewer durante il parse.
             if (obj.Hidden) return;
 
-            SqrRectPdf(xg, obj, obj.BkgColor);
+            SqrRectPdf(xg, obj, obj.DynamicBkgColor);
 
             if (obj.IsImage)
             {
@@ -687,7 +687,7 @@ namespace Microarea.RSWeb.WoormWebControl
 
             Rectangle labelRect = obj.Rect;
             labelRect.Inflate(-2, -2); //border from rect
-            DrawText(xg, obj.LocalizedText, labelRect, obj.Label.FontStyleName, obj.LabelTextColor, obj.Label.Align);
+            DrawText(xg, obj.DynamicLabelLocalizedText, labelRect, obj.Label.FontStyleName, obj.DynamicLabelTextColor, obj.Label.Align);
 
             // costruisce una tabella trasparente con una sola cella inflatando dei bordi
             Rectangle inflated = Helper.Inflate(obj.Rect, obj.Borders, obj.BorderPen);
@@ -697,7 +697,7 @@ namespace Microarea.RSWeb.WoormWebControl
                         ReadTextFile(obj.Value.FormattedData),
                         inflated,
                         obj.Value.FontStyleName,
-                        obj.TextColor,
+                        obj.DynamicTextColor,
                         obj.Value.Align
                 );
             else if (obj.IsBarCode && obj.Value.FormattedData != string.Empty)
@@ -735,7 +735,7 @@ namespace Microarea.RSWeb.WoormWebControl
                     }
                 }
 
-                DrawText(xg, obj.Value.FormattedData, inflated, obj.Value.FontStyleName, obj.TextColor, obj.Value.Align);
+                DrawText(xg, obj.Value.FormattedData, inflated, obj.Value.FontStyleName, obj.DynamicTextColor, obj.Value.Align);
             }
         }
 
@@ -781,8 +781,8 @@ namespace Microarea.RSWeb.WoormWebControl
             // valuata dal motore del viewer durante il parse.
             if (obj.Hidden) return;
 
-            SqrRectPdf(xg, obj, obj.BkgColor);
-            DrawText(xg, obj.LocalizedText, obj.Rect, obj.Label.FontStyleName, obj.TextColor, obj.Label.Align);
+            SqrRectPdf(xg, obj, obj.DynamicBkgColor);
+            DrawText(xg, obj.LocalizedText, obj.Rect, obj.Label.FontStyleName, obj.DynamicTextColor, obj.Label.Align);
         }
 
         //------------------------------------------------------------------------------

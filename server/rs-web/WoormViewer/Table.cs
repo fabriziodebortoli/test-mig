@@ -212,7 +212,6 @@ namespace Microarea.RSWeb.Objects
 			}
 		}
 
-
 		//-------------------------------------------------------------------------------
 		public Color GetValueSubTotBkgColor(Color cr)
 		{
@@ -228,7 +227,6 @@ namespace Microarea.RSWeb.Objects
             }
 			return cr;
 		}
-
 
 		//-------------------------------------------------------------------------------
 		public Borders DynamicCellBorders(Borders colBorders)
@@ -357,15 +355,34 @@ namespace Microarea.RSWeb.Objects
             s += '}';
             return s;
         }
+
+        public string ToJsonData()
+        {
+            string s = "{";
+
+            s += this.AtRowNumber.ToJson("row");
+
+            if (column.TextColorExpr != null)
+                s += ',' + this.DynamicTextColor.ToJson("textcolor");
+
+            if (column.BkgColorExpr != null)
+                s += ',' + this.DynamicBkgColor.ToJson("bkgcolor");
+
+            s += ',' + this.FormattedDataForWrite.ToJson("value", false, true);
+
+            s += '}';
+            return s;
+        }
+
     }
 
-	/// <summary>
-	/// SubTotalCell : 
-	/// servono solo gli stili dei font e gli align. da sostituire a quelli della cella
-	/// </summary>
-	// ================================================================================
-	//[Serializable]
-	public class SubTotalCell : BasicText
+    /// <summary>
+    /// SubTotalCell : 
+    /// servono solo gli stili dei font e gli align. da sostituire a quelli della cella
+    /// </summary>
+    // ================================================================================
+    //[Serializable]
+    public class SubTotalCell : BasicText
 	{
 		public SubTotalCell(WoormDocument doc) : base (doc) 
 		{
@@ -473,13 +490,25 @@ namespace Microarea.RSWeb.Objects
         {
             return "\"total\":{" +
 
-                this.RectCell.ToJson("rect") + ',' +
-                this.TotalPen.ToJson("pen") + ',' +
-                this.TemplateTotalTextColor.ToJson("textcolor") + ',' +
-                this.TemplateTotalBkgColor.ToJson("bkgcolor") + ',' +
-                this.Align.ToJson("align") + ',' +
-                this.FontData.ToJson() +
+                this.RectCell               .ToJson("rect") + ',' +
+                this.TotalPen               .ToJson("pen") + ',' +
 
+                this.TemplateTotalTextColor .ToJson("textcolor") + ',' +
+                this.TemplateTotalBkgColor  .ToJson("bkgcolor") + ',' +
+
+                this.Align                  .ToJson("align") + ',' +
+                this.FontData               .ToJson() +
+
+            '}';
+        }
+        new public string ToJsonData()
+        {
+            return "\"total\":{" +
+
+                (column.TotalTextColorExpr  != null ? this.DynamicTotalTextColor    .ToJson("textcolor") + ',' : "") +
+                (column.TotalBkgColorExpr   != null ? this.DynamicTotalBkgColor     .ToJson("bkgcolor") + ',' : "") +
+
+                this.Value.FormattedData.ToJson("value", false, true) + 
             '}';
         }
 
@@ -788,6 +817,33 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
+        public string ToJsonData(bool bracket)
+        {
+            string s = "\"column\":{" +
+
+                this.InternalID.ToJson("id") + ',' +
+
+                (this.IsHidden || this.HideExpr != null).ToJson("hidden") + ',' +     //dynamic
+                this.Width.ToJson("width") + ',' +                        //dynamic
+
+                "\"title\":{" +
+                                this.DynamicTitleLocalizedText.ToJson("caption", false, true) + ',' +
+
+                                this.DynamicTitleTextColor.ToJson("textcolor") + ',' +
+                                this.DynamicTitleBkgColor.ToJson("bkgcolor") + 
+                        "}," +
+
+            (this.ShowTotal ? (this.TotalCell.ToJson() + ',') : "") +
+
+            ToJsonCellsData(false) +
+            '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
         public string ToJsonCellsTemplate(bool bracket)
         {
             string s = "\"default_cell\":" + Cells[0].ToJson();
@@ -801,6 +857,26 @@ namespace Microarea.RSWeb.Objects
                 cell.AtRowNumber = row++;
 
                 s += cell.ToJson(Cells[0]);
+            }
+            s += ']';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        public string ToJsonCellsData(bool bracket)
+        {
+            string s = "\"cells\":[";
+            bool first = true;
+            int row = 0;
+            foreach (Cell cell in Cells)
+            {
+                if (first) first = false; else s += ',';
+                cell.AtRowNumber = row++;
+
+                s += cell.ToJsonData();
             }
             s += ']';
 
@@ -2284,7 +2360,7 @@ namespace Microarea.RSWeb.Objects
                 this.FiscalEnd.ToJson("fiscal_end") + ',' +
                 //this.EasyviewColor.ToJson("alternate_color") + ',' +
 
-                ColumnsToJson(false) +
+                ColumnsToJson(true, false) +
             '}';
 
             if (bracket)
@@ -2293,7 +2369,27 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
-        public string ColumnsToJson(bool bracket)
+        override public string ToJsonData(bool bracket)
+        {
+            string name = "table";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                base.ToJsonData(false) + ',' +
+
+                ColumnsToJson(false, false) +
+            '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        public string ColumnsToJson(bool template, bool bracket)
         {
             string s = "\"columns\":[";
 
@@ -2303,7 +2399,7 @@ namespace Microarea.RSWeb.Objects
                 if (first) first = false;
                 else s += ',';
 
-                s += column.ToJsonTemplate(true);     
+                s += template ? column.ToJsonTemplate(true) : column.ToJsonData(true);     
             }
 
             s += ']';

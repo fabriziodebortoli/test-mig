@@ -927,9 +927,9 @@ namespace Microarea.RSWeb.WoormViewer
 
 					case Token.RNDRECT  : // mantiene la compatibilita' con il passato
 					case Token.SQRRECT  : baseObject = new SqrRect      (this); break;
-					case Token.BITMAP    : baseObject = new GraphRect    (this); break;
+					case Token.METAFILE : baseObject = new GraphRect    (this); break;
+					case Token.BITMAP   : baseObject = new GraphRect    (this); break;
 					case Token.FILE     : baseObject = new FileRect     (this); break;
-					case Token.METAFILE : baseObject = new MetafileRect (this); break;
 
 					case Token.END			: return hasPageLayout && Lex.ParseEnd(); 
                     case Token.LINKS		: return true;
@@ -1880,15 +1880,15 @@ namespace Microarea.RSWeb.WoormViewer
 			}
 		}
         //---------------------------------------------------------------------
-        public string ToJsonTemplate(string name = "page", bool bracket = true)
+        public string ToJson(bool template, string name = "page", bool bracket = true)
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
                 s = '\"' + name + "\":";
 
             s += '{' +
-                   this.pageInfo.ToJson() + ',' +
-                   this.Objects.ToJson("layout") +
+                   (template ? this.pageInfo.ToJson() + ',' : "") +
+                   this.Objects.ToJson(template, "layout") +
                  '}';
 
             if (bracket)

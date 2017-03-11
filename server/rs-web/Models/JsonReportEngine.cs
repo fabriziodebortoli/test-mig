@@ -52,7 +52,7 @@ namespace Microarea.RSWeb.Models
 
          }
 
-        public string GetJsonPage(int page = 1)
+        public string GetJsonTemplatePage(int page = 1)
         {
             WoormDocument woorm = StateMachine.Woorm;
             //salvo la pagina corrente
@@ -61,25 +61,20 @@ namespace Microarea.RSWeb.Models
             woorm.RdeReader.LoadTotPage();
             woorm.LoadPage(page);
 
-            //ReportData rd = new ReportData();
-            //rd.reportObjects = woorm.Objects;
-            //    //rd.reportObjects = new Layout();
-            //    //rd.reportObjects.Add(new SqrRect());
- 
-            //rd.paperLength = woorm.PageInfo.DmPaperLength;
-            //rd.paperWidth = woorm.PageInfo.DmPaperWidth;
-
-            //MemoryStream stream = new MemoryStream();
-            //DataContractJsonSerializer jsonSer = new DataContractJsonSerializer(rd.GetType());
-            //jsonSer.WriteObject(stream, rd);
-            //stream.Position = 0;
-            //// convert stream to string
-            //StreamReader reader = new StreamReader(stream);
-            //string text = reader.ReadToEnd();
-
-            return woorm.ToJsonTemplate();
+            return woorm.ToJson(true);
         }
 
+        public string GetJsonDataPage(int page = 1)
+        {
+            WoormDocument woorm = StateMachine.Woorm;
+            //salvo la pagina corrente
+            int current = woorm.RdeReader.CurrentPage;
+            //ciclo sulle pagine per generare un pdf
+            woorm.RdeReader.LoadTotPage();
+            woorm.LoadPage(page);
+
+            return woorm.ToJson(false);
+        }
 
         public Message GetResponseFor(Message msg)
         {
