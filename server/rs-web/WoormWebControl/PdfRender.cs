@@ -211,7 +211,7 @@ namespace Microarea.RSWeb.WoormWebControl
                         string formatStyleName = total.DynamicFormatStyleName;
                         if (formatStyleName.Length > 0 && total.Value.RDEData != null)
                         {
-                            total.Value.FormattedData = FormatFromSoapData(formatStyleName, column.InternalID, total.Value.RDEData);
+                            total.Value.FormattedData = this.woorm.FormatFromSoapData(formatStyleName, column.InternalID, total.Value.RDEData);
                         }
                     }
 
@@ -229,23 +229,6 @@ namespace Microarea.RSWeb.WoormWebControl
                     );
                 }
             }
-        }
-
-        //---------------------------------------------------------------------------
-        CultureInfo GetCollateCultureFromId(ushort id)
-        {
-            Variable v = woorm.SymbolTable.FindById(id);
-            return v == null ? CultureInfo.InvariantCulture : v.CollateCulture;
-        }
-
-        ///<summary>
-        ///Riformatta dinamicamente il dato 
-        /// </summary>
-        string FormatFromSoapData(string formatStyleName, ushort ID, object data)
-        {
-            CultureInfo collateCulture = GetCollateCultureFromId(ID);
-            //vedi RDEReader
-            return woorm.FormatStyles.FormatFromSoapData(formatStyleName, data, woorm.Namespace, collateCulture);
         }
 
         //------------------------------------------------------------------------------
@@ -275,7 +258,7 @@ namespace Microarea.RSWeb.WoormWebControl
                             string formatStyleName = cell.DynamicFormatStyleName;
                             if (formatStyleName.Length > 0 && cell.Value.RDEData != null)
                             {
-                                cell.Value.FormattedData = FormatFromSoapData(formatStyleName, column.InternalID, cell.Value.RDEData);
+                                cell.Value.FormattedData = woorm.FormatFromSoapData(formatStyleName, column.InternalID, cell.Value.RDEData);
                             }
                         }
 
@@ -288,6 +271,7 @@ namespace Microarea.RSWeb.WoormWebControl
                             );
                         Borders cellBorders = cell.DynamicCellBorders(borders);
 
+                        //--------------------------------------
                         string fontStyleName = string.Empty;
                         if (!cell.SubTotal && cell.HasTextFontStyleExpr)
                         {
@@ -297,9 +281,9 @@ namespace Microarea.RSWeb.WoormWebControl
                             fontStyleName = cell.SubTotal
                                 ? column.SubTotal.FontStyleName
                                 : cell.Value.FontStyleName;
-
+                        //---------------------------------------
                         Color fore = cell.SubTotal
-                            ? woorm.TrueColor(BoxType.SubTotal, cell.DynamicSubTotTextColor, fontStyleName)
+                            ? woorm.TrueColor(BoxType.SubTotal, cell.DynamicSubTotalTextColor, fontStyleName)
                             : woorm.TrueColor(BoxType.Cell, cell.DynamicTextColor, fontStyleName);
 
                         Color bkg = cell.SubTotal
@@ -441,6 +425,7 @@ namespace Microarea.RSWeb.WoormWebControl
             )
         {
             if (hide) return;
+
             XBrush brush = (new XSolidBrush(new XColor(backColor)));
             Rectangle inside = BaseRect.CalculateInsideRect(cellRect, borders, borderPen);
             xg.DrawRectangle(brush, ScaleFromWoorm(inside));
@@ -633,8 +618,6 @@ namespace Microarea.RSWeb.WoormWebControl
             else if ((align & BaseObjConsts.DT_BOTTOM) == BaseObjConsts.DT_BOTTOM)
                 xRect.Offset(0, originalRect.Height - xRect.Height);
 
-
-
             xg.DrawImage(img, xRect);
         }
 
@@ -731,7 +714,7 @@ namespace Microarea.RSWeb.WoormWebControl
                     string formatStyleName = obj.DynamicFormatStyleName;
                     if (formatStyleName.Length > 0)
                     {
-                        obj.Value.FormattedData = FormatFromSoapData(formatStyleName, obj.InternalID, obj.Value.RDEData);
+                        obj.Value.FormattedData = woorm.FormatFromSoapData(formatStyleName, obj.InternalID, obj.Value.RDEData);
                     }
                 }
 

@@ -1879,6 +1879,24 @@ namespace Microarea.RSWeb.WoormViewer
 				fontStyles.Add(keyTemplateFont, templateFonts[keyTemplateFont]);
 			}
 		}
+
+        //---------------------------------------------------------------------------
+        public CultureInfo GetCollateCultureFromId(ushort id)
+        {
+            Variable v = this.SymbolTable.FindById(id);
+            return v == null ? CultureInfo.InvariantCulture : v.CollateCulture;
+        }
+
+        ///<summary>
+        ///Riformatta dinamicamente il dato 
+        /// </summary>
+        public string FormatFromSoapData(string formatStyleName, ushort ID, object data)
+        {
+            CultureInfo collateCulture = GetCollateCultureFromId(ID);
+            //vedi RDEReader
+            return this.FormatStyles.FormatFromSoapData(formatStyleName, data, this.Namespace, collateCulture);
+        }
+
         //---------------------------------------------------------------------
         public string ToJson(bool template, string name = "page", bool bracket = true)
         {

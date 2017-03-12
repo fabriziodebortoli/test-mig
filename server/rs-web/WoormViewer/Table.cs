@@ -68,14 +68,6 @@ namespace Microarea.RSWeb.Objects
 			this.RectCell = source.RectCell;
 			this.AtRowNumber = source.AtRowNumber;  //== m_nCurrRow?
 			this.column = source.column;
-
-			//TODOLUCA
-			/*
-			 m_arBrowsedOnPage		.Copy(source.m_arBrowsedOnPage);
-			m_arSelectedOnPage		.Copy(source.m_arSelectedOnPage);
-			m_arWrongOnPage			.Copy(source.m_arWrongOnPage);
-			m_arTooltip				.Copy(source.m_arTooltip);
-			 */
 		}
 
 		//------------------------------------------------------------------------------
@@ -89,22 +81,54 @@ namespace Microarea.RSWeb.Objects
         internal int    CellAlign               { get { return Value.Align; } }
 	
 		//-------------------------------------------------------------------------------
-		public Color DynamicSubTotTextColor
+		public Color TemplateSubTotalTextColor
 		{
 			get
 			{
-				if (column.SubTotalTextColorExpr != null)
-				{
+				return column.SubTotal.TextColor;
+			}
+		}
+        public Color DynamicSubTotalTextColor
+        {
+            get
+            {
+                if (column.SubTotalTextColorExpr != null)
+                {
                     column.Table.Document.SynchronizeSymbolTable(AtRowNumber);
 
                     Value val = column.SubTotalTextColorExpr.Eval();
 
                     if (val != null && val.Valid)
-                        return Color.FromArgb(255, Color.FromArgb((int)val.Data)); 
+                        return Color.FromArgb(255, Color.FromArgb((int)val.Data));
                 }
-				return column.SubTotal.TextColor;
-			}
-		}
+                return TemplateSubTotalTextColor;
+            }
+        }
+
+        //-------------------------------------------------------------------------------
+        public Color TemplateSubTotalBkgColor
+        {
+            get
+            {
+                return column.SubTotal.BkgColor;
+            }
+        }
+        public Color DynamicSubTotalBkgColor
+        {
+            get
+            {
+                if (column.SubTotalBkgColorExpr != null)
+                {
+                    column.Table.Document.SynchronizeSymbolTable(AtRowNumber);
+
+                    Value val = column.SubTotalBkgColorExpr.Eval();
+
+                    if (val != null && val.Valid)
+                        return Color.FromArgb(255, Color.FromArgb((int)val.Data));
+                }
+                return TemplateSubTotalBkgColor;
+            }
+        }
 
         //-------------------------------------------------------------------------------
         public Color TemplateTextColor { get { return Value.TextColor; } }
@@ -190,7 +214,7 @@ namespace Microarea.RSWeb.Objects
 					if (val != null && val.Valid)
 						return val.Data as string;
 				}
-				return string.Empty;
+				return column.FormatStyleName;
 			}
 		}
 
@@ -223,7 +247,6 @@ namespace Microarea.RSWeb.Objects
 
                 if (val != null && val.Valid)
                     return Color.FromArgb(255, Color.FromArgb((int)val.Data)); 
-
             }
 			return cr;
 		}
@@ -291,7 +314,6 @@ namespace Microarea.RSWeb.Objects
             }
         }
 
-
         //------------------------------------------------------------------------------
         internal void HMoveCell(int width)
 		{
@@ -337,9 +359,7 @@ namespace Microarea.RSWeb.Objects
 
                 s += this.RectCell.ToJson("rect");
             }
-            //cell.DynamicTextColor     .ToJson("textcolor") + ',' +  //dynamic
-            //cell.DynamicBkgColor      .ToJson("bkgcolor") + ',' +   //dynamic
-
+ 
             if (defaultCell == null || defaultCell.TemplateTextColor != this.TemplateTextColor)
                 s += (defaultCell == null ? "" : ",") + this.TemplateTextColor.ToJson("textcolor") ;
 
@@ -349,7 +369,7 @@ namespace Microarea.RSWeb.Objects
             if (defaultCell == null || defaultCell.CellAlign != this.CellAlign)
                s += ',' + this.CellAlign.ToJson("align") ;
 
-            if (defaultCell == null || !defaultCell.Value.FontData.Compare(this.Value.FontData))
+            if (defaultCell == null || !defaultCell.Value.FontStyleName.CompareNoCase(this.Value.FontStyleName))
                 s += ',' + this.Value.FontData.ToJson("font");
 
             s += '}';
@@ -362,11 +382,46 @@ namespace Microarea.RSWeb.Objects
 
             s += this.AtRowNumber.ToJson("row");
 
-            if (column.TextColorExpr != null)
+            if (!this.SubTotal && column.TextColorExpr != null)
                 s += ',' + this.DynamicTextColor.ToJson("textcolor");
+            else if (this.SubTotal)
+                s += ',' + this.DynamicSubTotalTextColor.ToJson("textcolor");
 
-            if (column.BkgColorExpr != null)
+            if (!this.SubTotal && column.BkgColorExpr != null)
                 s += ',' + this.DynamicBkgColor.ToJson("bkgcolor");
+            else if (this.SubTotal)
+                s += ',' + this.DynamicSubTotalBkgColor.ToJson("bkgcolor");
+
+            if (!this.SubTotal && column.TextFontStyleExpr != null)
+            {
+                string fontstyle = this.DynamicTextFontStyleName;
+
+                if (!fontstyle.CompareNoCase(this.Value.FontStyleName))
+                {
+                    FontElement fe = column.Table.Document.GetFontElement(fontstyle);
+                    if (fe != null)
+                    {
+                        FontData fontData = new FontData(fe);
+                        s += ',' + fontData.ToJson();
+                    }
+                }
+            }
+            else if (this.SubTotal)
+            {
+                s += ',' + this.column.SubTotal.FontData.ToJson();
+            }
+
+            if (column.TooltipExpr != null)
+                s += ',' + this.DynamicTooltip.ToJson("tooltip", false, true);
+
+            if (/*this.HasFormatStyleExpr && */this.Value.RDEData != null)
+            {
+                string formatStyleName = this.DynamicFormatStyleName;
+                if (formatStyleName.Length > 0)
+                {
+                    this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
+                }
+            }
 
             s += ',' + this.FormattedDataForWrite.ToJson("value", false, true);
 
@@ -503,15 +558,25 @@ namespace Microarea.RSWeb.Objects
         }
         new public string ToJsonData()
         {
-            return "\"total\":{" +
+            string s = "\"total\":{" +
 
-                (column.TotalTextColorExpr  != null ? this.DynamicTotalTextColor    .ToJson("textcolor") + ',' : "") +
-                (column.TotalBkgColorExpr   != null ? this.DynamicTotalBkgColor     .ToJson("bkgcolor") + ',' : "") +
+                (column.TotalTextColorExpr != null ? this.DynamicTotalTextColor.ToJson("textcolor") + ',' : "") +
+                (column.TotalBkgColorExpr != null ? this.DynamicTotalBkgColor.ToJson("bkgcolor") + ',' : "");
 
-                this.Value.FormattedData.ToJson("value", false, true) + 
-            '}';
+            if (/*this.HasFormatStyleExpr && */this.Value.RDEData != null)
+            {
+                string formatStyleName = this.DynamicFormatStyleName;
+                if (formatStyleName.Length > 0)
+                {
+                    this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
+                }
+            }
+
+            s += this.Value.FormattedData.ToJson("value", false, true) + 
+                '}';
+
+            return s;
         }
-
     }
 
     /// <summary>
@@ -781,35 +846,35 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "\"column\":{" +
 
-                this.InternalID       .ToJson("id") + ',' +
+                this.InternalID.ToJson("id") + ',' +
 
-                this.ColumnRect       .ToJson("rect") + ',' +
-                this.ColumnCellsRect  .ToJson("cells_rect") + ',' +
-                this.ColumnPen        .ToJson("pen") + ',' +
+                this.ColumnRect.ToJson("rect") + ',' +
+                this.ColumnCellsRect.ToJson("cells_rect") + ',' +
+                this.ColumnPen.ToJson("pen") + ',' +
 
                 (this.IsHidden || this.HideExpr != null).ToJson("hidden") + ',' +     //dynamic
-                this.Width            .ToJson("width") + ',' +                        //dynamic
+                this.Width.ToJson("width") + ',' +                        //dynamic
 
                 "\"title\":{" +
-                                this.TemplateTitleLocalizedText     .ToJson("caption", false, true) + ',' +
-                                this.ColumnTitleRect   .ToJson("rect") + ',' +
-                                this.ColumnTitlePen    .ToJson("pen") + ',' + 
-                                this.Title.TextColor   .ToJson("textcolor") + ',' +
-                                this.Title.BkgColor    .ToJson("bkgcolor") + ',' +
-                                this.Title.Align       .ToJson("align") + ',' +
-                                this.Title.FontData    .ToJson() + 
+                                this.TemplateTitleLocalizedText.ToJson("caption", false, true) + ',' +
+                                this.ColumnTitleRect.ToJson("rect") + ',' +
+                                this.ColumnTitlePen.ToJson("pen") + ',' +
+                                this.Title.TextColor.ToJson("textcolor") + ',' +
+                                this.Title.BkgColor.ToJson("bkgcolor") + ',' +
+                                this.Title.Align.ToJson("align") + ',' +
+                                this.Title.FontData.ToJson() +
                         "}," +
- 
-            this.ShowTotal     .ToJson("show_total") + ',' +
-            (/*this.ShowTotal*/true ? (this.TotalCell.ToJson() + ',') : "")  +
 
-            (/*this.MultipleRow*/true    ? this.MultipleRow  .ToJson("show_multiline") + ',' : "") +
-            (/*this.IsHtml*/true         ? this.IsHtml       .ToJson("value_is_html") + ',' : "") +
-            (/*this.ShowAsBitmap*/true   ? this.ShowAsBitmap .ToJson("show_as_image") + ',' : "") +
-            (/*this.ShowAsBarCode*/true  ? this.ShowAsBarCode.ToJson("show_as_barcode") + ',' : "") +
+            (/*this.MultipleRow*/true ? this.MultipleRow.ToJson("show_multiline") + ',' : "") +
+            (/*this.IsHtml*/true ? this.IsHtml.ToJson("value_is_html") + ',' : "") +
+            (/*this.ShowAsBitmap*/true ? this.ShowAsBitmap.ToJson("show_as_image") + ',' : "") +
+            (/*this.ShowAsBarCode*/true ? this.ShowAsBarCode.ToJson("show_as_barcode") + ',' : "") +
+
+            ToJsonCellsTemplate(false);
  
-            ToJsonCellsTemplate(false) +
-            '}';
+            s += (this.ShowTotal ? ',' + this.ShowTotal.ToJson("show_total") : "") + 
+                 (this.ShowTotal ? ',' + (this.TotalCell.ToJson() ) : "") +
+               '}';
 
             if (bracket)
                 s = '{' + s + '}';
@@ -823,20 +888,26 @@ namespace Microarea.RSWeb.Objects
 
                 this.InternalID.ToJson("id") + ',' +
 
-                (this.IsHidden || this.HideExpr != null).ToJson("hidden") + ',' +     //dynamic
-                this.Width.ToJson("width") + ',' +                        //dynamic
+                (this.IsHidden || this.HideExpr != null).ToJson("hidden") + ',' +
 
-                "\"title\":{" +
-                                this.DynamicTitleLocalizedText.ToJson("caption", false, true) + ',' +
+                (this.WidthExpr != null ? this.Width.ToJson("width") + ',' : "");
 
-                                this.DynamicTitleTextColor.ToJson("textcolor") + ',' +
-                                this.DynamicTitleBkgColor.ToJson("bkgcolor") + 
-                        "}," +
+            if (this.TitleExpr != null || this.TitleTextColorExpr != null || this.TitleBkgColorExpr != null || this.TitleTooltipExpr != null)
+            {
+                string t =
+                        (this.TitleExpr != null             ? this.DynamicTitleLocalizedText    .ToJson("caption", false, true) + ',' : "") +
+                        (this.TitleTextColorExpr != null    ? this.DynamicTitleTextColor        .ToJson("textcolor") + ',' : "") +
+                        (this.TitleBkgColorExpr != null     ? this.DynamicTitleBkgColor         .ToJson("bkgcolor") + ',' : "") +
+                        (this.TitleTooltipExpr != null      ? this.DynamicTitleTooltip          .ToJson("tooltip") : "");
+                t = t.TrimEnd(new char[] { ',' });
 
-            (this.ShowTotal ? (this.TotalCell.ToJson() + ',') : "") +
+                s += "\"title\":{" + t + "},";
+            }
 
-            ToJsonCellsData(false) +
-            '}';
+            s += ToJsonCellsData(false) +
+
+                (this.ShowTotal ? (',' + this.TotalCell.ToJsonData()) : "") +
+                '}';
 
             if (bracket)
                 s = '{' + s + '}';
@@ -884,6 +955,36 @@ namespace Microarea.RSWeb.Objects
                 s = '{' + s + '}';
 
             return s;
+        }
+
+        //-------------------------------------------------------------------------------
+        public int TemplateWidth
+        {
+            get
+            {
+                return this.Width;
+            }
+        }
+
+        public int DynamicWidth
+        {
+            get
+            {
+                if (this.WidthExpr != null)
+                {
+                    Table.Document.SynchronizeSymbolTable();
+
+                    Value val = WidthExpr.Eval();
+
+                    if (val != null && val.Valid)
+                    {
+                        int newWidth =  (int)val.Data;
+                        //TODO RSWEB apply dynamic column width
+                        return newWidth;
+                    }
+                }
+                return TemplateWidth;
+            }
         }
 
         //-------------------------------------------------------------------------------
