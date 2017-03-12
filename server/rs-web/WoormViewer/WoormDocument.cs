@@ -1905,7 +1905,9 @@ namespace Microarea.RSWeb.WoormViewer
                 s = '\"' + name + "\":";
 
             s += '{' +
-                   (template ? this.pageInfo.ToJson() + ',' : "") +
+                   (template ? "template" : "data").ToJson("type") + ','  +
+                    this.RdeReader.CurrentPage.ToJson("page_number") + ',' +
+                    (template ? this.pageInfo.ToJson() + ',' : "") +
                    this.Objects.ToJson(template, "layout") +
                  '}';
 
