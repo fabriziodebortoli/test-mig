@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ControlComponent } from './../control.component';
 
 @Component({
@@ -9,6 +9,7 @@ import { ControlComponent } from './../control.component';
 
 export class DateInputComponent extends ControlComponent implements OnInit {
 
+  @Input() forCmpID: string;
   public mask = '00 / 00 / 0000';
   private objDate: Date;
   private switchP = false;
