@@ -57,6 +57,8 @@ namespace Microarea.TbLoaderGate
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseCors("CorsPolicy");
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
@@ -79,8 +81,6 @@ namespace Microarea.TbLoaderGate
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
             app.UseSession();
-
-            app.UseCors("CorsPolicy");
 
             app.UseMvc(routes =>
             {
