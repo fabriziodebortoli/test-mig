@@ -11,11 +11,11 @@
     </div>
     <div *ngSwitchCase="controlType.Masked">
         masked
-        <tb-masked-text-box caption="{{caption}}" forCmpID="{{cmpId}}" mask="99 999"></tb-masked-text-box>
+        <tb-masked-text-box caption="{{caption}}" forCmpID="{{cmpId}}" mask="99 999" [disabled]="!model?.enabled"></tb-masked-text-box>
     </div>
     <div *ngSwitchCase="controlType.Numeric">
         Numeric<br />
-        <tb-numeric-text-box caption="{{caption}}" forCmpID="{{cmpId}}" mask="99 999"></tb-numeric-text-box>
+        <tb-numeric-text-box caption="{{caption}}" forCmpID="{{cmpId}}" mask=""></tb-numeric-text-box>
     </div>
     <div *ngSwitchCase="controlType.Date">
         <br />
