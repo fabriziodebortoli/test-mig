@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.Common.Applications {
+namespace Microarea.Common {
     using System;
     using System.Reflection;
     
@@ -38,7 +38,7 @@ namespace Microarea.Common.Applications {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TaskBuilderNet.Common.Applications.ApplicationsStrings", typeof(ApplicationsStrings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("taskbuilder-netcore-common.ApplicationsStrings", typeof(ApplicationsStrings).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

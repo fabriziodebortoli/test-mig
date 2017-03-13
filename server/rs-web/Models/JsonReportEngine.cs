@@ -28,6 +28,10 @@ namespace Microarea.RSWeb.Models
         {
             ReportSession = session;
 
+         }
+
+        public void Execute()
+        {
             StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
             // se ci sono stati errore nel caricamento fermo tutto (solo dopo aver istanziato la RSEngine)
@@ -50,7 +54,7 @@ namespace Microarea.RSWeb.Models
             if (StateMachine.HtmlPage == HtmlPageType.Error)
                 StateMachine.XmlGetErrors();
 
-         }
+        }
 
         public string GetJsonTemplatePage(int page = 1)
         {
@@ -67,10 +71,14 @@ namespace Microarea.RSWeb.Models
         public string GetJsonDataPage(int page = 1)
         {
             WoormDocument woorm = StateMachine.Woorm;
-            //salvo la pagina corrente
-            int current = woorm.RdeReader.CurrentPage;
-            //ciclo sulle pagine per generare un pdf
-            woorm.RdeReader.LoadTotPage();
+
+            //salvo la pagina corrente int current = woorm.RdeReader.CurrentPage;
+
+            //woorm.RdeReader.LoadTotPage();
+
+            //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
+            while (!woorm.RdeReader.IsPageReady(page)) ;
+
             woorm.LoadPage(page);
 
             return woorm.ToJson(false);
