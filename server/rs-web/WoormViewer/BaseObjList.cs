@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+
 using Microarea.Common.Lexan;
+using Microarea.Common.Generic;
+
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
 
 namespace Microarea.RSWeb.WoormViewer
 {
-	[Serializable]
+	//[Serializable]
 	public class BaseObjList : List<BaseObj>
 	{
 		WoormDocument document = null;
@@ -114,106 +116,158 @@ namespace Microarea.RSWeb.WoormViewer
                 item.RemoveStyle();
             }
         }
+
+        //---------------------------------------------------------------------
+        virtual public string ToJson(bool template, string name, bool bracket = false)
+        {
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '[';
+            bool first = true;
+            foreach (BaseObj item in this)
+            {
+                if (item.Hidden && item.HideExpr == null) continue;
+
+                if (!template && !(item is FieldRect) && !(item is Table) && /*!(item is Repeater) &&*/ item.IsDynamic())
+                    continue;
+
+                if (first) first = false;
+                else s += ',';
+                
+                if (template)
+                    s += item.ToJson(true);
+                else 
+                    s += item.ToJsonData(true);
+            }
+            s += ']';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
     }
 
-  	/// <summary>
-	/// Array degli objects per un layout del report.
-	/// </summary>
-	/// ================================================================================
-	[Serializable]
-	[KnownType(typeof(BaseRect))]
-	[KnownType(typeof(BaseObj))]
-	[KnownType(typeof(SqrRect))]
-	[KnownType(typeof(TextRect))]
-	[KnownType(typeof(FileRect))]
-	[KnownType(typeof(FieldRect))]
-	[KnownType(typeof(Table))]
-	public class Layout : BaseObjList
-	{
-		public const string DefaultName = "default";
+    /// <summary>
+    /// Array degli objects per un layout del report.
+    /// </summary>
+    /// ================================================================================
+    //[Serializable]
+    //[KnownType(typeof(BaseRect))]
+    //[KnownType(typeof(BaseObj))]
+    //[KnownType(typeof(SqrRect))]
+    //[KnownType(typeof(TextRect))]
+    //[KnownType(typeof(FileRect))]
+    //[KnownType(typeof(FieldRect))]
+    //[KnownType(typeof(Table))]
+    public class Layout : BaseObjList
+    {
+        public const string DefaultName = "default";
 
-		public string Name = DefaultName;
-		
-		public Layout() : base(null) { }
-		/// ---------------------------------------------------------------------------------
-		public Layout(WoormDocument woorm, string name = DefaultName)
-			: base(woorm)
-		{
-			Name = name;
+        public string Name = DefaultName;
 
-			AddDummyLayoutFieldRect(woorm);
-			AddDummyCurrentPageFieldRect(woorm);
-		}
+        public Layout() : base(null) { }
+        /// ---------------------------------------------------------------------------------
+        public Layout(WoormDocument woorm, string name = DefaultName)
+            : base(woorm)
+        {
+            Name = name;
 
-		/// <summary>
-		/// Metodo che aggiunge un campo di tipo FieldRect Dummy nascosto per far si che il valore della variabile CurrentPageNumber 
-		/// nella symboltable venga aggiornato su ogni pagina. Se manca l'oggetto grafico il valore non viene aggiornato 
-		/// (vedere metodo RDEReader.SetElement che se non trova il corrispondente oggetto grafico del valore di symbolTable
-		/// non lo aggiorna)
-		/// </summary>
-		/// ---------------------------------------------------------------------------------
-		private void AddDummyCurrentPageFieldRect(WoormDocument woorm)
-		{
-			FieldRect f = new FieldRect(woorm);
-			f.Hidden = true;
-			f.InternalID = SpecialReportField.REPORT_PAGE_NUMBER_ID;
-			Add(f);
-		}
+            AddDummyLayoutFieldRect(woorm);
+            AddDummyCurrentPageFieldRect(woorm);
+        }
 
-		/// <summary>
-		/// Metodo che aggiunge un campo di tipo FieldRect Dummy nascosto per far si che il valore della variabile Layout 
-		/// nella symboltable venga aggiornato su ogni pagina. Se manca l'oggetto grafico il valore non viene aggiornato 
-		/// (vedere metodo RDEReader.SetElement che se non trova il corrispondente oggetto grafico del valore di symbolTable
-		/// non lo aggiorna)
-		/// </summary>
-		/// ---------------------------------------------------------------------------------
-		private void AddDummyLayoutFieldRect(WoormDocument woorm)
-		{
-			FieldRect f = new FieldRect(woorm);
-			f.Hidden = true;
-			f.InternalID = SpecialReportField.REPORT_LAYOUT_ID;
-			Add(f);
-		}
+        /// <summary>
+        /// Metodo che aggiunge un campo di tipo FieldRect Dummy nascosto per far si che il valore della variabile CurrentPageNumber 
+        /// nella symboltable venga aggiornato su ogni pagina. Se manca l'oggetto grafico il valore non viene aggiornato 
+        /// (vedere metodo RDEReader.SetElement che se non trova il corrispondente oggetto grafico del valore di symbolTable
+        /// non lo aggiorna)
+        /// </summary>
+        /// ---------------------------------------------------------------------------------
+        private void AddDummyCurrentPageFieldRect(WoormDocument woorm)
+        {
+            FieldRect f = new FieldRect(woorm);
+            f.Hidden = true;
+            f.InternalID = SpecialReportField.REPORT_PAGE_NUMBER_ID;
+            Add(f);
+        }
 
-		//---------------------------------------------------------------------------------
-		internal void Unparse(Unparser unparser, bool isSavingTemplate, ref bool thereIsTemplate)
-		{
-			// write all elements CBaseObjArray* pObjects
-			foreach (BaseObj obj in this)
-			{
-				if (obj.InheritByTemplate) //|| !obj.IsPersistent) //TODOLUCA
-					continue;
+        /// <summary>
+        /// Metodo che aggiunge un campo di tipo FieldRect Dummy nascosto per far si che il valore della variabile Layout 
+        /// nella symboltable venga aggiornato su ogni pagina. Se manca l'oggetto grafico il valore non viene aggiornato 
+        /// (vedere metodo RDEReader.SetElement che se non trova il corrispondente oggetto grafico del valore di symbolTable
+        /// non lo aggiorna)
+        /// </summary>
+        /// ---------------------------------------------------------------------------------
+        private void AddDummyLayoutFieldRect(WoormDocument woorm)
+        {
+            FieldRect f = new FieldRect(woorm);
+            f.Hidden = true;
+            f.InternalID = SpecialReportField.REPORT_LAYOUT_ID;
+            Add(f);
+        }
 
-				if (isSavingTemplate)
-				{
-					if (obj is Table)
-					{
-						Table table = new Table(obj as Table);
+        //---------------------------------------------------------------------------------
+        internal void Unparse(Unparser unparser, bool isSavingTemplate, ref bool thereIsTemplate)
+        {
+            // write all elements CBaseObjArray* pObjects
+            foreach (BaseObj obj in this)
+            {
+                if (obj.InheritByTemplate) //|| !obj.IsPersistent) //TODOLUCA
+                    continue;
 
-						if (!table.IsTemplate)
-							continue;
+                if (isSavingTemplate)
+                {
+                    if (obj is Table)
+                    {
+                        Table table = new Table(obj as Table);
 
-						thereIsTemplate = true;
+                        if (!table.IsTemplate)
+                            continue;
 
-						table.MarkTemplateOverridden();
-						table.MergeTemplateColumns();
-						table.PurgeTemplateColumns();
-						//obj = table;  inutile?
-					}
-					else if (obj is BaseRect)
-					{
-						BaseRect rect = obj as BaseRect;
-						if (!rect.IsTemplate)
-							continue;
+                        thereIsTemplate = true;
 
-						thereIsTemplate = true;
+                        table.MarkTemplateOverridden();
+                        table.MergeTemplateColumns();
+                        table.PurgeTemplateColumns();
+                        //obj = table;  inutile?
+                    }
+                    else if (obj is BaseRect)
+                    {
+                        BaseRect rect = obj as BaseRect;
+                        if (!rect.IsTemplate)
+                            continue;
 
-						rect.MarkTemplateOverridden();
-					}
-				}
+                        thereIsTemplate = true;
 
-				obj.Unparse(unparser);
-			}
-		}
-	}
+                        rect.MarkTemplateOverridden();
+                    }
+                }
+
+                obj.Unparse(unparser);
+            }
+        }
+
+        //---------------------------------------------------------------------
+        override public string ToJson(bool template, string name, bool bracket = false)
+        {
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                    Name.ToJson("name") + ',' +
+                    base.ToJson(template, "objects") +
+                    '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+    }
+
 }

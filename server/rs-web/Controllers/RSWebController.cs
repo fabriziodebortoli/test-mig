@@ -65,8 +65,8 @@ namespace Microarea.RSWeb.Controllers
             return new ContentResult { Content = pdf.ToString(), ContentType = "application/pdf" };
         }
 
-        [Route("json/{namespace}/{page}")] // /{page}
-        public IActionResult GetJson(string nameSpace, int page)
+        [Route("template/{namespace}/{page}")] // /{page}
+        public IActionResult GetJsonPageTemplate(string nameSpace, int page)
         {
             string sAuthT = HttpContext.Request.Cookies["authtoken"];
             if (string.IsNullOrEmpty(sAuthT))
@@ -80,7 +80,27 @@ namespace Microarea.RSWeb.Controllers
 
             JsonReportEngine report = new JsonReportEngine(session);
 
-            string pageLayout = report.GetJsonPage(page);
+            string pageLayout = report.GetJsonTemplatePage(page);
+
+            return new ContentResult { Content = pageLayout, ContentType = "application/json" };
+        }
+
+        [Route("data/{namespace}/{page}")] // /{page}
+        public IActionResult GetJsonPageData(string nameSpace, int page)
+        {
+            string sAuthT = HttpContext.Request.Cookies["authtoken"];
+            if (string.IsNullOrEmpty(sAuthT))
+                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
+
+            UserInfo ui = new UserInfo(loginInfo, sAuthT);
+
+            TbReportSession session = new TbReportSession(ui, nameSpace);
+
+            JsonReportEngine report = new JsonReportEngine(session);
+
+            string pageLayout = report.GetJsonDataPage(page);
 
             return new ContentResult { Content = pageLayout, ContentType = "application/json" };
         }

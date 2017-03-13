@@ -11,6 +11,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { PopupModule } from '@progress/kendo-angular-popup';
 
 
 import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
@@ -25,6 +26,12 @@ import { HeaderStripComponent } from './header-strip/header-strip.component';
 import { OpenComponent } from './explorer/open/open.component';
 import { SaveComponent } from './explorer/save/save.component';
 import { GridComponent } from './controls/grid/grid.component';
+import { CaptionComponent } from './controls/caption/caption.component';
+import { PlaceholderComponent } from './controls/placeholder/placeholder.component';
+import { PasswordComponent } from './controls/password/password.component';
+import { MaskedTextBoxComponent } from './controls/masked-text-box/masked-text-box.component';
+import { NumericTextBoxComponent } from './controls/numeric-text-box/numeric-text-box.component';
+import { DateInputComponent } from './controls/date-input/date-input.component';
 
 
 const KENDO_UI_MODULES = [
@@ -33,7 +40,8 @@ const KENDO_UI_MODULES = [
   DateInputsModule,
   DialogModule,
   DropDownsModule,
-  LayoutModule
+  LayoutModule,
+  PopupModule
 ];
 
 const TB_COMPONENTS = [
@@ -42,11 +50,13 @@ const TB_COMPONENTS = [
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   TabComponent, TabberComponent, ViewComponent, FrameComponent,
   DynamicCmpComponent,
-  EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
+  EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
+  StateButtonComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent,
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
   HeaderStripComponent,
-  OpenComponent, SaveComponent
+  OpenComponent, SaveComponent,
+  CaptionComponent, PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent
 ];
 
 @NgModule({
@@ -55,9 +65,9 @@ const TB_COMPONENTS = [
     FormsModule,
     MaterialModule.forRoot(),
     RouterModule,
-    KENDO_UI_MODULES
+    KENDO_UI_MODULES    
   ],
-  declarations: [TB_COMPONENTS, StateButtonComponent],
+  declarations: [TB_COMPONENTS],
   exports: [TB_COMPONENTS],
   entryComponents: [OpenComponent, SaveComponent]
 })

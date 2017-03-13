@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+
+using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
+
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
 
@@ -133,8 +136,8 @@ namespace Microarea.RSWeb.WoormViewer
 		{
 			BaseObjList pMasterObjs = GetMasterObjects();
 
-			int w = repeater.BaseRectangle.Width + repeater.nXOffset;
-			int h = repeater.BaseRectangle.Height + repeater.nYOffset;
+			int w = repeater.Rect.Width + repeater.nXOffset;
+			int h = repeater.Rect.Height + repeater.nYOffset;
 
 			//creo i blocchi di oggetti ripetuti (all'indice 0 ci sono gli originali in aliasing)
 			int nr = repeater.RowsNumber;
@@ -264,7 +267,7 @@ namespace Microarea.RSWeb.WoormViewer
 
 			foreach (BaseObj item in bl)
 			{
-				if (this.BaseRectangle.Contains(item.BaseRectangle))
+				if (this.Rect.Contains(item.Rect))
 					Attach(item);
 			}
 
@@ -294,7 +297,7 @@ namespace Microarea.RSWeb.WoormViewer
 			bOk = bOk &&
 				lex.ParseAlias(out InternalID) &&
 				lex.ParseTR(Token.INTERLINE, out nYOffset, out nXOffset) &&
-				lex.ParseRect(out BaseRectangle) &&
+				lex.ParseRect(out Rect) &&
 				lex.ParseRatio(out HRatio, out VRatio) &&
 				ParseBlock(lex);
 
@@ -316,7 +319,7 @@ namespace Microarea.RSWeb.WoormViewer
 
 			ofile.WriteAlias(InternalID, false);
 			ofile.WriteTR(Token.INTERLINE, nYOffset, nXOffset, false);
-			ofile.WriteRect(BaseRectangle, false);
+			ofile.WriteRect(Rect, false);
 
 			if (IsNotDefaultRatio())
 				ofile.WriteRatio(HRatio, VRatio, false);
@@ -380,6 +383,51 @@ namespace Microarea.RSWeb.WoormViewer
             base.RemoveStyle();
             Rows.RemoveStyle();
         }
-	}
+
+        //------------------------------------------------------------------------------
+        override public string ToJson(bool bracket)
+        {
+            string name = "repeater";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                base.ToJson(false) + ',' +
+
+                this.nRows      .ToJson("rows") + ',' +
+                this.nColumns   .ToJson("columns") + ',' +
+
+                this.nXOffset   .ToJson("xoffset") + ',' +
+                this.nYOffset   .ToJson("yoffset") +
+
+              '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        override public string ToJsonData(bool bracket)
+        {
+            string name = "repeater";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                base.ToJsonData(false) +
+              '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+    }
 
 }
