@@ -79,6 +79,7 @@ namespace Microarea.RSWeb.Controllers
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
             JsonReportEngine report = new JsonReportEngine(session);
+            report.Execute();
 
             string pageLayout = report.GetJsonTemplatePage(page);
 
@@ -99,6 +100,7 @@ namespace Microarea.RSWeb.Controllers
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
             JsonReportEngine report = new JsonReportEngine(session);
+            report.Execute();
 
             string pageLayout = report.GetJsonDataPage(page);
 

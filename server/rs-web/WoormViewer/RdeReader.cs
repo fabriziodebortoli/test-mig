@@ -116,6 +116,12 @@ namespace Microarea.RSWeb.WoormViewer
             get { return woorm.CurrentRdeFilename(pageNo); }
         }
 
+        //---------------------------------------------------------------------------
+        public bool IsPageReady(int page)
+        {
+            return File.Exists(woorm.CurrentRdeFilename(page));
+        }
+
         //------------------------------------------------------------------------------
         public RdeReader(WoormDocument woorm)
         {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.RSWeb.WoormEngine {
+namespace Microarea.RSWeb {
     using System;
     using System.Reflection;
     
@@ -38,7 +38,7 @@ namespace Microarea.RSWeb.WoormEngine {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("rs-web.WoormEngine.WoormEngineStrings", typeof(WoormEngineStrings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("rs-web.WoormEngineStrings", typeof(WoormEngineStrings).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
