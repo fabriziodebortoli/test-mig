@@ -12,6 +12,7 @@ using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using Microarea.Common.ExpressionManager;
 using Microarea.Common.Hotlink;
+using Microarea.Common;
 
 namespace Microarea.RSWeb.WoormEngine
 {

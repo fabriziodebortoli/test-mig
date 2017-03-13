@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.Common.CoreTypes {
+namespace Microarea.Common {
     using System;
     using System.Reflection;
     
@@ -38,7 +38,7 @@ namespace Microarea.Common.CoreTypes {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TaskBuilderNet.Common.CoreTypes.CoreTypeStrings", typeof(CoreTypeStrings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("taskbuilder-netcore-common.CoreTypeStrings", typeof(CoreTypeStrings).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

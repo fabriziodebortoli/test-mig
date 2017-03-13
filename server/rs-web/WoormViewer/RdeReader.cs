@@ -9,6 +9,7 @@ using Microarea.Common.CoreTypes;
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
 using System.Net;
+using Microarea.Common;
 
 namespace Microarea.RSWeb.WoormViewer
 {

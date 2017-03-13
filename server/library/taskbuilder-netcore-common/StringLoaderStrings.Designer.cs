@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.Common.StringLoader {
+namespace Microarea.Common {
     using System;
     using System.Reflection;
     
@@ -38,7 +38,7 @@ namespace Microarea.Common.StringLoader {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TaskBuilderNet.Common.StringLoader.StringLoaderStrings", typeof(StringLoaderStrings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("taskbuilder-netcore-common.StringLoaderStrings", typeof(StringLoaderStrings).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
