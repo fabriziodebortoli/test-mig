@@ -7,7 +7,6 @@ import { Component, Input  } from '@angular/core';
   styleUrls: ['./masked-text-box.component.scss']
 })
 export class MaskedTextBoxComponent extends ControlComponent  {
- @Input() mask: string;
  @Input() forCmpID: string;
  @Input() disabled: boolean;
 }
