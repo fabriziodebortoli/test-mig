@@ -82,7 +82,7 @@ namespace Microarea.RSWeb.Objects
 		//}
 
         //------------------------------------------------------------------------------
-        virtual public string ToJson(bool bracket)
+        virtual public string ToJsonTemplate(bool bracket)
         {
             string name = "baseobj";
 
@@ -410,7 +410,7 @@ namespace Microarea.RSWeb.Objects
         //}
 
         //------------------------------------------------------------------------------
-        override public string ToJson(bool bracket)
+        override public string ToJsonTemplate(bool bracket)
         {
             string name = "baserect";
 
@@ -419,7 +419,7 @@ namespace Microarea.RSWeb.Objects
                 s = '\"' + name + "\":";
 
             s += '{' +
-                base.ToJson(false) + ',' +
+                base.ToJsonTemplate(false) + ',' +
 
                 this.HRatio.ToJson("hratio") + ',' +
                 this.VRatio.ToJson("vratio") + ',' +
@@ -1001,7 +1001,7 @@ namespace Microarea.RSWeb.Objects
         }
 
         //------------------------------------------------------------------------------
-        override public string ToJson(bool bracket)
+        override public string ToJsonTemplate(bool bracket)
         {
             string name = "sqrrect";
 
@@ -1010,7 +1010,7 @@ namespace Microarea.RSWeb.Objects
                 s = '\"' + name + "\":";
 
             s += '{' + 
-                    base.ToJson(false) + ',' +
+                    base.ToJsonTemplate(false) + ',' +
 
                     this.TemplateBkgColor.ToJson("bkgcolor") +
                  '}';
@@ -1393,7 +1393,7 @@ namespace Microarea.RSWeb.Objects
         //}
 
         //------------------------------------------------------------------------------
-        override public string ToJson(bool bracket)
+        override public string ToJsonTemplate(bool bracket)
         {
             string name = "textrect";
 
@@ -1402,7 +1402,7 @@ namespace Microarea.RSWeb.Objects
                 s = '\"' + name + "\":";
 
             s += '{' +
-                base.ToJson(false) + ',' +
+                base.ToJsonTemplate(false) + ',' +
 
                 this.LocalizedText.ToJson("caption", false, true) + ',' +
 
@@ -1808,7 +1808,7 @@ namespace Microarea.RSWeb.Objects
 		//}
 
         //------------------------------------------------------------------------------
-        override public string ToJson(bool bracket)
+        override public string ToJsonTemplate(bool bracket)
         {
             string name = "graphrect";
 
@@ -1817,7 +1817,7 @@ namespace Microarea.RSWeb.Objects
                 s = '\"' + name + "\":";
 
             s += '{' + 
-                base.ToJson(false) + ',' +
+                base.ToJsonTemplate(false) + ',' +
 
                 this.ImageFileName.ToJson("image", false, true) + ',' +
                 this.Align.ToJson("align") + 
@@ -2254,7 +2254,7 @@ namespace Microarea.RSWeb.Objects
 		//}
 
         //------------------------------------------------------------------------------
-        override public string ToJson(bool bracket)
+        override public string ToJsonTemplate(bool bracket)
         {
             string name = "fieldrect";
 
@@ -2264,7 +2264,7 @@ namespace Microarea.RSWeb.Objects
 
             s += '{' +
 
-                base.ToJson(false) + ',' +
+                base.ToJsonTemplate(false) + ',' +
 
                 "\"label\":{" +
                     this.TemplateLabelLocalizedText  .ToJson("caption", false, true) + ',' +

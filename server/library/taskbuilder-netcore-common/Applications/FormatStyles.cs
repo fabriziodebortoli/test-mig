@@ -895,7 +895,10 @@ namespace Microarea.Common.Applications
 		//----------------------------------------------------------------------------
 		public override string Format(object data)
 		{
-			return Format((string) data);
+            string s = data as string;
+            if (s == null)
+                s = data.ToString();
+			return Format(s);
 		}
 
 		//----------------------------------------------------------------------------
