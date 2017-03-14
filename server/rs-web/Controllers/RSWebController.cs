@@ -1,9 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microarea.Common.Applications;
-using Microarea.RSWeb.WoormWebControl;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
+
+using Microarea.Common.Applications;
+using Microarea.RSWeb.Render;
 using Microarea.RSWeb.Models;
+
+/*
+localhost:5000/rs/template/erp.company.isocountrycodes/1
+
+localhost:5000/rs/data/erp.company.isocountrycodes/1
+
+localhost:5000/rs/xml/erp.company.isocountrycodes
+
+localhost:5000/rs/pdf/erp.company.isocountrycodes
+*/
 
 namespace Microarea.RSWeb.Controllers
 {
@@ -24,14 +35,16 @@ namespace Microarea.RSWeb.Controllers
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
+            //trucco per parametri
+            XmlReportEngine reportParameters = new XmlReportEngine(session);
+            string parameters = reportParameters.XmlGetParameters();
+            session.ReportParameters = parameters;
+            reportParameters = null;
+            //--------------------
+
             XmlReportEngine report = new XmlReportEngine(session);
 
-            string parameters = report.XmlGetParameters();
-            report = null;
-
-            report = new XmlReportEngine(session);
-
-            StringCollection sc = report.XmlExecuteReport(parameters);
+            StringCollection sc = report.XmlExecuteReport();
             report = null;
 
             StringBuilder sb = new StringBuilder(sc.Count);
@@ -56,6 +69,13 @@ namespace Microarea.RSWeb.Controllers
             UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
+
+            //trucco per parametri
+            XmlReportEngine reportParameters = new XmlReportEngine(session);
+            string parameters = reportParameters.XmlGetParameters();
+            session.ReportParameters = parameters;
+            reportParameters = null;
+            //--------------------
 
             PdfReportEngine report = new PdfReportEngine(session);
 

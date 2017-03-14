@@ -12,10 +12,8 @@ using Microarea.Common.Lexan;
 
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
-using Microarea.RSWeb.WoormWebControl;
-using Microarea.RSWeb.Models;
 
-namespace Microarea.RSWeb.WoormController
+namespace Microarea.RSWeb.Render
 {
     // tipologia di renderizzazione
     public enum HtmlPageType { Error, Viewer, Form, HotLink, Persister, Print, None };

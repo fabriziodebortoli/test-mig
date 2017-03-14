@@ -2,15 +2,11 @@ using System;
 using System.Collections.Specialized;
 using System.Xml;
 
-using TaskBuilderNetCore.Interfaces;
-
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
-using Microarea.RSWeb.WoormController;
-using Microarea.RSWeb.Models;
 
-namespace Microarea.RSWeb.WoormWebControl
+namespace Microarea.RSWeb.Render
 {
     /// <summary>
     /// Summary description for XmlReportEngine.
@@ -29,13 +25,8 @@ namespace Microarea.RSWeb.WoormWebControl
         // ITRI gestire meglio anche il ritorno di un diagnostic, in caso di errore (multiple righe)
         // o di una collezione di stringhe di errore.
         //--------------------------------------------------------------------------
-        private StringCollection ExecuteReport(XmlReturnType xmlReturnType, string parameters = null)
+        private StringCollection ExecuteReport(XmlReturnType xmlReturnType)
 		{
-            if (!string.IsNullOrEmpty(parameters))
-            {
-                ReportSession.ReportParameters = parameters;
-            }
-
             // istanzio una nuova macchina per la elaborazione del report per generare solo XML
             StateMachine = new RSEngine(ReportSession, ReportSession.XmlDomParameters, XmlResultReports, xmlReturnType);
 
@@ -67,20 +58,17 @@ namespace Microarea.RSWeb.WoormWebControl
 		}
 
         //--------------------------------------------------------------------------
-        public StringCollection XmlExecuteReport(string parameters = null)
+        public StringCollection XmlExecuteReport()
         {
             //if (ReportNamespace == null || ReportNamespace.Length == 0)
             //    return new StringCollection();
 
-            return ExecuteReport(XmlReturnType.ReportData, parameters);
+            return ExecuteReport(XmlReturnType.ReportData);
         }
 
         //--------------------------------------------------------------------------
         public String XmlGetParameters()
         {
-            //if (ReportNamespace == null || ReportNamespace.Length == 0)
-            //    return string.Empty;
-
             StringCollection doms = ExecuteReport(XmlReturnType.ReportParameters);
             if (doms == null || doms.Count <= 0) return string.Empty;
 

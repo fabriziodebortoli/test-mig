@@ -7,15 +7,13 @@ using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
-
-using Microarea.RSWeb.WoormController;
 using Microarea.Common.NameSolver;
-using Microarea.RSWeb.WoormViewer;
-using System.Runtime.Serialization.Json;
-using Microarea.RSWeb.Objects;
-using System.IO;
 
-namespace Microarea.RSWeb.Models
+using Microarea.RSWeb.WoormViewer;
+using Microarea.RSWeb.Objects;
+using Microarea.RSWeb.Models;
+
+namespace Microarea.RSWeb.Render
 {
     public class JsonReportEngine
     {
@@ -59,10 +57,14 @@ namespace Microarea.RSWeb.Models
         public string GetJsonTemplatePage(int page = 1)
         {
             WoormDocument woorm = StateMachine.Woorm;
-            //salvo la pagina corrente
-            int current = woorm.RdeReader.CurrentPage;
-            //ciclo sulle pagine per generare un pdf
-            woorm.RdeReader.LoadTotPage();
+            
+            //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
+            while (!woorm.RdeReader.IsPageReady(page))  //wait until xml page rde data exists
+            {
+                //if (woorm.RdeReader.LoadTotPage())  //report completed
+                //    break;  //maybe page in a wrong page number
+            };  
+
             woorm.LoadPage(page);
 
             return woorm.ToJson(true);
@@ -74,10 +76,12 @@ namespace Microarea.RSWeb.Models
 
             //salvo la pagina corrente int current = woorm.RdeReader.CurrentPage;
 
-            //woorm.RdeReader.LoadTotPage();
-
-            //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
-            while (!woorm.RdeReader.IsPageReady(page)) ;
+             //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
+            while (!woorm.RdeReader.IsPageReady(page))
+            {
+                //if (woorm.RdeReader.LoadTotPage())
+                //    break;
+            };  //wait 
 
             woorm.LoadPage(page);
 

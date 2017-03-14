@@ -8,11 +8,10 @@ using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
-using Microarea.RSWeb.WoormController;
-using Microarea.RSWeb.WoormViewer;
-using Microarea.RSWeb.Models;
 
-namespace Microarea.RSWeb.WoormWebControl
+using Microarea.RSWeb.WoormViewer;
+
+namespace Microarea.RSWeb.Render
 {
     /// <summary>
     /// Summary description for PdfReportEngine.
