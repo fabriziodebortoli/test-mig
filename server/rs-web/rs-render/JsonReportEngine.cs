@@ -12,6 +12,7 @@ using Microarea.Common.NameSolver;
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Objects;
 using Microarea.RSWeb.Models;
+using Microarea.RSWeb.WoormEngine;
 
 namespace Microarea.RSWeb.Render
 {
@@ -25,45 +26,34 @@ namespace Microarea.RSWeb.Render
         public JsonReportEngine(TbReportSession session)
         {
             ReportSession = session;
-
          }
 
         public void Execute()
         {
             StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
-            // se ci sono stati errore nel caricamento fermo tutto (solo dopo aver istanziato la RSEngine)
-            //if (!sessionOk)
-            //    StateMachine.CurrentState = State.LoadSessionError;
+            //StateMachine.Report.EngineType = EngineType.FullExtraction; //TODO RSWEB problema sync con engine thread
 
-            // devo essere autenticato
-            //if (ui == null)
-            //    StateMachine.CurrentState = State.AuthenticationError;
-
-            // deve essere indicata anche la connection su cui si estraggono i dati
-            //if (ui != null && (ui.CompanyDbConnection == null || ui.CompanyDbConnection.Length == 0))
-            //    StateMachine.CurrentState = State.ConnectionError;
-
-            // faccio partire la macchina a stati che si ferma o su completamento dell'estrazione
-            // o su errore. A differenza del caso Web non rientra mai su se stessa perchè non ci sono postback.
             StateMachine.Step();
 
             // se ci sono stati errori li trasmetto nel file XML stesso
             if (StateMachine.HtmlPage == HtmlPageType.Error)
                 StateMachine.XmlGetErrors();
-
         }
 
         public string GetJsonTemplatePage(int page = 1)
         {
             WoormDocument woorm = StateMachine.Woorm;
-            
+
             //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
-            while (!woorm.RdeReader.IsPageReady(page))  //wait until xml page rde data exists
-            {
-                //if (woorm.RdeReader.LoadTotPage())  //report completed
-                //    break;  //maybe page in a wrong page number
-            };  
+            if (StateMachine.Report.EngineType != EngineType.FullExtraction)
+                while (!woorm.RdeReader.IsPageReady(page))
+                {
+                    System.Threading.Tasks.Task.Delay(1000).Wait();
+
+                    if (woorm.RdeReader.LoadTotPage())
+                        break;
+                };  //wait 
 
             woorm.LoadPage(page);
 
@@ -74,14 +64,15 @@ namespace Microarea.RSWeb.Render
         {
             WoormDocument woorm = StateMachine.Woorm;
 
-            //salvo la pagina corrente int current = woorm.RdeReader.CurrentPage;
+            //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
+            if (StateMachine.Report.EngineType != EngineType.FullExtraction)
+                while (!woorm.RdeReader.IsPageReady(page))
+                {
+                    System.Threading.Tasks.Task.Delay(1000).Wait();
 
-             //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
-            while (!woorm.RdeReader.IsPageReady(page))
-            {
-                //if (woorm.RdeReader.LoadTotPage())
-                //    break;
-            };  //wait 
+                    if (woorm.RdeReader.LoadTotPage())
+                            break;
+                };  //wait 
 
             woorm.LoadPage(page);
 
