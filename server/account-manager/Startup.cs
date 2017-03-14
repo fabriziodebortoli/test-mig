@@ -33,6 +33,16 @@ namespace Microarea.LoginManager
             // Add framework services.
             //services.AddApplicationInsightsTelemetry(Configuration);
 
+            // Add service and create Policy with options
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.AddMvc();
         }
 
@@ -45,6 +55,8 @@ namespace Microarea.LoginManager
             //app.UseApplicationInsightsRequestTelemetry();
 
             //app.UseApplicationInsightsExceptionTelemetry();
+
+            app.UseCors("CorsPolicy");
 
             app.UseMvc();
         }

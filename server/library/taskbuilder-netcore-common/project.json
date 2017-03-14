@@ -38,5 +38,21 @@
     }
   },
 
-  "buildOptions": { "embed": { "includeFiles": [ "ApplicationsStrings.resx" ] } }
+  "buildOptions": {
+    "embed": {
+      "includeFiles": [
+        "ApplicationsStrings.resx",
+        "CoreTypeStrings.resx",
+        "DiagnosticManagerStrings.resx",
+        "ExpressionManagerStrings.resx",
+        "LexanStrings.resx",
+        "MenuManagerLoaderStrings.resx",
+        "SoapCallStrings.resx",
+        "StringLoaderStrings.resx",
+        "Strings.resx",
+        "UserInfoString.resx",
+        "WebServicesWrapperStrings.resx"
+      ]
+    }
+  }
 }

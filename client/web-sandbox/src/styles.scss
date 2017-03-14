@@ -1,0 +1,29 @@
+$accent:#0277bd;
+@import "~@progress/kendo-theme-default/scss/all";
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,500,700');
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+.loading {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0277bd;
+    color: #fff;
+}
+
+.container {
+    padding: 20px;
+}

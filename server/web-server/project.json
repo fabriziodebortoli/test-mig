@@ -2,6 +2,7 @@
   "userSecretsId": "aspnet-WebApplication-095A7864-9B4A-44DE-BDEF-99A046BE5DE5",
 
   "dependencies": {
+    "Microsoft.AspNetCore.Cors": "1.1.1",
     //"Microsoft.ApplicationInsights.AspNetCore": "1.1.0",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
@@ -28,72 +29,72 @@
     "Microsoft.Extensions.Logging": "1.1.0",
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.1.0"
+      "Microsoft.NETCore.App": {
+        "type": "platform",
+        "version": "1.1.0"
+      },
+      "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
+      "data-service": "1.0.0-*",
+      "database-service": "1.0.0-*",
+      "account-manager": "1.0.0-*",
+      "menu-gate": "1.0.0-*",
+      "rs-web": "1.0.0-*",
+      "tbloader-gate": "1.0.0-*"
     },
-    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
-    "data-service": "1.0.0-*",
-    "database-service": "1.0.0-*",
-    "account-manager": "1.0.0-*",
-    "menu-gate": "1.0.0-*",
-    "rs-web": "1.0.0-*",
-    "tbloader-gate": "1.0.0-*"
-   },
-  "tools": {
-    "Microsoft.AspNetCore.Razor.Tools": {
-      "version": "1.0.0-preview2-final"
+    "tools": {
+      "Microsoft.AspNetCore.Razor.Tools": {
+        "version": "1.0.0-preview2-final"
+      },
+      "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
+        "version": "1.0.0-preview2-final"
+      },
+      "Microsoft.EntityFrameworkCore.Tools": {
+        "version": "1.0.0-preview2-final"
+      },
+      "Microsoft.Extensions.SecretManager.Tools": {
+        "version": "1.0.0-preview2-final"
+      }
     },
-    "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
-      "version": "1.0.0-preview2-final"
-    },
-    "Microsoft.EntityFrameworkCore.Tools": {
-      "version": "1.0.0-preview2-final" 
-    },
-    "Microsoft.Extensions.SecretManager.Tools": {
-      "version": "1.0.0-preview2-final"
-    }
-  },
 
-  "frameworks": {
-    "netcoreapp1.1": {
+    "frameworks": {
+      "netcoreapp1.1": {
 
-    }
-  },
+      }
+    },
 
-  "buildOptions": {
-    "debugType": "portable",
-    "emitEntryPoint": true,
-    "preserveCompilationContext": true
-  },
-  "runtimeOptions": {
-    "configProperties": {
-      "System.GC.Server": true
+    "buildOptions": {
+      "debugType": "portable",
+      "emitEntryPoint": true,
+      "preserveCompilationContext": true
+    },
+    "runtimeOptions": {
+      "configProperties": {
+        "System.GC.Server": true
+      }
+    },
+    "publishOptions": {
+      "include": [
+        "wwwroot",
+        "**/*.cshtml",
+        "appsettings.json",
+        "web.config"
+      ]
+    },
+    "scripts": {
+      "prepublish": [
+        "npm install",
+        "bower install",
+        "gulp clean",
+        "gulp min"
+      ],
+      "postpublish": [
+        "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
+      ],
+      "postcompile": [
+        //"xcopy ..\\..\\web-client\\form-client\\dist .\\wwwroot /S /Y"
+      ]
+    },
+    "tooling": {
+      "defaultNamespace": "WebServer"
     }
-  },
-  "publishOptions": {
-    "include": [
-      "wwwroot",
-      "**/*.cshtml",
-      "appsettings.json",
-      "web.config"
-    ]
-  },
-  "scripts": {
-    "prepublish": [
-      "npm install",
-      "bower install",
-      "gulp clean",
-      "gulp min"
-    ],
-    "postpublish": [
-      "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
-    ],
-    "postcompile": [
-      //"xcopy ..\\..\\web-client\\form-client\\dist .\\wwwroot /S /Y"
-    ]
-  },
-  "tooling": {
-    "defaultNamespace": "WebServer"
   }
-}
