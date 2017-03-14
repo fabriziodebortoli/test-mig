@@ -19,6 +19,7 @@ using Microarea.Common.ExpressionManager;
 using Microarea.Common.Hotlink;
 
 using Microarea.RSWeb.WoormViewer;
+using TaskBuilderNetCore.DataFunctionaluty;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -89,16 +90,19 @@ namespace Microarea.RSWeb.WoormEngine
 
 		public	Diagnostic	Diagnostic = new Diagnostic("TableNames");
 
+        TbReportSession session = null;
 
 		//-----------------------------------------------------------------------------
-		public TableNames(string tableName, string tableAlias, string connection, string provider) : base()
-		{ 
-			Debug.Assert(tableName.Length > 0);
+		public TableNames(string tableName, string tableAlias, TbReportSession s) : base()
+		{
+            session = s;
+
+            Debug.Assert(tableName.Length > 0);
 
 			this.tableName = tableName;
 			this.aliasName = (tableAlias.Length == 0) ? tableName : tableAlias; 
 
-			CreateSchema(connection, provider);
+			//CreateSchema(connection, provider);
 		}
 
 		// legge lo schema della tabella per poter istanziare gli oggetti giusti nelle espressioni
@@ -134,6 +138,9 @@ namespace Microarea.RSWeb.WoormEngine
 		//-----------------------------------------------------------------------------
 		public string GetColumnType(string columnName)
 		{
+            //TODO RSWEB OTTIMIZZARE GetColumnType
+            return DBInfo.GetColumnType(session.UserInfo.CompanyDbConnection , tableName, columnName);
+
             // se non ha la connessione al database o se la colonna non esiste assume
             // che la colonna sia di tipo stringa.
 
@@ -150,7 +157,7 @@ namespace Microarea.RSWeb.WoormEngine
             //	}
             //}
 
-            return "string"; //TODO RSWEB null;
+            //return "string"; 
 		}
 	}
 

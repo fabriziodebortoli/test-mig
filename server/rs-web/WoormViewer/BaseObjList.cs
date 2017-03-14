@@ -137,7 +137,7 @@ namespace Microarea.RSWeb.WoormViewer
                 else s += ',';
                 
                 if (template)
-                    s += item.ToJson(true);
+                    s += item.ToJsonTemplate(true);
                 else 
                     s += item.ToJsonData(true);
             }

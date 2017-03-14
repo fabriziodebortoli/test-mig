@@ -385,7 +385,7 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //------------------------------------------------------------------------------
-        override public string ToJson(bool bracket)
+        override public string ToJsonTemplate(bool bracket)
         {
             string name = "repeater";
 
@@ -394,7 +394,7 @@ namespace Microarea.RSWeb.WoormViewer
                 s = '\"' + name + "\":";
 
             s += '{' +
-                base.ToJson(false) + ',' +
+                base.ToJsonTemplate(false) + ',' +
 
                 this.nRows      .ToJson("rows") + ',' +
                 this.nColumns   .ToJson("columns") + ',' +

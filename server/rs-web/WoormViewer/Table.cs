@@ -349,7 +349,7 @@ namespace Microarea.RSWeb.Objects
             }
         }
 
-        public string ToJson(Cell defaultCell = null)
+        public string ToJsonTemplate(Cell defaultCell = null)
         {
             string s = "{";
 
@@ -541,7 +541,7 @@ namespace Microarea.RSWeb.Objects
 			}
 		}
 
-        new public string ToJson()
+        new public string ToJsonTemplate()
         {
             return "\"total\":{" +
 
@@ -873,7 +873,7 @@ namespace Microarea.RSWeb.Objects
             ToJsonCellsTemplate(false);
  
             s += (this.ShowTotal ? ',' + this.ShowTotal.ToJson("show_total") : "") + 
-                 (this.ShowTotal ? ',' + (this.TotalCell.ToJson() ) : "") +
+                 (this.ShowTotal ? ',' + (this.TotalCell.ToJsonTemplate() ) : "") +
                '}';
 
             if (bracket)
@@ -917,7 +917,7 @@ namespace Microarea.RSWeb.Objects
 
         public string ToJsonCellsTemplate(bool bracket)
         {
-            string s = "\"default_cell\":" + Cells[0].ToJson();
+            string s = "\"default_cell\":" + Cells[0].ToJsonTemplate();
 
             s += ", \"cells\":[";
             bool first = true;
@@ -927,7 +927,7 @@ namespace Microarea.RSWeb.Objects
                 if (first) first = false; else s += ',';
                 cell.AtRowNumber = row++;
 
-                s += cell.ToJson(Cells[0]);
+                s += cell.ToJsonTemplate(Cells[0]);
             }
             s += ']';
 
@@ -2427,7 +2427,7 @@ namespace Microarea.RSWeb.Objects
         //}
 
         //------------------------------------------------------------------------------
-        override public string ToJson(bool bracket)
+        override public string ToJsonTemplate(bool bracket)
         {
             string name = "table";
 
@@ -2436,7 +2436,7 @@ namespace Microarea.RSWeb.Objects
                 s = '\"' + name + "\":";
 
             s += '{' +
-                base.ToJson(false) + ',' +
+                base.ToJsonTemplate(false) + ',' +
 
                 this.ColumnNumber.ToJson("column_number") + ',' +
                 this.RowNumber.ToJson("row_number") + ',' +
