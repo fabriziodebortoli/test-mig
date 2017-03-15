@@ -1,23 +1,23 @@
 <div class="flex-container">
     <div [ngSwitch]="controlType">
-        <div *ngSwitchCase="controlTypeModel.Text">
+        <div *ngSwitchCase="'controlType.Text'">
             <input class="md-input" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [placeholder]="caption">
             <tb-state-button *ngFor="let button of buttons" [button]="button"></tb-state-button>
         </div>
 
-        <div *ngSwitchCase="controlTypeModel.Password">
+        <div *ngSwitchCase="'controlType.Password'">
             password<br />
             <tb-password caption="{{caption}}" forCmpID="{{cmpId}}"></tb-password>
         </div>
-        <div *ngSwitchCase="controlTypeModel.Masked">
+        <div *ngSwitchCase="'controlType.Masked'">
             masked
             <tb-masked-text-box caption="{{caption}}" forCmpID="{{cmpId}}" [disabled]="!model?.enabled"></tb-masked-text-box>
         </div>
-        <div *ngSwitchCase="controlTypeModel.Numeric">
+        <div *ngSwitchCase="'controlType.Numeric'">
             Numeric<br />
             <tb-numeric-text-box caption="{{caption}}" forCmpID="{{cmpId}}" [format]=""> </tb-numeric-text-box>
         </div>
-        <div *ngSwitchCase="controlTypeModel.Date">
+        <div *ngSwitchCase="'controlType.Date'">
             <br />
             <tb-date-input caption="{{caption}}" forCmpID="{{cmpId}}"></tb-date-input>
         </div>
