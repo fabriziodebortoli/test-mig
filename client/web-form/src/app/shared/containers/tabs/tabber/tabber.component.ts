@@ -19,7 +19,6 @@ export class TabberComponent extends TbComponent {
       t.active = false;
     });
     tab.active = true;
-
     this.selectedTab.emit(this.tabs.indexOf(tab));
   }
 

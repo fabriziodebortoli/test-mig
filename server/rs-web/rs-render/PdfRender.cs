@@ -167,6 +167,7 @@ namespace Microarea.RSWeb.Render
                     bool last = (col == obj.ColumnNumber - 1);
 
                     int nextVisibleColumn = obj.NextVisibleColumn(col);
+
                     bool nextColumnHasTotal =
                         (
                         (col < lastColumn) &&
@@ -340,30 +341,31 @@ namespace Microarea.RSWeb.Render
         }
 
         //------------------------------------------------------------------------------
-        private void WriteColumnsTitlePdf(XGraphics xg, Table obj)
+        private void WriteColumnsTitlePdf(XGraphics xg, Table table)
         {
-            bool first = true;
-            int lastColumn = obj.LastVisibleColumn();
+            bool firstColumn = true;
+            int lastColumn = table.LastVisibleColumn();
 
             for (int col = 0; col <= lastColumn; col++)
             {
-                Column column = (Column)obj.Columns[col];
-                bool showTitle = ((obj.HideTableTitle && obj.HideColumnsTitle) || obj.HideColumnsTitle);
+                Column column = table.Columns[col];
+                bool showTitle = ((table.HideTableTitle && table.HideColumnsTitle) || table.HideColumnsTitle);
                 bool last = col == lastColumn;
 
                 if (!column.IsHidden)
                 {
                     Borders borders = new Borders
                     (
-                        obj.Borders.ColumnTitle.Top && !showTitle,
-                        first && obj.Borders.ColumnTitle.Left && !showTitle,
-                        obj.Borders.Body.Top,
+                        table.Borders.ColumnTitle.Top && !showTitle,
+                        firstColumn && table.Borders.ColumnTitle.Left && !showTitle,
+                        table.Borders.Body.Top,
                         !showTitle &&
                         (
-                        (last && obj.Borders.ColumnTitle.Right) ||
-                        (!last && obj.Borders.ColumnSeparator && obj.Borders.ColumnTitleSeparator)
+                        (last && table.Borders.ColumnTitle.Right) ||
+                        (!last && table.Borders.ColumnSeparator && table.Borders.ColumnTitleSeparator)
                         )
                     );
+
                     WriteSingleCell
                     (
                         xg, column.ColumnTitleRect,
@@ -374,7 +376,8 @@ namespace Microarea.RSWeb.Render
                         column.Title.Align, column.DynamicTitleLocalizedText,
                         showTitle, null, null
                     );
-                    first = false;
+
+                    firstColumn = false;
                 }
             }
         }

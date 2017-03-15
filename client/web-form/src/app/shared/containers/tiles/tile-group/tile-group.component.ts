@@ -7,11 +7,11 @@ import { TabComponent } from '../../tabs';
   templateUrl: './tile-group.component.html',
   styleUrls: ['./tile-group.component.scss']
 })
-export class TileGroupComponent implements OnInit {
+export class TileGroupComponent extends TabComponent implements OnInit {
 
-  constructor() {
+  constructor(tabs: TileManagerComponent) {
+    super(tabs);
   }
   ngOnInit() {
   }
-
 }

@@ -33,10 +33,10 @@ namespace Microarea.RSWeb.WoormWebControl
 		}
 
 		//------------------------------------------------------------------------------
-		public static string GetConnectionKey(string reportNamespace, string reportParameters)
-		{
-			return "__connectionKey:" + reportNamespace + reportParameters;
-		}
+		//public static string GetConnectionKey(string reportNamespace, string reportParameters)
+		//{
+		//	return "__connectionKey:" + reportNamespace + reportParameters;
+		//}
 		
 		// se il fontStyle selezionato ha un colore settato allora uso lui come colore
 		// solo se l'elemento ha il suo colore di default e se il font è nero (default)
