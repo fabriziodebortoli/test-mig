@@ -1,12 +1,12 @@
-import { Directive, OnInit, Input, ElementRef, Renderer } from '@angular/core';
-import { ReportObject } from '../reporting-studio.model';
+/*import { Directive, OnInit, Input, ElementRef, Renderer } from '@angular/core';
+
 
 @Directive({
   selector: '[rsObject]'
 })
 export class ReportObjectDirective implements OnInit {
 
-  @Input() ro: ReportObject;
+  @Input() ro: ;
 
   constructor(private el: ElementRef, private renderer: Renderer) { }
 
@@ -35,4 +35,4 @@ export class ReportObjectDirective implements OnInit {
     this.renderer.setElementStyle(this.el.nativeElement, 'boxShadow', this.ro.shadowSize + 'px ' + this.ro.shadowSize + 'px ' + this.ro.shadowSize + 'px ' + this.ro.shadowColor);
   }
 
-}
+}*/

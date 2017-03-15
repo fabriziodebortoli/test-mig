@@ -1,7 +1,6 @@
 <tb-frame>
     <tb-toolbar-top>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.PlayFilled.png" caption="Run Report" *ngIf="!running" (click) = "RunReport()"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Pause.png" caption="Pause Report"  *ngIf="running"  (click) = "PauseReport()"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Stop.png" caption="Stop Report"  (click) = "StopReport()"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowNextFilled.png" caption="Next Page"  (click) = "NextPage()"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowPrevFilled.png" caption="Previous Page"  (click) = "PrevPage()"></tb-toolbar-top-button>

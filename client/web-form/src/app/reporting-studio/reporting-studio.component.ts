@@ -1,7 +1,5 @@
-import { Response } from '@angular/http';
 
-
-import { Component, OnInit, OnDestroy, Input, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -31,6 +29,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private message: any = '';
   private running: boolean = false;
   private currCommand: CommandType = CommandType.OK;
+
+  private pageNum: number = 1;
+  private currLayout: string;
 
   constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
     super(rsService, eventData);
@@ -71,7 +72,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.NEXTPAGE: break;
         case CommandType.OK: break;
         case CommandType.PAGE: break;
-        case CommandType.PAUSE: break;
         case CommandType.PDF: break;
         case CommandType.PREVPAGE: break;
         case CommandType.RUN: break;
@@ -109,16 +109,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       commandType: this.currCommand,
       message: this.args.nameSpace,
       Response: ''
-    };
-    this.rsService.doSend(JSON.stringify(message));
-  }
-
-  PauseReport() {
-    this.running = false;
-    this.currCommand = CommandType.PAUSE;
-    let message = {
-      commandType: this.currCommand,
-      message: this.args.nameSpace
     };
     this.rsService.doSend(JSON.stringify(message));
   }

@@ -31,8 +31,9 @@ namespace Microarea.RSWeb.Models
             UserInfo ui = new UserInfo(loginInfo, nsMsg.authtoken);
 
             TbReportSession session = new TbReportSession(ui, nsMsg.nameSpace);
-
-            return new JsonReportEngine(session);
+            JsonReportEngine engine = new JsonReportEngine(session);
+            engine.Execute();
+            return engine;
         }
 
         /// <summary>

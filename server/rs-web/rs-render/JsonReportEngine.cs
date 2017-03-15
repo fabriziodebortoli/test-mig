@@ -22,6 +22,8 @@ namespace Microarea.RSWeb.Render
 
         public RSEngine StateMachine = null;
 
+        private int pageNum = 1;
+
         //--------------------------------------------------------------------------
         public JsonReportEngine(TbReportSession session)
         {
@@ -32,7 +34,7 @@ namespace Microarea.RSWeb.Render
         {
             StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
-            //StateMachine.Report.EngineType = EngineType.FullExtraction; //TODO RSWEB problema sync con engine thread
+            StateMachine.Report.EngineType = EngineType.FullExtraction; //TODO RSWEB problema sync con engine thread
 
             StateMachine.Step();
 
@@ -99,8 +101,6 @@ namespace Microarea.RSWeb.Render
         {
             Message nMsg = new Message();
             nMsg.commandType = msg.commandType;
-           
-            //nMsg.response = "This Is Response for " + msg.message;
 
             switch(msg.commandType)
             {
@@ -136,12 +136,15 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.NEXTPAGE:
                     {
+                        pageNum++;
                         // this.stateMachine.Do()
                         nMsg.message = "Executed NEXTPAGE()";
                         break;
                     }
                 case MessageBuilder.CommandType.PREVPAGE:
                     {
+                        if (pageNum > 1)
+                            pageNum--;
                         // this.stateMachine.Do()
                         nMsg.message = "Executed PREVPAGE()";
                         break;
@@ -158,12 +161,7 @@ namespace Microarea.RSWeb.Render
                         nMsg.message = "Executed PAGE()";
                         break;
                     }
-                case MessageBuilder.CommandType.PAUSE:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = "Executed PAUSE()";
-                        break;
-                    }
+             
                 case MessageBuilder.CommandType.PDF:
                     {
                         // this.stateMachine.Do()
@@ -185,7 +183,7 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
                         // this.stateMachine.Do()
-                        nMsg.message = template;
+                        nMsg.message = GetJsonTemplatePage(pageNum);
                         break;
                     }
                 case MessageBuilder.CommandType.TEST:
