@@ -1,5 +1,4 @@
 import { ReportingStudioModule } from './reporting-studio/reporting-studio.module';
-import { appRouting } from './applications/app.routing';
 import { routing } from './app.routing';
 
 import { NgModule } from '@angular/core';
@@ -33,9 +32,7 @@ import { AppComponent } from './app.component';
     SharedModule,
     MenuModule.forRoot(),
     ReportingStudioModule.forRoot(),
-    routing,
-    appRouting
-
+    routing
   ],
   bootstrap: [AppComponent],
   entryComponents: [

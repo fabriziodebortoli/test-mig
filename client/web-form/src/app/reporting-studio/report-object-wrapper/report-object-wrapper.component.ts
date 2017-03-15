@@ -1,5 +1,6 @@
+import { baseobj } from './../reporting-studio.model';
 import { Component, OnInit, Input } from '@angular/core';
-import { ReportObject, ReportObjectType } from '../reporting-studio.model';
+import { ReportObjectType } from '../reporting-studio.model';
 
 @Component({
   selector: 'rs-report-object',
@@ -10,7 +11,7 @@ export class ReportObjectWrapperComponent implements OnInit {
 
   public reportObjectType = ReportObjectType;
 
-  @Input() ro: ReportObject;
+  @Input() ro: baseobj;
 
   constructor() { }
 
