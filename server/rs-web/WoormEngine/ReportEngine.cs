@@ -23,47 +23,6 @@ using TaskBuilderNetCore.DataFunctionaluty;
 
 namespace Microarea.RSWeb.WoormEngine
 {
-
-    ///<summary>
-    ///Classe contenitore dei nomi e degli ID delle variabili speciali di report
-    ///ATTENZIONE: TENERE ALLINEATO CON "TaskBuilder\Framework\TbWoormEngine\RepTable.h"
-    /// </summary>
-    //==============================================================================
-    public class SpecialReportField
-	{
-		//ID riservati da Woorm
-		public const ushort REPORT_STATUS_ID			=	0x7FFe;
-		public const ushort REPORT_OWNER_ID				=	0x7FFd;
-		public const ushort REPORT_LAYOUT_ID			=	0x7FFc;
-		public const ushort REPORT_PAGE_NUMBER_ID		=	0x7FFb;
-        public const ushort REPORT_LINKED_ID            =   0x7FFa;
-        public const ushort REPORT_ISPRINTING_ID        =   0x7FF9;
-		public const ushort DEFAULT_ATTRIBUTE_ID		=	0x7FF8;
- 		public const ushort REPORT_LASTPAGE_ID			=	0x7FF7;
-        public const ushort REPORT_EABARCODE_ID	        =   0x7FF6;
-        public const ushort REPORT_ISARCHIVING_ID       =   0x7FF5;
-        public const ushort REPORT_FUNCTION_RETURN_VALUE =	0x7FF4;
-        public const ushort REPORT_HIDE_ALL_ASK_DIALOGS  =  0x7FF3;
-        //the latest used id
-        public const ushort REPORT_LOWER_SPECIAL_ID     =   0x7FF3;
-
-		//nomi delle variabili riservate
-		public const string REPORT_DEFAULT_LAYOUT_NAME                      =   "default";
-		public const string REPORT_SPECIAL_FIELD_NAME_STATUS				=	"ReportStatus";
-		public const string REPORT_SPECIAL_FIELD_NAME_OWNER					=	"OwnerID";
-		public const string REPORT_SPECIAL_FIELD_NAME_LAYOUT				=	"ReportLayout";
-		public const string REPORT_SPECIAL_FIELD_NAME_CURRENT_PAGE_NUMBER	=	"ReportCurrentPageNumber";
-        public const string REPORT_SPECIAL_FIELD_NAME_LASTPAGE              =   "ReportLastPageNumber";
-		public const string REPORT_SPECIAL_FIELD_NAME_ISPRINTING			=	"ReportIsPrinting";
-        public const string REPORT_SPECIAL_FIELD_NAME_ISARCHIVING            =  "ReportIsArchiving";
-        public const string REPORT_SPECIAL_FIELD_NAME_USEDEFAULTATTRIBUTE   =   "UseDefaultAttribute";
-        //public const string REPORT_SPECIAL_FIELD_NAME_EABARCODE             =   "ReportEABarCode";
-        //public const string REPORT_SPECIAL_FIELD_NAME_LINKED_ID				    =   "LinkedDocumentID";
-        //public const string REPORT_SPECIAL_FIELD_NAME_FUNCTION_RETURN_VALUE	    =   "_ReturnValue";
-        public const string REPORT_SPECIAL_FIELD_NAME_HIDE_ALL_ASK_DIALOGS       =   "_HideAllAskDialogs";
-
-	}
-
 	//==============================================================================
 	//
 	// FieldStatusForTemporaryFile

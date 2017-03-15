@@ -3,6 +3,7 @@ using System.Collections;
 using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using Microarea.RSWeb.WoormViewer;
+using Microarea.Common.CoreTypes;
 
 namespace Microarea.RSWeb.WoormEngine
 {

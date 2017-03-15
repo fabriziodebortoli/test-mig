@@ -6,14 +6,15 @@ using Microarea.Common.Generic;
 
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
+using Microarea.Common.CoreTypes;
 
 namespace Microarea.RSWeb.WoormViewer
 {
 	//[Serializable]
 	public class BaseObjList : List<BaseObj>
 	{
-		WoormDocument document = null;
-        public int CountAutoObjects;
+		protected WoormDocument document = null;
+        public int CountAutoObjects = 0;
 
 		public BaseObjList()
 		{
@@ -130,7 +131,7 @@ namespace Microarea.RSWeb.WoormViewer
             {
                 if (item.Hidden && item.HideExpr == null) continue;
 
-                if (!template && !(item is FieldRect) && !(item is Table) && /*!(item is Repeater) &&*/ item.IsDynamic())
+                if (!template && !(item is FieldRect) && !(item is Table) && /*!(item is Repeater) &&*/ !item.IsDynamic())
                     continue;
 
                 if (first) first = false;
@@ -267,6 +268,19 @@ namespace Microarea.RSWeb.WoormViewer
                 s = '{' + s + '}';
 
             return s;
+        }
+
+        //---------------------------------------------------------------------
+        internal void AddIDToDynamicStaticObjects()
+        {
+            foreach (BaseObj obj in this)
+            {
+                if (obj.IsDynamic() && obj.InternalID <= 0 && 
+                    (obj is TextRect || /*obj is GraphRect ||*/ obj is SqrRect))
+                {
+                    obj.InternalID = document.SymbolTable.GetNewID();
+                }
+            }
         }
     }
 

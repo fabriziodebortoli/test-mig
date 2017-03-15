@@ -597,18 +597,28 @@ namespace Microarea.RSWeb.WoormViewer
         //---------------------------------------------------------------------------------
         internal void ApplyRepeater()
         {
-            foreach (Layout item in this.Values)
+            foreach (Layout layout in this.Values)
             {
-                item.ApplyRepeater();
+                layout.ApplyRepeater();
             }
         }
+
+        //---------------------------------------------------------------------------------
+        internal void AddIDToDynamicStaticObjects()
+        {
+            foreach (Layout layout in this.Values)
+            {
+                layout.AddIDToDynamicStaticObjects();
+            }
+        }
+
     }
 
-	/// <summary>
-	/// Description of Report Template
-	/// </summary>
-	/// ================================================================================
-	public class WoormTemplate
+    /// <summary>
+    /// Description of Report Template
+    /// </summary>
+    /// ================================================================================
+    public class WoormTemplate
 	{
 		public string			NsTemplate = string.Empty;
 		public WoormDocument	wrmTemplate = null;
@@ -894,7 +904,9 @@ namespace Microarea.RSWeb.WoormViewer
 			layouts.SetCurrent(Layout.DefaultName);
 
             layouts.ApplyRepeater();
-			return true;
+            layouts.AddIDToDynamicStaticObjects();
+
+            return true;
 		}
 
 		//------------------------------------------------------------------------------

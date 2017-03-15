@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
 
+using TaskBuilderNetCore.Interfaces;
+
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
-using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.Hotlink;
 
 namespace Microarea.RSWeb.WoormEngine
 {
-
     /// <summary>
     /// ProcedureSymbolTable.
     /// </summary>
@@ -97,10 +97,10 @@ namespace Microarea.RSWeb.WoormEngine
 	/// FieldSymbolTable.
 	/// </summary>
 	//============================================================================
-	[Serializable]
-	[KnownType(typeof(Dictionary<string, Variable>))]
-	[KnownType(typeof(Field))]
-    public class FieldSymbolTable : SymbolTable, ISerializable
+	//[Serializable]
+	//[KnownType(typeof(Dictionary<string, Variable>))]
+	//[KnownType(typeof(Field))]
+    public class FieldSymbolTable : SymbolTable//, ISerializable
     {
         public FieldSymbolTable()
         {
@@ -115,17 +115,16 @@ namespace Microarea.RSWeb.WoormEngine
         }
 
 			//--------------------------------------------------------------------------
-		public FieldSymbolTable(SerializationInfo info, StreamingContext context)
-		{
-			//error = info.GetBoolean(ERROR);
-		}
+		//public FieldSymbolTable(SerializationInfo info, StreamingContext context)
+		//{
+		//	//error = info.GetBoolean(ERROR);
+		//}
 
-		//--------------------------------------------------------------------------
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			base.GetObjectData(info, context);
-		}
-
+		////--------------------------------------------------------------------------
+		//public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		//{
+		//	base.GetObjectData(info, context);
+		//}
 
         //-----------------------------------------------------------------------------
         public new Field Find(string name)
