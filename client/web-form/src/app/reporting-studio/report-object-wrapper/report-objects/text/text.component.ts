@@ -1,3 +1,4 @@
+import { GridModule } from '@progress/kendo-angular-grid';
 import { Component, OnInit, Input } from '@angular/core';
 import { ReportObject } from './../../../reporting-studio.model';
 

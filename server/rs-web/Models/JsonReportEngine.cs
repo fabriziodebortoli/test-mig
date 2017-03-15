@@ -82,6 +82,21 @@ namespace Microarea.RSWeb.Models
             return text;
         }
 
+        // qui mancano altri : rectangle, image, file etc.  manca anche la posizione.
+        string template = @"
+        {            
+          ""text"": ""Languages"",
+                     
+          ""rect"": ""w_CompanyName"",
+
+          ""text"":  ""09/03/2017 14:15"",
+
+          ""grid"": {
+                ""Languages"":      ""w_Language"",
+                ""Description"":    ""w_Description""
+            }
+        } 
+    ";
 
         public Message GetResponseFor(Message msg)
         {
@@ -173,7 +188,7 @@ namespace Microarea.RSWeb.Models
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
                         // this.stateMachine.Do()
-                        nMsg.message = "Executed TEMPLATE()";
+                        nMsg.message = template;
                         break;
                     }
                 case MessageBuilder.CommandType.TEST:
