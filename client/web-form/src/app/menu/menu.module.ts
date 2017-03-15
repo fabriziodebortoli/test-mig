@@ -20,7 +20,7 @@ import { LocalizationService } from './services/localization.service';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
-import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
+
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 
 import { LoginComponent } from './components/login/login.component';
@@ -28,7 +28,9 @@ import { Logger } from 'libclient';
 import { Accordion, AccordionGroup } from '../shared/containers/accordion/accordion.component';
 import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
+import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
 import { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
+import { MenuContentComponent } from './components/menu/menu-content/menu-content.component';
 
 //WARNING: put here only GLOBAL services, NOT component level services
 const MENU_SERVICES = [
@@ -65,7 +67,8 @@ const MENU_SERVICES = [
     AccordionGroup,
     MenuTabberComponent,
     MenuTabComponent,
-    MenuElementComponent
+    MenuElementComponent,
+    MenuContentComponent
   ],
   exports:
   [
@@ -79,6 +82,7 @@ const MENU_SERVICES = [
     SearchComponent,
     GroupSelectorComponent,
     MenuStepperComponent,
+    MenuContentComponent,
     Accordion,
     AccordionGroup
   ]
