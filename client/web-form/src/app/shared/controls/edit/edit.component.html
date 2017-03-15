@@ -19,7 +19,7 @@
         </div>
         <div *ngSwitchCase="'controlType.Date'">
             <br />
-            <tb-date-input caption="{{caption}}" forCmpID="{{cmpId}}"></tb-date-input>
+            <tb-date-input caption="{{caption}}" forCmpID="{{cmpId}}" [(ngModel)]="model"> </tb-date-input>
         </div>
     </div>
     <div>
