@@ -89,7 +89,7 @@ namespace Microarea.RSWeb.Models
                 
                 /// active, waiting for new messages
                 /// dead loop
-                while (webSocket.State == WebSocketState.Open)
+                while (webSocket.State == WebSocketState.Open && jengine!=null)
                 {
                     var buffer = new ArraySegment<Byte>(new Byte[4096]);
                     var received = await webSocket.ReceiveAsync(buffer, CancellationToken.None);

@@ -1,8 +1,10 @@
-﻿import { StateButton } from './../state-button/state-button.model';
+﻿import { MenuItem } from './../context-menu/menu-item.model';
+import { StateButton } from './../state-button/state-button.model';
 import { EventDataService } from './../../../core/eventdata.service';
 import { ControlComponent } from './../control.component';
 import { Component, Input } from '@angular/core';
 import {ControlTypes} from '../control-types.enum';
+
 
 @Component({
     selector: 'tb-edit',
@@ -12,7 +14,9 @@ import {ControlTypes} from '../control-types.enum';
 
 export class EditComponent extends ControlComponent{
     @Input() buttons: StateButton[] = [];
-    @Input() controlType: ControlTypes;
+    @Input('controlType') controlType: ControlTypes;
+    @Input() contextMenu: MenuItem[] = [];
+
     controlTypeModel = ControlTypes;
      constructor(
         private eventData: EventDataService

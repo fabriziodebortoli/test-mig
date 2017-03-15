@@ -46,6 +46,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     });
 
     this.rsInitStateMachine();
+
+    let message = {
+      commandType: CommandType.TEMPLATE,
+      message: ''
+    };
+    this.rsService.doSend(JSON.stringify(message));
   }
 
   ngOnDestroy() {
@@ -56,12 +62,29 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     //elaborate
     try {
       let msg = JSON.parse(message);
+      switch (msg.commandType) {
+        case CommandType.ASK: break;
+        case CommandType.DATA: break;
+        case CommandType.ERROR: break;
+        case CommandType.GUID: break;
+        case CommandType.NAMESPACE: break;
+        case CommandType.NEXTPAGE: break;
+        case CommandType.OK: break;
+        case CommandType.PAGE: break;
+        case CommandType.PAUSE: break;
+        case CommandType.PDF: break;
+        case CommandType.PREVPAGE: break;
+        case CommandType.RUN: break;
+        case CommandType.STOP: break;
+        case CommandType.TEMPLATE:
+          this.message = msg.message; //render layout
+          break;
 
-      if (msg.commandType !== this.currCommand) {
-        this.message = 'The command was ' + this.currCommand + ' but the response recieved is for ' + msg.commandType;
-      }else {
-        this.message = msg.message;
+        case CommandType.TEST: break;
+
       }
+
+      //this.message = msg;//.message;
     } catch (err) {
       this.message = 'Error Occured';
     }
@@ -70,12 +93,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   rsInitStateMachine() {
 
     let message = {
-      commandType: CommandType.NAMESPACE.toString(),
+      commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
       authtoken: this.cookieService.get('authtoken')
     };
 
-    this.rsService.doSend(JSON.stringify(message));
+    let res = this.rsService.doSendSync(JSON.stringify(message));
 
   }
 

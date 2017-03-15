@@ -47,6 +47,16 @@ export class ReportingStudioService extends DocumentService {
         }, 100);
     }
 
+    doSendSync(message): boolean {
+        this.waitForConnection(() => {
+            this.writeToScreen('SENT: ' + message);
+            this.websocket.send(message);
+            return true;
+        }, 100);
+
+        return false;
+    }
+
     waitForConnection(callback, interval) {
         if (this.websocket.readyState === 1) {
             callback();

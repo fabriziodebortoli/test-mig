@@ -1,8 +1,8 @@
 <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
 <a class="k-button">
-    <kendo-maskedtextbox [(ngModel)]="value" [mask]="mask" [rules]="rules"></kendo-maskedtextbox>
+    <kendo-maskedtextbox [ngModel]="value" [mask]="mask" [rules]="rules" [maskValidation]="true"></kendo-maskedtextbox>
     <span #anchor class="k-icon k-i-calendar-date" (click)="onClickM()"></span>
 </a>
 <kendo-popup [anchor]="anchor" *ngIf="switchP">
-    <kendo-calendar (valueChange)="handleChange($event)" [value]="objDate"></kendo-calendar>
+    <kendo-calendar (valueChange)="handleChange($event)" [value]="objDate" (blur)="onBlur()"></kendo-calendar>
 </kendo-popup>
