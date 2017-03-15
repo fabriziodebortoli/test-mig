@@ -73,7 +73,7 @@ namespace PdfSharp.Pdf
             _state = DocumentState.Created;
             _version = 14;
             Initialize();
-            Info.CreationDate = _creation;
+            //TODO RSWEB Info.CreationDate = _creation;
         }
 
         /// <summary>

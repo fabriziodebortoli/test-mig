@@ -561,12 +561,12 @@ namespace Microarea.Common.CoreTypes
 	{
 		const string SYMBOLS = "symbols";
         
-		protected Dictionary<string, string>      alias   = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+		protected Dictionary<string, string>   alias   = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         protected Dictionary<string, Variable> symbols = new Dictionary<string, Variable>(StringComparer.OrdinalIgnoreCase);
 
         private ArrayList localizableStrings = new ArrayList();
         protected SymbolTable parent = null;
-		
+		public int RdeRowNumber = -1;
 
 		public SymbolTable Parent { get { return parent; } set { parent = value; } }
 		public int Count { get { return symbols.Keys.Count; } }
