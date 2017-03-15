@@ -1,0 +1,35 @@
+.menu-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+// .listItem {
+// display: block;
+//     width: 80%;
+//     padding: 0.1em 0 0.1em 0em;
+//     text-decoration: none;
+//     font-weight: lighter;
+// }
+// .selected{
+// 	background-color: lightskyblue;
+// }
+// .tileContainer {
+// 	height: auto;
+// 	display: inline-block;
+// 	vertical-align: top;
+// 	padding: 10px;
+// }
+// /*title and pinimage container*/
+// 	.tileContainer > div:first-child {
+// 		width: 98%;
+// 		border-bottom: 1px solid;
+// 		border-bottom-color: lightgrey;
+// 		margin-bottom: 10px;
+// 	}
+// 	/*tile title*/
+// 	.tileContainer > div:first-child > div:first-child {
+// 		display: inline-block;
+// 		margin-bottom: 7px;
+// 		width: 90%;
+// 	}
