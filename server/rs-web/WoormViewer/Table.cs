@@ -12,6 +12,7 @@ using Microarea.Common.ExpressionManager;
 
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
+using Microarea.RSWeb.WoormWebControl;
 //using Microarea.RSWeb.Temp;
 
 namespace Microarea.RSWeb.Objects
@@ -376,11 +377,13 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
-        public string ToJsonData()
+        public string ToJsonData(Borders borders, bool useAlternateColor)
         {
             string s = "{";
 
-            s += this.AtRowNumber.ToJson("row");
+            //s += this.AtRowNumber.ToJson("row")  + ',';
+
+            s += borders.ToJson();
 
             if (!this.SubTotal && column.TextColorExpr != null)
                 s += ',' + this.DynamicTextColor.ToJson("textcolor");
@@ -423,12 +426,14 @@ namespace Microarea.RSWeb.Objects
                 }
             }
 
-            s += ',' + this.FormattedDataForWrite.ToJson("value", false, true);
+            s += ',' + (this.SubTotal ? 
+                            (this.Value.FormattedData.ToJson("value", false, true)  + "," + true.ToJson("SubTotal")):
+                            this.FormattedDataForWrite.ToJson("value", false, true)
+                        );
 
             s += '}';
             return s;
         }
-
     }
 
     /// <summary>
@@ -541,7 +546,7 @@ namespace Microarea.RSWeb.Objects
 			}
 		}
 
-        new public string ToJsonTemplate()
+        public string ToJsonTemplate()
         {
             return "\"total\":{" +
 
@@ -556,7 +561,8 @@ namespace Microarea.RSWeb.Objects
 
             '}';
         }
-        new public string ToJsonData()
+        
+        public string ToJsonData()
         {
             string s = "\"total\":{" +
 
@@ -842,18 +848,127 @@ namespace Microarea.RSWeb.Objects
         //}
 
         //------------------------------------------------------------------------------
-        public string ToJsonTemplate(bool bracket)
+        //public string ToJsonTemplate_prova(bool bracket)
+        //{
+        //    string s = "\"column\":{" +
+
+        //        this.InternalID.ToJson("id") + ',' +
+
+        //        this.ColumnRect.ToJson("rect") + ',' +
+        //        this.ColumnCellsRect.ToJson("cells_rect") + ',' +
+        //        this.ColumnPen.ToJson("pen") + ',' +
+
+        //        (this.IsHidden || this.HideExpr != null).ToJson("hidden") + ',' +     //dynamic
+        //        this.Width.ToJson("width") + ',' +                        //dynamic
+
+        //        "\"title\":{" +
+        //                        this.TemplateTitleLocalizedText.ToJson("caption", false, true) + ',' +
+        //                        this.ColumnTitleRect.ToJson("rect") + ',' +
+        //                        this.ColumnTitlePen.ToJson("pen") + ',' +
+        //                        this.Title.TextColor.ToJson("textcolor") + ',' +
+        //                        this.Title.BkgColor.ToJson("bkgcolor") + ',' +
+        //                        this.Title.Align.ToJson("align") + ',' +
+        //                        this.Title.FontData.ToJson() +
+        //                "}," +
+
+        //    (/*this.MultipleRow*/true ? this.MultipleRow.ToJson("show_multiline") + ',' : "") +
+        //    (/*this.IsHtml*/true ? this.IsHtml.ToJson("value_is_html") + ',' : "") +
+        //    (/*this.ShowAsBitmap*/true ? this.ShowAsBitmap.ToJson("show_as_image") + ',' : "") +
+        //    (/*this.ShowAsBarCode*/true ? this.ShowAsBarCode.ToJson("show_as_barcode") + ',' : "") +
+
+        //    ToJsonCellsTemplate();
+
+        //    s += (this.ShowTotal ? ',' + this.ShowTotal.ToJson("show_total") : "") + 
+        //         (this.ShowTotal ? ',' + (this.TotalCell.ToJsonTemplate() ) : "") +
+        //       '}';
+
+        //    if (bracket)
+        //        s = '{' + s + '}';
+
+        //    return s;
+        //}
+
+        //public string ToJsonData_prova(bool bracket)
+        //{
+        //    string s = "\"column\":{" +
+
+        //        this.InternalID.ToJson("id") + ',' +
+
+        //        (this.IsHidden || this.HideExpr != null).ToJson("hidden") + ',' +
+
+        //        (this.WidthExpr != null ? this.Width.ToJson("width") + ',' : "");
+
+        //    if (this.TitleExpr != null || this.TitleTextColorExpr != null || this.TitleBkgColorExpr != null || this.TitleTooltipExpr != null)
+        //    {
+        //        string t =
+        //                (this.TitleExpr != null ? this.DynamicTitleLocalizedText.ToJson("caption", false, true) + ',' : "") +
+        //                (this.TitleTextColorExpr != null ? this.DynamicTitleTextColor.ToJson("textcolor") + ',' : "") +
+        //                (this.TitleBkgColorExpr != null ? this.DynamicTitleBkgColor.ToJson("bkgcolor") + ',' : "") +
+        //                (this.TitleTooltipExpr != null ? this.DynamicTitleTooltip.ToJson("tooltip") : "");
+        //        t = t.TrimEnd(new char[] { ',' });
+
+        //        s += "\"title\":{" + t + "},";
+        //    }
+
+        //    s += ToJsonCellsData(false) +
+
+        //        (this.ShowTotal ? (',' + this.TotalCell.ToJsonData()) : "") +
+        //        '}';
+
+        //    if (bracket)
+        //        s = '{' + s + '}';
+
+        //    return s;
+        //}
+
+        public string ToJsonCellTemplate()
         {
-            string s = "\"column\":{" +
+            string s = "\"default_cell\":" + Cells[0].ToJsonTemplate();
+
+            s += ", \"cells\":[";
+            bool first = true;
+            int row = 0;
+            foreach (Cell cell in Cells)
+            {
+                if (first) first = false; else s += ',';
+                cell.AtRowNumber = row++;
+
+                s += cell.ToJsonTemplate(Cells[0]);
+            }
+            s += ']';
+
+            return s;
+        }
+
+        public string ToJsonTemplateHeader(bool firstColumn, int col)
+        {
+            int lastColumn = Table.LastVisibleColumn();
+            bool showTitle = ((this.Table.HideTableTitle && Table.HideColumnsTitle) || Table.HideColumnsTitle);
+            bool last = col == lastColumn;
+
+            Borders borders = new Borders
+                (
+                    Table.Borders.ColumnTitle.Top && !showTitle,
+                    firstColumn && Table.Borders.ColumnTitle.Left && !showTitle,
+                    Table.Borders.Body.Top,
+                    !showTitle &&
+                    (
+                    (last && Table.Borders.ColumnTitle.Right) ||
+                    (!last && Table.Borders.ColumnSeparator && Table.Borders.ColumnTitleSeparator)
+                    )
+                );
+
+            string s = "{" +
 
                 this.InternalID.ToJson("id") + ',' +
+
+               (this.IsHidden || this.HideExpr != null).ToJson("hidden") + ',' +     
+                this.Width.ToJson("width") + ',' +                        
 
                 this.ColumnRect.ToJson("rect") + ',' +
                 this.ColumnCellsRect.ToJson("cells_rect") + ',' +
                 this.ColumnPen.ToJson("pen") + ',' +
-
-                (this.IsHidden || this.HideExpr != null).ToJson("hidden") + ',' +     //dynamic
-                this.Width.ToJson("width") + ',' +                        //dynamic
+                borders.ToJson() + ',' +
 
                 "\"title\":{" +
                                 this.TemplateTitleLocalizedText.ToJson("caption", false, true) + ',' +
@@ -870,27 +985,47 @@ namespace Microarea.RSWeb.Objects
             (/*this.ShowAsBitmap*/true ? this.ShowAsBitmap.ToJson("show_as_image") + ',' : "") +
             (/*this.ShowAsBarCode*/true ? this.ShowAsBarCode.ToJson("show_as_barcode") + ',' : "") +
 
-            ToJsonCellsTemplate(false);
- 
-            s += (this.ShowTotal ? ',' + this.ShowTotal.ToJson("show_total") : "") + 
-                 (this.ShowTotal ? ',' + (this.TotalCell.ToJsonTemplate() ) : "") +
+            ToJsonCellTemplate();
+
+            s += (/*this.ShowTotal*/true ? ',' + this.ShowTotal.ToJson("show_total") : "") +
+                 (this.ShowTotal ? ',' + (this.TotalCell.ToJsonTemplate()) : "") +
                '}';
 
-            if (bracket)
-                s = '{' + s + '}';
-
-            return s;
+           return s;
         }
 
-        public string ToJsonData(bool bracket)
+        public string ToJsonDataHeader(bool firstColumn, int col)
         {
-            string s = "\"column\":{" +
+            int lastColumn = Table.LastVisibleColumn();
+            bool showTitle = ((this.Table.HideTableTitle && Table.HideColumnsTitle) || Table.HideColumnsTitle);
+            bool last = col == lastColumn;
+
+            Borders borders = null;
+
+            if (Table.HasDynamicHiddenColumns())
+            {
+                borders = new Borders
+                    (
+                        Table.Borders.ColumnTitle.Top && !showTitle,
+                        firstColumn && Table.Borders.ColumnTitle.Left && !showTitle,
+                        Table.Borders.Body.Top,
+                        !showTitle &&
+                        (
+                        (last && Table.Borders.ColumnTitle.Right) ||
+                        (!last && Table.Borders.ColumnSeparator && Table.Borders.ColumnTitleSeparator)
+                        )
+                    );
+            }
+
+            string s = "{" +
 
                 this.InternalID.ToJson("id") + ',' +
 
-                (this.IsHidden || this.HideExpr != null).ToJson("hidden") + ',' +
+                (this.HideExpr != null ? this.IsHidden.ToJson("hidden") + ',' : "") +
 
-                (this.WidthExpr != null ? this.Width.ToJson("width") + ',' : "");
+                (this.WidthExpr != null ? this.Width.ToJson("width") + ',' : "") +
+
+                (borders != null ? borders.ToJson() + ',' : "");
 
             if (this.TitleExpr != null || this.TitleTextColorExpr != null || this.TitleBkgColorExpr != null || this.TitleTooltipExpr != null)
             {
@@ -904,60 +1039,35 @@ namespace Microarea.RSWeb.Objects
                 s += "\"title\":{" + t + "},";
             }
 
-            s += ToJsonCellsData(false) +
+            s += (this.ShowTotal ? (this.TotalCell.ToJsonData()) : "");
 
-                (this.ShowTotal ? (',' + this.TotalCell.ToJsonData()) : "") +
-                '}';
+            s = s.TrimEnd(new char[] { ',' });
+            s += '}';
 
-            if (bracket)
-                s = '{' + s + '}';
-
-            return s;
+           return s;
         }
 
-        public string ToJsonCellsTemplate(bool bracket)
-        {
-            string s = "\"default_cell\":" + Cells[0].ToJsonTemplate();
+         //public string ToJsonCellsData(bool bracket)
+        //{
+        //    string s = "\"cells\":[";
+        //    bool first = true;
+        //    int row = 0;
+        //    foreach (Cell cell in Cells)
+        //    {
+        //        if (first) first = false; else s += ',';
+        //        cell.AtRowNumber = row++;
 
-            s += ", \"cells\":[";
-            bool first = true;
-            int row = 0;
-            foreach (Cell cell in Cells)
-            {
-                if (first) first = false; else s += ',';
-                cell.AtRowNumber = row++;
+            //        s += cell.ToJsonData();
+            //    }
+            //    s += ']';
 
-                s += cell.ToJsonTemplate(Cells[0]);
-            }
-            s += ']';
+            //    if (bracket)
+            //        s = '{' + s + '}';
 
-            if (bracket)
-                s = '{' + s + '}';
+            //    return s;
+            //}
 
-            return s;
-        }
-
-        public string ToJsonCellsData(bool bracket)
-        {
-            string s = "\"cells\":[";
-            bool first = true;
-            int row = 0;
-            foreach (Cell cell in Cells)
-            {
-                if (first) first = false; else s += ',';
-                cell.AtRowNumber = row++;
-
-                s += cell.ToJsonData();
-            }
-            s += ']';
-
-            if (bracket)
-                s = '{' + s + '}';
-
-            return s;
-        }
-
-        //-------------------------------------------------------------------------------
+            //-------------------------------------------------------------------------------
         public int TemplateWidth
         {
             get
@@ -2444,9 +2554,8 @@ namespace Microarea.RSWeb.Objects
                 this.BaseCellsRect.ToJson("cells_rect") + ',' +
 
                 this.Borders.ToJson("table_borders") + ',' +
-                this.HideTableTitle.ToJson("hide_table_title") + ',' +
-                this.HideColumnsTitle.ToJson("hide_columns_title") + ',' +
 
+                this.HideTableTitle.ToJson("hide_table_title") + ',' + 
                 //(this.HideTableTitle ? (
                 "\"title\":{" +
                     this.LocalizedText.ToJson("caption", false, true) + ',' +
@@ -2457,11 +2566,12 @@ namespace Microarea.RSWeb.Objects
                    "}," 
                 // ) : "" )
                 +
+               this.HideColumnsTitle.ToJson("hide_columns_title") + ',' +
 
                 this.FiscalEnd.ToJson("fiscal_end") + ',' +
                 //this.EasyviewColor.ToJson("alternate_color") + ',' +
 
-                ColumnsToJson(true, false) +
+                ColumnsToJson(true) +
             '}';
 
             if (bracket)
@@ -2481,7 +2591,9 @@ namespace Microarea.RSWeb.Objects
             s += '{' +
                 base.ToJsonData(false) + ',' +
 
-                ColumnsToJson(false, false) +
+                ColumnsToJson(false) + ',' +
+
+                RowsToJsonData() +
             '}';
 
             if (bracket)
@@ -2490,26 +2602,93 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
-        public string ColumnsToJson(bool template, bool bracket)
+        public string ColumnsToJson(bool template)
         {
             string s = "\"columns\":[";
-
             bool first = true;
-            foreach (Column column in this.Columns)
+            for(int i = 0; i < Columns.Count; i++)
             {
-                if (first) first = false;
-                else s += ',';
+                Column column = this.Columns[i];
 
-                s += template ? column.ToJsonTemplate(true) : column.ToJsonData(true);     
+                if (column.IsHidden && column.HideExpr == null)
+                    continue;
+
+                if (first) first = false; else s += ',';
+
+                s += template ? 
+                    column.ToJsonTemplateHeader(i == 0, i) : 
+                    column.ToJsonDataHeader(i == 0, i);     
             }
-
             s += ']';
-
-            if (bracket)
-                s = '{' + s + '}';
 
             return s;
         }
+
+        //---------------------------------------------------------------------
+        public string RowsToJsonData()
+        {
+            string s = "\"rows\":[";
+
+            //predispone la table per la modalita di Easyview dinamica (nel caso sia presente)
+            this.InitEasyview();
+
+            int lastColumn = this.LastVisibleColumn();
+            for (int row = 0; row < this.RowNumber; row++)
+            {
+                // "row":
+                string r = "{" + row.ToJson("row") + ", \"cells\":[";
+
+                bool firstCol = true;
+                for (int col = 0; col <= lastColumn; col++)
+                {
+                    Column column = this.Columns[col];
+                    if (column.IsHidden) continue;
+
+                    if (row == 0)
+                        column.PreviousValue = null;
+
+                    Cell cell = column.Cells[row];
+                    bool lastCol = col == lastColumn;
+                    cell.AtRowNumber = row;
+
+                    Borders borders = new Borders
+                                            (
+                                                false,
+                                                firstCol && this.Borders.Body.Left,
+                                                this.HasBottomBorderAtCell(cell),
+                                                (!lastCol && this.Borders.ColumnSeparator) || (lastCol && this.Borders.Body.Right)
+                                            );
+                    Borders cellBorders = cell.DynamicCellBorders(borders);
+
+                    //if (this.FiscalEnd && row >= this.CurrentRow)
+                    //{
+                    //    fore = Color.FromArgb(255, 112, 128, 144);
+                    //    bkg = Color.FromArgb(255, 105, 105, 105);
+                    //}
+
+                    if (cell.SubTotal)
+                    {
+                        column.PreviousValue = null;
+                    }
+
+                    if (!firstCol) r += ',';
+ 
+                    r += cell.ToJsonData(cellBorders, UseColorEasyview(row));
+
+                    firstCol = false;
+                }
+
+                r += "]}";
+                if (row < (this.RowNumber - 1)) r += ',';
+                s += r;
+
+                this.EasyViewNextRow(row);
+            }
+
+            return s + "]";
+        }
+
+
         //---------------------------------------------------------------------------
         public bool ExistsColumnWithDynamicAttributeOnRow()
 		{
@@ -2520,11 +2699,15 @@ namespace Microarea.RSWeb.Objects
 			return false;
 		}
 
-		//---------------------------------------------------------------------------
-		public bool HasTotal(int col)
-		{
-			return Columns[col].ShowTotal;
-		}
+        //---------------------------------------------------------------------------
+        public bool HasDynamicHiddenColumns()
+        {
+            for (int i = 0; i < ColumnNumber; i++)
+                if (Columns[i].HideExpr != null)
+                    return true;
+
+            return false;
+        }
 
 		//---------------------------------------------------------------------------
 		public int NextVisibleColumn(int col)
@@ -2536,7 +2719,6 @@ namespace Microarea.RSWeb.Objects
 			return -1;
 		}
 
-		// se richiesto da utente allora posso disabilitare i titoli delle colonne
 		//---------------------------------------------------------------------------
 		public int LastVisibleColumn()
 		{
@@ -2559,6 +2741,12 @@ namespace Microarea.RSWeb.Objects
 					count++;
 			}
 			return count;
+		}
+
+        //---------------------------------------------------------------------------
+        public bool HasTotal(int col)
+		{
+			return Columns[col].ShowTotal;
 		}
 
 		//---------------------------------------------------------------------------

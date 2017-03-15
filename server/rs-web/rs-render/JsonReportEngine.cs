@@ -32,7 +32,7 @@ namespace Microarea.RSWeb.Render
         {
             StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
-            //StateMachine.Report.EngineType = EngineType.FullExtraction; //TODO RSWEB problema sync con engine thread
+            StateMachine.Report.EngineType = EngineType.FullExtraction; //TODO RSWEB problema sync con engine thread
 
             StateMachine.Step();
 
