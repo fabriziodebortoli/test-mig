@@ -4,21 +4,21 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 
-using TaskBuilderNetCore.Interfaces;
-
 using PdfSharp.Drawing.Layout;
-
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 
-using Microarea.RSWeb.Objects;
+using TaskBuilderNetCore.Interfaces;
 
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
-using Microarea.RSWeb.WoormViewer;
-using Microarea.Common.Temp;
 
-namespace Microarea.RSWeb.WoormWebControl
+using Microarea.RSWeb.WoormViewer;
+using Microarea.RSWeb.Objects;
+using Microarea.Common.Temp;
+using Microarea.RSWeb.WoormWebControl;
+
+namespace Microarea.RSWeb.Render
 {
 
     // <summary>
@@ -79,7 +79,7 @@ namespace Microarea.RSWeb.WoormWebControl
                     case "FieldRect": FieldRectPdf(xg, (FieldRect)obj); break;
                     case "TextRect": TextRectPdf(xg, (TextRect)obj); break;
                     case "GraphRect": GraphRectPdf(xg, (GraphRect)obj); break;
-                    case "SqrRect": SqrRectPdf(xg, (SqrRect)obj, ((SqrRect)obj).BkgColor); break;
+                    case "SqrRect": SqrRectPdf(xg, (SqrRect)obj, ((SqrRect)obj).DynamicBkgColor); break;
                     case "FileRect": FileRectPdf(xg, (FileRect)obj); break;
 
                     case "Table":
@@ -101,7 +101,7 @@ namespace Microarea.RSWeb.WoormWebControl
         //------------------------------------------------------------------------------
         private void RepeaterPdf(XGraphics xg, WoormViewer.Repeater repeater)
         {
-            SqrRectPdf(xg, repeater, repeater.BkgColor);
+            SqrRectPdf(xg, repeater, repeater.DynamicBkgColor);
 
             foreach (BaseObjList list in repeater.Rows)
             {
@@ -181,8 +181,8 @@ namespace Microarea.RSWeb.WoormWebControl
                             (
                             false,
                             first,
-                            obj.Borders.TotalBottom,
-                            obj.Borders.TotalRight
+                            obj.Borders.Total.Bottom,
+                            obj.Borders.Total.Right
                             );
                     }
                     else
@@ -192,7 +192,7 @@ namespace Microarea.RSWeb.WoormWebControl
                             false,
                             false,
                             false,
-                            !last && nextColumnHasTotal && obj.Borders.TotalLeft
+                            !last && nextColumnHasTotal && obj.Borders.Total.Left
                             );
                         //disegno il bordo sx del prossimo totale con il suo Pen e non con quello della cella corrente
                         //(allinemento con comportamento di woorm c++)
@@ -203,15 +203,15 @@ namespace Microarea.RSWeb.WoormWebControl
                         }
                     }
 
-                    Color fore = woorm.TrueColor(BoxType.Total, total.TotalTextColor, total.Value.FontStyleName);
-                    Color bkg = !column.ShowTotal || obj.Transparent ? Color.FromArgb(0, 255, 255, 255) : total.TotalBkgColor;
+                    Color fore = woorm.TrueColor(BoxType.Total, total.DynamicTotalTextColor, total.Value.FontStyleName);
+                    Color bkg = !column.ShowTotal || obj.Transparent ? Color.FromArgb(0, 255, 255, 255) : total.DynamicTotalBkgColor;
 
                     if (total.HasFormatStyleExpr)
                     {
-                        string formatStyleName = total.ValueFormatStyleName;
+                        string formatStyleName = total.DynamicFormatStyleName;
                         if (formatStyleName.Length > 0 && total.Value.RDEData != null)
                         {
-                            total.Value.FormattedData = FormatFromSoapData(formatStyleName, column.InternalID, total.Value.RDEData);
+                            total.Value.FormattedData = this.woorm.FormatFromSoapData(formatStyleName, column.InternalID, total.Value.RDEData);
                         }
                     }
 
@@ -229,23 +229,6 @@ namespace Microarea.RSWeb.WoormWebControl
                     );
                 }
             }
-        }
-
-        //---------------------------------------------------------------------------
-        CultureInfo GetCollateCultureFromId(ushort id)
-        {
-            Variable v = woorm.SymbolTable.FindById(id);
-            return v == null ? CultureInfo.InvariantCulture : v.CollateCulture;
-        }
-
-        ///<summary>
-        ///Riformatta dinamicamente il dato 
-        /// </summary>
-        string FormatFromSoapData(string formatStyleName, ushort ID, object data)
-        {
-            CultureInfo collateCulture = GetCollateCultureFromId(ID);
-            //vedi RDEReader
-            return woorm.FormatStyles.FormatFromSoapData(formatStyleName, data, woorm.Namespace, collateCulture);
         }
 
         //------------------------------------------------------------------------------
@@ -272,45 +255,42 @@ namespace Microarea.RSWeb.WoormWebControl
 
                         if (cell.HasFormatStyleExpr)
                         {
-                            string formatStyleName = cell.ValueFormatStyleName;
+                            string formatStyleName = cell.DynamicFormatStyleName;
                             if (formatStyleName.Length > 0 && cell.Value.RDEData != null)
                             {
-                                cell.Value.FormattedData = FormatFromSoapData(formatStyleName, column.InternalID, cell.Value.RDEData);
+                                cell.Value.FormattedData = woorm.FormatFromSoapData(formatStyleName, column.InternalID, cell.Value.RDEData);
                             }
                         }
 
                         Borders borders = new Borders
                             (
                             false,
-                            firstCol && obj.Borders.BodyLeft,
+                            firstCol && obj.Borders.Body.Left,
                             obj.HasBottomBorderAtCell(cell),
-                            (!lastCol && obj.Borders.ColumnSeparator) || (lastCol && obj.Borders.BodyRight)
+                            (!lastCol && obj.Borders.ColumnSeparator) || (lastCol && obj.Borders.Body.Right)
                             );
-                        Borders cellBorders = borders;
-                        if (cell.HasCellBordersExpr)
-                        {
-                            cellBorders = cell.ValueCellBorders(borders);
-                        }
+                        Borders cellBorders = cell.DynamicCellBorders(borders);
 
+                        //--------------------------------------
                         string fontStyleName = string.Empty;
                         if (!cell.SubTotal && cell.HasTextFontStyleExpr)
                         {
-                            fontStyleName = cell.ValueTextFontStyleName;
+                            fontStyleName = cell.DynamicTextFontStyleName;
                         }
                         if (fontStyleName.Length == 0)
                             fontStyleName = cell.SubTotal
                                 ? column.SubTotal.FontStyleName
                                 : cell.Value.FontStyleName;
-
+                        //---------------------------------------
                         Color fore = cell.SubTotal
-                            ? woorm.TrueColor(BoxType.SubTotal, cell.ValueSubTotTextColor, fontStyleName)
-                            : woorm.TrueColor(BoxType.Cell, cell.ValueTextColor, fontStyleName);
+                            ? woorm.TrueColor(BoxType.SubTotal, cell.DynamicSubTotalTextColor, fontStyleName)
+                            : woorm.TrueColor(BoxType.Cell, cell.DynamicTextColor, fontStyleName);
 
                         Color bkg = cell.SubTotal
                             ?
                                 cell.GetValueSubTotBkgColor(obj.UseColorEasyview(row) ? obj.EasyviewColor : cell.column.SubTotal.BkgColor)
                             :
-                                cell.GetValueBkgColor(obj.UseColorEasyview(row) ? obj.EasyviewColor : cell.DefaultBkgColor);
+                                cell.GetDynamicBkgColor(obj.UseColorEasyview(row) ? obj.EasyviewColor : cell.TemplateBkgColor);
 
                         if (obj.FiscalEnd && row >= obj.CurrentRow)
                         {
@@ -375,12 +355,12 @@ namespace Microarea.RSWeb.WoormWebControl
                 {
                     Borders borders = new Borders
                     (
-                        obj.Borders.ColumnTitleTop && !showTitle,
-                        first && obj.Borders.ColumnTitleLeft && !showTitle,
-                        obj.Borders.BodyTop,
+                        obj.Borders.ColumnTitle.Top && !showTitle,
+                        first && obj.Borders.ColumnTitle.Left && !showTitle,
+                        obj.Borders.Body.Top,
                         !showTitle &&
                         (
-                        (last && obj.Borders.ColumnTitleRight) ||
+                        (last && obj.Borders.ColumnTitle.Right) ||
                         (!last && obj.Borders.ColumnSeparator && obj.Borders.ColumnTitleSeparator)
                         )
                     );
@@ -388,10 +368,10 @@ namespace Microarea.RSWeb.WoormWebControl
                     (
                         xg, column.ColumnTitleRect,
                         borders, column.ColumnTitlePen,
-                        woorm.TrueColor(BoxType.ColumnTitle, column.TitleTextColor, column.Title.FontStyleName),
-                        column.TitleBkgColor,
+                        woorm.TrueColor(BoxType.ColumnTitle, column.DynamicTitleTextColor, column.Title.FontStyleName),
+                        column.DynamicTitleBkgColor,
                         column.Title.FontStyleName,
-                        column.Title.Align, column.LocalizedText,
+                        column.Title.Align, column.DynamicTitleLocalizedText,
                         showTitle, null, null
                     );
                     first = false;
@@ -404,10 +384,10 @@ namespace Microarea.RSWeb.WoormWebControl
         {
             Borders borders = new Borders
             (
-                obj.Borders.TableTitleTop,
-                obj.Borders.TableTitleLeft,
+                obj.Borders.TableTitle.Top,
+                obj.Borders.TableTitle.Left,
                 false,
-                obj.Borders.TableTitleRight
+                obj.Borders.TableTitle.Right
             );
 
             WriteSingleCell
@@ -445,6 +425,7 @@ namespace Microarea.RSWeb.WoormWebControl
             )
         {
             if (hide) return;
+
             XBrush brush = (new XSolidBrush(new XColor(backColor)));
             Rectangle inside = BaseRect.CalculateInsideRect(cellRect, borders, borderPen);
             xg.DrawRectangle(brush, ScaleFromWoorm(inside));
@@ -518,7 +499,7 @@ namespace Microarea.RSWeb.WoormWebControl
             //disegno dei bordi
             WriteBorders(xg, obj);
             //disegno eventuale ombra
-            WriteDropShadowPdf(xg, obj.BaseRectangle, obj.DropShadowHeight, obj.DropShadowColor, obj.BorderPen);
+            WriteDropShadowPdf(xg, obj.Rect, obj.DropShadowHeight, obj.DropShadowColor, obj.BorderPen);
         }
 
         //------------------------------------------------------------------------------
@@ -529,16 +510,16 @@ namespace Microarea.RSWeb.WoormWebControl
 
             DrawText(xg,
                         obj.LocalizedText,
-                        obj.BaseRectangle,
+                        obj.Rect,
                         obj.Label.FontStyleName,
-                        obj.Label.TextColor,
+                        obj.DynamicTextColor,
                         obj.Label.Align
                 );
 
             WriteBorders(xg, obj);
 
             //disegno eventuale ombra
-            WriteDropShadowPdf(xg, obj.BaseRectangle, obj.DropShadowHeight, obj.DropShadowColor, obj.BorderPen);
+            WriteDropShadowPdf(xg, obj.Rect, obj.DropShadowHeight, obj.DropShadowColor, obj.BorderPen);
         }
 
         //------------------------------------------------------------------------------
@@ -637,8 +618,6 @@ namespace Microarea.RSWeb.WoormWebControl
             else if ((align & BaseObjConsts.DT_BOTTOM) == BaseObjConsts.DT_BOTTOM)
                 xRect.Offset(0, originalRect.Height - xRect.Height);
 
-
-
             xg.DrawImage(img, xRect);
         }
 
@@ -679,7 +658,7 @@ namespace Microarea.RSWeb.WoormWebControl
             // valuata dal motore del viewer durante il parse.
             if (obj.Hidden) return;
 
-            SqrRectPdf(xg, obj, obj.BkgColor);
+            SqrRectPdf(xg, obj, obj.DynamicBkgColor);
 
             if (obj.IsImage)
             {
@@ -689,19 +668,19 @@ namespace Microarea.RSWeb.WoormWebControl
                 return;
             }
 
-            Rectangle labelRect = obj.BaseRectangle;
+            Rectangle labelRect = obj.Rect;
             labelRect.Inflate(-2, -2); //border from rect
-            DrawText(xg, obj.LocalizedText, labelRect, obj.Label.FontStyleName, obj.LabelTextColor, obj.Label.Align);
+            DrawText(xg, obj.DynamicLabelLocalizedText, labelRect, obj.Label.FontStyleName, obj.DynamicLabelTextColor, obj.Label.Align);
 
             // costruisce una tabella trasparente con una sola cella inflatando dei bordi
-            Rectangle inflated = Helper.Inflate(obj.BaseRectangle, obj.Borders, obj.BorderPen);
+            Rectangle inflated = Helper.Inflate(obj.Rect, obj.Borders, obj.BorderPen);
 
             if (obj.IsTextFile)
                 DrawText(xg,
                         ReadTextFile(obj.Value.FormattedData),
                         inflated,
                         obj.Value.FontStyleName,
-                        obj.TextColor,
+                        obj.DynamicTextColor,
                         obj.Value.Align
                 );
             else if (obj.IsBarCode && obj.Value.FormattedData != string.Empty)
@@ -735,11 +714,11 @@ namespace Microarea.RSWeb.WoormWebControl
                     string formatStyleName = obj.DynamicFormatStyleName;
                     if (formatStyleName.Length > 0)
                     {
-                        obj.Value.FormattedData = FormatFromSoapData(formatStyleName, obj.InternalID, obj.Value.RDEData);
+                        obj.Value.FormattedData = woorm.FormatFromSoapData(formatStyleName, obj.InternalID, obj.Value.RDEData);
                     }
                 }
 
-                DrawText(xg, obj.Value.FormattedData, inflated, obj.Value.FontStyleName, obj.TextColor, obj.Value.Align);
+                DrawText(xg, obj.Value.FormattedData, inflated, obj.Value.FontStyleName, obj.DynamicTextColor, obj.Value.Align);
             }
         }
 
@@ -772,11 +751,11 @@ namespace Microarea.RSWeb.WoormWebControl
             // valuata dal motore del viewer durante il parse.
             if (obj.Hidden) return;
             XBrush brush = (new XSolidBrush(new XColor(backColor)));
-            xg.DrawRectangle(brush, ScaleFromWoorm(obj.BaseRectangle));
+            xg.DrawRectangle(brush, ScaleFromWoorm(obj.Rect));
             WriteBorders(xg, obj);
 
             //disegno eventuale ombra
-            WriteDropShadowPdf(xg, obj.BaseRectangle, obj.DropShadowHeight, obj.DropShadowColor, obj.BorderPen);
+            WriteDropShadowPdf(xg, obj.Rect, obj.DropShadowHeight, obj.DropShadowColor, obj.BorderPen);
         }
 
         //------------------------------------------------------------------------------
@@ -785,8 +764,8 @@ namespace Microarea.RSWeb.WoormWebControl
             // valuata dal motore del viewer durante il parse.
             if (obj.Hidden) return;
 
-            SqrRectPdf(xg, obj, obj.BkgColor);
-            DrawText(xg, obj.LocalizedText, obj.BaseRectangle, obj.Label.FontStyleName, obj.TextColor, obj.Label.Align);
+            SqrRectPdf(xg, obj, obj.DynamicBkgColor);
+            DrawText(xg, obj.LocalizedText, obj.Rect, obj.Label.FontStyleName, obj.DynamicTextColor, obj.Label.Align);
         }
 
         //------------------------------------------------------------------------------
@@ -839,7 +818,7 @@ namespace Microarea.RSWeb.WoormWebControl
         //------------------------------------------------------------------------------
         private void WriteBorders(XGraphics xg, BaseRect obj)
         {
-            WriteBorders(xg, obj.BorderPen, obj.BaseRectangle, obj.Borders);
+            WriteBorders(xg, obj.BorderPen, obj.Rect, obj.Borders);
         }
 
         //------------------------------------------------------------------------------

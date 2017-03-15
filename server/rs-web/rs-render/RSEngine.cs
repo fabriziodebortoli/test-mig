@@ -12,10 +12,8 @@ using Microarea.Common.Lexan;
 
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
-using Microarea.RSWeb.WoormWebControl;
-using Microarea.RSWeb.Models;
 
-namespace Microarea.RSWeb.WoormController
+namespace Microarea.RSWeb.Render
 {
     // tipologia di renderizzazione
     public enum HtmlPageType { Error, Viewer, Form, HotLink, Persister, Print, None };
@@ -419,7 +417,7 @@ namespace Microarea.RSWeb.WoormController
 						}
 						
 						// se vengo chiamato per i parametri, restituisco solo quelli
-						if (Report.EngineType == EngineType.OfficeXML && xmlReturnType == XmlReturnType.ReportParameters)
+						if (Report.EngineType == EngineType.FullXML_OfficeXML && xmlReturnType == XmlReturnType.ReportParameters)
 						{
 							Report.Engine.OutChannel.XmlGetParameters();
 							CurrentState = State.End;
@@ -433,14 +431,14 @@ namespace Microarea.RSWeb.WoormController
 					case State.ExecuteAsk :	
 					{
 						// skippo le Ask perchè sono chiamato come motore in background
-						if (Report.EngineType == EngineType.OfficeXML)
+						if (Report.EngineType == EngineType.FullXML_OfficeXML)
 						{
 							// valorizza i parametri delle Ask con i dati provenienti dal dom passato dal chiamante
 							Report.ExecuteLoadParamters();
 							CurrentState = State.ExecuteExtraction;
 							break;
 						}
-						if (Report.EngineType == EngineType.OfficePDF)
+						if (Report.EngineType == EngineType.PDFSharp_OfficePDF)
 						{
 							// skippo le Ask perchè sono chiamato come motore in background
 							// valorizza i parametri delle Ask con i dati provenienti dal dom passato dal chiamante
@@ -491,7 +489,7 @@ namespace Microarea.RSWeb.WoormController
                             Report.Engine.Status = ReportEngine.ReportStatus.FirstRow;
 
                             //se chiamato via magic link, eseguo in maniera sincrona
-							if (Report.EngineType == EngineType.OfficeXML || Report.EngineType == EngineType.OfficePDF)
+							if (Report.EngineType == EngineType.FullExtraction || Report.EngineType == EngineType.FullXML_OfficeXML || Report.EngineType == EngineType.PDFSharp_OfficePDF)
 							{
 								CurrentInternalState = InternalState.ExecuteBeforeActions;
 								DoExtraction();

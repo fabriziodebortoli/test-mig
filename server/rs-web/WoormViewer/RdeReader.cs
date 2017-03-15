@@ -9,6 +9,7 @@ using Microarea.Common.CoreTypes;
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
 using System.Net;
+using Microarea.Common;
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -114,6 +115,12 @@ namespace Microarea.RSWeb.WoormViewer
         private string Filename
         {
             get { return woorm.CurrentRdeFilename(pageNo); }
+        }
+
+        //---------------------------------------------------------------------------
+        public bool IsPageReady(int page)
+        {
+            return File.Exists(woorm.CurrentRdeFilename(page));
         }
 
         //------------------------------------------------------------------------------

@@ -180,6 +180,12 @@ Move to the <installation path>/standard/web/server/web-server
 $ dotnet run
 ```
 
+### Angular-cli server
+```shell
+Move to the <installation path>/standard/web/client/web-form
+$ ng serve
+```
+
 ## Using Visual Studio 2015
 
 Developers can also use the VS solution 

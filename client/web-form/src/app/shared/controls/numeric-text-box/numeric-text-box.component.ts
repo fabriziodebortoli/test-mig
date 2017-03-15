@@ -9,4 +9,5 @@ import { ControlComponent } from './../control.component';
 })
 export class NumericTextBoxComponent extends ControlComponent {
 @Input() forCmpID: string;
+@Input() format: string;
 }

@@ -1,39 +1,39 @@
 import { EventDataService } from './../../../core/eventdata.service';
-import { ControlComponent } from './../control.component';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { ControlComponent } from './../control.component';
 
 @Component({
   selector: 'tb-date-input',
   templateUrl: './date-input.component.html',
-  styles: [`./date-input.component.scss`]
+  styles: ['./date-input.component.scss']
 })
 
 export class DateInputComponent extends ControlComponent implements OnInit {
-
-  @Input() objDate: Date;
+  @Input() forCmpID: string;
   @Output() clicked = new EventEmitter<string>();
 
   public mask = 'dA / mA / yyyy';
-
+  private objDate: Date;
   private switchP = false;
   value = '__ / __ / ____';
   public rules: { [key: string]: RegExp } = {
     'A': /[0-9]/,
     'd': /[0123]/,
-    'm': /[012]/,
+    'm': /[01]/,
     'y': /[0-9]/
   };
 
   constructor(private eventData: EventDataService) {
     super();
+   
   }
 
   ngOnInit() {
-    this.eventData.command.subscribe(data => this.MySave(data));
+    this.eventData.command.subscribe(data => this.onSave(data));
   }
 
   public handleChange(value: Date): void {
-    this.UpdateModel(value);
+    this.onUpdateModel(value);
     this.onClickM();
   }
 
@@ -45,12 +45,12 @@ export class DateInputComponent extends ControlComponent implements OnInit {
     this.onClickM();
   }
 
-  UpdateModel(newDate: Date) {
+  onUpdateModel(newDate: Date) {
     this.objDate = newDate;
     this.value = this.objDate.toLocaleDateString('en-GB');
   }
 
-  MySave(data: string) {
+  onSave(data: string) {
     if (data !== 'ID_EXTDOC_SAVE') { return; }
     let y = new Date(this.objDate.getFullYear(), this.objDate.getMonth(), this.objDate.getDate(),
       12, this.objDate.getMinutes(), this.objDate.getSeconds());
@@ -58,11 +58,11 @@ export class DateInputComponent extends ControlComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.UpdateModel(new Date(this.model.value));
+    this.onUpdateModel(new Date(this.model.value));
   }
 
   ngOnChanges() {
-    this.UpdateModel(new Date(this.model.value));
+    this.onUpdateModel(new Date(this.model.value));
   }
 
 }

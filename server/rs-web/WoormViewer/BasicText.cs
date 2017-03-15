@@ -19,12 +19,12 @@ namespace Microarea.RSWeb.Objects
 		const string STRIKEOUT = "Strikeout";
 		const string UNDERLINE = "Underline";
 
-		public string Family;
-		public int Size;
-		public bool Bold;
-		public bool Italic;
-		public bool Strikeout;
-		public bool Underline;
+		public string Family = "Arial";
+		public int Size = 8;
+		public bool Bold = false;
+		public bool Italic = false;
+		public bool Underline = false;
+		public bool Strikeout = false;
 		
 		public FontData()
 		{
@@ -67,15 +67,15 @@ namespace Microarea.RSWeb.Objects
 		//}
 
         //------------------------------------------------------------------------------
-        public string ToJson(bool bracket = false)
+        public string ToJson(string name = "font", bool bracket = false)
         {
-            string s = "\"font\":{" +
+            string s = name.ToJson() + ":{" +
                                         Family.ToJson("face") + ',' +
                                         Size.ToJson("size") + ',' +
-                                        Size.ToJson("italic") + ',' +
-                                        Size.ToJson("bold") + //',' +
-                                        //Size.ToJson("Underline") + ',' +
-                                        //Size.ToJson("Strikeout") + ',' +
+                                        Bold.ToJson("italic") + ',' +
+                                        Italic.ToJson("bold") + ',' +
+                                        Underline.ToJson("underline") + //',' +
+                                        //Strikeout.ToJson("strikeout") + 
                                      '}';
 
             if (bracket)
@@ -84,6 +84,15 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
+        public bool Compare(FontData fd)
+        {
+            return this.Family.CompareNoCase(fd.Family) &&
+                this.Size == fd.Size &&
+                this.Bold == fd.Bold &&
+                this.Italic == fd.Italic &&
+                this.Underline == fd.Underline &&
+                this.Strikeout == fd.Strikeout;
+        }
     }
     /// <summary>
     /// Summary description for BasicText.
@@ -93,26 +102,33 @@ namespace Microarea.RSWeb.Objects
 	//[KnownType(typeof(FontData))]
 	public class BasicText //: ISerializable
 	{
+		private WoormDocument document; 
 		//stringhe usate per serializzare
 		//const string TEXT = "Text"; 
 		//const string FONTDATA = "FontData";
 		//const string ALIGN = "Align";
-		
-		private FontData fontData = null;
-		private WoormDocument document; 
 		
 		public string Text;
 		public Color TextColor = Defaults.DefaultTextColor;
 		public Color BkgColor = Defaults.DefaultBackColor;
 		public int Align = Defaults.DefaultTextAlign;
 		public string FontStyleName = DefaultFont.Testo;
+		private FontData fontData = null;
+
 		public string DataType = "String";	// tipo del dato contenuto dal campo
 		
 		public FontData FontData { 
 			get 
-			{ 
-				if (fontData == null)
-					fontData =  document == null ? null : new FontData(document.GetFontElement(FontStyleName));
+			{
+                if (fontData == null)
+                {
+                    if (document == null) return new FontData();
+
+                    FontElement fe = document.GetFontElement(FontStyleName);
+                    if (fe == null) return new FontData();
+
+                    fontData = new FontData(fe);
+                }
  				return fontData;
 			}
 

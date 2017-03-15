@@ -602,7 +602,6 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		public bool Load(string filename, NameSpace owner, FontElement.FontSource source)
 		{
-			Parser lex = new Parser(Parser.SourceType.FromFile);
 			if (!File.Exists(filename))
 				return true;
 		
@@ -610,6 +609,7 @@ namespace Microarea.Common.Applications
 			this.source = source;
 			this.owner = owner;
 
+			Parser lex = new Parser(Parser.SourceType.FromFile);
 			if (lex.Open(filename))
 			{
 				bool ok = Parse(lex);

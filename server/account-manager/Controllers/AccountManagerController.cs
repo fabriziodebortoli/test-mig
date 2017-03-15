@@ -71,16 +71,5 @@ namespace Microarea.AccountManager.Controllers
 
             return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
         }
-
-
-        [Route("logoff")]
-        //---------------------------------------------------------------------
-        public IActionResult Logoff()
-        {
-            string token = HttpContext.Request.Form["token"];
-            //bool LOGOFF(TOKEN);           
-            var result = new { Success = "True", Message = "" };
-            return new JsonResult(result);
-        }
     }
 }

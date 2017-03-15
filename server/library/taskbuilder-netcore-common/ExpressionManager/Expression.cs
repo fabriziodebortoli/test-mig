@@ -41,7 +41,7 @@ namespace Microarea.Common.ExpressionManager
 		protected string			resultType = null;
 
 		protected SymbolTable		symbolTable;
-		protected TbSession   tbSession;
+		protected TbSession         tbSession;
 
 		public    bool				ForceSkipTypeChecking = false;
 

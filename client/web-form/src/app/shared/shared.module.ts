@@ -32,6 +32,7 @@ import { PasswordComponent } from './controls/password/password.component';
 import { MaskedTextBoxComponent } from './controls/masked-text-box/masked-text-box.component';
 import { NumericTextBoxComponent } from './controls/numeric-text-box/numeric-text-box.component';
 import { DateInputComponent } from './controls/date-input/date-input.component';
+import { ContextMenuComponent } from './controls/context-menu/context-menu.component';
 
 
 const KENDO_UI_MODULES = [
@@ -56,7 +57,7 @@ const TB_COMPONENTS = [
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
   HeaderStripComponent,
   OpenComponent, SaveComponent,
-  CaptionComponent, PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent
+  CaptionComponent, PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent,ContextMenuComponent
 ];
 
 @NgModule({
@@ -65,7 +66,7 @@ const TB_COMPONENTS = [
     FormsModule,
     MaterialModule.forRoot(),
     RouterModule,
-    KENDO_UI_MODULES    
+    KENDO_UI_MODULES
   ],
   declarations: [TB_COMPONENTS],
   exports: [TB_COMPONENTS],

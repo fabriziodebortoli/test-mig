@@ -41,7 +41,7 @@ namespace Microarea.RSWeb.Objects
 		//const string HIDDEN = "Hidden";
 
  		public ushort InternalID = 0;
-        public Rectangle BaseRectangle;
+        public Rectangle Rect;
 		public bool Transparent;
 		public bool Hidden = false;
 
@@ -78,33 +78,66 @@ namespace Microarea.RSWeb.Objects
 		//{
   //          info.AddValue(INTERNALID, InternalID);
 		//	info.AddValue(HIDDEN, Hidden);
-		//	info.AddValue(BASERECT, BaseRectangle);
+		//	info.AddValue(BASERECT, Rect);
 		//}
 
         //------------------------------------------------------------------------------
-        virtual public string ToJson()
+        virtual public string ToJsonTemplate(bool bracket)
         {
-            return "\"baseobj\":{" +
+            string name = "baseobj";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
                 InternalID          .ToJson("id") + ',' +
-                IsHidden            .ToJson("hidden") + ',' +
+                Hidden              .ToJson("hidden") + ',' +
                 Transparent         .ToJson("transparent") + ',' +
-                BaseRectangle       .ToJson("rect") + ',' +
+                Rect                .ToJson("rect") + ',' +
                 GetTooltip          .ToJson("tooltip", false, true) + ',' +
-                DropShadowHeight    .ToJson("DropShadowHeight") + ',' +
-                DropShadowColor     .ToJson("DropShadowColor") + 
+                DropShadowHeight    .ToJson("shadow_height") + ',' +
+                DropShadowColor     .ToJson("shadow_color") + 
               '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        virtual public string ToJsonData(bool bracket)
+        {
+            string name = "baseobj";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                InternalID.ToJson("id") +
+
+                (this.HideExpr != null      ? ',' + this.DynamicIsHidden   .ToJson("hidden") : "") +
+                (this.TooltipExpr != null   ? ',' + this.GetTooltip .ToJson("tooltip", false, true) : "") + 
+
+              '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
         }
 
         //------------------------------------------------------------------------------
-  //      public BaseObj(SerializationInfo info, StreamingContext context)
-		//{
-		//	InternalID = info.GetUInt16(INTERNALID);
-		//	BaseRectangle = info.GetValue<Rectangle>(BASERECT);
-		//	Hidden = info.GetBoolean(HIDDEN);
-		//}
+        //      public BaseObj(SerializationInfo info, StreamingContext context)
+        //{
+        //	InternalID = info.GetUInt16(INTERNALID);
+        //	Rect = info.GetValue<Rectangle>(BASERECT);
+        //	Hidden = info.GetBoolean(HIDDEN);
+        //}
 
-		//------------------------------------------------------------------------------	
-		public virtual BaseObj Clone()
+        //------------------------------------------------------------------------------	
+        public virtual BaseObj Clone()
 		{
 			return null;
 		}
@@ -126,7 +159,7 @@ namespace Microarea.RSWeb.Objects
 		{
 			this.Document = s.Document;
 			this.InternalID = s.InternalID;
-			this.BaseRectangle = s.BaseRectangle;
+			this.Rect = s.Rect;
 			this.Transparent = s.Transparent;
 
 			this.Hidden = s.Hidden;
@@ -230,7 +263,7 @@ namespace Microarea.RSWeb.Objects
 		}
 
         //-------------------------------------------------------------------------------
-        public bool IsHidden
+        public bool DynamicIsHidden
         {
             get
             {
@@ -239,6 +272,7 @@ namespace Microarea.RSWeb.Objects
                     Document.SynchronizeSymbolTable(RepeaterRow);
 
                     Value val = this.HideExpr.Eval();
+
                     if (val != null && val.Valid)
                         return (bool)val.Data;
                 }
@@ -376,15 +410,45 @@ namespace Microarea.RSWeb.Objects
         //}
 
         //------------------------------------------------------------------------------
-        override public string ToJson()
+        override public string ToJsonTemplate(bool bracket)
         {
-            return "\"baserect\":{" +
-                base.ToJson() + ',' +
+            string name = "baserect";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                base.ToJsonTemplate(false) + ',' +
+
                 this.HRatio.ToJson("hratio") + ',' +
                 this.VRatio.ToJson("vratio") + ',' +
                 this.Borders.ToJson() + ',' +
                 this.BorderPen.ToJson() +
-              '}';
+                '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        override public string ToJsonData(bool bracket)
+        {
+            string name = "baserect";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                base.ToJsonData(false) + 
+                  '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
         }
 
         //------------------------------------------------------------------------------
@@ -393,9 +457,9 @@ namespace Microarea.RSWeb.Objects
 			get
 			{
 				if (Document.Options.ConNoBorders) 
-					return BaseRectangle;
+					return Rect;
 
-				return CalculateInsideRect(BaseRectangle, Borders, BorderPen);
+				return CalculateInsideRect(Rect, Borders, BorderPen);
 			}
 		}
 
@@ -479,13 +543,13 @@ namespace Microarea.RSWeb.Objects
 				x1 -= BorderPen.Width;
 
 			//BaseRect.SetRect( x1 , y1, x2, y2);	
-			BaseRectangle = Rectangle.FromLTRB(x1, y1, x2, y2);
+			Rect = Rectangle.FromLTRB(x1, y1, x2, y2);
 		}
 
 		//------------------------------------------------------------------------------
         public override void MoveBaseRect(int xOffset, int yOffset, bool bIgnoreBorder = false)
 		{
-            MoveBaseRect(BaseRectangle.Left + xOffset, BaseRectangle.Top + yOffset, BaseRectangle.Right + xOffset, BaseRectangle.Bottom + yOffset, bIgnoreBorder);
+            MoveBaseRect(Rect.Left + xOffset, Rect.Top + yOffset, Rect.Right + xOffset, Rect.Bottom + yOffset, bIgnoreBorder);
 		}
 
 		//------------------------------------------------------------------------------
@@ -887,7 +951,7 @@ namespace Microarea.RSWeb.Objects
  //   [KnownType(typeof(BaseRect))]
     public class SqrRect : BaseRect
 	{
-        public Color BkgColor = Defaults.DefaultBackColor;
+        protected Color bkgColor = Defaults.DefaultBackColor;
 
 		//public SqrRect(SerializationInfo info, StreamingContext context)
 		//	: base(info, context)
@@ -908,17 +972,75 @@ namespace Microarea.RSWeb.Objects
 		public SqrRect(SqrRect s)
 			: base(s)
 		{
-			this.BkgColor = s.BkgColor;
+			this.bkgColor = s.TemplateBkgColor;
 		}
 
-        //------------------------------------------------------------------------------
-        override public string ToJson()
+        public Color TemplateBkgColor
         {
-            return "\"sqrrect\":{" +
-                base.ToJson() + ',' +
-                this.BkgColor.ToJson("bkgcolor") +
-              '}';
+            get
+            {
+                return bkgColor;
+            }
         }
+
+        public Color DynamicBkgColor
+        {
+            get
+            {
+                if (BkgColorExpr != null)
+                {
+                    Document.SynchronizeSymbolTable(RepeaterRow);
+
+                    Value val = BkgColorExpr.Eval();
+
+                    if (val != null && val.Valid)
+                        return Color.FromArgb(255, Color.FromArgb((int)val.Data));
+                }
+                return TemplateBkgColor;
+            }
+        }
+
+        //------------------------------------------------------------------------------
+        override public string ToJsonTemplate(bool bracket)
+        {
+            string name = "sqrrect";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' + 
+                    base.ToJsonTemplate(false) + ',' +
+
+                    this.TemplateBkgColor.ToJson("bkgcolor") +
+                 '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        override public string ToJsonData(bool bracket)
+        {
+            string name = "sqrrect";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                    base.ToJsonData(false) + 
+
+                    (this.BkgColorExpr != null ? ',' + this.DynamicBkgColor.ToJson("bkgcolor") : "") +
+                '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
 
         //------------------------------------------------------------------------------
         public override BaseObj Clone()
@@ -933,7 +1055,7 @@ namespace Microarea.RSWeb.Objects
 
 			switch (lex.LookAhead())
 			{
-				case Token.BKGCOLOR		: ok = lex.ParseBkgColor(out BkgColor);		break;
+				case Token.BKGCOLOR		: ok = lex.ParseBkgColor(out bkgColor);		break;
 				case Token.PEN			: ok = lex.ParsePen     (BorderPen);		break;
 				case Token.BORDERS		: ok = lex.ParseBorders (Borders);			break;
 				case Token.TRANSPARENT : 
@@ -1035,7 +1157,7 @@ namespace Microarea.RSWeb.Objects
 			}
 
 			if (Transparent)
-				BkgColor = Color.FromArgb(0, 0, 0, 0);
+				bkgColor = Color.FromArgb(0, 0, 0, 0);
 			return ok;
 		}
 
@@ -1047,7 +1169,7 @@ namespace Microarea.RSWeb.Objects
 					Token.SQRRECT;
 
 			return
-				lex.ParseRect(token, out BaseRectangle) &&
+				lex.ParseRect(token, out Rect) &&
 				lex.ParseRatio(out HRatio, out VRatio) &&
 				ParseBlock(lex);
 		}
@@ -1061,7 +1183,7 @@ namespace Microarea.RSWeb.Objects
 				Default = null;
 			//----
 
-			unparser.WriteRect(Token.SQRRECT, BaseRectangle, false);
+			unparser.WriteRect(Token.SQRRECT, Rect, false);
 
 			if (IsNotDefaultRatio())
 				unparser.WriteRatio(HRatio, VRatio, false);
@@ -1080,7 +1202,7 @@ namespace Microarea.RSWeb.Objects
 				UnparseDynamicColor(unparser, Token.BKGCOLOR, BkgColorExpr);
 			else if (IsNotDefaultBkgColor())
 			{
-				unparser.WriteColor(Token.BKGCOLOR, BkgColor, false);
+				unparser.WriteColor(Token.BKGCOLOR, TemplateBkgColor, false);
 				unparser.WriteSep(true);
 			}
 		}
@@ -1089,9 +1211,9 @@ namespace Microarea.RSWeb.Objects
 		bool IsNotDefaultBkgColor() 
 		{
 			if (Default != null)
-				return BkgColor != ((SqrRect)Default).BkgColor;
+				return TemplateBkgColor != ((SqrRect)Default).TemplateBkgColor;
 
-			return BkgColor != Defaults.DefaultBackColor;
+			return TemplateBkgColor != Defaults.DefaultBackColor;
 		}
 
 		/// <summary>
@@ -1109,8 +1231,8 @@ namespace Microarea.RSWeb.Objects
 
 			base.SetStyle(templateRect);
 
-			if (BkgColor == Defaults.DefaultBackColor)
-				BkgColor = ((SqrRect)Default).BkgColor;
+			if (TemplateBkgColor == Defaults.DefaultBackColor)
+                bkgColor = ((SqrRect)Default).TemplateBkgColor;
 		}
 
 		//------------------------------------------------------------------------------
@@ -1119,9 +1241,9 @@ namespace Microarea.RSWeb.Objects
 			if (InheritByTemplate) 
 				return;
 
-			BkgColor = Default != null
-				? ((SqrRect)Default).BkgColor
-				: Defaults.DefaultBackColor;
+			bkgColor = Default != null
+				? ((SqrRect)Default).TemplateBkgColor
+                : Defaults.DefaultBackColor;
 
 			base.ClearStyle();
 		}
@@ -1132,8 +1254,8 @@ namespace Microarea.RSWeb.Objects
 			if (InheritByTemplate || Default == null) 
 				return;
 
-			if (BkgColor == ((SqrRect)Default).BkgColor)
-				BkgColor = Defaults.DefaultBackColor;
+			if (TemplateBkgColor == ((SqrRect)Default).TemplateBkgColor)
+				bkgColor = Defaults.DefaultBackColor;
 
 			base.RemoveStyle();
 		}
@@ -1148,19 +1270,27 @@ namespace Microarea.RSWeb.Objects
 	public class TextRect : BaseRect
 	{
 		public BasicText Label = null;
-		    private string localizedText = String.Empty;
-
+	
         public bool Special = false;
         public bool IsHtml = false;
+
         public BarCode BarCode = null;
 
-		//const string LABEL = "Label";
-		//const string LOCALIZEDTEXT = "LocalizedText";
-		//const string TEXTCOLOR = "TextColor";
-		//const string BACKCOLOR = "BackColor";
+        //const string LABEL = "Label";
+        //const string LOCALIZEDTEXT = "LocalizedText";
+        //const string TEXTCOLOR = "TextColor";
+        //const string BACKCOLOR = "BackColor";
 
-		//-------------------------------------------------------------------------------
-		public Color TextColor
+        //-------------------------------------------------------------------------------
+        public Color TemplateTextColor
+        {
+            get
+            {
+                return Label.TextColor;
+            }
+        }
+
+        public Color DynamicTextColor
 		{
 			get
 			{
@@ -1173,11 +1303,19 @@ namespace Microarea.RSWeb.Objects
                     if (val != null && val.Valid) 
                         return Color.FromArgb(255, Color.FromArgb((int)val.Data));
                 }
-				return Label.TextColor;
+				return TemplateTextColor;
 			}
 		}
-		//-------------------------------------------------------------------------------
-		public Color BkgColor
+        //-------------------------------------------------------------------------------
+        public Color TemplateBkgColor
+        {
+            get
+            {
+                return Label.BkgColor;
+            }
+        }
+
+        public Color DynamicBkgColor
 		{
 			get
 			{
@@ -1190,71 +1328,24 @@ namespace Microarea.RSWeb.Objects
                     if (val != null && val.Valid) 
                         return Color.FromArgb(255, Color.FromArgb((int)val.Data));
                 }
-				return Label.BkgColor;
+				return TemplateBkgColor;
 			}
 		}
 
-		//Tiene conto anche del colore del font che prevale su quello dell'oggetto
-		//-------------------------------------------------------------------------------
-		//public string ForeColorToSerialize
-		//{
-		//	get
-		//	{
-  //              return "";
-		//		//return Document!= null ?
-		//		//			ColorTranslator.ToHtml(Document.TrueColor(BoxType.Text,TextColor,Label.FontStyleName))   TODO rsweb
-		//		//			:
-		//		//			ColorTranslator.ToHtml(TextColor);
-		//	}
-		//}
-
-		//Tiene conto anche del colore del font che prevale su quello dell'oggetto
-		//-------------------------------------------------------------------------------
-		//public string BackColorToSerialize
-		//{
-		//	get
-		//	{
-  //              return "";
-		//		//return Document!= null ?
-		//		//			ColorTranslator.ToHtml(Document.TrueColor(BoxType.Text, BkgColor, Label.FontStyleName))      TODO rsweb
-		//		//			:
-		//		//			ColorTranslator.ToHtml(BkgColor);
-		//	}
-		//}
-
 		//------------------------------------------------------------------------------
-		public string Text
+		public string LocalizedText
 		{
 			get
 			{
-				if (!Special) 
-					return Label.Text;
-
-				SpecialField sf = new SpecialField(Document);
-				return sf.Expand(Label.Text);
+                if (Special)
+                {
+ 				    SpecialField sf = new SpecialField(Document);
+                    return Document.Localizer.Translate(sf.Expand(Label.Text));
+                }
+			    return Document.Localizer.Translate(Label.Text);
 			}
 		}
 		
-		//------------------------------------------------------------------------------
-		public string LocalizedText 
-		{ 
-			get 
-			{ 
-				if ((String.IsNullOrEmpty(localizedText) || Special)  && Document != null)
-				{ 
-					localizedText = Document.Localizer.Translate(Label.Text);
-                    if (Special)
-					{
-						SpecialField sf = new SpecialField(Document);
-                        localizedText = sf.Expand(localizedText); 
-					}
-				}
-				return localizedText;
-			}
-
-			set { localizedText = value; }
-		}
-
 		//------------------------------------------------------------------------------
 		//public TextRect(SerializationInfo info, StreamingContext context)
 		//	: base(info, context)
@@ -1302,18 +1393,56 @@ namespace Microarea.RSWeb.Objects
         //}
 
         //------------------------------------------------------------------------------
-        override public string ToJson()
+        override public string ToJsonTemplate(bool bracket)
         {
-            return "\"textrect\":{" +
-                base.ToJson() + ',' +
+            string name = "textrect";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                base.ToJsonTemplate(false) + ',' +
 
                 this.LocalizedText.ToJson("caption", false, true) + ',' +
+
+                this.TemplateBkgColor.ToJson("bkgcolor") + ',' +
+                this.TemplateTextColor.ToJson("textcolor") + ',' +
+
                 this.Label.Align.ToJson("align") + ',' +
                 this.Label.FontData.ToJson() + ',' +
-                this.BkgColor.ToJson("bkgcolor") + ',' +
-                this.TextColor.ToJson("textcolor") + ',' +
+
                 this.IsHtml.ToJson("ishtml") +
               '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        override public string ToJsonData(bool bracket)
+        {
+            string name = "textrect";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                base.ToJsonData(false) + 
+
+                (this.Special ? ',' + LocalizedText.ToJson("caption", false, true) : "") +
+
+                (this.TextColorExpr != null ? ',' + this.DynamicTextColor   .ToJson("textcolor") : "") +
+                (this.BkgColorExpr != null  ? ',' + this.DynamicBkgColor    .ToJson("bkgcolor") : "") +
+
+              '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
         }
 
         //------------------------------------------------------------------------------
@@ -1470,7 +1599,7 @@ namespace Microarea.RSWeb.Objects
 			string text = "";
 
 			bool ok =
-				lex.ParseRect(Token.TEXT, out BaseRectangle) &&
+				lex.ParseRect(Token.TEXT, out Rect) &&
 				lex.ParseRatio(out HRatio, out VRatio);
 
 			if (ok && lex.LookAhead(Token.ALIAS))
@@ -1493,7 +1622,7 @@ namespace Microarea.RSWeb.Objects
 				Default = null;
 			//----
 
-			unparser.WriteRect(Token.TEXT, this.BaseRectangle, false);
+			unparser.WriteRect(Token.TEXT, this.Rect, false);
 
 			if (IsNotDefaultRatio())
 				unparser.WriteRatio(HRatio, VRatio, false);
@@ -1521,7 +1650,7 @@ namespace Microarea.RSWeb.Objects
 				UnparseDynamicColor(unparser, Token.BKGCOLOR, BkgColorExpr);
 			else if (IsNotDefaultBkgColor())
 			{
-				unparser.WriteColor(Token.BKGCOLOR, BkgColor, false);
+				unparser.WriteColor(Token.BKGCOLOR, DynamicBkgColor, false);
 				unparser.WriteSep(true);
 			}
 
@@ -1529,7 +1658,7 @@ namespace Microarea.RSWeb.Objects
 				UnparseDynamicColor(unparser, Token.TEXTCOLOR, TextColorExpr);
 			else if (IsNotDefaultTextColor())
 			{
-				unparser.WriteColor(Token.TEXTCOLOR, TextColor, false);
+				unparser.WriteColor(Token.TEXTCOLOR, DynamicTextColor, false);
 				unparser.WriteSep(true);
 			}
 
@@ -1679,15 +1808,44 @@ namespace Microarea.RSWeb.Objects
 		//}
 
         //------------------------------------------------------------------------------
-        override public string ToJson()
+        override public string ToJsonTemplate(bool bracket)
         {
-            return "\"graphrect\":{" +
-                base.ToJson() + ',' +
+            string name = "graphrect";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' + 
+                base.ToJsonTemplate(false) + ',' +
 
                 this.ImageFileName.ToJson("image", false, true) + ',' +
                 this.Align.ToJson("align") + 
                 
               '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        override public string ToJsonData(bool bracket)
+        {
+            string name = "graphrect";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                base.ToJsonData(false) +
+              '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
         }
 
         //------------------------------------------------------------------------------
@@ -1726,7 +1884,7 @@ namespace Microarea.RSWeb.Objects
             ShowNativeImageSize = false;
             IsCut = false;
 
-			bool ok = lex.ParseRect(Token.BITMAP, out BaseRectangle);
+			bool ok = lex.LookAhead(Token.METAFILE) ? lex.ParseRect(Token.METAFILE, out Rect) : lex.ParseRect(Token.BITMAP, out Rect);
             if (!ok)
                 return false;
 
@@ -1770,7 +1928,7 @@ namespace Microarea.RSWeb.Objects
 				Default = null;
 			//----
 
-			unparser.WriteRect(Token.BITMAP, BaseRectangle, false);
+			unparser.WriteRect(Token.BITMAP, Rect, false);
 
 			if (ShowProportional)
 				unparser.WriteTag(Token.PROPORTIONAL, false);
@@ -1808,7 +1966,7 @@ namespace Microarea.RSWeb.Objects
 
     public Rectangle ImageRect
 		{
-			get { return BaseRectangle; }
+			get { return Rect; }
 		}
 
 		public string ImageFile
@@ -1860,7 +2018,7 @@ namespace Microarea.RSWeb.Objects
 		public override bool Parse(WoormParser lex)
 		{
 			return
-				lex.ParseRect(Token.FILE, out BaseRectangle) &&
+				lex.ParseRect(Token.FILE, out Rect) &&
 				lex.ParseString(out Label.Text) &&
 				lex.ParseRatio(out HRatio, out VRatio) &&
 				ParseBlock(lex);
@@ -1875,7 +2033,7 @@ namespace Microarea.RSWeb.Objects
 				Default = null;
 			//----
 
-			unparser.WriteRect(Token.FILE, BaseRectangle, false);
+			unparser.WriteRect(Token.FILE, Rect, false);
 
 			if (IsNotDefaultRatio())
 				unparser.WriteRatio(HRatio, VRatio, false);
@@ -1942,12 +2100,20 @@ namespace Microarea.RSWeb.Objects
 
         public WoormViewerExpression FormatStyleExpr = null;    //server-side si applica al value
 
-		//const string VALUE = "Value";
-		//const string LABEL = "Label";
-		//const string LOCALIZEDTEXT = "LocalizedText";
+        //const string VALUE = "Value";
+        //const string LABEL = "Label";
+        //const string LOCALIZEDTEXT = "LocalizedText";
 
-		//-------------------------------------------------------------------------------
-		public Color TextColor
+        //-------------------------------------------------------------------------------
+        public Color TemplateTextColor
+        {
+            get
+            {
+                return Value.TextColor;
+            }
+        }
+
+        public Color DynamicTextColor
 		{
 			get
 			{
@@ -1959,13 +2125,21 @@ namespace Microarea.RSWeb.Objects
 
                     if (val != null && val.Valid)
                         return Color.FromArgb(255, Color.FromArgb((int)val.Data)); 
-
                 }
-				return Value.TextColor;
+				return TemplateTextColor;
 			}
 		}
-		//-------------------------------------------------------------------------------
-		public Color BkgColor
+
+        //-------------------------------------------------------------------------------
+        public Color TemplateBkgColor
+        {
+            get
+            {
+                return Value.BkgColor;
+            }
+        }
+
+        public Color DynamicBkgColor
 		{
 			get
 			{
@@ -1977,13 +2151,19 @@ namespace Microarea.RSWeb.Objects
 
                     if (val != null && val.Valid)
                         return Color.FromArgb(255, Color.FromArgb((int)val.Data)); 
-
                 }
-				return Value.BkgColor;
+                return TemplateBkgColor;
 			}
 		}
-		//-------------------------------------------------------------------------------
-		public Color LabelTextColor
+        //-------------------------------------------------------------------------------
+        public Color TemplateLabelTextColor
+        {
+            get
+            {
+                return Label.TextColor;
+            }
+        }
+        public Color DynamicLabelTextColor
 		{
 			get
 			{
@@ -1996,12 +2176,20 @@ namespace Microarea.RSWeb.Objects
                         return Color.FromArgb(255, Color.FromArgb((int)val.Data)); 
 
                 }
-				return Label.TextColor;
+				return TemplateLabelTextColor;
 			}
 		}
 
-		//------------------------------------------------------------------------------
-		public string LocalizedText
+        //------------------------------------------------------------------------------
+        public string TemplateLabelLocalizedText
+        {
+            get
+            {
+                return Document.Localizer.Translate(Label.Text);
+            }
+        }
+
+        public string DynamicLabelLocalizedText
 		{
 			get
 			{
@@ -2017,7 +2205,7 @@ namespace Microarea.RSWeb.Objects
 					if (val != null && val.Valid)
 						return Document.Localizer.Translate(val.Data.ToString());
 				}
-				return Document.Localizer.Translate(Label.Text);
+				return TemplateLabelLocalizedText;
 			}
 		}
 
@@ -2066,43 +2254,87 @@ namespace Microarea.RSWeb.Objects
 		//}
 
         //------------------------------------------------------------------------------
-        override public string ToJson()
+        override public string ToJsonTemplate(bool bracket)
         {
-            return "\"fieldrect\":{" +
+            string name = "fieldrect";
 
-                base.ToJson() + ',' +
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+
+                base.ToJsonTemplate(false) + ',' +
 
                 "\"label\":{" +
-                    this.LocalizedText  .ToJson("caption", false, true) + ',' +
+                    this.TemplateLabelLocalizedText  .ToJson("caption", false, true) + ',' +
+                    this.TemplateLabelTextColor .ToJson("textcolor") + ',' +
                     this.Label.FontData .ToJson() + ',' +
-                    this.Label.Align    .ToJson("align") + ',' +
-                    this.LabelTextColor .ToJson("textcolor") + 
+                    this.Label.Align    .ToJson("align") + 
                 "}," +
 
                 this.Value.FontData     .ToJson() + ',' +
                 this.Value.Align        .ToJson("align") + ',' +
-                this.BkgColor           .ToJson("bkgcolor") + ',' +
-                this.TextColor          .ToJson("textcolor") + ',' +
 
-                this.Value.FormattedData    .ToJson("value", false, true) + 
+                this.TemplateBkgColor   .ToJson("bkgcolor") + ',' +
+                this.TemplateTextColor  .ToJson("textcolor") + 
+
+                //this.Value.FormattedData    .ToJson("value", false, true) + 
  
-                (this.IsHtml    ? ',' + this.IsHtml     .ToJson("ishtml") : "") +
-                (this.IsImage   ? ',' + this.IsImage    .ToJson("isimage")  : "") +
+                (this.IsHtml    ? ',' + this.IsHtml     .ToJson("html") : "") +
+                (this.IsImage   ? ',' + this.IsImage    .ToJson("image")  : "") +
 
              '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
         }
 
-  //      public FieldRect(SerializationInfo info, StreamingContext context)
-		//	: base(info, context)
-		//{
-		//	Value = info.GetValue<WoormValue>(VALUE);
-		//	Label = info.GetValue<Label>(LABEL);
+        override public string ToJsonData(bool bracket)
+        {
+            string name = "fieldrect";
 
-		//	//TODO silvano: deserializzare localized text
-				
-		//}
-		//------------------------------------------------------------------------------
-		public FieldRect()
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                base.ToJsonData(false) + ',';
+
+                if (this.LabelTextColorExpr != null || this.LabelTextExpr != null)
+                    s +=
+                        "\"label\":{" +
+                            (this.LabelTextExpr  != null        ? this.DynamicLabelLocalizedText.ToJson("caption", false, true) : "") +
+                            ((this.LabelTextColorExpr != null && this.LabelTextExpr != null) ? "," : "") +
+                            (this.LabelTextColorExpr != null    ? this.DynamicLabelTextColor.ToJson("textcolor") : "") +
+                        "},";
+
+                s +=
+                    (this.TextColorExpr != null ? this.DynamicTextColor .ToJson("textcolor") + ',' : "") +
+                    (this.BkgColorExpr != null  ? this.DynamicBkgColor  .ToJson("bkgcolor") + ',' : "");
+
+                s += this.Value.FormattedData.ToJson("value", false, true) +
+                '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        //      public FieldRect(SerializationInfo info, StreamingContext context)
+        //	: base(info, context)
+        //{
+        //	Value = info.GetValue<WoormValue>(VALUE);
+        //	Label = info.GetValue<Label>(LABEL);
+
+        //	//TODO silvano: deserializzare localized text
+
+        //}
+        //------------------------------------------------------------------------------
+        public FieldRect()
 			: this((WoormDocument)null)
 		{
 		}
@@ -2418,7 +2650,7 @@ namespace Microarea.RSWeb.Objects
 		public override bool Parse(WoormParser lex)
 		{
 			bool ok =
-				lex.ParseRect(Token.FIELD, out BaseRectangle) &&
+				lex.ParseRect(Token.FIELD, out Rect) &&
 				lex.ParseRatio(out HRatio, out VRatio) &&
 				lex.ParseAlias(out InternalID);
 
@@ -2457,7 +2689,7 @@ namespace Microarea.RSWeb.Objects
 				Default = null;
 			//----
 
-			unparser.WriteRect(Token.FIELD, BaseRectangle, false);
+			unparser.WriteRect(Token.FIELD, Rect, false);
 
 			if (IsNotDefaultRatio())
 				unparser.WriteRatio(HRatio, VRatio, false);
@@ -2764,7 +2996,7 @@ namespace Microarea.RSWeb.Objects
 
 		public Rectangle ImageRect
 		{
-			get { return BaseRectangle; }
+			get { return Rect; }
 		}
 
 		public string ImageFile
@@ -2775,35 +3007,7 @@ namespace Microarea.RSWeb.Objects
 		#endregion
 	}
 
-	/// <summary>
-	/// Summary description for SqrRect.
-	/// </summary>
-	//================================================================================
-	public class MetafileRect : GraphRect
-	{
-
-		//------------------------------------------------------------------------------
-		public MetafileRect(WoormDocument document)
-			: base(document)
-		{
-		}
-
-		//------------------------------------------------------------------------------
-		public override bool Parse(WoormParser lex)
-		{
-			return
-				lex.ParseRect(Token.METAFILE, out BaseRectangle) &&
-				lex.ParseString(out ImageFileName) &&
-				ParseBlock(lex);
-		}
-
-		//------------------------------------------------------------------------------
-		public override bool Unparse(Unparser unparser)
-		{
-			return true;
-		}
-	}
-    
+  
     /// <summary>
 	/// Summary description for SqrRect.
 	/// </summary>

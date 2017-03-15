@@ -174,7 +174,7 @@ namespace Microarea.RSWeb.WoormEngine
 				dataDisplayed = false;
 
 				// table full: Exec AFTER actions. Nel caso di Office considero la tabella infinita.
-				if (reportEngine.Report.EngineType != EngineType.OfficeXML)
+				if (reportEngine.Report.EngineType != EngineType.FullXML_OfficeXML)
 				{
 					tableFull = true;
 					if (tableActions == null || !tableActions.AfterActions.Exec())

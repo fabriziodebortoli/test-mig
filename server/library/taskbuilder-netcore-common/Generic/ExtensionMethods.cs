@@ -10,19 +10,45 @@ namespace Microarea.Common.Generic
 	//================================================================================
 	public static class StringExtensions
 	{
-		/// <summary>
-		/// Effettua un compare con StringComparison.InvariantCultureIgnoreCase
-		/// </summary>
-		//--------------------------------------------------------------------------------
-		public static bool CompareNoCase(this String str1, String str2)
+        /// <summary>
+        /// rimuove tutte le occorrenze di un carattere
+        /// </summary>
+        //--------------------------------------------------------------------------------
+        public static string Remove(this string str1, char[] anyOf, int start, int searchLength = 0)
+        {
+            int idx = -1;
+            do
+            {
+                idx = (searchLength > 0 ? str1.IndexOfAny(anyOf, start, searchLength) : str1.IndexOfAny(anyOf, start));
+                if (idx > -1)
+                {
+                    str1 = str1.Remove(idx, 1);
+                }
+            } while (idx > -1);
+            return str1;
+        }
+
+        /// <summary>
+        /// rimuove tutte le occorrenze di un carattere
+        /// </summary>
+        public static string Remove(this string str1, char c, int start, int searchLength = 0)
+        {
+            return str1.Remove(new char[] { c }, start, searchLength);
+        }
+
+        //--------------------------------------------------------------------------------
+        /// <summary>
+        /// Effettua un compare con StringComparison.InvariantCultureIgnoreCase
+        /// </summary>
+        public static bool CompareNoCase(this string str1, string str2)
 		{
 			return string.Compare(str1, str2, StringComparison.OrdinalIgnoreCase) == 0;
 		}
 
+		//--------------------------------------------------------------------------------
 		/// <summary>
 		/// Effettua una Replace no case
 		/// </summary>
-		//--------------------------------------------------------------------------------
 		public static string ReplaceNoCase(this string inputString, string stringToReplace, string replaceString)
 		{
 			return Regex.Replace(
@@ -33,10 +59,10 @@ namespace Microarea.Common.Generic
 				);
 		}
 
+		//--------------------------------------------------------------------------------
 		/// <summary>
 		/// IsNullOrEmpty sulla variabile e non statica di string
 		/// </summary>
-		//--------------------------------------------------------------------------------
 		public static bool IsNullOrEmpty(this string str1)
 		{
 			return string.IsNullOrEmpty(str1);
@@ -45,7 +71,6 @@ namespace Microarea.Common.Generic
 		/// <summary>
 		/// IsNullOrWhiteSpace sulla variabile e non statica di string
 		/// </summary>
-		//--------------------------------------------------------------------------------
 		public static bool IsNullOrWhiteSpace(this string str1)
 		{
 			return string.IsNullOrWhiteSpace(str1);
@@ -57,7 +82,6 @@ namespace Microarea.Common.Generic
 			return source.IndexOf(toCheck, StringComparison.OrdinalIgnoreCase);
 		}
 
-		//--------------------------------------------------------------------------------
 		public static bool ContainsNoCase(this string source, string toCheck)
 		{
 			return source.IndexOfNoCase(toCheck) >= 0;
@@ -78,14 +102,15 @@ namespace Microarea.Common.Generic
 			return o == null || count > o.Length ? o : o.Substring(0, count);
 		}
 
-		/// <summary>
-		/// Implement  c++ & VB LEFT syntax checking parameters boundary avoiding exception.
-		/// returns the left count character with 3 suspension points at the end, indicating the truncation
-		/// </summary>
-		/// <param name="o"></param>
-		/// <param name="count"></param>
-		/// <returns></returns>
-		public static string LeftWithSuspensionPoints(this string o, int count)
+        //---------------------------------------------------------------------
+        /// <summary>
+        /// Implement  c++ & VB LEFT syntax checking parameters boundary avoiding exception.
+        /// returns the left count character with 3 suspension points at the end, indicating the truncation
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static string LeftWithSuspensionPoints(this string o, int count)
 		{
 			if(count <= 0)
 				return string.Empty;
@@ -94,14 +119,14 @@ namespace Microarea.Common.Generic
 		}
 
 
-		/// <summary>
-		/// Implement  c++ & VB RIGHT syntax checking parameters boundary avoiding exception.
-		/// returns the rightmost count character
-		/// </summary>
-		/// <param name="count">number of character. If more than original string size return original string</param>
-		/// <returns></returns>
-		//---------------------------------------------------------------------
-		public static string Right(this string o, int count)
+        //---------------------------------------------------------------------
+        /// <summary>
+        /// Implement  c++ & VB RIGHT syntax checking parameters boundary avoiding exception.
+        /// returns the rightmost count character
+        /// </summary>
+        /// <param name="count">number of character. If more than original string size return original string</param>
+        /// <returns></returns>
+        public static string Right(this string o, int count)
 		{
 			if (count <= 0)
 				return string.Empty;
@@ -109,15 +134,15 @@ namespace Microarea.Common.Generic
 			return count >= o.Length ? o : o.Substring(o.Length - count);
 		}
 
-		/// <summary>
-		/// Implement  c++ & VB MID syntax checking parameters boundary avoiding exception.
-		/// returns the innermost count character starting from start
-		/// </summary>
-		/// <param name="start">where to start</param>
-		/// <param name="count">number of characters</param>
-		/// <returns></returns>
-		//---------------------------------------------------------------------
-		public static string Mid(this string o, int start, int count = -1)
+        //---------------------------------------------------------------------
+        /// <summary>
+        /// Implement  c++ & VB MID syntax checking parameters boundary avoiding exception.
+        /// returns the innermost count character starting from start
+        /// </summary>
+        /// <param name="start">where to start</param>
+        /// <param name="count">number of characters</param>
+        /// <returns></returns>
+        public static string Mid(this string o, int start, int count = -1)
 		{
 			if (count == 0 || start >= o.Length)
 				return string.Empty;
@@ -133,14 +158,14 @@ namespace Microarea.Common.Generic
 			return o.Substring(start, count);
 		}
 
-		/// <summary>
-		/// Replace the char at given index with an other
-		/// </summary>
-		/// <param name="start">index of char to replace </param>
-		/// <param name="count">the new char</param>
-		/// <returns></returns>
-		//---------------------------------------------------------------------
-		public static string ReplaceAt(this string o, int index, char c)
+        //---------------------------------------------------------------------
+        /// <summary>
+        /// Replace the char at given index with an other
+        /// </summary>
+        /// <param name="start">index of char to replace </param>
+        /// <param name="count">the new char</param>
+        /// <returns></returns>
+        public static string ReplaceAt(this string o, int index, char c)
 		{
 			if (index <= 0 || index >= o.Length)
 				return string.Empty;
@@ -150,24 +175,24 @@ namespace Microarea.Common.Generic
 			return s;
 		}
 
-		/// <summary>
-		/// Replace occurrences from a start index 
-		/// </summary>
-		/// <param name="s">the old string </param>
-		/// <param name="n">the new string</param>
-		/// <param name="startIndex">the start index</param>
-		/// <returns></returns>
-		//---------------------------------------------------------------------
-		public static string Replace(this string o, string s, string n, int startIndex)
+        //---------------------------------------------------------------------
+        /// <summary>
+        /// Replace occurrences from a start index 
+        /// </summary>
+        /// <param name="s">the old string </param>
+        /// <param name="n">the new string</param>
+        /// <param name="startIndex">the start index</param>
+        /// <returns></returns>
+        public static string Replace(this string o, string s, string n, int startIndex)
 		{
 			string a = o.Left(startIndex) + o.Mid(startIndex).Replace(s, n);
 			return a;
 		}
 
+		//---------------------------------------------------------------------
 		/// <summary>
 		/// Remove the blanks that are internal to square brackets
 		/// </summary>
-		//---------------------------------------------------------------------
 		public static string StripBlankNearSquareBrackets(this string o)
 		{
 			string s = o;
@@ -461,7 +486,7 @@ namespace Microarea.Common.Generic
         //--------------------------------------------------------------------------------
         public static string ToJson(this string o, string name = null, bool bracket = false, bool escape = false)
         {
-            string s = o.Trim();
+            string s = o != null ? o.Trim() : string.Empty;
 
             if (escape)
             {
@@ -537,7 +562,27 @@ namespace Microarea.Common.Generic
 
             return s;
         }
+
+        public static string ToHtml(this Color color)
+        {
+            return ColorTranslator.ToHtml(color);
+        }
+
         public static string ToJson(this Color color, string name = null, bool bracket = false)
+        {
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '"' + name + "\":";
+
+            s += color.ToHtml().ToJson();
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        public static string ToJsonRGB(this Color color, string name = null, bool bracket = false)
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())

@@ -68,7 +68,6 @@ namespace TaskBuilderNetCore.DataFunctionaluty
                 {
                     using (DBDataReader reader = command.ExecuteReader())
                     {
-                            
                         try
                         {
                             reader.Read();
@@ -78,7 +77,11 @@ namespace TaskBuilderNetCore.DataFunctionaluty
                         {
                             return string.Empty;
                         }
-                            
+                        finally
+                        {
+                            //reader.Dispose();
+                            //command.Dispose();
+                       }  
                     }
                 }
             }

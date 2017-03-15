@@ -1,4 +1,6 @@
 using System;
+
+using Microarea.Common.Generic;
 using Microarea.Common.Applications;
 using Microarea.Common.Lexan;
 
@@ -9,42 +11,28 @@ namespace Microarea.RSWeb.WoormViewer
 	/// </summary>
 	public class TableBorders
 	{
-		public bool TableTitleTop;
-		public bool TableTitleLeft;
-		public bool TableTitleBottom;
-		public bool TableTitleRight;
+        public Borders TableTitle = new Borders();
+        public Borders ColumnTitle = new Borders();
+        public Borders Body = new Borders();
+        public Borders Total = new Borders();
 
-		public bool ColumnTitleTop;
-		public bool ColumnTitleLeft;
-		public bool ColumnTitleBottom;
-		public bool ColumnTitleRight;
-		public bool ColumnTitleSeparator;
+        public bool ColumnTitleSeparator;
+		public bool ColumnSeparator;
 
 		public bool RowSeparator;
 		public bool DynamicRowSeparator;
-		public bool ColumnSeparator;
-		public BorderPen RowSepPen;
+		public BorderPen RowSepPen = new BorderPen();
 
-		public bool BodyTop;
-		public bool BodyLeft;
-		public bool BodyBottom;
-		public bool BodyRight;
-
-		public bool TotalTop;
-		public bool TotalLeft;
-		public bool TotalBottom;
-		public bool TotalRight;
-
-		//------------------------------------------------------------------------------
-		public TableBorders()
+        //------------------------------------------------------------------------------
+        public TableBorders()
 		{
 			Init(true);
 			RowSeparator = false;
 
 			//riporto cs#74193 da woorm c++ - Aggiunta nuovi bordi
-			TableTitleBottom = false;
-			ColumnTitleBottom = false;
-			TotalTop = false;
+			TableTitle.Bottom = false;
+			ColumnTitle.Bottom = false;
+			Total.Top = false;
 		}
 
 		//------------------------------------------------------------------------------
@@ -54,37 +42,37 @@ namespace Microarea.RSWeb.WoormViewer
 			RowSeparator = false;
 
 			//riporto cs#74193 da woorm c++ - Aggiunta nuovi bordi sulla tabella
-			TableTitleBottom = false;
-			ColumnTitleBottom = false;
-			TotalTop = false;
+			TableTitle.Bottom = false;
+			ColumnTitle.Bottom = false;
+			Total.Top = false;
 		}
 
 		//------------------------------------------------------------------------------
 		internal void Init(bool enabled)
 		{
-			TableTitleTop   = enabled;
-			TableTitleLeft  = enabled;
-			TableTitleBottom = enabled;
-			TableTitleRight = enabled;
+			TableTitle.Top   = enabled;
+			TableTitle.Left  = enabled;
+			TableTitle.Bottom = enabled;
+			TableTitle.Right = enabled;
 
-			ColumnTitleTop      = enabled;
-			ColumnTitleLeft     = enabled;
-			ColumnTitleBottom	= enabled;
-			ColumnTitleRight    = enabled;
+			ColumnTitle.Top      = enabled;
+			ColumnTitle.Left     = enabled;
+			ColumnTitle.Bottom	= enabled;
+			ColumnTitle.Right    = enabled;
 			ColumnTitleSeparator= enabled;
 
 			RowSeparator    = enabled;
 			ColumnSeparator = enabled;
 
-			BodyTop     = enabled;
-			BodyLeft    = enabled;
-			BodyBottom  = enabled;
-			BodyRight   = enabled;
+			Body.Top     = enabled;
+			Body.Left    = enabled;
+			Body.Bottom  = enabled;
+			Body.Right   = enabled;
 
-			TotalTop	= enabled;
-			TotalLeft   = enabled;
-			TotalBottom = enabled;
-			TotalRight  = enabled;
+			Total.Top	= enabled;
+			Total.Left   = enabled;
+			Total.Bottom = enabled;
+			Total.Right  = enabled;
 		}
 
 		//------------------------------------------------------------------------------
@@ -116,26 +104,26 @@ namespace Microarea.RSWeb.WoormViewer
 				return false;
 
 			return
-				e1.BodyBottom == e2.BodyBottom &&
-				e1.BodyLeft == e2.BodyLeft &&
-				e1.BodyRight == e2.BodyRight &&
-				e1.BodyTop == e2.BodyTop &&
+				e1.Body.Bottom == e2.Body.Bottom &&
+				e1.Body.Left == e2.Body.Left &&
+				e1.Body.Right == e2.Body.Right &&
+				e1.Body.Top == e2.Body.Top &&
 				e1.ColumnSeparator == e2.ColumnSeparator &&
-				e1.ColumnTitleBottom == e2.ColumnTitleBottom &&
-				e1.ColumnTitleLeft == e2.ColumnTitleLeft &&
-				e1.ColumnTitleRight == e2.ColumnTitleRight &&
+				e1.ColumnTitle.Bottom == e2.ColumnTitle.Bottom &&
+				e1.ColumnTitle.Left == e2.ColumnTitle.Left &&
+				e1.ColumnTitle.Right == e2.ColumnTitle.Right &&
 				e1.ColumnTitleSeparator == e2.ColumnTitleSeparator &&
-				e1.ColumnTitleTop == e2.ColumnTitleTop &&
+				e1.ColumnTitle.Top == e2.ColumnTitle.Top &&
 				e1.RowSeparator == e2.RowSeparator &&
 				e1.RowSepPen == e2.RowSepPen &&
-				e1.TableTitleBottom == e2.TableTitleBottom &&
-				e1.TableTitleLeft == e2.TableTitleLeft &&
-				e1.TableTitleRight == e2.TableTitleRight &&
-				e1.TableTitleTop == e2.TableTitleTop &&
-				e1.TotalBottom == e2.TotalBottom &&
-				e1.TotalLeft == e2.TotalLeft &&
-				e1.TotalRight == e2.TotalRight &&
-				e1.TotalTop == e2.TotalTop;
+				e1.TableTitle.Bottom == e2.TableTitle.Bottom &&
+				e1.TableTitle.Left == e2.TableTitle.Left &&
+				e1.TableTitle.Right == e2.TableTitle.Right &&
+				e1.TableTitle.Top == e2.TableTitle.Top &&
+				e1.Total.Bottom == e2.Total.Bottom &&
+				e1.Total.Left == e2.Total.Left &&
+				e1.Total.Right == e2.Total.Right &&
+				e1.Total.Top == e2.Total.Top;
 		}
 
 		//------------------------------------------------------------------------------
@@ -149,29 +137,29 @@ namespace Microarea.RSWeb.WoormViewer
 		{
 			int counter = 0;
 
-			if (!TableTitleTop)     counter++;
-			if (TableTitleBottom)	counter++;
-			if (!TableTitleLeft)    counter++;
-			if (!TableTitleRight)   counter++;
+			if (!TableTitle.Top)     counter++;
+			if (TableTitle.Bottom)	counter++;
+			if (!TableTitle.Left)    counter++;
+			if (!TableTitle.Right)   counter++;
 
-			if (!ColumnTitleTop)        counter++;
-			if (ColumnTitleBottom)		counter++;
-			if (!ColumnTitleLeft)       counter++;
-			if (!ColumnTitleRight)      counter++;
+			if (!ColumnTitle.Top)        counter++;
+			if (ColumnTitle.Bottom)		counter++;
+			if (!ColumnTitle.Left)       counter++;
+			if (!ColumnTitle.Right)      counter++;
 			if (!ColumnTitleSeparator)  counter++;
 
 			if (RowSeparator)       counter++;
 			if (!ColumnSeparator)   counter++;
 
-			if (!BodyTop)       counter++;
-			if (!BodyLeft)      counter++;
-			if (!BodyBottom)    counter++;
-			if (!BodyRight)     counter++;
+			if (!Body.Top)       counter++;
+			if (!Body.Left)      counter++;
+			if (!Body.Bottom)    counter++;
+			if (!Body.Right)     counter++;
 
-			if (!TotalLeft)     counter++;
-			if (TotalTop)		counter++;
-			if (!TotalBottom)   counter++;
-			if (!TotalRight)    counter++;
+			if (!Total.Left)     counter++;
+			if (Total.Top)		counter++;
+			if (!Total.Bottom)   counter++;
+			if (!Total.Right)    counter++;
 
 			return counter;
 		}
@@ -186,15 +174,15 @@ namespace Microarea.RSWeb.WoormViewer
 				switch (lex.LookAhead())
 				{
 					case Token.EOF: lex.SetError(WoormViewerStrings.WoormViewerErrorUnexpectedEof); ok = false; break;
-					case Token.NO_TTT			: lex.SkipToken(); TableTitleTop		= false;    break;
-					case Token.NO_TTL			: lex.SkipToken(); TableTitleLeft		= false;    break;
-					case Token.NO_TTR			: lex.SkipToken(); TableTitleRight		= false;    break;
-					case Token.TITLE_BOTTOM		: lex.SkipToken(); TableTitleBottom		= true;		break;
-					case Token.NO_CTT			: lex.SkipToken(); ColumnTitleTop		= false;    break;
-					case Token.NO_CTL			: lex.SkipToken(); ColumnTitleLeft		= false;    break;
-					case Token.NO_CTR			: lex.SkipToken(); ColumnTitleRight		= false;    break;
+					case Token.NO_TTT			: lex.SkipToken(); TableTitle.Top		= false;    break;
+					case Token.NO_TTL			: lex.SkipToken(); TableTitle.Left		= false;    break;
+					case Token.NO_TTR			: lex.SkipToken(); TableTitle.Right		= false;    break;
+					case Token.TITLE_BOTTOM		: lex.SkipToken(); TableTitle.Bottom		= true;		break;
+					case Token.NO_CTT			: lex.SkipToken(); ColumnTitle.Top		= false;    break;
+					case Token.NO_CTL			: lex.SkipToken(); ColumnTitle.Left		= false;    break;
+					case Token.NO_CTR			: lex.SkipToken(); ColumnTitle.Right		= false;    break;
 					case Token.NO_CTS			: lex.SkipToken(); ColumnTitleSeparator	= false;    break;
-					case Token.COLTITLE_BOTTOM	: lex.SkipToken(); ColumnTitleBottom	= true;		break;
+					case Token.COLTITLE_BOTTOM	: lex.SkipToken(); ColumnTitle.Bottom	= true;		break;
 					case Token.YE_RSE   : 
 										  lex.SkipToken(); 
 										  RowSeparator			= true;     
@@ -208,14 +196,14 @@ namespace Microarea.RSWeb.WoormViewer
 										  break;
 
 					case Token.NO_CSE   : lex.SkipToken(); ColumnSeparator		= false;    break;
-					case Token.NO_BOT   : lex.SkipToken(); BodyTop				= false;    break;
-					case Token.NO_BOR   : lex.SkipToken(); BodyRight			= false;    break;
-					case Token.NO_BOL   : lex.SkipToken(); BodyLeft				= false;    break;
-					case Token.NO_BOB   : lex.SkipToken(); BodyBottom			= false;    break;
-					case Token.TOTAL_TOP: lex.SkipToken(); TotalTop				= true;		break;
-					case Token.NO_TOR   : lex.SkipToken(); TotalRight			= false;    break;
-					case Token.NO_TOL   : lex.SkipToken(); TotalLeft			= false;    break;
-					case Token.NO_TOB   : lex.SkipToken(); TotalBottom			= false;    break;
+					case Token.NO_BOT   : lex.SkipToken(); Body.Top				= false;    break;
+					case Token.NO_BOR   : lex.SkipToken(); Body.Right			= false;    break;
+					case Token.NO_BOL   : lex.SkipToken(); Body.Left				= false;    break;
+					case Token.NO_BOB   : lex.SkipToken(); Body.Bottom			= false;    break;
+					case Token.TOTAL_TOP: lex.SkipToken(); Total.Top				= true;		break;
+					case Token.NO_TOR   : lex.SkipToken(); Total.Right			= false;    break;
+					case Token.NO_TOL   : lex.SkipToken(); Total.Left			= false;    break;
+					case Token.NO_TOB   : lex.SkipToken(); Total.Bottom			= false;    break;
 
 					case Token.END :
 						if (blk) return ok;
@@ -282,56 +270,76 @@ namespace Microarea.RSWeb.WoormViewer
 			return ok;
 		}
 
-		//------------------------------------------------------------------------------
-		public bool Unparse(Unparser unparser)
-		{
-			if (IsDefault())
-				return true;
+        //------------------------------------------------------------------------------
+        public bool Unparse(Unparser unparser)
+        {
+            if (IsDefault())
+                return true;
 
-			bool blk = (Changed() > 1);
+            bool blk = (Changed() > 1);
 
-			unparser.WriteTag(Token.BORDERS, false);
-			unparser.WriteBlank();
+            unparser.WriteTag(Token.BORDERS, false);
+            unparser.WriteBlank();
 
-			if (blk)
-				unparser.WriteLine();
+            if (blk)
+                unparser.WriteLine();
 
-			if (blk) unparser.WriteBegin();
-			if (!TableTitleTop) unparser.WriteTag(Token.NO_TTT);
-			if (TableTitleBottom) unparser.WriteTag(Token.TITLE_BOTTOM);
-			if (!TableTitleLeft) unparser.WriteTag(Token.NO_TTL);
-			if (!TableTitleRight) unparser.WriteTag(Token.NO_TTR);
+            if (blk) unparser.WriteBegin();
+            if (!TableTitle.Top) unparser.WriteTag(Token.NO_TTT);
+            if (TableTitle.Bottom) unparser.WriteTag(Token.TITLE_BOTTOM);
+            if (!TableTitle.Left) unparser.WriteTag(Token.NO_TTL);
+            if (!TableTitle.Right) unparser.WriteTag(Token.NO_TTR);
 
-			if (!ColumnTitleTop) unparser.WriteTag(Token.NO_CTT);
-			if (ColumnTitleBottom) unparser.WriteTag(Token.COLTITLE_BOTTOM);
-			if (!ColumnTitleLeft) unparser.WriteTag(Token.NO_CTL);
-			if (!ColumnTitleRight) unparser.WriteTag(Token.NO_CTR);
+            if (!ColumnTitle.Top) unparser.WriteTag(Token.NO_CTT);
+            if (ColumnTitle.Bottom) unparser.WriteTag(Token.COLTITLE_BOTTOM);
+            if (!ColumnTitle.Left) unparser.WriteTag(Token.NO_CTL);
+            if (!ColumnTitle.Right) unparser.WriteTag(Token.NO_CTR);
 
-			if (!ColumnTitleSeparator) unparser.WriteTag(Token.NO_CTS);
-			if (!ColumnSeparator) unparser.WriteTag(Token.NO_CSE);
+            if (!ColumnTitleSeparator) unparser.WriteTag(Token.NO_CTS);
+            if (!ColumnSeparator) unparser.WriteTag(Token.NO_CSE);
 
-			if (RowSeparator || DynamicRowSeparator)
-			{
-				unparser.WriteTag(Token.YE_RSE, false);
-				if (DynamicRowSeparator)
-					unparser.WriteTag(Token.DYNAMIC, false);
-				if (RowSepPen != null)
-					unparser.WritePen(RowSepPen, false);
-				unparser.WriteLine();
-			}
+            if (RowSeparator || DynamicRowSeparator)
+            {
+                unparser.WriteTag(Token.YE_RSE, false);
+                if (DynamicRowSeparator)
+                    unparser.WriteTag(Token.DYNAMIC, false);
+                if (RowSepPen != null)
+                    unparser.WritePen(RowSepPen, false);
+                unparser.WriteLine();
+            }
 
-			if (!BodyTop) unparser.WriteTag(Token.NO_BOT);
-			if (!BodyBottom) unparser.WriteTag(Token.NO_BOB);
-			if (!BodyLeft) unparser.WriteTag(Token.NO_BOL);
-			if (!BodyRight) unparser.WriteTag(Token.NO_BOR);
+            if (!Body.Top) unparser.WriteTag(Token.NO_BOT);
+            if (!Body.Bottom) unparser.WriteTag(Token.NO_BOB);
+            if (!Body.Left) unparser.WriteTag(Token.NO_BOL);
+            if (!Body.Right) unparser.WriteTag(Token.NO_BOR);
 
-			if (TotalTop) unparser.WriteTag(Token.TOTAL_TOP);
-			if (!TotalBottom) unparser.WriteTag(Token.NO_TOB);
-			if (!TotalLeft) unparser.WriteTag(Token.NO_TOL);
-			if (!TotalRight) unparser.WriteTag(Token.NO_TOR);
-			if (blk) unparser.WriteEnd();
+            if (Total.Top) unparser.WriteTag(Token.TOTAL_TOP);
+            if (!Total.Bottom) unparser.WriteTag(Token.NO_TOB);
+            if (!Total.Left) unparser.WriteTag(Token.NO_TOL);
+            if (!Total.Right) unparser.WriteTag(Token.NO_TOR);
+            if (blk) unparser.WriteEnd();
 
-			return true;
-		}
-	}
+            return true;
+        }
+       //------------------------------------------------------------------------------
+        public string ToJson(string name = "tableborders", bool bracket = false)
+        {
+            string s = name.ToJson() + ":{" +
+                                TableTitle.ToJson("table_title") + ',' +
+                                ColumnTitle.ToJson("column_title") + ',' +
+                                Body.ToJson("body") + ',' +
+                                Total.ToJson("total") + ',' +
+                                ColumnTitleSeparator.ToJson("column_title_sep") + ',' +
+                                ColumnSeparator.ToJson("column_sep") + ',' +
+                                RowSeparator.ToJson("row_sep") + ',' +
+                                DynamicRowSeparator.ToJson("row_sep_dynamic") + ',' +
+                                RowSepPen.ToJson("row_sep_pen") +
+                                '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+    }
 }
