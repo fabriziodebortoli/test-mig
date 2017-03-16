@@ -92,12 +92,17 @@ namespace Microarea.RSWeb.Objects
 
             s += '{' +
                 InternalID          .ToJson("id") + ',' +
+
                 Hidden              .ToJson("hidden") + ',' +
                 Transparent         .ToJson("transparent") + ',' +
-                Rect                .ToJson("rect") + ',' +
-                GetTooltip          .ToJson("tooltip", false, true) + ',' +
-                DropShadowHeight    .ToJson("shadow_height") + ',' +
-                DropShadowColor     .ToJson("shadow_color") + 
+                Rect                .ToJson("rect") + 
+
+                (this.TooltipExpr != null ? ',' + DynamicTooltip.ToJson("tooltip", false, true) : "" ) + 
+
+                (DropShadowHeight != 0 ?
+                    ',' + DropShadowHeight    .ToJson("shadow_height") +
+                    ',' + DropShadowColor     .ToJson("shadow_color") 
+                    : "" ) +
               '}';
 
             if (bracket)
@@ -118,7 +123,7 @@ namespace Microarea.RSWeb.Objects
                 InternalID.ToJson("id") +
 
                 (this.HideExpr != null      ? ',' + this.DynamicIsHidden   .ToJson("hidden") : "") +
-                (this.TooltipExpr != null   ? ',' + this.GetTooltip .ToJson("tooltip", false, true) : "") + 
+                (this.TooltipExpr != null   ? ',' + this.DynamicTooltip .ToJson("tooltip", false, true) : "") + 
 
               '}';
 
@@ -281,7 +286,7 @@ namespace Microarea.RSWeb.Objects
         }
 
         //-------------------------------------------------------------------------------
-        public string GetTooltip
+        public string DynamicTooltip
 		{
 			get
 			{
@@ -290,6 +295,7 @@ namespace Microarea.RSWeb.Objects
 					Document.SynchronizeSymbolTable(RepeaterRow);
 
 					Value val = TooltipExpr.Eval();
+
 					if (val != null && val.Valid)
 						return (string)val.Data;
 				}
@@ -421,8 +427,9 @@ namespace Microarea.RSWeb.Objects
             s += '{' +
                 base.ToJsonTemplate(false) + ',' +
 
-                this.HRatio.ToJson("hratio") + ',' +
-                this.VRatio.ToJson("vratio") + ',' +
+                (this.HRatio != 0 ? this.HRatio.ToJson("hratio") + ',' : "") +
+                (this.VRatio != 0 ? this.VRatio.ToJson("vratio") + ',' : "") +
+
                 this.Borders.ToJson() + ',' +
                 this.BorderPen.ToJson() +
                 '}';
@@ -2270,15 +2277,17 @@ namespace Microarea.RSWeb.Objects
 
             s += '{' +
 
-                base.ToJsonTemplate(false) + ',' +
+                base.ToJsonTemplate(false) + ',';
+            
+            if (this.LabelTextExpr != null || !this.Label.Text.IsNullOrEmpty())
+                s += "\"label\":{" +
+                        this.TemplateLabelLocalizedText.ToJson("caption", false, true) + ',' +
+                        this.TemplateLabelTextColor.ToJson("textcolor") + ',' +
+                        this.Label.FontData.ToJson() + ',' +
+                        this.Label.Align.ToJson("align") +
+                    "},";
 
-                "\"label\":{" +
-                    this.TemplateLabelLocalizedText  .ToJson("caption", false, true) + ',' +
-                    this.TemplateLabelTextColor .ToJson("textcolor") + ',' +
-                    this.Label.FontData .ToJson() + ',' +
-                    this.Label.Align    .ToJson("align") + 
-                "}," +
-
+            s +=
                 this.Value.FontData     .ToJson() + ',' +
                 this.Value.Align        .ToJson("align") + ',' +
 

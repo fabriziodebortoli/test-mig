@@ -43,6 +43,7 @@ namespace Microarea.RSWeb.Render
                 StateMachine.XmlGetErrors();
         }
 
+        //---------------------------------------------------------------------
         public string GetJsonTemplatePage(int page = 1)
         {
             WoormDocument woorm = StateMachine.Woorm;
@@ -81,22 +82,7 @@ namespace Microarea.RSWeb.Render
             return woorm.ToJson(false);
         }
 
-        // qui mancano altri : rectangle, image, file etc.  manca anche la posizione.
-        string template = @"
-        {            
-          ""text"": ""Languages"",
-                     
-          ""rect"": ""w_CompanyName"",
-
-          ""text"":  ""09/03/2017 14:15"",
-
-          ""grid"": {
-                ""Languages"":      ""w_Language"",
-                ""Description"":    ""w_Description""
-            }
-        } 
-    ";
-
+        //---------------------------------------------------------------------
         public Message GetResponseFor(Message msg)
         {
             Message nMsg = new Message();
@@ -192,8 +178,6 @@ namespace Microarea.RSWeb.Render
                         nMsg.message = "Executed TEST()";
                         break;
                     }
-
-
             }
             return nMsg;
         }
