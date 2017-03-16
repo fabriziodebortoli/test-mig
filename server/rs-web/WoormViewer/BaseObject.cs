@@ -38,12 +38,12 @@ namespace Microarea.RSWeb.Objects
 
 		//const string BASERECT = "BaseRect";
 		//const string INTERNALID = "InternalID";
-		//const string HIDDEN = "Hidden";
+		//const string HIDDEN = "IsHidden";
 
  		public ushort InternalID = 0;
         public Rectangle Rect;
 		public bool Transparent;
-		public bool Hidden = false;
+		public bool IsHidden = false;
 
 		public int DropShadowHeight = 0;
         public Color DropShadowColor = Defaults.DefaultShadowColor;
@@ -77,7 +77,7 @@ namespace Microarea.RSWeb.Objects
 		//public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
 		//{
   //          info.AddValue(INTERNALID, InternalID);
-		//	info.AddValue(HIDDEN, Hidden);
+		//	info.AddValue(HIDDEN, IsHidden);
 		//	info.AddValue(BASERECT, Rect);
 		//}
 
@@ -93,7 +93,7 @@ namespace Microarea.RSWeb.Objects
             s += '{' +
                 InternalID          .ToJson("id") + ',' +
 
-                Hidden              .ToJson("hidden") + ',' +
+                IsHidden              .ToJson("hidden") + ',' +
                 Transparent         .ToJson("transparent") + ',' +
                 Rect                .ToJson("rect") + 
 
@@ -105,6 +105,18 @@ namespace Microarea.RSWeb.Objects
                     : "" ) +
               '}';
 
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
+        virtual public string ToJsonHiddenData(bool bracket)
+        {
+            string s = "\"baseobj\":{" +
+                            InternalID.ToJson("id") + ',' +
+                            false.ToJson("hidden") +
+                            '}';
             if (bracket)
                 s = '{' + s + '}';
 
@@ -138,7 +150,7 @@ namespace Microarea.RSWeb.Objects
         //{
         //	InternalID = info.GetUInt16(INTERNALID);
         //	Rect = info.GetValue<Rectangle>(BASERECT);
-        //	Hidden = info.GetBoolean(HIDDEN);
+        //	IsHidden = info.GetBoolean(HIDDEN);
         //}
 
         //------------------------------------------------------------------------------	
@@ -167,7 +179,7 @@ namespace Microarea.RSWeb.Objects
 			this.Rect = s.Rect;
 			this.Transparent = s.Transparent;
 
-			this.Hidden = s.Hidden;
+			this.IsHidden = s.IsHidden;
 			this.HideExpr = CloneExpr(s.HideExpr);
 			this.TooltipExpr = CloneExpr(s.TooltipExpr);
 
@@ -218,7 +230,7 @@ namespace Microarea.RSWeb.Objects
 		protected bool ParseHidden(WoormParser lex, Token[] stopTokens)
 		{
 			lex.SkipToken();
-			Hidden = true;
+			IsHidden = true;
 			if (lex.Parsed(Token.WHEN))
 			{
 				HideExpr = new WoormViewerExpression(Document);
@@ -233,14 +245,14 @@ namespace Microarea.RSWeb.Objects
 				// Nel caso di Localizer non posso valutare l'espresione perchè non ho la simbol table 
 				// valorizzata dal run delle AskDialog di default rimane visibile e posso tradurre tutto
 				if (Document.ForLocalizer)
-					Hidden = false;
+					IsHidden = false;
 				else
 				{
 					Value v = HideExpr.Eval();
 					if (HideExpr.Error)
-						Hidden = false;
+						IsHidden = false;
 					else
-						Hidden = (bool)v.Data;
+						IsHidden = (bool)v.Data;
 				}
 			}
 
@@ -281,7 +293,7 @@ namespace Microarea.RSWeb.Objects
                     if (val != null && val.Valid)
                         return (bool)val.Data;
                 }
-                return this.Hidden;
+                return this.IsHidden;
             }
         }
 
@@ -748,7 +760,7 @@ namespace Microarea.RSWeb.Objects
 		//------------------------------------------------------------------------------
 		private void UnparseHidden(Unparser unparser)
 		{
-			if ((Hidden == true || HideExpr != null) && !Document.Template.IsSavingTemplate)
+			if ((IsHidden == true || HideExpr != null) && !Document.Template.IsSavingTemplate)
 			{
 				unparser.WriteTag(Token.HIDDEN);
 				unparser.WriteBlank();
@@ -757,7 +769,7 @@ namespace Microarea.RSWeb.Objects
 					unparser.WriteTag(Token.WHEN, false);
 
 					if (Document.ReplaceHiddenWhenExpr) //TODOLUCA da implementare
-						unparser.WriteTag(Hidden ? Token.TRUE : Token.FALSE);
+						unparser.WriteTag(IsHidden ? Token.TRUE : Token.FALSE);
 					else
 						unparser.WriteExpr(HideExpr.ToString());
 

@@ -119,7 +119,7 @@ namespace Microarea.RSWeb.Render
         private void TablePdf(XGraphics xg, Table obj)
         {
             // valuata dal motore del viewer durante il parse.
-            if (obj.Hidden) return;
+            if (obj.IsHidden) return;
 
             WriteTableTitlePdf(xg, obj);
             WriteColumnsTitlePdf(xg, obj);
@@ -496,7 +496,7 @@ namespace Microarea.RSWeb.Render
         private void GraphRectPdf(XGraphics xg, GraphRect obj)
         {
             // valuata dal motore del viewer durante il parse.
-            if (obj.Hidden) return;
+            if (obj.IsHidden) return;
 
             WriteImage(xg, obj, obj.ImageRect, BaseObjConsts.DT_CENTER);
             //disegno dei bordi
@@ -509,7 +509,7 @@ namespace Microarea.RSWeb.Render
         private void FileRectPdf(XGraphics xg, FileRect obj)
         {
             // valuata dal motore del viewer durante il parse.
-            if (obj.Hidden) return;
+            if (obj.IsHidden) return;
 
             DrawText(xg,
                         obj.LocalizedText,
@@ -659,7 +659,7 @@ namespace Microarea.RSWeb.Render
         private void FieldRectPdf(XGraphics xg, FieldRect obj)
         {
             // valuata dal motore del viewer durante il parse.
-            if (obj.Hidden) return;
+            if (obj.IsHidden) return;
 
             SqrRectPdf(xg, obj, obj.DynamicBkgColor);
 
@@ -752,7 +752,7 @@ namespace Microarea.RSWeb.Render
         public void SqrRectPdf(XGraphics xg, BaseRect obj, Color backColor)
         {
             // valuata dal motore del viewer durante il parse.
-            if (obj.Hidden) return;
+            if (obj.IsHidden) return;
             XBrush brush = (new XSolidBrush(new XColor(backColor)));
             xg.DrawRectangle(brush, ScaleFromWoorm(obj.Rect));
             WriteBorders(xg, obj);
@@ -765,7 +765,7 @@ namespace Microarea.RSWeb.Render
         private void TextRectPdf(XGraphics xg, TextRect obj)
         {
             // valuata dal motore del viewer durante il parse.
-            if (obj.Hidden) return;
+            if (obj.IsHidden) return;
 
             SqrRectPdf(xg, obj, obj.DynamicBkgColor);
             DrawText(xg, obj.LocalizedText, obj.Rect, obj.Label.FontStyleName, obj.DynamicTextColor, obj.Label.Align);
