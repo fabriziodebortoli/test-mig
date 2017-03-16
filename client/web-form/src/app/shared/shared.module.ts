@@ -1,3 +1,5 @@
+import { DockpaneComponent } from './containers/dockpane/dockpane.component';
+import { LabelComponent } from './controls/label/label.component';
 
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -40,9 +42,9 @@ const TB_COMPONENTS = [
   PageNotFoundComponent,
   TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarSearchComponent,
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
-  TabComponent, TabberComponent, ViewComponent, FrameComponent,
+  TabComponent, TabberComponent, ViewComponent, DockpaneComponent, FrameComponent,
   DynamicCmpComponent,
-  EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
+  EditComponent, LabelComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent,
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
   HeaderStripComponent,
