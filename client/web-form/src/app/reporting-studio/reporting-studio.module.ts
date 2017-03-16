@@ -7,7 +7,7 @@ import { MaterialModule } from '@angular/material';
 
 import { ReportingStudioHostComponent } from './reporting-studio-host.component';
 import { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
-import { ReportObjectWrapperComponent } from './report-object-wrapper/report-object-wrapper.component';
+
 
 
 
@@ -22,8 +22,7 @@ import { ReportObjectWrapperComponent } from './report-object-wrapper/report-obj
     ])
   ],
   declarations: [
-    ReportingStudioComponent, ReportingStudioHostComponent, ReportingStudioFactoryComponent,
-    ReportObjectWrapperComponent
+    ReportingStudioComponent, ReportingStudioHostComponent, ReportingStudioFactoryComponent
   ],
   entryComponents:
   [

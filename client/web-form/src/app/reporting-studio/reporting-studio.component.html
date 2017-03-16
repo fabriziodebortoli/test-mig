@@ -1,24 +1,29 @@
 <tb-frame>
     <tb-toolbar-top>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.PlayFilled.png" caption="Run Report" *ngIf="!running" (click) = "RunReport()"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Stop.png" caption="Stop Report"  (click) = "StopReport()"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowNextFilled.png" caption="Next Page"  (click) = "NextPage()"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowPrevFilled.png" caption="Previous Page"  (click) = "PrevPage()"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Find.png" caption="Search" ></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.PlayFilled.png" caption="Run Report" *ngIf="!running"
+            (click)="RunReport()"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Stop.png" caption="Stop Report" (click)="StopReport()"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowNextFilled.png" caption="Next Page" (click)="NextPage()"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowPrevFilled.png" caption="Previous Page" (click)="PrevPage()"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Find.png" caption="Search"></tb-toolbar-top-button>
     </tb-toolbar-top>
     <tb-view>
-        <p>Reporting Studio Component con namespace: {{args.nameSpace}}</p>
+        <div *ngFor="let item of objects" >
+            <div [ngSwitch]="item?.controlType">
 
-        <p>Message received: {{message}}</p>
+                <rs-fieldrect ([rect])="item" *ngSwitchCase="reportObjectType.fieldrect"> </rs-fieldrect>
 
-        <p>Company received: {{cookieService.get('_company')}}</p>
+                <rs-textrect ([rect])="item" *ngSwitchCase="reportObjectType.textrect"> </rs-textrect>
+
+            </div>
+        </div>
     </tb-view>
     <tb-toolbar-bottom>
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Radar.png" caption="Radar" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button> -->
         <tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Save.png" caption="Save" c></tb-toolbar-bottom-button>
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Escape.png" caption="Undo Changes" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>-->
-        <tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.New.png" caption="New" ></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Exit.png" caption="Exit" ></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.New.png" caption="New"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Exit.png" caption="Exit"></tb-toolbar-bottom-button>
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Delete.png" caption="Delete" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>-->
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Print.png" caption="Print" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>-->
     </tb-toolbar-bottom>

@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { CommandType } from './reporting-studio.model';
+import { CommandType, baseobj } from './reporting-studio.model';
 
 import { DocumentComponent } from '../shared/document.component';
 
@@ -32,6 +32,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   private pageNum: number = 1;
   private currLayout: string;
+
+  public objects: baseobj[] = [];
 
   constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
     super(rsService, eventData);

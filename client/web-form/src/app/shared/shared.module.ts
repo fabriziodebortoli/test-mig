@@ -33,6 +33,8 @@ import { MaskedTextBoxComponent } from './controls/masked-text-box/masked-text-b
 import { NumericTextBoxComponent } from './controls/numeric-text-box/numeric-text-box.component';
 import { DateInputComponent } from './controls/date-input/date-input.component';
 import { ContextMenuComponent } from './controls/context-menu/context-menu.component';
+import { ReportTextrectComponent } from './report-objects/textrect/textrect.component';
+import { ReportFieldrectComponent } from './report-objects/fieldrect/fieldrect.component';
 
 
 const KENDO_UI_MODULES = [
@@ -57,7 +59,8 @@ const TB_COMPONENTS = [
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
   HeaderStripComponent,
   OpenComponent, SaveComponent,
-  CaptionComponent, PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent,ContextMenuComponent
+  CaptionComponent, PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent,
+  ReportTextrectComponent, ReportFieldrectComponent
 ];
 
 @NgModule({
