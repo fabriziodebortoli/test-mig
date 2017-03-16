@@ -39,7 +39,8 @@
       "account-manager": "1.0.0-*",
       "menu-gate": "1.0.0-*",
       "rs-web": "1.0.0-*",
-      "tbloader-gate": "1.0.0-*"
+    "tbloader-gate": "1.0.0-*",
+    "widgets-service": "1.0.0-*"
     },
     "tools": {
       "Microsoft.AspNetCore.Razor.Tools": {
