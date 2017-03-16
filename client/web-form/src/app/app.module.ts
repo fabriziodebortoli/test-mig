@@ -15,6 +15,7 @@ import { MenuModule } from './menu/menu.module';
 import { HomeComponent, HomeSidenavComponent } from './home';
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
 import { AppComponent } from './app.component';
+import { appRouting } from './applications/app.routing';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { AppComponent } from './app.component';
     SharedModule,
     MenuModule.forRoot(),
     ReportingStudioModule.forRoot(),
+    appRouting,
     routing
   ],
   bootstrap: [AppComponent],
