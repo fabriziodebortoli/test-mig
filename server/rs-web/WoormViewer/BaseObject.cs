@@ -1393,6 +1393,12 @@ namespace Microarea.RSWeb.Objects
         //}
 
         //------------------------------------------------------------------------------
+        public override bool IsDynamic()
+        {
+            return base.IsDynamic() || this.Special;
+        }
+
+        //------------------------------------------------------------------------------
         override public string ToJsonTemplate(bool bracket)
         {
             string name = "textrect";

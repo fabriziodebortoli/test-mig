@@ -5,6 +5,7 @@ using Microarea.Common.Lexan;
 
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
+using Microarea.Common.CoreTypes;
 
 namespace Microarea.RSWeb.WoormViewer
 {
