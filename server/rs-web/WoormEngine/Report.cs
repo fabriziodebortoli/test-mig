@@ -24,8 +24,8 @@ Report
 		End
 
 		Variables
-			String       Campo_1 [15] Alias 1  Hidden  Input Init = ""  ;
-			String       Campo_2 [15] Alias 2  Hidden  Input Init = ""  ;
+			String       Campo_1 [15] Alias 1  IsHidden  Input Init = ""  ;
+			String       Campo_2 [15] Alias 2  IsHidden  Input Init = ""  ;
 			Long         ShipperID [12] Alias 3  Column  of Shippers ;
 			Long         TotShipperID = Csum (ShipperID ) Alias 5  ColTotal ;
 			Long         SupplierID [12] Alias 6  Column  of Products ;
@@ -90,7 +90,7 @@ Report
 
 namespace Microarea.RSWeb.WoormEngine
 {
-    public enum EngineType { Standard, OfficeXML, OfficePDF }
+    public enum EngineType { Paginated_Standard, FullXML_OfficeXML, PDFSharp_OfficePDF, FullExtraction }
 
 	/// <summary>
 	/// Report.
@@ -137,7 +137,7 @@ namespace Microarea.RSWeb.WoormEngine
 		private DataEnum			reportStatus;
 		private RuleReturn			exitStatus = RuleReturn.Success;
 		private TbReportSession     reportSession;
-		private EngineType			engineType = EngineType.Standard;
+		private EngineType			engineType = EngineType.Paginated_Standard;
 		private string				maxString = ObjectHelper.GetMaxString(string.Empty);
         private ParametersList      initParameters;
 
@@ -195,7 +195,7 @@ namespace Microarea.RSWeb.WoormEngine
 			this.reportName	= reportName;
 			this.reportSession	= reportSession;
 
-			this.engineType = EngineType.OfficePDF;
+			this.engineType = EngineType.PDFSharp_OfficePDF;
 			this.sessionID	= sessionID;
 			this.uniqueID	= uniqueID;
 
@@ -225,7 +225,7 @@ namespace Microarea.RSWeb.WoormEngine
 			this.sessionID	= "";
 			this.uniqueID	= "";
 			this.reportSession	= reportSession;
-			this.engineType = EngineType.OfficeXML;
+			this.engineType = EngineType.FullXML_OfficeXML;
 
 			this.XmlDomParameters	= xmlDomParameters;
 			this.XmlResultReports	= xmlResultReports;
@@ -255,7 +255,7 @@ namespace Microarea.RSWeb.WoormEngine
 			this.sessionID	= sessionID;
 			this.uniqueID	= uniqueID;
 			this.reportSession	= session;
-			this.engineType = EngineType.Standard;
+			this.engineType = EngineType.Paginated_Standard;
 
 			this.XmlDomParameters	= null;
 			this.XmlResultReports	= null;

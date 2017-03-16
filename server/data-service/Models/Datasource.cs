@@ -139,9 +139,12 @@ namespace Microarea.DataService.Models
             {
                 if (!first) list += ',';
 
-                string sp = "{\"name\":\"" + par.Name + "\", \"title\":\"" + par.Title + "\", \"type\":\"" + par.Type + "\"}" ;
+                string sp = '{' + par.Name.ToJson("id") + ',' +
+                                  par.Title.ToJson("title", false, true) + ',' +
+                                  par.Type.ToJson("type") +
+                             '}' ;
 
-                list += sp.ToJson();
+                list += sp;
 
                 first = false;
             }
@@ -174,7 +177,7 @@ namespace Microarea.DataService.Models
                 list += '{' +
                              f.Name.Replace('.', '_').ToJson("id") +
                              ',' +
-                             f.Title.ToJson("caption") +
+                             f.Title.ToJson("caption", false, true) +
                          '}';
             }
             list += "]}";
@@ -207,7 +210,7 @@ namespace Microarea.DataService.Models
                 records += '{' +
                            f.Name.Replace('.', '_').ToJson("id") +
                            ',' +
-                           f.Title.ToJson("caption") +
+                           f.Title.ToJson("caption", false, true) +
                            '}';
             }
             records += "],\n\"rows\":[";

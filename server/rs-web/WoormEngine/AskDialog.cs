@@ -12,6 +12,7 @@ using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using Microarea.Common.ExpressionManager;
 using Microarea.Common.Hotlink;
+using Microarea.Common;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -313,7 +314,7 @@ namespace Microarea.RSWeb.WoormEngine
 		const string ISVISIBLE = "IsVisible"; 
 		const string CAPTION = "Caption";
 		const string ENTRIES = "Entries";
-		const string HIDDEN = "Hidden";
+		const string HIDDEN = "IsHidden";
 
 		private List<AskEntry> entries = new List<AskEntry>();
 

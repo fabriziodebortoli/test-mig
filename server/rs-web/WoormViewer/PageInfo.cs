@@ -1,6 +1,7 @@
 using System.Drawing;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Lexan;
+using Microarea.Common.Generic;
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -221,14 +222,35 @@ namespace Microarea.RSWeb.WoormViewer
 
 			return true;
 		}
-	}
 
-	/// <summary>
-	/// Summary description for PrinterPageInfo.
-	/// Class not used in Easylook, used only for Z-print in woorm c++. Here he is only parsed
-	/// </summary>
-	/// ================================================================================
-	public class PrinterPageInfo
+        //---------------------------------------------------------------
+        public string ToJson(string name = "pageinfo", bool bracket = false)
+        {
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+
+                this.printerPageInfo.dmPaperLength.ToJson("length") + ',' +
+                this.printerPageInfo.dmPaperWidth.ToJson("width") +
+
+            '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s; ;
+        }
+
+    }
+
+    /// <summary>
+    /// Summary description for PrinterPageInfo.
+    /// Class not used in Easylook, used only for Z-print in woorm c++. Here he is only parsed
+    /// </summary>
+    /// ================================================================================
+    public class PrinterPageInfo
 	{
 		bool  UseCloningPrint	= true;
 		public short dmOrientation		= PageInfo.DMORIENT_PORTRAIT;

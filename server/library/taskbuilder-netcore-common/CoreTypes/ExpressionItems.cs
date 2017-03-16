@@ -529,8 +529,49 @@ namespace Microarea.Common.CoreTypes
 		}			
 	}
 
-	//============================================================================
-	public class ValueContentOf : Value
+    //============================================================================
+
+    ///<summary>
+    ///Classe contenitore dei nomi e degli ID delle variabili speciali di report
+    ///ATTENZIONE: TENERE ALLINEATO CON "TaskBuilder\Framework\TbWoormEngine\RepTable.h"
+    /// </summary>
+    //==============================================================================
+    public class SpecialReportField
+    {
+        //ID riservati da Woorm
+        public const ushort REPORT_STATUS_ID = 0x7FFe;
+        public const ushort REPORT_OWNER_ID = 0x7FFd;
+        public const ushort REPORT_LAYOUT_ID = 0x7FFc;
+        public const ushort REPORT_PAGE_NUMBER_ID = 0x7FFb;
+        public const ushort REPORT_LINKED_ID = 0x7FFa;
+        public const ushort REPORT_ISPRINTING_ID = 0x7FF9;
+        public const ushort DEFAULT_ATTRIBUTE_ID = 0x7FF8;
+        public const ushort REPORT_LASTPAGE_ID = 0x7FF7;
+        public const ushort REPORT_EABARCODE_ID = 0x7FF6;
+        public const ushort REPORT_ISARCHIVING_ID = 0x7FF5;
+        public const ushort REPORT_FUNCTION_RETURN_VALUE = 0x7FF4;
+        public const ushort REPORT_HIDE_ALL_ASK_DIALOGS = 0x7FF3;
+        //the latest used id
+        public const ushort REPORT_LOWER_SPECIAL_ID = 0x7FF3;
+
+        //nomi delle variabili riservate
+        public const string REPORT_DEFAULT_LAYOUT_NAME = "default";
+        public const string REPORT_SPECIAL_FIELD_NAME_STATUS = "ReportStatus";
+        public const string REPORT_SPECIAL_FIELD_NAME_OWNER = "OwnerID";
+        public const string REPORT_SPECIAL_FIELD_NAME_LAYOUT = "ReportLayout";
+        public const string REPORT_SPECIAL_FIELD_NAME_CURRENT_PAGE_NUMBER = "ReportCurrentPageNumber";
+        public const string REPORT_SPECIAL_FIELD_NAME_LASTPAGE = "ReportLastPageNumber";
+        public const string REPORT_SPECIAL_FIELD_NAME_ISPRINTING = "ReportIsPrinting";
+        public const string REPORT_SPECIAL_FIELD_NAME_ISARCHIVING = "ReportIsArchiving";
+        public const string REPORT_SPECIAL_FIELD_NAME_USEDEFAULTATTRIBUTE = "UseDefaultAttribute";
+        //public const string REPORT_SPECIAL_FIELD_NAME_EABARCODE             =   "ReportEABarCode";
+        //public const string REPORT_SPECIAL_FIELD_NAME_LINKED_ID				    =   "LinkedDocumentID";
+        //public const string REPORT_SPECIAL_FIELD_NAME_FUNCTION_RETURN_VALUE	    =   "_ReturnValue";
+        public const string REPORT_SPECIAL_FIELD_NAME_HIDE_ALL_ASK_DIALOGS = "_HideAllAskDialogs";
+
+    }
+    //============================================================================
+    public class ValueContentOf : Value
 	{
 		//-----------------------------------------------------------------------------
 		public ValueContentOf()
@@ -554,21 +595,24 @@ namespace Microarea.Common.CoreTypes
 	}
 
 
-	[Serializable]
-	[KnownType(typeof(Dictionary<string, Variable>))]
-	[KnownType(typeof(Variable))]
-	public class SymbolTable : IEnumerable, ISerializable
+	//[Serializable]
+	//[KnownType(typeof(Dictionary<string, Variable>))]
+	//[KnownType(typeof(Variable))]
+	public class SymbolTable : IEnumerable//, ISerializable
 	{
 		const string SYMBOLS = "symbols";
         
-		protected Dictionary<string, string>      alias   = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+		protected Dictionary<string, string>   alias   = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         protected Dictionary<string, Variable> symbols = new Dictionary<string, Variable>(StringComparer.OrdinalIgnoreCase);
 
         private ArrayList localizableStrings = new ArrayList();
         protected SymbolTable parent = null;
-		
+		public int RdeRowNumber = -1;
 
-		public SymbolTable Parent { get { return parent; } set { parent = value; } }
+        public ushort maxID = 1000;
+        public ushort GetNewID() { return ++maxID; }
+
+        public SymbolTable Parent { get { return parent; } set { parent = value; } }
 		public int Count { get { return symbols.Keys.Count; } }
 
         //-----------------------------------------------------------------------------
@@ -590,21 +634,24 @@ namespace Microarea.Common.CoreTypes
 		}
 
 		//--------------------------------------------------------------------------
-		public SymbolTable(SerializationInfo info, StreamingContext context)
-		{
-			//TODO SILVANO
-		}
+		//public SymbolTable(SerializationInfo info, StreamingContext context)
+		//{
+		//	//TODO SILVANO
+		//}
 
-		//--------------------------------------------------------------------------
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			info.AddValue(SYMBOLS, symbols);
-		}
+		////--------------------------------------------------------------------------
+		//public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		//{
+		//	info.AddValue(SYMBOLS, symbols);
+		//}
 		//-----------------------------------------------------------------------------
 		public virtual void Add(Variable v)
 		{
 			symbols.Add(v.Name, v);
-		}
+
+            if (maxID < v.Id && v.Id < SpecialReportField.REPORT_LOWER_SPECIAL_ID) 
+                maxID = v.Id;
+        }
         
         //-----------------------------------------------------------------------------
         public virtual void AddAlias(string k, string v)

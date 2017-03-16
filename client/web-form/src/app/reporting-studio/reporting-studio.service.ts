@@ -11,7 +11,7 @@ export class ReportingStudioService extends DocumentService {
 
     private rsServer: string = 'ws://localhost:5000/rsweb';
     websocket: WebSocket;
-    public message: Subject<string> = new Subject<string>();
+    public message: Subject<any> = new Subject<string>();
 
     constructor(logger: Logger, eventData: EventDataService) {
         super(logger, eventData);
@@ -45,6 +45,16 @@ export class ReportingStudioService extends DocumentService {
             this.writeToScreen('SENT: ' + message);
             this.websocket.send(message);
         }, 100);
+    }
+
+    doSendSync(message): boolean {
+        this.waitForConnection(() => {
+            this.writeToScreen('SENT: ' + message);
+            this.websocket.send(message);
+            return true;
+        }, 100);
+
+        return false;
     }
 
     waitForConnection(callback, interval) {

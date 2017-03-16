@@ -1,11 +1,9 @@
-import { Response } from '@angular/http';
 
-
-import { Component, OnInit, OnDestroy, Input, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { CommandType } from './reporting-studio.model';
+import { CommandType, baseobj } from './reporting-studio.model';
 
 import { DocumentComponent } from '../shared/document.component';
 
@@ -27,13 +25,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   /*if this component is used standalone, the namespace has to be passed from the outside template,
   otherwise it is passed by the ComponentService creation logic*/
-  @Input()
-
-
   private subMessage: Subscription;
-  private message: string = '';
-
+  private message: any = '';
   private running: boolean = false;
+  private currCommand: CommandType = CommandType.OK;
+
+  private pageNum: number = 1;
+  private currLayout: string;
+
+  public objects: baseobj[] = [];
 
   constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
     super(rsService, eventData);
@@ -49,43 +49,66 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     });
 
     this.rsInitStateMachine();
+
+    let message = {
+      commandType: CommandType.TEMPLATE,
+      message: ''
+    };
+    this.rsService.doSend(JSON.stringify(message));
   }
 
   ngOnDestroy() {
     this.subMessage.unsubscribe();
   }
 
-  onMessage(message: string) {
+  onMessage(message: any) {
     //elaborate
-    this.message = message;
+    try {
+      let msg = JSON.parse(message);
+      switch (msg.commandType) {
+        case CommandType.ASK: break;
+        case CommandType.DATA: break;
+        case CommandType.ERROR: break;
+        case CommandType.GUID: break;
+        case CommandType.NAMESPACE: break;
+        case CommandType.NEXTPAGE: break;
+        case CommandType.OK: break;
+        case CommandType.PAGE: break;
+        case CommandType.PDF: break;
+        case CommandType.PREVPAGE: break;
+        case CommandType.RUN: break;
+        case CommandType.STOP: break;
+        case CommandType.TEMPLATE:
+          this.message = msg.message; //render layout
+          break;
+
+        case CommandType.TEST: break;
+
+      }
+
+      //this.message = msg;//.message;
+    } catch (err) {
+      this.message = 'Error Occured';
+    }
   }
 
   rsInitStateMachine() {
 
     let message = {
-      commandType: CommandType.NAMESPACE.toString(),
+      commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
       authtoken: this.cookieService.get('authtoken')
     };
 
-    this.rsService.doSend(JSON.stringify(message));
+    let res = this.rsService.doSendSync(JSON.stringify(message));
 
   }
 
   RunReport() {
     this.running = true;
+    this.currCommand = CommandType.RUN;
     let message = {
-      commandType: CommandType.RUN,
-      message: this.args.nameSpace,
-      Response: ''
-    };
-    this.rsService.doSend(JSON.stringify(message));
-  }
-
-  PauseReport() {
-    this.running = false;
-    let message = {
-      commandType: CommandType.PAUSE,
+      commandType: this.currCommand,
       message: this.args.nameSpace,
       Response: ''
     };
@@ -94,29 +117,29 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   StopReport() {
     this.running = false;
+    this.currCommand = CommandType.STOP;
     let message = {
-      commandType: CommandType.RUN,
+      commandType: this.currCommand,
       message: this.args.nameSpace,
-      Response: ''
     };
     this.rsService.doSend(JSON.stringify(message));
   }
 
   NextPage() {
+    this.currCommand = CommandType.NEXTPAGE;
     let message = {
-      commandType: CommandType.NEXTPAGE,
+      commandType: this.currCommand,
       message: this.args.nameSpace,
-      Response: ''
     };
 
     this.rsService.doSend(JSON.stringify(message));
   }
 
   PrevPage() {
+    this.currCommand = CommandType.PREVPAGE;
     let message = {
-      commandType: CommandType.PREVPAGE,
+      commandType: this.currCommand,
       message: this.args.nameSpace,
-      Response: ''
     };
 
     this.rsService.doSend(JSON.stringify(message));

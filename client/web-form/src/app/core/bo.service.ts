@@ -17,6 +17,7 @@ export class BOService extends DocumentService {
     serverCommandMapReadySubscription: any;
     commandSubscription: any;
     changeSubscription: any;
+    openDropdownSubscription: any;
 
     constructor(
         private webSocketService: WebSocketService,
@@ -63,6 +64,12 @@ export class BOService extends DocumentService {
         this.changeSubscription = this.eventData.command.subscribe((cmpId: String) => {
             this.webSocketService.doValueChanged(this.mainCmpId, cmpId, this.eventData.model);
         });
+
+        this.openDropdownSubscription = this.eventData.openDropdown.subscribe( (obj: any) => {
+            this.webSocketService.doFillListBox(this.mainCmpId, obj.itemSourceName, obj.itemSourceNamespace, obj.itemSourceParameter);
+        });
+
+        
     }
     init(cmpId: string) {
         super.init(cmpId);
@@ -76,5 +83,6 @@ export class BOService extends DocumentService {
         this.commandSubscription.unsubscribe();
         this.changeSubscription.unsubscribe();
         this.activationDataSubscription.unsubscribe();
+        this.openDropdownSubscription.unsubscribe();
     }
 }

@@ -19,50 +19,10 @@ using Microarea.Common.ExpressionManager;
 using Microarea.Common.Hotlink;
 
 using Microarea.RSWeb.WoormViewer;
+using TaskBuilderNetCore.DataFunctionaluty;
 
 namespace Microarea.RSWeb.WoormEngine
 {
-
-    ///<summary>
-    ///Classe contenitore dei nomi e degli ID delle variabili speciali di report
-    ///ATTENZIONE: TENERE ALLINEATO CON "TaskBuilder\Framework\TbWoormEngine\RepTable.h"
-    /// </summary>
-    //==============================================================================
-    public class SpecialReportField
-	{
-		//ID riservati da Woorm
-		public const ushort REPORT_STATUS_ID			=	0x7FFe;
-		public const ushort REPORT_OWNER_ID				=	0x7FFd;
-		public const ushort REPORT_LAYOUT_ID			=	0x7FFc;
-		public const ushort REPORT_PAGE_NUMBER_ID		=	0x7FFb;
-        public const ushort REPORT_LINKED_ID            =   0x7FFa;
-        public const ushort REPORT_ISPRINTING_ID        =   0x7FF9;
-		public const ushort DEFAULT_ATTRIBUTE_ID		=	0x7FF8;
- 		public const ushort REPORT_LASTPAGE_ID			=	0x7FF7;
-        public const ushort REPORT_EABARCODE_ID	        =   0x7FF6;
-        public const ushort REPORT_ISARCHIVING_ID       =   0x7FF5;
-        public const ushort REPORT_FUNCTION_RETURN_VALUE =	0x7FF4;
-        public const ushort REPORT_HIDE_ALL_ASK_DIALOGS  =  0x7FF3;
-        //the latest used id
-        public const ushort REPORT_LOWER_SPECIAL_ID     =   0x7FF3;
-
-		//nomi delle variabili riservate
-		public const string REPORT_DEFAULT_LAYOUT_NAME                      =   "default";
-		public const string REPORT_SPECIAL_FIELD_NAME_STATUS				=	"ReportStatus";
-		public const string REPORT_SPECIAL_FIELD_NAME_OWNER					=	"OwnerID";
-		public const string REPORT_SPECIAL_FIELD_NAME_LAYOUT				=	"ReportLayout";
-		public const string REPORT_SPECIAL_FIELD_NAME_CURRENT_PAGE_NUMBER	=	"ReportCurrentPageNumber";
-        public const string REPORT_SPECIAL_FIELD_NAME_LASTPAGE              =   "ReportLastPageNumber";
-		public const string REPORT_SPECIAL_FIELD_NAME_ISPRINTING			=	"ReportIsPrinting";
-        public const string REPORT_SPECIAL_FIELD_NAME_ISARCHIVING            =  "ReportIsArchiving";
-        public const string REPORT_SPECIAL_FIELD_NAME_USEDEFAULTATTRIBUTE   =   "UseDefaultAttribute";
-        //public const string REPORT_SPECIAL_FIELD_NAME_EABARCODE             =   "ReportEABarCode";
-        //public const string REPORT_SPECIAL_FIELD_NAME_LINKED_ID				    =   "LinkedDocumentID";
-        //public const string REPORT_SPECIAL_FIELD_NAME_FUNCTION_RETURN_VALUE	    =   "_ReturnValue";
-        public const string REPORT_SPECIAL_FIELD_NAME_HIDE_ALL_ASK_DIALOGS       =   "_HideAllAskDialogs";
-
-	}
-
 	//==============================================================================
 	//
 	// FieldStatusForTemporaryFile
@@ -89,16 +49,19 @@ namespace Microarea.RSWeb.WoormEngine
 
 		public	Diagnostic	Diagnostic = new Diagnostic("TableNames");
 
+        TbReportSession session = null;
 
 		//-----------------------------------------------------------------------------
-		public TableNames(string tableName, string tableAlias, string connection, string provider) : base()
-		{ 
-			Debug.Assert(tableName.Length > 0);
+		public TableNames(string tableName, string tableAlias, TbReportSession s) : base()
+		{
+            session = s;
+
+            Debug.Assert(tableName.Length > 0);
 
 			this.tableName = tableName;
 			this.aliasName = (tableAlias.Length == 0) ? tableName : tableAlias; 
 
-			CreateSchema(connection, provider);
+			//CreateSchema(connection, provider);
 		}
 
 		// legge lo schema della tabella per poter istanziare gli oggetti giusti nelle espressioni
@@ -134,6 +97,9 @@ namespace Microarea.RSWeb.WoormEngine
 		//-----------------------------------------------------------------------------
 		public string GetColumnType(string columnName)
 		{
+            //TODO RSWEB OTTIMIZZARE GetColumnType
+            return DBInfo.GetColumnType(session.UserInfo.CompanyDbConnection , tableName, columnName);
+
             // se non ha la connessione al database o se la colonna non esiste assume
             // che la colonna sia di tipo stringa.
 
@@ -150,7 +116,7 @@ namespace Microarea.RSWeb.WoormEngine
             //	}
             //}
 
-            return "string"; //TODO RSWEB null;
+            //return "string"; 
 		}
 	}
 
@@ -625,7 +591,7 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			//se sono in modalita xml richesto da Magic Link, il canale di output e' l'xmlwriter, altrimenti l'rdewriter che scrive i dati
 			//paginati
-			this.outChannel	= (engineType == EngineType.OfficeXML) ? new XmlWriter(ownerReport) : new RdeWriter(ownerReport);
+			this.outChannel	= (engineType == EngineType.FullXML_OfficeXML) ? new XmlWriter(ownerReport) : new RdeWriter(ownerReport);
 			
 			onFormFeedActions	= null;
 			reportActions		= null;

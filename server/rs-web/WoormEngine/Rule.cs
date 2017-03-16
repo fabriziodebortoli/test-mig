@@ -14,6 +14,7 @@ using TaskBuilderNetCore.Data;
 using static TaskBuilderNetCore.Data.Provider;
 using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.Hotlink;
+using Microarea.Common;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -893,7 +894,7 @@ namespace Microarea.RSWeb.WoormEngine
 
                 numTables++;
 
-				TableNames tableNames = new TableNames(dataTableName, aliasTableName, Engine.Report.ReportSession.CompanyDbConnection, Engine.Report.ReportSession.UserInfo.Provider);
+				TableNames tableNames = new TableNames(dataTableName, aliasTableName, Engine.Report.ReportSession);
 				if (tableNames.Diagnostic.Error)
 				{
 					lex.SetError(tableNames.Diagnostic);
@@ -1003,7 +1004,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 					aField.PhysicalName = physicalName;
 
-					if (aField.DataType == "String") 
+					if (aField.DataType.CompareNoCase("String")) 
 						aField.CollateCulture = GetCollateCulture(FromTables, aField);
 
 					aField.OwnerRule = this;

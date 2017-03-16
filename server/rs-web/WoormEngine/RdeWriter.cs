@@ -171,7 +171,7 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			//Nel caso di report eseguito da magic link, la symbol table da usare e' quella "Fields" perche' non vengono eseguite le 
 			//AskDialog come Easylook, e quindi la symtable "AskDialogState" risulta vuota
-			FieldSymbolTable symTable = (report.EngineType == EngineType.OfficePDF) ? report.SymTable.Fields : report.SymTable.AskDialogState;
+			FieldSymbolTable symTable = (report.EngineType == EngineType.PDFSharp_OfficePDF) ? report.SymTable.Fields : report.SymTable.AskDialogState;
 			
 			foreach (Field field in symTable)
 			{

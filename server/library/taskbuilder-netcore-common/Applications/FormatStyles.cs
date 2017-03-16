@@ -895,7 +895,10 @@ namespace Microarea.Common.Applications
 		//----------------------------------------------------------------------------
 		public override string Format(object data)
 		{
-			return Format((string) data);
+            string s = data as string;
+            if (s == null)
+                s = data.ToString();
+			return Format(s);
 		}
 
 		//----------------------------------------------------------------------------
@@ -2860,10 +2863,10 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		public bool Load(string filename, INameSpace owner, Formatter.FormatSource source)
 		{
-			Parser lex = new Parser(Parser.SourceType.FromFile);
 			if (!File.Exists(filename))
 				return true;
 		
+			Parser lex = new Parser(Parser.SourceType.FromFile);
 			if (lex.Open(filename))
 			{
 				bool ok = Parse(lex, true, owner, source);

@@ -31,7 +31,17 @@ namespace Microarea.Menu
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-           // services.AddApplicationInsightsTelemetry(Configuration);
+            // services.AddApplicationInsightsTelemetry(Configuration);
+
+            // Add service and create Policy with options
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
 
             services.AddMvc();
         }
@@ -45,6 +55,8 @@ namespace Microarea.Menu
             //app.UseApplicationInsightsRequestTelemetry();
 
             //app.UseApplicationInsightsExceptionTelemetry();
+
+            app.UseCors("CorsPolicy");
 
             app.UseMvc();
         }

@@ -597,18 +597,28 @@ namespace Microarea.RSWeb.WoormViewer
         //---------------------------------------------------------------------------------
         internal void ApplyRepeater()
         {
-            foreach (Layout item in this.Values)
+            foreach (Layout layout in this.Values)
             {
-                item.ApplyRepeater();
+                layout.ApplyRepeater();
             }
         }
+
+        //---------------------------------------------------------------------------------
+        internal void AddIDToDynamicStaticObjects()
+        {
+            foreach (Layout layout in this.Values)
+            {
+                layout.AddIDToDynamicStaticObjects();
+            }
+        }
+
     }
 
-	/// <summary>
-	/// Description of Report Template
-	/// </summary>
-	/// ================================================================================
-	public class WoormTemplate
+    /// <summary>
+    /// Description of Report Template
+    /// </summary>
+    /// ================================================================================
+    public class WoormTemplate
 	{
 		public string			NsTemplate = string.Empty;
 		public WoormDocument	wrmTemplate = null;
@@ -689,7 +699,7 @@ namespace Microarea.RSWeb.WoormViewer
 		public string			Description				{ get { return description; }}
 		public string			LocalizedDescription	{ get { return Localizer.Translate(description); }}		
 		public bool				ForLocalizer			{ get { return forLocalizer; } set { forLocalizer= value; }}
-		public SymbolTable		SymbolTable				{ get { return (SymbolTable)RdeReader.RdeSymbolTable; } }
+		public SymbolTable		SymbolTable				{ get { return RdeReader.RdeSymbolTable; } }
 		public PageInfo			PageInfo				{ get { return pageInfo; } }
 		public bool				CanSaveForUser			{ get { return RDEPersister.CanSaveForUser; } }
 		public bool				CanSaveForAllUsers		{ get { return RDEPersister.CanSaveForAllUsers; } }
@@ -894,7 +904,9 @@ namespace Microarea.RSWeb.WoormViewer
 			layouts.SetCurrent(Layout.DefaultName);
 
             layouts.ApplyRepeater();
-			return true;
+            layouts.AddIDToDynamicStaticObjects();
+
+            return true;
 		}
 
 		//------------------------------------------------------------------------------
@@ -927,9 +939,9 @@ namespace Microarea.RSWeb.WoormViewer
 
 					case Token.RNDRECT  : // mantiene la compatibilita' con il passato
 					case Token.SQRRECT  : baseObject = new SqrRect      (this); break;
-					case Token.BITMAP    : baseObject = new GraphRect    (this); break;
+					case Token.METAFILE : baseObject = new GraphRect    (this); break;
+					case Token.BITMAP   : baseObject = new GraphRect    (this); break;
 					case Token.FILE     : baseObject = new FileRect     (this); break;
-					case Token.METAFILE : baseObject = new MetafileRect (this); break;
 
 					case Token.END			: return hasPageLayout && Lex.ParseEnd(); 
                     case Token.LINKS		: return true;
@@ -1511,15 +1523,13 @@ namespace Microarea.RSWeb.WoormViewer
 		}
 
 		//------------------------------------------------------------------------------
-		public void SynchronizeSymbolTable()
+		public void SynchronizeSymbolTable(int row = -1, bool updateOnlyTailCell = false)
 		{
-			SynchronizeSymbolTable(-1);
-		}
-		
-		//------------------------------------------------------------------------------
-		public void SynchronizeSymbolTable(int row, bool updateOnlyTailCell = false)
-		{	
-			bool found, tail;
+            if (SymbolTable.RdeRowNumber == row /*&& !updateOnlyTailCell*/)
+                return;
+            SymbolTable.RdeRowNumber = row;
+
+            bool found, tail;
 			foreach (Variable v in SymbolTable)
 			{
                 object dataObject = GetRDEData(v.Id, row, out found, out tail);
@@ -1529,7 +1539,6 @@ namespace Microarea.RSWeb.WoormViewer
 
 				if (found)
 				{
-
 					v.Data = dataObject;
 					v.Valid = true;
 				}
@@ -1882,5 +1891,42 @@ namespace Microarea.RSWeb.WoormViewer
 				fontStyles.Add(keyTemplateFont, templateFonts[keyTemplateFont]);
 			}
 		}
-	}
+
+        //---------------------------------------------------------------------------
+        public CultureInfo GetCollateCultureFromId(ushort id)
+        {
+            Variable v = this.SymbolTable.FindById(id);
+            return v == null ? CultureInfo.InvariantCulture : v.CollateCulture;
+        }
+
+        ///<summary>
+        ///Riformatta dinamicamente il dato 
+        /// </summary>
+        public string FormatFromSoapData(string formatStyleName, ushort ID, object data)
+        {
+            CultureInfo collateCulture = GetCollateCultureFromId(ID);
+            //vedi RDEReader
+            return this.FormatStyles.FormatFromSoapData(formatStyleName, data, this.Namespace, collateCulture);
+        }
+
+        //---------------------------------------------------------------------
+        public string ToJson(bool template, string name = "page", bool bracket = true)
+        {
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                   (template ? "template" : "data").ToJson("type") + ','  +
+                    this.RdeReader.CurrentPage.ToJson("page_number") + ',' +
+                    (template ? this.pageInfo.ToJson() + ',' : "") +
+                   this.Objects.ToJson(template, "layout") +
+                 '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+    }
 }

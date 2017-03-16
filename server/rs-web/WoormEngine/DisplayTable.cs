@@ -3,6 +3,7 @@ using System.Collections;
 using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using Microarea.RSWeb.WoormViewer;
+using Microarea.Common.CoreTypes;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -174,7 +175,7 @@ namespace Microarea.RSWeb.WoormEngine
 				dataDisplayed = false;
 
 				// table full: Exec AFTER actions. Nel caso di Office considero la tabella infinita.
-				if (reportEngine.Report.EngineType != EngineType.OfficeXML)
+				if (reportEngine.Report.EngineType != EngineType.FullXML_OfficeXML)
 				{
 					tableFull = true;
 					if (tableActions == null || !tableActions.AfterActions.Exec())

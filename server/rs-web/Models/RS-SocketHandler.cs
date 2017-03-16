@@ -3,9 +3,14 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Http;
+
 using Newtonsoft.Json;
+
 using Microarea.Common.Applications;
+
+using Microarea.RSWeb.Render;
 
 namespace Microarea.RSWeb.Models
 {
@@ -26,8 +31,9 @@ namespace Microarea.RSWeb.Models
             UserInfo ui = new UserInfo(loginInfo, nsMsg.authtoken);
 
             TbReportSession session = new TbReportSession(ui, nsMsg.nameSpace);
-
-            return new JsonReportEngine(session);
+            JsonReportEngine engine = new JsonReportEngine(session);
+            engine.Execute();
+            return engine;
         }
 
         /// <summary>
@@ -64,7 +70,7 @@ namespace Microarea.RSWeb.Models
                 var webSocket = await http.WebSockets.AcceptWebSocketAsync();
 
                 /// sends OK message
-                await SendMessage(MessageBuilder.GetJSONMessage(MessageBuilder.CommandType.OK, string.Empty, string.Empty), webSocket);
+                await SendMessage(MessageBuilder.GetJSONMessage(MessageBuilder.CommandType.OK, string.Empty), webSocket);
 
                 /// waits for the namespace
                 var nsBuffer = new ArraySegment<Byte>(new Byte[4096]);
@@ -84,7 +90,7 @@ namespace Microarea.RSWeb.Models
                 
                 /// active, waiting for new messages
                 /// dead loop
-                while (webSocket.State == WebSocketState.Open)
+                while (webSocket.State == WebSocketState.Open && jengine!=null)
                 {
                     var buffer = new ArraySegment<Byte>(new Byte[4096]);
                     var received = await webSocket.ReceiveAsync(buffer, CancellationToken.None);

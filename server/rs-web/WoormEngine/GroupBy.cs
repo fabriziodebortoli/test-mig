@@ -6,6 +6,7 @@ using Microarea.Common.Lexan;
 using Microarea.Common.ExpressionManager;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Hotlink;
+using Microarea.Common;
 
 namespace Microarea.RSWeb.WoormEngine
 {

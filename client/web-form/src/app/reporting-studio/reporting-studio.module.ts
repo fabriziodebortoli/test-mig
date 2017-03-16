@@ -7,13 +7,10 @@ import { MaterialModule } from '@angular/material';
 
 import { ReportingStudioHostComponent } from './reporting-studio-host.component';
 import { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
-import { ReportObjectWrapperComponent } from './report-object-wrapper/report-object-wrapper.component';
-import { ReportObjectDirective } from './report-object-wrapper/report-object.directive';
 
-import {
-  ReportObjectRectangleComponent, ReportObjectImageComponent,
-  ReportObjectFileComponent, ReportObjectTableComponent, ReportObjectTextComponent
-} from './report-object-wrapper/report-objects';
+
+
+
 
 @NgModule({
   imports: [
@@ -25,10 +22,7 @@ import {
     ])
   ],
   declarations: [
-    ReportingStudioComponent, ReportingStudioHostComponent, ReportingStudioFactoryComponent,
-    ReportObjectWrapperComponent,
-    ReportObjectDirective,
-    ReportObjectRectangleComponent, ReportObjectImageComponent, ReportObjectTextComponent, ReportObjectFileComponent, ReportObjectTableComponent
+    ReportingStudioComponent, ReportingStudioHostComponent, ReportingStudioFactoryComponent
   ],
   entryComponents:
   [
