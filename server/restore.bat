@@ -12,3 +12,4 @@ dotnet restore ./rs-web/project.json --no-cache
 dotnet restore ./tbloader-gate/project.json --no-cache
 dotnet restore ./web-server/project.json --no-cache
 dotnet restore ./widgets-service/project.json --no-cache
+dotnet restore ./manufacturing-service/project.json --no-cache
