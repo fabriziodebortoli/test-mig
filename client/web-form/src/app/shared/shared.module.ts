@@ -1,5 +1,4 @@
 import { DockpaneComponent } from './containers/dockpane/dockpane.component';
-import { LabelComponent } from './controls/label/label.component';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -55,7 +54,7 @@ const TB_COMPONENTS = [
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   TabComponent, TabberComponent, ViewComponent, DockpaneComponent, FrameComponent,
   DynamicCmpComponent,
-  EditComponent, LabelComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
+  EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
   StateButtonComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent,
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
