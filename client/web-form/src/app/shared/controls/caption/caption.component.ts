@@ -1,12 +1,17 @@
-import { Component, Input } from '@angular/core';
+import { EventDataService } from './../../../core/eventdata.service';
+import { ControlComponent } from './../control.component';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'tb-caption',
   templateUrl: './caption.component.html',
   styleUrls: ['./caption.component.scss']
 })
-export class CaptionComponent {
-@Input() caption: string;
+export class CaptionComponent extends ControlComponent {
 
-  constructor() { }
+ constructor(
+        private eventData: EventDataService
+      ) {
+        super();
+      }
 }

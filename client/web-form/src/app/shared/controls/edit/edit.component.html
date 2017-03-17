@@ -20,7 +20,7 @@
         </div>
         <div *ngSwitchCase="controlTypeModel.Date">
             <br />
-            <tb-date-input caption="{{caption}}" forCmpID="{{cmpId}}"> </tb-date-input>
+            <tb-date-input caption="{{caption}}" forCmpID="{{cmpId}}" [(model)]="model"> </tb-date-input>
         </div>
         <div *ngSwitchDefault>
             <md-input id="{{cmpId}}" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event"

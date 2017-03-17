@@ -314,7 +314,7 @@ namespace Microarea.RSWeb.WoormEngine
 		const string ISVISIBLE = "IsVisible"; 
 		const string CAPTION = "Caption";
 		const string ENTRIES = "Entries";
-		const string HIDDEN = "Hidden";
+		const string HIDDEN = "IsHidden";
 
 		private List<AskEntry> entries = new List<AskEntry>();
 

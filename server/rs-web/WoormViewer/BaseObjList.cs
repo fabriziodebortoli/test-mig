@@ -129,7 +129,14 @@ namespace Microarea.RSWeb.WoormViewer
             bool first = true;
             foreach (BaseObj item in this)
             {
-                if (item.Hidden && item.HideExpr == null) continue;
+                if (item.IsHidden && item.HideExpr == null) 
+                    continue;
+
+                if (!template && item.HideExpr != null && item.DynamicIsHidden)
+                {
+                    item.ToJsonHiddenData(true);
+                    continue;
+                }
 
                 if (!template && !(item is FieldRect) && !(item is Table) && /*!(item is Repeater) &&*/ !item.IsDynamic())
                     continue;
@@ -191,7 +198,7 @@ namespace Microarea.RSWeb.WoormViewer
         private void AddDummyCurrentPageFieldRect(WoormDocument woorm)
         {
             FieldRect f = new FieldRect(woorm);
-            f.Hidden = true;
+            f.IsHidden = true;
             f.InternalID = SpecialReportField.REPORT_PAGE_NUMBER_ID;
             Add(f);
         }
@@ -206,7 +213,7 @@ namespace Microarea.RSWeb.WoormViewer
         private void AddDummyLayoutFieldRect(WoormDocument woorm)
         {
             FieldRect f = new FieldRect(woorm);
-            f.Hidden = true;
+            f.IsHidden = true;
             f.InternalID = SpecialReportField.REPORT_LAYOUT_ID;
             Add(f);
         }

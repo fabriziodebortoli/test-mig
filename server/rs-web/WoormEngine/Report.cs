@@ -24,8 +24,8 @@ Report
 		End
 
 		Variables
-			String       Campo_1 [15] Alias 1  Hidden  Input Init = ""  ;
-			String       Campo_2 [15] Alias 2  Hidden  Input Init = ""  ;
+			String       Campo_1 [15] Alias 1  IsHidden  Input Init = ""  ;
+			String       Campo_2 [15] Alias 2  IsHidden  Input Init = ""  ;
 			Long         ShipperID [12] Alias 3  Column  of Shippers ;
 			Long         TotShipperID = Csum (ShipperID ) Alias 5  ColTotal ;
 			Long         SupplierID [12] Alias 6  Column  of Products ;

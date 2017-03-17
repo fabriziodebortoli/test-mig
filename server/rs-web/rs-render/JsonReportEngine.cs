@@ -43,6 +43,7 @@ namespace Microarea.RSWeb.Render
                 StateMachine.XmlGetErrors();
         }
 
+        //---------------------------------------------------------------------
         public string GetJsonTemplatePage(int page = 1)
         {
             WoormDocument woorm = StateMachine.Woorm;
@@ -84,6 +85,7 @@ namespace Microarea.RSWeb.Render
         // qui mancano altri : rectangle, image, file etc.  manca anche la posizione.
       
 
+        //---------------------------------------------------------------------
         public Message GetResponseFor(Message msg)
         {
             Message nMsg = new Message();
@@ -175,8 +177,6 @@ namespace Microarea.RSWeb.Render
                         nMsg.message = "Executed TEST()";
                         break;
                     }
-
-
             }
             return nMsg;
         }
