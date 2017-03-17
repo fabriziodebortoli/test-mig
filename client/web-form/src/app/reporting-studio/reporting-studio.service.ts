@@ -9,6 +9,9 @@ import { DocumentService } from './../core/document.service';
 @Injectable()
 export class ReportingStudioService extends DocumentService {
 
+    public pageNum: number = 1;
+    public currLayout: string = '';
+
     private rsServer: string = 'ws://localhost:5000/rsweb';
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();

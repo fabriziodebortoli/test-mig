@@ -58,10 +58,18 @@ export class DateInputComponent extends ControlComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+     if (this.model == undefined) {
+      return;
+     }
+   
     this.onUpdateModel(new Date(this.model.value));
   }
 
   ngOnChanges() {
+     if (this.model == undefined) {
+      return;
+     }
+   
     this.onUpdateModel(new Date(this.model.value));
   }
 

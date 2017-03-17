@@ -862,100 +862,15 @@ namespace Microarea.RSWeb.Objects
         //	info.AddValue(ISHIDDEN, IsHidden);
         //}
 
-        //------------------------------------------------------------------------------
-        //public string ToJsonTemplate_prova(bool bracket)
-        //{
-        //    string s = "\"column\":{" +
-
-        //        this.InternalID.ToJson("id") + ',' +
-
-        //        this.ColumnRect.ToJson("rect") + ',' +
-        //        this.ColumnCellsRect.ToJson("cells_rect") + ',' +
-        //        this.ColumnPen.ToJson("pen") + ',' +
-
-        //        (this.IsHidden || this.HideExpr != null).ToJson("hidden") + ',' +     //dynamic
-        //        this.Width.ToJson("width") + ',' +                        //dynamic
-
-        //        "\"title\":{" +
-        //                        this.TemplateTitleLocalizedText.ToJson("caption", false, true) + ',' +
-        //                        this.ColumnTitleRect.ToJson("rect") + ',' +
-        //                        this.ColumnTitlePen.ToJson("pen") + ',' +
-        //                        this.Title.TextColor.ToJson("textcolor") + ',' +
-        //                        this.Title.BkgColor.ToJson("bkgcolor") + ',' +
-        //                        this.Title.Align.ToJson("align") + ',' +
-        //                        this.Title.FontData.ToJson() +
-        //                "}," +
-
-        //    (/*this.MultipleRow*/true ? this.MultipleRow.ToJson("show_multiline") + ',' : "") +
-        //    (/*this.IsHtml*/true ? this.IsHtml.ToJson("value_is_html") + ',' : "") +
-        //    (/*this.ShowAsBitmap*/true ? this.ShowAsBitmap.ToJson("show_as_image") + ',' : "") +
-        //    (/*this.ShowAsBarCode*/true ? this.ShowAsBarCode.ToJson("show_as_barcode") + ',' : "") +
-
-        //    ToJsonCellsTemplate();
-
-        //    s += (this.ShowTotal ? ',' + this.ShowTotal.ToJson("show_total") : "") + 
-        //         (this.ShowTotal ? ',' + (this.TotalCell.ToJsonTemplate() ) : "") +
-        //       '}';
-
-        //    if (bracket)
-        //        s = '{' + s + '}';
-
-        //    return s;
-        //}
-
-        //public string ToJsonData_prova(bool bracket)
-        //{
-        //    string s = "\"column\":{" +
-
-        //        this.InternalID.ToJson("id") + ',' +
-
-        //        (this.IsHidden || this.HideExpr != null).ToJson("hidden") + ',' +
-
-        //        (this.WidthExpr != null ? this.Width.ToJson("width") + ',' : "");
-
-        //    if (this.TitleExpr != null || this.TitleTextColorExpr != null || this.TitleBkgColorExpr != null || this.TitleTooltipExpr != null)
-        //    {
-        //        string t =
-        //                (this.TitleExpr != null ? this.DynamicTitleLocalizedText.ToJson("caption", false, true) + ',' : "") +
-        //                (this.TitleTextColorExpr != null ? this.DynamicTitleTextColor.ToJson("textcolor") + ',' : "") +
-        //                (this.TitleBkgColorExpr != null ? this.DynamicTitleBkgColor.ToJson("bkgcolor") + ',' : "") +
-        //                (this.TitleTooltipExpr != null ? this.DynamicTitleTooltip.ToJson("tooltip") : "");
-        //        t = t.TrimEnd(new char[] { ',' });
-
-        //        s += "\"title\":{" + t + "},";
-        //    }
-
-        //    s += ToJsonCellsData(false) +
-
-        //        (this.ShowTotal ? (',' + this.TotalCell.ToJsonData()) : "") +
-        //        '}';
-
-        //    if (bracket)
-        //        s = '{' + s + '}';
-
-        //    return s;
-        //}
 
         public string ToJsonCellTemplate()
         {
             string s = "\"default_cell\":" + 
                         Cells[0].ToJsonTemplate(null, null, false) 
                        //+ ',' + this.Cells.Count.ToJson("cells")
-                ;
+                        ;
 
-            //s += ", \"cells\":[";
-            //bool first = true;
-            //int row = 0;
-            //foreach (Cell cell in Cells)
-            //{
-            //    if (first) first = false; else s += ',';
-            //    cell.AtRowNumber = row++;
-
-            //    s += cell.ToJsonTemplate(Cells[0]);
-            //}
-            //s += ']';
-
-            return s;
+             return s;
         }
 
         public string ToJsonTemplateHeader(bool firstColumn, int col)
@@ -980,7 +895,8 @@ namespace Microarea.RSWeb.Objects
 
                 this.InternalID.ToJson("id") + ',' +
 
-               (this.IsHidden || this.HideExpr != null).ToJson("hidden") + ',' +     
+               (this.HideExpr != null ? this.IsHidden.ToJson("hidden") + ',' : "")  +     
+
                 this.Width.ToJson("width") + ',' +                        
 
                 //this.ColumnRect.ToJson("rect") + ',' +
@@ -1015,6 +931,17 @@ namespace Microarea.RSWeb.Objects
            return s;
         }
 
+        public string ToJsonHiddenData()
+        {
+            string s = "{" +
+
+                this.InternalID.ToJson("id") + ',' +
+
+                false.ToJson("hidden") + '}';
+
+            return s;
+        }
+
         public string ToJsonDataHeader(bool firstColumn, int col)
         {
             int lastColumn = Table.LastVisibleColumn();
@@ -1042,7 +969,7 @@ namespace Microarea.RSWeb.Objects
 
                 this.InternalID.ToJson("id") + ',' +
 
-                (this.HideExpr != null ? this.IsHidden.ToJson("hidden") + ',' : "") +
+                (this.HideExpr != null ? this.DynamicIsHidden.ToJson("hidden") + ',' : "") +
 
                 (this.WidthExpr != null ? this.Width.ToJson("width") + ',' : "") +
 
@@ -1068,27 +995,7 @@ namespace Microarea.RSWeb.Objects
            return s;
         }
 
-         //public string ToJsonCellsData(bool bracket)
-        //{
-        //    string s = "\"cells\":[";
-        //    bool first = true;
-        //    int row = 0;
-        //    foreach (Cell cell in Cells)
-        //    {
-        //        if (first) first = false; else s += ',';
-        //        cell.AtRowNumber = row++;
-
-            //        s += cell.ToJsonData();
-            //    }
-            //    s += ']';
-
-            //    if (bracket)
-            //        s = '{' + s + '}';
-
-            //    return s;
-            //}
-
-            //-------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------
         public int TemplateWidth
         {
             get
@@ -1206,6 +1113,7 @@ namespace Microarea.RSWeb.Objects
 					Table.Document.SynchronizeSymbolTable();
 
 					Value val = TitleTooltipExpr.Eval();
+
 					if (val != null && val.Valid)
 						return (string)val.Data;
 				}
@@ -1213,8 +1121,24 @@ namespace Microarea.RSWeb.Objects
 			}
 		}
 
-		//-------------------------------------------------------------------------------
-		public bool HasDynamicAttributeOnRows
+        //-------------------------------------------------------------------------------
+        public bool DynamicIsHidden
+        {
+            get
+            {
+                if (HideExpr != null)
+                {
+                    Table.Document.SynchronizeSymbolTable();
+
+                    Value val = HideExpr.Eval();
+                    if (val != null && val.Valid)
+                        return (bool)val.Data;
+                }
+                return IsHidden;
+            }
+        }
+        //-------------------------------------------------------------------------------
+        public bool HasDynamicAttributeOnRows
 		{
 			get
 			{
@@ -2634,10 +2558,17 @@ namespace Microarea.RSWeb.Objects
                 if (column.IsHidden && column.HideExpr == null)
                     continue;
 
-                if (first) first = false; else s += ',';
+               if (first) first = false; else s += ',';
+
+               if (!template && column.HideExpr != null && column.DynamicIsHidden)
+                {
+                    s += column.ToJsonHiddenData();
+                    continue;
+                }
 
                 s += template ? 
-                    column.ToJsonTemplateHeader(i == 0, i) : 
+                    column.ToJsonTemplateHeader(i == 0, i) 
+                    : 
                     column.ToJsonDataHeader(i == 0, i);     
             }
             s += ']';
@@ -2715,13 +2646,15 @@ namespace Microarea.RSWeb.Objects
                 for (int col = 0; col <= lastColumn; col++)
                 {
                     Column column = this.Columns[col];
-                    if (column.IsHidden) continue;
 
                     if (row == 0)
                         column.PreviousValue = null;
 
-                    Cell cell = column.Cells[row];
+                    if (column.DynamicIsHidden) continue;
+
                     bool lastCol = col == lastColumn;
+
+                    Cell cell = column.Cells[row];
                     cell.AtRowNumber = row;
 
                     Borders borders = new Borders

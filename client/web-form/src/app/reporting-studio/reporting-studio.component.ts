@@ -1,18 +1,16 @@
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { CommandType, baseobj } from './reporting-studio.model';
+import { CommandType, baseobj, fieldrect, textrect } from './reporting-studio.model';
 
 import { DocumentComponent } from '../shared/document.component';
 
 import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
-
-import { CookieService } from 'angular2-cookie/services/cookies.service';
-
 
 
 @Component({
@@ -30,15 +28,14 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private running: boolean = false;
   private currCommand: CommandType = CommandType.OK;
 
-  private pageNum: number = 1;
-  private currLayout: string;
-
   public objects: baseobj[] = [];
+  public templates: any[] = [];
 
   constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
     super(rsService, eventData);
   }
 
+  // -----------------------------------------------
   ngOnInit() {
     super.ngOnInit();
     this.eventData.model = { 'Title': { 'value': this.args.nameSpace } };
@@ -57,34 +54,50 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
   ngOnDestroy() {
     this.subMessage.unsubscribe();
   }
 
+  // -----------------------------------------------
   onMessage(message: any) {
     //elaborate
     try {
       let msg = JSON.parse(message);
       switch (msg.commandType) {
         case CommandType.ASK: break;
-        case CommandType.DATA: break;
+
         case CommandType.ERROR: break;
         case CommandType.GUID: break;
         case CommandType.NAMESPACE: break;
-        case CommandType.NEXTPAGE: break;
+        case CommandType.NEXTPAGE:
+          this.rsService.pageNum++;
+          break;
+
         case CommandType.OK: break;
         case CommandType.PAGE: break;
         case CommandType.PDF: break;
-        case CommandType.PREVPAGE: break;
-        case CommandType.RUN: break;
+        case CommandType.PREVPAGE:
+          this.rsService.pageNum > 1 ? this.rsService.pageNum-- : this.rsService.pageNum = 1;
+          this.RenderLayout(this.templates[this.rsService.pageNum - 1]);
+          break;
+        case CommandType.RUN:
+          this.UpdateData(msg.message);
+          break;
+
         case CommandType.STOP: break;
         case CommandType.TEMPLATE:
-          this.message = msg.message; //render layout
+          this.RenderLayout(msg.message);
+          if (this.rsService.pageNum > this.templates.length) {
+            this.templates.push(msg.message);
+          }
           break;
 
         case CommandType.TEST: break;
 
       }
+
+
 
       //this.message = msg;//.message;
     } catch (err) {
@@ -92,6 +105,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
   }
 
+  // -----------------------------------------------
   rsInitStateMachine() {
 
     let message = {
@@ -100,10 +114,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       authtoken: this.cookieService.get('authtoken')
     };
 
-    let res = this.rsService.doSendSync(JSON.stringify(message));
+    this.rsService.doSendSync(JSON.stringify(message));
 
   }
 
+  // -----------------------------------------------
   RunReport() {
     this.running = true;
     this.currCommand = CommandType.RUN;
@@ -115,6 +130,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
   StopReport() {
     this.running = false;
     this.currCommand = CommandType.STOP;
@@ -125,6 +141,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
   NextPage() {
     this.currCommand = CommandType.NEXTPAGE;
     let message = {
@@ -135,6 +152,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
   PrevPage() {
     this.currCommand = CommandType.PREVPAGE;
     let message = {
@@ -145,7 +163,68 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
+  RenderLayout(msg: any) {
+    this.objects = [];
+    let k = JSON.parse(msg);
+    if (this.rsService.pageNum != k.page.page_number) { return; }
+    this.rsService.currLayout = k.page.layout.name;
+
+
+    for (let index = 0; index < k.page.layout.objects.length; index++) {
+      let element = k.page.layout.objects[index];
+      if (element.fieldrect !== undefined) {
+        let fr = new fieldrect(element.fieldrect);
+        this.objects.push(fr);
+      }
+      if (element.textrect !== undefined) {
+        let tr = new textrect(element.textrect);
+        this.objects.push(tr);
+      }
+    }
+  }
+
+  // -----------------------------------------------
+  UpdateData(msg: any) {
+    let k = JSON.parse(msg);
+    if (this.rsService.pageNum != k.page.page_number) { return; }
+    let id: number;
+    let value: any;
+    for (let index = 0; index < k.page.layout.objects.length; index++) {
+      let element = k.page.layout.objects[index];
+      if (element.fieldrect !== undefined) {
+        id = element.fieldrect.baserect.baseobj.id;
+        value = element.fieldrect.baserect.value ? element.fieldrect.baserect.value : 'checked' + id;
+      }
+      if (element.textrect !== undefined) {
+        id = element.textrect.baserect.baseobj.id;
+        value = element.textrect.baserect.value ? element.textrect.baserect.value : 'checked' + id;
+      }
+      // to complete
+
+      let obj = this.FindObj(id);
+      if (obj === undefined) {
+        continue;
+      }
+      obj.value = value;
+    }
+  }
+
+  private FindObj(id: number): any {
+    for (let key in this.objects) {
+      if (this.objects.hasOwnProperty(key)) {
+        let element = this.objects[key];
+        if (element.id === id) {
+          return element;
+        }
+      }
+    }
+    return undefined;
+  }
 }
+
+
+
 
 @Component({
   template: ''
