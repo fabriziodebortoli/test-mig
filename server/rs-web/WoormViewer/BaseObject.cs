@@ -84,14 +84,9 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         virtual public string ToJsonTemplate(bool bracket)
         {
-            string name = "baseobj";
+            string s = "\"baseobj\":{" +
 
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' +
-                InternalID          .ToJson("id") + ',' +
+                InternalID.ToJson("id") + ',' +
 
                 IsHidden              .ToJson("hidden") + ',' +
                 Transparent         .ToJson("transparent") + ',' +
@@ -103,7 +98,7 @@ namespace Microarea.RSWeb.Objects
                     ',' + DropShadowHeight    .ToJson("shadow_height") +
                     ',' + DropShadowColor     .ToJson("shadow_color") 
                     : "" ) +
-              '}';
+               '}';
 
             if (bracket)
                 s = '{' + s + '}';
@@ -125,14 +120,9 @@ namespace Microarea.RSWeb.Objects
 
         virtual public string ToJsonData(bool bracket)
         {
-            string name = "baseobj";
+            string s = "\"baseobj\":{" +
 
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' +
-                InternalID.ToJson("id") +
+                 InternalID.ToJson("id") +
 
                 (this.HideExpr != null      ? ',' + this.DynamicIsHidden   .ToJson("hidden") : "") +
                 (this.TooltipExpr != null   ? ',' + this.DynamicTooltip .ToJson("tooltip", false, true) : "") + 
@@ -430,14 +420,9 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         override public string ToJsonTemplate(bool bracket)
         {
-            string name = "baserect";
+            string s = "\"baserect\":{" +
 
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' +
-                base.ToJsonTemplate(false) + ',' +
+               base.ToJsonTemplate(false) + ',' +
 
                 (this.HRatio != 0 ? this.HRatio.ToJson("hratio") + ',' : "") +
                 (this.VRatio != 0 ? this.VRatio.ToJson("vratio") + ',' : "") +
@@ -452,16 +437,21 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
+        override public string ToJsonHiddenData(bool bracket)
+        {
+            string s = "\"baserect\":{" +
+                           base.ToJsonHiddenData(false) +
+                            '}';
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
         override public string ToJsonData(bool bracket)
         {
-            string name = "baserect";
-
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' +
-                base.ToJsonData(false) + 
+            string s = "\"baserect\":{" +
+               base.ToJsonData(false) + 
                   '}';
 
             if (bracket)
@@ -1022,13 +1012,8 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         override public string ToJsonTemplate(bool bracket)
         {
-            string name = "sqrrect";
+            string s = "\"sqrrect\":{" +
 
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' + 
                     base.ToJsonTemplate(false) + ',' +
 
                     this.TemplateBkgColor.ToJson("bkgcolor") +
@@ -1040,16 +1025,22 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
+        override public string ToJsonHiddenData(bool bracket)
+        {
+            string s = "\"sqrrect\":{" +
+                           base.ToJsonHiddenData(false) +
+                            '}';
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
         override public string ToJsonData(bool bracket)
         {
-            string name = "sqrrect";
+            string s = "\"sqrrect\":{" +
 
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' +
-                    base.ToJsonData(false) + 
+                   base.ToJsonData(false) + 
 
                     (this.BkgColorExpr != null ? ',' + this.DynamicBkgColor.ToJson("bkgcolor") : "") +
                 '}';
@@ -1420,13 +1411,8 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         override public string ToJsonTemplate(bool bracket)
         {
-            string name = "textrect";
+            string s = "\"textrect\":{" +
 
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' +
                 base.ToJsonTemplate(false) + ',' +
 
                 this.LocalizedText.ToJson("caption", false, true) + ',' +
@@ -1446,15 +1432,21 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
+        override public string ToJsonHiddenData(bool bracket)
+        {
+            string s = "\"textrect\":{" +
+                           base.ToJsonHiddenData(false) +
+                            '}';
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
         override public string ToJsonData(bool bracket)
         {
-            string name = "textrect";
+             string s =  "\"textrect\":{" +
 
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' +
                 base.ToJsonData(false) + 
 
                 (this.Special ? ',' + LocalizedText.ToJson("caption", false, true) : "") +
@@ -1835,13 +1827,8 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         override public string ToJsonTemplate(bool bracket)
         {
-            string name = "graphrect";
+            string s = "\"graphrect\":{" +
 
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' + 
                 base.ToJsonTemplate(false) + ',' +
 
                 this.ImageFileName.ToJson("image", false, true) + ',' +
@@ -1855,16 +1842,21 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
+        override public string ToJsonHiddenData(bool bracket)
+        {
+            string s = "\"graphrect\":{" +
+                           base.ToJsonHiddenData(false) +
+                            '}';
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
         override public string ToJsonData(bool bracket)
         {
-            string name = "graphrect";
-
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' +
-                base.ToJsonData(false) +
+            string s = "\"graphrect\":{" +
+                 base.ToJsonData(false) +
               '}';
 
             if (bracket)
@@ -2281,15 +2273,9 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         override public string ToJsonTemplate(bool bracket)
         {
-            string name = "fieldrect";
+            string s = "\"fieldrect\":{" +
 
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' +
-
-                base.ToJsonTemplate(false) + ',';
+               base.ToJsonTemplate(false) + ',';
             
             if (this.LabelTextExpr != null || !this.Label.Text.IsNullOrEmpty())
                 s += "\"label\":{" +
@@ -2319,15 +2305,21 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
+        override public string ToJsonHiddenData(bool bracket)
+        {
+            string s = "\"fieldrect\":{" +
+                           base.ToJsonHiddenData(false) +
+                            '}';
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+
         override public string ToJsonData(bool bracket)
         {
-            string name = "fieldrect";
+            string s = "\"fieldrect\":{" +
 
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' +
                 base.ToJsonData(false) + ',';
 
                 if (this.LabelTextColorExpr != null || this.LabelTextExpr != null)
