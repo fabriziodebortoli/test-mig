@@ -35,7 +35,6 @@ export class BOService extends DocumentService {
                             this.eventData.model[prop] = model.data[prop];
                         }
                     }
-                    logger.debug("Model received from server: " + JSON.stringify(this.eventData.model));
                 }
             });
         });
@@ -54,7 +53,6 @@ export class BOService extends DocumentService {
             let cmpId = this.mainCmpId;
             if (data.id === cmpId) {
                 this.serverSideCommandMap = data.map
-                logger.debug("Server-side commands received from server: " + JSON.stringify(this.serverSideCommandMap));
             }
         });
         this.commandSubscription = this.eventData.command.subscribe((cmpId: String) => {

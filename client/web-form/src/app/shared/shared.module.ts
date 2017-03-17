@@ -19,7 +19,7 @@ import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.comp
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, TilePanelComponent, FrameComponent } from './containers';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
-import { EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, StateButtonComponent } from './controls/';
+import { CaptionComponent, EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, StateButtonComponent } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
@@ -27,7 +27,6 @@ import { HeaderStripComponent } from './header-strip/header-strip.component';
 import { OpenComponent } from './explorer/open/open.component';
 import { SaveComponent } from './explorer/save/save.component';
 import { GridComponent } from './controls/grid/grid.component';
-import { CaptionComponent } from './controls/caption/caption.component';
 import { PlaceholderComponent } from './controls/placeholder/placeholder.component';
 import { PasswordComponent } from './controls/password/password.component';
 import { MaskedTextBoxComponent } from './controls/masked-text-box/masked-text-box.component';
@@ -54,13 +53,13 @@ const TB_COMPONENTS = [
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   TabComponent, TabberComponent, ViewComponent, DockpaneComponent, FrameComponent,
   DynamicCmpComponent,
-  EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
+  EditComponent, CaptionComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
   StateButtonComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent,
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
   HeaderStripComponent,
   OpenComponent, SaveComponent,
-  CaptionComponent, PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent,
+  PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent,
   ReportTextrectComponent, ReportFieldrectComponent
 ];
 
