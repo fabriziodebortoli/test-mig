@@ -73,7 +73,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.NEXTPAGE:
           this.rsService.pageNum++;
           break;
-       
+
         case CommandType.OK: break;
         case CommandType.PAGE: break;
         case CommandType.PDF: break;
@@ -88,7 +88,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.STOP: break;
         case CommandType.TEMPLATE:
           this.RenderLayout(msg.message);
-          if (this.rsService.pageNum > this.templates.length ) {
+          if (this.rsService.pageNum > this.templates.length) {
             this.templates.push(msg.message);
           }
           break;
@@ -184,9 +184,42 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
   }
 
-// -----------------------------------------------
+  // -----------------------------------------------
   UpdateData(msg: any) {
-   let k =  JSON.parse(msg);
+    let k = JSON.parse(msg);
+    if (this.rsService.pageNum != k.page.page_number) { return; }
+    let id: number;
+    let value: any;
+    for (let index = 0; index < k.page.layout.objects.length; index++) {
+      let element = k.page.layout.objects[index];
+      if (element.fieldrect !== undefined) {
+        id = element.fieldrect.baserect.baseobj.id;
+        value = element.fieldrect.baserect.value ? element.fieldrect.baserect.value : 'checked' + id;
+      }
+      if (element.textrect !== undefined) {
+        id = element.textrect.baserect.baseobj.id;
+        value = element.textrect.baserect.value ? element.textrect.baserect.value : 'checked' + id;
+      }
+      // to complete
+
+      let obj = this.FindObj(id);
+      if (obj === undefined) {
+        continue;
+      }
+      obj.value = value;
+    }
+  }
+
+  private FindObj(id: number): any {
+    for (let key in this.objects) {
+      if (this.objects.hasOwnProperty(key)) {
+        let element = this.objects[key];
+        if (element.id === id) {
+          return element;
+        }
+      }
+    }
+    return undefined;
   }
 }
 
