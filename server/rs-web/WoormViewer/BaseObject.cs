@@ -94,7 +94,7 @@ namespace Microarea.RSWeb.Objects
 
                 (this.TooltipExpr != null ? ',' + DynamicTooltip.ToJson("tooltip", false, true) : "" ) + 
 
-                (DropShadowHeight != 0 ?
+                (/*DropShadowHeight != 0*/ true ?
                     ',' + DropShadowHeight    .ToJson("shadow_height") +
                     ',' + DropShadowColor     .ToJson("shadow_color") 
                     : "" ) +
@@ -424,8 +424,8 @@ namespace Microarea.RSWeb.Objects
 
                base.ToJsonTemplate(false) + ',' +
 
-                (this.HRatio != 0 ? this.HRatio.ToJson("hratio") + ',' : "") +
-                (this.VRatio != 0 ? this.VRatio.ToJson("vratio") + ',' : "") +
+                (/*this.HRatio != 0*/true ? this.HRatio.ToJson("hratio") + ',' : "") +
+                (/*this.VRatio != 0*/ true  ? this.VRatio.ToJson("vratio") + ',' : "") +
 
                 this.Borders.ToJson() + ',' +
                 this.BorderPen.ToJson() +
@@ -1415,7 +1415,7 @@ namespace Microarea.RSWeb.Objects
 
                 base.ToJsonTemplate(false) + ',' +
 
-                this.LocalizedText.ToJson("caption", false, true) + ',' +
+                this.LocalizedText.ToJson("value", false, true) + ',' +
 
                 this.TemplateBkgColor.ToJson("bkgcolor") + ',' +
                 this.TemplateTextColor.ToJson("textcolor") + ',' +
@@ -1449,7 +1449,7 @@ namespace Microarea.RSWeb.Objects
 
                 base.ToJsonData(false) + 
 
-                (this.Special ? ',' + LocalizedText.ToJson("caption", false, true) : "") +
+                (this.Special ? ',' + LocalizedText.ToJson("value", false, true) : "") +
 
                 (this.TextColorExpr != null ? ',' + this.DynamicTextColor   .ToJson("textcolor") : "") +
                 (this.BkgColorExpr != null  ? ',' + this.DynamicBkgColor    .ToJson("bkgcolor") : "") +
@@ -1827,7 +1827,7 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         override public string ToJsonTemplate(bool bracket)
         {
-            string s = "\"graphrect\":{" +
+            string s = "\"graphrect\":{" +               
 
                 base.ToJsonTemplate(false) + ',' +
 

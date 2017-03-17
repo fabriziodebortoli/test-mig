@@ -79,7 +79,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.PDF: break;
         case CommandType.PREVPAGE:
           this.rsService.pageNum > 1 ? this.rsService.pageNum-- : this.rsService.pageNum = 1;
-          this.RendrLayout(this.templates[this.rsService.pageNum - 1]);
+          this.RenderLayout(this.templates[this.rsService.pageNum - 1]);
           break;
         case CommandType.RUN:
           this.UpdateData(msg.message);
@@ -87,7 +87,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
         case CommandType.STOP: break;
         case CommandType.TEMPLATE:
-          this.RendrLayout(msg.message);
+          this.RenderLayout(msg.message);
           if (this.rsService.pageNum > this.templates.length ) {
             this.templates.push(msg.message);
           }
@@ -164,7 +164,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  RendrLayout(msg: any) {
+  RenderLayout(msg: any) {
     this.objects = [];
     let k = JSON.parse(msg);
     if (this.rsService.pageNum != k.page.page_number) { return; }
@@ -184,8 +184,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
   }
 
+// -----------------------------------------------
   UpdateData(msg: any) {
-    // -----------------------------------------------
+   let k =  JSON.parse(msg);
   }
 }
 

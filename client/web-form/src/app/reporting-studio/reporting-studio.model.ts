@@ -51,7 +51,7 @@ export class baserect extends baseobj {
 export class textrect extends baserect {
 
   obj: ReportObjectType = ReportObjectType.textrect;
-  caption: string;
+  value: string;
   bkgcolor: string;
   textcolor: string;
   align: number;
@@ -60,7 +60,7 @@ export class textrect extends baserect {
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
     this.align = jsonObj.align;
-    this.caption = jsonObj.caption ? jsonObj.caption : '';
+    this.value = jsonObj.value ? jsonObj.value : '';
     this.bkgcolor = jsonObj.bkgcolor;
     this.textcolor = jsonObj.textcolor;
     this.font = new font(jsonObj.font);
@@ -73,14 +73,16 @@ export class fieldrect extends baserect {
 
   obj: ReportObjectType = ReportObjectType.fieldrect;
   label: label;
-  caption: string = '';
+  value: string = '';
   font: font;
   align: number;
   bkgcolor: string;
   textcolor: string;
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
-    this.label = new label(jsonObj.label);
+    if (jsonObj.label != undefined) {
+      this.label = new label(jsonObj.label);
+    }
     this.font = new font(jsonObj.font);
     this.align = jsonObj.align;
     this.bkgcolor = jsonObj.bkgcolor;
