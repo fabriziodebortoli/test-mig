@@ -82,20 +82,7 @@ namespace Microarea.RSWeb.Render
         }
 
         // qui mancano altri : rectangle, image, file etc.  manca anche la posizione.
-        string template = @"
-        {            
-          ""text"": ""Languages"",
-                     
-          ""rect"": ""w_CompanyName"",
-
-          ""text"":  ""09/03/2017 14:15"",
-
-          ""grid"": {
-                ""Languages"":      ""w_Language"",
-                ""Description"":    ""w_Description""
-            }
-        } 
-    ";
+      
 
         public Message GetResponseFor(Message msg)
         {
@@ -110,12 +97,7 @@ namespace Microarea.RSWeb.Render
                         nMsg.message = "Executed ASK()";
                         break;
                     }
-                case MessageBuilder.CommandType.DATA:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = "Executed DATA()";
-                        break;
-                    }
+               
                 case MessageBuilder.CommandType.ERROR:
                     {
                         // this.stateMachine.Do()
@@ -136,11 +118,12 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.NEXTPAGE:
                     {
-                        pageNum++;
+                       
                         // this.stateMachine.Do()
                         nMsg.message = "Executed NEXTPAGE()";
                         break;
                     }
+             
                 case MessageBuilder.CommandType.PREVPAGE:
                     {
                         if (pageNum > 1)
@@ -171,7 +154,7 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.RUN:
                     {
                         // this.stateMachine.Do()
-                        nMsg.message = "Executed ASK()";
+                        nMsg.message = GetJsonDataPage(pageNum);
                         break;
                     }
                 case MessageBuilder.CommandType.STOP:

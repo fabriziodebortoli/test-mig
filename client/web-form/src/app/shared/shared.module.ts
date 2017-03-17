@@ -1,7 +1,7 @@
 
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
@@ -65,8 +65,10 @@ const TB_COMPONENTS = [
 
 @NgModule({
   imports: [
+    ReactiveFormsModule, InputsModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MaterialModule.forRoot(),
     RouterModule,
     KENDO_UI_MODULES
