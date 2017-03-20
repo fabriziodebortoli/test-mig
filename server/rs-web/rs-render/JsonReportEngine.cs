@@ -28,13 +28,13 @@ namespace Microarea.RSWeb.Render
         public JsonReportEngine(TbReportSession session)
         {
             ReportSession = session;
-         }
+
+            session.EngineType = EngineType.FullExtraction;//TODO RSWEB .Paginated_Standard;
+        }
 
         public void Execute()
         {
             StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
-
-            StateMachine.Report.EngineType = EngineType.FullExtraction; //TODO RSWEB problema sync con engine thread
 
             StateMachine.Step();
 
@@ -54,8 +54,8 @@ namespace Microarea.RSWeb.Render
                 {
                     System.Threading.Tasks.Task.Delay(1000).Wait();
 
-                    if (woorm.RdeReader.LoadTotPage())
-                        break;
+                    //if (woorm.RdeReader.LoadTotPage())
+                    //    break;
                 };  //wait 
 
             woorm.LoadPage(page);
@@ -73,17 +73,14 @@ namespace Microarea.RSWeb.Render
                 {
                     System.Threading.Tasks.Task.Delay(1000).Wait();
 
-                    if (woorm.RdeReader.LoadTotPage())
-                            break;
+                    //if (woorm.RdeReader.LoadTotPage())
+                    //    break;
                 };  //wait 
 
             woorm.LoadPage(page);
 
             return woorm.ToJson(false);
         }
-
-        // qui mancano altri : rectangle, image, file etc.  manca anche la posizione.
-      
 
         //---------------------------------------------------------------------
         public Message GetResponseFor(Message msg)
@@ -93,6 +90,39 @@ namespace Microarea.RSWeb.Render
 
             switch(msg.commandType)
             {
+                case MessageBuilder.CommandType.TEMPLATE:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = GetJsonTemplatePage(pageNum);
+                        break;
+                    }
+
+                case MessageBuilder.CommandType.NEXTPAGE:
+                    {
+                        pageNum++;
+                        // this.stateMachine.Do()
+                        nMsg.message = GetJsonDataPage(pageNum);
+                        break;
+                    }
+             
+                case MessageBuilder.CommandType.PREVPAGE:
+                    {
+                        if (pageNum > 1)
+                            pageNum--;
+                        // this.stateMachine.Do()
+                        nMsg.message = GetJsonDataPage(pageNum); ;
+                        break;
+                    }
+
+
+               case MessageBuilder.CommandType.RUN:
+                    {
+                        // this.stateMachine.Do()
+                        pageNum = 1;
+                        nMsg.message = GetJsonDataPage(pageNum);
+                        break;
+                    }
+
                 case MessageBuilder.CommandType.ASK:
                     {
                         // this.stateMachine.Do()
@@ -118,22 +148,6 @@ namespace Microarea.RSWeb.Render
                         nMsg.message = "Executed NAMESPACE()";
                         break;
                     }
-                case MessageBuilder.CommandType.NEXTPAGE:
-                    {
-                        pageNum++;
-                        // this.stateMachine.Do()
-                        nMsg.message = GetJsonDataPage(pageNum);
-                        break;
-                    }
-             
-                case MessageBuilder.CommandType.PREVPAGE:
-                    {
-                        if (pageNum > 1)
-                            pageNum--;
-                        // this.stateMachine.Do()
-                        nMsg.message = "Executed PREVPAGE()";
-                        break;
-                    }
                 case MessageBuilder.CommandType.OK:
                     {
                         // this.stateMachine.Do()
@@ -153,22 +167,10 @@ namespace Microarea.RSWeb.Render
                         nMsg.message = "Executed PDF()";
                         break;
                     }
-                case MessageBuilder.CommandType.RUN:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = GetJsonDataPage(pageNum);
-                        break;
-                    }
-                case MessageBuilder.CommandType.STOP:
+                 case MessageBuilder.CommandType.STOP:
                     {
                         // this.stateMachine.Do()
                         nMsg.message = "Executed STOP()";
-                        break;
-                    }
-                case MessageBuilder.CommandType.TEMPLATE:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = GetJsonTemplatePage(pageNum);
                         break;
                     }
                 case MessageBuilder.CommandType.TEST:

@@ -231,9 +231,12 @@ namespace Microarea.Common.Applications
     }
 
     /// <summary>
-    /// Descrizione di riepilogo per TbSession.
+    /// Descrizione di riepilogo per TbReportSession.
     /// </summary>
     ///=============================================================================
+   
+    public enum EngineType { Paginated_Standard, FullXML_OfficeXML, PDFSharp_OfficePDF, FullExtraction }
+
     public class TbReportSession : TbSession
     {
         NameSpace ReportNameSpace = null;
@@ -244,7 +247,9 @@ namespace Microarea.Common.Applications
         public bool XmlReport = false;
         public bool EInvoice = false;
         public bool WriteNotValidField = false;
-       
+
+        public EngineType EngineType = EngineType.Paginated_Standard;
+
         private string reportParameters;
         public string ReportParameters { 
             get { return reportParameters; } 

@@ -22,7 +22,8 @@ namespace Microarea.RSWeb.Render
         //--------------------------------------------------------------------------
         public PdfReportEngine(TbReportSession session) : base (session)
 		{
-         }
+            session.EngineType = EngineType.PDFSharp_OfficePDF;
+        }
 
         ///<summary>
         ///Resituisce il report in formato pdf, sotto forma di stream binario
@@ -59,11 +60,15 @@ namespace Microarea.RSWeb.Render
 
 			//genero il pdf
 			WoormDocument woorm = StateMachine.Woorm;
+
 			PdfRender pdfRender = new PdfRender(woorm);     
+
 			//salvo la pagina corrente
 			int current = woorm.RdeReader.CurrentPage;
-			//ciclo sulle pagine per generare un pdf
+
 			woorm.RdeReader.LoadTotPage();
+
+			//ciclo sulle pagine per generare un pdf
 			for (int i = 1; i <= woorm.RdeReader.TotalPages; i++)
 			{
 				woorm.LoadPage(i);
@@ -75,7 +80,8 @@ namespace Microarea.RSWeb.Render
 
 			using (MemoryStream stream = new MemoryStream())
 			{
-                pdfRender.SaveToStreamAndClose(stream,true);
+                pdfRender.SaveToStreamAndClose(stream, true);
+
 				// rilascio la macchina per risparmiare memoria           TODO rsweb
 				StateMachine.Dispose();
 				StateMachine = null;
