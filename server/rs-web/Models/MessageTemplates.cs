@@ -7,6 +7,8 @@ namespace Microarea.RSWeb.Models
         public MessageBuilder.CommandType commandType { get; set; }
         public string message { get; set; }
 
+        public int page { get; set; }
+
     }
 
     public class NamespaceMessage

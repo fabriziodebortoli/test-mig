@@ -35,6 +35,7 @@ import { DateInputComponent } from './controls/date-input/date-input.component';
 import { ContextMenuComponent } from './controls/context-menu/context-menu.component';
 import { ReportTextrectComponent } from './report-objects/textrect/textrect.component';
 import { ReportFieldrectComponent } from './report-objects/fieldrect/fieldrect.component';
+import { ReportTableComponent } from "./report-objects/table/table.component";
 
 
 const KENDO_UI_MODULES = [
@@ -60,7 +61,7 @@ const TB_COMPONENTS = [
   HeaderStripComponent,
   OpenComponent, SaveComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent,
-  ReportTextrectComponent, ReportFieldrectComponent
+  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent
 ];
 
 @NgModule({

@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { CommandType, baseobj, fieldrect, textrect } from './reporting-studio.model';
+import { CommandType, baseobj, fieldrect, textrect, table } from './reporting-studio.model';
 
 import { DocumentComponent } from '../shared/document.component';
 
@@ -26,10 +26,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private subMessage: Subscription;
   private message: any = '';
   private running: boolean = false;
-  private currCommand: CommandType = CommandType.OK;
 
   public objects: baseobj[] = [];
-  public templates: any[] = [];
+  public templates: TemplateItem[] = [];
 
   constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
     super(rsService, eventData);
@@ -48,8 +47,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsInitStateMachine();
 
     let message = {
-      commandType: CommandType.TEMPLATE,
-      message: ''
+      commandType: CommandType.INITTEMPLATE,
+      message: '',
+      page: this.rsService.pageNum
     };
     this.rsService.doSend(JSON.stringify(message));
   }
@@ -64,40 +64,28 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     //elaborate
     try {
       let msg = JSON.parse(message);
+      let k = JSON.parse(msg.message);
       switch (msg.commandType) {
         case CommandType.ASK: break;
-
-        case CommandType.ERROR: break;
-        case CommandType.GUID: break;
-        case CommandType.NAMESPACE: break;
-        case CommandType.NEXTPAGE:
-          this.rsService.pageNum++;
-          break;
-
         case CommandType.OK: break;
-        case CommandType.PAGE: break;
-        case CommandType.PDF: break;
-        case CommandType.PREVPAGE:
-          this.rsService.pageNum > 1 ? this.rsService.pageNum-- : this.rsService.pageNum = 1;
-          this.RenderLayout(this.templates[this.rsService.pageNum - 1]);
+        case CommandType.STOP: break;
+        case CommandType.INITTEMPLATE:
+          this.templates.push(new TemplateItem(k.page.layout.name, k));
+          this.RenderLayout(k);
           break;
-        case CommandType.RUN:
+        case CommandType.TEMPLATE:
+          let template = this.FindTemplate(k.page.layout.name);
+          if (template === undefined) {
+            this.templates.push(new TemplateItem(k.page.layout.name, k));
+            template = k;
+          }
+          this.RenderLayout(template);
+          this.GetData();
+          break;
+        case CommandType.DATA:
           this.UpdateData(msg.message);
           break;
-
-        case CommandType.STOP: break;
-        case CommandType.TEMPLATE:
-          this.RenderLayout(msg.message);
-          if (this.rsService.pageNum > this.templates.length) {
-            this.templates.push(msg.message);
-          }
-          break;
-
-        case CommandType.TEST: break;
-
       }
-
-
 
       //this.message = msg;//.message;
     } catch (err) {
@@ -121,11 +109,23 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   RunReport() {
     this.running = true;
-    this.currCommand = CommandType.RUN;
+
+    //ASK
     let message = {
-      commandType: this.currCommand,
+      commandType: CommandType.DATA,
       message: this.args.nameSpace,
-      Response: ''
+      page: 0
+    };
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  // -----------------------------------------------
+  GetData() {
+
+    let message = {
+      commandType: CommandType.DATA,
+      message: this.args.nameSpace,
+      page: 0
     };
     this.rsService.doSend(JSON.stringify(message));
   }
@@ -133,9 +133,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   StopReport() {
     this.running = false;
-    this.currCommand = CommandType.STOP;
+
     let message = {
-      commandType: this.currCommand,
+      commandType: CommandType.STOP,
       message: this.args.nameSpace,
     };
     this.rsService.doSend(JSON.stringify(message));
@@ -143,10 +143,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   NextPage() {
-    this.currCommand = CommandType.NEXTPAGE;
+    this.rsService.pageNum++;
     let message = {
-      commandType: this.currCommand,
+      commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
+      page: this.rsService.pageNum
     };
 
     this.rsService.doSend(JSON.stringify(message));
@@ -154,10 +155,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   PrevPage() {
-    this.currCommand = CommandType.PREVPAGE;
+    if (this.rsService.pageNum > 1) {
+      this.rsService.pageNum--;
+    }
     let message = {
-      commandType: this.currCommand,
+      commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
+      page: this.rsService.pageNum
     };
 
     this.rsService.doSend(JSON.stringify(message));
@@ -166,32 +170,34 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   RenderLayout(msg: any) {
     this.objects = [];
-    let k = JSON.parse(msg);
-    if (this.rsService.pageNum != k.page.page_number) { return; }
-    this.rsService.currLayout = k.page.layout.name;
+    if (this.rsService.pageNum != msg.page.page_number) { return; }
+    this.rsService.currLayout = msg.page.layout.name;
 
 
-    for (let index = 0; index < k.page.layout.objects.length; index++) {
-      let element = k.page.layout.objects[index];
+    for (let index = 0; index < msg.page.layout.objects.length; index++) {
+      let element = msg.page.layout.objects[index];
+      let obj;
       if (element.fieldrect !== undefined) {
-        let fr = new fieldrect(element.fieldrect);
-        this.objects.push(fr);
+        obj = new fieldrect(element.fieldrect);
       }
       if (element.textrect !== undefined) {
-        let tr = new textrect(element.textrect);
-        this.objects.push(tr);
+        obj = new textrect(element.textrect);
       }
+      if (element.table !== undefined) {
+        obj = new table(element.table);
+      }
+      this.objects.push(obj);
     }
   }
 
   // -----------------------------------------------
   UpdateData(msg: any) {
-    let k = JSON.parse(msg);
-    if (this.rsService.pageNum != k.page.page_number) { return; }
+
+    if (this.rsService.pageNum != msg.page.page_number) { return; }
     let id: number;
     let value: any;
-    for (let index = 0; index < k.page.layout.objects.length; index++) {
-      let element = k.page.layout.objects[index];
+    for (let index = 0; index < msg.page.layout.objects.length; index++) {
+      let element = msg.page.layout.objects[index];
       if (element.fieldrect !== undefined) {
         id = element.fieldrect.baserect.baseobj.id;
         value = element.fieldrect.baserect.value ? element.fieldrect.baserect.value : 'checked' + id;
@@ -221,10 +227,28 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
     return undefined;
   }
+
+  private FindTemplate(name: string): any {
+    for (let index = 0; index < this.templates.length; index++) {
+      if (this.templates[index].templateName === name) {
+        return this.templates[index].template;
+      }
+      return undefined;
+    }
+  }
 }
 
 
 
+export class TemplateItem {
+  public templateName: string;
+  public template: any;
+
+  constructor(tName: string, tObj: any) {
+    this.templateName = tName;
+    this.template = tObj;
+  }
+}
 
 @Component({
   template: ''

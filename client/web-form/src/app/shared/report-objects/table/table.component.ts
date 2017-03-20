@@ -1,14 +1,17 @@
+import { GridModule } from '@progress/kendo-angular-grid';
+import { table } from './../../../reporting-studio/reporting-studio.model';
 import { Component, OnInit, Input } from '@angular/core';
-import { ReportObject } from './../../../reporting-studio.model';
 
 @Component({
   selector: 'rs-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class ReportObjectTableComponent implements OnInit {
+export class ReportTableComponent implements OnInit {
 
-  @Input() ro: ReportObject;
+  @Input() table: table;
+
+  public data: any[] = [];
 
   constructor() { }
 

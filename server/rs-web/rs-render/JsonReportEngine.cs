@@ -99,82 +99,42 @@ namespace Microarea.RSWeb.Render
                         nMsg.message = "Executed ASK()";
                         break;
                     }
-               
-                case MessageBuilder.CommandType.ERROR:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = "Executed ERROR()";
-                        break;
-                    }
-                case MessageBuilder.CommandType.GUID:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = "Executed GUID()";
-                        break;
-                    }
-                case MessageBuilder.CommandType.NAMESPACE:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = "Executed NAMESPACE()";
-                        break;
-                    }
-                case MessageBuilder.CommandType.NEXTPAGE:
-                    {
-                        pageNum++;
-                        // this.stateMachine.Do()
-                        nMsg.message = GetJsonDataPage(pageNum);
-                        break;
-                    }
-             
-                case MessageBuilder.CommandType.PREVPAGE:
-                    {
-                        if (pageNum > 1)
-                            pageNum--;
-                        // this.stateMachine.Do()
-                        nMsg.message = "Executed PREVPAGE()";
-                        break;
-                    }
                 case MessageBuilder.CommandType.OK:
                     {
                         // this.stateMachine.Do()
                         nMsg.message = "Executed OK()";
                         break;
-                    }
-                case MessageBuilder.CommandType.PAGE:
-                    {         
-                        // this.stateMachine.Do()
-                        nMsg.message = "Executed PAGE()";
-                        break;
-                    }
-             
-                case MessageBuilder.CommandType.PDF:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = "Executed PDF()";
-                        break;
-                    }
-                case MessageBuilder.CommandType.RUN:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = GetJsonDataPage(pageNum);
-                        break;
-                    }
+                    }             
                 case MessageBuilder.CommandType.STOP:
                     {
                         // this.stateMachine.Do()
                         nMsg.message = "Executed STOP()";
                         break;
                     }
+                case MessageBuilder.CommandType.INITTEMPLATE:
+                    {
+                        pageNum = msg.page;
+                        nMsg.page = msg.page;
+                       nMsg.message = GetJsonTemplatePage(pageNum);
+                        break;
+                    }
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
-                        // this.stateMachine.Do()
+                        pageNum = msg.page;
+                        nMsg.page = msg.page;
                         nMsg.message = GetJsonTemplatePage(pageNum);
                         break;
                     }
-                case MessageBuilder.CommandType.TEST:
+                case MessageBuilder.CommandType.DATA:
+                    {
+                        nMsg.page = pageNum;
+                        nMsg.message = GetJsonDataPage(pageNum);
+                        break;
+                    }
+                case MessageBuilder.CommandType.NAMESPACE:
                     {
                         // this.stateMachine.Do()
-                        nMsg.message = "Executed TEST()";
+                        nMsg.message = "Executed NAMESPACE()";
                         break;
                     }
             }
