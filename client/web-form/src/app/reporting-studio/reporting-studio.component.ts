@@ -70,17 +70,19 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.ERROR: break;
         case CommandType.GUID: break;
         case CommandType.NAMESPACE: break;
-        case CommandType.NEXTPAGE:
-          this.rsService.pageNum++;
-          break;
 
         case CommandType.OK: break;
         case CommandType.PAGE: break;
         case CommandType.PDF: break;
+
         case CommandType.PREVPAGE:
-          this.rsService.pageNum > 1 ? this.rsService.pageNum-- : this.rsService.pageNum = 1;
           this.RenderLayout(this.templates[this.rsService.pageNum - 1]);
           break;
+
+        case CommandType.NEXTPAGE:
+          this.UpdateData(msg.message);
+          break;
+
         case CommandType.RUN:
           this.UpdateData(msg.message);
           break;
@@ -194,11 +196,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       let element = k.page.layout.objects[index];
       if (element.fieldrect !== undefined) {
         id = element.fieldrect.baserect.baseobj.id;
-        value = element.fieldrect.baserect.value ? element.fieldrect.baserect.value : 'checked' + id;
+        value = element.fieldrect.value ? element.fieldrect.value : '[empty]' + id;
       }
       if (element.textrect !== undefined) {
         id = element.textrect.baserect.baseobj.id;
-        value = element.textrect.baserect.value ? element.textrect.baserect.value : 'checked' + id;
+        value = element.textrect.value ? element.textrect.value : '[empty]' + id;
       }
       // to complete
 
