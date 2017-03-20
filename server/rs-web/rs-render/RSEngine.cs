@@ -435,15 +435,19 @@ namespace Microarea.RSWeb.Render
 						{
 							// valorizza i parametri delle Ask con i dati provenienti dal dom passato dal chiamante
 							Report.ExecuteLoadParamters();
+
 							CurrentState = State.ExecuteExtraction;
 							break;
 						}
+
 						if (Report.EngineType == EngineType.PDFSharp_OfficePDF)
 						{
 							// skippo le Ask perchè sono chiamato come motore in background
 							// valorizza i parametri delle Ask con i dati provenienti dal dom passato dal chiamante
 							Report.ExecuteLoadParamters();
+
 							CurrentState = State.ExecuteExtraction;
+
 							//salvo symboltable e parso il woormdocument in quanto viene utilizzata la parte grafica
 							Report.SaveInfo();
 							if (!Woorm.LoadDocument() || !Woorm.ParseDocument())

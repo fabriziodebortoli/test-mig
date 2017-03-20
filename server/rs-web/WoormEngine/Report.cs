@@ -90,7 +90,6 @@ Report
 
 namespace Microarea.RSWeb.WoormEngine
 {
-    public enum EngineType { Paginated_Standard, FullXML_OfficeXML, PDFSharp_OfficePDF, FullExtraction }
 
 	/// <summary>
 	/// Report.
@@ -137,7 +136,6 @@ namespace Microarea.RSWeb.WoormEngine
 		private DataEnum			reportStatus;
 		private RuleReturn			exitStatus = RuleReturn.Success;
 		private TbReportSession     reportSession;
-		private EngineType			engineType = EngineType.Paginated_Standard;
 		private string				maxString = ObjectHelper.GetMaxString(string.Empty);
         private ParametersList      initParameters;
 
@@ -148,7 +146,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public ReportEngine		Engine				{ get { return engine; } set { engine = value; }}
 		public string			HelpFileName		{ get { return helpFileName; } set { helpFileName = value; }}
 		public TbReportSession ReportSession		{ get { return reportSession; }}
-		public EngineType		EngineType			{ get { return engineType; } set { engineType = value; }}
+		public EngineType		EngineType			{ get { return ReportSession.EngineType; } set { ReportSession.EngineType = value; }}
 
 		public string			UniqueID			{ get { return uniqueID; }}
 		public string			SessionID			{ get { return sessionID; }}
@@ -192,10 +190,10 @@ namespace Microarea.RSWeb.WoormEngine
 			)
 		{
 			this.lex		= new Parser(Parser.SourceType.FromFile);
+
 			this.reportName	= reportName;
 			this.reportSession	= reportSession;
 
-			this.engineType = EngineType.PDFSharp_OfficePDF;
 			this.sessionID	= sessionID;
 			this.uniqueID	= uniqueID;
 
@@ -206,7 +204,7 @@ namespace Microarea.RSWeb.WoormEngine
 			ObjectHelper.DataDblEpsilon = ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
 
 			symTable		= new RepSymTable();
-			engine			= new ReportEngine(this,engineType);
+			engine			= new ReportEngine(this);
 		
 			ReadParameters();
 		}
@@ -225,7 +223,6 @@ namespace Microarea.RSWeb.WoormEngine
 			this.sessionID	= "";
 			this.uniqueID	= "";
 			this.reportSession	= reportSession;
-			this.engineType = EngineType.FullXML_OfficeXML;
 
 			this.XmlDomParameters	= xmlDomParameters;
 			this.XmlResultReports	= xmlResultReports;
@@ -234,7 +231,7 @@ namespace Microarea.RSWeb.WoormEngine
 			ObjectHelper.DataDblEpsilon = ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
 
 			symTable		= new RepSymTable();
-			engine			= new ReportEngine(this, engineType);
+			engine			= new ReportEngine(this);
             //localizer		= new WoormLocalizer(reportName, Session.PathFinder);
 			 
 			ReadParameters();
@@ -244,7 +241,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public Report
 			(
 			string				reportName,
-            TbReportSession session,
+            TbReportSession     session,
 			string				sessionID,
 			string				uniqueID,
 			IWoormDocumentObj   woormDoumentObj = null
@@ -255,8 +252,7 @@ namespace Microarea.RSWeb.WoormEngine
 			this.sessionID	= sessionID;
 			this.uniqueID	= uniqueID;
 			this.reportSession	= session;
-			this.engineType = EngineType.Paginated_Standard;
-
+ 
 			this.XmlDomParameters	= null;
 			this.XmlResultReports	= null;
 
@@ -266,7 +262,7 @@ namespace Microarea.RSWeb.WoormEngine
 				this.maxString = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.UserUICulture.ToString());
 
 			symTable		= new RepSymTable();
-			engine			= new ReportEngine(this, engineType);
+			engine			= new ReportEngine(this);
 			//localizer		= new WoormLocalizer(reportName, Session.PathFinder);
 
 			ReadParameters();

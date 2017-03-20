@@ -144,10 +144,6 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//------------------------------------------------------------------------------
-		~XmlWriter()
-		{
-			Dispose(false);
-		}
 
         private string Translate(string s)
         {

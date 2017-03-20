@@ -161,8 +161,17 @@ namespace Microarea.RSWeb.WoormViewer
             if (!File.Exists(this.TotPageFilename))
                 return false;
 
-            XmlReader reader;
-            reader = XmlReader.Create(File.Open(TotPageFilename,FileMode.Open), new XmlReaderSettings() { DtdProcessing = DtdProcessing.Prohibit, IgnoreWhitespace = true });
+            XmlReader reader = null;
+            try
+            {
+                reader = XmlReader.Create(File.OpenRead(TotPageFilename));
+                //reader = XmlReader.Create(File.Open(TotPageFilename, FileMode.Open), new XmlReaderSettings() { /*DtdProcessing = DtdProcessing.Prohibit,*/ IgnoreWhitespace = true });
+            }
+            catch (Exception ex)
+            {
+                //throw new Exception(string.Format(WoormViewerStrings.ErrorReadingFile, TotPageFilename), ex);
+                return true;    //TODO RSWEB LoadTotPage() fails to load (file locked!)
+            }
 
             try
             {
@@ -193,6 +202,7 @@ namespace Microarea.RSWeb.WoormViewer
             finally
             {
                 reader.Dispose();
+                reader = null;
             }
             return true;
         }
@@ -553,12 +563,14 @@ namespace Microarea.RSWeb.WoormViewer
         public void LoadPage(int pageNumber)
         {
             CurrentPage = pageNumber;
+
             LoadPage();
         }
         //------------------------------------------------------------------------------
         public void LoadPage(PageType page)
         {
             SeekToPage(page);
+
             LoadPage();
         }
 
@@ -597,14 +609,19 @@ namespace Microarea.RSWeb.WoormViewer
                 LoadTotPage();
                 return;
             }
+
             try
             {
                 //Controllo se il file e' pronto per essere letto (in report che impiegano poco a eseguirsi (es.con solo un campo singolo))
                 //a volte risulta che il writer non ha ancora rilasciato il file
-                using (FileStream fs = File.Open(Filename, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                if (this.woorm.ReportSession.EngineType == EngineType.Paginated_Standard)
                 {
-                    fs.Dispose();
+                    using (FileStream fs = File.Open(Filename, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                    {
+                        fs.Dispose();
+                    }
                 }
+
                 // The file is not locked
                 reader = XmlReader.Create(File.OpenRead(Filename)); 
 
@@ -643,6 +660,7 @@ namespace Microarea.RSWeb.WoormViewer
                 finally
                 {
                     reader.Dispose();
+                    reader = null;
                 }
 
                 //guarda se e' pronto il file con scritto il numero definitivo di pagine

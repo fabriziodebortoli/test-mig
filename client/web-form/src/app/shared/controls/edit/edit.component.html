@@ -11,8 +11,8 @@
             <tb-password caption="{{caption}}" forCmpID="{{cmpId}}"></tb-password>
         </div>
         <div *ngSwitchCase="controlTypeModel.Masked">
-            masked
-            <tb-masked-text-box caption="{{caption}}" forCmpID="{{cmpId}}" [disabled]="!model?.enabled"></tb-masked-text-box>
+            masked 
+            <tb-masked-text-box caption="{{caption}}" forCmpID="{{cmpId}}" [disabled]="!model?.enabled" [model]="model" ></tb-masked-text-box>
         </div>
         <div *ngSwitchCase="controlTypeModel.Numeric">
             Numeric<br />

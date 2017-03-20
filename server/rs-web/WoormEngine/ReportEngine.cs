@@ -587,11 +587,11 @@ namespace Microarea.RSWeb.WoormEngine
 		public	RdeWriter		OutChannel	{ get { return outChannel;} set { outChannel = value; }}
 
 		//---------------------------------------------------------------------------
-		public ReportEngine (Report ownerReport, EngineType engineType) : base(ownerReport)
+		public ReportEngine (Report ownerReport) : base(ownerReport)
 		{
 			//se sono in modalita xml richesto da Magic Link, il canale di output e' l'xmlwriter, altrimenti l'rdewriter che scrive i dati
 			//paginati
-			this.outChannel	= (engineType == EngineType.FullXML_OfficeXML) ? new XmlWriter(ownerReport) : new RdeWriter(ownerReport);
+			this.outChannel	= (ownerReport.ReportSession.EngineType == EngineType.FullXML_OfficeXML) ? new XmlWriter(ownerReport) : new RdeWriter(ownerReport);
 			
 			onFormFeedActions	= null;
 			reportActions		= null;
