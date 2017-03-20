@@ -50,3 +50,15 @@ md-card-title md-icon {
 :host(.tile-autofill) {
     flex: 1;
 }
+
+:host(.layoutType-column) {
+    display: inline-block;
+}
+
+:host(.layoutType-hbox) {
+    
+}
+
+:host(.layoutType-vbox) {
+    display: inline-block;
+}
