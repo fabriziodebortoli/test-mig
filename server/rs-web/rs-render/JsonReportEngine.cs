@@ -120,9 +120,9 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.NEXTPAGE:
                     {
-                       
+                        pageNum++;
                         // this.stateMachine.Do()
-                        nMsg.message = "Executed NEXTPAGE()";
+                        nMsg.message = GetJsonDataPage(pageNum);
                         break;
                     }
              

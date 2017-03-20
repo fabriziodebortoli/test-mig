@@ -1,4 +1,5 @@
 
+
 export interface Message {
   commandType: CommandType;
   message?: string;
@@ -12,10 +13,7 @@ export class baseobj {
   id: number;
   hidden: boolean;
   transparent: boolean;
-  left: number;
-  right: number;
-  top: number;
-  bottom: number;
+  rect: rect;
   tooltip: string;
   shadow_height: number;
   shadow_color: string;
@@ -23,10 +21,7 @@ export class baseobj {
     this.id = jsonObj.id;
     this.hidden = jsonObj.hidden;
     this.transparent = jsonObj.transparent;
-    this.left = jsonObj.rect.left;
-    this.right = jsonObj.rect.right;
-    this.top = jsonObj.rect.top;
-    this.bottom = jsonObj.rect.bottom;
+    this.rect=new rect(jsonObj.rect);
     this.tooltip = jsonObj.tooltip;
     this.shadow_height = jsonObj.shadow_height;
     this.shadow_color = jsonObj.shadow_color;
@@ -91,6 +86,15 @@ export class fieldrect extends baserect {
 
 }
 
+export class table extends baseobj {
+  column_number: number;
+  row_number: number;
+cells_rect: rect;
+  constructor(jsonObj: any) {
+    super(jsonObj.baseobj);
+  }
+}
+
 export class label {
   caption: string;
   textcolor: string;
@@ -140,5 +144,21 @@ export class borderpen {
     this.color = jsonObj.color;
   }
 }
+
+export class rect {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+
+  constructor(jsonObj: any) {
+    this.left = jsonObj.left;
+    this.right = jsonObj.right;
+    this.top = jsonObj.top;
+    this.bottom = jsonObj.bottom;
+
+  };
+}
+
 
 

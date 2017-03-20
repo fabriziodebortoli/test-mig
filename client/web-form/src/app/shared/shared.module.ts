@@ -17,7 +17,7 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 
 import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
-import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, TilePanelComponent, FrameComponent } from './containers';
+import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, TilePanelComponent, LayoutContainerComponent, FrameComponent } from './containers';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
 import { CaptionComponent, EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, StateButtonComponent } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
@@ -55,7 +55,7 @@ const TB_COMPONENTS = [
   DynamicCmpComponent,
   EditComponent, CaptionComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
   StateButtonComponent,
-  TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent,
+  TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
   HeaderStripComponent,
   OpenComponent, SaveComponent,
