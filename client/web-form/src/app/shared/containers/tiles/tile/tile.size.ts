@@ -35,26 +35,5 @@ export class TileAutofillDirective {
     }
 }
 
-@Directive({ selector: '[tbLayoutTypeColumn]' })
-export class LayoutTypeColumnDirective {
-    constructor(el: ElementRef, renderer: Renderer) {
-        renderer.setElementClass(el.nativeElement, 'layoutType-column', true);
-    }
-}
-
-@Directive({ selector: '[tbLayoutTypeHbox]' })
-export class LayoutTypeHboxDirective {
-    constructor(el: ElementRef, renderer: Renderer) {
-        renderer.setElementClass(el.nativeElement, 'layoutType-hbox', true);
-    }
-}
-
-@Directive({ selector: '[tbLayoutTypeVbox]' })
-export class LayoutTypeVboxDirective {
-    constructor(el: ElementRef, renderer: Renderer) {
-        renderer.setElementClass(el.nativeElement, 'layoutType-vbox', true);
-    }
-}
-
 
 
