@@ -82,9 +82,6 @@ namespace Microarea.RSWeb.Render
             return woorm.ToJson(false);
         }
 
-        // qui mancano altri : rectangle, image, file etc.  manca anche la posizione.
-      
-
         //---------------------------------------------------------------------
         public Message GetResponseFor(Message msg)
         {
@@ -93,6 +90,39 @@ namespace Microarea.RSWeb.Render
 
             switch(msg.commandType)
             {
+                case MessageBuilder.CommandType.TEMPLATE:
+                    {
+                        // this.stateMachine.Do()
+                        nMsg.message = GetJsonTemplatePage(pageNum);
+                        break;
+                    }
+
+                case MessageBuilder.CommandType.NEXTPAGE:
+                    {
+                        pageNum++;
+                        // this.stateMachine.Do()
+                        nMsg.message = GetJsonDataPage(pageNum);
+                        break;
+                    }
+             
+                case MessageBuilder.CommandType.PREVPAGE:
+                    {
+                        if (pageNum > 1)
+                            pageNum--;
+                        // this.stateMachine.Do()
+                        nMsg.message = GetJsonDataPage(pageNum); ;
+                        break;
+                    }
+
+
+               case MessageBuilder.CommandType.RUN:
+                    {
+                        // this.stateMachine.Do()
+                        pageNum = 1;
+                        nMsg.message = GetJsonDataPage(pageNum);
+                        break;
+                    }
+
                 case MessageBuilder.CommandType.ASK:
                     {
                         // this.stateMachine.Do()
@@ -118,22 +148,6 @@ namespace Microarea.RSWeb.Render
                         nMsg.message = "Executed NAMESPACE()";
                         break;
                     }
-                case MessageBuilder.CommandType.NEXTPAGE:
-                    {
-                        pageNum++;
-                        // this.stateMachine.Do()
-                        nMsg.message = GetJsonDataPage(pageNum);
-                        break;
-                    }
-             
-                case MessageBuilder.CommandType.PREVPAGE:
-                    {
-                        if (pageNum > 1)
-                            pageNum--;
-                        // this.stateMachine.Do()
-                        nMsg.message = "Executed PREVPAGE()";
-                        break;
-                    }
                 case MessageBuilder.CommandType.OK:
                     {
                         // this.stateMachine.Do()
@@ -153,22 +167,10 @@ namespace Microarea.RSWeb.Render
                         nMsg.message = "Executed PDF()";
                         break;
                     }
-                case MessageBuilder.CommandType.RUN:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = GetJsonDataPage(pageNum);
-                        break;
-                    }
-                case MessageBuilder.CommandType.STOP:
+                 case MessageBuilder.CommandType.STOP:
                     {
                         // this.stateMachine.Do()
                         nMsg.message = "Executed STOP()";
-                        break;
-                    }
-                case MessageBuilder.CommandType.TEMPLATE:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = GetJsonTemplatePage(pageNum);
                         break;
                     }
                 case MessageBuilder.CommandType.TEST:
