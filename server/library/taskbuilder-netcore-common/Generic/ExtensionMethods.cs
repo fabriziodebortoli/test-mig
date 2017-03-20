@@ -544,6 +544,11 @@ namespace Microarea.Common.Generic
             return d.ToString().ToJson(name, bracket);
         }
 
+        public static string ToPX(this int n, string name = null, bool bracket = false)
+        {
+            return n.ToString("0px").ToJson(name, bracket);
+        }
+
         public static string ToJson(this Rectangle rect, string name = null, bool bracket = false)
         {
             string s = string.Empty;
@@ -551,10 +556,10 @@ namespace Microarea.Common.Generic
                 s = '"' + name + "\":";
 
             s += '{' +
-                    rect.Left   .ToJson("left") + ',' +
-                    rect.Right  .ToJson("right") + ',' +
-                    rect.Top    .ToJson("top") + ',' +
-                    rect.Bottom .ToJson("bottom") +
+                    rect.Left   .ToPX("left") + ',' +
+                    rect.Right  .ToPX("right") + ',' +
+                    rect.Top    .ToPX("top") + ',' +
+                    rect.Bottom .ToPX("bottom") +
                  '}';
 
             if (bracket)
