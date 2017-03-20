@@ -20,6 +20,7 @@ namespace Microarea.RSWeb.Render
             : base (session)
         {
             ReportSession.XmlReport = true;
+            session.EngineType = EngineType.FullXML_OfficeXML;
         }
 
         // ITRI gestire meglio anche il ritorno di un diagnostic, in caso di errore (multiple righe)

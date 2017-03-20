@@ -28,13 +28,13 @@ namespace Microarea.RSWeb.Render
         public JsonReportEngine(TbReportSession session)
         {
             ReportSession = session;
-         }
+
+            session.EngineType = EngineType.FullExtraction;//TODO RSWEB .Paginated_Standard;
+        }
 
         public void Execute()
         {
             StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
-
-            StateMachine.Report.EngineType = EngineType.FullExtraction; //TODO RSWEB problema sync con engine thread
 
             StateMachine.Step();
 
@@ -54,8 +54,8 @@ namespace Microarea.RSWeb.Render
                 {
                     System.Threading.Tasks.Task.Delay(1000).Wait();
 
-                    if (woorm.RdeReader.LoadTotPage())
-                        break;
+                    //if (woorm.RdeReader.LoadTotPage())
+                    //    break;
                 };  //wait 
 
             woorm.LoadPage(page);
@@ -73,8 +73,8 @@ namespace Microarea.RSWeb.Render
                 {
                     System.Threading.Tasks.Task.Delay(1000).Wait();
 
-                    if (woorm.RdeReader.LoadTotPage())
-                            break;
+                    //if (woorm.RdeReader.LoadTotPage())
+                    //    break;
                 };  //wait 
 
             woorm.LoadPage(page);

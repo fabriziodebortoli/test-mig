@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Xml;
 using Microarea.Common.CoreTypes;
+using Microarea.Common.Applications;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -49,35 +50,24 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//------------------------------------------------------------------------------
-		~RdeWriter()
-		{
-			Dispose(false);
-		}
-
-		//------------------------------------------------------------------------------
 		virtual public void Close(string file)
 		{
             if (output != null)
             {
                 FileStream fs = File.OpenWrite(file);
                 output.Save(fs);
-                output = null;
                 fs.Dispose();
-            }
-			Dispose();
+                fs = null;
+           }
+
+		   Dispose();
 		}
 
 		//------------------------------------------------------------------------------
 		public void Dispose()
 		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-		//------------------------------------------------------------------------------
-		protected virtual void Dispose(bool disposing)
-		{
- 			output = null;
-		}
+            output = null;
+        }
 
 		//---------------------------------------------------------------------------
 		private string Filename 
@@ -171,6 +161,7 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			//Nel caso di report eseguito da magic link, la symbol table da usare e' quella "Fields" perche' non vengono eseguite le 
 			//AskDialog come Easylook, e quindi la symtable "AskDialogState" risulta vuota
+            //TODO RSWEB verificare check su enginetype
 			FieldSymbolTable symTable = (report.EngineType == EngineType.PDFSharp_OfficePDF) ? report.SymTable.Fields : report.SymTable.AskDialogState;
 			
 			foreach (Field field in symTable)
@@ -214,6 +205,7 @@ namespace Microarea.RSWeb.WoormEngine
 			if (Open())
 			{
 				WriteTotalPages();
+
 				Close(TotPageFilename);
 			}
 		}
