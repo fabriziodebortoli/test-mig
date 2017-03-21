@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
     selector: 'tb-tilepanel',
@@ -9,10 +9,39 @@ import { Component, OnInit } from '@angular/core';
 
 export class TilePanelComponent implements OnInit {
 
+    private _showAsTile: boolean = true;
+    private _isCollapsed: boolean = false;
+    private _isCollapsible: boolean = true;
+
+
     tilePanel: TilePanelComponent;
     constructor() {
     }
 
     ngOnInit() {
     }
+
+
+    @Input()
+    set showAsTile(value: boolean) {
+        this._showAsTile = value;
+    }
+
+    get showAsTile(): boolean {
+        return this._showAsTile;
+    }
+
+    toggleCollapse(event: MouseEvent): void {
+        if (!this._isCollapsible)
+            return;
+
+        // event.preventDefault();
+        this._isCollapsed = !this._isCollapsed;
+    }
+
+    getArrowIcon() {
+        return this._isCollapsed ? 'keyboard_arrow_down' : 'keyboard_arrow_up';
+    }
+
+
 }
