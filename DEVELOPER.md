@@ -4,13 +4,13 @@ This document describes how to set up your development environment to build and 
 It also explains the basic mechanics of using `git`, `node`, and `npm`.
 
 * [Prerequisite Software](#prerequisite-software)
+* [Taskbuilder Cli](#taskbuilder-cli)
 * [Getting the Sources](#getting-the-sources)
-* [VS Code Recommended Extensions](#vs-code-recommended-extensions)
 * [Kendo UI](#kendo-ui)
 * [Building](#building)
+* [Install packages](#install-packages)
 * [Running](#running)
-* [Visual Studio 2015](#using-visual-studio-2015)
-* [Generate ERP Modules](#generate-erp-modules)
+* [Extra](#extra)
 	
 ## Prerequisite Software
 Before you can build and test TaskBuilder Web, you must install and configure the
@@ -44,6 +44,17 @@ $ npm install -g @angular/cli
 
 * [Visual Studio Code](http://code.visualstudio.com/) source code editor
 
+### Taskbuilder Cli
+
+Taskbuilder Cli is a command line tool for Taskbuilder Web developers. 
+
+```shell
+# install globally
+npm install -g "@taskbuilder/cli"
+```
+
+It's available globally but for building and running operations you have to be inside a Taskbuilder Web project.
+
 
 ## Getting the Sources
 
@@ -54,25 +65,82 @@ Clone the repository into the <installation path>/standard with alias **web**:
 # for example:
 $ cd /development/standard
 
-# Clone GitHub repository:
-$ git clone https://github.com/Microarea/Taskbuilder.git web
+# Taskbuilder Cli clone
+$ tb clone
 ```
 
-### 
+**tb clone** command is a shortcut to the git clone command: `git clone https://github.com/Microarea/Taskbuilder.git web`.
 
-It could happen that, building ERP solution before cloning, there is already the 'web' folder because of TypeScript/HTML generation by the TbJson process:
+
+## Install packages
+
+Before building projects, needs to install packages for the Angular client and .NET Core servers.
+
+Angular projects need `npm install` inside project folder and .NET Core needs `dotnet restore`.
+
+With the Taskbuilder Cli:
 ```shell
-fatal: destination path 'web' already exists and is not an empty directory.
+# Inside the <installation path>/standard/web
+$ tb install
 ```
-you must manually delete the folder 'web':
+Will ask you your Telerik account credentials for [Kendo UI Library](https://github.com/Microarea/Taskbuilder/blob/master/docs/KENDO.md):
+
+```
+Username: eitri
+Password: Microarea.2017
+Email: eitri@microarea.it
+```
+
+
+## Building
+
+To build TaskBuilder Web, you need to build both the .NET Core platform and the Angular front-end project.
+
+With the Taskbuilder Cli:
 ```shell
-$ del web 
+# Inside the <installation path>/standard/web
+$ tb build
 ```
-and re-execute git clone command.
 
-After that, you will need to [execute TbJson process to generate TS/HTML](#generate-erp-modules).
+**tb build** is a shortcut for the Angular `ng build` and .NET Core `dotnet build`.
 
-## VS Code Recommended Extensions
+## Running
+
+### TbLoaderService c++
+
+`<installation_path>/standard/taskbuilder/TaskBuilderNet/Microarea.TaskBuilderNet.TBLoaderService/bin/Debug/TbLoaderService.exe`
+*In Windows 10, run as administrator*
+
+With the Taskbuilder Cli:
+```shell
+# Inside a TBWeb project
+$ tb run
+```
+
+Options
+```shell
+# Run only .NET Core web-server project
+tb run --server # default port 5000
+tb run --server 5001 # to specify server port
+
+# Run only Angular web-form project
+tb run --client # default port 4200
+tb run --client 4201 # to specify server port
+```
+
+## Extra
+
+### Using Visual Studio 2015
+
+Developers can also use the VS solution 
+*&lt;installation path&gt;/standard/web/server/web-server.sln*
+
+**Set web-server as StartUp Project** and **run WebServer** instead of IIS Express.
+
+
+ or **ReBuild ERP solution**
+ 
+### VS Code Recommended Extensions
 
 Install **VS Code** recommended extensions
 
@@ -86,54 +154,6 @@ $ code .
 
 Follow the instructions: https://code.visualstudio.com/docs/editor/extension-gallery#_workspace-recommended-extensions)
 
-## Kendo UI
-
-TaskBuilder Web needs [**Kendo UI for Angular 2** ](http://www.telerik.com/kendo-angular-ui/) library.
-
-Before restoring npm packages, we needs to associate the Progress NPM registry with the @progress scope.
-
-```shell
-# Associate the Progress NPM registry with the @progress scope.
-$ npm login --registry=https://registry.npm.telerik.com/ --scope=@progress
-```
-NPM will ask you for your Telerik account credentials and an email, use:
-
-```
-Username: eitri
-Password: Microarea.2017
-Email: eitri@microarea.it
-```
-
-You should get this message:
-```
-Logged in as eitri to scope @progress on https://registry.npm.telerik.com/.
-```
-
-The actual packages will be downloaded when the npm install command will be executed (see below),
-under the folder
-```
-\Web\client\web-form\node_modules\@progress
-and
-\Web\client\web-form\node_modules\@telerik
-```
-
-## Building
-
-To build TaskBuilder Web, you need to build both the .NET Core platform and the Angular front-end project.
-
-### Server .NET Core
-
-```shell
-# Move to the <installation path>/standard/web/server
-$ cd c:/development/standard/web/server # example
-
-# Restore packages
-$ ./restore.bat # Windows
-$ ./restore.sh # Unix 
-
-# Build web-server project
-$ dotnet build ./web-server/project.json 
-```
 
 ### Generate ERP Modules
 
@@ -150,48 +170,3 @@ cd c:/development/standard/web/script # example
 $ ./tbjson.bat # Windows
 $ ./tbjson.sh # Unix
 ```
-
-### Front-end Angular 
-
-Building `web-form` Angular project, the `dist` folder will be moved into the `web-server\wwwroot` folder of the .NET Core server.
-
-```shell
-# Move to the <installation path>/standard/web/client/web-form
-$ cd c:/development/standard/web/client/web-form # example
-
-# Restore packages
-$ npm install
-
-# Build
-$ ng build
-```
-
-## Running
-
-### TbLoaderService c++
-
-`<installation_path>/standard/taskbuilder/TaskBuilderNet/Microarea.TaskBuilderNet.TBLoaderService/bin/Debug/TbLoaderService.exe`
-*In Windows 10, run as administrator*
-
-
-### .NET Core server
-```shell
-Move to the <installation path>/standard/web/server/web-server
-$ dotnet run
-```
-
-### Angular-cli server
-```shell
-Move to the <installation path>/standard/web/client/web-form
-$ ng serve
-```
-
-## Using Visual Studio 2015
-
-Developers can also use the VS solution 
-*&lt;installation path&gt;/standard/web/server/web-server.sln*
-
-**Set web-server as StartUp Project** and **run WebServer** instead of IIS Express.
-
-
- or **ReBuild ERP solution**
