@@ -2,7 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Microarea.Common.Generic
 {
@@ -24,61 +28,47 @@ namespace Microarea.Common.Generic
 		//---------------------------------------------------------------------
 		public static string GetMacAddress()
 		{
-			string mac = string.Empty;
-
-			try
-			{
-				//ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
-				//ManagementObjectCollection moc = mc.GetInstances();                                              TODO RSWeb
-
-				//foreach (ManagementObject mo in moc)
-				//{
-				//	if ((bool)mo["IPEnabled"] == true && mac == string.Empty)
-				//		mac = mo["MacAddress"].ToString();
-				//	mo.Dispose();
-				//}
-
-				return mac;
-			}
-			catch (Exception ex)
-			{
-				Debug.Fail(ex.Message);
-				throw ex;
-			}
-		}
-
-		//---------------------------------------------------------------------
-		public static StringCollection GetMacAddresses()
-		{
-			StringCollection sc = new StringCollection();
-
-			try
-			{
-                //ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");                   TODO RSWeb
-                //ManagementObjectCollection moc = mc.GetInstances();
-
-                //foreach (ManagementObject mo in moc)
-                //{
-                //	if ((bool)mo["IPEnabled"] == true)
-                //		sc.Add(mo["MacAddress"].ToString());
-                //	mo.Dispose();
-                //}
+            try
+            {
+                NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+                if (nics != null && nics.Length > 0)
+                {
+                    PhysicalAddress address = nics[0].GetPhysicalAddress();
+                    return address.ToString();
+                }
             }
             catch (Exception ex)
-			{
-				Debug.Fail(ex.Message);
-			}
+            {
+                Debug.Fail(ex.Message);
+            }
 
-			return sc;
-		}
+            return "MACNOTFOUND";
+        }
 
-		//---------------------------------------------------------------------
-		public static string GetIPAddress()
+        //---------------------------------------------------------------------
+        public static string GetHostname()
+        {
+            try
+            {
+                return Dns.GetHostName();
+            }
+            catch (Exception ex)
+            {
+                Debug.Fail(ex.Message);
+            }
+
+            return "HOSTNAMENOTFOUND";
+        }
+
+
+        //---------------------------------------------------------------------
+        public static string GetIPAddress()
 		{
 			//string[] mac = null;
 
 			try
 			{
+       
                 //ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");                            TODO RSWeb
                 //ManagementObjectCollection moc = mc.GetInstances();
 

@@ -381,8 +381,10 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
-        public string ToJsonData(Borders borders, bool useAlternateColor)
+        public string ToJsonData(Borders borders, bool useAlternateColor, out string cellValue)
         {
+            cellValue = string.Empty;
+
             string s = "{";
 
             //s += this.AtRowNumber.ToJson("row")  + ',';
@@ -432,11 +434,14 @@ namespace Microarea.RSWeb.Objects
                 }
             }
 
-            s += ',' + (this.SubTotal ? 
-                            (this.Value.FormattedData.ToJson("value", false, true)  + "," + true.ToJson("SubTotal"))
+            string nameValue = this.column.InternalID.ToString(); //"value";
+            cellValue = (this.SubTotal ?
+                            (this.Value.FormattedData.ToJson(nameValue, false, true)  /* + "," + true.ToJson("SubTotal")*/ )
                             :
-                            this.FormattedDataForWrite.ToJson("value", false, true)
+                            this.FormattedDataForWrite.ToJson(nameValue, false, true)
                         );
+
+            //s += ',' + cellValue;
 
             s += '}';
             return s;
@@ -2632,6 +2637,7 @@ namespace Microarea.RSWeb.Objects
         public string RowsToJsonData()
         {
             string s = "\"rows\":[";
+            string sd = "\"data\":[";
 
             //predispone la table per la modalita di Easyview dinamica (nel caso sia presente)
             this.InitEasyview();
@@ -2641,6 +2647,7 @@ namespace Microarea.RSWeb.Objects
             {
                 // "row":
                 string r = "{" + row.ToJson("row") + ", \"cells\":[";
+                sd += '{';
 
                 bool firstCol = true;
                 for (int col = 0; col <= lastColumn; col++)
@@ -2677,21 +2684,38 @@ namespace Microarea.RSWeb.Objects
                         column.PreviousValue = null;
                     }
 
-                    if (!firstCol) r += ',';
+                    if (!firstCol)
+                    {
+                        r += ',';
+                        sd += ',';
+                    }
 
-                    r += cell.ToJsonData(cellBorders, UseColorEasyview(row));
+                    string cellValue;
+
+                    r += cell.ToJsonData(cellBorders, UseColorEasyview(row), out cellValue);
+
+                    sd += cellValue;
 
                     firstCol = false;
                 }
 
+                sd += '}';
                 r += "]}";
-                if (row < (this.RowNumber - 1)) r += ',';
+
+                if (row < (this.RowNumber - 1))
+                {
+                    r += ',';
+                    sd += ',';
+                }
+
                 s += r;
 
                 this.EasyViewNextRow(row);
             }
 
-            return s + "]";
+            sd += "]";
+            s += "]";
+            return s + "," + sd;
         }
 
         //---------------------------------------------------------------------------
