@@ -10,4 +10,5 @@ TaskBuilder Web projects.
 
 ## Developers
 [Building and Running TaskBuilder Web](https://github.com/Microarea/Taskbuilder/blob/master/DEVELOPER.md)
+
 [How to debug an Angular2 App](https://github.com/Microarea/Taskbuilder/blob/master/DEBUG.md)
