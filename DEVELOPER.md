@@ -4,11 +4,9 @@ This document describes how to set up your development environment to build and 
 It also explains the basic mechanics of using `git`, `node`, and `npm`.
 
 * [Prerequisite Software](#prerequisite-software)
-* [Taskbuilder Cli](#taskbuilder-cli)
 * [Getting the Sources](#getting-the-sources)
-* [Kendo UI](#kendo-ui)
-* [Building](#building)
 * [Install packages](#install-packages)
+* [Building](#building)
 * [Running](#running)
 * [Extra](#extra)
 	
