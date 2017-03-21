@@ -4,7 +4,7 @@
   <div id="one" class="selector">
     <ul>
       <li (click)="selectTab(tab)" *ngFor="let tab of tabs" href="#" [ngClass]="tab.active ? 'active' : ''">
-          <img  src="{{tab.iconTxt}}" />
+          <img  src="{{tab?.iconTxt}}" />
         {{tab.title}}
       </li>
     </ul>

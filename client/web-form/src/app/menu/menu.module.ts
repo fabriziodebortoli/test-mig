@@ -23,6 +23,14 @@ import { ApplicationSelectorComponent } from './components/menu/application-sele
 
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 
+import { GridModule } from '@progress/kendo-angular-grid';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { DialogModule } from '@progress/kendo-angular-dialog';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { LayoutModule } from '@progress/kendo-angular-layout';
+import { PopupModule } from '@progress/kendo-angular-popup';
+
 import { LoginComponent } from './components/login/login.component';
 import { Logger } from 'libclient';
 import { Accordion, AccordionGroup } from '../shared/containers/accordion/accordion.component';
@@ -42,12 +50,23 @@ const MENU_SERVICES = [
   EventManagerService
 ];
 
+const KENDO_UI_MODULES = [
+  GridModule,
+  InputsModule,
+  DateInputsModule,
+  DialogModule,
+  DropDownsModule,
+  LayoutModule,
+  PopupModule
+];
+
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     FormsModule,
-    MaterialModule.forRoot()
+    MaterialModule.forRoot(),
+    KENDO_UI_MODULES
   ],
 
   declarations:
@@ -75,6 +94,7 @@ const MENU_SERVICES = [
     RouterModule,
     LoginComponent,
     MenuComponent,
+    MenuElementComponent,
     ApplicationSelectorComponent,
     MenuContainerComponent,
     FavoritesComponent,

@@ -20,7 +20,7 @@ import { appRouting } from './applications/app.routing';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent, HomeSidenavComponent,
+    HomeComponent, HomeSidenavComponent, 
     UnsupportedFactoryComponent,
     UnsupportedComponent
   ],

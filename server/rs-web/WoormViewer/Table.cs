@@ -434,7 +434,7 @@ namespace Microarea.RSWeb.Objects
                 }
             }
 
-            string nameValue = this.column.InternalID.ToString(); //"value";
+            string nameValue = "id" + this.column.InternalID.ToString(); //"value";
             cellValue = (this.SubTotal ?
                             (this.Value.FormattedData.ToJson(nameValue, false, true)  /* + "," + true.ToJson("SubTotal")*/ )
                             :
@@ -898,7 +898,7 @@ namespace Microarea.RSWeb.Objects
 
             string s = "{" +
 
-                this.InternalID.ToJson("id") + ',' +
+                this.InternalID.ToJson("id", "id") + ',' +
 
                (this.HideExpr != null ? this.IsHidden.ToJson("hidden") + ',' : "")  +     
 
@@ -940,7 +940,7 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "{" +
 
-                this.InternalID.ToJson("id") + ',' +
+                this.InternalID.ToJson("id", "id") + ',' +
 
                 false.ToJson("hidden") + '}';
 
@@ -972,7 +972,7 @@ namespace Microarea.RSWeb.Objects
 
             string s = "{" +
 
-                this.InternalID.ToJson("id") + ',' +
+                this.InternalID.ToJson("id", "id") + ',' +
 
                 (this.HideExpr != null ? this.DynamicIsHidden.ToJson("hidden") + ',' : "") +
 

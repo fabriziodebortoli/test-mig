@@ -194,7 +194,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   UpdateData(msg: any) {
 
     if (this.rsService.pageNum != msg.page.page_number) { return; }
-    let id: number;
+    let id: string;
     let value: any;
     for (let index = 0; index < msg.page.layout.objects.length; index++) {
       let element = msg.page.layout.objects[index];
@@ -216,7 +216,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
   }
 
-  private FindObj(id: number): any {
+  private FindObj(id: string): any {
     for (let key in this.objects) {
       if (this.objects.hasOwnProperty(key)) {
         let element = this.objects[key];
