@@ -484,7 +484,7 @@ namespace Microarea.Common.Generic
 		 * Custom ToJson
 		*/
         //--------------------------------------------------------------------------------
-        public static string ToJson(this string o, string name = null, bool bracket = false, bool escape = false)
+        public static string ToJson(this string o, string name = null, bool bracket = false, bool escape = false, bool quoted = true)
         {
             string s = o != null ? o.Trim() : string.Empty;
 
@@ -500,10 +500,12 @@ namespace Microarea.Common.Generic
                 s = s.Replace("\"", "\\\"");
             }
 
-            s = '"' + s + '"';
+            if (quoted)
+                s = '"' + s + '"';
 
             if (!name.IsNullOrEmpty())
                 s = '"' + name + '"' + ':' + s;
+
             if (bracket)
                 s = '{' + s + '}';
 
@@ -512,7 +514,7 @@ namespace Microarea.Common.Generic
 
         public static string ToJson(this bool b, string name = null, bool bracket = false)
         {
-            return b.ToString().ToJson(name, bracket);
+            return b.ToString().ToLower().ToJson(name, bracket, false, false);
         }
         public static string ToJson(this char c, string name = null, bool bracket = false, bool escape = false)
         {
@@ -520,29 +522,30 @@ namespace Microarea.Common.Generic
         }
         public static string ToJson(this int n, string name = null, bool bracket = false)
         {
-            return n.ToString().ToJson(name, bracket);
+            return n.ToString().ToJson(name, bracket, false, false);
         }
         public static string ToJson(this short n, string name = null, bool bracket = false)
         {
-            return n.ToString().ToJson(name, bracket);
+            return n.ToString().ToJson(name, bracket, false, false);
         }
         public static string ToJson(this ushort n, string name = null, bool bracket = false)
         {
-            return n.ToString().ToJson(name, bracket);
+            return n.ToString().ToJson(name, bracket, false, false);
         }
         public static string ToJson(this long n, string name = null, bool bracket = false)
         {
-            return n.ToString().ToJson(name, bracket);
+            return n.ToString().ToJson(name, bracket, false, false);
         }
         public static string ToJson(this byte n, string name = null, bool bracket = false)
         {
-            return n.ToString().ToJson(name, bracket);
+            return n.ToString().ToJson(name, bracket, false, false);
         }
 
         public static string ToJson(this double d, string name = null, bool bracket = false)
         {
-            return d.ToString().ToJson(name, bracket);
+            return d.ToString().ToJson(name, bracket, false, false);
         }
+
 
         public static string ToPX(this int n, string name = null, bool bracket = false)
         {
