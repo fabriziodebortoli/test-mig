@@ -12,7 +12,7 @@ import { ImageService } from './../../../services/image.service';
 })
 export class MenuElementComponent {
 
-  private object: any;
+  @Input() object: any;
 
   constructor(
     private httpMenuService: HttpMenuService,
@@ -20,15 +20,6 @@ export class MenuElementComponent {
     private utilsService: UtilsService,
     private imageService: ImageService
   ) { }
-
-  get Object(): any {
-    return this.object;
-  }
-
-  @Input()
-  set Object(object: any) {
-    this.object = object;
-  }
 
   getFavoriteClass(object) {
     return object.isFavorite ? 'star' : 'star_border';
