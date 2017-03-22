@@ -1,3 +1,4 @@
+import { MenuModule } from './../menu/menu.module';
 import { DockpaneComponent } from './containers/dockpane/dockpane.component';
 
 import { NgModule } from '@angular/core';
@@ -15,7 +16,6 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PopupModule } from '@progress/kendo-angular-popup';
 
 
-import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, TilePanelComponent, LayoutContainerComponent, FrameComponent } from './containers';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
@@ -51,7 +51,8 @@ const KENDO_UI_MODULES = [
 
 const TB_COMPONENTS = [
   PageNotFoundComponent,
-  TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarSearchComponent,
+  TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, 
+  // TopbarSearchComponent,
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   TabComponent, TabberComponent, ViewComponent, DockpaneComponent, FrameComponent,
   DynamicCmpComponent,

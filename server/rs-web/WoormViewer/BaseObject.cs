@@ -76,7 +76,7 @@ namespace Microarea.RSWeb.Objects
 		//------------------------------------------------------------------------------				
 		//public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
 		//{
-  //          info.AddValue(INTERNALID, InternalID);
+        //  info.AddValue(INTERNALID, InternalID);
 		//	info.AddValue(HIDDEN, IsHidden);
 		//	info.AddValue(BASERECT, Rect);
 		//}
@@ -86,7 +86,7 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "\"baseobj\":{" +
 
-                InternalID.ToJson("id") + ',' +
+                InternalID.ToJson("id", "id") + ',' +
 
                 IsHidden              .ToJson("hidden") + ',' +
                 Transparent         .ToJson("transparent") + ',' +
@@ -109,7 +109,7 @@ namespace Microarea.RSWeb.Objects
         virtual public string ToJsonHiddenData(bool bracket)
         {
             string s = "\"baseobj\":{" +
-                            InternalID.ToJson("id") + ',' +
+                            InternalID.ToJson("id", "id") + ',' +
                             false.ToJson("hidden") +
                             '}';
             if (bracket)
@@ -122,7 +122,7 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "\"baseobj\":{" +
 
-                 InternalID.ToJson("id") +
+                 InternalID.ToJson("id", "id") +
 
                 (this.HideExpr != null      ? ',' + this.DynamicIsHidden   .ToJson("hidden") : "") +
                 (this.TooltipExpr != null   ? ',' + this.DynamicTooltip .ToJson("tooltip", false, true) : "") + 

@@ -6,17 +6,20 @@ export interface Message {
 
 export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, DATA, STOP }
 
-export enum ReportObjectType { textrect, fieldrect, table /*RECTANGLE, IMAGE, TEXT, FILE, REPEATER, HYPERLINK_FORM, HYPERLINK_REPORT, TABLE, COLUMN, BARCODE*/ }
+export enum ReportObjectType { textrect, fieldrect, table, sqrrect, graphrect, repeater }
 
 export class baseobj {
-  id: number;
+
+  id: string;
   hidden: boolean;
   transparent: boolean;
   rect: rect;
   tooltip: string;
   shadow_height: number;
   shadow_color: string;
+
   constructor(jsonObj: any) {
+
     this.id = jsonObj.id;
     this.hidden = jsonObj.hidden;
     this.transparent = jsonObj.transparent;
@@ -29,17 +32,68 @@ export class baseobj {
 }
 
 export class baserect extends baseobj {
+
   hratio: number;
   vratio: number;
   borders: borders;
   borderpen: borderpen;
+
   constructor(jsonObj: any) {
     super(jsonObj.baseobj);
+
     this.hratio = jsonObj.hratio;
     this.vratio = jsonObj.vratio;
     this.borders = new borders(jsonObj.borders);
     this.borderpen = new borderpen(jsonObj.borderpen);
   };
+}
+
+export class sqrrect extends baserect {
+
+  obj: ReportObjectType = ReportObjectType.sqrrect;
+
+  bkgcolor: string;
+ 
+  constructor(jsonObj: any) {
+    super(jsonObj.baserect);
+
+    this.bkgcolor = jsonObj.bkgcolor;
+  };
+}
+
+export class graphrect extends sqrrect {
+
+  obj: ReportObjectType = ReportObjectType.graphrect;
+
+  value: string;
+  align: number;
+
+  constructor(jsonObj: any) {
+    super(jsonObj.sqrrect);
+
+    this.align = jsonObj.align;
+    this.value = jsonObj.value ? jsonObj.value : '';
+  };
+}
+
+export class repeater extends sqrrect {
+
+  obj: ReportObjectType = ReportObjectType.repeater;
+
+  rows: number;
+  columns: number;
+  xoffset: number;
+  yoffset: number;
+  
+  constructor(jsonObj: any) {
+    super(jsonObj.sqrrect);
+
+    this.rows = jsonObj.rows;
+    this.columns = jsonObj.columns;
+
+    this.xoffset = jsonObj.xoffset;
+    this.yoffset = jsonObj.yoffset;;
+ };
 }
 
 export class textrect extends baserect {
@@ -135,7 +189,9 @@ export class table extends baseobj {
 }
 
 export class column {
-  id: number;
+
+  id: string;
+  hidden: boolean;
   width: number;
   pen: borderpen;
   borders: borders;
@@ -146,9 +202,12 @@ export class column {
   show_as_barcode: boolean;
   show_total: boolean;
   default_cell: default_cell;
+
   constructor(jsonObj: any) {
+
     this.id = jsonObj.id;
     this.width = jsonObj.width;
+    this.hidden = jsonObj.hidden;
     this.pen = new borderpen(jsonObj.pen);
     this.borders = new borders(jsonObj.borders);
     this.title = new column_title(jsonObj.title);
@@ -180,6 +239,7 @@ export class font {
   italic: boolean;
   bold: boolean;
   underline: boolean;
+
   constructor(jsonObj: any) {
     this.face = jsonObj.face;
     this.size = jsonObj.size;
@@ -194,6 +254,7 @@ export class borders {
   right: boolean;
   top: boolean;
   bottom: boolean;
+
   constructor(jsonObj: any) {
     this.left = jsonObj.left;
     this.right = jsonObj.right;
@@ -222,15 +283,16 @@ export class rect {
     this.right = jsonObj.right;
     this.top = jsonObj.top;
     this.bottom = jsonObj.bottom;
-
   };
 }
+
 export class title {
   caption: string;
   font: font;
   align: number;
   rect: rect;
   borderpen: borderpen;
+  
   constructor(jsonObj: any) {
     this.caption = jsonObj.caption;
     this.font = new font(jsonObj.font);

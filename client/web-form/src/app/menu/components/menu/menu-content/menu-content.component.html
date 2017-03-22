@@ -10,7 +10,7 @@
 
   <div class="tileContent">
     <div *ngFor="let object of utilsService.toArray(tile.Object)"  (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">
-      <tb-menu-element [Object]="object"></tb-menu-element>
+      <tb-menu-element [object]="object"></tb-menu-element>
       
     </div>
   </div>
