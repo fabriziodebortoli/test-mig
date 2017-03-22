@@ -222,7 +222,7 @@ export class column {
     this.value_is_barcode = jsonObj.value_is_barcode;
 
     this.title = jsonObj.title === 'undefined' ? null : new column_title(jsonObj.title);
-    this.total = jsonObj.total ? new total_cell(jsonObj.total) : null;
+    this.total = jsonObj.total ? new column_total(jsonObj.total) : null;
   }
 }
 
