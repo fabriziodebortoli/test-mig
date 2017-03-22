@@ -37,7 +37,7 @@ namespace Microarea.Common.Applications
 		}
 
         //------------------------------------------------------------------------------
-        public string ToJson(string name = "borderpen", bool bracket = false)
+        public string ToJson(string name = "pen", bool bracket = false)
         {
             string s = name.ToJson() + ":{" +
                                         Width.ToJson("width") + ',' +

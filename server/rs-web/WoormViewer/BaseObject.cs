@@ -428,7 +428,7 @@ namespace Microarea.RSWeb.Objects
                 (/*this.VRatio != 0*/ true  ? this.VRatio.ToJson("vratio") + ',' : "") +
 
                 this.Borders.ToJson() + ',' +
-                this.BorderPen.ToJson() +
+                this.BorderPen.ToJson("pen") +
                 '}';
 
             if (bracket)
@@ -1286,6 +1286,14 @@ namespace Microarea.RSWeb.Objects
 
         public BarCode BarCode = null;
 
+        public bool IsBarCode
+        {
+            get
+            {
+                return BarCode != null;
+            }
+        }
+
         //const string LABEL = "Label";
         //const string LOCALIZEDTEXT = "LocalizedText";
         //const string TEXTCOLOR = "TextColor";
@@ -1423,8 +1431,10 @@ namespace Microarea.RSWeb.Objects
                 this.Label.Align.ToJson("align") + ',' +
                 this.Label.FontData.ToJson() + ',' +
 
-                this.IsHtml.ToJson("ishtml") +
-              '}';
+                this.IsHtml     .ToJson("value_is_html") + ',' +
+                this.IsBarCode  .ToJson("value_is_barcode") +
+              
+             '}';
 
             if (bracket)
                 s = '{' + s + '}';
@@ -2294,12 +2304,13 @@ namespace Microarea.RSWeb.Objects
 
                 //this.Value.FormattedData    .ToJson("value", false, true) + 
  
-                (this.IsHtml    ? ',' + this.IsHtml     .ToJson("html") : "") +
-                (this.IsImage   ? ',' + this.IsImage    .ToJson("image")  : "") +
+                (this.IsHtml    ? ',' + this.IsHtml     .ToJson("value_is_html") : "") +
+                (this.IsImage   ? ',' + this.IsImage    .ToJson("value_is_image")  : "") +
+                (this.IsBarCode ? ',' + this.IsImage    .ToJson("value_is_barcode") : "") +
 
              '}';
 
-            if (bracket)
+             if (bracket)
                 s = '{' + s + '}';
 
             return s;

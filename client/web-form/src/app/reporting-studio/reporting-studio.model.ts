@@ -24,7 +24,7 @@ export class baseobj {
     this.hidden = jsonObj.hidden;
     this.transparent = jsonObj.transparent;
     this.rect = new rect(jsonObj.rect);
-    this.tooltip = jsonObj.tooltip;
+    this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';;
     this.shadow_height = jsonObj.shadow_height;
     this.shadow_color = jsonObj.shadow_color;
   };
@@ -36,7 +36,7 @@ export class baserect extends baseobj {
   hratio: number;
   vratio: number;
   borders: borders;
-  borderpen: borderpen;
+  pen: borderpen;
 
   constructor(jsonObj: any) {
     super(jsonObj.baseobj);
@@ -44,7 +44,7 @@ export class baserect extends baseobj {
     this.hratio = jsonObj.hratio;
     this.vratio = jsonObj.vratio;
     this.borders = new borders(jsonObj.borders);
-    this.borderpen = new borderpen(jsonObj.borderpen);
+    this.pen = new borderpen(jsonObj.pen);
   };
 }
 
@@ -92,7 +92,7 @@ export class repeater extends sqrrect {
     this.columns = jsonObj.columns;
 
     this.xoffset = jsonObj.xoffset;
-    this.yoffset = jsonObj.yoffset;;
+    this.yoffset = jsonObj.yoffset;
  };
 }
 
@@ -104,7 +104,9 @@ export class textrect extends baserect {
   textcolor: string;
   align: number;
   font: font;
-  ishtml: boolean;
+  value_is_html: boolean;
+  value_is_barcode: boolean;
+
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
     this.align = jsonObj.align;
@@ -112,41 +114,54 @@ export class textrect extends baserect {
     this.bkgcolor = jsonObj.bkgcolor;
     this.textcolor = jsonObj.textcolor;
     this.font = new font(jsonObj.font);
-    this.ishtml = jsonObj.ishtml;
 
+    this.value_is_html = jsonObj.value_is_html;
+    this.value_is_barcode = jsonObj.value_is_barcode;
   };
 }
 
 export class fieldrect extends baserect {
 
   obj: ReportObjectType = ReportObjectType.fieldrect;
-  label: label;
   value: string = '';
+
+  label: label;
   font: font;
   align: number;
   bkgcolor: string;
   textcolor: string;
+
+  value_is_html: boolean;
+  value_is_image: boolean;
+  value_is_barcode: boolean;
+
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
-    if (jsonObj.label != undefined) {
-      this.label = new label(jsonObj.label);
-    }
+
+    this.label = jsonObj.label ? new label(jsonObj.label) : null;
+    
     this.font = new font(jsonObj.font);
     this.align = jsonObj.align;
     this.bkgcolor = jsonObj.bkgcolor;
     this.textcolor = jsonObj.textcolor;
-  };
 
+    this.value_is_html = jsonObj.value_is_html;
+    this.value_is_image = jsonObj.value_is_image;
+    this.value_is_barcode = jsonObj.value_is_barcode;
+  };
 }
 
 export class table extends baseobj {
   column_number: number;
   row_number: number;
+
   cells_rect: rect;
+
   table_title_border: borders;
   column_title_border: borders;
   body_border: borders;
   total_border: borders;
+
   column_title_sep: boolean;
   column_sep: boolean;
   row_sep: boolean;
@@ -156,33 +171,40 @@ export class table extends baseobj {
   title: title;
   hide_columns_title: boolean;
   fiscal_end: boolean;
+
   columns: column[] = [];
+
   constructor(jsonObj: any) {
     super(jsonObj.baseobj);
+
     this.column_number = jsonObj.column_number;
     this.row_number = jsonObj.row_number;
+
     this.cells_rect = new rect(jsonObj.cells_rect);
+
     this.table_title_border = new borders(jsonObj.table_borders.table_title);
     this.column_title_border = new borders(jsonObj.table_borders.column_title);
     this.body_border = new borders(jsonObj.table_borders.body);
     this.total_border = new borders(jsonObj.table_borders.total);
+
     this.column_title_sep = jsonObj.column_title_sep;
     this.column_sep = jsonObj.column_sep;
     this.row_sep = jsonObj.row_sep;
     this.row_sep_dynamic = jsonObj.row_sep_dynamic;
     this.row_sep_pen = new borderpen(jsonObj.row_sep_pen);
     this.hide_table_title = jsonObj.hide_table_title;
+
     this.title = new title(jsonObj.title);
+
     this.hide_columns_title = jsonObj.hide_columns_title;
     this.fiscal_end = jsonObj.fiscal_end;
 
-    for (let index = 0; index < jsonObj.columns.length; index++) {
+    for (let index = 0; index < jsonObj.columns.length; index++)
+    {
       let element = jsonObj.columns[index];
       let col = new column(element);
       this.columns.push(col);
-
     }
-
   }
 }
 
@@ -191,30 +213,32 @@ export class column {
   id: string;
   hidden: boolean;
   width: number;
+
   pen: borderpen;
   borders: borders;
-  title: column_title;
-  show_multiline: boolean;
-  value_is_html: boolean;
-  show_as_image: boolean;
-  show_as_barcode: boolean;
-  show_total: boolean;
-  default_cell: default_cell;
 
+  value_is_html: boolean;
+  value_is_image: boolean;
+  value_is_barcode: boolean;
+
+  title: column_title;
+  total: total_cell;
+ 
   constructor(jsonObj: any) {
 
     this.id = jsonObj.id;
     this.width = jsonObj.width;
     this.hidden = jsonObj.hidden;
+
     this.pen = new borderpen(jsonObj.pen);
     this.borders = new borders(jsonObj.borders);
-    this.title = new column_title(jsonObj.title);
-    this.show_multiline = jsonObj.show_multiline;
+
     this.value_is_html = jsonObj.value_is_html;
-    this.show_as_image = jsonObj.show_as_image;
-    this.show_as_barcode = jsonObj.show_as_barcode;
-    this.show_total = jsonObj.show_total;
-    this.default_cell = new default_cell(jsonObj.default_cell);
+    this.value_is_image = jsonObj.value_is_image;
+    this.value_is_barcode = jsonObj.value_is_barcode;
+
+    this.title = jsonObj.title === 'undefined' ? null : new column_title(jsonObj.title);
+    this.total = jsonObj.total  ? new total_cell(jsonObj.total) : null;
   }
 }
 
@@ -289,14 +313,14 @@ export class title {
   font: font;
   align: number;
   rect: rect;
-  borderpen: borderpen;
+  pen: borderpen;
   
   constructor(jsonObj: any) {
     this.caption = jsonObj.caption;
     this.font = new font(jsonObj.font);
     this.align = jsonObj.align;
     this.rect = new rect(jsonObj.rect);
-    this.borderpen = new borderpen(jsonObj.borderpen);
+    this.pen = new borderpen(jsonObj.pen);
   }
 }
 
@@ -308,6 +332,8 @@ export class column_title {
   bkgcolor: string;
   align: number;
   font: font;
+  tooltip: string;
+
   constructor(jsonObj: any) {
     this.height = jsonObj.height;
     this.caption = jsonObj.caption;
@@ -316,22 +342,43 @@ export class column_title {
     this.bkgcolor = jsonObj.bkgcolor;
     this.align = jsonObj.align;
     this.font = new font(jsonObj.font);
+    this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';
   }
 }
 
-export class default_cell {
+export class cell {
+  value: string;
   textcolor: string;
   bkgcolor: string;
   align: number;
   font: font;
+  tooltip: string;
+
   constructor(jsonObj: any) {
+
+    this.value = jsonObj.value ? jsonObj.value : '';
+ 
     this.textcolor = jsonObj.textcolor;
     this.bkgcolor = jsonObj.bkgcolor;
     this.align = jsonObj.align;
     this.font = new font(jsonObj.font);
+    this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';
   }
 }
 
+export class total_cell extends cell {
 
+ borders: borders;
+ pen: borderpen;
+ height: number;
+
+  constructor(jsonObj: any) {
+    super(jsonObj.cell);
+
+    this.borders = new borders(jsonObj.borders);
+    this.pen = new borderpen(jsonObj.pen);
+    this.height = jsonObj.height;
+  };
+}
 
 

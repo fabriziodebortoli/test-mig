@@ -560,33 +560,35 @@ namespace Microarea.RSWeb.Objects
 
         public string ToJsonTemplate()
         {
-            return "\"total\":{" +
+            return "\"total\":{\"cell\":{" +
 
                 // TODO RSWEB ToJson bordi del totale
  
                 //this.RectCell               .ToJson("rect") + ',' +
-                this.RectCell.Height        .ToJson("height") + ',' +
-
-                this.TotalPen               .ToJson("pen") + ',' +
-
                 this.TemplateTotalTextColor .ToJson("textcolor") + ',' +
                 this.TemplateTotalBkgColor  .ToJson("bkgcolor") + ',' +
 
                 this.Align                  .ToJson("align") + ',' +
-                this.FontData               .ToJson() +
+                this.FontData               .ToJson() + ',' +
+
+                string.Empty                .ToJson("value", false, true) +
+                "}," +
+
+                this.RectCell.Height        .ToJson("height") + ',' +
+
+                this.TotalPen               .ToJson() + ',' +
+
+                this.column.Table.Borders.Total.ToJson() + 
 
             '}';
         }
         
         public string ToJsonData()
         {
-            string s = "\"total\":{" +
+            string s = "\"total\":{\"cell\":{" +
 
                (column.TotalTextColorExpr != null ? this.DynamicTotalTextColor.ToJson("textcolor") + ',' : "") +
                (column.TotalBkgColorExpr != null ? this.DynamicTotalBkgColor.ToJson("bkgcolor") + ',' : "");
-
-            // if (column.Table.HasDynamicHiddenColumns())
-            //      TODO RSWEB ToJson bordi del totale
 
            this.Value.FormattedData = string.Empty;
             if (this.Value.RDEData != null)
@@ -601,6 +603,10 @@ namespace Microarea.RSWeb.Objects
             s += this.Value.FormattedData.ToJson("value", false, true) + 
                 '}';
 
+           // if (column.Table.HasDynamicHiddenColumns())
+            //      TODO RSWEB ToJson bordi del totale
+
+            s += '}';
             return s;
         }
     }
@@ -899,28 +905,31 @@ namespace Microarea.RSWeb.Objects
 
                 this.ColumnPen.ToJson("pen") + ',' +
 
-                borders.ToJson() + ',' +
+                borders.ToJson();
 
-                "\"title\":{" +
-                                this.ColumnTitleRect.Height.ToJson("height") + ',' +
+            if (!this.Table.HideColumnsTitle)
+                s += ",\"title\":{" +
+                            this.ColumnTitleRect.Height.ToJson("height") + ',' +
 
-                                this.TemplateTitleLocalizedText.ToJson("caption", false, true) + ',' +
+                            this.TemplateTitleLocalizedText.ToJson("caption", false, true) + ',' +
 
-                                this.ColumnTitlePen.ToJson("pen") + ',' +
-                                this.Title.TextColor.ToJson("textcolor") + ',' +
-                                this.Title.BkgColor.ToJson("bkgcolor") + ',' +
-                                this.Title.Align.ToJson("align") + ',' +
-                                this.Title.FontData.ToJson() +
-                        "}" +
+                            this.ColumnTitlePen.ToJson("pen") + ',' +
+                            this.Title.TextColor.ToJson("textcolor") + ',' +
+                            this.Title.BkgColor.ToJson("bkgcolor") + ',' +
+                            this.Title.Align.ToJson("align") + ',' +
+                            this.Title.FontData.ToJson() +
+                    '}';
 
-            (/*this.MultipleRow*/true   ? ',' + this.MultipleRow    .ToJson("show_multiline")   : "") +
-            (/*this.IsHtml*/true        ? ',' + this.IsHtml         .ToJson("value_is_html")    : "") +
-            (/*this.ShowAsBitmap*/true  ? ',' + this.ShowAsBitmap   .ToJson("show_as_image")    : "") +
-            (/*this.ShowAsBarCode*/true ? ',' + this.ShowAsBarCode  .ToJson("show_as_barcode")  : "");
+            s += 
+               // (/*this.MultipleRow*/true   ? ',' + this.MultipleRow    .ToJson("value_is_multiline")   : "") +
+                (/*this.IsHtml*/true        ? ',' + this.IsHtml         .ToJson("value_is_html")    : "") +
+                (/*this.ShowAsBitmap*/true  ? ',' + this.ShowAsBitmap   .ToJson("value_is_image")    : "") +
+                (/*this.ShowAsBarCode*/true ? ',' + this.ShowAsBarCode  .ToJson("value_is_barcode")  : "");
 
-            s += (/*this.ShowTotal*/true ? ',' + this.ShowTotal     .ToJson("show_total")       : "") +
-                 (/*this.ShowTotal*/true ? ',' + this.TotalCell     .ToJsonTemplate()           : "") +
-               '}';
+            //s += (/*this.ShowTotal*/true ? ',' + this.ShowTotal.ToJson("show_total") : "");
+           s += (this.ShowTotal ? ',' + this.TotalCell.ToJsonTemplate() : "");
+
+           s += '}';
 
            return s;
         }
@@ -971,7 +980,11 @@ namespace Microarea.RSWeb.Objects
 
             s = s.TrimEnd(new char[] { ',' });
 
-           if (this.TitleExpr != null || this.TitleTextColorExpr != null || this.TitleBkgColorExpr != null || this.TitleTooltipExpr != null)
+           if ( !this.Table.HideColumnsTitle 
+                &&
+                (this.TitleExpr != null || this.TitleTextColorExpr != null || 
+                this.TitleBkgColorExpr != null || this.TitleTooltipExpr != null)
+                )
             {
                 string t =
                         (this.TitleExpr != null             ? this.DynamicTitleLocalizedText    .ToJson("caption", false, true) + ',' : "") +
@@ -984,7 +997,7 @@ namespace Microarea.RSWeb.Objects
                 s += ", \"title\":{" + t + "}";
             }
 
-            s += (this.ShowTotal ? ',' + this.ShowTotal.ToJson("show_total") : "");
+            //s += (this.ShowTotal ? ',' + this.ShowTotal.ToJson("show_total") : "");
             s += (this.ShowTotal ? ',' + this.TotalCell.ToJsonData() : "");
 
            s += '}';
