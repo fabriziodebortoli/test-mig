@@ -2,9 +2,9 @@
     <tb-toolbar-top>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.PlayFilled.png" caption="Run Report" *ngIf="!running"
             (click)="RunReport()"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Stop.png" caption="Stop Report" (click)="StopReport()"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowNextFilled.png" caption="Next Page" (click)="NextPage()"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowPrevFilled.png" caption="Previous Page" (click)="PrevPage()"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Stop.png" caption="Stop Report" (click)="StopReport()" *ngIf="running" ></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowNextFilled.png" caption="Next Page" (click)="NextPage()" *ngIf="running"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowPrevFilled.png" caption="Previous Page" (click)="PrevPage()" *ngIf="running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Find.png" caption="Search"></tb-toolbar-top-button>
     </tb-toolbar-top>
     <tb-view>

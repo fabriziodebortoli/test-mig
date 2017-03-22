@@ -206,6 +206,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         id = element.textrect.baserect.baseobj.id;
         value = element.textrect.value ? element.textrect.value : '[empty]' + id;
       }
+      if (element.table !== undefined) {
+        id = element.table.baseobj.id;
+        value = element.table.data;
+      }
       // to complete
 
       let obj = this.FindObj(id);
@@ -216,6 +220,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
   }
 
+  // -----------------------------------------------
   private FindObj(id: number): any {
     for (let key in this.objects) {
       if (this.objects.hasOwnProperty(key)) {
@@ -228,6 +233,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     return undefined;
   }
 
+  // -----------------------------------------------
   private FindTemplate(name: string): any {
     for (let index = 0; index < this.templates.length; index++) {
       if (this.templates[index].templateName === name) {

@@ -104,12 +104,6 @@ namespace Microarea.RSWeb.Render
                         break;
                     }
                 case MessageBuilder.CommandType.INITTEMPLATE:
-                    {
-                        pageNum = msg.page;
-                        nMsg.page = msg.page;
-                       nMsg.message = GetJsonTemplatePage(pageNum);
-                        break;
-                    }
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
                         pageNum = msg.page;
