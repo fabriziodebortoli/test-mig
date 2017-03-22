@@ -208,7 +208,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       }
       if (element.table !== undefined) {
         id = element.table.baseobj.id;
-        value = element.table.data;
+        value = element.table.rows;
       }
       // to complete
 
