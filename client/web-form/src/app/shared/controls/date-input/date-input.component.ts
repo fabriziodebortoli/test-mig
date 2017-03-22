@@ -15,15 +15,15 @@ export class DateInputComponent extends ControlComponent implements OnInit {
 
   private anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
   private popupAlign: Align = { horizontal: 'left', vertical: 'center' };
-  public mask = 'dA / mA / yyyy';
+  public mask = 'dA / mA / YAAA';
   private objDate: Date;
   private switchP = false;
   value = '__ / __ / ____';
   public rules: { [key: string]: RegExp } = {
     'A': /[0-9]/,
-    'd': /[0123]/,
+    'd': /[0-3]/,
     'm': /[01]/,
-    'y': /[0-9]/
+    'Y': /[12]/
   };
 
   constructor(private eventData: EventDataService) {
@@ -47,10 +47,6 @@ export class DateInputComponent extends ControlComponent implements OnInit {
     this.switchP = false;
   }
 
-  onBlur() {
-    this.onClickM();
-  }
-
   onUpdateModel(newDate: Date) {
     this.objDate = newDate;
     this.value = this.objDate.toLocaleDateString('en-GB');
@@ -58,6 +54,7 @@ export class DateInputComponent extends ControlComponent implements OnInit {
 
   onSave(data: string) {
     if (data !== 'ID_EXTDOC_SAVE') { return; }
+    if(this.objDate === undefined || this.model === null) return;
     let y = new Date(this.objDate.getFullYear(), this.objDate.getMonth(), this.objDate.getDate(),
       12, this.objDate.getMinutes(), this.objDate.getSeconds());
     this.model.value = y.toJSON().substring(0, 19);
