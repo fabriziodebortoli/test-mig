@@ -13,3 +13,4 @@ dotnet restore ../server/tbloader-gate/project.json --no-cache
 dotnet restore ../server/web-server/project.json --no-cache
 dotnet restore ../server/widgets-service/project.json --no-cache
 dotnet restore ../server/manufacturing-service/project.json --no-cache
+dotnet restore ../server/licensing-manager/project.json --no-cache

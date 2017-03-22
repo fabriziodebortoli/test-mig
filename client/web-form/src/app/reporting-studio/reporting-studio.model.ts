@@ -152,6 +152,7 @@ export class fieldrect extends baserect {
 }
 
 export class table extends baseobj {
+  obj: ReportObjectType = ReportObjectType.table;
   column_number: number;
   row_number: number;
 
@@ -171,6 +172,8 @@ export class table extends baseobj {
   title: title;
   hide_columns_title: boolean;
   fiscal_end: boolean;
+  
+  value: any[] = [];
 
   columns: column[] = [];
 
@@ -191,7 +194,7 @@ export class table extends baseobj {
     this.column_sep = jsonObj.column_sep;
     this.row_sep = jsonObj.row_sep;
     this.row_sep_dynamic = jsonObj.row_sep_dynamic;
-    this.row_sep_pen = new borderpen(jsonObj.row_sep_pen);
+    this.row_sep_pen = jsonObj.row_sep_pen ? new borderpen(jsonObj.row_sep_pen) : jsonObj.row_sep_pen;
     this.hide_table_title = jsonObj.hide_table_title;
 
     this.title = new title(jsonObj.title);
