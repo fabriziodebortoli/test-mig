@@ -352,9 +352,7 @@ namespace Microarea.RSWeb.Objects
         //---------------------------------------------------------------------
         public string ToJsonTemplate(Borders cellBorders, bool useColorEasyview /*TODO RSWEB*/)
         {
-           string s = "{";
-
-            s += this.column.InternalID.ToJson("id", "id") + ','; 
+            string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
             //s += this.RectCell.ToJson("rect") + ',';
 
@@ -369,21 +367,33 @@ namespace Microarea.RSWeb.Objects
             s += this.Value.FontData.ToJson("font") ;
 
             //TODO opzionali
-            s += ',' + (string.Empty).ToJson("tooltip", false, true);
-            s += ',' + (string.Empty).ToJson("value", false, true);
+            //s += ',' + (string.Empty).ToJson("tooltip", false, true);
+            //s += ',' + (string.Empty).ToJson("value", false, true);
 
-            s += '}';
+            s += "}}";
             return s;
         }
 
-        public string ToJsonData(Borders borders, bool useAlternateColor, out string cellValue)
+        public string ToJsonData(Borders borders, bool useAlternateColor)
         {
-            cellValue = string.Empty;
+            string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
-            string s = "{";
-
-            s += this.column.InternalID.ToJson("id", "id");
-
+            //VALUE
+            this.Value.FormattedData = string.Empty;
+            if (this.Value.RDEData != null)
+            {
+                string formatStyleName = this.DynamicFormatStyleName;
+                if (formatStyleName.Length > 0)
+                {
+                    this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
+                }
+            }
+            s += (this.SubTotal ?
+                            (this.Value.FormattedData.ToJson("value", false, true)  /* + "," + true.ToJson("SubTotal")*/ )
+                            :
+                            this.FormattedDataForWrite.ToJson("value", false, true)
+                        );
+ 
             //BORDERS
             if (column.Table.HasDynamicHiddenColumns() || column.Table.HasDynamicBorders() || column.Table.Borders.DynamicRowSeparator)
                 s += ',' + borders.ToJson();
@@ -424,26 +434,9 @@ namespace Microarea.RSWeb.Objects
             if (column.TooltipExpr != null)
                 s += ',' + this.DynamicTooltip.ToJson("tooltip", false, true);
 
-            //VALUE
-            this.Value.FormattedData = string.Empty;
-            if (this.Value.RDEData != null)
-            {
-                string formatStyleName = this.DynamicFormatStyleName;
-                if (formatStyleName.Length > 0)
-                {
-                    this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
-                }
-            }
-            string nameValue = "value";
-            cellValue = (this.SubTotal ?
-                            (this.Value.FormattedData.ToJson(nameValue, false, true)  /* + "," + true.ToJson("SubTotal")*/ )
-                            :
-                            this.FormattedDataForWrite.ToJson(nameValue, false, true)
-                        );
-            s += ',' + cellValue;
-            //----
+              //----
 
-            s += '}';
+            s += "}}";
             return s;
         }
     }
@@ -560,19 +553,14 @@ namespace Microarea.RSWeb.Objects
 
         public string ToJsonTemplate()
         {
-            return "\"total\":{\"cell\":{" +
+            return "\"column_total\":{" +
 
-                // TODO RSWEB ToJson bordi del totale
- 
                 //this.RectCell               .ToJson("rect") + ',' +
                 this.TemplateTotalTextColor .ToJson("textcolor") + ',' +
                 this.TemplateTotalBkgColor  .ToJson("bkgcolor") + ',' +
 
                 this.Align                  .ToJson("align") + ',' +
                 this.FontData               .ToJson() + ',' +
-
-                string.Empty                .ToJson("value", false, true) +
-                "}," +
 
                 this.RectCell.Height        .ToJson("height") + ',' +
 
@@ -585,10 +573,11 @@ namespace Microarea.RSWeb.Objects
         
         public string ToJsonData()
         {
-            string s = "\"total\":{\"cell\":{" +
+            string s = "\"column_total\":{" +
 
                (column.TotalTextColorExpr != null ? this.DynamicTotalTextColor.ToJson("textcolor") + ',' : "") +
                (column.TotalBkgColorExpr != null ? this.DynamicTotalBkgColor.ToJson("bkgcolor") + ',' : "");
+               
 
            this.Value.FormattedData = string.Empty;
             if (this.Value.RDEData != null)
@@ -599,13 +588,11 @@ namespace Microarea.RSWeb.Objects
                     this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
                 }
             }
+            s += this.Value.FormattedData.ToJson("value", false, true); 
 
-            s += this.Value.FormattedData.ToJson("value", false, true) + 
-                '}';
-
-           // if (column.Table.HasDynamicHiddenColumns())
+            // if (column.Table.HasDynamicHiddenColumns())
             //      TODO RSWEB ToJson bordi del totale
-
+ 
             s += '}';
             return s;
         }
@@ -2693,9 +2680,7 @@ namespace Microarea.RSWeb.Objects
                         r += ',';
                     }
 
-                    string cellValue;
-
-                    r += cell.ToJsonData(cellBorders, UseColorEasyview(row), out cellValue);
+                    r += cell.ToJsonData(cellBorders, UseColorEasyview(row));
 
                     firstCol = false;
                 }
