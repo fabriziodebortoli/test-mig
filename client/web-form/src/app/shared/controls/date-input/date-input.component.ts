@@ -1,6 +1,7 @@
 import { EventDataService } from './../../../core/eventdata.service';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ControlComponent } from './../control.component';
+import { Align } from "@progress/kendo-angular-popup/dist/es/models/align.interface";
 
 @Component({
   selector: 'tb-date-input',
@@ -12,6 +13,8 @@ export class DateInputComponent extends ControlComponent implements OnInit {
   @Input() forCmpID: string;
   @Output() clicked = new EventEmitter<string>();
 
+  private anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
+  private popupAlign: Align = { horizontal: 'left', vertical: 'center' };
   public mask = 'dA / mA / yyyy';
   private objDate: Date;
   private switchP = false;
