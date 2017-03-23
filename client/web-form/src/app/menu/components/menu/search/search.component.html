@@ -1,24 +1,3 @@
-<!--<template #customItemTemplate let-model="item" >
-    <div style="min-width: 300px">
-        <tb-menu-element [object]="model"></tb-menu-element>
-    </div>
-</template>
-
-<input [(ngModel)]="selected" [typeahead]="getSearchItems()" (typeaheadOnSelect)="onSelect($event)" [typeaheadOptionField]="'title'"
-    [typeaheadItemTemplate]="customItemTemplate" [typeaheadMinLength]="1"  [typeaheadOptionsLimit]="20"
-    [typeaheadAsync]="false" placeholder="{{localizationService.getLocalizedElement('SearchLabel')}}" class="form-control">-->
-
-  <!--<span md-prefix><md-icon>search</md-icon></span>
-<kendo-autocomplete 
-#autocomplete [data]="data" [popupSettings]="{ height: 300, width: 300 }" [filterable]="true" [(ngModel)]="selectedItem"
- (filterChange)="handleFilter($event)" (valueChange)="onSelect(selectedItem)" placeholder="{{localizationService.getLocalizedElement('SearchLabel')}}">
-    <template kendoAutoCompleteItemTemplate let-dataItem>
-        <tb-menu-element [object]="dataItem"></tb-menu-element>
-    </template>
-</kendo-autocomplete>-->
-
-
-
 <md-input-container>
     <span md-prefix><md-icon>search</md-icon></span>
    <input #myInput type="text" mdInput  [mdAutocomplete]="auto" [formControl]="inputControl">
