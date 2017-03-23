@@ -8,3 +8,4 @@ export * from './tabs/tab/tab.component';
 export * from './view/view.component';
 export * from './frame/frame.component';
 export * from './container.components';
+export * from './dockpane/dockpane.component';

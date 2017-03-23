@@ -21,7 +21,7 @@ export class ViewContainerComponent {
   selector: 'tb-dockpane-container',
   template: '<div><ng-content></ng-content></div>'
 })
-export class DocPaneContainerComponent {
+export class DockpaneContainerComponent {
 
 
 }
