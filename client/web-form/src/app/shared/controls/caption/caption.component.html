@@ -1,2 +1,7 @@
+<div *ngIf="model == undefined">
+    <label id="{{cmpId}}">{{caption}}</label>
+</div>
 
-<label id="{{cmpId}}">{{caption}}</label>
+<div *ngIf="model != undefined">
+     <tb-edit [caption]="caption" [cmpId]="cmpId" [model]="model"></tb-edit>
+</div>

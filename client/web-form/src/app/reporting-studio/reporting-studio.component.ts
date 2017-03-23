@@ -1,18 +1,16 @@
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { CommandType, baseobj } from './reporting-studio.model';
+import { CommandType, baseobj, fieldrect, textrect, table } from './reporting-studio.model';
 
 import { DocumentComponent } from '../shared/document.component';
 
 import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
-
-import { CookieService } from 'angular2-cookie/services/cookies.service';
-
 
 
 @Component({
@@ -28,17 +26,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private subMessage: Subscription;
   private message: any = '';
   private running: boolean = false;
-  private currCommand: CommandType = CommandType.OK;
-
-  private pageNum: number = 1;
-  private currLayout: string;
 
   public objects: baseobj[] = [];
+  public templates: TemplateItem[] = [];
 
   constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
     super(rsService, eventData);
   }
 
+  // -----------------------------------------------
   ngOnInit() {
     super.ngOnInit();
     this.eventData.model = { 'Title': { 'value': this.args.nameSpace } };
@@ -51,39 +47,44 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsInitStateMachine();
 
     let message = {
-      commandType: CommandType.TEMPLATE,
-      message: ''
+      commandType: CommandType.INITTEMPLATE,
+      message: '',
+      page: this.rsService.pageNum
     };
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
   ngOnDestroy() {
     this.subMessage.unsubscribe();
   }
 
+  // -----------------------------------------------
   onMessage(message: any) {
     //elaborate
     try {
       let msg = JSON.parse(message);
+      let k = JSON.parse(msg.message);
       switch (msg.commandType) {
         case CommandType.ASK: break;
-        case CommandType.DATA: break;
-        case CommandType.ERROR: break;
-        case CommandType.GUID: break;
-        case CommandType.NAMESPACE: break;
-        case CommandType.NEXTPAGE: break;
         case CommandType.OK: break;
-        case CommandType.PAGE: break;
-        case CommandType.PDF: break;
-        case CommandType.PREVPAGE: break;
-        case CommandType.RUN: break;
         case CommandType.STOP: break;
-        case CommandType.TEMPLATE:
-          this.message = msg.message; //render layout
+        case CommandType.INITTEMPLATE:
+          this.templates.push(new TemplateItem(k.page.layout.name, k));
+          this.RenderLayout(k);
           break;
-
-        case CommandType.TEST: break;
-
+        case CommandType.TEMPLATE:
+          let template = this.FindTemplate(k.page.layout.name);
+          if (template === undefined) {
+            this.templates.push(new TemplateItem(k.page.layout.name, k));
+            template = k;
+          }
+          this.RenderLayout(template);
+          this.GetData();
+          break;
+        case CommandType.DATA:
+          this.UpdateData(k);
+          break;
       }
 
       //this.message = msg;//.message;
@@ -92,6 +93,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
   }
 
+  // -----------------------------------------------
   rsInitStateMachine() {
 
     let message = {
@@ -100,51 +102,157 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       authtoken: this.cookieService.get('authtoken')
     };
 
-    let res = this.rsService.doSendSync(JSON.stringify(message));
+    this.rsService.doSendSync(JSON.stringify(message));
 
   }
 
+  // -----------------------------------------------
   RunReport() {
     this.running = true;
-    this.currCommand = CommandType.RUN;
+
+    //ASK
     let message = {
-      commandType: this.currCommand,
+      commandType: CommandType.DATA,
       message: this.args.nameSpace,
-      Response: ''
+      page: 0
     };
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
+  GetData() {
+
+    let message = {
+      commandType: CommandType.DATA,
+      message: this.args.nameSpace,
+      page: 0
+    };
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  // -----------------------------------------------
   StopReport() {
     this.running = false;
-    this.currCommand = CommandType.STOP;
+
     let message = {
-      commandType: this.currCommand,
+      commandType: CommandType.STOP,
       message: this.args.nameSpace,
     };
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
   NextPage() {
-    this.currCommand = CommandType.NEXTPAGE;
+    this.rsService.pageNum++;
     let message = {
-      commandType: this.currCommand,
+      commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
+      page: this.rsService.pageNum
     };
 
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
   PrevPage() {
-    this.currCommand = CommandType.PREVPAGE;
+    if (this.rsService.pageNum > 1) {
+      this.rsService.pageNum--;
+    }
     let message = {
-      commandType: this.currCommand,
+      commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
+      page: this.rsService.pageNum
     };
 
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
+  RenderLayout(msg: any) {
+    this.objects = [];
+    if (this.rsService.pageNum != msg.page.page_number) { return; }
+    this.rsService.currLayout = msg.page.layout.name;
+
+
+    for (let index = 0; index < msg.page.layout.objects.length; index++) {
+      let element = msg.page.layout.objects[index];
+      let obj;
+      if (element.fieldrect !== undefined) {
+        obj = new fieldrect(element.fieldrect);
+      }
+      if (element.textrect !== undefined) {
+        obj = new textrect(element.textrect);
+      }
+      if (element.table !== undefined) {
+        obj = new table(element.table);
+      }
+      this.objects.push(obj);
+    }
+  }
+
+  // -----------------------------------------------
+  UpdateData(msg: any) {
+
+    if (this.rsService.pageNum != msg.page.page_number) { return; }
+    let id: string;
+    let value: any;
+    for (let index = 0; index < msg.page.layout.objects.length; index++) {
+      let element = msg.page.layout.objects[index];
+      if (element.fieldrect !== undefined) {
+        id = element.fieldrect.baserect.baseobj.id;
+        value = element.fieldrect.value ? element.fieldrect.value : '[empty]' + id;
+      }
+      if (element.textrect !== undefined) {
+        id = element.textrect.baserect.baseobj.id;
+        value = element.textrect.value ? element.textrect.value : '[empty]' + id;
+      }
+      if (element.table !== undefined) {
+        id = element.table.baseobj.id;
+        value = element.table.rows;
+      }
+      // to complete
+
+      let obj = this.FindObj(id);
+      if (obj === undefined) {
+        continue;
+      }
+      obj.value = value;
+    }
+  }
+
+  private FindObj(id: string): any {
+    for (let key in this.objects) {
+      if (this.objects.hasOwnProperty(key)) {
+        let element = this.objects[key];
+        if (element.id === id) {
+          return element;
+        }
+      }
+    }
+    return undefined;
+  }
+
+  // -----------------------------------------------
+  private FindTemplate(name: string): any {
+    for (let index = 0; index < this.templates.length; index++) {
+      if (this.templates[index].templateName === name) {
+        return this.templates[index].template;
+      }
+      return undefined;
+    }
+  }
+}
+
+
+
+export class TemplateItem {
+  public templateName: string;
+  public template: any;
+
+  constructor(tName: string, tObj: any) {
+    this.templateName = tName;
+    this.template = tObj;
+  }
 }
 
 @Component({

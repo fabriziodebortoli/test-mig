@@ -1,5 +1,5 @@
 ﻿import { ControlComponent } from './../control.component';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { EventDataService } from './../../../core/eventdata.service';
 import { DocumentService } from './../../../core/document.service';
 import { WebSocketService } from './../../../core/websocket.service';
@@ -20,7 +20,8 @@ export class ComboComponent extends ControlComponent {
     itemSourceParameter: string;
 
     private items: any;
-    private selectedValue: string;
+    private selectedItem: string;
+
     constructor(
         private webSocketService: WebSocketService, 
         private eventDataService: EventDataService) {
@@ -33,11 +34,11 @@ export class ComboComponent extends ControlComponent {
 
     fillListBox() {
         let obj = {itemSourceName: this.itemSourceName, itemSourceNamespace: this.itemSourceNamespace, itemSourceParameter: this.itemSourceParameter};
-        this.eventDataService.openDropdown.emit(obj);
+        this.eventDataService.openDropdown.emit(obj);        
     }
 
     onChange() {
         //this.selectedValue = $event;
-        console.log(this.selectedValue);
+        console.log(this.selectedItem);
     }
 }

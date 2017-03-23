@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpService } from './../../../../core/http.service';
+import { Component, OnInit, Input } from '@angular/core';
 import { TileManagerComponent } from '../tile-manager/tile-manager.component';
 import { TabComponent } from '../../tabs';
 
+enum IconType { MD, TB, IMG };
 @Component({
   selector: 'tb-tilegroup',
   templateUrl: './tile-group.component.html',
@@ -9,9 +11,29 @@ import { TabComponent } from '../../tabs';
 })
 export class TileGroupComponent extends TabComponent implements OnInit {
 
-  constructor(tabs: TileManagerComponent) {
+
+  @Input() icon: string = '';
+  iconType: IconType;
+  iconTypes = IconType;
+  iconTxt: string;
+  constructor(tabs: TileManagerComponent, private httpService: HttpService) {
     super(tabs);
   }
-  ngOnInit() {
+
+   ngOnInit() {
+    this.checkIcon();
+  }
+
+  checkIcon() {
+    if (this.icon.startsWith("md-")) {
+      this.iconType = IconType.MD;
+      this.iconTxt = this.icon.slice(3);
+    } else if (this.icon.startsWith("tb-")) {
+      this.iconType = IconType.TB;
+      this.iconTxt = this.icon.slice(3);
+    } else {
+      this.iconType = IconType.IMG;
+      this.iconTxt = this.httpService.getDocumentBaseUrl() + 'getImage/?src=' + this.icon;
+    }
   }
 }

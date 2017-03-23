@@ -1,3 +1,4 @@
-<p>
-  fieldrect works!
-</p>
+<div style="margin-top:1em">
+  <div *ngIf="rect.label">{{rect.label.caption}}</div>
+  <input type="text" [value]="rect.value" [disabled]="true">
+</div>

@@ -1,4 +1,4 @@
-<md-sidenav-layout>
+<md-sidenav-container>
     <md-sidenav mode="over" #sidenav>
         <tb-home-sidenav></tb-home-sidenav>
     </md-sidenav>
@@ -11,7 +11,8 @@
             </div>
 
             <div class="topbar-center">
-                <tb-topbar-search></tb-topbar-search>
+                <!--<tb-topbar-search></tb-topbar-search>-->
+                <tb-search  [maxElements]="20"></tb-search>
             </div>
 
             <div class="topbar-menu-content">
@@ -29,4 +30,4 @@
         </tb-tabber>
 
     </div>
-</md-sidenav-layout>
+</md-sidenav-container>

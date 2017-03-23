@@ -164,6 +164,7 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     runFunction = function (object) {
+        console.log("che cazzo succede " + object);
         if (object === undefined)
             return;
 

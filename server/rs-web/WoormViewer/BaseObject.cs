@@ -76,7 +76,7 @@ namespace Microarea.RSWeb.Objects
 		//------------------------------------------------------------------------------				
 		//public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
 		//{
-  //          info.AddValue(INTERNALID, InternalID);
+        //  info.AddValue(INTERNALID, InternalID);
 		//	info.AddValue(HIDDEN, IsHidden);
 		//	info.AddValue(BASERECT, Rect);
 		//}
@@ -86,7 +86,7 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "\"baseobj\":{" +
 
-                InternalID.ToJson("id") + ',' +
+                InternalID.ToJson("id", "id") + ',' +
 
                 IsHidden              .ToJson("hidden") + ',' +
                 Transparent         .ToJson("transparent") + ',' +
@@ -94,7 +94,7 @@ namespace Microarea.RSWeb.Objects
 
                 (this.TooltipExpr != null ? ',' + DynamicTooltip.ToJson("tooltip", false, true) : "" ) + 
 
-                (DropShadowHeight != 0 ?
+                (/*DropShadowHeight != 0*/ true ?
                     ',' + DropShadowHeight    .ToJson("shadow_height") +
                     ',' + DropShadowColor     .ToJson("shadow_color") 
                     : "" ) +
@@ -109,7 +109,7 @@ namespace Microarea.RSWeb.Objects
         virtual public string ToJsonHiddenData(bool bracket)
         {
             string s = "\"baseobj\":{" +
-                            InternalID.ToJson("id") + ',' +
+                            InternalID.ToJson("id", "id") + ',' +
                             false.ToJson("hidden") +
                             '}';
             if (bracket)
@@ -122,7 +122,7 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "\"baseobj\":{" +
 
-                 InternalID.ToJson("id") +
+                 InternalID.ToJson("id", "id") +
 
                 (this.HideExpr != null      ? ',' + this.DynamicIsHidden   .ToJson("hidden") : "") +
                 (this.TooltipExpr != null   ? ',' + this.DynamicTooltip .ToJson("tooltip", false, true) : "") + 
@@ -424,11 +424,11 @@ namespace Microarea.RSWeb.Objects
 
                base.ToJsonTemplate(false) + ',' +
 
-                (this.HRatio != 0 ? this.HRatio.ToJson("hratio") + ',' : "") +
-                (this.VRatio != 0 ? this.VRatio.ToJson("vratio") + ',' : "") +
+                (/*this.HRatio != 0*/true ? this.HRatio.ToJson("hratio") + ',' : "") +
+                (/*this.VRatio != 0*/ true  ? this.VRatio.ToJson("vratio") + ',' : "") +
 
                 this.Borders.ToJson() + ',' +
-                this.BorderPen.ToJson() +
+                this.BorderPen.ToJson("pen") +
                 '}';
 
             if (bracket)
@@ -1286,6 +1286,14 @@ namespace Microarea.RSWeb.Objects
 
         public BarCode BarCode = null;
 
+        public bool IsBarCode
+        {
+            get
+            {
+                return BarCode != null;
+            }
+        }
+
         //const string LABEL = "Label";
         //const string LOCALIZEDTEXT = "LocalizedText";
         //const string TEXTCOLOR = "TextColor";
@@ -1415,7 +1423,7 @@ namespace Microarea.RSWeb.Objects
 
                 base.ToJsonTemplate(false) + ',' +
 
-                this.LocalizedText.ToJson("caption", false, true) + ',' +
+                this.LocalizedText.ToJson("value", false, true) + ',' +
 
                 this.TemplateBkgColor.ToJson("bkgcolor") + ',' +
                 this.TemplateTextColor.ToJson("textcolor") + ',' +
@@ -1423,8 +1431,10 @@ namespace Microarea.RSWeb.Objects
                 this.Label.Align.ToJson("align") + ',' +
                 this.Label.FontData.ToJson() + ',' +
 
-                this.IsHtml.ToJson("ishtml") +
-              '}';
+                this.IsHtml     .ToJson("value_is_html") + ',' +
+                this.IsBarCode  .ToJson("value_is_barcode") +
+              
+             '}';
 
             if (bracket)
                 s = '{' + s + '}';
@@ -1449,7 +1459,7 @@ namespace Microarea.RSWeb.Objects
 
                 base.ToJsonData(false) + 
 
-                (this.Special ? ',' + LocalizedText.ToJson("caption", false, true) : "") +
+                (this.Special ? ',' + LocalizedText.ToJson("value", false, true) : "") +
 
                 (this.TextColorExpr != null ? ',' + this.DynamicTextColor   .ToJson("textcolor") : "") +
                 (this.BkgColorExpr != null  ? ',' + this.DynamicBkgColor    .ToJson("bkgcolor") : "") +
@@ -1827,7 +1837,7 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         override public string ToJsonTemplate(bool bracket)
         {
-            string s = "\"graphrect\":{" +
+            string s = "\"graphrect\":{" +               
 
                 base.ToJsonTemplate(false) + ',' +
 
@@ -2294,12 +2304,13 @@ namespace Microarea.RSWeb.Objects
 
                 //this.Value.FormattedData    .ToJson("value", false, true) + 
  
-                (this.IsHtml    ? ',' + this.IsHtml     .ToJson("html") : "") +
-                (this.IsImage   ? ',' + this.IsImage    .ToJson("image")  : "") +
+                (this.IsHtml    ? ',' + this.IsHtml     .ToJson("value_is_html") : "") +
+                (this.IsImage   ? ',' + this.IsImage    .ToJson("value_is_image")  : "") +
+                (this.IsBarCode ? ',' + this.IsImage    .ToJson("value_is_barcode") : "") +
 
              '}';
 
-            if (bracket)
+             if (bracket)
                 s = '{' + s + '}';
 
             return s;

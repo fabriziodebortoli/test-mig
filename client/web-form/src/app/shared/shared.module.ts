@@ -1,8 +1,9 @@
+import { MenuModule } from './../menu/menu.module';
 import { DockpaneComponent } from './containers/dockpane/dockpane.component';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
@@ -15,10 +16,10 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PopupModule } from '@progress/kendo-angular-popup';
 
 
-import { TopbarSearchComponent } from './topbar/topbar-search/topbar-search.component';
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
-import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, TilePanelComponent, FrameComponent } from './containers';
+import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, TilePanelComponent, LayoutContainerComponent, FrameComponent } from './containers';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
+import { LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective } from './containers/tiles/layout-styles';
 import { CaptionComponent, EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, StateButtonComponent } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
@@ -35,6 +36,7 @@ import { DateInputComponent } from './controls/date-input/date-input.component';
 import { ContextMenuComponent } from './controls/context-menu/context-menu.component';
 import { ReportTextrectComponent } from './report-objects/textrect/textrect.component';
 import { ReportFieldrectComponent } from './report-objects/fieldrect/fieldrect.component';
+import { ReportTableComponent } from "./report-objects/table/table.component";
 
 
 const KENDO_UI_MODULES = [
@@ -49,24 +51,28 @@ const KENDO_UI_MODULES = [
 
 const TB_COMPONENTS = [
   PageNotFoundComponent,
-  TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarSearchComponent,
+  TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, 
+  // TopbarSearchComponent,
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   TabComponent, TabberComponent, ViewComponent, DockpaneComponent, FrameComponent,
   DynamicCmpComponent,
   EditComponent, CaptionComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
   StateButtonComponent,
-  TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent,
+  TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
+  LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective,
   HeaderStripComponent,
   OpenComponent, SaveComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent,
-  ReportTextrectComponent, ReportFieldrectComponent
+  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent
 ];
 
 @NgModule({
   imports: [
+    ReactiveFormsModule, InputsModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MaterialModule.forRoot(),
     RouterModule,
     KENDO_UI_MODULES

@@ -5,7 +5,7 @@ import { ControlComponent } from './../control.component';
 @Component({
   selector: 'tb-date-input',
   templateUrl: './date-input.component.html',
-  styles: ['./date-input.component.scss']
+  styleUrls: ['./date-input.component.scss']
 })
 
 export class DateInputComponent extends ControlComponent implements OnInit {
@@ -25,7 +25,6 @@ export class DateInputComponent extends ControlComponent implements OnInit {
 
   constructor(private eventData: EventDataService) {
     super();
-   
   }
 
   ngOnInit() {
@@ -39,6 +38,10 @@ export class DateInputComponent extends ControlComponent implements OnInit {
 
   onClickM() {
     this.switchP = !this.switchP;
+  }
+
+  onClose() {
+    this.switchP = false;
   }
 
   onBlur() {
@@ -58,19 +61,13 @@ export class DateInputComponent extends ControlComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-     if (this.model == undefined) {
-      return;
-     }
-   
-    this.onUpdateModel(new Date(this.model.value));
+    if (this.model !== undefined && this.model !== null)
+      this.onUpdateModel(new Date(this.model.value));
   }
 
   ngOnChanges() {
-     if (this.model == undefined) {
-      return;
-     }
-   
-    this.onUpdateModel(new Date(this.model.value));
+    if (this.model !== undefined && this.model !== null)
+      this.onUpdateModel(new Date(this.model.value));
   }
 
 }
