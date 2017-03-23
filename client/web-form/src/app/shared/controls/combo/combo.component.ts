@@ -10,7 +10,7 @@ import { WebSocketService } from './../../../core/websocket.service';
     styleUrls: ['./combo.component.scss']
 })
 
-export class ComboComponent extends ControlComponent implements OnInit {
+export class ComboComponent extends ControlComponent {
 
     @Input()
     itemSourceName: string;
@@ -32,14 +32,9 @@ export class ComboComponent extends ControlComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
-        console.log('fff');
-        let obj = {itemSourceName: this.itemSourceName, itemSourceNamespace: this.itemSourceNamespace, itemSourceParameter: this.itemSourceParameter};
-        this.eventDataService.openDropdown.emit(obj);
-    }
-
     fillListBox() {
-        
+        let obj = {itemSourceName: this.itemSourceName, itemSourceNamespace: this.itemSourceNamespace, itemSourceParameter: this.itemSourceParameter};
+        this.eventDataService.openDropdown.emit(obj);        
     }
 
     onChange() {
