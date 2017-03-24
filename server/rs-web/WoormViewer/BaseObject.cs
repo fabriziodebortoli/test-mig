@@ -424,11 +424,11 @@ namespace Microarea.RSWeb.Objects
 
                base.ToJsonTemplate(false) + ',' +
 
-                (/*this.HRatio != 0*/true ? this.HRatio.ToJson("hratio") + ',' : "") +
-                (/*this.VRatio != 0*/ true  ? this.VRatio.ToJson("vratio") + ',' : "") +
+                (/*this.HRatio != 0*/true ? this.HRatio.ToJson("ratio") + ',' : "") +
+               // (/*this.VRatio != 0*/ true  ? this.VRatio.ToJson("vratio") + ',' : "") +
 
                 this.Borders.ToJson() + ',' +
-                this.BorderPen.ToJson("pen") +
+                this.BorderPen.ToJson() +
                 '}';
 
             if (bracket)

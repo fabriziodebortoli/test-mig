@@ -550,23 +550,31 @@ namespace Microarea.Common.Generic
             return d.ToString().ToJson(name, bracket, false, false);
         }
 
-
-        public static string ToPX(this int n, string name = null, bool bracket = false)
+        //----------------------------------------------------------------------------------
+        public static string ToHtml_px(this int n, string name = null, bool bracket = false)
         {
-            return n.ToString("0px").ToJson(name, bracket);
+            return n.ToJson(name, bracket);
         }
 
-        public static string ToJson(this Rectangle rect, string name = null, bool bracket = false)
+        public static string ToHtml_align(this int a, string name = "align", bool bracket = false)
+        {
+            //TODO RSWEB 
+            string s = "text-align:center;vertical-align:middle";
+
+            return s.ToJson(name, bracket, false, true);
+        }
+
+        public static string ToJson(this Rectangle rect, string name = "rect", bool bracket = false)
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
                 s = '"' + name + "\":";
 
             s += '{' +
-                    rect.Left   .ToPX("left") + ',' +
-                    rect.Right  .ToPX("right") + ',' +
-                    rect.Top    .ToPX("top") + ',' +
-                    rect.Bottom .ToPX("bottom") +
+                    rect.Left   .ToHtml_px("left") + ',' +
+                    rect.Right  .ToHtml_px("right") + ',' +
+                    rect.Top    .ToHtml_px("top") + ',' +
+                    rect.Bottom .ToHtml_px("bottom") +
                  '}';
 
             if (bracket)
