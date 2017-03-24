@@ -1,3 +1,6 @@
+$accent:#0277bd;
+@import "~@progress/kendo-theme-default/scss/all";
+
 /* 
     Material Design theming
 
@@ -23,3 +26,45 @@ $tb-app-accent: md-palette($md-green, 600, 200, 800);
 $tb-app-warn: md-palette($md-red);
 $tb-app-theme: md-light-theme($tb-app-primary, $tb-app-accent, $tb-app-warn);
 @include angular-material-theme($tb-app-theme);
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(2, 119, 189, 0.25);
+    border: 0px solid #ffffff;
+    border-radius: 60px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: $accent;
+    cursor: default;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: $accent;
+}
+
+::-webkit-scrollbar-track {
+    background: #efefef;
+    border: 0px solid #ffffff;
+    border-radius: 50px;
+}
+
+::-webkit-scrollbar-track:hover {
+    background: #ddd;
+}
+
+::-webkit-scrollbar-track:active {
+    background: #ccc;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}

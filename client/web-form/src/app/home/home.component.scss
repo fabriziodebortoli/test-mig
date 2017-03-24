@@ -13,7 +13,6 @@ md-sidenav-layout,
     flex-flow: column;
 }
 
-tb-tabber,
-.tb-tabber {
-    flex-grow: 1;
+.main-content {
+    overflow: hidden;
 }
