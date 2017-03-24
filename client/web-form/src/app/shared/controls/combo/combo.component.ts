@@ -1,5 +1,6 @@
-﻿import { ControlComponent } from './../control.component';
-import { Component, Input, OnInit } from '@angular/core';
+﻿import { AfterViewInit } from 'libclient/node_modules/@angular/core';
+import { ControlComponent } from './../control.component';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { EventDataService } from './../../../core/eventdata.service';
 import { DocumentService } from './../../../core/document.service';
 import { WebSocketService } from './../../../core/websocket.service';
@@ -10,7 +11,7 @@ import { WebSocketService } from './../../../core/websocket.service';
     styleUrls: ['./combo.component.scss']
 })
 
-export class ComboComponent extends ControlComponent {
+export class ComboComponent extends ControlComponent implements OnChanges {
 
     @Input()
     itemSourceName: string;
@@ -19,26 +20,37 @@ export class ComboComponent extends ControlComponent {
     @Input()
     itemSourceParameter: string;
 
-    private items: any;
-    private selectedItem: string;
+    private items: Array<any> = [];
+    private selectedItem: any;
 
     constructor(
-        private webSocketService: WebSocketService, 
+        private webSocketService: WebSocketService,
         private eventDataService: EventDataService) {
         super();
+
         this.webSocketService.itemSource.subscribe((result) => {
-            console.log(this.model);
             this.items = result.itemSource;
         });
     }
 
     fillListBox() {
-        let obj = {itemSourceName: this.itemSourceName, itemSourceNamespace: this.itemSourceNamespace, itemSourceParameter: this.itemSourceParameter};
-        this.eventDataService.openDropdown.emit(obj);        
+        this.items.slice(0, this.items.length);
+        let obj = { itemSourceName: this.itemSourceName, itemSourceNamespace: this.itemSourceNamespace, itemSourceParameter: this.itemSourceParameter };
+        this.eventDataService.openDropdown.emit(obj);
     }
 
     onChange() {
-        //this.selectedValue = $event;
         console.log(this.selectedItem);
+    }
+
+    ngOnChanges(changes: {}) {
+        if (changes['model'] == undefined || changes['model'].currentValue == undefined)
+            return;
+
+        this.items.splice(0, this.items.length);
+        let temp = changes['model'].currentValue.value;
+        let obj = { code: temp, description: temp };
+        this.items.push(obj);
+        this.selectedItem = obj;
     }
 }

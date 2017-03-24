@@ -314,10 +314,10 @@ export class column_total {
   pen: borderpen;
  
   constructor(jsonObj: any) {
-    this.textcolor = jsonObj.textcolor;
-    this.bkgcolor = jsonObj.bkgcolor;
-    this.align = jsonObj.align;
-    this.font = new font(jsonObj.font);  
+    this.textcolor = jsonObj.cell.textcolor;
+    this.bkgcolor = jsonObj.cell.bkgcolor;
+    this.align = jsonObj.cell.align;
+    this.font = new font(jsonObj.cell.font);
     this.borders = new borders(jsonObj.borders);
     this.pen = new borderpen(jsonObj.pen);
     this.rect = new rect(jsonObj.rect);

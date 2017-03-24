@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Rx';
 import { LocalizationService } from './../../../services/localization.service';
 import { MenuService } from './../../../services/menu.service';
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 import { FormControl } from '@angular/forms';
 
@@ -10,7 +10,7 @@ import { FormControl } from '@angular/forms';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   public selected: string = '';
   inputControl: FormControl;
   filteredElements: any;
@@ -18,6 +18,7 @@ export class SearchComponent implements OnInit {
   @Input() maxElements: number = 20;
   @ViewChild('myInput') myInput:ElementRef;
 
+valueChangesSubscription: any;
   constructor(
     private menuService: MenuService,
     private localizationService: LocalizationService
@@ -31,13 +32,17 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.filteredElements = this.inputControl.valueChanges
       .startWith(null)
-      .map(val => val ? this.filter(val) : this.menuService.searchSources.slice(0, this.maxElements));
+      .map(val => val ? this.filter(val) : this.menuService.searchSources.slice(0,  (val && val.length > 0) ?  this.maxElements: 0));
 
-    this.inputControl.valueChanges.subscribe(data => {
+    this.valueChangesSubscription = this.inputControl.valueChanges.subscribe(data => {
       if (this.isObject(data))
         this.onSelect(data);
     });
 
+  }
+
+  ngOnDestroy(){
+    this.valueChangesSubscription.unsubscribe();
   }
 
   onSelect(val) {
@@ -49,7 +54,7 @@ export class SearchComponent implements OnInit {
   }
   
   filter(val: string): string[] {
-    return this.menuService.searchSources.filter(option => new RegExp(val, 'gi').test(option.title)).slice(0, this.maxElements);
+    return this.menuService.searchSources.filter(option =>  new RegExp(val, 'gi').test(option.title)).slice(0, (val && val.length > 0) ?  this.maxElements: 0);
   }
 
   displayElement(element: any): string {

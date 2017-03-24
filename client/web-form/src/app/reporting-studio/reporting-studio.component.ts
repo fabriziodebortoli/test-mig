@@ -1,10 +1,11 @@
+import { IDD_SALEFORECASTSFactoryComponent } from './../applications/erp/mrp/saleforecasts/IDD_SALEFORECASTS.component';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { CommandType, baseobj, fieldrect, textrect, table } from './reporting-studio.model';
+import { CommandType, baseobj, fieldrect, textrect, table, column, borders, column_total } from './reporting-studio.model';
 
 import { DocumentComponent } from '../shared/document.component';
 
@@ -201,22 +202,54 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       if (element.fieldrect !== undefined) {
         id = element.fieldrect.baserect.baseobj.id;
         value = element.fieldrect.value ? element.fieldrect.value : '[empty]' + id;
+        let obj = this.FindObj(id);
+        if (obj === undefined) {
+          continue;
+        }
+        obj.value = value;
       }
       if (element.textrect !== undefined) {
         id = element.textrect.baserect.baseobj.id;
         value = element.textrect.value ? element.textrect.value : '[empty]' + id;
+        let obj = this.FindObj(id);
+        if (obj === undefined) {
+          continue;
+        }
+        obj.value = value;
       }
       if (element.table !== undefined) {
         id = element.table.baseobj.id;
         value = element.table.rows;
+        let obj = this.FindObj(id);
+        if (obj === undefined) {
+          continue;
+        }
+
+        let columns = element.table.columns;
+
+        for (let index = 0; index < obj.columns.length; index++) {
+          let target: column = obj.columns[index];
+          let source: column = columns[index];
+
+          if (target.id !== source.id) {
+            console.log('id don\'t match');
+            continue;
+          }
+          if (source.borders !== undefined) {
+            target.borders = new borders(source.borders);
+          }
+          if (source.hidden !== undefined) {
+            target.hidden = source.hidden;
+          }
+          if (source.total !== undefined) {
+            target.total = new column_total(source.total)
+          }
+        }
+        obj.value = value;
       }
       // to complete
 
-      let obj = this.FindObj(id);
-      if (obj === undefined) {
-        continue;
-      }
-      obj.value = value;
+
     }
   }
 
