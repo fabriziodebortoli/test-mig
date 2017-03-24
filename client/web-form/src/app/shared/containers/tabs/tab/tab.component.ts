@@ -1,6 +1,8 @@
+import { Subscription } from 'rxjs';
+import { LayoutService } from './../../../../core/layout.service';
+import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angular/core';
 import { TbComponent } from '../../../';
 import { TabberComponent } from '../tabber/tabber.component';
-import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angular/core';
 
 @Component({
   selector: 'tb-tab',
@@ -10,22 +12,23 @@ import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angu
 export class TabComponent extends TbComponent implements OnInit, OnDestroy {
 
   active: boolean;
+
   @Input() title: string = '';
   @Input() icon: string = '';
   @Input() showCloseButton: boolean = true;
 
   @Output() close: EventEmitter<any> = new EventEmitter();
 
-  constructor(private tabs: TabberComponent) {
-    super();
-    tabs.addTab(this);
-  }
+  private viewHeightSubscription: Subscription;
+  viewHeight: number;
+
+  constructor(private layoutService: LayoutService) { super(); }
 
   ngOnInit() {
+    this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
   }
 
   ngOnDestroy() {
-    this.tabs.removeTab(this);
+    this.viewHeightSubscription.unsubscribe();
   }
-
 }

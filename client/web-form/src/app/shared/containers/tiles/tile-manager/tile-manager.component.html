@@ -1,20 +1,17 @@
 <!--se ci sono più tab-->
 <section>
-
-  <!--Pannello laterale sinistro con i bottoni del selettore-->
-  <div *ngIf="tabs != undefined && tabs.length > 1">
-    <div id="one" class="selector">
-      <ul>
-        <li (click)="selectTab(tab)" *ngFor="let tab of tabs" href="#" [ngClass]="tab.active ? 'active' : ''">
-          <img src="{{tab?.iconTxt}}" /> {{tab.title}}
-        </li>
-      </ul>
+    <!--Pannello laterale sinistro con i bottoni del selettore-->
+    <div *ngIf="getTiles().length > 1">
+        <div id="one" class="selector">
+            <ul>
+                <li (click)="selectTile(tile)" *ngFor="let tile of getTiles()" [class.active]="tile.active" title="{{tile.title}}">
+                    <img src="{{tile?.iconTxt}}" /> {{tile?.title}}
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
-  <!--Contenitore tile di destra-->
-  <div >
-    <div class="tabGroupContent"  [ngClass]="(tabs != undefined && tabs.length > 1) ? 'multipleTabs' : '' " >
-      <ng-content></ng-content>
+    <!--Contenitore tile di destra-->
+    <div class="tabGroupContent" [ngClass]="(getTiles().length > 1) ? 'multipleTabs' : '' ">
+        <ng-content></ng-content>
     </div>
-  </div>
 </section>

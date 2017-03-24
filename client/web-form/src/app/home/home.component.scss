@@ -16,3 +16,9 @@ md-sidenav-container,
 .main-content {
     overflow: hidden;
 }
+
+tb-tabber {
+    flex-grow: 1;
+    display: flex;
+    flex-flow: column;
+}

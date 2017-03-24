@@ -1,26 +1,29 @@
+import { Component, Input } from '@angular/core';
+
 import { HttpService } from './../../../../core/http.service';
-import { Component, OnInit, Input } from '@angular/core';
-import { TileManagerComponent } from '../tile-manager/tile-manager.component';
-import { TabComponent } from '../../tabs';
 
 enum IconType { MD, TB, IMG };
+
 @Component({
   selector: 'tb-tilegroup',
   templateUrl: './tile-group.component.html',
   styleUrls: ['./tile-group.component.scss']
 })
-export class TileGroupComponent extends TabComponent implements OnInit {
+export class TileGroupComponent {
 
+  @Input() title: string;
+
+  active: boolean;
 
   @Input() icon: string = '';
   iconType: IconType;
   iconTypes = IconType;
   iconTxt: string;
-  constructor(tabs: TileManagerComponent, private httpService: HttpService) {
-    super(tabs);
+
+  constructor(private httpService: HttpService) {
   }
 
-   ngOnInit() {
+  ngOnInit() {
     this.checkIcon();
   }
 
