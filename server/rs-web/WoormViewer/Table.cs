@@ -366,7 +366,7 @@ namespace Microarea.RSWeb.Objects
 
             s += this.CellAlign.ToHtml_align() + ',';
 
-            s += this.Value.FontData.ToJson("caption");
+            s += this.Value.FontData.ToJson();
 
             //TODO opzionali
             //s += ',' + (string.Empty).ToJson("tooltip", false, true);
