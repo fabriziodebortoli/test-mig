@@ -1,9 +1,11 @@
 <div class="flex-container">
     <div [ngSwitch]="controlType">
         <div *ngSwitchCase="controlTypeModel.Text">
-            <md-input id="{{cmpId}}" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event"
-                [placeholder]="caption"></md-input>
-            <tb-state-button *ngFor="let button of buttons" [button]="button"></tb-state-button>
+            <md-input-container>
+                <input mdInput id="{{cmpId}}" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event"
+                    [placeholder]="caption" />
+                <tb-state-button *ngFor="let button of buttons" [button]="button"></tb-state-button>
+            </md-input-container>
         </div>
 
         <div *ngSwitchCase="controlTypeModel.Password">
@@ -11,8 +13,8 @@
             <tb-password caption="{{caption}}" forCmpID="{{cmpId}}"></tb-password>
         </div>
         <div *ngSwitchCase="controlTypeModel.Masked">
-            masked 
-            <tb-masked-text-box caption="{{caption}}" forCmpID="{{cmpId}}" [disabled]="!model?.enabled" [model]="model" ></tb-masked-text-box>
+            masked
+            <tb-masked-text-box caption="{{caption}}" forCmpID="{{cmpId}}" [disabled]="!model?.enabled" [model]="model"></tb-masked-text-box>
         </div>
         <div *ngSwitchCase="controlTypeModel.Numeric">
             Numeric<br />
@@ -23,8 +25,10 @@
             <tb-date-input caption="{{caption}}" forCmpID="{{cmpId}}" [(model)]="model"> </tb-date-input>
         </div>
         <div *ngSwitchDefault>
-            <md-input id="{{cmpId}}" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event"
-                [placeholder]="caption"></md-input>
+            <md-input-container>
+                <input mdInput id="{{cmpId}}" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event"
+                    [placeholder]="caption" />
+            </md-input-container>
         </div>
     </div>
     <div>

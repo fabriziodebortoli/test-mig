@@ -53,7 +53,7 @@ export class sqrrect extends baserect {
   obj: ReportObjectType = ReportObjectType.sqrrect;
 
   bkgcolor: string;
- 
+
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
 
@@ -84,7 +84,7 @@ export class repeater extends sqrrect {
   columns: number;
   xoffset: number;
   yoffset: number;
-  
+
   constructor(jsonObj: any) {
     super(jsonObj.sqrrect);
 
@@ -93,7 +93,7 @@ export class repeater extends sqrrect {
 
     this.xoffset = jsonObj.xoffset;
     this.yoffset = jsonObj.yoffset;
- };
+  };
 }
 
 export class textrect extends baserect {
@@ -139,7 +139,7 @@ export class fieldrect extends baserect {
     super(jsonObj.baserect);
 
     this.label = jsonObj.label ? new label(jsonObj.label) : null;
-    
+
     this.font = new font(jsonObj.font);
     this.align = jsonObj.align;
     this.bkgcolor = jsonObj.bkgcolor;
@@ -169,7 +169,7 @@ export class table extends baseobj {
   title: title;
   hide_columns_title: boolean;
   fiscal_end: boolean;
-  
+
   value: any[] = [];
   columns: column[] = [];
 
@@ -192,8 +192,7 @@ export class table extends baseobj {
     this.hide_columns_title = jsonObj.hide_columns_title;
     this.fiscal_end = jsonObj.fiscal_end;
 
-    for (let index = 0; index < jsonObj.columns.length; index++)
-    {
+    for (let index = 0; index < jsonObj.columns.length; index++) {
       let element = jsonObj.columns[index];
       let col = new column(element);
       this.columns.push(col);
@@ -221,8 +220,9 @@ export class column {
     this.value_is_html = jsonObj.value_is_html;
     this.value_is_image = jsonObj.value_is_image;
     this.value_is_barcode = jsonObj.value_is_barcode;
-    this.title = jsonObj.title  ? new column_title(jsonObj.title) : null;
-    this.total = jsonObj.total  ? new column_total(jsonObj.total) : null;
+
+    this.title = jsonObj.title === 'undefined' ? null : new column_title(jsonObj.title);
+    this.total = jsonObj.total ? new column_total(jsonObj.total) : null;
   }
 }
 
@@ -295,6 +295,7 @@ export class title {
   align: number;
   rect: rect;
   pen: borderpen;
+
   constructor(jsonObj: any) {
     this.caption = jsonObj.caption;
     this.font = new font(jsonObj.font);
@@ -335,10 +336,10 @@ export class column_total {
   pen: borderpen;
   height: number;
   constructor(jsonObj: any) {
-    this.textcolor = jsonObj.textcolor;
-    this.bkgcolor = jsonObj.bkgcolor;
-    this.align = jsonObj.align;
-    this.font = new font(jsonObj.font);  
+    this.textcolor = jsonObj.cell.textcolor;
+    this.bkgcolor = jsonObj.cell.bkgcolor;
+    this.align = jsonObj.cell.align;
+    this.font = new font(jsonObj.cell.font);
     this.borders = new borders(jsonObj.borders);
     this.pen = new borderpen(jsonObj.pen);
     this.height = jsonObj.height;
