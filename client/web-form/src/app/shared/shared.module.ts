@@ -1,7 +1,9 @@
-import { FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
-  DockpaneComponent,TabberComponent, TabComponent, TileManagerComponent,
+import {
+  FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
+  DockpaneComponent, TabberComponent, TabComponent, TileManagerComponent,
   TileGroupComponent, TileComponent, ViewComponent,
-  TilePanelComponent, LayoutContainerComponent, FrameComponent } from './containers';
+  TilePanelComponent, LayoutContainerComponent, FrameComponent
+} from './containers';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -16,7 +18,6 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PopupModule } from '@progress/kendo-angular-popup';
-
 
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
@@ -39,7 +40,6 @@ import { ReportTextrectComponent } from './report-objects/textrect/textrect.comp
 import { ReportFieldrectComponent } from './report-objects/fieldrect/fieldrect.component';
 import { ReportTableComponent } from './report-objects/table/table.component';
 
-
 const KENDO_UI_MODULES = [
   GridModule,
   InputsModule,
@@ -52,10 +52,10 @@ const KENDO_UI_MODULES = [
 
 const TB_COMPONENTS = [
   PageNotFoundComponent,
-  TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, 
+  TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent,
   // TopbarSearchComponent,
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
-  TabComponent, TabberComponent, 
+  TabComponent, TabberComponent,
   ViewComponent, DockpaneComponent, FrameComponent, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DynamicCmpComponent,
   EditComponent, CaptionComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
@@ -79,7 +79,7 @@ const TB_COMPONENTS = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS],
+  declarations: [TB_COMPONENTS, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent],
   exports: [TB_COMPONENTS],
   entryComponents: [OpenComponent, SaveComponent]
 })
