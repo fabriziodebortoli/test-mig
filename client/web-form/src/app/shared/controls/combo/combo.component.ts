@@ -11,7 +11,7 @@ import { WebSocketService } from './../../../core/websocket.service';
     styleUrls: ['./combo.component.scss']
 })
 
-export class ComboComponent extends ControlComponent implements AfterViewInit, OnChanges {
+export class ComboComponent extends ControlComponent implements OnChanges {
 
     @Input()
     itemSourceName: string;
@@ -29,7 +29,6 @@ export class ComboComponent extends ControlComponent implements AfterViewInit, O
         super();
 
         this.webSocketService.itemSource.subscribe((result) => {
-            console.log(this.model);
             this.items = result.itemSource;
         });
     }
@@ -41,15 +40,7 @@ export class ComboComponent extends ControlComponent implements AfterViewInit, O
     }
 
     onChange() {
-        //this.selectedValue = $event;
         console.log(this.selectedItem);
-    }
-
-    ngAfterViewInit() {
-        console.log("ciao");
-        if (this.model != undefined)
-            console.log(this.model.value);
-
     }
 
     ngOnChanges(changes: {}) {
@@ -60,7 +51,6 @@ export class ComboComponent extends ControlComponent implements AfterViewInit, O
         let temp = changes['model'].currentValue.value;
         let obj = { code: temp, description: temp };
         this.items.push(obj);
-        console.log( this.items);
         this.selectedItem = obj;
     }
 }
