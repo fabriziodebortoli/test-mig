@@ -242,7 +242,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
             target.hidden = source.hidden;
           }
           if (source.total !== undefined) {
-            target.total = new column_total(source.total)
+            target.total = new column_total(source.total);
           }
         }
         obj.value = value;

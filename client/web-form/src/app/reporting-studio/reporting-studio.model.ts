@@ -6,7 +6,7 @@ export interface Message {
 
 export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, DATA, STOP }
 
-export enum ReportObjectType { textrect, fieldrect, table, sqrrect, graphrect, repeater }
+export enum ReportObjectType { textrect, fieldrect, table, sqrrect, graphrect, repeater, cell }
 
 export class baseobj {
 
@@ -172,6 +172,7 @@ export class table extends baseobj {
 
   value: any[] = [];
   columns: column[] = [];
+  defaultStyle: styleArrayElement[] = [];
 
   constructor(jsonObj: any) {
     super(jsonObj.baseobj);
@@ -196,6 +197,17 @@ export class table extends baseobj {
       let element = jsonObj.columns[index];
       let col = new column(element);
       this.columns.push(col);
+    }
+
+    for (let index = 0; index < jsonObj.rows.length; index++) {
+      let elementRow = jsonObj.rows[index];
+      let style = new styleArrayElement(index);
+      for (let i = 0; i < elementRow.length; i++) {
+        let colId = jsonObj.columns[i].id;
+        let cellVar = new cell(elementRow[i][colId], colId);
+        style.style.push(cellVar);
+      }
+      this.defaultStyle.push(style);
     }
   }
 }
@@ -346,5 +358,32 @@ export class column_total {
   }
 }
 
+export class cell {
+  id: string;
+  borders: borders;
+  textcolor: string;
+  bkgcolor: string;
+  align: number;
+  font: font;
+  tooltip: string;
+  constructor(jsonObj: any, id: string) {
+    this.borders = new borders(jsonObj.borders);
+    this.textcolor = jsonObj.textcolor;
+    this.bkgcolor = jsonObj.bkgcolor;
+    this.align = jsonObj.align;
+    this.font = new font(jsonObj.font);
+    this.tooltip = jsonObj.tooltip;
+    this.id = id;
+  }
+}
+
+export class styleArrayElement {
+  rowNumber: number;
+  public style: cell[] = []
+  constructor(row: number) {
+
+    this.rowNumber = row;
+  }
+}
 
 
