@@ -1,3 +1,4 @@
+
 import { GridModule } from '@progress/kendo-angular-grid';
 import { table, column, cell } from './../../../reporting-studio/reporting-studio.model';
 import { Component, Input } from '@angular/core';
@@ -30,10 +31,10 @@ export class ReportTableComponent {
       'align-content': 'center',
       'width': '100%',
       'border-color': this.table.title.pen.color,
-      'border-left': this.table.table_title_border.left ? this.table.title.pen.width + 'px' : '0px',
-      'border-right': this.table.table_title_border.right ? this.table.title.pen.width + 'px' : '0px',
-      'border-bottom': this.table.table_title_border.bottom ? this.table.title.pen.width + 'px' : '0px',
-      'border-top': this.table.table_title_border.top ? this.table.title.pen.width + 'px' : '0px',
+      'border-left': this.table.title.borders.left ? this.table.title.pen.width + 'px' : '0px',
+      'border-right': this.table.title.borders.right ? this.table.title.pen.width + 'px' : '0px',
+      'border-bottom': this.table.title.borders.bottom ? this.table.title.pen.width + 'px' : '0px',
+      'border-top': this.table.title.borders.top ? this.table.title.pen.width + 'px' : '0px',
       'border-style': 'solid',
       'font-family': this.table.title.font.face,
       'font-size': this.table.title.font.size,
@@ -72,13 +73,13 @@ export class ReportTableComponent {
       'color': column.title.textcolor,
       'background-color': column.title.bkgcolor,
       'border-color': column.title.pen.color,
-      'border-left': this.table.table_title_border.left ? column.title.pen.width + 'px' : '0px',
-      'border-right': this.table.table_title_border.right ? column.title.pen.width + 'px' : '0px',
-      'border-bottom': this.table.table_title_border.bottom ? column.title.pen.width + 'px' : '0px',
-      'border-top': this.table.table_title_border.top ? column.title.pen.width + 'px' : '0px',
+      'border-left': this.table.title.borders.left ? column.title.pen.width + 'px' : '0px',
+      'border-right': this.table.title.borders.right ? column.title.pen.width + 'px' : '0px',
+      'border-bottom': this.table.title.borders.bottom ? column.title.pen.width + 'px' : '0px',
+      'border-top': this.table.title.borders.top ? column.title.pen.width + 'px' : '0px',
       'border-style': 'solid',
-      'height': column.title.height + 'px',
-
+      'height': (column.title.rect.bottom - column.title.rect.top) + 'px',
+      
 
     };
     return obj;
