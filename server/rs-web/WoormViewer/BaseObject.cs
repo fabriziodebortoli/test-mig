@@ -1428,7 +1428,7 @@ namespace Microarea.RSWeb.Objects
                 this.TemplateBkgColor.ToJson("bkgcolor") + ',' +
                 this.TemplateTextColor.ToJson("textcolor") + ',' +
 
-                this.Label.Align.ToJson("align") + ',' +
+                this.Label.Align.ToHtml_align() + ',' +
                 this.Label.FontData.ToJson() + ',' +
 
                 this.IsHtml     .ToJson("value_is_html") + ',' +
@@ -1816,7 +1816,7 @@ namespace Microarea.RSWeb.Objects
 		public bool ShowProportional = false;
         public bool ShowNativeImageSize = false;
 		public Rectangle RectCutted;
-        public int Align = BaseObjConsts.DT_CENTER | BaseObjConsts.DT_VCENTER;
+        public AlignType Align = AlignType.DT_CENTER | AlignType.DT_VCENTER;
 
         //const string ISCUT = "IsCut";
         //const string ALIGN = "Align";
@@ -1842,7 +1842,7 @@ namespace Microarea.RSWeb.Objects
                 base.ToJsonTemplate(false) + ',' +
 
                 this.ImageFileName.ToJson("image", false, true) + ',' +
-                this.Align.ToJson("align") + 
+                this.Align.ToHtml_align() + 
                 
               '}';
 
@@ -1940,9 +1940,12 @@ namespace Microarea.RSWeb.Objects
 
         protected override bool ParseProp(WoormParser lex, bool block)
         {
-            if (lex.LookAhead(Token.ALIGN))
-                return lex.ParseAlign(out Align);
-
+           if (lex.LookAhead(Token.ALIGN))
+           {
+                if (!lex.ParseAlign(out Align))
+                    return false;
+                return true;
+           }
            return base.ParseProp(lex, block);
         }
 
@@ -1983,7 +1986,7 @@ namespace Microarea.RSWeb.Objects
 
         public override void UnparseAuxProp(Unparser unparser)
         {
-            if (Align != (BaseObjConsts.DT_VCENTER | BaseObjConsts.DT_CENTER))
+            if (Align != (AlignType.DT_VCENTER | AlignType.DT_CENTER))
                 unparser.WriteAlign(Align, false);
             base.UnparseAuxProp(unparser);
         }
@@ -2292,12 +2295,12 @@ namespace Microarea.RSWeb.Objects
                         this.TemplateLabelLocalizedText.ToJson("caption", false, true) + ',' +
                         this.TemplateLabelTextColor.ToJson("textcolor") + ',' +
                         this.Label.FontData.ToJson() + ',' +
-                        this.Label.Align.ToJson("align") +
+                        this.Label.Align.ToHtml_align() +
                     "},";
 
             s +=
                 this.Value.FontData     .ToJson() + ',' +
-                this.Value.Align        .ToJson("align") + ',' +
+                this.Value.Align        .ToHtml_align() + ',' +
 
                 this.TemplateBkgColor   .ToJson("bkgcolor") + ',' +
                 this.TemplateTextColor  .ToJson("textcolor") + 
@@ -2375,7 +2378,7 @@ namespace Microarea.RSWeb.Objects
 		{
 			Label = new Label(document);
 			Value = new WoormValue(document);
-			Value.Align |= BaseObjConsts.DT_EX_VCENTER_LABEL;
+			Value.Align |= AlignType.DT_EX_VCENTER_LABEL;
 		}
 
 		//------------------------------------------------------------------------------
@@ -3017,9 +3020,9 @@ namespace Microarea.RSWeb.Objects
 		/// Allineamento di Default per il FieldRect
 		/// </summary>
 		//------------------------------------------------------------------------------
-		public int GetDefaultAlign()
+		public AlignType GetDefaultAlign()
 		{
-			return (Defaults.DefaultAlign | BaseObjConsts.DT_EX_VCENTER_LABEL);
+			return (Defaults.DefaultAlign | AlignType.DT_EX_VCENTER_LABEL);
 		}
 
 		#region IImage Members

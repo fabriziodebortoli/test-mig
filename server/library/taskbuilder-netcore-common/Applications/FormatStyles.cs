@@ -256,7 +256,6 @@ namespace Microarea.Common.Applications
 		public enum FormatSource	{ STANDARD, CUSTOM, WOORM }
 		public enum AlignType		{ NONE, LEFT, RIGHT }
 		
-
 		// data members
 		private char[]			areaSeparators = new char[] {','};
 		private string			styleName = "";

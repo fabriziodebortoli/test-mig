@@ -98,7 +98,7 @@ namespace Microarea.RSWeb.WoormViewer
 		//------------------------------------------------------------------------------
 		internal void SetColumnTitleCells(Column column, int col)
 		{
-			int	align = column.ColumnTitleAlign;
+            AlignType align = column.ColumnTitleAlign;
 			string fontName = column.ColumnTitleFontName;
 			BorderPen borderPen	= column.ColumnTitlePen;
 			Color[] colors = column.ColumnTitleColor;
@@ -160,7 +160,7 @@ namespace Microarea.RSWeb.WoormViewer
 		//------------------------------------------------------------------------------
 		internal void SetTotalCells(Column column, bool isNumeric, int col)
 		{
-			int	align = column.TotalAlign;
+            AlignType align = column.TotalAlign;
 			string fontName = column.TotalFontName;
 			BorderPen	borderPen	= column.TotalPen;
 			Color[] colors = column.TotalColor;
@@ -218,7 +218,7 @@ namespace Microarea.RSWeb.WoormViewer
 		//------------------------------------------------------------------------------
 		internal void AddBodyCellAttrib(Column column, bool isNumeric, int col, int row = 0)
 		{
-			int align = column.GetCellAlign(row);
+            AlignType align = column.GetCellAlign(row);
 			string fontName = column.GetCellFontName(row);
 
 			bool differDefault = isNumeric
@@ -283,18 +283,18 @@ namespace Microarea.RSWeb.WoormViewer
 	internal class CellDifferences
 	{
 		private string fontName;
-		private int align;
+		private AlignType align;
 		private bool isNumeric = false;
 		private Rectangle rect;
 
 		//------------------------------------------------------------------------------
-		internal int		Align			{ get { return align; } }
+		internal AlignType Align			{ get { return align; } }
 		internal string		FontName		{ get { return fontName; } }
 		internal Rectangle	Rect			{ get { return rect; } }
 		internal bool		CellIsNumeric	{ get { return isNumeric; } }
 
 		//------------------------------------------------------------------------------
-		public CellDifferences(int align, string fontName, bool isNumeric, int col, int startRow = 0)
+		public CellDifferences(AlignType align, string fontName, bool isNumeric, int col, int startRow = 0)
 		{
 			this.align = align;
 			this.fontName = fontName;
@@ -340,14 +340,14 @@ namespace Microarea.RSWeb.WoormViewer
 	internal class CellBodyDiff : CellDifferences
 	{
 		//------------------------------------------------------------------------------
-		public CellBodyDiff(int align, string fontName, bool isNumeric, int col, int startRow)
+		public CellBodyDiff(AlignType align, string fontName, bool isNumeric, int col, int startRow)
 			: base(align, fontName, isNumeric, col, startRow)
 		{
 
 		}
 
 		//------------------------------------------------------------------------------
-		internal bool MergeCell(int align, string fontName, int col, int nRow)
+		internal bool MergeCell(AlignType align, string fontName, int col, int nRow)
 		{
 			if (
 				Align == align &&
@@ -400,7 +400,7 @@ namespace Microarea.RSWeb.WoormViewer
 		internal BorderPen	BorderPen	{ get { return borderPen; } }
 
 		//------------------------------------------------------------------------------
-		public CellGeneralDiff(int align, bool isNumeric, string fontName, BorderPen borderPen, int col)
+		public CellGeneralDiff(AlignType align, bool isNumeric, string fontName, BorderPen borderPen, int col)
 			: base(align, fontName, isNumeric, col)
 		{
 			this.borderPen = borderPen;
@@ -408,7 +408,7 @@ namespace Microarea.RSWeb.WoormViewer
 
 		
 		//------------------------------------------------------------------------------
-		internal bool MergeCell(int align, string fontName, BorderPen borderPen, int col)
+		internal bool MergeCell(AlignType align, string fontName, BorderPen borderPen, int col)
 		{
 			return
 				this.borderPen.Width == borderPen.Width &&
@@ -428,7 +428,7 @@ namespace Microarea.RSWeb.WoormViewer
 		internal Color[] Colors { get { return colors; } }
 
 		//------------------------------------------------------------------------------
-		public CellColumnTitleDiff(int align, string fontName, BorderPen borderPen, Color[] aColors, int col)
+		public CellColumnTitleDiff(AlignType align, string fontName, BorderPen borderPen, Color[] aColors, int col)
 			: base(align, false, fontName, borderPen, col)
 		{
 			this.colors[(int)ElementColor.LABEL] = aColors[(int)ElementColor.LABEL];
@@ -438,7 +438,7 @@ namespace Microarea.RSWeb.WoormViewer
 
 		
 		//------------------------------------------------------------------------------
-		internal bool MergeCell(int align, string fontName, BorderPen borderPen, Color[] aColors, int col)
+		internal bool MergeCell(AlignType align, string fontName, BorderPen borderPen, Color[] aColors, int col)
 		{ 
 			if  (   
 			    base.MergeCell(align, fontName, borderPen, col) &&
@@ -456,7 +456,7 @@ namespace Microarea.RSWeb.WoormViewer
 	{
 		Color[] colors = new Color[(int)ElementColor.MAX];
 
-		public CellTotalDiff(int align, bool isNumeric, string fontName, BorderPen borderPen, Color[] aColors, int col)
+		public CellTotalDiff(AlignType align, bool isNumeric, string fontName, BorderPen borderPen, Color[] aColors, int col)
 			: base(align, isNumeric, fontName, borderPen, col)
 		{
 			this.colors[(int)ElementColor.VALUE] = aColors[(int)ElementColor.VALUE];
@@ -468,7 +468,7 @@ namespace Microarea.RSWeb.WoormViewer
 		internal Color[] Colors { get { return colors; } }
 
 		//------------------------------------------------------------------------------
-		internal bool MergeCell(int align, string fontName, BorderPen borderPen, Color[] aColors, int col)
+		internal bool MergeCell(AlignType align, string fontName, BorderPen borderPen, Color[] aColors, int col)
 		{
 			if  (   
 				base.MergeCell(align, fontName, borderPen, col)				&&

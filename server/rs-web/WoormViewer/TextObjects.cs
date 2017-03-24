@@ -16,7 +16,7 @@ namespace Microarea.RSWeb.Objects
 		public Label(WoormDocument doc)  : base(doc)
 		{
 			FontStyleName = DefaultFont.Descrizione;
-			Align = BaseObjConsts.DT_LEFT | BaseObjConsts.DT_TOP;
+			Align = AlignType.DT_LEFT | AlignType.DT_TOP;
 		}
 
 		//------------------------------------------------------------------------------

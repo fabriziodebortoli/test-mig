@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microarea.Common.Applications;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
@@ -550,13 +551,19 @@ namespace Microarea.Common.Generic
             return d.ToString().ToJson(name, bracket, false, false);
         }
 
+        public static string ToJson(this DateTime d, string name = null, bool bracket = false)
+        {
+            //TODO RSWEB datetime to string manca culture
+            return d.ToString().ToJson(name, bracket, false, true);
+        }
+
         //----------------------------------------------------------------------------------
         public static string ToHtml_px(this int n, string name = null, bool bracket = false)
         {
             return n.ToJson(name, bracket);
         }
 
-        public static string ToHtml_align(this int a, string name = "align", bool bracket = false)
+        public static string ToHtml_align(this AlignType a, string name = "align", bool bracket = false)
         {
             //TODO RSWEB 
             string s = "text-align:center;vertical-align:middle";
