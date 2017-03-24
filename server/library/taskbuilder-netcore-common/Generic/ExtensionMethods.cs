@@ -553,7 +553,7 @@ namespace Microarea.Common.Generic
 
         public static string ToPX(this int n, string name = null, bool bracket = false)
         {
-            return n.ToString("0px").ToJson(name, bracket);
+            return n.ToJson(name, bracket);
         }
 
         public static string ToJson(this Rectangle rect, string name = null, bool bracket = false)

@@ -9,8 +9,8 @@ namespace Microarea.Common.Applications
     //================================================================================ 
     public class Defaults
 	{
-		public static Color DefaultTextColor = Color.FromArgb(255,255,255,255);
-		public static Color DefaultBackColor = Color.FromArgb(255, 0, 0, 0);
+		public static Color DefaultTextColor = Color.FromArgb(255, 0, 0, 0); 
+		public static Color DefaultBackColor = Color.FromArgb(255, 255, 255, 255);
         public static int DefaultBaseAlign = BaseObjConsts.DT_LEFT | BaseObjConsts.DT_TOP;
 		public static int DefaultPenWidth = 1;
 		public static Color DefaultTotalForeground = Color.FromArgb(255, 255, 255, 255);

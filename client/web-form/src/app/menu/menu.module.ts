@@ -1,3 +1,4 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
 import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 import { MenuService } from './services/menu.service';
@@ -8,7 +9,7 @@ import { SettingsService } from './services/settings.service';
 import { HttpMenuService } from './services/http-menu.service';
 import { ImageService } from './services/image.service';
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
@@ -27,7 +28,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { DropDownsModule, AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PopupModule } from '@progress/kendo-angular-popup';
 
@@ -62,10 +63,12 @@ const KENDO_UI_MODULES = [
 
 @NgModule({
   imports: [
+    BrowserModule,
     CommonModule,
     SharedModule,
     FormsModule,
     MaterialModule.forRoot(),
+    ReactiveFormsModule,
     KENDO_UI_MODULES
   ],
 

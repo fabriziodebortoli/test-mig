@@ -1,6 +1,11 @@
 <div>
-    <label></label>{{selectedValue}}
-    <md-select id="{{cmpId}}" (onOpen)="fillListBox()"  [(ngModel)]="selectedValue" placeholder="{{caption}}" (change)="onChange()" >
-        <md-option *ngFor="let item of items" [value]="item.code">{{ item.description }}</md-option> 
-     </md-select>
+    <tb-caption caption="{{caption}}"></tb-caption><br/>
+    <kendo-dropdownlist id="{{cmpId}}" 
+        [data]="items"
+        [textField]="'description'"
+        [valueField]="'code'"
+        [value]="selectedItem"
+        (selectionChange)="onChange()"
+        (open)="fillListBox()">
+    </kendo-dropdownlist>
 </div>

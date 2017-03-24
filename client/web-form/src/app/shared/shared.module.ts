@@ -1,5 +1,7 @@
-import { MenuModule } from './../menu/menu.module';
-import { DockpaneComponent } from './containers/dockpane/dockpane.component';
+import { FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
+  DockpaneComponent,TabberComponent, TabComponent, TileManagerComponent,
+  TileGroupComponent, TileComponent, ViewComponent,
+  TilePanelComponent, LayoutContainerComponent, FrameComponent } from './containers';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -17,7 +19,6 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 
 
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
-import { TabberComponent, TabComponent, TileManagerComponent, TileGroupComponent, TileComponent, ViewComponent, TilePanelComponent, LayoutContainerComponent, FrameComponent } from './containers';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
 import { LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective } from './containers/tiles/layout-styles';
 import { CaptionComponent, EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, StateButtonComponent } from './controls/';
@@ -36,7 +37,7 @@ import { DateInputComponent } from './controls/date-input/date-input.component';
 import { ContextMenuComponent } from './controls/context-menu/context-menu.component';
 import { ReportTextrectComponent } from './report-objects/textrect/textrect.component';
 import { ReportFieldrectComponent } from './report-objects/fieldrect/fieldrect.component';
-import { ReportTableComponent } from "./report-objects/table/table.component";
+import { ReportTableComponent } from './report-objects/table/table.component';
 
 
 const KENDO_UI_MODULES = [
@@ -54,7 +55,8 @@ const TB_COMPONENTS = [
   TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, 
   // TopbarSearchComponent,
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
-  TabComponent, TabberComponent, ViewComponent, DockpaneComponent, FrameComponent,
+  TabComponent, TabberComponent, 
+  ViewComponent, DockpaneComponent, FrameComponent, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DynamicCmpComponent,
   EditComponent, CaptionComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
   StateButtonComponent,
