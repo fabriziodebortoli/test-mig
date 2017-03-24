@@ -227,16 +227,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
         let columns = element.table.columns;
 
-        for (let index = 0; index < obj.columns.length; index++) {
-          let target: column = obj.columns[index];
-          let source: column = columns[index];
-
+        for (let i = 0; i < obj.columns.length; i++) {
+          let target: column = obj.columns[i];
+          let source: column = columns[i];
           if (target.id !== source.id) {
             console.log('id don\'t match');
             continue;
-          }
-          if (source.borders !== undefined) {
-            target.borders = new borders(source.borders);
           }
           if (source.hidden !== undefined) {
             target.hidden = source.hidden;

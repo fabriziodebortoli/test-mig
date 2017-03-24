@@ -36,7 +36,6 @@ export class ReportingStudioService extends DocumentService {
 
     onMessage(evt) {
         this.message.next(evt.data);
-        this.writeToScreen(evt.data);
     }
 
     onError(evt) {
@@ -45,14 +44,12 @@ export class ReportingStudioService extends DocumentService {
 
     doSend(message) {
         this.waitForConnection(() => {
-            this.writeToScreen('SENT: ' + message);
             this.websocket.send(message);
         }, 100);
     }
 
     doSendSync(message): boolean {
         this.waitForConnection(() => {
-            this.writeToScreen('SENT: ' + message);
             this.websocket.send(message);
             return true;
         }, 100);

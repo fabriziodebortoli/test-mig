@@ -1,4 +1,5 @@
 
+
 export interface Message {
   commandType: CommandType;
   message?: string;
@@ -23,7 +24,6 @@ export class baseobj {
     this.id = jsonObj.id;
     this.hidden = jsonObj.hidden;
     this.rect = new rect(jsonObj.rect);
-
     this.transparent = jsonObj.transparent;
     this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';;
     this.shadow_height = jsonObj.shadow_height;
@@ -40,7 +40,6 @@ export class baserect extends baseobj {
 
   constructor(jsonObj: any) {
     super(jsonObj.baseobj);
-
     this.ratio = jsonObj.ratio;
     this.borders = new borders(jsonObj.borders);
     this.pen = new borderpen(jsonObj.pen);
@@ -50,12 +49,10 @@ export class baserect extends baseobj {
 export class sqrrect extends baserect {
 
   obj: ReportObjectType = ReportObjectType.sqrrect;
-
   bkgcolor: string;
 
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
-
     this.bkgcolor = jsonObj.bkgcolor;
   };
 }
@@ -63,13 +60,11 @@ export class sqrrect extends baserect {
 export class graphrect extends sqrrect {
 
   obj: ReportObjectType = ReportObjectType.graphrect;
-
   value: string;
   align: string;
 
   constructor(jsonObj: any) {
     super(jsonObj.sqrrect);
-
     this.align = jsonObj.align;
     this.value = jsonObj.value ? jsonObj.value : '';
   };
@@ -78,7 +73,6 @@ export class graphrect extends sqrrect {
 export class repeater extends sqrrect {
 
   obj: ReportObjectType = ReportObjectType.repeater;
-
   rows: number;
   columns: number;
   xoffset: number;
@@ -86,10 +80,8 @@ export class repeater extends sqrrect {
 
   constructor(jsonObj: any) {
     super(jsonObj.sqrrect);
-
     this.rows = jsonObj.rows;
     this.columns = jsonObj.columns;
-
     this.xoffset = jsonObj.xoffset;
     this.yoffset = jsonObj.yoffset;
   };
@@ -98,7 +90,6 @@ export class repeater extends sqrrect {
 export class textrect extends baserect {
 
   obj: ReportObjectType = ReportObjectType.textrect;
-
   value: string;
   bkgcolor: string;
   textcolor: string;
@@ -114,7 +105,6 @@ export class textrect extends baserect {
     this.bkgcolor = jsonObj.bkgcolor;
     this.textcolor = jsonObj.textcolor;
     this.font = new font(jsonObj.font);
-
     this.value_is_html = jsonObj.value_is_html;
     this.value_is_barcode = jsonObj.value_is_barcode;
   };
@@ -123,15 +113,12 @@ export class textrect extends baserect {
 export class fieldrect extends baserect {
 
   obj: ReportObjectType = ReportObjectType.fieldrect;
-
   value: string = '';
-
   label: label;
   font: font;
   align: string;
   bkgcolor: string;
   textcolor: string;
-
   value_is_html: boolean;
   value_is_image: boolean;
   value_is_barcode: boolean;
@@ -145,7 +132,6 @@ export class fieldrect extends baserect {
     this.align = jsonObj.align;
     this.bkgcolor = jsonObj.bkgcolor;
     this.textcolor = jsonObj.textcolor;
-
     this.value_is_html = jsonObj.value_is_html;
     this.value_is_image = jsonObj.value_is_image;
     this.value_is_barcode = jsonObj.value_is_barcode;
@@ -153,31 +139,22 @@ export class fieldrect extends baserect {
 }
 
 export class table extends baseobj {
-  
-  obj: ReportObjectType = ReportObjectType.table;
 
+  obj: ReportObjectType = ReportObjectType.table;
   column_number: number;
   row_number: number;
-
   title: title;
-
   hide_columns_title: boolean;
   fiscal_end: boolean;
-
   value: any[] = [];
   columns: column[] = [];
   defaultStyle: styleArrayElement[] = [];
 
   constructor(jsonObj: any) {
     super(jsonObj.baseobj);
-
     this.column_number = jsonObj.column_number;
     this.row_number = jsonObj.row_number;
-
-    this.rect = new rect(jsonObj.rect);
-    
-    this.title = jsonObj.title ? new title(jsonObj.title) : null;
-
+    this.title = jsonObj.title ? new title(jsonObj.title) : undefined;
     this.hide_columns_title = jsonObj.hide_columns_title;
     this.fiscal_end = jsonObj.fiscal_end;
 
@@ -203,28 +180,22 @@ export class table extends baseobj {
 export class column {
   id: string;
   hidden: boolean;
-
   width: number;
-  
   value_is_html: boolean;
   value_is_image: boolean;
   value_is_barcode: boolean;
-
   title: title;
   total: column_total;
 
   constructor(jsonObj: any) {
     this.id = jsonObj.id;
     this.hidden = jsonObj.hidden;
- 
     this.width = jsonObj.width;
-    
     this.value_is_html = jsonObj.value_is_html;
     this.value_is_image = jsonObj.value_is_image;
     this.value_is_barcode = jsonObj.value_is_barcode;
-
-    this.title = jsonObj.title  ? new title(jsonObj.title) : null;
-    this.total = jsonObj.total ? new column_total(jsonObj.total) : null;
+    this.title = jsonObj.title ? new title(jsonObj.title) : undefined;
+    this.total = jsonObj.total ? new column_total(jsonObj.total) : undefined;
   }
 }
 
@@ -317,14 +288,13 @@ export class title {
 export class column_total {
   value: string = '';
   rect: rect;
-
   textcolor: string;
   bkgcolor: string;
   align: string;
   font: font;
   borders: borders;
   pen: borderpen;
- 
+
   constructor(jsonObj: any) {
     this.textcolor = jsonObj.cell.textcolor;
     this.bkgcolor = jsonObj.cell.bkgcolor;
@@ -340,11 +310,13 @@ export class column_total {
 export class cell {
   id: string;
   borders: borders;
+  pen: borderpen;
   textcolor: string;
   bkgcolor: string;
-  align: number;
+  align: string;
   font: font;
   tooltip: string;
+
   constructor(jsonObj: any, id: string) {
     this.borders = new borders(jsonObj.borders);
     this.textcolor = jsonObj.textcolor;
@@ -353,6 +325,7 @@ export class cell {
     this.font = new font(jsonObj.font);
     this.tooltip = jsonObj.tooltip;
     this.id = id;
+    this.pen = new borderpen(jsonObj.pen);
   }
 }
 
@@ -360,7 +333,6 @@ export class styleArrayElement {
   rowNumber: number;
   public style: cell[] = []
   constructor(row: number) {
-
     this.rowNumber = row;
   }
 }
