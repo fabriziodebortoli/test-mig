@@ -239,7 +239,7 @@ namespace Microarea.DataService.Models
                     {
                         string s = o.ToString();
 
-                        rows += s.ToJson();
+                        rows += s.ToJson(null, false, true);
                     }
                     else
                         rows += o.ToString();

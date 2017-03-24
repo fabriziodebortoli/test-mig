@@ -22,8 +22,9 @@ export class baseobj {
 
     this.id = jsonObj.id;
     this.hidden = jsonObj.hidden;
-    this.transparent = jsonObj.transparent;
     this.rect = new rect(jsonObj.rect);
+
+    this.transparent = jsonObj.transparent;
     this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';;
     this.shadow_height = jsonObj.shadow_height;
     this.shadow_color = jsonObj.shadow_color;
@@ -33,16 +34,14 @@ export class baseobj {
 
 export class baserect extends baseobj {
 
-  hratio: number;
-  vratio: number;
   borders: borders;
+  ratio: number;
   pen: borderpen;
 
   constructor(jsonObj: any) {
     super(jsonObj.baseobj);
 
-    this.hratio = jsonObj.hratio;
-    this.vratio = jsonObj.vratio;
+    this.ratio = jsonObj.ratio;
     this.borders = new borders(jsonObj.borders);
     this.pen = new borderpen(jsonObj.pen);
   };
@@ -66,7 +65,7 @@ export class graphrect extends sqrrect {
   obj: ReportObjectType = ReportObjectType.graphrect;
 
   value: string;
-  align: number;
+  align: string;
 
   constructor(jsonObj: any) {
     super(jsonObj.sqrrect);
@@ -99,10 +98,11 @@ export class repeater extends sqrrect {
 export class textrect extends baserect {
 
   obj: ReportObjectType = ReportObjectType.textrect;
+
   value: string;
   bkgcolor: string;
   textcolor: string;
-  align: number;
+  align: string;
   font: font;
   value_is_html: boolean;
   value_is_barcode: boolean;
@@ -123,11 +123,12 @@ export class textrect extends baserect {
 export class fieldrect extends baserect {
 
   obj: ReportObjectType = ReportObjectType.fieldrect;
+
   value: string = '';
 
   label: label;
   font: font;
-  align: number;
+  align: string;
   bkgcolor: string;
   textcolor: string;
 
@@ -152,21 +153,14 @@ export class fieldrect extends baserect {
 }
 
 export class table extends baseobj {
+  
   obj: ReportObjectType = ReportObjectType.table;
+
   column_number: number;
   row_number: number;
-  cells_rect: rect;
-  table_title_border: borders;
-  column_title_border: borders;
-  body_border: borders;
-  total_border: borders;
-  column_title_sep: boolean;
-  column_sep: boolean;
-  row_sep: boolean;
-  row_sep_dynamic: boolean;
-  row_sep_pen: borderpen;
-  hide_table_title: boolean;
+
   title: title;
+
   hide_columns_title: boolean;
   fiscal_end: boolean;
 
@@ -175,20 +169,14 @@ export class table extends baseobj {
 
   constructor(jsonObj: any) {
     super(jsonObj.baseobj);
+
     this.column_number = jsonObj.column_number;
     this.row_number = jsonObj.row_number;
-    this.cells_rect = new rect(jsonObj.cells_rect);
-    this.table_title_border = new borders(jsonObj.table_borders.table_title);
-    this.column_title_border = new borders(jsonObj.table_borders.column_title);
-    this.body_border = new borders(jsonObj.table_borders.body);
-    this.total_border = new borders(jsonObj.table_borders.total);
-    this.column_title_sep = jsonObj.column_title_sep;
-    this.column_sep = jsonObj.column_sep;
-    this.row_sep = jsonObj.row_sep;
-    this.row_sep_dynamic = jsonObj.row_sep_dynamic;
-    this.row_sep_pen = jsonObj.row_sep_pen ? new borderpen(jsonObj.row_sep_pen) : jsonObj.row_sep_pen;
-    this.hide_table_title = jsonObj.hide_table_title;
-    this.title = new title(jsonObj.title);
+
+    this.rect = new rect(jsonObj.rect);
+    
+    this.title = jsonObj.title ? new title(jsonObj.title) : null;
+
     this.hide_columns_title = jsonObj.hide_columns_title;
     this.fiscal_end = jsonObj.fiscal_end;
 
@@ -203,25 +191,27 @@ export class table extends baseobj {
 export class column {
   id: string;
   hidden: boolean;
+
   width: number;
-  pen: borderpen;
-  borders: borders;
+  
   value_is_html: boolean;
   value_is_image: boolean;
   value_is_barcode: boolean;
-  title: column_title;
+
+  title: title;
   total: column_total;
+
   constructor(jsonObj: any) {
     this.id = jsonObj.id;
-    this.width = jsonObj.width;
     this.hidden = jsonObj.hidden;
-    this.pen = new borderpen(jsonObj.pen);
-    this.borders = new borders(jsonObj.borders);
+ 
+    this.width = jsonObj.width;
+    
     this.value_is_html = jsonObj.value_is_html;
     this.value_is_image = jsonObj.value_is_image;
     this.value_is_barcode = jsonObj.value_is_barcode;
 
-    this.title = jsonObj.title === 'undefined' ? null : new column_title(jsonObj.title);
+    this.title = jsonObj.title  ? new title(jsonObj.title) : null;
     this.total = jsonObj.total ? new column_total(jsonObj.total) : null;
   }
 }
@@ -230,7 +220,7 @@ export class label {
   caption: string;
   textcolor: string;
   font: font;
-  align: number;
+  align: string;
   constructor(jsonObj: any) {
     this.caption = jsonObj.caption ? jsonObj.caption : '';
     this.textcolor = jsonObj.textcolor;
@@ -290,34 +280,20 @@ export class rect {
 }
 
 export class title {
-  caption: string;
-  font: font;
-  align: number;
   rect: rect;
-  pen: borderpen;
-
-  constructor(jsonObj: any) {
-    this.caption = jsonObj.caption;
-    this.font = new font(jsonObj.font);
-    this.align = jsonObj.align;
-    this.rect = new rect(jsonObj.rect);
-    this.pen = new borderpen(jsonObj.pen);
-  }
-}
-
-export class column_title {
-  height: number;
   caption: string;
   pen: borderpen;
+  borders: borders;
   textcolor: string;
   bkgcolor: string;
-  align: number;
+  align: string;
   font: font;
   tooltip: string;
   constructor(jsonObj: any) {
-    this.height = jsonObj.height;
+    this.rect = new rect(jsonObj.rect);
     this.caption = jsonObj.caption;
     this.pen = new borderpen(jsonObj.pen);
+    this.borders = new borders(jsonObj.borders);
     this.textcolor = jsonObj.textcolor;
     this.bkgcolor = jsonObj.bkgcolor;
     this.align = jsonObj.align;
@@ -328,13 +304,15 @@ export class column_title {
 
 export class column_total {
   value: string = '';
+  rect: rect;
+
   textcolor: string;
   bkgcolor: string;
-  align: number;
+  align: string;
   font: font;
   borders: borders;
   pen: borderpen;
-  height: number;
+ 
   constructor(jsonObj: any) {
     this.textcolor = jsonObj.cell.textcolor;
     this.bkgcolor = jsonObj.cell.bkgcolor;
@@ -342,7 +320,8 @@ export class column_total {
     this.font = new font(jsonObj.cell.font);
     this.borders = new borders(jsonObj.borders);
     this.pen = new borderpen(jsonObj.pen);
-    this.height = jsonObj.height;
+    this.rect = new rect(jsonObj.rect);
+    this.value = jsonObj.value ? jsonObj.value : '';
   }
 }
 
