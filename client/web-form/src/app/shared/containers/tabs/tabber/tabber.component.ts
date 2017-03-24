@@ -1,4 +1,5 @@
-import { Component, Output, EventEmitter, OnInit, AfterContentInit, Input } from '@angular/core';
+import { AfterViewInit, Component, Output, EventEmitter, OnInit, AfterContentInit, Input, ViewChild, ElementRef, ContentChildren, QueryList } from '@angular/core';
+import { LayoutService } from './../../../../core/layout.service';
 import { TbComponent } from '../../../';
 import { TabComponent } from '../tab/tab.component';
 
@@ -7,30 +8,68 @@ import { TabComponent } from '../tab/tab.component';
   templateUrl: './tabber.component.html',
   styleUrls: ['./tabber.component.scss']
 })
-export class TabberComponent extends TbComponent {
+export class TabberComponent implements AfterContentInit {
 
-  tabs: TabComponent[] = [];
+  @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
+
+  @ViewChild('tabContent') tabContent: ElementRef;
+  viewHeight: number;
+
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() selectedTab: EventEmitter<any> = new EventEmitter(true);
 
-  selectTab(tab: TabComponent) {
+  constructor(private layoutService: LayoutService) {
+    console.log("tabber init");
+  }
 
-    this.tabs.forEach((t) => {
-      t.active = false;
-    });
+  getTabs() {
+    return this.tabs.toArray();
+  }
+
+  ngAfterContentInit() {
+
+    setTimeout(() => {
+      this.viewHeight = this.tabContent ? this.tabContent.nativeElement.offsetHeight : 0;
+      this.layoutService.setViewHeight(this.viewHeight);
+      console.log("viewHeight", this.viewHeight);
+    }, 0);
+
+    // get all active tabs
+    let activeTabs = this.tabs.filter((tab) => tab.active);
+
+    // if there is no active tab set, activate the first
+    if (activeTabs.length === 0) {
+      this.selectTab(this.tabs.first);
+    }
+  }
+
+  selectTab(tab: TabComponent) {
+    if (tab.active) return;
+
+    // deactivate all tabs
+    this.tabs.toArray().forEach(tab => tab.active = false);
+
+    // activate the tab the user has clicked on.
     tab.active = true;
-    this.selectedTab.emit(this.tabs.indexOf(tab));
+
+    console.log("tabSelected: ", tab);
+
+    this.selectedTab.emit(this.tabs.toArray().indexOf(tab));
   }
 
   closeTab(tab: TabComponent) {
     this.close.emit(tab);
     tab.close.emit(tab);
+    this.selectTab(this.tabs.first);
   }
 
-  addTab(tab: TabComponent) {
-    this.tabs.push(tab);
-    this.selectTab(tab);
-  }
+  /*
+
+  
+
+  
+
+  
 
   removeTab(tab: TabComponent) {
     this.tabs.splice(this.tabs.indexOf(tab), 1);
@@ -39,4 +78,6 @@ export class TabberComponent extends TbComponent {
       this.selectedTab.emit(0);
     }
   }
+
+  */
 }

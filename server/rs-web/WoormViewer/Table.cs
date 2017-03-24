@@ -79,7 +79,7 @@ namespace Microarea.RSWeb.Objects
         public bool HasCellBordersExpr { get { return (column.CellBordersExpr != null); } }
         internal bool IsFirstRow { get { return AtRowNumber == 0; } }
         internal bool IsLastRow { get { return AtRowNumber == column.Table.RowNumber - 1; } }
-        internal int CellAlign { get { return Value.Align; } }
+        internal AlignType CellAlign { get { return Value.Align; } }
 
         //-------------------------------------------------------------------------------
         public Color TemplateSubTotalTextColor
@@ -364,7 +364,7 @@ namespace Microarea.RSWeb.Objects
 
             s += this.TemplateBkgColor.ToJson("bkgcolor") + ',';
 
-            s += this.CellAlign.ToJson("align") + ',';
+            s += this.CellAlign.ToHtml_align() + ',';
 
             s += this.Value.FontData.ToJson("caption");
 
@@ -536,7 +536,7 @@ namespace Microarea.RSWeb.Objects
 		}
 
         //-------------------------------------------------------------------------------
-        public int Align { get { return Value.Align; } }
+        public AlignType Align { get { return Value.Align; } }
         public FontData FontData { get { return Value.FontData; } }
 
 		//-------------------------------------------------------------------------------
@@ -560,7 +560,7 @@ namespace Microarea.RSWeb.Objects
                 this.TemplateTotalTextColor .ToJson("textcolor") + ',' +
                 this.TemplateTotalBkgColor  .ToJson("bkgcolor") + ',' +
 
-                this.Align                  .ToJson("align") + ',' +
+                this.Align                  .ToHtml_align() + ',' +
                 this.FontData               .ToJson() + ',' +
 
                 this.RectCell.Height        .ToJson("height") + ',' +
@@ -1653,7 +1653,7 @@ namespace Microarea.RSWeb.Objects
 		}
 		
 		//---------------------------------------------------------------------------
-		internal int GetCellAlign (int row) 
+		internal AlignType GetCellAlign (int row) 
 		{
 			return Cells[row].Value.Align;
 		}
@@ -2210,12 +2210,12 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//---------------------------------------------------------------------------
-		internal int		TotalAlign			{ get { return TotalCell.Value.Align; } }
+		internal AlignType TotalAlign			{ get { return TotalCell.Value.Align; } }
 		internal string		TotalFontName		{ get { return TotalCell.Value.FontStyleName; } }
 		internal BorderPen	TotalPen			{ get { return TotalCell.TotalPen; } set { TotalCell.TotalPen = value; } }
 		internal Color[]	TotalColor			{ get { return TotalCell.TotalColor; } }
 		internal string		SubTotalFontName	{ get { return SubTotal.FontStyleName; } }
-		internal int		ColumnTitleAlign	{ get { return Title.Align; } }
+		internal AlignType ColumnTitleAlign	{ get { return Title.Align; } }
 		internal string		ColumnTitleFontName { get { return Title.FontStyleName; } }
 		internal int		LastRow				{ get { return Cells.Count - 1; } }
 
@@ -2495,7 +2495,7 @@ namespace Microarea.RSWeb.Objects
 
                         this.LocalizedText.ToJson("caption", false, true) + ',' +
                         this.Title.FontData.ToJson() + ',' +
-                        this.Title.Align.ToJson("align") + ',' +
+                        this.Title.Align.ToHtml_align() + ',' +
                         this.Title.TextColor.ToJson("textcolor") + ',' +
                         this.Title.BkgColor.ToJson("bkgcolor") + ',' +
  
@@ -3601,7 +3601,7 @@ namespace Microarea.RSWeb.Objects
 		//------------------------------------------------------------------------------                
 		private bool ParseTotalAlign(Rectangle cellRect, WoormParser lex)
 		{
-			int align;
+            AlignType align;
 			if (lex.ParseAlign(out align))
 			{
 				for (int col = cellRect.Left; col <= cellRect.Right; col++)
@@ -3614,9 +3614,9 @@ namespace Microarea.RSWeb.Objects
 		//------------------------------------------------------------------------------                
 		private bool ParseColumnTitleAlign(Rectangle cellRect, WoormParser lex)
 		{
-			int align;
+            AlignType align;
 
-			if (lex.ParseAlign(out align))
+            if (lex.ParseAlign(out align))
 			{
 				for (int col = cellRect.Left; col <= cellRect.Right; col++)
 					Columns[col].Title.Align = align;
@@ -4187,7 +4187,7 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//------------------------------------------------------------------------------
-		private void UnparseDifferences(bool fnt, bool aln, string fontName, int align, Unparser unparser)             
+		private void UnparseDifferences(bool fnt, bool aln, string fontName, AlignType align, Unparser unparser)             
 		{
 			if (fnt)
 				UnparseSingleFont(fontName, unparser);
@@ -4549,7 +4549,7 @@ namespace Microarea.RSWeb.Objects
 		//------------------------------------------------------------------------------
 		private bool ParseCellAlign(Rectangle cellRect, WoormParser lex)
 		{
-			int align;
+            AlignType align;
 
 			if (!lex.ParseAlign(out align))
 				return false;

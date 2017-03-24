@@ -111,7 +111,7 @@ namespace Microarea.RSWeb.Objects
 		public string Text;
 		public Color TextColor = Defaults.DefaultTextColor;
 		public Color BkgColor = Defaults.DefaultBackColor;
-		public int Align = Defaults.DefaultTextAlign;
+		public AlignType Align = Defaults.DefaultTextAlign;
 		public string FontStyleName = DefaultFont.Testo;
 		private FontData fontData = null;
 

@@ -1,3 +1,9 @@
+:host(tb-tabber) {
+    flex-grow: 1;
+    display: flex;
+    flex-flow: column;
+}
+
 .tabber-container {
     display: flex;
     background-color: #0277bd;
@@ -8,8 +14,10 @@
 }
 
 .tab-content {
-    overflow: auto;
+    overflow: hidden;
     flex: 1;
+    margin: 0;
+    padding: 0;
 }
 
 ul.tabber {
@@ -27,7 +35,7 @@ ul.tabber {
 
 ul.tabber>li {
     line-height: 30px;
-    padding: 0 27px 0 10px;
+    padding: 0 27px 0 0;
     font-size: 14px;
     position: relative;
     cursor: pointer;
@@ -35,6 +43,10 @@ ul.tabber>li {
     border-top-left-radius: 3px;
     color: white;
     font-weight: 300;
+}
+
+ul.tabber>li>span {
+    padding-left: 10px;
 }
 
 ul.menu-tabber>li {
