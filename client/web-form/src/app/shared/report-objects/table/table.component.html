@@ -9,7 +9,7 @@
                 </div>
             </template>
             <template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex">
-                <div id="{{col.id}}{{rowIndex}}" [ngStyle]="getDataStyle(dataItem[columnIndex],col)">
+                <div id="{{col.id}}{{rowIndex}}" [ngStyle]="getDataStyle(dataItem[columnIndex])">
                     {{getValue(dataItem, col.id, columnIndex)}}
                 </div>
             </template>

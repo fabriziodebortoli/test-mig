@@ -29,7 +29,6 @@ export class ReportTableComponent {
       'margin-bottom': '0.5em',
       'align-content': 'center',
       'width': '100%',
-
       'border-color': this.table.title.pen.color,
       'border-left': this.table.table_title_border.left ? this.table.title.pen.width + 'px' : '0px',
       'border-right': this.table.table_title_border.right ? this.table.title.pen.width + 'px' : '0px',
@@ -37,7 +36,7 @@ export class ReportTableComponent {
       'border-top': this.table.table_title_border.top ? this.table.title.pen.width + 'px' : '0px',
       'border-style': 'solid',
       'font-family': this.table.title.font.face,
-      'font-size': this.table.title.font.size ,
+      'font-size': this.table.title.font.size,
       'font-style': this.table.title.font.italic ? 'italic' : 'normal',
       'font-weight': this.table.title.font.bold ? 'bold' : 'normal',
       'text-decoration': this.table.title.font.underline ? 'underline' : 'none',
@@ -74,7 +73,9 @@ export class ReportTableComponent {
       'border-right': this.table.table_title_border.right ? column.title.pen.width + 'px' : '0px',
       'border-bottom': this.table.table_title_border.bottom ? column.title.pen.width + 'px' : '0px',
       'border-top': this.table.table_title_border.top ? column.title.pen.width + 'px' : '0px',
-      'border-style': 'solid'
+      'border-style': 'solid',
+      'height': column.title.height + 'px',
+      
 
     };
     return obj;
@@ -91,7 +92,7 @@ export class ReportTableComponent {
     };
     return obj;
   }
-  getDataStyle(dataItem: any, col: column) {
+  getDataStyle(dataItem: any): any {
     let obj = {
     };
 
