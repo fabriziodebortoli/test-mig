@@ -351,8 +351,10 @@ namespace Microarea.RSWeb.Objects
             }
         }
         //---------------------------------------------------------------------
-        public string ToJsonTemplate(Borders cellBorders, bool useAlternateColor /*TODO RSWEB*/)
+        public string ToJsonTemplate(Borders borders, bool useAlternateColor /*TODO RSWEB*/)
         {
+            Borders cellBorders = this.DynamicCellBorders(borders);
+
             string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
             //s += this.RectCell.ToJson("rect") + ',';
@@ -378,6 +380,8 @@ namespace Microarea.RSWeb.Objects
 
         public string ToJsonData(Borders borders, bool useAlternateColor)
         {
+            Borders cellBorders = this.DynamicCellBorders(borders);
+
             string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
             //VALUE
@@ -385,10 +389,11 @@ namespace Microarea.RSWeb.Objects
             if (this.Value.RDEData != null)
             {
                 string formatStyleName = this.DynamicFormatStyleName;
-                if (formatStyleName.Length > 0)
-                {
-                    this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
-                }
+                if (formatStyleName.Length <= 0)
+                    formatStyleName = "string";
+                
+                this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
+                
             }
             s += (this.SubTotal ?
                             this.Value.FormattedData.ToJson("value", false, true)
@@ -398,7 +403,7 @@ namespace Microarea.RSWeb.Objects
 
             //BORDERS
             if (column.Table.HasDynamicHiddenColumns() || column.Table.HasDynamicBorders() || column.Table.Borders.DynamicRowSeparator)
-                s += ',' + borders.ToJson();
+                s += ',' + cellBorders.ToJson();
 
             //TEXTCOLOR
             if (!this.SubTotal && column.TextColorExpr != null)
@@ -655,7 +660,7 @@ namespace Microarea.RSWeb.Objects
         public BarCode BarCode = null;                  // mostra il dato come barcode
         public bool ShowAsBarCode { get { return BarCode != null; } }
 
-        public string FormatStyleName = DefaultFormat.None;
+        public string FormatStyleName = DefaultFormat.Testo;
 		public string FontSyleName;
 
 		public SubTotalCell SubTotal;
@@ -1395,7 +1400,7 @@ namespace Microarea.RSWeb.Objects
                 }
              }
 
-            FormatStyleName = DefaultFormat.None; ;
+            FormatStyleName = DefaultFormat.Testo; ;
 			if (lex.Parsed(Token.FORMATSTYLE))
 			{
 				if (lex.Parsed(Token.ASSIGN))
@@ -2606,11 +2611,11 @@ namespace Microarea.RSWeb.Objects
                                                 this.HasBottomBorderAtCell(cell),
                                                 (!lastCol && this.Borders.ColumnSeparator) || (lastCol && this.Borders.Body.Right)
                                             );
-                    Borders cellBorders = cell.DynamicCellBorders(borders);
+                   
 
                     if (!firstCol) r += ',';
  
-                    r += cell.ToJsonTemplate(cellBorders, UseColorEasyview(row));
+                    r += cell.ToJsonTemplate(borders, UseColorEasyview(row));
 
                     firstCol = false;
                 }
@@ -2660,7 +2665,6 @@ namespace Microarea.RSWeb.Objects
                                                 this.HasBottomBorderAtCell(cell),
                                                 (!lastCol && this.Borders.ColumnSeparator) || (lastCol && this.Borders.Body.Right)
                                             );
-                    Borders cellBorders = cell.DynamicCellBorders(borders);
 
                     //if (this.FiscalEnd && row >= this.CurrentRow)
                     //{
@@ -2678,7 +2682,7 @@ namespace Microarea.RSWeb.Objects
                         r += ',';
                     }
 
-                    r += cell.ToJsonData(cellBorders, UseColorEasyview(row));
+                    r += cell.ToJsonData(borders, UseColorEasyview(row));
 
                     firstCol = false;
                 }

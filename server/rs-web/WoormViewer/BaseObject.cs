@@ -2107,7 +2107,7 @@ namespace Microarea.RSWeb.Objects
         };
 
 		public Label Label;
-		public string FormatStyleName = DefaultFormat.None;
+		public string FormatStyleName = DefaultFormat.Testo;
 
 		public WoormValue Value;
             public bool IsHtml = false;
