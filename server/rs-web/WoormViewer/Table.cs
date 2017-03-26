@@ -72,6 +72,13 @@ namespace Microarea.RSWeb.Objects
         }
 
         //------------------------------------------------------------------------------
+        public void Clear()
+        {
+            this.Value.Clear();
+            SubTotal = false;
+        }
+
+        //------------------------------------------------------------------------------
         public bool HasBkgColorExpr { get { return (column.BkgColorExpr != null); } }
         public bool HasSubTotBkgColorExpr { get { return (column.SubTotalBkgColorExpr != null); } }
         public bool HasTextFontStyleExpr { get { return (column.TextFontStyleExpr != null); } }

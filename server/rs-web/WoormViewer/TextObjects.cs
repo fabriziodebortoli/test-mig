@@ -84,7 +84,8 @@ namespace Microarea.RSWeb.Objects
 		{
 			formattedData = "";
 			rdeData = null;
-		}
+            cellTail = false;
+        }
 
 		//------------------------------------------------------------------------------
 		public void AssignData(object rdeData, string formattedData, bool cellTail)

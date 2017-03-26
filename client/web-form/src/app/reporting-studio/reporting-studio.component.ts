@@ -5,7 +5,7 @@ import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { CommandType, baseobj, fieldrect, textrect, table, column, borders, column_total } from './reporting-studio.model';
+import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, repeater, column_total } from './reporting-studio.model';
 
 import { DocumentComponent } from '../shared/document.component';
 
@@ -171,9 +171,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   RenderLayout(msg: any) {
     this.objects = [];
-    if (this.rsService.pageNum != msg.page.page_number) { return; }
+    if (this.rsService.pageNum !== msg.page.page_number) { return; }
     this.rsService.currLayout = msg.page.layout.name;
-
 
     for (let index = 0; index < msg.page.layout.objects.length; index++) {
       let element = msg.page.layout.objects[index];
@@ -181,13 +180,22 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       if (element.fieldrect !== undefined) {
         obj = new fieldrect(element.fieldrect);
       }
-      if (element.textrect !== undefined) {
+      else if (element.textrect !== undefined) {
         obj = new textrect(element.textrect);
       }
-      if (element.table !== undefined) {
+      else if (element.table !== undefined) {
         obj = new table(element.table);
       }
-      this.objects.push(obj);
+      else if (element.graphrect !== undefined) {
+        obj = new graphrect(element.fieldrect);
+      }
+      else if (element.sqrrect !== undefined) {
+        obj = new sqrrect(element.fieldrect);
+      }
+      else if (element.repeater !== undefined) {
+        obj = new repeater(element.fieldrect);
+      }
+       this.objects.push(obj);
     }
   }
 
@@ -208,7 +216,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         }
         obj.value = value;
       }
-      if (element.textrect !== undefined) {
+      else if (element.textrect !== undefined) {
         id = element.textrect.baserect.baseobj.id;
         value = element.textrect.value ? element.textrect.value : '[empty]' + id;
         let obj = this.FindObj(id);
@@ -217,7 +225,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         }
         obj.value = value;
       }
-      if (element.table !== undefined) {
+      else if (element.table !== undefined) {
         id = element.table.baseobj.id;
         value = element.table.rows;
         let obj = this.FindObj(id);
@@ -243,9 +251,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         }
         obj.value = value;
       }
-      // to complete
 
+      //TODO to complete
 
+     //attributi dinamici, almeno hidden 
+     //else if (element.sqrrect !== undefined) {
+     //else if (element.graphrect !== undefined) {
+     //else if (element.repeater !== undefined) {
     }
   }
 
