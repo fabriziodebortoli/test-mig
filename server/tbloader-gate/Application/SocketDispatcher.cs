@@ -68,6 +68,7 @@ namespace Microarea.TbLoaderGate
 						received = await webSocket.ReceiveAsync(new ArraySegment<Byte>(totalBuffer, offset, segSize), token);
 						totalBytes += received.Count;
 					}
+
 					switch (received.MessageType)
 					{
 						case WebSocketMessageType.Text:
@@ -85,17 +86,53 @@ namespace Microarea.TbLoaderGate
 								}
 								catch (Exception ex)
 								{
-									//TODO gestione errore
-									continue;
+                                    //TODO gestione errore
+                                    Debug.WriteLine("Exception on parsing WebSocketMessageType.Text");
+                                    Debug.WriteLine(ex.Message);
+                                    Debug.WriteLine(message);
+                                    continue;
 								}
-								string cmd = jObj["cmd"].ToString();
+
+                                JObject jCmd = jObj["cmd"] as JObject;
+                                if (jCmd == null)
+                                {
+                                    //TODO gestione errore
+                                    Debug.WriteLine("Missing cmd");
+                                    continue;
+                                }
+                                string cmd = jCmd.ToString();
+
 								if (cmd == setClientWebSocketName)
 								{
-									JObject jArgs = (JObject)jObj["args"];
-									coupleName = jArgs["webSocketName"].ToString();
+									JObject jArgs = jObj["args"] as JObject;
+                                    if (jArgs == null)
+                                    {
+                                        //TODO gestione errore
+                                        Debug.WriteLine("Missing args");
+                                        continue;
+                                    }
+
+                                    JObject jWebSocketName = jArgs["webSocketName"] as JObject;
+                                    if (jWebSocketName == null)
+                                    {
+                                        //TODO gestione errore
+                                        Debug.WriteLine("Missing webSocketName");
+                                        continue;
+                                    }
+                                    coupleName = jWebSocketName.ToString();
+
 									couple = GetWebCouple(coupleName);
 									couple.clientSocket = webSocket;
-									string tbName = jArgs["tbLoaderName"].ToString();
+
+                                    JObject jTbName = jArgs["tbLoaderName"] as JObject;
+                                    if (jTbName == null)
+                                    {
+                                        //TODO gestione errore
+                                        Debug.WriteLine("Missing tbLoaderName");
+                                        continue;
+                                    }
+                                    string tbName = jTbName.ToString();
+
 									bool dummy;
 									TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbName, false, out dummy);
 									if (tb != null)
@@ -103,9 +140,24 @@ namespace Microarea.TbLoaderGate
 								}
 								else if (cmd == setServerWebSocketName)
 								{
-									JObject jArgs = (JObject)jObj["args"];
-									coupleName = jArgs["webSocketName"].ToString();
-									couple = GetWebCouple(coupleName);
+                                    JObject jArgs = jObj["args"] as JObject;
+                                    if (jArgs == null)
+                                    {
+                                        //TODO gestione errore
+                                        Debug.WriteLine("Missing args");
+                                        continue;
+                                    }
+
+                                    JObject jWebSocketName = jArgs["webSocketName"] as JObject;
+                                    if (jWebSocketName == null)
+                                    {
+                                        //TODO gestione errore
+                                        Debug.WriteLine("Missing webSocketName");
+                                        continue;
+                                    }
+                                    coupleName = jWebSocketName.ToString();
+
+                                    couple = GetWebCouple(coupleName);
 									couple.serverSocket = webSocket;
 								}
 								else
