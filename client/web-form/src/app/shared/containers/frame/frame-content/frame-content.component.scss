@@ -1,6 +1,6 @@
 :host(tb-frame-content) {
     flex: 1 1 auto;
-    overflow: hidden;
+    overflow: auto; // TODO hidden
     display: flex;
     flex-direction: column;
 }
