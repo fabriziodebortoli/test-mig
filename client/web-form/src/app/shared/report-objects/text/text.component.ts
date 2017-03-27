@@ -1,6 +1,6 @@
 import { GridModule } from '@progress/kendo-angular-grid';
 import { Component, OnInit, Input } from '@angular/core';
-import { ReportObject } from './../../../reporting-studio.model';
+// import { ReportObject } from './../../../reporting-studio.model';
 
 @Component({
   selector: 'rs-text',
@@ -9,7 +9,7 @@ import { ReportObject } from './../../../reporting-studio.model';
 })
 export class ReportObjectTextComponent implements OnInit {
 
-  @Input() ro: ReportObject;
+  // @Input() ro: ReportObject;
 
   constructor() { }
 
