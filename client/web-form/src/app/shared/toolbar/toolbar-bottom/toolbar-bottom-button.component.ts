@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'tb-toolbar-bottom-button',
-  template: `<div (click)='onCommand()' title='{{caption}}'>{{caption}}</div>`,
+  templateUrl: './toolbar-bottom-button.component.html',
   styles: [`
     div{
       cursor: pointer;
