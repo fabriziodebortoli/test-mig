@@ -7,8 +7,6 @@ namespace DataService.Controllers
     [Route("data-service")]
     public class DSController : Controller
     {
-        private LoginInfoMessage loginInfo = null;
-
         [Route("getdata/{namespace}/{selectiontype}")]
         public IActionResult GetData(string nameSpace, string selectionType)
         {
@@ -16,10 +14,6 @@ namespace DataService.Controllers
             if (string.IsNullOrEmpty(sAuthT))
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
-            if (loginInfo == null)
-            {
-                loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
-            }
 
             UserInfo ui = new UserInfo(loginInfo, sAuthT);
  
@@ -45,10 +39,7 @@ namespace DataService.Controllers
             if (string.IsNullOrEmpty(sAuthT))
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
-            if (loginInfo == null)
-            {
-                loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
-            }
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
 
             UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
@@ -74,10 +65,7 @@ namespace DataService.Controllers
             if (string.IsNullOrEmpty(sAuthT))
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
-            if (loginInfo == null)
-            {
-                loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
-            }
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
 
             UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
@@ -100,10 +88,7 @@ namespace DataService.Controllers
             if (string.IsNullOrEmpty(sAuthT))
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
-            if (loginInfo == null)
-            {
-                loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
-            }
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
 
             UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
