@@ -1,6 +1,7 @@
+import { Component, Input } from '@angular/core';
+
 import { UtilsService } from './../../../../core/utils.service';
 import { EventManagerService } from './../../../services/event-manager.service';
-import { Component, Input, OnInit } from '@angular/core';
 import { MenuService } from './../../../services/menu.service';
 import { HttpMenuService } from './../../../services/http-menu.service';
 import { ImageService } from './../../../services/image.service';
@@ -11,7 +12,7 @@ import { ImageService } from './../../../services/image.service';
   templateUrl: './menu-content.component.html',
   styleUrls: ['./menu-content.component.scss']
 })
-export class MenuContentComponent implements OnInit {
+export class MenuContentComponent {
 
   constructor(
     private httpMenuService: HttpMenuService,
@@ -21,20 +22,12 @@ export class MenuContentComponent implements OnInit {
     private eventManagerService: EventManagerService
   ) {
   }
-  ngOnInit() {
+
+  @Input('tile') tile: any;
+
+  getObjects() {
+    return this.utilsService.toArray(this.tile.Object);
   }
-
-
-  private tile: any;
-  get Tile(): any {
-    return this.tile;
-  }
-
-  @Input()
-  set Tile(menu: any) {
-    this.tile = menu;
-  }
-
 
   getPinnedClass(tile) {
     return tile.pinned ? 'hdr_strong' : 'hdr_weak';

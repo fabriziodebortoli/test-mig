@@ -1,25 +1,22 @@
 <tb-frame>
     <tb-toolbar-top></tb-toolbar-top>
-    <tb-view>
+    <tb-frame-content>
+        <div class="menu-page">
+            <tb-menu-tabber #tabber (selectedTab)="changeTabByIndex($event)">
+                <tb-menu-tab [title]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService?.selectedGroup?.Menu)"></tb-menu-tab>
+            </tb-menu-tabber>
 
-        <tb-menu-tabber #tabber (selectedTab)="changeTabByIndex($event)">
-            <tb-menu-tab [title]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService?.selectedGroup?.Menu)"></tb-menu-tab>
-        </tb-menu-tabber>
+            <div class="wrap">
+                <tb-header-strip [title]="menuService?.selectedMenu?.title">
+                    <!--<tb-menu-stepper [Menu]="menuService?.applicationMenu"></tb-menu-stepper>-->
+                </tb-header-strip>
 
-        <tb-header-strip [title]="menuService?.selectedMenu?.title">
-            <!--<tb-menu-stepper [Menu]="menuService?.applicationMenu"></tb-menu-stepper>-->
-        </tb-header-strip>
-
-        <div class="menu-container">
-
-            <div *ngIf="menuService.selectedMenu != undefined">
-                <tb-menu-content *ngFor="let tile of getTiles()" [Tile]="tile"  style="display: inline-block"></tb-menu-content>
-
-                <!--<div *ngIf="menuService.selectedMenu.Object" class="tileContainer">
-                    <tb-tile-content [Tile]="menuService.selectedMenu"></tb-tile-content>
-                </div>-->
-
+                <div class="menu-container" *ngIf="menuService.selectedMenu != undefined">
+                    <div class="row around-xs">
+                        <tb-menu-content *ngFor="let tile of tiles" [tile]="tile" class="col-xs-12 col-sm-4 col-md-3" [class.limited]="tiles.length > 4"></tb-menu-content>
+                    </div>
+                </div>
             </div>
         </div>
-    </tb-view>
+    </tb-frame-content>
 </tb-frame>
