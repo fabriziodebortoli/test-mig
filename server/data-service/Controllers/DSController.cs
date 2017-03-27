@@ -14,6 +14,8 @@ namespace DataService.Controllers
             if (string.IsNullOrEmpty(sAuthT))
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
+            //Microsoft.AspNetCore.Session["logininfo"];
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
 
             UserInfo ui = new UserInfo(loginInfo, sAuthT);
  
