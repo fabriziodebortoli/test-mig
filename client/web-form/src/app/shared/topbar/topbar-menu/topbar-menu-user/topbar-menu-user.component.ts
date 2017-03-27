@@ -1,3 +1,4 @@
+import { LoginSessionService } from './../../../../core/login-session.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,9 +10,12 @@ export class TopbarMenuUserComponent implements OnInit {
 
   private title: string = "User menu";
 
-  constructor() { }
+  constructor(private loginSessionService: LoginSessionService) { }
 
   ngOnInit() {
   }
 
+  logout() {
+    this.loginSessionService.logout();
+  }
 }
