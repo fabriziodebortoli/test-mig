@@ -3,7 +3,7 @@
 
   "dependencies": {
     "Microsoft.DotNet.InternalAbstractions": "1.0.0",
-    "Npgsql": "3.2.0",
+    "Npgsql": "3.2.2",
     "NuGet.CommandLine": "3.5.0",
     "System.Data.SqlClient": "4.3.0",
     "taskbuilder-netcore-common": "1.0.0-*",
@@ -11,7 +11,7 @@
   },
 
   "frameworks": {
-    "netcoreapp1.1.0": {
+    "netcoreapp1.1.1": {
     }
   }
 

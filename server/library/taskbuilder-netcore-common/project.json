@@ -1,24 +1,7 @@
 {
   "dependencies": {
     "CoreCompat.System.Drawing": "1.0.0-beta006",
-    "Microsoft.AspNetCore.Hosting": "1.1.0",
-    "Microsoft.AspNetCore.Http": "1.1.0",
-    "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
-    "Microsoft.AspNetCore.Mvc": "1.1.0",
-    "Microsoft.AspNetCore.Routing": "1.1.0",
-    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
-    "Microsoft.AspNetCore.StaticFiles": "1.1.0",
     "Microsoft.AspNetCore.WebSockets.Server": "0.1.0",
-    "Microsoft.Extensions.Configuration.Json": "1.1.0",
-    "Microsoft.Extensions.Logging": "1.1.0",
-    "Microsoft.Extensions.Logging.Console": "1.1.0",
-    "Microsoft.Extensions.Logging.Debug": "1.1.0",
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.1.0"
-    },
-    "Newtonsoft.Json": "9.0.1",
     "System.Collections.Specialized": "4.3.0",
     "System.ComponentModel.EventBasedAsync": "4.3.0",
     "System.Data.SqlClient": "4.3.0",
@@ -29,12 +12,28 @@
     "system.xml.xpath.xmldocument": "4.3.0",
     "taskbuilder-netcore-interfaces": "1.0.0-*",
     "taskbuilder-netcore-data": "1.0.0-*",
-    "System.Collections": "4.3.0"
+    "System.Collections": "4.3.0",
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.1.1"
+    },
+    "Microsoft.AspNetCore.Hosting": "1.1.1",
+    "Microsoft.AspNetCore.Routing": "1.1.1",
+    "Newtonsoft.Json": "10.0.1",
+    "Microsoft.AspNetCore.Http": "1.1.1",
+    "Microsoft.AspNetCore.Http.Abstractions": "1.1.1",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.1.1",
+    "Microsoft.AspNetCore.StaticFiles": "1.1.1",
+    "Microsoft.Extensions.Logging": "1.1.1",
+    "Microsoft.Extensions.Logging.Debug": "1.1.1",
+    "Microsoft.Extensions.Logging.Console": "1.1.1",
+    "Microsoft.Extensions.Configuration.Json": "1.1.1",
+    "Microsoft.AspNetCore.Mvc.Core": "1.1.2"
   },
 
 
   "frameworks": {
-    "netcoreapp1.1": {
+    "netcoreapp1.1.1": {
     }
   },
 
