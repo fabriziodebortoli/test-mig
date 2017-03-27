@@ -596,7 +596,7 @@ namespace Microarea.RSWeb.WoormViewer
                         for (int i = 0; i < t.RowNumber; i++)
                         {
                             Cell cell = col.Cells[i];
-                            cell.SubTotal = false;
+                            cell.Clear();
                         }
                     }
                 }

@@ -325,10 +325,10 @@ namespace Microarea.Common.Lexan
 		}
 
 		//------------------------------------------------------------------------------
-		public void WriteAlign (int align, bool newline = true)
+		public void WriteAlign (AlignType align, bool newline = true)
 		{
 			WriteTag(Token.ALIGN, false);
-			Write(align, false);
+			Write((int)align, false);
 			WriteBlank();
 			WriteSep(newline);
 		}

@@ -1,3 +1,5 @@
 <div [hidden]="!active" class="tab">
-    <ng-content></ng-content>
+    <div class="inner-tab" [style.height.px]="viewHeight">
+        <ng-content></ng-content>
+    </div>
 </div>
