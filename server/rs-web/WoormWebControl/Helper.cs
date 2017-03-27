@@ -189,9 +189,9 @@ namespace Microarea.RSWeb.WoormWebControl
 		///Restituisce true se la stringa e' su piu linee e se lo stile di allineamento non e' singleLine
 		///</summary>
 		//------------------------------------------------------------------------------
-		internal static bool IsMultilineString(string text, int align)
+		internal static bool IsMultilineString(string text, AlignType align)
 		{
-			return ((align & BaseObjConsts.DT_SINGLELINE) == 0)
+			return ((align & AlignType.DT_SINGLELINE) == 0)
 					&& 
 					(text.IndexOf(Chars.CR) != -1 || text.IndexOf(Chars.LF) != -1);
 		}

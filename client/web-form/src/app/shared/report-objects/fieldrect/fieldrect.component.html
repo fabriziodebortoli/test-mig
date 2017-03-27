@@ -1,4 +1,4 @@
-<div style="margin-top:1em">
-  <div *ngIf="rect.label">{{rect.label.caption}}</div>
-  <input type="text" [value]="rect.value" [disabled]="true">
+<div *ngIf="!rect.hidden" [ngStyle]="applyStyle()">
+  <div *ngIf="rect.label" [ngStyle]="applyLabelStyle()">{{rect.label.caption}}</div>
+  <div [ngStyle]="applyValueStyle()">{{rect.value}}</div>
 </div>

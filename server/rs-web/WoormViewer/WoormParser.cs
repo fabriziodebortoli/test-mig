@@ -137,30 +137,35 @@ namespace Microarea.RSWeb.WoormViewer
 		}
 
 		//------------------------------------------------------------------------------
-		public bool ParseAlign (out int align)
+		public bool ParseAlign (out AlignType align)
 		{
-			align = 0; 
-			return
+            int a = 0; 
+			bool ok =
 				ParseTag    (Token.ALIGN) &&
-				ParseInt	(out align) &&
+				ParseInt	(out a) &&
 				ParseSep    ();
+
+            align = (AlignType) a;
+            return ok;
 		}
 
 		//------------------------------------------------------------------------------
-		public bool ParseExtendedAlign (out int align)
+		public bool ParseExtendedAlign (out AlignType align)
 		{
-			align = 0; 
+			int a = 0; 
 
 			bool ok =
 				ParseTag    (Token.ALIGN) &&
-				ParseInt	(out align);
+				ParseInt	(out a);
+
+            align = (AlignType) a;
 
            if (ok && this.LookAhead(new Token[] { Token.INTEGER, Token.BYTE }))
             {
 				int extended = 0;
                 ok = ok && ParseInt(out extended);
                 if (ok && extended == 0)
-					align &= ~BaseObjConsts.DT_EX_VCENTER_LABEL;
+					align &= ~AlignType.DT_EX_VCENTER_LABEL;
             }
 
 			return ok && ParseSep();

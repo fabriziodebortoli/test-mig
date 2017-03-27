@@ -420,7 +420,7 @@ namespace Microarea.RSWeb.Render
             Color fontColor,
             Color backColor,
             string fontName,
-            int align,
+            AlignType align,
             string text,
             bool hide,
             Column column,      // info per barcode
@@ -498,7 +498,7 @@ namespace Microarea.RSWeb.Render
             // valuata dal motore del viewer durante il parse.
             if (obj.IsHidden) return;
 
-            WriteImage(xg, obj, obj.ImageRect, BaseObjConsts.DT_CENTER);
+            WriteImage(xg, obj, obj.ImageRect, AlignType.DT_CENTER);
             //disegno dei bordi
             WriteBorders(xg, obj);
             //disegno eventuale ombra
@@ -526,7 +526,7 @@ namespace Microarea.RSWeb.Render
         }
 
         //------------------------------------------------------------------------------
-        private void DrawText(XGraphics xg, string text, Rectangle rect, string fontStyleName, Color color, int align)
+        private void DrawText(XGraphics xg, string text, Rectangle rect, string fontStyleName, Color color, AlignType align)
         {
             if (String.IsNullOrWhiteSpace(text))
                 return;
@@ -545,9 +545,9 @@ namespace Microarea.RSWeb.Render
             formatter.Font = GetFont(fontStyleName);
             formatter.LayoutRectangle = ScaleFromWoorm(rect);
 
-            if ((align & BaseObjConsts.DT_RIGHT) == BaseObjConsts.DT_RIGHT)
+            if ((align & AlignType.DT_RIGHT) == AlignType.DT_RIGHT)
                 formatter.Alignment = XParagraphAlignment.Right;
-            else if ((align & BaseObjConsts.DT_CENTER) == BaseObjConsts.DT_CENTER)
+            else if ((align & AlignType.DT_CENTER) == AlignType.DT_CENTER)
                 formatter.Alignment = XParagraphAlignment.Center;
             else
                 formatter.Alignment = XParagraphAlignment.Left;
@@ -589,7 +589,7 @@ namespace Microarea.RSWeb.Render
         }
 
         //-----------------------------------------------------------------------------
-        public void WriteXImage(XGraphics xg, XImage img, Rectangle rect, int align)
+        public void WriteXImage(XGraphics xg, XImage img, Rectangle rect, AlignType align)
         {
             XRect xRect = ScaleFromWoorm(rect);
             XRect originalRect = xRect;
@@ -611,14 +611,14 @@ namespace Microarea.RSWeb.Render
             xRect.Width = width;
             xRect.Height = height;
 
-            if ((align & BaseObjConsts.DT_RIGHT) == BaseObjConsts.DT_RIGHT)
+            if ((align & AlignType.DT_RIGHT) == AlignType.DT_RIGHT)
                 xRect.Offset(originalRect.Width - xRect.Width, 0);
-            else if ((align & BaseObjConsts.DT_CENTER) == BaseObjConsts.DT_CENTER)
+            else if ((align & AlignType.DT_CENTER) == AlignType.DT_CENTER)
                 xRect.Offset((originalRect.Width - xRect.Width) / 2, 0);
 
-            if ((align & BaseObjConsts.DT_VCENTER) == BaseObjConsts.DT_VCENTER)
+            if ((align & AlignType.DT_VCENTER) == AlignType.DT_VCENTER)
                 xRect.Offset(0, (originalRect.Height - xRect.Height) / 2);
-            else if ((align & BaseObjConsts.DT_BOTTOM) == BaseObjConsts.DT_BOTTOM)
+            else if ((align & AlignType.DT_BOTTOM) == AlignType.DT_BOTTOM)
                 xRect.Offset(0, originalRect.Height - xRect.Height);
 
             xg.DrawImage(img, xRect);
@@ -642,7 +642,7 @@ namespace Microarea.RSWeb.Render
         }
 
         //-----------------------------------------------------------------------------
-        public void WriteImage(XGraphics xg, IImage obj, Rectangle rect, int align)
+        public void WriteImage(XGraphics xg, IImage obj, Rectangle rect, AlignType align)
         {
             XRect xRect = ScaleFromWoorm(rect);
             XBrush brush = (new XSolidBrush(new XColor(Color.White)));
@@ -880,9 +880,9 @@ namespace Microarea.RSWeb.Render
             ///Metodo per scrivere le stringhe che hanno impostanto l'allineamento del testo verticale (90 o 270 gradi)
             ///</summary>
             //------------------------------------------------------------------------------
-            internal void DrawRotatedString(XGraphics xg, XTextFormatter formatter, XBrush brush, XRect layoutRectangle, int align)
+            internal void DrawRotatedString(XGraphics xg, XTextFormatter formatter, XBrush brush, XRect layoutRectangle, AlignType align)
             {
-                if ((align & (BaseObjConsts.DT_EX_90 | BaseObjConsts.DT_EX_270)) == 0)
+                if ((align & (AlignType.DT_EX_90 | AlignType.DT_EX_270)) == 0)
                     return; //non e' un testo ruotato
 
                 string text = formatter.Text;
@@ -905,7 +905,7 @@ namespace Microarea.RSWeb.Render
                 }
 
                 XGraphicsState state = null;
-                int angle = (align & BaseObjConsts.DT_EX_90) != 0 ? -90 : -270;
+                int angle = (align & AlignType.DT_EX_90) != 0 ? -90 : -270;
                 state = xg.Save();
                 xg.RotateAtTransform(angle, layoutRectangle.Center);
                 //inizializzo con i valori left orizzontalmente e top verticalmente
@@ -921,22 +921,22 @@ namespace Microarea.RSWeb.Render
                 double yTextPos = 0;
 
                 double lineVSpace = font.GetHeight();
-                if ((align & BaseObjConsts.DT_EX_90) != 0)
+                if ((align & AlignType.DT_EX_90) != 0)
                 {
                     xTextPos = layoutRectangle.X + layoutRectangle.Width - textWidth;
                     yTextPos = layoutRectangle.Y + lineVSpace;
 
                     //Allineamento orizzontale
-                    if ((align & BaseObjConsts.DT_RIGHT) == BaseObjConsts.DT_RIGHT)
+                    if ((align & AlignType.DT_RIGHT) == AlignType.DT_RIGHT)
                         yTextPos = layoutRectangle.Y + layoutRectangle.Height;
-                    else if ((align & BaseObjConsts.DT_CENTER) == BaseObjConsts.DT_CENTER)
+                    else if ((align & AlignType.DT_CENTER) == AlignType.DT_CENTER)
                         yTextPos = layoutRectangle.Y + layoutRectangle.Height / 2 + lineVSpace / 2;
 
                     //Allineamento verticale
-                    if ((align & BaseObjConsts.DT_VCENTER) == BaseObjConsts.DT_VCENTER)
+                    if ((align & AlignType.DT_VCENTER) == AlignType.DT_VCENTER)
                         xTextPos = layoutRectangle.X + layoutRectangle.Width / 2 - textWidth / 2;
-                    if ((align & BaseObjConsts.DT_BOTTOM) == BaseObjConsts.DT_BOTTOM)
-                        xTextPos = (align & BaseObjConsts.DT_EX_90) != 0 ? layoutRectangle.X : layoutRectangle.X + layoutRectangle.Width - textWidth;
+                    if ((align & AlignType.DT_BOTTOM) == AlignType.DT_BOTTOM)
+                        xTextPos = (align & AlignType.DT_EX_90) != 0 ? layoutRectangle.X : layoutRectangle.X + layoutRectangle.Width - textWidth;
                 }
                 else //270 grdi di rotazione
                 {
@@ -944,16 +944,16 @@ namespace Microarea.RSWeb.Render
                     yTextPos = layoutRectangle.Y + layoutRectangle.Height;
 
                     //Allineamento orizzontale
-                    if ((align & BaseObjConsts.DT_RIGHT) == BaseObjConsts.DT_RIGHT)
+                    if ((align & AlignType.DT_RIGHT) == AlignType.DT_RIGHT)
                         yTextPos = layoutRectangle.Y + lineVSpace;
-                    else if ((align & BaseObjConsts.DT_CENTER) == BaseObjConsts.DT_CENTER)
+                    else if ((align & AlignType.DT_CENTER) == AlignType.DT_CENTER)
                         yTextPos = layoutRectangle.Y + layoutRectangle.Height / 2 + lineVSpace / 2;
 
                     //Allineamento verticale
-                    if ((align & BaseObjConsts.DT_VCENTER) == BaseObjConsts.DT_VCENTER)
+                    if ((align & AlignType.DT_VCENTER) == AlignType.DT_VCENTER)
                         xTextPos = layoutRectangle.X + layoutRectangle.Width / 2 - textWidth / 2;
-                    if ((align & BaseObjConsts.DT_BOTTOM) == BaseObjConsts.DT_BOTTOM)
-                        xTextPos = (align & BaseObjConsts.DT_EX_90) != 0 ? layoutRectangle.X : layoutRectangle.X + layoutRectangle.Width - textWidth;
+                    if ((align & AlignType.DT_BOTTOM) == AlignType.DT_BOTTOM)
+                        xTextPos = (align & AlignType.DT_EX_90) != 0 ? layoutRectangle.X : layoutRectangle.X + layoutRectangle.Width - textWidth;
                 }
 
                 /*SCOMMENTARE PER AUSILIO VISIVO IN DEBUG*/
@@ -979,11 +979,11 @@ namespace Microarea.RSWeb.Render
             ///Metodo per scrivere le stringhe che hanno impostanto l'allineamento del testo verticale (90 o 270 gradi) e sono multiline
             ///</summary>
             //------------------------------------------------------------------------------
-            private void DrawMultilineRotatedString(string text, XGraphics xg, XFont font, XBrush brush, XRect layoutRectangle, int align)
+            private void DrawMultilineRotatedString(string text, XGraphics xg, XFont font, XBrush brush, XRect layoutRectangle, AlignType align)
             {
                 string[] lines = Helper.SplitMultilineString(text);
                 XGraphicsState state = null;
-                int angle1 = (align & BaseObjConsts.DT_EX_90) != 0 ? -90 : -270;
+                int angle1 = (align & AlignType.DT_EX_90) != 0 ? -90 : -270;
                 state = xg.Save();
                 xg.RotateAtTransform(angle1, layoutRectangle.Center);
                 //inizializzo con i valori left orizzontalmente e top verticalmente
@@ -1010,22 +1010,22 @@ namespace Microarea.RSWeb.Render
 
                 double lineVSpace = font.GetHeight();
                 double textVSpace = lineVSpace * numLines;
-                if ((align & BaseObjConsts.DT_EX_90) != 0)
+                if ((align & AlignType.DT_EX_90) != 0)
                 {
                     xTextPos = layoutRectangle.X + layoutRectangle.Width - textWidth;
                     yTextPos = layoutRectangle.Y + lineVSpace;
 
                     //Allineamento orizzontale
-                    if ((align & BaseObjConsts.DT_RIGHT) == BaseObjConsts.DT_RIGHT)
+                    if ((align & AlignType.DT_RIGHT) == AlignType.DT_RIGHT)
                         yTextPos = layoutRectangle.Y + layoutRectangle.Height - textVSpace + lineVSpace;
-                    else if ((align & BaseObjConsts.DT_CENTER) == BaseObjConsts.DT_CENTER)
+                    else if ((align & AlignType.DT_CENTER) == AlignType.DT_CENTER)
                         yTextPos = layoutRectangle.Y + layoutRectangle.Height / 2 - textVSpace / 2 + lineVSpace;
 
                     //Allineamento verticale
-                    if ((align & BaseObjConsts.DT_VCENTER) == BaseObjConsts.DT_VCENTER)
+                    if ((align & AlignType.DT_VCENTER) == AlignType.DT_VCENTER)
                         xTextPos = layoutRectangle.X + layoutRectangle.Width / 2 - textWidth / 2;
-                    if ((align & BaseObjConsts.DT_BOTTOM) == BaseObjConsts.DT_BOTTOM)
-                        xTextPos = (align & BaseObjConsts.DT_EX_90) != 0 ? layoutRectangle.X : layoutRectangle.X + layoutRectangle.Width - textWidth;
+                    if ((align & AlignType.DT_BOTTOM) == AlignType.DT_BOTTOM)
+                        xTextPos = (align & AlignType.DT_EX_90) != 0 ? layoutRectangle.X : layoutRectangle.X + layoutRectangle.Width - textWidth;
                 }
                 else //270 gradi di rotazione
                 {
@@ -1033,16 +1033,16 @@ namespace Microarea.RSWeb.Render
                     yTextPos = layoutRectangle.Y + layoutRectangle.Height - textVSpace + lineVSpace;
 
                     //Allineamento orizzontale
-                    if ((align & BaseObjConsts.DT_RIGHT) == BaseObjConsts.DT_RIGHT)
+                    if ((align & AlignType.DT_RIGHT) == AlignType.DT_RIGHT)
                         yTextPos = layoutRectangle.Y + lineVSpace;
-                    else if ((align & BaseObjConsts.DT_CENTER) == BaseObjConsts.DT_CENTER)
+                    else if ((align & AlignType.DT_CENTER) == AlignType.DT_CENTER)
                         yTextPos = layoutRectangle.Y + layoutRectangle.Height / 2 - textVSpace / 2 + lineVSpace;
 
                     //Allineamento verticale
-                    if ((align & BaseObjConsts.DT_VCENTER) == BaseObjConsts.DT_VCENTER)
+                    if ((align & AlignType.DT_VCENTER) == AlignType.DT_VCENTER)
                         xTextPos = layoutRectangle.X + layoutRectangle.Width / 2 - textWidth / 2;
-                    if ((align & BaseObjConsts.DT_BOTTOM) == BaseObjConsts.DT_BOTTOM)
-                        xTextPos = (align & BaseObjConsts.DT_EX_90) != 0 ? layoutRectangle.X : layoutRectangle.X + layoutRectangle.Width - textWidth;
+                    if ((align & AlignType.DT_BOTTOM) == AlignType.DT_BOTTOM)
+                        xTextPos = (align & AlignType.DT_EX_90) != 0 ? layoutRectangle.X : layoutRectangle.X + layoutRectangle.Width - textWidth;
                 }
 
                 /*SCOMMENTARE PER AUSILIO VISIVO IN DEBUG*/
@@ -1072,7 +1072,7 @@ namespace Microarea.RSWeb.Render
             ///CON AGGIUNTA DELLA CENTRATURA VERTICALE
             ///</summary>
             //------------------------------------------------------------------------------
-            internal void DrawStringExtended(XGraphics xg, XTextFormatter formatter, XBrush brush, XRect layoutRectangle, int align)
+            internal void DrawStringExtended(XGraphics xg, XTextFormatter formatter, XBrush brush, XRect layoutRectangle, AlignType align)
             {
                 string text = formatter.Text;
                 XFont font = formatter.Font;
@@ -1087,7 +1087,7 @@ namespace Microarea.RSWeb.Render
                 if (text.Length == 0)
                     return;
 
-                if ((align & (BaseObjConsts.DT_EX_90 | BaseObjConsts.DT_EX_270)) != 0)
+                if ((align & (AlignType.DT_EX_90 | AlignType.DT_EX_270)) != 0)
                 {
                     DrawRotatedString(xg, formatter, brush, layoutRectangle, align);
                     return;
@@ -1107,9 +1107,9 @@ namespace Microarea.RSWeb.Render
                 //BEGIN FIX-IMPLEMENTAZIONE: centratura verticale
                 double fullTextHeight = lineSpace * GetNumLine(); //altezza complessiva nel caso il testo vada su piu linee
 
-                if ((align & BaseObjConsts.DT_VCENTER) == BaseObjConsts.DT_VCENTER)
+                if ((align & AlignType.DT_VCENTER) == AlignType.DT_VCENTER)
                     layoutRectangle.Offset(0, (layoutRectangle.Height - fullTextHeight) / 2.0);
-                if ((align & BaseObjConsts.DT_BOTTOM) == BaseObjConsts.DT_BOTTOM)
+                if ((align & AlignType.DT_BOTTOM) == AlignType.DT_BOTTOM)
                     layoutRectangle.Offset(0, layoutRectangle.Height - fullTextHeight);
                 //END FIX
 
