@@ -20,10 +20,11 @@ export class ReportFieldrectComponent implements AfterViewInit {
 
   applyStyle(): any {
     let obj = {
-      'position': 'relative',
+      'position': 'absolute',
       'left': this.rect.rect.left + 'px',
       'top': this.rect.rect.top + 'px',
-      'width': this.rect.rect.right - this.rect.rect.left + 'px'
+      'width': this.rect.rect.right - this.rect.rect.left + 'px',
+      'margin': '1em'
     };
     return obj;
   }
@@ -31,7 +32,6 @@ export class ReportFieldrectComponent implements AfterViewInit {
   applyValueStyle(): any {
     let obj = {
       'position': 'relative',
-      'text-align': 'center',
       'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
       'background-color': this.rect.bkgcolor,
@@ -42,7 +42,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'border-top': this.rect.borders.top ? this.rect.pen.width + 'px' : '0px',
       'border-style': 'solid',
       'font-family': this.rect.font.face,
-      'font-size': this.rect.font.size,
+      'font-size': this.rect.font.size + 'px',
       'font-style': this.rect.font.italic ? 'italic' : 'normal',
       'font-weight': this.rect.font.bold ? 'bold' : 'normal',
       'text-decoration': this.rect.font.underline ? 'underline' : 'none',
@@ -56,7 +56,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'position': 'relative',
       'text-align': 'right',
       'font-family': this.rect.label.font.face,
-      'font-size': this.rect.label.font.size,
+      'font-size': this.rect.label.font.size + 'px',
       'font-style': this.rect.label.font.italic ? 'italic' : 'normal',
       'font-weight': this.rect.label.font.bold ? 'bold' : 'normal',
       'text-decoration': this.rect.label.font.underline ? 'underline' : 'none',

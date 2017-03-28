@@ -143,6 +143,7 @@ export class table extends baseobj {
   obj: ReportObjectType = ReportObjectType.table;
   column_number: number;
   row_number: number;
+  row_height: number;
   title: title;
   hide_columns_title: boolean;
   fiscal_end: boolean;
@@ -154,6 +155,7 @@ export class table extends baseobj {
     super(jsonObj.baseobj);
     this.column_number = jsonObj.column_number;
     this.row_number = jsonObj.row_number;
+    this.row_height = jsonObj.row_height;
     this.title = jsonObj.title ? new title(jsonObj.title) : undefined;
     this.hide_columns_title = jsonObj.hide_columns_title;
     this.fiscal_end = jsonObj.fiscal_end;
