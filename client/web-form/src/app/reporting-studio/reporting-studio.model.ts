@@ -61,11 +61,13 @@ export class graphrect extends sqrrect {
 
   obj: ReportObjectType = ReportObjectType.graphrect;
   value: string;
-  align: string;
+  text_align: string;
+  vertical_align: string;
 
   constructor(jsonObj: any) {
     super(jsonObj.sqrrect);
-    this.align = jsonObj.align;
+    this.text_align = jsonObj.text_align;
+    this.vertical_align = jsonObj.vertical_align;
     this.value = jsonObj.value ? jsonObj.value : '';
   };
 }
@@ -93,14 +95,16 @@ export class textrect extends baserect {
   value: string;
   bkgcolor: string;
   textcolor: string;
-  align: string;
+  text_align: string;
+  vertical_align: string;
   font: font;
   value_is_html: boolean;
   value_is_barcode: boolean;
 
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
-    this.align = jsonObj.align;
+    this.text_align = jsonObj.text_align;
+    this.vertical_align = jsonObj.vertical_align;
     this.value = jsonObj.value ? jsonObj.value : '';
     this.bkgcolor = jsonObj.bkgcolor;
     this.textcolor = jsonObj.textcolor;
@@ -116,7 +120,8 @@ export class fieldrect extends baserect {
   value: string = '';
   label: label;
   font: font;
-  align: string;
+  text_align: string;
+  vertical_align: string;
   bkgcolor: string;
   textcolor: string;
   value_is_html: boolean;
@@ -129,7 +134,8 @@ export class fieldrect extends baserect {
     this.label = jsonObj.label ? new label(jsonObj.label) : null;
 
     this.font = new font(jsonObj.font);
-    this.align = jsonObj.align;
+    this.text_align = jsonObj.text_align;
+    this.vertical_align = jsonObj.vertical_align;
     this.bkgcolor = jsonObj.bkgcolor;
     this.textcolor = jsonObj.textcolor;
     this.value_is_html = jsonObj.value_is_html;
@@ -203,12 +209,14 @@ export class label {
   caption: string;
   textcolor: string;
   font: font;
-  align: string;
+  text_align: string;
+  vertical_align: string;
   constructor(jsonObj: any) {
     this.caption = jsonObj.caption ? jsonObj.caption : '';
     this.textcolor = jsonObj.textcolor;
     this.font = new font(jsonObj.font);
-    this.align = jsonObj.align;
+    this.text_align = jsonObj.text_align;
+    this.vertical_align = jsonObj.vertical_align;
   }
 }
 
@@ -269,7 +277,8 @@ export class title {
   borders: borders;
   textcolor: string;
   bkgcolor: string;
-  align: string;
+  text_align: string;
+  vertical_align: string;
   font: font;
   tooltip: string;
   constructor(jsonObj: any) {
@@ -279,7 +288,8 @@ export class title {
     this.borders = new borders(jsonObj.borders);
     this.textcolor = jsonObj.textcolor;
     this.bkgcolor = jsonObj.bkgcolor;
-    this.align = jsonObj.align;
+    this.text_align = jsonObj.text_align;
+    this.vertical_align = jsonObj.vertical_align;
     this.font = new font(jsonObj.font);
     this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';
   }
@@ -290,7 +300,8 @@ export class column_total {
   rect: rect;
   textcolor: string;
   bkgcolor: string;
-  align: string;
+  text_align: string;
+  vertical_align: string;
   font: font;
   borders: borders;
   pen: borderpen;
@@ -298,7 +309,8 @@ export class column_total {
   constructor(jsonObj: any) {
     this.textcolor = jsonObj.cell.textcolor;
     this.bkgcolor = jsonObj.cell.bkgcolor;
-    this.align = jsonObj.cell.align;
+    this.text_align = jsonObj.text_align;
+    this.vertical_align = jsonObj.vertical_align;
     this.font = new font(jsonObj.cell.font);
     this.borders = new borders(jsonObj.borders);
     this.pen = new borderpen(jsonObj.pen);
@@ -313,7 +325,8 @@ export class cell {
   pen: borderpen;
   textcolor: string;
   bkgcolor: string;
-  align: string;
+  text_align: string;
+  vertical_align: string;
   font: font;
   tooltip: string;
 
@@ -321,7 +334,8 @@ export class cell {
     this.borders = new borders(jsonObj.borders);
     this.textcolor = jsonObj.textcolor;
     this.bkgcolor = jsonObj.bkgcolor;
-    this.align = jsonObj.align;
+    this.text_align = jsonObj.text_align;
+    this.vertical_align = jsonObj.vertical_align;
     this.font = new font(jsonObj.font);
     this.tooltip = jsonObj.tooltip;
     this.id = id;
