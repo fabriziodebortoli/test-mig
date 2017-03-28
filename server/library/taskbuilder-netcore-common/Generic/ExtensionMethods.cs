@@ -563,12 +563,26 @@ namespace Microarea.Common.Generic
             return n.ToJson(name, bracket);
         }
 
-        public static string ToHtml_align(this AlignType a, string name = "align", bool bracket = false)
+        public static string ToHtml_align(this AlignType a, bool bracket = false)
         {
-            //TODO RSWEB 
-            string s = "text-align:center;vertical-align:middle";
+            string textAlign = "left";
+            if ((a & AlignType.DT_RIGHT) == AlignType.DT_RIGHT)
+                textAlign = "right";
+            else if ((a & AlignType.DT_CENTER) == AlignType.DT_CENTER)
+                textAlign = "center";
 
-            return s.ToJson(name, bracket, false, true);
+            string verticalAlign = "text-top";
+            if ((a & AlignType.DT_BOTTOM) == AlignType.DT_BOTTOM)
+                verticalAlign = "text-bottom";
+            else if ((a & AlignType.DT_VCENTER) == AlignType.DT_VCENTER)
+                verticalAlign = "middle";
+
+            string s = textAlign.ToJson("text_align") + ',' + verticalAlign.ToJson("vertical_align");
+  
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
         }
 
         public static string ToJson(this Rectangle rect, string name = "rect", bool bracket = false)
