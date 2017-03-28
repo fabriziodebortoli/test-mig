@@ -69,11 +69,13 @@ namespace Microarea.Common.StringLoader
 		/// <param name="file">Il percorso del file da caricare</param>
 		//---------------------------------------------------------------------
 		public /*override*/ void Load(string file)
-		{	
-			base.Load (File.OpenRead(file));
-			fileName = file;
+		{
+            FileStream stream = File.OpenRead(file);
+            base.Load(stream);
+            fileName = file;
 			if (pathFinder != null && Helper.Culture != string.Empty)
 				LoadTransform();
+            stream.Dispose(); // release also xml file handle
 		}
 
 		//---------------------------------------------------------------------
