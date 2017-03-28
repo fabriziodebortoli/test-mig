@@ -41,12 +41,16 @@ export class ReportTableComponent {
       'font-style': this.table.title.font.italic ? 'italic' : 'normal',
       'font-weight': this.table.title.font.bold ? 'bold' : 'normal',
       'text-decoration': this.table.title.font.underline ? 'underline' : 'none',
-      'text-align': 'center'
+      'text-align': this.table.title.vertical_align
     };
 
     return obj;
   }
 
+  // -----------------------------------------------------
+  getWidth(): any {
+    return this.table.rect.right - this.table.rect.left;
+  }
   // -----------------------------------------------------
   getTableStyle(): any {
     let obj = {
@@ -86,8 +90,8 @@ export class ReportTableComponent {
       'border-style': 'solid',
       'height': (column.title.rect.bottom - column.title.rect.top) + 'px',
       'padding': '0px',
-      'text-align': 'center',
-      'vertical-align': 'middle'
+      'text-align': column.title.text_align,
+      'vertical-align': column.title.vertical_align
     };
     return obj;
   }
@@ -111,7 +115,6 @@ export class ReportTableComponent {
     let obj = {
       'height': '100%',
       'width': '100%',
-
       'background-color': specStyle.bkgcolor === undefined ? defStyle.bkgcolor : specStyle.bkgcolor,
       'border-color': defStyle.pen.color,
       'border-left': specStyle.borders !== undefined ? (specStyle.borders.left ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.left ? defStyle.pen.width + 'px' : '0px'),
@@ -119,6 +122,8 @@ export class ReportTableComponent {
       'border-bottom': specStyle.borders !== undefined ? (specStyle.borders.bottom ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.bottom ? defStyle.pen.width + 'px' : '0px'),
       'border-top': specStyle.borders !== undefined ? (specStyle.borders.top ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.top ? defStyle.pen.width + 'px' : '0px'),
       'border-style': 'solid',
+      'vertical-align': defStyle.vertical_align,
+      'padding-left': '2px',
     };
     return obj;
   }
@@ -129,6 +134,7 @@ export class ReportTableComponent {
     let specStyle: any = dataItem[colId];
 
     let obj = {
+      'text-align': defStyle.text_align,
       'color': specStyle.textcolor === undefined ? defStyle.textcolor : specStyle.textcolor,
       'background-color': specStyle.bkgcolor === undefined ? defStyle.bkgcolor : specStyle.bkgcolor,
       'font-family': specStyle.font === undefined ? defStyle.font.face : specStyle.font.face,

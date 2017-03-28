@@ -24,7 +24,8 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'left': this.rect.rect.left + 'px',
       'top': this.rect.rect.top + 'px',
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
-      'margin': '1em'
+      'margin': '1em',
+      'vertical-align': this.rect.vertical_align
     };
     return obj;
   }
@@ -47,6 +48,9 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'font-weight': this.rect.font.bold ? 'bold' : 'normal',
       'text-decoration': this.rect.font.underline ? 'underline' : 'none',
       'color': this.rect.textcolor,
+      'border-radius': this.rect.ratio + 'px',
+      'text-align': this.rect.text_align,
+      'box-shadow': this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_color
     };
     return obj;
   }
