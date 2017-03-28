@@ -2,22 +2,33 @@
     <tb-toolbar-top>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.PlayFilled.png" caption="Run Report" *ngIf="!running"
             (click)="RunReport()"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Stop.png" caption="Stop Report" (click)="StopReport()" *ngIf="running" ></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowNextFilled.png" caption="Next Page" (click)="NextPage()" *ngIf="running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowPrevFilled.png" caption="Previous Page" (click)="PrevPage()" *ngIf="running"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Stop.png" caption="Stop Report" (click)="StopReport()"
+            *ngIf="running"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowNextFilled.png" caption="Next Page" (click)="NextPage()"
+            *ngIf="running"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ArrowPrevFilled.png" caption="Previous Page" (click)="PrevPage()"
+            *ngIf="running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Find.png" caption="Search"></tb-toolbar-top-button>
     </tb-toolbar-top>
-    <tb-view>
-        <div *ngFor="let item of objects" >
-            <div [ngSwitch]="item.obj">
+    <tb-frame-content>
+        <tb-view-container>
+            <tb-view>
+                <div [ngStyle]="layoutBackStyle">
+                    <div [ngStyle]="layoutStyle">
+                        <div *ngFor="let item of objects">
+                            <div [ngSwitch]="item.obj">
 
-                <rs-textrect  [rect]="item" *ngSwitchCase="0"> </rs-textrect>
-                <rs-fieldrect [rect]="item" *ngSwitchCase="1"> </rs-fieldrect>
-                <rs-table [table]="item" *ngSwitchCase="2"> </rs-table>
-            </div>
-        </div>
-    </tb-view>
-    <tb-toolbar-bottom >
+                                <rs-textrect [rect]="item" *ngSwitchCase="0"> </rs-textrect>
+                                <rs-fieldrect [rect]="item" *ngSwitchCase="1"> </rs-fieldrect>
+                                <rs-table [table]="item" *ngSwitchCase="2"> </rs-table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tb-view>
+        </tb-view-container>
+    </tb-frame-content>
+    <tb-toolbar-bottom>
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Radar.png" caption="Radar" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button> -->
         <tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Save.png" caption="Save"></tb-toolbar-bottom-button>
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Escape.png" caption="Undo Changes" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>-->

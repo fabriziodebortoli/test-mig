@@ -1,7 +1,7 @@
 import {
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DockpaneComponent, TabberComponent, TabComponent, TileManagerComponent,
-  TileGroupComponent, TileComponent, ViewComponent,
+  TileGroupComponent, TileComponent, ViewComponent, SelectorComponent,
   TilePanelComponent, LayoutContainerComponent, FrameComponent
 } from './containers';
 
@@ -53,7 +53,7 @@ const KENDO_UI_MODULES = [
 const TB_COMPONENTS = [
   PageNotFoundComponent,
   TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent,
-  // TopbarSearchComponent,
+  FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent, SelectorComponent,
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   TabComponent, TabberComponent,
   ViewComponent, DockpaneComponent, FrameComponent, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
@@ -79,7 +79,7 @@ const TB_COMPONENTS = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent],
+  declarations: [TB_COMPONENTS],
   exports: [TB_COMPONENTS],
   entryComponents: [OpenComponent, SaveComponent]
 })

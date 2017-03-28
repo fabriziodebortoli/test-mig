@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Output, EventEmitter, OnInit, AfterContentInit, Input, ViewChild, ElementRef, ContentChildren, QueryList } from '@angular/core';
+import { AfterViewInit, Component, Output, EventEmitter, OnInit, AfterContentInit, Input, ViewChild, ElementRef, ContentChildren, QueryList, HostListener } from '@angular/core';
 import { LayoutService } from './../../../../core/layout.service';
 import { TbComponent } from '../../../';
 import { TabComponent } from '../tab/tab.component';
@@ -26,13 +26,19 @@ export class TabberComponent implements AfterContentInit {
     return this.tabs.toArray();
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.calcViewHeight();
+  }
+  calcViewHeight() {
+    this.viewHeight = this.tabContent ? this.tabContent.nativeElement.offsetHeight : 0;
+    this.layoutService.setViewHeight(this.viewHeight);
+    console.log("viewHeight", this.viewHeight);
+  }
+
   ngAfterContentInit() {
 
-    setTimeout(() => {
-      this.viewHeight = this.tabContent ? this.tabContent.nativeElement.offsetHeight : 0;
-      this.layoutService.setViewHeight(this.viewHeight);
-      console.log("viewHeight", this.viewHeight);
-    }, 0);
+    setTimeout(() => this.calcViewHeight(), 0);
 
     // get all active tabs
     let activeTabs = this.tabs.filter((tab) => tab.active);

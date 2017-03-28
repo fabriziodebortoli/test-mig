@@ -9,7 +9,11 @@ import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
   styleUrls: ['./menu-container.component.scss']
 })
 export class MenuContainerComponent implements OnInit, OnDestroy {
+
   private selectedMenuChangedSubscription;
+
+  private tiles: any[];
+
   constructor(
     private menuService: MenuService,
     private utilsService: UtilsService,
@@ -57,6 +61,8 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
     let idx = this.findTabIndexByMenu();
     if (idx >= 0 && !this.tabber.tabs[idx].active)
       this.tabber.selectTab(this.tabber.tabs[idx]);
+
+    this.tiles = this.getTiles();
   }
 
   findTabIndexByMenu(): number {
