@@ -1,4 +1,4 @@
-import { IDD_SALEFORECASTSFactoryComponent } from './../applications/erp/mrp/saleforecasts/IDD_SALEFORECASTS.component';
+
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
@@ -27,7 +27,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private subMessage: Subscription;
   private message: any = '';
   private running: boolean = false;
-
+  public layoutStyle: any = {};
+  public layoutBackStyle: any = {};
   public objects: baseobj[] = [];
   public templates: TemplateItem[] = [];
 
@@ -173,7 +174,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.objects = [];
     if (this.rsService.pageNum !== msg.page.page_number) { return; }
     this.rsService.currLayout = msg.page.layout.name;
-
+    this.setDocumentStyle(msg.page);
     for (let index = 0; index < msg.page.layout.objects.length; index++) {
       let element = msg.page.layout.objects[index];
       let obj;
@@ -186,16 +187,16 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       else if (element.table !== undefined) {
         obj = new table(element.table);
       }
-      else if (element.graphrect !== undefined) {
-        obj = new graphrect(element.fieldrect);
-      }
-      else if (element.sqrrect !== undefined) {
-        obj = new sqrrect(element.fieldrect);
-      }
-      else if (element.repeater !== undefined) {
-        obj = new repeater(element.fieldrect);
-      }
-       this.objects.push(obj);
+      /*  else if (element.graphrect !== undefined) {
+          obj = new graphrect(element.fieldrect);
+        }
+        else if (element.sqrrect !== undefined) {
+          obj = new sqrrect(element.fieldrect);
+        }
+        else if (element.repeater !== undefined) {
+          obj = new repeater(element.fieldrect);
+        }*/
+      this.objects.push(obj);
     }
   }
 
@@ -254,13 +255,31 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
       //TODO to complete
 
-     //attributi dinamici, almeno hidden 
-     //else if (element.sqrrect !== undefined) {
-     //else if (element.graphrect !== undefined) {
-     //else if (element.repeater !== undefined) {
+      //attributi dinamici, almeno hidden 
+      //else if (element.sqrrect !== undefined) {
+      //else if (element.graphrect !== undefined) {
+      //else if (element.repeater !== undefined) {
     }
   }
 
+  // -----------------------------------------------
+  setDocumentStyle(layout: any) {
+
+    this.layoutStyle = {
+      'width': layout.pageinfo.width + 'px',
+      'height': layout.pageinfo.length + 'px',
+      'background-color': 'white',
+      'position': 'relative'
+    }
+    this.layoutBackStyle = {
+      'width': '100%',
+      'height': '100%',
+      'background-color': 'gray',
+      'position': 'relative'
+    }
+  }
+
+  // -----------------------------------------------
   private FindObj(id: string): any {
     for (let key in this.objects) {
       if (this.objects.hasOwnProperty(key)) {

@@ -235,7 +235,11 @@ namespace Microarea.DataService.Models
                     }
 
                     rows += '\"' + f.Name.Replace('.', '_') + "\":";
-                    if (string.Compare(f.DataType, "string", true) == 0)
+                    if (
+                            string.Compare(f.DataType, "string", true) == 0 || 
+                            string.Compare(f.DataType, "date", true) == 0 ||
+                            string.Compare(f.DataType, "datetime", true) == 0
+                       )
                     {
                         string s = o.ToString();
 

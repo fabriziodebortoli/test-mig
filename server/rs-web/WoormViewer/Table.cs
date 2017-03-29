@@ -2499,7 +2499,7 @@ namespace Microarea.RSWeb.Objects
                 this.ColumnNumber.ToJson("column_number") + ',' +
                 this.RowNumber.ToJson("row_number") + ',' +
 
-                //this.BaseCellsRect.ToJson("cells_rect") + ',' +
+                this.Columns[0].Cells[0].RectCell.Height.ToJson("row_height") + ',' +
 
                 (!this.HideTableTitle ? (
                     "\"title\":{" +

@@ -1,14 +1,14 @@
 {
   "version": "1.0.0-*",
 
-    "dependencies": {
-        "Npgsql": "3.2.0",
-        "NuGet.CommandLine": "3.5.0",
-        "System.Data.SqlClient": "4.3.0"
-    },
+  "dependencies": {
+    "Npgsql": "3.2.2",
+    "NuGet.CommandLine": "3.5.0",
+    "System.Data.SqlClient": "4.3.0"
+  },
 
    "frameworks": {
-    "netcoreapp1.1": {
+    "netcoreapp1.1.1": {
     }
   }
 

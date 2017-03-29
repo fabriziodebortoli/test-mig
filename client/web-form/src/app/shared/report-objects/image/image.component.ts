@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ReportObject } from './../../../reporting-studio.model';
+// import { ReportObject } from './../../../reporting-studio.model';
 
 @Component({
   selector: 'rs-image',
@@ -8,7 +8,7 @@ import { ReportObject } from './../../../reporting-studio.model';
 })
 export class ReportObjectImageComponent implements OnInit {
 
-  @Input() ro: ReportObject;
+  // @Input() ro: ReportObject;
 
   constructor() { }
 

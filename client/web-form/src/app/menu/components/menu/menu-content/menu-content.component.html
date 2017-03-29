@@ -1,20 +1,13 @@
-<div class="tile">
+<md-card *ngIf="tile != undefined">
 
-<div *ngIf="tile != undefined">
-  <div class="header">
-    <div class="tileTitleFont">
-      <!--tooltip-placement="top" tooltip-append-to-body="true" uib-tooltip="{{::menuService.getTileTooltip(tile)}}" tooltip-popup-delay="500" tooltip-animation="false"  ng-bind-html="firstWord(tile.title)" -->
-      {{tile.title}}
-    </div>
-  </div>
+    <md-card-title>
+        <span>{{tile.title}}</span>
+    </md-card-title>
 
-  <div class="tileContent">
-    <div *ngFor="let object of utilsService.toArray(tile.Object)"  (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">
-      <tb-menu-element [object]="object"></tb-menu-element>
-      
-    </div>
-  </div>
+    <md-card-content>
+        <div *ngFor="let object of getObjects();" (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">
+            <tb-menu-element [object]="object"></tb-menu-element>
+        </div>
+    </md-card-content>
 
-</div>
-
-</div>
+</md-card>
