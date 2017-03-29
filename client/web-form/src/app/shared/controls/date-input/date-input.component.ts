@@ -46,6 +46,7 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
   public handleChange(value: Date): void {
     this.onUpdateModel(value);
     this.onClickM();
+    this.resetParams();
   }
 
   onClickM(): void {
@@ -55,7 +56,7 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
 
   onBlur(): void {
     if (! this.doubleEvent) 
-      this.switchP = !this.switchP;
+      this.switchP = false;
   }
 
   private press(): void { // necessario per evitare che sul ckick di chiusura, il blur annulli il click
