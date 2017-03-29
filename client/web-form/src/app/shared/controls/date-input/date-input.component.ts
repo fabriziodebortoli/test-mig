@@ -55,8 +55,7 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
 
   onBlur(): void {
     if (! this.doubleEvent) 
-      return;
-    this.switchP = !this.switchP;
+      this.switchP = !this.switchP;
   }
 
   private press(): void { // necessario per evitare che sul ckick di chiusura, il blur annulli il click
