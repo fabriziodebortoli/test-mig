@@ -1,7 +1,7 @@
 import { ComponentService } from './../../core/component.service';
 import { HttpService } from './../../core/http.service';
 import { UtilsService } from './../../core/utils.service';
-import { Injectable, EventEmitter, ComponentFactoryResolver } from '@angular/core';
+import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { HttpMenuService } from './http-menu.service';
@@ -14,9 +14,9 @@ import { Logger } from 'libclient';
 @Injectable()
 export class MenuService {
 
-    public selectedApplication: any;
-    public selectedGroup: any;
-    public selectedMenu: any;
+    private _selectedApplication: any;
+    private _selectedGroup: any;
+    private _selectedMenu: any;
 
     public applicationMenu: any;
     public environmentMenu: any;
@@ -29,7 +29,51 @@ export class MenuService {
     public searchSources: Array<any> = [];
     private ifMoreAppsExist: boolean;
 
+    get selectedMenu(): any {
+        return this._selectedMenu;
+    }
+
+    @Input()
+    set selectedMenu(menu: any) {
+        this._selectedMenu = menu;
+        if (menu != undefined) {
+            this.settingsService.lastMenuName = menu.name;
+            this.settingsService.setPreference('LastMenuName', encodeURIComponent(this.settingsService.lastMenuName), undefined);
+        }
+        this.selectedMenuChanged.emit();
+    }
+
+    get selectedGroup(): any {
+        return this._selectedGroup;
+    }
+
+    @Input()
+    set selectedGroup(group: any) {
+        this._selectedGroup = group;
+        if (group != undefined) {
+            this.settingsService.lastGroupName = group.name;
+            this.settingsService.setPreference('LastGroupName', encodeURIComponent(this.settingsService.lastGroupName), undefined);
+        }
+        this.selectedGroupChanged.emit();
+    }
+
+    get selectedApplication(): any {
+        return this._selectedApplication;
+    }
+
+    @Input()
+    set selectedApplication(application: any) {
+        this._selectedApplication = application;
+        if (application != undefined) {
+            this.settingsService.lastApplicationName = application.name;
+            this.settingsService.setPreference('LastApplicationName', encodeURIComponent(this.settingsService.lastApplicationName), undefined);
+        }
+        this.selectedApplicationChanged.emit();
+    }
+
     selectedMenuChanged: EventEmitter<any> = new EventEmitter(true);
+    selectedApplicationChanged: EventEmitter<any> = new EventEmitter(true);
+    selectedGroupChanged: EventEmitter<any> = new EventEmitter(true);
 
     constructor(
         private httpService: HttpService,
@@ -45,7 +89,7 @@ export class MenuService {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
 
     }
-   
+
     //---------------------------------------------------------------------------------------------
     initApplicationAndGroup(applications) {
 
@@ -104,8 +148,6 @@ export class MenuService {
         this.selectedApplication = application;
         this.selectedApplication.isSelected = true;
 
-        this.settingsService.lastApplicationName = application.name;
-        this.settingsService.setPreference('LastApplicationName', encodeURIComponent(this.settingsService.lastApplicationName), undefined);
 
         var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
         if (tempGroupArray[0] != undefined)
@@ -122,8 +164,6 @@ export class MenuService {
 
         this.selectedGroup = group;
         this.selectedGroup.isSelected = true;
-        this.settingsService.lastGroupName = group.name;
-        this.settingsService.setPreference('LastGroupName', encodeURIComponent(this.settingsService.lastGroupName), undefined);
 
         var tempMenuArray = this.utilsService.toArray(this.selectedGroup.Menu);
         if (tempMenuArray[0] != undefined)
@@ -147,14 +187,10 @@ export class MenuService {
         }
 
         this.selectedMenu = menu;
-        this.settingsService.lastMenuName = menu.name;
-        this.settingsService.setPreference('LastMenuName', encodeURIComponent(this.settingsService.lastMenuName), undefined);
         this.selectedMenu.active = true;
         menu.visible = true;
 
         // this.eventData.model.Title.value = "Menu > " + menu.name;
-
-        this.selectedMenuChanged.emit();
     }
 
     //---------------------------------------------------------------------------------------------
