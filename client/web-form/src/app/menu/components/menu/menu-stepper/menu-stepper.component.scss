@@ -7,15 +7,15 @@
   float: left; 
 }
 .breadcrumb li div {
-     color: white;
+      color: white;
     text-decoration: none;
-    padding: 5px 0 5px 65px;
+    padding: 4px 1px 2px 60px;
     background-color: #0277bd;
     position: relative;
     display: block;
     float: left;
     font-weight: 300;
-    font-size: small;
+    font-size: smaller;
 }
 
 .breadcrumb li div::after { 

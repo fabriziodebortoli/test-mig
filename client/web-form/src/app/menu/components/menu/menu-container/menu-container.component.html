@@ -1,22 +1,27 @@
 <tb-frame>
     <tb-toolbar-top></tb-toolbar-top>
+    <tb-menu-stepper></tb-menu-stepper>
     <tb-frame-content>
         <div class="menu-page">
-            <tb-menu-tabber #tabber (selectedTab)="changeTabByIndex($event)">
-                <tb-menu-tab [title]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService?.selectedGroup?.Menu)"></tb-menu-tab>
-            </tb-menu-tabber>
+            <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)">
+                <kendo-tabstrip-tab [title]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService?.selectedGroup?.Menu)">
 
-            <div class="wrap">
-                <tb-header-strip [title]="menuService?.selectedMenu?.title">
-                    <!--<tb-menu-stepper [Menu]="menuService?.applicationMenu"></tb-menu-stepper>-->
-                </tb-header-strip>
 
-                <div class="menu-container" *ngIf="menuService.selectedMenu != undefined">
-                    <div class="row around-xs">
-                        <tb-menu-content *ngFor="let tile of tiles" [tile]="tile" class="col-xs-12 col-sm-4 col-md-3" [class.limited]="tiles.length > 4"></tb-menu-content>
-                    </div>
-                </div>
-            </div>
+                    <template kendoTabContent>
+                        <div class="wrap">
+                            <!--<tb-header-strip [title]="menuService?.selectedMenu?.title"></tb-header-strip>-->
+                            <div class="menu-container" *ngIf="menuService.selectedMenu != undefined">
+                                <div class="row around-xs">
+                                    <tb-menu-content *ngFor="let tile of tiles" [tile]="tile" class="col-xs-12 col-sm-4 col-md-3" [class.limited]="tiles.length > 4"></tb-menu-content>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+                </kendo-tabstrip-tab>
+            </kendo-tabstrip>
+
         </div>
+
     </tb-frame-content>
 </tb-frame>
