@@ -13,15 +13,10 @@ import { WebSocketService } from './../../../core/websocket.service';
 
 export class ComboComponent extends ControlComponent implements OnChanges {
 
-    @Input()
-    itemSourceName: string;
-    @Input()
-    itemSourceNamespace: string;
-    @Input()
-    itemSourceParameter: string;
-
     private items: Array<any> = [];
     private selectedItem: any;
+    
+    public itemSource: any;
 
     constructor(
         private webSocketService: WebSocketService,
@@ -35,8 +30,7 @@ export class ComboComponent extends ControlComponent implements OnChanges {
 
     fillListBox() {
         this.items.slice(0, this.items.length);
-        let obj = { itemSourceName: this.itemSourceName, itemSourceNamespace: this.itemSourceNamespace, itemSourceParameter: this.itemSourceParameter };
-        this.eventDataService.openDropdown.emit(obj);
+        this.eventDataService.openDropdown.emit(this.itemSource);
     }
 
     onChange() {

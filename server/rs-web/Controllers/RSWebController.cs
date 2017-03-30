@@ -1,10 +1,19 @@
-﻿using System.Collections.Specialized;
+﻿using System;
 using System.Text;
+using System.Globalization;
+using System.IO;
+using System.Xml;
+using System.Net;
+using System.Collections.Specialized;
+
 using Microsoft.AspNetCore.Mvc;
+
+using TaskBuilderNetCore.Interfaces;
 
 using Microarea.Common.Applications;
 using Microarea.RSWeb.Render;
-using Microarea.RSWeb.Models;
+using Microarea.Common.NameSolver;
+using Microarea.Common.Generic;
 
 /*
 localhost:5000/rs/template/erp.company.isocountrycodes/1
@@ -21,6 +30,7 @@ namespace Microarea.RSWeb.Controllers
     [Route("rs")]
     public class RSWebController : Controller
     {
+        //---------------------------------------------------------------------
         [Route("xml/{namespace}")]
         public IActionResult GetXmlData(string nameSpace)
         {
@@ -57,6 +67,7 @@ namespace Microarea.RSWeb.Controllers
             return new ContentResult { Content = xmlResult, ContentType = "application/xml" };
         }
 
+        //---------------------------------------------------------------------
         [Route("pdf/{namespace}")]
         public IActionResult GetPdf(string nameSpace)
         {
@@ -85,7 +96,8 @@ namespace Microarea.RSWeb.Controllers
             return new ContentResult { Content = pdf.ToString(), ContentType = "application/pdf" };
         }
 
-        [Route("template/{namespace}/{page}")] // /{page}
+        //---------------------------------------------------------------------
+        [Route("template/{namespace}/{page}")] 
         public IActionResult GetJsonPageTemplate(string nameSpace, int page)
         {
             string sAuthT = HttpContext.Request.Cookies["authtoken"];
@@ -106,7 +118,54 @@ namespace Microarea.RSWeb.Controllers
             return new ContentResult { Content = pageLayout, ContentType = "application/json" };
         }
 
-        [Route("data/{namespace}/{page}")] // /{page}
+        //---------------------------------------------------------------------
+        [Route("image/{namespace}")] 
+        public IActionResult GetImage(string nameSpace)
+        {
+            string sAuthT = HttpContext.Request.Cookies["authtoken"];
+            if (string.IsNullOrEmpty(sAuthT))
+                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+
+            if (nameSpace.IsNullOrEmpty())
+                return new ContentResult { Content = "", ContentType = "application/text" }; 
+
+            string filename = nameSpace;
+            if (!System.IO.File.Exists(filename))
+            {
+                LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
+
+                UserInfo ui = new UserInfo(loginInfo, sAuthT);
+
+                PathFinder pathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
+
+                NameSpace ns = new NameSpace(nameSpace, NameSpaceObjectType.Image);
+                filename = pathFinder.GetFilename(ns, string.Empty);
+                if (filename == string.Empty)
+                    return new ContentResult { Content = "", ContentType = "application/text" };
+            }
+            if (!System.IO.File.Exists(filename))
+                return new ContentResult { Content = "", ContentType = "application/text" }; ;
+
+            string ext = System.IO.Path.GetExtension(filename);
+
+            using (/*StreamReader*/ FileStream f = System.IO.File.Open(filename, FileMode.Open))
+            {
+                //return sr.ReadByte ReadToEnd();
+                long len = f.Length;
+                byte[] ar = new byte[len];
+                int ret = f.Read(ar, 0, (int)len);
+
+                string s = Convert.ToBase64String(ar);
+
+                return new ContentResult { Content = s, ContentType = "image/" + ext };
+            }
+
+
+            
+        }
+
+        //---------------------------------------------------------------------
+        [Route("data/{namespace}/{page}")] 
         public IActionResult GetJsonPageData(string nameSpace, int page)
         {
             string sAuthT = HttpContext.Request.Cookies["authtoken"];
@@ -126,7 +185,6 @@ namespace Microarea.RSWeb.Controllers
 
             return new ContentResult { Content = pageLayout, ContentType = "application/json" };
         }
-
-
+        //---------------------------------------------------------------------
     }
 }

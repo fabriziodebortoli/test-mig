@@ -67,7 +67,7 @@ export class ComponentService {
       return;
     }
     let cmpName = tokens[1];
-    url = app + '/' + mod + '/' + cmpName;
+    url = app.toLowerCase() + '/' + mod.toLowerCase()+ '/' + cmpName;
     this.createComponentFromUrl(url).then(() => {
 
     });
