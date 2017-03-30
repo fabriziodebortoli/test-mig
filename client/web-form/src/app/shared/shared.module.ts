@@ -39,6 +39,7 @@ import { ContextMenuComponent } from './controls/context-menu/context-menu.compo
 import { ReportTextrectComponent } from './report-objects/textrect/textrect.component';
 import { ReportFieldrectComponent } from './report-objects/fieldrect/fieldrect.component';
 import { ReportTableComponent } from './report-objects/table/table.component';
+import { LabelStaticComponent } from './controls/label-static/label-static.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -59,7 +60,7 @@ const TB_COMPONENTS = [
   ViewComponent, DockpaneComponent, FrameComponent, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DynamicCmpComponent,
   EditComponent, CaptionComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
-  StateButtonComponent,
+  StateButtonComponent, LabelStaticComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
   LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective,
