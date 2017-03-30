@@ -187,10 +187,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       else if (element.table !== undefined) {
         obj = new table(element.table);
       }
-      /*  else if (element.graphrect !== undefined) {
-          obj = new graphrect(element.fieldrect);
+      else if (element.graphrect !== undefined) {
+          obj = new graphrect(element.graphrect);
+          //get image
         }
-        else if (element.sqrrect !== undefined) {
+        /*else if (element.sqrrect !== undefined) {
           obj = new sqrrect(element.fieldrect);
         }
         else if (element.repeater !== undefined) {
@@ -252,13 +253,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         }
         obj.value = value;
       }
-
-      //TODO to complete
-
-      //attributi dinamici, almeno hidden 
-      //else if (element.sqrrect !== undefined) {
-      //else if (element.graphrect !== undefined) {
-      //else if (element.repeater !== undefined) {
     }
   }
 

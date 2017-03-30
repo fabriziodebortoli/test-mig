@@ -1,3 +1,4 @@
+import { ReportObjectImageComponent } from './../shared/report-objects/image/image.component';
 import { SharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
 
@@ -22,7 +23,9 @@ import { ReportingStudioComponent, ReportingStudioFactoryComponent } from './rep
     ])
   ],
   declarations: [
-    ReportingStudioComponent, ReportingStudioHostComponent, ReportingStudioFactoryComponent
+    ReportingStudioComponent,
+    ReportingStudioHostComponent,
+    ReportingStudioFactoryComponent
   ],
   entryComponents:
   [

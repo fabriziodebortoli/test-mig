@@ -122,30 +122,30 @@ namespace Microarea.RSWeb.Controllers
         [Route("image/{namespace}")] 
         public IActionResult GetImage(string nameSpace)
         {
-            string sAuthT = HttpContext.Request.Cookies["authtoken"];
-            if (string.IsNullOrEmpty(sAuthT))
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+            /* string sAuthT = HttpContext.Request.Cookies["authtoken"];
+             if (string.IsNullOrEmpty(sAuthT))
+                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
-            if (nameSpace.IsNullOrEmpty())
-                return new ContentResult { Content = "", ContentType = "application/text" }; 
+             if (nameSpace.IsNullOrEmpty())
+                 return new ContentResult { Content = "", ContentType = "application/text" }; 
 
-            string filename = nameSpace;
-            if (!System.IO.File.Exists(filename))
-            {
-                LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
+             string filename = nameSpace;
+             if (!System.IO.File.Exists(filename))
+             {
+                 LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
 
-                UserInfo ui = new UserInfo(loginInfo, sAuthT);
+                 UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
-                PathFinder pathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
+                 PathFinder pathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
 
-                NameSpace ns = new NameSpace(nameSpace, NameSpaceObjectType.Image);
-                filename = pathFinder.GetFilename(ns, string.Empty);
-                if (filename == string.Empty)
-                    return new ContentResult { Content = "", ContentType = "application/text" };
-            }
-            if (!System.IO.File.Exists(filename))
-                return new ContentResult { Content = "", ContentType = "application/text" }; ;
-
+                 NameSpace ns = new NameSpace(nameSpace, NameSpaceObjectType.Image);
+                 filename = pathFinder.GetFilename(ns, string.Empty);
+                 if (filename == string.Empty)
+                     return new ContentResult { Content = "", ContentType = "application/text" };
+             }
+             /*if (!System.IO.File.Exists(filename))
+                 return new ContentResult { Content = "", ContentType = "application/text" }; ;                          */
+            string filename = "C:\\TB_4_0_ERP\\Standard\\Applications\\ERP\\Company\\Files\\Images";
             string ext = System.IO.Path.GetExtension(filename);
 
             using (/*StreamReader*/ FileStream f = System.IO.File.Open(filename, FileMode.Open))
@@ -154,6 +154,7 @@ namespace Microarea.RSWeb.Controllers
                 long len = f.Length;
                 byte[] ar = new byte[len];
                 int ret = f.Read(ar, 0, (int)len);
+
 
                 string s = Convert.ToBase64String(ar);
 

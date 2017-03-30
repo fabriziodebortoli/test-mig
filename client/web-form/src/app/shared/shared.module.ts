@@ -1,3 +1,4 @@
+
 import {
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DockpaneComponent, TabberComponent, TabComponent, TileManagerComponent,
@@ -39,6 +40,7 @@ import { ContextMenuComponent } from './controls/context-menu/context-menu.compo
 import { ReportTextrectComponent } from './report-objects/textrect/textrect.component';
 import { ReportFieldrectComponent } from './report-objects/fieldrect/fieldrect.component';
 import { ReportTableComponent } from './report-objects/table/table.component';
+import { ReportObjectImageComponent } from './report-objects/image/image.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -66,7 +68,7 @@ const TB_COMPONENTS = [
   HeaderStripComponent,
   OpenComponent, SaveComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent,
-  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent
+  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportObjectImageComponent
 ];
 
 @NgModule({

@@ -5,9 +5,9 @@ export interface Message {
   message?: string;
 }
 
-export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, DATA, STOP }
+export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, DATA, STOP, IMAGE }
 
-export enum ReportObjectType { textrect, fieldrect, table, sqrrect, graphrect, repeater, cell }
+export enum ReportObjectType { textrect, fieldrect, table, graphrect, sqrrect, repeater, cell }
 
 export class baseobj {
 
