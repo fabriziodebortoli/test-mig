@@ -15,7 +15,7 @@ import {ControlTypes} from '../control-types.enum';
 export class EditComponent extends ControlComponent{
     @Input() buttons: StateButton[] = [];
     @Input('controlType') controlType: ControlTypes;
-    @Input() contextMenu: MenuItem[] = [];
+    @Input() contextMenu: MenuItem[] = [{text: 'Menu1', id:'idd_menu1'}];
 
     controlTypeModel = ControlTypes;
      constructor(
