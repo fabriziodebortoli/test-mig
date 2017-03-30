@@ -64,7 +64,7 @@ export class BOService extends DocumentService {
         });
 
         this.openDropdownSubscription = this.eventData.openDropdown.subscribe( (obj: any) => {
-            this.webSocketService.doFillListBox(this.mainCmpId, obj.itemSourceName, obj.itemSourceNamespace, obj.itemSourceParameter);
+            this.webSocketService.doFillListBox(this.mainCmpId, obj);
         });
 
         

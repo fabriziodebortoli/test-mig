@@ -94,8 +94,8 @@ export class WebSocketService {
         }
     }
 
-     doFillListBox(cmpId: String, itemSourceName: string, itemSourceNamespace: string, itemSourceParameter: string): void {
-        let data = { cmd: 'doFillListBox', cmpId: cmpId, itemSourceName: itemSourceName, itemSourceNamespace: itemSourceNamespace, itemSourceParameter: itemSourceParameter };
+     doFillListBox(cmpId: String, itemSource: any): void {
+        let data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: itemSource };
         this.connection.send(JSON.stringify(data));
     }
 
