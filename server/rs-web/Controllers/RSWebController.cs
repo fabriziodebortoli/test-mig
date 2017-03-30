@@ -148,20 +148,9 @@ namespace Microarea.RSWeb.Controllers
 
             string ext = System.IO.Path.GetExtension(filename);
 
-            using (FileStream f = System.IO.File.Open(filename, FileMode.Open))
-            {
-                //return sr.ReadByte ReadToEnd();
-                //long len = f.Length;
-                //byte[] ar = new byte[len];
-                //int ret = f.Read(ar, 0, (int)len);
-
-                //string s = Convert.ToBase64String(ar);
-
-                return new FileStreamResult ( f , "image/" + ext );
-            }
-
-
-            
+            FileStream f = System.IO.File.Open(filename, FileMode.Open);
+              
+            return new FileStreamResult ( f , "image/" + ext );
         }
 
         //---------------------------------------------------------------------

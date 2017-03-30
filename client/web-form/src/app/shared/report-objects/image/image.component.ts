@@ -1,3 +1,4 @@
+import { environment } from './../../../../environments/environment';
 import { graphrect } from './../../../reporting-studio/reporting-studio.model';
 import { Component, Input } from '@angular/core';
 
@@ -11,8 +12,9 @@ export class ReportObjectImageComponent {
 
   @Input() image: graphrect;
   value = '';
-  constructor() { };
-
+  constructor() {
+   
+  };
   applyStyle(): any {
     let obj = {
       'position': 'absolute',
@@ -30,6 +32,7 @@ export class ReportObjectImageComponent {
       'border-radius': this.image.ratio + 'px',
       'box-shadow': this.image.shadow_height + 'px ' + this.image.shadow_height + 'px ' + this.image.shadow_height + 'px ' + this.image.shadow_color
     };
+     this.value = environment.baseUrl + 'rs/image/' + this.image.value;
     return obj;
   }
 

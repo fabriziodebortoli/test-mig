@@ -68,7 +68,7 @@ export class graphrect extends sqrrect {
     super(jsonObj.sqrrect);
     this.text_align = jsonObj.text_align;
     this.vertical_align = jsonObj.vertical_align;
-    this.value = jsonObj.value ? jsonObj.value : '';
+    this.value = jsonObj.image ? jsonObj.image : '';
   };
 }
 

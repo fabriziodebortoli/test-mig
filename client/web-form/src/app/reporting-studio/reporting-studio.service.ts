@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
@@ -12,7 +13,7 @@ export class ReportingStudioService extends DocumentService {
     public pageNum: number = 1;
     public currLayout: string = '';
 
-    private rsServer: string = 'ws://localhost:5000/rsweb';
+    private rsServer: string = environment.baseSocket + 'rsweb';
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
 
