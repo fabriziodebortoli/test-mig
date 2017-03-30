@@ -1,3 +1,4 @@
+$mf-font-size: 1rem !default;
 md-card {
     padding: 10px;
     margin: 10px;
@@ -7,18 +8,18 @@ md-card {
 md-card-title {
     position: relative;
     padding-right: 25px;
-    font-size: 14px;
+    font-size: 1.1rem;
 }
 
 md-card-title span {
-    font-size: 14px;
+    font-size: 1.1rem;
     font-weight: 700
 }
 
 md-card-title md-icon {
     position: absolute;
     right: 0;
-    font-size: 20px;
+    font-size: 1.1rem
 }
 
 :host(.h200) md-card-content {
