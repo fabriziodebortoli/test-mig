@@ -156,7 +156,7 @@ namespace Microarea.RSWeb.Controllers
 
             try
             {
-                FileStream f = System.IO.File.Open(filename, FileMode.Open);
+                FileStream f = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
 
                 return new FileStreamResult(f, "image/" + ext);
             }
