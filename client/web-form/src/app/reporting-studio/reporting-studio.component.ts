@@ -188,15 +188,14 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         obj = new table(element.table);
       }
       else if (element.graphrect !== undefined) {
-          obj = new graphrect(element.graphrect);
-          //get image
-        }
-        /*else if (element.sqrrect !== undefined) {
-          obj = new sqrrect(element.fieldrect);
-        }
-        else if (element.repeater !== undefined) {
-          obj = new repeater(element.fieldrect);
-        }*/
+        obj = new graphrect(element.graphrect);
+      }
+      else if (element.sqrrect !== undefined) {
+        obj = new sqrrect(element.sqrrect);
+      }
+      /* else if (element.repeater !== undefined) {
+         obj = new repeater(element.fieldrect);
+       }*/
       this.objects.push(obj);
     }
   }
