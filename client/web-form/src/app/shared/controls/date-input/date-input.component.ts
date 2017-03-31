@@ -1,6 +1,7 @@
 import { Component, Input, ViewChild, OnChanges } from '@angular/core';
 import { ControlComponent } from './../control.component';
-import { Align } from "@progress/kendo-angular-popup/dist/es/models/align.interface";
+import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
+import * as moment from 'moment';
 
 @Component({
   selector: 'tb-date-input',
