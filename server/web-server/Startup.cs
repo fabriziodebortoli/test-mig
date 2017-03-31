@@ -31,8 +31,6 @@ namespace WebApplication
 				.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
-
-
 			//if (env.IsDevelopment())
 			//{
 			//	// For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
@@ -82,8 +80,6 @@ namespace WebApplication
 			//     .AddEntityFrameworkStores<ApplicationDbContext>()
 			//     .AddDefaultTokenProviders();
 
-			services.AddSession();
-
 			// Add service and create Policy with options
 			services.AddCors(options =>
 			{
@@ -97,9 +93,17 @@ namespace WebApplication
             services.AddTransient<IAccountManagerProvider, AccountManagerProvider>();
 
 			// Assembly asm = Assembly.Load(new AssemblyName("ControllerLib"));
-			IMvcBuilder mvcBuilder = services.AddMvc();//.AddApplicationPart(asm);
+			IMvcBuilder mvcBuilder = services.AddMvc();
+
 			foreach (Assembly asm in modules)
 				mvcBuilder.AddApplicationPart(asm);
+
+            services.AddMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(20 * 60);
+                options.CookieHttpOnly = true;
+            });
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -107,32 +111,33 @@ namespace WebApplication
 		{
             app.UseCors("CorsPolicy");
 
+			app.UseSession();
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
+
 			logger = loggerFactory.CreateLogger("WebServer");
-
-
 
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				//TODO RICCARDO app.UseDatabaseErrorPage();
+
 				app.UseBrowserLink();
 			}
 			else
 			{
 				app.UseExceptionHandler("/Home/Error");
 			}
+
 			app.UseWebSockets();
+
 			//aggiungo gli handler di chiamata, mettere prima della UseFileServer()
 			foreach (var configurator in configurators)
 				configurator.Configure(app, env, loggerFactory);
+
 			//ATTENZIONE: se questa chiamata è messa prima di aggiungere degli handler di chiamata, questi non vengono chiamati!
 			app.UseFileServer();
-			
-			// Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-			app.UseSession();
-            
+
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
@@ -140,7 +145,9 @@ namespace WebApplication
                 foreach (var configurator in configurators)
 					configurator.MapRoutes(routes);
 			});
-		}
 
+			// Add external authentication middleware below. 
+            //To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+		}
 	}
 }

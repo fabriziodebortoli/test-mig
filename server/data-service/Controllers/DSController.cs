@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+
+using Microsoft.AspNetCore.Mvc;
 using Microarea.DataService.Models;
 using Microarea.Common.Applications;
 
@@ -7,18 +9,36 @@ namespace DataService.Controllers
     [Route("data-service")]
     public class DSController : Controller
     {
-        [Route("getdata/{namespace}/{selectiontype}")]
-        public IActionResult GetData(string nameSpace, string selectionType)
+        UserInfo GetLoginInformation()
         {
             string sAuthT = HttpContext.Request.Cookies["authtoken"];
             if (string.IsNullOrEmpty(sAuthT))
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+                return null;
 
-            //Microsoft.AspNetCore.Session["logininfo"];
-            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
+            Microsoft.AspNetCore.Http.ISession hsession = null;
+            try
+            {
+                hsession = HttpContext.Session;
+            }
+            catch (Exception ex)
+            {
+            }
+
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(hsession, sAuthT);
 
             UserInfo ui = new UserInfo(loginInfo, sAuthT);
- 
+
+            return ui;
+        }
+        //---------------------------------------------------------------------
+
+        [Route("getdata/{namespace}/{selectiontype}")]
+        public IActionResult GetData(string nameSpace, string selectionType)
+        {
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
+                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+
             TbSession session = new TbSession(ui, nameSpace);
 
             Datasource ds = new Datasource(session);
@@ -37,13 +57,9 @@ namespace DataService.Controllers
         [Route("getcolumns/{namespace}/{selectiontype}")]
         public IActionResult GetColumns(string nameSpace, string selectionType)
         {
-            string sAuthT = HttpContext.Request.Cookies["authtoken"];
-            if (string.IsNullOrEmpty(sAuthT))
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
-
-            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
-
-            UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
             TbSession session = new TbSession(ui, nameSpace);
 
@@ -56,20 +72,15 @@ namespace DataService.Controllers
             if (!ds.GetColumns(out columns))
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
-            //---------------------
             return new ContentResult { Content = columns, ContentType = "application/json" };
         }
 
         [Route("getselections/{namespace}")]
         public IActionResult GetSelectionTypes(string nameSpace)
         {
-            string sAuthT = HttpContext.Request.Cookies["authtoken"];
-            if (string.IsNullOrEmpty(sAuthT))
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
-
-            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
-
-            UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
             TbSession session = new TbSession(ui, nameSpace);
 
@@ -79,20 +90,15 @@ namespace DataService.Controllers
             if (!ds.GetSelectionTypes(out list))
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
-            //---------------------
             return new ContentResult { Content = list, ContentType = "application/json" };
         }
 
         [Route("getparameters/{namespace}")]
         public IActionResult GetParameters(string nameSpace)
         {
-            string sAuthT = HttpContext.Request.Cookies["authtoken"];
-            if (string.IsNullOrEmpty(sAuthT))
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
-
-            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
-
-            UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
             TbSession session = new TbSession(ui, nameSpace);
 
@@ -102,7 +108,6 @@ namespace DataService.Controllers
             if (!ds.GetParameters(out list))
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
 
-            //---------------------
             return new ContentResult { Content = list, ContentType = "application/json" };
         }
 

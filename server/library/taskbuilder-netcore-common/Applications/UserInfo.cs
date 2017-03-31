@@ -16,6 +16,7 @@ using Microarea.Common.Applications;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using Microarea.Common.WebServicesWrapper;
+using Microsoft.AspNetCore.Http;
 
 namespace Microarea.Common.Applications
 {
@@ -173,7 +174,32 @@ namespace Microarea.Common.Applications
         public string preferredLanguage { get; set; }
         public string applicationLanguage { get; set; }
 
+        public static LoginInfoMessage GetLoginInformation(Microsoft.AspNetCore.Http.ISession session, string authtoken)
+        {
+            string loginInfo = session != null ? session.GetString(authtoken) : string.Empty;
+            if (loginInfo.IsNullOrEmpty())
+            {
+                loginInfo = GetRemoteLoginInformation(authtoken).Result;
+
+                if (session != null && !loginInfo.IsNullOrEmpty())
+                    session.SetString(authtoken, loginInfo);
+            }
+
+            LoginInfoMessage msg = JsonConvert.DeserializeObject<LoginInfoMessage>(loginInfo);
+            return msg;
+        }
+
         public static async Task<LoginInfoMessage> GetLoginInformation(string authtoken)
+        {
+            string loginInfo = GetRemoteLoginInformation(authtoken).Result;
+            if (loginInfo.IsNullOrEmpty())
+                return null;
+
+            LoginInfoMessage msg = JsonConvert.DeserializeObject<LoginInfoMessage>(loginInfo);
+            return msg;
+        }
+
+        public static async Task<string> GetRemoteLoginInformation(string authtoken)
         {
             using (var client = new HttpClient())
             {
@@ -190,9 +216,7 @@ namespace Microarea.Common.Applications
                     response.EnsureSuccessStatusCode(); // Throw in not success
 
                     var stringResponse = await response.Content.ReadAsStringAsync();
-                    LoginInfoMessage msg = JsonConvert.DeserializeObject<LoginInfoMessage>(stringResponse);
-                    return msg;
-
+                    return stringResponse;
                 }
                 catch (HttpRequestException e)
                 {
@@ -201,12 +225,6 @@ namespace Microarea.Common.Applications
                 }
             }
         }
-    }
-
-/// ================================================================================
-    public class SessionKey
-    {
-        public static string ReportPath = "ReportNameSpace";
     }
 
 }

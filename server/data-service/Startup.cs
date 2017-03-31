@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Microarea.DataService.Models;
+using System;
 
 namespace Microarea.DataService
 {
@@ -46,21 +47,29 @@ namespace Microarea.DataService
             });
 
             services.AddMvc();
+
+            services.AddMemoryCache();  
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(20 * 60);
+                options.CookieHttpOnly = true;
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+           app.UseCors("CorsPolicy");
 
-            app.UseStaticFiles();
+           app.UseSession();
 
-            app.UseCors("CorsPolicy");
+           app.UseStaticFiles();
 
-            app.UseMvc();
+           loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+           loggerFactory.AddDebug();
 
-
+           app.UseMvc();
         }
     }
 }
