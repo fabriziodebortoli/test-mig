@@ -1,5 +1,4 @@
-import { EventDataService } from './../../../core/eventdata.service';
-import { Component, OnInit,  Input, ViewChild, OnChanges } from '@angular/core';
+import { Component, Input, ViewChild, OnChanges } from '@angular/core';
 import { ControlComponent } from './../control.component';
 import { Align } from "@progress/kendo-angular-popup/dist/es/models/align.interface";
 
@@ -9,7 +8,7 @@ import { Align } from "@progress/kendo-angular-popup/dist/es/models/align.interf
   styleUrls: ['./date-input.component.scss']
 })
 
-export class DateInputComponent extends ControlComponent implements OnInit, OnChanges {
+export class DateInputComponent extends ControlComponent implements OnChanges {
   @Input() forCmpID: string;
   @ViewChild('kendoMaskedTextBoxInstance') kendoMasked: any;
   anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
@@ -18,7 +17,7 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
   placeHolder = '__';
   separator = '/';
   defaultValue = this.placeHolder + this.separator + this.placeHolder + this.separator + this.placeHolder + this.placeHolder;
-  value = this.defaultValue;
+  modelValue = this.defaultValue;
 
   selectedDate: Date;
   switchP = false;
@@ -34,14 +33,6 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
     'm': /[01]/,
     'Y': /[12]/
   };
-
-  constructor(private eventData: EventDataService) {
-    super();
-  }
-
-  ngOnInit(): void {
-    this.eventData.command.subscribe(data => this.onSave(data));
-  }
 
   public handleChange(value: Date): void {
     this.onUpdateModel(value);
@@ -65,15 +56,16 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
 
   onUpdateModel(newDate: Date): void {
     this.selectedDate = newDate;
-    this.value = this.selectedDate.toLocaleDateString('en-GB');
+    this.modelValue = this.selectedDate.toLocaleDateString('en-GB');
+    this.onSave();
   }
 
-  onSave(data: string): void {
-    if (data !== 'ID_EXTDOC_SAVE') { return; }
+  onSave(): void {
     if (this.selectedDate === undefined || this.model === null) { return; }
     let y = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), this.selectedDate.getDate(),
       12, this.selectedDate.getMinutes(), this.selectedDate.getSeconds());
     this.model.value = y.toJSON().substring(0, 19);
+    console.log('this.model.value = ' + this.model.value);
   }
 
   ngAfterViewInit(): void {
@@ -95,7 +87,7 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
   }
 
   validateDate(): void {
-    if (this.value === this.defaultValue)   return;
+    if (this.modelValue === this.defaultValue)   return;
 
     this.resetParams(true);
 
@@ -114,7 +106,7 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
   }
 
   formatDate(): Date {
-    let arrayDate: string[] = this.value.split(this.separator);
+    let arrayDate: string[] = this.modelValue.split(this.separator);
     for (let index = 0; index < arrayDate.length; index++) 
     {
       let element = arrayDate[index];
@@ -123,7 +115,7 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
       if(element.search('_') !== -1)
         arrayDate[index] = element.replace('_', '0');    
     }
-    return new Date(arrayDate[2] + this.separator + arrayDate[1] + this.separator + arrayDate[0]);
+    return new Date(arrayDate[2] + this.separator + arrayDate[1] + this.separator + arrayDate[0] + ' 12:00:00');
   }
 
 }
