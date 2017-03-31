@@ -133,7 +133,7 @@ namespace Microarea.RSWeb.Controllers
         public IActionResult GetImage(string nameSpace)
         {
             if (nameSpace.IsNullOrEmpty())
-                return new ContentResult { Content = "", ContentType = "application/text" }; 
+                return new ContentResult { Content = "Empty file name", ContentType = "application/text" }; 
 
             UserInfo ui = GetLoginInformation();
             if (ui == null)
@@ -147,16 +147,23 @@ namespace Microarea.RSWeb.Controllers
                 NameSpace ns = new NameSpace(nameSpace, NameSpaceObjectType.Image);
                 filename = pathFinder.GetFilename(ns, string.Empty);
                 if (filename == string.Empty)
-                    return new ContentResult { Content = "", ContentType = "application/text" };
+                    return new ContentResult { Content = "Empty file name " + nameSpace, ContentType = "application/text" };
             }
             if (!System.IO.File.Exists(filename))
-                return new ContentResult { Content = "", ContentType = "application/text" };
+                return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
 
             string ext = System.IO.Path.GetExtension(filename);
 
-            FileStream f = System.IO.File.Open(filename, FileMode.Open);
-              
-            return new FileStreamResult ( f , "image/" + ext );
+            try
+            {
+                FileStream f = System.IO.File.Open(filename, FileMode.Open);
+
+                return new FileStreamResult(f, "image/" + ext);
+            }
+            catch (Exception ex)
+            {
+            }
+            return new ContentResult { Content = "Cannot access file " + filename, ContentType = "application/text" };
         }
 
         //---------------------------------------------------------------------
