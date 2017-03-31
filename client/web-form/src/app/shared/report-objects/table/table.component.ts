@@ -48,10 +48,6 @@ export class ReportTableComponent {
   }
 
   // -----------------------------------------------------
-  getWidth(): any {
-    return this.table.rect.right - this.table.rect.left;
-  }
-  // -----------------------------------------------------
   getTableStyle(): any {
     let obj = {
       'margin': '1em',
@@ -59,14 +55,6 @@ export class ReportTableComponent {
       'top': this.table.rect.top + 'px',
       'left': this.table.rect.left + 'px',
       'width': this.table.rect.right - this.table.rect.left + 'px',
-      // 'height': this.table.rect.bottom - this.table.rect.top + 'px',
-
-      /*'border-color': 'black', //column.title.pen.color,
-            'border-left': this.table.table_title_border.left ? column.title.pen.width + 'px' : '0px',
-            'border-right': this.table.table_title_border.right ? column.title.pen.width + 'px' : '0px',
-            'border-bottom': this.table.table_title_border.bottom ? column.title.pen.width + 'px' : '0px',
-            'border-top': this.table.table_title_border.top ? column.title.pen.width + 'px' : '0px',
-            'border-style': 'solid'*/
     };
 
     return obj;

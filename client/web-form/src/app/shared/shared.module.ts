@@ -40,6 +40,7 @@ import { ReportTextrectComponent } from './report-objects/textrect/textrect.comp
 import { ReportFieldrectComponent } from './report-objects/fieldrect/fieldrect.component';
 import { ReportTableComponent } from './report-objects/table/table.component';
 import { LabelStaticComponent } from './controls/label-static/label-static.component';
+import { ReportObjectImageComponent } from './report-objects/image/image.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -67,7 +68,7 @@ const TB_COMPONENTS = [
   HeaderStripComponent,
   OpenComponent, SaveComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent,
-  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent
+  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportObjectImageComponent
 ];
 
 @NgModule({

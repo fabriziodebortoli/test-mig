@@ -1,5 +1,4 @@
 import { environment } from './../../environments/environment';
-import { Observable } from 'rxjs/Rx';
 import { URLSearchParams, Http, Response } from '@angular/http';
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';

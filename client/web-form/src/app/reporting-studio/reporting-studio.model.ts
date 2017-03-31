@@ -5,9 +5,9 @@ export interface Message {
   message?: string;
 }
 
-export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, DATA, STOP }
+export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, DATA, STOP, IMAGE }
 
-export enum ReportObjectType { textrect, fieldrect, table, sqrrect, graphrect, repeater, cell }
+export enum ReportObjectType { textrect, fieldrect, table, graphrect, sqrrect, repeater, cell }
 
 export class baseobj {
 
@@ -68,7 +68,7 @@ export class graphrect extends sqrrect {
     super(jsonObj.sqrrect);
     this.text_align = jsonObj.text_align;
     this.vertical_align = jsonObj.vertical_align;
-    this.value = jsonObj.value ? jsonObj.value : '';
+    this.value = jsonObj.image ? jsonObj.image : '';
   };
 }
 
