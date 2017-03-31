@@ -242,7 +242,7 @@ namespace Microarea.DataService.Models
                        )
                     {
                         DateTime dat = (DateTime)o;
-                        string s = dat.ToString("yyyy-dd-mm");
+                        string s = dat.ToString("yyyy-MM-dd");
 
                         rows += s.ToJson(null, false, true);
                     }
