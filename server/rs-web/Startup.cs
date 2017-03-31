@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Microarea.RSWeb.Models;
+using System;
 
 namespace Microarea.RSWeb
 {
@@ -47,26 +48,42 @@ namespace Microarea.RSWeb
             });
 
             services.AddMvc();
-           // services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
-            //services.AddSession();
-        }
 
-   
+            services.AddMemoryCache();  // AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(20 * 60);
+                /*
+                * https://docs.microsoft.com/en-us/aspnet/core/fundamentals/app-state
+                  Session uses a cookie to track and identify requests from a single browser. By default, 
+                  this cookie is named ".AspNet.Session", and it uses a path of "/". 
+                  Because the cookie default does not specify a domain, it is not made available to the client-side script
+                  on the page (because CookieHttpOnly defaults to true).
+                 */
+                //options.CookieName = ".AdventureWorks.Session";
+                options.CookieHttpOnly = true;
+            });
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+           app.UseCors("CorsPolicy");
+
+           app.UseSession();
+
+           app.UseStaticFiles();
+
+           app.UseWebSockets();
+
+           loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+           loggerFactory.AddDebug();
 
             //app.UseApplicationInsightsRequestTelemetry();
             //app.UseApplicationInsightsExceptionTelemetry();
 
-            app.UseStaticFiles();
-            app.UseWebSockets();
-            //app.UseCors("CorsPolicy");
-
 			//new WebAppConfigurator().Configure(app, env, loggerFactory);
+
 			app.Use(async (http, next) =>
             {
                 RSSocketHandler handler = new RSSocketHandler();
@@ -74,9 +91,7 @@ namespace Microarea.RSWeb
                 
             });
 
-            app.UseCors("CorsPolicy");
-
-            app.UseMvc();
+           app.UseMvc();
         }
     }
 }

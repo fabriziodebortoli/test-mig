@@ -1,6 +1,6 @@
 <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
 <div class="validation" *ngIf="showValidationResult">{{validationResult}}</div>
-<kendo-maskedtextbox #kendoMaskedTextBoxInstance [(ngModel)]="value" [mask]="mask" [rules]="rules" (focusin)="resetParams()" (focusout)="validateDate()"></kendo-maskedtextbox>
+<kendo-maskedtextbox #kendoMaskedTextBoxInstance [(ngModel)]="modelValue" [mask]="mask" [rules]="rules" (focusin)="resetParams()" (focusout)="validateDate()"></kendo-maskedtextbox>
 <span #anchor class="k-icon k-i-calendar-date" (click)="onClickM()" (mousedown)="press()"></span>
 <kendo-popup [anchor]="anchor" *ngIf="switchP" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign" (anchorViewportLeave)="onClickM()" (open)="calendar.focus();">
     <kendo-calendar #calendar (valueChange)="handleChange($event)" [value]="selectedDate" (blur)="onBlur()"></kendo-calendar>

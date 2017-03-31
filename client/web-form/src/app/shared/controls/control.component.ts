@@ -10,5 +10,8 @@ export class ControlComponent extends TbComponent {
     public caption: string;
     @Input()
     public model: any;
+    @Input()
     public args: any;
+    @Input()
+    public validators: Array<any> = [];
 }

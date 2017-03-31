@@ -16,6 +16,7 @@ export class ComboComponent extends ControlComponent implements OnChanges {
     private items: Array<any> = [];
     private selectedItem: any;
     
+    @Input()
     public itemSource: any;
 
     constructor(

@@ -27,21 +27,39 @@ localhost:5000/rs/pdf/erp.company.isocountrycodes
 
 namespace Microarea.RSWeb.Controllers
 {
+
     [Route("rs")]
     public class RSWebController : Controller
     {
+        UserInfo GetLoginInformation()
+        {
+            string sAuthT = HttpContext.Request.Cookies["authtoken"];
+            if (string.IsNullOrEmpty(sAuthT))
+                return null;
+
+            Microsoft.AspNetCore.Http.ISession hsession = null;
+            try
+            {
+                hsession = HttpContext.Session;
+            }
+            catch (Exception ex)
+            {
+            }
+
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(hsession, sAuthT);
+
+            UserInfo ui = new UserInfo(loginInfo, sAuthT);
+
+            return ui;
+        }
         //---------------------------------------------------------------------
+
         [Route("xml/{namespace}")]
         public IActionResult GetXmlData(string nameSpace)
         {
-            
-            string sAuthT = HttpContext.Request.Cookies["authtoken"];
-            if (string.IsNullOrEmpty(sAuthT))
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
-
-            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
-            
-            UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
@@ -71,13 +89,9 @@ namespace Microarea.RSWeb.Controllers
         [Route("pdf/{namespace}")]
         public IActionResult GetPdf(string nameSpace)
         {
-            string sAuthT = HttpContext.Request.Cookies["authtoken"];
-            if (string.IsNullOrEmpty(sAuthT))
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
-
-            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
-
-            UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
@@ -100,13 +114,9 @@ namespace Microarea.RSWeb.Controllers
         [Route("template/{namespace}/{page}")] 
         public IActionResult GetJsonPageTemplate(string nameSpace, int page)
         {
-            string sAuthT = HttpContext.Request.Cookies["authtoken"];
-            if (string.IsNullOrEmpty(sAuthT))
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
-
-            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
-
-            UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
@@ -122,20 +132,16 @@ namespace Microarea.RSWeb.Controllers
         [Route("image/{namespace}")] 
         public IActionResult GetImage(string nameSpace)
         {
-            string sAuthT = HttpContext.Request.Cookies["authtoken"];
-            if (string.IsNullOrEmpty(sAuthT))
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
-
             if (nameSpace.IsNullOrEmpty())
                 return new ContentResult { Content = "", ContentType = "application/text" }; 
+
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
+                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
             string filename = nameSpace;
             if (!System.IO.File.Exists(filename))
             {
-                LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
-
-                UserInfo ui = new UserInfo(loginInfo, sAuthT);
-
                 PathFinder pathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
 
                 NameSpace ns = new NameSpace(nameSpace, NameSpaceObjectType.Image);
@@ -144,7 +150,7 @@ namespace Microarea.RSWeb.Controllers
                     return new ContentResult { Content = "", ContentType = "application/text" };
             }
             if (!System.IO.File.Exists(filename))
-                return new ContentResult { Content = "", ContentType = "application/text" }; ;
+                return new ContentResult { Content = "", ContentType = "application/text" };
 
             string ext = System.IO.Path.GetExtension(filename);
 
@@ -157,13 +163,9 @@ namespace Microarea.RSWeb.Controllers
         [Route("data/{namespace}/{page}")] 
         public IActionResult GetJsonPageData(string nameSpace, int page)
         {
-            string sAuthT = HttpContext.Request.Cookies["authtoken"];
-            if (string.IsNullOrEmpty(sAuthT))
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
-
-            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
-
-            UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
 
