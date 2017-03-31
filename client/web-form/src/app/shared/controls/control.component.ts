@@ -13,5 +13,5 @@ export class ControlComponent extends TbComponent {
     @Input()
     public args: any;
     @Input()
-    public validator: any;
+    public validators: Array<any> = [];
 }
