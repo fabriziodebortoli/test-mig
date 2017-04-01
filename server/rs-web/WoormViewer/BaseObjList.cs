@@ -138,8 +138,22 @@ namespace Microarea.RSWeb.WoormViewer
                     continue;
                 }
 
-                if (!template && !(item is FieldRect) && !(item is Table) && /*!(item is Repeater) &&*/ !item.IsDynamic())
+                if ( !
+                        (
+                            template ||
+                            item is FieldRect ||
+                            item is Table ||
+                            //item is Repeater ||
+                            item.IsDynamic()
+                        )
+                    )
                     continue;
+
+                if (!template && item.InternalID == 0)
+                {
+                    //TODO BUG!
+                    continue;
+                }
 
                 if (first) first = false;
                 else s += ',';
@@ -282,8 +296,7 @@ namespace Microarea.RSWeb.WoormViewer
         {
             foreach (BaseObj obj in this)
             {
-                if (obj.IsDynamic() && obj.InternalID <= 0 && 
-                    (obj is TextRect || /*obj is GraphRect ||*/ obj is SqrRect))
+                if (obj.InternalID <= 0 && obj.IsDynamic())
                 {
                     obj.InternalID = document.SymbolTable.GetNewID();
                 }
