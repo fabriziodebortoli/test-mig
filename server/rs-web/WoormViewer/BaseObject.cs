@@ -41,6 +41,7 @@ namespace Microarea.RSWeb.Objects
 		//const string HIDDEN = "IsHidden";
 
  		public ushort InternalID = 0;
+
         public Rectangle Rect;
 		public bool Transparent;
 		public bool IsHidden = false;
@@ -49,9 +50,9 @@ namespace Microarea.RSWeb.Objects
         public Color DropShadowColor = Defaults.DefaultShadowColor;
 
         //[IgnoreDataMember]
-        public WoormViewerExpression HideExpr = null;   // espressione che se valutata vera nasconde il campo
+        public WoormViewerExpression HideExpr = null;    // dynamic UI se valutata vera nasconde il campo
         //[IgnoreDataMember]
-        public WoormViewerExpression TooltipExpr = null;
+        public WoormViewerExpression TooltipExpr = null;  // dynamic UI (potrebbe utilizzare altri campi)
 
         //[IgnoreDataMember]
         public string ClassName = string.Empty; //Nome della classe dello stile
@@ -351,12 +352,12 @@ namespace Microarea.RSWeb.Objects
         protected BaseRect Default = null;
 
         //[IgnoreDataMember]
-        public WoormViewerExpression TextColorExpr = null;
+        public WoormViewerExpression TextColorExpr = null; // dynamic UI
         //[IgnoreDataMember]
-        public WoormViewerExpression BkgColorExpr = null;
+        public WoormViewerExpression BkgColorExpr = null; // dynamic UI
 
         //[IgnoreDataMember]
-		public bool IsAnchorPageLeft = false;
+        public bool IsAnchorPageLeft = false;
         //[IgnoreDataMember]
  		public bool IsAnchorPageRight = false;
         //[IgnoreDataMember]
@@ -1281,7 +1282,7 @@ namespace Microarea.RSWeb.Objects
 	{
 		public BasicText Label = null;
 	
-        public bool Special = false;
+        public bool Special = false; // dynamic UI per alcuni tag
         public bool IsHtml = false;
 
         public BarCode BarCode = null;
@@ -2125,10 +2126,10 @@ namespace Microarea.RSWeb.Objects
 
         public bool Bookmark;
 
-        public WoormViewerExpression LabelTextColorExpr = null; // UI
-        public WoormViewerExpression LabelTextExpr = null;      // UI
+        public WoormViewerExpression LabelTextColorExpr = null; // dynamic UI
+        public WoormViewerExpression LabelTextExpr = null;      // dynamic UI
 
-        public WoormViewerExpression FormatStyleExpr = null;    //server-side si applica al value
+        public WoormViewerExpression FormatStyleExpr = null;    // server-side si applica al value
 
         //const string VALUE = "Value";
         //const string LABEL = "Label";
