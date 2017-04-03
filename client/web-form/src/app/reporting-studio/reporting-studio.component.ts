@@ -5,7 +5,7 @@ import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, repeater, column_total } from './reporting-studio.model';
+import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, repeater, cell } from './reporting-studio.model';
 
 import { DocumentComponent } from '../shared/document.component';
 
@@ -199,7 +199,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         obj = new sqrrect(element.sqrrect);
       }
       /* else if (element.repeater !== undefined) {
-         obj = new repeater(element.fieldrect);
+         obj = new repeater(element.repeater);
        }*/
       this.objects.push(obj);
     }
@@ -251,10 +251,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           }
           if (source.hidden !== undefined) {
             target.hidden = source.hidden;
-          }
-          if (source.total !== undefined) {
-            target.total = new column_total(source.total);
-          }
+          }          
         }
         obj.value = value;
       }
