@@ -44,7 +44,6 @@ import { ReportObjectImageComponent } from './report-objects/image/image.compone
 import { ReportRectComponent } from './report-objects/rect/rect.component';
 import { ContextMenuDirective } from './directives/context-menu.directive';
 
-
 const KENDO_UI_MODULES = [
   GridModule,
   InputsModule,
