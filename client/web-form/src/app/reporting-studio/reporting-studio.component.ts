@@ -179,7 +179,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       let element = msg.page.layout.objects[index];
       let obj;
       if (element.fieldrect !== undefined) {
-        obj = new fieldrect(element.fieldrect);
+        if (element.fieldrect.value_is_image !== undefined && element.fieldrect.value_is_image == true) {
+          obj = new graphrect(element.fieldrect);
+        }
+        else {
+          obj = new fieldrect(element.fieldrect);
+        }
       }
       else if (element.textrect !== undefined) {
         obj = new textrect(element.textrect);
@@ -208,6 +213,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let value: any;
     for (let index = 0; index < msg.page.layout.objects.length; index++) {
       let element = msg.page.layout.objects[index];
+
       if (element.fieldrect !== undefined) {
         id = element.fieldrect.baserect.baseobj.id;
         value = element.fieldrect.value ? element.fieldrect.value : '[empty]' + id;
