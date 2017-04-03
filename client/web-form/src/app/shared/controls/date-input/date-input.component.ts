@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, OnChanges } from '@angular/core';
+import { Component, Input, ViewChild, OnChanges, AfterViewInit } from '@angular/core';
 import { ControlComponent } from './../control.component';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import * as moment from 'moment';
@@ -9,22 +9,24 @@ import * as moment from 'moment';
   styleUrls: ['./date-input.component.scss']
 })
 
-export class DateInputComponent extends ControlComponent implements OnChanges {
+export class DateInputComponent extends ControlComponent implements OnChanges, AfterViewInit {
   @Input() forCmpID: string;
   @ViewChild('kendoMaskedTextBoxInstance') kendoMasked: any;
   anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'left', vertical: 'center' };
 
+  singlePlaceHolder = '_';
   placeHolder = '__';
   separator = '/';
   defaultValue = this.placeHolder + this.separator + this.placeHolder + this.separator + this.placeHolder + this.placeHolder;
-  modelValue = this.defaultValue;
+  ngValue = this.defaultValue;
 
   selectedDate: Date;
-  switchP = false;
+  popupOpen = false;
   showValidationResult = false;
   doubleEvent = false;
   validationResult = '';
+  dateFormat = 'DD/MM/YYYY';
 
   public mask = 'dA/mA/YAAA';
   invalidDateString = 'Invalid Date';
@@ -36,87 +38,88 @@ export class DateInputComponent extends ControlComponent implements OnChanges {
   };
 
   public handleChange(value: Date): void {
-    this.onUpdateModel(value);
-    this.onClickM();
-    this.resetParams();
+    this.onUpdateNgModel(value);
+    this.onClickIconCalend();
+    this.resetParamsValidation();
   }
 
-  onClickM(): void {
-    this.switchP = !this.switchP;
+  onClickIconCalend(): void {
+    this.popupOpen = !this.popupOpen;
     this.doubleEvent = false;
   }
 
   onBlur(): void {
-    if (! this.doubleEvent) 
-      this.switchP = false;
+    this.popupOpen = this.doubleEvent;
   }
 
   private press(): void { // necessario per evitare che sul ckick di chiusura, il blur annulli il click
     this.doubleEvent = true;
   }
 
-  onUpdateModel(newDate: Date): void {
-    this.selectedDate = newDate;
-    this.modelValue = this.selectedDate.toLocaleDateString('en-GB');
-    this.onSave();
+  onUpdateNgModel(newDate: Date): void {
+    this.selectedDate = newDate;  // aggiornare la data selezionata nel calendario in apertura
+    this.ngValue = moment.parseZone(this.selectedDate, this.dateFormat).format(this.dateFormat);
+    this.setModelValueDB();
   }
 
-  onSave(): void {
-    if (this.selectedDate === undefined || this.model === null) { return; }
-    let y = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), this.selectedDate.getDate(),
-      12, this.selectedDate.getMinutes(), this.selectedDate.getSeconds());
-    this.model.value = y.toJSON().substring(0, 19);
+  setModelValueDB(): void {
+    if (this.model === null) {
+      this.model = { enable: 'true', value: '' };
+    }
+    this.model.value = moment.parseZone(this.ngValue, this.dateFormat).toDate().toJSON().substring(0, 19);
     console.log('this.model.value = ' + this.model.value);
   }
 
   ngAfterViewInit(): void {
     if (this.model !== undefined && this.model !== null) {
-      this.onUpdateModel(new Date(this.model.value));
+      this.onUpdateNgModel(new Date(this.model.value));
     }
   }
 
   ngOnChanges(): void {
     if (this.model !== undefined && this.model !== null) {
-      this.onUpdateModel(new Date(this.model.value));
+      this.onUpdateNgModel(new Date(this.model.value));
     }
   }
 
-  resetParams(setTrue:boolean = false): void {
+  resetParamsValidation(setTrue: boolean = false): void {
     this.validationResult = setTrue ? this.invalidDateString : '';
     this.showValidationResult = setTrue;
     this.kendoMasked.maskValidation = setTrue;
   }
 
   validateDate(): void {
-    if (this.modelValue === this.defaultValue)   return;
+    if (this.ngValue === this.defaultValue) { return; }
 
-    this.resetParams(true);
+    this.resetParamsValidation(true);
 
-    let formattedDate: Date = this.formatDate();
-    if(formattedDate === null) return;
+    let formattedDate = this.formatDate(); // se ci sono '_', li sostituisce con zeri
+    if (formattedDate === null || !formattedDate.isValid()) { return; }
 
-    if (Object.prototype.toString.call(formattedDate) !== '[object Date]')
-      return;
-    if (!isNaN(formattedDate.getTime())) {    // date is valid
-        this.selectedDate = formattedDate;
-        this.showValidationResult = false;
-        this.onUpdateModel(formattedDate);
-    }
-    this.validationResult = formattedDate.toLocaleDateString('en-GB');
-
+    this.showValidationResult = false;
+    this.onUpdateNgModel(formattedDate.toDate());
   }
 
-  formatDate(): Date {
-    let arrayDate: string[] = this.modelValue.split(this.separator);
-    for (let index = 0; index < arrayDate.length; index++) 
-    {
-      let element = arrayDate[index];
-      if(element === this.placeHolder || element === this.placeHolder + this.placeHolder) 
-        return null;
-      if(element.search('_') !== -1)
-        arrayDate[index] = element.replace('_', '0');    
+  formatDate(): moment.Moment {
+    if (this.ngValue.search(this.singlePlaceHolder) === -1) {
+      return moment(this.ngValue, this.dateFormat);
     }
-    return new Date(arrayDate[2] + this.separator + arrayDate[1] + this.separator + arrayDate[0] + ' 12:00:00');
+
+    let arrayDate: string[] = this.ngValue.split(this.separator);
+    for (let index = 0; index < arrayDate.length; index++) {
+      if (arrayDate[index] === this.placeHolder || arrayDate[index] === this.placeHolder + this.placeHolder) {
+        return null;
+      }
+      while (arrayDate[index].search(this.singlePlaceHolder) !== -1) {
+        arrayDate[index] = arrayDate[index].replace(this.singlePlaceHolder, '0');
+      }
+    }
+    this.ngValue = '';
+    for (let index = 0; index < arrayDate.length; index++) {
+      this.ngValue += arrayDate[index];
+    }
+    this.ngValue = moment.parseZone(this.ngValue, this.dateFormat).format(this.dateFormat);
+    return moment(this.ngValue, this.dateFormat);
   }
 
 }
