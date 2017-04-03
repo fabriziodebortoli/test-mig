@@ -193,7 +193,7 @@ export class column {
   value_is_image: boolean;
   value_is_barcode: boolean;
   title: title;
-  total: column_total;
+  //total: column_total;
 
   constructor(jsonObj: any) {
     this.id = jsonObj.id;
@@ -203,7 +203,7 @@ export class column {
     this.value_is_image = jsonObj.value_is_image;
     this.value_is_barcode = jsonObj.value_is_barcode;
     this.title = jsonObj.title ? new title(jsonObj.title) : undefined;
-    this.total = jsonObj.total ? new column_total(jsonObj.total) : undefined;
+   // this.total = jsonObj.total ? new column_total(jsonObj.total) : undefined;
   }
 }
 
@@ -282,7 +282,7 @@ export class title {
   text_align: string;
   vertical_align: string;
   font: font;
-  tooltip: string;
+  tooltip: string = '';
   constructor(jsonObj: any) {
     this.rect = new rect(jsonObj.rect);
     this.caption = jsonObj.caption;
@@ -297,30 +297,6 @@ export class title {
   }
 }
 
-export class column_total {
-  value: string = '';
-  rect: rect;
-  textcolor: string;
-  bkgcolor: string;
-  text_align: string;
-  vertical_align: string;
-  font: font;
-  borders: borders;
-  pen: borderpen;
-
-  constructor(jsonObj: any) {
-    this.textcolor = jsonObj.cell.textcolor;
-    this.bkgcolor = jsonObj.cell.bkgcolor;
-    this.text_align = jsonObj.text_align;
-    this.vertical_align = jsonObj.vertical_align;
-    this.font = new font(jsonObj.cell.font);
-    this.borders = new borders(jsonObj.borders);
-    this.pen = new borderpen(jsonObj.pen);
-    this.rect = new rect(jsonObj.rect);
-    this.value = jsonObj.value ? jsonObj.value : '';
-  }
-}
-
 export class cell {
   id: string;
   borders: borders;
@@ -330,18 +306,20 @@ export class cell {
   text_align: string;
   vertical_align: string;
   font: font;
-  tooltip: string;
-
+  tooltip: string = '';
+  value: string = '';
+ 
   constructor(jsonObj: any, id: string) {
+    this.id = id;
     this.borders = new borders(jsonObj.borders);
+    this.pen = new borderpen(jsonObj.pen);
     this.textcolor = jsonObj.textcolor;
     this.bkgcolor = jsonObj.bkgcolor;
     this.text_align = jsonObj.text_align;
     this.vertical_align = jsonObj.vertical_align;
     this.font = new font(jsonObj.font);
-    this.tooltip = jsonObj.tooltip;
-    this.id = id;
-    this.pen = new borderpen(jsonObj.pen);
+    this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';
+    this.value = jsonObj.value ? jsonObj.value : '';
   }
 }
 

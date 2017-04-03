@@ -213,12 +213,21 @@ namespace Microarea.Common.Generic
 		{
 			return s.Substring(0, index) + sub + s.Substring(index);
 		}
-		/// <summary>
-		/// Conta le occorrenze di un carattere in una stringa
-		/// </summary>
-		/// <param name="c">carattere</param>
-		//-------------------------------------------------------------------------
-		public static int CountChar(this string s, char c)
+
+        //---------------------------------------------------------------------
+        public static string ConcatWithSep(this string s, string app, char sep)
+        {
+            if (app.IsNullOrEmpty()) return s;
+            if (s.IsNullOrEmpty()) return app;
+            return s.TrimEnd(new char[] { sep }) + sep + app.TrimStart(new char[] { sep });
+        }
+
+        /// <summary>
+        /// Conta le occorrenze di un carattere in una stringa
+        /// </summary>
+        /// <param name="c">carattere</param>
+        //-------------------------------------------------------------------------
+        public static int CountChar(this string s, char c)
 		{
 			int start = 0; int newl = 0;
 			int nl = 0;
