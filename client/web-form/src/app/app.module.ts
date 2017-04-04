@@ -17,6 +17,7 @@ import { HomeComponent, HomeSidenavComponent } from './home';
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
 import { AppComponent } from './app.component';
 import { appRouting } from './applications/app.routing';
+import {MomentModule} from 'angular2-moment';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { appRouting } from './applications/app.routing';
     MenuModule.forRoot(),
     ReportingStudioModule.forRoot(),
     appRouting,
-    routing
+    routing,
+    MomentModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [

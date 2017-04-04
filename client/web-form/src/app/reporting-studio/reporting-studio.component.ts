@@ -5,7 +5,7 @@ import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, repeater, cell } from './reporting-studio.model';
+import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, repeater, cell, borders } from './reporting-studio.model';
 
 import { DocumentComponent } from '../shared/document.component';
 
@@ -72,17 +72,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.OK: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
-          this.templates.push(new TemplateItem(k.page.layout.name, k));
           this.RenderLayout(k);
           break;
         case CommandType.TEMPLATE:
-          let template = this.FindTemplate(k.page.layout.name);
-          if (template === undefined) {
-            this.templates.push(new TemplateItem(k.page.layout.name, k));
-            template = k;
+          if (!this.RenderLayout(k)) {
+            this.GetData();
           }
-          this.RenderLayout(template);
-          this.GetData();
           break;
         case CommandType.DATA:
           this.UpdateData(k);
@@ -170,16 +165,31 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  RenderLayout(msg: any) {
-    this.objects = [];
-    if (this.rsService.pageNum !== msg.page.page_number) { return; }
-    this.rsService.currLayout = msg.page.layout.name;
+  RenderLayout(msg: any): boolean {
+
+    /* if (this.rsService.pageNum !== msg.page.page_number) { return; }
+     this.rsService.currLayout = msg.page.layout.name;*/
+
+    let template = this.FindTemplate(msg.page.layout.name);
+    if (template !== undefined) {
+      this.objects = template.templateObjects;
+      this.setDocumentStyle(template.template.page);
+      return true;
+    }
+
+    let objects = [];
     this.setDocumentStyle(msg.page);
+
     for (let index = 0; index < msg.page.layout.objects.length; index++) {
       let element = msg.page.layout.objects[index];
       let obj;
       if (element.fieldrect !== undefined) {
-        obj = new fieldrect(element.fieldrect);
+        if (element.fieldrect.value_is_image !== undefined && element.fieldrect.value_is_image === true) {
+          obj = new graphrect(element.fieldrect);
+        }
+        else {
+          obj = new fieldrect(element.fieldrect);
+        }
       }
       else if (element.textrect !== undefined) {
         obj = new textrect(element.textrect);
@@ -196,8 +206,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       /* else if (element.repeater !== undefined) {
          obj = new repeater(element.repeater);
        }*/
-      this.objects.push(obj);
+      objects.push(obj);
     }
+
+    this.templates.push(new TemplateItem(msg.page.layout.name, msg, objects));
+    this.objects = objects;
+    return false;
   }
 
   // -----------------------------------------------
@@ -208,6 +222,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let value: any;
     for (let index = 0; index < msg.page.layout.objects.length; index++) {
       let element = msg.page.layout.objects[index];
+
       if (element.fieldrect !== undefined) {
         id = element.fieldrect.baserect.baseobj.id;
         value = element.fieldrect.value ? element.fieldrect.value : '[empty]' + id;
@@ -245,7 +260,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           }
           if (source.hidden !== undefined) {
             target.hidden = source.hidden;
-          }          
+          }
         }
         obj.value = value;
       }
@@ -264,7 +279,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.layoutBackStyle = {
       'width': '100%',
       'height': '100%',
-      'background-color': 'gray',
+      'background-color': 'black',
       'position': 'relative'
     }
   }
@@ -283,13 +298,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  private FindTemplate(name: string): any {
+  private FindTemplate(name: string): TemplateItem {
     for (let index = 0; index < this.templates.length; index++) {
       if (this.templates[index].templateName === name) {
-        return this.templates[index].template;
+        return this.templates[index];
       }
-      return undefined;
     }
+    return undefined;
   }
 }
 
@@ -297,11 +312,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
 export class TemplateItem {
   public templateName: string;
+  public templateObjects: any[];
   public template: any;
 
-  constructor(tName: string, tObj: any) {
+  constructor(tName: string, template: any, tObj: any[]) {
     this.templateName = tName;
-    this.template = tObj;
+    this.templateObjects = tObj;
+    this.template = template;
   }
 }
 
