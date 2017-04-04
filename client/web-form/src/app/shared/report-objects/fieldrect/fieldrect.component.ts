@@ -26,7 +26,6 @@ export class ReportFieldrectComponent implements AfterViewInit {
     let obj = {
       'position': 'absolute',
       'display': 'table',
-      'padding': '0 2px',
       'top': this.rect.rect.top + 'px',
       'left': this.rect.rect.left + 'px',
       'height': this.rect.rect.bottom - this.rect.rect.top + 'px',

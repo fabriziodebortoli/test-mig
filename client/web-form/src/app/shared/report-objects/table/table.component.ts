@@ -56,6 +56,12 @@ export class ReportTableComponent {
       'top': this.table.rect.top + 'px',
       'left': this.table.rect.left + 'px',
       'width': this.table.rect.right - this.table.rect.left + 'px',
+      'border-left': '1px',
+      'border-right': '1px',
+      'border-bottom': '1px',
+      'border-top': '1px',
+      'border-color': 'black',
+      'border-style': 'solid',
     };
 
     return obj;
@@ -85,11 +91,12 @@ export class ReportTableComponent {
     return obj;
   }
 
-  getCellsStyle(): any {
+  getCellsStyle(column: column): any {
     let obj = {
       'text-align': 'center',
       'padding': '0px',
-      'height': this.table.row_height + 'px'
+      'height': this.table.row_height + 'px',
+      'background-color': 'white',
     };
 
     return obj;
@@ -101,8 +108,6 @@ export class ReportTableComponent {
     let specStyle: any = dataItem[colId];
 
     let obj = {
-      'height': '100%',
-      'width': '100%',
       'background-color': specStyle.bkgcolor === undefined ? defStyle.bkgcolor : specStyle.bkgcolor,
       'border-left': specStyle.borders !== undefined ? (specStyle.borders.left ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.left ? defStyle.pen.width + 'px' : '0px'),
       'border-right': specStyle.borders !== undefined ? (specStyle.borders.right ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.right ? defStyle.pen.width + 'px' : '0px'),
@@ -111,7 +116,6 @@ export class ReportTableComponent {
       'border-color': defStyle.pen.color,
       'border-style': 'solid',
       'vertical-align': defStyle.vertical_align,
-      'padding-left': '2px',
       'text-align': defStyle.text_align,
       'color': specStyle.textcolor === undefined ? defStyle.textcolor : specStyle.textcolor,
       'font-family': specStyle.font === undefined ? defStyle.font.face : specStyle.font.face,
