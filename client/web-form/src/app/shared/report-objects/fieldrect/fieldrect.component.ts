@@ -25,11 +25,12 @@ export class ReportFieldrectComponent implements AfterViewInit {
     let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
     let obj = {
       'position': 'absolute',
+      'display': 'table',
+      'padding': '0 2px',
       'top': this.rect.rect.top + 'px',
       'left': this.rect.rect.left + 'px',
       'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
-      'vertical-align': this.rect.vertical_align,
       'background-color': backgroundCol,
       'border-left': this.rect.borders.left ? this.rect.pen.width + 'px' : '0px',
       'border-right': this.rect.borders.right ? this.rect.pen.width + 'px' : '0px',
@@ -38,7 +39,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'border-color': this.rect.pen.color,
       'border-radius': this.rect.ratio + 'px',
       'border-style': 'solid',
-      'box-shadow': this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_color,
+      'box-shadow': this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_color
 
     };
     return obj;
@@ -47,8 +48,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
   applyValueStyle(): any {
     let obj = {
       'position': 'relative',
-      'height': '100%',
-      'width': '100%',
+      'display': 'table-cell',
       'font-family': this.rect.font.face,
       'font-size': this.rect.font.size + 'px',
       'font-style': this.rect.font.italic ? 'italic' : 'normal',
@@ -56,7 +56,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'text-decoration': this.rect.font.underline ? 'underline' : 'none',
       'color': this.rect.textcolor,
       'text-align': this.rect.text_align,
-      'margin': '0 1em 0 1em',
+      'vertical-align': this.rect.vertical_align
     };
     return obj;
   }
@@ -64,6 +64,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
   applyLabelStyle(): any {
     let obj = {
       'position': 'relative',
+      'display': 'table-cell',
       'text-align': this.rect.label.text_align,
       'font-family': this.rect.label.font.face,
       'font-size': this.rect.label.font.size + 'px',
@@ -71,7 +72,6 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'font-weight': this.rect.label.font.bold ? 'bold' : 'normal',
       'text-decoration': this.rect.label.font.underline ? 'underline' : 'none',
       'color': this.rect.label.textcolor,
-      'margin': '0 0.5em 0 0.5em'
     };
     return obj;
   }

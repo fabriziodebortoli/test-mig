@@ -16,12 +16,12 @@ export class ReportRectComponent {
 
     let obj = {
       'background-color': this.rect.bkgcolor,
-      'border-color': 'background-color',
       'border-left': this.rect.borders.left ? this.rect.pen.width + 'px' : '0px',
       'border-right': this.rect.borders.right ? this.rect.pen.width + 'px' : '0px',
       'border-bottom': this.rect.borders.bottom ? this.rect.pen.width + 'px' : '0px',
       'border-top': this.rect.borders.top ? this.rect.pen.width + 'px' : '0px',
       'border-style': 'solid',
+       'border-color': 'background-color',
       'position': 'absolute',
       'top': this.rect.rect.top + 'px',
       'left': this.rect.rect.left + 'px',
