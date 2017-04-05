@@ -7,12 +7,14 @@ import { DocumentService } from './../../../core/document.service';
 import { WebSocketService } from './../../../core/websocket.service';
 
 @Component({
-    selector: 'tb-combo',
-    templateUrl: 'combo.component.html',
-    styleUrls: ['./combo.component.scss']
+    selector: 'tb-enum-combo',
+    templateUrl: 'enum-combo.component.html',
+    styleUrls: ['./enum-combo.component.scss']
 })
 
-export class ComboComponent extends ControlComponent implements OnChanges {
+export class EnumComboComponent extends ControlComponent implements OnChanges {
+
+    private tag: string;
 
     private items: Array<any> = [];
     private selectedItem: any;
@@ -22,8 +24,8 @@ export class ComboComponent extends ControlComponent implements OnChanges {
 
     constructor(
         private webSocketService: WebSocketService,
-        private eventDataService: EventDataService
-        ) {
+        private eventDataService: EventDataService,
+        private enumsService: EnumsService) {
         super();
 
         this.webSocketService.itemSource.subscribe((result) => {
@@ -32,8 +34,18 @@ export class ComboComponent extends ControlComponent implements OnChanges {
     }
 
     fillListBox() {
-        this.items.slice(0, this.items.length);
-        this.eventDataService.openDropdown.emit(this.itemSource);
+        this.items.splice(0, this.items.length);
+
+        if (this.itemSource != undefined) {
+            this.eventDataService.openDropdown.emit(this.itemSource);
+        }
+        else {
+            let allItems = this.enumsService.getItemsFromTag(this.tag);
+            for (let index = 0; index < allItems.length; index++) {
+                this.items.push({ code: allItems[index].value, description: allItems[index].name });
+            }
+
+        }
     }
 
     onChange() {
@@ -44,8 +56,18 @@ export class ComboComponent extends ControlComponent implements OnChanges {
         if (changes['model'] == undefined || changes['model'].currentValue == undefined)
             return;
 
+        if (this.model.type != 10) {
+            console.log("wrong databinding, not a data enum");
+        }
+
+        this.tag = this.model.tag;
+
         this.items.splice(0, this.items.length);
         let temp = changes['model'].currentValue.value;
+
+        let enumItem = this.enumsService.getEnumsItem(temp);
+        if (enumItem != undefined)
+            temp = enumItem.name;
 
         let obj = { code: temp, description: temp };
         this.items.push(obj);

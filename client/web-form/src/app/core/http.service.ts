@@ -156,4 +156,13 @@ export class HttpService {
         console.error(errMsg);
         return Observable.throw(errMsg);
     }
+
+     getEnumsTable(): Observable<any> {
+        return this.http.get(this.getDocumentBaseUrl() + 'getEnumsTable/', { withCredentials: true })
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
 }

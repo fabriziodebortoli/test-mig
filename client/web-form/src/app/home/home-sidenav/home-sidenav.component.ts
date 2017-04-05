@@ -1,3 +1,4 @@
+import { EnumsService } from './../../core/enums.service';
 import { UtilsService } from './../../core/utils.service';
 import { ImageService } from './../../menu/services/image.service';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
@@ -25,7 +26,11 @@ export class HomeSidenavComponent implements OnInit {
     private utilsService: UtilsService,
     private imageService: ImageService,
     private localizationService: LocalizationService
-  ) { }
+
+  ) {
+    
+
+   }
 
   ngOnInit() {
   }

@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from '@angular/material';
 
@@ -21,13 +22,14 @@ import {MomentModule} from 'angular2-moment';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent, HomeSidenavComponent, 
+    HomeComponent, HomeSidenavComponent,
     UnsupportedFactoryComponent,
     UnsupportedComponent
   ],
   imports: [
     FormsModule,
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     MaterialModule.forRoot(),
     CoreModule.forRoot(),

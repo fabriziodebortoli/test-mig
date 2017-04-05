@@ -22,7 +22,7 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
 import { LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective } from './containers/tiles/layout-styles';
-import { CaptionComponent, EditComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, StateButtonComponent } from './controls/';
+import { CaptionComponent, EditComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
@@ -42,6 +42,7 @@ import { ReportTableComponent } from './report-objects/table/table.component';
 import { LabelStaticComponent } from './controls/label-static/label-static.component';
 import { ReportObjectImageComponent } from './report-objects/image/image.component';
 import { ReportRectComponent } from './report-objects/rect/rect.component';
+import { ContextMenuDirective } from './directives/context-menu.directive';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -61,15 +62,19 @@ const TB_COMPONENTS = [
   TabComponent, TabberComponent,
   ViewComponent, DockpaneComponent, FrameComponent, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DynamicCmpComponent,
-  EditComponent, CaptionComponent, ComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
-  StateButtonComponent, LabelStaticComponent,
+  EditComponent, CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
+  StateButtonComponent, TextComponent, LabelStaticComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-  TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
-  LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective,
   HeaderStripComponent,
   OpenComponent, SaveComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent,
   ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportObjectImageComponent, ReportRectComponent
+];
+
+const TB_DIRECTIVES = [
+  TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
+  LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective,
+  ContextMenuDirective
 ];
 
 @NgModule({
@@ -82,9 +87,9 @@ const TB_COMPONENTS = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS],
-  exports: [TB_COMPONENTS],
-  entryComponents: [OpenComponent, SaveComponent]
+  declarations: [TB_COMPONENTS, TB_DIRECTIVES],
+  exports: [TB_COMPONENTS, TB_DIRECTIVES],
+  entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
 })
 export class SharedModule {
 
