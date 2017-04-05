@@ -16,6 +16,7 @@ import { CommandService } from './command.service';
 import { LoginSessionService } from './login-session.service';
 import { ExplorerService } from './explorer.service';
 import { LayoutService } from './layout.service';
+import { EnumsService } from './enums.service';
 
 import { CoreGuard } from './core.guard';
 
@@ -36,7 +37,8 @@ const TB_SERVICES = [
   CoreGuard,
   ExplorerService,
   InfoService,
-  LayoutService
+  LayoutService,
+  EnumsService
 ];
 
 @NgModule({
