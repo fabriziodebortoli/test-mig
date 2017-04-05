@@ -34,7 +34,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges {
     }
 
     fillListBox() {
-        this.items.slice(0, this.items.length);
+        this.items.splice(0, this.items.length);
 
         if (this.itemSource != undefined) {
             this.eventDataService.openDropdown.emit(this.itemSource);
@@ -57,7 +57,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges {
             return;
 
         if (this.model.type != 10) {
-            console.log("databinding sbagliato, non è un data enum");
+            console.log("wrong databinding, not a data enum");
         }
 
         this.tag = this.model.tag;
