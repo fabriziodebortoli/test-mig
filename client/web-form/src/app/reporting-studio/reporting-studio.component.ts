@@ -1,15 +1,9 @@
-import { environment } from './../../environments/environment.prod';
-
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
-
-import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, repeater, cell, borders } from './reporting-studio.model';
-
+import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect } from './reporting-studio.model';
 import { DocumentComponent } from '../shared/document.component';
-
 import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
@@ -226,10 +220,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         let obj = this.FindObj(id);
         if (obj === undefined) {
           continue;
-        }
-
-        if (obj.src !== undefined) {
-          obj.src = environment.baseUrl + 'rs/image/' + value;
         }
         obj.value = value;
       }

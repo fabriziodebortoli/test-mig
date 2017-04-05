@@ -1,3 +1,4 @@
+import { environment } from './../../../../environments/environment';
 
 import { graphrect } from './../../../reporting-studio/reporting-studio.model';
 import { Component, Input } from '@angular/core';
@@ -30,6 +31,12 @@ export class ReportObjectImageComponent {
       'border-radius': this.image.ratio + 'px',
       'box-shadow': this.image.shadow_height + 'px ' + this.image.shadow_height + 'px ' + this.image.shadow_height + 'px ' + this.image.shadow_color
     };
+
+    if (this.image.value !== '') {
+      //this.image.src = 'http://www.jqueryscript.net/images/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg';
+       this.image.src = environment.baseUrl + 'rs/image/' + this.image.value;
+    }
+    
     return obj;
   }
 
