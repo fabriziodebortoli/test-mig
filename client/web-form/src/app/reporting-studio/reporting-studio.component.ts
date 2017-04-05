@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment.prod';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
@@ -75,9 +76,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.RenderLayout(k);
           break;
         case CommandType.TEMPLATE:
-          if (!this.RenderLayout(k)) {
-            this.GetData();
-          }
+          this.RenderLayout(k);
+          this.GetData();
           break;
         case CommandType.DATA:
           this.UpdateData(k);
@@ -165,16 +165,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  RenderLayout(msg: any): boolean {
-
-    /* if (this.rsService.pageNum !== msg.page.page_number) { return; }
-     this.rsService.currLayout = msg.page.layout.name;*/
+  RenderLayout(msg: any) {
 
     let template = this.FindTemplate(msg.page.layout.name);
     if (template !== undefined) {
       this.objects = template.templateObjects;
       this.setDocumentStyle(template.template.page);
-      return true;
+      return;
     }
 
     let objects = [];
@@ -211,13 +208,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     this.templates.push(new TemplateItem(msg.page.layout.name, msg, objects));
     this.objects = objects;
-    return false;
+    return;
   }
 
   // -----------------------------------------------
   UpdateData(msg: any) {
 
-    if (this.rsService.pageNum != msg.page.page_number) { return; }
+    if (this.rsService.pageNum !== msg.page.page_number) { return; }
     let id: string;
     let value: any;
     for (let index = 0; index < msg.page.layout.objects.length; index++) {
@@ -229,6 +226,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         let obj = this.FindObj(id);
         if (obj === undefined) {
           continue;
+        }
+
+        if (obj.src !== undefined) {
+          obj.src = environment.baseUrl + 'rs/image/' + value;
         }
         obj.value = value;
       }
