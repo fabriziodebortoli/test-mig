@@ -1,7 +1,7 @@
 <div *ngIf="model == undefined">
-    <label id="{{cmpId}}">{{caption}}</label>
+    <label for="{{cmpId}}" class="control-label">{{caption}}</label><i class="bar"></i>
 </div>
 
 <div *ngIf="model != undefined">
-     <tb-edit [caption]="caption" [cmpId]="cmpId" [model]="model"></tb-edit>
+    <tb-edit [caption]="caption" [cmpId]="cmpId" [model]="model"></tb-edit>
 </div>

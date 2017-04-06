@@ -43,6 +43,7 @@ import { LabelStaticComponent } from './controls/label-static/label-static.compo
 import { ReportObjectImageComponent } from './report-objects/image/image.component';
 import { ReportRectComponent } from './report-objects/rect/rect.component';
 
+
 const KENDO_UI_MODULES = [
   GridModule,
   InputsModule,
@@ -82,7 +83,7 @@ const TB_COMPONENTS = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS],
+  declarations: [TB_COMPONENTS/*, StateButtonDirective*/],
   exports: [TB_COMPONENTS],
   entryComponents: [OpenComponent, SaveComponent]
 })

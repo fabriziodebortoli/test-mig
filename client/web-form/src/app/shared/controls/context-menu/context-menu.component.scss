@@ -3,9 +3,9 @@
  // Margin & Paddings
  $mf-gap: $mf-font-size * 1.5 !default;
  .contextMenuClass {
-     margin-top: ($mf-gap * 1.1);
+     margin-top: ($mf-gap * 1.5);
  }
  
  .material-icons {
-     font-size: $mf-font-size;
+     font-size: $mf-font-size * 1.3;
  }

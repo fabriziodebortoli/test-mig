@@ -15,5 +15,6 @@ export class StateButtonComponent implements OnInit {
   ngOnInit() {
   }
 
-onClick(){}
+onClick(){
+}
 }
