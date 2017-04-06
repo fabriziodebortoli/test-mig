@@ -289,9 +289,9 @@ namespace Microarea.RSWeb.Render
 
                         Color bkg = cell.SubTotal
                             ?
-                                cell.GetValueSubTotBkgColor(obj.UseColorEasyview(row) ? obj.EasyviewColor : cell.column.SubTotal.BkgColor)
+                                cell.GetDynamicSubTotalBkgColor (obj.UseColorEasyview(row) ? obj.EasyviewColor : cell.TemplateSubTotalBkgColor)
                             :
-                                cell.GetDynamicBkgColor(obj.UseColorEasyview(row) ? obj.EasyviewColor : cell.TemplateBkgColor);
+                                cell.GetDynamicBkgColor         (obj.UseColorEasyview(row) ? obj.EasyviewColor : cell.TemplateBkgColor);
 
                         if (obj.FiscalEnd && row >= obj.CurrentRow)
                         {
