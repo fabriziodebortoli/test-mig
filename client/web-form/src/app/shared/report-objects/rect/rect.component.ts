@@ -1,3 +1,4 @@
+import { UtilsService } from './../../../core/utils.service';
 import { sqrrect } from './../../../reporting-studio/reporting-studio.model';
 import { Component, Input } from '@angular/core';
 
@@ -10,18 +11,20 @@ export class ReportRectComponent {
 
   @Input() rect: sqrrect;
 
-  constructor() { }
-  
-  applyStyle(): any {
+  constructor(private utils: UtilsService) { }
 
+  applyStyle(): any {
+    let rgba = this.utils.hexToRgba(this.rect.bkgcolor);
+    rgba.a = this.rect.transparent ? 0 : 1;
+    let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
     let obj = {
-      'background-color': this.rect.bkgcolor,
+      'background-color': backgroundCol,
       'border-left': this.rect.borders.left ? this.rect.pen.width + 'px' : '0px',
       'border-right': this.rect.borders.right ? this.rect.pen.width + 'px' : '0px',
       'border-bottom': this.rect.borders.bottom ? this.rect.pen.width + 'px' : '0px',
       'border-top': this.rect.borders.top ? this.rect.pen.width + 'px' : '0px',
       'border-style': 'solid',
-       'border-color': 'background-color',
+      'border-color': 'background-color',
       'position': 'absolute',
       'top': this.rect.rect.top + 'px',
       'left': this.rect.rect.left + 'px',

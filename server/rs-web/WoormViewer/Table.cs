@@ -598,7 +598,7 @@ namespace Microarea.RSWeb.Objects
                         this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
                     }
                 }
-                s += this.Value.FormattedData.ToJson("value", false, true) + ',';
+                s += this.Value.FormattedData.ToJson("value", false, true);
             }
 
             if (column.Table.HasDynamicHiddenColumns())

@@ -1,3 +1,4 @@
+import { UtilsService } from './../../../core/utils.service';
 
 import { GridModule } from '@progress/kendo-angular-grid';
 import { table, column, cell } from './../../../reporting-studio/reporting-studio.model';
@@ -7,13 +8,13 @@ declare var $: any;
 @Component({
   selector: 'rs-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  styleUrls: ['./table.component.css']
 })
 export class ReportTableComponent {
 
   @Input() table: table;
 
-  constructor() { }
+  constructor(private utils: UtilsService) { }
 
   // -----------------------------------------------------
   getValue(dataItem: any, colId: any, colIndex: number): any {
@@ -27,8 +28,6 @@ export class ReportTableComponent {
   // -----------------------------------------------------
   getTitleStyle(): any {
     let obj = {
-      'margin-bottom': '0.5em',
-      'align-content': 'center',
       'width': '100%',
       'border-left': this.table.title.borders.left ? this.table.title.pen.width + 'px' : '0px',
       'border-right': this.table.title.borders.right ? this.table.title.pen.width + 'px' : '0px',
@@ -51,17 +50,11 @@ export class ReportTableComponent {
   // -----------------------------------------------------
   getTableStyle(): any {
     let obj = {
-      'margin': '1em',
       'position': 'absolute',
       'top': this.table.rect.top + 'px',
       'left': this.table.rect.left + 'px',
       'width': this.table.rect.right - this.table.rect.left + 'px',
-      'border-left': '1px',
-      'border-right': '1px',
-      'border-bottom': '1px',
-      'border-top': '1px',
-      'border-color': 'black',
-      'border-style': 'solid',
+      'padding-right': '0px'
     };
 
     return obj;
@@ -107,8 +100,13 @@ export class ReportTableComponent {
     let defStyle: cell = this.findDefaultStyle(colId, rowIndex);
     let specStyle: any = dataItem[colId];
 
+    let bk = specStyle.bkgcolor === undefined ? defStyle.bkgcolor : specStyle.bkgcolor;
+    let rgba = this.utils.hexToRgba(bk);
+    rgba.a = this.table.transparent ? 0 : 1;
+    let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
+
     let obj = {
-      'background-color': specStyle.bkgcolor === undefined ? defStyle.bkgcolor : specStyle.bkgcolor,
+      'background-color': backgroundCol,
       'border-left': specStyle.borders !== undefined ? (specStyle.borders.left ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.left ? defStyle.pen.width + 'px' : '0px'),
       'border-right': specStyle.borders !== undefined ? (specStyle.borders.right ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.right ? defStyle.pen.width + 'px' : '0px'),
       'border-bottom': specStyle.borders !== undefined ? (specStyle.borders.bottom ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.bottom ? defStyle.pen.width + 'px' : '0px'),
