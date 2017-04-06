@@ -44,6 +44,7 @@ import { ReportObjectImageComponent } from './report-objects/image/image.compone
 import { ReportRectComponent } from './report-objects/rect/rect.component';
 import { ContextMenuDirective } from './directives/context-menu.directive';
 
+
 const KENDO_UI_MODULES = [
   GridModule,
   InputsModule,
@@ -90,6 +91,7 @@ const TB_DIRECTIVES = [
   declarations: [TB_COMPONENTS, TB_DIRECTIVES],
   exports: [TB_COMPONENTS, TB_DIRECTIVES],
   entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
+
 })
 export class SharedModule {
 

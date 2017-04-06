@@ -1,4 +1,5 @@
-﻿import { MenuItem } from './../context-menu/menu-item.model';
+﻿/*import { StateButtonComponent } from './../state-button/state-button.component';*/
+import { MenuItem } from './../context-menu/menu-item.model';
 import { StateButton } from './../state-button/state-button.model';
 import { EventDataService } from './../../../core/eventdata.service';
 import { ControlComponent } from './../control.component';
@@ -15,9 +16,9 @@ import { ControlTypes } from '../control-types.enum';
 export class EditComponent extends ControlComponent {
     @Input() buttons: StateButton[] = [];
     @Input('controlType') controlType: ControlTypes;
-    @Input() contextMenu: MenuItem[] = [{text: 'Menu1', id:'idd_menu1'}];
-
+    @Input() contextMenu: MenuItem[] = [{text: 'Menu1', id: 'idd_menu1'}];
     controlTypeModel = ControlTypes;
+
     constructor(
         private eventData: EventDataService
     ) {
