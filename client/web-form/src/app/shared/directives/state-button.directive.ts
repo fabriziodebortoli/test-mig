@@ -15,12 +15,12 @@ private stateButtonsRef: ComponentRef<any>;
   }
 ngAfterContentInit() {
 
-    this.stateButtonsTarget = (<any>this.vcr)._data.componentView.component.stateButtons;
-    console.log('_data.componentView', this.stateButtonsTarget);
+    // this.stateButtonsTarget = (<any>this.vcr)._data.componentView.component.stateButtons;
+    // console.log('_data.componentView', this.stateButtonsTarget);
 
-    let componentFactory = this.componentResolver.resolveComponentFactory(StateButtonComponent);
-    this.stateButtonsRef = this.stateButtonsTarget.createComponent(componentFactory);
-    this.renderComponent();
+    // let componentFactory = this.componentResolver.resolveComponentFactory(StateButtonComponent);
+    // this.stateButtonsRef = this.stateButtonsTarget.createComponent(componentFactory);
+    // this.renderComponent();
   }
 
   ngOnChanges(changes: Object) {
