@@ -114,31 +114,6 @@ namespace Microarea.RSWeb.Objects
         }
 
         //-------------------------------------------------------------------------------
-        public Color TemplateSubTotalBkgColor
-        {
-            get
-            {
-                return column.SubTotal.BkgColor;
-            }
-        }
-        public Color DynamicSubTotalBkgColor
-        {
-            get
-            {
-                if (column.SubTotalBkgColorExpr != null)
-                {
-                    column.Table.Document.SynchronizeSymbolTable(AtRowNumber);
-
-                    Value val = column.SubTotalBkgColorExpr.Eval();
-
-                    if (val != null && val.Valid)
-                        return Color.FromArgb(255, Color.FromArgb((int)val.Data));
-                }
-                return TemplateSubTotalBkgColor;
-            }
-        }
-
-        //-------------------------------------------------------------------------------
         public Color TemplateTextColor { get { return Value.TextColor; } }
 
         public Color DynamicTextColor
@@ -159,7 +134,14 @@ namespace Microarea.RSWeb.Objects
         }
 
         //-------------------------------------------------------------------------------
-        public Color TemplateBkgColor { get { return column.Table.Transparent ? Color.FromArgb(0, 255, 255, 255) : Value.BkgColor; } }
+        public Color TemplateBkgColor 
+        { 
+            get 
+            { 
+                return column.Table.Transparent ? Color.Transparent : Value.BkgColor; 
+            } 
+        }
+
         public Color DynamicBkgColor
         {
             get
@@ -176,6 +158,7 @@ namespace Microarea.RSWeb.Objects
                 return TemplateBkgColor;
             }
         }
+
         public Color GetDynamicBkgColor(Color cr)
         {
             if (column.BkgColorExpr != null)
@@ -189,6 +172,47 @@ namespace Microarea.RSWeb.Objects
             }
             return cr;
         }
+
+        //-------------------------------------------------------------------------------
+        public Color TemplateSubTotalBkgColor
+        {
+            get
+            {
+                return column.Table.Transparent ? Color.Transparent : column.SubTotal.BkgColor;
+            }
+        }
+
+        public Color DynamicSubTotalBkgColor
+        {
+            get
+            {
+                if (column.SubTotalBkgColorExpr != null)
+                {
+                    column.Table.Document.SynchronizeSymbolTable(AtRowNumber);
+
+                    Value val = column.SubTotalBkgColorExpr.Eval();
+
+                    if (val != null && val.Valid)
+                        return Color.FromArgb(255, Color.FromArgb((int)val.Data));
+                }
+                return TemplateSubTotalBkgColor;
+            }
+        }
+
+        public Color GetDynamicSubTotalBkgColor(Color cr)
+        {
+            if (column.SubTotalBkgColorExpr != null)
+            {
+                column.Table.Document.SynchronizeSymbolTable(AtRowNumber);
+
+                Value val = column.SubTotalBkgColorExpr.Eval();
+
+                if (val != null && val.Valid)
+                    return Color.FromArgb(255, Color.FromArgb((int)val.Data));
+            }
+            return cr;
+        }
+
 
         //-------------------------------------------------------------------------------
         public string DynamicTextFontStyleName
@@ -245,20 +269,6 @@ namespace Microarea.RSWeb.Objects
         }
 
         //-------------------------------------------------------------------------------
-        public Color GetValueSubTotBkgColor(Color cr)
-        {
-            if (column.SubTotalBkgColorExpr != null)
-            {
-                column.Table.Document.SynchronizeSymbolTable(AtRowNumber);
-
-                Value val = column.SubTotalBkgColorExpr.Eval();
-
-                if (val != null && val.Valid)
-                    return Color.FromArgb(255, Color.FromArgb((int)val.Data));
-            }
-            return cr;
-        }
-
         //-------------------------------------------------------------------------------
         public Borders DynamicCellBorders(Borders colBorders)
         {
@@ -358,7 +368,7 @@ namespace Microarea.RSWeb.Objects
             }
         }
         //---------------------------------------------------------------------
-        public string ToJsonTemplate(Borders borders, bool useAlternateColor /*TODO RSWEB*/)
+        public string ToJsonTemplate(Borders borders, bool useAlternateColor)
         {
             Borders cellBorders = this.DynamicCellBorders(borders);
 
@@ -366,7 +376,7 @@ namespace Microarea.RSWeb.Objects
 
             s += this.TemplateTextColor.ToJson("textcolor") + ',';
 
-            s += this.TemplateBkgColor.ToJson("bkgcolor") + ',';
+            s += (useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateBkgColor).ToJson("bkgcolor") + ',';
 
             s += this.CellAlign.ToHtml_align() + ',';
 
@@ -417,9 +427,9 @@ namespace Microarea.RSWeb.Objects
 
             //BKGCOLOR
             if (!this.SubTotal && column.BkgColorExpr != null)
-                s += ',' + this.DynamicBkgColor.ToJson("bkgcolor");
+                s += ',' + this.GetDynamicBkgColor          (useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateBkgColor).ToJson("bkgcolor");
             else if (this.SubTotal)
-                s += ',' + this.DynamicSubTotalBkgColor.ToJson("bkgcolor");
+                s += ',' + this.GetDynamicSubTotalBkgColor  (useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateSubTotalBkgColor).ToJson("bkgcolor");
 
             //FONT
             if (!this.SubTotal && column.TextFontStyleExpr != null)
@@ -523,9 +533,10 @@ namespace Microarea.RSWeb.Objects
         {
             get
             {
-                 return Value.BkgColor;
+                 return (!column.ShowTotal || column.Table.Transparent) ? Color.Transparent : Value.BkgColor;
             }
         }
+
         public Color DynamicTotalBkgColor
 		{
 			get
@@ -2491,11 +2502,14 @@ namespace Microarea.RSWeb.Objects
             if (!name.IsNullOrEmpty())
                 s = '\"' + name + "\":";
 
+            int rows = this.RowNumber;
+            if (this.ExistsTotals()) rows++;
+
             s += '{' +
                 base.ToJsonTemplate(false) + ',' +
 
                 this.ColumnNumber.ToJson("column_number") + ',' +
-                this.RowNumber.ToJson("row_number") + ',' +
+               rows.ToJson("row_number") + ',' +
 
                 this.Columns[0].Cells[0].RectCell.Height.ToJson("row_height") + ',' +
 
@@ -2631,8 +2645,8 @@ namespace Microarea.RSWeb.Objects
 
                 this.EasyViewNextRow(row);
             }
-
-            s += ToJsonTotals(true);
+             
+            s += ToJsonTotals(true); //when totals exists, it add a row with totals
 
             return s + "]";
         }
@@ -2705,7 +2719,7 @@ namespace Microarea.RSWeb.Objects
                 this.EasyViewNextRow(row);
             }
 
-            s += ToJsonTotals(false);
+            s += ToJsonTotals(false); //when totals exists, it add a row with totals
 
             s += "]";
             return s;
