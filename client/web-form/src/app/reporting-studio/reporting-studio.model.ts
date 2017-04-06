@@ -63,6 +63,7 @@ export class graphrect extends sqrrect {
   value: string;
   text_align: string;
   vertical_align: string;
+  src: string = '';
 
   constructor(jsonObj: any) {
     super(jsonObj.sqrrect !== undefined ? jsonObj.sqrrect : jsonObj); // if image is constructed from fieldRect the jsonObj, else jsonObj.sqrrect

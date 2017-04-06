@@ -364,18 +364,15 @@ namespace Microarea.RSWeb.Objects
 
             string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
-            //s += this.RectCell.ToJson("rect") + ',';
-
-            s += cellBorders.ToJson() + ',';
-            s += column.ColumnPen.ToJson() + ',';
-
             s += this.TemplateTextColor.ToJson("textcolor") + ',';
 
             s += this.TemplateBkgColor.ToJson("bkgcolor") + ',';
 
             s += this.CellAlign.ToHtml_align() + ',';
 
-            s += this.Value.FontData.ToJson();
+            s += this.Value.FontData.ToJson() + ',';
+
+            s += cellBorders.ToJson() + ',' + column.ColumnPen.ToJson();
 
             //TODO opzionali
             //s += ',' + (string.Empty).ToJson("tooltip", false, true);
@@ -568,16 +565,14 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
-            if (column.ShowTotal)
+            //if (column.ShowTotal)
             {
                 s +=
                     this.TemplateTotalTextColor.ToJson("textcolor") + ',' +
                     this.TemplateTotalBkgColor.ToJson("bkgcolor") + ',' +
 
                     this.Align.ToHtml_align() + ',' +
-                    this.FontData.ToJson() + ',' +
-
-                    this.RectCell.Height.ToJson("height") + ',';
+                    this.FontData.ToJson() + ',';
              }
 
             s +=  border.ToJson() + ',' + pen.ToJson() + "}}";

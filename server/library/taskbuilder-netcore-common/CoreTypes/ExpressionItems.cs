@@ -607,7 +607,6 @@ namespace Microarea.Common.CoreTypes
 
         private ArrayList localizableStrings = new ArrayList();
         protected SymbolTable parent = null;
-		public int RdeRowNumber = -1;
 
         public ushort maxID = 1000;
         public ushort GetNewID() { return ++maxID; }

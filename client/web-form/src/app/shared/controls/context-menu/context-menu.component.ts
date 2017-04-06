@@ -7,17 +7,17 @@ import { Component, Input } from '@angular/core';
   templateUrl: './context-menu.component.html',
   styleUrls: ['./context-menu.component.scss']
 })
-export class ContextMenuComponent  {
+export class ContextMenuComponent {
 
-private show: boolean = false;
+  private show: boolean = false;
 
-@Input() contextMenu: MenuItem[] = [];
+  // @Input() contextMenu: MenuItem[] = [];
 
   constructor() {
 
-   }
+  }
 
-    public onToggle(): void {
-        this.show = !this.show;
-    }
+  public onToggle(): void {
+    this.show = !this.show;
+  }
 }

@@ -13,7 +13,7 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
   @Input() forCmpID: string;
   @ViewChild('kendoMaskedTextBoxInstance') kendoMasked: any;
   anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
-  popupAlign: Align = { horizontal: 'left', vertical: 'center' };
+  popupAlign: Align = { horizontal: 'left', vertical: 'top' };
 
   singlePlaceHolder = '_';
   placeHolder = '__';

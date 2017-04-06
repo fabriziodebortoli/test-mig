@@ -27,6 +27,7 @@ export class ReportTextrectComponent implements AfterViewInit {
     let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
     let obj = {
       'position': 'absolute',
+      'display': 'table',
       'top': this.rect.rect.top + 'px',
       'left': this.rect.rect.left + 'px',
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
@@ -39,16 +40,8 @@ export class ReportTextrectComponent implements AfterViewInit {
       'border-color': this.rect.pen.color,
       'border-style': 'solid',
       'border-radius': this.rect.ratio + 'px',
-      'vertical-align': this.rect.vertical_align,
       'box-shadow': this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_color,
-      'color': this.rect.textcolor,
-      'font-family': this.rect.font.face,
-      'font-size': this.rect.font.size + 'px',
-      'font-style': this.rect.font.italic ? 'italic' : 'normal',
-      'font-weight': this.rect.font.bold ? 'bold' : 'normal',
-      'text-decoration': this.rect.font.underline ? 'underline' : 'none',
-      'text-align': this.rect.text_align,
-      
+
     };
 
     return obj;
@@ -58,7 +51,15 @@ export class ReportTextrectComponent implements AfterViewInit {
   applyValueStyle(): any {
     let obj = {
       'position': 'relative',
-      'margin': '0 1em 0 1em'
+      'display': 'table-cell',
+      'color': this.rect.textcolor,
+      'font-family': this.rect.font.face,
+      'font-size': this.rect.font.size + 'px',
+      'font-style': this.rect.font.italic ? 'italic' : 'normal',
+      'font-weight': this.rect.font.bold ? 'bold' : 'normal',
+      'text-decoration': this.rect.font.underline ? 'underline' : 'none',
+      'text-align': this.rect.text_align,
+      'vertical-align': this.rect.vertical_align,
     };
 
     return obj;

@@ -1,3 +1,4 @@
+import { EnumsService } from './../../../core/enums.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ViewModeType } from '../../../shared/models/view-mode-type.model';
@@ -25,7 +26,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     private localizationService: LocalizationService,
     private settingsService: SettingsService,
     private eventManagerService: EventManagerService,
-    private eventData: EventDataService
+    private eventData: EventDataService,
+    private enumsService: EnumsService
   ) {
     this.eventManagerService.preferenceLoaded.subscribe(result => {
       this.menuService.initApplicationAndGroup(this.menuService.applicationMenu.Application);  //qui bisogna differenziare le app da caricare, potrebbero essere app o environment
@@ -44,6 +46,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       this.menuService.onAfterGetMenuElements(result.Root);
       this.localizationService.loadLocalizedElements(true);
       this.settingsService.getSettings();
+      this.enumsService.getEnumsTable();
     });
   }
 

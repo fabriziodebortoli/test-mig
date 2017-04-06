@@ -1,5 +1,6 @@
-﻿import { ControlComponent } from './../control.component';
-import { Component, Input, OnChanges } from '@angular/core';
+import { ControlComponent } from './../control.component';
+import { Component, Input, OnChanges, OnInit, AfterViewInit } from '@angular/core';
+import { EnumsService } from './../../../core/enums.service';
 import { EventDataService } from './../../../core/eventdata.service';
 import { DocumentService } from './../../../core/document.service';
 import { WebSocketService } from './../../../core/websocket.service';
@@ -14,11 +15,12 @@ export class ComboComponent extends ControlComponent implements OnChanges {
 
     private items: Array<any> = [];
     private selectedItem: any;
-    @Input() public itemSource: any;
 
+    @Input() public itemSource: any;
     constructor(
         private webSocketService: WebSocketService,
-        private eventDataService: EventDataService) {
+        private eventDataService: EventDataService
+        ) {
         super();
 
         this.webSocketService.itemSource.subscribe((result) => {
@@ -40,6 +42,7 @@ export class ComboComponent extends ControlComponent implements OnChanges {
 
         this.items.splice(0, this.items.length);
         let temp = changes['model'].currentValue.value;
+
         let obj = { code: temp, description: temp };
         this.items.push(obj);
         this.selectedItem = obj;

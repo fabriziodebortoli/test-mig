@@ -866,7 +866,7 @@ namespace Microarea.RSWeb.WoormViewer
 		//------------------------------------------------------------------------------
 		public void LoadPage(int pageNumber)
 		{
-			RdeReader.LoadPage(pageNumber);
+             RdeReader.LoadPage(pageNumber);
 		}
 
 		//------------------------------------------------------------------------------
@@ -1525,10 +1525,6 @@ namespace Microarea.RSWeb.WoormViewer
 		//------------------------------------------------------------------------------
 		public void SynchronizeSymbolTable(int row = -1, bool updateOnlyTailCell = false)
 		{
-            if (SymbolTable.RdeRowNumber == row /*&& !updateOnlyTailCell*/)
-                return;
-            SymbolTable.RdeRowNumber = row;
-
             bool found, tail;
 			foreach (Variable v in SymbolTable)
 			{
