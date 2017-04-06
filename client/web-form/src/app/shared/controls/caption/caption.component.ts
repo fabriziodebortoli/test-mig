@@ -1,6 +1,5 @@
-import { EventDataService } from './../../../core/eventdata.service';
 import { ControlComponent } from './../control.component';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'tb-caption',
@@ -8,10 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./caption.component.scss']
 })
 export class CaptionComponent extends ControlComponent {
-
- constructor(
-        private eventData: EventDataService
-      ) {
-        super();
-      }
+  @Input() for: string;
 }

@@ -14,3 +14,4 @@ dotnet restore ../server/web-server/web-server.csproj --no-cache
 dotnet restore ../server/widgets-service/widgets-service.csproj --no-cache
 dotnet restore ../server/manufacturing-service/manufacturing-service.csproj --no-cache
 dotnet restore ../server/licensing-manager/licensing-manager.csproj --no-cache
+

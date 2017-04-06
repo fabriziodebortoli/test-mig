@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from '@angular/material';
 
@@ -16,17 +17,19 @@ import { HomeComponent, HomeSidenavComponent } from './home';
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
 import { AppComponent } from './app.component';
 import { appRouting } from './applications/app.routing';
+import {MomentModule} from 'angular2-moment';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent, HomeSidenavComponent, 
+    HomeComponent, HomeSidenavComponent,
     UnsupportedFactoryComponent,
     UnsupportedComponent
   ],
   imports: [
     FormsModule,
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     MaterialModule.forRoot(),
     CoreModule.forRoot(),
@@ -34,7 +37,8 @@ import { appRouting } from './applications/app.routing';
     MenuModule.forRoot(),
     ReportingStudioModule.forRoot(),
     appRouting,
-    routing
+    routing,
+    MomentModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [

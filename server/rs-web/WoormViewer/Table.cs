@@ -364,18 +364,15 @@ namespace Microarea.RSWeb.Objects
 
             string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
-            //s += this.RectCell.ToJson("rect") + ',';
-
-            s += cellBorders.ToJson() + ',';
-            s += column.ColumnPen.ToJson() + ',';
-
             s += this.TemplateTextColor.ToJson("textcolor") + ',';
 
             s += this.TemplateBkgColor.ToJson("bkgcolor") + ',';
 
             s += this.CellAlign.ToHtml_align() + ',';
 
-            s += this.Value.FontData.ToJson();
+            s += this.Value.FontData.ToJson() + ',';
+
+            s += cellBorders.ToJson() + ',' + column.ColumnPen.ToJson();
 
             //TODO opzionali
             //s += ',' + (string.Empty).ToJson("tooltip", false, true);
@@ -564,49 +561,50 @@ namespace Microarea.RSWeb.Objects
 			}
 		}
 
-        public string ToJsonTemplate()
+        public string ToJsonTemplate(Borders border, BorderPen pen)
         {
-            return "\"column_total\":{" +
+            string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
-                //this.RectCell               .ToJson("rect") + ',' +
-                this.TemplateTotalTextColor .ToJson("textcolor") + ',' +
-                this.TemplateTotalBkgColor  .ToJson("bkgcolor") + ',' +
+            //if (column.ShowTotal)
+            {
+                s +=
+                    this.TemplateTotalTextColor.ToJson("textcolor") + ',' +
+                    this.TemplateTotalBkgColor.ToJson("bkgcolor") + ',' +
 
-                this.Align                  .ToHtml_align() + ',' +
-                this.FontData               .ToJson() + ',' +
+                    this.Align.ToHtml_align() + ',' +
+                    this.FontData.ToJson() + ',';
+             }
 
-                this.RectCell.Height        .ToJson("height") + ',' +
-
-                this.TotalPen               .ToJson() + ',' +
-
-                this.column.Table.Borders.Total.ToJson() + 
-
-            '}';
+            s +=  border.ToJson() + ',' + pen.ToJson() + "}}";
+            return s;
         }
         
-        public string ToJsonData()
+        public string ToJsonData(Borders border, BorderPen pen)
         {
-            string s = "\"column_total\":{" +
+            string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
-               (column.TotalTextColorExpr != null ? this.DynamicTotalTextColor.ToJson("textcolor") + ',' : "") +
-               (column.TotalBkgColorExpr != null ? this.DynamicTotalBkgColor.ToJson("bkgcolor") + ',' : "");
-               
-
-           this.Value.FormattedData = string.Empty;
-            if (this.Value.RDEData != null)
+            if (column.ShowTotal)
             {
-                string formatStyleName = this.DynamicFormatStyleName;
-                if (formatStyleName.Length > 0)
-                {
-                    this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
-                }
-            }
-            s += this.Value.FormattedData.ToJson("value", false, true); 
+                s +=
+                   (column.TotalTextColorExpr != null ? this.DynamicTotalTextColor.ToJson("textcolor") + ',' : "") +
+                   (column.TotalBkgColorExpr != null ? this.DynamicTotalBkgColor.ToJson("bkgcolor") + ',' : "");
 
-            // if (column.Table.HasDynamicHiddenColumns())
-            //      TODO RSWEB ToJson bordi del totale
- 
-            s += '}';
+                this.Value.FormattedData = string.Empty;
+                if (this.Value.RDEData != null)
+                {
+                    string formatStyleName = this.DynamicFormatStyleName;
+                    if (formatStyleName.Length > 0)
+                    {
+                        this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
+                    }
+                }
+                s += this.Value.FormattedData.ToJson("value", false, true) + ',';
+            }
+
+            if (column.Table.HasDynamicHiddenColumns())
+                s = s.ConcatWithSep(border.ToJson(), ',') + ',' + pen.ToJson();
+
+            s += "}}";
             return s;
         }
     }
@@ -923,7 +921,7 @@ namespace Microarea.RSWeb.Objects
                 (/*this.ShowAsBarCode*/true ? ',' + this.ShowAsBarCode  .ToJson("value_is_barcode")  : "");
 
             //s += (/*this.ShowTotal*/true ? ',' + this.ShowTotal.ToJson("show_total") : "");
-           s += (this.ShowTotal ? ',' + this.TotalCell.ToJsonTemplate() : "");
+           //s += (this.ShowTotal ? ',' + this.TotalCell.ToJsonTemplate() : "");
 
            s += '}';
 
@@ -992,7 +990,7 @@ namespace Microarea.RSWeb.Objects
             }
 
             //s += (this.ShowTotal ? ',' + this.ShowTotal.ToJson("show_total") : "");
-            s += (this.ShowTotal ? ',' + this.TotalCell.ToJsonData() : "");
+            //s += (this.ShowTotal ? ',' + this.TotalCell.ToJsonData() : "");
 
            s += '}';
            return s;
@@ -2634,6 +2632,8 @@ namespace Microarea.RSWeb.Objects
                 this.EasyViewNextRow(row);
             }
 
+            s += ToJsonTotals(true);
+
             return s + "]";
         }
 
@@ -2693,7 +2693,6 @@ namespace Microarea.RSWeb.Objects
 
                     firstCol = false;
                 }
-
                 r += "]";
 
                 if (row < (this.RowNumber - 1))
@@ -2706,8 +2705,81 @@ namespace Microarea.RSWeb.Objects
                 this.EasyViewNextRow(row);
             }
 
+            s += ToJsonTotals(false);
+
             s += "]";
             return s;
+        }
+
+        //---------------------------------------------------------------------
+        public string ToJsonTotals(bool template)
+        {
+            if (!this.ExistsTotals())
+                return string.Empty;
+
+            string r = ",[";
+            bool first = true;
+            int lastColumn = this.LastVisibleColumn();
+            for (int col = 0; col <= lastColumn; col++)
+            {
+                Column column = this.Columns[col];
+
+                if (!column.IsHidden)
+                {
+                    TotalCell total = column.TotalCell;
+
+                    bool last = (col == this.ColumnNumber - 1);
+
+                    int nextVisibleColumn = this.NextVisibleColumn(col);
+
+                    bool nextColumnHasTotal =
+                            (
+                                (col < lastColumn) &&
+                                (nextVisibleColumn >= 0) &&
+                                this.HasTotal(nextVisibleColumn)
+                            );
+
+                    BorderPen pen = total.TotalPen;
+                    Borders borders;
+                    if (column.ShowTotal)
+                    {
+                        borders = new Borders
+                                        (
+                                            false,
+                                            first,
+                                            this.Borders.Total.Bottom,
+                                            this.Borders.Total.Right
+                                        );
+                    }
+                    else
+                    {   // serve per scrivere il bordo del successivo totale
+                        borders = new Borders
+                                        (
+                                            false,
+                                            false,
+                                            false,
+                                            !last && nextColumnHasTotal && this.Borders.Total.Left
+                                        );
+                        //disegno il bordo sx del prossimo totale con il suo Pen e non con quello della cella corrente
+                        //(allinemento con comportamento di woorm c++)
+                        if (col + 1 <= lastColumn)
+                        {
+                            Column nextColumn = this.Columns[col + 1];
+                            pen = nextColumn.TotalCell.TotalPen;
+                        }
+                    }
+
+                    //Color bkg = !column.ShowTotal || this.Transparent ? Color.Transparent : total.TotalBkgColor;
+                    if (first) first = false; else r += ',';
+                       
+                    r += template ? 
+                            column.TotalCell.ToJsonTemplate(borders, pen)
+                            :
+                            column.TotalCell.ToJsonData(borders, pen);
+                }
+            }
+            r += ']';
+            return r;
         }
 
         //---------------------------------------------------------------------------
@@ -2733,6 +2805,16 @@ namespace Microarea.RSWeb.Objects
         {
             for (int i = 0; i < ColumnNumber; i++)
                 if (Columns[i].CellBordersExpr != null)
+                    return true;
+
+            return false;
+        }
+
+        //---------------------------------------------------------------------------
+        public bool ExistsTotals()
+        {
+            for (int i = 0; i < ColumnNumber; i++)
+                if (Columns[i].ShowTotal)
                     return true;
 
             return false;
@@ -2810,7 +2892,6 @@ namespace Microarea.RSWeb.Objects
 
 			ClearInterlines();
 		}
-
 
 		//------------------------------------------------------------------------------
 		public void ClearInterlines()

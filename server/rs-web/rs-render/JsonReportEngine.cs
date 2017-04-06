@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.Xml;
-
-using TaskBuilderNetCore.Interfaces;
 
 using Microarea.Common.Applications;
-using Microarea.Common.CoreTypes;
-using Microarea.Common.Generic;
-using Microarea.Common.NameSolver;
 
 using Microarea.RSWeb.WoormViewer;
-using Microarea.RSWeb.Objects;
 using Microarea.RSWeb.Models;
-using Microarea.RSWeb.WoormEngine;
 
 namespace Microarea.RSWeb.Render
 {
