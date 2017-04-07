@@ -990,7 +990,7 @@ namespace Microarea.RSWeb.Objects
         {
             get
             {
-                return this.Transparent ? Color.Transparent : bkgColor;
+                return bkgColor;
             }
         }
 
