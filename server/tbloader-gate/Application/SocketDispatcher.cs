@@ -47,7 +47,7 @@ namespace Microarea.TbLoaderGate
 
 		public static async Task<String> ReadString(WebSocket ws)
 		{
-			ArraySegment<Byte> buffer = new ArraySegment<byte>(new Byte[8192]);
+			ArraySegment<Byte> buffer = new ArraySegment<byte>(new Byte[4096]);
 
 			WebSocketReceiveResult result = null;
 
