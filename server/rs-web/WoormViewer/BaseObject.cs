@@ -20,19 +20,20 @@ using System.Net;
 
 namespace Microarea.RSWeb.Objects
 {
+
     /// <summary>
     /// Summary description for BaseObj.
     /// </summary>
     //================================================================================
- //   [Serializable]
-	//[KnownType(typeof(Rectangle))]
-	//[KnownType(typeof(BasicText))]
-	//[KnownType(typeof(WoormValue))]
-	//[KnownType(typeof(Label))]
- //   [KnownType(typeof(Borders))]
- //   [KnownType(typeof(BorderPen))]
- //   [KnownType(typeof(SqrRect))]
- //   [KnownType(typeof(BaseObj))]
+    //   [Serializable]
+    //[KnownType(typeof(Rectangle))]
+    //[KnownType(typeof(BasicText))]
+    //[KnownType(typeof(WoormValue))]
+    //[KnownType(typeof(Label))]
+    //   [KnownType(typeof(Borders))]
+    //   [KnownType(typeof(BorderPen))]
+    //   [KnownType(typeof(SqrRect))]
+    //   [KnownType(typeof(BaseObj))]
 
     abstract public class BaseObj //: ISerializable
 	{
@@ -332,6 +333,8 @@ namespace Microarea.RSWeb.Objects
         public virtual void RemoveStyle () {}
 
         //---------------------------------------------------------------------
+        public enum LinkType { report, document, url, file, function }  //deve essere allineato con ...\web-form\src\app\reporting-studio\reporting-studio.component.ts
+
         static public string  GetLink(WoormDocument woorm, int alias, int atRowNumber = -1)
         {
             string navigateURL = string.Empty;
@@ -362,20 +365,21 @@ namespace Microarea.RSWeb.Objects
             string arguments = conn.GetArgumentsOuterXml(woorm, atRowNumber);
             parameters = WebUtility.UrlEncode(arguments);
 
-            string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + navigateURL.ToJson("arguments", false, true);
+            string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',' + 
+                                       navigateURL.ToJson("arguments", false, true) + ',';
 
             switch (conn.ConnectionType)
             {
                 case ConnectionLinkType.Report:
                 case ConnectionLinkType.ReportByAlias:
                 {
-                    js += "report".ToJson("type") + '}';
+                    js += ((int)LinkType.report).ToJson("type") + '}';
                     return js;
                 }
                 case ConnectionLinkType.Form:
                 case ConnectionLinkType.FormByAlias:
                 {
-                   js += "document".ToJson("type") + '}';
+                   js += ((int)LinkType.document).ToJson("type") + '}';
                    return js;
                 }
 

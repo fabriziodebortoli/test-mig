@@ -7,10 +7,13 @@ export interface Message {
 
 export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, DATA, STOP, IMAGE }
 
-export enum ReportObjectType { textrect, fieldrect, table, graphrect, sqrrect, repeater, cell }
+export enum ReportObjectType { textrect, fieldrect, table, graphrect, sqrrect, repeater, cell, link }
+
+export enum LinkType { report, document, url, file, function }
 
 export class link {
-  type: string;
+  obj: ReportObjectType = ReportObjectType.link;
+  type: LinkType;
   ns: string;
   arguments: string;
   runAtServer: boolean = false;
@@ -126,10 +129,10 @@ export class fieldrect extends baserect {
   value_is_html: boolean;
   value_is_image: boolean;
   value_is_barcode: boolean;
-  link: link = null;
+  link: link = undefined;
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
-    this.label = jsonObj.label ? new label(jsonObj.label) : null;
+    this.label = jsonObj.label ? new label(jsonObj.label) : undefined;
     this.font = new font(jsonObj.font);
     this.text_align = jsonObj.text_align;
     this.vertical_align = jsonObj.vertical_align;
@@ -138,7 +141,7 @@ export class fieldrect extends baserect {
     this.value_is_html = jsonObj.value_is_html;
     this.value_is_image = jsonObj.value_is_image;
     this.value_is_barcode = jsonObj.value_is_barcode;
-    this.link = jsonObj.link ? new link(jsonObj.link) : null;
+    this.link = jsonObj.link ? new link(jsonObj.link) : undefined;
   };
 }
 
@@ -306,7 +309,7 @@ export class cell {
   font: font;
   tooltip: string = '';
   value: string = '';
-  link: link = null;
+  link: link = undefined;
   constructor(jsonObj: any, id: string) {
     this.id = id;
     this.borders = new borders(jsonObj.borders);
@@ -318,7 +321,7 @@ export class cell {
     this.font = new font(jsonObj.font);
     this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';
     this.value = jsonObj.value ? jsonObj.value : '';
-    this.link = jsonObj.link ? new link(jsonObj.link) : null;
+    this.link = jsonObj.link ? new link(jsonObj.link) : undefined;
   }
 }
 
