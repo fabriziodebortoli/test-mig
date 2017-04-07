@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.scss']
 })
-export class ReportObjectImageComponent {
+export class ReportImageComponent {
 
   @Input() image: graphrect;
 

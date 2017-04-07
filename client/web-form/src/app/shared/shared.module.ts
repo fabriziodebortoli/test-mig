@@ -40,9 +40,10 @@ import { ReportTextrectComponent } from './report-objects/textrect/textrect.comp
 import { ReportFieldrectComponent } from './report-objects/fieldrect/fieldrect.component';
 import { ReportTableComponent } from './report-objects/table/table.component';
 import { LabelStaticComponent } from './controls/label-static/label-static.component';
-import { ReportObjectImageComponent } from './report-objects/image/image.component';
+import { ReportImageComponent } from './report-objects/image/image.component';
 import { ReportRectComponent } from './report-objects/rect/rect.component';
 import { ContextMenuDirective } from './directives/context-menu.directive';
+import { ReportLinkComponent } from './report-objects/link/link.component';
 
 
 const KENDO_UI_MODULES = [
@@ -69,7 +70,7 @@ const TB_COMPONENTS = [
   HeaderStripComponent,
   OpenComponent, SaveComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent,
-  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportObjectImageComponent, ReportRectComponent
+  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportImageComponent, ReportRectComponent, ReportLinkComponent
 ];
 
 const TB_DIRECTIVES = [

@@ -1,4 +1,4 @@
-import { ReportObjectImageComponent } from './../shared/report-objects/image/image.component';
+
 import { SharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
 
