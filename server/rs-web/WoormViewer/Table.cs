@@ -138,7 +138,7 @@ namespace Microarea.RSWeb.Objects
         { 
             get 
             { 
-                return column.Table.Transparent ? Color.Transparent : Value.BkgColor; 
+                return Value.BkgColor; 
             } 
         }
 
@@ -178,7 +178,7 @@ namespace Microarea.RSWeb.Objects
         {
             get
             {
-                return column.Table.Transparent ? Color.Transparent : column.SubTotal.BkgColor;
+                return column.SubTotal.BkgColor;
             }
         }
 
@@ -533,7 +533,7 @@ namespace Microarea.RSWeb.Objects
         {
             get
             {
-                 return (!column.ShowTotal || column.Table.Transparent) ? Color.Transparent : Value.BkgColor;
+                 return Value.BkgColor;
             }
         }
 
@@ -2783,7 +2783,6 @@ namespace Microarea.RSWeb.Objects
                         }
                     }
 
-                    //Color bkg = !column.ShowTotal || this.Transparent ? Color.Transparent : total.TotalBkgColor;
                     if (first) first = false; else r += ',';
                        
                     r += template ? 

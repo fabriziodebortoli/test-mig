@@ -217,7 +217,6 @@ namespace Microarea.RSWeb.WoormViewer
 			filter2 = new ConnectionLinkFilter(this);
 		}
 
-		
 		//------------------------------------------------------------------------------
 		/// <summary>
 		/// Ritorna il fragment xml che descrive gli argomenti da passare al report invocato
@@ -226,13 +225,15 @@ namespace Microarea.RSWeb.WoormViewer
 		/// <param name="atRowNumber">indice della riga di tabella che contiene il link (usato per calcolare la chiave per trovare i campi gia` visitati)</param>
 		/// <param name="sourceValue">il valore del campo che origina il link (usato per calcolare la chiave per trovare i campi gia` visitati)</param>
 		/// <returns></returns>
-		public string GetArgumentsOuterXml (WoormDocument woorm, int atRowNumber, string sourceValue)
+		public string GetArgumentsOuterXml (WoormDocument woorm, int atRowNumber, string sourceValue = null)
 		{
 			bool found;
 			XmlDocument d = new XmlDocument();
 			d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
-            d.DocumentElement.SetAttribute(WebMethodsXML.Attribute.Row, atRowNumber.ToString());
-			d.DocumentElement.SetAttribute(WebMethodsXML.Attribute.Value, sourceValue);
+            if (atRowNumber > -1)
+                d.DocumentElement.SetAttribute(WebMethodsXML.Attribute.Row, atRowNumber.ToString());
+            if (sourceValue != null)    //potrebbe non servire piu'
+                d.DocumentElement.SetAttribute(WebMethodsXML.Attribute.Value, sourceValue);
             FunctionPrototype fi = new FunctionPrototype();
 			
 			//Necessaria per i link sui campi singoli
@@ -262,7 +263,7 @@ namespace Microarea.RSWeb.WoormViewer
 
             fi.Parameters.Unparse(d.DocumentElement);
 			return d.OuterXml;
-			//		<Arguments>
+			//		<Arguments row="1">
 			//		<Param name="w_IsJournal" type="Bool" mode="in" localize="First Argument" value="0" />
 			//		</Arguments>
 		}
@@ -1266,7 +1267,7 @@ namespace Microarea.RSWeb.WoormViewer
 		public ConnectionLink GetConnectionOnAlias(int alias, WoormDocument woorm, int row)
 		{		
 			foreach (ConnectionLink conn in this)
-				if (conn.OnAlias == alias && conn.EvalFilters(woorm, row))
+				if (conn.OnAlias == alias && conn.Valid && conn.EvalFilters(woorm, row))
 					return conn;
 			return null;
 		}

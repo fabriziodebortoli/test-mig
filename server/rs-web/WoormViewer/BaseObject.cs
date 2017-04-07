@@ -13,6 +13,9 @@ using Microarea.Common.ExpressionManager;
 
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
+using Microarea.RSWeb.WoormWebControl;
+using System.Net;
+
 //using Microarea.RSWeb.Temp;
 
 namespace Microarea.RSWeb.Objects
@@ -327,7 +330,77 @@ namespace Microarea.RSWeb.Objects
         public virtual void SetStyle    (BaseRect r) {}
         public virtual void ClearStyle  () {}
         public virtual void RemoveStyle () {}
- 	}
+
+        //---------------------------------------------------------------------
+        static public bool GetLink(WoormDocument woorm, int alias, int atRowNumber, out string navigateURL, out string parameters)
+        {
+            navigateURL = string.Empty;
+            parameters = string.Empty;
+
+            woorm.SynchronizeSymbolTable(atRowNumber);
+            ConnectionLink conn = woorm.Connections.GetConnectionOnAlias(alias, woorm, atRowNumber);
+            if (conn == null) 
+                return false;
+
+            navigateURL = conn.Namespace;
+
+            if (
+                conn.ConnectionType == ConnectionLinkType.ReportByAlias ||
+                conn.ConnectionType == ConnectionLinkType.FormByAlias ||
+                conn.ConnectionType == ConnectionLinkType.URLByAlias ||
+                conn.ConnectionType == ConnectionLinkType.FunctionByAlias
+                )
+            {
+                string strVar = conn.Namespace;
+                Variable v = woorm.RdeReader.SymbolTable.Find(strVar);
+                if (v != null && v.Data != null)
+                    navigateURL = v.Data.ToString();
+                else 
+                    return false;
+            }
+
+            string arguments = conn.GetArgumentsOuterXml(woorm, atRowNumber);
+            parameters = WebUtility.UrlEncode(arguments);
+
+            switch (conn.ConnectionType)
+            {
+                case ConnectionLinkType.Report:
+                case ConnectionLinkType.ReportByAlias:
+                {
+                             
+                    break;
+                }
+                case ConnectionLinkType.Form:
+                case ConnectionLinkType.FormByAlias:
+                {
+                    break;
+                }
+
+                case ConnectionLinkType.URL:
+                case ConnectionLinkType.URLByAlias:
+                {
+                    /*
+                    navigateURL = conn.GetNavigateUrl(atRowNumber);
+
+                    WebCtrLs.HyperLink hyperLink = new HyperLink();
+                    hyperLink.Text = cell.Text;
+                    if (conn.ConnectionSubType != ConnectionLinkSubType.CallTo)
+                        hyperLink.Target = "_blank";
+                    hyperLink.NavigateUrl = navigateURL;
+                    cell.Controls.Add(hyperLink);
+                    */
+                    break;
+                }
+                case ConnectionLinkType.Function:
+                case ConnectionLinkType.FunctionByAlias:
+                {
+                    break;
+                }
+
+            }
+            return false;
+        }
+    }
 
 	/// <summary>
 	/// Summary description for BaseRect.
@@ -990,7 +1063,7 @@ namespace Microarea.RSWeb.Objects
         {
             get
             {
-                return this.Transparent ? Color.Transparent : bkgColor;
+                return bkgColor;
             }
         }
 
