@@ -1404,7 +1404,7 @@ namespace Microarea.RSWeb.Objects
         {
             get
             {
-                return this.Transparent ? Color.Transparent : Label.BkgColor;
+                return Label.BkgColor;
             }
         }
 
@@ -2240,7 +2240,7 @@ namespace Microarea.RSWeb.Objects
         {
             get
             {
-                return this.Transparent ? Color.Transparent : Value.BkgColor;
+                return Value.BkgColor;
             }
         }
 
