@@ -332,15 +332,15 @@ namespace Microarea.RSWeb.Objects
         public virtual void RemoveStyle () {}
 
         //---------------------------------------------------------------------
-        static public bool GetLink(WoormDocument woorm, int alias, int atRowNumber, out string navigateURL, out string parameters)
+        static public string  GetLink(WoormDocument woorm, int alias, int atRowNumber = -1)
         {
-            navigateURL = string.Empty;
-            parameters = string.Empty;
+            string navigateURL = string.Empty;
+            string parameters = string.Empty;
 
             woorm.SynchronizeSymbolTable(atRowNumber);
             ConnectionLink conn = woorm.Connections.GetConnectionOnAlias(alias, woorm, atRowNumber);
             if (conn == null) 
-                return false;
+                return null;
 
             navigateURL = conn.Namespace;
 
@@ -356,24 +356,27 @@ namespace Microarea.RSWeb.Objects
                 if (v != null && v.Data != null)
                     navigateURL = v.Data.ToString();
                 else 
-                    return false;
+                    return null;
             }
 
             string arguments = conn.GetArgumentsOuterXml(woorm, atRowNumber);
             parameters = WebUtility.UrlEncode(arguments);
+
+            string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + navigateURL.ToJson("arguments", false, true);
 
             switch (conn.ConnectionType)
             {
                 case ConnectionLinkType.Report:
                 case ConnectionLinkType.ReportByAlias:
                 {
-                             
-                    break;
+                    js += "report".ToJson("type") + '}';
+                    return js;
                 }
                 case ConnectionLinkType.Form:
                 case ConnectionLinkType.FormByAlias:
                 {
-                    break;
+                   js += "document".ToJson("type") + '}';
+                   return js;
                 }
 
                 case ConnectionLinkType.URL:
@@ -398,7 +401,7 @@ namespace Microarea.RSWeb.Objects
                 }
 
             }
-            return false;
+            return null;
         }
     }
 
@@ -2423,8 +2426,13 @@ namespace Microarea.RSWeb.Objects
                     (this.TextColorExpr != null ? this.DynamicTextColor .ToJson("textcolor") + ',' : "") +
                     (this.BkgColorExpr != null  ? this.DynamicBkgColor  .ToJson("bkgcolor") + ',' : "");
 
-                s += this.Value.FormattedData.ToJson("value", false, true) +
-                '}';
+            s += this.Value.FormattedData.ToJson("value", false, true);
+
+            string link = BaseObj.GetLink(this.Document, this.InternalID);
+            if (!link.IsNullOrEmpty())
+                s += ',' + link;
+
+            s += '}';
 
             if (bracket)
                 s = '{' + s + '}';

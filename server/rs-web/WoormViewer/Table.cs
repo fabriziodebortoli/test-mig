@@ -454,6 +454,11 @@ namespace Microarea.RSWeb.Objects
             //TOOLTIP
             if (column.TooltipExpr != null)
                 s += ',' + this.DynamicTooltip.ToJson("tooltip", false, true);
+            
+            //LINK
+            string link = BaseObj.GetLink(this.column.Table.Document, this.column.InternalID, this.AtRowNumber);
+            if (!link.IsNullOrEmpty())
+                s += ',' + link;
 
             //----
 

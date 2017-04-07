@@ -9,8 +9,20 @@ export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, DATA, STOP
 
 export enum ReportObjectType { textrect, fieldrect, table, graphrect, sqrrect, repeater, cell }
 
-export class baseobj {
+export class link {
+  type: string;
+  ns: string;
+  arguments: string;
+  runAtServer: boolean = false;
+  constructor(jsonObj: any) {
+    this.type = jsonObj.type;
+    this.ns = jsonObj.ns;
+    this.arguments = jsonObj.arguments;
+    this.runAtServer = jsonObj.runAtServer ? jsonObj.runAtServer : false;
+  }
+}
 
+export class baseobj {
   id: string;
   hidden: boolean;
   transparent: boolean;
@@ -18,26 +30,21 @@ export class baseobj {
   tooltip: string;
   shadow_height: number;
   shadow_color: string;
-
   constructor(jsonObj: any) {
-
     this.id = jsonObj.id;
     this.hidden = jsonObj.hidden;
     this.rect = new rect(jsonObj.rect);
     this.transparent = jsonObj.transparent;
-    this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';;
+    this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';
     this.shadow_height = jsonObj.shadow_height;
     this.shadow_color = jsonObj.shadow_color;
   };
-
 }
 
 export class baserect extends baseobj {
-
   borders: borders;
   ratio: number;
   pen: borderpen;
-
   constructor(jsonObj: any) {
     super(jsonObj.baseobj);
     this.ratio = jsonObj.ratio;
@@ -47,10 +54,8 @@ export class baserect extends baseobj {
 }
 
 export class sqrrect extends baserect {
-
   obj: ReportObjectType = ReportObjectType.sqrrect;
   bkgcolor: string;
-
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
     this.bkgcolor = jsonObj.bkgcolor;
@@ -58,13 +63,11 @@ export class sqrrect extends baserect {
 }
 
 export class graphrect extends sqrrect {
-
   obj: ReportObjectType = ReportObjectType.graphrect;
   value: string;
   text_align: string;
   vertical_align: string;
   src: string = '';
-
   constructor(jsonObj: any) {
     super(jsonObj.sqrrect !== undefined ? jsonObj.sqrrect : jsonObj); // if image is constructed from fieldRect the jsonObj, else jsonObj.sqrrect
     this.text_align = jsonObj.text_align;
@@ -74,13 +77,11 @@ export class graphrect extends sqrrect {
 }
 
 export class repeater extends sqrrect {
-
   obj: ReportObjectType = ReportObjectType.repeater;
   rows: number;
   columns: number;
   xoffset: number;
   yoffset: number;
-
   constructor(jsonObj: any) {
     super(jsonObj.sqrrect);
     this.rows = jsonObj.rows;
@@ -91,7 +92,6 @@ export class repeater extends sqrrect {
 }
 
 export class textrect extends baserect {
-
   obj: ReportObjectType = ReportObjectType.textrect;
   value: string;
   bkgcolor: string;
@@ -101,7 +101,6 @@ export class textrect extends baserect {
   font: font;
   value_is_html: boolean;
   value_is_barcode: boolean;
-
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
     this.text_align = jsonObj.text_align;
@@ -116,7 +115,6 @@ export class textrect extends baserect {
 }
 
 export class fieldrect extends baserect {
-
   obj: ReportObjectType = ReportObjectType.fieldrect;
   value: string = '';
   label: label;
@@ -128,12 +126,10 @@ export class fieldrect extends baserect {
   value_is_html: boolean;
   value_is_image: boolean;
   value_is_barcode: boolean;
-
+  link: link = null;
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
-
     this.label = jsonObj.label ? new label(jsonObj.label) : null;
-
     this.font = new font(jsonObj.font);
     this.text_align = jsonObj.text_align;
     this.vertical_align = jsonObj.vertical_align;
@@ -142,6 +138,7 @@ export class fieldrect extends baserect {
     this.value_is_html = jsonObj.value_is_html;
     this.value_is_image = jsonObj.value_is_image;
     this.value_is_barcode = jsonObj.value_is_barcode;
+    this.link = jsonObj.link ? new link(jsonObj.link) : null;
   };
 }
 
@@ -309,7 +306,7 @@ export class cell {
   font: font;
   tooltip: string = '';
   value: string = '';
- 
+  link: link = null;
   constructor(jsonObj: any, id: string) {
     this.id = id;
     this.borders = new borders(jsonObj.borders);
@@ -321,6 +318,7 @@ export class cell {
     this.font = new font(jsonObj.font);
     this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';
     this.value = jsonObj.value ? jsonObj.value : '';
+    this.link = jsonObj.link ? new link(jsonObj.link) : null;
   }
 }
 

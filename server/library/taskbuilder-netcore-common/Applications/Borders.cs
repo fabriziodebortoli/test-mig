@@ -18,7 +18,7 @@ namespace Microarea.Common.Applications
 		//------------------------------------------------------------------------------
 		public BorderPen()
 		{
-			Color = Color.FromArgb(255, 255, 255, 255);
+			Color = Color.FromArgb(255, 0, 0, 0);
             Width = 1;
 		}
 
@@ -57,7 +57,7 @@ namespace Microarea.Common.Applications
 			{
 				return
 					(Width == 1) &&
-					(Color == Color.FromArgb(255, 255, 255, 255));
+					(Color == Color.FromArgb(255, 0, 0, 0));
 			}
 		}
 
