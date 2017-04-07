@@ -21,7 +21,7 @@ export class TileManagerComponent implements AfterContentInit {
     let activeTiles = this.tiles.filter((tile) => tile.active);
 
     // if there is no active tab set, activate the first
-    if (activeTiles.length === 0) {
+    if (activeTiles.length === 0 && this.tiles.length > 0) {
       this.selectTile(this.tiles.first);
     }
   }
