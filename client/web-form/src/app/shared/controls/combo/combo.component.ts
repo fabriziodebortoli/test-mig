@@ -29,7 +29,7 @@ export class ComboComponent extends ControlComponent implements OnChanges {
     }
 
     fillListBox() {
-        this.items.slice(0, this.items.length);
+        this.items.splice(0, this.items.length);
         this.eventDataService.openDropdown.emit(this.itemSource);
     }
 
