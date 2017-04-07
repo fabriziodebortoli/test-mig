@@ -208,7 +208,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   UpdateData(msg: any) {
 
-    if (this.rsService.pageNum !== msg.page.page_number) { return; }
+    if (this.rsService.pageNum !== msg.page.page_number) {
+      return;
+    }
     let id: string;
     let value: any;
     for (let index = 0; index < msg.page.layout.objects.length; index++) {

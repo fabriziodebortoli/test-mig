@@ -985,11 +985,12 @@ namespace Microarea.RSWeb.Objects
 			this.bkgColor = s.TemplateBkgColor;
 		}
 
+        //------------------------------------------------------------------------------
         public Color TemplateBkgColor
         {
             get
             {
-                return bkgColor;
+                return this.Transparent ? Color.Transparent : bkgColor;
             }
         }
 
@@ -1330,7 +1331,7 @@ namespace Microarea.RSWeb.Objects
         {
             get
             {
-                return Label.BkgColor;
+                return this.Transparent ? Color.Transparent : Label.BkgColor;
             }
         }
 
@@ -2166,7 +2167,7 @@ namespace Microarea.RSWeb.Objects
         {
             get
             {
-                return Value.BkgColor;
+                return this.Transparent ? Color.Transparent : Value.BkgColor;
             }
         }
 

@@ -109,11 +109,13 @@ fieldset {
     color: $mf-label-color;
     font-size: $mf-active-font-size;
     .checkbox &,
+    .mat-checkbox-inner-container &,
     .form-radio &,
     .form-group & {
         position: absolute;
         width: 100%;
     }
+    .mat-checkbox-inner-container &,
     .checkbox & {
         position: relative;
         margin-bottom: $mf-font-size;
@@ -225,6 +227,7 @@ fieldset {
 
 // Radio & Checkbox
 .checkbox,
+.mat-checkbox-inner-container,
 .form-radio {
     label {
         position: relative;
@@ -288,7 +291,8 @@ fieldset {
     }
 }
 
-.checkbox {
+.checkbox,
+.mat-checkbox-inner-container {
     // scss-lint:disable QualifyingElement
     margin-top: ($mf-gap * 2);
     margin-bottom: $mf-font-size;
@@ -469,4 +473,11 @@ tb-topbar md-toolbar md-toolbar-row {
 .topbar-title h2 {
     font-size: 12px;
     font-weight: normal;
+}
+
+
+/* NOSTRE PERSONALIZZAZIONI */
+
+.mat-card {
+    color: $mf-active-color;
 }
