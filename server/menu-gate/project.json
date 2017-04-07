@@ -16,7 +16,7 @@
       "type": "platform",
       "version": "1.1.1"
     },
-    "Newtonsoft.Json": "10.0.1",
+    "Newtonsoft.Json": "10.0.2",
     "taskbuilder-netcore-common": "1.0.0-*"
   },
 
