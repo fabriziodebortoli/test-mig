@@ -69,8 +69,8 @@ const TB_COMPONENTS = [
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
   HeaderStripComponent,
   OpenComponent, SaveComponent,
-  PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent,
-  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportImageComponent, ReportRectComponent, ReportLinkComponent
+  PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, PictureStaticComponent,
+  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportObjectImageComponent, ReportRectComponent
 ];
 
 const TB_DIRECTIVES = [
