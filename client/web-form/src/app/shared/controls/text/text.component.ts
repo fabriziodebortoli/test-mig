@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnChanges, AfterContentInit } from '@angular/core';
-import { ContextMenuComponent } from './../context-menu/context-menu.component';
+// import { ContextMenuComponent } from './../context-menu/context-menu.component';
 import { EventDataService } from './../../../core/eventdata.service';
-import { ControlComponent } from "../control.component";
+import { ControlComponent } from '../control.component';
 
 @Component({
   selector: 'tb-text',
@@ -9,6 +9,8 @@ import { ControlComponent } from "../control.component";
   styleUrls: ['./text.component.scss']
 })
 export class TextComponent extends ControlComponent /*implements AfterContentInit, OnChanges */ {
+
+  @Input('readonly') readonly: boolean = false;
 
   @ViewChild("contextMenu", { read: ViewContainerRef }) contextMenu: ViewContainerRef;
   // private contextMenuRef;

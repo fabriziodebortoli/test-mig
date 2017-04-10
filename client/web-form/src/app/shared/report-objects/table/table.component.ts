@@ -70,13 +70,12 @@ export class ReportTableComponent {
       'color': column.title.textcolor,
       'border-left': column.title.borders.left ? column.title.pen.width + 'px' : '0px',
       'border-right': column.title.borders.right ? column.title.pen.width + 'px' : '0px',
-      'border-bottom': column.title.borders.bottom ? column.title.pen.width + 'px' : '0px',
+      'border-bottom': column.title.borders.bottom ? column.title.pen.width + 1 + 'px' : '0px',
       'border-top': column.title.borders.top ? column.title.pen.width + 'px' : '0px',
       'border-color': column.title.pen.color,
       'background-color': column.title.bkgcolor,
       'border-style': 'solid',
       'height': (column.title.rect.bottom - column.title.rect.top) + 'px',
-      'width': column.width === 0 ? 70 : column.width + 'px',
       'padding': '0px',
       'text-align': column.title.text_align,
       'vertical-align': column.title.vertical_align
@@ -87,9 +86,8 @@ export class ReportTableComponent {
   getCellsStyle(column: column): any {
     let obj = {
       'padding': '0px',
-      'height': this.table.row_height + 'px',
       'border': '0px',
-      'width': column.width === 0 ? 70 : column.width + 'px'
+      'height': this.table.row_height + 'px',
     };
 
     return obj;
@@ -106,11 +104,12 @@ export class ReportTableComponent {
     let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
 
     let obj = {
+      'height': this.table.row_height + 'px',
       'background-color': backgroundCol,
       'border-left': specStyle.borders !== undefined ? (specStyle.borders.left ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.left ? defStyle.pen.width + 'px' : '0px'),
       'border-right': specStyle.borders !== undefined ? (specStyle.borders.right ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.right ? defStyle.pen.width + 'px' : '0px'),
       'border-bottom': specStyle.borders !== undefined ? (specStyle.borders.bottom ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.bottom ? defStyle.pen.width + 'px' : '0px'),
-      'border-top':'1px', //specStyle.borders !== undefined ? (specStyle.borders.top ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.top ? defStyle.pen.width + 'px' : '0px'),
+      'border-top': specStyle.borders !== undefined ? (specStyle.borders.top ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.top ? defStyle.pen.width + 'px' : '0px'),
       'border-color': defStyle.pen.color,
       'border-style': 'solid',
       'vertical-align': defStyle.vertical_align,
@@ -121,10 +120,7 @@ export class ReportTableComponent {
       'font-style': specStyle.font === undefined ? (defStyle.font.italic ? 'italic' : 'normal') : (specStyle.font.italic ? 'italic' : 'normal'),
       'font-weight': specStyle.font === undefined ? (defStyle.font.bold ? 'bold' : 'normal') : (specStyle.font.bold ? 'bold' : 'normal'),
       'text-decoration': specStyle.font === undefined ? (defStyle.font.underline ? 'underline' : 'none') : (specStyle.font.underline ? 'underline' : 'none'),
-      'height': '100%',
-      'width': '100%',
       'padding': '0px'
-      
     };
     return obj;
   }

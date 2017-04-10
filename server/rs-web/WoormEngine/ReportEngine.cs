@@ -1007,10 +1007,33 @@ namespace Microarea.RSWeb.WoormEngine
 			return true;
 		}
 
+        //---------------------------------------------------------------------------
+        public bool ExistsDialogs(bool skipOnAsk = true)
+        {
+            if (askingRules == null || askingRules.Count == 0)
+                return false;
+            for (int i = 0; i < askingRules.Count; i++)
+            {
+                AskDialog askDialog = (AskDialog)askingRules[i];
 
-		// eseguo in modalita Modeless tutte le AskDialog che non sono collegata
-		// ad eventi di report OnAsk (chiamata di dialog da eventi di report)
-		//---------------------------------------------------------------------------
+                // le dialog ON ASK non devono essere eseguite adesso ma su chiamata da codice
+                if (askDialog.OnAsk)
+                    continue;
+                return true;
+            }
+            return false;
+        }
+        //---------------------------------------------------------------------------
+        public void HideAllAskDialogs()
+        {
+            Variable varHideAllAskDialogs = this.RepSymTable.Fields.FindById(SpecialReportField.REPORT_HIDE_ALL_ASK_DIALOGS);
+            if (varHideAllAskDialogs != null)
+                 varHideAllAskDialogs.Data = true;
+        }
+
+        // eseguo in modalita Modeless tutte le AskDialog che non sono collegata
+        // ad eventi di report OnAsk (chiamata di dialog da eventi di report)
+        //---------------------------------------------------------------------------
         ArrayList initializedFields = new ArrayList();
 
 		public bool ExecuteAsk()

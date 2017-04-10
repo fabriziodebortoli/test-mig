@@ -1,18 +1,19 @@
-import { Component, Input, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { HttpService } from './../../../core/http.service';
 
 import { ControlComponent } from './../control.component';
 
 @Component({
-  selector: 'tb-picture-static',
-  templateUrl: './picture-static.component.html',
-  styleUrls: ['./picture-static.component.scss']
+  selector: 'tb-image',
+  templateUrl: './image.component.html',
+  styleUrls: ['./image.component.scss']
 })
-export class PictureStaticComponent extends ControlComponent {
+export class ImageComponent extends ControlComponent {
 
   @Input() width: number;
   @Input() height: number;
+  @Input() title: string = '';
 
   constructor(private httpService: HttpService) {
     super();
