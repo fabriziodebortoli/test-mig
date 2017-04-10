@@ -39,8 +39,6 @@ export class BoolEditComponent extends ControlComponent {
       event.preventDefault();
       return;
     }
-
-    this.model.value = event.key.toUpperCase();
   }
 
   onBlur() {
