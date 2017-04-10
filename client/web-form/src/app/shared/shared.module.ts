@@ -22,7 +22,10 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
 import { LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective } from './containers/tiles/layout-styles';
-import { CaptionComponent, EditComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, PictureStaticComponent } from './controls/';
+import {
+  CaptionComponent, EditComponent, ComboComponent, EnumComboComponent, RadioComponent,
+  CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, PictureStaticComponent
+} from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
@@ -70,7 +73,7 @@ const TB_COMPONENTS = [
   HeaderStripComponent,
   OpenComponent, SaveComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, PictureStaticComponent,
-  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportObjectImageComponent, ReportRectComponent
+  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportImageComponent, ReportRectComponent, ReportLinkComponent
 ];
 
 const TB_DIRECTIVES = [
