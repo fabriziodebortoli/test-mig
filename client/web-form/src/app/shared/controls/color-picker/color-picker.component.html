@@ -1,3 +1,2 @@
-<p>
-  color-picker works!
-</p>
+<tb-caption caption="{{caption}}" for="{{cmpId}}"></tb-caption>
+<input id="{{cmpId}}" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" [placeholder]="caption" class="tb-color-picker" />
