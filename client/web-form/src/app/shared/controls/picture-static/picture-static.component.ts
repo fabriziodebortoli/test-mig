@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewContainerRef, ViewChild } from '@angular/core';
 
 import { HttpService } from './../../../core/http.service';
 
@@ -11,11 +11,24 @@ import { ControlComponent } from './../control.component';
 })
 export class PictureStaticComponent extends ControlComponent {
 
-  @Input() width: string;
-  @Input() height: string;
+  @Input() width: number;
+  @Input() height: number;
 
   constructor(private httpService: HttpService) {
     super();
+  }
+
+  getStyles() {
+
+    let imgStyles = {};
+
+    if (+(this.width) > +(this.height)) {
+      imgStyles['width'] = this.width + 'px';
+    } else {
+      imgStyles['height'] = this.height + 'px';
+    }
+
+    return imgStyles;
   }
 
   getImageUrl(namespace: string) {

@@ -1,1 +1,3 @@
-<img id="{{cmpId}}" [src]="getImageUrl(model?.value)" *ngIf="model" class="tb-static-component" height="{{height}}" width="{{width}}" />
+<div>
+    <img id="{{cmpId}}" [src]="getImageUrl(model?.value)" *ngIf="model" class="tb-static-component" [ngStyle]="getStyles()" />
+</div>
