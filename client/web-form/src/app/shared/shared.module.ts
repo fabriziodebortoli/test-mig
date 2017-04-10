@@ -24,7 +24,7 @@ import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideD
 import { LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective } from './containers/tiles/layout-styles';
 import {
   CaptionComponent, EditComponent, ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
-  CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent
+  CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent
 } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
@@ -72,7 +72,7 @@ const TB_COMPONENTS = [
   HeaderStripComponent,
   OpenComponent, SaveComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
-  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportImageComponent, ReportRectComponent, ReportLinkComponent
+  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportImageComponent, ReportRectComponent, ReportLinkComponent, BoolEditComponent
 ];
 
 const TB_DIRECTIVES = [

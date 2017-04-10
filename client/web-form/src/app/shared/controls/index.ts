@@ -9,3 +9,4 @@ export { StateButtonComponent } from './state-button/state-button.component';
 export { TextComponent } from './text/text.component';
 export { ImageComponent } from './image/image.component';
 export { ColorPickerComponent } from './color-picker/color-picker.component';
+export { BoolEditComponent } from './bool-edit/bool-edit.component';
