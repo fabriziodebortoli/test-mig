@@ -58,8 +58,6 @@ export class TabberComponent implements AfterContentInit {
     // activate the tab the user has clicked on.
     tab.active = true;
 
-    console.log("tabSelected: ", tab);
-
     this.selectedTab.emit(this.tabs.toArray().indexOf(tab));
   }
 

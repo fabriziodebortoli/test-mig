@@ -43,7 +43,7 @@ input,
 select,
 textarea,
 body {
-    background-image: linear-gradient(top, darken($body-bg, 5%), darken($body-bg, 10%));
+    background-image: linear-gradient(to bottom, darken($body-bg, 5%), darken($body-bg, 10%));
 }
 
 h1 {

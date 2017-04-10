@@ -26,7 +26,7 @@ export class ImageService {
     getStaticImage(item) {
 
         if (item == undefined) {
-            return undefined;
+            return "";
         }
 
         if (Object.prototype.toString.call(item) === '[object String]') {

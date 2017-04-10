@@ -2,8 +2,10 @@
 
     <ul class="groups-list">
         <li *ngFor="let group of utilsService.toArray(menuService?.selectedApplication?.Group)" (click)=selectGroup(group)>
-            <img [src]="imageService.getStaticImage(group)" />
-            <span>{{group?.title}}</span>
+            <div *ngIf="group != undefined">
+                <img [src]="imageService.getStaticImage(group)" />
+                <span>{{group?.title}}</span>
+            </div>
         </li>
     </ul>
 
