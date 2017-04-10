@@ -459,6 +459,11 @@ namespace Microarea.RSWeb.Render
 							break;
 						}
 
+                        //TODO RSWEB skip ask dialogs
+                        if (Report.Engine.ExistsDialogs())
+                            Report.Engine.HideAllAskDialogs();
+                        //------------------------
+
 						if (!Report.ExecuteAsk())
 						{
 							CurrentState = State.ExecuteErrorStep;
