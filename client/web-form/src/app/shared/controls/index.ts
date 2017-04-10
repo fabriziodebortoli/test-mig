@@ -9,3 +9,4 @@ export { StateButtonComponent } from './state-button/state-button.component';
 export { TextComponent } from './text/text.component';
 export { PictureStaticComponent } from './picture-static/picture-static.component';
 export { ImageComponent } from './image/image.component';
+export { ColorPickerComponent } from './color-picker/color-picker.component';
