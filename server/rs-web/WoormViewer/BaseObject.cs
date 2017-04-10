@@ -365,8 +365,8 @@ namespace Microarea.RSWeb.Objects
             string arguments = conn.GetArgumentsOuterXml(woorm, atRowNumber);
             parameters = WebUtility.UrlEncode(arguments);
 
-            string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',' + 
-                                       navigateURL.ToJson("arguments", false, true) + ',';
+            string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',' +
+                                       parameters.ToJson("arguments", false, true) + ',';
 
             switch (conn.ConnectionType)
             {
