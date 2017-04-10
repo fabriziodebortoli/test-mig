@@ -23,7 +23,7 @@ import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorCompone
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
 import { LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective } from './containers/tiles/layout-styles';
 import {
-  CaptionComponent, EditComponent, ComboComponent, EnumComboComponent, RadioComponent,
+  CaptionComponent, EditComponent, ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
   CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, PictureStaticComponent
 } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
@@ -48,7 +48,6 @@ import { ReportRectComponent } from './report-objects/rect/rect.component';
 import { ContextMenuDirective } from './directives/context-menu.directive';
 import { ReportLinkComponent } from './report-objects/link/link.component';
 
-
 const KENDO_UI_MODULES = [
   GridModule,
   InputsModule,
@@ -72,7 +71,7 @@ const TB_COMPONENTS = [
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
   HeaderStripComponent,
   OpenComponent, SaveComponent,
-  PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, PictureStaticComponent,
+  PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, PictureStaticComponent, ImageComponent,
   ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportImageComponent, ReportRectComponent, ReportLinkComponent
 ];
 
