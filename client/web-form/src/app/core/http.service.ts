@@ -90,14 +90,14 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    runDocument(ns: String): void {
-        let subs = this.postData(this.getMenuBaseUrl() + 'runDocument/', { ns: ns })
+    runDocument(ns: String, args: string = ''): void {
+        let subs = this.postData(this.getMenuBaseUrl() + 'runDocument/', { ns: ns, keyArgs: args })
             .subscribe(() => {
                 subs.unsubscribe();
             });
     }
     runReport(ns: String): Observable<any> {
-         return this.postData(this.getMenuBaseUrl() + 'runReport/', { ns: ns })
+        return this.postData(this.getMenuBaseUrl() + 'runReport/', { ns: ns })
             .map((res: Response) => {
                 return res.json();
             })
@@ -129,7 +129,7 @@ export class HttpService {
         }
         return 'app/htmlforms/' + url + '.js';
     }
-    
+
     getBaseUrl() {
         return this.apiBaseUrl;
     }
@@ -157,7 +157,7 @@ export class HttpService {
         return Observable.throw(errMsg);
     }
 
-     getEnumsTable(): Observable<any> {
+    getEnumsTable(): Observable<any> {
         return this.http.get(this.getDocumentBaseUrl() + 'getEnumsTable/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();

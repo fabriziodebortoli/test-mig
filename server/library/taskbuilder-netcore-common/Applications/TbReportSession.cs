@@ -267,7 +267,7 @@ namespace Microarea.Common.Applications
         public bool UseApproximation = true; // enable TaskBuilder Approximation for real
         public bool StripTrailingSpaces = true;
 
-        public TbReportSession(UserInfo ui, string ns)
+        public TbReportSession(UserInfo ui, string ns, string parameters="")
             : base (ui, ns)
         {
            this.ReportNameSpace = new NameSpace(ns, NameSpaceObjectType.Report);

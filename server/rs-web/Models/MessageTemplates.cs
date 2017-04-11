@@ -15,6 +15,7 @@ namespace Microarea.RSWeb.Models
     {
         public MessageBuilder.CommandType commandType { get; set; }
         public string nameSpace { get; set; }
+        public string parameters { get; set; }
         public string authtoken { get; set; }
     }
  

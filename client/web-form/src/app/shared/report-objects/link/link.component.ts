@@ -30,15 +30,10 @@ export class ReportLinkComponent {
   }
 
   runReport() {
-    let obs = this.httpService.runReport(this.link.ns).subscribe((jsonObj) => {
-      if (!jsonObj.desktop) {
-        this.componentService.createComponentFromUrl('rs/reportingstudio/' + this.link.ns);
-      }
-      obs.unsubscribe();
-    });
+    this.componentService.createComponentFromUrl('rs/reportingstudio/' + this.link.ns + '/' + this.link.arguments);
   }
 
   openDocument() {
-    this.httpService.runDocument(this.link.ns);
+    this.httpService.runDocument(this.link.ns, this.link.arguments);
   }
 }
