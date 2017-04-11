@@ -255,9 +255,11 @@ namespace Microarea.Common.Applications
             get { return reportParameters; } 
             set { 
                     reportParameters = value;
-                    XmlDomParameters = new XmlDocument();
-                    XmlDomParameters.LoadXml(reportParameters);
-
+                    if (!reportParameters.IsNullOrEmpty())
+                    {
+                        XmlDomParameters = new XmlDocument();
+                        XmlDomParameters.LoadXml(reportParameters);
+                    }
                     if (XmlReport)
                         ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
             }
@@ -272,6 +274,7 @@ namespace Microarea.Common.Applications
         {
            this.ReportNameSpace = new NameSpace(ns, NameSpaceObjectType.Report);
            this.ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
+           this.ReportParameters = parameters;
 
            this.Localizer = new StringLoader.WoormLocalizer(this.ReportPath, PathFinder);
 

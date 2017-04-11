@@ -306,7 +306,7 @@ namespace Microarea.Common.Generic
 
             string e = s.Mid(pos);
             if (e.CompareNoCase(ext))
-                return s.Left(pos - 1);
+                return s.Left(pos);
             return s;
         }
 

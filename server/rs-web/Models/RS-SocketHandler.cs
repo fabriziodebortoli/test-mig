@@ -3,11 +3,13 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net;
 
 using Microsoft.AspNetCore.Http;
 
 using Newtonsoft.Json;
 
+using Microarea.Common.Generic;
 using Microarea.Common.Applications;
 
 using Microarea.RSWeb.Render;
@@ -30,7 +32,8 @@ namespace Microarea.RSWeb.Models
  
             UserInfo ui = new UserInfo(loginInfo, nsMsg.authtoken);
 
-            TbReportSession session = new TbReportSession(ui, nsMsg.nameSpace, nsMsg.parameters);
+            string arguments = nsMsg.parameters.IsNullOrEmpty() ? string.Empty :  WebUtility.UrlDecode(nsMsg.parameters);
+            TbReportSession session = new TbReportSession(ui, nsMsg.nameSpace, arguments);
             JsonReportEngine engine = new JsonReportEngine(session);
             engine.Execute();
             return engine;
