@@ -384,6 +384,11 @@ namespace Microarea.RSWeb.Objects
 
             s += cellBorders.ToJson() + ',' + column.ColumnPen.ToJson();
 
+            //LINK
+            string link = BaseObj.GetLink(true, this.column.Table.Document, this.column.InternalID, this.AtRowNumber);
+            if (!link.IsNullOrEmpty())
+                s += ',' + link;
+
             //TODO opzionali
             //s += ',' + (string.Empty).ToJson("tooltip", false, true);
             //s += ',' + (string.Empty).ToJson("value", false, true);
@@ -456,7 +461,7 @@ namespace Microarea.RSWeb.Objects
                 s += ',' + this.DynamicTooltip.ToJson("tooltip", false, true);
             
             //LINK
-            string link = BaseObj.GetLink(this.column.Table.Document, this.column.InternalID, this.AtRowNumber);
+            string link = BaseObj.GetLink(false, this.column.Table.Document, this.column.InternalID, this.AtRowNumber);
             if (!link.IsNullOrEmpty())
                 s += ',' + link;
 
