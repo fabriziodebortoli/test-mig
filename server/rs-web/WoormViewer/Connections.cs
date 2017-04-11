@@ -1263,8 +1263,17 @@ namespace Microarea.RSWeb.WoormViewer
 			this.document = document;
 		}
 
-		//------------------------------------------------------------------------------
-		public ConnectionLink GetConnectionOnAlias(int alias, WoormDocument woorm, int row)
+        //------------------------------------------------------------------------------
+        public ConnectionLink ExistsConnectionOnAlias(int alias, WoormDocument woorm)
+        {
+            foreach (ConnectionLink conn in this)
+                if (conn.OnAlias == alias && conn.Valid)
+                    return conn;
+            return null;
+        }
+
+        //------------------------------------------------------------------------------
+        public ConnectionLink GetConnectionOnAlias(int alias, WoormDocument woorm, int row)
 		{		
 			foreach (ConnectionLink conn in this)
 				if (conn.OnAlias == alias && conn.Valid && conn.EvalFilters(woorm, row))
