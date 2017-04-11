@@ -376,6 +376,10 @@ namespace Microarea.RSWeb.Objects
                 arguments = WebUtility.UrlEncode(arguments);
             }
 
+           if (conn.ConnectionType == ConnectionLinkType.Report ||
+               conn.ConnectionType == ConnectionLinkType.ReportByAlias)
+                navigateURL = navigateURL.RemoveExtension(".wrm");
+
             string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',' +
                                        arguments.ToJson("arguments", false, true) + ',';
 

@@ -248,7 +248,7 @@ namespace Microarea.Common.Generic
 		/// <param name="occurence"></param>
 		/// <param name="startIndex"></param>
 		//-------------------------------------------------------------------------
-		public static int IndexOfOccurrence(this string s, string subs, int occurence, int startIndex)
+		public static int IndexOfOccurrence(this string s, string subs, int occurence = 1, int startIndex = 0)
 		{
 			if (startIndex >= 0)
 				while (occurence > 0 && startIndex < s.Length)
@@ -271,9 +271,11 @@ namespace Microarea.Common.Generic
 		/// LastIndexOf with Occurence
 		/// </summary>
 		//-------------------------------------------------------------------------
-		public static int LastIndexOfOccurrence(this string s, string subs, int occurence, int startIndex)
+		public static int LastIndexOfOccurrence(this string s, string subs, int occurence = 1, int startIndex = -1)
 		{
-			if (startIndex == s.Length)
+            if (startIndex == -1)
+                startIndex = s.Length - 1;
+            else if (startIndex == s.Length)
 				startIndex--;
 	
 			if (startIndex < s.Length)
@@ -294,9 +296,24 @@ namespace Microarea.Common.Generic
 		}
 
         /// <summary>
-        /// WildcardMatch
+        /// LastIndexOf with Occurence
         /// </summary>
         //-------------------------------------------------------------------------
+        public static string RemoveExtension(this string s, string ext)
+        {
+            int pos = s.LastIndexOf('.');
+            if (pos == -1) return s;
+
+            string e = s.Mid(pos);
+            if (e.CompareNoCase(ext))
+                return s.Left(pos - 1);
+            return s;
+        }
+
+        /// <summary>
+        /// WildcardMatch
+        /// </summary>
+            //-------------------------------------------------------------------------
         public static string WildcardToRegex(this string pattern)
         {             
             string result= Regex.Escape(pattern).
