@@ -1,7 +1,9 @@
-<div class="validation" *ngIf="showValidationResult">{{validationResult}}</div>
-<tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-<span #anchor class="k-icon k-i-calendar-date" (click)="onClickIconCalend()" (mousedown)="press()"></span>
-<kendo-maskedtextbox #kendoMaskedTextBoxInstance [(ngModel)]="ngValue" [mask]="mask" [rules]="rules" (focusin)="resetParamsValidation()" (focusout)="validateDate()"></kendo-maskedtextbox>
-<kendo-popup [anchor]="anchor" *ngIf="popupOpen" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign" (anchorViewportLeave)="onClickM()" (open)="calendar.focus();">
-    <kendo-calendar #calendar (valueChange)="handleChange($event)" [value]="selectedDate" (blur)="onBlur()"></kendo-calendar>
-</kendo-popup>
+<!--<div class="validation">F:{{formatter}}</div>-->
+<div>
+    <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
+    <span #anchor class="k-icon k-i-calendar-date" (click)="onClickIconCalend()" (mousedown)="press()"></span>
+    <kendo-dateinput [(ngModel)]="selectedDate" [format]="getFormat(formatter)" (valueChange)="onChange($event)" (blur)="onBlur()"></kendo-dateinput>
+    <kendo-popup [anchor]="anchor" *ngIf="popupOpen" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign" (anchorViewportLeave)="onClickM()" (open)="calendar.focus();">
+        <kendo-calendar #calendar (valueChange)="handleChange($event)" [value]="selectedDate" (blur)="onBlurCalendar()"></kendo-calendar>
+    </kendo-popup>
+</div>

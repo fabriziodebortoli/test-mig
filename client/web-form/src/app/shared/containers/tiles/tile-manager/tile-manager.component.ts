@@ -1,27 +1,28 @@
 import { TileGroupComponent } from './../tile-group/tile-group.component';
-import { Component, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
+import { Component, ContentChildren, QueryList, AfterContentInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { TabberComponent } from '../../tabs';
 
 @Component({
   selector: 'tb-tilemanager',
   templateUrl: './tile-manager.component.html',
-  styleUrls: ['./tile-manager.component.scss']
+  styleUrls: ['./tile-manager.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class TileManagerComponent implements AfterContentInit {
   @ContentChildren(TileGroupComponent) tiles: QueryList<TileGroupComponent>;
-
   getTiles() {
     return this.tiles.toArray();
   }
+
 
   ngAfterContentInit() {
 
     // get all active tiles
     let activeTiles = this.tiles.filter((tile) => tile.active);
 
-    // if there is no active tab set, activate the first
-    if (activeTiles.length === 0 && this.tiles.length > 0) {
+    //if there is no active tab set, activate the first
+    if (activeTiles.length === 0 && this.tiles.toArray().length > 0) {
       this.selectTile(this.tiles.first);
     }
   }
@@ -34,5 +35,14 @@ export class TileManagerComponent implements AfterContentInit {
 
     // activate the tab the user has clicked on.
     tile.active = true;
+  }
+
+  changeTabByIndex(event) {
+
+
+    let index = event.index;
+
+    let currentTile = this.tiles.toArray()[index];
+    this.selectTile(currentTile);
   }
 }

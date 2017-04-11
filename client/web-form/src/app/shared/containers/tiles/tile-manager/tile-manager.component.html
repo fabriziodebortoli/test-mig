@@ -1,17 +1,12 @@
-<!--se ci sono più tab-->
-<section>
-    <!--Pannello laterale sinistro con i bottoni del selettore-->
-    <div *ngIf="getTiles().length > 1">
-        <div id="one" class="selector">
-            <ul>
-                <li (click)="selectTile(tile)" *ngFor="let tile of getTiles()" [class.active]="tile.active" title="{{tile.title}}">
-                    <img src="{{tile?.iconTxt}}" /> {{tile?.title}}
-                </li>
-            </ul>
-        </div>
-    </div>
-    <!--Contenitore tile di destra-->
-    <div class="tabGroupContent" [ngClass]="(getTiles().length > 1) ? 'multipleTabs' : '' ">
-        <ng-content></ng-content>
-    </div>
-</section>
+<div class="tile-manager">
+    <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)">
+        <kendo-tabstrip-tab *ngFor="let tile of getTiles();let i = index" [selected]="i == 0">
+            <ng-template kendoTabTitle>
+                <img src="{{tile?.iconTxt}}" /> {{tile?.title}}
+            </ng-template>
+            <template kendoTabContent>
+                <ng-content></ng-content>
+            </template>
+        </kendo-tabstrip-tab>
+    </kendo-tabstrip>
+</div>
