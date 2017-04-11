@@ -272,12 +272,14 @@ namespace Microarea.RSWeb.WoormViewer
 		//------------------------------------------------------------------------------
 		public string	GetEncodedHttpGetRequest (string connectionValue, int atRowNumber)
 		{	
-			if (
-				(connectionType != ConnectionLinkType.URL)
-				&&
-				(connectionType != ConnectionLinkType.URLByAlias)
-				)
-				return string.Empty;
+			//if (
+			//	(connectionType != ConnectionLinkType.URL)
+			//	&&
+			//	(connectionType != ConnectionLinkType.URLByAlias)
+   //             &&
+   //             (connectionSubType != ConnectionLinkSubType.Url)
+   //             )
+			//	return string.Empty;
 
 			string paramName = string.Empty,paramValue = string.Empty;
 
@@ -303,9 +305,9 @@ namespace Microarea.RSWeb.WoormViewer
 				else if (item.Data != null)
 					paramValue = item.Data.ToString();
 
-				sbLinkUrl.Append(WebUtility.UrlEncode(paramName));
+				sbLinkUrl.Append(paramName);
 				sbLinkUrl.Append('=');
-				sbLinkUrl.Append(WebUtility.UrlEncode(paramValue));
+				sbLinkUrl.Append(paramValue);
 			}
 			
 			return sbLinkUrl.ToString(); //es. http://www.sitoweb.it/search?param1=value1&param2=value2
@@ -823,7 +825,7 @@ namespace Microarea.RSWeb.WoormViewer
 		}
 
 		//------------------------------------------------------------------------------
-		internal string GetGoogleMapURL(string Address)
+		public string GetGoogleMapURL(string Address)
 		{
 			string Zip = "",Country = "",County = "",City = "";
             string Latitude = "", Longitude = "", FederalState = "", StreetNumber = "";

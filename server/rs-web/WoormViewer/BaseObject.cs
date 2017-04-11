@@ -367,33 +367,41 @@ namespace Microarea.RSWeb.Objects
                 if (v != null && v.Data != null)
                     navigateURL = v.Data.ToString();
                 else 
-                    if (!template) return null;
+                    if (!template) 
+                        return null;
             }
-
-            if (!template)
-            {
-                arguments = conn.GetArgumentsOuterXml(woorm, atRowNumber);
-                arguments = WebUtility.UrlEncode(arguments);
-            }
-
-           if (conn.ConnectionType == ConnectionLinkType.Report ||
-               conn.ConnectionType == ConnectionLinkType.ReportByAlias)
-                navigateURL = navigateURL.RemoveExtension(".wrm");
-
-            string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',' +
-                                       arguments.ToJson("arguments", false, true) + ',';
 
             switch (conn.ConnectionType)
             {
                 case ConnectionLinkType.Report:
                 case ConnectionLinkType.ReportByAlias:
                 {
+                    navigateURL = navigateURL.RemoveExtension(".wrm");
+
+                    if (!template)
+                    {
+                        arguments = conn.GetArgumentsOuterXml(woorm, atRowNumber);
+                        arguments = WebUtility.UrlEncode(arguments);
+                    }
+
+                    string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',' +
+                                            arguments.ToJson("arguments", false, true) + ',';
+
                     js += ((int)LinkType.report).ToJson("type") + '}';
                     return js;
                 }
                 case ConnectionLinkType.Form:
                 case ConnectionLinkType.FormByAlias:
                 {
+                    if (!template)
+                    {
+                        arguments = conn.GetArgumentsOuterXml(woorm, atRowNumber);
+                        arguments = WebUtility.UrlEncode(arguments);
+                    }
+
+                    string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',' +
+                                            arguments.ToJson("arguments", false, true) + ',';
+
                    js += ((int)LinkType.document).ToJson("type") + '}';
                    return js;
                 }
@@ -401,18 +409,30 @@ namespace Microarea.RSWeb.Objects
                 case ConnectionLinkType.URL:
                 case ConnectionLinkType.URLByAlias:
                 {
-                    /*
-                    navigateURL = conn.GetNavigateUrl(atRowNumber);
+                    if (conn.ConnectionSubType == ConnectionLinkSubType.Url)
+                    {
+                        navigateURL = conn.GetEncodedHttpGetRequest(navigateURL, atRowNumber);
+                        navigateURL = navigateURL.AddPrefix("http://", "https://");
+                        navigateURL = WebUtility.UrlEncode(navigateURL);
 
-                    WebCtrLs.HyperLink hyperLink = new HyperLink();
-                    hyperLink.Text = cell.Text;
-                    if (conn.ConnectionSubType != ConnectionLinkSubType.CallTo)
-                        hyperLink.Target = "_blank";
-                    hyperLink.NavigateUrl = navigateURL;
-                    cell.Controls.Add(hyperLink);
-                    */
+                        string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',';
+
+                        js += ((int)LinkType.url).ToJson("type") + '}';
+                        return js;
+                    }
+                    else if (conn.ConnectionSubType == ConnectionLinkSubType.GoogleMap)
+                    {
+                        navigateURL = conn.GetGoogleMapURL(navigateURL);
+                        navigateURL = WebUtility.UrlEncode(navigateURL);
+
+                        string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',';
+
+                        js += ((int)LinkType.url).ToJson("type") + '}';
+                        return js;
+                    }
                     break;
                 }
+
                 case ConnectionLinkType.Function:
                 case ConnectionLinkType.FunctionByAlias:
                 {

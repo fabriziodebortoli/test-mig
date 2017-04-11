@@ -311,6 +311,24 @@ namespace Microarea.Common.Generic
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        //-------------------------------------------------------------------------
+        public static string AddPrefix(this string s, string prefix1, string prefix2 = null)
+        {
+            string p = s.Left(prefix1.Length);
+            if (p.CompareNoCase(prefix1))
+                return s;
+            if (prefix2 != null)
+            {
+                p = s.Left(prefix2.Length);
+                if (p.CompareNoCase(prefix2))
+                    return s;
+            }
+            return prefix1 + s;
+        }
+
+        /// <summary>
         /// WildcardMatch
         /// </summary>
             //-------------------------------------------------------------------------
