@@ -13,8 +13,9 @@
                                 <!--<tb-menu-stepper></tb-menu-stepper>-->
                             </tb-header-strip>
                             <div class="menu-container" *ngIf="menuService.selectedMenu != undefined">
-                                <div class="row around-xs">
-                                    <tb-menu-content *ngFor="let tile of tiles" [tile]="tile" class="col-xs-12 col-sm-4 col-md-3" [class.limited]="tiles.length > 4"></tb-menu-content>
+                                <div class="row">
+                                    <tb-menu-content *ngFor="let tile of tiles" [tile]="tile" class="col-xs-12 col-md-6 col-lg " [class.limited]="tiles.length > 4"></tb-menu-content>
+                                    <!--[class.col-sm-3]="tiles.length % 3 == 0" [class.col-sm-4]="tiles.length % 2 == 0" -->
                                 </div>
 
                             </div>
