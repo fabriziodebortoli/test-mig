@@ -49,6 +49,7 @@ import { ReportRectComponent } from './report-objects/rect/rect.component';
 import { ContextMenuDirective } from './directives/context-menu.directive';
 import { ReportLinkComponent } from './report-objects/link/link.component';
 import { PhoneComponent } from './controls/phone/phone.component';
+import { EmailComponent } from './controls/email/email.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -73,7 +74,7 @@ const TB_COMPONENTS = [
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
   ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportImageComponent, ReportRectComponent, ReportLinkComponent, BoolEditComponent,
-  PhoneComponent
+  PhoneComponent, EmailComponent
 ];
 
 const TB_DIRECTIVES = [
