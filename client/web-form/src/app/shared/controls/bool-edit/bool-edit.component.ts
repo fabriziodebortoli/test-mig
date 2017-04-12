@@ -10,35 +10,43 @@ import { ControlComponent } from './../control.component';
 })
 export class BoolEditComponent extends ControlComponent {
 
-  @Input() yesFirst:string;
-  @Input() noFirst:string;
+  @Input() yesText:string;
+  @Input() noText:string;
 
   constructor(private eventData: EventDataService) {
     super();
+
+    if (
+      this.yesText == null || 
+      this.noText == null ||
+      this.yesText.length == 0 ||
+      this.noText.length == 0)
+    {
+      this.yesText = 'YES';
+      this.noText = 'NO';
+    }    
   }
 
   keyPress(event) {
 
-    // sanitizing input
-    if (
-      this.yesFirst == null || 
-      this.noFirst == null ||
-      this.yesFirst.length > 1 ||
-      this.noFirst.length > 1) {
-      event.preventDefault();
-      return;
-    }
-
-    let localizedYes:any = 'Key' + this.yesFirst.toUpperCase();
-    let localizedNo:any = 'Key' + this.noFirst.toUpperCase();
+    let firstYes:string = this.yesText[0].toUpperCase();
+    let localizedCodeYes:any = 'Key' + firstYes;
+    let localizedCodeNo:any = 'Key' + this.noText[0].toUpperCase();
 
     if (
-      event.code != localizedYes &&
-      event.code != localizedNo
+      event.code != localizedCodeYes &&
+      event.code != localizedCodeNo
       ) {
-      event.preventDefault();
       return;
     }
+
+    event.preventDefault();
+
+    if (this.model == undefined)
+      return;
+
+    this.model.value = event.key.toUpperCase() == firstYes ?
+      this.yesText.toUpperCase() : this.noText.toUpperCase();
   }
 
   onBlur() {

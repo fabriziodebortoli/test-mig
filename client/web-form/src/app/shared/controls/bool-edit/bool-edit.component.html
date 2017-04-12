@@ -1,7 +1,8 @@
 <div>
     <input id="{{cmpId}}" 
         type="text" 
+        [ngModel]="model?.value"
+        (blur)="onBlur()"
         (keydown)="keyPress($event)"
-        [(ngModel)]="value"
-        (blur)="onBlur()" />
+         />
 </div>
