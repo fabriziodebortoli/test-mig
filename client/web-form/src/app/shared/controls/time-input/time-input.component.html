@@ -1,0 +1,4 @@
+<div>
+    <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
+    <kendo-dateinput [(ngModel)]="selectedTime" [format]="'HH:mm:ss'" (valueChange)="onChange($event)" (blur)="onBlur()"></kendo-dateinput>
+</div>
