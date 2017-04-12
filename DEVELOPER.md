@@ -38,7 +38,10 @@ $ npm install -g typescript@next
 $ npm install -g @angular/cli
 ```
 
-* [.NET Core](https://www.microsoft.com/net/download/core#/runtime), (version `>= 1.1`) Download and install **.NET Core 1.1.1 runtime (Current)**
+* .NET Core
+
+  * Download and install **.NET Core 1.1.1 runtime (Current)** - [link](https://www.microsoft.com/net/download/core#/runtime)
+  * Download and install **.NET Core 1.1.0 SDK Preview 2.1 build 3177** - [link](https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.1-preview2.1-download.md)
 
 * [Visual Studio Code](http://code.visualstudio.com/) source code editor
 
