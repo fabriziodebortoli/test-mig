@@ -5,7 +5,7 @@ import { Logger } from 'libclient';
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
 import { WebSocketService } from './websocket.service';
-
+import { apply_patch } from 'jsonpatch';
 
 @Injectable()
 export class BOService extends DocumentService {
@@ -29,10 +29,16 @@ export class BOService extends DocumentService {
             let models: Array<any> = data.models;
             let cmpId = this.mainCmpId;
             models.forEach(model => {
-                if (model.id === cmpId && model.data) {
-                    for (let prop in model.data) {
-                        if (model.data.hasOwnProperty(prop)) {
-                            this.eventData.model[prop] = model.data[prop];
+                if (model.id === cmpId) {
+                    if (model.patch) {
+                        let patched = apply_patch<any>({ 'data' : this.eventData.model }, model.patch);
+                        model.data = patched.data;
+                    }
+                    if (model.data) {
+                        for (let prop in model.data) {
+                            if (model.data.hasOwnProperty(prop)) {
+                                this.eventData.model[prop] = model.data[prop];
+                            }
                         }
                     }
                 }
@@ -63,11 +69,11 @@ export class BOService extends DocumentService {
             this.webSocketService.doValueChanged(this.mainCmpId, cmpId, this.eventData.model);
         });
 
-        this.openDropdownSubscription = this.eventData.openDropdown.subscribe( (obj: any) => {
+        this.openDropdownSubscription = this.eventData.openDropdown.subscribe((obj: any) => {
             this.webSocketService.doFillListBox(this.mainCmpId, obj);
         });
 
-        
+
     }
     init(cmpId: string) {
         super.init(cmpId);

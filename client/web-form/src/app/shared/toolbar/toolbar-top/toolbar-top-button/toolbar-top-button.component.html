@@ -1,9 +1,13 @@
-<div (click)='onCommand()' title='{{caption}}' [ngSwitch]="iconType">
+<!--<div (click)='onCommand()' title='{{caption}}' [ngSwitch]="iconType">
 
     <img *ngSwitchCase="iconTypes.IMG" src="{{iconTxt}}" />
 
     <md-icon *ngSwitchCase="iconTypes.MD">{{iconTxt}}</md-icon>
 
-    <!--<tb-icon *ngSwitchCase="iconTypes.TB" />{{iconTxt}}</tb-icon>-->
+    <tb-icon *ngSwitchCase="iconTypes.TB" />{{iconTxt}}</tb-icon>
 
+</div>
+-->
+<div class="top-button">
+    <button kendoButton (click)="onCommand()" [imageUrl]="iconTxt">{{caption}}</button>
 </div>

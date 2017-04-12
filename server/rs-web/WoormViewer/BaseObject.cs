@@ -335,13 +335,21 @@ namespace Microarea.RSWeb.Objects
         //---------------------------------------------------------------------
         public enum LinkType { report, document, url, file, function }  //deve essere allineato con ...\web-form\src\app\reporting-studio\reporting-studio.component.ts
 
-        static public string  GetLink(WoormDocument woorm, int alias, int atRowNumber = -1)
+        static public string  GetLink(bool template, WoormDocument woorm, int alias, int atRowNumber = -1)
         {
             string navigateURL = string.Empty;
-            string parameters = string.Empty;
+            string arguments = string.Empty;
+            ConnectionLink conn = null;
 
-            woorm.SynchronizeSymbolTable(atRowNumber);
-            ConnectionLink conn = woorm.Connections.GetConnectionOnAlias(alias, woorm, atRowNumber);
+            if (template)
+            {
+                conn = woorm.Connections.ExistsConnectionOnAlias(alias, woorm);
+            }
+            else
+            {
+                woorm.SynchronizeSymbolTable(atRowNumber);
+                conn = woorm.Connections.GetConnectionOnAlias(alias, woorm, atRowNumber);      
+            }
             if (conn == null) 
                 return null;
 
@@ -359,26 +367,41 @@ namespace Microarea.RSWeb.Objects
                 if (v != null && v.Data != null)
                     navigateURL = v.Data.ToString();
                 else 
-                    return null;
+                    if (!template) 
+                        return null;
             }
-
-            string arguments = conn.GetArgumentsOuterXml(woorm, atRowNumber);
-            parameters = WebUtility.UrlEncode(arguments);
-
-            string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',' +
-                                       parameters.ToJson("arguments", false, true) + ',';
 
             switch (conn.ConnectionType)
             {
                 case ConnectionLinkType.Report:
                 case ConnectionLinkType.ReportByAlias:
                 {
+                    navigateURL = navigateURL.RemoveExtension(".wrm");
+
+                    if (!template)
+                    {
+                        arguments = conn.GetArgumentsOuterXml(woorm, atRowNumber);
+                        arguments = WebUtility.UrlEncode(arguments);
+                    }
+
+                    string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',' +
+                                            arguments.ToJson("arguments", false, true) + ',';
+
                     js += ((int)LinkType.report).ToJson("type") + '}';
                     return js;
                 }
                 case ConnectionLinkType.Form:
                 case ConnectionLinkType.FormByAlias:
                 {
+                    if (!template)
+                    {
+                        arguments = conn.GetArgumentsOuterXml(woorm, atRowNumber);
+                        arguments = WebUtility.UrlEncode(arguments);
+                    }
+
+                    string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',' +
+                                            arguments.ToJson("arguments", false, true) + ',';
+
                    js += ((int)LinkType.document).ToJson("type") + '}';
                    return js;
                 }
@@ -386,18 +409,30 @@ namespace Microarea.RSWeb.Objects
                 case ConnectionLinkType.URL:
                 case ConnectionLinkType.URLByAlias:
                 {
-                    /*
-                    navigateURL = conn.GetNavigateUrl(atRowNumber);
+                    if (conn.ConnectionSubType == ConnectionLinkSubType.Url)
+                    {
+                        navigateURL = conn.GetEncodedHttpGetRequest(navigateURL, atRowNumber);
+                        navigateURL = navigateURL.AddPrefix("http://", "https://");
+                        navigateURL = WebUtility.UrlEncode(navigateURL);
 
-                    WebCtrLs.HyperLink hyperLink = new HyperLink();
-                    hyperLink.Text = cell.Text;
-                    if (conn.ConnectionSubType != ConnectionLinkSubType.CallTo)
-                        hyperLink.Target = "_blank";
-                    hyperLink.NavigateUrl = navigateURL;
-                    cell.Controls.Add(hyperLink);
-                    */
+                        string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',';
+
+                        js += ((int)LinkType.url).ToJson("type") + '}';
+                        return js;
+                    }
+                    else if (conn.ConnectionSubType == ConnectionLinkSubType.GoogleMap)
+                    {
+                        navigateURL = conn.GetGoogleMapURL(navigateURL);
+                        navigateURL = WebUtility.UrlEncode(navigateURL);
+
+                        string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',';
+
+                        js += ((int)LinkType.url).ToJson("type") + '}';
+                        return js;
+                    }
                     break;
                 }
+
                 case ConnectionLinkType.Function:
                 case ConnectionLinkType.FunctionByAlias:
                 {
@@ -2381,19 +2416,23 @@ namespace Microarea.RSWeb.Objects
                     "},";
 
             s +=
-                this.Value.FontData     .ToJson() + ',' +
-                this.Value.Align        .ToHtml_align() + ',' +
+                this.Value.FontData.ToJson() + ',' +
+                this.Value.Align.ToHtml_align() + ',' +
 
-                this.TemplateBkgColor   .ToJson("bkgcolor") + ',' +
-                this.TemplateTextColor  .ToJson("textcolor") + 
+                this.TemplateBkgColor.ToJson("bkgcolor") + ',' +
+                this.TemplateTextColor.ToJson("textcolor") +
 
                 //this.Value.FormattedData    .ToJson("value", false, true) + 
- 
-                (this.IsHtml    ? ',' + this.IsHtml     .ToJson("value_is_html") : "") +
-                (this.IsImage   ? ',' + this.IsImage    .ToJson("value_is_image")  : "") +
-                (this.IsBarCode ? ',' + this.IsImage    .ToJson("value_is_barcode") : "") +
 
-             '}';
+                (this.IsHtml ? ',' + this.IsHtml.ToJson("value_is_html") : "") +
+                (this.IsImage ? ',' + this.IsImage.ToJson("value_is_image") : "") +
+                (this.IsBarCode ? ',' + this.IsImage.ToJson("value_is_barcode") : "");
+
+                string link = BaseObj.GetLink(true, this.Document, this.InternalID);
+                if (!link.IsNullOrEmpty())
+                    s += ',' + link;
+
+             s += '}';
 
              if (bracket)
                 s = '{' + s + '}';
@@ -2432,7 +2471,7 @@ namespace Microarea.RSWeb.Objects
 
             s += this.Value.FormattedData.ToJson("value", false, true);
 
-            string link = BaseObj.GetLink(this.Document, this.InternalID);
+            string link = BaseObj.GetLink(false, this.Document, this.InternalID);
             if (!link.IsNullOrEmpty())
                 s += ',' + link;
 

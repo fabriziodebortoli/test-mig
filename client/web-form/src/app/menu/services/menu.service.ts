@@ -206,7 +206,7 @@ export class MenuService {
         if (object.objectType.toLowerCase() == 'report') {
             let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
                 if (!jsonObj.desktop) {
-                    this.componentService.createComponentFromUrl('rs/reportingstudio/' + object.target);
+                    this.componentService.createComponentFromUrl('rs/reportingstudio/' + object.target + '/');
                 }
                 obs.unsubscribe();
             });
