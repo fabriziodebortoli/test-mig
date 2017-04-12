@@ -7,3 +7,36 @@
     cursor: pointer;
     margin-right: 10px;
 }
+
+tb-topbar md-toolbar.md-primary {
+    min-height: 50px;
+}
+
+tb-topbar md-toolbar md-toolbar-row {
+    height: 50px !important;
+    min-height: 50px !important;
+}
+
+tb-topbar .topbar-title {
+    margin-left: 5px;
+}
+
+tb-topbar .topbar-title h1,
+tb-topbar .topbar-title h2 {
+    margin: 0;
+    padding: 0;
+}
+
+tb-topbar .topbar-title h1 {
+    font-size: 22px;
+    color: #fff;
+}
+
+tb-topbar .topbar-title h2 {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+tb-topbar .mat-toolbar {
+    min-height: 50px;
+}

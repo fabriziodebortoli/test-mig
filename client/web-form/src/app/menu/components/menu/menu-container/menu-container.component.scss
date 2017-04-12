@@ -4,10 +4,23 @@
     flex: 1;
 }
 
-.menu-container {
+.menu-page .menu-container {
     padding: 0 .5rem;
 }
 
-.wrap {
+.menu-page .wrap {
     overflow-y: auto;
+}
+
+.menu-page kendo-tabstrip {
+    background: #fff;
+    flex: 1;
+}
+
+.menu-page kendo-tabstrip .k-tabstrip-items {
+    background: #fff;
+}
+
+.menu-page kendo-tabstrip .k-content {
+    flex: 1;
 }

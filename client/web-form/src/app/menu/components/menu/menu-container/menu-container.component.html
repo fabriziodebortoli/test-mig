@@ -1,15 +1,17 @@
 <tb-frame>
-    <tb-toolbar-top></tb-toolbar-top>
-    <tb-menu-stepper></tb-menu-stepper>
+    <!--<tb-toolbar-top></tb-toolbar-top>-->
+
     <tb-frame-content>
         <div class="menu-page">
             <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)">
                 <kendo-tabstrip-tab [title]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService?.selectedGroup?.Menu)">
 
 
-                    <template kendoTabContent>
+                    <ng-template kendoTabContent>
                         <div class="wrap">
-                            <!--<tb-header-strip [title]="menuService?.selectedMenu?.title"></tb-header-strip>-->
+                            <tb-header-strip [title]="menuService?.selectedMenu?.title">
+                                <!--<tb-menu-stepper></tb-menu-stepper>-->
+                            </tb-header-strip>
                             <div class="menu-container" *ngIf="menuService.selectedMenu != undefined">
                                 <div class="row around-xs">
                                     <tb-menu-content *ngFor="let tile of tiles" [tile]="tile" class="col-xs-12 col-sm-4 col-md-3" [class.limited]="tiles.length > 4"></tb-menu-content>
@@ -17,7 +19,7 @@
 
                             </div>
                         </div>
-                    </template>
+                    </ng-template>
                 </kendo-tabstrip-tab>
             </kendo-tabstrip>
 
