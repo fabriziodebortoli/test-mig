@@ -20,6 +20,7 @@ import { ReportingStudioComponent, ReportingStudioFactoryComponent } from './rep
     MaterialModule.forRoot(),
     RouterModule.forChild([
       { path: 'reportingstudio/:ns/:params', component: ReportingStudioFactoryComponent },
+      { path: 'reportingstudio/', component: ReportingStudioFactoryComponent },
     ])
   ],
   declarations: [

@@ -1,4 +1,4 @@
-import { ReportingStudioModule } from './reporting-studio/reporting-studio.module';
+// import { ReportingStudioModule } from './reporting-studio/reporting-studio.module';
 import { routing } from './app.routing';
 
 import { NgModule } from '@angular/core';
@@ -16,15 +16,17 @@ import { MenuModule } from './menu/menu.module';
 import { HomeComponent, HomeSidenavComponent } from './home';
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
 import { AppComponent } from './app.component';
-import { appRouting } from './applications/app.routing';
-import {MomentModule} from 'angular2-moment';
+
+import { MomentModule } from 'angular2-moment';
+import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent, HomeSidenavComponent,
     UnsupportedFactoryComponent,
-    UnsupportedComponent
+    UnsupportedComponent,
+    ProxyRouteComponent
   ],
   imports: [
     FormsModule,
@@ -35,8 +37,6 @@ import {MomentModule} from 'angular2-moment';
     CoreModule.forRoot(),
     SharedModule,
     MenuModule.forRoot(),
-    ReportingStudioModule.forRoot(),
-    appRouting,
     routing,
     MomentModule
   ],
