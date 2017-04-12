@@ -31,6 +31,7 @@
         "@progress/kendo-angular-l10n": "^0.3.0",
         "@progress/kendo-angular-layout": "^0.24.0",
         "@progress/kendo-angular-popup": "^0.17.0",
+        "@progress/kendo-angular-buttons": "^0.10.2",
         "@progress/kendo-data-query": "^0.5.1",
         "@progress/kendo-theme-default": "^2.26.0",
         "@types/hammerjs": "^2.0.33",
@@ -47,7 +48,7 @@
     },
     "devDependencies": {
         "@angular/cli": "1.0.0",
-        "@angular/compiler-cli": "^2.4.0",
+        "@angular/compiler-cli": "^4.0.1",
         "@types/jasmine": "2.5.38",
         "@types/node": "~6.0.60",
         "codelyzer": "~2.0.0",

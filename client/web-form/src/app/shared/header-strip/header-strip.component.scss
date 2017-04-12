@@ -1,10 +1,18 @@
 .header-strip {
-    margin: 1rem;
+    margin: .5rem;
 }
 
 .header-strip h1 {
-    font-size: 16px;
-    margin: 5px 0;
+    text-align: left;
+    margin: 5px 0 0;
     padding: 0 3px;
-    border-bottom: 1px solid #ccc;
+}
+
+.header-strip .line {
+    height: 1px;
+    background: #ccc;
+    display: block;
+    margin-bottom: 25px;
+    background: #ccc;
+    background: linear-gradient(to right, #0277bd 0%, #EEF1F5 100%);
 }

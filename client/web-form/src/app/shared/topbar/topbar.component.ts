@@ -1,10 +1,11 @@
 import { SidenavService } from '../../core/sidenav.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'tb-topbar',
   templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.scss']
+  styleUrls: ['./topbar.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class TopbarComponent implements OnInit {

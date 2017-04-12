@@ -53,8 +53,11 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
   }
 
   onUpdateNgModel(newDate: Date): void {
-    let timestamp = Date.parse(newDate.toDateString() )
-    if (isNaN(timestamp)) {  return;  }
+    if (!newDate) {
+      return;
+    }
+    let timestamp = Date.parse(newDate.toDateString())
+    if (isNaN(timestamp)) { return; }
     if (this.model === null) {
       this.model = { enable: 'true', value: '' };
     }
@@ -79,11 +82,11 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
   getFormat(formatter: string): string {
     switch (formatter) {
       case 'Date':
-      this.dateFormat = 'dd MMM yyyy'; break;
+        this.dateFormat = 'dd MMM yyyy'; break;
       case 'DateTime':
-      this.dateFormat = 'dd MMM yyyy HH:mm'; break;
+        this.dateFormat = 'dd MMM yyyy HH:mm'; break;
       case 'DateTimeExtended':
-      this.dateFormat = 'dd MMM yyyy HH:mm:ss'; break;
+        this.dateFormat = 'dd MMM yyyy HH:mm:ss'; break;
       default: break;
     }
     return this.dateFormat;
