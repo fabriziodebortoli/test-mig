@@ -343,6 +343,7 @@ namespace Microarea.RSWeb.Objects
 
             if (template)
             {
+                woorm.SynchronizeSymbolTable(atRowNumber);
                 conn = woorm.Connections.ExistsConnectionOnAlias(alias, woorm);
             }
             else
@@ -409,9 +410,21 @@ namespace Microarea.RSWeb.Objects
                 case ConnectionLinkType.URL:
                 case ConnectionLinkType.URLByAlias:
                 {
-                    if (conn.ConnectionSubType == ConnectionLinkSubType.Url)
+                    if (conn.ConnectionSubType == ConnectionLinkSubType.File)
                     {
-                        navigateURL = conn.GetEncodedHttpGetRequest(navigateURL, atRowNumber);
+                        break;
+                    }
+                    else if (conn.ConnectionSubType == ConnectionLinkSubType.MailTo)
+                    {
+                        break;
+                    }
+                    else if (conn.ConnectionSubType == ConnectionLinkSubType.CallTo)
+                    {
+                        break;
+                    }
+                    else if (conn.ConnectionSubType == ConnectionLinkSubType.Url)
+                    {
+                        navigateURL = conn.GetHttpGetRequest(navigateURL, atRowNumber);
                         navigateURL = navigateURL.AddPrefix("http://", "https://");
                         navigateURL = WebUtility.UrlEncode(navigateURL);
 
