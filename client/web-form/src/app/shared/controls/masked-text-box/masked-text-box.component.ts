@@ -9,6 +9,5 @@ import { Component, Input  } from '@angular/core';
 export class MaskedTextBoxComponent extends ControlComponent  {
  @Input() forCmpID: string;
  @Input() disabled: boolean;
-
- mask: string = "aaaaaaaaaa";
+ @Input() mask: string;
 }
