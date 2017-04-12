@@ -1,4 +1,15 @@
-.selector {
+.tile-manager .k-tabstrip{
+    flex-direction: row;
+    display:flex;
+    flex:1;
+}
+
+.tile-manager .k-tabstrip > .k-tabstrip-items{
+    flex-direction: column;
+    flex: 0 0 300px;
+}
+
+/*.selector {
     border-color:lightgray;
     border-width: 1px;
     width: 100%;
@@ -72,4 +83,4 @@ div#one {
 
 ul {
 	padding-left: 10px;
-}
+}*/

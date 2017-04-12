@@ -17,7 +17,7 @@
             <tb-date-input caption="{{caption}}" forCmpID="{{cmpId}}" [(model)]="model"> </tb-date-input>
         </div>
         <div *ngSwitchDefault class="form-group">
-            <input id="{{cmpId}}" required="required" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event" />
+            <input id="{{cmpId}}" required="required" type="text" (blur)="onBlur()" [disabled]="!model?.enabled" [(ngModel)]="value" (ngModelChange)="model.value=$event" />
             <label class="control-label" for="input">{{caption}}</label><i class="bar"></i>
             <tb-state-button *ngFor="let button of buttons" [button]="button"></tb-state-button>
         </div>

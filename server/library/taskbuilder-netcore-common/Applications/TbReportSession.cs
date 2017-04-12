@@ -255,9 +255,11 @@ namespace Microarea.Common.Applications
             get { return reportParameters; } 
             set { 
                     reportParameters = value;
-                    XmlDomParameters = new XmlDocument();
-                    XmlDomParameters.LoadXml(reportParameters);
-
+                    if (!reportParameters.IsNullOrEmpty())
+                    {
+                        XmlDomParameters = new XmlDocument();
+                        XmlDomParameters.LoadXml(reportParameters);
+                    }
                     if (XmlReport)
                         ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
             }
@@ -267,11 +269,12 @@ namespace Microarea.Common.Applications
         public bool UseApproximation = true; // enable TaskBuilder Approximation for real
         public bool StripTrailingSpaces = true;
 
-        public TbReportSession(UserInfo ui, string ns)
+        public TbReportSession(UserInfo ui, string ns, string parameters="")
             : base (ui, ns)
         {
            this.ReportNameSpace = new NameSpace(ns, NameSpaceObjectType.Report);
            this.ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
+           this.ReportParameters = parameters;
 
            this.Localizer = new StringLoader.WoormLocalizer(this.ReportPath, PathFinder);
 

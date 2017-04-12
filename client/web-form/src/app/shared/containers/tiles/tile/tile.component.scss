@@ -1,26 +1,5 @@
 $mf-font-size: 1rem !default;
-md-card {
-    padding: 10px;
-    margin: 10px;
-    flex-grow: 1;
-}
-
-md-card-title {
-    position: relative;
-    padding-right: 25px;
-    font-size: 1.1rem;
-}
-
-md-card-title span {
-    font-size: 1.1rem;
-    font-weight: 700
-}
-
-md-card-title md-icon {
-    position: absolute;
-    right: 0;
-    font-size: 1.1rem
-}
+:host(tb-tile) {}
 
 :host(.h200) md-card-content {
     min-height: 200px;

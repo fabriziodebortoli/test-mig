@@ -13,6 +13,12 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+h1 {
+    font-size: 22px;
+    color: #000;
+    font-weight: 500;
+}
+
 .link,
 .c-pointer {
     cursor: pointer;
@@ -24,37 +30,14 @@ body {
     text-overflow: ellipsis;
 }
 
-
-/* Stili Topbar */
-
-tb-topbar md-toolbar.md-primary {
-    min-height: 50px;
+.wrap1200 {
+    box-sizing: border-box;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-tb-topbar md-toolbar md-toolbar-row {
-    height: 50px !important;
-    min-height: 50px !important;
+.container,
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto;
 }
-
-.topbar-title {
-    margin-left: 5px;
-}
-
-.topbar-title h1,
-.topbar-title h2 {
-    margin: 0;
-    padding: 0;
-}
-
-.topbar-title h1 {
-    font-size: 18px;
-    margin-bottom: 3px;
-}
-
-.topbar-title h2 {
-    font-size: 12px;
-    font-weight: normal;
-}
-
-
-/* End Stili Topbar */

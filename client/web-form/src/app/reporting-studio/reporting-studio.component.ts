@@ -2,7 +2,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect } from './reporting-studio.model';
+import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link } from './reporting-studio.model';
 import { DocumentComponent } from '../shared/document.component';
 import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
@@ -45,7 +45,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     let message = {
       commandType: CommandType.INITTEMPLATE,
-      message: '',
+      message:"",
       page: this.rsService.pageNum
     };
     this.rsService.doSend(JSON.stringify(message));
@@ -90,6 +90,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
+      parameters:this.args.params,
       authtoken: this.cookieService.get('authtoken')
     };
 
@@ -223,6 +224,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         if (obj === undefined) {
           continue;
         }
+        if (obj.link !== undefined) {
+          obj.link = new link(element.fieldrect.link);
+        }
         obj.value = value;
       }
       else if (element.textrect !== undefined) {
@@ -322,7 +326,8 @@ export class ReportingStudioFactoryComponent {
   constructor(componentService: ComponentService, resolver: ComponentFactoryResolver, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe((params: Params) => {
       let ns = params['ns'];
-      componentService.createComponent(ReportingStudioComponent, resolver, { 'nameSpace': ns });
+      let pars = params['params'];
+      componentService.createComponent(ReportingStudioComponent, resolver, { 'nameSpace': ns, 'params':pars });
     });
   }
 }

@@ -270,16 +270,20 @@ namespace Microarea.RSWeb.WoormViewer
 
 
 		//------------------------------------------------------------------------------
-		public string	GetEncodedHttpGetRequest (string connectionValue, int atRowNumber)
+		public string	GetHttpGetRequest (string connectionValue, int atRowNumber)
 		{	
-			if (
-				(connectionType != ConnectionLinkType.URL)
-				&&
-				(connectionType != ConnectionLinkType.URLByAlias)
-				)
-				return string.Empty;
+			//if (
+			//	(connectionType != ConnectionLinkType.URL)
+			//	&&
+			//	(connectionType != ConnectionLinkType.URLByAlias)
+   //             &&
+   //             (connectionSubType != ConnectionLinkSubType.Url)
+   //             )
+			//	return string.Empty;
+            if (connectionValue.IsNullOrEmpty())
+                return string.Empty;
 
-			string paramName = string.Empty,paramValue = string.Empty;
+            string paramName = string.Empty,paramValue = string.Empty;
 
 			int numParam = 0;
 
@@ -303,9 +307,9 @@ namespace Microarea.RSWeb.WoormViewer
 				else if (item.Data != null)
 					paramValue = item.Data.ToString();
 
-				sbLinkUrl.Append(WebUtility.UrlEncode(paramName));
+				sbLinkUrl.Append(paramName);
 				sbLinkUrl.Append('=');
-				sbLinkUrl.Append(WebUtility.UrlEncode(paramValue));
+				sbLinkUrl.Append(paramValue);
 			}
 			
 			return sbLinkUrl.ToString(); //es. http://www.sitoweb.it/search?param1=value1&param2=value2
@@ -630,32 +634,38 @@ namespace Microarea.RSWeb.WoormViewer
 			else	if (lex.Parsed(Token.LINKFORM))		connectionType = ConnectionLinkType.Form;
 			else	if (lex.Parsed(Token.LINKREPORT))	connectionType = ConnectionLinkType.Report;
 			else	if (lex.Parsed(Token.LINKRADAR))	connectionType = ConnectionLinkType.Radar;
-					else if (lex.Parsed(Token.LINKURL))
-					{
-						connectionType = ConnectionLinkType.URL;
-						if (lex.NextTokenIsInt)
-						{
-							int sub = 0;
-							lex.ParseInt(out sub);
-							switch ((ConnectionLinkSubType)sub)
-							{
-								case ConnectionLinkSubType.MailTo:
-									connectionSubType = ConnectionLinkSubType.MailTo;
-									break;
-								case ConnectionLinkSubType.CallTo:
-									connectionSubType = ConnectionLinkSubType.CallTo;
-									break;
-								case ConnectionLinkSubType.GoogleMap:
-									connectionSubType = ConnectionLinkSubType.GoogleMap;
-									break;
+			else    if (lex.Parsed(Token.LINKURL))
+			{
+				connectionType = ConnectionLinkType.URL;
+                connectionSubType = ConnectionLinkSubType.Url;
 
-								case ConnectionLinkSubType.Url:
-								case ConnectionLinkSubType.File:
-								default:
-									break;
-							}
-						}
+                if (lex.NextTokenIsInt)
+				{
+					int sub = 0;
+					lex.ParseInt(out sub);
+					switch ((ConnectionLinkSubType)sub)
+					{
+                        case ConnectionLinkSubType.Url:
+                            connectionSubType = ConnectionLinkSubType.Url;
+                            break;
+                        case ConnectionLinkSubType.File:
+                            connectionSubType = ConnectionLinkSubType.File;
+                            break;
+                        case ConnectionLinkSubType.MailTo:
+							connectionSubType = ConnectionLinkSubType.MailTo;
+							break;
+						case ConnectionLinkSubType.CallTo:
+							connectionSubType = ConnectionLinkSubType.CallTo;
+							break;
+						case ConnectionLinkSubType.GoogleMap:
+							connectionSubType = ConnectionLinkSubType.GoogleMap;
+							break;
+
+						default:
+							break;
 					}
+				}
+			}
 
 			if (connectionType == ConnectionLinkType.Radar)
 			{
@@ -823,7 +833,7 @@ namespace Microarea.RSWeb.WoormViewer
 		}
 
 		//------------------------------------------------------------------------------
-		internal string GetGoogleMapURL(string Address)
+		public string GetGoogleMapURL(string Address)
 		{
 			string Zip = "",Country = "",County = "",City = "";
             string Latitude = "", Longitude = "", FederalState = "", StreetNumber = "";
@@ -944,7 +954,7 @@ namespace Microarea.RSWeb.WoormViewer
 							}
 							else
 							{   //http...se ci sono parametri costruisco la stringa	
-								return GetEncodedHttpGetRequest(connectionValue, atRowNumber);
+								return GetHttpGetRequest(connectionValue, atRowNumber);
 							}
 							break;
 						}

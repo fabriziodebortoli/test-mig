@@ -1,6 +1,6 @@
 import { HttpService } from './../../../../core/http.service';
 import { EventDataService } from './../../../../core/eventdata.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { TbComponent } from './../../..';
 
 enum IconType { MD, TB, IMG };
@@ -8,7 +8,8 @@ enum IconType { MD, TB, IMG };
 @Component({
   selector: 'tb-toolbar-top-button',
   templateUrl: './toolbar-top-button.component.html',
-  styleUrls: ['./toolbar-top-button.component.scss']
+  styleUrls: ['./toolbar-top-button.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ToolbarTopButtonComponent extends TbComponent implements OnInit {
 

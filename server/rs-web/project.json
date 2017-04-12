@@ -18,6 +18,7 @@
       "type": "platform",
       "version": "1.1.1"
     },
+    "NETCore.MailKit": "1.0.1",
     "Newtonsoft.Json": "10.0.2",
     "PDFSharpCore": "3.5.0-4",
     "System.Collections.Specialized": "4.3.0",
