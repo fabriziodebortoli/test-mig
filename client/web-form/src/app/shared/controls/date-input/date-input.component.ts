@@ -14,7 +14,6 @@ import { EventDataService } from './../../../core/eventdata.service';
 export class DateInputComponent extends ControlComponent implements OnChanges, AfterViewInit {
   @Input() forCmpID: string;
   @Input() formatter: string;
-  @ViewChild('kendoMaskedTextBoxInstance') kendoMasked: any;
   anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'left', vertical: 'top' };
 

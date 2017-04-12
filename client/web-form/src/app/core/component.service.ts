@@ -67,7 +67,7 @@ export class ComponentService {
       return;
     }
     let cmpName = tokens[1];
-    url = app.toLowerCase() + '/' + mod.toLowerCase()+ '/' + cmpName;
+    url = app.toLowerCase() + '/' + mod.toLowerCase() + '/' + cmpName;
     this.createComponentFromUrl(url).then(() => {
 
     });
@@ -90,7 +90,7 @@ export class ComponentService {
   }
   createComponentFromUrl(url: string): Promise<void> {
     return new Promise<void>(resolve => {
-      this.router.navigate([{ outlets: { dynamic: url }, skipLocationChange: false, replaceUrl: false }])
+      this.router.navigate([{ outlets: { dynamic: 'proxy/' + url }, skipLocationChange: false, replaceUrl: false }])
         .then(
         success => {
           this.router.navigate([{ outlets: { dynamic: null }, skipLocationChange: false, replaceUrl: false }]).then(success1 => {
