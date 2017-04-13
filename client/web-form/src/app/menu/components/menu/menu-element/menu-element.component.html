@@ -1,10 +1,15 @@
 <div class="menu-element" [ngClass]="object.starHover ? 'active' : ''">
-
-    <md-icon class="object-type">{{imageService.getObjectIcon(object)}}</md-icon>
-
     <md-spinner *ngIf="object.isLoading">{{object.title}}</md-spinner>
-    <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
 
-    <md-icon class="star" (click)="menuService.toggleFavorites(object)" *ngIf="object.isFavorite || object.starHover">{{getFavoriteClass(object)}}</md-icon>
+    <div class="menu-element-content">
+        <div class="header">
+            <md-icon class="object-type">{{imageService.getObjectIcon(object)}}</md-icon>
 
+            <span (click)="runFunction(object)">{{object.title}}</span>
+
+            <md-icon class="star" (click)="menuService.toggleFavorites(object)" (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">{{getFavoriteClass(object)}}</md-icon>
+        </div>
+
+        <p (click)="runFunction(object)">{{lorem}}</p>
+    </div>
 </div>

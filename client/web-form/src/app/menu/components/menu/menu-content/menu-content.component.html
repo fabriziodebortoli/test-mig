@@ -5,8 +5,8 @@
     </md-card-title>
 
     <md-card-content>
-        <div *ngFor="let object of getObjects();" (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">
-            <tb-menu-element [object]="object"></tb-menu-element>
+        <div class="row">
+            <tb-menu-element [object]="object" *ngFor="let object of getObjects();" class="col-xs-12 col-md-12 col-lg-6"></tb-menu-element>
         </div>
     </md-card-content>
 

@@ -18,7 +18,6 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
 
   @ViewChild('tabber') tabber;
 
-
   constructor(
     private menuService: MenuService,
     private utilsService: UtilsService,

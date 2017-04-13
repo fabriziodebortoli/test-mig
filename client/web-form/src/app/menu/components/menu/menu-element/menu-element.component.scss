@@ -1,14 +1,49 @@
+:host(tb-menu-element) {
+    padding-right: 0.3rem;
+    padding-left: 0.3rem;
+}
+
 .menu-element {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: center;
     align-content: stretch;
     align-items: flex-start;
+    background: #f1f4f7;
+    padding: 10px 7px;
+    margin: 0.2rem 0;
+    color: #0277bd;
+    font-weight: 700;
+}
+
+.menu-element:hover {
+    background: #fffbe0;
+    transition: background 0.2s;
+    // cursor: pointer;
+}
+
+.menu-element-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.menu-element-content .header {
+    display: flex;
+    flex-direction: row;
+}
+
+.menu-element-content p {
+    font-size: 12px;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 0;
+    cursor: pointer;
+    min-height: 70px;
 }
 
 .object-type {
-    color: #0277bd;
+    color: #bbb;
 }
 
 md-spinner {
@@ -18,7 +53,7 @@ md-spinner {
 }
 
 span {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 24px;
     cursor: pointer;
     flex: 1 1 auto;
@@ -30,5 +65,11 @@ span {
 }
 
 .star {
-    color: #d4eafd;
+    color: #bbb;
+    font-size: 20px;
+}
+
+.star:hover {
+    color: #0277bd;
+    cursor: pointer;
 }

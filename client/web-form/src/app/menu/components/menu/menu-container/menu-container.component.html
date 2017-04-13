@@ -5,12 +5,11 @@
         <div class="menu-page">
             <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)">
                 <kendo-tabstrip-tab [title]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService?.selectedGroup?.Menu)">
-
-
                     <ng-template kendoTabContent>
                         <div class="wrap">
                             <tb-header-strip [title]="menuService?.selectedMenu?.title">
                                 <!--<tb-menu-stepper></tb-menu-stepper>-->
+
                             </tb-header-strip>
                             <div class="menu-container" *ngIf="menuService.selectedMenu != undefined">
                                 <div class="row">
@@ -23,7 +22,6 @@
                     </ng-template>
                 </kendo-tabstrip-tab>
             </kendo-tabstrip>
-
         </div>
 
     </tb-frame-content>
