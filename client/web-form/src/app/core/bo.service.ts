@@ -5,7 +5,7 @@ import { Logger } from 'libclient';
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
 import { WebSocketService } from './websocket.service';
-import { apply_patch } from 'jsonpatch';
+import { apply } from 'json8-patch';
 
 @Injectable()
 export class BOService extends DocumentService {
@@ -31,8 +31,8 @@ export class BOService extends DocumentService {
             models.forEach(model => {
                 if (model.id === cmpId) {
                     if (model.patch) {
-                        let patched = apply_patch<any>({ 'data' : this.eventData.model }, model.patch);
-                        model.data = patched.data;
+                        const patched = apply({ 'data' : this.eventData.model }, model.patch);
+                        model.data = patched.doc.data;
                     }
                     if (model.data) {
                         for (let prop in model.data) {
