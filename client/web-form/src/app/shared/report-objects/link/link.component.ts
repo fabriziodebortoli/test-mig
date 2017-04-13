@@ -24,6 +24,9 @@ export class ReportLinkComponent {
       case LinkType.document:
         this.openDocument();
         break;
+      case LinkType.url:
+        this.openLink();
+        break;
       default:
         break;
     }
@@ -35,5 +38,10 @@ export class ReportLinkComponent {
 
   openDocument() {
     this.httpService.runDocument(this.link.ns, this.link.arguments);
+  }
+
+  openLink() {
+    const link = decodeURIComponent(this.link.ns);
+    window.open(link, '_blank');
   }
 }
