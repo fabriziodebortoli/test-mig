@@ -14,10 +14,8 @@ import { appRoutes } from './applications/app.routing';
 export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'login', component: LoginComponent },
-    { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
-    { path: 'Framework/TbGes/IDD_Unsupported', component: UnsupportedFactoryComponent },
+    { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },   
     { path: 'menu', loadChildren: 'app/menu/menu.module#MenuModule' },
-
     {
         path: 'proxy',
         outlet: 'dynamic',
@@ -25,6 +23,7 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
         children: [
             { path: 'rs', loadChildren: 'app/reporting-studio/reporting-studio.module#ReportingStudioModule' },
             { path: 'test', loadChildren: 'app/test/test.module#TestModule' },
+            { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
             ...appRoutes
         ],
     },
