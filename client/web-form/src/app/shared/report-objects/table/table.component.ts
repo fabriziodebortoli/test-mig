@@ -1,6 +1,4 @@
 import { UtilsService } from './../../../core/utils.service';
-
-import { GridModule } from '@progress/kendo-angular-grid';
 import { table, column, cell } from './../../../reporting-studio/reporting-studio.model';
 import { Component, Input } from '@angular/core';
 
