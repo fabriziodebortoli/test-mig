@@ -45,7 +45,7 @@
         "rxjs": "^5.1.0",
         "ts-helpers": "^1.1.1",
         "zone.js": "^0.8.5",
-        "jsonpatch": "3.0.1"
+        "json8-patch": "0.4.0"
     },
     "devDependencies": {
         "@angular/cli": "1.0.0",
