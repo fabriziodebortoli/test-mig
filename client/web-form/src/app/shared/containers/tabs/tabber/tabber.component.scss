@@ -27,7 +27,7 @@ ul.tabber {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: center;
+    // justify-content: center;
     margin: 0;
     border-bottom: 1px solid #ddd;
     height: 30px;
@@ -44,6 +44,8 @@ ul.tabber>li {
     border-top-left-radius: 3px;
     color: white;
     font-weight: 300;
+    background: #00578c;
+    margin: 0 0px 0 3px;
 }
 
 ul.tabber>li>span {
@@ -51,7 +53,8 @@ ul.tabber>li>span {
 }
 
 ul.menu-tabber>li {
-    padding: 0 10px
+    padding: 0 10px;
+    text-align: center;
 }
 
 ul.tabber>li md-icon {
@@ -60,7 +63,7 @@ ul.tabber>li md-icon {
 
 ul.tabber>li {
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 ul.tabber>li.active {
