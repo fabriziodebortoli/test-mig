@@ -174,14 +174,21 @@ export class table extends baseobj {
     }
 
     for (let index = 0; index < jsonObj.rows.length; index++) {
+
       let elementRow = jsonObj.rows[index];
       let style = new styleArrayElement(index);
       for (let i = 0; i < elementRow.length; i++) {
-        let colId = jsonObj.columns[i].id;
-        let cellVar = new cell(elementRow[i][colId], colId);
-        style.style.push(cellVar);
+        try {
+          let colId = jsonObj.columns[i].id;
+          let cellVar = new cell(elementRow[i][colId], colId);
+          style.style.push(cellVar);
+        }
+        catch (a) {
+          let k = a;
+        }
       }
       this.defaultStyle.push(style);
+
     }
   }
 }
@@ -204,7 +211,7 @@ export class column {
     this.value_is_image = jsonObj.value_is_image;
     this.value_is_barcode = jsonObj.value_is_barcode;
     this.title = jsonObj.title ? new title(jsonObj.title) : undefined;
-   // this.total = jsonObj.total ? new column_total(jsonObj.total) : undefined;
+    // this.total = jsonObj.total ? new column_total(jsonObj.total) : undefined;
   }
 }
 

@@ -27,7 +27,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public objects: baseobj[] = [];
   public templates: TemplateItem[] = [];
 
-  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
+  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService,
+             private compService: ComponentService) {
     super(rsService, eventData);
   }
 
@@ -219,7 +220,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
       if (element.fieldrect !== undefined) {
         id = element.fieldrect.baserect.baseobj.id;
-        value = element.fieldrect.value ? element.fieldrect.value : '[empty]' + id;
+        value = element.fieldrect.value ;
         let obj = this.FindObj(id);
         if (obj === undefined) {
           continue;
@@ -231,7 +232,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       }
       else if (element.textrect !== undefined) {
         id = element.textrect.baserect.baseobj.id;
-        value = element.textrect.value ? element.textrect.value : '[empty]' + id;
+        value = element.textrect.value ;
         let obj = this.FindObj(id);
         if (obj === undefined) {
           continue;

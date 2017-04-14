@@ -1,5 +1,5 @@
 import { environment } from './../../environments/environment';
-import { Injectable } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { Logger } from 'libclient';
@@ -77,13 +77,8 @@ export class ReportingStudioService extends DocumentService {
         this.websocket.close();
     }
 
-    ngOnDestroy() {
-        this.closeConnection();
-    }
-
-    close()
-    {
-        //Qui eventulmente comunicare al server di chiudere il report
+    close() {
         super.close();
+        this.closeConnection();
     }
 }
