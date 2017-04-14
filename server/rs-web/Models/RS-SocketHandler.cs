@@ -32,8 +32,8 @@ namespace Microarea.RSWeb.Models
  
             UserInfo ui = new UserInfo(loginInfo, nsMsg.authtoken);
 
-            string arguments = nsMsg.parameters.IsNullOrEmpty() ? string.Empty :  WebUtility.UrlDecode(nsMsg.parameters);
-            TbReportSession session = new TbReportSession(ui, nsMsg.nameSpace, arguments);
+            //string arguments = nsMsg.parameters.IsNullOrEmpty() ? string.Empty :  WebUtility.UrlDecode(nsMsg.parameters);
+            TbReportSession session = new TbReportSession(ui, nsMsg.nameSpace, nsMsg.parameters);
             JsonReportEngine engine = new JsonReportEngine(session);
             engine.Execute();
             return engine;

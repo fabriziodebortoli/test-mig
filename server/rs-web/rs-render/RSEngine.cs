@@ -197,16 +197,16 @@ namespace Microarea.RSWeb.Render
 		}
 
 		//------------------------------------------------------------------------------
-		public void Unparse()
-		{
-			using (Unparser unparser = new Unparser())
-			{
-				//unparser.Open(reportSession.ReportPath);
-				unparser.Open("c:\\a.wrm");
-				Woorm.Unparse(unparser);
-				Report.Unparse(unparser);
-			}
-		}
+		//public void Unparse()
+		//{
+		//	using (Unparser unparser = new Unparser())
+		//	{
+		//		//unparser.Open(reportSession.ReportPath);
+		//		unparser.Open("c:\\a.wrm");
+		//		Woorm.Unparse(unparser);
+		//		Report.Unparse(unparser);
+		//	}
+		//}
 
 		//------------------------------------------------------------------------------
 		~RSEngine()
