@@ -8,6 +8,10 @@
     padding: 0 .5rem;
 }
 
+.menu-container div.toolbar-top {
+    border-bottom: 0;
+}
+
 .menu-page .wrap {
     overflow-y: auto;
 }
@@ -17,11 +21,33 @@
     flex: 1;
 }
 
-.menu-page kendo-tabstrip .k-tabstrip-items {
-    background: #fff;
+.menu-page .k-tabstrip-top>.k-tabstrip-items {
+    // background: #dddddd;
+    min-height: 30px;
+    padding-left: 38px;
 }
 
-.menu-page kendo-tabstrip .k-content {
+.menu-page .k-tabstrip-top>.k-tabstrip-items .k-item {
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.menu-page .k-tabstrip>.k-tabstrip-items .k-item .k-link {
+    font-weight: 700;
+    font-size: 13px;
+    color: #000;
+}
+
+.menu-page .k-tabstrip-top>.k-tabstrip-items .k-item.k-state-active {
+    border: none;
+}
+
+.menu-page .k-tabstrip-top>.k-tabstrip-items .k-item.k-state-active .k-link {
+    color: #0277bd
+}
+
+.menu-page .k-content {
     background: #F1F4F7;
     flex: 1;
 }
