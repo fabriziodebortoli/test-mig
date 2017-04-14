@@ -29,6 +29,8 @@ export class MenuService {
     public searchSources: Array<any> = [];
     private ifMoreAppsExist: boolean;
 
+    public showDescription: boolean = false;
+
     get selectedMenu(): any {
         return this._selectedMenu;
     }
@@ -558,5 +560,7 @@ export class MenuService {
         return string.slice(0, prefix.length) == prefix;
     }
 
-
+    toggleDecription() {
+        this.showDescription = !this.showDescription;
+    }
 }

@@ -6,8 +6,11 @@
             <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)">
                 <kendo-tabstrip-tab [title]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService?.selectedGroup?.Menu)">
                     <ng-template kendoTabContent>
-                        <div class="wrap">
+                        <div class="wrap1200">
                             <tb-header-strip [title]="menuService?.selectedMenu?.title">
+
+                                <button class="show-description" kendoButton (click)="menuService?.toggleDecription()" [bare]="!menuService?.showDescription" [primary]="menuService?.showDescription"><md-icon>subject</md-icon></button>
+
                                 <!--<tb-menu-stepper></tb-menu-stepper>-->
 
                             </tb-header-strip>

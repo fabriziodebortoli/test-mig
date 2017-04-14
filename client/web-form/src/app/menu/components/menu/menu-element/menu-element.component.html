@@ -10,6 +10,6 @@
             <md-icon class="star" (click)="menuService.toggleFavorites(object)" (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">{{getFavoriteClass(object)}}</md-icon>
         </div>
 
-        <p (click)="runFunction(object)">{{lorem}}</p>
+        <p (click)="runFunction(object)" *ngIf="menuService?.showDescription">{{lorem}}</p>
     </div>
 </div>
