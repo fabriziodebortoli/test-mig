@@ -3,13 +3,13 @@
 
     <div class="menu-element-content">
         <div class="header">
-            <md-icon class="object-type">{{imageService.getObjectIcon(object)}}</md-icon>
+            <md-icon class="object-type" [ngClass]="object.objectType">{{imageService.getObjectIcon(object)}}</md-icon>
 
             <span (click)="runFunction(object)">{{object.title}}</span>
 
-            <md-icon class="star" (click)="menuService.toggleFavorites(object)" (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">{{getFavoriteClass(object)}}</md-icon>
+            <md-icon class="star" [class.favorite]="object.isFavorite" (click)="menuService.toggleFavorites(object)" (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">{{getFavoriteClass(object)}}</md-icon>
         </div>
 
-        <p (click)="runFunction(object)" *ngIf="menuService?.showDescription">{{lorem}}</p>
+        <p (click)="runFunction(object)" *ngIf="menuService?.showDescription" class="description">{{lorem}}</p>
     </div>
 </div>
