@@ -91,7 +91,7 @@ export class HttpService {
     }
 
     runDocument(ns: String, args: string = ''): void {
-        let subs = this.postData(this.getMenuBaseUrl() + 'runDocument/', { ns: ns, keyArgs: args })
+        let subs = this.postData(this.getMenuBaseUrl() + 'runDocument/', { ns: ns, sKeyArgs: args })
             .subscribe(() => {
                 subs.unsubscribe();
             });
