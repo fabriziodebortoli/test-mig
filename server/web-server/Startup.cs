@@ -141,7 +141,6 @@ namespace WebApplication
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
-                routes.MapRoute("provisioning", "{controller=Home}/{action=ProvisioningIndex}/{id?}");
                 foreach (var configurator in configurators)
 					configurator.MapRoutes(routes);
 			});

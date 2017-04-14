@@ -31,18 +31,5 @@ namespace WebServer
 			return File(buff, "text/html");
 		}
 
-        [HttpGet]
-        public IActionResult ProvisioningIndex()
-        {
-            if (_env.WebRootPath == null)
-            {
-                return NotFound();
-            }
-            string file = Path.Combine(_env.WebRootPath, "provisioning\\index.html");
-            byte[] buff = System.IO.File.ReadAllBytes(file);
-            return File(buff, "text/html");
-        }
-
-
     }
 }
