@@ -37,8 +37,7 @@ export class ReportLinkComponent {
   }
 
   openDocument() {
-    let args = decodeURIComponent(this.link.arguments);
-    this.httpService.runDocument(this.link.ns, args);
+   this.httpService.runDocument(this.link.ns, this.link.arguments);
   }
 
   openLink() {
