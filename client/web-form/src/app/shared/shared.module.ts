@@ -1,3 +1,4 @@
+
 import {
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DockpaneComponent, TabberComponent, TabComponent, TileManagerComponent,
@@ -48,6 +49,8 @@ import { ReportImageComponent } from './report-objects/image/image.component';
 import { ReportRectComponent } from './report-objects/rect/rect.component';
 import { ContextMenuDirective } from './directives/context-menu.directive';
 import { ReportLinkComponent } from './report-objects/link/link.component';
+import { PhoneComponent } from './controls/phone/phone.component';
+import { EmailComponent } from './controls/email/email.component';
 import { TimeInputComponent } from './controls/time-input/time-input.component';
 
 const KENDO_UI_MODULES = [
@@ -73,7 +76,8 @@ const TB_COMPONENTS = [
   OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
-  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportImageComponent, ReportRectComponent, ReportLinkComponent, BoolEditComponent
+  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportImageComponent, ReportRectComponent, ReportLinkComponent, BoolEditComponent,
+  PhoneComponent, EmailComponent
 ];
 
 const TB_DIRECTIVES = [

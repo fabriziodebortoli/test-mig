@@ -615,9 +615,9 @@ namespace Microarea.Common.Generic
             else if ((a & AlignType.DT_CENTER) == AlignType.DT_CENTER)
                 textAlign = "center";
 
-            string verticalAlign = "text-top";
+            string verticalAlign = "top";
             if ((a & AlignType.DT_BOTTOM) == AlignType.DT_BOTTOM)
-                verticalAlign = "text-bottom";
+                verticalAlign = "bottom";
             else if ((a & AlignType.DT_VCENTER) == AlignType.DT_VCENTER)
                 verticalAlign = "middle";
 

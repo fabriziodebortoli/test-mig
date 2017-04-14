@@ -37,7 +37,7 @@ export class ReportLinkComponent {
   }
 
   openDocument() {
-    this.httpService.runDocument(this.link.ns, this.link.arguments);
+   this.httpService.runDocument(this.link.ns, this.link.arguments);
   }
 
   openLink() {

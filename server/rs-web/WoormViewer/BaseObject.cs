@@ -382,7 +382,7 @@ namespace Microarea.RSWeb.Objects
                     if (!template)
                     {
                         arguments = conn.GetArgumentsOuterXml(woorm, atRowNumber);
-                        arguments = WebUtility.UrlEncode(arguments);
+                        //arguments = WebUtility.UrlEncode(arguments);
                     }
 
                     string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',' +
@@ -397,7 +397,7 @@ namespace Microarea.RSWeb.Objects
                     if (!template)
                     {
                         arguments = conn.GetArgumentsOuterXml(woorm, atRowNumber);
-                        arguments = WebUtility.UrlEncode(arguments);
+                        //arguments = WebUtility.UrlEncode(arguments);
                     }
 
                     string js = "\"link\":{" + navigateURL.ToJson("ns", false, true) + ',' +
