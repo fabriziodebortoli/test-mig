@@ -78,7 +78,7 @@ export class ComponentService {
   }
   /**invia un messaggo al server di distruggere il componente/ */
   tryDestroyComponent(component: ComponentInfo) {
-    this.webSocketService.doCommand(component.id, 'ID_FILE_CLOSE');
+    component.document.close();
   }
   removeComponent(component: ComponentInfo) {
     let idx = this.components.indexOf(component);

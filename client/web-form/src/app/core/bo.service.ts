@@ -89,4 +89,10 @@ export class BOService extends DocumentService {
         this.activationDataSubscription.unsubscribe();
         this.openDropdownSubscription.unsubscribe();
     }
+
+    close()
+    {    
+        super.close();
+        this.webSocketService.doCommand(this.mainCmpId, 'ID_FILE_CLOSE');
+    }
 }

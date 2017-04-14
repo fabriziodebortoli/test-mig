@@ -40,4 +40,9 @@ export class DocumentService {
         // }
         // return viewModeType;
     }
+
+    close()
+    {
+        
+    }
 }

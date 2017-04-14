@@ -80,4 +80,10 @@ export class ReportingStudioService extends DocumentService {
     ngOnDestroy() {
         this.closeConnection();
     }
+
+    close()
+    {
+        //Qui eventulmente comunicare al server di chiudere il report
+        super.close();
+    }
 }
