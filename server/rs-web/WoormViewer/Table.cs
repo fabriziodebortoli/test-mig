@@ -2768,8 +2768,7 @@ namespace Microarea.RSWeb.Objects
                         continue;
                 }
 
-                if (!column.IsHidden)
-                {
+                
                     TotalCell total = column.TotalCell;
 
                     bool last = (col == this.ColumnNumber - 1);
@@ -2819,7 +2818,7 @@ namespace Microarea.RSWeb.Objects
                             column.TotalCell.ToJsonTemplate(borders, pen)
                             :
                             column.TotalCell.ToJsonData(borders, pen);
-                }
+                
             }
             r += ']';
             return r;
