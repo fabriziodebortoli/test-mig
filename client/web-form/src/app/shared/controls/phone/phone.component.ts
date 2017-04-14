@@ -7,5 +7,5 @@ import { ControlComponent } from './../control.component';
   styleUrls: ['./phone.component.scss']
 })
 export class PhoneComponent extends ControlComponent {
-  @Input() public mask: string = "(999) 0000000000";
+  @Input() public mask: string;
 }
