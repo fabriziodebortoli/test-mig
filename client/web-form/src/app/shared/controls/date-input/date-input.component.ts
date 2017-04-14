@@ -14,6 +14,7 @@ import { EventDataService } from './../../../core/eventdata.service';
 export class DateInputComponent extends ControlComponent implements OnChanges, AfterViewInit {
   @Input() forCmpID: string;
   @Input() formatter: string;
+  @Input() readonly = false;
   anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'left', vertical: 'top' };
 
@@ -56,7 +57,7 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
     if (!newDate) {
       return;
     }
-    let timestamp = Date.parse(newDate.toDateString())
+    const timestamp = Date.parse(newDate.toDateString() )
     if (isNaN(timestamp)) { return; }
     if (this.model === null) {
       this.model = { enable: 'true', value: '' };

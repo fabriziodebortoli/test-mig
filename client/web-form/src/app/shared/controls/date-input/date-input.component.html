@@ -1,9 +1,11 @@
-<!--<div class="validation">F:{{formatter}}</div>-->
 <div>
     <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-    <span #anchor class="k-icon k-i-calendar-date" (click)="onClickIconCalend()" (mousedown)="press()"></span>
-    <kendo-dateinput [(ngModel)]="selectedDate" [format]="getFormat(formatter)" (valueChange)="onChange($event)" (blur)="onBlur()"></kendo-dateinput>
+    <kendo-dateinput [(ngModel)]="selectedDate" [format]="getFormat(formatter)" (valueChange)="onChange($event)" (blur)="onBlur()" [disabled]="readonly"></kendo-dateinput>
+    <a [hidden]="readonly">
+        <span #anchor class="k-icon k-i-calendar-date" (click)="onClickIconCalend()" (mousedown)="press()"></span>
+    </a>
     <kendo-popup [anchor]="anchor" *ngIf="popupOpen" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign" (anchorViewportLeave)="onClickM()" (open)="calendar.focus();">
         <kendo-calendar #calendar (valueChange)="handleChange($event)" [value]="selectedDate" (blur)="onBlurCalendar()"></kendo-calendar>
     </kendo-popup>
+
 </div>
