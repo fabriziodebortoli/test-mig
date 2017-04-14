@@ -1,15 +1,5 @@
-$primary-color: rgb(51, 153, 255);
-.class1 {
-    color: $primary-color;
-}
-
-.line-separator {
-    height: 1px;
-    background: $primary-color;
-    border-bottom: 1px solid $primary-color;
-}
-
-.separator {
-    padding-top: 10px;
-    padding-bottom: 10px;
+$mf-border-color: #999 !default;
+.borderBottom {
+    border-bottom: 1px solid;
+    border-color: $mf-border-color
 }
