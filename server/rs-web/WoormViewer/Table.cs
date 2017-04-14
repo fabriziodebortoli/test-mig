@@ -619,11 +619,15 @@ namespace Microarea.RSWeb.Objects
                         this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
                     }
                 }
-                s += this.Value.FormattedData.ToJson("value", false, true);
+
+                s += this.Value.FormattedData.ToJson("value", false, true) + ',';
             }
 
+ 
             if (column.Table.HasDynamicHiddenColumns())
-                s = s.ConcatWithSep(border.ToJson(), ',') + ',' + pen.ToJson();
+                s += border.ToJson() + ',' + pen.ToJson();
+            else
+                s = s.TrimEnd(new char[] { ',' });
 
             s += "}}";
             return s;
@@ -2513,13 +2517,16 @@ namespace Microarea.RSWeb.Objects
                 s = '\"' + name + "\":";
 
             int rows = this.RowNumber;
-            if (this.ExistsTotals()) rows++;
+            if (this.ExistsTotals()) 
+                rows++;
+
+            int nc = this.VisibleColumnNumber();
 
             s += '{' +
                 base.ToJsonTemplate(false) + ',' +
 
-                this.ColumnNumber.ToJson("column_number") + ',' +
-               rows.ToJson("row_number") + ',' +
+                nc.ToJson("column_number") + ',' +
+                rows.ToJson("row_number") + ',' +
 
                 this.Columns[0].Cells[0].RectCell.Height.ToJson("row_height") + ',' +
 
@@ -2532,21 +2539,19 @@ namespace Microarea.RSWeb.Objects
                         this.Title.Align.ToHtml_align() + ',' +
                         this.Title.TextColor.ToJson("textcolor") + ',' +
                         this.Title.BkgColor.ToJson("bkgcolor") + ',' +
- 
+
                         this.Borders.TableTitle.ToJson() + ',' +
-                        this.TitlePen.ToJson() + 
-                       "}," 
-                     ) : "" )
+                        this.TitlePen.ToJson() +
+                       "},"
+                     ) : "")
                     +
 
                this.HideColumnsTitle.ToJson("hide_columns_title") + ',' +
-               this.FiscalEnd.ToJson("fiscal_end") + ',' +
-                //this.EasyviewColor.ToJson("alternate_color") + ',' +
+               this.FiscalEnd.ToJson("fiscal_end") + ',';
+            //this.EasyviewColor.ToJson("alternate_color") + ',' +
 
-                ToJsonColumns(true) + 
-
-                ',' + ToJsonRowsTemplate() + 
-            '}';
+            s +=  ToJsonColumns(true) + ',';
+            s +=  ToJsonRowsTemplate() + '}';
 
             if (bracket)
                 s = '{' + s + '}';
@@ -2614,24 +2619,27 @@ namespace Microarea.RSWeb.Objects
             //predispone la table per la modalita di Easyview dinamica (nel caso sia presente)
             this.InitEasyview();
 
-            int lastColumn = this.LastVisibleColumn();
+            int lastColumn = this.ColumnNumber - 1; // LastVisibleColumn();
+
             for (int row = 0; row < this.RowNumber; row++)
             {
-                // "row":
                 string r = "[";
 
                 bool firstCol = true;
                 for (int col = 0; col <= lastColumn; col++)
                 {
                     Column column = this.Columns[col];
-                    if (column.IsHidden) continue;
 
                     if (row == 0)
                         column.PreviousValue = null;
 
+                    if (column.IsHidden && column.HideExpr == null) 
+                        continue;
+
                     Cell cell = column.Cells[row];
-                    bool lastCol = col == lastColumn;
                     cell.AtRowNumber = row;
+                   
+                    bool lastCol = (col == lastColumn);
 
                     Borders borders = new Borders
                                             (
@@ -2641,7 +2649,6 @@ namespace Microarea.RSWeb.Objects
                                                 (!lastCol && this.Borders.ColumnSeparator) || (lastCol && this.Borders.Body.Right)
                                             );
                    
-
                     if (!firstCol) r += ',';
  
                     r += cell.ToJsonTemplate(borders, UseColorEasyview(row));
@@ -2669,27 +2676,28 @@ namespace Microarea.RSWeb.Objects
             this.InitEasyview();
 
             int lastColumn = this.LastVisibleColumn();
+
             for (int row = 0; row < this.RowNumber; row++)
             {
-                // "row":
                 string r = "[";
 
                 bool firstCol = true;
                 for (int col = 0; col <= lastColumn; col++)
                 {
-                    Column column = this.Columns[col];
+                   Column column = this.Columns[col];
 
-                    if (row == 0)
+                   if (row == 0)
                         column.PreviousValue = null;
 
-                    if (column.DynamicIsHidden) continue;
+                   if (column.DynamicIsHidden) 
+                        continue;
+ 
+                   Cell cell = column.Cells[row];
+                   cell.AtRowNumber = row;
 
-                    bool lastCol = col == lastColumn;
+                   bool lastCol = (col == lastColumn);
 
-                    Cell cell = column.Cells[row];
-                    cell.AtRowNumber = row;
-
-                    Borders borders = new Borders
+                   Borders borders = new Borders
                                             (
                                                 false,
                                                 firstCol && this.Borders.Body.Left,
@@ -2741,12 +2749,24 @@ namespace Microarea.RSWeb.Objects
             if (!this.ExistsTotals())
                 return string.Empty;
 
+            int lastColumn = template ? this.ColumnNumber - 1 : this.LastVisibleColumn();
+
             string r = ",[";
             bool first = true;
-            int lastColumn = this.LastVisibleColumn();
             for (int col = 0; col <= lastColumn; col++)
             {
                 Column column = this.Columns[col];
+
+                if (template)
+                {
+                    if (column.IsHidden && column.HideExpr == null)
+                        continue;
+                }
+                else
+                {
+                    if (column.IsHidden)
+                        continue;
+                }
 
                 if (!column.IsHidden)
                 {
@@ -2866,13 +2886,13 @@ namespace Microarea.RSWeb.Objects
 		}
 
 		//---------------------------------------------------------------------------
-		public int HiddenColumnNumber()
+		public int VisibleColumnNumber()
 		{
-			int count = 0;
-			for (int col = ColumnNumber - 1; col >= 0; col--)
+			int count = ColumnNumber;
+			for (int col = 0; col < ColumnNumber; col++)
 			{
-				if (Columns[col].IsHidden)
-					count++;
+				if (Columns[col].IsHidden && Columns[col].HideExpr == null)
+					count--;
 			}
 			return count;
 		}
@@ -2892,18 +2912,6 @@ namespace Microarea.RSWeb.Objects
 					return i;
 			}
 			return -1;
-		}
-
-		//---------------------------------------------------------------------------
-		public int VisibleColumnNumber()
-		{
-			int count = 0;
-			for (int col = ColumnNumber - 1; col >= 0; col--)
-			{
-				if (!Columns[col].IsHidden)
-					count++;
-			}
-			return count;
 		}
 
 		//------------------------------------------------------------------------------

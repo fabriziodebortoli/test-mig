@@ -1912,9 +1912,22 @@ namespace Microarea.RSWeb.WoormViewer
             if (!name.IsNullOrEmpty())
                 s = '\"' + name + "\":";
 
+            int pageNo = 1;
+            if (this.RdeReader != null)
+                pageNo = this.RdeReader.CurrentPage;
+            else if (!template)
+            {
+                //TODO errore
+                return string.Empty;
+            }
+            if (this.pageInfo == null)
+            {
+                //TODO errore
+                return string.Empty;
+            }
             s += '{' +
                    (template ? "template" : "data").ToJson("type") + ','  +
-                    this.RdeReader.CurrentPage.ToJson("page_number") + ',' +
+                    pageNo.ToJson("page_number") + ',' +
                     (template ? this.pageInfo.ToJson() + ',' : "") +
                    this.Objects.ToJson(template, "layout") +
                  '}';
