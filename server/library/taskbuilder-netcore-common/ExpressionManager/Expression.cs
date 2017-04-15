@@ -3721,9 +3721,10 @@ namespace Microarea.Common.ExpressionManager
 
 				object[] objs = parms.ToArray();
                 object ret = null;
-                //TODO RSWEB Call soap methods
-                //ITbLoaderClient tbLoader = GetTBClientInterface();
-                //ret = tbLoader.Call(function.Prototype, objs);
+
+        //TODO RSWEB Call soap methods
+        //ITbLoaderClient tbLoader = GetTBClientInterface();
+        //ret = tbLoader.Call(function.Prototype, objs);
 
                 for (int i = 0; i < function.Parameters.Count; i++)
 				{

@@ -174,12 +174,12 @@ namespace Microarea.Common.Applications
         public string preferredLanguage { get; set; }
         public string applicationLanguage { get; set; }
 
-        public static LoginInfoMessage GetLoginInformation(Microsoft.AspNetCore.Http.ISession session, string authtoken)
+        public static LoginInfoMessage GetLoginInformation(Microsoft.AspNetCore.Http.ISession session, string authtoken, string baseAddress = "http://localhost:5000/")
         {
             string loginInfo = session != null ? session.GetString(authtoken) : string.Empty;
             if (loginInfo.IsNullOrEmpty())
             {
-                loginInfo = GetRemoteLoginInformation(authtoken).Result;
+                loginInfo = GetRemoteLoginInformation(authtoken, baseAddress).Result;
 
                 if (session != null && !loginInfo.IsNullOrEmpty())
                     session.SetString(authtoken, loginInfo);
@@ -189,9 +189,9 @@ namespace Microarea.Common.Applications
             return msg;
         }
 
-        public static async Task<LoginInfoMessage> GetLoginInformation(string authtoken)
+        public static async Task<LoginInfoMessage> GetLoginInformation(string authtoken, string baseAddress = "http://localhost:5000/")
         {
-            string loginInfo = GetRemoteLoginInformation(authtoken).Result;
+            string loginInfo = GetRemoteLoginInformation(authtoken, baseAddress).Result;
             if (loginInfo.IsNullOrEmpty())
                 return null;
 
@@ -199,13 +199,13 @@ namespace Microarea.Common.Applications
             return msg;
         }
 
-        public static async Task<string> GetRemoteLoginInformation(string authtoken)
+        public static async Task<string> GetRemoteLoginInformation(string authtoken, string baseAddress = "http://localhost:5000/")
         {
             using (var client = new HttpClient())
             {
                 try
                 {
-                    client.BaseAddress = new Uri("http://localhost:5000/");
+                    client.BaseAddress = new Uri(baseAddress);
 
                     var content = new FormUrlEncodedContent(new[]
                     {
