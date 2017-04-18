@@ -2,12 +2,12 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
     "version": "1.0.0-beta.31",
-    "name": "web-provisioning"
+    "name": "web-admin"
   },
   "apps": [
     {
       "root": "src",
-      "outDir": "../../server/web-server/wwwroot/provisioning",
+      "outDir": "dist",
       "assets": [
         "assets",
         "favicon.ico"
@@ -50,6 +50,9 @@
     }
   },
   "defaults": {
+    "serve" : {
+      "port": 4400
+    },
     "styleExt": "css",
     "prefixInterfaces": false,
     "inline": {

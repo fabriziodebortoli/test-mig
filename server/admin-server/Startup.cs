@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace provisioning_server
+namespace Microarea.AdminServer
 {
     public class Startup
     {

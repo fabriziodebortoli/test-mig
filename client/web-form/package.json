@@ -27,7 +27,7 @@
     "@progress/kendo-angular-dialog": "^0.20.0",
     "@progress/kendo-angular-dropdowns": "^0.38.3",
     "@progress/kendo-angular-grid": "^0.26.1",
-    "@progress/kendo-angular-inputs": "^0.23.1",
+    "@progress/kendo-angular-inputs": "^0.23.2",
     "@progress/kendo-angular-intl": "^0.12.0",
     "@progress/kendo-angular-l10n": "^0.3.0",
     "@progress/kendo-angular-layout": "^0.24.1",

@@ -15,42 +15,20 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
   @Input() forCmpID: string;
   @Input() formatter: string;
   @Input() readonly = false;
-  anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
-  popupAlign: Align = { horizontal: 'left', vertical: 'top' };
 
   selectedDate: Date;
-  popupOpen = false;
-  doubleEvent = false;
   dateFormat = 'dd MMM yyyy';
 
   constructor(private eventData: EventDataService) {
     super();
   }
 
-  public handleChange(value: Date): void {
-    this.onUpdateNgModel(value);
-    this.onClickIconCalend();
-  }
-
   public onChange(val: any) {
     this.onUpdateNgModel(val);
   }
 
-  onClickIconCalend(): void {
-    this.popupOpen = !this.popupOpen;
-    this.doubleEvent = false;
-  }
-
-  onBlurCalendar(): void {
-    this.popupOpen = this.doubleEvent;
-  }
-
   onBlur() {
     this.eventData.change.emit(this.cmpId);
-  }
-
-  private press(): void { // necessario per evitare che sul click di chiusura, il blur annulli il click
-    this.doubleEvent = true;
   }
 
   onUpdateNgModel(newDate: Date): void {
