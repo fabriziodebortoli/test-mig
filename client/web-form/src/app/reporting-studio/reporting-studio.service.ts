@@ -1,5 +1,6 @@
+import { ComponentService } from './../core/component.service';
 import { environment } from './../../environments/environment';
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { Logger } from 'libclient';
@@ -9,7 +10,7 @@ import { DocumentService } from './../core/document.service';
 
 @Injectable()
 export class ReportingStudioService extends DocumentService {
-
+    public componentId = '';
     public pageNum: number = 1;
     public currLayout: string = '';
 
@@ -17,7 +18,7 @@ export class ReportingStudioService extends DocumentService {
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
 
-    constructor(logger: Logger, eventData: EventDataService) {
+    constructor(logger: Logger, eventData: EventDataService, private cmpService: ComponentService) {
         super(logger, eventData);
 
         this.websocket = new WebSocket(this.rsServer);
@@ -79,6 +80,7 @@ export class ReportingStudioService extends DocumentService {
 
     close() {
         super.close();
+        this.cmpService.removeComponentById(this.componentId);
         this.closeConnection();
     }
 }

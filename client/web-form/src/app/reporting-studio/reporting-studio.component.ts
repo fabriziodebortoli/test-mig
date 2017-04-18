@@ -1,3 +1,4 @@
+import { UtilsService } from './../core/utils.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -27,9 +28,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public objects: baseobj[] = [];
   public templates: TemplateItem[] = [];
 
-  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService,
-             private compService: ComponentService) {
+  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
     super(rsService, eventData);
+
+
   }
 
   // -----------------------------------------------
@@ -42,11 +44,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     });
 
+    this.rsService.componentId = this.args.id;
     this.rsInitStateMachine();
 
     let message = {
       commandType: CommandType.INITTEMPLATE,
-      message:"",
+      message: "",
       page: this.rsService.pageNum
     };
     this.rsService.doSend(JSON.stringify(message));
@@ -91,7 +94,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
-      parameters:this.args.params,
+      parameters: this.args.params,
       authtoken: this.cookieService.get('authtoken')
     };
 
@@ -220,7 +223,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
       if (element.fieldrect !== undefined) {
         id = element.fieldrect.baserect.baseobj.id;
-        value = element.fieldrect.value ;
+        value = element.fieldrect.value;
         let obj = this.FindObj(id);
         if (obj === undefined) {
           continue;
@@ -232,7 +235,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       }
       else if (element.textrect !== undefined) {
         id = element.textrect.baserect.baseobj.id;
-        value = element.textrect.value ;
+        value = element.textrect.value;
         let obj = this.FindObj(id);
         if (obj === undefined) {
           continue;
@@ -324,11 +327,13 @@ export class TemplateItem {
   template: ''
 })
 export class ReportingStudioFactoryComponent {
-  constructor(componentService: ComponentService, resolver: ComponentFactoryResolver, private activatedRoute: ActivatedRoute) {
+  constructor(componentService: ComponentService, resolver: ComponentFactoryResolver, private activatedRoute: ActivatedRoute,
+    private utils: UtilsService) {
     this.activatedRoute.params.subscribe((params: Params) => {
       let ns = params['ns'];
       let pars = params['params'];
-      componentService.createComponent(ReportingStudioComponent, resolver, { 'nameSpace': ns, 'params':pars });
+      componentService.createComponent(ReportingStudioComponent, resolver, { 'nameSpace': ns, 'params': pars, 'id': utils.generateGUID() },
+        true);
     });
   }
 }

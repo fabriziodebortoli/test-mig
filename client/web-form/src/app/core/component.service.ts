@@ -88,6 +88,24 @@ export class ComponentService {
     }
     this.components.splice(idx, 1);
   }
+
+  removeComponentById(componentId: string) {
+
+    let idx = -1;
+    for (let i = 0; i < this.components.length; i++) {
+      let comp: ComponentInfo = this.components[i];
+      if (comp.id === componentId) {
+        idx = i;
+        break;
+      }
+    }
+    if (idx === -1) {
+      console.debug('ComponentService: cannot remove conponent with id ' + componentId + ' because it does not exist');
+      return;
+    }
+    this.components.splice(idx, 1);
+  }
+  
   createComponentFromUrl(url: string): Promise<void> {
     return new Promise<void>(resolve => {
       this.router.navigate([{ outlets: { dynamic: 'proxy/' + url }, skipLocationChange: false, replaceUrl: false }])
@@ -104,9 +122,9 @@ export class ComponentService {
         );
     });
   }
-  createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver, args: any = {}) {
+  createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver, args: any = {}, generatedID: boolean = false) {
     let info = new ComponentInfo();
-    info.id = this.currentComponentId;
+    info.id = generatedID ? args.id : this.currentComponentId;
     info.factory = resolver.resolveComponentFactory(component);
     info.args = args;
     this.addComponent(info);
