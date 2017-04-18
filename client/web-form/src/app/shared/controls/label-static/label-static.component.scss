@@ -1,5 +1,6 @@
 $mf-border-color: #999 !default;
 .borderBottom {
     border-bottom: 1px solid;
-    border-color: $mf-border-color
+    border-color: $mf-border-color;
+    width: 200px;
 }
