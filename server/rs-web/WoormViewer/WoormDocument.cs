@@ -1935,6 +1935,7 @@ namespace Microarea.RSWeb.WoormViewer
             if (bracket)
                 s = '{' + s + '}';
 
+            int a = 1;
             return s;
         }
     }
