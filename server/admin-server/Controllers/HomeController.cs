@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using System.Text;
+using Newtonsoft.Json;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace provisioning_server.Controllers
+namespace Microarea.AdminServer.Controllers
 {
     public class HomeController : Controller
     {
@@ -22,13 +24,13 @@ namespace provisioning_server.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (_env.WebRootPath == null)
-            {
-                return NotFound();
-            }
-            string file = Path.Combine(_env.WebRootPath, "index.html");
-            byte[] buff = System.IO.File.ReadAllBytes(file);
-            return File(buff, "text/html");
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            JsonWriter jsonWriter = new JsonTextWriter(sw);
+            jsonWriter.Formatting = Formatting.Indented;
+            jsonWriter.WritePropertyName("message");
+            jsonWriter.WriteValue("Welcome to Microarea Admin-Server");
+            return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
         }
     }
 }

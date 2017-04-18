@@ -1,10 +1,10 @@
-import { WebProvisioningPage } from './app.po';
+import { WebAdminPage } from './app.po';
 
-describe('web-provisioning App', function() {
-  let page: WebProvisioningPage;
+describe('web-admin App', function() {
+  let page: WebAdminPage;
 
   beforeEach(() => {
-    page = new WebProvisioningPage();
+    page = new WebAdminPage();
   });
 
   it('should display message saying app works', () => {

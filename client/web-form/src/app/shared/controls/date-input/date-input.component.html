@@ -1,11 +1,2 @@
-<div>
-    <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-    <kendo-dateinput [(ngModel)]="selectedDate" [format]="getFormat(formatter)" (valueChange)="onChange($event)" (blur)="onBlur()" [disabled]="readonly"></kendo-dateinput>
-    <a [hidden]="readonly">
-        <span #anchor class="k-icon k-i-calendar-date" (click)="onClickIconCalend()" (mousedown)="press()"></span>
-    </a>
-    <kendo-popup [anchor]="anchor" *ngIf="popupOpen" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign" (anchorViewportLeave)="onClickM()" (open)="calendar.focus();">
-        <kendo-calendar #calendar (valueChange)="handleChange($event)" [value]="selectedDate" (blur)="onBlurCalendar()"></kendo-calendar>
-    </kendo-popup>
-
-</div>
+<tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
+<kendo-datepicker [(ngModel)]="selectedDate" [format]="getFormat(formatter)" (valueChange)="onChange($event)" [focusedDate]="selectedDate" [disabled]="readonly"> </kendo-datepicker>
