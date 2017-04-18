@@ -32,6 +32,7 @@
 .menu-element-content .header {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .menu-element-content p.description {
@@ -70,11 +71,11 @@ md-spinner {
 }
 
 span {
-    font-size: 14px;
-    line-height: 24px;
+    font-size: 13px;
+    line-height: 16px;
     cursor: pointer;
     flex: 1 1 auto;
-    padding: 0 2px;
+    padding: 0 3px;
 }
 
 .isLoading {
@@ -97,9 +98,6 @@ span {
 }
 
 @media screen and (min-width: 48em) {
-    span {
-        padding: 0 5px;
-    }
     .menu-element-content p.description {
         min-height: 55px;
     }
