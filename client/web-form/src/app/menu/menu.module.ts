@@ -14,6 +14,8 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
+import { MasonryModule } from 'angular2-masonry';
+
 import { SharedModule } from '../shared/shared.module';
 
 import { SearchComponent } from './components/menu/search/search.component';
@@ -71,6 +73,7 @@ const KENDO_UI_MODULES = [
     FormsModule,
     MaterialModule.forRoot(),
     ReactiveFormsModule,
+    MasonryModule,
     KENDO_UI_MODULES
   ],
 

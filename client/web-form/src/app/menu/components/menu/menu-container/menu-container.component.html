@@ -6,7 +6,7 @@
             <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)" [height]="31">
                 <kendo-tabstrip-tab [title]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService?.selectedGroup?.Menu)">
                     <ng-template kendoTabContent>
-                        <div class="wrap1200">
+                        <div class="wrap">
                             <tb-header-strip [title]="menuService?.selectedMenu?.title">
 
                                 <button class="show-description" kendoButton (click)="menuService?.toggleDecription()" [bare]="!menuService?.showDescription" [primary]="menuService?.showDescription"><md-icon>subject</md-icon></button>
@@ -15,11 +15,12 @@
 
                             </tb-header-strip>
                             <div class="menu-container" *ngIf="menuService.selectedMenu != undefined">
-                                <div class="row">
+                                <masonry>
+                                    <div class="brick-sizer"></div>
                                     <tb-menu-content *ngFor="let tile of tiles" [tile]="tile" class="col-xs-12 col-md-6" [ngClass]="{'col-lg-3': tiles.length > 3, 'col-lg-4': tiles.length < 4}"></tb-menu-content>
                                     <!--<tb-menu-content *ngFor="let tile of tiles" [tile]="tile" class="col-xs-12 col-md-6" [class.limited]="tiles.length > 4"></tb-menu-content>-->
                                     <!--[class.col-sm-3]="tiles.length % 3 == 0" [class.col-sm-4]="tiles.length % 2 == 0" -->
-                                </div>
+                                </masonry>
 
                             </div>
                         </div>
