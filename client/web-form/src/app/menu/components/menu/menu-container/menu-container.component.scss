@@ -52,7 +52,10 @@
     flex: 1;
 }
 
-.menu-page .show-description {
-    margin-top: -60px;
-    float: right;
+.menu-page .show-description md-icon {
+    padding: 0;
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
 }
