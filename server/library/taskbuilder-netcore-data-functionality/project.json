@@ -6,7 +6,6 @@
     "Npgsql": "3.2.2",
     "NuGet.CommandLine": "3.5.0",
     "System.Data.SqlClient": "4.3.0",
-    "taskbuilder-netcore-common": "1.0.0-*",
     "taskbuilder-netcore-data": "1.0.0-*"
   },
 

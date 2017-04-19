@@ -23,15 +23,50 @@ namespace Microarea.Common.CoreTypes
 		//---------------------------------------------------------------------
 		protected override object GetValue()
 		{
-			return null;
+			return ((int)tag << 16 | item);
 		}
 
 		protected override void SetValue(object value)
 		{
-		}
+            if (value is uint)
+            {
+                uint e = (uint)value;
+                tag = (ushort)((e >> 16) & 0xFFFF);
+                item = (ushort)(e & 0xFFFF);
+            }
+            else if (value is int)
+            {
+                int e = (int)value;
+                tag = (ushort)((e >> 16) & 0xFFFF);
+                item = (ushort)(e & 0xFFFF);
+            }
+            else if (value is long)
+            {
+                long e = (long)value;
+                tag = (ushort)((e >> 16) & 0xFFFF);
+                item = (ushort)(e & 0xFFFF);
+            }
+            else if (value is ulong)
+            {
+                ulong e = (ulong)value;
+                tag = (ushort)((e >> 16) & 0xFFFF);
+                item = (ushort)(e & 0xFFFF);
+            }
+            else if (value is DataEnum)
+            {
+                DataEnum de = (DataEnum)value;
+                tag = de.tag;
+                item = de.item;
+            }
+            else if (value is ushort)
+            {
+                tag = (ushort)value;
+                item = 0;
+            }
+        }
 
-		//---------------------------------------------------------------------
-		[DataMember]
+        //---------------------------------------------------------------------
+        [DataMember]
 		public ushort Tag
 		{
 			get { return tag; }
@@ -90,11 +125,8 @@ namespace Microarea.Common.CoreTypes
 		//---------------------------------------------------------------------
 		public void Assign(uint toBeAssigned)
 		{
-			int reminder= (int)toBeAssigned % 65536;
-			int quotient = (int)toBeAssigned / 65536;
-
-			tag = (ushort)quotient;
-			item = (ushort)reminder;
+			tag = (ushort) ((toBeAssigned >> 16) & 0xFFFF);
+			item = (ushort) (toBeAssigned & 0xFFFF);
 		}
 
 		//---------------------------------------------------------------------
@@ -209,7 +241,7 @@ namespace Microarea.Common.CoreTypes
 			if (dataEnum == null)
 				return 0;
 
-			return (int)(dataEnum.tag * (uint)65536 + dataEnum.item);
+			return ((int)dataEnum.tag << 16 | dataEnum.item);
 		}
 
 		//---------------------------------------------------------------------
@@ -221,7 +253,7 @@ namespace Microarea.Common.CoreTypes
 		//---------------------------------------------------------------------
 		public override int GetHashCode()
 		{
-			return (int) (tag * ushort.MaxValue + item);
+			return  ((int)tag << 16 | item);
 		}
 
 		//---------------------------------------------------------------------
@@ -252,7 +284,7 @@ namespace Microarea.Common.CoreTypes
 		//---------------------------------------------------------------------
 		public override string ToString(int minLen, int maxLen)
 		{
-			throw new NotImplementedException();
+			return ((int)this).ToString();
 		}
 
 		//---------------------------------------------------------------------
