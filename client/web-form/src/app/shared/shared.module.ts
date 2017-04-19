@@ -2,7 +2,7 @@
 import {
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DockpaneComponent, TabberComponent, TabComponent, TileManagerComponent,
-  TileGroupComponent, TileComponent, ViewComponent, SelectorComponent,
+  TileGroupComponent, TileComponent, ViewComponent,
   TilePanelComponent, LayoutContainerComponent, FrameComponent
 } from './containers';
 
@@ -69,7 +69,7 @@ const KENDO_UI_MODULES = [
 const TB_COMPONENTS = [
   PageNotFoundComponent,
   TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent,
-  FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent, SelectorComponent,
+  FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   TabComponent, TabberComponent,
   ViewComponent, DockpaneComponent, FrameComponent, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
@@ -88,7 +88,7 @@ const TB_DIRECTIVES = [
   ContextMenuDirective
 ];
 
-@NgModule({ 
+@NgModule({
   imports: [
     ReactiveFormsModule, InputsModule,
     CommonModule,
