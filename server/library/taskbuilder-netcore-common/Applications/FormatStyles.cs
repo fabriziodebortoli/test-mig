@@ -639,8 +639,13 @@ namespace Microarea.Common.Applications
 		//----------------------------------------------------------------------------
 		public override string Format(object data)
 		{
-			return Format((long)data);
-		}
+            if (data is long)
+			    return Format((long)data);
+            if (data is int)
+                return Format((int)data);
+
+            return data.ToString();
+        }
 
 		//----------------------------------------------------------------------------
 		public string Format(long aValue) { return Format(aValue, true); }
