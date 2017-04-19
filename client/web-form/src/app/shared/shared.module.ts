@@ -53,6 +53,7 @@ import { PhoneComponent } from './controls/phone/phone.component';
 import { EmailComponent } from './controls/email/email.component';
 import { TimeInputComponent } from './controls/time-input/time-input.component';
 import { SectionTitleComponent } from './controls/section-title/section-title.component';
+import { TextareaComponent } from './controls/textarea/textarea.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -78,7 +79,7 @@ const TB_COMPONENTS = [
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
   ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportImageComponent, ReportRectComponent, ReportLinkComponent, BoolEditComponent,
-  PhoneComponent, EmailComponent,SectionTitleComponent
+  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent
 ];
 
 const TB_DIRECTIVES = [
