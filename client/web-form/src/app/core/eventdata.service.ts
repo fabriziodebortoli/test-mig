@@ -7,7 +7,8 @@ export class EventDataService {
     public change: EventEmitter<string> = new EventEmitter();
     public openDropdown: EventEmitter<any> = new EventEmitter();
    
-    public model: any = {};
+    public oldModel: any = {};//model before user changes (I need it for delta construction)
+    public model: any = {};//current model
 
     constructor() { 
         console.log('EventDataService created');
