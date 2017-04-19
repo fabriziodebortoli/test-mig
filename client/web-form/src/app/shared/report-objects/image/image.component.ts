@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'rs-image',
   templateUrl: './image.component.html',
-  styleUrls: ['./image.component.scss']
+  styles: []
 })
 export class ReportImageComponent {
 
