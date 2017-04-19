@@ -1,13 +1,30 @@
-.tile-manager .k-tabstrip{
-    flex-direction: row;
-    display:flex;
-    flex:1;
+tb-tilemanager {
+    flex: 1;
 }
 
-.tile-manager .k-tabstrip > .k-tabstrip-items{
+.tile-manager {
+    background: #fff;
+    flex: 1;
+    display: flex;
+    min-height: 100%;
+}
+
+.tile-manager .k-tabstrip {
+    flex-direction: row;
+    display: flex;
+    flex: 1;
+}
+
+.tile-manager .k-tabstrip-top>.k-content {
+    flex: 1;
+    background-color: transparent;
+}
+
+.tile-manager .k-tabstrip>.k-tabstrip-items {
     flex-direction: column;
     flex: 0 0 300px;
 }
+
 
 /*.selector {
     border-color:lightgray;
