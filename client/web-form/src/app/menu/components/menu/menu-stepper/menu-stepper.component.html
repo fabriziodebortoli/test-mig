@@ -1,21 +1,18 @@
-<div *ngIf="menuService?.selectedApplication?.title != undefined"> 
+<div *ngIf="menuService?.selectedApplication?.title != undefined">
 
     <md-menu #apps="mdMenu" x-position="after" y-position="below">
-        <button md-menu-item *ngFor="let application of applications" (click)=menuService.setSelectedApplication(application) class="applicationItem"
-            [ngClass]="application?.title == menuService?.selectedApplication?.title ? 'active' : ''">
+        <button md-menu-item *ngFor="let application of applications" (click)=menuService.setSelectedApplication(application) class="applicationItem" [ngClass]="application?.title == menuService?.selectedApplication?.title ? 'active' : ''">
      {{application?.title}}
      </button>
     </md-menu>
     <md-menu #groups="mdMenu" x-position="after" y-position="below">
-        <button md-menu-item *ngFor="let group of utilsService.toArray(menuService?.selectedApplication?.Group)" (click)=menuService.setSelectedGroup(group)
-            class="applicationItem" [ngClass]="group?.title == menuService?.selectedGroup?.title ? 'active' : ''">
+        <button md-menu-item *ngFor="let group of utilsService.toArray(menuService?.selectedApplication?.Group)" (click)=menuService.setSelectedGroup(group) class="applicationItem" [ngClass]="group?.title == menuService?.selectedGroup?.title ? 'active' : ''">
         <img [src]="imageService.getStaticImage(group)" />
          {{group?.title}}
      </button>
     </md-menu>
     <md-menu #menus="mdMenu" x-position="after" y-position="below">
-        <button md-menu-item *ngFor="let menuTab of utilsService.toArray(menuService.selectedGroup?.Menu)" (click)=menuService.setSelectedMenu(menuTab)
-            class="applicationItem" [ngClass]="menuTab?.title == menuService?.selectedMenu?.title ? 'active' : ''">
+        <button md-menu-item *ngFor="let menuTab of utilsService.toArray(menuService.selectedGroup?.Menu)" (click)=menuService.setSelectedMenu(menuTab) class="applicationItem" [ngClass]="menuTab?.title == menuService?.selectedMenu?.title ? 'active' : ''">
      {{menuTab?.title}}
      </button>
     </md-menu>
@@ -36,6 +33,7 @@
                 {{menuService?.selectedMenu?.title}}
             </div>
         </li>
+        <li class="current">{{menuService?.selectedMenu?.title}}</li>
     </ul>
 
 </div>

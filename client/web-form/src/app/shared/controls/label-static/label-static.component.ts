@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ControlComponent } from './../control.component';
 
 @Component({
@@ -7,7 +7,7 @@ import { ControlComponent } from './../control.component';
   styleUrls: ['./label-static.component.scss']
 })
 export class LabelStaticComponent  extends ControlComponent implements OnInit {
-
+  @Input() caption = '';
   ngOnInit() {
   }
 

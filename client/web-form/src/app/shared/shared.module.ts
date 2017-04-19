@@ -25,7 +25,7 @@ import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorCompone
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
 import { LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective } from './containers/tiles/layout-styles';
 import {
-  CaptionComponent, EditComponent, ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
+  CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
   CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent, UnknownComponent
 } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
@@ -53,6 +53,7 @@ import { PhoneComponent } from './controls/phone/phone.component';
 import { EmailComponent } from './controls/email/email.component';
 import { TimeInputComponent } from './controls/time-input/time-input.component';
 import { SectionTitleComponent } from './controls/section-title/section-title.component';
+import { TextareaComponent } from './controls/textarea/textarea.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -73,12 +74,12 @@ const TB_COMPONENTS = [
   TabComponent, TabberComponent,
   ViewComponent, DockpaneComponent, FrameComponent, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DynamicCmpComponent, UnknownComponent,
-  EditComponent, CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
+  CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
   OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
   ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportImageComponent, ReportRectComponent, ReportLinkComponent, BoolEditComponent,
-  PhoneComponent, EmailComponent,SectionTitleComponent
+  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent
 ];
 
 const TB_DIRECTIVES = [

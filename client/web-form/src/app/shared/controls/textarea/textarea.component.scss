@@ -1,6 +1,5 @@
 $mf-border-color: #999 !default;
-.borderBottom {
-    border-bottom: 1px solid;
+textarea {
     border-color: $mf-border-color;
-    width: 200px;
+    background: lighten($mf-border-color, 37%);
 }

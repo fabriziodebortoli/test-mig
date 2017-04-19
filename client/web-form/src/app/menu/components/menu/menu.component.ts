@@ -1,5 +1,7 @@
+import { Subscription } from 'rxjs';
+import { title } from './../../../reporting-studio/reporting-studio.model';
 import { EnumsService } from './../../../core/enums.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 import { ViewModeType } from '../../../shared/models/view-mode-type.model';
 
@@ -19,7 +21,10 @@ import { HttpMenuService } from './../../services/http-menu.service';
 })
 
 export class MenuComponent implements OnInit, OnDestroy {
-  getMenuElementsSubscription: any;
+
+  private getMenuElementsSubscription: Subscription;
+  private selectedGroupChangedSubscription: Subscription;
+
   constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
@@ -39,6 +44,10 @@ export class MenuComponent implements OnInit, OnDestroy {
       },
       viewModeType: ViewModeType.M
     };
+
+    this.selectedGroupChangedSubscription = this.menuService.selectedGroupChanged.subscribe((title) => {
+      this.eventData.model.Title.value = title + ' Menu';
+    });
   }
 
   ngOnInit() {
@@ -52,5 +61,6 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.getMenuElementsSubscription.unsubscribe();
+    this.selectedGroupChangedSubscription.unsubscribe();
   }
 }

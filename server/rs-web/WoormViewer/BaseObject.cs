@@ -337,18 +337,20 @@ namespace Microarea.RSWeb.Objects
 
         static public string  GetLink(bool template, WoormDocument woorm, int alias, int atRowNumber = -1)
         {
+            if (woorm.Connections == null || woorm.Connections.Count == 0)
+                return string.Empty;
+
             string navigateURL = string.Empty;
             string arguments = string.Empty;
             ConnectionLink conn = null;
 
+            woorm.SynchronizeSymbolTable(atRowNumber);
             if (template)
             {
-                woorm.SynchronizeSymbolTable(atRowNumber);
                 conn = woorm.Connections.ExistsConnectionOnAlias(alias, woorm);
             }
             else
             {
-                woorm.SynchronizeSymbolTable(atRowNumber);
                 conn = woorm.Connections.GetConnectionOnAlias(alias, woorm, atRowNumber);      
             }
             if (conn == null) 

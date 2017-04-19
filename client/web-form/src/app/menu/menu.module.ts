@@ -14,6 +14,8 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
+import { MasonryModule } from 'angular2-masonry';
+
 import { SharedModule } from '../shared/shared.module';
 
 import { SearchComponent } from './components/menu/search/search.component';
@@ -31,6 +33,7 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { DropDownsModule, AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PopupModule } from '@progress/kendo-angular-popup';
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
 
 import { LoginComponent } from './components/login/login.component';
 import { Logger } from 'libclient';
@@ -58,7 +61,8 @@ const KENDO_UI_MODULES = [
   DialogModule,
   DropDownsModule,
   LayoutModule,
-  PopupModule
+  PopupModule,
+  ButtonsModule
 ];
 
 @NgModule({
@@ -69,6 +73,7 @@ const KENDO_UI_MODULES = [
     FormsModule,
     MaterialModule.forRoot(),
     ReactiveFormsModule,
+    MasonryModule,
     KENDO_UI_MODULES
   ],
 
