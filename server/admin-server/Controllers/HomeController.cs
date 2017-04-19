@@ -34,8 +34,6 @@ namespace Microarea.AdminServer.Controllers
             jsonWriter.Formatting = Formatting.Indented;
             jsonWriter.WritePropertyName("message");
             jsonWriter.WriteValue("Welcome to Microarea Admin-Server");
-            jsonWriter.WritePropertyName("data service");
-            jsonWriter.WriteValue(this.adminDataService.DataName);
             return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
         }
     }
