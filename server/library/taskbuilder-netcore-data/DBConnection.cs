@@ -138,7 +138,8 @@ namespace TaskBuilderNetCore.Data
 
         public override void Close()
         {
-            connection.Close();
+            if (connection.State != ConnectionState.Closed)
+                connection.Close();
         }
 
 
