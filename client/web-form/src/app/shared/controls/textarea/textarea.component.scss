@@ -1,7 +1,5 @@
 $mf-border-color: #999 !default;
 textarea {
-    width: 600px;
-    height: 150px;
     border-color: $mf-border-color;
     background: lighten($mf-border-color, 37%);
 }

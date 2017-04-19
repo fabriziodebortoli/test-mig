@@ -11,16 +11,17 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 
-using Microarea.Common.NameSolver;
+using TaskBuilderNetCore.Interfaces;
 
+using Microarea.Common.NameSolver;
 using Microarea.Common.Generic;
-using Microarea.RSWeb.WoormEngine;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Lexan;
 
+using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
-using TaskBuilderNetCore.Interfaces;
+
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -1935,7 +1936,6 @@ namespace Microarea.RSWeb.WoormViewer
             if (bracket)
                 s = '{' + s + '}';
 
-            int a = 1;
             return s;
         }
     }
