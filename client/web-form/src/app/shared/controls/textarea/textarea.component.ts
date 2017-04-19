@@ -10,13 +10,16 @@ export class TextareaComponent extends ControlComponent {
   @Input('readonly') readonly = false;
   @Input() width: number;
   @Input() height: number;
-
-  constructor() {
-  super();
-
+      constructor() {
+      super();
   }
 
-  ngOnInit() {
+  getCorrectHeight() {
+   return isNaN(this.height) ?  this.height.toString() :  this.height +  'px';;
   }
 
+
+  getCorrectWidth() {
+     return isNaN(this.width) ? this.width.toString() : this.width + 'px';
+  }
 }
