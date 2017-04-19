@@ -18,6 +18,7 @@ export class BOService extends DocumentService {
     commandSubscription: any;
     changeSubscription: any;
     openDropdownSubscription: any;
+    onContextMenuSubscription: any;
 
     constructor(
         private webSocketService: WebSocketService,
@@ -76,6 +77,10 @@ export class BOService extends DocumentService {
             this.webSocketService.doFillListBox(this.mainCmpId, obj);
         });
 
+        this.onContextMenuSubscription = this.eventData.onContextMenu.subscribe((obj: any) => {
+            this.webSocketService.getContextMenu(this.mainCmpId, obj);
+        });
+
 
     }
     init(cmpId: string) {
@@ -91,6 +96,7 @@ export class BOService extends DocumentService {
         this.changeSubscription.unsubscribe();
         this.activationDataSubscription.unsubscribe();
         this.openDropdownSubscription.unsubscribe();
+        this.onContextMenuSubscription.unsubscribe();
     }
 
     close() {
