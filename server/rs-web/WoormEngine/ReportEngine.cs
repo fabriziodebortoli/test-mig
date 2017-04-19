@@ -19,7 +19,7 @@ using Microarea.Common.ExpressionManager;
 using Microarea.Common.Hotlink;
 
 using Microarea.RSWeb.WoormViewer;
-using TaskBuilderNetCore.DataFunctionaluty;
+using Microarea.Common.DBData;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -98,7 +98,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public string GetColumnType(string columnName)
 		{
             //TODO RSWEB OTTIMIZZARE GetColumnType
-            return DBInfo.GetColumnType(session.UserInfo.CompanyDbConnection , tableName, columnName);
+            return DBInfo.GetColumnType(session.UserInfo.CompanyDbConnection, tableName, columnName);
 
             // se non ha la connessione al database o se la colonna non esiste assume
             // che la colonna sia di tipo stringa.

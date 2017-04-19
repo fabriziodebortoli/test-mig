@@ -6,7 +6,7 @@ import { Component, Input, ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'rs-fieldrect',
   templateUrl: './fieldrect.component.html',
-  styleUrls: ['./fieldrect.component.scss']
+  styles: []
 })
 export class ReportFieldrectComponent implements AfterViewInit {
 

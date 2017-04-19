@@ -90,11 +90,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   rsInitStateMachine() {
-
+    const params = decodeURIComponent(this.args.params);
     let message = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
-      parameters: this.args.params,
+      parameters: params,
       authtoken: this.cookieService.get('authtoken')
     };
 
@@ -220,50 +220,53 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let value: any;
     for (let index = 0; index < msg.page.layout.objects.length; index++) {
       let element = msg.page.layout.objects[index];
-
-      if (element.fieldrect !== undefined) {
-        id = element.fieldrect.baserect.baseobj.id;
-        value = element.fieldrect.value;
-        let obj = this.FindObj(id);
-        if (obj === undefined) {
-          continue;
-        }
-        if (obj.link !== undefined) {
-          obj.link = new link(element.fieldrect.link);
-        }
-        obj.value = value;
-      }
-      else if (element.textrect !== undefined) {
-        id = element.textrect.baserect.baseobj.id;
-        value = element.textrect.value;
-        let obj = this.FindObj(id);
-        if (obj === undefined) {
-          continue;
-        }
-        obj.value = value;
-      }
-      else if (element.table !== undefined) {
-        id = element.table.baseobj.id;
-        value = element.table.rows;
-        let obj = this.FindObj(id);
-        if (obj === undefined) {
-          continue;
-        }
-
-        let columns = element.table.columns;
-
-        for (let i = 0; i < obj.columns.length; i++) {
-          let target: column = obj.columns[i];
-          let source: column = columns[i];
-          if (target.id !== source.id) {
-            console.log('id don\'t match');
+      try {
+        if (element.fieldrect !== undefined) {
+          id = element.fieldrect.baserect.baseobj.id;
+          value = element.fieldrect.value;
+          let obj = this.FindObj(id);
+          if (obj === undefined) {
             continue;
           }
-          if (source.hidden !== undefined) {
-            target.hidden = source.hidden;
+          if (obj.link !== undefined) {
+            obj.link = new link(element.fieldrect.link);
           }
+          obj.value = value;
         }
-        obj.value = value;
+        else if (element.textrect !== undefined) {
+          id = element.textrect.baserect.baseobj.id;
+          value = element.textrect.value;
+          let obj = this.FindObj(id);
+          if (obj === undefined) {
+            continue;
+          }
+          obj.value = value;
+        }
+        else if (element.table !== undefined) {
+          id = element.table.baseobj.id;
+          value = element.table.rows;
+          let obj = this.FindObj(id);
+          if (obj === undefined) {
+            continue;
+          }
+
+          let columns = element.table.columns;
+
+          for (let i = 0; i < obj.columns.length; i++) {
+            let target: column = obj.columns[i];
+            let source: column = columns[i];
+            if (target.id !== source.id) {
+              console.log('id don\'t match');
+              continue;
+            }
+            if (source.hidden !== undefined) {
+              target.hidden = source.hidden;
+            }
+          }
+          obj.value = value;
+        }
+      } catch (a) {
+        let k = a;
       }
     }
   }

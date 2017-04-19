@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
+using Microarea.AdminServer.Services.AdminDataService;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,12 +17,16 @@ namespace Microarea.AdminServer.Controllers
     {
         private IHostingEnvironment _env;
 
-        public HomeController(IHostingEnvironment env)
+        AdminDataService adminDataService;
+
+        public HomeController(IHostingEnvironment env, AdminDataService adminDataService)
         {
             _env = env;
+            this.adminDataService = adminDataService;
         }
-        // GET: api/values
+
         [HttpGet]
+        [Route("/")]
         public IActionResult Index()
         {
             StringBuilder sb = new StringBuilder();
@@ -30,6 +35,18 @@ namespace Microarea.AdminServer.Controllers
             jsonWriter.Formatting = Formatting.Indented;
             jsonWriter.WritePropertyName("message");
             jsonWriter.WriteValue("Welcome to Microarea Admin-Server");
+            return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
+        }
+
+        [Route("api")]
+        public IActionResult ApiHome()
+        {
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            JsonWriter jsonWriter = new JsonTextWriter(sw);
+            jsonWriter.Formatting = Formatting.Indented;
+            jsonWriter.WritePropertyName("message");
+            jsonWriter.WriteValue("Welcome to Microarea Admin-Server API");
             return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
         }
     }

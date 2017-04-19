@@ -7,7 +7,7 @@ import { Component, Input, ChangeDetectorRef, AfterViewInit } from '@angular/cor
 @Component({
   selector: 'rs-textrect',
   templateUrl: './textrect.component.html',
-  styleUrls: ['./textrect.component.scss']
+   styles: []
 })
 export class ReportTextrectComponent implements AfterViewInit {
 
