@@ -3,7 +3,7 @@
 namespace Microarea.AdminServer.Interfaces
 {
     //================================================================================
-    public interface IAccount
+    public interface IUserAccount
     {
         string Id { get; set; }
         string Name { get; set; }

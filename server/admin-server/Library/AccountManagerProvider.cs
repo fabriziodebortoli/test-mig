@@ -8,7 +8,7 @@ namespace Microarea.AdminServer.Library
 {
     public class AccountManagerProvider : IAccountManagerProvider
     {
-        public bool CreateLogin(IAccount userAccount)
+        public bool CreateLogin(IUserAccount userAccount)
         {
             throw new NotImplementedException();
         }

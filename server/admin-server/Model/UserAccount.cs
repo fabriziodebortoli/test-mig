@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Model
 {
-    public class UserAccount : IAccount
+    public class UserAccount : IUserAccount
     {
         public string ApplicationLanguage
         {
