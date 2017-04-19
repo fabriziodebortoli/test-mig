@@ -5,7 +5,9 @@
                 <img src="{{tile?.iconTxt}}" /> {{tile?.title}}
             </ng-template>
             <template kendoTabContent>
-                <ng-content></ng-content>
+                <div class='kendoTabContent' [style.height.px]="viewHeight">
+                    <ng-content></ng-content>
+                </div>
             </template>
         </kendo-tabstrip-tab>
     </kendo-tabstrip>

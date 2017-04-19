@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs';
+import { LayoutService } from './../../../../core/layout.service';
 import { TileGroupComponent } from './../tile-group/tile-group.component';
 import { Component, ContentChildren, QueryList, AfterContentInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { TabberComponent } from '../../tabs';
@@ -10,14 +12,26 @@ import { TabberComponent } from '../../tabs';
 })
 
 export class TileManagerComponent implements AfterContentInit {
+
   @ContentChildren(TileGroupComponent) tiles: QueryList<TileGroupComponent>;
   getTiles() {
     return this.tiles.toArray();
   }
 
+  private viewHeightSubscription: Subscription;
+  viewHeight: number;
+
+  constructor(private layoutService: LayoutService) { }
+
+  ngOnInit() {
+    this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
+  }
+
+  ngOnDestroy() {
+    this.viewHeightSubscription.unsubscribe();
+  }
 
   ngAfterContentInit() {
-
     // get all active tiles
     let activeTiles = this.tiles.filter((tile) => tile.active);
 
@@ -38,8 +52,6 @@ export class TileManagerComponent implements AfterContentInit {
   }
 
   changeTabByIndex(event) {
-
-
     let index = event.index;
 
     let currentTile = this.tiles.toArray()[index];

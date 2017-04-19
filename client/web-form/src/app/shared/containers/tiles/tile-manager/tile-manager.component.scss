@@ -3,7 +3,6 @@ tb-tilemanager {
 }
 
 .tile-manager {
-    background: #fff;
     flex: 1;
     display: flex;
     min-height: 100%;
@@ -23,6 +22,7 @@ tb-tilemanager {
 .tile-manager .k-tabstrip>.k-tabstrip-items {
     flex-direction: column;
     flex: 0 0 300px;
+    background: #fff;
 }
 
 
