@@ -7,7 +7,9 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./textarea.component.scss']
 })
 export class TextareaComponent extends ControlComponent {
-@Input('readonly') readonly = false;
+  @Input('readonly') readonly = false;
+  @Input() width: number;
+  @Input() height: number;
 
   constructor() {
   super();
