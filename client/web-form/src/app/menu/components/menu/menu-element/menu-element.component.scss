@@ -52,7 +52,7 @@
 }
 
 .object-type.Document {
-    color: #f44336;
+    color: #0277bd;
 }
 
 .object-type.Report,
@@ -76,6 +76,7 @@ span {
     cursor: pointer;
     flex: 1 1 auto;
     padding: 0 3px;
+    color: #000;
 }
 
 .isLoading {
