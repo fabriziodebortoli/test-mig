@@ -54,6 +54,7 @@ import { EmailComponent } from './controls/email/email.component';
 import { TimeInputComponent } from './controls/time-input/time-input.component';
 import { SectionTitleComponent } from './controls/section-title/section-title.component';
 import { TextareaComponent } from './controls/textarea/textarea.component';
+import { FileComponent } from './controls/file/file.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
