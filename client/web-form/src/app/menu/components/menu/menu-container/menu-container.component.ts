@@ -3,6 +3,7 @@ import { LocalizationService } from './../../../services/localization.service';
 import { MenuService } from './../../../services/menu.service';
 import { SettingsService } from './../../../services/settings.service';
 import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MasonryOptions } from "angular2-masonry";
 
 @Component({
   selector: 'tb-menu-container',
@@ -18,7 +19,6 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
 
   @ViewChild('tabber') tabber;
 
-
   constructor(
     private menuService: MenuService,
     private utilsService: UtilsService,
@@ -26,6 +26,13 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
     private localizationService: LocalizationService
   ) {
   }
+
+  public masonryOptions: MasonryOptions = {
+    transitionDuration: '0.8s',
+    columnWidth: '.brick-sizer',
+    itemSelector: '.brick',
+    percentPosition: true
+  };
 
   ngOnInit() {
 

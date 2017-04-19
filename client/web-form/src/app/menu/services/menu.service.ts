@@ -29,6 +29,8 @@ export class MenuService {
     public searchSources: Array<any> = [];
     private ifMoreAppsExist: boolean;
 
+    public showDescription: boolean = false;
+
     get selectedMenu(): any {
         return this._selectedMenu;
     }
@@ -54,7 +56,8 @@ export class MenuService {
             this.settingsService.lastGroupName = group.name;
             this.settingsService.setPreference('LastGroupName', encodeURIComponent(this.settingsService.lastGroupName), undefined);
         }
-        this.selectedGroupChanged.emit();
+
+        this.selectedGroupChanged.emit(group.title);
     }
 
     get selectedApplication(): any {
@@ -73,7 +76,7 @@ export class MenuService {
 
     selectedMenuChanged: EventEmitter<any> = new EventEmitter(true);
     selectedApplicationChanged: EventEmitter<any> = new EventEmitter(true);
-    selectedGroupChanged: EventEmitter<any> = new EventEmitter(true);
+    selectedGroupChanged: EventEmitter<string> = new EventEmitter(true);
 
     constructor(
         private httpService: HttpService,
@@ -558,5 +561,7 @@ export class MenuService {
         return string.slice(0, prefix.length) == prefix;
     }
 
-
+    toggleDecription() {
+        this.showDescription = !this.showDescription;
+    }
 }
