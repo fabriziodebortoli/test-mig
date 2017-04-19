@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace provisioning_server.Services.Interfaces
 {
-    interface IAdminDataServiceProvider
+    public interface IAdminDataServiceProvider
     {
-        IUserAccount ReadLogin();
+        IUserAccount ReadLogin(string userName, string password);
     }
 }
