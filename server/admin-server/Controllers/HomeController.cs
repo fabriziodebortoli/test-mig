@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
+using Microarea.AdminServer.Services.AdminDataService;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,11 +17,14 @@ namespace Microarea.AdminServer.Controllers
     {
         private IHostingEnvironment _env;
 
-        public HomeController(IHostingEnvironment env)
+        AdminDataService adminDataService;
+
+        public HomeController(IHostingEnvironment env, AdminDataService adminDataService)
         {
             _env = env;
+            this.adminDataService = adminDataService;
         }
-        // GET: api/values
+
         [HttpGet]
         public IActionResult Index()
         {

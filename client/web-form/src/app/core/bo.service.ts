@@ -30,8 +30,11 @@ export class BOService extends DocumentService {
             let cmpId = this.mainCmpId;
             models.forEach(model => {
                 if (model.id === cmpId) {
+                    if (this.eventData.model) {
+                        this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
+                    }
                     if (model.patch) {
-                        const patched = apply({ 'data' : this.eventData.model }, model.patch);
+                        const patched = apply({ 'data': this.eventData.model }, model.patch);
                         model.data = patched.doc.data;
                     }
                     if (model.data) {
@@ -90,8 +93,7 @@ export class BOService extends DocumentService {
         this.openDropdownSubscription.unsubscribe();
     }
 
-    close()
-    {    
+    close() {
         super.close();
         this.webSocketService.doCommand(this.mainCmpId, 'ID_FILE_CLOSE');
     }
