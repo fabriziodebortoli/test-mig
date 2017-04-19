@@ -26,6 +26,7 @@ namespace Microarea.AdminServer.Controllers
         }
 
         [HttpGet]
+        [Route("/")]
         public IActionResult Index()
         {
             StringBuilder sb = new StringBuilder();
@@ -34,6 +35,18 @@ namespace Microarea.AdminServer.Controllers
             jsonWriter.Formatting = Formatting.Indented;
             jsonWriter.WritePropertyName("message");
             jsonWriter.WriteValue("Welcome to Microarea Admin-Server");
+            return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
+        }
+
+        [Route("api")]
+        public IActionResult ApiHome()
+        {
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            JsonWriter jsonWriter = new JsonTextWriter(sw);
+            jsonWriter.Formatting = Formatting.Indented;
+            jsonWriter.WritePropertyName("message");
+            jsonWriter.WriteValue("Welcome to Microarea Admin-Server API");
             return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
         }
     }
