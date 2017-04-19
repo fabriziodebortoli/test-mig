@@ -90,11 +90,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   rsInitStateMachine() {
-
+    const params = decodeURIComponent(this.args.params);
     let message = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
-      parameters: this.args.params,
+      parameters: params,
       authtoken: this.cookieService.get('authtoken')
     };
 
@@ -249,9 +249,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           if (obj === undefined) {
             continue;
           }
-  
+
           let columns = element.table.columns;
-  
+
           for (let i = 0; i < obj.columns.length; i++) {
             let target: column = obj.columns[i];
             let source: column = columns[i];
@@ -266,7 +266,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           obj.value = value;
         }
       } catch (a) {
-          let k = a;
+        let k = a;
       }
     }
   }
