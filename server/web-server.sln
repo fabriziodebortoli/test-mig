@@ -1,46 +1,43 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E608C668-B4A9-422E-B0FD-3DACC3065317}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "rs-web", "rs-web\rs-web.xproj", "{CCF7286F-D4B2-4BE4-9499-C0DD06B79961}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rs-web", "rs-web\rs-web.csproj", "{CCF7286F-D4B2-4BE4-9499-C0DD06B79961}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "tbloader-gate", "tbloader-gate\tbloader-gate.xproj", "{B2373B0A-B692-494A-B291-521C9B0DF4F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tbloader-gate", "tbloader-gate\tbloader-gate.csproj", "{B2373B0A-B692-494A-B291-521C9B0DF4F3}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "web-server", "web-server\web-server.xproj", "{2158CD02-0A4C-4806-98FF-AA079FE998ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web-server", "web-server\web-server.csproj", "{2158CD02-0A4C-4806-98FF-AA079FE998ED}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B2373B0A-B692-494A-B291-521C9B0DF4F3} = {B2373B0A-B692-494A-B291-521C9B0DF4F3}
 		{CCF7286F-D4B2-4BE4-9499-C0DD06B79961} = {CCF7286F-D4B2-4BE4-9499-C0DD06B79961}
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PDFSharpCore", "library\PDFSharpCore\PDFSharpCore.xproj", "{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDFSharpCore", "library\PDFSharpCore\PDFSharpCore.csproj", "{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "menu-gate", "menu-gate\menu-gate.xproj", "{E33B70BB-1E54-4B58-A76F-D0288C52A329}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "menu-gate", "menu-gate\menu-gate.csproj", "{E33B70BB-1E54-4B58-A76F-D0288C52A329}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "taskbuilder-netcore-common", "library\taskbuilder-netcore-common\taskbuilder-netcore-common.xproj", "{97589AEC-B103-4568-A0DA-4847FF657DB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "taskbuilder-netcore-common", "library\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj", "{97589AEC-B103-4568-A0DA-4847FF657DB9}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "taskbuilder-netcore-data", "library\taskbuilder-netcore-data\taskbuilder-netcore-data.xproj", "{61E4E7CF-AB43-4470-A5B1-60AE75D5F107}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "taskbuilder-netcore-data", "library\taskbuilder-netcore-data\taskbuilder-netcore-data.csproj", "{61E4E7CF-AB43-4470-A5B1-60AE75D5F107}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "taskbuilder-netcore-interfaces", "library\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.xproj", "{5177ACB0-0398-4A58-9E0F-69A218296860}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "taskbuilder-netcore-interfaces", "library\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.csproj", "{5177ACB0-0398-4A58-9E0F-69A218296860}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "database-service", "database-service\database-service.xproj", "{9699E3FB-025A-4BA5-B345-9A25AF7B9CB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "database-service", "database-service\database-service.csproj", "{9699E3FB-025A-4BA5-B345-9A25AF7B9CB1}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "data-service", "data-service\data-service.xproj", "{9424BAC1-A48D-40B5-8889-6E1B89616F91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "data-service", "data-service\data-service.csproj", "{9424BAC1-A48D-40B5-8889-6E1B89616F91}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "account-manager", "account-manager\account-manager.xproj", "{FB250C8B-DF77-4D54-9548-328D24193388}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "account-manager", "account-manager\account-manager.csproj", "{FB250C8B-DF77-4D54-9548-328D24193388}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "manufacturing-service", "manufacturing-service\manufacturing-service.xproj", "{43046F64-A440-42A0-997F-AFA333479876}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "manufacturing-service", "manufacturing-service\manufacturing-service.csproj", "{43046F64-A440-42A0-997F-AFA333479876}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "widgets-service", "widgets-service\widgets-service.xproj", "{DFDD5201-63AC-4EFF-84A1-4EF596023EA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "widgets-service", "widgets-service\widgets-service.csproj", "{DFDD5201-63AC-4EFF-84A1-4EF596023EA7}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "licensing-manager", "licensing-manager\licensing-manager.xproj", "{E33AC1A8-1D4C-4E66-A722-85D74F02E293}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "licensing-manager", "licensing-manager\licensing-manager.csproj", "{E33AC1A8-1D4C-4E66-A722-85D74F02E293}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "admin-server", "admin-server\admin-server.xproj", "{780F22E8-D071-4859-A6D6-40A7DCEE5382}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "admin-server", "admin-server\admin-server.csproj", "{780F22E8-D071-4859-A6D6-40A7DCEE5382}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
