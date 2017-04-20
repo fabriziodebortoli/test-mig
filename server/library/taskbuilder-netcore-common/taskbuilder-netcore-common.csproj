@@ -11,10 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="ApplicationsStrings.resx;CoreTypeStrings.resx;DiagnosticManagerStrings.resx;ExpressionManagerStrings.resx;LexanStrings.resx;MenuManagerLoaderStrings.resx;SoapCallStrings.resx;StringLoaderStrings.resx;Strings.resx;UserInfoString.resx;WebServicesWrapperStrings.resx" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.csproj" />
     <ProjectReference Include="..\taskbuilder-netcore-data\taskbuilder-netcore-data.csproj" />
   </ItemGroup>
