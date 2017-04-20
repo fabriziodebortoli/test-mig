@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microarea.AdminServer.Services.AdminDataService;
+using Microarea.AdminServer.Services.Providers;
 
 namespace Microarea.AdminServer
 {
@@ -42,7 +43,8 @@ namespace Microarea.AdminServer
             services.AddMvc();
 
             // Add data services.
-            services.AddSingleton<AdminDataService>();
+            AdminDataService adminDataService = new AdminDataService(new BasicAdminDataServiceProvider());
+            services.AddSingleton<AdminDataService>(adminDataService);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
