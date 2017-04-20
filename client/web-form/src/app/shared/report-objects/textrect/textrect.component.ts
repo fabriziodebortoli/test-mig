@@ -7,7 +7,7 @@ import { Component, Input, ChangeDetectorRef, AfterViewInit } from '@angular/cor
 @Component({
   selector: 'rs-textrect',
   templateUrl: './textrect.component.html',
-   styles: []
+  styles: []
 })
 export class ReportTextrectComponent implements AfterViewInit {
 
@@ -60,6 +60,8 @@ export class ReportTextrectComponent implements AfterViewInit {
       'text-decoration': this.rect.font.underline ? 'underline' : 'none',
       'text-align': this.rect.text_align,
       'vertical-align': this.rect.vertical_align,
+      'padding': '0 4px'
+
     };
 
     return obj;
