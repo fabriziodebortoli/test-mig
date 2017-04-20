@@ -1,7 +1,6 @@
-<!--<div *ngIf="contextMenu.length > 0" #anchor class="contextMenuClass">
+<div #anchor class="contextMenuClass">
     <md-icon (click)="onToggle()">more_vert</md-icon>
-    <kendo-popup [popupClass]="'content popup'" [anchor]="anchor" (anchorViewportLeave)="show = false" *ngIf="show">
-        <button md-menu-item *ngFor="let menuItem of contextMenu; let i = index">{{menuItem.text}}</button>
+    <kendo-popup [popupClass]="'content popup'" [anchor]="anchor" (anchorViewportLeave)="show = false" *ngIf="show" (open)="onOpen()">
+        <button md-menu-item *ngFor="let menuItem of contextMenu; let i = index">{{menuItem?.text}}</button>
     </kendo-popup>
-</div>-->
-<span>contextMenu test</span>
+</div>

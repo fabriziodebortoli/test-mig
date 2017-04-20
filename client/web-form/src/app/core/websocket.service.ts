@@ -6,13 +6,13 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { environment } from './../../environments/environment';
 
 import { HttpService } from './http.service';
-import { CommandService } from './command.service'
+import { CommandService } from './command.service';
 
 import { Logger } from 'libclient';
 
 @Injectable()
 export class WebSocketService {
-    public status: string = 'Undefined';
+    public status = 'Undefined';
     private connection: WebSocket;
 
     public error: EventEmitter<any> = new EventEmitter();
@@ -33,16 +33,16 @@ export class WebSocketService {
     }
 
     wsConnect(): void {
-        let $this = this;
+        const $this = this;
 
-        let url = environment.wsBaseUrl;
+        const url = environment.wsBaseUrl;
         this.logger.debug('wsConnecting... ' + url);
 
         this.connection = new WebSocket(url);
         this.connection.onmessage = function (e) {
             if (typeof (e.data) === 'string') {
                 try {
-                    let obj = JSON.parse(e.data);
+                    const obj = JSON.parse(e.data);
 
                     switch (obj.cmd) {
                         case 'DataReady': $this.dataReady.emit(obj.args); break;
@@ -52,8 +52,8 @@ export class WebSocketService {
                         case 'ItemSource': $this.itemSource.emit(obj.args); break;
                         case 'ContextMenu': $this.contextMenu.emit(obj.args); break;
                         case 'ServerCommandMapReady': $this.serverCommandMapReady.emit(obj.args); break;
-                        //when tbloader has connected to gate, I receive this message; then I can
-                        //request the list of opened windows
+                        // when tbloader has connected to gate, I receive this message; then I can
+                        // request the list of opened windows
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
                         default: break;
                     }
@@ -70,7 +70,7 @@ export class WebSocketService {
         };
 
         this.connection.onopen = (arg) => {
-            //sets the name for this client socket 
+            // sets the name for this client socket
             this.connection.send(JSON.stringify({
                 cmd: 'SetClientWebSocketName',
                 args:
@@ -97,32 +97,32 @@ export class WebSocketService {
     }
 
     doFillListBox(cmpId: String, itemSource: any): void {
-        let data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: itemSource };
+        const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: itemSource };
         this.connection.send(JSON.stringify(data));
     }
 
     getContextMenu(cmpId: String, contextMenu: any): void {
-        let data = { cmd: 'getContextMenu', cmpId: cmpId, contextMenu: contextMenu };
+        const data = { cmd: 'doContextMenu', cmpId: cmpId, contextMenu: contextMenu };
         this.connection.send(JSON.stringify(data));
     }
 
     doCommand(cmpId: String, id: String, modelData?: any): void {
-        let data = { cmd: 'doCommand', cmpId: cmpId, id: id, model: modelData };
+        const data = { cmd: 'doCommand', cmpId: cmpId, id: id, model: modelData };
         this.connection.send(JSON.stringify(data));
     }
 
     doValueChanged(cmpId: String, id: String, modelData?: any): void {
-        let data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
-        //questo if andrebbe anticipato nel chiamante, se so che non e' azione server side, non devo chiamare servizio websocket
+        const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
+        // questo if andrebbe anticipato nel chiamante, se so che non e' azione server side, non devo chiamare servizio websocket
         if (this.commandService.isServerSideCommand(id)) {
             this.connection.send(JSON.stringify(data));
         }
-        //else
-        //azione solo lato client. 
+        // else
+        // azione solo lato client.
     }
 
     getDocumentData(cmpId: String) {
-        let data = { cmd: 'getDocumentData', cmpId: cmpId };
+        const data = { cmd: 'doDocumentData', cmpId: cmpId };
         this.connection.send(JSON.stringify(data));
     }
 }

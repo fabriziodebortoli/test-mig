@@ -1,10 +1,14 @@
 import { ContextMenuComponent } from './../controls/context-menu/context-menu.component';
-import { Directive, ViewChild, ElementRef, AfterContentInit, ViewContainerRef, ComponentFactoryResolver, AfterViewInit, ComponentRef } from '@angular/core';
+import { Directive, ViewChild, ElementRef, AfterContentInit, ViewContainerRef, ComponentFactoryResolver, AfterViewInit, ComponentRef, Input } from '@angular/core';
 
 @Directive({
-  selector: '[tbContextMenu]'
+  selector: '[tbContextMenu]',
 })
 export class ContextMenuDirective implements AfterContentInit {
+
+  
+@Input() contextMenuBinding: any;
+
 
   @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
   private contextMenuRef: ComponentRef<any>;
@@ -25,6 +29,7 @@ export class ContextMenuDirective implements AfterContentInit {
     console.log("_data.componentView", this.cm);
 
     let componentFactory = this.componentResolver.resolveComponentFactory(ContextMenuComponent);
+    console.log(this.contextMenuBinding)
     this.contextMenuRef = this.cm.createComponent(componentFactory);
     this.renderComponent();
   }

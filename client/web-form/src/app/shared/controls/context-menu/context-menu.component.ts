@@ -1,5 +1,7 @@
 import { MenuItem } from './menu-item.model';
 import { Component, Input } from '@angular/core';
+import { EventDataService } from './../../../core/eventdata.service';
+import { WebSocketService } from './../../../core/websocket.service';
 
 
 @Component({
@@ -11,13 +13,28 @@ export class ContextMenuComponent {
 
   private show: boolean = false;
 
-  // @Input() contextMenu: MenuItem[] = [];
+  @Input() contextMenuBinding: any;
+  contextMenu: any;
 
-  constructor() {
+  constructor(private webSocketService: WebSocketService, private eventDataService: EventDataService) {
 
+//   let menuItem = new MenuItem();
+//         menuItem.text = 'ciao';
+// this.contextMenu.push(menuItem);
+
+    this.webSocketService.contextMenu.subscribe((result) => {
+      console.log('result '  + 'a-' + result + '-a');
+      this.contextMenu = result.contextMenu;
+    });
   }
 
   public onToggle(): void {
     this.show = !this.show;
   }
+
+  onOpen() {
+    this.eventDataService.onContextMenu.emit(this.contextMenuBinding); // idd_pippo_CM
+    console.log('onOpenContextMenu'  + 'a' + this.contextMenuBinding + 'a');
+  }
+
 }
