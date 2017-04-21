@@ -1,3 +1,10 @@
+import { ReportLinkComponent } from './../shared/report-objects/link/link.component';
+import { ReportRectComponent } from './../shared/report-objects/rect/rect.component';
+import { ReportImageComponent } from './../shared/report-objects/image/image.component';
+import { ReportTableComponent } from './../shared/report-objects/table/table.component';
+import { ReportFieldrectComponent } from './../shared/report-objects/fieldrect/fieldrect.component';
+import { ReportTextrectComponent } from './../shared/report-objects/textrect/textrect.component';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { SharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
@@ -11,12 +18,22 @@ import { ReportingStudioComponent, ReportingStudioFactoryComponent } from './rep
 
 
 
-
+const KENDO_UI_MODULES = [
+  GridModule,
+  /*InputsModule,
+  DateInputsModule,
+  DialogModule,
+  DropDownsModule,
+  LayoutModule,
+  PopupModule,
+  ButtonsModule*/
+];
 
 @NgModule({
   imports: [
-    SharedModule,
     CommonModule,
+    SharedModule,
+    KENDO_UI_MODULES,
     MaterialModule.forRoot(),
     RouterModule.forChild([
       { path: 'reportingstudio/:ns/:params', component: ReportingStudioFactoryComponent },
@@ -26,7 +43,13 @@ import { ReportingStudioComponent, ReportingStudioFactoryComponent } from './rep
   declarations: [
     ReportingStudioComponent,
     ReportingStudioHostComponent,
-    ReportingStudioFactoryComponent
+    ReportingStudioFactoryComponent,
+    ReportTextrectComponent,
+    ReportFieldrectComponent,
+    ReportTableComponent,
+    ReportImageComponent,
+    ReportRectComponent,
+    ReportLinkComponent,
   ],
   entryComponents:
   [

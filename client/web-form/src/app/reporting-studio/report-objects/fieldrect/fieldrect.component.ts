@@ -1,6 +1,7 @@
+import { fieldrect } from './../../reporting-studio.model';
 import { UtilsService } from './../../../core/utils.service';
 import { AfterViewInit } from 'libclient/node_modules/@angular/core';
-import { fieldrect } from './../../../reporting-studio/reporting-studio.model';
+
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
 
 @Component({
