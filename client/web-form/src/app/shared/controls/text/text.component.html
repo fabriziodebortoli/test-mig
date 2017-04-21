@@ -1,5 +1,7 @@
-<div class="form-group">
-    <input id="{{cmpId}}" required="required" type="text" (blur)="onBlur()" [disabled]="!(model?.enabled)" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [placeholder]="caption" class="tb-text" [readonly]="readonly" />
-    <label class="control-label" for="input">{{caption}}</label><i class="bar"></i>
+<div>
+    <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
+    <kendo-maskedtextbox [mask]="mask" [ngModel]="model?.value" required="required" (blur)="onBlur()" [disabled]="!(model?.enabled)" [ngModel]="model?.value" (ngModelChange)="model.value=$event"></kendo-maskedtextbox>
     <ng-container #contextMenu></ng-container>
+    <!--<input id="{{cmpId}}" required="required" type="text" (blur)="onBlur()" [disabled]="!(model?.enabled)" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [placeholder]="caption" class="tb-text" [readonly]="readonly" />-->
+    <!--<label for="{{cmpId}}">{{caption}}</label><i class="bar"></i>-->
 </div>
