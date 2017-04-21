@@ -51,7 +51,7 @@ export class ReportTableComponent {
       'position': 'absolute',
       'top': this.table.rect.top + 'px',
       'left': this.table.rect.left + 'px',
-      'width': this.table.rect.right - this.table.rect.left + 'px'
+      'width': this.table.rect.right - this.table.rect.left + 7 + 'px'
     };
 
     return obj;

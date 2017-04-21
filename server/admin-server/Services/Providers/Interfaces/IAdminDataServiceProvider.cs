@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace provisioning_server.Services.Interfaces
+namespace Microarea.AdminServer.Services.Providers.Interfaces
 {
     public interface IAdminDataServiceProvider
     {
