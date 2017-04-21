@@ -1,6 +1,6 @@
+import { textrect } from './../../reporting-studio.model';
 import { UtilsService } from './../../../core/utils.service';
 
-import { textrect } from './../../../reporting-studio/reporting-studio.model';
 import { Component, Input, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 
 
