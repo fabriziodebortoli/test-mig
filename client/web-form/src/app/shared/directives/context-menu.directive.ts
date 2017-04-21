@@ -1,4 +1,4 @@
-import { ContextMenuComponent } from './../controls/context-menu/context-menu.component';
+import { ContextMenuComponent } from './../context-menu/context-menu.component';
 import { Directive, ViewChild, ElementRef, AfterContentInit, ViewContainerRef, ComponentFactoryResolver, AfterViewInit, ComponentRef, Input } from '@angular/core';
 
 @Directive({

@@ -40,7 +40,7 @@ import { PasswordComponent } from './controls/password/password.component';
 import { MaskedTextBoxComponent } from './controls/masked-text-box/masked-text-box.component';
 import { NumericTextBoxComponent } from './controls/numeric-text-box/numeric-text-box.component';
 import { DateInputComponent } from './controls/date-input/date-input.component';
-import { ContextMenuComponent } from './controls/context-menu/context-menu.component';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
 
 import { LabelStaticComponent } from './controls/label-static/label-static.component';
 

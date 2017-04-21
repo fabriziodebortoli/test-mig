@@ -1,9 +1,9 @@
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
-import { ContextMenuDirective } from './../../directives/context-menu.directive';
+import { ContextMenuDirective } from './../directives/context-menu.directive';
 import { MenuItem } from './menu-item.model';
 import { Component, Input, ViewChild } from '@angular/core';
-import { EventDataService } from './../../../core/eventdata.service';
-import { WebSocketService } from './../../../core/websocket.service';
+import { EventDataService } from './../../core/eventdata.service';
+import { WebSocketService } from './../../core/websocket.service';
 
 
 @Component({
