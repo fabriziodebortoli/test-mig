@@ -1,2 +1,2 @@
 <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-<kendo-maskedtextbox [ngModel]="model?.value" (ngModelChange)="model.value=$event" [mask]="mask"></kendo-maskedtextbox>
+<kendo-maskedtextbox [ngModel]="model?.value" (ngModelChange)="model.value=$event"  [disabled]="!model?.enabled" [mask]="mask"></kendo-maskedtextbox>
