@@ -9,5 +9,24 @@ import { ControlComponent } from './../control.component';
 })
 export class NumericTextBoxComponent extends ControlComponent {
 @Input() forCmpID: string;
-@Input() format: string;
+@Input() formatter: string;
+@Input() disabled: boolean;
+
+public formatOption: any = {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 3,
+  useGrouping: true
+};
+
+
+
+getFormatOptions(formatter: string): string {
+    switch (formatter) {
+      case 'Integer':
+        this.formatOption = {minimumFractionDigits: 0, minimumIntegerDigits: 4}; break;
+      default: break;
+    }
+    return this.formatOption;
+  }
+
 }
