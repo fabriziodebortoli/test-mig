@@ -23,10 +23,13 @@ public formatOption: any = {
 getFormatOptions(formatter: string): string {
     switch (formatter) {
       case 'Integer':
-        this.formatOption = {minimumFractionDigits: 0, minimumIntegerDigits: 4}; break;
+        this.formatOption = {
+        style: 'decimal',
+        useGrouping: false
+};
+        break;
       default: break;
     }
     return this.formatOption;
   }
-
 }
