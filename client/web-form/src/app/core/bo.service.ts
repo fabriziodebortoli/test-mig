@@ -79,7 +79,6 @@ export class BOService extends DocumentService {
 
         this.onContextMenuSubscription = this.eventData.onContextMenu.subscribe((obj: any) => {
             this.webSocketService.getContextMenu(this.mainCmpId, obj);
-            console.log('boservice getCM');
         });
 
 

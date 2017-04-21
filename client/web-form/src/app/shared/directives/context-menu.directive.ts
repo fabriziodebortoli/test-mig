@@ -6,18 +6,16 @@ import { Directive, ViewChild, ElementRef, AfterContentInit, ViewContainerRef, C
 })
 export class ContextMenuDirective implements AfterContentInit {
 
-  
-@Input() contextMenuBinding: any;
-
+  @Input() tbContextMenu: any;
 
   @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
   private contextMenuRef: ComponentRef<any>;
 
   private cm: ViewContainerRef;
 
-  constructor(private vcr: ViewContainerRef, private componentResolver: ComponentFactoryResolver) {
-    console.log(vcr);
-  }
+  constructor(
+    private vcr: ViewContainerRef,
+    private componentResolver: ComponentFactoryResolver) { }
 
   renderComponent() {
     // if (this.contextMenuRef) this.contextMenuRef.instance.value = this.value;
@@ -26,11 +24,11 @@ export class ContextMenuDirective implements AfterContentInit {
   ngAfterContentInit() {
 
     this.cm = (<any>this.vcr)._data.componentView.component.contextMenu;
-    console.log("_data.componentView", this.cm);
-
     let componentFactory = this.componentResolver.resolveComponentFactory(ContextMenuComponent);
-    console.log(this.contextMenuBinding)
     this.contextMenuRef = this.cm.createComponent(componentFactory);
+
+    console.log(this.tbContextMenu);
+    this.contextMenuRef.instance.contextMenuBinding = this.tbContextMenu;
     this.renderComponent();
   }
 
