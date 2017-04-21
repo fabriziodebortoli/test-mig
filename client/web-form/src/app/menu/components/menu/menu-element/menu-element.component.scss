@@ -10,7 +10,7 @@
     align-content: stretch;
     align-items: flex-start;
     background: #f1f4f7;
-    padding: 0.4rem;
+    padding: 0.3rem;
     margin: 0.2rem 0;
     color: #0277bd;
     font-weight: 700;
@@ -57,7 +57,7 @@
 
 .object-type.Report,
 .object-type.Function {
-    color: #43a047;
+    color: #3EAB66;
 }
 
 .object-type.Batch {
@@ -77,6 +77,7 @@ span {
     flex: 1 1 auto;
     padding: 0 3px;
     color: #000;
+    font-weight: 500;
 }
 
 .isLoading {
@@ -101,6 +102,9 @@ span {
 @media screen and (min-width: 48em) {
     .menu-element-content p.description {
         min-height: 25px;
+    }
+    span {
+        font-size: 14px;
     }
 }
 
