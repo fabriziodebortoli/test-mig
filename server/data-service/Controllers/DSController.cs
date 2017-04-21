@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microarea.DataService.Models;
 using Microarea.Common.Applications;
+using Microarea.Common.Hotlink;
 
 namespace DataService.Controllers
 {

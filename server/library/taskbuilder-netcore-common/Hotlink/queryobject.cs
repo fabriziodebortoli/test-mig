@@ -5,13 +5,13 @@ using System.Diagnostics;
 
 using TaskBuilderNetCore.Data;
 
+using Microarea.Common.DBData;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
-using Microarea.Common.ExpressionManager;
 using static Microarea.Common.Lexan.Parser;
-using TaskBuilderNetCore.Interfaces;
+using Microarea.Common.ExpressionManager;
 
 namespace Microarea.Common.Hotlink
 {
@@ -281,6 +281,7 @@ namespace Microarea.Common.Hotlink
 			SymField field	= null;
 
             bool isOracle = (UserInfo.DatabaseType == TaskBuilderNetCore.Data.DBMSType.ORACLE);
+            
             bool isUnicode = UserInfo.UseUnicode;
   
 			Token token = parser.LookAhead();
@@ -424,11 +425,11 @@ namespace Microarea.Common.Hotlink
 
                     int len = s.Length;
 
-                        string nat = ""; //TBDatabaseType.DBNativeConvert(
-                    //        s,
-                    //        isUnicode,
-                    //        dbType
-                    //        );
+                    string nat = DBInfo.GetNativeConvert (
+                                                s,
+                                                isUnicode,
+                                                UserInfo.DatabaseType
+                                                );
                     if (nat.IsNullOrEmpty())
                     {
                         if (isOracle && len == 0)

@@ -5,7 +5,7 @@ import { Logger } from 'libclient';
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
 import { WebSocketService } from './websocket.service';
-import { apply } from 'json8-patch';
+import { apply, diff } from 'json8-patch';
 
 @Injectable()
 export class BOService extends DocumentService {
@@ -65,11 +65,13 @@ export class BOService extends DocumentService {
             }
         });
         this.commandSubscription = this.eventData.command.subscribe((cmpId: String) => {
-            this.webSocketService.doCommand(this.mainCmpId, cmpId, this.eventData.model);
+            const patch = diff(this.eventData.model, this.eventData.oldModel);
+            this.webSocketService.doCommand(this.mainCmpId, cmpId, patch);
         });
 
         this.changeSubscription = this.eventData.command.subscribe((cmpId: String) => {
-            this.webSocketService.doValueChanged(this.mainCmpId, cmpId, this.eventData.model);
+            const patch = diff(this.eventData.model, this.eventData.oldModel);
+            this.webSocketService.doValueChanged(this.mainCmpId, cmpId, patch);
         });
 
         this.openDropdownSubscription = this.eventData.openDropdown.subscribe((obj: any) => {

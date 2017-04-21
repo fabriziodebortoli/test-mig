@@ -8,6 +8,7 @@ import { DocumentComponent } from '../shared/document.component';
 import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
+import { LayoutService } from "app/core/layout.service";
 
 
 @Component({
@@ -28,7 +29,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public objects: baseobj[] = [];
   public templates: TemplateItem[] = [];
 
-  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService) {
+  private viewHeightSubscription: Subscription;
+  viewHeight: number;
+
+  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService, private layoutService: LayoutService) {
     super(rsService, eventData);
 
 
@@ -53,11 +57,14 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       page: this.rsService.pageNum
     };
     this.rsService.doSend(JSON.stringify(message));
+
+    this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
   }
 
   // -----------------------------------------------
   ngOnDestroy() {
     this.subMessage.unsubscribe();
+    this.viewHeightSubscription.unsubscribe();
   }
 
   // -----------------------------------------------
@@ -72,6 +79,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
           this.RenderLayout(k);
+          if (this.args.params !== '') {
+            this.RunReport();
+          }
           break;
         case CommandType.TEMPLATE:
           this.RenderLayout(k);
@@ -90,11 +100,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   rsInitStateMachine() {
-
+    const params = decodeURIComponent(this.args.params);
     let message = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
-      parameters: this.args.params,
+      parameters: params,
       authtoken: this.cookieService.get('authtoken')
     };
 
@@ -220,50 +230,53 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let value: any;
     for (let index = 0; index < msg.page.layout.objects.length; index++) {
       let element = msg.page.layout.objects[index];
-
-      if (element.fieldrect !== undefined) {
-        id = element.fieldrect.baserect.baseobj.id;
-        value = element.fieldrect.value;
-        let obj = this.FindObj(id);
-        if (obj === undefined) {
-          continue;
-        }
-        if (obj.link !== undefined) {
-          obj.link = new link(element.fieldrect.link);
-        }
-        obj.value = value;
-      }
-      else if (element.textrect !== undefined) {
-        id = element.textrect.baserect.baseobj.id;
-        value = element.textrect.value;
-        let obj = this.FindObj(id);
-        if (obj === undefined) {
-          continue;
-        }
-        obj.value = value;
-      }
-      else if (element.table !== undefined) {
-        id = element.table.baseobj.id;
-        value = element.table.rows;
-        let obj = this.FindObj(id);
-        if (obj === undefined) {
-          continue;
-        }
-
-        let columns = element.table.columns;
-
-        for (let i = 0; i < obj.columns.length; i++) {
-          let target: column = obj.columns[i];
-          let source: column = columns[i];
-          if (target.id !== source.id) {
-            console.log('id don\'t match');
+      try {
+        if (element.fieldrect !== undefined) {
+          id = element.fieldrect.baserect.baseobj.id;
+          value = element.fieldrect.value;
+          let obj = this.FindObj(id);
+          if (obj === undefined) {
             continue;
           }
-          if (source.hidden !== undefined) {
-            target.hidden = source.hidden;
+          if (obj.link !== undefined) {
+            obj.link = new link(element.fieldrect.link);
           }
+          obj.value = value;
         }
-        obj.value = value;
+        else if (element.textrect !== undefined) {
+          id = element.textrect.baserect.baseobj.id;
+          value = element.textrect.value;
+          let obj = this.FindObj(id);
+          if (obj === undefined) {
+            continue;
+          }
+          obj.value = value;
+        }
+        else if (element.table !== undefined) {
+          id = element.table.baseobj.id;
+          value = element.table.rows;
+          let obj = this.FindObj(id);
+          if (obj === undefined) {
+            continue;
+          }
+
+          let columns = element.table.columns;
+
+          for (let i = 0; i < obj.columns.length; i++) {
+            let target: column = obj.columns[i];
+            let source: column = columns[i];
+            if (target.id !== source.id) {
+              console.log('id don\'t match');
+              continue;
+            }
+            if (source.hidden !== undefined) {
+              target.hidden = source.hidden;
+            }
+          }
+          obj.value = value;
+        }
+      } catch (a) {
+        let k = a;
       }
     }
   }
@@ -279,9 +292,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
     this.layoutBackStyle = {
       'width': '100%',
-      'height': '100%',
       'background-color': 'black',
-      'position': 'relative'
+      'position': 'relative',
+      'overflow': 'scroll',
+      'height': this.viewHeight + 'px'
     }
   }
 

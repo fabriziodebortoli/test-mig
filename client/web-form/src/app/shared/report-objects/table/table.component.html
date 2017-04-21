@@ -10,7 +10,12 @@
             </template>
             <template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex">
                 <div [ngStyle]="getSingleCellStyle(dataItem[columnIndex], rowIndex, col)">
-                    {{getValue(dataItem, col.id, columnIndex)}}
+                    <div *ngIf="!dataItem[columnIndex][col.id].link">
+                        {{getValue(dataItem, col.id, columnIndex)}}
+                    </div>
+                    <rs-link *ngIf="dataItem[columnIndex][col.id].link" [link]="dataItem[columnIndex][col.id].link">
+                        {{getValue(dataItem, col.id, columnIndex)}}
+                    </rs-link>
                 </div>
             </template>
         </kendo-grid-column>

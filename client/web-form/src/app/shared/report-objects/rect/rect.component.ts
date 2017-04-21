@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'rs-rect',
   templateUrl: './rect.component.html',
-  styleUrls: ['./rect.component.scss']
+   styles: []
 })
 export class ReportRectComponent {
 
