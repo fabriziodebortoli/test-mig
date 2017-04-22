@@ -16,13 +16,11 @@ using Microarea.Common;
 
 namespace Microarea.RSWeb.WoormEngine
 {
-
- 
 	/// <summary>
 	/// Field.
 	/// </summary>
 	//============================================================================
-	[Serializable]
+	//[Serializable]
 	public class Field : SymField
 	{
 		const string DATA = "data";
@@ -267,7 +265,6 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 		}
 
-
 		//----------------------------------------------------------------------------
 		public Field(string dataType, string name, RuleEngine engine) : base(name)
 		{
@@ -281,26 +278,35 @@ namespace Microarea.RSWeb.WoormEngine
 			Initialize(dataType, name, tag, item, false, false, false, engine);
 		}
 
-		//----------------------------------------------------------------------------
-		//public Field() : base()
-		//{
-		//	//TODO SILVANo: per deserializzatore json del nuovo woorm
-		//}
+        //----------------------------------------------------------------------------
+        //public Field() : base()
+        //{
+        //	//TODO SILVANo: per deserializzatore json del nuovo woorm
+        //}
 
-		////-----------------------------------------------------------------------------
-		//public Field(SerializationInfo info,StreamingContext context)
-		//{
-		//	//TODO SILVANO: per deserializzatore json del nuovo woorm
-		//}
+        //public Field(SerializationInfo info,StreamingContext context)
+        //{
+        //	//TODO SILVANO: per deserializzatore json del nuovo woorm
+        //}
 
-		//-----------------------------------------------------------------------------
-		public override void GetObjectData(SerializationInfo info,StreamingContext context)
-		{
-			base.GetObjectData(info, context);
+        //public override void GetObjectData(SerializationInfo info,StreamingContext context)
+        //{
+        //	base.GetObjectData(info, context);
 
-			info.AddValue(DATA, Data);
-			info.AddValue(DATATYPE, Data.GetType().Name); 
-		}
+        //	info.AddValue(DATA, Data);
+        //	info.AddValue(DATATYPE, Data.GetType().Name); 
+        //}
+        //----------------------------------------------------------------------------
+
+        public string ToJson()
+        {
+            string s = "\"" + this.Name + "\":{";
+
+            s += this.Data.GetType().Name.ToJson() + ',';
+            s += this.Data.ToString().ToJson(); //TODO RSWEB togliere tostring
+
+            return s + '}';
+        }
 
         //----------------------------------------------------------------------------
         override public void Dispose()

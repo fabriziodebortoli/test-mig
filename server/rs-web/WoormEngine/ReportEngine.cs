@@ -580,8 +580,18 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 		}
 
-		//---------------------------------------------------------------------------
-		public	EventActions	OnFFActions	{ get { return onFormFeedActions; }}
+        public AskDialog FindAskDialog(string name)
+        {
+            foreach(AskDialog dlg in askingRules)
+            {
+               if (dlg.FormName.CompareNoCase(name))
+                    return dlg;
+            }
+            return null;
+        }
+
+        //---------------------------------------------------------------------------
+        public EventActions	OnFFActions	{ get { return onFormFeedActions; }}
 		public	ReportStatus	Status		{ get { return status; } set { status = value; }}
 		public  List<AskDialog> AskingRules { get { return askingRules; } }
 		public	RdeWriter		OutChannel	{ get { return outChannel;} set { outChannel = value; }}
