@@ -92,7 +92,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.GetData();
           break;
         case CommandType.DATA:
-          this.showAsk = true;
+          //this.showAsk = true;
           this.UpdateData(k);
           break;
       }
