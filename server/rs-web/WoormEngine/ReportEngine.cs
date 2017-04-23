@@ -590,6 +590,18 @@ namespace Microarea.RSWeb.WoormEngine
             return null;
         }
 
+        public string ToJsonDialogs()
+        {
+            string s = "{\"dialogs\":[";
+            bool first = true;
+            foreach (AskDialog dlg in askingRules)
+            {
+                if (first) first = false; else s += ',';
+                s += dlg.ToJson();
+            }
+            return s + "]}";
+        }
+
         //---------------------------------------------------------------------------
         public EventActions	OnFFActions	{ get { return onFormFeedActions; }}
 		public	ReportStatus	Status		{ get { return status; } set { status = value; }}
@@ -928,15 +940,22 @@ namespace Microarea.RSWeb.WoormEngine
 			
 			return null;
 		}
+        public AskDialog GetAskDialog(int index)
+        {
+            if (index < askingRules.Count) 
+                return null;
 
-		// inizializza indistintamente tutti i dati dei field nella tabella dei simboli
-		// fare attenzione perche usando una Hastable la posizione è in ordine inversa 
-		// a come vengono aggiunti e si recuperano i posti vuoti in caso di cancellazione
-		// o aggiunta di elementi. Utilizzo allora la tecnica di inizializzarli dal fondo
-		// utilizzando un vettore di appoggio. In alternativa potrei cercare di costruire
-		// un grafo di dipendenza delle espressioni di inizializzazione ed eseguirle
-		// sulla base del risultato
-		//---------------------------------------------------------------------------
+            return askingRules[index];
+        }
+
+        // inizializza indistintamente tutti i dati dei field nella tabella dei simboli
+        // fare attenzione perche usando una Hastable la posizione è in ordine inversa 
+        // a come vengono aggiunti e si recuperano i posti vuoti in caso di cancellazione
+        // o aggiunta di elementi. Utilizzo allora la tecnica di inizializzarli dal fondo
+        // utilizzando un vettore di appoggio. In alternativa potrei cercare di costruire
+        // un grafo di dipendenza delle espressioni di inizializzazione ed eseguirle
+        // sulla base del risultato
+        //---------------------------------------------------------------------------
         public bool ExecuteInitialize(ParametersList initParameters)
 		{
 			Diagnostic.Clear();

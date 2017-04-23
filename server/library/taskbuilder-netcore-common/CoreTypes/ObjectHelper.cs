@@ -593,12 +593,22 @@ namespace Microarea.Common.CoreTypes
                 DateTime dateTime = (DateTime)d;
                 if (IsATime((dateTime)))
                 {
-                    string timePattern = CultureInfo.DefaultThreadCurrentCulture.DateTimeFormat.ToString(); //Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern;   TODO rsweb
+                    string timePattern = "hh:mm:ss";
+                    if (CultureInfo.DefaultThreadCurrentCulture != null)
+                    {
+                        timePattern = CultureInfo.DefaultThreadCurrentCulture.DateTimeFormat.ToString(); // TODO rsweb Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern;
+                    }
+
                     return dateTime.ToString(timePattern, null);
                 }
                 else
                 {
-                    string shortDatePattern = CultureInfo.DefaultThreadCurrentCulture.DateTimeFormat.ToString(); //Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
+                    string shortDatePattern = "dd-mm-yyyy";
+                    if (CultureInfo.DefaultThreadCurrentCulture != null)
+                    {
+                        shortDatePattern = CultureInfo.DefaultThreadCurrentCulture.DateTimeFormat.ToString(); // TODO rsweb Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
+                    }
+                    
                     return dateTime.ToString(shortDatePattern, null);
                 }
 			}

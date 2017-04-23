@@ -300,10 +300,14 @@ namespace Microarea.RSWeb.WoormEngine
 
         public string ToJson()
         {
-            string s = "\"" + this.Name + "\":{";
+            string s = "\"" + "field" + "\":{";
 
-            s += this.Data.GetType().Name.ToJson() + ',';
-            s += this.Data.ToString().ToJson(); //TODO RSWEB togliere tostring
+            s += this.Name.ToJson("name") + ',';
+            s += this.Id.ToJson("id", "id") + ',';
+
+            s += this.Data.GetType().Name.ToJson("type") + ',';
+
+            s += this.Data.ToString().ToJson("value", false, true); //TODO RSWEB (askfield value) togliere tostring
 
             return s + '}';
         }

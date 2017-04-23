@@ -186,7 +186,7 @@ namespace Microarea.RSWeb.Controllers
 
         //---------------------------------------------------------------------
         //for DEBUG
-        [Route("dialog/{namespace}/{name}")]
+        [Route("dialogs/{namespace}")]
         public IActionResult GetJsonDialog(string nameSpace, string name)
         {
             UserInfo ui = GetLoginInformation();
@@ -198,7 +198,7 @@ namespace Microarea.RSWeb.Controllers
             JsonReportEngine report = new JsonReportEngine(session);
             report.Execute();
 
-            string dlg = report.GetJsonAskDialog(name);
+            string dlg = report.GetJsonAskDialogs();
 
             return new ContentResult { Content = dlg, ContentType = "application/json" };
         }

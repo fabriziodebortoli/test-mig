@@ -84,14 +84,18 @@ namespace Microarea.RSWeb.Render
             return dlg.ToJson();
         }
 
-        public string GetJsonAskDialog(int n = 1)
+        public string GetJsonAskDialog(int index)
         {
-            //TODO RSWEB
-            AskDialog dlg = StateMachine.ActiveAskDialog;
+            AskDialog dlg = StateMachine.Report.Engine.GetAskDialog(index);
             if (dlg == null)
                 return string.Empty;
 
             return dlg.ToJson();
+        }
+
+        public string GetJsonAskDialogs()
+        {
+             return StateMachine.Report.Engine.ToJsonDialogs();
         }
 
         //---------------------------------------------------------------------

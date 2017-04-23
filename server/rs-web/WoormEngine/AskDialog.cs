@@ -185,7 +185,6 @@ namespace Microarea.RSWeb.WoormEngine
             if (LeftTextBool)
                 nStyle |= AskStyle.BOOL_BTN_LEFT_TEXT;
 
-
             if (Field != null && Field.DataType != "Boolean"  && nStyle == AskStyle.EDIT_BOOL_STYLE)
 				nStyle = 0;
 
@@ -312,11 +311,15 @@ namespace Microarea.RSWeb.WoormEngine
 
             s += Field.ToJson() + ',';
 
-            s += LocalizedCaption.ToJson("caption") + ',';
-            s += ControlStyle.ToJson("controlstyle") + ',';
-            s += Enabled.ToJson("enabled") + ',';
             s += Hidden.ToJson("hidden") + ',';
+            s += Enabled.ToJson("enabled") + ',';
+            s += LocalizedCaption.ToJson("caption") + ',';
 
+            s += ControlStyleAttributeValue.ToJson("control_style") + ',';
+
+            s += LeftAligned.ToJson("left_aligned") + ',';
+            s += LeftTextBool.ToJson("left_text") + ',';
+ 
             //Se e' referenziato da altri al change devo fare un postBack per ricalcolare i campi dipendenti della askDialog sul server
             bool isReferenced = Group.Dialog.IsReferenced(this);
             s += isReferenced.ToJson("runatserver");
@@ -774,12 +777,13 @@ namespace Microarea.RSWeb.WoormEngine
 			// porcata di Germano che non posso cambiare per compatibilità
 			if (askEntry.Field.DataType == "Boolean")
 			{
-				askEntry.ControlStyle = prec & ~AskStyle.BOOL_BTN_LEFT_ALIGNED;
+				askEntry.ControlStyle = prec & ~(AskStyle.BOOL_BTN_LEFT_ALIGNED | AskStyle.BOOL_BTN_LEFT_TEXT);
 				askEntry.LeftAligned = (prec & AskStyle.BOOL_BTN_LEFT_ALIGNED) == AskStyle.BOOL_BTN_LEFT_ALIGNED;
-				return;
+                askEntry.LeftTextBool = (prec & AskStyle.BOOL_BTN_LEFT_TEXT) == AskStyle.BOOL_BTN_LEFT_TEXT;
+                return;
 			}
 				
-			// per le stringe la precizione indica se devo andare su più linee e quante sono.
+			// per le stringhe la precizione indica se devo andare su più linee e quante sono.
 			askEntry.Rows = prec;
 		}
 
@@ -946,7 +950,7 @@ namespace Microarea.RSWeb.WoormEngine
 								)
 								return false;
 
-							int style = (controlStyle & ~AskStyle.BOOL_BTN_LEFT_ALIGNED);
+							int style = (controlStyle & ~(AskStyle.BOOL_BTN_LEFT_ALIGNED | AskStyle.BOOL_BTN_LEFT_TEXT));
 							switch (style)
 							{
 								case AskStyle.CHECK_BOX_BOOL_STYLE:
@@ -959,7 +963,6 @@ namespace Microarea.RSWeb.WoormEngine
 										lex.SetError(string.Format(WoormEngineStrings.BadControlStyle, controlStyle));
 										return false;
 									}
-
 							}
 						}
 					}
@@ -1050,7 +1053,8 @@ namespace Microarea.RSWeb.WoormEngine
 						if (WhenExpr.Compile(lex, CheckResultType.Match, "Boolean"))
 							askEntry.HideExpr = WhenExpr;
 					}
-					else if (requireWhen) return false;
+					else if (requireWhen) 
+                            return false;
 
 					if (!ParseHotlink(lex, askEntry))
 						return false;
@@ -1071,7 +1075,8 @@ namespace Microarea.RSWeb.WoormEngine
 			{
 				AddGroup();
 
-				if (!lex.ParseBegin()) return false;
+				if (!lex.ParseBegin()) 
+                    return false;
 		        
 				string groupTitle = "";
 				if (lex.LookAhead() == Token.TEXTSTRING && !lex.ParseString(out groupTitle))
@@ -1095,7 +1100,8 @@ namespace Microarea.RSWeb.WoormEngine
 					if (!lex.ParseSep())
 						return false;
 				}
-				else if (requireWhen) return false;
+				else if (requireWhen) 
+                        return false;
 				
 				captionPos = Token.DEFAULT;
 				switch (lex.LookAhead())
@@ -1105,7 +1111,8 @@ namespace Microarea.RSWeb.WoormEngine
 					case Token.TOP	:
 						captionPos = lex.LookAhead();
 						lex.SkipToken();
-						if (!lex.ParseTag(Token.PROMPT)) return false;
+						if (!lex.ParseTag(Token.PROMPT)) 
+                            return false;
 						break;
 				}
 				SetCaptionPos(captionPos);
@@ -1113,7 +1120,10 @@ namespace Microarea.RSWeb.WoormEngine
 				SetGroupTitle(groupTitle);
 				SetGroupVisibility(groupVisible);
 
-				ParseEntries(lex);
+                if (!ParseEntries(lex))
+                {
+                    ;
+                }
 			}
 			while (lex.LookAhead(Token.BEGIN) && !lex.Error);
 
@@ -1175,7 +1185,8 @@ namespace Microarea.RSWeb.WoormEngine
 				case Token.TOP	:
 					captionPos = lex.LookAhead();
 					lex.SkipToken();
-					if (!lex.ParseTag(Token.PROMPT)) return false;
+					if (!lex.ParseTag(Token.PROMPT)) 
+                        return false;
 					break;
 			}
 
