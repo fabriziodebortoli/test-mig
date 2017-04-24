@@ -83,7 +83,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.INITTEMPLATE:
           this.RenderLayout(k);
           if (this.args.params !== '') {
-            this.RunReport();
+            this.GetData();
           }
 
           break;
@@ -123,8 +123,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     //ASK
     let message = {
-      commandType: CommandType.DATA,
-      message: this.args.nameSpace,
+      commandType: CommandType.ASK,
+      message: "",
       page: 0
     };
     this.rsService.doSend(JSON.stringify(message));
@@ -135,7 +135,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     let message = {
       commandType: CommandType.DATA,
-      message: this.args.nameSpace,
+      message: this.args.params,
       page: 0
     };
     this.rsService.doSend(JSON.stringify(message));
