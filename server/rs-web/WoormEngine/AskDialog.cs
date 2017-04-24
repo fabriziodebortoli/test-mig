@@ -328,7 +328,7 @@ namespace Microarea.RSWeb.WoormEngine
                             list += '{' + item.Stored.ToJson("value") + ',' +
                                           item.LocalizedName.ToJson("caption", false, true) + '}';
                         }
-                        if (control_style.CompareNoCase("Combo"))
+                        if (control_style.CompareNoCase("Combo") || control_style.CompareNoCase("Text"))
                             control_style = "DropDownList";
                     }
                 }
