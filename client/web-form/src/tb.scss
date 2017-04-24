@@ -9,7 +9,7 @@ $accent:#0277bd;
     md-dark-theme($primary, $accent, $warn: md-palette($md-red)) 
 */
 
-@import '~@angular/material/core/theming/all-theme';
+@import '~@angular/material/_theming';
 @include mat-core();
 $tb-app-primary: mat-palette($mat-light-blue, 800, 600, A400);
 $tb-app-accent: mat-palette($mat-green, 600, 200, 800);
