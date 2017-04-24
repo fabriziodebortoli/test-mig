@@ -603,7 +603,7 @@ namespace Microarea.Common.CoreTypes
                 }
                 else
                 {
-                    string shortDatePattern = "dd-mm-yyyy";
+                    string shortDatePattern = "yyyy-MM-dd"; //Thh:mm:ss
                     if (CultureInfo.DefaultThreadCurrentCulture != null)
                     {
                         shortDatePattern = CultureInfo.DefaultThreadCurrentCulture.DateTimeFormat.ToString(); // TODO rsweb Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
