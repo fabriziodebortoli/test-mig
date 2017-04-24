@@ -11,7 +11,7 @@ import { ExplorerComponent, ExplorerFactoryComponent } from './explorer/explorer
 import { GridTestComponent, GridTestFactoryComponent } from './grid-test/grid-test.component';
 import { IconsTestComponent, IconsTestFactoryComponent } from './icons-test/icons-test.component';
 
-import { SampleModule } from 'icons';
+import { IconsModule } from '@taskbuilder/icons';
 
 @NgModule({
     imports: [
@@ -24,7 +24,7 @@ import { SampleModule } from 'icons';
             { path: 'grid', component: GridTestFactoryComponent },
             { path: 'icons', component: IconsTestFactoryComponent },
         ]),
-        SampleModule
+        IconsModule
     ],
     declarations: [
         DataServiceComponent, DataServiceFactoryComponent,
