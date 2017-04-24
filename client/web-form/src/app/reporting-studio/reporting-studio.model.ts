@@ -5,7 +5,7 @@ export interface Message {
   message?: string;
 }
 
-export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, DATA, STOP, IMAGE }
+export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, IMAGE }
 
 export enum ReportObjectType { textrect, fieldrect, table, graphrect, sqrrect, repeater, cell, link }
 
@@ -337,6 +337,18 @@ export class styleArrayElement {
   public style: cell[] = []
   constructor(row: number) {
     this.rowNumber = row;
+  }
+}
+
+export class TemplateItem {
+  public templateName: string;
+  public templateObjects: any[];
+  public template: any;
+
+  constructor(tName: string, template: any, tObj: any[]) {
+    this.templateName = tName;
+    this.templateObjects = tObj;
+    this.template = template;
   }
 }
 

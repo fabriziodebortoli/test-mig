@@ -1,5 +1,6 @@
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { TemplateItem } from './../../reporting-studio.model';
 
 @Component({
   selector: 'rs-askdialog',
@@ -10,12 +11,16 @@ export class AskdialogComponent implements OnInit {
 
   @Input() ask: string;
 
-  constructor(private rsSerivce: ReportingStudioService) {
+public objects:any[]=[];
+public template:TemplateItem[]=[];
 
-    this.ask = 'Test';
+  constructor(private rsSerivce: ReportingStudioService) {
   }
 
   ngOnInit() {
   }
+
+   RenderLayout() {
+   }
 
 }
