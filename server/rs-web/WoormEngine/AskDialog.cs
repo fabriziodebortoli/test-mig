@@ -312,7 +312,7 @@ namespace Microarea.RSWeb.WoormEngine
             string list = string.Empty;
             if (Field.DataType == "DataEnum")
             {
-                list = "\"" + "enum_items" + "\":[";
+                list = "\"" + "list" + "\":[";
 
                 DataEnum de = Field.Data as DataEnum;
                 if (de != null)
