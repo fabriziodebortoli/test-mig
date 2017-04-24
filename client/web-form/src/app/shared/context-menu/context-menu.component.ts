@@ -14,7 +14,7 @@ import { WebSocketService } from './../../core/websocket.service';
 export class ContextMenuComponent {
 anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'right', vertical: 'top' };
-  private show: boolean = false;
+  private show = false;
 
   contextMenuBinding: MenuItem[];
   contextMenu: MenuItem[];
@@ -33,6 +33,11 @@ anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
 
   onOpen() {
     this.eventDataService.onContextMenu.emit(this.contextMenuBinding); // idd_pippo_ContextMenu
+  }
+
+  doCommand(menuItem: MenuItem) {
+    if (!menuItem) { return; }
+    this.eventDataService.command.emit(menuItem.id);
   }
 
 }
