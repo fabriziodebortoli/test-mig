@@ -1,5 +1,0 @@
-<div *ngIf="!rect.hidden" [ngStyle]="applyStyle()">
-  <div *ngIf="rect.label" [ngStyle]="applyLabelStyle()">{{rect.label.caption}}</div>
-  <div *ngIf="!rect.link"  [ngStyle]="applyValueStyle()">{{rect.value}}</div>
-  <rs-link *ngIf="rect.link"  [link]="rect.link" [ngStyle]="applyValueStyle()">{{rect.value}}</rs-link >
-</div>

@@ -8,7 +8,7 @@ import { DocumentComponent } from '../shared/document.component';
 import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
-import { LayoutService } from "app/core/layout.service";
+import { LayoutService } from 'app/core/layout.service';
 
 
 @Component({
@@ -24,6 +24,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private subMessage: Subscription;
   private message: any = '';
   private running: boolean = false;
+  public showAsk = false;
   public layoutStyle: any = {};
   public layoutBackStyle: any = {};
   public objects: baseobj[] = [];
@@ -74,7 +75,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       let msg = JSON.parse(message);
       let k = JSON.parse(msg.message);
       switch (msg.commandType) {
-        case CommandType.ASK: break;
+        case CommandType.ASK:
+          this.showAsk = true;
+          break;
         case CommandType.OK: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
@@ -82,12 +85,14 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           if (this.args.params !== '') {
             this.RunReport();
           }
+
           break;
         case CommandType.TEMPLATE:
           this.RenderLayout(k);
           this.GetData();
           break;
         case CommandType.DATA:
+          //this.showAsk = true;
           this.UpdateData(k);
           break;
       }
