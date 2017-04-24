@@ -1,13 +1,13 @@
+import { textrect } from './../../reporting-studio.model';
 import { UtilsService } from './../../../core/utils.service';
 
-import { textrect } from './../../../reporting-studio/reporting-studio.model';
 import { Component, Input, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 
 
 @Component({
   selector: 'rs-textrect',
   templateUrl: './textrect.component.html',
-  styleUrls: ['./textrect.component.scss']
+  styles: []
 })
 export class ReportTextrectComponent implements AfterViewInit {
 
@@ -60,6 +60,8 @@ export class ReportTextrectComponent implements AfterViewInit {
       'text-decoration': this.rect.font.underline ? 'underline' : 'none',
       'text-align': this.rect.text_align,
       'vertical-align': this.rect.vertical_align,
+      'padding': '0 4px'
+
     };
 
     return obj;

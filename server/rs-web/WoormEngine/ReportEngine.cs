@@ -19,7 +19,7 @@ using Microarea.Common.ExpressionManager;
 using Microarea.Common.Hotlink;
 
 using Microarea.RSWeb.WoormViewer;
-using TaskBuilderNetCore.DataFunctionaluty;
+using Microarea.Common.DBData;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -98,7 +98,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public string GetColumnType(string columnName)
 		{
             //TODO RSWEB OTTIMIZZARE GetColumnType
-            return DBInfo.GetColumnType(session.UserInfo.CompanyDbConnection , tableName, columnName);
+            return DBInfo.GetColumnType(session.UserInfo.CompanyDbConnection, tableName, columnName);
 
             // se non ha la connessione al database o se la colonna non esiste assume
             // che la colonna sia di tipo stringa.
@@ -580,8 +580,30 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 		}
 
-		//---------------------------------------------------------------------------
-		public	EventActions	OnFFActions	{ get { return onFormFeedActions; }}
+        public AskDialog FindAskDialog(string name)
+        {
+            foreach(AskDialog dlg in askingRules)
+            {
+               if (dlg.FormName.CompareNoCase(name))
+                    return dlg;
+            }
+            return null;
+        }
+
+        public string ToJsonDialogs()
+        {
+            string s = "{\"dialogs\":[";
+            bool first = true;
+            foreach (AskDialog dlg in askingRules)
+            {
+                if (first) first = false; else s += ',';
+                s += dlg.ToJson();
+            }
+            return s + "]}";
+        }
+
+        //---------------------------------------------------------------------------
+        public EventActions	OnFFActions	{ get { return onFormFeedActions; }}
 		public	ReportStatus	Status		{ get { return status; } set { status = value; }}
 		public  List<AskDialog> AskingRules { get { return askingRules; } }
 		public	RdeWriter		OutChannel	{ get { return outChannel;} set { outChannel = value; }}
@@ -918,15 +940,22 @@ namespace Microarea.RSWeb.WoormEngine
 			
 			return null;
 		}
+        public AskDialog GetAskDialog(int index)
+        {
+            if (index < askingRules.Count) 
+                return null;
 
-		// inizializza indistintamente tutti i dati dei field nella tabella dei simboli
-		// fare attenzione perche usando una Hastable la posizione è in ordine inversa 
-		// a come vengono aggiunti e si recuperano i posti vuoti in caso di cancellazione
-		// o aggiunta di elementi. Utilizzo allora la tecnica di inizializzarli dal fondo
-		// utilizzando un vettore di appoggio. In alternativa potrei cercare di costruire
-		// un grafo di dipendenza delle espressioni di inizializzazione ed eseguirle
-		// sulla base del risultato
-		//---------------------------------------------------------------------------
+            return askingRules[index];
+        }
+
+        // inizializza indistintamente tutti i dati dei field nella tabella dei simboli
+        // fare attenzione perche usando una Hastable la posizione è in ordine inversa 
+        // a come vengono aggiunti e si recuperano i posti vuoti in caso di cancellazione
+        // o aggiunta di elementi. Utilizzo allora la tecnica di inizializzarli dal fondo
+        // utilizzando un vettore di appoggio. In alternativa potrei cercare di costruire
+        // un grafo di dipendenza delle espressioni di inizializzazione ed eseguirle
+        // sulla base del risultato
+        //---------------------------------------------------------------------------
         public bool ExecuteInitialize(ParametersList initParameters)
 		{
 			Diagnostic.Clear();

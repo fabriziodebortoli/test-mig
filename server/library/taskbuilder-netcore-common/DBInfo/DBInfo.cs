@@ -1,9 +1,10 @@
 ﻿using Microarea.Common.CoreTypes;
 using System;
 using System.Diagnostics;
+
 using TaskBuilderNetCore.Data;
 
-namespace TaskBuilderNetCore.DataFunctionaluty
+namespace Microarea.Common.DBData
 {
     public class DBInfo
     {
@@ -112,12 +113,12 @@ namespace TaskBuilderNetCore.DataFunctionaluty
                     }
                 }
             }
-           
         }
 
-        public static string GetNativeConvert(string connectionString, object value, bool useUnicode, Provider.DBType dbType)
+        public static string GetNativeConvert(object value, bool useUnicode, DBMSType dbType)
         {
             string strSqlServerDateTs = "{{ts '{0:D4}-{1:D2}-{2:D2} {3:D2}:{4:D2}:{5:D2}'}}";
+
             switch (value.GetType().Name)
             {
                 case "Boolean":
@@ -136,15 +137,12 @@ namespace TaskBuilderNetCore.DataFunctionaluty
                     }
                 case "DataEnum":
                     {
-
-                        //return ObjectHelper.CastToDBData(value).ToString();
-                        break;
+                        DataEnum de = (DataEnum)value;
+                        return ((int)de).ToString();    
                     }
                 case "String":
                     {
                         string str = value.ToString().Replace("'", "''");
-
-
 
                         return useUnicode ? String.Format("N'{0}'", str) : String.Format("'{0}'", str);
                     }

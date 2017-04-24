@@ -4,21 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Collections;
 
-using Microarea.Common.Generic;
+using Microsoft.AspNetCore.Http;
 
 using TaskBuilderNetCore.Interfaces;
 
+using Microarea.Common.Generic;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
-using Microarea.Common.Hotlink;
-using Microarea.Common.Lexan;
-using Microarea.Common.ExpressionManager;
-using Microarea.Common.NameSolver;
-using Microsoft.AspNetCore.Http;
-using System.Collections;
 
-namespace Microarea.DataService.Models
+namespace Microarea.Common.Hotlink
 {
     public class Datasource
     {

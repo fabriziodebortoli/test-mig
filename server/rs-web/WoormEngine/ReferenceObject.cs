@@ -23,22 +23,34 @@ namespace Microarea.Common.Hotlink
 		public ArrayList					QueryParams = new ArrayList();
 		public Action						CurrentAction = Action.Upper;
 
-        //public AskDialog					AskDialog = null;	
+        //----------------------------------------------------------------------------
         public TbSession tbSession = null;
+        public TbSession Session { get { return tbSession; }}
 
         //----------------------------------------------------------------------------
+        //public AskDialog					AskDialog = null;	
         //public TbSession Session { get { return AskDialog.Session; } }
-        public TbSession Session { get { return tbSession; }}
- 
-        //----------------------------------------------------------------------------
+
         //public ReferenceObject(AskDialog askDialog)
         //{
         //	this.AskDialog = askDialog;
         //}
 
+        //----------------------------------------------------------------------------
         public ReferenceObject(TbSession session)
         {
             tbSession = session;
+        }
+
+        //----------------------------------------------------------------------------
+        public bool HasMember(string name) 
+        {
+            foreach (Expression param in ActualParams)
+            {
+                if (param.HasMember(name))
+                    return true;
+            }
+            return false;
         }
 
         // Chiamata a Taskbuilder via Soap 

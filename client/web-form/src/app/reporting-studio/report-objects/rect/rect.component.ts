@@ -1,11 +1,11 @@
+import { sqrrect } from './../../reporting-studio.model';
 import { UtilsService } from './../../../core/utils.service';
-import { sqrrect } from './../../../reporting-studio/reporting-studio.model';
 import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'rs-rect',
   templateUrl: './rect.component.html',
-  styleUrls: ['./rect.component.scss']
+   styles: []
 })
 export class ReportRectComponent {
 

@@ -29,8 +29,7 @@
     "System.Xml.XmlDocument": "4.3.0",
     "System.Xml.XmlSerializer": "4.3.0",
     "system.xml.xpath.xmldocument": "4.3.0",
-    "taskbuilder-netcore-common": "1.0.0-*",
-    "taskbuilder-netcore-data-functionality": "1.0.0-*"
+    "taskbuilder-netcore-common": "1.0.0-*"
   },
 
   "tools": {

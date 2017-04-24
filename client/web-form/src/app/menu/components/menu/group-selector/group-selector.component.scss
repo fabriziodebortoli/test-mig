@@ -6,6 +6,8 @@ ul.groups-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
     display: flex;
     flex-wrap: wrap;
     background: #3e3e3e;
@@ -22,6 +24,9 @@ ul.groups-list>li {
     flex-direction: column;
     color: #9f9f9f;
     background: #3e3e3e;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 ul.groups-list>li:hover {
@@ -32,6 +37,6 @@ ul.groups-list>li>img {
     max-width: 120px
 }
 
-ul.groups-list>li>span {
+ul.groups-list>li>div>span {
     font-size: 12px;
 }

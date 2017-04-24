@@ -21,35 +21,38 @@ namespace Microarea.RSWeb.WoormEngine
     /// AskEntry
     /// </summary>
     //============================================================================
-    [Serializable]
-	[KnownType(typeof(Field))]
-	[KnownType(typeof(List<string>))]
-	public class AskEntry : ISerializable
+    //[Serializable]
+	//[KnownType(typeof(Field))]
+	//[KnownType(typeof(List<string>))]
+	public class AskEntry //: ISerializable
 	{
-		const string CAPTION = "Caption";
-		const string FIELD = "Field";
-		const string CONTROLSTYLE = "ControlStyle";
-		const string ENABLED = "enabled";
-		const string ISREFERENCED = "isReferenced";
-		const string ENUMSLIST = "enumsList";
-		const string SELECTEDENUMINDEX = "selectedEnumIndex";
+		//const string CAPTION = "Caption";
+		//const string FIELD = "Field";
+		//const string CONTROLSTYLE = "ControlStyle";
+		//const string ENABLED = "enabled";
+		//const string ISREFERENCED = "isReferenced";
+		//const string ENUMSLIST = "enumsList";
+		//const string SELECTEDENUMINDEX = "selectedEnumIndex";
 
 		private Enums Enums { get { return Group.Dialog.Report.ReportSession.Enums; }}
+
+		public Field			Field = null;
+		public AskGroup			Group;
 
 		public string			Caption;
         public Expression       CaptionExpr;
         public Expression       ReadOnlyExpr;
+		public Expression		HideExpr;	//WhenExpr != null => DynamicHidden
+
 		public bool				StaticHidden = false;
-		public Expression		WhenExpr;	//WhenExpr != null => DynamicHidden
 		public int				Len = 15;
 		public int				Rows = 0;
 		public int				ControlStyle = -1;
         public bool             LeftAligned = false;
         public bool             LeftTextBool = false;
         public Token			CaptionPos = Token.DEFAULT;
+
 		public ReferenceObject	Hotlink = null;
-		public Field			Field = null;
-		public AskGroup			Group;
         public bool             MultiSelections = false;
 		//public bool			DynamicHidden = false;
 
@@ -98,10 +101,10 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			get
 			{
-				if (WhenExpr != null)
+				if (HideExpr != null)
 				{
-					Value v = WhenExpr.Eval();
-					if (!WhenExpr.Error)
+					Value v = HideExpr.Eval();
+					if (!HideExpr.Error)
 						return !(bool)v.Data;
 				}	
 				return false;
@@ -130,46 +133,11 @@ namespace Microarea.RSWeb.WoormEngine
 			this.Group = group;
 		}
 
-			//----------------------------------------------------------------------------
-		public AskEntry()
-		{
-			//TODO Silvano costruttore per Deserializzatore
-		}
-
 		//----------------------------------------------------------------------------
-		public void GetObjectData(SerializationInfo info,StreamingContext context)
-		{
-			info.AddValue(CAPTION, LocalizedCaption);
-			info.AddValue(FIELD, Field);
-			info.AddValue(CONTROLSTYLE, ControlStyle);
-			info.AddValue(ENABLED, Enabled);
-			//Se e' referenziato devo fare un postBack per ricalcolare i campi della askDialog sul server
-			bool isReferenced = Group.Dialog.IsReferenced(this);
-			info.AddValue(ISREFERENCED, isReferenced);
-
-			//se e' un enum devo aggiungere la lista dei valori leggibile
-			if (Field.Data is DataEnum)
-			{
-				DataEnum data = Field.Data as DataEnum;
-				EnumItems items = Enums.EnumItems(Enums.TagName(data));
-				List<string> list = new List<string>();
-
-				//TODO SILVANO
-				if (items == null)
-						list.Add("BAD ENUM");
-				else
-					for (int i = 0; i < items.Count; i++) 
-					{
-						EnumItem ei = items[i];
-						if (data.Item == ei.Value) 
-						{
-							info.AddValue(SELECTEDENUMINDEX, i);
-						}
-						list.Add(ei.LocalizedName);
-					}
-				info.AddValue(ENUMSLIST, list);
-			}
-		}
+		//public AskEntry()
+		//{
+		//	//TODO Silvano costruttore per Deserializzatore
+		//}
 
 		// Valorizza i limiti superiore/inferiore solo se l'utente non ha cambiato i valori
 		// o se il campo non viene inizializzato allo start (zona variables)
@@ -217,7 +185,6 @@ namespace Microarea.RSWeb.WoormEngine
             if (LeftTextBool)
                 nStyle |= AskStyle.BOOL_BTN_LEFT_TEXT;
 
-
             if (Field != null && Field.DataType != "Boolean"  && nStyle == AskStyle.EDIT_BOOL_STYLE)
 				nStyle = 0;
 
@@ -258,13 +225,13 @@ namespace Microarea.RSWeb.WoormEngine
 				unparser.WriteTag(Token.READ_ONLY, false);
 				unparser.WriteExpr(ReadOnlyExpr.ToString(), false);
 			}
-			if (WhenExpr != null)
+			if (HideExpr != null)
 			{
 				//if (DynamicHidden)  //TODOLUCA, non valorizzato, e forse non serve neanche
 				//    unparser.WriteTag(Token.DYNAMIC, false);
 
 				unparser.WriteTag(Token.WHEN, false);
-				unparser.WriteExpr(WhenExpr.ToString(), false);
+				unparser.WriteExpr(HideExpr.ToString(), false);
 			}
 
 			WriteHotlink(unparser);
@@ -300,21 +267,82 @@ namespace Microarea.RSWeb.WoormEngine
             if (this.MultiSelections)
                 unparser.WriteTag(Token.MULTI_SELECTIONS, false);
 		}
-	}
+        //----------------------------------------------------------------------------
+        /*
+        public void GetObjectData(SerializationInfo info,StreamingContext context)
+        {
+            info.AddValue(CAPTION, LocalizedCaption);
+            info.AddValue(FIELD, Field);
+            info.AddValue(CONTROLSTYLE, ControlStyle);
+            info.AddValue(ENABLED, Enabled);
+            //Se e' referenziato devo fare un postBack per ricalcolare i campi della askDialog sul server
+            bool isReferenced = Group.Dialog.IsReferenced(this);
+            info.AddValue(ISREFERENCED, isReferenced);
 
-	/// <summary>
-	/// AskGroup
-	/// </summary>
-	//============================================================================
-	[Serializable]
-	[KnownType(typeof(List<AskEntry>))]
-	public class AskGroup : ISerializable
+            //se e' un enum devo aggiungere la lista dei valori leggibile
+            if (Field.Data is DataEnum)
+            {
+                DataEnum data = Field.Data as DataEnum;
+                EnumItems items = Enums.EnumItems(Enums.TagName(data));
+                List<string> list = new List<string>();
+
+                //TODO SILVANO
+                if (items == null)
+                        list.Add("BAD ENUM");
+                else
+                    for (int i = 0; i < items.Count; i++) 
+                    {
+                        EnumItem ei = items[i];
+                        if (data.Item == ei.Value) 
+                        {
+                            info.AddValue(SELECTEDENUMINDEX, i);
+                        }
+                        list.Add(ei.LocalizedName);
+                    }
+                info.AddValue(ENUMSLIST, list);
+            }
+        }
+        */
+
+        //----------------------------------------------------------------------------
+        public string ToJson()
+        {
+            string s = "{";
+
+            s += Field.ToJson() + ',';
+
+            s += Hidden.ToJson("hidden") + ',';
+            s += Enabled.ToJson("enabled") + ',';
+            s += LocalizedCaption.ToJson("caption") + ',';
+
+            s += ControlStyleAttributeValue.ToJson("control_style") + ',';
+
+            s += LeftAligned.ToJson("left_aligned") + ',';
+            s += LeftTextBool.ToJson("left_text") + ',';
+ 
+            //Se e' referenziato da altri al change devo fare un postBack per ricalcolare i campi dipendenti della askDialog sul server
+            bool isReferenced = Group.Dialog.IsReferenced(this);
+            s += isReferenced.ToJson("runatserver");
+
+            s += "}";
+            return s;
+        }
+
+    }
+
+    /// <summary>
+    /// AskGroup
+    /// </summary>
+    //============================================================================
+    //[Serializable]
+    //[KnownType(typeof(List<AskEntry>))]
+    public class AskGroup //: ISerializable
 	{
 		//stringhe usate per serializzare
-		const string ISVISIBLE = "IsVisible"; 
-		const string CAPTION = "Caption";
-		const string ENTRIES = "Entries";
-		const string HIDDEN = "IsHidden";
+		//const string ISVISIBLE = "IsVisible"; 
+		//const string CAPTION = "Caption";
+		//const string ENTRIES = "Entries";
+		//const string HIDDEN = "IsHidden";
 
 		private List<AskEntry> entries = new List<AskEntry>();
 
@@ -324,7 +352,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public int MaxCaptionLen = 0;
 		public int MaxEntryLen = 0;
 		public AskDialog Dialog;
-		public Expression WhenExpr;
+		public Expression HideExpr;
 
 		//----------------------------------------------------------------------------
 		public string LocalizedCaption
@@ -358,10 +386,10 @@ namespace Microarea.RSWeb.WoormEngine
 					return true;
 
 				// altrimenti controllo la WHEN expression
-				if (WhenExpr != null)
+				if (HideExpr != null)
 				{
-					Value v = WhenExpr.Eval();
-					if (!WhenExpr.Error)
+					Value v = HideExpr.Eval();
+					if (!HideExpr.Error)
 						return !(bool)v.Data;
 				}
 
@@ -382,21 +410,20 @@ namespace Microarea.RSWeb.WoormEngine
 			this.Dialog = dialog;
 		}
 
+		//----------------------------------------------------------------------------
+		//public AskGroup()
+		//{
+		//	//TODO SILVANO costruttore per Deserializzatore
+		//}
 
 		//----------------------------------------------------------------------------
-		public AskGroup()
-		{
-			//TODO SILVANO costruttore per Deserializzatore
-		}
-
-		//----------------------------------------------------------------------------
-		public void GetObjectData(SerializationInfo info,StreamingContext context)
-		{
-			info.AddValue(ISVISIBLE, IsVisible);
-			info.AddValue(CAPTION, Caption);
-			info.AddValue(ENTRIES, entries);
-			info.AddValue(HIDDEN, Hidden);
-		}
+		//public void GetObjectData(SerializationInfo info,StreamingContext context)
+		//{
+		//	info.AddValue(ISVISIBLE, IsVisible);
+		//	info.AddValue(CAPTION, Caption);
+		//	info.AddValue(HIDDEN, Hidden);
+		//	info.AddValue(ENTRIES, entries);
+		//}
 
 		//----------------------------------------------------------------------------
 		public void Add(AskEntry askEntry)
@@ -425,10 +452,10 @@ namespace Microarea.RSWeb.WoormEngine
 			if (Hidden)
 				unparser.WriteTag(Token.HIDDEN, false);
 
-			if (WhenExpr != null)
+			if (HideExpr != null)
 			{
 				unparser.WriteTag(Token.WHEN, false);
-				unparser.WriteExpr(WhenExpr.ToString(), false);
+				unparser.WriteExpr(HideExpr.ToString(), false);
 				unparser.WriteTag(Token.SEP, false);
 			}
 
@@ -450,10 +477,30 @@ namespace Microarea.RSWeb.WoormEngine
 
 			return true;
 		}
-	}
 
-	//=============================================================================
-	public static class AskStyle
+        //----------------------------------------------------------------------------
+        public string ToJson()
+        {
+            string s = "{";
+
+            s += LocalizedCaption.ToJson("caption") + ',';
+            s += Hidden.ToJson("hidden") + ',';
+
+            s += "\"entries\":[";
+            bool first = true;
+            foreach (AskEntry entry in entries)
+            {
+                if (first) first = false; else s += ',';
+
+                s += entry.ToJson();
+            }
+            s += "]}";
+            return s;
+        }
+    }
+
+    //=============================================================================
+    public static class AskStyle
 	{ 
 		public const int CHECK_BOX_BOOL_STYLE = 0x0000;
 		public const int RADIO_BUTTON_BOOL_STYLE = 0x0001;
@@ -467,31 +514,34 @@ namespace Microarea.RSWeb.WoormEngine
     /// AskDialog
     /// </summary>
     //=============================================================================
-    [Serializable]
-	[KnownType(typeof(List<AskGroup>))]
-	[KnownType(typeof(AskGroup))]
-	public class AskDialog : ISerializable
+    //[Serializable]
+	//[KnownType(typeof(List<AskGroup>))]
+	//[KnownType(typeof(AskGroup))]
+	public class AskDialog //: ISerializable
 	{
-		const string GROUPS = "Groups";
-		const string LOCALIZEDFORMTITLE = "LocalizedFormTitle";
-		
-		private List<AskGroup> groups = new List<AskGroup>();
-		private Token		captionPos = Token.DEFAULT;
-		private AskGroup	askGroup = null;
-		private AskEntry	askEntry = null;
-		private AskEntry	activeAskEntry = null;
+		//const string GROUPS = "Groups";
+		//const string LOCALIZEDFORMTITLE = "LocalizedFormTitle";
 		private Report		report;
-		private string		helpFileName;
-		private long		helpData = 0;
+		
+		public string		FormName;
+		public string		FormTitle;
+		private List<AskGroup> groups = new List<AskGroup>();
 		private bool		onAsk = false;
 
 		public Block		BeforeActions;
+		public Expression	WhenExpr;
 		public Block		AfterActions;
 		public Expression	OnExpr;
 		public Expression	OnMessage;
-		public Expression	WhenExpr;
-		public string		FormName;
-		public string		FormTitle;
+
+		private Token		captionPos = Token.DEFAULT;
+
+		private AskGroup	askGroup = null;
+		private AskEntry	askEntry = null;
+		private AskEntry	activeAskEntry = null;
+
+		private string		helpFileName;
+		private long		helpData = 0;
 		public bool			EditingScheduled = false;
 
 		//----------------------------------------------------------------------------
@@ -515,19 +565,18 @@ namespace Microarea.RSWeb.WoormEngine
 		public AskEntry			ActiveAskEntry	{ get { return activeAskEntry; } set { activeAskEntry = value; }}
 		public bool				OnAsk			{ get { return onAsk; }}
 
-	
 		//--------------------------------------------------------------------------
-		public AskDialog(SerializationInfo info, StreamingContext context)
-		{
-			//TODO Silvano
-		}
+		//public AskDialog(SerializationInfo info, StreamingContext context)
+		//{
+		//	//TODO Silvano
+		//}
 
 		//--------------------------------------------------------------------------
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			info.AddValue(GROUPS, groups);
-			info.AddValue(LOCALIZEDFORMTITLE, LocalizedFormTitle);
-		}
+		//public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		//{
+		//	info.AddValue(GROUPS, groups);
+		//	info.AddValue(LOCALIZEDFORMTITLE, LocalizedFormTitle);
+		//}
 	
 		//----------------------------------------------------------------------------
 		public AskDialog(Report report) 
@@ -535,15 +584,15 @@ namespace Microarea.RSWeb.WoormEngine
 			this.report = report; 
 		}
 
+		//--------------------------------------------------------------------------
 		// Verifica se AskEntry è utilizzato in una qualsiasi espressione di readOnly
 		// di altri AskEntry della AskDialog o di Init nella dichiarazione di variabili
 		// di AskEntry
-		//--------------------------------------------------------------------------
 		public bool IsReferenced(AskEntry askEntry)
 		{
 			foreach (AskGroup askGroup in Groups)
 			{
-				if (askGroup.WhenExpr != null && askGroup.WhenExpr.HasMember(askEntry.Field.Name))
+				if (askGroup.HideExpr != null && askGroup.HideExpr.HasMember(askEntry.Field.Name))
 					return true;
 
 				foreach (AskEntry entry in askGroup.Entries)
@@ -553,7 +602,7 @@ namespace Microarea.RSWeb.WoormEngine
 					if (entry.ReadOnlyExpr != null && entry.ReadOnlyExpr.HasMember(askEntry.Field.Name))
 						return true;
 
-					if (entry.WhenExpr != null && entry.WhenExpr.HasMember(askEntry.Field.Name))
+					if (entry.HideExpr != null && entry.HideExpr.HasMember(askEntry.Field.Name))
 						return true;
 
 					if (entry.Field.InitExpression != null && entry.Field.InitExpression.HasMember(askEntry.Field.Name))
@@ -561,8 +610,13 @@ namespace Microarea.RSWeb.WoormEngine
 
                     if (entry.CaptionExpr != null && entry.CaptionExpr.HasMember(askEntry.Field.Name))
                         return true;
+
+                    if (entry.Hotlink != null && entry.Hotlink.HasMember(askEntry.Field.Name))
+                        return true;
                 }
 			}
+            if (report.Engine.RepSymTable.Procedures.Find(askEntry.Field.Name + "_Changed") != null)
+                return true;
 
 			return false;
 		}
@@ -723,12 +777,13 @@ namespace Microarea.RSWeb.WoormEngine
 			// porcata di Germano che non posso cambiare per compatibilità
 			if (askEntry.Field.DataType == "Boolean")
 			{
-				askEntry.ControlStyle = prec & ~AskStyle.BOOL_BTN_LEFT_ALIGNED;
+				askEntry.ControlStyle = prec & ~(AskStyle.BOOL_BTN_LEFT_ALIGNED | AskStyle.BOOL_BTN_LEFT_TEXT);
 				askEntry.LeftAligned = (prec & AskStyle.BOOL_BTN_LEFT_ALIGNED) == AskStyle.BOOL_BTN_LEFT_ALIGNED;
-				return;
+                askEntry.LeftTextBool = (prec & AskStyle.BOOL_BTN_LEFT_TEXT) == AskStyle.BOOL_BTN_LEFT_TEXT;
+                return;
 			}
 				
-			// per le stringe la precizione indica se devo andare su più linee e quante sono.
+			// per le stringhe la precizione indica se devo andare su più linee e quante sono.
 			askEntry.Rows = prec;
 		}
 
@@ -895,7 +950,7 @@ namespace Microarea.RSWeb.WoormEngine
 								)
 								return false;
 
-							int style = (controlStyle & ~AskStyle.BOOL_BTN_LEFT_ALIGNED);
+							int style = (controlStyle & ~(AskStyle.BOOL_BTN_LEFT_ALIGNED | AskStyle.BOOL_BTN_LEFT_TEXT));
 							switch (style)
 							{
 								case AskStyle.CHECK_BOX_BOOL_STYLE:
@@ -908,7 +963,6 @@ namespace Microarea.RSWeb.WoormEngine
 										lex.SetError(string.Format(WoormEngineStrings.BadControlStyle, controlStyle));
 										return false;
 									}
-
 							}
 						}
 					}
@@ -997,9 +1051,10 @@ namespace Microarea.RSWeb.WoormEngine
 						Expression WhenExpr = new Expression(Session, report.SymTable.Fields);
 						WhenExpr.StopTokens = new StopTokens(new Token[] { Token.HOTLINK });
 						if (WhenExpr.Compile(lex, CheckResultType.Match, "Boolean"))
-							askEntry.WhenExpr = WhenExpr;
+							askEntry.HideExpr = WhenExpr;
 					}
-					else if (requireWhen) return false;
+					else if (requireWhen) 
+                            return false;
 
 					if (!ParseHotlink(lex, askEntry))
 						return false;
@@ -1020,7 +1075,8 @@ namespace Microarea.RSWeb.WoormEngine
 			{
 				AddGroup();
 
-				if (!lex.ParseBegin()) return false;
+				if (!lex.ParseBegin()) 
+                    return false;
 		        
 				string groupTitle = "";
 				if (lex.LookAhead() == Token.TEXTSTRING && !lex.ParseString(out groupTitle))
@@ -1039,12 +1095,13 @@ namespace Microarea.RSWeb.WoormEngine
 					Expression WhenExpr = new Expression(Session, report.SymTable.Fields);
 					WhenExpr.StopTokens = new StopTokens(new Token[] {Token.SEP});
 					if (WhenExpr.Compile(lex, CheckResultType.Match, "Boolean"))
-						askGroup.WhenExpr = WhenExpr;
+						askGroup.HideExpr = WhenExpr;
 					
 					if (!lex.ParseSep())
 						return false;
 				}
-				else if (requireWhen) return false;
+				else if (requireWhen) 
+                        return false;
 				
 				captionPos = Token.DEFAULT;
 				switch (lex.LookAhead())
@@ -1054,7 +1111,8 @@ namespace Microarea.RSWeb.WoormEngine
 					case Token.TOP	:
 						captionPos = lex.LookAhead();
 						lex.SkipToken();
-						if (!lex.ParseTag(Token.PROMPT)) return false;
+						if (!lex.ParseTag(Token.PROMPT)) 
+                            return false;
 						break;
 				}
 				SetCaptionPos(captionPos);
@@ -1062,7 +1120,10 @@ namespace Microarea.RSWeb.WoormEngine
 				SetGroupTitle(groupTitle);
 				SetGroupVisibility(groupVisible);
 
-				ParseEntries(lex);
+                if (!ParseEntries(lex))
+                {
+                    ;
+                }
 			}
 			while (lex.LookAhead(Token.BEGIN) && !lex.Error);
 
@@ -1124,7 +1185,8 @@ namespace Microarea.RSWeb.WoormEngine
 				case Token.TOP	:
 					captionPos = lex.LookAhead();
 					lex.SkipToken();
-					if (!lex.ParseTag(Token.PROMPT)) return false;
+					if (!lex.ParseTag(Token.PROMPT)) 
+                        return false;
 					break;
 			}
 
@@ -1305,5 +1367,25 @@ namespace Microarea.RSWeb.WoormEngine
 				return true;
 			}
 		}
-	}
+
+        //----------------------------------------------------------------------------
+        public string ToJson()
+        {
+            string s = "{";
+
+            s += this.FormName.ToJson("name") + ',';
+            s += this.LocalizedFormTitle.ToJson("caption") + ',';
+
+            s += "\"groups\":[";
+            bool first = true;
+            foreach (AskGroup group in groups)
+            {
+                if (first) first = false; else s += ',';
+
+                s += group.ToJson();
+            }
+            s += "]}";
+            return s;
+        }
+    }
 }

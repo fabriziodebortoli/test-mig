@@ -1,5 +1,5 @@
 import { UtilsService } from './../../../core/utils.service';
-import { table, column, cell } from './../../../reporting-studio/reporting-studio.model';
+import { table, column, cell } from './../../reporting-studio.model';
 import { Component, Input } from '@angular/core';
 
 declare var $: any;
@@ -26,7 +26,7 @@ export class ReportTableComponent {
   // -----------------------------------------------------
   getTitleStyle(): any {
     let obj = {
-      'width': '100%',
+      'height': this.table.title.rect.bottom - this.table.title.rect.top + 'px',
       'border-left': this.table.title.borders.left ? this.table.title.pen.width + 'px' : '0px',
       'border-right': this.table.title.borders.right ? this.table.title.pen.width + 'px' : '0px',
       'border-bottom': this.table.title.borders.bottom ? this.table.title.pen.width + 'px' : '0px',
@@ -51,7 +51,7 @@ export class ReportTableComponent {
       'position': 'absolute',
       'top': this.table.rect.top + 'px',
       'left': this.table.rect.left + 'px',
-      'width': this.table.rect.right - this.table.rect.left + 'px'
+      'width': this.table.rect.right - this.table.rect.left + 7 + 'px'
     };
 
     return obj;
@@ -93,13 +93,13 @@ export class ReportTableComponent {
 
   // -----------------------------------------------------
   getSingleCellStyle(dataItem: any, rowIndex: number, column: column): any {
-    let defStyle: cell = this.findDefaultStyle(column.id, rowIndex);
-    let specStyle: any = dataItem[column.id];
+    const defStyle: cell = this.findDefaultStyle(column.id, rowIndex);
+    const specStyle: any = dataItem[column.id];
 
-    let bk = specStyle.bkgcolor === undefined ? defStyle.bkgcolor : specStyle.bkgcolor;
-    let rgba = this.utils.hexToRgba(bk);
+    const bk = specStyle.bkgcolor === undefined ? defStyle.bkgcolor : specStyle.bkgcolor;
+    const rgba = this.utils.hexToRgba(bk);
     rgba.a = this.table.transparent ? 0 : 1;
-    let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
+    const backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
 
     let obj = {
       'height': this.table.row_height + 'px',
