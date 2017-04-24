@@ -307,15 +307,45 @@ namespace Microarea.RSWeb.WoormEngine
         //----------------------------------------------------------------------------
         public string ToJson()
         {
-            string s = "{";
+            string control_style = ControlStyleAttributeValue;
+            
+            string list = string.Empty;
+            if (Field.DataType == "DataEnum")
+            {
+                list = "\"" + "enum_items" + "\":[";
+
+                DataEnum de = Field.Data as DataEnum;
+                if (de != null)
+                {
+                    EnumItems items = Enums.EnumItems(de.Tag);
+                    if (de != null)
+                    {
+                        bool first = true;
+                        foreach (EnumItem item in items)
+                        {
+                            if (first) first = false; else list += ',';
+
+                            list += '{' + item.Stored.ToJson("value") + ',' +
+                                          item.LocalizedName.ToJson("caption", false, true) + '}';
+                        }
+                        if (control_style.CompareNoCase("Combo"))
+                            control_style = "DropDownList";
+                    }
+                }
+                list += "],";
+            }
+
+            string s = "{\"" + control_style.ToLower() + "\":{";
 
             s += Field.ToJson() + ',';
+
+            s += list;
 
             s += Hidden.ToJson("hidden") + ',';
             s += Enabled.ToJson("enabled") + ',';
             s += LocalizedCaption.ToJson("caption") + ',';
 
-            s += ControlStyleAttributeValue.ToJson("control_style") + ',';
+            //s += control_style.ToJson("control_style", false, true) + ',';
 
             s += LeftAligned.ToJson("left_aligned") + ',';
             s += LeftTextBool.ToJson("left_text") + ',';
@@ -324,7 +354,7 @@ namespace Microarea.RSWeb.WoormEngine
             bool isReferenced = Group.Dialog.IsReferenced(this);
             s += isReferenced.ToJson("runatserver");
 
-            s += "}";
+            s += "}}";
             return s;
         }
 
@@ -968,20 +998,24 @@ namespace Microarea.RSWeb.WoormEngine
 					}
 					else
 					{
-						if (lex.Parsed(Token.STYLE))
-						{
-							if (
-								!lex.ParseTag(Token.ASSIGN) ||
-								!lex.ParseInt(out controlStyle)
-								)
-								return false;
+                        if (lex.Parsed(Token.STYLE))
+                        {
+                            if (
+                                !lex.ParseTag(Token.ASSIGN) ||
+                                !lex.ParseInt(out controlStyle)
+                                )
+                                return false;
 
-							if (controlStyle != AskStyle.COMBO_STYLE)
-							{
-								lex.SetError(string.Format(WoormEngineStrings.BadControlStyle, controlStyle));
-								return false;
-							}
-						}
+                            if (controlStyle != AskStyle.COMBO_STYLE)
+                            {
+                                lex.SetError(string.Format(WoormEngineStrings.BadControlStyle, controlStyle));
+                                return false;
+                            }
+                        }
+                        else if (askEntry.Field.DataType == "DataEnum")
+                        {
+                            controlStyle = AskStyle.COMBO_STYLE;
+                        }
 					}
 
 					captionPos = Token.DEFAULT;
@@ -1376,7 +1410,7 @@ namespace Microarea.RSWeb.WoormEngine
             s += this.FormName.ToJson("name") + ',';
             s += this.LocalizedFormTitle.ToJson("caption") + ',';
 
-            s += "\"groups\":[";
+            s += "\"controls\":[";
             bool first = true;
             foreach (AskGroup group in groups)
             {
