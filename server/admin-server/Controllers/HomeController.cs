@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
-using Microarea.AdminServer.Services.AdminDataService;
 using Microarea.AdminServer.Interfaces;
 using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Services.Interfaces;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,13 +18,14 @@ namespace Microarea.AdminServer.Controllers
     public class HomeController : Controller
     {
         private IHostingEnvironment _env;
-        AdminDataService adminDataService;
+        private IAdminDataServiceProvider _adminDataService;
+
         JsonHelper jsonHelper;
 
-        public HomeController(IHostingEnvironment env, AdminDataService adminDataService)
+        public HomeController(IHostingEnvironment env, IAdminDataServiceProvider adminDataService)
         {
             _env = env;
-            this.adminDataService = adminDataService;
+            _adminDataService = adminDataService;
             this.jsonHelper = new JsonHelper();
         }
 
@@ -57,7 +58,7 @@ namespace Microarea.AdminServer.Controllers
                 return new ContentResult { StatusCode = 400, Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
             }
 
-            IUserAccount userAccount = this.adminDataService.GetUserAccount(user, psw);
+            IUserAccount userAccount = _adminDataService.ReadLogin(user, psw);
 
             if (userAccount == null)
             {
