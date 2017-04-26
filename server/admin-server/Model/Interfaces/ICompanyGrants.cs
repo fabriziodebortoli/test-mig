@@ -4,7 +4,7 @@
     interface ICompanyGrants
     {
         string AccountId { get; }
-        string Company { get; }
-        bool isAdmin { get; }
+        string CompanyId { get; }
+        bool IsAdmin { get; }
     }
 }
