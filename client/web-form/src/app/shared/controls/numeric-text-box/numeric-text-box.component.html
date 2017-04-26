@@ -1,2 +1,2 @@
 <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-<kendo-numerictextbox [ngModel]="model?.value" (ngModelChange)="model.value=$event" [spinners]="false" [format]="getFormatOptions(formatter)" [disabled]="disabled"> </kendo-numerictextbox>
+<kendo-numerictextbox [ngModel]="model?.value" (ngModelChange)="model.value=$event" [spinners]="false" [format]="getFormatOptions()" [decimals]="getDecimalsOptions()" [disabled]="disabled"> </kendo-numerictextbox>
