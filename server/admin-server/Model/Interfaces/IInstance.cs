@@ -3,7 +3,7 @@
     interface IInstance
     {
         string Id { get; }
-        string Name { get; }
+        string InstanceName { get; }
         bool Disabled { get; }
     }
 }
