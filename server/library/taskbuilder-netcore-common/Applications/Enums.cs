@@ -1711,8 +1711,13 @@ namespace Microarea.Common.Applications
 			return enumTags.EnumItems(aName);
 		}
 
-		//-----------------------------------------------------------------------------
-		public Enums()
+        public EnumItems EnumItems(ushort tag)
+        {
+            return enumTags.EnumItems(tag);
+        }
+
+        //-----------------------------------------------------------------------------
+        public Enums()
 		{
 			// carica tutti gli enums che fanno parte della applicazione
 			enumTags = new EnumTags();

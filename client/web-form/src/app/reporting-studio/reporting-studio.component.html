@@ -14,7 +14,7 @@
     <tb-frame-content>
         <tb-view-container>
             <tb-view>
-                <rs-askdialog *ngIf="showAsk" ></rs-askdialog>
+                <rs-askdialog *ngIf="rsService.showAsk" [ask]="askDialogTemplate" ></rs-askdialog>
                 <div [ngStyle]="layoutBackStyle" *ngIf="!showAsk">
                     <div [ngStyle]="layoutStyle">
                         <div *ngFor="let item of objects">

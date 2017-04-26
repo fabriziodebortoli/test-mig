@@ -64,11 +64,21 @@ export class BOService extends DocumentService {
             }
         });
         this.commandSubscription = this.eventData.command.subscribe((cmpId: String) => {
-            this.webSocketService.doCommand(this.mainCmpId, cmpId, this.getPatchedData());
+            const patch = this.getPatchedData();
+            this.webSocketService.doCommand(this.mainCmpId, cmpId, patch);
+            if (patch.length > 0) {
+                //client data has been sent to server, so reset oldModel
+                this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
+            }
         });
 
         this.changeSubscription = this.eventData.change.subscribe((cmpId: String) => {
-            this.webSocketService.doValueChanged(this.mainCmpId, cmpId, this.getPatchedData());
+            const patch = this.getPatchedData();
+            if (patch.length > 0) {
+                this.webSocketService.doValueChanged(this.mainCmpId, cmpId, patch);
+                //client data has been sent to server, so reset oldModel
+                this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
+            }
         });
 
         this.openDropdownSubscription = this.eventData.openDropdown.subscribe((obj: any) => {

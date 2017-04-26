@@ -1,14 +1,14 @@
-﻿using Microarea.AdminServer.Services.Providers.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microarea.AdminServer.Interfaces;
+using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Model;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using Microarea.AdminServer.Services.Interfaces;
 
-namespace Microarea.AdminServer.Services.Providers
+namespace Microarea.AdminServer.Services
 {
     public class BasicAdminDataServiceProvider : IAdminDataServiceProvider
     {
@@ -29,7 +29,6 @@ namespace Microarea.AdminServer.Services.Providers
             //StreamReader sr = this.fileInfo.CreateReadStream();
 
             IUserAccount userAccount = new UserAccount();
-            userAccount.Name = "Fra";
             return userAccount;
         }
     }
