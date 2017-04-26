@@ -1,3 +1,4 @@
+import { askGroup } from './../../../reporting-studio.model';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -7,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class AskGroupComponent implements OnInit {
 
-  @Input () askGroup;
+  @Input () askGroup: askGroup;
 
   
   constructor() { }
