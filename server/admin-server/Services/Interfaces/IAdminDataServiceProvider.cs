@@ -1,4 +1,4 @@
-﻿using Microarea.AdminServer.Interfaces;
+﻿using Microarea.AdminServer.Model.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
