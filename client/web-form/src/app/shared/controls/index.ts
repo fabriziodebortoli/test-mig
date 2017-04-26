@@ -1,3 +1,4 @@
+import { FileComponent } from './file/file.component';
 import { TextareaComponent } from './textarea/textarea.component';
 import { TimeInputComponent } from './time-input/time-input.component';
 import { StateButton } from './state-button/state-button.model';

@@ -1,4 +1,3 @@
-
 import {
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DockpaneComponent, TabberComponent, TabComponent, TileManagerComponent,
@@ -51,6 +50,8 @@ import { EmailComponent } from './controls/email/email.component';
 import { TimeInputComponent } from './controls/time-input/time-input.component';
 import { SectionTitleComponent } from './controls/section-title/section-title.component';
 import { TextareaComponent } from './controls/textarea/textarea.component';
+import { FileComponent } from './controls/file/file.component';
+
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -76,7 +77,7 @@ const TB_COMPONENTS = [
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
   BoolEditComponent,
-  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent
+  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent
 ];
 
 const TB_DIRECTIVES = [
