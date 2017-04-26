@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace provisioning_server.Model
+namespace Microarea.AdminServer.Model
 {
     public class Company : ICompany
     {
