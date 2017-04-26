@@ -3,16 +3,30 @@
  // Margin & Paddings
  $mf-gap: $mf-font-size * 1.5 !default;
  .contextMenuClass {
-     margin-top: ($mf-gap * 1.5);
+     // margin-top: ($mf-gap * 1.5);
+     width: 10%;
+     margin-right: 0px;
+     margin-left: auto;
  }
  
  .material-icons {
      font-size: $mf-font-size * 1.3;
      cursor: pointer;
+     flex-direction: row;
  }
  
  .content {
      display: flex;
      flex-direction: column;
      flex-wrap: wrap;
+ }
+ 
+ #input_img {
+     position: absolute;
+     bottom: 0px;
+     right: 0px;
+ }
+ 
+ .k-button {
+     width: 100%;
  }

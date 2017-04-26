@@ -12,7 +12,7 @@ import { WebSocketService } from './../../core/websocket.service';
   styleUrls: ['./context-menu.component.scss']
 })
 export class ContextMenuComponent {
-anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
+  anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'right', vertical: 'top' };
   private show = false;
 
@@ -20,9 +20,7 @@ anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   contextMenu: MenuItem[];
 
   constructor(private webSocketService: WebSocketService, private eventDataService: EventDataService) {
-
     this.webSocketService.contextMenu.subscribe((result) => {
-      console.log(result);
       this.contextMenu = result.contextMenu;
     });
   }
@@ -35,9 +33,11 @@ anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
     this.eventDataService.onContextMenu.emit(this.contextMenuBinding); // idd_pippo_ContextMenu
   }
 
-  doCommand(menuItem: MenuItem) {
-    if (!menuItem) { return; }
+  public doCommand(menuItem: any) {
+    if (!menuItem) { console.log('NOT doCommand for ContextMenu!'); return; }
     this.eventDataService.command.emit(menuItem.id);
+    console.log('doCommand OK!');
   }
+
 
 }
