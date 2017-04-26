@@ -942,7 +942,7 @@ namespace Microarea.RSWeb.WoormEngine
 		}
         public AskDialog GetAskDialog(int index)
         {
-            if (index < askingRules.Count) 
+            if (index >= askingRules.Count) 
                 return null;
 
             return askingRules[index];

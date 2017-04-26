@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
-using Microarea.AdminServer.Interfaces;
+using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Services.Interfaces;
 

@@ -13,7 +13,7 @@ export class ReportingStudioService extends DocumentService {
     public componentId = '';
     public pageNum: number = 1;
     public currLayout: string = '';
-
+    public showAsk = false;
     private rsServer: string = environment.baseSocket + 'rsweb';
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
