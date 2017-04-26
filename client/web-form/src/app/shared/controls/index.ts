@@ -1,4 +1,4 @@
-import { FileComponent } from './file/file.component';
+
 import { TextareaComponent } from './textarea/textarea.component';
 import { TimeInputComponent } from './time-input/time-input.component';
 import { StateButton } from './state-button/state-button.model';
@@ -24,5 +24,8 @@ export { TextComponent } from './text/text.component';
 export { ImageComponent } from './image/image.component';
 export { ColorPickerComponent } from './color-picker/color-picker.component';
 export { BoolEditComponent } from './bool-edit/bool-edit.component';
+export { BodyEditComponent } from './body-edit/body-edit.component';
 export { UnknownComponent } from './unknown/unknown.component';
+
+
 
