@@ -2,6 +2,7 @@
 
 namespace Microarea.AdminServer.Model
 {
+    //================================================================================
     public class Company : ICompany
     {
         string id;

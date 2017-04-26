@@ -3,6 +3,7 @@ using Microarea.AdminServer.Model.Interfaces;
 
 namespace Microarea.AdminServer.Model
 {
+    //================================================================================
     public class Instance : IInstance
     {
         string id;
