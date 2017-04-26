@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Microarea.AdminServer.Interfaces
+namespace Microarea.AdminServer.Model.Interfaces
 {
     //================================================================================
     public interface IUserAccount

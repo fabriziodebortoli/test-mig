@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microarea.AdminServer.Interfaces;
+using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Model;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
