@@ -1,5 +1,5 @@
-<div class="form-group">
-    <input id="{{cmpId}}" required="required" type="text" (blur)="onBlur()" [disabled]="!(model?.enabled)" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [placeholder]="caption" class="tb-text" [readonly]="readonly" />
+<div class="form-group" >
+    <input id="{{cmpId}}" [required]="required"  type="text" (blur)="onBlur()" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [placeholder]="caption" class="tb-text"  />
     <label class="control-label" for="input">{{caption}}</label><i class="bar"></i>
     <ng-container #contextMenu></ng-container>
 </div>
