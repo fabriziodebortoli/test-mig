@@ -2,6 +2,7 @@
     <input id="{{cmpId}}" 
         type="text" 
         [ngModel]="model?.value"
+        [disabled]="!model?.enabled"
         (blur)="onBlur()"
         (keydown)="keyPress($event)"
          />

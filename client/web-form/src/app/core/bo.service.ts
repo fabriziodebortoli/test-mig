@@ -30,9 +30,6 @@ export class BOService extends DocumentService {
             let cmpId = this.mainCmpId;
             models.forEach(model => {
                 if (model.id === cmpId) {
-                    if (this.eventData.model) {
-                        this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
-                    }
                     if (model.patch) {
                         const patched = apply({ 'data': this.eventData.model }, model.patch);
                         model.data = patched.doc.data;
@@ -44,34 +41,33 @@ export class BOService extends DocumentService {
                             }
                         }
                     }
+                    this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
                 }
             });
         });
 
         this.activationDataSubscription = this.webSocketService.activationData.subscribe(data => {
-            let components: Array<any> = data.components;
-            let cmpId = this.mainCmpId;
+            const components: Array<any> = data.components;
+            const cmpId = this.mainCmpId;
             components.forEach(cmp => {
                 if (cmp.id === cmpId) {
-                    this.eventData.model._activation = cmp.activation;
+                    this.eventData.activation = cmp.activation;
                 }
             });
         });
 
         this.serverCommandMapReadySubscription = this.webSocketService.serverCommandMapReady.subscribe(data => {
-            let cmpId = this.mainCmpId;
+            const cmpId = this.mainCmpId;
             if (data.id === cmpId) {
-                this.serverSideCommandMap = data.map
+                this.serverSideCommandMap = data.map;
             }
         });
         this.commandSubscription = this.eventData.command.subscribe((cmpId: String) => {
-            const patch = diff(this.eventData.model, this.eventData.oldModel);
-            this.webSocketService.doCommand(this.mainCmpId, cmpId, patch);
+            this.webSocketService.doCommand(this.mainCmpId, cmpId, this.getPatchedData());
         });
 
-        this.changeSubscription = this.eventData.command.subscribe((cmpId: String) => {
-            const patch = diff(this.eventData.model, this.eventData.oldModel);
-            this.webSocketService.doValueChanged(this.mainCmpId, cmpId, patch);
+        this.changeSubscription = this.eventData.change.subscribe((cmpId: String) => {
+            this.webSocketService.doValueChanged(this.mainCmpId, cmpId, this.getPatchedData());
         });
 
         this.openDropdownSubscription = this.eventData.openDropdown.subscribe((obj: any) => {
@@ -79,6 +75,10 @@ export class BOService extends DocumentService {
         });
 
 
+    }
+    getPatchedData(): any {
+        const patch = diff(this.eventData.oldModel, this.eventData.model);
+        return patch;
     }
     init(cmpId: string) {
         super.init(cmpId);

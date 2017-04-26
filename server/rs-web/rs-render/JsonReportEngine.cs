@@ -4,6 +4,7 @@ using Microarea.Common.Applications;
 
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Models;
+using Microarea.RSWeb.WoormEngine;
 
 namespace Microarea.RSWeb.Render
 {
@@ -74,6 +75,30 @@ namespace Microarea.RSWeb.Render
         }
 
         //---------------------------------------------------------------------
+        public string GetJsonAskDialog(string name)
+        {
+           AskDialog dlg = StateMachine.Report.Engine.FindAskDialog(name);
+           if (dlg == null)
+                return string.Empty;
+            
+            return dlg.ToJson();
+        }
+
+        public string GetJsonAskDialog(int index=1)
+        {
+            AskDialog dlg = StateMachine.Report.Engine.GetAskDialog(index);
+            if (dlg == null)
+                return string.Empty;
+
+            return dlg.ToJson();
+        }
+
+        public string GetJsonAskDialogs()
+        {
+             return StateMachine.Report.Engine.ToJsonDialogs();
+        }
+
+        //---------------------------------------------------------------------
         public Message GetResponseFor(Message msg)
         {
             Message nMsg = new Message();
@@ -92,6 +117,13 @@ namespace Microarea.RSWeb.Render
                     {
                         // this.stateMachine.Do()
                         nMsg.message = "Executed STOP()";
+                        break;
+                    }
+               case MessageBuilder.CommandType.ASK:
+                    {
+                        pageNum = msg.page;
+                        nMsg.page = msg.page;
+                        nMsg.message = GetJsonAskDialog();
                         break;
                     }
                 case MessageBuilder.CommandType.INITTEMPLATE:
@@ -114,7 +146,7 @@ namespace Microarea.RSWeb.Render
                         nMsg.message = "Executed NAMESPACE()";
                         break;
                     }
-            }
+             }
             return nMsg;
         }
     }

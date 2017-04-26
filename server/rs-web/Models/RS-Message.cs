@@ -4,7 +4,7 @@ namespace Microarea.RSWeb.Models
 {  
     public class MessageBuilder
     {
-        public enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, DATA, STOP, IMAGE }
+        public enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, IMAGE }
 
         public MessageBuilder() { }
 
