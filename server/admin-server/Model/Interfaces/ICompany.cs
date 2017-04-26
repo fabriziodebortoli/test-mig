@@ -1,7 +1,7 @@
 ﻿namespace Microarea.AdminServer.Model.Interfaces
 {
     //================================================================================
-    interface ICompanyDatabaseInfo
+    public interface ICompanyDatabaseInfo
     {
         string Name { get; }
         string Server { get; }
@@ -15,7 +15,7 @@
     {
         string Id { get; }
         string InstanceId { get; }
-        string Company { get; }
+        string CompanyName { get; }
         string Description { get; }
         ICompanyDatabaseInfo CompanyDatabaseInfo { get; }
         ICompanyDatabaseInfo DMSDatabaseInfo { get; }
@@ -23,6 +23,5 @@
         int DatabaseCulture { get; }
         bool Unicode { get; }
         string Provider { get; }
-
     }
 }
