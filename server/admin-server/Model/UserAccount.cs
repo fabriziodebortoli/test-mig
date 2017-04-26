@@ -10,6 +10,7 @@ namespace Microarea.AdminServer.Model
     {
         string id;
         string name;
+        bool isAdmin;
         string password;
         bool userCannotChangePassword;
         bool userMustChangePassword;
@@ -57,7 +58,10 @@ namespace Microarea.AdminServer.Model
         public string Name
         {
             get { return this.name; }
-            set { this.name = value; }
+        }
+        public bool IsAdmin
+        {
+            get { return this.IsAdmin; }
         }
 
         public string Password

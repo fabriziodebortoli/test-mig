@@ -6,7 +6,8 @@ namespace Microarea.AdminServer.Model.Interfaces
     public interface IUserAccount
     {
         string Id { get; }
-        string Name { get; set; }
+        string Name { get; }
+        bool IsAdmin { get; }
         string Password { get; }
         bool PasswordNeverExpires { get; }
         bool UserMustChangePassword { get; }

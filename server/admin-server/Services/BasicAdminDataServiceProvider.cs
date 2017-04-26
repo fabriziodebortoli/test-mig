@@ -29,7 +29,6 @@ namespace Microarea.AdminServer.Services
             //StreamReader sr = this.fileInfo.CreateReadStream();
 
             IUserAccount userAccount = new UserAccount();
-            userAccount.Name = "Fra";
             return userAccount;
         }
     }
