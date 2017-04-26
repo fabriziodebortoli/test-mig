@@ -8,6 +8,7 @@ export interface Message {
 export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, IMAGE }
 
 export enum AskObjectType { text, radio, check, dropdownlist }
+
 export enum ReportObjectType { textrect, fieldrect, table, graphrect, sqrrect, repeater, cell, link }
 
 export enum LinkType { report, document, url, file, function }
@@ -336,7 +337,7 @@ export class cell {
 export class askGroup {
   caption: string;
   hidden: boolean;
-  entries: askObj[];
+  entries: askObj[] = [];
   constructor(jsonObj: any) {
     this.caption = jsonObj.caption;
     this.hidden = jsonObj.hidden;
@@ -415,7 +416,7 @@ export class radio extends askObj {
 
 export class dropdownlist extends askObj {
   obj: AskObjectType = AskObjectType.dropdownlist;
-  list: dropdownListPair[];
+  list: dropdownListPair[] = [];
   constructor(jsonObj: any) {
     super(jsonObj);
     for (let i = 0; i < jsonObj.list.length; i++) {
@@ -444,7 +445,7 @@ export class styleArrayElement {
 
 export class TemplateItem {
   public templateName: string;
-  public templateObjects: any[];
+  public templateObjects: any[]=[];
   public template: any;
 
   constructor(tName: string, template: any, tObj: any[]) {
