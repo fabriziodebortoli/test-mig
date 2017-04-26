@@ -84,7 +84,7 @@ namespace Microarea.RSWeb.Render
             return dlg.ToJson();
         }
 
-        public string GetJsonAskDialog(int index)
+        public string GetJsonAskDialog(int index=0)
         {
             AskDialog dlg = StateMachine.Report.Engine.GetAskDialog(index);
             if (dlg == null)
@@ -123,7 +123,7 @@ namespace Microarea.RSWeb.Render
                     {
                         pageNum = msg.page;
                         nMsg.page = msg.page;
-                        nMsg.message = GetJsonAskDialog(pageNum);
+                        nMsg.message = GetJsonAskDialog();
                         break;
                     }
                 case MessageBuilder.CommandType.INITTEMPLATE:

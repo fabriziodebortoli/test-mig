@@ -1,4 +1,3 @@
-
 import {
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DockpaneComponent, TabberComponent, TabComponent, TileManagerComponent,
@@ -26,7 +25,7 @@ import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideD
 import { LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective } from './containers/tiles/layout-styles';
 import {
   CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
-  CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent, UnknownComponent
+  CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent, UnknownComponent, BodyEditComponent
 } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
@@ -51,6 +50,8 @@ import { EmailComponent } from './controls/email/email.component';
 import { TimeInputComponent } from './controls/time-input/time-input.component';
 import { SectionTitleComponent } from './controls/section-title/section-title.component';
 import { TextareaComponent } from './controls/textarea/textarea.component';
+import { FileComponent } from './controls/file/file.component';
+
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -75,8 +76,8 @@ const TB_COMPONENTS = [
   OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
-  BoolEditComponent,
-  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent
+  BoolEditComponent, BodyEditComponent,
+  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent
 ];
 
 const TB_DIRECTIVES = [

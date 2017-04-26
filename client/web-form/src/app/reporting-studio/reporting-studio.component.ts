@@ -8,7 +8,8 @@ import { DocumentComponent } from '../shared/document.component';
 import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
-import { LayoutService } from 'app/core/layout.service';
+import { TemplateItem } from "app/reporting-studio";
+import { LayoutService } from "app/core/layout.service";
 
 
 @Component({
@@ -23,12 +24,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   otherwise it is passed by the ComponentService creation logic*/
   private subMessage: Subscription;
   private message: any = '';
-  private running: boolean = false;
-  public showAsk = false;
+  public running: boolean = false;
+  
   public layoutStyle: any = {};
   public layoutBackStyle: any = {};
   public objects: baseobj[] = [];
   public templates: TemplateItem[] = [];
+  public askDialogTemplate: any;
 
   private viewHeightSubscription: Subscription;
   viewHeight: number;
@@ -76,14 +78,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       let k = JSON.parse(msg.message);
       switch (msg.commandType) {
         case CommandType.ASK:
-          this.showAsk = true;
+          this.rsService.showAsk = true;
+          this.askDialogTemplate=msg.message;
           break;
         case CommandType.OK: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
           this.RenderLayout(k);
           if (this.args.params !== '') {
-            this.RunReport();
+            this.GetData();
           }
 
           break;
@@ -123,8 +126,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     //ASK
     let message = {
-      commandType: CommandType.DATA,
-      message: this.args.nameSpace,
+      commandType: CommandType.ASK,
+      message: "",
       page: 0
     };
     this.rsService.doSend(JSON.stringify(message));
@@ -135,7 +138,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     let message = {
       commandType: CommandType.DATA,
-      message: this.args.nameSpace,
+      message: this.args.params,
       page: 0
     };
     this.rsService.doSend(JSON.stringify(message));
@@ -328,19 +331,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 }
 
-
-
-export class TemplateItem {
-  public templateName: string;
-  public templateObjects: any[];
-  public template: any;
-
-  constructor(tName: string, template: any, tObj: any[]) {
-    this.templateName = tName;
-    this.templateObjects = tObj;
-    this.template = template;
-  }
-}
 
 @Component({
   template: ''

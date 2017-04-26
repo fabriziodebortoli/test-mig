@@ -5,8 +5,9 @@ export interface Message {
   message?: string;
 }
 
-export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, DATA, STOP, IMAGE }
+export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, IMAGE }
 
+export enum AskObjectType { text, radio, check, dropdownlist }
 export enum ReportObjectType { textrect, fieldrect, table, graphrect, sqrrect, repeater, cell, link }
 
 export enum LinkType { report, document, url, file, function }
@@ -332,6 +333,107 @@ export class cell {
   }
 }
 
+export class askGroup {
+  caption: string;
+  hidden: boolean;
+  entries: askObj[];
+  constructor(jsonObj: any) {
+    this.caption = jsonObj.caption;
+    this.hidden = jsonObj.hidden;
+    for (let i = 0; i < jsonObj.entries.length; i++) {
+      let element = jsonObj.entries[i];
+      let obj;
+
+      if (element.text !== undefined) {
+        obj = new text(element.text);
+      }
+      else if (element.check !== undefined) {
+        obj = new text(element.check);
+      }
+      else if (element.radio !== undefined) {
+        obj = new text(element.radio);
+      }
+      else if (element.dropdownlist !== undefined) {
+        obj = new text(element.dropdownlist);
+      }
+
+      this.entries.push(obj);
+    }
+  }
+}
+
+export class fieldAskObj {
+  name: string;
+  id: string;
+  type: string;
+  value: string;
+  constructor(jsonObj: any) {
+    this.name = jsonObj.name;
+    this.id = jsonObj.id;
+    this.type = jsonObj.type;
+    this.value = jsonObj.value;
+  }
+}
+
+export class askObj extends fieldAskObj {
+  hidden: boolean;
+  enabled: boolean;
+  caption: string;
+  left_aligned: boolean;
+  left_text: boolean;
+  runatserver: boolean;
+  constructor(jsonObj: any) {
+    super(jsonObj.field);
+    this.hidden = jsonObj.hidden;
+    this.enabled = jsonObj.enabled;
+    this.caption = jsonObj.caption;
+    this.left_aligned = jsonObj.left_aligned;
+    this.left_text = jsonObj.left_text;
+  }
+}
+
+export class text extends askObj {
+  obj: AskObjectType = AskObjectType.text;
+  constructor(jsonObj: any) {
+    super(jsonObj);
+  }
+}
+
+export class check extends askObj {
+  obj: AskObjectType = AskObjectType.check;
+  constructor(jsonObj: any) {
+    super(jsonObj);
+  }
+}
+
+export class radio extends askObj {
+  obj: AskObjectType = AskObjectType.radio;
+  constructor(jsonObj: any) {
+    super(jsonObj);
+  }
+}
+
+export class dropdownlist extends askObj {
+  obj: AskObjectType = AskObjectType.dropdownlist;
+  list: dropdownListPair[];
+  constructor(jsonObj: any) {
+    super(jsonObj);
+    for (let i = 0; i < jsonObj.list.length; i++) {
+      let item = jsonObj.list[i];
+      this.list.push(new dropdownListPair(item));
+    }
+  }
+}
+
+export class dropdownListPair {
+  value: string;
+  caption: string;
+  constructor(jsonObj: any) {
+    this.value = jsonObj.value;
+    this.caption = jsonObj.caption;
+  }
+}
+
 export class styleArrayElement {
   rowNumber: number;
   public style: cell[] = []
@@ -339,5 +441,18 @@ export class styleArrayElement {
     this.rowNumber = row;
   }
 }
+
+export class TemplateItem {
+  public templateName: string;
+  public templateObjects: any[];
+  public template: any;
+
+  constructor(tName: string, template: any, tObj: any[]) {
+    this.templateName = tName;
+    this.templateObjects = tObj;
+    this.template = template;
+  }
+}
+
 
 
