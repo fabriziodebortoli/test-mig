@@ -1,4 +1,3 @@
-
 import {
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DockpaneComponent, TabberComponent, TabComponent, TileManagerComponent,
@@ -41,20 +40,18 @@ import { MaskedTextBoxComponent } from './controls/masked-text-box/masked-text-b
 import { NumericTextBoxComponent } from './controls/numeric-text-box/numeric-text-box.component';
 import { DateInputComponent } from './controls/date-input/date-input.component';
 import { ContextMenuComponent } from './controls/context-menu/context-menu.component';
-import { ReportTextrectComponent } from './report-objects/textrect/textrect.component';
-import { ReportFieldrectComponent } from './report-objects/fieldrect/fieldrect.component';
-import { ReportTableComponent } from './report-objects/table/table.component';
+
 import { LabelStaticComponent } from './controls/label-static/label-static.component';
-import { ReportImageComponent } from './report-objects/image/image.component';
-import { ReportRectComponent } from './report-objects/rect/rect.component';
+
 import { ContextMenuDirective } from './directives/context-menu.directive';
-import { ReportLinkComponent } from './report-objects/link/link.component';
+
 import { PhoneComponent } from './controls/phone/phone.component';
 import { EmailComponent } from './controls/email/email.component';
 import { TimeInputComponent } from './controls/time-input/time-input.component';
 import { SectionTitleComponent } from './controls/section-title/section-title.component';
 import { TextareaComponent } from './controls/textarea/textarea.component';
 import { FileComponent } from './controls/file/file.component';
+
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -79,7 +76,7 @@ const TB_COMPONENTS = [
   OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
-  ReportTextrectComponent, ReportFieldrectComponent, ReportTableComponent, ReportImageComponent, ReportRectComponent, ReportLinkComponent, BoolEditComponent,
+  BoolEditComponent,
   PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent
 ];
 

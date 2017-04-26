@@ -78,16 +78,20 @@ namespace Microarea.RSWeb.Render
 	/// ================================================================================
 	public class RSEngine : IDisposable
 	{
-		private bool			disposed = false;	// Track whether Dispose has been called.
+		public WoormDocument	Woorm = null;
+		public Report			Report = null;
+
 		private TbReportSession reportSession = null;
+		public AskDialog		ActiveAskDialog = null;
+
+		private bool			disposed = false;	// Track whether Dispose has been called.
 		private XmlReturnType	xmlReturnType = XmlReturnType.ReportData;
 		private Thread			extractionThread = null;
 		private State			currentState = State.Start;
 		
 		public StringCollection	Errors = new StringCollection();
 		public StringCollection	Warnings = new StringCollection();
-		public WoormDocument	Woorm = null;
-		public Report			Report = null;
+
 		public HtmlPageType		PreviousHtmlPage = HtmlPageType.None;
 		public HtmlPageType		HtmlPage = HtmlPageType.None;
 		public string			ReportTitle = string.Empty;
@@ -95,12 +99,8 @@ namespace Microarea.RSWeb.Render
         //public System.Web.UI.StateBag StateBag = new System.Web.UI.StateBag();
         public System.Collections.Hashtable StateBag = new System.Collections.Hashtable();
 
-		public AskDialog		ActiveAskDialog = null;
-
 		public InternalState 	CurrentInternalState;
 		public bool 			Working = false;
-
-       
 
         //Siccome il currentState puo essere modificato dal thread di esecuzione e da quello del viewer, devo sincronizzarne
         //l'accesso
@@ -151,10 +151,10 @@ namespace Microarea.RSWeb.Render
 			}
 		}
 	
+		//--------------------------------------------------------------------------
 		// da usarsi solo per il motore di esportazione in XML. Il viewer serve solo per 
 		// parsare correttamente l'header del report e fare tutti i controlli di release
 		// necessari (ad esempio : NOWEB)
-		//--------------------------------------------------------------------------
 		public RSEngine
 			(
 				TbReportSession	    reportSession,
@@ -175,8 +175,8 @@ namespace Microarea.RSWeb.Render
 			}
 		}
 
-		// da usarsi solo per il motore di esportazione in PDF. 
 		//--------------------------------------------------------------------------
+		// da usarsi solo per il motore di esportazione in PDF. 
 		public RSEngine
 			(
                 TbReportSession reportSession,

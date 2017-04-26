@@ -1,6 +1,6 @@
-import { environment } from './../../../../environments/environment';
+import { graphrect } from './../../reporting-studio.model';
+import { environment } from './../../../../environments/environment.prod';
 
-import { graphrect } from './../../../reporting-studio/reporting-studio.model';
 import { Component, Input } from '@angular/core';
 
 @Component({

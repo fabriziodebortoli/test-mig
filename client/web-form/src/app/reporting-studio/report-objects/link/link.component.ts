@@ -1,8 +1,8 @@
 import { ComponentService } from './../../../core/component.service';
+import { link } from './../../reporting-studio.model';
 import { HttpService } from './../../../core/http.service';
-import { link } from './../../../reporting-studio/reporting-studio.model';
 import { Component, Input } from '@angular/core';
-import { LinkType } from '../../../reporting-studio/reporting-studio.model';
+import { LinkType } from './../../reporting-studio.model';
 
 
 @Component({
