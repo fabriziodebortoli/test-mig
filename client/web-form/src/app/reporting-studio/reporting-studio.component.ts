@@ -25,7 +25,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private subMessage: Subscription;
   private message: any = '';
   public running: boolean = false;
-  public showAsk = false;
+  
   public layoutStyle: any = {};
   public layoutBackStyle: any = {};
   public objects: baseobj[] = [];
@@ -78,8 +78,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       let k = JSON.parse(msg.message);
       switch (msg.commandType) {
         case CommandType.ASK:
-          this.showAsk = true;
-          this.askDialogTemplate=k;
+          this.rsService.showAsk = true;
+          this.askDialogTemplate=msg.message;
           break;
         case CommandType.OK: break;
         case CommandType.STOP: break;
