@@ -29,6 +29,11 @@ export class ContextMenuComponent {
     this.show = !this.show;
   }
 
+    public closePopup(): void {
+    this.show = false;
+  }
+
+
   onOpen() {
     this.eventDataService.onContextMenu.emit(this.contextMenuBinding); // idd_pippo_ContextMenu
   }

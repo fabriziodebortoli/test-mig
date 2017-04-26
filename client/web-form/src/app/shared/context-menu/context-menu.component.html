@@ -1,6 +1,11 @@
-<div #anchor class="contextMenuClass" tabindex="0" (blur)="show = false">
-    <md-icon (click)="onToggle()" id="input_img">more_vert</md-icon>
-    <kendo-popup [popupClass]="'content popup'" [anchor]="anchor" (anchorViewportLeave)="show = false" *ngIf="show" (open)="onOpen()" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
-        <button kendoButton class="content" *ngFor="let menuItem of contextMenu; let i = index" [disabled]="!menuItem?.enabled" (mousedown)="doCommand(menuItem)">{{menuItem?.text}}</button>
+<div #anchor class="contextMenuClass" tabindex="0" (blur)="closePopup()">
+    <md-icon (click)="onToggle()">more_vert</md-icon>
+    <kendo-popup [popupClass]="'content popup'" [anchor]="anchor" (anchorViewportLeave)="closePopup()" *ngIf="show" (open)="onOpen()" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
+        <button kendoButton class="content" *ngFor="let menuItem of contextMenu; let i = index" [disabled]="!menuItem?.enabled" (mousedown)="doCommand(menuItem)">
+           <div>
+                <md-icon *ngIf="!menuItem?.enabled">check</md-icon> 
+                {{menuItem?.text}}
+            </div>
+        </button>
     </kendo-popup>
 </div>
