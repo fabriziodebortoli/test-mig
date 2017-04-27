@@ -1,6 +1,6 @@
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { TemplateItem, askGroup } from './../../reporting-studio.model';
+import { TemplateItem, askGroup, text, check, radio } from './../../reporting-studio.model';
 
 @Component({
   selector: 'rs-askdialog',
@@ -34,9 +34,11 @@ export class AskdialogComponent implements OnInit, OnDestroy {
     for (let index = 0; index < msg.controls.length; index++) {
       let m=msg.controls[index];
       let element: askGroup = new askGroup(msg.controls[index]);
+
       objects.push(element);
     }
     this.objects = objects;
+    return;
     /* let template = this.FindTemplate(msg.page.layout.name);
      if (template !== undefined) {
        this.objects = template.templateObjects;
