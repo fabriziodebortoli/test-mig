@@ -71,7 +71,9 @@ const KENDO_UI_MODULES = [
     AskdialogComponent,
     AskGroupComponent,
     AskCheckComponent,
-    AskRadioComponent
+    AskRadioComponent,
+    AskTextComponent,
+    AskDropdownlistComponent
   ],
   entryComponents:
   [
