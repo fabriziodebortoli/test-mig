@@ -57,10 +57,7 @@ constructor(private eventData: EventDataService) {
 
     onBlur(): any {
      this.constraint = new RegExp('((http|https)(:\/\/))?([a-zA-Z0-9]+[.]{1}){2}[a-zA-z0-9]+(\/{1}[a-zA-Z0-9]+)*\/?', 'i');
-    console.log(this.model.value) ;
-    console.log(this.constraint.test(this.model.value));
-
-         if (!this.constraint.test(this.model.value))
+      if (!this.constraint.test(this.model.value))
            {
              this.errorMessage = 'Input not in correct form';
               this.showError = 'inputError';
