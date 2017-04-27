@@ -1,2 +1,3 @@
 <tb-caption caption="{{caption}}" for="{{cmpId}}"></tb-caption>
-<input id="{{cmpId}}" type="text" class="tb-text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" [placeholder]="caption" [readonly]="readonly" pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" />
+<input id="{{cmpId}}" type="text" [ngClass]="showError" class="tb-text" (blur)="onBlur()" [disabled]="!model?.enabled" [(ngModel)]="selectedValue" (ngModelChange)="model.value=$event" [readonly]="readonly" />
+<div class="has-error">{{errorMessage}}</div>
