@@ -336,7 +336,9 @@ export class cell {
 export class askGroup {
   caption: string;
   hidden: boolean;
+  radioGroup: boolean = false;
   entries: askObj[] = [];
+  radioBtns:radio[]=[];
   constructor(jsonObj: any) {
     this.caption = jsonObj.caption;
     this.hidden = jsonObj.hidden;
@@ -351,7 +353,9 @@ export class askGroup {
         obj = new check(element.check);
       }
       else if (element.radio !== undefined) {
+        this.radioGroup = true;
         obj = new radio(element.radio);
+        this.radioBtns.push(obj);
       }
       else if (element.dropdownlist !== undefined) {
         obj = new dropdownlist(element.dropdownlist);

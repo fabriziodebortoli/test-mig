@@ -9,14 +9,16 @@ import { Component, OnInit, Input } from '@angular/core';
 export class AskRadioComponent implements OnInit {
 
   @Input() radio : radio;
+  @Input() otherRadios: radio[];
   constructor() { }
 
   ngOnInit() {
-    this.radio.value=(this.radio.value=='True');
+    this.radio.value=(this.radio.value==='True');
   }
 
-  public checked(){
+  public checkedRadio(){
     this.radio.value = !this.radio.value;
+
   }
 
 }

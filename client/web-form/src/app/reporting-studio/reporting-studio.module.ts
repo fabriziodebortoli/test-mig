@@ -1,4 +1,3 @@
-
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { LayoutModule } from '@progress/kendo-angular-layout';
@@ -28,6 +27,7 @@ import { LayoutService } from "app/core/layout.service";
 import { AskGroupComponent } from './report-objects/askdialog/ask-group/ask-group.component';
 import { AskCheckComponent } from './report-objects/askdialog/ask-check/ask-check.component';
 import { AskRadioComponent } from './report-objects/askdialog/ask-radio/ask-radio.component';
+import { AskDropdownlistComponent } from './report-objects/askdialog/ask-dropdownlist/ask-dropdownlist.component';
 
 
 const KENDO_UI_MODULES = [
@@ -67,7 +67,8 @@ const KENDO_UI_MODULES = [
     AskdialogComponent,
     AskGroupComponent,
     AskCheckComponent,
-    AskRadioComponent
+    AskRadioComponent,
+    AskDropdownlistComponent
   ],
   entryComponents:
   [
