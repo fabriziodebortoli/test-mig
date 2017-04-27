@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { PopupModule } from '@progress/kendo-angular-popup';
@@ -24,10 +25,11 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 
 import { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
-import { LayoutService } from "app/core/layout.service";
+import { LayoutService } from 'app/core/layout.service';
 import { AskGroupComponent } from './report-objects/askdialog/ask-group/ask-group.component';
 import { AskCheckComponent } from './report-objects/askdialog/ask-check/ask-check.component';
 import { AskRadioComponent } from './report-objects/askdialog/ask-radio/ask-radio.component';
+import { AskTextComponent } from './report-objects/askdialog/ask-text/ask-text.component';
 
 
 const KENDO_UI_MODULES = [
@@ -46,6 +48,7 @@ const KENDO_UI_MODULES = [
 @NgModule({
 
   imports: [
+    FormsModule,
     CommonModule,
     SharedModule,
     KENDO_UI_MODULES,
@@ -67,7 +70,8 @@ const KENDO_UI_MODULES = [
     AskdialogComponent,
     AskGroupComponent,
     AskCheckComponent,
-    AskRadioComponent
+    AskRadioComponent,
+    AskTextComponent
   ],
   entryComponents:
   [
