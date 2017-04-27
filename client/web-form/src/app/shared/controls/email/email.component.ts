@@ -54,10 +54,6 @@ public selectedValue: string;
 
    onBlur(): any  {
      this.constraint =  new RegExp('^[a-zA-Z0-9_\+-]+(\.[a-zA-Z0-9_\+-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.([a-zA-Z]{2,})$', 'i');
-    console.log(this.constraint);
-    console.log(this.model.value);
-    console.log(this.constraint.test(this.model.value));
-
      if (!this.constraint.test(this.model.value))
      {
        this.errorMessage = 'Input not in correct form';
