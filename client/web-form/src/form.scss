@@ -457,3 +457,7 @@ div.has-error {
 .mat-card {
     color: $mf-active-color;
 }
+
+.inputError {
+    border: 1px solid $mf-error-color
+}
