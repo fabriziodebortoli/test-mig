@@ -1,5 +1,10 @@
-<md-select placeholder="">
+<!--md-select placeholder="">
   <md-option [value]="dropdownlist.value">
-    {{ dropdownlist.name }}
+    {{ dropdownlist.caption }}
   </md-option>
-</md-select>
+</md-select-->
+
+<div>
+   {{ dropdownlist.caption }}
+ <kendo-dropdownbutton [data]="[{'text':'aa'}]" >{{dropdownlist.value}}</kendo-dropdownbutton>
+</div>

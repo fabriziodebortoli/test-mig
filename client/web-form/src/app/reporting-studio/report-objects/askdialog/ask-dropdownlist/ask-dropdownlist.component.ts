@@ -14,7 +14,6 @@ export class AskDropdownlistComponent implements OnInit {
   ngOnInit() {
    
   }
-
  
 
 }
