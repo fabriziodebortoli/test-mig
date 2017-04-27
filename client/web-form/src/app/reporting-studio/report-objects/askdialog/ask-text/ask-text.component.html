@@ -1,2 +1,3 @@
-<input type="text" [(ngModel)]="text.value" *ngIf="!isDate" >
- <kendo-datepicker [value]="text.value" *ngIf="isDate" ></kendo-datepicker>
+<md-input-container style="width:80%;">
+  <input mdInput placeholder="{{text.caption}}"  [(ngModel)]="text.value" type="{{type}}" >
+</md-input-container>
