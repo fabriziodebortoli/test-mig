@@ -26,6 +26,8 @@ import { MaterialModule } from '@angular/material';
 import { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
 import { LayoutService } from "app/core/layout.service";
 import { AskGroupComponent } from './report-objects/askdialog/ask-group/ask-group.component';
+import { AskCheckComponent } from './report-objects/askdialog/ask-check/ask-check.component';
+import { AskRadioComponent } from './report-objects/askdialog/ask-radio/ask-radio.component';
 
 
 const KENDO_UI_MODULES = [
@@ -63,7 +65,9 @@ const KENDO_UI_MODULES = [
     ReportRectComponent,
     ReportLinkComponent,
     AskdialogComponent,
-    AskGroupComponent
+    AskGroupComponent,
+    AskCheckComponent,
+    AskRadioComponent
   ],
   entryComponents:
   [
