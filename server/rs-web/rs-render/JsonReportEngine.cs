@@ -84,7 +84,7 @@ namespace Microarea.RSWeb.Render
             return dlg.ToJson();
         }
 
-        public string GetJsonAskDialog(int index=1)
+        public string GetJsonAskDialog(int index=0)
         {
             AskDialog dlg = StateMachine.Report.Engine.GetAskDialog(index);
             if (dlg == null)

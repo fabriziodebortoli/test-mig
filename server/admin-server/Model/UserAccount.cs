@@ -1,15 +1,14 @@
-﻿using Microarea.AdminServer.Interfaces;
+﻿using Microarea.AdminServer.Model.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Model
 {
+    //================================================================================
     public class UserAccount : IUserAccount
     {
         string id;
         string name;
+        bool isAdmin;
         string password;
         bool userCannotChangePassword;
         bool userMustChangePassword;
@@ -57,7 +56,10 @@ namespace Microarea.AdminServer.Model
         public string Name
         {
             get { return this.name; }
-            set { this.name = value; }
+        }
+        public bool IsAdmin
+        {
+            get { return this.IsAdmin; }
         }
 
         public string Password
