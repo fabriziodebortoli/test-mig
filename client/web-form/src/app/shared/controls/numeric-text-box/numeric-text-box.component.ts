@@ -122,6 +122,10 @@ public onChange(val: any) {
        this.errorMessage = 'Input not in correct form';
         this.showError = 'inputError';
      }
+       else {
+         this.errorMessage = '';
+        this.showError = '';
+       }
     this.eventData.change.emit(this.cmpId);
   }
 }

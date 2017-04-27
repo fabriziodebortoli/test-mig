@@ -51,6 +51,7 @@ import { TimeInputComponent } from './controls/time-input/time-input.component';
 import { SectionTitleComponent } from './controls/section-title/section-title.component';
 import { TextareaComponent } from './controls/textarea/textarea.component';
 import { FileComponent } from './controls/file/file.component';
+import { LinkComponent } from './controls/link/link.component';
 
 
 const KENDO_UI_MODULES = [
@@ -76,7 +77,7 @@ const TB_COMPONENTS = [
   OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
-  BoolEditComponent, BodyEditComponent,
+  BoolEditComponent, BodyEditComponent,LinkComponent,
   PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent
 ];
 
