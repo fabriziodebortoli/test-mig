@@ -43,7 +43,6 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
 
     this.selectedDate = newDate;
     this.model.value = formatDate(this.selectedDate, 'y-MM-ddTHH:mm:ss');
-    console.log('this.model.value = ' + this.model.value);
   }
 
   ngAfterViewInit(): void {
