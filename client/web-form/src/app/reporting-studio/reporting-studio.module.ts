@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { PopupModule } from '@progress/kendo-angular-popup';
