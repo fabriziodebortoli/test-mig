@@ -60,14 +60,14 @@ export class UtilsService {
 
   //---------------------------------------------------------------------------------------------
   getCurrentDate = function () {
-    var d = new Date();
-    var p = parseInt(
+    const d = new Date();
+    const p = parseInt(
       d.getFullYear() +
-      ("00" + (d.getMonth() + 1)).slice(-2) +
-      ("00" + d.getDate()).slice(-2) +
-      ("00" + d.getHours()).slice(-2) +
-      ("00" + d.getMinutes()).slice(-2) +
-      ("00" + d.getSeconds()).slice(-2));
+      ('00' + (d.getMonth() + 1)).slice(-2) +
+      ('00' + d.getDate()).slice(-2) +
+      ('00' + d.getHours()).slice(-2) +
+      ('00' + d.getMinutes()).slice(-2) +
+      ('00' + d.getSeconds()).slice(-2), 10);
 
     return p;
   }
