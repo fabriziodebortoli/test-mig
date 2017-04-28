@@ -336,11 +336,13 @@ export class cell {
 export class askGroup {
   caption: string;
   hidden: boolean;
+  group_name: string;
   entries: askObj[] = [];
   radioBtns:radio[]=[];
   constructor(jsonObj: any) {
     this.caption = jsonObj.caption;
     this.hidden = jsonObj.hidden;
+    this.group_name = jsonObj.group_name;
     for (let i = 0; i < jsonObj.entries.length; i++) {
       let element = jsonObj.entries[i];
       let obj;
@@ -384,6 +386,7 @@ export class askObj extends fieldAskObj {
   left_aligned: boolean;
   left_text: boolean;
   runatserver: boolean;
+  group_name: string;
   constructor(jsonObj: any) {
     super(jsonObj.field);
     this.hidden = jsonObj.hidden;
@@ -391,6 +394,7 @@ export class askObj extends fieldAskObj {
     this.caption = jsonObj.caption;
     this.left_aligned = jsonObj.left_aligned;
     this.left_text = jsonObj.left_text;
+    this.group_name = jsonObj.group_name;
   }
 }
 
