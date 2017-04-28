@@ -1,7 +1,7 @@
-import { Logger } from 'libclient';
 import { Injectable, Type, ComponentFactoryResolver, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Logger } from './logger.service';
 import { HttpService } from './http.service';
 import { WebSocketService } from './websocket.service';
 

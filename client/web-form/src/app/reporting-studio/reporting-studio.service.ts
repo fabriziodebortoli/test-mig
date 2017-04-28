@@ -3,7 +3,7 @@ import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import { Logger } from 'libclient';
+import { Logger } from './../core/logger.service';
 
 import { EventDataService } from './../core/eventdata.service';
 import { DocumentService } from './../core/document.service';

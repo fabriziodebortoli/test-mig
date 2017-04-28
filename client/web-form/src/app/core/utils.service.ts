@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 
-import { Logger } from 'libclient';
+import { Logger } from './logger.service';
 
 @Injectable()
 export class UtilsService {
