@@ -337,7 +337,7 @@ export class askGroup {
   caption: string;
   hidden: boolean;
   entries: askObj[] = [];
-  radioBtns:radio[]=[];
+  radioBtns: radio[] = [];
   constructor(jsonObj: any) {
     this.caption = jsonObj.caption;
     this.hidden = jsonObj.hidden;
@@ -391,6 +391,7 @@ export class askObj extends fieldAskObj {
     this.caption = jsonObj.caption;
     this.left_aligned = jsonObj.left_aligned;
     this.left_text = jsonObj.left_text;
+    this.runatserver = jsonObj.runatserver;
   }
 }
 
@@ -428,11 +429,11 @@ export class dropdownlist extends askObj {
 }
 
 export class dropdownListPair {
-  value: string;
-  caption: string;
+  code: string;
+  description: string;
   constructor(jsonObj: any) {
-    this.value = jsonObj.value;
-    this.caption = jsonObj.caption;
+    this.code = jsonObj.value;
+    this.description = jsonObj.caption;
   }
 }
 
@@ -446,7 +447,7 @@ export class styleArrayElement {
 
 export class TemplateItem {
   public templateName: string;
-  public templateObjects: any[]=[];
+  public templateObjects: any[] = [];
   public template: any;
 
   constructor(tName: string, template: any, tObj: any[]) {

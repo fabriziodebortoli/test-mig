@@ -1,7 +1,7 @@
-<md-select placeholder="dropdownlist.caption">
-  {{ dropdownlist.caption }}
-  <md-option [value]="dropdownlist.value">
-    {{ dropdownlist }}
-  </md-option>
-</md-select>
 
+<tb-caption caption="{{dropdownlist.caption}}"></tb-caption>
+<kendo-dropdownlist [data]="dropdownlist.list" [textField]="'description'" [disabled]="!dropdownlist?.enabled" [valueField]="'code'" [defaultItem]="getDefItem()" (selectionChange)="onChange($event)">
+    <template kendoDropDownListNoDataTemplate>
+            <h4><span class="k-icon k-i-warning"></span><br /><br /> No data here</h4>
+        </template>
+</kendo-dropdownlist>
