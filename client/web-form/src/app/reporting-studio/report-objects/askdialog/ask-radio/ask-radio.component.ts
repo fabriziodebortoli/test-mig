@@ -8,23 +8,28 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class AskRadioComponent implements OnInit {
 
-  @Input() radio : radio;
+  @Input() radio: radio;
   @Input() otherRadios: radio[];
   constructor() { }
 
   ngOnInit() {
-    this.radio.value=(this.radio.value==='True');
+    this.radio.value = (this.radio.value === 'True');
   }
 
-  public checkedRadio(){
+  public checkedRadio() {
     for (let i = 0; i < this.otherRadios.length; i++) {
-      let elem = this.otherRadios[i];
-      if(this.radio.id == elem.id){
+      let elem: radio = this.otherRadios[i];
+      if (this.radio.id === elem.id) {
         elem.value = true;
-        this.radio.value = !this.radio.value;
+      }else {
+        elem.value = false;
       }
-      else elem.value = false;
+
     }
+
+    this.radio.value = !this.radio.value;
+
+
   }
 
 }
