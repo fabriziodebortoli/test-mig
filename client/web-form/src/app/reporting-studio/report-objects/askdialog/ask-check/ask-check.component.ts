@@ -8,14 +8,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class AskCheckComponent implements OnInit {
 
-  @Input() check : check;
+  @Input() check: check;
   constructor() { }
 
   ngOnInit() {
-    this.check.value=(this.check.value=='True');
+    this.check.value = (this.check.value === 'True');
   }
 
-  public checked(){
+  public checked() {
     this.check.value = !this.check.value;
   }
 
