@@ -7,7 +7,7 @@ import { environment } from './../../environments/environment';
 
 import { HttpService } from './http.service';
 
-import { Logger } from 'libclient';
+import { Logger } from './logger.service';
 
 @Injectable()
 export class WebSocketService {

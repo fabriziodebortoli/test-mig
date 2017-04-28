@@ -345,14 +345,31 @@ namespace Microarea.RSWeb.WoormEngine
             s += Enabled.ToJson("enabled") + ',';
             s += LocalizedCaption.ToJson("caption") + ',';
 
-            //s += control_style.ToJson("control_style", false, true) + ',';
+            s += this.Group.Index.ToJson("id", "group_name") + ',';
 
             s += LeftAligned.ToJson("left_aligned") + ',';
             s += LeftTextBool.ToJson("left_text") + ',';
  
             //Se e' referenziato da altri al change devo fare un postBack per ricalcolare i campi dipendenti della askDialog sul server
             bool isReferenced = Group.Dialog.IsReferenced(this);
+            if (!isReferenced && control_style.CompareNoCase("Radio"))
+            {
+                //TODO RSWEB da ottimizzare
+                foreach (AskEntry e in this.Group.Entries)
+                {
+                    if (e != this)
+                    {
+                        if (e.ControlStyleAttributeValue.CompareNoCase("Radio") && Group.Dialog.IsReferenced(e))
+                        {
+                            isReferenced = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
             s += isReferenced.ToJson("runatserver");
+            //------
 
             s += "}}";
             return s;
@@ -383,6 +400,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public int MaxEntryLen = 0;
 		public AskDialog Dialog;
 		public Expression HideExpr;
+        public ushort Index = 0;
 
 		//----------------------------------------------------------------------------
 		public string LocalizedCaption
@@ -515,6 +533,7 @@ namespace Microarea.RSWeb.WoormEngine
 
             s += LocalizedCaption.ToJson("caption") + ',';
             s += Hidden.ToJson("hidden") + ',';
+            s += Index.ToJson("id", "group_name") + ',';
 
             s += "\"entries\":[";
             bool first = true;
@@ -1411,9 +1430,10 @@ namespace Microarea.RSWeb.WoormEngine
             s += this.LocalizedFormTitle.ToJson("caption") + ',';
 
             s += "\"controls\":[";
-            bool first = true;
+            bool first = true; ushort idx = 1;
             foreach (AskGroup group in groups)
             {
+                group.Index = idx++;
                 if (first) first = false; else s += ',';
 
                 s += group.ToJson();

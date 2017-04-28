@@ -7,14 +7,15 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './ask-check.component.html',
   styleUrls: ['./ask-check.component.scss']
 })
-export class AskCheckComponent extends CheckBoxComponent  implements OnInit {
+export class AskCheckComponent extends CheckBoxComponent implements OnInit {
 
   @Input() check: check;
   constructor() {
     super();
-   }
+  }
 
-  ngOnInit() { 
+  ngOnInit() {
+
     this.check.value = (this.check.value === 'True');
   }
 

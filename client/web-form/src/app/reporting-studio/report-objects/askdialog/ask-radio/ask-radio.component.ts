@@ -22,9 +22,7 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
   public checkedRadio() {
     for (let i = 0; i < this.otherRadios.length; i++) {
       let elem: radio = this.otherRadios[i];
-      if (this.radio.id === elem.id) {
-        elem.value = true;
-      }else {
+      if (this.radio.id !== elem.id) {
         elem.value = false;
       }
 

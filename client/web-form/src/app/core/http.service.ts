@@ -10,7 +10,7 @@ import { OperationResult } from './operation.result';
 import { LoginSession } from './../shared/models/login-session';
 import { UtilsService } from './utils.service';
 
-import { Logger } from 'libclient';
+import { Logger } from './logger.service';
 
 
 @Injectable()
