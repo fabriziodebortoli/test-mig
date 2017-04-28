@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Logger } from 'libclient';
+import { Logger } from './../../core/logger.service';
 
 
 @Injectable()

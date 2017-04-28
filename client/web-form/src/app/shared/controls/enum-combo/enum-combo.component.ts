@@ -1,7 +1,6 @@
 ﻿import { EnumsService } from './../../../core/enums.service';
-import { AfterViewInit } from 'libclient/node_modules/@angular/core';
 import { ControlComponent } from './../control.component';
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, AfterViewInit } from '@angular/core';
 import { EventDataService } from './../../../core/eventdata.service';
 import { DocumentService } from './../../../core/document.service';
 import { WebSocketService } from './../../../core/websocket.service';

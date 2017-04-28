@@ -9,7 +9,7 @@ import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
 
 
-import { Logger } from 'libclient';
+import { Logger } from './../../core/logger.service';
 
 @Injectable()
 export class MenuService {
