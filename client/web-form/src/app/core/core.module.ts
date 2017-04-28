@@ -12,7 +12,6 @@ import { SidenavService } from './sidenav.service';
 import { WebSocketService } from './websocket.service';
 import { UtilsService } from './utils.service';
 import { HttpService } from './http.service';
-import { CommandService } from './command.service';
 import { LoginSessionService } from './login-session.service';
 import { ExplorerService } from './explorer.service';
 import { LayoutService } from './layout.service';
@@ -33,7 +32,6 @@ const TB_SERVICES = [
   WebSocketService,
   SidenavService,
   ComponentService,
-  CommandService,
   CoreGuard,
   ExplorerService,
   InfoService,

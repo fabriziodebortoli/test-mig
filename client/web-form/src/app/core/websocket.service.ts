@@ -6,7 +6,6 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { environment } from './../../environments/environment';
 
 import { HttpService } from './http.service';
-import { CommandService } from './command.service'
 
 import { Logger } from 'libclient';
 

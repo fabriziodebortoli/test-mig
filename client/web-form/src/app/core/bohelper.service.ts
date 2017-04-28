@@ -1,4 +1,3 @@
-import { CommandService } from './command.service';
 import { MessageDlgArgs } from './websocket.service';
 import { Logger } from 'libclient';
 import { DialogComponent } from './../shared/containers/dialog/dialog.component';
@@ -12,8 +11,7 @@ export class BOHelperService  {
     dialogCloseSubscription: any;
     constructor(
         public dialog: MdDialog,
-        public logger: Logger,
-        public commandService: CommandService) {
+        public logger: Logger) {
 
     }
     public messageDialog(args: MessageDlgArgs) {

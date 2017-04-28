@@ -78,7 +78,7 @@ export class BOService extends DocumentService {
             this.boHelperService.messageDialog(args);
         });
         this.changeSubscription = this.eventData.change.subscribe((cmpId: String) => {
-            if (this.boHelperService.commandService.isServerSideCommand(cmpId)) {
+            if (this.isServerSideCommand(cmpId)) {
                 const patch = this.getPatchedData();
                 if (patch.length > 0) {
                     this.webSocketService.doValueChanged(this.mainCmpId, cmpId, patch);
@@ -118,5 +118,10 @@ export class BOService extends DocumentService {
         super.close();
         this.webSocketService.doCommand(this.mainCmpId, 'ID_FILE_CLOSE');
     }
+      isServerSideCommand(idCommand: String) {
+        //per ora sono considerati tutti server-side,ma in futuro ci sara la mappa dei comandi che vanno eseguito server side
+        return true;
+    }
+
 }
 
