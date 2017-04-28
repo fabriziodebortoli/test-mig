@@ -32,4 +32,8 @@ export class TopbarMenuTestComponent implements OnInit {
     this.componentService.createComponentFromUrl('proxy/test/grid');
   }
 
+  openTestIcons() {
+    this.componentService.createComponentFromUrl('test/icons');
+  }
+
 }

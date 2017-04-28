@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 
-import { Logger } from 'libclient';
+import { Logger } from './../../core/logger.service';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
@@ -12,13 +12,13 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 @Injectable()
 export class HttpMenuService {
 
-   
+
     constructor(
         private http: Http,
         private utilsService: UtilsService,
         private logger: Logger,
         private cookieService: CookieService,
-         private httpService: HttpService) {
+        private httpService: HttpService) {
     }
 
     /**
@@ -172,7 +172,7 @@ export class HttpMenuService {
      */
     favoriteObject(object) {
         let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName };
-        
+
         var urlToRun = this.httpService.getMenuBaseUrl() + 'favoriteObject/';
         let subs = this.postData(urlToRun, obj)
             .map((res: Response) => {

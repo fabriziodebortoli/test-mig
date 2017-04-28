@@ -1,2 +1,7 @@
-<input type="text" [(ngModel)]="text.value" *ngIf="!isDate" >
- <kendo-datepicker [value]="text.value" *ngIf="isDate" ></kendo-datepicker>
+<tb-text *ngIf="text.type==='String'" [model]="text" caption="{{text?.caption}}" cmpId="{{text?.id}}"></tb-text>
+<tb-date-input *ngIf="text.type==='DateTime'" formatter="DateTime" [readonly]="false" [model]="text" caption="{{text?.caption}}"
+  cmpId="{{text?.id}}"></tb-date-input>
+<tb-date-input *ngIf="text.type==='Date'" formatter="Date" [readonly]="false" [model]="text" caption="{{text?.caption}}"
+  cmpId="{{text?.id}}"></tb-date-input>
+<tb-numeric-text-box *ngIf="text.type==='Double'" formatter="Double" caption="{{text?.caption}}" cmpId="{{text?.id}}"[model]="text"></tb-numeric-text-box>
+

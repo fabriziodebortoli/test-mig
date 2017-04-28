@@ -1,28 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using System.Text;
-using Newtonsoft.Json;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Services.Interfaces;
 
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Microarea.AdminServer.Controllers
 {
-    public class HomeController : Controller
+    public class AdminController : Controller
     {
         private IHostingEnvironment _env;
         private IAdminDataServiceProvider _adminDataService;
 
         JsonHelper jsonHelper;
 
-        public HomeController(IHostingEnvironment env, IAdminDataServiceProvider adminDataService)
+        public AdminController(IHostingEnvironment env, IAdminDataServiceProvider adminDataService)
         {
             _env = env;
             _adminDataService = adminDataService;

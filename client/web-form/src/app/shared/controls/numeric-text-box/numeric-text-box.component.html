@@ -1,4 +1,4 @@
 <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-<kendo-numerictextbox [ngClass]="showError" [(ngModel)]="selectedValue" (blur)="onBlur()" (ngModelChange)="model.value=$event" [spinners]="false" [format]="getFormatOptions()" [decimals]="getDecimalsOptions()" [disabled]="disabled">
+<kendo-numerictextbox [ngClass]="showError" [(ngModel)]="selectedValue" (blur)="onBlur()" (ngModelChange)="model.value=$event" [spinners]="false" [format]="getFormatOptions()" [decimals]="getDecimalsOptions()" [disabled]="!model?.enabled">
 </kendo-numerictextbox>
-<div class="labelerror">{{errorMessage}}</div>
+<div class="has-error">{{errorMessage}}</div>

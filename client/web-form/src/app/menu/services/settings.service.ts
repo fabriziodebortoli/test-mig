@@ -4,7 +4,7 @@ import { UtilsService } from './../../core/utils.service';
 import { EventManagerService } from './event-manager.service';
 import { HttpMenuService } from './http-menu.service';
 
-import { Logger } from 'libclient';
+import { Logger } from './../../core/logger.service';
 
 @Injectable()
 export class SettingsService {

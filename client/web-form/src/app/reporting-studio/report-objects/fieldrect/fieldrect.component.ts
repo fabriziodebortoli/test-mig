@@ -1,8 +1,7 @@
 import { fieldrect } from './../../reporting-studio.model';
 import { UtilsService } from './../../../core/utils.service';
-import { AfterViewInit } from 'libclient/node_modules/@angular/core';
 
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef,AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'rs-fieldrect',

@@ -4,7 +4,7 @@ import { Component, ViewContainerRef, OnInit, OnDestroy, ComponentRef, Input, Vi
 
 @Component({
   selector: 'tb-dynamic-cmp',
-  template: '<div #cmpContainer></div>'
+  template: '<div #cmpContainer></div><div kendoDialogContainer></div>'
 })
 export class DynamicCmpComponent implements OnInit, OnDestroy {
   cmpRef: ComponentRef<DocumentComponent>;

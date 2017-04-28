@@ -4,19 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 
-import { Logger } from 'libclient';
-
 import { InfoService } from './info.service';
 import { ComponentService } from './component.service';
 import { SidenavService } from './sidenav.service';
 import { WebSocketService } from './websocket.service';
 import { UtilsService } from './utils.service';
 import { HttpService } from './http.service';
-import { CommandService } from './command.service';
 import { LoginSessionService } from './login-session.service';
 import { ExplorerService } from './explorer.service';
 import { LayoutService } from './layout.service';
 import { EnumsService } from './enums.service';
+import { Logger } from './logger.service';
 
 import { CoreGuard } from './core.guard';
 
@@ -33,7 +31,6 @@ const TB_SERVICES = [
   WebSocketService,
   SidenavService,
   ComponentService,
-  CommandService,
   CoreGuard,
   ExplorerService,
   InfoService,

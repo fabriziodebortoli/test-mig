@@ -27,7 +27,6 @@ export class TimeInputComponent extends ControlComponent implements OnChanges, A
     this.selectedTime = newTime;
     let r = new Date(this.selectedTime);
     this.model.value = 60 * ( 60 * r.getHours() + r.getMinutes() ) + r.getSeconds();
-    console.log('this.model.value = ' + this.model.value);
   }
 
   ngAfterViewInit(): void {

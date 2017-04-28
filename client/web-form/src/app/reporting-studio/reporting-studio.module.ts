@@ -33,6 +33,7 @@ import { AskDropdownlistComponent } from './report-objects/askdialog/ask-dropdow
 import { AskTextComponent } from './report-objects/askdialog/ask-text/ask-text.component';
 
 
+
 const KENDO_UI_MODULES = [
   GridModule,
   DialogModule,
