@@ -17,17 +17,14 @@ export class AskRadioComponent implements OnInit {
   }
 
   public checkedRadio(){
-    /*for (let i = 0; i < this.otherRadios.entries.length; i++) {
-      let elem = this.otherRadios.entries[i];
+    for (let i = 0; i < this.otherRadios.length; i++) {
+      let elem = this.otherRadios[i];
       if(this.radio.id == elem.id){
-        elem.value = !elem.value;
-      
+        elem.value = true;
+        this.radio.value = !this.radio.value;
       }
-
-    }*/
-    this.radio.value = !this.radio.value;
-
-
+      else elem.value = false;
+    }
   }
 
 }
