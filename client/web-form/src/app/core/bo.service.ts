@@ -75,7 +75,7 @@ export class BOService extends DocumentService {
         });
 
         this.messageSubscription = this.webSocketService.message.subscribe((args: MessageDlgArgs) => {
-            this.boHelperService.messageDialog(args);
+            this.boHelperService.messageDialog(this.mainCmpId, args);
         });
         this.changeSubscription = this.eventData.change.subscribe((cmpId: String) => {
             if (this.isServerSideCommand(cmpId)) {
