@@ -35,6 +35,8 @@ namespace Microarea.Common.Applications
         private string sNamespace;
         public string Namespace { get { return sNamespace; } set { sNamespace = value; } }
 
+        public bool LoggedToTb = false;
+
         public ILocalizer Localizer = null;
 
         public Enums Enums = null;

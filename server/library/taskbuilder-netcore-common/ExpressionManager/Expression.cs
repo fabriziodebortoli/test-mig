@@ -19,6 +19,9 @@ using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
 
 using TaskBuilderNetCore.Interfaces.Model;
+using System.Xml;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Microarea.Common.ExpressionManager
 {
@@ -3687,9 +3690,89 @@ namespace Microarea.Common.ExpressionManager
             //ridefinita in WoormExpression (Microarea.RSWeb.WoormEngine, Actions.cs)
 			return null;
 		}
-		
-		//-----------------------------------------------------------------------------
-		Value ApplyExternalFunction(FunctionItem function, Stack paramStack)
+
+        public static async Task<string> RemoteRunFunction(FunctionPrototype fun, string authtoken, string baseAddress = "http://localhost:5000/")
+        {
+            XmlDocument d = new XmlDocument();
+            d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
+            fun.Parameters.Unparse(d.DocumentElement);
+            string xargs = d.OuterXml;
+
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri(baseAddress);
+
+                    var content = new FormUrlEncodedContent(new[]
+                    {
+                        //new KeyValuePair<string, string>("authtoken", authtoken)
+                        new KeyValuePair<string, string>("ns", fun.NameSpace.ToString() ),
+                        new KeyValuePair<string, string>("arguments", xargs)
+                    });
+
+                    var response = await client.PostAsync("tbloader/api/tb/document/runFunction/", content);
+                    response.EnsureSuccessStatusCode(); // Throw in not success
+
+                    var stringResponse = await response.Content.ReadAsStringAsync();
+
+
+                    return stringResponse;
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"Request exception: {e.Message}");
+                    return null;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Request exception: {e.Message}");
+                    return null;
+                }
+            }
+        }
+
+        public static async Task<bool> LoginToTb(TbSession session, string baseAddress = "http://localhost:5000/")
+        {
+            if (session.LoggedToTb) 
+                return true;
+
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri(baseAddress);
+
+                    var content = new FormUrlEncodedContent(new[]
+                    {
+                        new KeyValuePair<string, string>("authtoken", session.UserInfo.AuthenticationToken)
+                    });
+                    var response = await client.PostAsync("tbloader/api/tb/document/login/", content);
+                    response.EnsureSuccessStatusCode(); // Throw in not success
+
+                    var stringResponse = await response.Content.ReadAsStringAsync();
+
+                    if (stringResponse != null)
+                    {
+                        session.LoggedToTb = true;
+                    }
+                    return session.LoggedToTb;
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"Request exception: {e.Message}");
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Request exception: {e.Message}");
+                    return false;
+                }
+            }
+        }
+
+        //-----------------------------------------------------------------------------
+        Value ApplyExternalFunction(FunctionItem function, Stack paramStack)
 		{
 			try
 			{
@@ -3715,25 +3798,54 @@ namespace Microarea.Common.ExpressionManager
 
                 System.Diagnostics.Debug.Assert(function.Parameters != null);
 
-				List<object> parms = new List<object>();
-				foreach (DataItem item in paramStack)
-					parms.Add(WcfTypes.To(item.Data));
+                List<string> listTypeArgs = new List<string>();
+                foreach (Parameter p in function.Prototype.Parameters)
+                {
+                    listTypeArgs.Add(p.TbType);
+                }
+                string[] args = listTypeArgs.ToArray();
+ 
+                //List<object> parms = new List<object>();
+                List<string> sparms = new List<string>();
+                foreach (DataItem item in paramStack)
+                {
+                    //parms.Add(WcfTypes.To(item.Data));
+                    sparms.Add(SoapTypes.To(item.Data));
+                }
+                //object[] objs = parms.ToArray();
+                string[] sargs = sparms.ToArray();
+ 
+                int np = 0;
 
-				object[] objs = parms.ToArray();
+                FunctionPrototype fun = new FunctionPrototype(function.Prototype.NameSpace as NameSpace, function.Prototype.ReturnType, args);
+ 
+                foreach (Parameter p in function.Prototype.Parameters)
+                {
+                    Parameter pInfo = new Parameter(p.Name, p.Type);
+
+                    pInfo.ValueString = sargs[np++];
+
+                    fun.Parameters.Add(pInfo);
+                }
+
+                //TODO RSWEB Call soap methods
+                //ITbLoaderClient tbLoader = GetTBClientInterface();
+                //ret = tbLoader.Call(function.Prototype, objs);
+
+                //TODO NEW RSWEB RICCARDO
+                //object retLogin = LoginToTb(this.TbSession);
+                //object retFun = RemoteRunFunction(fun, this.TbSession.UserInfo.AuthenticationToken);
+
+                //for (int i = 0; i < function.Parameters.Count; i++)
+                //{
+                //	DataItem item = (DataItem)paramStack.Pop();
+                //	Parameter p = function.Parameters[i];
+                //	if (p.Mode != ParameterModeType.In)
+                //		item.Data = WcfTypes.From(objs[i], p.Type, p.BaseType);
+                //}
                 object ret = null;
 
-        //TODO RSWEB Call soap methods
-        //ITbLoaderClient tbLoader = GetTBClientInterface();
-        //ret = tbLoader.Call(function.Prototype, objs);
-
-                for (int i = 0; i < function.Parameters.Count; i++)
-				{
-					DataItem item = (DataItem)paramStack.Pop();
-					Parameter p = function.Parameters[i];
-					if (p.Mode != ParameterModeType.In)
-						item.Data = WcfTypes.From(objs[i], p.Type, p.BaseType);
-				}
-				return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
+                return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
 			}			
 			catch (TbLoaderClientInterfaceException e)
 			{ 
