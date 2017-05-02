@@ -1,7 +1,2 @@
-
-<tb-caption caption="{{dropdownlist.caption}}"></tb-caption>
-<kendo-dropdownlist [data]="dropdownlist.list" [textField]="'description'" [disabled]="!dropdownlist?.enabled" [valueField]="'code'" [defaultItem]="getDefItem()" (selectionChange)="onChange($event)">
-    <template kendoDropDownListNoDataTemplate>
-            <h4><span class="k-icon k-i-warning"></span><br /><br /> No data here</h4>
-        </template>
-</kendo-dropdownlist>
+<tb-combo-simple [model]="dropdownlist" [items]="dropdownlist.list" [caption]="dropdownlist.caption" [defaultItem]="getDefItem()">
+</tb-combo-simple>
