@@ -12,17 +12,3 @@ export class NameDirective  {
   }
 }
 
-
-
-@Directive({
-  selector: '[tb-value]'
-})
-export class ValueDirective  {
-  constructor(private el: ElementRef) {
-  }
-  @Input('tb-value')
-  set myValue(val: string) {
-    this.el.nativeElement.name = val;
-  }
-}
-
