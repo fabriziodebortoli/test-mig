@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { DataServiceComponent, DataServiceFactoryComponent } from './data-service/data-service.component';
 import { ExplorerComponent, ExplorerFactoryComponent } from './explorer/explorer.component';
 import { GridTestComponent, GridTestFactoryComponent } from './grid-test/grid-test.component';
-import { IconsTestComponent, IconsTestFactoryComponent } from './icons-test/icons-test.component';
+// import { IconsTestComponent, IconsTestFactoryComponent } from './icons-test/icons-test.component';
 
 // import { IconsModule } from '@taskbuilder/icons';
 
@@ -30,8 +30,8 @@ import { IconsTestComponent, IconsTestFactoryComponent } from './icons-test/icon
         DataServiceComponent, DataServiceFactoryComponent,
         ExplorerComponent, ExplorerFactoryComponent,
         GridTestComponent, GridTestFactoryComponent,
-        IconsTestComponent, IconsTestFactoryComponent
+        // IconsTestComponent, IconsTestFactoryComponent
     ],
-    entryComponents: [DataServiceComponent, ExplorerComponent, GridTestComponent, IconsTestComponent]
+    entryComponents: [DataServiceComponent, ExplorerComponent, GridTestComponent/*, IconsTestComponent*/]
 })
 export class TestModule { }
