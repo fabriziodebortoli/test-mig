@@ -1,4 +1,4 @@
-import { NameDirective } from './directives/name-directive';
+import { NameDirective, ValueDirective } from './directives/name-directive';
 
 import {
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
@@ -87,7 +87,7 @@ const TB_COMPONENTS = [
 const TB_DIRECTIVES = [
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
   LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective,
-  ContextMenuDirective, NameDirective
+  ContextMenuDirective, NameDirective, ValueDirective
 ];
 
 @NgModule({

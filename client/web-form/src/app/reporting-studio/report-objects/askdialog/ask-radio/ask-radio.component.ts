@@ -25,7 +25,6 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
       if (this.radio.id !== elem.id) {
         elem.value = false;
       }
-
     }
   }
 

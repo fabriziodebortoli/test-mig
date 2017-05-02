@@ -1,5 +1,5 @@
 ﻿import { ControlComponent } from './../control.component';
-import { Component, Input } from '@angular/core';
+import { Component, Input, enableProdMode } from '@angular/core';
 
 @Component({
     selector: 'tb-radio',
@@ -9,4 +9,5 @@ import { Component, Input } from '@angular/core';
 
 export class RadioComponent extends ControlComponent {
     @Input() name: string;
+    @Input() value: string;
 }

@@ -4,6 +4,6 @@
         [ngModel]="model?.value"  
         [disabled]="!model?.enabled" 
         (ngModelChange)="model.value=$event" 
-        [tb-name]="name" 
-        [tb-value]="val">
+        [tb-name] = "name" 
+        [tb-value] = "value">
 </div>
