@@ -52,6 +52,7 @@ import { SectionTitleComponent } from './controls/section-title/section-title.co
 import { TextareaComponent } from './controls/textarea/textarea.component';
 import { FileComponent } from './controls/file/file.component';
 import { LinkComponent } from './controls/link/link.component';
+import { ComboSimpleComponent } from './controls/combo-simple/combo-simple.component';
 
 
 const KENDO_UI_MODULES = [
@@ -78,7 +79,7 @@ const TB_COMPONENTS = [
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
   BoolEditComponent, BodyEditComponent,LinkComponent,
-  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent
+  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent
 ];
 
 const TB_DIRECTIVES = [

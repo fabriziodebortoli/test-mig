@@ -1,5 +1,4 @@
-import { ComboComponent } from './../../../../shared/controls/combo/combo.component';
-
+import { ComboSimpleComponent } from './../../../../shared/controls/combo-simple/combo-simple.component';
 
 import { dropdownlist, dropdownListPair } from './../../../reporting-studio.model';
 import { Component, OnInit, Input } from '@angular/core';
@@ -9,25 +8,15 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './ask-dropdownlist.component.html',
   styleUrls: ['./ask-dropdownlist.component.scss']
 })
-export class AskDropdownlistComponent {
+export class AskDropdownlistComponent extends ComboSimpleComponent {
 
   @Input() dropdownlist: dropdownlist;
-  private selectedValue;
-
-  constructor() {
-
-  }
-
-  onChange(value: any) {
-    this.dropdownlist.value = value.code;
-  }
 
   getDefItem() {
     for (let i = 0; i < this.dropdownlist.list.length; i++) {
       const elem: dropdownListPair = this.dropdownlist.list[i];
-      if (elem.code === this.dropdownlist.value) {
-        this.selectedValue = elem;
-        return this.selectedValue;
+      if (elem.code.toString() === this.dropdownlist.value) {
+        return elem;
       }
     }
   }

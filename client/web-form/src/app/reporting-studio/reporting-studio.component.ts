@@ -25,7 +25,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private subMessage: Subscription;
   private message: any = '';
   public running: boolean = false;
-  
+
   public layoutStyle: any = {};
   public layoutBackStyle: any = {};
   public objects: baseobj[] = [];
@@ -79,7 +79,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       switch (msg.commandType) {
         case CommandType.ASK:
           this.rsService.showAsk = true;
-          this.askDialogTemplate=msg.message;
+          this.askDialogTemplate = msg.message;
           break;
         case CommandType.OK: break;
         case CommandType.STOP: break;
@@ -91,6 +91,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
           break;
         case CommandType.TEMPLATE:
+          this.rsService.showAsk = false;
           this.RenderLayout(k);
           this.GetData();
           break;
