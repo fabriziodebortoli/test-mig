@@ -15,6 +15,8 @@ export class ContextMenuComponent {
   anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'right', vertical: 'top' };
   private show = false;
+  private isMouseDown = false;
+  @ViewChild('anchor') divFocus: HTMLElement;
 
   contextMenuBinding: MenuItem[];
   contextMenu: MenuItem[];
@@ -29,10 +31,18 @@ export class ContextMenuComponent {
     this.show = !this.show;
   }
 
-    public closePopup(): void {
+  public closePopupIf(): void {
+    if (this.isMouseDown) {
+      this.isMouseDown = false;
+      document.getElementById('anchor').focus();
+      return;
+    }
     this.show = false;
   }
 
+  setMouseDown() {
+    this.isMouseDown = true;
+  }
 
   onOpen() {
     this.eventDataService.onContextMenu.emit(this.contextMenuBinding); // idd_pippo_ContextMenu
@@ -42,6 +52,7 @@ export class ContextMenuComponent {
     if (!menuItem) { console.log('NOT doCommand for ContextMenu!'); return; }
     this.eventDataService.command.emit(menuItem.id);
     console.log('doCommand OK!');
+    this.onToggle();
   }
 
 
