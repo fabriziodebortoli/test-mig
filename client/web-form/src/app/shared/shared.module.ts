@@ -1,3 +1,4 @@
+
 import { NameDirective} from './directives/name-directive';
 
 import {
@@ -93,6 +94,7 @@ const TB_DIRECTIVES = [
 @NgModule({
   imports: [
     ReactiveFormsModule, InputsModule,
+  DialogModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

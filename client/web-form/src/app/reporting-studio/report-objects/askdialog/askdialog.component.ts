@@ -1,10 +1,11 @@
 import { ReportingStudioService } from './../../reporting-studio.service';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { TemplateItem, askGroup, text, check, radio } from './../../reporting-studio.model';
 
 @Component({
   selector: 'rs-askdialog',
   templateUrl: './askdialog.component.html',
+   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./askdialog.component.scss']
 })
 export class AskdialogComponent implements OnInit, OnDestroy {
