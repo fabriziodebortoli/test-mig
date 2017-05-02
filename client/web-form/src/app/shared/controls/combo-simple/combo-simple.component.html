@@ -1,5 +1,5 @@
 <tb-caption caption="{{caption}}"></tb-caption>
-<kendo-dropdownlist [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [defaultItem]="defaultItem" [(ngModel)]="model.value" >
+<kendo-dropdownlist [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [defaultItem]="defaultItem" (selectionChange)="selectionChange($event)">
     <template kendoDropDownListNoDataTemplate>
             <h4><span class="k-icon k-i-warning"></span><br /><br /> No data here</h4>
         </template>

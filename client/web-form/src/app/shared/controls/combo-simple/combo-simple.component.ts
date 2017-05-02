@@ -11,4 +11,7 @@ export class ComboSimpleComponent extends ControlComponent {
   @Input() public items: Array<any> = [];
   @Input() public defaultItem: any;
 
+ public selectionChange(value: any): void {
+        this.model.value = value.code;
+    }
 }
