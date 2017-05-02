@@ -38,7 +38,7 @@ namespace Microarea.Menu.Controllers
             if (string.IsNullOrEmpty(sAuthT))
                 return false; //  StatusCode = 504, Content = "non sei autenticato!" 
 
-            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT);
 
             company = loginInfo.companyName;
             user = loginInfo.userName;

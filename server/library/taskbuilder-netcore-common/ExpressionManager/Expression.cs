@@ -22,6 +22,7 @@ using TaskBuilderNetCore.Interfaces.Model;
 using System.Xml;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace Microarea.Common.ExpressionManager
 {
@@ -3691,31 +3692,39 @@ namespace Microarea.Common.ExpressionManager
 			return null;
 		}
 
-        public static async Task<string> RemoteRunFunction(FunctionPrototype fun, string authtoken, string baseAddress = "http://localhost:5000/")
+        public static async Task<string> RemoteRunFunction(TbSession session, FunctionPrototype fun)
         {
+            if (!session.LoggedToTb)
+                return null;
+            if (session.TbInstanceID.IsNullOrEmpty())
+                return null;
+
             XmlDocument d = new XmlDocument();
             d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
             fun.Parameters.Unparse(d.DocumentElement);
             string xargs = d.OuterXml;
 
-            using (var client = new HttpClient())
+            var cookieContainer = new CookieContainer();
+            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
+            using (var client = new HttpClient(handler))
             {
                 try
                 {
-                    client.BaseAddress = new Uri(baseAddress);
+                    client.BaseAddress = new Uri(session.TbBaseAddress);
+
+                    cookieContainer.Add(client.BaseAddress, new Cookie(TbSession.TbLoaderInstanceID, session.TbInstanceID));
 
                     var content = new FormUrlEncodedContent(new[]
                     {
                         //new KeyValuePair<string, string>("authtoken", authtoken)
                         new KeyValuePair<string, string>("ns", fun.NameSpace.ToString() ),
-                        new KeyValuePair<string, string>("arguments", xargs)
+                        new KeyValuePair<string, string>("args", xargs)
                     });
 
                     var response = await client.PostAsync("tbloader/api/tb/document/runFunction/", content);
                     response.EnsureSuccessStatusCode(); // Throw in not success
 
                     var stringResponse = await response.Content.ReadAsStringAsync();
-
 
                     return stringResponse;
                 }
@@ -3732,7 +3741,7 @@ namespace Microarea.Common.ExpressionManager
             }
         }
 
-        public static async Task<bool> LoginToTb(TbSession session, string baseAddress = "http://localhost:5000/")
+        public static async Task<bool> LoginToTb(TbSession session)
         {
             if (session.LoggedToTb) 
                 return true;
@@ -3741,7 +3750,7 @@ namespace Microarea.Common.ExpressionManager
             {
                 try
                 {
-                    client.BaseAddress = new Uri(baseAddress);
+                    client.BaseAddress = new Uri(session.TbBaseAddress);
 
                     var content = new FormUrlEncodedContent(new[]
                     {
@@ -3754,7 +3763,34 @@ namespace Microarea.Common.ExpressionManager
 
                     if (stringResponse != null)
                     {
-                        session.LoggedToTb = true;
+                        IEnumerable<string> list;
+                        if (response.Headers.TryGetValues("Set-Cookie", out list))
+                        {
+                            if (list != null)
+                            {
+                                foreach (string s in list)
+                                {
+                                    if (s.Left(TbSession.TbLoaderInstanceID.Length).CompareNoCase(TbSession.TbLoaderInstanceID))
+                                    {
+                                        string tbinstance = s.Mid(TbSession.TbLoaderInstanceID.Length + 1);
+                                        int end = tbinstance.IndexOf(';');
+                                        tbinstance = tbinstance.Left(end);
+
+                                        session.TbInstanceID = tbinstance;
+                                        session.LoggedToTb = true;
+                                    }
+                                }
+                            }
+                        }
+                        // List<string> values; //= new List<string> ();
+                        //IEnumerable <string> list;
+                        //session.LoggedToTb = response.Headers.TryGetValues(TbSession.TbLoaderCookie, out list);
+
+                        //IEnumerable<string> list2 = response.Headers.GetEnumerator();
+                        //if (list != null)
+                        //{
+                        //    //session.TbName = s;
+                        //}
                     }
                     return session.LoggedToTb;
                 }
@@ -3833,8 +3869,9 @@ namespace Microarea.Common.ExpressionManager
                 //ret = tbLoader.Call(function.Prototype, objs);
 
                 //TODO NEW RSWEB RICCARDO
-                //object retLogin = LoginToTb(this.TbSession);
-                //object retFun = RemoteRunFunction(fun, this.TbSession.UserInfo.AuthenticationToken);
+                bool retLogin = LoginToTb(this.TbSession).Result;
+
+                string retFun = RemoteRunFunction(this.TbSession, fun).Result;
 
                 //for (int i = 0; i < function.Parameters.Count; i++)
                 //{

@@ -30,7 +30,7 @@ namespace widgets_service.Controllers
 
             if (loginInfo == null)
             {
-                loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT).Result;
+                loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT);
             }
 
             if (string.IsNullOrEmpty(loginInfo.userName))
