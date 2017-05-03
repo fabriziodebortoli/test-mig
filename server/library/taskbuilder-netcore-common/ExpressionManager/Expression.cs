@@ -19,6 +19,10 @@ using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
 
 using TaskBuilderNetCore.Interfaces.Model;
+using System.Xml;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Net;
 
 namespace Microarea.Common.ExpressionManager
 {
@@ -3687,9 +3691,10 @@ namespace Microarea.Common.ExpressionManager
             //ridefinita in WoormExpression (Microarea.RSWeb.WoormEngine, Actions.cs)
 			return null;
 		}
-		
-		//-----------------------------------------------------------------------------
-		Value ApplyExternalFunction(FunctionItem function, Stack paramStack)
+
+ 
+        //-----------------------------------------------------------------------------
+        Value ApplyExternalFunction(FunctionItem function, Stack paramStack)
 		{
 			try
 			{
@@ -3715,25 +3720,54 @@ namespace Microarea.Common.ExpressionManager
 
                 System.Diagnostics.Debug.Assert(function.Parameters != null);
 
-				List<object> parms = new List<object>();
-				foreach (DataItem item in paramStack)
-					parms.Add(WcfTypes.To(item.Data));
+                List<string> listTypeArgs = new List<string>();
+                foreach (Parameter p in function.Prototype.Parameters)
+                {
+                    listTypeArgs.Add(p.TbType);
+                }
+                string[] args = listTypeArgs.ToArray();
+ 
+                //List<object> parms = new List<object>();
+                List<string> sparms = new List<string>();
+                foreach (DataItem item in paramStack)
+                {
+                    //parms.Add(WcfTypes.To(item.Data));
+                    sparms.Add(SoapTypes.To(item.Data));
+                }
+                //object[] objs = parms.ToArray();
+                string[] sargs = sparms.ToArray();
+ 
+                int np = 0;
 
-				object[] objs = parms.ToArray();
+                FunctionPrototype fun = new FunctionPrototype(function.Prototype.NameSpace as NameSpace, function.Prototype.ReturnType, args);
+ 
+                foreach (Parameter p in function.Prototype.Parameters)
+                {
+                    Parameter pInfo = new Parameter(p.Name, p.Type);
+
+                    pInfo.ValueString = sargs[np++];
+
+                    fun.Parameters.Add(pInfo);
+                }
+
+                //TODO RSWEB Call soap methods
+                //ITbLoaderClient tbLoader = GetTBClientInterface();
+                //ret = tbLoader.Call(function.Prototype, objs);
+
+                bool retLogin = TbSession.TbLogin(this.TbSession).Result;
+
+                string retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
+
+                //for (int i = 0; i < function.Parameters.Count; i++)
+                //{
+                //	DataItem item = (DataItem)paramStack.Pop();
+                //	Parameter p = function.Parameters[i];
+                //	if (p.Mode != ParameterModeType.In)
+                //		item.Data = WcfTypes.From(objs[i], p.Type, p.BaseType);
+                //}
                 object ret = null;
 
-        //TODO RSWEB Call soap methods
-        //ITbLoaderClient tbLoader = GetTBClientInterface();
-        //ret = tbLoader.Call(function.Prototype, objs);
-
-                for (int i = 0; i < function.Parameters.Count; i++)
-				{
-					DataItem item = (DataItem)paramStack.Pop();
-					Parameter p = function.Parameters[i];
-					if (p.Mode != ParameterModeType.In)
-						item.Data = WcfTypes.From(objs[i], p.Type, p.BaseType);
-				}
-				return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
+                return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
 			}			
 			catch (TbLoaderClientInterfaceException e)
 			{ 

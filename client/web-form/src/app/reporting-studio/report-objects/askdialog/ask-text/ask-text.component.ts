@@ -1,33 +1,46 @@
-import { text } from './../../../reporting-studio.model';
-import { Component, OnInit, Input } from '@angular/core';
+import { ReportingStudioService } from './../../../reporting-studio.service';
+import { text, CommandType } from './../../../reporting-studio.model';
+import { Component, OnInit, Input, Type } from '@angular/core';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'rs-ask-text',
   templateUrl: './ask-text.component.html',
-  styleUrls: ['./ask-text.component.scss']
+  styleUrls: ['./ask-text.component.scss'],
+  
 })
-export class AskTextComponent implements OnInit {
+
+
+export class AskTextComponent implements OnInit{
 
   @Input() text: text;
 
-  type: string;
+  constructor(private rsService : ReportingStudioService) { }
 
-  constructor() { }
+
+onBlur(value)
+{
+  if(this.text.runatserver){
+    let obj = {
+      id: this.text.id, 
+      value: this.text.value.toString()
+    };
+    let message = {
+      commandType: CommandType.UPDATEASK,
+      message: JSON.stringify(obj), 
+      page: this.rsService.askPage
+    };
+    this.rsService.doSend(JSON.stringify(message));
+  }
+  
+}
 
   ngOnInit() {
+
     if (this.text.type === 'DateTime') {
-      this.type = 'datetime-local';
-      this.text.value = new Date().toDateString();
-    }
-    if (this.text.type === 'Date') {
-      this.type = 'date';
-      this.text.value = new Date().toDateString();
-    }
-    if (this.text.type === 'Text') {
-      this.type = 'text';
-    }
-    if (this.text.type === 'Double') {
-      this.type = 'number';
+      const t2 = moment.parseZone(this.text.value, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss');
+      this.text.value = new Date(t2);
     }
   }
 

@@ -29,7 +29,11 @@ export class TopbarMenuTestComponent implements OnInit {
   }
 
   openTestGrid() {
-    this.componentService.createComponentFromUrl('proxy/test/grid');
+    this.componentService.createComponentFromUrl('test/grid');
+  }
+
+  openTestIcons() {
+    this.componentService.createComponentFromUrl('test/icons');
   }
 
 }

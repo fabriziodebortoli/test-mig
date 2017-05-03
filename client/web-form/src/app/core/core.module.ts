@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 
-import { Logger } from 'libclient';
-
 import { InfoService } from './info.service';
 import { ComponentService } from './component.service';
 import { SidenavService } from './sidenav.service';
@@ -16,6 +14,7 @@ import { LoginSessionService } from './login-session.service';
 import { ExplorerService } from './explorer.service';
 import { LayoutService } from './layout.service';
 import { EnumsService } from './enums.service';
+import { Logger } from './logger.service';
 
 import { CoreGuard } from './core.guard';
 

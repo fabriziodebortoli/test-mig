@@ -127,5 +127,6 @@ public onChange(val: any) {
         this.showError = '';
        }
     this.eventData.change.emit(this.cmpId);
+    this.blur.emit(this);
   }
 }

@@ -3,7 +3,7 @@ import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import { Logger } from 'libclient';
+import { Logger } from './../core/logger.service';
 
 import { EventDataService } from './../core/eventdata.service';
 import { DocumentService } from './../core/document.service';
@@ -12,7 +12,7 @@ import { DocumentService } from './../core/document.service';
 export class ReportingStudioService extends DocumentService {
     public componentId = '';
     public pageNum: number = 1;
-    public currLayout: string = '';
+    public askPage: string = '';
     public showAsk = false;
     private rsServer: string = environment.baseSocket + 'rsweb';
     websocket: WebSocket;
@@ -44,7 +44,7 @@ export class ReportingStudioService extends DocumentService {
         this.writeToScreen(evt.data);
     }
 
-    doSend(message) {
+    doSend(message: string) {
         this.waitForConnection(() => {
             this.websocket.send(message);
         }, 100);

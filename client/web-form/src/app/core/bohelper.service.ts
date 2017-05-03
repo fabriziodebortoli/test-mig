@@ -1,6 +1,7 @@
-import { MessageDlgArgs, WebSocketService } from './websocket.service';
-import { Logger } from 'libclient';
 import { Injectable } from '@angular/core';
+
+import { MessageDlgArgs, WebSocketService } from './websocket.service';
+import { Logger } from './logger.service';
 
 import {
     DialogService,

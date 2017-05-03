@@ -1,3 +1,6 @@
+
+import { NameDirective} from './directives/name-directive';
+
 import {
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DockpaneComponent, TabberComponent, TabComponent, TileManagerComponent,
@@ -25,7 +28,8 @@ import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideD
 import { LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective } from './containers/tiles/layout-styles';
 import {
   CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
-  CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent, UnknownComponent, BodyEditComponent
+  CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent, UnknownComponent, BodyEditComponent,
+  LinearGaugeComponent
 } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
@@ -52,6 +56,7 @@ import { SectionTitleComponent } from './controls/section-title/section-title.co
 import { TextareaComponent } from './controls/textarea/textarea.component';
 import { FileComponent } from './controls/file/file.component';
 import { LinkComponent } from './controls/link/link.component';
+import { ComboSimpleComponent } from './controls/combo-simple/combo-simple.component';
 
 
 const KENDO_UI_MODULES = [
@@ -78,18 +83,19 @@ const TB_COMPONENTS = [
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
   BoolEditComponent, BodyEditComponent,LinkComponent,
-  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent
+  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent
 ];
 
 const TB_DIRECTIVES = [
   TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
   LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective,
-  ContextMenuDirective
+  ContextMenuDirective, NameDirective
 ];
 
 @NgModule({
   imports: [
     ReactiveFormsModule, InputsModule,
+  DialogModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

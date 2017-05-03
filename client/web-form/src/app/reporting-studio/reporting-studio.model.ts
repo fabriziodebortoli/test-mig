@@ -336,11 +336,14 @@ export class cell {
 export class askGroup {
   caption: string;
   hidden: boolean;
+  group_name: string;
   entries: askObj[] = [];
-  radioBtns:radio[]=[];
+  radioBtns: radio[] = [];
+  isRadioGroup: boolean = false;
   constructor(jsonObj: any) {
     this.caption = jsonObj.caption;
     this.hidden = jsonObj.hidden;
+    this.group_name = jsonObj.group_name;
     for (let i = 0; i < jsonObj.entries.length; i++) {
       let element = jsonObj.entries[i];
       let obj;
@@ -352,6 +355,7 @@ export class askGroup {
         obj = new check(element.check);
       }
       else if (element.radio !== undefined) {
+        this.isRadioGroup = true;
         obj = new radio(element.radio);
         this.radioBtns.push(obj);
       }
@@ -384,6 +388,7 @@ export class askObj extends fieldAskObj {
   left_aligned: boolean;
   left_text: boolean;
   runatserver: boolean;
+
   constructor(jsonObj: any) {
     super(jsonObj.field);
     this.hidden = jsonObj.hidden;
@@ -391,6 +396,8 @@ export class askObj extends fieldAskObj {
     this.caption = jsonObj.caption;
     this.left_aligned = jsonObj.left_aligned;
     this.left_text = jsonObj.left_text;
+    this.runatserver = jsonObj.runatserver;
+
   }
 }
 
@@ -410,8 +417,10 @@ export class check extends askObj {
 
 export class radio extends askObj {
   obj: AskObjectType = AskObjectType.radio;
+  group_name: string;
   constructor(jsonObj: any) {
     super(jsonObj);
+    this.group_name = jsonObj.group_name;
   }
 }
 
@@ -428,11 +437,11 @@ export class dropdownlist extends askObj {
 }
 
 export class dropdownListPair {
-  value: string;
-  caption: string;
+  code: string;
+  description: string;
   constructor(jsonObj: any) {
-    this.value = jsonObj.value;
-    this.caption = jsonObj.caption;
+    this.code = jsonObj.value;
+    this.description = jsonObj.caption;
   }
 }
 
@@ -446,7 +455,7 @@ export class styleArrayElement {
 
 export class TemplateItem {
   public templateName: string;
-  public templateObjects: any[]=[];
+  public templateObjects: any[] = [];
   public template: any;
 
   constructor(tName: string, template: any, tObj: any[]) {
