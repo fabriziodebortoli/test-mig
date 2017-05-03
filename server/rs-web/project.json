@@ -46,7 +46,6 @@
     "preserveCompilationContext": true,
     "embed": {
       "includeFiles": [
-        "WebControlsStrings.resx",
         "WoormEngineStrings.resx",
         "WoormViewerStrings.resx",
         "WoormWebControlStrings.resx"
