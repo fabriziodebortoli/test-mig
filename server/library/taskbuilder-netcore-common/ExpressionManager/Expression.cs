@@ -3692,121 +3692,7 @@ namespace Microarea.Common.ExpressionManager
 			return null;
 		}
 
-        public static async Task<string> RemoteRunFunction(TbSession session, FunctionPrototype fun)
-        {
-            if (!session.LoggedToTb)
-                return null;
-            if (session.TbInstanceID.IsNullOrEmpty())
-                return null;
-
-            XmlDocument d = new XmlDocument();
-            d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
-            fun.Parameters.Unparse(d.DocumentElement);
-            string xargs = d.OuterXml;
-
-            var cookieContainer = new CookieContainer();
-            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
-            using (var client = new HttpClient(handler))
-            {
-                try
-                {
-                    client.BaseAddress = new Uri(session.TbBaseAddress);
-
-                    cookieContainer.Add(client.BaseAddress, new Cookie(TbSession.TbLoaderInstanceID, session.TbInstanceID));
-
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                        //new KeyValuePair<string, string>("authtoken", authtoken)
-                        new KeyValuePair<string, string>("ns", fun.NameSpace.ToString() ),
-                        new KeyValuePair<string, string>("args", xargs)
-                    });
-
-                    var response = await client.PostAsync("tbloader/api/tb/document/runFunction/", content);
-                    response.EnsureSuccessStatusCode(); // Throw in not success
-
-                    var stringResponse = await response.Content.ReadAsStringAsync();
-
-                    return stringResponse;
-                }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return null;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return null;
-                }
-            }
-        }
-
-        public static async Task<bool> LoginToTb(TbSession session)
-        {
-            if (session.LoggedToTb) 
-                return true;
-
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    client.BaseAddress = new Uri(session.TbBaseAddress);
-
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                        new KeyValuePair<string, string>("authtoken", session.UserInfo.AuthenticationToken)
-                    });
-                    var response = await client.PostAsync("tbloader/api/tb/document/login/", content);
-                    response.EnsureSuccessStatusCode(); // Throw in not success
-
-                    var stringResponse = await response.Content.ReadAsStringAsync();
-
-                    if (stringResponse != null)
-                    {
-                        IEnumerable<string> list;
-                        if (response.Headers.TryGetValues("Set-Cookie", out list))
-                        {
-                            if (list != null)
-                            {
-                                foreach (string s in list)
-                                {
-                                    if (s.Left(TbSession.TbLoaderInstanceID.Length).CompareNoCase(TbSession.TbLoaderInstanceID))
-                                    {
-                                        string tbinstance = s.Mid(TbSession.TbLoaderInstanceID.Length + 1);
-                                        int end = tbinstance.IndexOf(';');
-                                        tbinstance = tbinstance.Left(end);
-
-                                        session.TbInstanceID = tbinstance;
-                                        session.LoggedToTb = true;
-                                    }
-                                }
-                            }
-                        }
-                        // List<string> values; //= new List<string> ();
-                        //IEnumerable <string> list;
-                        //session.LoggedToTb = response.Headers.TryGetValues(TbSession.TbLoaderCookie, out list);
-
-                        //IEnumerable<string> list2 = response.Headers.GetEnumerator();
-                        //if (list != null)
-                        //{
-                        //    //session.TbName = s;
-                        //}
-                    }
-                    return session.LoggedToTb;
-                }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return false;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return false;
-                }
-            }
-        }
-
+ 
         //-----------------------------------------------------------------------------
         Value ApplyExternalFunction(FunctionItem function, Stack paramStack)
 		{
@@ -3868,10 +3754,9 @@ namespace Microarea.Common.ExpressionManager
                 //ITbLoaderClient tbLoader = GetTBClientInterface();
                 //ret = tbLoader.Call(function.Prototype, objs);
 
-                //TODO NEW RSWEB RICCARDO
-                bool retLogin = LoginToTb(this.TbSession).Result;
+                bool retLogin = TbSession.TbLogin(this.TbSession).Result;
 
-                string retFun = RemoteRunFunction(this.TbSession, fun).Result;
+                string retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
 
                 //for (int i = 0; i < function.Parameters.Count; i++)
                 //{
