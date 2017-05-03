@@ -1,10 +1,11 @@
+import { MessageDlgArgs, MessageDlgResult } from './../shared/containers/message-dialog/message-dialog.component';
 import { UtilsService } from './utils.service';
 import { Injectable } from '@angular/core';
 
 import { Logger } from './logger.service';
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
-import { WebSocketService, MessageDlgArgs } from './websocket.service';
+import { WebSocketService } from './websocket.service';
 import { apply, diff } from 'json8-patch';
 import { BOHelperService } from "app/core/bohelper.service";
 
@@ -20,10 +21,11 @@ export class BOService extends DocumentService {
     commandSubscription: any;
     changeSubscription: any;
     openDropdownSubscription: any;
+    closeMessageDialogSubscription: any;
 
     constructor(
         private webSocketService: WebSocketService,
-        private boHelperService: BOHelperService,
+        public boHelperService: BOHelperService,
         eventData: EventDataService) {
         super(boHelperService.logger, eventData);
 
@@ -74,7 +76,9 @@ export class BOService extends DocumentService {
         });
 
         this.messageSubscription = this.webSocketService.message.subscribe((args: MessageDlgArgs) => {
-            this.boHelperService.messageDialog(this.mainCmpId, args);
+            if (args.cmpId === this.mainCmpId) {
+                this.eventData.openMessageDialog.emit(args);
+            }
         });
         this.changeSubscription = this.eventData.change.subscribe((cmpId: String) => {
             if (this.isServerSideCommand(cmpId)) {
@@ -91,6 +95,9 @@ export class BOService extends DocumentService {
             this.webSocketService.doFillListBox(this.mainCmpId, obj);
         });
 
+        this.closeMessageDialogSubscription = this.eventData.closeMessageDialog.subscribe((args: MessageDlgResult) => {
+            this.webSocketService.doCloseMessageDialog(this.mainCmpId, args);
+        });
 
     }
     getPatchedData(): any {
@@ -100,6 +107,7 @@ export class BOService extends DocumentService {
     init(cmpId: string) {
         super.init(cmpId);
         this.webSocketService.getDocumentData(this.mainCmpId);
+        this.webSocketService.checkMessageDialog(this.mainCmpId);
     }
     dispose() {
         super.dispose();
@@ -111,13 +119,14 @@ export class BOService extends DocumentService {
         this.activationDataSubscription.unsubscribe();
         this.openDropdownSubscription.unsubscribe();
         this.messageSubscription.unsubscribe();
+        this.closeMessageDialogSubscription.unsubscribe();
     }
 
     close() {
         super.close();
         this.webSocketService.doCommand(this.mainCmpId, 'ID_FILE_CLOSE');
     }
-      isServerSideCommand(idCommand: String) {
+    isServerSideCommand(idCommand: String) {
         //per ora sono considerati tutti server-side,ma in futuro ci sara la mappa dei comandi che vanno eseguito server side
         return true;
     }
