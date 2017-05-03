@@ -1,10 +1,11 @@
 import { RadioComponent } from './../../../../shared/controls/radio/radio.component';
 import { radio } from './../../../reporting-studio.model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'rs-ask-radio',
   templateUrl: './ask-radio.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./ask-radio.component.scss']
 })
 export class AskRadioComponent extends RadioComponent implements OnInit {
@@ -16,7 +17,7 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.radio.value = (this.radio.value === 'True');
+    this.radio.value = (this.radio.value === 'True');
   }
 
   public checkedRadio() {
@@ -26,6 +27,11 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
         elem.value = false;
       }
     }
+     if(this.radio.runatserver){
+
+     }
   }
+
+  
 
 }

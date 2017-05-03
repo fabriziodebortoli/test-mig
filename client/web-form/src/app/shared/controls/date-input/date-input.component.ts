@@ -29,6 +29,7 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
 
   onBlur() {
     this.eventData.change.emit(this.cmpId);
+    this.blur.emit(this);
   }
 
   onUpdateNgModel(newDate: Date): void {
