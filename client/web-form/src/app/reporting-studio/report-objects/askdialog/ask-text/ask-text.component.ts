@@ -16,7 +16,7 @@ export class AskTextComponent implements OnInit{
 
   @Input() text: text;
 
-  constructor(private rService : ReportingStudioService) { }
+  constructor(private rsService : ReportingStudioService) { }
 
 
 onBlur(value)
@@ -31,7 +31,7 @@ onBlur(value)
       message: JSON.stringify(obj), 
       page: 0
     };
-    this.rService.doSend(JSON.stringify(message));
+    this.rsService.doSend(JSON.stringify(message));
   }
   
 }

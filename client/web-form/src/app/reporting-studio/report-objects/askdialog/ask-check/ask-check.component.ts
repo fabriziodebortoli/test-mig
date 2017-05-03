@@ -11,7 +11,7 @@ import { Component, OnInit, Input, DoCheck } from '@angular/core';
 export class AskCheckComponent extends CheckBoxComponent implements OnInit, DoCheck {
 
   @Input() check: check;
-  constructor(private rService: ReportingStudioService) {
+  constructor(private rsService: ReportingStudioService) {
     super();
   }
 
@@ -38,7 +38,7 @@ export class AskCheckComponent extends CheckBoxComponent implements OnInit, DoCh
           message: JSON.stringify(obj),
           page: 0
         };
-        this.rService.doSend(JSON.stringify(message));
+        this.rsService.doSend(JSON.stringify(message));
       }
     }
   }

@@ -13,7 +13,7 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
 
   @Input() radio: radio;
   @Input() otherRadios: radio[];
-  constructor(private rService: ReportingStudioService) {
+  constructor(private rsService: ReportingStudioService) {
     super()
   }
 
@@ -38,7 +38,7 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
         message: JSON.stringify(obj),
         page: 0
       };
-      this.rService.doSend(JSON.stringify(message));
+      this.rsService.doSend(JSON.stringify(message));
     }
   }
 }
