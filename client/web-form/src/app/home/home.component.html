@@ -20,14 +20,33 @@
             </div>
         </tb-topbar>
 
-        <tb-tabber onselectstart="return false;" *ngIf="!desktop">
-            <tb-tab>
-                <tb-menu></tb-menu>
-            </tb-tab>
-            <tb-tab *ngFor="let info of componentService.components" (close)="componentService.tryDestroyComponent(info)" [title]="info.document?.getTitle()">
-                <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
-            </tb-tab>
-        </tb-tabber>
+        <div class="tabber-container" #tabberContainer>
+            <kendo-tabstrip #kendoTabStripInstance="kendoTabStrip" [keepTabContent]="true">
+                <kendo-tabstrip-tab [selected]="true">
+                    <ng-template kendoTabTitle>
+                        <md-icon>home</md-icon>
+                    </ng-template>
+                    <template kendoTabContent>
+                        <div class='kendoTabContent' #tabContent [style.height.px]="'874px'">
+                            <tb-menu></tb-menu>
+                        </div>
+                    </template>
+                </kendo-tabstrip-tab>
+                
+                <kendo-tabstrip-tab *ngFor="let info of componentService.components">
+                    <template kendoTabTitle>
+                        <span>{{info.document?.getTitle()}}</span>
+                        <md-icon (click)="closeTab(info)" title="Close" class='close'>close</md-icon>
+                    </template>
+                    <template kendoTabContent>
+                        <div class='kendoTabContent' [style.height.px]="viewHeight">
+                            <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
+                        </div>
+                    </template>
+                </kendo-tabstrip-tab>
+
+            </kendo-tabstrip>
+        </div>
 
     </div>
 </md-sidenav-container>
