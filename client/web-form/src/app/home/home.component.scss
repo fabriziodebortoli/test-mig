@@ -23,3 +23,59 @@ md-sidenav-container,
     display: flex;
     flex-flow: column;
 }
+
+.tabber-container>.k-tabstrip>.k-content {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: #F1F4F7;
+}
+
+.tabber-container>.k-tabstrip>.k-tabstrip-items {
+    background-color: #0277bd;
+    border-bottom: 1px solid #ddd;
+    height: 30px;
+    line-height: 30px;
+}
+
+.tabber-container>.k-tabstrip>.k-tabstrip-items .k-item {
+    line-height: 27px;
+    padding: 0 20px 0 0;
+    font-size: 13px;
+    font-weight: 700;
+    position: relative;
+    cursor: pointer;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    color: white;
+    background: #00578c;
+    margin-left: 3px;
+    border-bottom-color: #00578c;
+    margin-bottom: 0px;
+}
+
+.tabber-container>.k-tabstrip>.k-tabstrip-items .k-item.k-state-active {
+    background-color: #fff;
+    margin-bottom: -1px;
+    border-bottom-color: #fff;
+    color: #0277bd;
+}
+
+.tabber-container>.k-tabstrip>.k-tabstrip-items #k-tabstrip-tab-0 {
+    padding: 0;
+}
+
+.tabber-container>.k-tabstrip>.k-tabstrip-items .k-item .k-link {
+    padding: 0 10px;
+    text-align: center;
+}
+
+.tabber-container>.k-tabstrip>.k-tabstrip-items .k-item .k-link md-icon.close {
+    line-height: 30px;
+    position: absolute;
+    top: 0px;
+    right: 7px;
+    width: 14px;
+    font-size: 14px;
+    height: 14px;
+}

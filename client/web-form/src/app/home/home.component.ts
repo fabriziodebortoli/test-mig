@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { ComponentInfo } from './../shared/models/component.info';
 import { LayoutService } from 'app/core/layout.service';
-import { Component, OnInit,Output,EventEmitter,  ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 
 import { environment } from './../../environments/environment';
 
@@ -13,7 +13,8 @@ import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstr
 @Component({
   selector: 'tb-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
 
@@ -55,9 +56,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
     this.calcViewHeight();
   }
   calcViewHeight() {
-    this.viewHeight = this.tabberContainer ? this.tabberContainer.nativeElement.offsetHeight : 0;
+    this.viewHeight = this.tabberContainer ? this.tabberContainer.nativeElement.offsetHeight - 31 : 0;
     this.layoutService.setViewHeight(this.viewHeight);
-    console.log("viewHeight", this.viewHeight);
+    // console.log("viewHeight", this.viewHeight);
   }
 
   ngOnDestroy() {
@@ -72,7 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
   closeTab(info: ComponentInfo) {
     event.stopImmediatePropagation();
     this.kendoTabStripInstance.selectTab(0);
-    this.componentService.tryDestroyComponent(info);    
+    this.componentService.tryDestroyComponent(info);
   }
 
 }

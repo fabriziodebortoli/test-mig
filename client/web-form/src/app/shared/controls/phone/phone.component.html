@@ -1,2 +1,4 @@
-<tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-<kendo-maskedtextbox [mask]="mask" [ngModel]="model?.value"  [disabled]="!model?.enabled"></kendo-maskedtextbox>
+<div class="tb-control tb-phone">
+    <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <kendo-maskedtextbox [mask]="mask" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled"></kendo-maskedtextbox>
+</div>
