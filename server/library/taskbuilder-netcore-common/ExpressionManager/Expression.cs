@@ -22,6 +22,7 @@ using TaskBuilderNetCore.Interfaces.Model;
 using System.Xml;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace Microarea.Common.ExpressionManager
 {
@@ -3691,86 +3692,7 @@ namespace Microarea.Common.ExpressionManager
 			return null;
 		}
 
-        public static async Task<string> RemoteRunFunction(FunctionPrototype fun, string authtoken, string baseAddress = "http://localhost:5000/")
-        {
-            XmlDocument d = new XmlDocument();
-            d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
-            fun.Parameters.Unparse(d.DocumentElement);
-            string xargs = d.OuterXml;
-
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    client.BaseAddress = new Uri(baseAddress);
-
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                        //new KeyValuePair<string, string>("authtoken", authtoken)
-                        new KeyValuePair<string, string>("ns", fun.NameSpace.ToString() ),
-                        new KeyValuePair<string, string>("arguments", xargs)
-                    });
-
-                    var response = await client.PostAsync("tbloader/api/tb/document/runFunction/", content);
-                    response.EnsureSuccessStatusCode(); // Throw in not success
-
-                    var stringResponse = await response.Content.ReadAsStringAsync();
-
-
-                    return stringResponse;
-                }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return null;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return null;
-                }
-            }
-        }
-
-        public static async Task<bool> LoginToTb(TbSession session, string baseAddress = "http://localhost:5000/")
-        {
-            if (session.LoggedToTb) 
-                return true;
-
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    client.BaseAddress = new Uri(baseAddress);
-
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                        new KeyValuePair<string, string>("authtoken", session.UserInfo.AuthenticationToken)
-                    });
-                    var response = await client.PostAsync("tbloader/api/tb/document/login/", content);
-                    response.EnsureSuccessStatusCode(); // Throw in not success
-
-                    var stringResponse = await response.Content.ReadAsStringAsync();
-
-                    if (stringResponse != null)
-                    {
-                        session.LoggedToTb = true;
-                    }
-                    return session.LoggedToTb;
-                }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return false;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return false;
-                }
-            }
-        }
-
+ 
         //-----------------------------------------------------------------------------
         Value ApplyExternalFunction(FunctionItem function, Stack paramStack)
 		{
@@ -3832,9 +3754,9 @@ namespace Microarea.Common.ExpressionManager
                 //ITbLoaderClient tbLoader = GetTBClientInterface();
                 //ret = tbLoader.Call(function.Prototype, objs);
 
-                //TODO NEW RSWEB RICCARDO
-                //object retLogin = LoginToTb(this.TbSession);
-                //object retFun = RemoteRunFunction(fun, this.TbSession.UserInfo.AuthenticationToken);
+                bool retLogin = TbSession.TbLogin(this.TbSession).Result;
+
+                string retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
 
                 //for (int i = 0; i < function.Parameters.Count; i++)
                 //{

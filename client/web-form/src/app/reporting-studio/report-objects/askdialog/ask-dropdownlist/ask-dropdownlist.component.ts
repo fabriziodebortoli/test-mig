@@ -12,6 +12,8 @@ export class AskDropdownlistComponent extends ComboSimpleComponent {
 
   @Input() dropdownlist: dropdownlist;
 
+  
+
   getDefItem() {
     for (let i = 0; i < this.dropdownlist.list.length; i++) {
       const elem: dropdownListPair = this.dropdownlist.list[i];
@@ -19,5 +21,12 @@ export class AskDropdownlistComponent extends ComboSimpleComponent {
         return elem;
       }
     }
+  }
+
+  onBlur(value) {
+    
+      if (this.dropdownlist.runatserver) {
+
+      }
   }
 }

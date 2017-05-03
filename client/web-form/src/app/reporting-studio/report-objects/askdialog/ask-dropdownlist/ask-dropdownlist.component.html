@@ -1,2 +1,2 @@
-<tb-combo-simple [model]="dropdownlist" [items]="dropdownlist.list" [caption]="dropdownlist.caption" [defaultItem]="getDefItem()">
+<tb-combo-simple [model]="dropdownlist" [items]="dropdownlist.list" [caption]="dropdownlist.caption" [defaultItem]="getDefItem()" (blur)="onBlur($event)">
 </tb-combo-simple>

@@ -20,6 +20,8 @@ import { AppComponent } from './app.component';
 import { MomentModule } from 'angular2-moment';
 import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
 
+import { LayoutModule } from '@progress/kendo-angular-layout';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +40,8 @@ import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
     SharedModule,
     MenuModule.forRoot(),
     routing,
-    MomentModule
+    MomentModule,
+    LayoutModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [

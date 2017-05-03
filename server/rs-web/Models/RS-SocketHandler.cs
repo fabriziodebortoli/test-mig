@@ -26,7 +26,7 @@ namespace Microarea.RSWeb.Models
             if (nsMsg == null)
                 return null;
 
-            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(nsMsg.authtoken).Result;
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(nsMsg.authtoken);
             if (loginInfo == null)
                 return null;
  

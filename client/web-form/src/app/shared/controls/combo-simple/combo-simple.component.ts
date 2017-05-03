@@ -14,4 +14,9 @@ export class ComboSimpleComponent extends ControlComponent {
  public selectionChange(value: any): void {
         this.model.value = value.code;
     }
+
+    onBlur(value) {
+    this.blur.emit(this);
+  }
 }
+

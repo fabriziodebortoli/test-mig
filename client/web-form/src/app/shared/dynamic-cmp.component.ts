@@ -1,3 +1,4 @@
+import { ComponentService } from './../core/component.service';
 import { DocumentComponent } from '.';
 import { ComponentInfo } from './models/component.info';
 import { Component, ViewContainerRef, OnInit, OnDestroy, ComponentRef, Input, ViewChild } from '@angular/core';
@@ -11,7 +12,7 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
   @Input() componentInfo: ComponentInfo;
   @ViewChild('cmpContainer', { read: ViewContainerRef }) cmpContainer: ViewContainerRef;
 
-  constructor() {
+  constructor(private componentService: ComponentService) {
   }
 
   ngOnInit() {
@@ -24,6 +25,8 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
       this.cmpRef.instance.args = this.componentInfo.args;
       //se la eseguo subito, lancia un'eccezione quando esegue l'aggiornamento dei binding, come se fosse in un momento sbagliato
       setTimeout(() => { this.componentInfo.document = this.cmpRef.instance.document; }, 1);
+
+      setTimeout(() => this.componentService.onComponentCreated(this.componentInfo), 0);
     }
   }
 
