@@ -30,7 +30,7 @@ namespace Microarea.RSWeb.Controllers
     {
         UserInfo GetLoginInformation()
         {
-            string sAuthT = HttpContext.Request.Cookies["authtoken"];
+            string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
             if (string.IsNullOrEmpty(sAuthT))
                 return null;
 
@@ -107,7 +107,6 @@ namespace Microarea.RSWeb.Controllers
             return new ContentResult { Content = pdf.ToString(), ContentType = "application/pdf" };
         }
 
- 
         //---------------------------------------------------------------------
         [Route("image/{namespace}")] 
         public IActionResult GetImage(string nameSpace)

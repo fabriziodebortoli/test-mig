@@ -23,7 +23,9 @@ namespace Microarea.Common.Applications
 	//=========================================================================
 	public class UserInfo
 	{
-		private const string			SessionKey				= "UserInfoKey";
+		//private const string			SessionKey				= "UserInfoKey";
+
+        public const string             AuthenticationTokenKey  = "authtoken";
         public string                   AuthenticationToken     = string.Empty;
 
         public string					Company					= string.Empty;
@@ -209,7 +211,7 @@ namespace Microarea.Common.Applications
 
                     var content = new FormUrlEncodedContent(new[]
                     {
-                        new KeyValuePair<string, string>("authtoken", authtoken)
+                        new KeyValuePair<string, string>(UserInfo.AuthenticationTokenKey, authtoken)
                     });
 
                     var response = await client.PostAsync("account-manager/getLoginInformation/", content);

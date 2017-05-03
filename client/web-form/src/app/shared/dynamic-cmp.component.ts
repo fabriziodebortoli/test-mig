@@ -1,4 +1,5 @@
 import { MessageDialogComponent, MessageDlgArgs } from './containers/message-dialog/message-dialog.component';
+import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { BOService } from './../core/bo.service';
 import { DocumentComponent } from '.';
@@ -16,7 +17,7 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
   @ViewChild(MessageDialogComponent) messageDialog: MessageDialogComponent;
   messageDialogOpenSubscription: any;
 
-  constructor() {
+  constructor(private componentService: ComponentService) {
   }
 
   ngOnInit() {
@@ -33,6 +34,8 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
 
       //se la eseguo subito, lancia un'eccezione quando esegue l'aggiornamento dei binding, come se fosse in un momento sbagliato
       setTimeout(() => { this.componentInfo.document = this.cmpRef.instance.document; }, 1);
+
+      setTimeout(() => this.componentService.onComponentCreated(this.componentInfo), 0);
     }
   }
 
