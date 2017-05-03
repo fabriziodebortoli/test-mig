@@ -16,7 +16,9 @@
       "type": "platform",
       "version": "1.1.1"
     },
-    "Newtonsoft.Json": "10.0.2"
+    "Newtonsoft.Json": "10.0.2",
+"System.Xml.ReaderWriter": "4.3.0",
+    "taskbuilder-netcore-common": "1.0.0-*"
   },
 
   "tools": {

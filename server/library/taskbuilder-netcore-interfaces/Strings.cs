@@ -172,16 +172,17 @@ namespace TaskBuilderNetCore.Interfaces
             private Element()
             { }
 
-            public const string DatabaseObjects = "DatabaseObjects";
-            public const string Signature = "Signature";
-            public const string Release = "Release";
-            public const string Tables = "Tables";
-            public const string Table = "Table";
-            public const string Views = "Views";
-            public const string View = "View";
-            public const string Procedures = "Procedures";
-            public const string Procedure = "Procedure";
-            public const string Create = "Create";
+            public const string DatabaseObjects		= "DatabaseObjects";
+            public const string Signature			= "Signature";
+			public const string PreviousSignature	= "PreviousSignature";
+			public const string Release				= "Release";
+            public const string Tables				= "Tables";
+            public const string Table				= "Table";
+            public const string Views				= "Views";
+            public const string View				= "View";
+            public const string Procedures			= "Procedures";
+            public const string Procedure			= "Procedure";
+            public const string Create				= "Create";
         }
 
         public sealed class Attribute
@@ -190,14 +191,16 @@ namespace TaskBuilderNetCore.Interfaces
             private Attribute()
             { }
 
-            public const string Name = "name";
-            public const string Namespace = "namespace";
-            public const string Release = "release";
-            public const string Createstep = "createstep";
-            public const string Dms = "dms";
+            public const string Name		= "name";
+            public const string Namespace	= "namespace";
+            public const string Release		= "release";
+            public const string Createstep	= "createstep";
+            public const string Dms			= "dms";
             public const string Mastertable = "mastertable";
-        }
-    }
+			public const string Application = "application";
+			public const string Module		= "module";
+		}
+	}
 
     // Definizioni di ELEMENT e ATTRIBUTE dei files di descrizione oggetti di database
     //=========================================================================
@@ -542,7 +545,8 @@ namespace TaskBuilderNetCore.Interfaces
             public const string Release = "release";
             public const string Createstep = "createstep";
             public const string NameSpace = "namespace";
-        }
+			public const string Virtual = "virtual";
+		}
     }
 
     //=========================================================================
