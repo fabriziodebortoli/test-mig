@@ -1,4 +1,5 @@
-import { text } from './../../../reporting-studio.model';
+import { ReportingStudioService } from './../../../reporting-studio.service';
+import { text, CommandType } from './../../../reporting-studio.model';
 import { Component, OnInit, Input, Type } from '@angular/core';
 import * as moment from 'moment';
 
@@ -15,13 +16,24 @@ export class AskTextComponent implements OnInit{
 
   @Input() text: text;
 
-  constructor() { }
+  constructor(private rService : ReportingStudioService) { }
 
 
 onBlur(value)
 {
+  if(this.text.runatserver){
+    let obj = {
+      id: this.text.id, 
+      value: this.text.value.toString()
+    };
+    let message = {
+      commandType: CommandType.UPDATEASK,
+      message: JSON.stringify(obj), 
+      page: 0
+    };
+    this.rService.doSend(JSON.stringify(message));
+  }
   
-  let a=this.text.value;
 }
 
   ngOnInit() {

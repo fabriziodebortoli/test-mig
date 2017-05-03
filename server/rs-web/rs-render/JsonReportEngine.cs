@@ -126,6 +126,11 @@ namespace Microarea.RSWeb.Render
                         nMsg.message = GetJsonAskDialog();
                         break;
                     }
+                case MessageBuilder.CommandType.UPDATEASK:
+                    {
+                        break;
+                    }
+          
                 case MessageBuilder.CommandType.INITTEMPLATE:
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
