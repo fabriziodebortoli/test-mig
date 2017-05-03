@@ -56,9 +56,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
     this.calcViewHeight();
   }
   calcViewHeight() {
-    this.viewHeight = this.tabberContainer ? this.tabberContainer.nativeElement.offsetHeight : 0;
+    this.viewHeight = this.tabberContainer ? this.tabberContainer.nativeElement.offsetHeight - 31 : 0;
     this.layoutService.setViewHeight(this.viewHeight);
-    console.log("viewHeight", this.viewHeight);
+    // console.log("viewHeight", this.viewHeight);
   }
 
   ngOnDestroy() {

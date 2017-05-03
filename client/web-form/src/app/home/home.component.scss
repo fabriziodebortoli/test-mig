@@ -24,7 +24,11 @@ md-sidenav-container,
     flex-flow: column;
 }
 
-.tabber-container>.k-tabstrip {}
+.tabber-container>.k-tabstrip>.k-content {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+}
 
 .tabber-container>.k-tabstrip>.k-tabstrip-items {
     background-color: #0277bd;
