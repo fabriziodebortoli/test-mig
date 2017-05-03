@@ -1,3 +1,5 @@
 <div>
-    <label>{{caption}}</label><input id="{{cmpId}}" type="radio" [ngModel]="model?.value"  [disabled]="!model?.enabled" (ngModelChange)="model.value=$event" [name]="name" />
+    <label>{{caption}}</label>
+    <input id="{{cmpId}}" type="radio" [ngModel]="model?.value" [disabled]="!model?.enabled" (ngModelChange)="model.value=$event" [tb-name] = "name">
+
 </div>

@@ -1,10 +1,9 @@
 ﻿import { TbComponent } from '..';
-import { Component, Input } from '@angular/core';
+import { Component, Input,ViewEncapsulation } from '@angular/core';
 
 @Component({
     template: ''
 })
-
 export class ControlComponent extends TbComponent {
     private _model: any;
 

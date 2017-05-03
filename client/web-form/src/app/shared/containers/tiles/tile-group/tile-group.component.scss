@@ -1,17 +1,7 @@
 .tile-group {
+    // display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
     padding-bottom: 80px;
-}
-
-:host(.layoutType-column) {
-    display: inline-block;
-}
-
-:host(.layoutType-hbox) {}
-
-:host(.layoutType-vbox) {
-    display: inline-block;
-    overflow: auto;
 }

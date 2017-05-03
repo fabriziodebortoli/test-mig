@@ -30,6 +30,14 @@ namespace Microarea.Common.Applications
     public class TbSession
     {
         public UserInfo UserInfo = null;
+
+        public const string TbLoaderInstanceID = "tbloader-name";
+ 
+        public string TbBaseAddress = "http://localhost:5000/";
+
+        public bool LoggedToTb = false;
+        public string TbInstanceID = string.Empty;
+
         public IPathFinder PathFinder = null;
 
         private string sNamespace;

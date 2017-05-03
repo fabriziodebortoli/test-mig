@@ -1,5 +1,6 @@
 tb-tilemanager {
     flex: 1;
+    max-width: 100%;
 }
 
 .tile-manager {
@@ -12,6 +13,7 @@ tb-tilemanager {
     flex-direction: row;
     display: flex;
     flex: 1;
+    max-width: 100%;
 }
 
 .tile-manager .k-tabstrip-top>.k-content {

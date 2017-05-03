@@ -189,7 +189,7 @@ namespace Microarea.Common.Applications
             return msg;
         }
 
-        public static async Task<LoginInfoMessage> GetLoginInformation(string authtoken, string baseAddress = "http://localhost:5000/")
+        public static LoginInfoMessage GetLoginInformation(string authtoken, string baseAddress = "http://localhost:5000/")
         {
             string loginInfo = GetRemoteLoginInformation(authtoken, baseAddress).Result;
             if (loginInfo.IsNullOrEmpty())
