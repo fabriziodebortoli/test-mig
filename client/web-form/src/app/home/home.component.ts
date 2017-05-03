@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { ComponentInfo } from './../shared/models/component.info';
 import { LayoutService } from 'app/core/layout.service';
 import { Component, OnInit,Output,EventEmitter,  ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit } from '@angular/core';
@@ -19,6 +20,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
   @ViewChild('sidenav') sidenav;
   sidenavSubscription: any;
 
+  tabberSubscription: Subscription;
+
   @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
   @ViewChild('tabberContainer') tabberContainer: ElementRef;
   viewHeight: number;
@@ -34,6 +37,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
   ) {
     this.sidenavSubscription = sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle());
 
+    this.tabberSubscription = componentService.componentCreated$.subscribe((tabIndex) => {
+      this.kendoTabStripInstance.selectTab(tabIndex);
+    });
   }
 
   ngOnInit() {
@@ -56,6 +62,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
 
   ngOnDestroy() {
     this.sidenavSubscription.unsubscribe();
+    this.tabberSubscription.unsubscribe();
   }
 
   toggleSidenav() {

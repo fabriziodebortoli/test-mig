@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs/Subject';
 import { Injectable, Type, ComponentFactoryResolver, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -13,6 +14,9 @@ export class ComponentService {
   componentsToCreate = new Array<any>();
   currentComponentId: string; //id del componente in fase di creazione
   creatingComponent = false;//semaforo
+
+  private componentCreatedSource = new Subject<number>();
+  componentCreated$ = this.componentCreatedSource.asObservable();
 
   constructor(
     private router: Router,
@@ -128,5 +132,9 @@ export class ComponentService {
     info.factory = resolver.resolveComponentFactory(component);
     info.args = args;
     this.addComponent(info);
+  }
+
+  onComponentCreated(info: ComponentInfo){
+    this.componentCreatedSource.next(this.components.indexOf(info) + 1);
   }
 }
