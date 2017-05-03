@@ -14,7 +14,11 @@ import { WebSocketService } from './../../core/websocket.service';
 export class ContextMenuComponent {
   anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'right', vertical: 'top' };
+
+  anchorAlign2: Align = { horizontal: 'right', vertical: 'center' };
+  popupAlign2: Align = { horizontal: 'left', vertical: 'top' };
   private show = false;
+  private showSubItems = false;
   private isMouseDown = false;
   @ViewChild('anchor') divFocus: HTMLElement;
 
@@ -22,13 +26,26 @@ export class ContextMenuComponent {
   contextMenu: MenuItem[];
 
   constructor(private webSocketService: WebSocketService, private eventDataService: EventDataService) {
-    this.webSocketService.contextMenu.subscribe((result) => {
-      this.contextMenu = result.contextMenu;
-    });
+    // SCENARIO 1: RIEMPIRE DA SERVER
+    // this.webSocketService.contextMenu.subscribe((result) => {
+    //   this.contextMenu = result.contextMenu;
+    // });
+
+    // SCENARIO 2: RIEMPITO DA HTML
+    this.contextMenu = new Array<MenuItem>();
+    const subItems = new Array<MenuItem>();
+    const item1 = new MenuItem('id1', 'TextId1', true, false);
+    const item2 = new MenuItem('id', 'roby', false, false);
+    subItems.push(item1, item2);
+    const item3 = new MenuItem("id2", "TextId2", true, false, subItems);
+    this.contextMenu.push(item1, item2, item3 );
+
   }
 
   public onToggle(): void {
     this.show = !this.show;
+    if(!this.show)
+     this.showSubItems = false;
   }
 
   public closePopupIf(): void {
@@ -38,6 +55,7 @@ export class ContextMenuComponent {
       return;
     }
     this.show = false;
+    this.showSubItems = false;
   }
 
   setMouseDown() {
@@ -50,9 +68,31 @@ export class ContextMenuComponent {
 
   public doCommand(menuItem: any) {
     if (!menuItem) { console.log('NOT doCommand for ContextMenu!'); return; }
+    if (this.hasSubItems(menuItem)) { return; }
     this.eventDataService.command.emit(menuItem.id);
     console.log('doCommand OK!');
     this.onToggle();
+  }
+
+  hasSubItems(item: MenuItem) {
+    const y = item.subItems;
+    return y !== null && y.length > 0;
+  }
+
+  openSubItems(open: boolean, item: MenuItem) {
+    if(!this.hasSubItems(item))
+      return;
+    this.showSubItems = open;
+  }
+
+  outView() {
+    this.show = false;
+    this.showSubItems = false;
+    this.isMouseDown = false;
+   // return true;
+  }
+  anchorViewportLeave() {
+    this.closePopupIf();
   }
 
 

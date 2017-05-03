@@ -27,7 +27,6 @@ export class ContextMenuDirective implements AfterContentInit {
     let componentFactory = this.componentResolver.resolveComponentFactory(ContextMenuComponent);
     this.contextMenuRef = this.cm.createComponent(componentFactory);
 
-    console.log(this.tbContextMenu);
     this.contextMenuRef.instance.contextMenuBinding = this.tbContextMenu;
     this.renderComponent();
   }
