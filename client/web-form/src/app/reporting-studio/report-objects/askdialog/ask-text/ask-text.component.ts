@@ -1,5 +1,6 @@
 import { text } from './../../../reporting-studio.model';
 import { Component, OnInit, Input, Type } from '@angular/core';
+import * as moment from 'moment';
 @Component({
   selector: 'rs-ask-text',
   templateUrl: './ask-text.component.html',
@@ -14,7 +15,8 @@ export class AskTextComponent implements OnInit {
   ngOnInit() {
 
     if (this.text.type === 'DateTime') {
-      this.text.value = new Date();
+      const t2 = moment.parseZone(this.text.value, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss');
+      this.text.value = new Date(t2);
     }
   }
 }
