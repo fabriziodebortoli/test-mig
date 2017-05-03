@@ -1,5 +1,4 @@
 import { text } from './../../../reporting-studio.model';
-import { Component, OnInit, Input, Type, DoCheck } from '@angular/core';
 import { Component, OnInit, Input, Type } from '@angular/core';
 import * as moment from 'moment';
 @Component({
