@@ -36,7 +36,7 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
     if (!newDate) {
       return;
     }
-    const timestamp = Date.parse(newDate.toDateString() )
+    const timestamp = Date.parse(newDate.toDateString())
     if (isNaN(timestamp)) { return; }
     if (this.model === null) {
       this.model = { enable: 'true', value: '' };
