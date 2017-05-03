@@ -121,9 +121,9 @@ namespace Microarea.RSWeb.Render
                     }
                case MessageBuilder.CommandType.ASK:
                     {
-                        pageNum = msg.page;
+                                            
                         nMsg.page = msg.page;
-                        nMsg.message = GetJsonAskDialog();
+                        nMsg.message = GetJsonAskDialog(/*nMsg.page*/);
                         break;
                     }
                 case MessageBuilder.CommandType.UPDATEASK:
@@ -134,14 +134,14 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.INITTEMPLATE:
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
-                        pageNum = msg.page;
-                        nMsg.page = msg.page;
-                        nMsg.message = GetJsonTemplatePage(pageNum);
+
+                        if (int.TryParse(msg.page, out pageNum))
+                            nMsg.message = GetJsonTemplatePage(pageNum);
                         break;
                     }
                 case MessageBuilder.CommandType.DATA:
                     {
-                        nMsg.page = pageNum;
+                        nMsg.page = pageNum.ToString();
                         nMsg.message = GetJsonDataPage(pageNum);
                         break;
                     }

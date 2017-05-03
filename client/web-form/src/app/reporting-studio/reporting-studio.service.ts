@@ -12,6 +12,7 @@ import { DocumentService } from './../core/document.service';
 export class ReportingStudioService extends DocumentService {
     public componentId = '';
     public pageNum: number = 1;
+    public askPage: string = '';
     public showAsk = false;
     private rsServer: string = environment.baseSocket + 'rsweb';
     websocket: WebSocket;

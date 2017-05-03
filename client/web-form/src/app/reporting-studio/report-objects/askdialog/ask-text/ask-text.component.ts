@@ -29,7 +29,7 @@ onBlur(value)
     let message = {
       commandType: CommandType.UPDATEASK,
       message: JSON.stringify(obj), 
-      page: 0
+      page: this.rsService.askPage
     };
     this.rsService.doSend(JSON.stringify(message));
   }
