@@ -19,9 +19,9 @@ import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstr
 export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @ViewChild('sidenav') sidenav;
-  sidenavSubscription: any;
-
+  sidenavSubscription: Subscription;
   tabberSubscription: Subscription;
+  cmpDestroyedSubscription: Subscription;
 
   @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
   @ViewChild('tabberContainer') tabberContainer: ElementRef;
@@ -40,6 +40,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
 
     this.tabberSubscription = componentService.componentCreated$.subscribe((tabIndex) => {
       this.kendoTabStripInstance.selectTab(tabIndex);
+    });
+
+    this.cmpDestroyedSubscription = componentService.componentDestroyed.subscribe(cmp => {
+      this.kendoTabStripInstance.selectTab(0);
     });
   }
 
@@ -64,6 +68,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
   ngOnDestroy() {
     this.sidenavSubscription.unsubscribe();
     this.tabberSubscription.unsubscribe();
+    this.cmpDestroyedSubscription.unsubscribe();
   }
 
   toggleSidenav() {
@@ -72,8 +77,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
 
   closeTab(info: ComponentInfo) {
     event.stopImmediatePropagation();
-    this.kendoTabStripInstance.selectTab(0);
-    this.componentService.tryDestroyComponent(info);
+    info.document.close();
   }
 
 }

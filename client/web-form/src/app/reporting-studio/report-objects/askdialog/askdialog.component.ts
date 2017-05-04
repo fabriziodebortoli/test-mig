@@ -37,6 +37,7 @@ export class AskdialogComponent implements OnInit, OnDestroy {
 
       objects.push(element);
     }
+    this.templates.push(new TemplateItem(msg.name, msg, objects));
     this.objects = objects;
     this.rsService.askPage = msg.name;
     return;
@@ -65,6 +66,11 @@ export class AskdialogComponent implements OnInit, OnDestroy {
   }
 
   Prev() {
+    if (this.templates.length == 0) {
+      return;
+    }
+    //this.templates[this.templates.length-1].templateObjects;
+    this.objects = this.templates.pop().templateObjects;
   }
 
   close() {

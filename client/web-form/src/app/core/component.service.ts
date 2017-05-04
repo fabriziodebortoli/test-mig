@@ -17,6 +17,7 @@ export class ComponentService {
 
   private componentCreatedSource = new Subject<number>();
   componentCreated$ = this.componentCreatedSource.asObservable();
+  componentDestroyed = new EventEmitter<ComponentInfo>();
 
   constructor(
     private router: Router,
@@ -30,13 +31,7 @@ export class ComponentService {
     });
     this.webSocketService.windowClose.subscribe(data => {
       if (data && data.id) {
-        for (let i = 0; i < this.components.length; i++) {
-          let info: ComponentInfo = this.components[i];
-          if (info.id === data.id) {
-            this.components.splice(i, 1);
-            break;
-          }
-        }
+        this.removeComponentById(data.id);
       }
     });
 
@@ -80,10 +75,7 @@ export class ComponentService {
   addComponent<T>(component: ComponentInfo) {
     this.components.push(component);
   }
-  /**invia un messaggo al server di distruggere il componente/ */
-  tryDestroyComponent(component: ComponentInfo) {
-    component.document.close();
-  }
+
   removeComponent(component: ComponentInfo) {
     let idx = this.components.indexOf(component);
     if (idx === -1) {
@@ -91,15 +83,17 @@ export class ComponentService {
       return;
     }
     this.components.splice(idx, 1);
+    this.componentDestroyed.emit(component);
   }
 
   removeComponentById(componentId: string) {
-
+    let removed: ComponentInfo;
     let idx = -1;
     for (let i = 0; i < this.components.length; i++) {
-      let comp: ComponentInfo = this.components[i];
+      const comp: ComponentInfo = this.components[i];
       if (comp.id === componentId) {
         idx = i;
+        removed = comp;
         break;
       }
     }
@@ -108,8 +102,9 @@ export class ComponentService {
       return;
     }
     this.components.splice(idx, 1);
+    this.componentDestroyed.emit(removed);
   }
-  
+
   createComponentFromUrl(url: string): Promise<void> {
     return new Promise<void>(resolve => {
       this.router.navigate([{ outlets: { dynamic: 'proxy/' + url }, skipLocationChange: false, replaceUrl: false }])
@@ -134,7 +129,7 @@ export class ComponentService {
     this.addComponent(info);
   }
 
-  onComponentCreated(info: ComponentInfo){
+  onComponentCreated(info: ComponentInfo) {
     this.componentCreatedSource.next(this.components.indexOf(info) + 1);
   }
 }
