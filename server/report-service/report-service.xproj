@@ -6,7 +6,7 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>ccf7286f-d4b2-4be4-9499-c0dd06b79961</ProjectGuid>
+    <ProjectGuid>a095f89e-e7c9-4ec0-ba14-7e7efb9f99e0</ProjectGuid>
     <RootNamespace>Microarea.RSWeb</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
