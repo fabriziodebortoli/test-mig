@@ -1,9 +1,9 @@
 
-import { NameDirective} from './directives/name-directive';
+import { NameDirective } from './directives/name-directive';
 
 import {
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
-  DockpaneComponent, TabberComponent, TabComponent, TileManagerComponent,
+  DockpaneComponent, TileManagerComponent,
   TileGroupComponent, TileComponent, ViewComponent,
   TilePanelComponent, LayoutContainerComponent, FrameComponent
 } from './containers';
@@ -76,14 +76,13 @@ const TB_COMPONENTS = [
   TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent,
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
-  TabComponent, TabberComponent,
   ViewComponent, DockpaneComponent, FrameComponent, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DynamicCmpComponent, UnknownComponent,
   CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
   OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
-  BoolEditComponent, BodyEditComponent,LinkComponent,
+  BoolEditComponent, BodyEditComponent, LinkComponent,
   PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent
 ];
 
@@ -96,7 +95,7 @@ const TB_DIRECTIVES = [
 @NgModule({
   imports: [
     ReactiveFormsModule, InputsModule,
-  DialogModule,
+    DialogModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
