@@ -9,7 +9,7 @@ import { EventDataService } from './eventdata.service';
 @Injectable()
 export class DocumentService {
     mainCmpId: string;
-    constructor(protected logger: Logger, protected eventData: EventDataService) {
+    constructor(protected logger: Logger, public eventData: EventDataService) {
     }
 
     init(cmpId: string) {

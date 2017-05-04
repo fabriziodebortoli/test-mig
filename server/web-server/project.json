@@ -5,15 +5,17 @@
     "Microsoft.AspNetCore.Cors": "1.1.1",
     "Microsoft.AspNetCore.WebSockets.Server": "0.1.0-*",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
-      "data-service": "1.0.0-*",
-      "database-service": "1.0.0-*",
-      "account-manager": "1.0.0-*",
-      "menu-gate": "1.0.0-*",
-      "rs-web": "1.0.0-*",
+	
+    "data-service": "1.0.0-*",
+    "database-service": "1.0.0-*",
+    "account-manager": "1.0.0-*",
+    "menu-gate": "1.0.0-*",
+    "report-service": "1.0.0-*",
     "tbloader-gate": "1.0.0-*",
     "widgets-service": "1.0.0-*",
     "manufacturing-service": "1.0.0-*",
     "licensing-manager": "1.0.0-*",
+	
     "Microsoft.NETCore.App": {
       "type": "platform",
       "version": "1.1.1"

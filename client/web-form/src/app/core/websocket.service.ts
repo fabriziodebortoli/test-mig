@@ -1,4 +1,5 @@
-﻿import { EventEmitter, Injectable } from '@angular/core';
+﻿import { MessageDlgArgs, MessageDlgResult } from './../shared/containers/message-dialog/message-dialog.component';
+import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -113,8 +114,11 @@ export class WebSocketService {
         const data = { cmd: 'getDocumentData', cmpId: cmpId };
         this.connection.send(JSON.stringify(data));
     }
-
-    doCloseMessageDialog(cmpId: String, result: any): void {
+    checkMessageDialog(cmpId: String) {
+        const data = { cmd: 'checkMessageDialog', cmpId: cmpId };
+        this.connection.send(JSON.stringify(data));
+    }
+    doCloseMessageDialog(cmpId: String, result: MessageDlgResult): void {
         const data = { cmd: 'doCloseMessageDialog', cmpId: cmpId, result: result };
         this.connection.send(JSON.stringify(data));
     }
@@ -123,15 +127,4 @@ export class SocketMessage {
     constructor(public name: string, public content: any) {
 
     }
-}
-export class MessageDlgArgs {
-    public text = '';
-    public ok = false;
-    public cancel = false;
-    public yes = false;
-    public no = false;
-    public abort = false;
-    public ignore = false;
-    public retry = false;
-    public continue = false;
 }

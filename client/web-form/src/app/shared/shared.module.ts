@@ -57,6 +57,7 @@ import { TextareaComponent } from './controls/textarea/textarea.component';
 import { FileComponent } from './controls/file/file.component';
 import { LinkComponent } from './controls/link/link.component';
 import { ComboSimpleComponent } from './controls/combo-simple/combo-simple.component';
+import { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
 
 
 const KENDO_UI_MODULES = [
@@ -83,7 +84,7 @@ const TB_COMPONENTS = [
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
   BoolEditComponent, BodyEditComponent,LinkComponent,
-  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent
+  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent
 ];
 
 const TB_DIRECTIVES = [
@@ -103,7 +104,7 @@ const TB_DIRECTIVES = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, TB_DIRECTIVES],
+  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent],
   exports: [TB_COMPONENTS, TB_DIRECTIVES],
   entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
 

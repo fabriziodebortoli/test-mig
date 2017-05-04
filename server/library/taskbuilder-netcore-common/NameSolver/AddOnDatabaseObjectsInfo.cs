@@ -135,12 +135,9 @@ namespace Microarea.Common.NameSolver
 		/// parsa il singolo nodo di tipo Table
 		/// </summary>
 		/// <param name="addColTblNodes">array di nodi</param>
-		/// <returns>successo della funzione</returns>
 		//---------------------------------------------------------------------
 		public bool ParseSingleAddColTables(XmlNodeList addColTblNodes)
 		{
-			NameSpace nameSpace = null;
-
 			if (addColTblNodes == null)
 				return false;
 
@@ -149,15 +146,32 @@ namespace Microarea.Common.NameSolver
 	
 			foreach (XmlElement xCol in addColTblNodes)
 			{
-				int rel	 = Convert.ToInt32(xCol.GetAttribute(AddOnDatabaseObjectsXML.Attribute.Release));
-				int step = Convert.ToInt32(xCol.GetAttribute(AddOnDatabaseObjectsXML.Attribute.Createstep));
-				string nameSpaceString = xCol.GetAttribute(AddOnDatabaseObjectsXML.Attribute.NameSpace);
+				string relAttribute = xCol.GetAttribute(AddOnDatabaseObjectsXML.Attribute.Release);
+				string stepAttribute = xCol.GetAttribute(AddOnDatabaseObjectsXML.Attribute.Createstep);
+				string nsAttribute = xCol.GetAttribute(AddOnDatabaseObjectsXML.Attribute.NameSpace);
+				string virtualAttribute = xCol.GetAttribute(AddOnDatabaseObjectsXML.Attribute.Virtual);
 
-				if ( nameSpaceString!= null && nameSpaceString.Length >0)
-					nameSpace = new NameSpace(nameSpaceString, NameSpaceObjectType.Library);
+				try
+				{
+					// se e' presente l'attributo virtual = true skippo la riga
+					if (!string.IsNullOrWhiteSpace(virtualAttribute) && string.Compare(virtualAttribute, bool.TrueString, StringComparison.OrdinalIgnoreCase) == 0)
+						continue;
 
-				AlterTableInfo aAlterTableInfo = new AlterTableInfo(rel, step, nameSpace);
-				addColTableInfoArray.Add(aAlterTableInfo);
+					// se uno degli attributi e' vuoto skippo
+					if (string.IsNullOrWhiteSpace(relAttribute) || string.IsNullOrWhiteSpace(stepAttribute) || string.IsNullOrWhiteSpace(nsAttribute))
+						continue;
+
+					int rel = Convert.ToInt32(relAttribute);
+					int step = Convert.ToInt32(stepAttribute);
+					NameSpace ns = new NameSpace(nsAttribute, NameSpaceObjectType.Library);
+
+					AlterTableInfo aAlterTableInfo = new AlterTableInfo(rel, step, ns);
+					addColTableInfoArray.Add(aAlterTableInfo);
+				}
+				catch
+				{
+					continue;
+				}
 			}
 
 			return true;
@@ -251,14 +265,14 @@ namespace Microarea.Common.NameSolver
 			}
 			catch(XmlException err)
 			{
-				Debug.Fail(err.Message);
+				Debug.Fail(string.Format("Error parsing file {0} ({1})", filePath, err.Message));
 				valid = false;
 				parsingError = err.Message;
 				return false;
 			}
 			catch(Exception e)
 			{
-				Debug.Fail(e.Message);
+				Debug.Fail(string.Format("Error parsing file {0} ({1})", filePath, e.Message));
 				valid = false;
 				parsingError = e.Message;
 				return false;
@@ -270,13 +284,10 @@ namespace Microarea.Common.NameSolver
 		/// <summary>
 		/// Parsa tutte le Tables contenute nei nodi AdditionalColumns
 		/// </summary>
-		/// <param name="groupElements">nodo Tables</param>
-		/// <returns>successo della funzione</returns>
+		/// <param name="tablesNodeElements">nodo Tables</param>
 		//---------------------------------------------------------------------
 		private bool ParseAdditionalColumnsTbl(XmlNodeList tablesNodeElements)
 		{
-			NameSpace tableNameSpace = null;
-
 			if (tablesNodeElements == null)
 				return false;
 
@@ -291,23 +302,26 @@ namespace Microarea.Common.NameSolver
 			{
 				//namespace della Table (si compone sempre di 4 token)
 				string nameSpace = tElem.GetAttribute(AddOnDatabaseObjectsXML.Attribute.NameSpace);
-				if (nameSpace != null && nameSpace.Length >0)
-					tableNameSpace = new NameSpace(nameSpace, NameSpaceObjectType.Table);
+				if (string.IsNullOrWhiteSpace(nameSpace))
+					continue;
 
-				string [] name = nameSpace.Split(new Char[] {'.'});
-			
+				NameSpace tableNameSpace = new NameSpace(nameSpace, NameSpaceObjectType.Table);
+				if (tableNameSpace == null || string.IsNullOrWhiteSpace(tableNameSpace.FullNameSpace))
+					continue;
+
 				// creo l'oggetto che tiene le info raccolte
-				// utilizzando il token n° 4 (quello relativo al nome fisico della tabella)
-				AdditionalColumnTblInfo addColTblInfo = new AdditionalColumnTblInfo(name[3].ToString(), tableNameSpace);
-				addColumnsInfoArray.Add(addColTblInfo);
-					
+				AdditionalColumnTblInfo addColTblInfo = new AdditionalColumnTblInfo(tableNameSpace.Table, tableNameSpace);
+
 				//cerco il tag AlterTable
 				XmlNodeList alterTblElem = tElem.GetElementsByTagName(AddOnDatabaseObjectsXML.Element.AlterTable);
-
 				if (alterTblElem == null || alterTblElem.Count == 0)
 					continue;
 
 				addColTblInfo.ParseSingleAddColTables(alterTblElem);
+
+				// aggiunto la table all'array solo se ho almeno una riga di altertable valida
+				if (addColTblInfo.AddColTableInfoArray.Count > 0)
+					addColumnsInfoArray.Add(addColTblInfo);
 			}
 
 			return true;
