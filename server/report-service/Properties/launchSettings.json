@@ -11,15 +11,15 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/RSWeb",
+      "launchUrl": "api/rs",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "RSWeb": {
+    "RS": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000/api/RSWeb",
+      "launchUrl": "http://localhost:5000/api/rs",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

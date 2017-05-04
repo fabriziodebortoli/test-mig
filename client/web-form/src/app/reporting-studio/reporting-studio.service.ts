@@ -14,7 +14,7 @@ export class ReportingStudioService extends DocumentService {
     public pageNum: number = 1;
     public askPage: string = '';
     public showAsk = false;
-    private rsServer: string = environment.baseSocket + 'rsweb';
+    private rsServer: string = environment.baseSocket + 'rs';
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
 
