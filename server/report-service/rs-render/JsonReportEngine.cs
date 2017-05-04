@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+
+using Newtonsoft.Json;
 
 using Microarea.Common.Applications;
+using Microarea.Common.Generic;
 
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Models;
 using Microarea.RSWeb.WoormEngine;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Microarea.RSWeb.Render
 {
@@ -77,7 +79,13 @@ namespace Microarea.RSWeb.Render
         }
 
         //---------------------------------------------------------------------
-        public string GetJsonAskDialog(List<AskDialogElement> data, string name="")
+        public string UpdateJsonAskDialog(AskDialogElement data, string name)
+        {
+            return string.Empty;
+        }
+
+        //---------------------------------------------------------------------
+        public string GetJsonAskDialog(List<AskDialogElement> data, string name)
         {
            AskDialog dlg = StateMachine.Report.Engine.FindAskDialog(name);
            if (dlg == null)
@@ -86,11 +94,6 @@ namespace Microarea.RSWeb.Render
             return dlg.ToJson();
         }
 
-        //---------------------------------------------------------------------
-        public string UpdateJsonAskDialog(AskDialogElement data, string name = "")
-        {
-            return string.Empty;
-        }
         
         public string GetJsonAskDialog(int index=0)
         {
@@ -128,17 +131,26 @@ namespace Microarea.RSWeb.Render
                         break;
                     }
                case MessageBuilder.CommandType.ASK:
-                    {
-                                            
-                        nMsg.page = msg.page;
-                        List<AskDialogElement> data = JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
-                        nMsg.message = GetJsonAskDialog(/*data, nMsg.page*/);
+                    {         
+                        nMsg.page = msg.page;   //contiene il nome della dialog, se è vuota viene richiesta la prima per la prima volta
+                        List<AskDialogElement> data = nMsg.page == "0" ? null : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
+
+                        nMsg.message = GetJsonAskDialog(data, nMsg.page);
+
+                        if (nMsg.message.IsNullOrEmpty())
+                        {
+                            nMsg.commandType = MessageBuilder.CommandType.TEMPLATE;
+                            nMsg.message = GetJsonTemplatePage(1);
+                        }
+
+
                         break;
                     }
                 case MessageBuilder.CommandType.UPDATEASK:
                     {
-                        nMsg.page = msg.page;
-                        AskDialogElement data = JsonConvert.DeserializeObject<AskDialogElement>(msg.message);
+                       nMsg.page = msg.page;
+                       AskDialogElement data = JsonConvert.DeserializeObject<AskDialogElement>(msg.message);
+
                        UpdateJsonAskDialog(data, nMsg.page);
                        break;
                     }
@@ -146,7 +158,6 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.INITTEMPLATE:
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
-
                         if (int.TryParse(msg.page, out pageNum))
                             nMsg.message = GetJsonTemplatePage(pageNum);
                         break;
