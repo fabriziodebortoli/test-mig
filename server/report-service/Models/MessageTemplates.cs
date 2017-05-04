@@ -18,5 +18,11 @@ namespace Microarea.RSWeb.Models
         public string parameters { get; set; }
         public string authtoken { get; set; }
     }
+
+    public class AskDialogElement
+    {
+        public string id { get; set; }
+        public string value { get; set; }
+    }
  
 }

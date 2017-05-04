@@ -5,6 +5,8 @@ using Microarea.Common.Applications;
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Models;
 using Microarea.RSWeb.WoormEngine;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Microarea.RSWeb.Render
 {
@@ -75,7 +77,7 @@ namespace Microarea.RSWeb.Render
         }
 
         //---------------------------------------------------------------------
-        public string GetJsonAskDialog(string name)
+        public string GetJsonAskDialog(List<AskDialogElement> data, string name="")
         {
            AskDialog dlg = StateMachine.Report.Engine.FindAskDialog(name);
            if (dlg == null)
@@ -84,6 +86,12 @@ namespace Microarea.RSWeb.Render
             return dlg.ToJson();
         }
 
+        //---------------------------------------------------------------------
+        public string UpdateJsonAskDialog(AskDialogElement data, string name = "")
+        {
+            return string.Empty;
+        }
+        
         public string GetJsonAskDialog(int index=0)
         {
             AskDialog dlg = StateMachine.Report.Engine.GetAskDialog(index);
@@ -123,12 +131,16 @@ namespace Microarea.RSWeb.Render
                     {
                                             
                         nMsg.page = msg.page;
-                        nMsg.message = GetJsonAskDialog(/*nMsg.page*/);
+                        List<AskDialogElement> data = JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
+                        nMsg.message = GetJsonAskDialog(data, nMsg.page);
                         break;
                     }
                 case MessageBuilder.CommandType.UPDATEASK:
                     {
-                        break;
+                        nMsg.page = msg.page;
+                        AskDialogElement data = JsonConvert.DeserializeObject<AskDialogElement>(msg.message);
+                        UpdateJsonAskDialog(data, nMsg.page);
+                       break;
                     }
           
                 case MessageBuilder.CommandType.INITTEMPLATE:
