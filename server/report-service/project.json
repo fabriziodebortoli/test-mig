@@ -73,5 +73,5 @@
   "tooling": {
     "defaultNamespace": "Microarea.RSWeb"
   },
-  "userSecretsId": "aspnet-rs-web-20170118112426"
+  "userSecretsId": "aspnet-report-service-20170118112426"
 }
