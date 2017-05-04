@@ -36,10 +36,24 @@ export class ComponentService {
     }));
 
     this.subscriptions.push(this.webSocketService.runReport.subscribe(data => {
-      this.createComponentFromUrl('rs/reportingstudio/' + data.ns + '/');
+      this.createReportComponent(data.ns, data.args);
     }));
   }
+  createReportComponent(ns: string, args: any = undefined) {
+    let url = 'rs/reportingstudio/' + ns + '/';
+    if (args) {
+      if (typeof (args) === 'string') {
+        url += args;
+      }
+      else if (typeof (args) === 'object') {
+        if (Object.keys(args).length) {
+          url += JSON.stringify(args);
+        }
+      }
 
+    }
+    this.createComponentFromUrl(url);
+  }
   dispose() {
     this.subscriptions.forEach(subs => subs.unsubscribe());
   }

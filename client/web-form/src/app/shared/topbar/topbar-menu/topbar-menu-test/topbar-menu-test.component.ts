@@ -21,7 +21,7 @@ export class TopbarMenuTestComponent implements OnInit {
   }
 
   openRS() {
-    this.componentService.createComponentFromUrl('rs/reportingstudio/');
+    this.componentService.createReportComponent('');
   }
 
   openTBExplorer() {
