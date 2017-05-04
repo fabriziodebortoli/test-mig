@@ -14,7 +14,7 @@ export class ComponentService {
   componentsToCreate = new Array<any>();
   currentComponentId: string; //id del componente in fase di creazione
   creatingComponent = false;//semaforo
-
+  subscriptions = [];
   private componentCreatedSource = new Subject<number>();
   componentCreated$ = this.componentCreatedSource.asObservable();
   componentDestroyed = new EventEmitter<ComponentInfo>();
@@ -24,17 +24,24 @@ export class ComponentService {
     private webSocketService: WebSocketService,
     private httpService: HttpService,
     private logger: Logger) {
-    this.webSocketService.windowOpen.subscribe(data => {
+    this.subscriptions.push(this.webSocketService.windowOpen.subscribe(data => {
       this.componentsToCreate.push(...data.components);
       this.createNextComponent();
 
-    });
-    this.webSocketService.windowClose.subscribe(data => {
+    }));
+    this.subscriptions.push(this.webSocketService.windowClose.subscribe(data => {
       if (data && data.id) {
         this.removeComponentById(data.id);
       }
-    });
+    }));
 
+    this.subscriptions.push(this.webSocketService.runReport.subscribe(data => {
+      this.createComponentFromUrl('rs/reportingstudio/' + data.ns + '/');
+    }));
+  }
+
+  dispose() {
+    this.subscriptions.forEach(subs => subs.unsubscribe());
   }
   /*per ogni componente inviato dal server, istanzia il componente angular associato usando il routing
   nel caso di più componenti, le creazioni vanno effettuate in cascata col meccanismo della promise
