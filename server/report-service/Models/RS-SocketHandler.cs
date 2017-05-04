@@ -67,7 +67,7 @@ namespace Microarea.RSWeb.Models
         /// <returns></returns>
         public async Task Listen(HttpContext http, Func<Task> next)
         {
-            if (http.WebSockets.IsWebSocketRequest && http.Request.Path.StartsWithSegments("/RSWeb"))
+            if (http.WebSockets.IsWebSocketRequest && http.Request.Path.StartsWithSegments("/rs"))
             {
                 /// accept connection               
                 var webSocket = await http.WebSockets.AcceptWebSocketAsync();

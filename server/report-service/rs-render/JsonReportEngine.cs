@@ -132,14 +132,14 @@ namespace Microarea.RSWeb.Render
                                             
                         nMsg.page = msg.page;
                         List<AskDialogElement> data = JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
-                        nMsg.message = GetJsonAskDialog(data, nMsg.page);
+                        nMsg.message = GetJsonAskDialog(/*data, nMsg.page*/);
                         break;
                     }
                 case MessageBuilder.CommandType.UPDATEASK:
                     {
                         nMsg.page = msg.page;
                         AskDialogElement data = JsonConvert.DeserializeObject<AskDialogElement>(msg.message);
-                        UpdateJsonAskDialog(data, nMsg.page);
+                       UpdateJsonAskDialog(data, nMsg.page);
                        break;
                     }
           
