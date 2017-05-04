@@ -21,7 +21,7 @@ namespace Microarea.RSWeb.Models
     /// </summary>
     public class RSSocketHandler
     {
-        private JsonReportEngine CreateEngine(NamespaceMessage nsMsg)
+        private JsonReportEngine CreateEngine(NamespaceMessage nsMsg, WebSocket webSocket)
         {
             if (nsMsg == null)
                 return null;
@@ -32,10 +32,13 @@ namespace Microarea.RSWeb.Models
  
             UserInfo ui = new UserInfo(loginInfo, nsMsg.authtoken);
 
-            //string arguments = nsMsg.parameters.IsNullOrEmpty() ? string.Empty :  WebUtility.UrlDecode(nsMsg.parameters);
             TbReportSession session = new TbReportSession(ui, nsMsg.nameSpace, nsMsg.parameters);
+            session.WebSocket = webSocket;
+
             JsonReportEngine engine = new JsonReportEngine(session);
+
             engine.Execute();
+
             return engine;
         }
 
@@ -82,7 +85,7 @@ namespace Microarea.RSWeb.Models
                 string msgNs = Encoding.UTF8.GetString(nsBuffer.Array, nsBuffer.Offset, nsBuffer.Count).Replace("\0", "");
 
                 /// creates states machine associated with pipe  
-                JsonReportEngine jengine = CreateEngine(JsonConvert.DeserializeObject<NamespaceMessage>(msgNs));
+                JsonReportEngine jengine = CreateEngine(JsonConvert.DeserializeObject<NamespaceMessage>(msgNs), webSocket);
 
                 if (jengine == null)
                 {    /// handle errors

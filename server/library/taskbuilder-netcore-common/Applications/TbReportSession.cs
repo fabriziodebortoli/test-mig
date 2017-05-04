@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net;
+using System.Net.WebSockets;
 
 namespace Microarea.Common.Applications
 {
@@ -44,7 +45,9 @@ namespace Microarea.Common.Applications
         public const string TbInstanceKey = "tbloader-name";
         public string TbInstanceID = string.Empty;
         public bool LoggedToTb = false;
- 
+
+        public WebSocket WebSocket = null;
+
         public IPathFinder PathFinder = null;
 
         private string sNamespace;
