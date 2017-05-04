@@ -222,7 +222,7 @@ export class MenuService {
 
         this.addToMostUsed(object);
         object.isLoading = true;
-        let subs = this.componentService.componentCreated.subscribe(info => {
+        let subs = this.componentService.componentCreated$.subscribe(index => {
             object.isLoading = false;
             subs.unsubscribe();
         });

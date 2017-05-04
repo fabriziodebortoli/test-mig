@@ -12,7 +12,7 @@ namespace DataService.Controllers
     {
         UserInfo GetLoginInformation()
         {
-            string sAuthT = HttpContext.Request.Cookies["authtoken"];
+            string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
             if (string.IsNullOrEmpty(sAuthT))
                 return null;
 

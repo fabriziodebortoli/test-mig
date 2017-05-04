@@ -1,4 +1,4 @@
-<div>
-    <label>{{caption}}</label>
+<div class="tb-control tb-radio">
+    <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
     <input id="{{cmpId}}" type="radio" [ngModel]="model?.value" [disabled]="!model?.enabled" (ngModelChange)="model.value=$event" [tb-name]="name">
 </div>

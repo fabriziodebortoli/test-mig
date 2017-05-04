@@ -339,6 +339,7 @@ export class askGroup {
   group_name: string;
   entries: askObj[] = [];
   radioBtns: radio[] = [];
+  isRadioGroup: boolean = false;
   constructor(jsonObj: any) {
     this.caption = jsonObj.caption;
     this.hidden = jsonObj.hidden;
@@ -354,6 +355,7 @@ export class askGroup {
         obj = new check(element.check);
       }
       else if (element.radio !== undefined) {
+        this.isRadioGroup = true;
         obj = new radio(element.radio);
         this.radioBtns.push(obj);
       }
@@ -386,7 +388,7 @@ export class askObj extends fieldAskObj {
   left_aligned: boolean;
   left_text: boolean;
   runatserver: boolean;
-  group_name: string;
+
   constructor(jsonObj: any) {
     super(jsonObj.field);
     this.hidden = jsonObj.hidden;
@@ -395,7 +397,7 @@ export class askObj extends fieldAskObj {
     this.left_aligned = jsonObj.left_aligned;
     this.left_text = jsonObj.left_text;
     this.runatserver = jsonObj.runatserver;
-    this.group_name = jsonObj.group_name;
+
   }
 }
 
@@ -415,8 +417,10 @@ export class check extends askObj {
 
 export class radio extends askObj {
   obj: AskObjectType = AskObjectType.radio;
+  group_name: string;
   constructor(jsonObj: any) {
     super(jsonObj);
+    this.group_name = jsonObj.group_name;
   }
 }
 

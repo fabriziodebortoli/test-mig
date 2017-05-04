@@ -1,5 +1,5 @@
 ﻿import { TbComponent } from '..';
-import { Component, Input,ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 
 @Component({
     template: ''
@@ -15,6 +15,8 @@ export class ControlComponent extends TbComponent {
     public validators: Array<any> = [];
     @Input()
     public value: any;
+
+    @Output('blur') blur: EventEmitter<any> = new EventEmitter();
 
     get model(): any {
         return this._model;

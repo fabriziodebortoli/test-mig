@@ -1,8 +1,9 @@
+
 import { NameDirective } from './directives/name-directive';
 
 import {
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
-  DockpaneComponent, TabberComponent, TabComponent, TileManagerComponent,
+  DockpaneComponent, TileManagerComponent,
   TileGroupComponent, TileComponent, ViewComponent,
   TilePanelComponent, LayoutContainerComponent, FrameComponent
 } from './containers';
@@ -27,7 +28,8 @@ import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideD
 import { LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective } from './containers/tiles/layout-styles';
 import {
   CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
-  CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent, UnknownComponent, BodyEditComponent
+  CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent, UnknownComponent, BodyEditComponent,
+  LinearGaugeComponent
 } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
@@ -55,6 +57,7 @@ import { TextareaComponent } from './controls/textarea/textarea.component';
 import { FileComponent } from './controls/file/file.component';
 import { LinkComponent } from './controls/link/link.component';
 import { ComboSimpleComponent } from './controls/combo-simple/combo-simple.component';
+import { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
 
 
 const KENDO_UI_MODULES = [
@@ -73,15 +76,14 @@ const TB_COMPONENTS = [
   TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent,
   FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
-  TabComponent, TabberComponent,
   ViewComponent, DockpaneComponent, FrameComponent, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DynamicCmpComponent, UnknownComponent,
   CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
   OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
-  BoolEditComponent, BodyEditComponent,LinkComponent,
-  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent
+  BoolEditComponent, BodyEditComponent, LinkComponent,
+  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent
 ];
 
 const TB_DIRECTIVES = [
@@ -93,6 +95,7 @@ const TB_DIRECTIVES = [
 @NgModule({
   imports: [
     ReactiveFormsModule, InputsModule,
+    DialogModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -100,7 +103,7 @@ const TB_DIRECTIVES = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, TB_DIRECTIVES],
+  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent],
   exports: [TB_COMPONENTS, TB_DIRECTIVES],
   entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
 

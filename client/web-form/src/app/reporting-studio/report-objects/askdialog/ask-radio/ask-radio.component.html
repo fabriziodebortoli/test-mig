@@ -1,1 +1,4 @@
-<tb-radio   [model]="radio" caption="{{radio?.caption}}" cmpId="{{radio?.id}}" name="{{radio?.group_name}}" ></tb-radio>
+<!--<tb-radio [model]="radio" caption="{{radio?.caption}}" cmpId="{{radio?.id}}" name="{{radio?.group_name}}"></tb-radio>-->
+
+
+<md-radio-button (click)="checkedRadio()" [value]="radio.value" [checked]="radio.value" [disabled]="!radio.enabled" [id]="radio.id">{{radio.caption}}</md-radio-button>
