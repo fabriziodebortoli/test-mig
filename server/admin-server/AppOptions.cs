@@ -8,11 +8,11 @@ namespace Microarea.AdminServer
     //================================================================================
     public class AppOptions
     {
-        public DatabaseConnection DatabaseConnection { get; set; }
+        public DatabaseConnectionString DatabaseConnection { get; set; }
     }
 
     //================================================================================
-    public class DatabaseConnection
+    public class DatabaseConnectionString
     {
         public string Value { get; set; }
     }
