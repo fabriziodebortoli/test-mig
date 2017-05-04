@@ -1,5 +1,5 @@
 <div class="tb-control tb-email">
     <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <input id="{{cmpId}}" type="text" [ngClass]="showError" class="tb-text" (blur)="onBlur()" [disabled]="!model?.enabled" [(ngModel)]="selectedValue" (ngModelChange)="model.value=$event" [readonly]="readonly" />
+    <input id="{{cmpId}}" type="text" [ngClass]="showError" class="tb-text" (blur)="onBlur()" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [readonly]="readonly" />
     <div class="has-error">{{errorMessage}}</div>
 </div>
