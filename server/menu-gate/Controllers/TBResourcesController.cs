@@ -49,7 +49,6 @@ namespace Microarea.Menu.Controllers
         //--------------------------------------------------------------------------
         public IActionResult GetApplicationsJson()
         {
-            //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
             IList applications = GetApplications();
 
             StringBuilder sb = new StringBuilder();
@@ -87,8 +86,7 @@ namespace Microarea.Menu.Controllers
         [Route("explorer-open/get-folders/{applicationPath}")]
         //--------------------------------------------------------------------------
         public IActionResult GetFolders(string applicationPath)
-        {
-            //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
+        {  
             if (string.IsNullOrEmpty(applicationPath))
                 return null;
             
@@ -127,6 +125,53 @@ namespace Microarea.Menu.Controllers
             return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
         }
 
-      
+        [Route("explorer-open/get-folderFiles/{folderPath}")]
+        //--------------------------------------------------------------------------
+        public IActionResult GetFolderFiles(string folderPath)
+        {
+            //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
+            if (string.IsNullOrEmpty(folderPath))
+                return null;
+
+            string folder = HttpContext.Request.Query["folderPath"];
+            folder = Path.Combine(folder, "Report");
+            DirectoryInfo currentFolderDir = new DirectoryInfo(folder);
+
+            if (!currentFolderDir.Exists)
+                return null;
+
+            IList files = currentFolderDir.GetFiles("*.wrm");
+
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            JsonWriter jsonWriter = new JsonTextWriter(sw);
+            jsonWriter.Formatting = Formatting.Indented;
+
+            jsonWriter.WriteStartObject();
+            jsonWriter.WritePropertyName("Files");
+
+            jsonWriter.WriteStartObject();
+            jsonWriter.WritePropertyName("File");
+
+            jsonWriter.WriteStartArray();
+
+            foreach (FileInfo item in files)
+            {
+                jsonWriter.WriteStartObject();
+                jsonWriter.WritePropertyName("name");
+                jsonWriter.WriteValue(item.Name);
+                jsonWriter.WritePropertyName("path");
+                jsonWriter.WriteValue(item.FullName);
+                jsonWriter.WriteEndObject();
+            }
+
+            jsonWriter.WriteEndArray();
+
+            jsonWriter.WriteEndObject();
+            jsonWriter.WriteEndObject();
+
+            string s = sb.ToString();
+            return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
+        }
     }
 }
