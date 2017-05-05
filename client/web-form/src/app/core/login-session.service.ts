@@ -9,7 +9,7 @@ import { LoginSession } from './../shared/models/login-session';
 import { HttpService } from './http.service';
 import { WebSocketService } from './websocket.service';
 
-import { Logger } from 'libclient';
+import { Logger } from './logger.service';
 
 @Injectable()
 export class LoginSessionService {

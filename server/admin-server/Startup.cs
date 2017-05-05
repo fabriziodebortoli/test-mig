@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microarea.AdminServer.Services.AdminDataService;
-using Microarea.AdminServer.Services.Providers;
+using Microarea.AdminServer.Services.Interfaces;
+using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer
 {
@@ -43,8 +43,8 @@ namespace Microarea.AdminServer
             services.AddMvc();
 
             // Add data services.
-            AdminDataService adminDataService = new AdminDataService(new BasicAdminDataServiceProvider());
-            services.AddSingleton<AdminDataService>(adminDataService);
+            services.AddTransient<IAdminDataServiceProvider, BasicAdminDataServiceProvider>();
+            services.Configure<AppOptions>(options => Configuration.GetSection("App").Bind(options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,7 +58,7 @@ namespace Microarea.AdminServer
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute("default", "{controller=Admin}/{action=Index}/{id?}");
             });
         }
     }

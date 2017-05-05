@@ -12,6 +12,8 @@ namespace TaskBuilderNetCore.Interfaces
 		bool Valid { get; set; }
 		string ParsingError { get; set; }
 		bool Dms { get; }
+		string PreviousApplication { get; }
+		string PreviousModule { get; }
 
 		IBaseModuleInfo ParentModuleInfo { get; }
 

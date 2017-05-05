@@ -5,7 +5,7 @@ import { UtilsService } from './../../core/utils.service';
 import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
 
-import { Logger } from 'libclient';
+import { Logger } from './../../core/logger.service';
 
 @Injectable()
 export class LocalizationService {

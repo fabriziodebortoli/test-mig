@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 
 import { ViewModeType } from '../shared/models/view-mode-type.model';
 
-import { Logger } from 'libclient';
+import { Logger } from './logger.service';
 
 import { EventDataService } from './eventdata.service';
 
 @Injectable()
 export class DocumentService {
     mainCmpId: string;
-    constructor(protected logger: Logger, protected eventData: EventDataService) {
+    constructor(protected logger: Logger, public eventData: EventDataService) {
     }
 
     init(cmpId: string) {

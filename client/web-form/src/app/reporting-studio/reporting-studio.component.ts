@@ -8,6 +8,7 @@ import { DocumentComponent } from '../shared/document.component';
 import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
+import { TemplateItem } from "app/reporting-studio";
 import { LayoutService } from "app/core/layout.service";
 
 
@@ -23,16 +24,19 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   otherwise it is passed by the ComponentService creation logic*/
   private subMessage: Subscription;
   private message: any = '';
-  private running: boolean = false;
+  public running: boolean = false;
+
   public layoutStyle: any = {};
   public layoutBackStyle: any = {};
   public objects: baseobj[] = [];
   public templates: TemplateItem[] = [];
+  public askDialogTemplate: any;
 
   private viewHeightSubscription: Subscription;
   viewHeight: number;
 
-  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService, private layoutService: LayoutService) {
+  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService,
+    private layoutService: LayoutService, private componentService: ComponentService) {
     super(rsService, eventData);
 
 
@@ -74,21 +78,32 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       let msg = JSON.parse(message);
       let k = JSON.parse(msg.message);
       switch (msg.commandType) {
-        case CommandType.ASK: break;
-        case CommandType.OK: break;
+        case CommandType.ASK:
+          this.rsService.showAsk = true;
+          this.askDialogTemplate = msg.message;
+          break;
+        case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
           this.RenderLayout(k);
           if (this.args.params !== '') {
-            this.RunReport();
+            this.GetData();
           }
+
           break;
         case CommandType.TEMPLATE:
+          this.rsService.showAsk = false;
           this.RenderLayout(k);
           this.GetData();
           break;
         case CommandType.DATA:
+          //this.showAsk = true;
           this.UpdateData(k);
+          break;
+        case CommandType.RUNREPORT:
+          const params = encodeURIComponent(k.args);
+          this.componentService.createReportComponent(k.ns, params);
+
           break;
       }
 
@@ -118,9 +133,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     //ASK
     let message = {
-      commandType: CommandType.DATA,
-      message: this.args.nameSpace,
-      page: 0
+      commandType: CommandType.ASK,
+      message: '',
+      page: ''
     };
     this.rsService.doSend(JSON.stringify(message));
   }
@@ -130,7 +145,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     let message = {
       commandType: CommandType.DATA,
-      message: this.args.nameSpace,
+      message: this.args.params,
       page: 0
     };
     this.rsService.doSend(JSON.stringify(message));
@@ -323,19 +338,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 }
 
-
-
-export class TemplateItem {
-  public templateName: string;
-  public templateObjects: any[];
-  public template: any;
-
-  constructor(tName: string, template: any, tObj: any[]) {
-    this.templateName = tName;
-    this.templateObjects = tObj;
-    this.template = template;
-  }
-}
 
 @Component({
   template: ''

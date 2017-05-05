@@ -29,13 +29,14 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
 
   onBlur() {
     this.eventData.change.emit(this.cmpId);
+    this.blur.emit(this);
   }
 
   onUpdateNgModel(newDate: Date): void {
     if (!newDate) {
       return;
     }
-    const timestamp = Date.parse(newDate.toDateString() )
+    const timestamp = Date.parse(newDate.toDateString())
     if (isNaN(timestamp)) { return; }
     if (this.model === null) {
       this.model = { enable: 'true', value: '' };
@@ -43,7 +44,6 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
 
     this.selectedDate = newDate;
     this.model.value = formatDate(this.selectedDate, 'y-MM-ddTHH:mm:ss');
-    console.log('this.model.value = ' + this.model.value);
   }
 
   ngAfterViewInit(): void {

@@ -1,4 +1,4 @@
-<div [hidden]="!active" class="tab">
+<div *ngIf="active" class="tab">
     <div class="inner-tab" [style.height.px]="viewHeight">
         <ng-content></ng-content>
     </div>

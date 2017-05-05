@@ -1,7 +1,6 @@
 ﻿import { EnumsService } from './../../../core/enums.service';
-import { AfterViewInit } from 'libclient/node_modules/@angular/core';
 import { ControlComponent } from './../control.component';
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck } from '@angular/core';
 import { EventDataService } from './../../../core/eventdata.service';
 import { DocumentService } from './../../../core/document.service';
 import { WebSocketService } from './../../../core/websocket.service';
@@ -12,7 +11,7 @@ import { WebSocketService } from './../../../core/websocket.service';
     styleUrls: ['./enum-combo.component.scss']
 })
 
-export class EnumComboComponent extends ControlComponent implements OnChanges {
+export class EnumComboComponent extends ControlComponent implements OnChanges, DoCheck {
 
     private tag: string;
 
@@ -52,6 +51,30 @@ export class EnumComboComponent extends ControlComponent implements OnChanges {
         console.log(this.selectedItem);
     }
 
+    ngDoCheck() {
+
+        //TODOLUCA, è inefficiente, perchè viene chiamato un sacco di volte, ma il model con il jsonpatch non mi viene più cambiato
+        if (this.selectedItem == undefined || this.model == undefined)
+            return;
+
+
+        this.tag = this.model.tag;
+        let temp = this.model.value;
+
+        let enumItem = this.enumsService.getEnumsItem(temp);
+        if (enumItem != undefined)
+            temp = enumItem.name;
+
+        if (temp == this.selectedItem.code)
+            return;
+
+        this.items.splice(0, this.items.length);
+
+        let obj = { code: temp, description: temp };
+        this.items.push(obj);
+        this.selectedItem = obj;
+    }
+
     ngOnChanges(changes: {}) {
         if (changes['model'] == undefined || changes['model'].currentValue == undefined)
             return;
@@ -61,14 +84,14 @@ export class EnumComboComponent extends ControlComponent implements OnChanges {
         }
 
         this.tag = this.model.tag;
-
-        this.items.splice(0, this.items.length);
         let temp = changes['model'].currentValue.value;
 
         let enumItem = this.enumsService.getEnumsItem(temp);
         if (enumItem != undefined)
             temp = enumItem.name;
 
+        this.items.splice(0, this.items.length);
+    
         let obj = { code: temp, description: temp };
         this.items.push(obj);
         this.selectedItem = obj;

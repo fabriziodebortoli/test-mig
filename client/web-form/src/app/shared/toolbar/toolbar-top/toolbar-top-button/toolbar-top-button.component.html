@@ -6,8 +6,10 @@
 
     <tb-icon *ngSwitchCase="iconTypes.TB" />{{iconTxt}}</tb-icon>
 
-</div>
--->
+    <i *ngSwitchCase="iconTypes.CLASS" class="{{iconTxt}}"></i>
+
+</div>-->
+
 <div class="top-button">
     <button kendoButton (click)="onCommand()" [imageUrl]="iconTxt">{{caption}}</button>
 </div>

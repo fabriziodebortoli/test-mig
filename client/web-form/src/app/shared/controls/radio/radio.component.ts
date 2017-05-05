@@ -8,4 +8,5 @@ import { Component, Input } from '@angular/core';
 })
 
 export class RadioComponent extends ControlComponent {
+    @Input() name: string;
 }

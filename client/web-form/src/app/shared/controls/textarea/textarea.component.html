@@ -1,2 +1,5 @@
-<textarea name="{{cmpId}}" [readonly]="readonly" [ngModel]="model?.value" [ngStyle]="{'height': getCorrectHeight(), 'width':  getCorrectWidth()}"></textarea>
-<ng-container #contextMenu></ng-container>
+<div class="tb-control tb-textarea">
+    <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <textarea name="{{cmpId}}" [readonly]="readonly" [ngModel]="model?.value"  (ngModelChange)="model.value=$event" [disabled]="!model?.enabled" [ngStyle]="{'height': getCorrectHeight(), 'width':  getCorrectWidth()}"></textarea>
+    <ng-container #contextMenu></ng-container>
+</div>

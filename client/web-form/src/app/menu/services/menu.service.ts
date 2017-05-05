@@ -9,7 +9,7 @@ import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
 
 
-import { Logger } from 'libclient';
+import { Logger } from './../../core/logger.service';
 
 @Injectable()
 export class MenuService {
@@ -211,7 +211,7 @@ export class MenuService {
         if (object.objectType.toLowerCase() == 'report') {
             let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
                 if (!jsonObj.desktop) {
-                    this.componentService.createComponentFromUrl('rs/reportingstudio/' + object.target + '/');
+                    this.componentService.createReportComponent(object.target);
                 }
                 obs.unsubscribe();
             });
@@ -222,7 +222,7 @@ export class MenuService {
 
         this.addToMostUsed(object);
         object.isLoading = true;
-        let subs = this.componentService.componentCreated.subscribe(info => {
+        let subs = this.componentService.componentCreated$.subscribe(index => {
             object.isLoading = false;
             subs.unsubscribe();
         });

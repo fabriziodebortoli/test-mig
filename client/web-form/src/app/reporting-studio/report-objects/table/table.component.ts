@@ -1,11 +1,12 @@
 import { UtilsService } from './../../../core/utils.service';
 import { table, column, cell } from './../../reporting-studio.model';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 declare var $: any;
 @Component({
   selector: 'rs-table',
   templateUrl: './table.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./table.component.css']
 })
 export class ReportTableComponent {

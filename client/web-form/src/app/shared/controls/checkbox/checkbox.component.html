@@ -1,3 +1,4 @@
-<div style="padding:0.2rem">
-    <md-checkbox id="{{cmpId}}" [ngModel]="model?.value" (ngModelChange)="model.value=$event" color="primary">{{caption}}</md-checkbox>
+<div class="tb-control tb-checkbox">
+    <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <md-checkbox id="{{cmpId}}" [ngModel]="model?.value" [disabled]="!model?.enabled" (ngModelChange)="model.value=$event" color="primary" labelPosition="before"></md-checkbox>
 </div>
