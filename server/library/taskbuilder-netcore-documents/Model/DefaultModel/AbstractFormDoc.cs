@@ -9,7 +9,7 @@ namespace TaskBuilderNetCore.Documents.Model
     {
         public enum FormModeType { None, Browse, New, Edit, Find };
 
-        public FormModeType FormMode { get { return (FormModeType) Action; } set { Action = (DocumentAction) value; } }
+        public FormModeType FormMode { get { return (FormModeType) Mode; } set { Mode = (DocumentMode) value; } }
         protected AbstractFormDoc()
         {
 

@@ -11,12 +11,12 @@ namespace TaskBuilderNetCore.Documents.Model
     
     public abstract class Document : IDocument
     {
-        public enum DocumentAction { None, DataLoaded, AddNew, Edit, Find };
+        public enum DocumentMode { None, DataLoaded, AddNew, Edit, Find };
 
         IOrchestrator orchestrator;
         List<IExtension> extensions;
         CallerContext callerContext;
-        DocumentAction action;
+        DocumentMode mode;
 
         #region events declarations
 
@@ -61,16 +61,16 @@ namespace TaskBuilderNetCore.Documents.Model
             }
         }
 
-        public DocumentAction Action
+        public DocumentMode Mode
         {
             get
             {
-                return action;
+                return mode;
             }
 
             set
             {
-                action = value;
+                mode = value;
             }
         }
 
