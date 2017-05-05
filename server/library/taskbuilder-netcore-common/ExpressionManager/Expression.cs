@@ -3752,9 +3752,11 @@ namespace Microarea.Common.ExpressionManager
 
                 object ret = null;
 
-                if (function.Name.CompareNoCase("RunReport"))
+                if (function.Name.CompareNoCase("Framework.TbWoormViewer.TbWoormViewer.RunReport"))
                 {
                     ret = TbSession.RunReport(this.TbSession, fun);
+
+                    ret = true;
                 }
                 else
                 {
