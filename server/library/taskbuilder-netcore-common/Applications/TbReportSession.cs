@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.WebSockets;
+using System.ServiceModel.Channels;
 
 namespace Microarea.Common.Applications
 {
@@ -28,6 +29,7 @@ namespace Microarea.Common.Applications
 
     }
 
+ 
     /// <summary>
     /// Descrizione di riepilogo per TbSession.
     /// </summary>
@@ -361,6 +363,34 @@ namespace Microarea.Common.Applications
                     return null;
                 }
             }
+        }
+
+        //-------------------------------------------------------------------------------------------------
+        public class MyMessage
+        {
+            public int commandType = 5;
+            public string message { get; set; }
+
+            public string page = string.Empty;
+
+        }
+
+        public static async Task<string> RunReport(TbSession session, FunctionPrototype fun)
+        {
+            if (session.WebSocket == null)
+                return null;
+ 
+            XmlDocument d = new XmlDocument();
+            d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
+            fun.Parameters.Unparse(d.DocumentElement);
+            string xargs = d.OuterXml;
+
+            MyMessage msg = new MyMessage();
+            msg.message = '{' + fun.NameSpace.ToString().ToJson("ns") + ',' + xargs.ToJson("args", false, true) + '}';
+
+           
+
+           return "";
         }
 
     }

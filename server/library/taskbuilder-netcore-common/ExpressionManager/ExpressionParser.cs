@@ -1380,7 +1380,7 @@ namespace Microarea.Common.ExpressionManager
             }
             string[] noWebFun = new string[] 
                 {
-                        "RunReport", 
+                        //"RunReport", 
                         "RunProgram", 
                         "RunDocument",
                         "BrowseDocument",

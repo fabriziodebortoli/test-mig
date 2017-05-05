@@ -3750,13 +3750,33 @@ namespace Microarea.Common.ExpressionManager
                     fun.Parameters.Add(pInfo);
                 }
 
-                //TODO RSWEB Call soap methods
-                //ITbLoaderClient tbLoader = GetTBClientInterface();
-                //ret = tbLoader.Call(function.Prototype, objs);
+                object ret = null;
 
-                bool retLogin = TbSession.TbLogin(this.TbSession).Result;
+                if (function.Name.CompareNoCase("RunReport"))
+                {
+                    /*
+                     * 		CJsonSerializer json;
+                            json.WriteString(_T("ns"), strReport);
+                            json.WriteInt(_T("ownerid"), (int)pCallerDoc);
+                            json.OpenObject(_T("args"));
+                            //TODO unparsare parametri
+                            json.CloseObject();
+                            PushToClients(pLoginContext->GetName(), _T("RunReport"), json.GetJson());
 
-                string retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
+                     * */
+                    //this.TbSession.
+                    //this.TbSession.WebSocket
+                }
+                else
+                {
+                    //TODO RSWEB Call soap methods
+                    //ITbLoaderClient tbLoader = GetTBClientInterface();
+                    //ret = tbLoader.Call(function.Prototype, objs);
+
+                    bool retLogin = TbSession.TbLogin(this.TbSession).Result;
+
+                    string retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
+                }
 
                 //for (int i = 0; i < function.Parameters.Count; i++)
                 //{
@@ -3765,7 +3785,6 @@ namespace Microarea.Common.ExpressionManager
                 //	if (p.Mode != ParameterModeType.In)
                 //		item.Data = WcfTypes.From(objs[i], p.Type, p.BaseType);
                 //}
-                object ret = null;
 
                 return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
 			}			

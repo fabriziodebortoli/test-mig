@@ -38,7 +38,7 @@ namespace Microarea.RSWeb.Render
 		Start, 
 		CheckNoWebAndRelease, 
 		InitReport, 
-		RunReport, 
+		Run, 
 		RunViewer, 
 		RunPersister,
 		EndPersister,
@@ -367,11 +367,11 @@ namespace Microarea.RSWeb.Render
 
 							checker.Dispose();
 						}
-						CurrentState = State.RunReport;
+						CurrentState = State.Run;
 						break;
 					}
 
-					case State.RunReport :	
+					case State.Run :	
 					{
 						if (Report == null)
 						{
@@ -379,7 +379,7 @@ namespace Microarea.RSWeb.Render
 							break;
 						}
 
-						if (!Report.Compile())
+						if (!Report.ParseReport())
 						{
 							CurrentState = State.ReportError;
 							break;
