@@ -35,7 +35,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private viewHeightSubscription: Subscription;
   viewHeight: number;
 
-  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService, private layoutService: LayoutService) {
+  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService,
+    private layoutService: LayoutService, private componentService: ComponentService) {
     super(rsService, eventData);
 
 
@@ -98,6 +99,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.DATA:
           //this.showAsk = true;
           this.UpdateData(k);
+          break;
+        case CommandType.RUNREPORT:
+          const params = encodeURIComponent(k.args);
+          this.componentService.createReportComponent(k.ns, params);
+
           break;
       }
 

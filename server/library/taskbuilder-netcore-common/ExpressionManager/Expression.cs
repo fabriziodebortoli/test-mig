@@ -3754,18 +3754,7 @@ namespace Microarea.Common.ExpressionManager
 
                 if (function.Name.CompareNoCase("RunReport"))
                 {
-                    /*
-                     * 		CJsonSerializer json;
-                            json.WriteString(_T("ns"), strReport);
-                            json.WriteInt(_T("ownerid"), (int)pCallerDoc);
-                            json.OpenObject(_T("args"));
-                            //TODO unparsare parametri
-                            json.CloseObject();
-                            PushToClients(pLoginContext->GetName(), _T("RunReport"), json.GetJson());
-
-                     * */
-                    //this.TbSession.
-                    //this.TbSession.WebSocket
+                    ret = TbSession.RunReport(this.TbSession, fun);
                 }
                 else
                 {
