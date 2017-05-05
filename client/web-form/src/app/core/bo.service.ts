@@ -14,14 +14,7 @@ export class BOService extends DocumentService {
     serverSideCommandMap: any; //TODO SILVANO needs typing  
 
     //subscriptions
-    messageSubscription: any;
-    dataReadySubscription: any;
-    activationDataSubscription: any;
-    serverCommandMapReadySubscription: any;
-    commandSubscription: any;
-    changeSubscription: any;
-    openDropdownSubscription: any;
-    closeMessageDialogSubscription: any;
+    subscriptions = [];
 
     constructor(
         private webSocketService: WebSocketService,
@@ -29,7 +22,7 @@ export class BOService extends DocumentService {
         eventData: EventDataService) {
         super(boHelperService.logger, eventData);
 
-        this.dataReadySubscription = this.webSocketService.dataReady.subscribe(data => {
+        this.subscriptions.push(this.webSocketService.dataReady.subscribe(data => {
             const models: Array<any> = data.models;
             const cmpId = this.mainCmpId;
             models.forEach(model => {
@@ -48,9 +41,9 @@ export class BOService extends DocumentService {
                     this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
                 }
             });
-        });
+        }));
 
-        this.activationDataSubscription = this.webSocketService.activationData.subscribe(data => {
+        this.subscriptions.push(this.webSocketService.activationData.subscribe(data => {
             const components: Array<any> = data.components;
             const cmpId = this.mainCmpId;
             components.forEach(cmp => {
@@ -58,29 +51,29 @@ export class BOService extends DocumentService {
                     this.eventData.activation = cmp.activation;
                 }
             });
-        });
+        }));
 
-        this.serverCommandMapReadySubscription = this.webSocketService.serverCommandMapReady.subscribe(data => {
+        this.subscriptions.push(this.webSocketService.serverCommandMapReady.subscribe(data => {
             const cmpId = this.mainCmpId;
             if (data.id === cmpId) {
                 this.serverSideCommandMap = data.map;
             }
-        });
-        this.commandSubscription = this.eventData.command.subscribe((cmpId: String) => {
+        }));
+        this.subscriptions.push(this.eventData.command.subscribe((cmpId: String) => {
             const patch = this.getPatchedData();
             this.webSocketService.doCommand(this.mainCmpId, cmpId, patch);
             if (patch.length > 0) {
                 //client data has been sent to server, so reset oldModel
                 this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
             }
-        });
+        }));
 
-        this.messageSubscription = this.webSocketService.message.subscribe((args: MessageDlgArgs) => {
+        this.subscriptions.push(this.webSocketService.message.subscribe((args: MessageDlgArgs) => {
             if (args.cmpId === this.mainCmpId) {
                 this.eventData.openMessageDialog.emit(args);
             }
-        });
-        this.changeSubscription = this.eventData.change.subscribe((cmpId: String) => {
+        }));
+        this.subscriptions.push(this.eventData.change.subscribe((cmpId: String) => {
             if (this.isServerSideCommand(cmpId)) {
                 const patch = this.getPatchedData();
                 if (patch.length > 0) {
@@ -89,15 +82,15 @@ export class BOService extends DocumentService {
                     this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
                 }
             }
-        });
+        }));
 
-        this.openDropdownSubscription = this.eventData.openDropdown.subscribe((obj: any) => {
+        this.subscriptions.push(this.eventData.openDropdown.subscribe((obj: any) => {
             this.webSocketService.doFillListBox(this.mainCmpId, obj);
-        });
+        }));
 
-        this.closeMessageDialogSubscription = this.eventData.closeMessageDialog.subscribe((args: MessageDlgResult) => {
+        this.subscriptions.push(this.eventData.closeMessageDialog.subscribe((args: MessageDlgResult) => {
             this.webSocketService.doCloseMessageDialog(this.mainCmpId, args);
-        });
+        }));
 
     }
     getPatchedData(): any {
@@ -112,14 +105,7 @@ export class BOService extends DocumentService {
     dispose() {
         super.dispose();
         delete this.serverSideCommandMap;
-        this.dataReadySubscription.unsubscribe();
-        this.serverCommandMapReadySubscription.unsubscribe();
-        this.commandSubscription.unsubscribe();
-        this.changeSubscription.unsubscribe();
-        this.activationDataSubscription.unsubscribe();
-        this.openDropdownSubscription.unsubscribe();
-        this.messageSubscription.unsubscribe();
-        this.closeMessageDialogSubscription.unsubscribe();
+        this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
     close() {
