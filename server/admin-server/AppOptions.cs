@@ -8,12 +8,12 @@ namespace Microarea.AdminServer
     //================================================================================
     public class AppOptions
     {
-        public DatabaseConnectionString DatabaseConnection { get; set; }
+        public DatabaseInfo DatabaseInfo { get; set; }
     }
 
     //================================================================================
-    public class DatabaseConnectionString
+    public class DatabaseInfo
     {
-        public string Value { get; set; }
+        public string ConnectionString { get; set; }
     }
 }

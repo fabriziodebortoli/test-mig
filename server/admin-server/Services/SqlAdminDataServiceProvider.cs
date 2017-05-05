@@ -20,7 +20,7 @@ namespace Microarea.AdminServer.Services
             if (_settings == null)
                 return;
 
-            _connectionString = _settings.DatabaseConnection.Value;
+            _connectionString = _settings.DatabaseInfo.ConnectionString;
         }
         public IUserAccount ReadLogin(string userName, string password)
         {
