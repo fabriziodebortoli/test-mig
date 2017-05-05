@@ -8,7 +8,7 @@ using TaskBuilderNetCore.Interfaces;
 
 namespace TaskBuilderNetCore.Documents.Model
 {
-    
+    //====================================================================================    
     public abstract class Document : IDocument
     {
         public enum DocumentMode { None, DataLoaded, AddNew, Edit, Find };
@@ -22,15 +22,24 @@ namespace TaskBuilderNetCore.Documents.Model
 
         public event CancelEventHandler Initializing;
         public event EventHandler Initialized;
-        public event CancelEventHandler AttachingData;
-        public event EventHandler DataAttached;
-        public event CancelEventHandler DetachingData;
-        public event EventHandler DataDetached;
+        public event CancelEventHandler AttachingDataModel;
+        public event EventHandler DataModelAttached;
+        public event CancelEventHandler DetachingDataModel;
+        public event EventHandler DataModelDetached;
         public event CancelEventHandler DataLoading;
         public event EventHandler DataLoaded;
+        public event CancelEventHandler Validating;
+        public event EventHandler Validated;
+        public event CancelEventHandler Saving;
+        public event EventHandler Saved;
+        public event CancelEventHandler Newing;
+        public event EventHandler Newed;
+        public event CancelEventHandler Editing;
+        public event EventHandler Edited;
 
         #endregion
 
+        //-----------------------------------------------------------------------------------------------------
         public IOrchestrator Orchestrator
         {
             get
@@ -39,6 +48,7 @@ namespace TaskBuilderNetCore.Documents.Model
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------
         public List<IExtension> Extensions
         {
             get
@@ -52,6 +62,7 @@ namespace TaskBuilderNetCore.Documents.Model
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------
         public INameSpace NameSpace
         {
             get
@@ -61,6 +72,7 @@ namespace TaskBuilderNetCore.Documents.Model
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------
         public DocumentMode Mode
         {
             get
@@ -74,11 +86,13 @@ namespace TaskBuilderNetCore.Documents.Model
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------
         protected Document()
         {
             Clear();
         }
 
+        //-----------------------------------------------------------------------------------------------------
         public void Clear()
         {
             this.callerContext = null;
@@ -92,16 +106,20 @@ namespace TaskBuilderNetCore.Documents.Model
         /// <param name="orchestrator"></param>
         /// <param name="callerContext"></param>
         /// <returns></returns>
+        //-----------------------------------------------------------------------------------------------------
         public bool Initialize(IOrchestrator orchestrator, CallerContext callerContext)
         {
             // it detach previous objects
             Clear();
 
-            CancelEventArgs cancelEventArgs = new CancelEventArgs();
-            Initializing(this, cancelEventArgs);
+            if (Initializing != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                Initializing(this, cancelEventArgs);
 
-            if (cancelEventArgs.Cancel)
-                return false;
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
 
             this.callerContext = callerContext;
             this.orchestrator = orchestrator;
@@ -109,13 +127,14 @@ namespace TaskBuilderNetCore.Documents.Model
             if (!OnInitialize())
                 return false;
 
-            Initialized(this, EventArgs.Empty);
+            Initialized?.Invoke(this, EventArgs.Empty);
             return true;
         }
 
+        //-----------------------------------------------------------------------------------------------------
         protected virtual bool OnInitialize()
         {
-            return AttachData();
+            return AttachDataModel();
         }
 
 
@@ -123,66 +142,188 @@ namespace TaskBuilderNetCore.Documents.Model
         /// It attaches and initialize data model to document
         /// </summary>
         /// <returns></returns>
-        public bool AttachData ()
+        //-----------------------------------------------------------------------------------------------------
+        public bool AttachDataModel ()
         {
-            CancelEventArgs cancelEventArgs = new CancelEventArgs();
-            AttachingData(this, cancelEventArgs);
+            if (AttachingDataModel != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                AttachingDataModel(this, cancelEventArgs);
 
-            if (cancelEventArgs.Cancel)
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
+
+            if (!OnAttachDataModel())
                 return false;
 
-            if (!OnAttachData())
-                return false;
+            DataModelAttached?.Invoke(this, EventArgs.Empty);
 
-            DataAttached(this, EventArgs.Empty);
             return true;
         }
 
-        protected virtual bool OnAttachData()
-        {
-            return true;
-        }
-
-        public bool DetachData()
-        {
-            CancelEventArgs cancelEventArgs = new CancelEventArgs();
-            DetachingData(this, cancelEventArgs);
-
-            if (cancelEventArgs.Cancel)
-                return false;
-
-            if (!OnDetachData())
-                return false;
-
-            DataDetached(this, EventArgs.Empty);
-            return true;
-        }
-
-        protected virtual bool OnDetachData()
+        //-----------------------------------------------------------------------------------------------------
+        protected virtual bool OnAttachDataModel()
         {
             return true;
         }
 
+        //-----------------------------------------------------------------------------------------------------
+        public bool DetachDataModel()
+        {
+            if (DetachingDataModel != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                DetachingDataModel(this, cancelEventArgs);
+
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
+
+            if (!OnDetachDataModel())
+                return false;
+
+            DataModelDetached?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected virtual bool OnDetachDataModel()
+        {
+            return true;
+        }
+
+
+        //-----------------------------------------------------------------------------------------------------
+        public bool New()
+        {
+            if (Newing != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                Newing(this, cancelEventArgs);
+
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
+
+            if (!OnNew())
+                return false;
+
+            Newed?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected virtual bool OnNew()
+        {
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public bool Edit()
+        {
+            if (Editing != null)
+            {
+
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                Editing(this, cancelEventArgs);
+
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
+
+            if (!OnEdit())
+                return false;
+
+            Edited?.Invoke(this, EventArgs.Empty);
+
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected virtual bool OnEdit()
+        {
+            return true;
+        }
+
+
+        //-----------------------------------------------------------------------------------------------------
+        public bool Validate()
+        {
+            if (Validating != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                Validating(this, cancelEventArgs);
+
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
+            if (!OnValidate())
+                return false;
+
+            Validated?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected virtual bool OnValidate()
+        {
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public bool Save()
+        {
+            if (Saving != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                Saving(this, cancelEventArgs);
+
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
+
+            if (!OnSave())
+                return false;
+
+            Saved?.Invoke(this, EventArgs.Empty);
+
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected virtual bool OnSave()
+        {
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
         public bool LoadData()
         {
-            CancelEventArgs cancelEventArgs = new CancelEventArgs();
-            DataLoading(this, cancelEventArgs);
+            if (DataLoading != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                DataLoading(this, cancelEventArgs);
 
-            if (cancelEventArgs.Cancel)
-                return false;
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
 
             if (!OnLoadData())
                 return false;
 
-            DataLoaded(this, EventArgs.Empty);
+            DataLoaded?.Invoke(this, EventArgs.Empty);
+
             return true;
         }
 
+        //-----------------------------------------------------------------------------------------------------
         protected virtual bool OnLoadData()
         {
             return true;
         }
 
+        //-----------------------------------------------------------------------------------------------------
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -192,6 +333,7 @@ namespace TaskBuilderNetCore.Documents.Model
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------
         // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {

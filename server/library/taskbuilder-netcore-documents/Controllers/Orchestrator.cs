@@ -9,10 +9,12 @@ using Microarea.Common.NameSolver;
 
 namespace TaskBuilderNetCore.Documents.Controllers
 {
+    //====================================================================================    
     public class Orchestrator : IOrchestrator
     {
+        // TODO sincronizzazione thread safe degli array
         Model.Controllers controllers;
-        List<Document> documents;
+        List<IDocument> documents;
 
         public Model.Controllers Controllers
         {
@@ -22,7 +24,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
             }
         }
 
-        public List<Document> Documents
+        public List<IDocument> Documents
         {
             get
             {
@@ -33,7 +35,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
         public Orchestrator()
         {
             controllers = new Model.Controllers();
-            documents = new List<Document>();
+            documents = new List<IDocument>();
         }
 
 
@@ -50,29 +52,44 @@ namespace TaskBuilderNetCore.Documents.Controllers
             controllers.Add(controller);
         }
 
-        ILoader  Loader
-        {
-            get { return controllers.GetController<ILoader>(); }
-   
-        }
-
-        ILicenceConnector LicenceConnector
+        public ILicenceConnector LicenceConnector
         {
             get { return controllers.GetController<ILicenceConnector>(); }
 
         }
-        IRecycler Recycler
+        public IRecycler Recycler
         {
             get { return controllers.GetController<IRecycler>(); }
-
         }
 
+        public ILoader Loader
+        {
+            get { return controllers.GetController<ILoader>(); }
+        }
+
+        public IJsonSerializer JsonSerializer
+        {
+            get
+            {
+                return controllers.GetController<IJsonSerializer>();
+            }
+        }
+
+        public IWebConnector WebConnector
+        {
+            get
+            {
+                return controllers.GetController<IWebConnector>();
+            }
+        }
+
+        //-----------------------------------------------------------------------------------------------------
         public IDocument GetDocument(CallerContext callerContext)
         {
-            foreach (IDocument document in Documents)
+            foreach (IDocument doc in Documents)
             {
-                if (document.NameSpace == callerContext.NameSpace && Recycler.IsAvailable(document))
-                    return document;
+                if (doc.NameSpace == callerContext.NameSpace && Recycler.IsAvailable(doc))
+                    return doc;
             }
 
             if (Loader == null)
@@ -83,14 +100,26 @@ namespace TaskBuilderNetCore.Documents.Controllers
                 return null;
 
             // gestione del caricamento 
-            Type businessObjectType = Loader.GetDocument(callerContext.NameSpace);
-            if (businessObjectType == null)
+            Type documentType = Loader.GetDocument(callerContext.NameSpace);
+            if (documentType == null)
                 return null;
 
-            // istanza della classe sulla base del businessObjectregistry
-            Document businessObject = Activator.CreateInstance(businessObjectType) as Document;
-            businessObject.Initialize(this, callerContext);
-            return businessObject;
+            Document document = Activator.CreateInstance(documentType) as Document;
+
+            document.Initialize(this, callerContext);
+            return document;
+        }
+
+        public void Close(IDocument document)
+        {
+            if (Recycler.IsRecyclable(document))
+            {
+                Recycler.Recycle(document);
+                return;
+            }
+
+            if (Recycler.IsRemovable(document))
+                documents.Remove(document);
         }
     }
 }

@@ -6,15 +6,18 @@ using TaskBuilderNetCore.Documents.Interfaces;
 
 namespace TaskBuilderNetCore.Documents.Model
 {
+    //====================================================================================    
     public class Extension : IExtension
     {
-        Document document;
+        IDocument document;
 
+        //-----------------------------------------------------------------------------------------------------
         public Extension()
         {
         }
 
-        public Document Document
+        //-----------------------------------------------------------------------------------------------------
+        public IDocument Document
         {
             get
             {

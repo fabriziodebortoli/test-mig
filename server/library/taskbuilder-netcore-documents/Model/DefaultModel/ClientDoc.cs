@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TaskBuilderNetCore.Documents.Model
 {
-  
+    //====================================================================================    
     public class ClientDoc : Extension
     {
         public ClientDoc()
@@ -14,6 +14,7 @@ namespace TaskBuilderNetCore.Documents.Model
         }
     }
 
+    //====================================================================================    
     public class BusinessServiceProvider : Extension
     {
         public BusinessServiceProvider()

@@ -4,7 +4,9 @@ namespace TaskBuilderNetCore.Documents.Interfaces
 {
     public interface IRecycler
     {
-        bool IsAvailable(IDocument bo);
-        bool IsRemovable(IDocument bo);
+        bool IsAvailable(IDocument document);
+        bool IsRemovable(IDocument document);
+        bool IsRecyclable(IDocument document);
+        void Recycle(IDocument document);
     }
 }
