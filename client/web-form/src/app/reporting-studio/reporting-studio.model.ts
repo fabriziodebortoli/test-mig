@@ -4,7 +4,7 @@ export interface Message {
   message?: string;
 }
 
-export enum CommandType { OK, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, IMAGE }
+export enum CommandType {NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, RUNREPORT }
 
 export enum AskObjectType { text, radio, check, dropdownlist }
 

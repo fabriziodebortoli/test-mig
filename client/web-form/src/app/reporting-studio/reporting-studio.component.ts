@@ -81,7 +81,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.rsService.showAsk = true;
           this.askDialogTemplate = msg.message;
           break;
-        case CommandType.OK: break;
+        case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
           this.RenderLayout(k);
@@ -128,8 +128,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     //ASK
     let message = {
       commandType: CommandType.ASK,
-      message: "",
-      page: 0
+      message: '',
+      page: ''
     };
     this.rsService.doSend(JSON.stringify(message));
   }
