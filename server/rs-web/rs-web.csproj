@@ -11,6 +11,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="WebControlsStrings.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="WebControlsStrings.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\library\PDFSharpCore\PDFSharpCore.csproj" />
     <ProjectReference Include="..\library\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj" />
   </ItemGroup>
