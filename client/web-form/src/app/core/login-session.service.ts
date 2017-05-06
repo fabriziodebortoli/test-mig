@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
@@ -14,8 +14,9 @@ import { Logger } from './logger.service';
 @Injectable()
 export class LoginSessionService {
 
-    connected: boolean = false;
+    connected = false;
     errorMessages: string[] = [];
+    redirectUrl = ['home'];
 
     constructor(private httpService: HttpService,
         private socket: WebSocketService,
@@ -23,16 +24,18 @@ export class LoginSessionService {
         private logger: Logger,
         private router: Router) {
 
-        this.socket.close.subscribe(() => { this.setConnected(false); });
-        this.isLogged();
+        const subs = this.socket.close.subscribe(() => {
+            subs.unsubscribe();
+            this.setConnected(false);
+        });
+
+        this.checkIfLogged();
     }
 
-    isLogged(): void {
-        let subs = this.httpService.isLogged().subscribe(
-            isLogged => {
-                this.logger.debug('isLogged returns: ' + isLogged);
-
-                if (!isLogged) {
+    checkIfLogged() {
+        const subs = this.httpService.isLogged().subscribe(
+            ret => {
+                if (!ret) {
                     this.setConnected(false);
                 } else {
                     this.logger.debug('Just logged in');
@@ -45,18 +48,17 @@ export class LoginSessionService {
                 this.errorMessages = [error];
                 this.logger.error('isLogged HTTP error: ' + error);
                 subs.unsubscribe();
+                this.setConnected(false);
             }
         );
     }
-
     login(connectionData: LoginSession): Observable<OperationResult> {
         return Observable.create(observer => {
             this.httpService.login(connectionData).subscribe(
                 result => {
                     this.setConnected(!result.error);
                     this.errorMessages = result.messages;
-                    ;
-                    if (this.isConnected) {
+                    if (this.connected) {
                         this.socket.wsConnect();
                     }
                     observer.next(result);
@@ -76,7 +78,7 @@ export class LoginSessionService {
     }
 
     logout(): void {
-        let subscription = this.httpService.logout().subscribe(
+        const subscription = this.httpService.logout().subscribe(
             loggedOut => {
                 this.logger.debug('logout returns: ' + loggedOut);
                 this.setConnected(!loggedOut);
@@ -90,17 +92,12 @@ export class LoginSessionService {
             }
         );
     }
-
-    isConnected(): boolean {
+    isConnected() {
         return this.connected;
     }
     setConnected(val: boolean) {
         this.connected = val;
-        if (this.connected) {
-            this.router.navigate(['home'], { skipLocationChange: false, replaceUrl: false });
-        }
-        else {
-            this.router.navigate(['login'], { skipLocationChange: false, replaceUrl: false });
-        }
+        const url = this.connected ? this.redirectUrl : ['login'];
+        this.router.navigate(url, { skipLocationChange: false, replaceUrl: false });
     }
 }

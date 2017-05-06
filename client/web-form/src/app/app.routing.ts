@@ -1,3 +1,4 @@
+import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
 import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -14,7 +15,8 @@ import { appRoutes } from './applications/app.routing';
 export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'login', component: LoginComponent },
-    { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },   
+    { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
+    { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard]},
     { path: 'menu', loadChildren: 'app/menu/menu.module#MenuModule' },
     {
         path: 'proxy',
