@@ -17,7 +17,8 @@ export class ComponentService {
   subscriptions = [];
   private componentCreatedSource = new Subject<number>();
   componentCreated$ = this.componentCreatedSource.asObservable();
-  componentDestroyed = new EventEmitter<ComponentInfo>();
+  componentInfoAdded = new EventEmitter<ComponentInfo>();
+  componentInfoRemoved = new EventEmitter<ComponentInfo>();
 
   constructor(
     private router: Router,
@@ -95,6 +96,7 @@ export class ComponentService {
 
   addComponent<T>(component: ComponentInfo) {
     this.components.push(component);
+    this.componentInfoAdded.emit(component);
   }
 
   removeComponent(component: ComponentInfo) {
@@ -104,7 +106,7 @@ export class ComponentService {
       return;
     }
     this.components.splice(idx, 1);
-    this.componentDestroyed.emit(component);
+    this.componentInfoRemoved.emit(component);
   }
 
   removeComponentById(componentId: string) {
@@ -123,7 +125,7 @@ export class ComponentService {
       return;
     }
     this.components.splice(idx, 1);
-    this.componentDestroyed.emit(removed);
+    this.componentInfoRemoved.emit(removed);
   }
 
   createComponentFromUrl(url: string): Promise<void> {
