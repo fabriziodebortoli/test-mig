@@ -76,7 +76,7 @@ namespace Microarea.RSWeb.Models
                 var webSocket = await http.WebSockets.AcceptWebSocketAsync();
 
                 /// sends OK message
-                await SendMessage(MessageBuilder.GetJSONMessage(MessageBuilder.CommandType.OK, string.Empty), webSocket);
+                await SendMessage(MessageBuilder.GetJSONMessage(MessageBuilder.CommandType.NAMESPACE, string.Empty), webSocket);
 
                 /// waits for the namespace
                 var nsBuffer = new ArraySegment<Byte>(new Byte[4096]);

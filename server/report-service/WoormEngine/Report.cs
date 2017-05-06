@@ -405,7 +405,7 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//---------------------------------------------------------------------------
-		public bool Compile()
+		public bool ParseReport()
 		{
 			if (compiled)
 				return !Lex.Diagnostic.Error;

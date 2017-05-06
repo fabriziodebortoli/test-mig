@@ -10,6 +10,17 @@ import { ControlComponent } from './../control.component';
 })
 export class LinearGaugeComponent extends ControlComponent {
 
+  @Input () markerData;
+
+  public data: any[] = [this.markerData];
+  public bulletValueAxis: any = {
+    min: 0,
+    max: 30,
+    plotBands: [{
+        from: 0, to: 30, color: "#f0f0f0", opacity: 1
+    }]
+  };
+
   constructor(private eventData: EventDataService) {
     super();
   }

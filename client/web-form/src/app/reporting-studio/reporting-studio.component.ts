@@ -35,7 +35,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private viewHeightSubscription: Subscription;
   viewHeight: number;
 
-  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService, private layoutService: LayoutService) {
+  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService,
+    private layoutService: LayoutService, private componentService: ComponentService) {
     super(rsService, eventData);
 
 
@@ -81,7 +82,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.rsService.showAsk = true;
           this.askDialogTemplate = msg.message;
           break;
-        case CommandType.OK: break;
+        case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
           this.RenderLayout(k);
@@ -98,6 +99,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.DATA:
           //this.showAsk = true;
           this.UpdateData(k);
+          break;
+        case CommandType.RUNREPORT:
+          const params = encodeURIComponent(k.args);
+          this.componentService.createReportComponent(k.ns, params);
+
           break;
       }
 
@@ -128,8 +134,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     //ASK
     let message = {
       commandType: CommandType.ASK,
-      message: "",
-      page: 0
+      message: '',
+      page: ''
     };
     this.rsService.doSend(JSON.stringify(message));
   }

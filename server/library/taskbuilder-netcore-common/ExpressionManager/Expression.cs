@@ -3750,13 +3750,22 @@ namespace Microarea.Common.ExpressionManager
                     fun.Parameters.Add(pInfo);
                 }
 
-                //TODO RSWEB Call soap methods
-                //ITbLoaderClient tbLoader = GetTBClientInterface();
-                //ret = tbLoader.Call(function.Prototype, objs);
+                object ret = null;
 
-                bool retLogin = TbSession.TbLogin(this.TbSession).Result;
+                if (function.Name.CompareNoCase("RunReport"))
+                {
+                    ret = TbSession.RunReport(this.TbSession, fun);
+                }
+                else
+                {
+                    //TODO RSWEB Call soap methods
+                    //ITbLoaderClient tbLoader = GetTBClientInterface();
+                    //ret = tbLoader.Call(function.Prototype, objs);
 
-                string retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
+                    bool retLogin = TbSession.TbLogin(this.TbSession).Result;
+
+                    string retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
+                }
 
                 //for (int i = 0; i < function.Parameters.Count; i++)
                 //{
@@ -3765,7 +3774,6 @@ namespace Microarea.Common.ExpressionManager
                 //	if (p.Mode != ParameterModeType.In)
                 //		item.Data = WcfTypes.From(objs[i], p.Type, p.BaseType);
                 //}
-                object ret = null;
 
                 return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
 			}			

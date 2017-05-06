@@ -16,6 +16,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.WebSockets;
+using System.ServiceModel.Channels;
+using System.Text;
+using Newtonsoft.Json;
+using System.Threading;
 
 namespace Microarea.Common.Applications
 {
@@ -28,6 +32,7 @@ namespace Microarea.Common.Applications
 
     }
 
+ 
     /// <summary>
     /// Descrizione di riepilogo per TbSession.
     /// </summary>
@@ -363,7 +368,40 @@ namespace Microarea.Common.Applications
             }
         }
 
-    }
+        //-------------------------------------------------------------------------------------------------
+        public class MyMessage
+        {
+            public int commandType = 7;     //commandtype.RUNREPORT
+            public string message { get; set; }
+
+            public string page = string.Empty;
+
+        }
+
+        public static async Task<bool> RunReport(TbSession session, FunctionPrototype fun)
+        {
+            if (session.WebSocket == null)
+                return false;
+ 
+            XmlDocument d = new XmlDocument();
+            d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
+            fun.Parameters.Unparse(d.DocumentElement);
+            string xargs = d.OuterXml;
+
+            MyMessage msg = new MyMessage();
+            msg.message = '{' + fun.NameSpace.ToString().ToJson("ns") + ',' + xargs.ToJson("args", false, false) + '}';
+
+            string jmsg = JsonConvert.SerializeObject(msg);
+
+            if (session.WebSocket.State == WebSocketState.Open)
+            {
+                await session.WebSocket.SendAsync(new ArraySegment<Byte>(Encoding.UTF8.GetBytes(jmsg)), WebSocketMessageType.Text, true, CancellationToken.None);
+            }
+
+            return true;
+        }
+
+      }
 
     /// <summary>
     /// Descrizione di riepilogo per TbReportSession.
