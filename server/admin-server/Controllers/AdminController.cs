@@ -38,10 +38,10 @@ namespace Microarea.AdminServer.Controllers
         }
 
         [HttpPost("/api/login/{username}")]
-        public IActionResult ApiLogin(string password, string userName)
+        public IActionResult ApiLogin(string passworde, string username)
         {
-            string user = userName;
-            string psw = password;
+            string user = username;
+            string psw = passworde;
 
             if (String.IsNullOrEmpty(user))
             {

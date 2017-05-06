@@ -21,6 +21,9 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.createComponent();
+  }
+  createComponent() {
     if (this.componentInfo) {
       this.cmpRef = this.cmpContainer.createComponent(this.componentInfo.factory);
       this.cmpRef.instance.cmpId = this.componentInfo.id; //assegno l'id al componente
@@ -33,9 +36,11 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
       );
 
       //se la eseguo subito, lancia un'eccezione quando esegue l'aggiornamento dei binding, come se fosse in un momento sbagliato
-      setTimeout(() => { this.componentInfo.document = this.cmpRef.instance.document; }, 1);
+      setTimeout(() => {
+        this.componentInfo.document = this.cmpRef.instance.document;
+        this.componentService.onComponentCreated(this.componentInfo);
+      }, 1);
 
-      setTimeout(() => this.componentService.onComponentCreated(this.componentInfo), 0);
     }
   }
 
