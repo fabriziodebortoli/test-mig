@@ -1,3 +1,5 @@
+import { StandaloneReportComponent } from './home/standalone.report/standalone.report.component';
+import { ReportingStudioFactoryComponent } from './reporting-studio/reporting-studio.component';
 import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
 import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
 import { ModuleWithProviders } from '@angular/core';
@@ -17,7 +19,7 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: 'login', component: LoginComponent },
     { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard]},
-    { path: 'menu', loadChildren: 'app/menu/menu.module#MenuModule' },
+    { path: 'rs/:ns', component: StandaloneReportComponent},
     {
         path: 'proxy',
         outlet: 'dynamic',
