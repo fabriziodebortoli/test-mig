@@ -82,7 +82,7 @@ const TB_COMPONENTS = [
   OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
-  BoolEditComponent, BodyEditComponent, LinkComponent,
+  BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
   PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent
 ];
 

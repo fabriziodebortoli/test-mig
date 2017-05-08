@@ -125,7 +125,7 @@ namespace Microarea.RSWeb.Render
                     {         
                         //contiene il nome della dialog, se è vuota/=="0" viene richiesta la prima per la prima volta
                         nMsg.page = msg.page;   
-                        List<AskDialogElement> data = nMsg.page == "0" ? null 
+                        List<AskDialogElement> data = nMsg.page.IsNullOrEmpty() ? null 
                                                         : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
 
                         nMsg.message = GetJsonAskDialog(data, nMsg.page);
@@ -174,20 +174,6 @@ namespace Microarea.RSWeb.Render
                         nMsg.message = "Executed STOP()";
                         break;
                     }
-
-                case MessageBuilder.CommandType.NAMESPACE:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = "Executed NAMESPACE()";
-                        break;
-                    }
-                case MessageBuilder.CommandType.OK:
-                    {
-                        // this.stateMachine.Do()
-                        nMsg.message = "Executed OK()";
-                        break;
-                    }
-
             }
             return nMsg;
         }

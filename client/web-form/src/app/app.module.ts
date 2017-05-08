@@ -21,6 +21,7 @@ import { MomentModule } from 'angular2-moment';
 import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
     HomeComponent, HomeSidenavComponent,
     UnsupportedFactoryComponent,
     UnsupportedComponent,
-    ProxyRouteComponent
+    ProxyRouteComponent,
+    StandaloneDocumentComponent
   ],
   imports: [
     FormsModule,
