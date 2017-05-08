@@ -13,10 +13,10 @@ import { Logger } from './logger.service';
 
 @Injectable()
 export class LoginSessionService {
-
+    defaultUrl = ['home'];
     connected = false;
     errorMessages: string[] = [];
-    redirectUrl = ['home'];
+    redirectUrl = this.defaultUrl;
 
     constructor(private httpService: HttpService,
         private socket: WebSocketService,
@@ -97,7 +97,10 @@ export class LoginSessionService {
     }
     setConnected(val: boolean) {
         this.connected = val;
-        const url = this.connected ? this.redirectUrl : ['login'];
+        let url = this.connected ? this.redirectUrl : ['login'];
+        if (url.length === 0) {
+            url = this.defaultUrl;
+        }
         this.router.navigate(url, { skipLocationChange: false, replaceUrl: false });
     }
 }
