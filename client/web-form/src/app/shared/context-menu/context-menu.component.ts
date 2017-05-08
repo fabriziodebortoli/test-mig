@@ -19,12 +19,12 @@ export class ContextMenuComponent {
   anchorAlign2: Align = { horizontal: 'right', vertical: 'top' };
   popupAlign2: Align = { horizontal: 'left', vertical: 'top' };
   private show = false;
-  private showSubItems = false;
   private isMouseDown = false;
   @ViewChild('anchor') divFocus: HTMLElement;
 
   contextMenuBinding: MenuItem[];
   contextMenu: MenuItem[];
+  currentItem: MenuItem;
 
   constructor(private webSocketService: WebSocketService, private eventDataService: EventDataService) {
     // SCENARIO 1: RIEMPIRE DA SERVER
@@ -34,15 +34,19 @@ export class ContextMenuComponent {
 
     // SCENARIO 2: RIEMPITO DA HTML
     this.contextMenu = new Array<MenuItem>();
-    const subItems = new Array<MenuItem>();
+
     const subItems_bis = new Array<MenuItem>();
-    const item4 = new MenuItem('solo questo per ', 'Id1', false, false);
+    const item4 = new MenuItem('solo questo disable unchecked', 'Id4', false, false);
     subItems_bis.push(item4);
-    const item1 = new MenuItem('Change format', 'Id1', false, false);
-    const item2 = new MenuItem('Copy copy copy', 'Id2', true, false, subItems_bis);
-    subItems.push(item1, item2);
-    const item3 = new MenuItem('About this control ..', 'Id3', true, false, subItems);
-    this.contextMenu.push(item1, item2, item3);
+
+    const subItems = new Array<MenuItem>();
+    const item1 = new MenuItem('disabled unchecked', 'Id1', false, false);
+    const item5 = new MenuItem('enabled checked', 'Id5', true, true);
+    const item2 = new MenuItem('has one sub item', 'Id2', true, false, subItems_bis);
+    subItems.push(item1, item5);
+
+    const item3 = new MenuItem('has 2 sub items', 'Id3', true, false, subItems);
+    this.contextMenu.push(item1, item2, item5, item3);
 
   }
 
@@ -62,8 +66,8 @@ export class ContextMenuComponent {
 
   public onToggle(): void {
     this.show = !this.show;
-    if (!this.show) {
-      this.showSubItems = false;
+    if (!this.show && this.currentItem !== null) {
+      this.currentItem.showMySub = false;
     }
   }
 
@@ -73,7 +77,7 @@ export class ContextMenuComponent {
       document.getElementById('anchor').focus();
       return;
     }
-    this.outView();
+    this.outView(this.currentItem);
   }
 
   setMouseDown() {
@@ -86,15 +90,19 @@ export class ContextMenuComponent {
   }
 
   openSubItems(open: boolean, item: MenuItem) {
-    if (!this.hasSubItems(item)) {
+    if (!this.hasSubItems(item) || item === null) {
       return;
     }
-    this.showSubItems = open;
+    item.showMySub = open;
+    this.currentItem = item;
   }
 
-  outView() {
+  outView(item: MenuItem) {
+    if (item !== null) {
+      item.showMySub = false; }
+
     this.show = false;
-    this.showSubItems = false;
+    this.currentItem = null;
     this.isMouseDown = false;
   }
 

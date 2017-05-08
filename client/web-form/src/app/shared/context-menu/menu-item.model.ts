@@ -3,8 +3,9 @@ export class MenuItem {
     id: string;
     enabled: boolean;
     checked: boolean;
-    dataBinding?: any; // TODO 
+    dataBinding?: any; // TODO
     subItems: MenuItem[];
+    showMySub: boolean;
 
     public constructor(text: string, id: string, enabled: boolean, checked: boolean, subItems: MenuItem[] = null) {
         this.text = text;
@@ -12,5 +13,6 @@ export class MenuItem {
         this.enabled = enabled;
         this.checked = checked;
         this.subItems = subItems;
+        this.showMySub = false;
     }
 }
