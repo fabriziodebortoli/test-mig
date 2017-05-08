@@ -1,4 +1,4 @@
-// import { ReportingStudioModule } from './reporting-studio/reporting-studio.module';
+
 import { routing } from './app.routing';
 
 import { NgModule } from '@angular/core';
@@ -21,6 +21,8 @@ import { MomentModule } from 'angular2-moment';
 import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
+import { StandaloneReportComponent } from './home/standalone.report/standalone.report.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,10 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
     HomeComponent, HomeSidenavComponent,
     UnsupportedFactoryComponent,
     UnsupportedComponent,
-    ProxyRouteComponent
+    ProxyRouteComponent,
+    StandaloneDocumentComponent,
+    StandaloneReportComponent
+
   ],
   imports: [
     FormsModule,
@@ -42,6 +47,7 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
     routing,
     MomentModule,
     LayoutModule
+    
   ],
   bootstrap: [AppComponent],
   entryComponents: [

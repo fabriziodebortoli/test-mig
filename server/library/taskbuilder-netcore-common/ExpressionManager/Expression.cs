@@ -3692,7 +3692,44 @@ namespace Microarea.Common.ExpressionManager
 			return null;
 		}
 
- 
+        //-----------------------------------------------------------------------------
+        Value ApplyRunReport(FunctionItem function, Stack paramStack)
+        {
+            FunctionPrototype fun = null;
+
+            int np = 0;
+            object [] ar = paramStack.ToArray();
+            for (int i = 0; i < ar.Length; i++)
+            {
+                DataItem item = ar[i] as DataItem;
+
+                if (i == 0)
+                {
+                    fun = new FunctionPrototype(ObjectHelper.CastString(item.Data), "Boolean", new string[] { });
+                    continue;
+                }
+
+                string parName = ObjectHelper.CastString(item.Data);
+                i++;
+
+                DataItem itemValue = ar[i] as DataItem;
+                string v = SoapTypes.To(item.Data);
+
+                //Parameter pInfo = new Parameter(parName, type);
+
+                //pInfo.ValueString = v;
+
+                //fun.Parameters.Add(pInfo);
+            }
+
+            //------------------------------
+            object ret = TbSession.RunReport(this.TbSession, fun);
+
+            ret = true; //TODO
+
+            return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
+        }
+
         //-----------------------------------------------------------------------------
         Value ApplyExternalFunction(FunctionItem function, Stack paramStack)
 		{
@@ -3717,6 +3754,12 @@ namespace Microarea.Common.ExpressionManager
                     else //if (function.ReturnType == "Int64")
                         return new Value(0);
                 }
+                if (function.Name.CompareNoCase("Framework.TbWoormViewer.TbWoormViewer.RunReport") ||
+                    function.Name.CompareNoCase("Woorm.RunReport"))
+                {
+                    return ApplyRunReport(function, paramStack);
+                }
+                //----------------------------------------------------------
 
                 System.Diagnostics.Debug.Assert(function.Parameters != null);
 
@@ -3736,11 +3779,11 @@ namespace Microarea.Common.ExpressionManager
                 }
                 //object[] objs = parms.ToArray();
                 string[] sargs = sparms.ToArray();
- 
                 int np = 0;
+                object ret = null;
 
                 FunctionPrototype fun = new FunctionPrototype(function.Prototype.NameSpace as NameSpace, function.Prototype.ReturnType, args);
- 
+
                 foreach (Parameter p in function.Prototype.Parameters)
                 {
                     Parameter pInfo = new Parameter(p.Name, p.Type);
@@ -3749,24 +3792,14 @@ namespace Microarea.Common.ExpressionManager
 
                     fun.Parameters.Add(pInfo);
                 }
+                //TODO RSWEB Call soap methods
+                //ITbLoaderClient tbLoader = GetTBClientInterface();
+                //ret = tbLoader.Call(function.Prototype, objs);
 
-                object ret = null;
+                bool retLogin = TbSession.TbLogin(this.TbSession).Result;
 
-                if (function.Name.CompareNoCase("RunReport"))
-                {
-                    ret = TbSession.RunReport(this.TbSession, fun);
-                }
-                else
-                {
-                    //TODO RSWEB Call soap methods
-                    //ITbLoaderClient tbLoader = GetTBClientInterface();
-                    //ret = tbLoader.Call(function.Prototype, objs);
-
-                    bool retLogin = TbSession.TbLogin(this.TbSession).Result;
-
-                    string retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
-                }
-
+                string retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
+ 
                 //for (int i = 0; i < function.Parameters.Count; i++)
                 //{
                 //	DataItem item = (DataItem)paramStack.Pop();

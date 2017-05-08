@@ -48,7 +48,7 @@ namespace Microarea.RSWeb.Render
 		ExecuteExtraction,
 		ExecuteErrorStep,
 		ExecuteUserBreak,
-		RenderingForm,
+		RenderingAskDialog,
 		FileNotFound,
 		GrantViolation,
 		ViewerError,
@@ -430,9 +430,10 @@ namespace Microarea.RSWeb.Render
 
 					case State.ExecuteAsk :	
 					{
-						// skippo le Ask perchè sono chiamato come motore in background
+                        //-------------------------------------------------------------
 						if (Report.EngineType == EngineType.FullXML_OfficeXML)
 						{
+						    // skippo le Ask perchè sono chiamato come motore in background
 							// valorizza i parametri delle Ask con i dati provenienti dal dom passato dal chiamante
 							Report.ExecuteLoadParamters();
 
@@ -440,7 +441,8 @@ namespace Microarea.RSWeb.Render
 							break;
 						}
 
-						if (Report.EngineType == EngineType.PDFSharp_OfficePDF)
+                        //-------------------------------------------------------------
+                        if (Report.EngineType == EngineType.PDFSharp_OfficePDF)
 						{
 							// skippo le Ask perchè sono chiamato come motore in background
 							// valorizza i parametri delle Ask con i dati provenienti dal dom passato dal chiamante
@@ -459,10 +461,11 @@ namespace Microarea.RSWeb.Render
 							break;
 						}
 
+                        //-------------------------------------------------------------
                         //TODO RSWEB skip ask dialogs
                         if (Report.Engine.ExistsDialogs())
                             Report.Engine.HideAllAskDialogs();
-                        //------------------------
+                        //-------------------------------------------------------------
 
 						if (!Report.ExecuteAsk())
 						{
@@ -488,8 +491,9 @@ namespace Microarea.RSWeb.Render
 						}
 
 						// esco per processare la corrente AskDialog
+						CurrentState = State.RenderingAskDialog;
+
 						HtmlPage = HtmlPageType.Form;
-						CurrentState = State.RenderingForm;
 						return;
 					}
 

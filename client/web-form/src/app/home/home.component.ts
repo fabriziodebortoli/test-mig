@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
       this.kendoTabStripInstance.selectTab(tabIndex);
     });
 
-    this.cmpDestroyedSubscription = componentService.componentDestroyed.subscribe(cmp => {
+    this.cmpDestroyedSubscription = componentService.componentInfoRemoved.subscribe(cmp => {
       this.kendoTabStripInstance.selectTab(0);
     });
   }

@@ -95,7 +95,7 @@ namespace Microarea.RSWeb.Render
         {
             AskDialog dlg = null;
 
-            if (currentDialogName.IsNullOrEmpty() || currentDialogName == "0")
+            if (currentDialogName.IsNullOrEmpty())
             {
                 //TODO find first enabled dialog
                 dlg = StateMachine.Report.Engine.GetAskDialog(0);
