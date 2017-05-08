@@ -1,5 +1,5 @@
 
-.k-grid-header
+.rsTable .k-grid-header
 {
-    padding-right:0px;
+    padding:0px !important;
 }

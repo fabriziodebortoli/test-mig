@@ -1,13 +1,18 @@
+.layout-container {
+    display: flex;
+}
 
 :host(.layoutType-column) {
-    display: inline-block;
+    flex-direction: row;
+    flex: 0 0 100%;
 }
 
 :host(.layoutType-hbox) {
-    
+    display: flex;
+    flex-direction: row;
 }
 
 :host(.layoutType-vbox) {
-    display: inline-block;
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
 }

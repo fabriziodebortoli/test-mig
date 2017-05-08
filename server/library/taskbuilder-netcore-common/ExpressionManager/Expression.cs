@@ -19,6 +19,10 @@ using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
 
 using TaskBuilderNetCore.Interfaces.Model;
+using System.Xml;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Net;
 
 namespace Microarea.Common.ExpressionManager
 {
@@ -3687,9 +3691,47 @@ namespace Microarea.Common.ExpressionManager
             //ridefinita in WoormExpression (Microarea.RSWeb.WoormEngine, Actions.cs)
 			return null;
 		}
-		
-		//-----------------------------------------------------------------------------
-		Value ApplyExternalFunction(FunctionItem function, Stack paramStack)
+
+        //-----------------------------------------------------------------------------
+        Value ApplyRunReport(FunctionItem function, Stack paramStack)
+        {
+            FunctionPrototype fun = null;
+
+            int np = 0;
+            object [] ar = paramStack.ToArray();
+            for (int i = 0; i < ar.Length; i++)
+            {
+                DataItem item = ar[i] as DataItem;
+
+                if (i == 0)
+                {
+                    fun = new FunctionPrototype(ObjectHelper.CastString(item.Data), "Boolean", new string[] { });
+                    continue;
+                }
+
+                string parName = ObjectHelper.CastString(item.Data);
+                i++;
+
+                DataItem itemValue = ar[i] as DataItem;
+                string v = SoapTypes.To(item.Data);
+
+                //Parameter pInfo = new Parameter(parName, type);
+
+                //pInfo.ValueString = v;
+
+                //fun.Parameters.Add(pInfo);
+            }
+
+            //------------------------------
+            object ret = TbSession.RunReport(this.TbSession, fun);
+
+            ret = true; //TODO
+
+            return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
+        }
+
+        //-----------------------------------------------------------------------------
+        Value ApplyExternalFunction(FunctionItem function, Stack paramStack)
 		{
 			try
 			{
@@ -3712,28 +3754,61 @@ namespace Microarea.Common.ExpressionManager
                     else //if (function.ReturnType == "Int64")
                         return new Value(0);
                 }
+                if (function.Name.CompareNoCase("Framework.TbWoormViewer.TbWoormViewer.RunReport") ||
+                    function.Name.CompareNoCase("Woorm.RunReport"))
+                {
+                    return ApplyRunReport(function, paramStack);
+                }
+                //----------------------------------------------------------
 
                 System.Diagnostics.Debug.Assert(function.Parameters != null);
 
-				List<object> parms = new List<object>();
-				foreach (DataItem item in paramStack)
-					parms.Add(WcfTypes.To(item.Data));
-
-				object[] objs = parms.ToArray();
+                List<string> listTypeArgs = new List<string>();
+                foreach (Parameter p in function.Prototype.Parameters)
+                {
+                    listTypeArgs.Add(p.TbType);
+                }
+                string[] args = listTypeArgs.ToArray();
+ 
+                //List<object> parms = new List<object>();
+                List<string> sparms = new List<string>();
+                foreach (DataItem item in paramStack)
+                {
+                    //parms.Add(WcfTypes.To(item.Data));
+                    sparms.Add(SoapTypes.To(item.Data));
+                }
+                //object[] objs = parms.ToArray();
+                string[] sargs = sparms.ToArray();
+                int np = 0;
                 object ret = null;
 
-        //TODO RSWEB Call soap methods
-        //ITbLoaderClient tbLoader = GetTBClientInterface();
-        //ret = tbLoader.Call(function.Prototype, objs);
+                FunctionPrototype fun = new FunctionPrototype(function.Prototype.NameSpace as NameSpace, function.Prototype.ReturnType, args);
 
-                for (int i = 0; i < function.Parameters.Count; i++)
-				{
-					DataItem item = (DataItem)paramStack.Pop();
-					Parameter p = function.Parameters[i];
-					if (p.Mode != ParameterModeType.In)
-						item.Data = WcfTypes.From(objs[i], p.Type, p.BaseType);
-				}
-				return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
+                foreach (Parameter p in function.Prototype.Parameters)
+                {
+                    Parameter pInfo = new Parameter(p.Name, p.Type);
+
+                    pInfo.ValueString = sargs[np++];
+
+                    fun.Parameters.Add(pInfo);
+                }
+                //TODO RSWEB Call soap methods
+                //ITbLoaderClient tbLoader = GetTBClientInterface();
+                //ret = tbLoader.Call(function.Prototype, objs);
+
+                bool retLogin = TbSession.TbLogin(this.TbSession).Result;
+
+                string retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
+ 
+                //for (int i = 0; i < function.Parameters.Count; i++)
+                //{
+                //	DataItem item = (DataItem)paramStack.Pop();
+                //	Parameter p = function.Parameters[i];
+                //	if (p.Mode != ParameterModeType.In)
+                //		item.Data = WcfTypes.From(objs[i], p.Type, p.BaseType);
+                //}
+
+                return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
 			}			
 			catch (TbLoaderClientInterfaceException e)
 			{ 

@@ -383,6 +383,14 @@ fieldset {
     }
 }
 
+input.has-error {
+    border: 1px solid $mf-error-color
+}
+
+div.has-error {
+    color: $mf-error-color;
+}
+
 .button {
     position: relative;
     background: currentColor;
@@ -448,4 +456,12 @@ fieldset {
 
 .mat-card {
     color: $mf-active-color;
+}
+
+.inputError {
+    border: 1px solid $mf-error-color
+}
+
+.tb-control {
+    margin: 0.2rem;
 }
