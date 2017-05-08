@@ -17,7 +17,8 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     private selectedItem: any;
     
 
-    @Input() public itemSource: any;
+    @Input() public itemSource: any = undefined;
+    @Input() public hotLink: any = undefined;
     constructor(
         private webSocketService: WebSocketService,
         private eventDataService: EventDataService
@@ -31,7 +32,9 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
 
     fillListBox() {
         this.items.splice(0, this.items.length);
-        this.eventDataService.openDropdown.emit(this.itemSource);
+
+  
+        this.eventDataService.openDropdown.emit(this);
     }
 
     onChange() {
