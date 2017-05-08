@@ -25,7 +25,6 @@ export class WebSocketService {
     public open: EventEmitter<any> = new EventEmitter();
     public close: EventEmitter<any> = new EventEmitter();
     public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
-    public runReport: EventEmitter<any> = new EventEmitter();
 
     constructor(private httpService: HttpService,
         private cookieService: CookieService,
@@ -52,7 +51,6 @@ export class WebSocketService {
                         case 'ItemSource': $this.itemSource.emit(obj.args); break;
                         case 'ServerCommandMapReady': $this.serverCommandMapReady.emit(obj.args); break;
                         case 'MessageDialog': $this.message.emit(obj.args); break;
-                        case 'RunReport': $this.runReport.emit(obj.args); break;
                         //when tbloader has connected to gate, I receive this message; then I can
                         //request the list of opened windows
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;

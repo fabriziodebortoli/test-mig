@@ -13,7 +13,7 @@ import { LayoutService } from "app/core/layout.service";
 
 
 @Component({
-  selector: 'app-reporting-studio',
+  selector: 'tb-reporting-studio',
   templateUrl: './reporting-studio.component.html',
   styleUrls: ['./reporting-studio.component.scss'],
   providers: [ReportingStudioService, EventDataService],
@@ -52,7 +52,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     });
 
-    this.rsService.componentId = this.args.id;
     this.rsInitStateMachine();
 
     let message = {
@@ -343,13 +342,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   template: ''
 })
 export class ReportingStudioFactoryComponent {
-  constructor(componentService: ComponentService, resolver: ComponentFactoryResolver, private activatedRoute: ActivatedRoute,
-    private utils: UtilsService) {
+  constructor(componentService: ComponentService, resolver: ComponentFactoryResolver, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe((params: Params) => {
       let ns = params['ns'];
       let pars = params['params'];
-      componentService.createComponent(ReportingStudioComponent, resolver, { 'nameSpace': ns, 'params': pars, 'id': utils.generateGUID() },
-        true);
+      componentService.createComponent(
+        ReportingStudioComponent,
+        resolver,
+        { 'nameSpace': ns, 'params': pars }
+        );
     });
   }
 }

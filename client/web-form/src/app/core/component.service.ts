@@ -1,3 +1,4 @@
+import { UtilsService } from './utils.service';
 import { Subject } from 'rxjs/Subject';
 import { Injectable, Type, ComponentFactoryResolver, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
@@ -24,7 +25,8 @@ export class ComponentService {
     private router: Router,
     private webSocketService: WebSocketService,
     private httpService: HttpService,
-    private logger: Logger) {
+    private logger: Logger,
+    private utils: UtilsService) {
     this.subscriptions.push(this.webSocketService.windowOpen.subscribe(data => {
       this.componentsToCreate.push(...data.components);
       this.createNextComponent();
@@ -35,23 +37,29 @@ export class ComponentService {
         this.removeComponentById(data.id);
       }
     }));
+  }
+  argsToString(args) {
+    if (typeof args === 'undefined') {
+      return undefined;
+    }
+    if (typeof (args) === 'string') {
+      return args;
+    } else if (typeof (args) === 'object') {
+      if (Object.keys(args).length) {
+        return JSON.stringify(args);
+      } else {
+        return undefined;
+      }
+    } else {
+      return undefined;
+    }
 
-    this.subscriptions.push(this.webSocketService.runReport.subscribe(data => {
-      this.createReportComponent(data.ns, data.args);
-    }));
   }
   createReportComponent(ns: string, args: any = undefined) {
     let url = 'rs/reportingstudio/' + ns + '/';
-    if (args) {
-      if (typeof (args) === 'string') {
-        url += args;
-      }
-      else if (typeof (args) === 'object') {
-        if (Object.keys(args).length) {
-          url += JSON.stringify(args);
-        }
-      }
-
+    args = this.argsToString(args);
+    if (args !== undefined) {
+      url += JSON.stringify(args);
     }
     this.createComponentFromUrl(url);
   }
@@ -71,24 +79,13 @@ export class ComponentService {
       return;
     }
     this.creatingComponent = true;
-    let cmp = this.componentsToCreate.pop();
-    //"D.ERP.Languages.Languages\IDD_LANGUAGES"
-    let url: string = cmp.url;
+    const cmp = this.componentsToCreate.pop();
     this.currentComponentId = cmp.id;
-    let tokens = url.split('.');
-    if (tokens.length !== 4) {
-      this.logger.error('Invalid component url: \'' + url + '\'');
-      return;
+    let url = cmp.app.toLowerCase() + '/' + cmp.mod.toLowerCase() + '/' + cmp.name;
+    const args = this.argsToString(cmp.args);
+    if (args !== undefined) {
+      url += '/' + args;
     }
-    let app = tokens[1];
-    let mod = tokens[2];
-    tokens = tokens[3].split('\\');
-    if (tokens.length !== 2) {
-      this.logger.error('Invalid component url: \'' + url + '\'');
-      return;
-    }
-    let cmpName = tokens[1];
-    url = app.toLowerCase() + '/' + mod.toLowerCase() + '/' + cmpName;
     this.createComponentFromUrl(url).then(() => {
 
     });
@@ -144,9 +141,9 @@ export class ComponentService {
         );
     });
   }
-  createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver, args: any = {}, generatedID: boolean = false) {
-    let info = new ComponentInfo();
-    info.id = generatedID ? args.id : this.currentComponentId;
+  createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver, args: any = {}) {
+    const info = new ComponentInfo();
+    info.id = this.currentComponentId ? this.currentComponentId : this.utils.generateGUID() ;
     info.factory = resolver.resolveComponentFactory(component);
     info.args = args;
     this.addComponent(info);
