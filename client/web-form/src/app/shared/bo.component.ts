@@ -1,3 +1,4 @@
+import { BOHelperService } from 'app/core/bohelper.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DocumentComponent } from './document.component';
 import { EventDataService } from './../core/eventdata.service';

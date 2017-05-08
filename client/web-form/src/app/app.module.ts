@@ -20,13 +20,17 @@ import { AppComponent } from './app.component';
 import { MomentModule } from 'angular2-moment';
 import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
 
+import { LayoutModule } from '@progress/kendo-angular-layout';
+import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent, HomeSidenavComponent,
     UnsupportedFactoryComponent,
     UnsupportedComponent,
-    ProxyRouteComponent
+    ProxyRouteComponent,
+    StandaloneDocumentComponent
   ],
   imports: [
     FormsModule,
@@ -38,7 +42,8 @@ import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
     SharedModule,
     MenuModule.forRoot(),
     routing,
-    MomentModule
+    MomentModule,
+    LayoutModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [

@@ -21,7 +21,7 @@ export class TopbarMenuTestComponent implements OnInit {
   }
 
   openRS() {
-    this.componentService.createComponentFromUrl('rs/reportingstudio/');
+    this.componentService.createReportComponent('');
   }
 
   openTBExplorer() {
@@ -29,7 +29,11 @@ export class TopbarMenuTestComponent implements OnInit {
   }
 
   openTestGrid() {
-    this.componentService.createComponentFromUrl('proxy/test/grid');
+    this.componentService.createComponentFromUrl('test/grid');
+  }
+
+  openTestIcons() {
+    this.componentService.createComponentFromUrl('test/icons');
   }
 
 }

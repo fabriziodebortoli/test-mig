@@ -44,6 +44,7 @@ namespace Microarea.AdminServer
 
             // Add data services.
             services.AddTransient<IAdminDataServiceProvider, BasicAdminDataServiceProvider>();
+            services.Configure<AppOptions>(options => Configuration.GetSection("App").Bind(options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,7 +58,7 @@ namespace Microarea.AdminServer
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute("default", "{controller=Admin}/{action=Index}/{id?}");
             });
         }
     }

@@ -1,4 +1,5 @@
-﻿import { EventEmitter, Injectable } from '@angular/core';
+﻿import { MessageDlgArgs, MessageDlgResult } from './../shared/containers/message-dialog/message-dialog.component';
+import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -6,9 +7,9 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { environment } from './../../environments/environment';
 
 import { HttpService } from './http.service';
-import { CommandService } from './command.service';
+// import { CommandService } from './command.service';
 
-import { Logger } from 'libclient';
+import { Logger } from './logger.service';
 
 @Injectable()
 export class WebSocketService {
@@ -25,11 +26,11 @@ export class WebSocketService {
     public contextMenu: EventEmitter<any> = new EventEmitter();
     public open: EventEmitter<any> = new EventEmitter();
     public close: EventEmitter<any> = new EventEmitter();
+    public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
 
     constructor(private httpService: HttpService,
         private cookieService: CookieService,
-        private logger: Logger,
-        private commandService: CommandService) {
+        private logger: Logger) {
     }
 
     wsConnect(): void {
@@ -54,6 +55,7 @@ export class WebSocketService {
                         case 'ServerCommandMapReady': $this.serverCommandMapReady.emit(obj.args); break;
                         // when tbloader has connected to gate, I receive this message; then I can
                         // request the list of opened windows
+                        case 'MessageDialog': $this.message.emit(obj.args); break;
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
                         default: break;
                     }
@@ -98,6 +100,7 @@ export class WebSocketService {
 
     doFillListBox(cmpId: String, itemSource: any): void {
         const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: itemSource };
+
         this.connection.send(JSON.stringify(data));
     }
 
@@ -111,7 +114,12 @@ export class WebSocketService {
         this.connection.send(JSON.stringify(data));
     }
 
-    doValueChanged(cmpId: String, id: String, modelData?: any): void {
+   doValueChanged(cmpId: String, id: String, modelData?: any): void {
+        const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
+        this.connection.send(JSON.stringify(data));
+    }
+
+   /* doValueChanged(cmpId: String, id: String, modelData?: any): void {
         const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
         // questo if andrebbe anticipato nel chiamante, se so che non e' azione server side, non devo chiamare servizio websocket
         if (this.commandService.isServerSideCommand(id)) {
@@ -119,10 +127,18 @@ export class WebSocketService {
         }
         // else
         // azione solo lato client.
-    }
+    }*/
 
     getDocumentData(cmpId: String) {
-        const data = { cmd: 'doDocumentData', cmpId: cmpId };
+        const data = { cmd: 'getDocumentData', cmpId: cmpId };
+        this.connection.send(JSON.stringify(data));
+    }
+    checkMessageDialog(cmpId: String) {
+        const data = { cmd: 'checkMessageDialog', cmpId: cmpId };
+        this.connection.send(JSON.stringify(data));
+    }
+    doCloseMessageDialog(cmpId: String, result: MessageDlgResult): void {
+        const data = { cmd: 'doCloseMessageDialog', cmpId: cmpId, result: result };
         this.connection.send(JSON.stringify(data));
     }
 }
