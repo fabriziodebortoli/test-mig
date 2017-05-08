@@ -9,6 +9,7 @@ using TaskBuilderNetCore.Interfaces;
 namespace TaskBuilderNetCore.Documents.Controllers
 {
     [Name("LicenceConnector"), Description("It manages communication with licence management.")]
+    //====================================================================================    
     public class LicenceConnector : Controller, ILicenceConnector
     {
         public LicenceConnector()

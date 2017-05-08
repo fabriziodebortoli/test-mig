@@ -32,6 +32,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------
         public Orchestrator()
         {
             controllers = new Model.Controllers();
@@ -39,34 +40,47 @@ namespace TaskBuilderNetCore.Documents.Controllers
         }
 
 
-        public void Initialize()
+        //-----------------------------------------------------------------------------------------------------
+        public void LoadDefaultConfiguration()
         {
-            AddController(new WebConnector());
             AddController(new JsonSerializer());
             AddController(new Recycler());
             AddController(new Loader(BasePathFinder.BasePathFinderInstance));
             AddController(new LicenceConnector());
         }
+
+        //-----------------------------------------------------------------------------------------------------
         public void AddController(IController controller)
         {
             controllers.Add(controller);
         }
 
+        //-----------------------------------------------------------------------------------------------------
+        public void RemoveController(IController controller)
+        {
+            controllers.Remove(controller);
+        }
+
+        //-----------------------------------------------------------------------------------------------------
         public ILicenceConnector LicenceConnector
         {
             get { return controllers.GetController<ILicenceConnector>(); }
 
         }
+
+        //-----------------------------------------------------------------------------------------------------
         public IRecycler Recycler
         {
             get { return controllers.GetController<IRecycler>(); }
         }
 
+        //-----------------------------------------------------------------------------------------------------
         public ILoader Loader
         {
             get { return controllers.GetController<ILoader>(); }
         }
 
+        //-----------------------------------------------------------------------------------------------------
         public IJsonSerializer JsonSerializer
         {
             get
@@ -75,6 +89,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------
         public IWebConnector WebConnector
         {
             get
@@ -88,7 +103,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
         {
             foreach (IDocument doc in Documents)
             {
-                if (doc.NameSpace == callerContext.NameSpace && Recycler.IsAvailable(doc))
+                if (Recycler.IsAssignable(doc, callerContext))
                     return doc;
             }
 
@@ -107,10 +122,12 @@ namespace TaskBuilderNetCore.Documents.Controllers
             Document document = Activator.CreateInstance(documentType) as Document;
 
             document.Initialize(this, callerContext);
+            Documents.Add(document);
             return document;
         }
 
-        public void Close(IDocument document)
+        //-----------------------------------------------------------------------------------------------------
+        public void CloseDocument(IDocument document)
         {
             if (Recycler.IsRecyclable(document))
             {
