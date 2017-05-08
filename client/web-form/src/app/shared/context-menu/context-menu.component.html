@@ -1,19 +1,19 @@
 <div id="anchor" #anchor class="contextMenuClass" tabindex="0" (blur)="closePopupIf()">
     <md-icon (click)="onToggle()">more_vert</md-icon>
-    <kendo-popup [popupClass]="'content popup'" [anchor]="anchor" (anchorViewportLeave)="outView()" *ngIf="show" (open)="onOpen()" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
-        <button kendoButton class="content" *ngFor="let menuItem of contextMenu; let i = index" [disabled]="!menuItem?.enabled" (mouseenter)="openSubItems(true, menuItem)" (mouseleave)="openSubItems(false, menuItem)" (mousedown)="setMouseDown()" (click)="doCommand(menuItem)">
-           <div #anchor2>
-                <md-icon *ngIf="!menuItem?.enabled">check</md-icon>
-                {{menuItem?.text}}
-                <md-icon *ngIf="hasSubItems(menuItem)">navigate_next</md-icon>
-            </div>
-             <kendo-popup [popupClass]="'content popup'" [anchor]="anchor2" (anchorViewportLeave)="outView()" *ngIf="hasSubItems(menuItem) && showSubItems" [anchorAlign]="anchorAlign2" [popupAlign]="popupAlign2">
-                 <button kendoButton class="content" *ngFor="let subItem of menuItem.subItems; let i = index" (click)="doCommand(subItem)">
-                     <div>
-                            <md-icon *ngIf="!subItem?.enabled">check</md-icon> 
-                            {{subItem?.text}} 
-                    </div>
-                </button>
+    <kendo-popup [popupClass]="'content popup'" [anchor]="anchor" (anchorViewportLeave)="outView()" *ngIf="show" (open)="onOpen()" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
+        <button kendoButton class="content" *ngFor="let menuItem of contextMenu" [disabled]="!menuItem?.enabled" (mouseenter)="openSubItems(true, menuItem)" (mouseleave)="openSubItems(false, menuItem)" (mousedown)="setMouseDown()" (click)="doCommand(menuItem)">
+<div #anchor2 class="divW">
+<md-icon class="checkIcon" *ngIf="!menuItem?.enabled">check</md-icon>          
+{{menuItem?.text}} 
+<md-icon class="dotsIcon" *ngIf="hasSubItems(menuItem)">navigate_next</md-icon> 
+</div>
+<kendo-popup [popupClass]="'content popup'" [anchor]="anchor2" (anchorViewportLeave)="outView()" *ngIf="hasSubItems(menuItem) && showSubItems"  [collision]="collision" [anchorAlign]="anchorAlign2" [popupAlign]="popupAlign2">
+<button kendoButton class="content" *ngFor="let subItem of menuItem.subItems" (click)="doCommand(subItem)">
+<div class="divW">
+<md-icon  class="checkIcon" *ngIf="!subItem?.enabled">check</md-icon>
+{{subItem?.text}}
+</div>
+</button>
     </kendo-popup>
     </button>
     </kendo-popup>

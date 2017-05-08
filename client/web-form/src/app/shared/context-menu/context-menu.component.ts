@@ -1,3 +1,4 @@
+import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { ContextMenuDirective } from './../directives/context-menu.directive';
 import { MenuItem } from './menu-item.model';
@@ -14,8 +15,8 @@ import { WebSocketService } from './../../core/websocket.service';
 export class ContextMenuComponent {
   anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'right', vertical: 'top' };
-
-  anchorAlign2: Align = { horizontal: 'right', vertical: 'center' };
+  private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
+  anchorAlign2: Align = { horizontal: 'right', vertical: 'top' };
   popupAlign2: Align = { horizontal: 'left', vertical: 'top' };
   private show = false;
   private showSubItems = false;
@@ -34,32 +35,15 @@ export class ContextMenuComponent {
     // SCENARIO 2: RIEMPITO DA HTML
     this.contextMenu = new Array<MenuItem>();
     const subItems = new Array<MenuItem>();
-    const item1 = new MenuItem('id1', 'TextId1', true, false);
-    const item2 = new MenuItem('id', 'roby', false, false);
+    const subItems_bis = new Array<MenuItem>();
+    const item4 = new MenuItem('solo questo per ', 'Id1', false, false);
+    subItems_bis.push(item4);
+    const item1 = new MenuItem('Change format', 'Id1', false, false);
+    const item2 = new MenuItem('Copy copy copy', 'Id2', true, false, subItems_bis);
     subItems.push(item1, item2);
-    const item3 = new MenuItem("id2", "TextId2", true, false, subItems);
-    this.contextMenu.push(item1, item2, item3 );
+    const item3 = new MenuItem('About this control ..', 'Id3', true, false, subItems);
+    this.contextMenu.push(item1, item2, item3);
 
-  }
-
-  public onToggle(): void {
-    this.show = !this.show;
-    if(!this.show)
-     this.showSubItems = false;
-  }
-
-  public closePopupIf(): void {
-    if (this.isMouseDown) {
-      this.isMouseDown = false;
-      document.getElementById('anchor').focus();
-      return;
-    }
-    this.show = false;
-    this.showSubItems = false;
-  }
-
-  setMouseDown() {
-    this.isMouseDown = true;
   }
 
   onOpen() {
@@ -74,14 +58,37 @@ export class ContextMenuComponent {
     this.onToggle();
   }
 
+  ///////////////////////////////////////////////////////////////////////////////////
+
+  public onToggle(): void {
+    this.show = !this.show;
+    if (!this.show) {
+      this.showSubItems = false;
+    }
+  }
+
+  public closePopupIf(): void {
+    if (this.isMouseDown) {
+      this.isMouseDown = false;
+      document.getElementById('anchor').focus();
+      return;
+    }
+    this.outView();
+  }
+
+  setMouseDown() {
+    this.isMouseDown = true;
+  }
+
   hasSubItems(item: MenuItem) {
     const y = item.subItems;
     return y !== null && y.length > 0;
   }
 
   openSubItems(open: boolean, item: MenuItem) {
-    if(!this.hasSubItems(item))
+    if (!this.hasSubItems(item)) {
       return;
+    }
     this.showSubItems = open;
   }
 
@@ -89,11 +96,6 @@ export class ContextMenuComponent {
     this.show = false;
     this.showSubItems = false;
     this.isMouseDown = false;
-   // return true;
   }
-  anchorViewportLeave() {
-    this.closePopupIf();
-  }
-
 
 }
