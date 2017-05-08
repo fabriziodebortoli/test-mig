@@ -9,19 +9,10 @@ import { Subscription } from 'rxjs';
 })
 export class BodyEditComponent extends ControlComponent {
   @Input() columns: Array<any>;
-  constructor()
-  {
+  constructor() {
     super();
 
   }
-  
-  getValue(dataItem: any, colId: any, colIndex: number): any {
-    console.log("getValue",colId, dataItem);
-    try {
-      return dataItem[colId].value;
-    } catch (err) {
-      return 'ERROR';
-    }
-  }
+
 }
 
