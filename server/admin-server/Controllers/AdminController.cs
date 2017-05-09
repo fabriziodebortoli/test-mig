@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Services.Interfaces;
+using System.IO;
 
 namespace Microarea.AdminServer.Controllers
 {
@@ -25,8 +26,13 @@ namespace Microarea.AdminServer.Controllers
         [Route("/")]
         public IActionResult Index()
         {
-            jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea Admin-Server");
-            return new ContentResult { Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
+            if (_env.WebRootPath == null)
+            {
+                return NotFound();
+            }
+            string file = Path.Combine(_env.WebRootPath, "index.html");
+            byte[] buff = System.IO.File.ReadAllBytes(file);
+            return File(buff, "text/html");
         }
 
         [HttpGet]

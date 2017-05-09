@@ -1,3 +1,4 @@
+import { WebSocketService } from './../core/websocket.service';
 import { ComponentService } from './../core/component.service';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
@@ -10,7 +11,6 @@ import { DocumentService } from './../core/document.service';
 
 @Injectable()
 export class ReportingStudioService extends DocumentService {
-    public componentId = '';
     public pageNum: number = 1;
     public askPage: string = '';
     public showAsk = false;
@@ -18,7 +18,11 @@ export class ReportingStudioService extends DocumentService {
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
 
-    constructor(logger: Logger, eventData: EventDataService, private cmpService: ComponentService) {
+    constructor(
+        logger: Logger, 
+        eventData: EventDataService, 
+        private cmpService: ComponentService,
+        private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
         super(logger, eventData);
 
         this.websocket = new WebSocket(this.rsServer);
@@ -80,7 +84,8 @@ export class ReportingStudioService extends DocumentService {
 
     close() {
         super.close();
-        this.cmpService.removeComponentById(this.componentId);
+        this.cmpService.removeComponentById(this.mainCmpId);
         this.closeConnection();
+        this.tbLoaderWebSocketService.doCommand(this.mainCmpId, 'ID_FILE_CLOSE');
     }
 }

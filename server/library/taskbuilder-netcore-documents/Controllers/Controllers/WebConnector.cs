@@ -8,6 +8,7 @@ using TaskBuilderNetCore.Documents.Interfaces;
 namespace TaskBuilderNetCore.Documents.Controllers
 {
     [Name("WebConnector"), Description("It manages communication with user interface.")]
+    //====================================================================================    
     public class WebConnector : Controller, IWebConnector
     {
         public WebConnector()

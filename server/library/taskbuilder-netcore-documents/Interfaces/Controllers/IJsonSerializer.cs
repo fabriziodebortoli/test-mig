@@ -2,6 +2,7 @@
 
 namespace TaskBuilderNetCore.Documents.Interfaces
 {
+    //====================================================================================    
     public interface IJsonSerializer
     {
         void Deserialize(IDocument bo);
