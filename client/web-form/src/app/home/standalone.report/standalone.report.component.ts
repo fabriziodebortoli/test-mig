@@ -23,7 +23,7 @@ export class StandaloneReportComponent implements OnInit {
     private componentService: ComponentService) {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.namespace = params['ns'];
-      this.params = params['params'];
+      this.params = JSON.parse(params['params']);
       //la rundocument mi manderà indietro un ws con le istruzioni per creare un componente
       const subs = componentService.componentInfoAdded.subscribe(info => {
         //quando il framework crea il componentinfo, posso passarlo al mio componente ospite e creare il

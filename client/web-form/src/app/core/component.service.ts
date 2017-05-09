@@ -39,12 +39,7 @@ export class ComponentService {
     }));
   }
   argsToString(args) {
-    if (typeof args === 'undefined') {
-      return undefined;
-    }
-    if (typeof (args) === 'string') {
-      return args;
-    } else if (typeof (args) === 'object') {
+    if (typeof (args) === 'object') {
       if (Object.keys(args).length) {
         return JSON.stringify(args);
       } else {
@@ -59,7 +54,7 @@ export class ComponentService {
     let url = 'rs/reportingstudio/' + ns + '/';
     args = this.argsToString(args);
     if (args !== undefined) {
-      url += JSON.stringify(args);
+      url += args;
     }
     this.createComponentFromUrl(url);
   }
