@@ -1,4 +1,5 @@
 <div class="tb-control tb-checkbox">
     <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <md-checkbox id="{{cmpId}}" [ngModel]="model?.value" [disabled]="!model?.enabled" (ngModelChange)="model.value=$event" color="primary" labelPosition="before"></md-checkbox>
+    <input type="checkbox" id="{{cmpId}}" [ngModel]="model?.value" [disabled]="!model?.enabled" (ngModelChange)="model.value=$event" class="k-checkbox">
+    <!--<md-checkbox id="{{cmpId}}" [ngModel]="model?.value" [disabled]="!model?.enabled" (ngModelChange)="model.value=$event" color="primary" labelPosition="before"></md-checkbox>-->
 </div>
