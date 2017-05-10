@@ -3,6 +3,8 @@ import { HttpService } from './../../../../core/http.service';
 import { EventDataService } from './../../../../core/eventdata.service';
 import { ControlComponent } from './../../control.component';
 
+const DEFAULT_MAX_RANGE:number = 10;
+
 @Component({
   selector: 'tb-linear-gauge',
   templateUrl: './linear-gauge.component.html',
@@ -14,10 +16,14 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
 
   public bandColor:string;
   public bandOpacity:number;
-  public bulletData: any = [5];
   public rulerAxis: any;
 
   ngOnInit() {
+    
+    if (this.maxRange == undefined) {
+      this.maxRange = DEFAULT_MAX_RANGE;
+    }
+
     this.rulerAxis = {
       min: 0,
       max: this.maxRange,
@@ -29,6 +35,10 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
 
   constructor(private eventData: EventDataService) {
     super();
+    this.setDefault();
+  }
+
+  setDefault() {
     this.bandColor = "#f0f0f0";
     this.bandOpacity = 1;
   }
