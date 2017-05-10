@@ -114,7 +114,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
           break;
       }
-
+      //TODO when report finishes execution, send result to tbloader server report (if any)
+      //if (this.args.params.runAtTbLoader) {
+      // this.tbLoaderWebSocketService.setReportResult(this.rsService.mainCmpId, {});
+      //}
       //this.message = msg;//.message;
     } catch (err) {
       this.message = 'Error Occured';

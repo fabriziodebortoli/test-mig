@@ -122,6 +122,10 @@ export class WebSocketService {
         const data = { cmd: 'doCloseMessageDialog', cmpId: cmpId, result: result };
         this.connection.send(JSON.stringify(data));
     }
+    setReportResult(cmpId: String, result: any): void {
+        const data = { cmd: 'setReportResult', cmpId: cmpId, result: result };
+        this.connection.send(JSON.stringify(data));
+    }
 }
 export class SocketMessage {
     constructor(public name: string, public content: any) {
