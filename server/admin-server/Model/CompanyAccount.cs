@@ -3,7 +3,7 @@
 namespace Microarea.AdminServer.Model
 {
     //================================================================================
-    public class CompanyAccounts : ICompanyAccounts
+    public class CompanyAccount : ICompanyAccount
 	{
         public int accountId;
         public int companyId;

@@ -7,14 +7,24 @@ import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
 import { WebSocketService } from './websocket.service';
 import { apply, diff } from 'json8-patch';
-import { BOHelperService } from "app/core/bohelper.service";
+import { BOHelperService } from 'app/core/bohelper.service';
 
 @Injectable()
 export class BOService extends DocumentService {
-    serverSideCommandMap: any; //TODO SILVANO needs typing  
+    serverSideCommandMap: any; // TODO SILVANO needs typing
 
-    //subscriptions
+    // subscriptions
+
+    dataReadySubscription: any;
+    activationDataSubscription: any;
+    serverCommandMapReadySubscription: any;
+    commandSubscription: any;
+    changeSubscription: any;
+    openDropdownSubscription: any;
+    onContextMenuSubscription: any;
+
     subscriptions = [];
+
 
     constructor(
         private webSocketService: WebSocketService,
@@ -63,7 +73,7 @@ export class BOService extends DocumentService {
             const patch = this.getPatchedData();
             this.webSocketService.doCommand(this.mainCmpId, cmpId, patch);
             if (patch.length > 0) {
-                //client data has been sent to server, so reset oldModel
+                // client data has been sent to server, so reset oldModel
                 this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
             }
         }));
@@ -78,7 +88,7 @@ export class BOService extends DocumentService {
                 const patch = this.getPatchedData();
                 if (patch.length > 0) {
                     this.webSocketService.doValueChanged(this.mainCmpId, cmpId, patch);
-                    //client data has been sent to server, so reset oldModel
+                    // client data has been sent to server, so reset oldModel
                     this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
                 }
             }
@@ -87,6 +97,11 @@ export class BOService extends DocumentService {
         this.subscriptions.push(this.eventData.openDropdown.subscribe((obj: any) => {
             this.webSocketService.doFillListBox(this.mainCmpId, obj);
         }));
+
+
+        this.onContextMenuSubscription = this.eventData.onContextMenu.subscribe((obj: any) => {
+            this.webSocketService.getContextMenu(this.mainCmpId, obj);
+        });
 
         this.subscriptions.push(this.eventData.closeMessageDialog.subscribe((args: MessageDlgResult) => {
             this.webSocketService.doCloseMessageDialog(this.mainCmpId, args);
@@ -105,6 +120,13 @@ export class BOService extends DocumentService {
     dispose() {
         super.dispose();
         delete this.serverSideCommandMap;
+        this.dataReadySubscription.unsubscribe();
+        this.serverCommandMapReadySubscription.unsubscribe();
+        this.commandSubscription.unsubscribe();
+        this.changeSubscription.unsubscribe();
+        this.activationDataSubscription.unsubscribe();
+        this.openDropdownSubscription.unsubscribe();
+        this.onContextMenuSubscription.unsubscribe();
         this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
@@ -113,7 +135,7 @@ export class BOService extends DocumentService {
         this.webSocketService.doCommand(this.mainCmpId, 'ID_FILE_CLOSE');
     }
     isServerSideCommand(idCommand: String) {
-        //per ora sono considerati tutti server-side,ma in futuro ci sara la mappa dei comandi che vanno eseguito server side
+        // per ora sono considerati tutti server-side,ma in futuro ci sara la mappa dei comandi che vanno eseguito server side
         return true;
     }
 

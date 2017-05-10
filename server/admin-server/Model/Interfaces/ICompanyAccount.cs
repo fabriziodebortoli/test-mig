@@ -1,7 +1,7 @@
 ﻿namespace Microarea.AdminServer.Model.Interfaces
 {
     //================================================================================
-    interface ICompanyAccounts
+    interface ICompanyAccount
     {
         int AccountId { get; }
         int CompanyId { get; }

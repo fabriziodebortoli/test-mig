@@ -54,6 +54,6 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
   }
 
   public openMessageDialog(mainCmpId: string, args: MessageDlgArgs) {
-    this.messageDialog.open(this.cmpRef.instance.document.eventData, args);
+    this.messageDialog.open(args, this.cmpRef.instance.document.eventData);
   }
 }

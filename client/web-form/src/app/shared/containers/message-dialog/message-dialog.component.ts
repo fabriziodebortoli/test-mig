@@ -15,7 +15,7 @@ export class MessageDialogComponent implements OnInit {
 
   ngOnInit() {
   }
-  open(eventData: EventDataService, args: MessageDlgArgs) {
+  open(args: MessageDlgArgs, eventData?: EventDataService) {
     this.eventData = eventData;
     this.args = args;
     this.opened = true;
@@ -25,8 +25,9 @@ export class MessageDialogComponent implements OnInit {
     const res = new MessageDlgResult();
     res[result] = true;
     this.opened = false;
-
-    this.eventData.closeMessageDialog.emit(res);
+    if (this.eventData) {
+      this.eventData.closeMessageDialog.emit(res);
+    }
   }
 }
 
@@ -44,5 +45,5 @@ export class MessageDlgArgs {
 }
 
 export class MessageDlgResult {
-  
+
 }

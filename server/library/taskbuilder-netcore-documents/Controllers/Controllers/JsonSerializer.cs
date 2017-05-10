@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TaskBuilderNetCore.Documents.Model;
+﻿using TaskBuilderNetCore.Documents.Model;
 using TaskBuilderNetCore.Documents.Interfaces;
 
 namespace TaskBuilderNetCore.Documents.Controllers
@@ -13,7 +9,6 @@ namespace TaskBuilderNetCore.Documents.Controllers
     {
         public JsonSerializer()
         {
-
         }
 
         public void Serialize(IDocument bo)

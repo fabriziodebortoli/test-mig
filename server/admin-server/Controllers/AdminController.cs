@@ -5,6 +5,7 @@ using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Services.Interfaces;
 using System.IO;
+using System.Data.SqlClient;
 
 namespace Microarea.AdminServer.Controllers
 {
@@ -47,7 +48,7 @@ namespace Microarea.AdminServer.Controllers
             return new ContentResult { Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
         }
 
-        [HttpPost("/api/login/{username}")]
+        [HttpPost("/api/logins/{username}")]
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiLogin(string password, string username)
         {
@@ -66,7 +67,7 @@ namespace Microarea.AdminServer.Controllers
 			{
 				account = _adminDataService.ReadLogin(user, psw);
 			}
-			catch (NotImplementedException e)
+			catch (SqlException e)
 			{
 				jsonHelper.AddJsonCouple<bool>("result", false);
 				jsonHelper.AddJsonCouple<string>("message", e.Message);
@@ -83,7 +84,7 @@ namespace Microarea.AdminServer.Controllers
             // user has been found
             jsonHelper.AddJsonCouple<bool>("result", true);
 			jsonHelper.AddJsonCouple<string>("message", "Username recognized in the provisioning database");
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
         }
     }
 }
