@@ -69,7 +69,7 @@ namespace TaskBuilderNetCore.Documents.Model
         //-----------------------------------------------------------------------------------------------------
         protected virtual bool OnInitDocument()
         {
-            return true;
+            return AttachDataModel();
         }
 
         //-----------------------------------------------------------------------------------------------------

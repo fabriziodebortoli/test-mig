@@ -99,6 +99,12 @@ namespace TaskBuilderNetCore.Documents.Controllers
         }
 
         //-----------------------------------------------------------------------------------------------------
+        public IUIController UIController
+        {
+            get { return controllers.GetController<IUIController>(); }
+        }
+
+        //-----------------------------------------------------------------------------------------------------
         public IDocument GetDocument(CallerContext callerContext)
         {
             foreach (IDocument doc in Documents)

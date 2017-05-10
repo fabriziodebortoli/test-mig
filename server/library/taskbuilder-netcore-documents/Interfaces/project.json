@@ -9,8 +9,12 @@
     "taskbuilder-netcore-interfaces": "1.0.0-*"
   },
 
-    "frameworks": {
-      "netcoreapp1.1.1": {
-      }
+  "frameworks": {
+    "netcoreapp1.1.1": {
     }
+  },
+
+  "buildOptions": {
+    "outputName": "taskbuilder-netcore-documents-interfaces"
   }
+}
