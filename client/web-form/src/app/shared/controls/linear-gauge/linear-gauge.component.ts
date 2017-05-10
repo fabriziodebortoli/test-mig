@@ -12,12 +12,13 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
 
   @Input() maxRange:number;
 
+  bandColor:string;
   public bulletData: any = [5];
   public bulletValueAxis: any = {
     min: 0,
     max: this.maxRange,
     plotBands: [{
-        from: 0, to: this.maxRange, color: "#f0f0f0", opacity: 1
+        from: 0, to: this.maxRange, color: this.bandColor, opacity: 1
     }]
   };
 
@@ -33,6 +34,7 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
 
   constructor(private eventData: EventDataService) {
     super();
+    this.bandColor = "#f0f0f0";
   }
 
   onBlur() {
