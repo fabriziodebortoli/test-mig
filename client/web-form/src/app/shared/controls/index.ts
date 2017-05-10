@@ -25,7 +25,7 @@ export { ColorPickerComponent } from './color-picker/color-picker.component';
 export { BoolEditComponent } from './bool-edit/bool-edit.component';
 export { BodyEditComponent } from './body-edit/body-edit.component';
 export { UnknownComponent } from './unknown/unknown.component';
-export { LinearGaugeComponent } from './linear-gauge/linear-gauge.component';
+export { LinearGaugeComponent } from './charts/linear-gauge/linear-gauge.component';
 
 
 

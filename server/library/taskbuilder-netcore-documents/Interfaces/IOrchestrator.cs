@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace TaskBuilderNetCore.Documents.Interfaces
 {
+    //====================================================================================    
     public interface IOrchestrator
     {
         ILoader Loader  { get; }
@@ -12,7 +13,9 @@ namespace TaskBuilderNetCore.Documents.Interfaces
         ILicenceConnector LicenceConnector  { get; }
         IJsonSerializer JsonSerializer { get; }
         IWebConnector WebConnector { get; }
+        IUIController UIController { get; }
 
-        void Close(IDocument document);
+
+        void CloseDocument(IDocument document);
     }
 }

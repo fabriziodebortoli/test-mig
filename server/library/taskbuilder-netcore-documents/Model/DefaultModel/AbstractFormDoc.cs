@@ -1,20 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace TaskBuilderNetCore.Documents.Model
 {
-    public abstract class AbstractFormDoc : Document
+    //====================================================================================    
+    public class AbstractFormDoc : Document
     {
         public enum FormModeType { None, Browse, New, Edit, Find };
 
-        public FormModeType FormMode { get { return (FormModeType) Mode; } set { Mode = (DocumentMode) value; } }
+        private FormModeType mode;
+        public FormModeType FormMode
+        {
+            get { return mode; }
+            set
+            {
+                FormModeChanging?.Invoke(this, EventArgs.Empty);
+                mode = value;
+                FormModeChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        #region events declarations
+
+        public event CancelEventHandler NewingData;
+        public event EventHandler DataNewed;
+        public event CancelEventHandler EditingData;
+        public event EventHandler DataEdited;
+        public event CancelEventHandler Finding;
+        public event EventHandler Finded;
+        public event EventHandler FormModeChanging;
+        public event EventHandler FormModeChanged;
+
+        #endregion
+
         //-----------------------------------------------------------------------------------------------------
         protected AbstractFormDoc()
         {
 
         }
+
+        //-----------------------------------------------------------------------------------------------------
+        public string GetTitle()
+        {
+            return Title;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public void SetTitle(string title)
+        {
+            Title = title;
+        }
+
         //-----------------------------------------------------------------------------------------------------
         protected override sealed bool OnInitialize()
         {
@@ -29,6 +68,24 @@ namespace TaskBuilderNetCore.Documents.Model
 
         //-----------------------------------------------------------------------------------------------------
         protected virtual bool OnInitDocument()
+        {
+            return AttachDataModel();
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected override sealed bool OnAttachDataModel()
+        {
+            return OnAttachData();
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected virtual bool OnAttachData()
+        {
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected override sealed bool OnDetachDataModel()
         {
             return true;
         }
@@ -46,9 +103,31 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected override sealed bool OnValidate()
+        protected override sealed void OnClearData()
         {
-            return OnOkTransaction();
+            OnInitAuxData();
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected virtual bool OnInitAuxData()
+        {
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected override sealed bool OnValidateData()
+        {
+            switch (FormMode)
+            {
+                case FormModeType.New:
+                case FormModeType.Edit:
+                    return OnOkTransaction();
+                case FormModeType.Browse:
+                    return OnOkDelete();
+                default:
+                    break;
+            }
+            return true;
         }
 
         //-----------------------------------------------------------------------------------------------------
@@ -56,23 +135,35 @@ namespace TaskBuilderNetCore.Documents.Model
         {
             return true;
         }
-
+        
         //-----------------------------------------------------------------------------------------------------
-        protected override sealed bool OnAttachDataModel()
-        {
-            return OnAttachData();
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        protected virtual bool OnAttachData()
+        protected virtual bool OnOkDelete()
         {
             return true;
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected override sealed bool OnNew()
+        public bool NewData()
         {
-            return CanDoNewRecord() && NewRecord();
+            if (!CanDoNewRecord())
+                return false;
+
+            if (NewingData != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                NewingData(this, cancelEventArgs);
+
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
+
+            FormMode = FormModeType.New;
+
+            if (!NewRecord())
+                return false;
+
+            DataNewed?.Invoke(this, EventArgs.Empty);
+            return true;
         }
 
         //-----------------------------------------------------------------------------------------------------
@@ -80,16 +171,37 @@ namespace TaskBuilderNetCore.Documents.Model
         {
             return true;
         }
+
         //-----------------------------------------------------------------------------------------------------
         protected virtual bool NewRecord()
         {
+            ClearData();
             return true;
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected override sealed bool OnEdit()
+        public bool EditData()
         {
-            return CanDoEditRecord() && EditRecord();
+            if (!CanDoEditRecord())
+                return false;
+
+            if (EditingData != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                EditingData(this, cancelEventArgs);
+
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
+
+            FormMode = FormModeType.Edit;
+
+            if (!EditRecord())
+                return false;
+
+            DataEdited?.Invoke(this, EventArgs.Empty);
+
+            return true;
         }
 
         //-----------------------------------------------------------------------------------------------------
@@ -97,6 +209,7 @@ namespace TaskBuilderNetCore.Documents.Model
         {
             return true;
         }
+
         //-----------------------------------------------------------------------------------------------------
         protected virtual bool EditRecord()
         {
@@ -104,7 +217,44 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected override sealed bool OnSave()
+        public bool Find()
+        {
+            if (!CanDoFindRecord())
+                return false;
+
+            if (Finding != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                Finding(this, cancelEventArgs);
+
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
+
+            FormMode = FormModeType.Find;
+
+            if (!FindRecord())
+                return false;
+
+            Finded?.Invoke(this, EventArgs.Empty);
+
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected virtual bool FindRecord()
+        {
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected virtual bool CanDoFindRecord()
+        {
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected override sealed bool OnSaveData()
         {
             return OnSaveDocument();
         }
@@ -113,6 +263,31 @@ namespace TaskBuilderNetCore.Documents.Model
         protected virtual bool OnSaveDocument()
         {
             return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected override bool OnDeleteData()
+        {
+            return true;
+        }
+
+        // ce la mettiamo una codifica della diagnostica adesso? 
+        //-----------------------------------------------------------------------------------------------------
+        public void AddError(string text)
+        {
+            Diagnostic.SetError(text);
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public void AddWarning(string text)
+        {
+            Diagnostic.SetWarning(text);
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public void AddHint(string text)
+        {
+            Diagnostic.SetInformation(text);
         }
     }
 }

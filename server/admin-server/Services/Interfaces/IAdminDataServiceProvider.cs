@@ -8,6 +8,6 @@ namespace Microarea.AdminServer.Services.Interfaces
 {
     public interface IAdminDataServiceProvider
     {
-        IUserAccount ReadLogin(string userName, string password);
+        IAccount ReadLogin(string userName, string password);
     }
 }

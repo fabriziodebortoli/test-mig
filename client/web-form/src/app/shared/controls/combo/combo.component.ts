@@ -15,7 +15,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
 
     private items: Array<any> = [];
     private selectedItem: any;
-    
+
 
     @Input() public itemSource: any = undefined;
     @Input() public hotLink: any = undefined;
@@ -33,21 +33,28 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     fillListBox() {
         this.items.splice(0, this.items.length);
 
-  
+
         this.eventDataService.openDropdown.emit(this);
     }
 
-    onChange() {
-        console.log(this.selectedItem);
+    onChange(change: any) {
+        if (this.model.value == change.code)
+            return;
+
+        this.selectedItem = change;
+        this.model.value = this.selectedItem.code;
     }
 
     ngDoCheck() {
 
-        if (this.selectedItem == undefined || this.model == undefined)
+        if (this.selectedItem == undefined || this.model == undefined) {
             return;
-        
-        if (this.model.value == this.selectedItem.code)
+        }
+
+
+        if (this.model.value == this.selectedItem.code) {
             return;
+        }
 
         //if (changes['model'] == undefined || changes['model'].currentValue == undefined) return;
 

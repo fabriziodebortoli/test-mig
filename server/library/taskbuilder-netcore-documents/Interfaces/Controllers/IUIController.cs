@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace TaskBuilderNetCore.Documents.Interfaces
 {
     //====================================================================================    
-    public interface IExtension
+    public interface IUIController
     {
     }
 }

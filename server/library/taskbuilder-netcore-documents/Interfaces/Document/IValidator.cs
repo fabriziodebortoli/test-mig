@@ -5,8 +5,13 @@ using System.Threading.Tasks;
 
 namespace TaskBuilderNetCore.Documents.Interfaces
 {
+    public enum ValidationType { SavingData, OnDemand };
+
     //====================================================================================    
-    public interface IExtension
+    public interface IValidator
     {
+        ValidationType UsedValidationType { get; }
+
+        bool Validate(IDocument document);
     }
 }
