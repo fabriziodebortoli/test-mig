@@ -40,7 +40,13 @@ namespace Microarea.RSWeb.Render
         }
 
         //---------------------------------------------------------------------
-        public string GetJsonTemplatePage(int page = 1)
+        public string GetJsonInitTemplate()
+        {
+            WoormDocument woorm = StateMachine.Woorm;
+            return woorm.ToJson(true);
+        }
+
+        public string GetJsonTemplatePage(int page)
         {
             WoormDocument woorm = StateMachine.Woorm;
 
@@ -91,78 +97,79 @@ namespace Microarea.RSWeb.Render
         }
 
         //---------------------------------------------------------------------
+        //chiamata sul NEXT delle askdialog
         public string GetJsonAskDialog(List<AskDialogElement> data, string currentDialogName)
         {
             AskDialog dlg = null;
 
-            if (currentDialogName.IsNullOrEmpty())
+            if (currentDialogName.IsNullOrEmpty() || data == null || data.Count == 0)
             {
-                //TODO find first enabled dialog
-                dlg = StateMachine.Report.Engine.GetAskDialog(0);
-            }
-            else
-            {
-                //TODO find NEXT enabled dialog !
-                //dlg = StateMachine.Report.Engine.FindAskDialog(currentDialogName);
-            }
-           
-            if (dlg == null)
-            {
+                StateMachine.Step();
                 return string.Empty;
             }
-            return dlg.ToJson();
+
+            //TODO
+            //aggiornare la symbol table
+           // AssignAllAskData(this);
+
+            //prossima dialog
+            StateMachine.Step();
+
+            return string.Empty;
         }
 
         //---------------------------------------------------------------------
         public Message GetResponseFor(Message msg)
         {
-            Message nMsg = new Message();
-            nMsg.commandType = msg.commandType;
-
+       
             switch(msg.commandType)
             {
                case MessageBuilder.CommandType.ASK:
                     {         
                         //contiene il nome della dialog, se è vuota/=="0" viene richiesta la prima per la prima volta
-                        nMsg.page = msg.page;   
-                        List<AskDialogElement> data = nMsg.page.IsNullOrEmpty() ? null 
+                        msg.page = msg.page;   
+                        List<AskDialogElement> data = msg.page.IsNullOrEmpty() ? null 
                                                         : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
 
-                        nMsg.message = GetJsonAskDialog(data, nMsg.page);
+                        GetJsonAskDialog(data, msg.page);
 
-                        if (nMsg.message.IsNullOrEmpty())
-                        {
-                            //dialog "finite": inizia la visualizzazione della prima pagina
-                            nMsg.commandType = MessageBuilder.CommandType.TEMPLATE;
-                            nMsg.message = GetJsonTemplatePage(1);
-                        }
+                        msg.commandType = MessageBuilder.CommandType.NONE;
+
+                        //if (nMsg.message.IsNullOrEmpty())
+                        //{
+                        //    //dialog "finite": inizia la visualizzazione della prima pagina
+                        //    nMsg.commandType = MessageBuilder.CommandType.TEMPLATE;
+                        //    nMsg.message = GetJsonTemplatePage(1);
+                        //}
 
                         break;
                     }
                 case MessageBuilder.CommandType.UPDATEASK:
                     {
-                       nMsg.page = msg.page;
+                       msg.page = msg.page;
                        AskDialogElement data = JsonConvert.DeserializeObject<AskDialogElement>(msg.message);
 
-                       nMsg.message = UpdateJsonAskDialog(data, nMsg.page);
-
-                       
+                       msg.message = UpdateJsonAskDialog(data, msg.page);
 
                        break;
                     }
           
                 case MessageBuilder.CommandType.INITTEMPLATE:
+                    {
+                        msg.message = GetJsonInitTemplate();
+                        break;
+                    }
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
                         if (int.TryParse(msg.page, out pageNum))
-                            nMsg.message = GetJsonTemplatePage(pageNum);
+                            msg.message = GetJsonTemplatePage(pageNum);
                         break;
                     }
 
                 case MessageBuilder.CommandType.DATA:
                     {
-                        nMsg.page = pageNum.ToString();
-                        nMsg.message = GetJsonDataPage(pageNum);
+                        msg.page = pageNum.ToString();
+                        msg.message = GetJsonDataPage(pageNum);
                         break;
                     }
 
@@ -171,11 +178,11 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.STOP:
                     {
                         // this.stateMachine.Do()
-                        nMsg.message = "Executed STOP()";
+                        msg.message = "Executed STOP()";
                         break;
                     }
             }
-            return nMsg;
+            return msg;
         }
 
         //---------------------------------------------------------------------

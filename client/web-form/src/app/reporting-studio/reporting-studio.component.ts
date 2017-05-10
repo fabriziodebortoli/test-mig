@@ -84,7 +84,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     //elaborate
     try {
       let msg = JSON.parse(message);
-      let k = JSON.parse(msg.message);
+       let k = msg.message !== "" ? JSON.parse(msg.message) : undefined;
       switch (msg.commandType) {
         case CommandType.ASK:
           this.rsService.showAsk = true;
@@ -97,7 +97,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           if (this.args.params.xmlArgs) {
             this.GetData();
           }
-
+          else {
+            this.RunReport();
+          }
           break;
         case CommandType.TEMPLATE:
           this.rsService.showAsk = false;
@@ -105,13 +107,18 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.GetData();
           break;
         case CommandType.DATA:
-          //this.showAsk = true;
-          this.UpdateData(k);
+          this.rsService.showAsk = false;
+           this.UpdateData(k);
           break;
         case CommandType.RUNREPORT:
-          const params = { xmlArgs: encodeURIComponent(k.arguments), runAtTbLoader: false };
+           const params = { xmlArgs: encodeURIComponent(k.arguments), runAtTbLoader: false };
           this.componentService.createReportComponent(k.ns, params);
-
+          break;
+        case CommandType.ENDREPORT:
+          break;
+       case CommandType.NONE:
+          break;
+       case CommandType.WRONG:
           break;
       }
 
