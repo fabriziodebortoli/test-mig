@@ -1,19 +1,21 @@
-import { ContextMenuComponent } from './../controls/context-menu/context-menu.component';
-import { Directive, ViewChild, ElementRef, AfterContentInit, ViewContainerRef, ComponentFactoryResolver, AfterViewInit, ComponentRef } from '@angular/core';
+import { ContextMenuComponent } from './../context-menu/context-menu.component';
+import { Directive, ViewChild, ElementRef, AfterContentInit, ViewContainerRef, ComponentFactoryResolver, AfterViewInit, ComponentRef, Input } from '@angular/core';
 
 @Directive({
-  selector: '[tbContextMenu]'
+  selector: '[tbContextMenu]',
 })
 export class ContextMenuDirective implements AfterContentInit {
+
+  @Input() tbContextMenu: any;
 
   @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
   private contextMenuRef: ComponentRef<any>;
 
   private cm: ViewContainerRef;
 
-  constructor(private vcr: ViewContainerRef, private componentResolver: ComponentFactoryResolver) {
-    console.log(vcr);
-  }
+  constructor(
+    private vcr: ViewContainerRef,
+    private componentResolver: ComponentFactoryResolver) { }
 
   renderComponent() {
     // if (this.contextMenuRef) this.contextMenuRef.instance.value = this.value;
@@ -22,10 +24,10 @@ export class ContextMenuDirective implements AfterContentInit {
   ngAfterContentInit() {
 
     this.cm = (<any>this.vcr)._data.componentView.component.contextMenu;
-    console.log("_data.componentView", this.cm);
-
     let componentFactory = this.componentResolver.resolveComponentFactory(ContextMenuComponent);
     this.contextMenuRef = this.cm.createComponent(componentFactory);
+
+    this.contextMenuRef.instance.contextMenuBinding = this.tbContextMenu;
     this.renderComponent();
   }
 
