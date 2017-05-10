@@ -188,6 +188,26 @@ namespace Microarea.AccountManager.Controllers
 
         }
 
+		[Route("isActivated")]
+		public IActionResult isActivated()
+		{
+			//string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
+			string application = HttpContext.Request.Form["application"];
+			string functionality = HttpContext.Request.Form["functionality"];
 
-    }
+			Task<bool> task = loginManagerClient.IsActivatedAsync(application, functionality);
+			bool result = task.Result;
+
+			StringBuilder sb = new StringBuilder();
+			StringWriter sw = new StringWriter(sb);
+			JsonWriter jsonWriter = new JsonTextWriter(sw);
+			jsonWriter.WriteStartObject();
+			jsonWriter.WritePropertyName("result");
+			jsonWriter.WriteValue(result);
+			jsonWriter.WriteEndObject();
+
+			string content =  sb.ToString();
+			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+		}
+	}
 }
