@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { HttpService } from './../../../core/http.service';
-import { EventDataService } from './../../../core/eventdata.service';
-import { ControlComponent } from './../control.component';
+import { HttpService } from './../../../../core/http.service';
+import { EventDataService } from './../../../../core/eventdata.service';
+import { ControlComponent } from './../../control.component';
 
 @Component({
   selector: 'tb-linear-gauge',
