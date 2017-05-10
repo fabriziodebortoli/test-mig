@@ -1,4 +1,6 @@
 <div class="tb-control tb-date-input">
     <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <kendo-datepicker [(ngModel)]="selectedDate" [format]="getFormat(formatter)" (valueChange)="onChange($event)" [focusedDate]="selectedDate" [disabled]="readonly" (blur)="onBlur($event)"> </kendo-datepicker>
+    <div class="tb-control-group">
+        <kendo-datepicker [(ngModel)]="selectedDate" [format]="getFormat(formatter)" (valueChange)="onChange($event)" [focusedDate]="selectedDate" [disabled]="readonly" (blur)="onBlur($event)"> </kendo-datepicker>
+    </div>
 </div>
