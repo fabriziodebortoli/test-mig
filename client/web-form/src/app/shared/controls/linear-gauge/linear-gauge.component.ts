@@ -22,7 +22,7 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
       min: 0,
       max: this.maxRange,
       plotBands: [{
-          from: 0, to: this.maxRange, color: "#f0f0f0", opacity: this.bandOpacity
+          from: 0, to: this.maxRange, color: this.bandColor, opacity: this.bandOpacity
       }]
     };
   }
@@ -31,9 +31,5 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
     super();
     this.bandColor = "#f0f0f0";
     this.bandOpacity = 1;
-  }
-
-  onBlur() {
-    this.eventData.change.emit(this.cmpId);
-  }  
+  } 
 }
