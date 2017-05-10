@@ -5,6 +5,7 @@ using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Services.Interfaces;
 using System.IO;
+using System.Data.SqlClient;
 
 namespace Microarea.AdminServer.Controllers
 {
@@ -66,7 +67,7 @@ namespace Microarea.AdminServer.Controllers
 			{
 				account = _adminDataService.ReadLogin(user, psw);
 			}
-			catch (NotImplementedException e)
+			catch (SqlException e)
 			{
 				jsonHelper.AddJsonCouple<bool>("result", false);
 				jsonHelper.AddJsonCouple<string>("message", e.Message);

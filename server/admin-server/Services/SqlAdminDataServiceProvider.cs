@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services.Interfaces;
+using System;
 
 namespace Microarea.AdminServer.Services
 {
@@ -27,23 +28,32 @@ namespace Microarea.AdminServer.Services
 		public IAccount ReadLogin(string userName, string password)
         {
 			IAccount account = null;
-			using (SqlConnection connection = new SqlConnection(_connectionString))
-			{
-				connection.Open();
 
-				using (SqlCommand command = new SqlCommand("SELECT * FROM MP_Accounts WHERE Name = '{0}' AND Password = '{1}'", connection))
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(_connectionString))
 				{
-					using (SqlDataReader reader = command.ExecuteReader())
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand("SELECT * FROM MP_Accounts WHERE Name = '{0}' AND Password = '{1}'", connection))
 					{
-						if (reader.HasRows)
+						using (SqlDataReader reader = command.ExecuteReader())
 						{
-							account = new Account();
-							while (!reader.Read())
+							if (reader.HasRows)
 							{
+								account = new Account();
+								while (!reader.Read())
+								{
+								}
 							}
 						}
 					}
 				}
+			}
+			catch (SqlException e)
+			{
+				Console.WriteLine(e.Message);
+				throw (e);
 			}
 
 			return account;
