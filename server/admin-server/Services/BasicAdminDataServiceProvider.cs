@@ -21,14 +21,14 @@ namespace Microarea.AdminServer.Services
                 Path.Combine(Directory.GetCurrentDirectory(), "Data"));
         }
 
-        public IUserAccount ReadLogin(string userName, string password)
+        public IAccount ReadLogin(string userName, string password)
         {
             // read the storage, find a login and return a IUserAccount object
 
             this.fileInfo = fileProvider.GetFileInfo("accounts.json");
             //StreamReader sr = this.fileInfo.CreateReadStream();
 
-            IUserAccount userAccount = new UserAccount();
+            IAccount userAccount = new Account();
             return userAccount;
         }
     }

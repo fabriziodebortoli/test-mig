@@ -95,8 +95,8 @@ export class WebSocketService {
         }
     }
 
-    doFillListBox(cmpId: String, itemSource: any): void {
-        const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: itemSource };
+    doFillListBox(cmpId: String, obj: any): void {
+        const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: obj.itemSource, hotLink: obj.hotLink };
         this.connection.send(JSON.stringify(data));
     }
 
@@ -120,6 +120,10 @@ export class WebSocketService {
     }
     doCloseMessageDialog(cmpId: String, result: MessageDlgResult): void {
         const data = { cmd: 'doCloseMessageDialog', cmpId: cmpId, result: result };
+        this.connection.send(JSON.stringify(data));
+    }
+    setReportResult(cmpId: String, result: any): void {
+        const data = { cmd: 'setReportResult', cmpId: cmpId, result: result };
         this.connection.send(JSON.stringify(data));
     }
 }

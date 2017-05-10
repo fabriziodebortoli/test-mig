@@ -36,7 +36,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         this.items.splice(0, this.items.length);
 
         if (this.itemSource != undefined) {
-            this.eventDataService.openDropdown.emit(this.itemSource);
+            this.eventDataService.openDropdown.emit(this);
         }
         else {
             let allItems = this.enumsService.getItemsFromTag(this.tag);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microarea.Common.DiagnosticManager;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,12 +12,12 @@ namespace TaskBuilderNetCore.Documents.Model
     //====================================================================================    
     public abstract class Document : IDocument
     {
-        public enum DocumentMode { None, DataLoaded, AddNew, Edit, Find };
-
         IOrchestrator orchestrator;
         List<IExtension> extensions;
-        CallerContext callerContext;
-        DocumentMode mode;
+        ICallerContext callerContext;
+        IValidator validator;
+        IDiagnostic diagnostic;
+        string title;
 
         #region events declarations
 
@@ -26,16 +27,16 @@ namespace TaskBuilderNetCore.Documents.Model
         public event EventHandler DataModelAttached;
         public event CancelEventHandler DetachingDataModel;
         public event EventHandler DataModelDetached;
+        public event CancelEventHandler DataClearing;
+        public event EventHandler DataCleared;
         public event CancelEventHandler DataLoading;
         public event EventHandler DataLoaded;
-        public event CancelEventHandler Validating;
-        public event EventHandler Validated;
-        public event CancelEventHandler Saving;
-        public event EventHandler Saved;
-        public event CancelEventHandler Newing;
-        public event EventHandler Newed;
-        public event CancelEventHandler Editing;
-        public event EventHandler Edited;
+        public event CancelEventHandler ValidatingData;
+        public event EventHandler DataValidated;
+        public event CancelEventHandler SavingData;
+        public event EventHandler DataSaved;
+        public event CancelEventHandler DeletingData;
+        public event EventHandler DataDeleted;
 
         #endregion
 
@@ -73,22 +74,74 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        public DocumentMode Mode
+        public IValidator Validator
         {
             get
             {
-                return mode;
+                return validator;
             }
 
             set
             {
-                mode = value;
+                validator = value;
+            }
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public IDiagnostic Diagnostic
+        {
+            get
+            {
+                return diagnostic;
+            }
+
+            set
+            {
+                diagnostic = value;
+            }
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public ICallerContext CallerContext
+        {
+            get
+            {
+                return callerContext;
+            }
+
+            set
+            {
+                callerContext = value;
+            }
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+
+            set
+            {
+                title = value;
+            }
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public bool Unattended
+        {
+            get
+            {
+                return orchestrator.UIController == null;
             }
         }
 
         //-----------------------------------------------------------------------------------------------------
         protected Document()
         {
+            diagnostic = new Diagnostic(callerContext.Identity);
             Clear();
         }
 
@@ -96,18 +149,19 @@ namespace TaskBuilderNetCore.Documents.Model
         public void Clear()
         {
             this.callerContext = null;
-            this.orchestrator = null;
-            
+             diagnostic.Clear();
+
+            ClearData();
         }
 
         /// <summary>
-        /// It initialize document 
+        /// Initialize document 
         /// </summary>
         /// <param name="orchestrator"></param>
         /// <param name="callerContext"></param>
         /// <returns></returns>
         //-----------------------------------------------------------------------------------------------------
-        public bool Initialize(IOrchestrator orchestrator, CallerContext callerContext)
+        public bool Initialize(IOrchestrator orchestrator, ICallerContext callerContext)
         {
             // it detach previous objects
             Clear();
@@ -132,16 +186,12 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected virtual bool OnInitialize()
-        {
-            return AttachDataModel();
-        }
-
+        protected abstract bool OnInitialize();
 
         /// <summary>
         /// It attaches and initialize data model to document
         /// </summary>
-        /// <returns></returns>
+        /// <returns>If data model has been attached</returns>
         //-----------------------------------------------------------------------------------------------------
         public bool AttachDataModel ()
         {
@@ -158,16 +208,19 @@ namespace TaskBuilderNetCore.Documents.Model
                 return false;
 
             DataModelAttached?.Invoke(this, EventArgs.Empty);
+            
+            ClearData();
 
             return true;
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected virtual bool OnAttachDataModel()
-        {
-            return true;
-        }
+        protected abstract bool OnAttachDataModel();
 
+        /// <summary>
+        /// It detaches data model from document
+        /// </summary>
+        /// <returns>If data model has been detached</returns>
         //-----------------------------------------------------------------------------------------------------
         public bool DetachDataModel()
         {
@@ -188,115 +241,12 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected virtual bool OnDetachDataModel()
-        {
-            return true;
-        }
+        protected abstract bool OnDetachDataModel();
 
-
-        //-----------------------------------------------------------------------------------------------------
-        public bool New()
-        {
-            if (Newing != null)
-            {
-                CancelEventArgs cancelEventArgs = new CancelEventArgs();
-                Newing(this, cancelEventArgs);
-
-                if (cancelEventArgs.Cancel)
-                    return false;
-            }
-
-            if (!OnNew())
-                return false;
-
-            Newed?.Invoke(this, EventArgs.Empty);
-            return true;
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        protected virtual bool OnNew()
-        {
-            return true;
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        public bool Edit()
-        {
-            if (Editing != null)
-            {
-
-                CancelEventArgs cancelEventArgs = new CancelEventArgs();
-                Editing(this, cancelEventArgs);
-
-                if (cancelEventArgs.Cancel)
-                    return false;
-            }
-
-            if (!OnEdit())
-                return false;
-
-            Edited?.Invoke(this, EventArgs.Empty);
-
-            return true;
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        protected virtual bool OnEdit()
-        {
-            return true;
-        }
-
-
-        //-----------------------------------------------------------------------------------------------------
-        public bool Validate()
-        {
-            if (Validating != null)
-            {
-                CancelEventArgs cancelEventArgs = new CancelEventArgs();
-                Validating(this, cancelEventArgs);
-
-                if (cancelEventArgs.Cancel)
-                    return false;
-            }
-            if (!OnValidate())
-                return false;
-
-            Validated?.Invoke(this, EventArgs.Empty);
-            return true;
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        protected virtual bool OnValidate()
-        {
-            return true;
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        public bool Save()
-        {
-            if (Saving != null)
-            {
-                CancelEventArgs cancelEventArgs = new CancelEventArgs();
-                Saving(this, cancelEventArgs);
-
-                if (cancelEventArgs.Cancel)
-                    return false;
-            }
-
-            if (!OnSave())
-                return false;
-
-            Saved?.Invoke(this, EventArgs.Empty);
-
-            return true;
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        protected virtual bool OnSave()
-        {
-            return true;
-        }
-
+        /// <summary>
+        /// It invokes data loding 
+        /// </summary>
+        /// <returns>If data model has been loaded</returns>
         //-----------------------------------------------------------------------------------------------------
         public bool LoadData()
         {
@@ -309,6 +259,8 @@ namespace TaskBuilderNetCore.Documents.Model
                     return false;
             }
 
+            // TODO invocazione del metodo di load del data model
+
             if (!OnLoadData())
                 return false;
 
@@ -318,18 +270,124 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected virtual bool OnLoadData()
+        protected abstract bool OnLoadData();
+
+        /// <summary>
+        /// It clears data 
+        /// </summary>
+        //-----------------------------------------------------------------------------------------------------
+        public void ClearData()
         {
+            if (DataClearing != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                DataClearing(this, cancelEventArgs);
+
+                if (cancelEventArgs.Cancel)
+                    return;
+            }
+
+            // TODO invocazione del metodo di clear del data model
+
+            OnClearData();
+
+            DataCleared?.Invoke(this, EventArgs.Empty);
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected abstract void OnClearData();
+
+        /// <summary>
+        /// It validates data
+        /// </summary>
+        /// <returns>If data are valid</returns>
+        //-----------------------------------------------------------------------------------------------------
+        public bool ValidateData()
+        {
+            if (ValidatingData != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                ValidatingData(this, cancelEventArgs);
+
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
+
+            if (Validator != null)
+                Validator.Validate(this);
+
+            if (!OnValidateData())
+                return false;
+
+            DataValidated?.Invoke(this, EventArgs.Empty);
             return true;
         }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected abstract bool OnValidateData();
+
+        //-----------------------------------------------------------------------------------------------------
+        public bool SaveData()
+        {
+            // validation default called on data saving
+            if (Validator == null || Validator.UsedValidationType == ValidationType.SavingData)
+            {
+                if (!ValidateData())
+                    return false;
+            }
+
+            if (SavingData != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                SavingData(this, cancelEventArgs);
+
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
+
+            // TODO invocazione del save del data model
+            if (!OnSaveData())
+                return false;
+
+            DataSaved?.Invoke(this, EventArgs.Empty);
+
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected abstract bool OnSaveData();
+
+        //-----------------------------------------------------------------------------------------------------
+        public bool DeleteData()
+        {
+            if (DeletingData != null)
+            {
+                CancelEventArgs cancelEventArgs = new CancelEventArgs();
+                DeletingData(this, cancelEventArgs);
+
+                if (cancelEventArgs.Cancel)
+                    return false;
+            }
+
+            // TODO invocazine della delete del data model
+            if (!OnDeleteData())
+                return false;
+
+            DataDeleted?.Invoke(this, EventArgs.Empty);
+
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected abstract bool OnDeleteData();
 
         //-----------------------------------------------------------------------------------------------------
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                // cose di chiusura
                 Clear();
+                DetachDataModel();
             }
         }
 

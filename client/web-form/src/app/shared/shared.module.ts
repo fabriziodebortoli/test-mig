@@ -22,6 +22,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { ChartsModule } from '@progress/kendo-angular-charts';
 
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
@@ -68,7 +69,8 @@ const KENDO_UI_MODULES = [
   DropDownsModule,
   LayoutModule,
   PopupModule,
-  ButtonsModule
+  ButtonsModule,
+  ChartsModule
 ];
 
 const TB_COMPONENTS = [
