@@ -36,7 +36,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         this.items.splice(0, this.items.length);
 
         if (this.itemSource != undefined) {
-            this.eventDataService.openDropdown.emit(this.itemSource);
+            this.eventDataService.openDropdown.emit(this);
         }
         else {
             let allItems = this.enumsService.getItemsFromTag(this.tag);
@@ -57,17 +57,18 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         if (this.selectedItem == undefined || this.model == undefined)
             return;
 
-        if (this.model.value == this.selectedItem.code)
-            return;
 
         this.tag = this.model.tag;
-
-        this.items.splice(0, this.items.length);
         let temp = this.model.value;
 
         let enumItem = this.enumsService.getEnumsItem(temp);
         if (enumItem != undefined)
             temp = enumItem.name;
+
+        if (temp == this.selectedItem.code)
+            return;
+
+        this.items.splice(0, this.items.length);
 
         let obj = { code: temp, description: temp };
         this.items.push(obj);
@@ -83,14 +84,14 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         }
 
         this.tag = this.model.tag;
-
-        this.items.splice(0, this.items.length);
         let temp = changes['model'].currentValue.value;
 
         let enumItem = this.enumsService.getEnumsItem(temp);
         if (enumItem != undefined)
             temp = enumItem.name;
 
+        this.items.splice(0, this.items.length);
+    
         let obj = { code: temp, description: temp };
         this.items.push(obj);
         this.selectedItem = obj;

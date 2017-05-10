@@ -160,6 +160,8 @@ namespace Microarea.Common.NameSolver
 		private	string	parsingError;
 		private string	signature;
 		private int		release;
+		private string	previousApplication;
+		private string	previousModule;
 		private bool	dms = false;
 
 		private IBaseModuleInfo	parentModuleInfo;
@@ -187,8 +189,12 @@ namespace Microarea.Common.NameSolver
 		//--------------------------------------------------------------------------------
 		public bool			Dms				{ get { return dms; } }
 
+		// PreviousSignature del modulo (per gestire cambi di modulo tra addon)
 		//--------------------------------------------------------------------------------
-		public  IBaseModuleInfo	ParentModuleInfo	{  get { return parentModuleInfo; } }
+		public string PreviousApplication	{ get { return previousApplication; } }
+		public string PreviousModule		{ get { return previousModule; } }
+		//--------------------------------------------------------------------------------
+		public IBaseModuleInfo	ParentModuleInfo {  get { return parentModuleInfo; } }
 
 		// Array delle tabelle, view o procedure
 		//--------------------------------------------------------------------------------
@@ -201,7 +207,6 @@ namespace Microarea.Common.NameSolver
 		/// <summary>
 		/// Costruttore
 		/// </summary>
-		/// <param name="aFilePath">path del file DatabaseObjects del modulo</param>
 		//---------------------------------------------------------------------
 		public DatabaseObjectsInfo(string aFilePath, IBaseModuleInfo aParentModuleInfo)
 		{
@@ -306,6 +311,17 @@ namespace Microarea.Common.NameSolver
 					if (node.InnerText != null && node.InnerText.Length > 0)
 						try { release = Int32.Parse(node.InnerText); } 
 						catch (Exception) {}
+				}
+
+				// PreviousSignature
+				previousApplication = string.Empty;
+				previousModule = string.Empty;
+				XmlNodeList previousSignatureList = root.GetElementsByTagName(DataBaseObjectsXML.Element.PreviousSignature);
+				if (previousSignatureList != null && previousSignatureList.Count > 0)
+				{
+					XmlNode node = previousSignatureList[0];
+					previousApplication = ((XmlElement)node).GetAttribute(DataBaseObjectsXML.Attribute.Application);
+					previousModule = ((XmlElement)node).GetAttribute(DataBaseObjectsXML.Attribute.Module);
 				}
 
 				ParseDBObjects(root);

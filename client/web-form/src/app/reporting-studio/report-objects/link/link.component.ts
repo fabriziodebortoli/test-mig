@@ -33,8 +33,8 @@ export class ReportLinkComponent {
   }
 
   runReport() {
-    const params = encodeURIComponent(this.link.arguments);
-    this.componentService.createComponentFromUrl('rs/reportingstudio/' + this.link.ns + '/' + params);
+    const params = { xmlArgs : encodeURIComponent(this.link.arguments), runAtTbLoader: false};
+    this.componentService.createReportComponent(this.link.ns, params);
   }
 
   openDocument() {

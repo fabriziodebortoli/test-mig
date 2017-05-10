@@ -61,6 +61,15 @@ export class HttpService {
             .catch(this.handleError);
     }
 
+    isActivated(application: string, functionality: string): Observable<any> {
+        let obj = { application: application,  functionality: functionality};
+        return this.postData(this.getAccountManagerBaseUrl() + 'isActivated/', obj)
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
     loginCompact(connectionData: LoginSession): Observable<OperationResult> {
         return this.postData(this.getAccountManagerBaseUrl() + '/login-compact/', connectionData)
             .map((res: Response) => {

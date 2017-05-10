@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>a095f89e-e7c9-4ec0-ba14-7e7efb9f99e0</ProjectGuid>
+    <RootNamespace>Microarea.RSWeb</RootNamespace>
+    <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
+    <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <DnxInvisibleCompile Include="WebControls\Helper.cs" />
+    <DnxInvisibleCompile Include="WebControls\LinkDocument.cs" />
+    <DnxInvisibleCompile Include="WebControls\TBFieldSet.cs" />
+    <DnxInvisibleCompile Include="WoormController\AskDialogController.cs" />
+    <DnxInvisibleCompile Include="WoormController\HttpGenericHandler.cs" />
+    <DnxInvisibleCompile Include="WoormController\WoormHandler.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\AspNetAskWebForm.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\AspNetRender.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\ConditionalUpdatePanel.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\CssProvider.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\ErrorPage.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\ExportHandlerRender.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\HotLinkForm.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\PdfSharpHandler.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\PersisterControl.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\RSApiHandler.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\SimpleControl.cs" />
+    <DnxInvisibleCompile Include="WoormWebControl\WoormWebControl.cs" />
+    <DnxInvisibleContent Include="WoormWebControl\WoormClientControl.css" />
+    <DnxInvisibleContent Include="WoormWebControl\WoormClientControl.js" />
+    <DnxInvisibleContent Include="WoormWebControl\WoormClientControlInfinity.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <DnxInvisibleContent Include="WebControls\LinkDocument.htm" />
+    <DnxInvisibleContent Include="WebControls\OpenDocumentJScript.js" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\DotNet.Web\Microsoft.DotNet.Web.targets" Condition="'$(VSToolsPath)' != ''" />
+</Project>

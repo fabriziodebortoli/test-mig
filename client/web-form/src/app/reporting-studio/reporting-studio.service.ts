@@ -10,15 +10,17 @@ import { DocumentService } from './../core/document.service';
 
 @Injectable()
 export class ReportingStudioService extends DocumentService {
-    public componentId = '';
     public pageNum: number = 1;
-    public currLayout: string = '';
+    public askPage: string = '';
     public showAsk = false;
-    private rsServer: string = environment.baseSocket + 'rsweb';
+    private rsServer: string = environment.baseSocket + 'rs';
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
 
-    constructor(logger: Logger, eventData: EventDataService, private cmpService: ComponentService) {
+    constructor(
+        logger: Logger, 
+        eventData: EventDataService, 
+        private cmpService: ComponentService) {
         super(logger, eventData);
 
         this.websocket = new WebSocket(this.rsServer);
@@ -44,7 +46,7 @@ export class ReportingStudioService extends DocumentService {
         this.writeToScreen(evt.data);
     }
 
-    doSend(message) {
+    doSend(message: string) {
         this.waitForConnection(() => {
             this.websocket.send(message);
         }, 100);
@@ -80,7 +82,8 @@ export class ReportingStudioService extends DocumentService {
 
     close() {
         super.close();
-        this.cmpService.removeComponentById(this.componentId);
+        this.cmpService.removeComponentById(this.mainCmpId);
         this.closeConnection();
+       
     }
 }

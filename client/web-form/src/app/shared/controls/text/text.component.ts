@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnChanges, AfterContentInit } from '@angular/core';
+import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnChanges, AfterContentInit, Output, EventEmitter } from '@angular/core';
 // import { ContextMenuComponent } from './../context-menu/context-menu.component';
 import { EventDataService } from './../../../core/eventdata.service';
 import { ControlComponent } from '../control.component';
@@ -11,6 +11,7 @@ import { ControlComponent } from '../control.component';
 export class TextComponent extends ControlComponent /*implements AfterContentInit, OnChanges */ {
 
   @Input('readonly') readonly: boolean = false;
+  @Input() public hotLink: any = undefined;  
 
   @ViewChild("contextMenu", { read: ViewContainerRef }) contextMenu: ViewContainerRef;
   // private contextMenuRef;
@@ -21,6 +22,7 @@ export class TextComponent extends ControlComponent /*implements AfterContentIni
 
   onBlur() {
     this.eventData.change.emit(this.cmpId);
+    this.blur.emit(this);
   }
 
   ngAfterContentInit() {

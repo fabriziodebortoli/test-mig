@@ -1,5 +1,5 @@
 import { ControlComponent } from './../control.component';
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'tb-combo-simple',
@@ -10,8 +10,11 @@ export class ComboSimpleComponent extends ControlComponent {
 
   @Input() public items: Array<any> = [];
   @Input() public defaultItem: any;
+  @Output('changed') changed: EventEmitter<any> = new EventEmitter();
 
  public selectionChange(value: any): void {
         this.model.value = value.code;
+        this.changed.emit(this);
     }
 }
+

@@ -11,6 +11,15 @@ using Microarea.Common.Hotlink;
 using static Microarea.Common.Generic.InstallationInfo;
 using Microarea.Common.StringLoader;
 using System.Xml;
+using System.Net.Http;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Net;
+using System.Net.WebSockets;
+using System.ServiceModel.Channels;
+using System.Text;
+using Newtonsoft.Json;
+using System.Threading;
 
 namespace Microarea.Common.Applications
 {
@@ -23,6 +32,7 @@ namespace Microarea.Common.Applications
 
     }
 
+ 
     /// <summary>
     /// Descrizione di riepilogo per TbSession.
     /// </summary>
@@ -31,12 +41,17 @@ namespace Microarea.Common.Applications
     {
         public UserInfo UserInfo = null;
 
-        public const string TbLoaderInstanceID = "tbloader-name";
- 
         public string TbBaseAddress = "http://localhost:5000/";
 
-        public bool LoggedToTb = false;
+        public const string TbBaseRoute             = "tbloader/api/";
+        public const string     TbLoginRoute                        = "tb/document/login/";
+        public const string     TbRunFunctionRoute                  = "tb/document/runFunction/";
+
+        public const string TbInstanceKey = "tbloader-name";
         public string TbInstanceID = string.Empty;
+        public bool LoggedToTb = false;
+
+        public WebSocket WebSocket = null;
 
         public IPathFinder PathFinder = null;
 
@@ -235,14 +250,164 @@ namespace Microarea.Common.Applications
             return Enums.Loaded && ApplicationFontStyles.Loaded && ApplicationFormatStyles.Loaded;
         }
 
+        //---------------------------------------------------------------------
+        public static async Task<bool> TbLogin(TbSession session)
+        {
+            if (session.LoggedToTb)
+                return true;
+
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri(session.TbBaseAddress);
+
+                    var content = new FormUrlEncodedContent(new[]
+                    {
+                        new KeyValuePair<string, string>(UserInfo.AuthenticationTokenKey, session.UserInfo.AuthenticationToken)
+                    });
+                    var response = await client.PostAsync(TbSession.TbBaseRoute + TbSession.TbLoginRoute, content);
+                    response.EnsureSuccessStatusCode(); // Throw in not success
+
+                    var stringResponse = await response.Content.ReadAsStringAsync();
+
+                    if (stringResponse != null)
+                    {
+                        IEnumerable<string> list;
+                        if (response.Headers.TryGetValues("Set-Cookie", out list))
+                        {
+                            if (list != null)
+                            {
+                                foreach (string s in list)
+                                {
+                                    if (s.Left(TbSession.TbInstanceKey.Length).CompareNoCase(TbSession.TbInstanceKey))
+                                    {
+                                        string tbinstance = s.Mid(TbSession.TbInstanceKey.Length + 1);
+                                        int end = tbinstance.IndexOf(';');
+                                        tbinstance = tbinstance.Left(end);
+
+                                        session.TbInstanceID = tbinstance;
+                                        session.LoggedToTb = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        // List<string> values; //= new List<string> ();
+                        //IEnumerable <string> list;
+                        //session.LoggedToTb = response.Headers.TryGetValues(TbSession.TbLoaderCookie, out list);
+
+                        //IEnumerable<string> list2 = response.Headers.GetEnumerator();
+                        //if (list != null)
+                        //{
+                        //    //session.TbName = s;
+                        //}
+                    }
+                    return session.LoggedToTb;
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"Request exception: {e.Message}");
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Request exception: {e.Message}");
+                    return false;
+                }
+            }
+        }
+
         //-------------------------------------------------------------------------------------------------
-    }
+        public static async Task<string> TbRunFunction(TbSession session, FunctionPrototype fun)
+        {
+            if (!session.LoggedToTb)
+                return null;
+            if (session.TbInstanceID.IsNullOrEmpty())
+                return null;
+
+            XmlDocument d = new XmlDocument();
+            d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
+            fun.Parameters.Unparse(d.DocumentElement);
+            string xargs = d.OuterXml;
+
+            var cookieContainer = new CookieContainer();
+            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
+            using (var client = new HttpClient(handler))
+            {
+                try
+                {
+                    client.BaseAddress = new Uri(session.TbBaseAddress);
+
+                    cookieContainer.Add(client.BaseAddress, new Cookie(TbSession.TbInstanceKey, session.TbInstanceID));
+
+                    var content = new FormUrlEncodedContent(new[]
+                    {
+                        new KeyValuePair<string, string>(UserInfo.AuthenticationTokenKey, session.UserInfo.AuthenticationToken),
+                        new KeyValuePair<string, string>("ns", fun.NameSpace.ToString() ),
+                        new KeyValuePair<string, string>("args", xargs)
+                    });
+
+                    var response = await client.PostAsync(TbSession.TbBaseRoute + TbSession.TbRunFunctionRoute, content);
+                    response.EnsureSuccessStatusCode(); // Throw in not success
+
+                    var stringResponse = await response.Content.ReadAsStringAsync();
+
+                    return stringResponse;
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"Request exception: {e.Message}");
+                    return null;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Request exception: {e.Message}");
+                    return null;
+                }
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------
+        public class MyMessage
+        {
+            public int commandType = 7;     //commandtype.RUNREPORT
+            public string message { get; set; }
+
+            public string page = string.Empty;
+
+        }
+
+        public static async Task<bool> RunReport(TbSession session, FunctionPrototype fun)
+        {
+            if (session.WebSocket == null)
+                return false;
+ 
+            XmlDocument d = new XmlDocument();
+            d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
+            fun.Parameters.Unparse(d.DocumentElement);
+            string xargs = d.OuterXml;
+
+            MyMessage msg = new MyMessage();
+            msg.message = '{' + fun.NameSpace.ToString().ToJson("ns") + ',' + xargs.ToJson("args", false, false) + '}';
+
+            string jmsg = JsonConvert.SerializeObject(msg);
+
+            if (session.WebSocket.State == WebSocketState.Open)
+            {
+                await session.WebSocket.SendAsync(new ArraySegment<Byte>(Encoding.UTF8.GetBytes(jmsg)), WebSocketMessageType.Text, true, CancellationToken.None);
+            }
+
+            return true;
+        }
+
+      }
 
     /// <summary>
     /// Descrizione di riepilogo per TbReportSession.
     /// </summary>
     ///=============================================================================
-   
+
     public enum EngineType { Paginated_Standard, FullXML_OfficeXML, PDFSharp_OfficePDF, FullExtraction }
 
     public class TbReportSession : TbSession

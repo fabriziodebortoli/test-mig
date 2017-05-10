@@ -14,8 +14,6 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
     private showError = '';
     private constraint: RegExp;
 
-public selectedValue: string;
-
  constructor(private eventData: EventDataService) {
     super();
 
@@ -32,7 +30,6 @@ public selectedValue: string;
     if (!this.modelValid()) {
       this.model = { enable: 'true', value: '' };
     }
-    this.selectedValue = newValue;
     this.model.value = newValue;
   }
 

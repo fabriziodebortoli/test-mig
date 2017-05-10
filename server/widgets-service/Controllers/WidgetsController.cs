@@ -21,7 +21,7 @@ namespace widgets_service.Controllers
         {
             errMessage = string.Empty;
 
-            string sAuthT = HttpContext.Request.Cookies["authtoken"];
+            string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
             if (string.IsNullOrEmpty(sAuthT))
             {
                 errMessage = "Missing authentication";

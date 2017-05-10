@@ -3692,119 +3692,42 @@ namespace Microarea.Common.ExpressionManager
 			return null;
 		}
 
-        public static async Task<string> RemoteRunFunction(TbSession session, FunctionPrototype fun)
+        //-----------------------------------------------------------------------------
+        Value ApplyRunReport(FunctionItem function, Stack paramStack)
         {
-            if (!session.LoggedToTb)
-                return null;
-            if (session.TbInstanceID.IsNullOrEmpty())
-                return null;
+            FunctionPrototype fun = null;
 
-            XmlDocument d = new XmlDocument();
-            d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
-            fun.Parameters.Unparse(d.DocumentElement);
-            string xargs = d.OuterXml;
-
-            var cookieContainer = new CookieContainer();
-            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
-            using (var client = new HttpClient(handler))
+            int np = 0;
+            object [] ar = paramStack.ToArray();
+            for (int i = 0; i < ar.Length; i++)
             {
-                try
+                DataItem item = ar[i] as DataItem;
+
+                if (i == 0)
                 {
-                    client.BaseAddress = new Uri(session.TbBaseAddress);
-
-                    cookieContainer.Add(client.BaseAddress, new Cookie(TbSession.TbLoaderInstanceID, session.TbInstanceID));
-
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                        //new KeyValuePair<string, string>("authtoken", authtoken)
-                        new KeyValuePair<string, string>("ns", fun.NameSpace.ToString() ),
-                        new KeyValuePair<string, string>("args", xargs)
-                    });
-
-                    var response = await client.PostAsync("tbloader/api/tb/document/runFunction/", content);
-                    response.EnsureSuccessStatusCode(); // Throw in not success
-
-                    var stringResponse = await response.Content.ReadAsStringAsync();
-
-                    return stringResponse;
+                    fun = new FunctionPrototype(ObjectHelper.CastString(item.Data), "Boolean", new string[] { });
+                    continue;
                 }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return null;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return null;
-                }
+
+                string parName = ObjectHelper.CastString(item.Data);
+                i++;
+
+                DataItem itemValue = ar[i] as DataItem;
+                string v = SoapTypes.To(item.Data);
+
+                //Parameter pInfo = new Parameter(parName, type);
+
+                //pInfo.ValueString = v;
+
+                //fun.Parameters.Add(pInfo);
             }
-        }
 
-        public static async Task<bool> LoginToTb(TbSession session)
-        {
-            if (session.LoggedToTb) 
-                return true;
+            //------------------------------
+            object ret = TbSession.RunReport(this.TbSession, fun);
 
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    client.BaseAddress = new Uri(session.TbBaseAddress);
+            ret = true; //TODO
 
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                        new KeyValuePair<string, string>("authtoken", session.UserInfo.AuthenticationToken)
-                    });
-                    var response = await client.PostAsync("tbloader/api/tb/document/login/", content);
-                    response.EnsureSuccessStatusCode(); // Throw in not success
-
-                    var stringResponse = await response.Content.ReadAsStringAsync();
-
-                    if (stringResponse != null)
-                    {
-                        IEnumerable<string> list;
-                        if (response.Headers.TryGetValues("Set-Cookie", out list))
-                        {
-                            if (list != null)
-                            {
-                                foreach (string s in list)
-                                {
-                                    if (s.Left(TbSession.TbLoaderInstanceID.Length).CompareNoCase(TbSession.TbLoaderInstanceID))
-                                    {
-                                        string tbinstance = s.Mid(TbSession.TbLoaderInstanceID.Length + 1);
-                                        int end = tbinstance.IndexOf(';');
-                                        tbinstance = tbinstance.Left(end);
-
-                                        session.TbInstanceID = tbinstance;
-                                        session.LoggedToTb = true;
-                                    }
-                                }
-                            }
-                        }
-                        // List<string> values; //= new List<string> ();
-                        //IEnumerable <string> list;
-                        //session.LoggedToTb = response.Headers.TryGetValues(TbSession.TbLoaderCookie, out list);
-
-                        //IEnumerable<string> list2 = response.Headers.GetEnumerator();
-                        //if (list != null)
-                        //{
-                        //    //session.TbName = s;
-                        //}
-                    }
-                    return session.LoggedToTb;
-                }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return false;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    return false;
-                }
-            }
+            return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
         }
 
         //-----------------------------------------------------------------------------
@@ -3831,6 +3754,12 @@ namespace Microarea.Common.ExpressionManager
                     else //if (function.ReturnType == "Int64")
                         return new Value(0);
                 }
+                if (function.Name.CompareNoCase("Framework.TbWoormViewer.TbWoormViewer.RunReport") ||
+                    function.Name.CompareNoCase("Woorm.RunReport"))
+                {
+                    return ApplyRunReport(function, paramStack);
+                }
+                //----------------------------------------------------------
 
                 System.Diagnostics.Debug.Assert(function.Parameters != null);
 
@@ -3850,11 +3779,11 @@ namespace Microarea.Common.ExpressionManager
                 }
                 //object[] objs = parms.ToArray();
                 string[] sargs = sparms.ToArray();
- 
                 int np = 0;
+                object ret = null;
 
                 FunctionPrototype fun = new FunctionPrototype(function.Prototype.NameSpace as NameSpace, function.Prototype.ReturnType, args);
- 
+
                 foreach (Parameter p in function.Prototype.Parameters)
                 {
                     Parameter pInfo = new Parameter(p.Name, p.Type);
@@ -3863,16 +3792,14 @@ namespace Microarea.Common.ExpressionManager
 
                     fun.Parameters.Add(pInfo);
                 }
-
                 //TODO RSWEB Call soap methods
                 //ITbLoaderClient tbLoader = GetTBClientInterface();
                 //ret = tbLoader.Call(function.Prototype, objs);
 
-                //TODO NEW RSWEB RICCARDO
-                bool retLogin = LoginToTb(this.TbSession).Result;
+                bool retLogin = TbSession.TbLogin(this.TbSession).Result;
 
-                string retFun = RemoteRunFunction(this.TbSession, fun).Result;
-
+                string retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
+ 
                 //for (int i = 0; i < function.Parameters.Count; i++)
                 //{
                 //	DataItem item = (DataItem)paramStack.Pop();
@@ -3880,7 +3807,6 @@ namespace Microarea.Common.ExpressionManager
                 //	if (p.Mode != ParameterModeType.In)
                 //		item.Data = WcfTypes.From(objs[i], p.Type, p.BaseType);
                 //}
-                object ret = null;
 
                 return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
 			}			
