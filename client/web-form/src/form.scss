@@ -455,3 +455,27 @@ tb-caption label {
     font-size: 13px;
     padding: 0 5px 0 0;
 }
+
+.k-disabled,
+.k-state-disabled {
+    border: none;
+    opacity: 1;
+}
+
+.k-textbox:disabled,
+.k-textbox[disabled],
+.k-textbox.k-state-disabled,
+.k-dropdown-wrap.k-state-disabled {
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    opacity: 1;
+}
+
+.k-dropdown-wrap.k-state-disabled .k-select {
+    display: none;
+}
+
+.tb-checkbox {
+    height: calc(1.42857em + (4px * 2) + (1px * 2));
+}
