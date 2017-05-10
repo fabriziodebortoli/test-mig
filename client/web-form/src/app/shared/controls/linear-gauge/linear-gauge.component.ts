@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpService } from './../../../core/http.service';
 import { EventDataService } from './../../../core/eventdata.service';
 import { ControlComponent } from './../control.component';
@@ -8,18 +8,28 @@ import { ControlComponent } from './../control.component';
   templateUrl: './linear-gauge.component.html',
   styleUrls: ['./linear-gauge.component.scss']
 })
-export class LinearGaugeComponent extends ControlComponent {
+export class LinearGaugeComponent extends ControlComponent implements OnInit {
 
-  @Input () markerData;
+  @Input() maxRange:number;
 
-  public data: any[] = [this.markerData];
+  public bulletData: any = [5];
   public bulletValueAxis: any = {
     min: 0,
-    max: 30,
+    max: this.maxRange,
     plotBands: [{
-        from: 0, to: 30, color: "#f0f0f0", opacity: 1
+        from: 0, to: this.maxRange, color: "#f0f0f0", opacity: 1
     }]
   };
+
+  ngOnInit() {
+    this.bulletValueAxis = {
+      min: 0,
+      max: this.maxRange,
+      plotBands: [{
+          from: 0, to: this.maxRange, color: "#f0f0f0", opacity: 1
+      }]
+    };
+  }
 
   constructor(private eventData: EventDataService) {
     super();
