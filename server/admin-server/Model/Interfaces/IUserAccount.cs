@@ -3,20 +3,23 @@
 namespace Microarea.AdminServer.Model.Interfaces
 {
     //================================================================================
-    public interface IUserAccount
+    public interface IAccount
     {
-        string Id { get; }
+        int AccountId { get; }
         string Name { get; }
-        bool IsAdmin { get; }
-        string Password { get; }
+		string Password { get; }
+		string Description { get; }
+		string Email { get; }
+		bool ProvisioningAdmin { get; }
         bool PasswordNeverExpires { get; }
-        bool UserMustChangePassword { get; }
-        bool UserCannotChangePassword { get; }
-        DateTime ExpireDatePassword { get; set; }
+        bool MustChangePassword { get; }
+        bool CannotChangePassword { get; }
+		bool ExpireDateCannotChange { get; }
+		DateTime ExpireDatePassword { get; set; }
         bool Disabled { get; }
-        string PreferredLanguage { get; set; }
+		bool Locked { get; }
+		string PreferredLanguage { get; set; }
         string ApplicationLanguage { get; set; }
         bool IsWindowsAuthentication { get; }
-        bool IsProvisioningAdmin { get; set; }
     }
 }

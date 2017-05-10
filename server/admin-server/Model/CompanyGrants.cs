@@ -3,14 +3,15 @@
 namespace Microarea.AdminServer.Model
 {
     //================================================================================
-    public class CompanyGrants : ICompanyGrants
-    {
-        public string accountId;
-        public string companyId;
-        public bool isAdmin;
+    public class CompanyAccounts : ICompanyAccounts
+	{
+        public int accountId;
+        public int companyId;
+        public bool admin;
 
-        public string AccountId { get { return this.accountId; } }
-        public string CompanyId { get { return this.companyId; } }
-        public bool IsAdmin { get { return this.isAdmin; } }
+		//---------------------------------------------------------------------
+		public int AccountId { get { return this.accountId; } set { this.accountId = value; } }
+        public int CompanyId { get { return this.companyId; } set { this.companyId = value; } }
+        public bool Admin { get { return this.admin; } set { this.admin = value; } }
     }
 }
