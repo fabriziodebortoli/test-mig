@@ -31,5 +31,9 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
     super();
     this.bandColor = "#f0f0f0";
     this.bandOpacity = 1;
-  } 
+  }
+
+  onBlur() {
+    this.eventData.change.emit(this.cmpId);
+  }  
 }
