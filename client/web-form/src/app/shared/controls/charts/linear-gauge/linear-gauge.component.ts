@@ -15,10 +15,10 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
   public bandColor:string;
   public bandOpacity:number;
   public bulletData: any = [5];
-  public bulletValueAxis: any;
+  public rulerAxis: any;
 
   ngOnInit() {
-    this.bulletValueAxis = {
+    this.rulerAxis = {
       min: 0,
       max: this.maxRange,
       plotBands: [{
