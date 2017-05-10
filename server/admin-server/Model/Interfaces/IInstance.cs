@@ -1,10 +1,21 @@
 ﻿namespace Microarea.AdminServer.Model.Interfaces
 {
-    //================================================================================
-    interface IInstance
+	//================================================================================
+	interface IInstance
     {
-        string Id { get; }
-        string InstanceName { get; }
-        bool Disabled { get; }
+        int InstanceId { get; }
+        string Name { get; }
+		string Customer { get; }
+		bool Disabled { get; }
     }
+
+	//================================================================================
+	interface ISubscription
+	{
+		int SubscriptionId { get; }
+		string Name { get; }
+		string ActivationKey { get; }
+		string PurchaseId { get; }
+		int InstanceId { get; }
+	}
 }

@@ -13,6 +13,8 @@ namespace TaskBuilderNetCore.Documents.Interfaces
         ILicenceConnector LicenceConnector  { get; }
         IJsonSerializer JsonSerializer { get; }
         IWebConnector WebConnector { get; }
+        IUIController UIController { get; }
+
 
         void CloseDocument(IDocument document);
     }
