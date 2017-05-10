@@ -16,8 +16,8 @@ export class ContextMenuComponent {
   anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'right', vertical: 'top' };
   private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
-  anchorAlign2: Align = { horizontal: 'right', vertical: 'top' };
-  popupAlign2: Align = { horizontal: 'left', vertical: 'top' };
+  anchorAlign2: Align = { horizontal: 'left', vertical: 'top' };
+  popupAlign2: Align = { horizontal: 'right', vertical: 'top' };
   private show = false;
   private isMouseDown = false;
   @ViewChild('anchor') divFocus: HTMLElement;
@@ -66,7 +66,7 @@ export class ContextMenuComponent {
 
   public onToggle(): void {
     this.show = !this.show;
-    if (!this.show && this.currentItem !== null) {
+    if (!this.show && this.currentItem !== null && this.currentItem !== undefined) {
       this.currentItem.showMySub = false;
     }
   }
@@ -90,7 +90,7 @@ export class ContextMenuComponent {
   }
 
   openSubItems(open: boolean, item: MenuItem) {
-    if (!this.hasSubItems(item) || item === null) {
+    if (!this.hasSubItems(item) || item === null || item === undefined) {
       return;
     }
     item.showMySub = open;
@@ -98,8 +98,9 @@ export class ContextMenuComponent {
   }
 
   outView(item: MenuItem) {
-    if (item !== null) {
-      item.showMySub = false; }
+    if (item !== null && item !== undefined) {
+      item.showMySub = false;
+    }
 
     this.show = false;
     this.currentItem = null;
