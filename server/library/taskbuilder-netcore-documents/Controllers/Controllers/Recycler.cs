@@ -17,7 +17,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
             if (!IsAvailable(document))
                 return false;
 
-            return context.IsSameIdentity(document.CallerContext);
+            return context.Identity.CompareTo(document.CallerContext.Identity) == 0;
         }
 
         //-----------------------------------------------------------------------------------------------------

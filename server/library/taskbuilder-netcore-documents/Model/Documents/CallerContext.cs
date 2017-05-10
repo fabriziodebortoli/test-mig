@@ -57,11 +57,12 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        public bool IsSameIdentity(ICallerContext context)
+        public string Identity
         {
-            return NameSpace.FullNameSpace == context.NameSpace.FullNameSpace &&
-                AuthToken == context.AuthToken &&
-                Company == context.Company;
+            get
+            {
+                return string.Concat(nameSpace.FullNameSpace, " ", authToken, " ", company);
+            }
         }
     }
 }
