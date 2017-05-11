@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  adminAPIUrl: 'localhost:5052/api/'
+  adminAPIUrl: 'http://localhost:5052/api/'
 };
