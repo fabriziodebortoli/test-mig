@@ -2,26 +2,29 @@
 //     cursor: pointer;
 //     margin: 0 4px;
 // }
-
 // md-icon {
 //     line-height: 30px;
 //     display: block;
 //     font-size: 22px;
 // }
-
 // img {
 //     height: 18px;
 //     margin: 5px 3px 0 6px;
 // }
-
-.top-button{
+.top-button {
     margin: 0;
 }
 
 .top-button .k-button {
     font-size: 12px;
+    border: none;
+    background: none;
+}
+
+.top-button .k-button span {
+    display: none;
 }
 
 .top-button .k-button .k-image {
-    height: 20px;
+    height: 16px;
 }
