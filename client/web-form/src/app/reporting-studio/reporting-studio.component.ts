@@ -95,12 +95,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
           this.RenderLayout(k);
-          if (this.args.params.xmlArgs) {
-            this.GetData();
-          }
-          else {
-            this.RunReport();
-          }
+          this.RunReport();
           break;
         case CommandType.TEMPLATE:
           this.rsService.showAsk = false;
