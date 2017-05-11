@@ -1,15 +1,15 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using Microarea.AdminServer.Model.Interfaces;
-using Microarea.AdminServer.Controllers.Helpers;
-using Microarea.AdminServer.Services.Interfaces;
-using System.IO;
 using System.Data.SqlClient;
+using System.IO;
+using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Services.Interfaces;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Microarea.AdminServer.Controllers
 {
-	//-----------------------------------------------------------------------------	
+	//=========================================================================
 	public class AdminController : Controller
     {
         private IHostingEnvironment _env;
@@ -67,6 +67,12 @@ namespace Microarea.AdminServer.Controllers
 			{
 				account = _adminDataService.ReadLogin(user, psw);
 			}
+			catch (NotImplementedException ex)
+			{
+				jsonHelper.AddJsonCouple<bool>("result", false);
+				jsonHelper.AddJsonCouple<string>("message", ex.Message);
+				return new ContentResult { StatusCode = 501, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			}
 			catch (SqlException e)
 			{
 				jsonHelper.AddJsonCouple<bool>("result", false);
@@ -86,5 +92,49 @@ namespace Microarea.AdminServer.Controllers
 			jsonHelper.AddJsonCouple<string>("message", "Username recognized in the provisioning database");
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
         }
-    }
+
+		[HttpPost("/api/account/add/{accountname}")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiAddAccount(string accountname, string password)
+		{
+			string user = accountname;
+			string psw = password;
+
+			if (String.IsNullOrEmpty(user))
+			{
+				jsonHelper.AddJsonCouple<bool>("result", false);
+				jsonHelper.AddJsonCouple<string>("message", "Account name cannot be empty");
+				return new ContentResult { StatusCode = 400, Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
+			}
+
+			bool result = false;
+			try
+			{
+				result = _adminDataService.AddAccount(user, psw);
+			}
+			catch (NotImplementedException ex)
+			{
+				jsonHelper.AddJsonCouple<bool>("result", false);
+				jsonHelper.AddJsonCouple<string>("message", ex.Message);
+				return new ContentResult { StatusCode = 501, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			}
+			catch (SqlException e)
+			{
+				jsonHelper.AddJsonCouple<bool>("result", false);
+				jsonHelper.AddJsonCouple<string>("message", e.Message);
+				return new ContentResult { StatusCode = 501, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			}
+
+			if (!result)
+			{
+				jsonHelper.AddJsonCouple<bool>("result", false);
+				jsonHelper.AddJsonCouple<string>("message", "Adding account operation failed");
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			}
+
+			jsonHelper.AddJsonCouple<bool>("result", true);
+			jsonHelper.AddJsonCouple<string>("message", "Adding account operation successfully completed");
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+		}
+	}
 }
