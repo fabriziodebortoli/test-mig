@@ -48,12 +48,12 @@ namespace Microarea.AdminServer.Controllers
             return new ContentResult { Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
         }
 
-        [HttpPost("/api/logins/{username}")]
-		//-----------------------------------------------------------------------------	
-		public IActionResult ApiLogin(string password, string username)
+        [HttpGet("/api/accounts/{username}")]
+        [Produces("application/json")]
+        //-----------------------------------------------------------------------------	
+        public IActionResult ApiAccountsInformations(string username)
         {
             string user = username;
-            string psw = password;
 
             if (String.IsNullOrEmpty(user))
             {
@@ -65,7 +65,7 @@ namespace Microarea.AdminServer.Controllers
 			IAccount account;
 			try
 			{
-				account = _adminDataService.ReadLogin(user, psw);
+				account = _adminDataService.ReadLogin(user, String.Empty);
 			}
 			catch (SqlException e)
 			{
@@ -83,7 +83,7 @@ namespace Microarea.AdminServer.Controllers
 
             // user has been found
             jsonHelper.AddJsonCouple<bool>("result", true);
-			jsonHelper.AddJsonCouple<string>("message", "Username recognized in the provisioning database");
+            jsonHelper.AddJsonObject("account", account);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
         }
     }
