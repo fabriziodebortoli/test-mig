@@ -16,4 +16,10 @@ namespace Microarea.AdminServer
     {
         public string ConnectionString { get; set; }
     }
+
+    //================================================================================
+    public class ExternalUrls
+    {
+        public string GWAMUrl { get; set; }
+    }
 }

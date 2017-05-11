@@ -38,7 +38,7 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
     }
     const timestamp = Date.parse(newDate.toDateString())
     if (isNaN(timestamp)) { return; }
-    if (this.model === null) {
+     if (!this.modelValid()) {
       this.model = { enable: 'true', value: '' };
     }
 
@@ -47,13 +47,13 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
   }
 
   ngAfterViewInit(): void {
-    if (this.model !== undefined && this.model !== null) {
+     if (this.modelValid()) {
       this.onUpdateNgModel(new Date(this.model.value));
     }
   }
 
   ngOnChanges(): void {
-    if (this.model !== undefined && this.model !== null) {
+    if (this.modelValid()) {
       this.onUpdateNgModel(new Date(this.model.value));
     }
   }
@@ -71,4 +71,8 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
     return this.dateFormat;
   }
 
+  modelValid() {
+    return this.model !== undefined && this.model !== null;
+  }
+  
 }

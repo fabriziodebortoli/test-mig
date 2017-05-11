@@ -12,7 +12,6 @@ import { LabelStaticComponent } from './label-static/label-static.component';
 import { GridComponent } from './grid/grid.component';
 import { EmailComponent } from './email/email.component';
 import { DateInputComponent } from './date-input/date-input.component';
-import { ContextMenuComponent } from './context-menu/context-menu.component';
 export { ButtonComponent } from './button/button.component';
 export { CheckBoxComponent } from './checkbox/checkbox.component';
 export { ComboComponent } from './combo/combo.component';

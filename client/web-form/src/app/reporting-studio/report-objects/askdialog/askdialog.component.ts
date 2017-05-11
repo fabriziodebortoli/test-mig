@@ -31,11 +31,16 @@ export class AskdialogComponent implements OnInit, OnDestroy {
 
   RenderLayout(msg: any) {
     let objects = [];
-    for (let index = 0; index < msg.controls.length; index++) {
+    let error : string = undefined;
+     for (let index = 0; index < msg.controls.length; index++) {
+      try {
       let m = msg.controls[index];
       let element: askGroup = new askGroup(msg.controls[index]);
-
       objects.push(element);
+      }
+      catch (err) {
+      error = 'Error Occured' + err.ToString();
+      }
     }
     this.templates.push(new TemplateItem(msg.name, msg, objects));
     this.objects = objects;
