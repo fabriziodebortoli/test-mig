@@ -21,7 +21,7 @@ namespace Microarea.RSWeb.WoormViewer
     public class RdeReader
     {
         private WoormDocument woorm;
-        private XmlReader reader;
+        //private XmlReader reader;
         private int pageNo = 1;
         private int totalPages = 1;
         private bool allPagesReady = false;
@@ -163,19 +163,12 @@ namespace Microarea.RSWeb.WoormViewer
                 return false;
 
             XmlReader reader = null;
+            FileStream fs = null;
             try
             {
-                reader = XmlReader.Create(File.OpenRead(TotPageFilename));
-                //reader = XmlReader.Create(File.Open(TotPageFilename, FileMode.Open), new XmlReaderSettings() { /*DtdProcessing = DtdProcessing.Prohibit,*/ IgnoreWhitespace = true });
-            }
-            catch (Exception ex)
-            {
-                //throw new Exception(string.Format(WoormViewerStrings.ErrorReadingFile, TotPageFilename), ex);
-                return true;    //TODO RSWEB LoadTotPage() fails to load (file locked!)
-            }
-
-            try
-            {
+                fs = File.OpenRead(TotPageFilename);
+                reader = XmlReader.Create(fs, new XmlReaderSettings() { /*DtdProcessing = DtdProcessing.Prohibit,*/ IgnoreWhitespace = true });
+ 
                 while (reader.Read())
                 {
                     if (reader.NodeType == XmlNodeType.Element)
@@ -202,8 +195,10 @@ namespace Microarea.RSWeb.WoormViewer
             }
             finally
             {
-                reader.Dispose();
-                reader = null;
+                if (reader != null) { reader.Dispose(); reader = null; }
+                if (fs != null) { fs.Dispose(); fs = null; }
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
             }
             return true;
         }
@@ -221,11 +216,13 @@ namespace Microarea.RSWeb.WoormViewer
             //sono quindi nel file rde (xml nel caso di Easylook).
             AddSpecialFields();
 
-            XmlReader reader;
-            reader = XmlReader.Create(File.Open(InfoFilename, FileMode.Open), new XmlReaderSettings() { DtdProcessing = DtdProcessing.Prohibit, IgnoreWhitespace = true });
-
+            XmlReader reader = null;
+            FileStream fs = null;
             try
             {
+                fs = File.Open(InfoFilename, FileMode.Open);
+                reader = XmlReader.Create(fs, new XmlReaderSettings() { /*DtdProcessing = DtdProcessing.Prohibit,*/ IgnoreWhitespace = true });
+
                 while (reader.Read())
                 {
                     if (reader.NodeType == XmlNodeType.Element)
@@ -319,7 +316,10 @@ namespace Microarea.RSWeb.WoormViewer
             }
             finally
             {
-                reader.Dispose();
+                if (reader != null) { reader.Dispose(); reader = null; }
+                if (fs != null) { fs.Dispose(); fs = null; }
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
             }
         }
 
@@ -353,7 +353,7 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //------------------------------------------------------------------------------
-        public void SetElement(CellType cellType)
+        public void SetElement(XmlReader reader, CellType cellType)
         {
             reader.MoveToAttribute(RdeWriterTokens.Attribute.ID);
             ushort id = XmlConvert.ToUInt16(reader.Value);
@@ -519,7 +519,7 @@ namespace Microarea.RSWeb.WoormViewer
 
 
         //------------------------------------------------------------------------------
-        public BaseObj GetTableRepeater()
+        public BaseObj GetTableRepeater(XmlReader reader)
         {
             reader.MoveToAttribute(RdeWriterTokens.Attribute.ID);
             ushort id = XmlConvert.ToUInt16(reader.Value);
@@ -533,9 +533,9 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //------------------------------------------------------------------------------
-        public void NextLine()
+        public void NextLine(XmlReader reader)
         {
-            BaseObj t = GetTableRepeater();
+            BaseObj t = GetTableRepeater(reader);
             if (t != null)
             {
                 if (t is Table)
@@ -546,16 +546,16 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //------------------------------------------------------------------------------
-        public void Message()
+        public void Message(XmlReader reader)
         {
             reader.MoveToAttribute(RdeWriterTokens.Attribute.Message);
             woorm.Messages.Add(reader.Value);
         }
 
         //------------------------------------------------------------------------------
-        public void Interline()
+        public void Interline(XmlReader reader)
         {
-            Table t = GetTableRepeater() as Table;
+            Table t = GetTableRepeater(reader) as Table;
             if (t != null && t.CurrentRow > 0)
                 t.Interlines[t.CurrentRow - 1] = true;
         }
@@ -617,36 +617,42 @@ namespace Microarea.RSWeb.WoormViewer
                 //a volte risulta che il writer non ha ancora rilasciato il file
                 if (this.woorm.ReportSession.EngineType == EngineType.Paginated_Standard)
                 {
-                    using (FileStream fs = File.Open(Filename, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                    using (FileStream fs1 = File.Open(Filename, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
                     {
-                        fs.Dispose();
+                        fs1.Dispose();
                     }
+                    GC.WaitForPendingFinalizers();
+                    GC.Collect();
                 }
 
                 // The file is not locked
-                reader = XmlReader.Create(File.OpenRead(Filename)); 
 
+                XmlReader reader = null;
+                FileStream fs = null;
                 try
                 {
+                    fs = File.OpenRead(Filename);
+                    reader = XmlReader.Create(fs, new XmlReaderSettings() { /*DtdProcessing = DtdProcessing.Prohibit,*/ IgnoreWhitespace = true });
+
                     while (reader.Read())
                     {
                         if (reader.NodeType == XmlNodeType.Element)
                         {
                             switch (reader.Name)
                             {
-                                case RdeWriterTokens.Element.Cell: SetElement(CellType.Cell); break;
-                                case RdeWriterTokens.Element.SubTotal: SetElement(CellType.SubTotal); break;
-                                case RdeWriterTokens.Element.Total: SetElement(CellType.Total); break;
-                                case RdeWriterTokens.Element.LowerInput: SetElement(CellType.LowerInput); break;
-                                case RdeWriterTokens.Element.UpperInput: SetElement(CellType.UpperInput); break;
+                                case RdeWriterTokens.Element.Cell: SetElement(reader, CellType.Cell); break;
+                                case RdeWriterTokens.Element.SubTotal: SetElement(reader, CellType.SubTotal); break;
+                                case RdeWriterTokens.Element.Total: SetElement(reader, CellType.Total); break;
+                                case RdeWriterTokens.Element.LowerInput: SetElement(reader, CellType.LowerInput); break;
+                                case RdeWriterTokens.Element.UpperInput: SetElement(reader, CellType.UpperInput); break;
 
-                                case RdeWriterTokens.Element.NextLine: NextLine(); break;
-                                case RdeWriterTokens.Element.SpaceLine: NextLine(); break;
-                                case RdeWriterTokens.Element.Interline: Interline(); break;
+                                case RdeWriterTokens.Element.NextLine: NextLine(reader); break;
+                                case RdeWriterTokens.Element.SpaceLine: NextLine(reader); break;
+                                case RdeWriterTokens.Element.Interline: Interline(reader); break;
                                 case RdeWriterTokens.Element.NewPage: woorm.NewPage(); break;
-                                case RdeWriterTokens.Element.Message: Message(); break;
+                                case RdeWriterTokens.Element.Message: Message(reader); break;
 
-                                case RdeWriterTokens.Element.Report: ApplyLayout(); break;
+                                case RdeWriterTokens.Element.Report: ApplyLayout(reader); break;
                             }
 
                             //riporta il reader al nodo element.
@@ -660,8 +666,10 @@ namespace Microarea.RSWeb.WoormViewer
                 }
                 finally
                 {
-                    reader.Dispose();
-                    reader = null;
+                    if (reader != null) { reader.Dispose(); reader = null; }
+                    if (fs != null) { fs.Dispose(); fs = null; }
+                    GC.WaitForPendingFinalizers();
+                    GC.Collect();
                 }
 
                 //guarda se e' pronto il file con scritto il numero definitivo di pagine
@@ -680,7 +688,7 @@ namespace Microarea.RSWeb.WoormViewer
         ///e chiama il metodo del document che applica il layout
         ///</summary>
         //------------------------------------------------------------------------------
-        private void ApplyLayout()
+        private void ApplyLayout(XmlReader reader)
         {
             reader.MoveToAttribute(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT);
             string layout = (string)reader.Value;

@@ -48,7 +48,7 @@ namespace Microarea.AdminServer.Controllers
             return new ContentResult { Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
         }
 
-        [HttpPost("/api/login/{username}")]
+        [HttpPost("/api/logins/{username}")]
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiLogin(string password, string username)
         {
@@ -90,7 +90,7 @@ namespace Microarea.AdminServer.Controllers
             // user has been found
             jsonHelper.AddJsonCouple<bool>("result", true);
 			jsonHelper.AddJsonCouple<string>("message", "Username recognized in the provisioning database");
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
         }
 
 		[HttpPost("/api/account/add/{accountname}")]

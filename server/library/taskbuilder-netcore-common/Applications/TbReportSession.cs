@@ -20,6 +20,7 @@ using System.ServiceModel.Channels;
 using System.Text;
 using Newtonsoft.Json;
 using System.Threading;
+using Microarea.Common.Applications;
 
 namespace Microarea.Common.Applications
 {
@@ -32,7 +33,7 @@ namespace Microarea.Common.Applications
 
     }
 
- 
+
     /// <summary>
     /// Descrizione di riepilogo per TbSession.
     /// </summary>
@@ -43,9 +44,9 @@ namespace Microarea.Common.Applications
 
         public string TbBaseAddress = "http://localhost:5000/";
 
-        public const string TbBaseRoute             = "tbloader/api/";
-        public const string     TbLoginRoute                        = "tb/document/login/";
-        public const string     TbRunFunctionRoute                  = "tb/document/runFunction/";
+        public const string TbBaseRoute = "tbloader/api/";
+        public const string TbLoginRoute = "tb/document/login/";
+        public const string TbRunFunctionRoute = "tb/document/runFunction/";
 
         public const string TbInstanceKey = "tbloader-name";
         public string TbInstanceID = string.Empty;
@@ -71,8 +72,8 @@ namespace Microarea.Common.Applications
         //sono ustate da expression per le funzioni interne
         public string ReportPath { get { return FilePath; } set { FilePath = value; } }
         public string ReportNamespace { get { return Namespace; } set { Namespace = value; } }
- 
-       public string ReportName
+
+        public string ReportName
         {
             get
             {
@@ -102,7 +103,7 @@ namespace Microarea.Common.Applications
 
         public string CompanyDbConnection { get { return UserInfo == null ? "" : UserInfo.CompanyDbConnection; } }
 
-        public TbSession (UserInfo ui, string ns)
+        public TbSession(UserInfo ui, string ns)
         {
             //solleva l'eccezione per far si che easylook reindirizzi sulla pagina di login
             if (ui == null)
@@ -114,7 +115,7 @@ namespace Microarea.Common.Applications
 
             if (!LoadSessionInfo(null, false))
                 throw new InvalidSessionException();
-                ;
+            ;
         }
 
 
@@ -135,7 +136,7 @@ namespace Microarea.Common.Applications
         // gli Hotlinks sono solo caricati on demand e quindi non pesano.
         // Enumerativi, Fonts, Formaters sono invece caricati solo allo start della applicazione
         //-----------------------------------------------------------------------------
-         public FunctionsList Functions
+        public FunctionsList Functions
         {
             get
             {
@@ -161,7 +162,7 @@ namespace Microarea.Common.Applications
         // Carica Enumerativi, Fonts, Formaters, Functions and ReferencesObjects-Hotlinks
         // Il caricamento di function per le funzioni interne pesa poco e quelle esterne sono caricate on demand
         // gli Hotlinks sono solo caricati on demand e quindi non pesano.
-         public bool LoadSessionInfo(bool checkActivation)
+        public bool LoadSessionInfo(bool checkActivation)
         {
             return LoadSessionInfo(null, checkActivation);
         }
@@ -368,6 +369,36 @@ namespace Microarea.Common.Applications
             }
         }
 
+        public static async Task<bool> IsActivated(TbSession session, string app, string fun)
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri(session.TbBaseAddress);
+
+                    var content = new FormUrlEncodedContent(new[]
+                    {
+                        new KeyValuePair<string, string>("application", app),
+                       new KeyValuePair<string, string>("functionality", fun)
+                    });
+
+                    var response = await client.PostAsync("account-manager/isActivated/", content);
+                    response.EnsureSuccessStatusCode(); // Throw in not success
+
+                    var stringResponse = await response.Content.ReadAsStringAsync();
+
+                    //TODO RSWEB decodificare meglio result value
+                    return stringResponse.IndexOf("true") > 0; 
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"Request exception: {e.Message}");
+                    return false;
+                }
+            }
+        }
+
         //-------------------------------------------------------------------------------------------------
         public class MyMessage
         {
@@ -382,7 +413,7 @@ namespace Microarea.Common.Applications
         {
             if (session.WebSocket == null)
                 return false;
- 
+
             XmlDocument d = new XmlDocument();
             d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
             fun.Parameters.Unparse(d.DocumentElement);
@@ -401,7 +432,7 @@ namespace Microarea.Common.Applications
             return true;
         }
 
-      }
+    }
 
     /// <summary>
     /// Descrizione di riepilogo per TbReportSession.
@@ -424,17 +455,19 @@ namespace Microarea.Common.Applications
         public EngineType EngineType = EngineType.Paginated_Standard;
 
         private string reportParameters;
-        public string ReportParameters { 
-            get { return reportParameters; } 
-            set { 
-                    reportParameters = value;
-                    if (!reportParameters.IsNullOrEmpty())
-                    {
-                        XmlDomParameters = new XmlDocument();
-                        XmlDomParameters.LoadXml(reportParameters);
-                    }
-                    if (XmlReport)
-                        ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
+        public string ReportParameters
+        {
+            get { return reportParameters; }
+            set
+            {
+                reportParameters = value;
+                if (!reportParameters.IsNullOrEmpty())
+                {
+                    XmlDomParameters = new XmlDocument();
+                    XmlDomParameters.LoadXml(reportParameters);
+                }
+                if (XmlReport)
+                    ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
             }
         }
         public XmlDocument XmlDomParameters = null;
@@ -442,14 +475,14 @@ namespace Microarea.Common.Applications
         public bool UseApproximation = true; // enable TaskBuilder Approximation for real
         public bool StripTrailingSpaces = true;
 
-        public TbReportSession(UserInfo ui, string ns, string parameters="")
-            : base (ui, ns)
+        public TbReportSession(UserInfo ui, string ns, string parameters = "")
+            : base(ui, ns)
         {
-           this.ReportNameSpace = new NameSpace(ns, NameSpaceObjectType.Report);
-           this.ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
-           this.ReportParameters = parameters;
+            this.ReportNameSpace = new NameSpace(ns, NameSpaceObjectType.Report);
+            this.ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
+            this.ReportParameters = parameters;
 
-           this.Localizer = new StringLoader.WoormLocalizer(this.ReportPath, PathFinder);
+            this.Localizer = new StringLoader.WoormLocalizer(this.ReportPath, PathFinder);
 
             //TODO RSWEB
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(StateMachine.ReportSession.UICulture);
