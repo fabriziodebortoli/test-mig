@@ -13,7 +13,7 @@ ul.application-list {
 }
 
 ul.application-list>li {
-    width: 33%;
+    width: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -28,10 +28,10 @@ ul.application-list>li:hover {
     color: #fff;
 }
 
-ul.application-list>li>img {
+ul.application-list>li img {
     max-width: 120px;
 }
 
-ul.application-list>li>span {
+ul.application-list>li span {
     font-size: 12px;
 }
