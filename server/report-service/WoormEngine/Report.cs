@@ -153,7 +153,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public Parser			Lex					{ get { return lex;}}
 		public List<AskDialog>	AskingRules			{ get { return engine.AskingRules; } }
 		public string			ReportName			{ get { return reportName; }}
-		public AskDialog		CurrentAskDialog	{ get { return engine.CurrentAskDialog; }}
+		public AskDialog		CurrentAskDialog	{ get { return engine.CurrentAskDialog; } set { engine.CurrentAskDialog = value; } }
         public ILocalizer		Localizer           { get { return ReportSession.Localizer; } /*set { localizer = value; }*/ }
 		public RuleReturn		ExitStatus			{ get { return exitStatus; }}
 		public IWoormInfo		WoormInfo		    { get; set; }
