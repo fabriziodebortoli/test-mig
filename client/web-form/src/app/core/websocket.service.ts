@@ -98,8 +98,8 @@ export class WebSocketService {
         }
     }
 
-    doFillListBox(cmpId: String, itemSource: any): void {
-        const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: itemSource };
+    doFillListBox(cmpId: String, obj: any): void {
+        const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: obj.itemSource, hotLink: obj.hotLink };
 
         this.connection.send(JSON.stringify(data));
     }
