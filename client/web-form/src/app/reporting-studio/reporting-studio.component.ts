@@ -87,6 +87,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       let k = msg.message !== "" ? JSON.parse(msg.message) : undefined;
       switch (msg.commandType) {
         case CommandType.ASK:
+          this.askDialogTemplate = msg.message;
           this.rsService.showAsk = true;
           this.askDialogTemplate = msg.message;
           break;

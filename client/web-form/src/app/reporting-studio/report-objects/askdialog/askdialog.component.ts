@@ -1,5 +1,5 @@
 import { ReportingStudioService } from './../../reporting-studio.service';
-import { Component, OnInit, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewEncapsulation, OnChanges } from '@angular/core';
 import { TemplateItem, askGroup, text, check, radio, CommandType, askObj } from './../../reporting-studio.model';
 
 @Component({
@@ -8,7 +8,7 @@ import { TemplateItem, askGroup, text, check, radio, CommandType, askObj } from 
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./askdialog.component.scss']
 })
-export class AskdialogComponent implements OnInit, OnDestroy {
+export class AskdialogComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() ask: string;
 
@@ -22,6 +22,12 @@ export class AskdialogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.askObject = JSON.parse(this.ask);
     this.RenderLayout(this.askObject);
+  }
+
+  ngOnChanges() {
+    this.askObject = JSON.parse(this.ask);
+    this.RenderLayout(this.askObject);
+
   }
 
   ngOnDestroy() {
