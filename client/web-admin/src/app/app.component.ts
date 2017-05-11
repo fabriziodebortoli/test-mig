@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AccountService } from './services/account.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
   title = 'Admin Server is running';
+  username:string;
+  resText:string;
+  errText:string;
+
+  // services
+  accountService: AccountService;
+
+  constructor(accountService:AccountService) {
+    this.accountService = accountService;
+  }
+
+  getAccountInfo() {
+    alert(this.username);
+    this.accountService.GetAccount(this.username)
+          .subscribe(
+            str => this.resText = str,
+            error => this.errText);
+  }
 }
