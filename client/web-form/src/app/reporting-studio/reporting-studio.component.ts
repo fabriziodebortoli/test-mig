@@ -89,7 +89,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.ASK:
           this.askDialogTemplate = msg.message;
           this.rsService.showAsk = true;
-          this.askDialogTemplate = msg.message;
           break;
         case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
