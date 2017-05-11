@@ -4,10 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AccountService } from './services/account.service';
 import { AppComponent } from './app.component';
+import { JsonVisualizerPipe } from './json-visualizer.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    JsonVisualizerPipe
   ],
   imports: [
     BrowserModule,
