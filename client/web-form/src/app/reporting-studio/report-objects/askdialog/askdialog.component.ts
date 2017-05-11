@@ -74,6 +74,7 @@ export class AskdialogComponent implements OnInit, OnDestroy, OnChanges {
       page: this.rsService.askPage
     };
     this.rsService.doSend(JSON.stringify(message));
+    this.close();
   }
 
   Prev() {
