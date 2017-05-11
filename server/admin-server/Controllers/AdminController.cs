@@ -9,8 +9,8 @@ using System.Data.SqlClient;
 
 namespace Microarea.AdminServer.Controllers
 {
-	//-----------------------------------------------------------------------------	
-	public class AdminController : Controller
+    //-----------------------------------------------------------------------------	
+    public class AdminController : Controller
     {
         private IHostingEnvironment _env;
         private IAdminDataServiceProvider _adminDataService;

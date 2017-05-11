@@ -3,20 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1.1</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    <AssemblyName>rs-web</AssemblyName>
+    <AssemblyName>report-service</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>rs-web</PackageId>
-    <UserSecretsId>aspnet-rs-web-20170118112426</UserSecretsId>
+    <PackageId>report-service</PackageId>
+    <UserSecretsId>aspnet-report-service-20170118112426</UserSecretsId>
     <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="WebControlsStrings.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="WebControlsStrings.resx" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\library\PDFSharpCore\PDFSharpCore.csproj" />

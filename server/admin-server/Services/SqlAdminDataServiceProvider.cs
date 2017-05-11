@@ -1,9 +1,10 @@
-﻿using System.Data.SqlClient;
+﻿using System;
 using Microsoft.Extensions.Options;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services.Interfaces;
-using System;
+
+using System.Data.SqlClient;
 
 namespace Microarea.AdminServer.Services
 {

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1.1</TargetFramework>
@@ -16,7 +16,6 @@
     <ProjectReference Include="..\database-service\database-service.csproj" />
     <ProjectReference Include="..\account-manager\account-manager.csproj" />
     <ProjectReference Include="..\menu-gate\menu-gate.csproj" />
-    <ProjectReference Include="..\rs-web\rs-web.csproj" />
     <ProjectReference Include="..\tbloader-gate\tbloader-gate.csproj" />
     <ProjectReference Include="..\widgets-service\widgets-service.csproj" />
     <ProjectReference Include="..\manufacturing-service\manufacturing-service.csproj" />

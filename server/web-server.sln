@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E608C668-B4A9-422E-B0FD-3DACC3065317}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rs-web", "rs-web\rs-web.csproj", "{CCF7286F-D4B2-4BE4-9499-C0DD06B79961}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D519BEB7-3A17-40C8-AB1C-7E737B413C99}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tbloader-gate", "tbloader-gate\tbloader-gate.csproj", "{B2373B0A-B692-494A-B291-521C9B0DF4F3}"
 EndProject
@@ -38,9 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "licensing-manager", "licens
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "admin-server", "admin-server\admin-server.csproj", "{780F22E8-D071-4859-A6D6-40A7DCEE5382}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "report-service", "report-service\report-service.xproj", "{A095F89E-E7C9-4EC0-BA14-7E7EFB9F99E0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D519BEB7-3A17-40C8-AB1C-7E737B413C99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "report-service", "report-service\report-service.csproj", "{A095F89E-E7C9-4EC0-BA14-7E7EFB9F99E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
