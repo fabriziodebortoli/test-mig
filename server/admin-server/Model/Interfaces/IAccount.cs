@@ -14,8 +14,8 @@ namespace Microarea.AdminServer.Model.Interfaces
         bool PasswordNeverExpires { get; }
         bool MustChangePassword { get; }
         bool CannotChangePassword { get; }
-		bool ExpireDateCannotChange { get; }
-		DateTime ExpireDatePassword { get; set; }
+		bool ExpiryDateCannotChange { get; }
+		DateTime ExpiryDatePassword { get; set; }
         bool Disabled { get; }
 		bool Locked { get; }
 		string PreferredLanguage { get; set; }
