@@ -1,6 +1,7 @@
+import { Component, Input } from '@angular/core';
+
 import { EventDataService } from './../../../core/eventdata.service';
 import { ViewModeType } from '../../';
-import { Component } from '@angular/core';
 
 @Component({
   selector: 'tb-toolbar-top',
@@ -8,6 +9,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./toolbar-top.component.scss']
 })
 export class ToolbarTopComponent {
+
+  @Input() title: string = '...';
 
   private viewModeTypeModel = ViewModeType;
 
