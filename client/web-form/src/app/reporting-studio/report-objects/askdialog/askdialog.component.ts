@@ -8,7 +8,7 @@ import { TemplateItem, askGroup, text, check, radio, CommandType, askObj } from 
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./askdialog.component.scss']
 })
-export class AskdialogComponent implements OnInit, OnDestroy, OnChanges {
+export class AskdialogComponent implements /*OnInit,*/ OnDestroy, OnChanges {
 
   @Input() ask: string;
 
@@ -19,10 +19,10 @@ export class AskdialogComponent implements OnInit, OnDestroy, OnChanges {
   constructor(private rsService: ReportingStudioService) {
   }
 
-  ngOnInit() {
-    this.askObject = JSON.parse(this.ask);
-    this.RenderLayout(this.askObject);
-  }
+  /* ngOnInit() {
+     this.askObject = JSON.parse(this.ask);
+     this.RenderLayout(this.askObject);
+   }*/
 
   ngOnChanges() {
     this.askObject = JSON.parse(this.ask);
@@ -77,10 +77,11 @@ export class AskdialogComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   Prev() {
-    if (this.templates.length == 0) {
+    if (this.templates.length <= 1) {
       return;
     }
     //this.templates[this.templates.length-1].templateObjects;
+    this.templates.pop();
     this.objects = this.templates.pop().templateObjects;
   }
 
