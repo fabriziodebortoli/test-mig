@@ -396,6 +396,11 @@ namespace Microarea.Common.Applications
                     Console.WriteLine($"Request exception: {e.Message}");
                     return false;
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Request exception: {e.Message}");
+                    return false;
+                }
             }
         }
 
