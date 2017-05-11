@@ -6,11 +6,9 @@
 </kendo-dropdownlist>-->
 <div class="tb-control tb-combo">
     <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <div class="tb-control-group">
-        <kendo-dropdownlist [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [value]="selectedItem" (selectionChange)="onChange($event)" (open)="fillListBox()" [popupSettings]="{ height: 300, width: 400 }">
-            <template kendoDropDownListNoDataTemplate>
+    <kendo-dropdownlist [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [value]="selectedItem" (selectionChange)="onChange($event)" (open)="fillListBox()" [popupSettings]="{ height: 300, width: 400 }" >
+        <template kendoDropDownListNoDataTemplate>
             <h4><span class="k-icon k-i-warning"></span><br /><br /> No data here</h4>
         </template>
-        </kendo-dropdownlist>
-    </div>
+    </kendo-dropdownlist>
 </div>

@@ -1,0 +1,6 @@
+<div class="tb-control tb-numeric-text-box">
+    <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <kendo-numerictextbox [ngClass]="showError" [(ngModel)]="selectedValue" (blur)="onBlur()" (ngModelChange)="model.value=$event" [spinners]="false" [format]="getFormatOptions()" [decimals]="getDecimalsOptions()" [disabled]="!model?.enabled">
+    </kendo-numerictextbox>
+    <div class="has-error">{{errorMessage}}</div>
+</div>

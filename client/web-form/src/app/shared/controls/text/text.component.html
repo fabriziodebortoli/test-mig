@@ -1,0 +1,7 @@
+<div class="tb-control tb-text">
+    <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
+    <div class="group">
+        <kendo-maskedtextbox [mask]="mask" [ngModel]="model?.value" required="required" (blur)="onBlur()" [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event"></kendo-maskedtextbox>
+        <ng-container #contextMenu></ng-container>
+    </div>
+</div>
