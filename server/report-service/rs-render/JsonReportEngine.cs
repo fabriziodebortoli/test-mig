@@ -98,19 +98,27 @@ namespace Microarea.RSWeb.Render
 
         //---------------------------------------------------------------------
         //chiamata sul NEXT delle askdialog
-        public string GetJsonAskDialog(List<AskDialogElement> data, string currentDialogName)
+        public string GetJsonAskDialog(List<AskDialogElement> data, string currentClientDialogName)
         {
-            AskDialog dlg = null;
-
-            if (currentDialogName.IsNullOrEmpty() || data == null || data.Count == 0)
+             if (currentClientDialogName.IsNullOrEmpty() || data == null || data.Count == 0)
             {
+                //viene cercata la prima, se esiste
                 StateMachine.Step();
                 return string.Empty;
             }
 
+            if (!currentClientDialogName.CompareNoCase(StateMachine.Report.CurrentAskDialog.FormName))
+            {
+                //il client ha fatto prev
+                AskDialog dlg = StateMachine.Report.Engine.GetAskDialog(currentClientDialogName);
+                if (dlg != null)
+                    StateMachine.Report.CurrentAskDialog = dlg;
+            }
+
+
             //TODO
             //aggiornare la symbol table
-           // AssignAllAskData(this);
+            // AssignAllAskData(this);
 
             //prossima dialog
             StateMachine.Step();

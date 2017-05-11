@@ -1,3 +1,9 @@
 <h1>
   {{title}}
 </h1>
+<input type="test" [(ngModel)]="username">
+<button (click)="getAccountInfo()">Get Account Info</button>
+<div>
+  <h2>Result</h2>
+  {{ resText }}
+</div>

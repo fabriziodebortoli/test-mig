@@ -1,27 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microarea.AdminServer.Model.Interfaces;
-using Microarea.AdminServer.Model;
-using Microsoft.Extensions.FileProviders;
 using System.IO;
+using Microarea.AdminServer.Model;
+using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services.Interfaces;
+using Microsoft.Extensions.FileProviders;
 
 namespace Microarea.AdminServer.Services
 {
-    public class BasicAdminDataServiceProvider : IAdminDataServiceProvider
+	//=========================================================================
+	public class BasicAdminDataServiceProvider : IAdminDataServiceProvider
     {
         IFileProvider fileProvider;
         IFileInfo fileInfo;
 
-        public BasicAdminDataServiceProvider()
+		//-----------------------------------------------------------------------------	
+		public BasicAdminDataServiceProvider()
         {
             this.fileProvider = new PhysicalFileProvider(
                 Path.Combine(Directory.GetCurrentDirectory(), "Data"));
         }
 
-        public IAccount ReadLogin(string userName, string password)
+		//-----------------------------------------------------------------------------	
+		public IAccount ReadLogin(string userName, string password)
         {
             // read the storage, find a login and return a IUserAccount object
 
@@ -31,5 +31,11 @@ namespace Microarea.AdminServer.Services
             IAccount userAccount = new Account();
             return userAccount;
         }
-    }
+
+		//-----------------------------------------------------------------------------	
+		public bool AddAccount(string accountName, string password)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
