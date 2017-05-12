@@ -458,8 +458,7 @@ tb-caption label {
 
 .k-disabled,
 .k-state-disabled {
-    border: none;
-    opacity: 1;
+    // border: 1px solid #ddd;
 }
 
 .k-textbox:disabled,
@@ -467,13 +466,21 @@ tb-caption label {
 .k-textbox.k-state-disabled,
 .k-dropdown-wrap.k-state-disabled {
     background: transparent;
-    border: none;
+    border: 1px solid #ddd;
     font-weight: bold;
-    opacity: 1;
 }
 
 .k-dropdown-wrap.k-state-disabled .k-select {
-    display: none;
+    // display: none;
+}
+
+.k-textbox,
+.k-input.k-textbox {
+    width: 100%;
+}
+
+tb-enum-combo {
+    width: 300px;
 }
 
 .tb-checkbox {
