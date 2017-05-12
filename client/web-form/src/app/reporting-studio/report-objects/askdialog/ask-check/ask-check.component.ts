@@ -30,7 +30,7 @@ export class AskCheckComponent extends CheckBoxComponent implements OnInit, DoCh
     if (this.oldValue != this.check.value) {
       this.oldValue = this.check.value;
       if (this.check.runatserver) {
-        let obj = {
+        /*let obj = {
           id: this.check.id,
           value: this.check.value.toString()
         };
@@ -38,7 +38,7 @@ export class AskCheckComponent extends CheckBoxComponent implements OnInit, DoCh
           commandType: CommandType.UPDATEASK,
           message: JSON.stringify(obj),
           page: this.rsService.askPage
-        };
+        };*/
         this.adService.askChanged.emit();
       //this.rsService.doSend(JSON.stringify(message));
       }
