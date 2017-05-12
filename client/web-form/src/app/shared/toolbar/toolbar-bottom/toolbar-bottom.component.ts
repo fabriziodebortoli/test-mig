@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ToolbarBottomComponent implements OnInit {
 
- 
+  private statusMessage: string = '';
 
   constructor() { }
 
