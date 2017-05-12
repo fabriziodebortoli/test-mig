@@ -1,3 +1,5 @@
+import { AskdialogService } from './askdialog.service';
+import { Subscription } from 'rxjs';
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { Component, OnInit, Input, OnDestroy, ViewEncapsulation, OnChanges } from '@angular/core';
 import { TemplateItem, askGroup, text, check, radio, CommandType, askObj } from './../../reporting-studio.model';
@@ -6,7 +8,8 @@ import { TemplateItem, askGroup, text, check, radio, CommandType, askObj } from 
   selector: 'rs-askdialog',
   templateUrl: './askdialog.component.html',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./askdialog.component.scss']
+  styleUrls: ['./askdialog.component.scss'],
+  providers: [AskdialogService]
 })
 export class AskdialogComponent implements /*OnInit,*/ OnDestroy, OnChanges {
 
@@ -15,8 +18,11 @@ export class AskdialogComponent implements /*OnInit,*/ OnDestroy, OnChanges {
   public askObject;
   public objects: askGroup[] = [];
   public templates: TemplateItem[] = [];
-
-  constructor(private rsService: ReportingStudioService) {
+  subscriptions: Array<Subscription> = [];
+  constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
+    this.subscriptions.push(adService.askChanged.subscribe(() => {
+        this.updateAsk();
+    }));
   }
 
   /* ngOnInit() {
@@ -31,6 +37,7 @@ export class AskdialogComponent implements /*OnInit,*/ OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
   }
@@ -88,6 +95,27 @@ export class AskdialogComponent implements /*OnInit,*/ OnDestroy, OnChanges {
   close() {
     this.rsService.showAsk = false;
     this.ngOnDestroy();
+  }
+
+  updateAsk() {
+    let arrayComp: any[] = [];
+    for (let i = 0; i < this.objects.length; i++) {
+      let group = this.objects[i];
+      for (let j = 0; j < group.entries.length; j++) {
+        let component: askObj = group.entries[j];
+        let obj = {
+          id: component.id,
+          value: component.value.toString()
+        };
+        arrayComp.push(obj);
+      }
+    }
+    let message = {
+      commandType: CommandType.UPDATEASK,
+      message: JSON.stringify(arrayComp),
+      page: this.rsService.askPage
+    };
+    this.rsService.doSend(JSON.stringify(message));
   }
 
 }

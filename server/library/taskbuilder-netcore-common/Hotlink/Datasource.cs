@@ -47,7 +47,7 @@ namespace Microarea.Common.Hotlink
             s = requestQuery["like_value"];
             like_value.Data = s != null ? s : "%";
 
-            XmlDescription = ReferenceObjects.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
+            XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
                 return false;
 
@@ -97,7 +97,7 @@ namespace Microarea.Common.Hotlink
         {
             list = string.Empty;
 
-            XmlDescription = ReferenceObjects.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
+            XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
                 return false;
 
@@ -122,7 +122,7 @@ namespace Microarea.Common.Hotlink
         {
             list = string.Empty;
 
-            XmlDescription = ReferenceObjects.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
+            XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
                 return false;
 

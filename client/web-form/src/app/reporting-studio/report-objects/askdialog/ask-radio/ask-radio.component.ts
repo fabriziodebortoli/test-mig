@@ -1,7 +1,9 @@
+import { AskdialogService } from "app/reporting-studio/report-objects/askdialog/askdialog.service";
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { RadioComponent } from './../../../../shared/controls/radio/radio.component';
 import { radio, CommandType } from './../../../reporting-studio.model';
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+
 
 @Component({
   selector: 'rs-ask-radio',
@@ -13,7 +15,7 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
 
   @Input() radio: radio;
   @Input() otherRadios: radio[];
-  constructor(private rsService: ReportingStudioService) {
+  constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
     super()
   }
 
@@ -38,7 +40,8 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
         message: JSON.stringify(obj),
         page: this.rsService.askPage
       };
-      this.rsService.doSend(JSON.stringify(message));
+      this.adService.askChanged.emit();
+      //this.rsService.doSend(JSON.stringify(message));
     }
   }
 }

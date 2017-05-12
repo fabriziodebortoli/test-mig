@@ -1,3 +1,4 @@
+import { AskdialogService } from 'app/reporting-studio/report-objects/askdialog/askdialog.service';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { ComboSimpleComponent } from './../../../../shared/controls/combo-simple/combo-simple.component';
 
@@ -13,7 +14,7 @@ export class AskDropdownlistComponent extends ComboSimpleComponent {
 
   @Input() dropdownlist: dropdownlist;
 
-  constructor(private rsService: ReportingStudioService) {
+  constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
     super();
   }
 
@@ -38,7 +39,8 @@ export class AskDropdownlistComponent extends ComboSimpleComponent {
         message: JSON.stringify(obj),
         page: this.rsService.askPage
       };
-      this.rsService.doSend(JSON.stringify(message));
+      this.adService.askChanged.emit();
+      //this.rsService.doSend(JSON.stringify(message));
     }
   }
 }

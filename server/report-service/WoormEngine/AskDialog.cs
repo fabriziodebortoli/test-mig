@@ -13,6 +13,7 @@ using Microarea.Common.Lexan;
 using Microarea.Common.ExpressionManager;
 using Microarea.Common.Hotlink;
 using Microarea.Common;
+using Microarea.RSWeb.Models;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -1420,6 +1421,52 @@ namespace Microarea.RSWeb.WoormEngine
 				return true;
 			}
 		}
+
+        //----------------------------------------------------------------------------
+        public void AssignAllAskData(List<AskDialogElement> data)
+        {
+            foreach (AskDialogElement entry in data)
+            {
+                AssignAskData(entry.id, entry.value);
+            }
+
+            // quindi valuto le espressioni di inizializzazione (che modificano solo i campi NON modificati)
+            EvalAllInitExpression(null, false);
+        }
+
+        private void AssignAskData(string name, string data)
+        {
+            Field field = GetFieldByName(name);
+            if (field != null)
+            {
+                object current;
+                if (field.DataType == "DataEnum")
+                {
+                    DataEnum template = (DataEnum)field.AskData;
+                    current = template; // Enums.LocalizedParse(data, template/*, this.Session.UserInfo.CompanyCulture*/);
+                }
+                else
+                {
+                    current = ObjectHelper.Parse(data, field.AskData);
+                }
+
+                if (!ObjectHelper.IsEquals(current, field.AskData) && !UserChanged.Contains(field.Name))
+                    UserChanged.Add(field.Name);
+
+                field.AskData = current;
+                field.GroupByData = current;
+            }
+        }
+
+        //--------------------------------------------------------------------------
+        private Field GetFieldByName(string name)
+        {
+            foreach (AskGroup g in this.Groups)
+                foreach (AskEntry e in g.Entries)
+                    if (e.Field != null && e.Field.Name == name)
+                        return e.Field;
+            return null;
+        }
 
         //----------------------------------------------------------------------------
         public string ToJson()
