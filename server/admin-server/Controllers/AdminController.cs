@@ -90,7 +90,7 @@ namespace Microarea.AdminServer.Controllers
             // user has been found
             jsonHelper.AddJsonCouple<bool>("result", true);
 			jsonHelper.AddJsonCouple<string>("message", "Username recognized in the provisioning database");
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
         }
 
 		[HttpPost("/api/account/add/{accountname}")]
