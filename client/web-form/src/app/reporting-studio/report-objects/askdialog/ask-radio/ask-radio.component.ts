@@ -29,9 +29,10 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
       if (this.radio.id !== elem.id) {
         elem.value = false;
       }
+      else elem.value = true;
     }
     if (this.radio.runatserver) {
-      let obj = {
+      /*let obj = {
         id: this.radio.id,
         value: this.radio.value.toString()
       };
@@ -39,7 +40,7 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
         commandType: CommandType.UPDATEASK,
         message: JSON.stringify(obj),
         page: this.rsService.askPage
-      };
+      };*/
       this.adService.askChanged.emit();
       //this.rsService.doSend(JSON.stringify(message));
     }

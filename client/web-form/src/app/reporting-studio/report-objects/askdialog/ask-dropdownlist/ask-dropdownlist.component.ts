@@ -30,7 +30,7 @@ export class AskDropdownlistComponent extends ComboSimpleComponent {
 
   onChange(value) {
     if (this.dropdownlist.runatserver) {
-      let obj = {
+      /*let obj = {
         id: this.dropdownlist.id,
         value: this.dropdownlist.value.toString()
       };
@@ -38,7 +38,7 @@ export class AskDropdownlistComponent extends ComboSimpleComponent {
         commandType: CommandType.UPDATEASK,
         message: JSON.stringify(obj),
         page: this.rsService.askPage
-      };
+      };*/
       this.adService.askChanged.emit();
       //this.rsService.doSend(JSON.stringify(message));
     }

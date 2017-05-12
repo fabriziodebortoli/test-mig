@@ -1423,12 +1423,13 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
         //----------------------------------------------------------------------------
-        public void AssignAllAskData(List<AskDialogElement> data)
+        public void AssignAllAskData(List<AskDialogElement> values)
         {
-            foreach (AskDialogElement entry in data)
-            {
-                AssignAskData(entry.id, entry.value);
-            }
+            if (values != null)
+                foreach (AskDialogElement entry in values)
+                {
+                    AssignAskData(entry.name, entry.value);
+                }
 
             // quindi valuto le espressioni di inizializzazione (che modificano solo i campi NON modificati)
             EvalAllInitExpression(null, false);
@@ -1439,22 +1440,30 @@ namespace Microarea.RSWeb.WoormEngine
             Field field = GetFieldByName(name);
             if (field != null)
             {
-                object current;
+                object current = null;
                 if (field.DataType == "DataEnum")
                 {
-                    DataEnum template = (DataEnum)field.AskData;
-                    current = template; // Enums.LocalizedParse(data, template/*, this.Session.UserInfo.CompanyCulture*/);
+                    uint enumVal = 0;
+                    if (UInt32.TryParse(data, out enumVal))
+                        current = new DataEnum(enumVal);
                 }
                 else
                 {
                     current = ObjectHelper.Parse(data, field.AskData);
                 }
 
-                if (!ObjectHelper.IsEquals(current, field.AskData) && !UserChanged.Contains(field.Name))
-                    UserChanged.Add(field.Name);
+                if (current != null)
+                { 
+                    if (!ObjectHelper.IsEquals(current, field.AskData) && !UserChanged.Contains(field.Name))
+                        UserChanged.Add(field.Name);
 
-                field.AskData = current;
-                field.GroupByData = current;
+                    field.AskData = current;
+                    field.GroupByData = current;
+                }
+                else
+                {
+                    Debug.Fail("Cannot conver enum value: " + data);
+                }
             }
         }
 

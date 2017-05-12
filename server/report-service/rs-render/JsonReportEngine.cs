@@ -86,22 +86,22 @@ namespace Microarea.RSWeb.Render
 
         //---------------------------------------------------------------------
         //chiamata sul change delle askentry di tipo "runatserver"
-        public string UpdateJsonAskDialog(List<AskDialogElement> data, string currentDialogName)
+        public string UpdateJsonAskDialog(List<AskDialogElement> values, string currentDialogName)
         {
             AskDialog askDialog = StateMachine.Report.Engine.FindAskDialog(currentDialogName);
             if (askDialog == null)
                 return string.Empty;
 
-            askDialog.AssignAllAskData(data);
+            askDialog.AssignAllAskData(values);
 
             return askDialog.ToJson();
         }
 
         //---------------------------------------------------------------------
         //chiamata sul NEXT delle askdialog
-        public string GetJsonAskDialog(List<AskDialogElement> data, string currentClientDialogName)
+        public string GetJsonAskDialog(List<AskDialogElement> values, string currentClientDialogName)
         {
-            if (currentClientDialogName.IsNullOrEmpty() || data == null || data.Count == 0)
+            if (currentClientDialogName.IsNullOrEmpty() || values == null || values.Count == 0)
             {
                 //viene cercata la prima, se esiste
                 StateMachine.Step();
@@ -116,7 +116,7 @@ namespace Microarea.RSWeb.Render
                     StateMachine.Report.CurrentAskDialog = dlg;
             }
 
-            StateMachine.Report.CurrentAskDialog.AssignAllAskData(data);
+            StateMachine.Report.CurrentAskDialog.AssignAllAskData(values);
             
             //passa alla prossima dialog se esiste oppure inizia estrazione dati
             StateMachine.Step();
@@ -134,29 +134,21 @@ namespace Microarea.RSWeb.Render
                 {         
                     //contiene il nome della dialog, se è vuota/=="0" viene richiesta la prima per la prima volta
                     msg.page = msg.page;   
-                    List<AskDialogElement> data = msg.page.IsNullOrEmpty() ? null 
+                    List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null 
                                                     : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
 
-                    GetJsonAskDialog(data, msg.page);
+                    GetJsonAskDialog(values, msg.page);
 
                     msg.commandType = MessageBuilder.CommandType.NONE;
-
-                    //if (nMsg.message.IsNullOrEmpty())
-                    //{
-                    //    //dialog "finite": inizia la visualizzazione della prima pagina
-                    //    nMsg.commandType = MessageBuilder.CommandType.TEMPLATE;
-                    //    nMsg.message = GetJsonTemplatePage(1);
-                    //}
-
                     break;
                 }
                 case MessageBuilder.CommandType.UPDATEASK:
                     {
                       msg.page = msg.page;
-                      List<AskDialogElement> data = msg.page.IsNullOrEmpty() ? null
+                      List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null
                                                          : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
 
-                      msg.message = UpdateJsonAskDialog(data, msg.page);
+                      msg.message = UpdateJsonAskDialog(values, msg.page);
 
                       break;
                     }

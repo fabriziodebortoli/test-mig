@@ -1,7 +1,7 @@
 import { AskdialogService } from './askdialog.service';
 import { Subscription } from 'rxjs';
 import { ReportingStudioService } from './../../reporting-studio.service';
-import { Component, OnInit, Input, OnDestroy, ViewEncapsulation, OnChanges } from '@angular/core';
+import { Component, Input, OnDestroy, ViewEncapsulation, OnChanges } from '@angular/core';
 import { TemplateItem, askGroup, text, check, radio, CommandType, askObj } from './../../reporting-studio.model';
 
 @Component({
@@ -11,27 +11,27 @@ import { TemplateItem, askGroup, text, check, radio, CommandType, askObj } from 
   styleUrls: ['./askdialog.component.scss'],
   providers: [AskdialogService]
 })
-export class AskdialogComponent implements /*OnInit,*/ OnDestroy, OnChanges {
+export class AskdialogComponent implements OnDestroy, OnChanges {
 
   @Input() ask: string;
 
   public askObject;
+  public commType: CommandType;
   public objects: askGroup[] = [];
   public templates: TemplateItem[] = [];
   subscriptions: Array<Subscription> = [];
   constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
     this.subscriptions.push(adService.askChanged.subscribe(() => {
-        this.updateAsk();
+      this.updateAsk();
     }));
   }
 
-  /* ngOnInit() {
-     this.askObject = JSON.parse(this.ask);
-     this.RenderLayout(this.askObject);
-   }*/
+
 
   ngOnChanges() {
-    this.askObject = JSON.parse(this.ask);
+    let msg = JSON.parse(this.ask);
+    this.commType = msg.commandType;
+    this.askObject = JSON.parse(msg.message);
     this.RenderLayout(this.askObject);
 
   }
@@ -55,6 +55,9 @@ export class AskdialogComponent implements /*OnInit,*/ OnDestroy, OnChanges {
         error = 'Error Occured' + err.ToString();
       }
     }
+    if (this.commType == CommandType.UPDATEASK) {
+      this.templates.pop();
+    }
     this.templates.push(new TemplateItem(msg.name, msg, objects));
     this.objects = objects;
     this.rsService.askPage = msg.name;
@@ -62,8 +65,29 @@ export class AskdialogComponent implements /*OnInit,*/ OnDestroy, OnChanges {
 
   }
 
-  Next() {
+  SendAsk(ct: CommandType) {
     let arrayComp: any[] = [];
+    for (let i = 0; i < this.objects.length; i++) {
+      let group = this.objects[i];
+      for (let j = 0; j < group.entries.length; j++) {
+        let component: askObj = group.entries[j];
+        let obj = {
+          name: component.name,
+          value: component.value.toString()
+        };
+        arrayComp.push(obj);
+      }
+    }
+    let message = {
+      commandType: ct,
+      message: JSON.stringify(arrayComp),
+      page: this.rsService.askPage
+    };
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  Next() {
+    /*let arrayComp: any[] = [];
     for (let i = 0; i < this.objects.length; i++) {
       let group = this.objects[i];
       for (let j = 0; j < group.entries.length; j++) {
@@ -80,7 +104,8 @@ export class AskdialogComponent implements /*OnInit,*/ OnDestroy, OnChanges {
       message: JSON.stringify(arrayComp),
       page: this.rsService.askPage
     };
-    this.rsService.doSend(JSON.stringify(message));
+    this.rsService.doSend(JSON.stringify(message));*/
+    this.SendAsk(CommandType.ASK);
   }
 
   Prev() {
@@ -98,7 +123,7 @@ export class AskdialogComponent implements /*OnInit,*/ OnDestroy, OnChanges {
   }
 
   updateAsk() {
-    let arrayComp: any[] = [];
+    /*let arrayComp: any[] = [];
     for (let i = 0; i < this.objects.length; i++) {
       let group = this.objects[i];
       for (let j = 0; j < group.entries.length; j++) {
@@ -115,7 +140,8 @@ export class AskdialogComponent implements /*OnInit,*/ OnDestroy, OnChanges {
       message: JSON.stringify(arrayComp),
       page: this.rsService.askPage
     };
-    this.rsService.doSend(JSON.stringify(message));
+    this.rsService.doSend(JSON.stringify(message));*/
+    this.SendAsk(CommandType.UPDATEASK);
   }
 
 }
