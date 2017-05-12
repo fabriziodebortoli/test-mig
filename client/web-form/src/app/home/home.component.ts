@@ -1,3 +1,5 @@
+import { EventDataService } from './../core/eventdata.service';
+import { MessageDialogComponent, MessageDlgArgs } from './../shared/containers/message-dialog/message-dialog.component';
 import { Subscription } from 'rxjs';
 import { ComponentInfo } from './../shared/models/component.info';
 import { LayoutService } from 'app/core/layout.service';
@@ -19,12 +21,11 @@ import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstr
 export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @ViewChild('sidenav') sidenav;
-  sidenavSubscription: Subscription;
-  tabberSubscription: Subscription;
-  cmpDestroyedSubscription: Subscription;
+  subscriptions: Subscription[] = [];
 
   @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
   @ViewChild('tabberContainer') tabberContainer: ElementRef;
+  @ViewChild(MessageDialogComponent) messageDialog: MessageDialogComponent;
   viewHeight: number;
 
   private appName = environment.appName;
@@ -36,15 +37,23 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
     private componentService: ComponentService,
     private layoutService: LayoutService
   ) {
-    this.sidenavSubscription = sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle());
+    this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
 
-    this.tabberSubscription = componentService.componentCreated$.subscribe((tabIndex) => {
+    this.subscriptions.push(componentService.componentCreated$.subscribe((tabIndex) => {
       this.kendoTabStripInstance.selectTab(tabIndex);
-    });
+    }));
 
-    this.cmpDestroyedSubscription = componentService.componentInfoRemoved.subscribe(cmp => {
+    this.subscriptions.push(componentService.componentInfoRemoved.subscribe(cmp => {
       this.kendoTabStripInstance.selectTab(0);
-    });
+    }));
+
+    this.subscriptions.push(componentService.componentCreationError.subscribe(reason => {
+      const args = new MessageDlgArgs();
+      args.ok = true;
+      args.text = reason;
+
+      this.messageDialog.open(args);
+    }));
   }
 
   ngOnInit() {
@@ -66,9 +75,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnDestroy() {
-    this.sidenavSubscription.unsubscribe();
-    this.tabberSubscription.unsubscribe();
-    this.cmpDestroyedSubscription.unsubscribe();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   toggleSidenav() {

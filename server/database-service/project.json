@@ -17,7 +17,7 @@
       "version": "1.1.1"
     },
     "Newtonsoft.Json": "10.0.2",
-"System.Xml.ReaderWriter": "4.3.0",
+    "System.Xml.ReaderWriter": "4.3.0",
     "taskbuilder-netcore-common": "1.0.0-*"
   },
 
@@ -44,14 +44,14 @@
       "System.GC.Server": true
     }
   },
-    "publishOptions": {
-        "include": [
-            "wwwroot",
-            "**/*.cshtml",
-            "appsettings.json",
-            "web.config"
-        ]
-    },
+  "publishOptions": {
+    "include": [
+      "wwwroot",
+      "**/*.cshtml",
+      "appsettings.json",
+      "web.config"
+    ]
+  },
   "scripts": {
     "postpublish": [
       "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"

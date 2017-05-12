@@ -20,7 +20,7 @@ export class ComponentService {
   componentCreated$ = this.componentCreatedSource.asObservable();
   componentInfoAdded = new EventEmitter<ComponentInfo>();
   componentInfoRemoved = new EventEmitter<ComponentInfo>();
-
+  componentCreationError: EventEmitter<string> = new EventEmitter();
   constructor(
     private router: Router,
     private webSocketService: WebSocketService,
@@ -39,12 +39,7 @@ export class ComponentService {
     }));
   }
   argsToString(args) {
-    if (typeof args === 'undefined') {
-      return undefined;
-    }
-    if (typeof (args) === 'string') {
-      return args;
-    } else if (typeof (args) === 'object') {
+    if (typeof (args) === 'object') {
       if (Object.keys(args).length) {
         return JSON.stringify(args);
       } else {
@@ -59,7 +54,7 @@ export class ComponentService {
     let url = 'rs/reportingstudio/' + ns + '/';
     args = this.argsToString(args);
     if (args !== undefined) {
-      url += JSON.stringify(args);
+      url += args;
     }
     this.createComponentFromUrl(url);
   }
@@ -86,9 +81,7 @@ export class ComponentService {
     if (args !== undefined) {
       url += '/' + args;
     }
-    this.createComponentFromUrl(url).then(() => {
-
-    });
+    this.createComponentFromUrl(url);
   }
 
   addComponent<T>(component: ComponentInfo) {
@@ -125,25 +118,26 @@ export class ComponentService {
     this.componentInfoRemoved.emit(removed);
   }
 
-  createComponentFromUrl(url: string): Promise<void> {
-    return new Promise<void>(resolve => {
-      this.router.navigate([{ outlets: { dynamic: 'proxy/' + url }, skipLocationChange: false, replaceUrl: false }])
-        .then(
-        success => {
-          this.router.navigate([{ outlets: { dynamic: null }, skipLocationChange: false, replaceUrl: false }]).then(success1 => {
-            resolve();
-            this.creatingComponent = false;
+  createComponentFromUrl(url: string): void {
+    this.router.navigate([{ outlets: { dynamic: 'proxy/' + url }, skipLocationChange: false, replaceUrl: false }])
+      .then(
+      success => {
+        this.router.navigate([{ outlets: { dynamic: null }, skipLocationChange: false, replaceUrl: false }]).then(success1 => {
+          this.creatingComponent = false;
+          this.createNextComponent();
+        });
 
-            this.createNextComponent();
-          });
+      }
+      )
+      .catch(reason => {
+        console.log(reason);
+        this.componentCreationError.emit(reason);
 
-        }
-        );
-    });
+      });
   }
   createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver, args: any = {}) {
     const info = new ComponentInfo();
-    info.id = this.currentComponentId ? this.currentComponentId : this.utils.generateGUID() ;
+    info.id = this.currentComponentId ? this.currentComponentId : this.utils.generateGUID();
     info.factory = resolver.resolveComponentFactory(component);
     info.args = args;
     this.addComponent(info);

@@ -1,9 +1,9 @@
-﻿using Microarea.AdminServer.Services.Interfaces;
-using System;
-using System.Data.SqlClient;
-using Microarea.AdminServer.Model.Interfaces;
-using Microsoft.Extensions.Configuration;
+﻿using System.Data.SqlClient;
 using Microsoft.Extensions.Options;
+using Microarea.AdminServer.Model;
+using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Services.Interfaces;
+using System;
 
 namespace Microarea.AdminServer.Services
 {
@@ -13,7 +13,8 @@ namespace Microarea.AdminServer.Services
         AppOptions _settings;
         string _connectionString;
 
-        public SqlAdminDataServiceProvider(IOptions<AppOptions> settings)
+		//-----------------------------------------------------------------------------	
+		public SqlAdminDataServiceProvider(IOptions<AppOptions> settings)
         {
             _settings = settings.Value;
 
@@ -22,9 +23,41 @@ namespace Microarea.AdminServer.Services
 
             _connectionString = _settings.DatabaseInfo.ConnectionString;
         }
-        public IUserAccount ReadLogin(string userName, string password)
+
+		//-----------------------------------------------------------------------------	
+		public IAccount ReadLogin(string userName, string password)
         {
-            throw new NotImplementedException();
-        }
-    }
+			IAccount account = null;
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(_connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand("SELECT * FROM MP_Accounts WHERE Name = '{0}' AND Password = '{1}'", connection))
+					{
+						using (SqlDataReader reader = command.ExecuteReader())
+						{
+							if (reader.HasRows)
+							{
+								account = new Account();
+								while (!reader.Read())
+								{
+								}
+							}
+						}
+					}
+				}
+			}
+			catch (SqlException e)
+			{
+				Console.WriteLine(e.Message);
+				throw (e);
+			}
+
+			return account;
+		}
+
+	}
 }

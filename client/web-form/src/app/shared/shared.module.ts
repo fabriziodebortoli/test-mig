@@ -22,6 +22,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { ChartsModule } from '@progress/kendo-angular-charts';
 
 import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './containers/tiles/tile/tile.size';
@@ -43,7 +44,7 @@ import { PasswordComponent } from './controls/password/password.component';
 import { MaskedTextBoxComponent } from './controls/masked-text-box/masked-text-box.component';
 import { NumericTextBoxComponent } from './controls/numeric-text-box/numeric-text-box.component';
 import { DateInputComponent } from './controls/date-input/date-input.component';
-import { ContextMenuComponent } from './controls/context-menu/context-menu.component';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
 
 import { LabelStaticComponent } from './controls/label-static/label-static.component';
 
@@ -68,7 +69,8 @@ const KENDO_UI_MODULES = [
   DropDownsModule,
   LayoutModule,
   PopupModule,
-  ButtonsModule
+  ButtonsModule,
+  ChartsModule
 ];
 
 const TB_COMPONENTS = [

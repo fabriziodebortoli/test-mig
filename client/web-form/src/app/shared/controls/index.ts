@@ -12,7 +12,6 @@ import { LabelStaticComponent } from './label-static/label-static.component';
 import { GridComponent } from './grid/grid.component';
 import { EmailComponent } from './email/email.component';
 import { DateInputComponent } from './date-input/date-input.component';
-import { ContextMenuComponent } from './context-menu/context-menu.component';
 export { ButtonComponent } from './button/button.component';
 export { CheckBoxComponent } from './checkbox/checkbox.component';
 export { ComboComponent } from './combo/combo.component';
@@ -26,7 +25,7 @@ export { ColorPickerComponent } from './color-picker/color-picker.component';
 export { BoolEditComponent } from './bool-edit/bool-edit.component';
 export { BodyEditComponent } from './body-edit/body-edit.component';
 export { UnknownComponent } from './unknown/unknown.component';
-export { LinearGaugeComponent } from './linear-gauge/linear-gauge.component';
+export { LinearGaugeComponent } from './charts/linear-gauge/linear-gauge.component';
 
 
 

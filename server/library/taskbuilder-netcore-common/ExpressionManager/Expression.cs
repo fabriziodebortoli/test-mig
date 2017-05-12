@@ -2313,10 +2313,9 @@ namespace Microarea.Common.ExpressionManager
 					Value v2 = (Value) paramStack.Pop();
 					string functionality = CastString(v2);
 
-                        bool ok = true;
-						//TODO RSWEB TbSession.IsActivated(application, functionality);
+                    bool ok = TbSession.IsActivated(this.TbSession, application, functionality).Result;
 
-					return new Value(ok);
+                    return new Value(ok);
 				}
                 case Token.ISADMIN:
                 {

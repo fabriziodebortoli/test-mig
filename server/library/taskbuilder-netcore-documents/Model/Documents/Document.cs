@@ -129,11 +129,19 @@ namespace TaskBuilderNetCore.Documents.Model
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------
+        public bool Unattended
+        {
+            get
+            {
+                return orchestrator.UIController == null;
+            }
+        }
 
         //-----------------------------------------------------------------------------------------------------
         protected Document()
         {
-            diagnostic = new Diagnostic(NameSpace.FullNameSpace);
+            diagnostic = new Diagnostic(callerContext.Identity);
             Clear();
         }
 
@@ -141,8 +149,7 @@ namespace TaskBuilderNetCore.Documents.Model
         public void Clear()
         {
             this.callerContext = null;
- 
-            diagnostic.Clear();
+             diagnostic.Clear();
 
             ClearData();
         }

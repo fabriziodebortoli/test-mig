@@ -7,6 +7,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { environment } from './../../environments/environment';
 
 import { HttpService } from './http.service';
+// import { CommandService } from './command.service';
 
 import { Logger } from './logger.service';
 
@@ -22,6 +23,7 @@ export class WebSocketService {
     public windowClose: EventEmitter<any> = new EventEmitter();
     public activationData: EventEmitter<any> = new EventEmitter();
     public itemSource: EventEmitter<any> = new EventEmitter();
+    public contextMenu: EventEmitter<any> = new EventEmitter();
     public open: EventEmitter<any> = new EventEmitter();
     public close: EventEmitter<any> = new EventEmitter();
     public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
@@ -49,10 +51,11 @@ export class WebSocketService {
                         case 'ActivationData': $this.activationData.emit(obj.args); break;
                         case 'WindowClose': $this.windowClose.emit(obj.args); break;
                         case 'ItemSource': $this.itemSource.emit(obj.args); break;
+                        case 'ContextMenu': $this.contextMenu.emit(obj.args); break;
                         case 'ServerCommandMapReady': $this.serverCommandMapReady.emit(obj.args); break;
+                        // when tbloader has connected to gate, I receive this message; then I can
+                        // request the list of opened windows
                         case 'MessageDialog': $this.message.emit(obj.args); break;
-                        //when tbloader has connected to gate, I receive this message; then I can
-                        //request the list of opened windows
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
                         default: break;
                     }
@@ -69,7 +72,7 @@ export class WebSocketService {
         };
 
         this.connection.onopen = (arg) => {
-            //sets the name for this client socket 
+            // sets the name for this client socket
             this.connection.send(JSON.stringify({
                 cmd: 'SetClientWebSocketName',
                 args:
@@ -97,6 +100,12 @@ export class WebSocketService {
 
     doFillListBox(cmpId: String, obj: any): void {
         const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: obj.itemSource, hotLink: obj.hotLink };
+
+        this.connection.send(JSON.stringify(data));
+    }
+
+    getContextMenu(cmpId: String, contextMenu: any): void {
+        const data = { cmd: 'doContextMenu', cmpId: cmpId, contextMenu: contextMenu };
         this.connection.send(JSON.stringify(data));
     }
 
@@ -105,10 +114,20 @@ export class WebSocketService {
         this.connection.send(JSON.stringify(data));
     }
 
-    doValueChanged(cmpId: String, id: String, modelData?: any): void {
+   doValueChanged(cmpId: String, id: String, modelData?: any): void {
         const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
         this.connection.send(JSON.stringify(data));
     }
+
+   /* doValueChanged(cmpId: String, id: String, modelData?: any): void {
+        const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
+        // questo if andrebbe anticipato nel chiamante, se so che non e' azione server side, non devo chiamare servizio websocket
+        if (this.commandService.isServerSideCommand(id)) {
+            this.connection.send(JSON.stringify(data));
+        }
+        // else
+        // azione solo lato client.
+    }*/
 
     getDocumentData(cmpId: String) {
         const data = { cmd: 'getDocumentData', cmpId: cmpId };
@@ -120,6 +139,10 @@ export class WebSocketService {
     }
     doCloseMessageDialog(cmpId: String, result: MessageDlgResult): void {
         const data = { cmd: 'doCloseMessageDialog', cmpId: cmpId, result: result };
+        this.connection.send(JSON.stringify(data));
+    }
+    setReportResult(cmpId: String, result: any): void {
+        const data = { cmd: 'setReportResult', cmpId: cmpId, result: result };
         this.connection.send(JSON.stringify(data));
     }
 }

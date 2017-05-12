@@ -1,3 +1,4 @@
+import { WebSocketService } from './../core/websocket.service';
 import { UtilsService } from './../core/utils.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
@@ -35,8 +36,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private viewHeightSubscription: Subscription;
   viewHeight: number;
 
-  constructor(private rsService: ReportingStudioService, eventData: EventDataService, private cookieService: CookieService,
-    private layoutService: LayoutService, private componentService: ComponentService) {
+  constructor(
+    private rsService: ReportingStudioService,
+    eventData: EventDataService,
+    private cookieService: CookieService,
+    private layoutService: LayoutService,
+    private componentService: ComponentService,
+    private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData);
 
 
@@ -68,6 +74,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   ngOnDestroy() {
     this.subMessage.unsubscribe();
     this.viewHeightSubscription.unsubscribe();
+    if (this.args.params.runAtTbLoader) {
+      this.tbLoaderWebSocketService.doCommand(this.rsService.mainCmpId, 'ID_FILE_CLOSE');
+    }
   }
 
   // -----------------------------------------------
@@ -75,20 +84,17 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     //elaborate
     try {
       let msg = JSON.parse(message);
-      let k = JSON.parse(msg.message);
+      let k = msg.message !== "" ? JSON.parse(msg.message) : undefined;
       switch (msg.commandType) {
-        case CommandType.ASK:
-          this.rsService.showAsk = true;
+        case CommandType.ASK:        
           this.askDialogTemplate = msg.message;
+          this.rsService.showAsk = true;
           break;
         case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
           this.RenderLayout(k);
-          if (this.args.params !== '') {
-            this.GetData();
-          }
-
+          this.RunReport();
           break;
         case CommandType.TEMPLATE:
           this.rsService.showAsk = false;
@@ -96,16 +102,24 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.GetData();
           break;
         case CommandType.DATA:
-          //this.showAsk = true;
+          this.rsService.showAsk = false;
           this.UpdateData(k);
           break;
         case CommandType.RUNREPORT:
-          const params = encodeURIComponent(k.args);
+          const params = { xmlArgs: encodeURIComponent(k.arguments), runAtTbLoader: false };
           this.componentService.createReportComponent(k.ns, params);
-
+          break;
+        case CommandType.ENDREPORT:
+          break;
+        case CommandType.NONE:
+          break;
+        case CommandType.WRONG:
           break;
       }
-
+      //TODO when report finishes execution, send result to tbloader server report (if any)
+      //if (this.args.params.runAtTbLoader) {
+      // this.tbLoaderWebSocketService.setReportResult(this.rsService.mainCmpId, {});
+      //}
       //this.message = msg;//.message;
     } catch (err) {
       this.message = 'Error Occured';
@@ -114,11 +128,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   rsInitStateMachine() {
-    const params = decodeURIComponent(this.args.params);
+    const xmlArgs = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : '';
     let message = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
-      parameters: params,
+      parameters: xmlArgs,
       authtoken: this.cookieService.get('authtoken')
     };
 
@@ -144,7 +158,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     let message = {
       commandType: CommandType.DATA,
-      message: this.args.params,
+      message: this.args.params.xmlArgs,
       page: 0
     };
     this.rsService.doSend(JSON.stringify(message));
@@ -346,11 +360,13 @@ export class ReportingStudioFactoryComponent {
     this.activatedRoute.params.subscribe((params: Params) => {
       let ns = params['ns'];
       let pars = params['params'];
+      pars = pars ? JSON.parse(pars) : {};
+
       componentService.createComponent(
         ReportingStudioComponent,
         resolver,
         { 'nameSpace': ns, 'params': pars }
-        );
+      );
     });
   }
 }

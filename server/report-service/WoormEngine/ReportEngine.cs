@@ -578,7 +578,12 @@ namespace Microarea.RSWeb.WoormEngine
 					? null 
 					: (AskDialog)askingRules[currentAskDialogNo]; 
 			}
-		}
+            set {
+                int index = FindAskDialogIndex(value.FormName);
+                if (index > -1)
+                    currentAskDialogNo = index;
+            }
+        }
 
         public AskDialog FindAskDialog(string name)
         {
@@ -589,6 +594,17 @@ namespace Microarea.RSWeb.WoormEngine
             }
             return null;
         }
+
+        public int FindAskDialogIndex(string name)
+        {
+            for (int i = 0; i < askingRules.Count; i++)
+            {
+                if (askingRules[i].FormName.CompareNoCase(name))
+                    return i;
+            }
+            return -1;
+        }
+        //---------------------------------------------------------------------
 
         public string ToJsonDialogs()
         {

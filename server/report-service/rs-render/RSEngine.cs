@@ -12,6 +12,9 @@ using Microarea.Common.Lexan;
 
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
+using Microarea.RSWeb.Models;
+using System.Net.WebSockets;
+using System.Text;
 
 namespace Microarea.RSWeb.Render
 {
@@ -48,7 +51,7 @@ namespace Microarea.RSWeb.Render
 		ExecuteExtraction,
 		ExecuteErrorStep,
 		ExecuteUserBreak,
-		RenderingAskDialog,
+		//RenderingAskDialog,
 		FileNotFound,
 		GrantViolation,
 		ViewerError,
@@ -302,10 +305,10 @@ namespace Microarea.RSWeb.Render
         }
 
 		//--------------------------------------------------------------------------
-		public void Step()
+		public bool Step()
 		{
 			if (Working)
-				return;
+				return false;
 
 			while (true)
 			{
@@ -354,7 +357,6 @@ namespace Microarea.RSWeb.Render
 								CurrentState = State.BadRelease;
 								break;
 							}
-
 
 							// alcuni report non possono essere eseguiti in Modalità Web
 							// pertanto li compilo normalmente ma inibisco l'esecuzione
@@ -424,8 +426,19 @@ namespace Microarea.RSWeb.Render
 							break;
 						}
 
-						CurrentState = State.ExecuteAsk;
-						break;
+                        this.Report.SymTable.SaveAskDialogFieldsState();
+
+                        Report.SaveInfo();
+
+                        if (!Woorm.LoadDocument() || !Woorm.ParseDocument())
+                        {
+                            BuildErrors(Woorm.Diagnostic);
+                            CurrentState = State.ViewerError;
+                            break;
+                        }
+
+                        CurrentState = State.ExecuteAsk;
+						return false;
 					}
 
 					case State.ExecuteAsk :	
@@ -451,21 +464,22 @@ namespace Microarea.RSWeb.Render
 							CurrentState = State.ExecuteExtraction;
 
 							//salvo symboltable e parso il woormdocument in quanto viene utilizzata la parte grafica
-							Report.SaveInfo();
-							if (!Woorm.LoadDocument() || !Woorm.ParseDocument())
-							{
-								BuildErrors(Woorm.Diagnostic);
-								CurrentState = State.ViewerError;
-								break;
-							}
+							//Report.SaveInfo();
+
+							//if (!Woorm.LoadDocument() || !Woorm.ParseDocument())
+							//{
+							//	BuildErrors(Woorm.Diagnostic);
+							//	CurrentState = State.ViewerError;
+							//	break;
+							//}
 							break;
 						}
 
                         //-------------------------------------------------------------
                         //TODO RSWEB skip ask dialogs
-                        if (Report.Engine.ExistsDialogs())
-                            Report.Engine.HideAllAskDialogs();
-                        //-------------------------------------------------------------
+                        //if (Report.Engine.ExistsDialogs())
+                        //    Report.Engine.HideAllAskDialogs();
+                        ////-------------------------------------------------------------
 
 						if (!Report.ExecuteAsk())
 						{
@@ -477,24 +491,27 @@ namespace Microarea.RSWeb.Render
 						{
 							Report.ExecuteAfterAsk();
 
-							Report.SaveInfo();
+							//Report.SaveInfo();
 						
-							if (!Woorm.LoadDocument() || !Woorm.ParseDocument())
-							{
-								BuildErrors(Woorm.Diagnostic);
-								CurrentState = State.ViewerError;
-								break;
-							}
+							//if (!Woorm.LoadDocument() || !Woorm.ParseDocument())
+							//{
+							//	BuildErrors(Woorm.Diagnostic);
+							//	CurrentState = State.ViewerError;
+							//	break;
+							//}
 
 							CurrentState = State.ExecuteExtraction;
-							break;
-						}
+
+                            break;
+ 						}
 
 						// esco per processare la corrente AskDialog
-						CurrentState = State.RenderingAskDialog;
+						//CurrentState = State.RenderingAskDialog;
+                        HtmlPage = HtmlPageType.Form;
 
-						HtmlPage = HtmlPageType.Form;
-						return;
+                        RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.ASK, Report.CurrentAskDialog.ToJson()); //.Wait();
+                            
+						return false;
 					}
 
 					case State.ExecuteExtraction:
@@ -506,8 +523,11 @@ namespace Microarea.RSWeb.Render
 							{
 								CurrentInternalState = InternalState.ExecuteBeforeActions;
 								DoExtraction();
-								break;
-							}
+
+                                Woorm.LoadPage(1);
+                                RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.TEMPLATE, Woorm.ToJson(true)); //.Wait();
+                                return false;
+                            }
 							else
 							{
 								//ho eseguito le ask dialog, posso far partire la fase di estrazione su un altro thread, e 
@@ -522,9 +542,9 @@ namespace Microarea.RSWeb.Render
 
 								//Esco con una pagina che da feedback all'utente, e che impedisce che il client vada in timeout
 								HtmlPage = HtmlPageType.Viewer;
-							}
+                            }
 
-							return;
+                            return false;
 						}
 
 					// qua ci si arriva da richieste esplicite dell'utente (Dialog)
@@ -584,10 +604,11 @@ namespace Microarea.RSWeb.Render
 								CurrentState = State.ViewerError;
 								break;
 							}
+
 							HtmlPage = HtmlPageType.Viewer;
 							CurrentState = State.End;
 
-							break;
+                           break;
 						}
 
 					case State.UserInterrupted:
@@ -726,10 +747,16 @@ namespace Microarea.RSWeb.Render
 							CurrentState = State.End;
 							break;
 						}
+                    case State.End:
+                        {
+                            RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.TEMPLATE, Woorm.ToJson(true)); //.Wait();
 
-					// se non è uno dei precedenti allora esco
-					default:
-						return;
+                            return false;
+                        }
+ 
+                    // se non è uno dei precedenti allora esco
+                    default:
+						return false;
 				}
 			}
 		}

@@ -16,16 +16,34 @@ namespace Microarea.AdminServer.Controllers.Helpers
 
         public JsonHelper()
         {
-            this.sb = new StringBuilder();
-            this.sw = new StringWriter(sb);
-            this.jsonWriter = new JsonTextWriter(sw);
-            this.jsonWriter.Formatting = Formatting.Indented;
+            cleanAll();
+        }
+
+        public void Init()
+        {
+            cleanAll();
+        }
+
+        public void AddJsonObject(string name, object objToSerialize)
+        {
+            try
+            {
+                this.jsonWriter.WritePropertyName(name);
+                this.jsonWriter.WriteRaw(JsonConvert.SerializeObject(objToSerialize));
+            }
+            catch (Exception)
+            { }
         }
 
         public void AddJsonCouple<T>(string name, T val)
         {
-            this.jsonWriter.WritePropertyName(name);
-            this.jsonWriter.WriteValue(val);
+            try
+            {
+                this.jsonWriter.WritePropertyName(name);
+                this.jsonWriter.WriteValue(val);
+            }
+            catch (Exception)
+            {}
         }
 
         public string WriteAndClear()
@@ -46,6 +64,13 @@ namespace Microarea.AdminServer.Controllers.Helpers
             return String.Empty;            
         }
 
+        void cleanAll()
+        {
+            this.sb = new StringBuilder();
+            this.sw = new StringWriter(sb);
+            this.jsonWriter = new JsonTextWriter(sw);
+            this.jsonWriter.Formatting = Formatting.Indented;
+        }
 
     }
 }

@@ -5,7 +5,7 @@ namespace TaskBuilderNetCore.Documents.Interfaces
     //====================================================================================    
     public interface IJsonSerializer
     {
-        void Deserialize(IDocument bo);
-        void Serialize(IDocument bo);
+        void Deserialize(IDocument document);
+        void Serialize(IDocument document);
     }
 }

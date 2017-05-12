@@ -246,7 +246,7 @@ namespace Microarea.RSWeb.WoormViewer
 				if (item.FieldValueExpr != null) 
 				{
 					Value v = item.FieldValueExpr.Eval();
-					pInfo.ValueString = SoapTypes.To(v.Data);
+					pInfo.ValueString = v != null ? SoapTypes.To(v.Data) : "";
 				}
 				else if (item.Data != null)
 					pInfo.ValueString = SoapTypes.To(item.Data);
@@ -846,7 +846,7 @@ namespace Microarea.RSWeb.WoormViewer
 				if (item.FieldValueExpr != null)
 				{
 					Value v = item.FieldValueExpr.Eval();
-					paramValue = v.Data.ToString();
+					paramValue = (v != null && v.Data != null) ? v.Data.ToString() : "";
 				}
 
 				if (string.Compare(item.ColumnName, "Country", true) == 0)

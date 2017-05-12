@@ -138,8 +138,16 @@ namespace TaskBuilderNetCore.Data
 
         public override void Close()
         {
-            if (connection.State != ConnectionState.Closed)
-                connection.Close();
+            try
+            {
+                if (connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
+            catch (SqlException se)
+            {; }
+            catch (Exception e)
+            {; }
+
         }
 
 

@@ -48,7 +48,7 @@ namespace Microarea.RSWeb.Models
         /// <param name="message"></param>
         /// <param name="webSocket"></param>
         /// <returns></returns>
-        public async Task SendMessage(string message, WebSocket webSocket)
+        public static async Task SendMessage(WebSocket webSocket, string message)
         {
             if (webSocket.State == WebSocketState.Open)
             {
@@ -60,7 +60,41 @@ namespace Microarea.RSWeb.Models
                 // disconnect
             }
         }
+        public static async Task SendMessage(WebSocket webSocket, Message msg)
+        {
+            string message = MessageBuilder.GetJSONMessage(msg);
 
+            if (webSocket.State == WebSocketState.Open)
+            {
+                await webSocket.SendAsync(new ArraySegment<Byte>(Encoding.UTF8.GetBytes(message)), WebSocketMessageType.Text, true, CancellationToken.None);
+
+            }
+            else
+            {
+                // disconnect
+            }
+        }
+
+        public static async Task SendMessage(WebSocket webSocket, MessageBuilder.CommandType type, string body)
+        {
+            Message msg = new Message();
+            msg.commandType = type;
+            msg.message = body;
+
+            string message = MessageBuilder.GetJSONMessage(msg);
+
+            if (webSocket.State == WebSocketState.Open)
+            {
+                await webSocket.SendAsync(new ArraySegment<Byte>(Encoding.UTF8.GetBytes(message)), WebSocketMessageType.Text, true, CancellationToken.None);
+
+            }
+            else
+            {
+                // disconnect
+            }
+        }
+
+ 
         /// <summary>
         /// dead loop 
         /// waiting for new socket connections
@@ -76,7 +110,7 @@ namespace Microarea.RSWeb.Models
                 var webSocket = await http.WebSockets.AcceptWebSocketAsync();
 
                 /// sends OK message
-                await SendMessage(MessageBuilder.GetJSONMessage(MessageBuilder.CommandType.NAMESPACE, string.Empty), webSocket);
+                await SendMessage(webSocket, MessageBuilder.GetJSONMessage(MessageBuilder.CommandType.NAMESPACE, string.Empty));
 
                 /// waits for the namespace
                 var nsBuffer = new ArraySegment<Byte>(new Byte[4096]);
@@ -111,13 +145,14 @@ namespace Microarea.RSWeb.Models
                         case WebSocketMessageType.Text:
                             {
                                 var recMeg = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count).Replace("\0", "");
-                                //parse
+                                
                                 Message msg = JsonConvert.DeserializeObject<Message>(recMeg);
 
                                 msg = jengine.GetResponseFor(msg);
 
-                                await SendMessage(MessageBuilder.GetJSONMessage(msg),webSocket);
-                                //send
+                                if (msg.commandType != MessageBuilder.CommandType.NONE)
+                                    await SendMessage(webSocket, msg);
+
                                 break;
                             }
                         default: break;  
