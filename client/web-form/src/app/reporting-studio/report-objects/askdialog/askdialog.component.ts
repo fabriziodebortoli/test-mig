@@ -1,46 +1,62 @@
+import { AskdialogService } from './askdialog.service';
+import { Subscription } from 'rxjs';
 import { ReportingStudioService } from './../../reporting-studio.service';
-import { Component, OnInit, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, ViewEncapsulation, OnChanges } from '@angular/core';
 import { TemplateItem, askGroup, text, check, radio, CommandType, askObj } from './../../reporting-studio.model';
 
 @Component({
   selector: 'rs-askdialog',
   templateUrl: './askdialog.component.html',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./askdialog.component.scss']
+  styleUrls: ['./askdialog.component.scss'],
+  providers: [AskdialogService]
 })
-export class AskdialogComponent implements OnInit, OnDestroy {
+export class AskdialogComponent implements OnDestroy, OnChanges {
 
   @Input() ask: string;
 
   public askObject;
+  public commType: CommandType;
   public objects: askGroup[] = [];
   public templates: TemplateItem[] = [];
-
-  constructor(private rsService: ReportingStudioService) {
+  subscriptions: Array<Subscription> = [];
+  constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
+    this.subscriptions.push(adService.askChanged.subscribe(() => {
+      this.updateAsk();
+    }));
   }
 
-  ngOnInit() {
-    this.askObject = JSON.parse(this.ask);
+
+
+  ngOnChanges() {
+    let msg = JSON.parse(this.ask);
+    this.commType = msg.commandType;
+    this.askObject = JSON.parse(msg.message);
     this.RenderLayout(this.askObject);
+
   }
 
   ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
   }
 
   RenderLayout(msg: any) {
     let objects = [];
-    let error : string = undefined;
-     for (let index = 0; index < msg.controls.length; index++) {
+    let error: string = undefined;
+    for (let index = 0; index < msg.controls.length; index++) {
       try {
-      let m = msg.controls[index];
-      let element: askGroup = new askGroup(msg.controls[index]);
-      objects.push(element);
+        let m = msg.controls[index];
+        let element: askGroup = new askGroup(msg.controls[index]);
+        objects.push(element);
       }
       catch (err) {
-      error = 'Error Occured' + err.ToString();
+        error = 'Error Occured' + err.ToString();
       }
+    }
+    if (this.commType == CommandType.UPDATEASK) {
+      this.templates.pop();
     }
     this.templates.push(new TemplateItem(msg.name, msg, objects));
     this.objects = objects;
@@ -49,8 +65,29 @@ export class AskdialogComponent implements OnInit, OnDestroy {
 
   }
 
-  Next() {
+  SendAsk(ct: CommandType) {
     let arrayComp: any[] = [];
+    for (let i = 0; i < this.objects.length; i++) {
+      let group = this.objects[i];
+      for (let j = 0; j < group.entries.length; j++) {
+        let component: askObj = group.entries[j];
+        let obj = {
+          name: component.name,
+          value: component.value.toString()
+        };
+        arrayComp.push(obj);
+      }
+    }
+    let message = {
+      commandType: ct,
+      message: JSON.stringify(arrayComp),
+      page: this.rsService.askPage
+    };
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  Next() {
+    /*let arrayComp: any[] = [];
     for (let i = 0; i < this.objects.length; i++) {
       let group = this.objects[i];
       for (let j = 0; j < group.entries.length; j++) {
@@ -67,20 +104,44 @@ export class AskdialogComponent implements OnInit, OnDestroy {
       message: JSON.stringify(arrayComp),
       page: this.rsService.askPage
     };
-    this.rsService.doSend(JSON.stringify(message));
+    this.rsService.doSend(JSON.stringify(message));*/
+    this.SendAsk(CommandType.ASK);
   }
 
   Prev() {
-    if (this.templates.length == 0) {
+    if (this.templates.length <= 1) {
       return;
     }
     //this.templates[this.templates.length-1].templateObjects;
-    this.objects = this.templates.pop().templateObjects;
+    this.templates.pop();
+    this.objects = this.templates[this.templates.length - 1].templateObjects;
   }
 
   close() {
     this.rsService.showAsk = false;
     this.ngOnDestroy();
+  }
+
+  updateAsk() {
+    /*let arrayComp: any[] = [];
+    for (let i = 0; i < this.objects.length; i++) {
+      let group = this.objects[i];
+      for (let j = 0; j < group.entries.length; j++) {
+        let component: askObj = group.entries[j];
+        let obj = {
+          id: component.id,
+          value: component.value.toString()
+        };
+        arrayComp.push(obj);
+      }
+    }
+    let message = {
+      commandType: CommandType.UPDATEASK,
+      message: JSON.stringify(arrayComp),
+      page: this.rsService.askPage
+    };
+    this.rsService.doSend(JSON.stringify(message));*/
+    this.SendAsk(CommandType.UPDATEASK);
   }
 
 }

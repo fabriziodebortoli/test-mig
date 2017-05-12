@@ -59,13 +59,5 @@ namespace Microarea.AdminServer.Services
 			return account;
 		}
 
-		//-----------------------------------------------------------------------------	
-		public bool AddAccount(string accountName, string password)
-		{
-			Account account = new Account();
-			account.Name = accountName;
-			account.Password = password;
-			return account.Add(_connectionString);
-		}
 	}
 }

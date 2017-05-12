@@ -13,6 +13,7 @@ using Microarea.Common.Lexan;
 using Microarea.Common.ExpressionManager;
 using Microarea.Common.Hotlink;
 using Microarea.Common;
+using Microarea.RSWeb.Models;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -1420,6 +1421,61 @@ namespace Microarea.RSWeb.WoormEngine
 				return true;
 			}
 		}
+
+        //----------------------------------------------------------------------------
+        public void AssignAllAskData(List<AskDialogElement> values)
+        {
+            if (values != null)
+                foreach (AskDialogElement entry in values)
+                {
+                    AssignAskData(entry.name, entry.value);
+                }
+
+            // quindi valuto le espressioni di inizializzazione (che modificano solo i campi NON modificati)
+            EvalAllInitExpression(null, false);
+        }
+
+        private void AssignAskData(string name, string data)
+        {
+            Field field = GetFieldByName(name);
+            if (field != null)
+            {
+                object current = null;
+                if (field.DataType == "DataEnum")
+                {
+                    uint enumVal = 0;
+                    if (UInt32.TryParse(data, out enumVal))
+                        current = new DataEnum(enumVal);
+                }
+                else
+                {
+                    current = ObjectHelper.Parse(data, field.AskData);
+                }
+
+                if (current != null)
+                { 
+                    if (!ObjectHelper.IsEquals(current, field.AskData) && !UserChanged.Contains(field.Name))
+                        UserChanged.Add(field.Name);
+
+                    field.AskData = current;
+                    field.GroupByData = current;
+                }
+                else
+                {
+                    Debug.Fail("Cannot conver enum value: " + data);
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------
+        private Field GetFieldByName(string name)
+        {
+            foreach (AskGroup g in this.Groups)
+                foreach (AskEntry e in g.Entries)
+                    if (e.Field != null && e.Field.Name == name)
+                        return e.Field;
+            return null;
+        }
 
         //----------------------------------------------------------------------------
         public string ToJson()

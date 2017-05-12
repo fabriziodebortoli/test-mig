@@ -43,8 +43,8 @@ namespace Microarea.AdminServer.Model
 		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
         public bool IsWindowsAuthentication { get { return this.isWindowsAuthentication; } set { this.isWindowsAuthentication = value; } }
 
-		//---------------------------------------------------------------------
-		public bool Add(string connectionString)
+        //---------------------------------------------------------------------
+        public bool Save(string connectionString)
 		{
 			try
 			{

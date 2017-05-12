@@ -16,9 +16,10 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     private items: Array<any> = [];
     private selectedItem: any;
 
-
     @Input() public itemSource: any = undefined;
     @Input() public hotLink: any = undefined;
+    @Input() width: number;
+
     constructor(
         private webSocketService: WebSocketService,
         private eventDataService: EventDataService

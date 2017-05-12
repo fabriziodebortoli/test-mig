@@ -84,22 +84,20 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     //elaborate
     try {
       let msg = JSON.parse(message);
-       let k = msg.message !== "" ? JSON.parse(msg.message) : undefined;
+      let k = msg.message !== "" ? JSON.parse(msg.message) : undefined;
       switch (msg.commandType) {
-        case CommandType.ASK:
+        case CommandType.ASK:        
+          this.askDialogTemplate = message;
           this.rsService.showAsk = true;
-          this.askDialogTemplate = msg.message;
+          break;
+        case CommandType.UPDATEASK:
+          this.askDialogTemplate = message;
           break;
         case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
           this.RenderLayout(k);
-          if (this.args.params.xmlArgs) {
-            this.GetData();
-          }
-          else {
-            this.RunReport();
-          }
+          this.RunReport();
           break;
         case CommandType.TEMPLATE:
           this.rsService.showAsk = false;
@@ -108,17 +106,17 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           break;
         case CommandType.DATA:
           this.rsService.showAsk = false;
-           this.UpdateData(k);
+          this.UpdateData(k);
           break;
         case CommandType.RUNREPORT:
-           const params = { xmlArgs: encodeURIComponent(k.arguments), runAtTbLoader: false };
+          const params = { xmlArgs: encodeURIComponent(k.arguments), runAtTbLoader: false };
           this.componentService.createReportComponent(k.ns, params);
           break;
         case CommandType.ENDREPORT:
           break;
-       case CommandType.NONE:
+        case CommandType.NONE:
           break;
-       case CommandType.WRONG:
+        case CommandType.WRONG:
           break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)

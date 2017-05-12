@@ -75,25 +75,14 @@ namespace Microarea.Common.Hotlink
 		//------------------------------------------------------------------------------
 		~QueryObject()
 		{
-			Dispose(false);
+			Dispose();
 		}
 
 		//------------------------------------------------------------------------------
 		public void Dispose()
 		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-
-		//------------------------------------------------------------------------------
-		protected virtual void Dispose(bool disposing)
-		{
-			if (!disposed)
-			{
-				Clear();
-			}
-			disposed = true;         
-		}
+            Clear();
+        }
 
 		//------------------------------------------------------------------------------
 		public void Clear ()

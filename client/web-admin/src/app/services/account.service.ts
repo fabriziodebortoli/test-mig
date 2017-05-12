@@ -10,12 +10,9 @@ export class AccountService {
 
   constructor(private http: Http) { }
 
-  loginAccount(userName:string): Observable<string> {
+  GetAccount(userName:string): Observable<string> {
 
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.post(environment.adminAPIUrl, userName, options)
+    return this.http.get(environment.adminAPIUrl + 'accounts/' + userName)
       .map(this.parseData)
       .catch(this.handleError);
   }
