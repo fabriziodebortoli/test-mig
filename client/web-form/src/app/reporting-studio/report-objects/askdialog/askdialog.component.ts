@@ -82,7 +82,7 @@ export class AskdialogComponent implements /*OnInit,*/ OnDestroy, OnChanges {
     }
     //this.templates[this.templates.length-1].templateObjects;
     this.templates.pop();
-    this.objects = this.templates.pop().templateObjects;
+    this.objects = this.templates[this.templates.length - 1].templateObjects;
   }
 
   close() {
