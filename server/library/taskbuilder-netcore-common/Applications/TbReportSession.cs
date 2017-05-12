@@ -64,7 +64,7 @@ namespace Microarea.Common.Applications
         public Enums Enums = null;
         public ApplicationFontStyles ApplicationFontStyles = null;
         public ApplicationFormatStyles ApplicationFormatStyles = null;
-        public ReferenceObjects Hotlinks = null;
+        public ReferenceObjectsList Hotlinks = null;
 
         private string filePath;
         public string FilePath { get { return filePath; } set { filePath = value; } }
@@ -192,7 +192,7 @@ namespace Microarea.Common.Applications
                 //Load dei format
                 ApplicationFormatStyles.Load();
 
-                Hotlinks = new ReferenceObjects(this);
+                Hotlinks = new ReferenceObjectsList(this);
             }
             else
             {
