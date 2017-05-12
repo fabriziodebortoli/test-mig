@@ -17,7 +17,7 @@
             }
         },
         "RS": {
-            "commandName": "IISExpress",
+            "commandName": "Project",
             "launchBrowser": true,
             "launchUrl": "http://localhost:5000/rs",
             "environmentVariables": {
@@ -25,4 +25,3 @@
             }
         }
     }
-}
