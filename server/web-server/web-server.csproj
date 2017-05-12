@@ -16,6 +16,7 @@
     <ProjectReference Include="..\database-service\database-service.csproj" />
     <ProjectReference Include="..\account-manager\account-manager.csproj" />
     <ProjectReference Include="..\menu-gate\menu-gate.csproj" />
+    <ProjectReference Include="..\report-service\report-service.csproj" />
     <ProjectReference Include="..\tbloader-gate\tbloader-gate.csproj" />
     <ProjectReference Include="..\widgets-service\widgets-service.csproj" />
     <ProjectReference Include="..\manufacturing-service\manufacturing-service.csproj" />

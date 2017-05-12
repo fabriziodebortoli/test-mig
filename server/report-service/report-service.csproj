@@ -11,8 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="wwwroot\**\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+  
+  <ItemGroup>
     <ProjectReference Include="..\library\PDFSharpCore\PDFSharpCore.csproj" />
     <ProjectReference Include="..\library\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj" />
+    <ProjectReference Include="..\library\taskbuilder-netcore-data\taskbuilder-netcore-data.csproj" />
+    <ProjectReference Include="..\library\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,5 +49,11 @@
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
     <PackageReference Include="system.xml.xpath.xmldocument" Version="4.3.0" />
   </ItemGroup>
+
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <Exec Command="bower install" />
+    <Exec Command="dotnet bundle" />
+  </Target>
+
 
 </Project>
