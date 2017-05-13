@@ -308,12 +308,12 @@ namespace Microarea.Common.Applications
                 }
                 catch (HttpRequestException e)
                 {
-                    Console.WriteLine($"Request exception: {e.Message}");
+                    Console.WriteLine($"TbLogin Request exception: {e.Message}");
                     return false;
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"Request exception: {e.Message}");
+                    Console.WriteLine($"TbLogin Request exception: {e.Message}");
                     return false;
                 }
             }
@@ -358,17 +358,17 @@ namespace Microarea.Common.Applications
                 }
                 catch (HttpRequestException e)
                 {
-                    Console.WriteLine($"Request exception: {e.Message}");
+                    Console.WriteLine($"TbRunFunction Request exception: {e.Message}");
                     return null;
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"Request exception: {e.Message}");
+                    Console.WriteLine($"TbRunFunction Request exception: {e.Message}");
                     return null;
                 }
             }
         }
-
+        //---------------------------------------------------------------------
         public static async Task<bool> IsActivated(TbSession session, string app, string fun)
         {
             using (var client = new HttpClient())
@@ -393,13 +393,72 @@ namespace Microarea.Common.Applications
                 }
                 catch (HttpRequestException e)
                 {
-                    Console.WriteLine($"Request exception: {e.Message}");
+                    Console.WriteLine($"IsActivated Request exception: {e.Message}");
                     return false;
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"Request exception: {e.Message}");
+                    Console.WriteLine($"IsActivated Request exception: {e.Message}");
                     return false;
+                }
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------
+        // Chiamata a Taskbuilder 
+        /*
+         <Function namespace="Framework.TbGes.TbGes.GetHotlinkQuery" type="string" >
+              <Param name="hotLinkNamespace" type="string" mode="in" />
+              <Param name="arguments" type="string" mode="in" />
+              <Param name="action" type="integer" mode="in" />
+         </Function>
+        */
+        public static async Task<string> GetHotLinkQuery(TbSession session, string ns, string aParams, /*Hotlink.HklAction*/int action)
+        {
+            // ITbLoaderClient hotlinkInterface = null; //TODO RSWEB Session.GetTBClientInterface();
+            //if (hotlinkInterface != null)
+            //	return hotlinkInterface.GetHotlinkQuery(aNamespace, aParams, (int)action);
+            //-----------------------
+
+            if (!session.LoggedToTb)
+                return null;
+            if (session.TbInstanceID.IsNullOrEmpty())
+                return null;
+
+            var cookieContainer = new CookieContainer();
+            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
+            using (var client = new HttpClient(handler))
+            {
+                try
+                {
+                    client.BaseAddress = new Uri(session.TbBaseAddress);
+
+                    cookieContainer.Add(client.BaseAddress, new Cookie(TbSession.TbInstanceKey, session.TbInstanceID));
+
+                    var content = new FormUrlEncodedContent(new[]
+                    {
+                        new KeyValuePair<string, string>(UserInfo.AuthenticationTokenKey, session.UserInfo.AuthenticationToken),
+                        new KeyValuePair<string, string>("ns", ns ),
+                        new KeyValuePair<string, string>("args", aParams),
+                        new KeyValuePair<string, string>("action", action.ToString())
+                   });
+
+                    var response = await client.PostAsync(TbSession.TbBaseRoute + TbSession.TbRunFunctionRoute, content);
+                    response.EnsureSuccessStatusCode(); // Throw in not success
+
+                    var stringResponse = await response.Content.ReadAsStringAsync();
+
+                    return stringResponse;
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"GetHotLinkQuery Request exception: {e.Message}");
+                    return null;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"GetHotLinkQuery Request exception: {e.Message}");
+                    return null;
                 }
             }
         }
@@ -414,7 +473,8 @@ namespace Microarea.Common.Applications
 
         }
 
-        public static async Task<bool> RunReport(TbSession session, FunctionPrototype fun)
+        //Invia al client un messaggio di RunReport per fargli aprire una nuova tab per un report figlio
+        public static async Task<bool> SendRunReport(TbSession session, FunctionPrototype fun)
         {
             if (session.WebSocket == null)
                 return false;
@@ -424,7 +484,7 @@ namespace Microarea.Common.Applications
             fun.Parameters.Unparse(d.DocumentElement);
             string xargs = d.OuterXml;
 
-            MyMessage msg = new MyMessage();
+            MyMessage msg = new MyMessage(); //commandtype.RUNREPORT
             msg.message = '{' + fun.NameSpace.ToString().ToJson("ns") + ',' + xargs.ToJson("args", false, false) + '}';
 
             string jmsg = JsonConvert.SerializeObject(msg);
@@ -436,7 +496,6 @@ namespace Microarea.Common.Applications
 
             return true;
         }
-
     }
 
     /// <summary>
