@@ -91,6 +91,8 @@ namespace Microarea.RSWeb.Render
             AskDialog askDialog = StateMachine.Report.Engine.FindAskDialog(currentDialogName);
             if (askDialog == null)
                 return string.Empty;
+            if (StateMachine.Report.CurrentAskDialog != askDialog)
+                return string.Empty;
 
             askDialog.AssignAllAskData(values);
 

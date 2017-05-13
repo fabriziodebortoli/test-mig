@@ -3722,7 +3722,7 @@ namespace Microarea.Common.ExpressionManager
             }
 
             //------------------------------
-            object ret = TbSession.RunReport(this.TbSession, fun);
+            object ret = TbSession.SendRunReport(this.TbSession, fun);
 
             ret = true; //TODO
 

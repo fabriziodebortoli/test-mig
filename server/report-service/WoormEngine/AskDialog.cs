@@ -53,7 +53,7 @@ namespace Microarea.RSWeb.WoormEngine
         public bool             LeftTextBool = false;
         public Token			CaptionPos = Token.DEFAULT;
 
-		public ReferenceObject	Hotlink = null;
+		public Hotlink	        Hotlink = null;
         public bool             MultiSelections = false;
 		//public bool			DynamicHidden = false;
 
@@ -306,6 +306,12 @@ namespace Microarea.RSWeb.WoormEngine
         */
 
         //----------------------------------------------------------------------------
+        public static string CoupleToJson(string value, string caption)
+        {
+            return '{' + value.ToJson("value", false, false, true) + ',' +
+                         caption.ToJson("caption", false, false, true) + '}';
+        }
+
         public string ToJson()
         {
             string control_style = ControlStyleAttributeValue;
@@ -370,6 +376,21 @@ namespace Microarea.RSWeb.WoormEngine
             }
 
             s += isReferenced.ToJson("runatserver");
+
+            if (this.Hotlink != null)
+            {
+                string seltype = "Code";
+                string sellist = "\"selection_list\":[" +
+                            CoupleToJson("Code", "Search by code") + ',' +
+                            CoupleToJson("Description", "Search by description") + 
+                            "]";
+
+                s += ",\"hotlink\":{" + 
+                            Hotlink.Prototype.FullName.ToJson("ns") + ',' +
+                            seltype.ToJson("selection_type") + ',' +
+                            sellist + "}";
+            }
+
             //------
 
             s += "}}";
@@ -738,7 +759,7 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//--------------------------------------------------------------------------
-		public bool SetActiveAskEntry(string name, ReferenceObject.Action action)
+		public bool SetActiveAskEntry(string name, Hotlink.HklAction action)
 		{
 			foreach (AskGroup askGroup in Groups)
 				foreach (AskEntry entry in askGroup.Entries)
@@ -845,7 +866,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 			lex.Parsed(Token.ASSIGN);
 	
-			askEntry.Hotlink = new ReferenceObject(this.Session);
+			askEntry.Hotlink = new Hotlink(this.Session);
 			
 			string name;
 			if (lex.LookAhead() == Token.ID)
