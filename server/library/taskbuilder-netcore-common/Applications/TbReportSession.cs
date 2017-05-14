@@ -320,7 +320,22 @@ namespace Microarea.Common.Applications
         }
 
         //-------------------------------------------------------------------------------------------------
-        public static async Task<string> TbRunFunction(TbSession session, FunctionPrototype fun)
+        //valore di ritorno della 
+        public class RunFuctionResultMessage
+        {
+           public class ResultMessage
+            {
+                public bool enabled { get; set; }
+                public int type { get; set; }
+                public string args { get; set; }
+                public string value { get; set; }
+            }
+
+            public bool success { get; set; }
+            public ResultMessage returnValue { get; set; }
+        }
+
+        public static async Task<RunFuctionResultMessage> TbRunFunction(TbSession session, FunctionPrototype fun)
         {
             if (!session.LoggedToTb)
                 return null;
@@ -354,7 +369,7 @@ namespace Microarea.Common.Applications
 
                     var stringResponse = await response.Content.ReadAsStringAsync();
 
-                    return stringResponse;
+                    return JsonConvert.DeserializeObject<RunFuctionResultMessage>(stringResponse);
                 }
                 catch (HttpRequestException e)
                 {
@@ -552,10 +567,8 @@ namespace Microarea.Common.Applications
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(StateMachine.ReportSession.UICulture);
         }
 
-
         //---------------------------------------------------------------------
         // private IBrandLoader BrandLoader = new BrandLoader();
-
     }
 
     //=========================================================================

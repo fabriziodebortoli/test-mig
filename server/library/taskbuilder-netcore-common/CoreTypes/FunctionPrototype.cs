@@ -496,7 +496,7 @@ namespace Microarea.Common.CoreTypes
 			(
 			    string		aName, 
 			    string		retType, 
-			    string[]	paramsType
+			    string[]	paramsType = null
 			)
 		{
 			name = aName;

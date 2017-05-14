@@ -493,7 +493,13 @@ namespace Microarea.RSWeb.WoormEngine
 		//----------------------------------------------------------------------------
 		public void SetAllData(object aData, bool aValid)
 		{
-			AssignRuleData(aData, aValid);
+            if (aData == null)
+            {
+                Debug.Fail("Field init expression failed" + '(' + this.Name + ')');
+                return;
+            }
+
+            AssignRuleData(aData, aValid);
 			AssignGroupByData(aData, aValid);
 			AssignEventData(aData, aValid);
 
@@ -539,9 +545,10 @@ namespace Microarea.RSWeb.WoormEngine
 					engine.SetError(initExpression.Diagnostic);
 					return false;
 				}
+                
+                SetAllData(v.Data, v.Valid);
 
-				SetAllData(v.Data, v.Valid);
-				return true;
+				return v.Data != null;
 			}
 
 			//Se non ha un'espressione di inizializzazione e se non e' un campo speciale gia inizializzato da codice,
