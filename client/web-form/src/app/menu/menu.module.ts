@@ -71,7 +71,7 @@ const KENDO_UI_MODULES = [
     CommonModule,
     SharedModule,
     FormsModule,
-    MaterialModule.forRoot(),
+    MaterialModule,
     ReactiveFormsModule,
     MasonryModule,
     KENDO_UI_MODULES

@@ -44,7 +44,7 @@ const TB_SERVICES = [
     CommonModule,
     FormsModule,
     HttpModule,
-    MaterialModule.forRoot()
+    MaterialModule
   ],
   exports: [],
   providers: [TB_SERVICES]
