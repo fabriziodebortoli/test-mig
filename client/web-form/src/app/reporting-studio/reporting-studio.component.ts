@@ -32,9 +32,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public objects: baseobj[] = [];
   public templates: TemplateItem[] = [];
   public askDialogTemplate: any;
+  public hotLinkValues: any;
 
   private viewHeightSubscription: Subscription;
-  viewHeight: number;
+  private viewHeight: number;
 
   constructor(
     private rsService: ReportingStudioService,
@@ -86,9 +87,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       let msg = JSON.parse(message);
       let k = msg.message !== "" ? JSON.parse(msg.message) : undefined;
       switch (msg.commandType) {
-        case CommandType.ASK:        
+        case CommandType.ASK:
           this.askDialogTemplate = message;
           this.rsService.showAsk = true;
+          break;
+        case CommandType.HOTLINK:
+          this.hotLinkValues = msg;
           break;
         case CommandType.UPDATEASK:
           this.askDialogTemplate = message;
