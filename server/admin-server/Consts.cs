@@ -33,7 +33,7 @@ namespace Microarea.AdminServer
         //
 
         // Account
-        public const string SelectAccount = @"SELECT * FROM MP_Accounts WHERE ";
+        public const string SelectAccount = @"SELECT * FROM MP_Accounts WHERE UserName = @UserName";
 
         public const string InsertAccount = @"INSERT INTO MP_Accounts (Name, Password, Description, Email, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
 			ExpiryDateCannotChange, ExpiryDatePassword, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, ApplicationLanguage) 
