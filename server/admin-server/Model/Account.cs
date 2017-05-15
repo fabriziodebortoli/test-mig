@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
@@ -9,6 +8,8 @@ namespace Microarea.AdminServer.Model
     //================================================================================
     public class Account : IAccount
     {
+        // model attributes
+
         int accountId;
         string name = string.Empty;
 		string password = string.Empty;
@@ -26,8 +27,6 @@ namespace Microarea.AdminServer.Model
         string preferredLanguage = string.Empty;
         bool isWindowsAuthentication = false;
 
-        IDataProvider dataProvider;
-	
 		//---------------------------------------------------------------------
 		public int AccountId { get { return this.accountId; } set { this.accountId = value; } }
 		public string Name { get { return this.name; } set { this.name = value; } }
@@ -46,36 +45,15 @@ namespace Microarea.AdminServer.Model
 		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
         public bool IsWindowsAuthentication { get { return this.isWindowsAuthentication; } set { this.isWindowsAuthentication = value; } }
 
+        // data provider
+        IDataProvider dataProvider;
+
         public IDataProvider DataProvider { get { return dataProvider; } set { dataProvider = value; } }
 
         //---------------------------------------------------------------------
         public bool Save(string connectionString)
 		{
             return this.dataProvider.Save(this, connectionString);
-		}
-
-		//---------------------------------------------------------------------
-		public bool Delete(int accountId, string connectionString)
-		{
-			try
-			{
-				using (SqlConnection connection = new SqlConnection(connectionString))
-				{
-					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.DeleteAccount, connection))
-					{
-						command.Parameters.AddWithValue("@AccountId", accountId);
-						command.ExecuteNonQuery();
-					}
-				}
-			}
-			catch (SqlException e)
-			{
-				Console.WriteLine(e.Message);
-				return false;
-			}
-
-			return true;
 		}
 	}
 }
