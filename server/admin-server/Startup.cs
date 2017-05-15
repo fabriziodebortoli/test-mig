@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microarea.AdminServer.Services.Interfaces;
 using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer
@@ -42,8 +41,7 @@ namespace Microarea.AdminServer
             // Add framework services.
             services.AddMvc();
 
-            // Add data services.
-            services.AddTransient<IAdminDataServiceProvider, BasicAdminDataServiceProvider>();
+
             services.Configure<AppOptions>(options => Configuration.GetSection("App").Bind(options));
         }
 
