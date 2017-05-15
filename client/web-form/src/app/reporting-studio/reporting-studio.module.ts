@@ -55,7 +55,7 @@ const KENDO_UI_MODULES = [
     CommonModule,
     SharedModule,
     KENDO_UI_MODULES,
-    MaterialModule.forRoot(),
+    MaterialModule,
     RouterModule.forChild([
       { path: 'reportingstudio/:ns/:params', component: ReportingStudioFactoryComponent },
       { path: 'reportingstudio/', component: ReportingStudioFactoryComponent },

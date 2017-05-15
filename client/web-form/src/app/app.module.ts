@@ -40,7 +40,7 @@ import { StandaloneReportComponent } from './home/standalone.report/standalone.r
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
-    MaterialModule.forRoot(),
+    MaterialModule,
     CoreModule.forRoot(),
     SharedModule,
     MenuModule.forRoot(),
