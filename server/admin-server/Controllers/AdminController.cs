@@ -54,7 +54,7 @@ namespace Microarea.AdminServer.Controllers
         [HttpGet("/api/accounts/{username}/{field?}")]
         [Produces("application/json")]
         //-----------------------------------------------------------------------------	
-        public IActionResult ApiAccountsInformations(string username)
+        public IActionResult ApiAccountsInformations(string username, string field)
         {
             string user = username;
 
@@ -65,10 +65,12 @@ namespace Microarea.AdminServer.Controllers
                 return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
             }
 
-            IAccount account = new Account();
+            IAccount account = new Account(user);
+            account.SetDataProvider(_accountSqlDataProvider);
 
             try
             {
+                account.Load();
             }
             catch (NotImplementedException ex)
             {

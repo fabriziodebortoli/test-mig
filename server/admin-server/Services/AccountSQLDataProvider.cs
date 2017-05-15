@@ -53,6 +53,31 @@ namespace Microarea.AdminServer.Services
             return true;
         }
 
+        public bool Load()
+        {
+            Account updateAccount = new Account();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(this.connectionString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(Consts.SelectAccount, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserName", updateAccount.UserName);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+
+            return true;
+        }
+
         public bool Update(IAdminModel iModel)
         {
             Account updateAccount = new Account();
@@ -64,6 +89,7 @@ namespace Microarea.AdminServer.Services
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(Consts.UpdateAccount, connection))
                     {
+                        command.Parameters.AddWithValue("@UserName", updateAccount.UserName);
                         command.Parameters.AddWithValue("@Name", updateAccount.Name);
                         command.Parameters.AddWithValue("@Description", updateAccount.Description);
                         command.Parameters.AddWithValue("@Email", updateAccount.Email);
@@ -78,7 +104,6 @@ namespace Microarea.AdminServer.Services
                         command.Parameters.AddWithValue("@WindowsAuthentication", updateAccount.IsWindowsAuthentication);
                         command.Parameters.AddWithValue("@PreferredLanguage", updateAccount.PreferredLanguage);
                         command.Parameters.AddWithValue("@ApplicationLanguage", updateAccount.ApplicationLanguage);
-                        command.Parameters.AddWithValue("@AccountId", updateAccount.AccountId);
                         command.ExecuteNonQuery();
                     }
                 }
@@ -92,7 +117,7 @@ namespace Microarea.AdminServer.Services
             return true;
         }
 
-        public bool Delete(int accountId)
+        public bool Delete(string userName)
         {
             try
             {
@@ -101,7 +126,7 @@ namespace Microarea.AdminServer.Services
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(Consts.DeleteAccount, connection))
                     {
-                        command.Parameters.AddWithValue("@AccountId", accountId);
+                        command.Parameters.AddWithValue("@UserName", userName);
                         command.ExecuteNonQuery();
                     }
                 }
