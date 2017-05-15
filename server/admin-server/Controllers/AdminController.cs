@@ -94,12 +94,21 @@ namespace Microarea.AdminServer.Controllers
 
 
         [HttpPost("/api/accounts/{accountname}")] // post
+<<<<<<< HEAD
                                                   //-----------------------------------------------------------------------------	
                                                   // adds and updates accounts
         public IActionResult ApiAccounts(string accountname, string password, string email)
         {
             string user = accountname;
             string psw = password;
+=======
+		//-----------------------------------------------------------------------------	
+        // adds and updates accounts
+		public IActionResult ApiAccounts(string accountname, string password, string email)
+		{
+			string user = accountname;
+			string psw = password;
+>>>>>>> AdminServer: account load
             string _email = email;
 
             if (String.IsNullOrEmpty(user))
