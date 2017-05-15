@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer.Model
 {
     //================================================================================
     public class Account : IAccount
     {
+        // model attributes
+
         int accountId;
         string name = string.Empty;
 		string password = string.Empty;
@@ -24,7 +26,7 @@ namespace Microarea.AdminServer.Model
 		string applicationLanguage = string.Empty;
         string preferredLanguage = string.Empty;
         bool isWindowsAuthentication = false;
-	
+
 		//---------------------------------------------------------------------
 		public int AccountId { get { return this.accountId; } set { this.accountId = value; } }
 		public string Name { get { return this.name; } set { this.name = value; } }
@@ -43,104 +45,15 @@ namespace Microarea.AdminServer.Model
 		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
         public bool IsWindowsAuthentication { get { return this.isWindowsAuthentication; } set { this.isWindowsAuthentication = value; } }
 
-		//---------------------------------------------------------------------
-		public bool Add(string connectionString)
+        // data provider
+        IDataProvider dataProvider;
+
+        public IDataProvider DataProvider { get { return dataProvider; } set { dataProvider = value; } }
+
+        //---------------------------------------------------------------------
+        public bool Save(string connectionString)
 		{
-			try
-			{
-				using (SqlConnection connection = new SqlConnection(connectionString))
-				{
-					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.InsertAccount, connection))
-					{
-						command.Parameters.AddWithValue("@Name",					Name);
-						command.Parameters.AddWithValue("@Password",				Password);
-						command.Parameters.AddWithValue("@Description",				Description);
-						command.Parameters.AddWithValue("@Email",					Email);
-						command.Parameters.AddWithValue("@PasswordNeverExpires",	PasswordNeverExpires); 
-						command.Parameters.AddWithValue("@MustChangePassword",		MustChangePassword);
-						command.Parameters.AddWithValue("@CannotChangePassword",	CannotChangePassword);
-						command.Parameters.AddWithValue("@ExpiryDateCannotChange",	ExpiryDateCannotChange);
-						command.Parameters.AddWithValue("@ExpiryDatePassword",		ExpiryDatePassword);
-						command.Parameters.AddWithValue("@Disabled",				Disabled);
-						command.Parameters.AddWithValue("@Locked",					Locked);
-						command.Parameters.AddWithValue("@ProvisioningAdmin",		ProvisioningAdmin);
-						command.Parameters.AddWithValue("@WindowsAuthentication",	IsWindowsAuthentication);
-						command.Parameters.AddWithValue("@PreferredLanguage",		PreferredLanguage);
-						command.Parameters.AddWithValue("@ApplicationLanguage",		ApplicationLanguage);
-						command.ExecuteNonQuery();
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e.Message);
-				return false;
-			}
-			
-			return true;
-		}
-
-		//---------------------------------------------------------------------
-		public bool Update(Account updateAccount, string connectionString)
-		{
-			try
-			{
-				using (SqlConnection connection = new SqlConnection(connectionString))
-				{
-					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.UpdateAccount, connection))
-					{
-						command.Parameters.AddWithValue("@Name", updateAccount.Name);
-						command.Parameters.AddWithValue("@Description", updateAccount.Description);
-						command.Parameters.AddWithValue("@Email", updateAccount.Email);
-						command.Parameters.AddWithValue("@PasswordNeverExpires", updateAccount.PasswordNeverExpires);
-						command.Parameters.AddWithValue("@MustChangePassword", updateAccount.MustChangePassword);
-						command.Parameters.AddWithValue("@CannotChangePassword", updateAccount.CannotChangePassword);
-						command.Parameters.AddWithValue("@ExpiryDateCannotChange", updateAccount.ExpiryDateCannotChange);
-						command.Parameters.AddWithValue("@ExpiryDatePassword", updateAccount.ExpiryDatePassword);
-						command.Parameters.AddWithValue("@Disabled", updateAccount.Disabled);
-						command.Parameters.AddWithValue("@Locked", updateAccount.Locked);
-						command.Parameters.AddWithValue("@ProvisioningAdmin", updateAccount.ProvisioningAdmin);
-						command.Parameters.AddWithValue("@WindowsAuthentication", updateAccount.IsWindowsAuthentication);
-						command.Parameters.AddWithValue("@PreferredLanguage", updateAccount.PreferredLanguage);
-						command.Parameters.AddWithValue("@ApplicationLanguage", updateAccount.ApplicationLanguage);
-						command.Parameters.AddWithValue("@AccountId", updateAccount.AccountId);
-						command.ExecuteNonQuery();
-					}
-				}
-			}
-			catch (SqlException e)
-			{
-				Console.WriteLine(e.Message);
-				return false;
-			}
-
-			return true;
-		}
-
-		//---------------------------------------------------------------------
-		public bool Delete(int accountId, string connectionString)
-		{
-			try
-			{
-				using (SqlConnection connection = new SqlConnection(connectionString))
-				{
-					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.DeleteAccount, connection))
-					{
-						command.Parameters.AddWithValue("@AccountId", accountId);
-						command.ExecuteNonQuery();
-					}
-				}
-			}
-			catch (SqlException e)
-			{
-				Console.WriteLine(e.Message);
-				return false;
-			}
-
-			return true;
+            return this.dataProvider.Save(this, connectionString);
 		}
 	}
 }

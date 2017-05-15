@@ -368,6 +368,16 @@ export class askGroup {
   }
 }
 
+export class hotlinkObj {
+  ns: string;
+  selection_type: string;
+  selection_list: any;
+  constructor(jsonObj: any) {
+    this.ns = jsonObj.ns;
+    this.selection_type = jsonObj.selection_type;
+    this.selection_list = jsonObj.selection_list;
+  }
+}
 export class fieldAskObj {
   name: string;
   id: string;
@@ -388,7 +398,7 @@ export class askObj extends fieldAskObj {
   left_aligned: boolean;
   left_text: boolean;
   runatserver: boolean;
-
+  hotlink: hotlinkObj;
   constructor(jsonObj: any) {
     super(jsonObj.field);
     this.hidden = jsonObj.hidden;
@@ -397,7 +407,7 @@ export class askObj extends fieldAskObj {
     this.left_aligned = jsonObj.left_aligned;
     this.left_text = jsonObj.left_text;
     this.runatserver = jsonObj.runatserver;
-
+    this.hotlink = jsonObj.hotlink ? new hotlinkObj(jsonObj.hotlink) : undefined;
   }
 }
 

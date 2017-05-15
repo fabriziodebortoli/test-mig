@@ -1,3 +1,11 @@
 <div class="toolbar-bottom">
-    <ng-content></ng-content>
+
+    <div class="status-bar">
+        <span>{{statusMessage}}</span>
+    </div>
+
+    <div class="buttons">
+        <ng-content></ng-content>
+    </div>
+
 </div>

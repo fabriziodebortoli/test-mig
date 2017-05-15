@@ -23,6 +23,7 @@ using System.Xml;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net;
+using static Microarea.Common.Applications.TbSession;
 
 namespace Microarea.Common.ExpressionManager
 {
@@ -3722,7 +3723,7 @@ namespace Microarea.Common.ExpressionManager
             }
 
             //------------------------------
-            object ret = TbSession.RunReport(this.TbSession, fun);
+            object ret = TbSession.SendRunReport(this.TbSession, fun);
 
             ret = true; //TODO
 
@@ -3762,52 +3763,54 @@ namespace Microarea.Common.ExpressionManager
 
                 System.Diagnostics.Debug.Assert(function.Parameters != null);
 
-                List<string> listTypeArgs = new List<string>();
-                foreach (Parameter p in function.Prototype.Parameters)
-                {
-                    listTypeArgs.Add(p.TbType);
-                }
-                string[] args = listTypeArgs.ToArray();
- 
-                //List<object> parms = new List<object>();
-                List<string> sparms = new List<string>();
+                FunctionPrototype fun = new FunctionPrototype(function.Prototype.NameSpace as NameSpace, function.Prototype.ReturnType);
+                int np = 0;
                 foreach (DataItem item in paramStack)
                 {
-                    //parms.Add(WcfTypes.To(item.Data));
-                    sparms.Add(SoapTypes.To(item.Data));
-                }
-                //object[] objs = parms.ToArray();
-                string[] sargs = sparms.ToArray();
-                int np = 0;
-                object ret = null;
-
-                FunctionPrototype fun = new FunctionPrototype(function.Prototype.NameSpace as NameSpace, function.Prototype.ReturnType, args);
-
-                foreach (Parameter p in function.Prototype.Parameters)
-                {
+                    Parameter p = function.Prototype.Parameters[np++];
+               
                     Parameter pInfo = new Parameter(p.Name, p.Type);
 
-                    pInfo.ValueString = sargs[np++];
+                    pInfo.ValueString = SoapTypes.To(item.Data);
 
                     fun.Parameters.Add(pInfo);
                 }
+
                 //TODO RSWEB Call soap methods
                 //ITbLoaderClient tbLoader = GetTBClientInterface();
                 //ret = tbLoader.Call(function.Prototype, objs);
 
                 bool retLogin = TbSession.TbLogin(this.TbSession).Result;
+                if (!retLogin)
+                    return new Value(null);
 
-                string retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
- 
-                //for (int i = 0; i < function.Parameters.Count; i++)
-                //{
-                //	DataItem item = (DataItem)paramStack.Pop();
-                //	Parameter p = function.Parameters[i];
-                //	if (p.Mode != ParameterModeType.In)
-                //		item.Data = WcfTypes.From(objs[i], p.Type, p.BaseType);
-                //}
+                RunFuctionResultMessage retFun = TbSession.TbRunFunction(this.TbSession, fun).Result;
+                if (retFun == null || !retFun.success)
+                    return new Value(null);
 
-                return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
+                XmlDocument XmlRetParameters = new XmlDocument();
+                XmlRetParameters.LoadXml(retFun.returnValue.args);
+
+                FunctionPrototype info = new FunctionPrototype();   //forse si puo' usare fun
+                FunctionPrototype.ParseParameters(XmlRetParameters.DocumentElement, info);
+
+                for (int i = 0; i < function.Parameters.Count; i++)
+                {
+                    DataItem item = (DataItem)paramStack.Pop();
+
+                    Parameter pOUT = info.Parameters[i];
+                    Parameter pIN = fun.Parameters[i];
+
+                    if (pIN.Name.CompareNoCase(pOUT.Name))
+                    {
+                        if (pIN.Mode != ParameterModeType.In)
+                            item.Data = SoapTypes.From(pOUT.ValueString, pOUT.Type);
+                    }
+                    else
+                        Debug.Fail("Unmatched parameters" + '(' + pIN.Name + " <> " + pOUT.Name + ')');
+                }
+
+                return new Value(SoapTypes.From(retFun.returnValue.value, function.ReturnType));
 			}			
 			catch (TbLoaderClientInterfaceException e)
 			{ 

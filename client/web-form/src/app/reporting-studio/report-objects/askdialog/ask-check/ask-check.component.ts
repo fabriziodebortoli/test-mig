@@ -1,3 +1,4 @@
+import { AskdialogService } from "app/reporting-studio/report-objects/askdialog/askdialog.service";
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { CheckBoxComponent } from './../../../../shared/controls/checkbox/checkbox.component';
 import { check, CommandType } from './../../../reporting-studio.model';
@@ -11,7 +12,7 @@ import { Component, OnInit, Input, DoCheck } from '@angular/core';
 export class AskCheckComponent extends CheckBoxComponent implements OnInit, DoCheck {
 
   @Input() check: check;
-  constructor(private rsService: ReportingStudioService) {
+  constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
     super();
   }
 
@@ -29,7 +30,7 @@ export class AskCheckComponent extends CheckBoxComponent implements OnInit, DoCh
     if (this.oldValue != this.check.value) {
       this.oldValue = this.check.value;
       if (this.check.runatserver) {
-        let obj = {
+        /*let obj = {
           id: this.check.id,
           value: this.check.value.toString()
         };
@@ -37,8 +38,9 @@ export class AskCheckComponent extends CheckBoxComponent implements OnInit, DoCh
           commandType: CommandType.UPDATEASK,
           message: JSON.stringify(obj),
           page: this.rsService.askPage
-        };
-        this.rsService.doSend(JSON.stringify(message));
+        };*/
+        this.adService.askChanged.emit();
+      //this.rsService.doSend(JSON.stringify(message));
       }
     }
   }
