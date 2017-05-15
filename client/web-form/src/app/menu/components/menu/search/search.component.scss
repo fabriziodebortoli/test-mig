@@ -1,6 +1,30 @@
+.tb-search .mat-input-container {
+    background: #00578c;
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: 1px solid #044e7b;
+    width: 330px;
+}
 
+.tb-search .mat-input-wrapper {
+    margin: 0;
+    padding: 0;
+}
 
-.dropdown-menu {
+.tb-search .mat-input-underline {
+    display: none;
+}
+
+.tb-search .mat-input-container .mat-icon {}
+
+.tb-search .dropdown-menu {
     width: 300px;
 }
 
+
+/************/
+
+.search-element .menu-element {
+    margin: 0;
+    padding: 0;
+}

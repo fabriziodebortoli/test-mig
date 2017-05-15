@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 import { UtilsService } from './../../../../core/utils.service';
 import { MenuService } from './../../../services/menu.service';
@@ -8,7 +8,8 @@ import { ImageService } from './../../../services/image.service';
 @Component({
   selector: 'tb-menu-element',
   templateUrl: './menu-element.component.html',
-  styleUrls: ['./menu-element.component.scss']
+  styleUrls: ['./menu-element.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MenuElementComponent {
 

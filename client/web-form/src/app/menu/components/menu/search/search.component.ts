@@ -1,14 +1,17 @@
+import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { FormControl } from '@angular/forms';
+
 import { Observable } from 'rxjs/Rx';
+import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
+
 import { LocalizationService } from './../../../services/localization.service';
 import { MenuService } from './../../../services/menu.service';
-import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
-import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'tb-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchComponent implements OnInit, OnDestroy {
   public selected: string = '';
@@ -16,9 +19,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   filteredElements: any;
 
   @Input() maxElements: number = 20;
-  @ViewChild('myInput') myInput:ElementRef;
+  @ViewChild('myInput') myInput: ElementRef;
 
-valueChangesSubscription: any;
+  valueChangesSubscription: any;
   constructor(
     private menuService: MenuService,
     private localizationService: LocalizationService
@@ -32,7 +35,7 @@ valueChangesSubscription: any;
   ngOnInit() {
     this.filteredElements = this.inputControl.valueChanges
       .startWith(null)
-      .map(val => val ? this.filter(val) : this.menuService.searchSources.slice(0,  (val && val.length > 0) ?  this.maxElements: 0));
+      .map(val => val ? this.filter(val) : this.menuService.searchSources.slice(0, (val && val.length > 0) ? this.maxElements : 0));
 
     this.valueChangesSubscription = this.inputControl.valueChanges.subscribe(data => {
       if (this.isObject(data))
@@ -41,7 +44,7 @@ valueChangesSubscription: any;
 
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.valueChangesSubscription.unsubscribe();
   }
 
@@ -52,9 +55,9 @@ valueChangesSubscription: any;
     this.selected = undefined;
     this.myInput.nativeElement.value = "";
   }
-  
+
   filter(val: string): string[] {
-    return this.menuService.searchSources.filter(option =>  new RegExp(val, 'gi').test(option.title)).slice(0, (val && val.length > 0) ?  this.maxElements: 0);
+    return this.menuService.searchSources.filter(option => new RegExp(val, 'gi').test(option.title)).slice(0, (val && val.length > 0) ? this.maxElements : 0);
   }
 
   displayElement(element: any): string {
