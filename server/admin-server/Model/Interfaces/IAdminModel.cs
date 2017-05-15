@@ -6,6 +6,6 @@ namespace Microarea.AdminServer.Model.Interfaces
     {
         void SetDataProvider(IDataProvider dataProvider);
         bool Save();
-        bool Load();
+        IAdminModel Load();
     }
 }

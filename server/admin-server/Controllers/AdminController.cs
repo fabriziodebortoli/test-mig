@@ -95,7 +95,8 @@ namespace Microarea.AdminServer.Controllers
 
         [HttpPost("/api/accounts/{accountname}")] // post
 		//-----------------------------------------------------------------------------	
-		public IActionResult ApiAddAccount(string accountname, string password, string email)
+        // adds and updates accounts
+		public IActionResult ApiAccounts(string accountname, string password, string email)
 		{
 			string user = accountname;
 			string psw = password;

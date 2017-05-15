@@ -16,7 +16,7 @@ namespace Microarea.AdminServer.Services
         }
         public bool Save(IAdminModel iModel)
         {
-            Account account = new Account();
+            Account account = (Account)iModel;
 
             try
             {
@@ -53,29 +53,37 @@ namespace Microarea.AdminServer.Services
             return true;
         }
 
-        public bool Load()
+        public IAdminModel Load(IAdminModel iModel)
         {
-            Account updateAccount = new Account();
+            Account account;
 
             try
             {
+                account = (Account)iModel;
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Consts.SelectAccount, connection))
+                    using (SqlCommand command = new SqlCommand(Consts.SelectAccountByUserName, connection))
                     {
-                        command.Parameters.AddWithValue("@UserName", updateAccount.UserName);
-                        command.ExecuteNonQuery();
+                        command.Parameters.AddWithValue("@UserName", account.UserName);
+                        using (SqlDataReader dataReader = command.ExecuteReader())
+                        {
+                            while (dataReader.Read()){
+                                account.Name = dataReader["Name"] as string;
+                                account.Description = dataReader["Description"] as string;
+                                account.Email = dataReader["Email"] as string;
+                            }
+                        }
                     }
                 }
             }
             catch (SqlException e)
             {
                 Console.WriteLine(e.Message);
-                return false;
+                return null;
             }
 
-            return true;
+            return account;
         }
 
         public bool Update(IAdminModel iModel)
