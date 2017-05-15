@@ -7,6 +7,7 @@ import { Logger } from './../core/logger.service';
 
 import { EventDataService } from './../core/eventdata.service';
 import { DocumentService } from './../core/document.service';
+import { CommandType } from "app/reporting-studio";
 
 @Injectable()
 export class ReportingStudioService extends DocumentService {

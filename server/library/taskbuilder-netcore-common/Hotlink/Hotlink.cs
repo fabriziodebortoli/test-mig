@@ -8,38 +8,30 @@ using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.ExpressionManager;
 using TaskBuilderNetCore.Interfaces;
+using System;
 
 namespace Microarea.Common.Hotlink
 {
     //============================================================================
-    public class ReferenceObject
+    public class Hotlink
 	{
-		public enum Action {Upper = 0,  Lower = 1, Combo = 2, DirectAccess = 3 }
+		public enum HklAction {Upper = 0,  Lower = 1, Combo = 2, DirectAccess = 3 }
 
 		public List<Expression>				ActualParams = new List<Expression>();
 		public ReferenceObjectsPrototype	Prototype;
 		public string						FieldName = "";
 		public string						QueryString = "";
 		public ArrayList					QueryParams = new ArrayList();
-		public Action						CurrentAction = Action.Upper;
+		public HklAction					CurrentAction = HklAction.Upper;
 
         //----------------------------------------------------------------------------
-        public TbSession tbSession = null;
-        public TbSession Session { get { return tbSession; }}
+        private TbSession session = null;
+        public TbSession Session { get { return session; }}
 
         //----------------------------------------------------------------------------
-        //public AskDialog					AskDialog = null;	
-        //public TbSession Session { get { return AskDialog.Session; } }
-
-        //public ReferenceObject(AskDialog askDialog)
-        //{
-        //	this.AskDialog = askDialog;
-        //}
-
-        //----------------------------------------------------------------------------
-        public ReferenceObject(TbSession session)
+        public Hotlink(TbSession s)
         {
-            tbSession = session;
+            session = s;
         }
 
         //----------------------------------------------------------------------------
@@ -53,18 +45,7 @@ namespace Microarea.Common.Hotlink
             return false;
         }
 
-        // Chiamata a Taskbuilder via Soap 
-        //----------------------------------------------------------------------------
-        private string GetHotLinkQuery(string aNamespace, string aParams, Action action)
-		{
-            ITbLoaderClient hotlinkInterface = null; //TODO RSWEB Session.GetTBClientInterface();
-			if (hotlinkInterface != null)
-				return hotlinkInterface.GetHotlinkQuery(aNamespace, aParams, (int)action);
-
-			return null;
-		}
-
-		/*
+  		/*
 			<?xml version="1.0" encoding="utf-8" ?> 
 			<HotKeyLink>
 				<ControlData value="">	// Nota ControlData è il valore contenuto nel CurrentAskEntry
@@ -74,7 +55,7 @@ namespace Microarea.Common.Hotlink
 		*/
 		// i parametri sono valorizzati i tipi in formato Soap
 		//----------------------------------------------------------------------------
-		private string GetActualParamsAsXML(object data)
+		private string GetActualParamsAsXML(object fieldData)
 		{
 			XmlDocument dom = new XmlDocument();
 			dom.LoadXml(string.Format("<{0}/>", ReferenceObjectsXML.Element.HotKeyLink));
@@ -83,7 +64,7 @@ namespace Microarea.Common.Hotlink
 
 			// Aggiunge il valore del field attivo
 			XmlElement controlDataNode = dom.CreateElement(ReferenceObjectsXML.Element.ControlData);
-			object controlData = ObjectHelper.CastToDBData(data);
+			object controlData = ObjectHelper.CastToDBData(fieldData);
 			controlDataNode.SetAttribute(ReferenceObjectsXML.Attribute.Value, controlData.ToString());
 			dom.DocumentElement.AppendChild(controlDataNode);
 
@@ -135,11 +116,19 @@ namespace Microarea.Common.Hotlink
 				</HotKeyLink>
 		*/
 		//----------------------------------------------------------------------------
-		public bool BuildQueryString(object data)
+		public bool BuildQueryString(object fieldData)
 		{
 			FieldName = Prototype.DbFieldName;
-			string response = GetHotLinkQuery(Prototype.FullName, GetActualParamsAsXML(data), CurrentAction);
+            string response = null;
 
+            try
+            {
+                response = TbSession.GetHotLinkQuery(session, Prototype.FullName, GetActualParamsAsXML(fieldData), (int) CurrentAction).Result;
+            }
+            catch (Exception ex)
+            {
+                return false; 
+            }
 			// se fallisce la chiamata o non torna nulla inibisco la chiamata all'hotlink
 			if (response == null || response == string.Empty)
 				return false;
@@ -179,7 +168,7 @@ namespace Microarea.Common.Hotlink
 		}
 
 		//------------------------------------------------------------------------------
-		public string GetParamsOuterXml(Action action, string hotLinkFilter)
+		public string GetParamsOuterXml(HklAction action, string hotLinkFilter)
 		{
 			XmlDocument d = new XmlDocument();
 			d.AppendChild(d.CreateElement(WebMethodsXML.Element.Arguments));
@@ -210,11 +199,11 @@ namespace Microarea.Common.Hotlink
 			
 			Parameter prototypeParamHklSelection = Prototype.Parameters[0];
 			Parameter pInfoHklSelection = new Parameter(prototypeParamHklSelection.Name, prototypeParamHklSelection.Type);
-			pInfoHklSelection.ValueString = SoapTypes.To(action == Action.Upper ? 0 : 1);
+			pInfoHklSelection.ValueString = SoapTypes.To(action == HklAction.Upper ? 0 : 1);
 			fi.Parameters.Add(pInfoHklSelection);
 			
 			int index = 2; //array position of "Description" parameter
-			if (action == Action.Upper)
+			if (action == HklAction.Upper)
 				index = 1; //array position of "Code" parameter
 
 			Parameter prototypeParamHklFilter = Prototype.Parameters[index];

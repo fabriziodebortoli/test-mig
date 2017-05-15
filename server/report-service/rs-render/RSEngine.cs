@@ -749,7 +749,7 @@ namespace Microarea.RSWeb.Render
 						}
                     case State.End:
                         {
-                            RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.TEMPLATE, Woorm.ToJson(true)); //.Wait();
+                            RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.ENDREPORT, "{\"TotalPages\":1}"); //TotalPages //.Wait();
 
                             return false;
                         }
