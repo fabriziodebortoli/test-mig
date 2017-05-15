@@ -1,8 +1,3 @@
-:host(tb-menu-element) {
-    padding-right: 0.3rem;
-    padding-left: 0.3rem;
-}
-
 .menu-element {
     display: flex;
     flex-direction: row;
@@ -45,32 +40,32 @@
     align-items: flex-end;
 }
 
-.object-type {
+.menu-element .object-type {
     color: #bbb;
     font-size: 20px;
     line-height: 24px;
 }
 
-.object-type.Document {
+.menu-element .object-type.Document {
     color: #0277bd;
 }
 
-.object-type.Report,
-.object-type.Function {
+.menu-element .object-type.Report,
+.menu-element .object-type.Function {
     color: #3EAB66;
 }
 
-.object-type.Batch {
+.menu-element .object-type.Batch {
     color: #ffa700;
 }
 
-md-spinner {
+.menu-element md-spinner {
     width: 30px;
     height: 21px;
     margin-top: 2px;
 }
 
-span {
+.menu-element span {
     font-size: 13px;
     line-height: 16px;
     cursor: pointer;
@@ -80,30 +75,30 @@ span {
     font-weight: 500;
 }
 
-.isLoading {
+.menu-element .isLoading {
     color: #999;
 }
 
-.star {
+.menu-element .star {
     color: #bbb;
     font-size: 20px;
     line-height: 24px;
 }
 
-.star:hover {
+.menu-element .star:hover {
     color: #0277bd;
     cursor: pointer;
 }
 
-.star.favorite {
+.menu-element .star.favorite {
     color: #0277bd;
 }
 
 @media screen and (min-width: 48em) {
-    .menu-element-content p.description {
+    .menu-element .menu-element-content p.description {
         min-height: 25px;
     }
-    span {
+    .menu-element span {
         font-size: 14px;
     }
 }

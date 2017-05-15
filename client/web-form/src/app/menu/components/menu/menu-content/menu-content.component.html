@@ -7,7 +7,7 @@
 
         <md-card-content>
             <div class="row">
-                <tb-menu-element [object]="object" *ngFor="let object of getObjects();" class="col-xs-12" [ngClass]="{'col-md-6': getObjects().length > 10 , 'col-md-12': getObjects().length <= 10}"></tb-menu-element>
+                <tb-menu-element [object]="object" *ngFor="let object of getObjects();" class="menu-content col-xs-12" [ngClass]="{'col-md-6': getObjects().length > 10 , 'col-md-12': getObjects().length <= 10}"></tb-menu-element>
             </div>
         </md-card-content>
 
