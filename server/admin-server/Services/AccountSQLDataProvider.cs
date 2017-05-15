@@ -1,10 +1,7 @@
 ﻿using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Services
 {
@@ -75,6 +72,29 @@ namespace Microarea.AdminServer.Services
                         command.Parameters.AddWithValue("@PreferredLanguage", updateAccount.PreferredLanguage);
                         command.Parameters.AddWithValue("@ApplicationLanguage", updateAccount.ApplicationLanguage);
                         command.Parameters.AddWithValue("@AccountId", updateAccount.AccountId);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool Delete(int accountId, string connectionString)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(Consts.DeleteAccount, connection))
+                    {
+                        command.Parameters.AddWithValue("@AccountId", accountId);
                         command.ExecuteNonQuery();
                     }
                 }
