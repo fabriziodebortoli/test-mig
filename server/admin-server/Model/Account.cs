@@ -9,10 +9,10 @@ namespace Microarea.AdminServer.Model
     {
         // model attributes
 
-        string userName;
-        string name = string.Empty;
+        string accountName;
+        string fullName = string.Empty;
 		string password = string.Empty;
-		string description = string.Empty;
+		string notes = string.Empty;
 		string email = string.Empty;
 		bool provisioningAdmin;
 		bool passwordNeverExpires = false;
@@ -27,10 +27,10 @@ namespace Microarea.AdminServer.Model
         bool isWindowsAuthentication = false;
 
         //---------------------------------------------------------------------
-        public string UserName { get { return this.userName; } }
-        public string Name { get { return this.name; } set { this.name = value; } }
+        public string AccountName { get { return this.accountName; } }
+        public string FullName { get { return this.fullName; } set { this.fullName = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
-		public string Description { get { return this.description; } set { this.description = value; } }
+		public string Notes { get { return this.notes; } set { this.notes = value; } }
 		public string Email { get { return this.email; } set { this.email = value; } }
 		public bool ProvisioningAdmin { get { return this.provisioningAdmin; } set { this.provisioningAdmin = value; } }
 		public bool PasswordNeverExpires { get { return this.passwordNeverExpires; } set { this.passwordNeverExpires = value; } }
@@ -54,7 +54,7 @@ namespace Microarea.AdminServer.Model
         }
         public Account(string userName)
         {
-            this.userName = userName;
+            this.accountName= userName;
         }
 
         //---------------------------------------------------------------------
