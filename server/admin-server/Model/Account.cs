@@ -48,12 +48,16 @@ namespace Microarea.AdminServer.Model
         // data provider
         IDataProvider dataProvider;
 
-        public IDataProvider DataProvider { get { return dataProvider; } set { dataProvider = value; } }
+        //---------------------------------------------------------------------
+        public void SetDataProvider(IDataProvider dataProvider)
+        {
+            this.dataProvider = dataProvider;
+        }
 
         //---------------------------------------------------------------------
-        public bool Save(string connectionString)
+        public bool Save()
 		{
-            return this.dataProvider.Save(this, connectionString);
+            return this.dataProvider.Save(this);
 		}
 	}
 }
