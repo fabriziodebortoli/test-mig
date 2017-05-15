@@ -10,7 +10,7 @@ namespace Microarea.AdminServer.Model
     {
         // model attributes
 
-        int accountId;
+        string userName;
         string name = string.Empty;
 		string password = string.Empty;
 		string description = string.Empty;
@@ -27,9 +27,9 @@ namespace Microarea.AdminServer.Model
         string preferredLanguage = string.Empty;
         bool isWindowsAuthentication = false;
 
-		//---------------------------------------------------------------------
-		public int AccountId { get { return this.accountId; } set { this.accountId = value; } }
-		public string Name { get { return this.name; } set { this.name = value; } }
+        //---------------------------------------------------------------------
+        public string UserName { get { return this.userName; } }
+        public string Name { get { return this.name; } set { this.name = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
 		public string Description { get { return this.description; } set { this.description = value; } }
 		public string Email { get { return this.email; } set { this.email = value; } }
@@ -49,6 +49,16 @@ namespace Microarea.AdminServer.Model
         IDataProvider dataProvider;
 
         //---------------------------------------------------------------------
+        public Account()
+        {
+            
+        }
+        public Account(string userName)
+        {
+            this.userName = userName;
+        }
+
+        //---------------------------------------------------------------------
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this.dataProvider = dataProvider;
@@ -59,5 +69,12 @@ namespace Microarea.AdminServer.Model
 		{
             return this.dataProvider.Save(this);
 		}
-	}
+
+        //---------------------------------------------------------------------
+        public bool Load()
+        {
+            return this.dataProvider.Load();
+        }
+
+    }
 }

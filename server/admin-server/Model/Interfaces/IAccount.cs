@@ -5,7 +5,7 @@ namespace Microarea.AdminServer.Model.Interfaces
     //================================================================================
     public interface IAccount : IAdminModel
     {
-        int AccountId { get; }
+        string UserName { get; }
         string Name { get; }
 		string Password { get; }
 		string Description { get; }
