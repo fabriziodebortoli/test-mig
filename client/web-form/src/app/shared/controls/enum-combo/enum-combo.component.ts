@@ -18,8 +18,8 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
     private items: Array<any> = [];
     private selectedItem: any;
 
-    @Input()
-    public itemSource: any;
+    @Input() public itemSource: any;
+    @Input() width: number;
 
     constructor(
         private webSocketService: WebSocketService,

@@ -35,7 +35,7 @@ namespace Microarea.AdminServer.Services
 				{
 					connection.Open();
 
-					using (SqlCommand command = new SqlCommand("SELECT * FROM MP_Accounts WHERE Name = '{0}' AND Password = '{1}'", connection))
+					using (SqlCommand command = new SqlCommand(string.Format("SELECT * FROM MP_Accounts WHERE Name = '{0}' AND Password = '{1}'", userName, password), connection))
 					{
 						using (SqlDataReader reader = command.ExecuteReader())
 						{
@@ -58,5 +58,6 @@ namespace Microarea.AdminServer.Services
 
 			return account;
 		}
+
 	}
 }

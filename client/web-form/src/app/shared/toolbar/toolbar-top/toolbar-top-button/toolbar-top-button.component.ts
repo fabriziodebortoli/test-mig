@@ -8,8 +8,7 @@ enum IconType { MD, TB, IMG };
 @Component({
   selector: 'tb-toolbar-top-button',
   templateUrl: './toolbar-top-button.component.html',
-  styleUrls: ['./toolbar-top-button.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./toolbar-top-button.component.scss']
 })
 export class ToolbarTopButtonComponent extends TbComponent implements OnInit {
 

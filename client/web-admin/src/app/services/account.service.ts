@@ -3,18 +3,16 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AccountService {
 
   constructor(private http: Http) { }
 
-  loginAccount(userName:string): Observable<string> {
+  GetAccount(userName:string): Observable<string> {
 
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.post('', userName, options)
+    return this.http.get(environment.adminAPIUrl + 'accounts/' + userName)
       .map(this.parseData)
       .catch(this.handleError);
   }
