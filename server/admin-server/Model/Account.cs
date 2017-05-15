@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.SqlTypes;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 
@@ -20,7 +19,7 @@ namespace Microarea.AdminServer.Model
 		bool mustChangePassword = false;
 		bool cannotChangePassword = false;
 		bool expiryDateCannotChange = false;
-		DateTime expiryDatePassword = (DateTime)SqlDateTime.MinValue;
+        DateTime expiryDatePassword;
 		bool disabled = false;
 		bool locked = false;
 		string applicationLanguage = string.Empty;
@@ -51,7 +50,7 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public Account()
         {
-            
+            this.expiryDatePassword = this.dataProvider.MinDateTimeValue;
         }
         public Account(string userName)
         {
