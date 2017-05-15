@@ -1,5 +1,6 @@
-import { EventDataService } from './../../../core/eventdata.service';
 import { Component, OnInit, Input } from '@angular/core';
+
+import { EventDataService } from './../../../../core/eventdata.service';
 
 @Component({
   selector: 'tb-toolbar-bottom-button',
@@ -11,10 +12,9 @@ export class ToolbarBottomButtonComponent implements OnInit {
   @Input() caption: string = '--unknown--';
   @Input() cmpId: string = '';
 
-  constructor(
-    private eventData: EventDataService
-  ) {
-  }
+  @Input() disabled: boolean = false;
+
+  constructor(private eventData: EventDataService) { }
 
   ngOnInit() {
   }

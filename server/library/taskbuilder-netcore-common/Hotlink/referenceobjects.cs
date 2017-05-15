@@ -185,7 +185,7 @@ namespace Microarea.Common.Hotlink
 	}
 
 	///=============================================================================
-	public class ReferenceObjects
+	public class ReferenceObjectsList
 	{
 		private ArrayList prototypes;
 		private TbSession tbSession;
@@ -200,7 +200,7 @@ namespace Microarea.Common.Hotlink
 
 
         //-----------------------------------------------------------------------------
-        public ReferenceObjects(TbSession session)
+        public ReferenceObjectsList(TbSession session)
 		{
 			// è necessario inizializzare prima una sessione di lavoro.
 			this.tbSession = session;
@@ -420,4 +420,8 @@ namespace Microarea.Common.Hotlink
             return fpNew;
 		}
      }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+
 }

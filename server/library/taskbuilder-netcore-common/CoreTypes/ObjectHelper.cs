@@ -255,37 +255,44 @@ namespace Microarea.Common.CoreTypes
 
             if (o1 == null && o2 == null)
                 return true;
+            if (o1 == null || o2 == null)
+                return false;
 
             //if (o1 is IDataObj)
-                //o1 = ((IDataObj)o1).Value;
+            //o1 = ((IDataObj)o1).Value;
             //if (o2 is IDataObj)
-                //o2 = ((IDataObj)o2).Value;
+            //o2 = ((IDataObj)o2).Value;
+            try { 
+                switch (o1.GetType().Name)
+			    {
+				    case "String"	: { return (string) o1 == (string) o2; }
 
-            switch (o1.GetType().Name)
-			{
-				case "String"	: { return (string) o1 == (string) o2; }
+				    case "Double"	: 
+					    {
+						    return IsDblEquals((double)o1, (double)o2);
+						    //return (double) o1 == (double) o2; 
+					    }
 
-				case "Double"	: 
-					{
-						return IsDblEquals((double)o1, (double)o2);
-						//return (double) o1 == (double) o2; 
-					}
+				    case "DateTime"	: { return (DateTime) o1 == (DateTime) o2; }
+				    case "Boolean"	: { return (bool) o1 == (bool) o2; }
+				    case "Int16"	: { return (short) o1 == (short) o2; }
+				    case "Int32"	: { return (int) o1 == (int) o2; }
+				    case "Int64"	: { return (long) o1 == (long) o2; }
+				    case "DataEnum"	: { return (DataEnum) o1 == (DataEnum)o2; }
+				    case "Guid"		: { return (Guid) o1 == (Guid) o2; }
+				    case "Array"    :
+				    case "DataArray": { return (DataArray) o1 == (DataArray)o2; }
+				    case "Byte"		: { return (byte) o1 == (byte) o2; }
+				    case "Decimal"	: { return (decimal) o1 == (decimal) o2; }
+				    case "Single"	: { return (float) o1 == (float) o2; }
+			    }
+            }
+            catch (Exception ex)
+            {
+                Debug.Fail(ex.Message);
+            }
 
-				case "DateTime"	: { return (DateTime) o1 == (DateTime) o2; }
-				case "Boolean"	: { return (bool) o1 == (bool) o2; }
-				case "Int16"	: { return (short) o1 == (short) o2; }
-				case "Int32"	: { return (int) o1 == (int) o2; }
-				case "Int64"	: { return (long) o1 == (long) o2; }
-				case "DataEnum"	: { return (DataEnum) o1 == (DataEnum)o2; }
-				case "Guid"		: { return (Guid) o1 == (Guid) o2; }
-				case "Array"    :
-				case "DataArray": { return (DataArray) o1 == (DataArray)o2; }
-				case "Byte"		: { return (byte) o1 == (byte) o2; }
-				case "Decimal"	: { return (decimal) o1 == (decimal) o2; }
-				case "Single"	: { return (float) o1 == (float) o2; }
-			}
-
-			throw (new ObjectHelperException(CoreTypeStrings.IllegalDataType + " " + o2));
+            throw (new ObjectHelperException(CoreTypeStrings.IllegalDataType + " " + o2));
 		}
 
 		//-----------------------------------------------------------------------------
@@ -933,7 +940,7 @@ namespace Microarea.Common.CoreTypes
 			switch (typeName)
 			{
 				case "Boolean"	: 
-					return ((from == TrueString) || (from != "0"));
+					return from == TrueString || from.CompareNoCase("true");
 
 				case "Byte"		: 
 				{ 

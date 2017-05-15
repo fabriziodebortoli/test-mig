@@ -18,10 +18,10 @@ namespace WebApplication
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
-Microarea.Common.Generic.InstallationInfo.TestInstallation();
-            host.Run();
-            
 
+            Microarea.Common.Generic.InstallationInfo.TestInstallation();
+
+            host.Run();
         }
     }
 }
