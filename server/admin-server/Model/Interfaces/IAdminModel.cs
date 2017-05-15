@@ -4,7 +4,7 @@ namespace Microarea.AdminServer.Model.Interfaces
 {
     public interface IAdminModel
     {
-        IDataProvider DataProvider { get; set; }
-        bool Save(string connectionString);
+        void SetDataProvider(IDataProvider dataProvider);
+        bool Save();
     }
 }

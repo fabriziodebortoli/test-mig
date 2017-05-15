@@ -7,13 +7,20 @@ namespace Microarea.AdminServer.Services
 {
     public class AccountSQLDataProvider : IDataProvider
     {
-        public bool Save(IAdminModel iModel, string connString)
+        string connectionString;
+
+        public AccountSQLDataProvider(string connString)
         {
-            Account account = new Account(); // refactor
+            this.connectionString = connString;
+            
+        }
+        public bool Save(IAdminModel iModel)
+        {
+            Account account = new Account();
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connString))
+                using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(Consts.InsertAccount, connection))
@@ -46,13 +53,13 @@ namespace Microarea.AdminServer.Services
             return true;
         }
 
-        public bool Update(IAdminModel iModel, string connectionString)
+        public bool Update(IAdminModel iModel)
         {
             Account updateAccount = new Account();
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(Consts.UpdateAccount, connection))
@@ -85,11 +92,11 @@ namespace Microarea.AdminServer.Services
             return true;
         }
 
-        public bool Delete(int accountId, string connectionString)
+        public bool Delete(int accountId)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(Consts.DeleteAccount, connection))
