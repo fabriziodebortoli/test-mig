@@ -4,7 +4,7 @@ export interface Message {
   message?: string;
 }
 
-export enum CommandType {WRONG, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, RUNREPORT, ENDREPORT, NONE }
+export enum CommandType {WRONG, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, RUNREPORT, ENDREPORT, NONE, HOTLINK }
 
 export enum AskObjectType { text, radio, check, dropdownlist }
 
@@ -436,6 +436,9 @@ export class dropdownlist extends askObj {
   }
 }
 
+export class hotlink extends askObj{
+  
+}
 export class dropdownListPair {
   code: string;
   description: string;
