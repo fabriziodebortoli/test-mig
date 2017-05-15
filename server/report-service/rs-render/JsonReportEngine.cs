@@ -126,7 +126,7 @@ namespace Microarea.RSWeb.Render
             return string.Empty;
         }
 
-        public List<string> GetHotlinkValues(string ns, string filter)
+        public List<string> GetHotlinkValues(string ns, string filter, string name)
         {
             //{
             //    comandType: GetHotlinkValues,
@@ -163,9 +163,9 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.HOTLINK:
                     {
                         var obj = JsonConvert.DeserializeObject<HotlinkDescr>(msg.message);
-                        List<string> values = GetHotlinkValues(obj.ns, obj.filter);
+                        List<string> values = GetHotlinkValues(obj.ns, obj.filter, obj.name);
                         msg.message = JsonConvert.SerializeObject(values);
-                        msg.page = obj.id;
+                    
                         break;
                     }
                 case MessageBuilder.CommandType.UPDATEASK:

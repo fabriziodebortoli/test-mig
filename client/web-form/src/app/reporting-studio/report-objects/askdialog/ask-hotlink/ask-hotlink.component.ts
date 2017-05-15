@@ -28,13 +28,13 @@ export class AskHotlinkComponent implements OnChanges{
     let msg = {
       ns: this.hotlink.ns,
       filter: this.value,
-      id: this.hotlink.id
+      name: this.hotlink.name
     };
 
     let message = {
       commandType: CommandType.HOTLINK,
       message: JSON.stringify(msg),
-      page: 0
+      page: this.hotlink.id
     };
 
     this.rsService.doSend(JSON.stringify(message));
