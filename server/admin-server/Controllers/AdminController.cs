@@ -49,52 +49,47 @@ namespace Microarea.AdminServer.Controllers
             return new ContentResult { Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
         }
 
-   //     [HttpGet("/api/accounts/{username}/{field}")]  
-   //     [Produces("application/json")]
-   //     //-----------------------------------------------------------------------------	
-   //     public IActionResult ApiAccountsInformations(string username)
-   //     {
-   ////         string user = username;
+        [HttpGet("/api/accounts/{username}/{field?}")]
+        [Produces("application/json")]
+        //-----------------------------------------------------------------------------	
+        public IActionResult ApiAccountsInformations(string username)
+        {
+            string user = username;
 
-   ////         if (String.IsNullOrEmpty(user))
-   ////         {
-   ////             jsonHelper.AddJsonCouple<bool>("result", false);
-   ////             jsonHelper.AddJsonCouple<string>("message", "Username cannot be empty");
-   ////             return new ContentResult { StatusCode = 400, Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
-   ////         }
+            if (String.IsNullOrEmpty(user))
+            {
+                jsonHelper.AddJsonCouple<bool>("result", false);
+                jsonHelper.AddJsonCouple<string>("message", "Username cannot be empty");
+                return new ContentResult { StatusCode = 400, Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
+            }
 
-			////IAccount account;
-			////try
-			////{
+            IAccount account = new Account();
 
-			////}
-			////catch (NotImplementedException ex)
-			////{
-			////	jsonHelper.AddJsonCouple<bool>("result", false);
-			////	jsonHelper.AddJsonCouple<string>("message", ex.Message);
-			////	return new ContentResult { StatusCode = 501, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
-			////}
-			////catch (SqlException e)
-			////{
-			////	jsonHelper.AddJsonCouple<bool>("result", false);
-			////	jsonHelper.AddJsonCouple<string>("message", e.Message);
-			////	return new ContentResult { StatusCode = 501, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
-			////}
+            try
+            {
+            }
+            catch (NotImplementedException ex)
+            {
+                jsonHelper.AddJsonCouple<bool>("result", false);
+                jsonHelper.AddJsonCouple<string>("message", ex.Message);
+                return new ContentResult { StatusCode = 501, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+            }
+            catch (SqlException e)
+            {
+                jsonHelper.AddJsonCouple<bool>("result", false);
+                jsonHelper.AddJsonCouple<string>("message", e.Message);
+                return new ContentResult { StatusCode = 501, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+            }
 
-   ////         // user has been found
-   ////         jsonHelper.AddJsonCouple<bool>("result", true);
-   ////         jsonHelper.AddJsonObject("account", account);
-			////return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
-   //     }
-//=======
-//            // user has been found
-//            jsonHelper.AddJsonCouple<bool>("result", true);
-//			jsonHelper.AddJsonCouple<string>("message", "Username recognized in the provisioning database");
-//			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
-//        }
+            // user has been found
+            jsonHelper.AddJsonCouple<bool>("result", true);
+            jsonHelper.AddJsonObject("account", account);
+            return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
+        
+        }
 
 
-		[HttpPost("/api/accounts/{accountname}")] // post
+        [HttpPost("/api/accounts/{accountname}")] // post
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiAddAccount(string accountname, string password, string email)
 		{
