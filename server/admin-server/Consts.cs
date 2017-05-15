@@ -33,7 +33,7 @@ namespace Microarea.AdminServer
         //
 
         // Account
-        public const string SelectAccountByUserName = @"SELECT * FROM MP_Accounts WHERE UserName = @UserName";
+        public const string SelectAccountByAccountName = @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
 
         public const string InsertAccount = @"INSERT INTO MP_Accounts (Name, Password, Description, Email, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
 			ExpiryDateCannotChange, ExpiryDatePassword, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, ApplicationLanguage) 
@@ -46,7 +46,7 @@ namespace Microarea.AdminServer
 			ProvisioningAdmin = @ProvisioningAdmin, WindowsAuthentication = @WindowsAuthentication, PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage) 
 			WHERE AccountId = @AccountId";
 
-		public const string DeleteAccount = @"DELETE MP_Accounts WHERE UserName = @UserName";
+		public const string DeleteAccount = @"DELETE MP_Accounts WHERE AccountName = @AccountName";
 		//
 	}
 }

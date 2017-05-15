@@ -69,7 +69,7 @@ namespace Microarea.AdminServer.Services
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Consts.SelectAccountByUserName, connection))
+                    using (SqlCommand command = new SqlCommand(Consts.SelectAccountByAccountName, connection))
                     {
                         command.Parameters.AddWithValue("@AccountName", account.AccountName);
                         using (SqlDataReader dataReader = command.ExecuteReader())
