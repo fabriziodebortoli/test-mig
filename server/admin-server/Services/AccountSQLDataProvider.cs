@@ -31,9 +31,9 @@ namespace Microarea.AdminServer.Services
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(Consts.InsertAccount, connection))
                     {
-                        command.Parameters.AddWithValue("@Name", account.Name);
+                        command.Parameters.AddWithValue("@AccountName", account.AccountName);
                         command.Parameters.AddWithValue("@Password", account.Password);
-                        command.Parameters.AddWithValue("@Description", account.Description);
+                        command.Parameters.AddWithValue("@Notes", account.Notes);
                         command.Parameters.AddWithValue("@Email", account.Email);
                         command.Parameters.AddWithValue("@PasswordNeverExpires", account.PasswordNeverExpires);
                         command.Parameters.AddWithValue("@MustChangePassword", account.MustChangePassword);
@@ -71,12 +71,12 @@ namespace Microarea.AdminServer.Services
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(Consts.SelectAccountByUserName, connection))
                     {
-                        command.Parameters.AddWithValue("@UserName", account.UserName);
+                        command.Parameters.AddWithValue("@AccountName", account.AccountName);
                         using (SqlDataReader dataReader = command.ExecuteReader())
                         {
                             while (dataReader.Read()){
-                                account.Name = dataReader["Name"] as string;
-                                account.Description = dataReader["Description"] as string;
+                                account.FullName = dataReader["FullName"] as string;
+                                account.Notes = dataReader["Notes"] as string;
                                 account.Email = dataReader["Email"] as string;
                             }
                         }
@@ -103,9 +103,9 @@ namespace Microarea.AdminServer.Services
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(Consts.UpdateAccount, connection))
                     {
-                        command.Parameters.AddWithValue("@UserName", updateAccount.UserName);
-                        command.Parameters.AddWithValue("@Name", updateAccount.Name);
-                        command.Parameters.AddWithValue("@Description", updateAccount.Description);
+                        command.Parameters.AddWithValue("@AccountName", updateAccount.AccountName);
+                        command.Parameters.AddWithValue("@FullName", updateAccount.FullName);
+                        command.Parameters.AddWithValue("@Notes", updateAccount.Notes);
                         command.Parameters.AddWithValue("@Email", updateAccount.Email);
                         command.Parameters.AddWithValue("@PasswordNeverExpires", updateAccount.PasswordNeverExpires);
                         command.Parameters.AddWithValue("@MustChangePassword", updateAccount.MustChangePassword);
