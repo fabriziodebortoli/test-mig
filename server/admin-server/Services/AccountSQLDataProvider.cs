@@ -2,6 +2,7 @@
 using Microarea.AdminServer.Model.Interfaces;
 using System;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 
 namespace Microarea.AdminServer.Services
 {
@@ -13,6 +14,11 @@ namespace Microarea.AdminServer.Services
         {
             this.connectionString = connString;
             
+        }
+
+        public DateTime MinDateTimeValue
+        {
+            get { return (DateTime)SqlDateTime.MinValue; }
         }
         public bool Save(IAdminModel iModel)
         {
