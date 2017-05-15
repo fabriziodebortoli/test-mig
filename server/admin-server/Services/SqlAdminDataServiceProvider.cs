@@ -2,13 +2,12 @@
 using Microsoft.Extensions.Options;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
-using Microarea.AdminServer.Services.Interfaces;
 using System;
 
 namespace Microarea.AdminServer.Services
 {
     //================================================================================
-    public class SqlAdminDataServiceProvider : IAdminDataServiceProvider
+    public class SqlAdminDataServiceProvider
     {
         AppOptions _settings;
         string _connectionString;
