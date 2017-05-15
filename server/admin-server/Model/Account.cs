@@ -50,7 +50,6 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public Account()
         {
-            this.expiryDatePassword = this.dataProvider.MinDateTimeValue;
         }
         public Account(string userName)
         {
@@ -61,6 +60,9 @@ namespace Microarea.AdminServer.Model
         public void SetDataProvider(IDataProvider dataProvider)
         {
             this.dataProvider = dataProvider;
+
+            // setting database-dependent values
+            this.expiryDatePassword = this.dataProvider.MinDateTimeValue;
         }
 
         //---------------------------------------------------------------------

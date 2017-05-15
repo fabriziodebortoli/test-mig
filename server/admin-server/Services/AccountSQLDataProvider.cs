@@ -32,6 +32,7 @@ namespace Microarea.AdminServer.Services
                     using (SqlCommand command = new SqlCommand(Consts.InsertAccount, connection))
                     {
                         command.Parameters.AddWithValue("@AccountName", account.AccountName);
+                        command.Parameters.AddWithValue("@FullName", account.FullName);
                         command.Parameters.AddWithValue("@Password", account.Password);
                         command.Parameters.AddWithValue("@Notes", account.Notes);
                         command.Parameters.AddWithValue("@Email", account.Email);
