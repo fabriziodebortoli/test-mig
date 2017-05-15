@@ -187,8 +187,9 @@ namespace Microarea.Common.CoreTypes
 			public const string Radio	= "Radio";
 			public const string Combo	= "Combo";
 			public const string Text	= "Text";
-		}
-	}
+            public const string TextWithHotlink = "TextWithHotlink";
+        }
+    }
 
 	//============================================================================
 	public class RdeWriterTokens
