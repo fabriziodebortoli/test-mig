@@ -13,18 +13,7 @@ import { BOHelperService } from 'app/core/bohelper.service';
 export class BOService extends DocumentService {
     serverSideCommandMap: any; // TODO SILVANO needs typing
 
-    // subscriptions
-
-    dataReadySubscription: any;
-    activationDataSubscription: any;
-    serverCommandMapReadySubscription: any;
-    commandSubscription: any;
-    changeSubscription: any;
-    openDropdownSubscription: any;
-    onContextMenuSubscription: any;
-
     subscriptions = [];
-
 
     constructor(
         private webSocketService: WebSocketService,
@@ -99,9 +88,9 @@ export class BOService extends DocumentService {
         }));
 
 
-        this.onContextMenuSubscription = this.eventData.onContextMenu.subscribe((obj: any) => {
+         this.subscriptions.push(this.eventData.onContextMenu.subscribe((obj: any) => {
             this.webSocketService.getContextMenu(this.mainCmpId, obj);
-        });
+        }));
 
         this.subscriptions.push(this.eventData.closeMessageDialog.subscribe((args: MessageDlgResult) => {
             this.webSocketService.doCloseMessageDialog(this.mainCmpId, args);
@@ -120,13 +109,6 @@ export class BOService extends DocumentService {
     dispose() {
         super.dispose();
         delete this.serverSideCommandMap;
-        this.dataReadySubscription.unsubscribe();
-        this.serverCommandMapReadySubscription.unsubscribe();
-        this.commandSubscription.unsubscribe();
-        this.changeSubscription.unsubscribe();
-        this.activationDataSubscription.unsubscribe();
-        this.openDropdownSubscription.unsubscribe();
-        this.onContextMenuSubscription.unsubscribe();
         this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
