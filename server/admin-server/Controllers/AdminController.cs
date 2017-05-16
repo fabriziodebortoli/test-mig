@@ -18,6 +18,7 @@ namespace Microarea.AdminServer.Controllers
         private IHostingEnvironment _env;
         AccountSQLDataProvider _accountSqlDataProvider;
 		CompanySQLDataProvider _companySqlDataProvider;
+		InstanceSQLDataProvider _instanceSqlDataProvider;
 		JsonHelper _jsonHelper;
 
 		//-----------------------------------------------------------------------------	
@@ -29,6 +30,7 @@ namespace Microarea.AdminServer.Controllers
 
             _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
 			_companySqlDataProvider = new CompanySQLDataProvider(_settings.DatabaseInfo.ConnectionString);
+			_instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
 		}
 
         [HttpGet]
@@ -173,6 +175,48 @@ namespace Microarea.AdminServer.Controllers
 
 			_jsonHelper.AddJsonCouple<bool>("result", true);
 			_jsonHelper.AddJsonCouple<string>("message", "Save company operation successfully completed");
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+		}
+
+		/// <summary>
+		/// Insert/update instance
+		/// </summary>
+		//-----------------------------------------------------------------------------	
+		[HttpPost("/api/instances/{instancename}")]
+		public IActionResult ApiInstances(string instancename, string customer, bool disabled)
+		{
+			if (String.IsNullOrEmpty(instancename))
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", "Company name cannot be empty");
+				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+			}
+
+			bool result = false;
+			try
+			{
+				IInstance iInstance = new Instance(instancename);
+				iInstance.SetDataProvider(_instanceSqlDataProvider);
+				iInstance.Customer = customer;
+				iInstance.Disabled = disabled;
+				result = iInstance.Save();
+			}
+			catch (SqlException e)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", e.Message);
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			}
+
+			if (!result)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", "Save instance operation failed");
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			}
+
+			_jsonHelper.AddJsonCouple<bool>("result", true);
+			_jsonHelper.AddJsonCouple<string>("message", "Save instance operation successfully completed");
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
 		}
 	}

@@ -6,12 +6,15 @@ namespace Microarea.AdminServer
 	public class Consts
     {
 		// Instance
+		public const string ExistInstance = @"SELECT COUNT(*) FROM MP_Instances WHERE InstanceId = @InstanceId";
+		public const string SelectInstanceByName = @"SELECT * FROM MP_Instances WHERE Name = @Name";
 		public const string InsertInstance = @"INSERT INTO MP_Instances (Name, Customer, Disabled) VALUES (@Name, @Customer, @Disabled)";
 		public const string UpdateInstance = @"UPDATE MP_Instances SET Name = @Name, Customer = @Customer, Disabled = @Disabled WHERE InstanceId = @InstanceId";
 		public const string DeleteInstance = @"DELETE MP_Instances WHERE InstanceId = @InstanceId";
 		//
 
 		// Subscription
+		public const string ExistSubscription = @"SELECT COUNT(*) FROM MP_Subscriptions WHERE SubscriptionId = @SubscriptionId";
 		public const string InsertSubscription = @"INSERT INTO MP_Subscriptions (Name, ActivationKey, PurchaseId, InstanceId) VALUES (@Name, @ActivationKey, @PurchaseId, @InstanceId)";
 		public const string UpdateSubscription = @"UPDATE MP_Subscriptions SET Name = @Name, ActivationKey = @ActivationKey, PurchaseId = @PurchaseId, InstanceId = @InstanceId 
 												WHERE SubscriptionId = @SubscriptionId";
