@@ -362,7 +362,7 @@ export class askGroup {
       else if (element.dropdownlist !== undefined) {
         obj = new dropdownlist(element.dropdownlist);
       }
-       else if (element.textwithhotlink !== undefined) {
+      else if (element.textwithhotlink !== undefined) {
         obj = new hotlink(element.textwithhotlink);
       }
 
@@ -443,11 +443,13 @@ export class hotlink extends askObj {
   obj: AskObjectType = AskObjectType.hotlink;
   ns: string;
   selectionList: string[] = [];
+  values: string[] = [];
   selection_type: string;
   constructor(jsonObj: any) {
     super(jsonObj);
     this.ns = jsonObj.hotlink.ns;
     this.selection_type = jsonObj.hotlink.selection_type;
+    this.selectionList = jsonObj.hotlink.selectionList;
   }
 
 }

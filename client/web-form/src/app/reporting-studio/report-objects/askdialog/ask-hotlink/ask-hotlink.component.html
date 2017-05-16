@@ -1,3 +1,4 @@
 <div>{{hotlink.caption}}</div>
-<kendo-autocomplete [data]="hotlink.selectionList" [suggest]="true" [placeholder]="'start to type and then click the button'" [(ngModel)]="value" (open)="OnOpen($event)"></kendo-autocomplete>
-<button kendoButton (click)="onButtonClick()" [icon]="'filter'"></button>git push
+<kendo-autocomplete [data]="hotlink.values" [suggest]="true" [placeholder]="'start to type and then click the button'" [(ngModel)]="value"
+   (open)="OnOpen($event)"></kendo-autocomplete>
+<button kendoButton (click)="onButtonClick()" [icon]="'filter'"></button>

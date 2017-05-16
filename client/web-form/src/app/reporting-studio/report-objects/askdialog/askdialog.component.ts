@@ -1,7 +1,7 @@
 import { AskdialogService } from './askdialog.service';
 import { Subscription } from 'rxjs';
 import { ReportingStudioService } from './../../reporting-studio.service';
-import { Component, Input, OnDestroy, ViewEncapsulation, OnChanges, SimpleChange } from '@angular/core';
+import { Component, Input, OnDestroy, ViewEncapsulation, OnChanges, SimpleChange, EventEmitter, Output } from '@angular/core';
 import { TemplateItem, askGroup, text, check, radio, CommandType, askObj, hotlink } from './../../reporting-studio.model';
 
 @Component({
@@ -15,7 +15,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
 
   @Input() ask: string;
   @Input() hotLinkValues: any;
-
+  
   public askObject;
   public commType: CommandType;
   public objects: askGroup[] = [];
@@ -40,7 +40,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
         for (let y = 0; y < this.objects[i].entries.length; y++) {
           if (this.objects[i].entries[y].id === this.hotLinkValues.page) {
             let h: hotlink = <hotlink>this.objects[i].entries[y];
-            h.selectionList = JSON.parse(this.hotLinkValues.message);
+            h.values = JSON.parse(this.hotLinkValues.message);
             return;
           }
         }
