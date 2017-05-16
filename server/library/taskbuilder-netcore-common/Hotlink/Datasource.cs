@@ -36,7 +36,7 @@ namespace Microarea.Common.Hotlink
             this.Session = session;
         }
 
-        public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "")
+        public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "Code")
         {
             string s = requestQuery["selection_type"];
             if (s.IsNullOrEmpty() && selectionType.IsNullOrEmpty())
@@ -51,11 +51,7 @@ namespace Microarea.Common.Hotlink
             if (XmlDescription == null)
                 return false;
 
-             /*    nell'esempio       
-*              disabled = HttpContext.Request.Query["disabled"];
-            good_type = HttpContext.Request.Query["good_type"]; 
-            */
-            //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
+           //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
            foreach (IParameter p in XmlDescription.Parameters)
             {
                 SymField paramField = new SymField(p.TbType, p.Name);
@@ -92,6 +88,51 @@ namespace Microarea.Common.Hotlink
             return true;
         }
 
+        public bool PrepareQuery(/*IQueryCollection requestQuery,*/ string selectionType = "Code", string likeValue = "")
+        {
+           selection_type.Data = selectionType;
+           like_value.Data = likeValue + '%';
+
+            XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
+            if (XmlDescription == null)
+                return false;
+
+            //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
+            foreach (IParameter p in XmlDescription.Parameters)
+            {
+                SymField paramField = new SymField(p.TbType, p.Name);
+
+                string sp = null; // requestQuery[p.Name];
+
+                if (sp == null)
+                {
+                    if (p.Optional)
+                    {
+                        paramField.Assign(p.ValueString);
+                    }
+                }
+                else
+                {
+                    paramField.Assign(sp);
+                }
+
+                SymTable.Add(paramField);
+            }
+
+            //viene cercato il corpo della query ------------------
+            string selectionName = selection_type.Data as string;
+            SelectionMode sm = XmlDescription.GetMode(selectionName);
+            if (sm == null)
+                return false;
+            //-------------------------------
+
+            this.CurrentQuery = new QueryObject(sm.ModeName, SymTable, Session, null);
+
+            if (!this.CurrentQuery.Define(sm.Body))
+                return false;
+
+            return true;
+        }
         //---------------------------------------------------------------------
         public bool GetSelectionTypes(out string list)
         {
@@ -183,7 +224,7 @@ namespace Microarea.Common.Hotlink
         }
 
         //---------------------------------------------------------------------
-        public bool GetCompactJson(out string records)
+        public bool GetCompactJson(out string records, string name = "")
         {
             records = string.Empty;
 
@@ -203,8 +244,14 @@ namespace Microarea.Common.Hotlink
                 else
                     records += ',';
 
+                string fname;
+                if (!name.IsNullOrEmpty() && f.Name.CompareNoCase(XmlDescription.DbFieldName))
+                    fname = name.ToJson("id");
+                else
+                    fname = f.Name.Replace('.', '_').ToJson("id");
+
                 records += '{' +
-                           f.Name.Replace('.', '_').ToJson("id") +
+                           fname +
                            ',' +
                            f.Title.ToJson("caption", false, true) +
                            '}';

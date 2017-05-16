@@ -119,19 +119,35 @@ namespace Microarea.Common.Applications
             ;
         }
 
+        public TbSession(TbSession s, string ns)
+        {
+            this.Namespace = ns;
+            //this.filePath = s.FilePath;
+            this.TbBaseAddress = s.TbBaseAddress;
+            this.UserInfo = s.UserInfo;
+            this.PathFinder = s.PathFinder;
+            this.TbInstanceID = s.TbInstanceID;
+            this.LoggedToTb = s.LoggedToTb;
+            this.WebSocket = s.WebSocket;
+            this.Localizer = s.Localizer;
+            this.Enums = s.Enums;
+            this.ApplicationFontStyles = s.ApplicationFontStyles;
+            this.ApplicationFormatStyles = s.ApplicationFormatStyles;
+            this.Hotlinks = s.Hotlinks;
+    }
 
-        //private Hashtable cache; // used to store application reportSession values
-        //public Hashtable Cache
-        //{
-        //    get
-        //    {
-        //        if (cache == null)
-        //            cache = new Hashtable(StringComparer.OrdinalIgnoreCase);
-        //        return cache;
-        //    }
-        //}
+    //private Hashtable cache; // used to store application reportSession values
+    //public Hashtable Cache
+    //{
+    //    get
+    //    {
+    //        if (cache == null)
+    //            cache = new Hashtable(StringComparer.OrdinalIgnoreCase);
+    //        return cache;
+    //    }
+    //}
 
-        virtual public bool SkipTypeChecking { get { return string.IsNullOrEmpty(CompanyDbConnection); } }
+    virtual public bool SkipTypeChecking { get { return string.IsNullOrEmpty(CompanyDbConnection); } }
 
         // Il caricamento di function per le funzioni interne pesa poco e quelle esterne sono caricate on demand
         // gli Hotlinks sono solo caricati on demand e quindi non pesano.
