@@ -54,9 +54,9 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-		public Account(string userName)
+		public Account(string accountName)
         {
-            this.accountName = userName;
+            this.accountName = accountName;
         }
 
         //---------------------------------------------------------------------

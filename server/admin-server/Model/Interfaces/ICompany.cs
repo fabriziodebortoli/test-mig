@@ -10,12 +10,12 @@
     }
 
     //================================================================================
-    interface ICompany
-    {
+    interface ICompany : IAdminModel
+	{
         int CompanyId { get; }
 		string Name { get; }
-		string Description { get; }
-		int SubscriptionId { get; }
+		string Description { get; set; }
+		int SubscriptionId { get; set; }
         IDatabaseInfo CompanyDatabaseInfo { get; }
 		bool UseDMS { get; }
 		IDatabaseInfo DMSDatabaseInfo { get; }

@@ -19,6 +19,10 @@ namespace Microarea.AdminServer
 		//
 
 		// Company
+		public const string ExistCompany = @"SELECT COUNT(*) FROM MP_Companies WHERE CompanyId = @CompanyId";
+
+		public const string SelectCompanyByName = @"SELECT * FROM MP_Companies WHERE Name = @Name";
+
 		public const string InsertCompany = @"INSERT INTO MP_Companies (Name, Description, CompanyDBServer, CompanyDBName, CompanyDBOwner, CompanyDBPassword, Disabled,
 			DatabaseCulture, IsUnicode, PreferredLanguage, ApplicationLanguage, Provider, SubscriptionId, UseDMS, DMSDBServer, DMSDBName, DMSDBOwner, DMSDBPassword) 
 			VALUES (@Name, @Description, @CompanyDBServer, @CompanyDBName, @CompanyDBOwner, @CompanyDBPassword, @Disabled,
@@ -29,6 +33,7 @@ namespace Microarea.AdminServer
 			PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage, Provider = @Provider, SubscriptionId = @SubscriptionId, UseDMS = @UseDMS, 
 			DMSDBServer = @DMSDBServer, DMSDBName = @DMSDBName, DMSDBOwner = @DMSDBOwner, DMSDBPassword = @DMSDBPassword
 			WHERE CompanyId = @CompanyId";
+
 		public const string DeleteCompany = @"DELETE MP_Companies WHERE CompanyId = @CompanyId";
 		//
 
