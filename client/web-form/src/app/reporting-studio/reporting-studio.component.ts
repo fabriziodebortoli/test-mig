@@ -139,7 +139,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let p2: string = '';
                 if (this.args.params) {
                   if (this.args.params.xargs != null) {
+                               p = JSON.stringify(this.args.params.xargs);
+                               p2 = decodeURIComponent(p);
                   }
+                  else p2 = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : JSON.stringify(this.args.params);
                 }
 let message = {
       commandType: CommandType.NAMESPACE,
