@@ -27,6 +27,8 @@ export class WebSocketService {
     public open: EventEmitter<any> = new EventEmitter();
     public close: EventEmitter<any> = new EventEmitter();
     public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
+    public buttonsState: EventEmitter<any> = new EventEmitter();
+    
 
     constructor(private httpService: HttpService,
         private cookieService: CookieService,
@@ -57,6 +59,7 @@ export class WebSocketService {
                         // request the list of opened windows
                         case 'MessageDialog': $this.message.emit(obj.args); break;
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
+                        case 'ButtonsState': $this.buttonsState.emit(obj.args); break;
                         default: break;
                     }
 

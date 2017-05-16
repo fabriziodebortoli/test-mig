@@ -1,11 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { TbComponent } from '../../../';
 
 
 @Component({
   selector: 'tb-tile',
   templateUrl: './tile.component.html',
-  styleUrls: ['./tile.component.scss']
+  styleUrls: ['./tile.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TileComponent implements OnInit {
 
