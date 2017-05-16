@@ -30,10 +30,12 @@ namespace Microarea.AdminServer
 			DMSDBServer = @DMSDBServer, DMSDBName = @DMSDBName, DMSDBOwner = @DMSDBOwner, DMSDBPassword = @DMSDBPassword
 			WHERE CompanyId = @CompanyId";
 		public const string DeleteCompany = @"DELETE MP_Companies WHERE CompanyId = @CompanyId";
-        //
+		//
 
-        // Account
-        public const string SelectAccountByAccountName = @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
+		// Account
+		public const string ExistAccount = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountId = @AccountId";
+
+		public const string SelectAccountByAccountName = @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
 
         public const string InsertAccount = @"INSERT INTO MP_Accounts (AccountName, FullName, Password, Notes, Email, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
 			ExpiryDateCannotChange, ExpiryDatePassword, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, ApplicationLanguage) 
@@ -46,7 +48,7 @@ namespace Microarea.AdminServer
 			ProvisioningAdmin = @ProvisioningAdmin, WindowsAuthentication = @WindowsAuthentication, PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage) 
 			WHERE AccountId = @AccountId";
 
-		public const string DeleteAccount = @"DELETE MP_Accounts WHERE AccountName = @AccountName";
+		public const string DeleteAccount = @"DELETE MP_Accounts WHERE AccountId = @AccountId";
 		//
 	}
 }
