@@ -1,8 +1,8 @@
 import { AskdialogService } from './askdialog.service';
 import { Subscription } from 'rxjs';
 import { ReportingStudioService } from './../../reporting-studio.service';
-import { Component, Input, OnDestroy, ViewEncapsulation, OnChanges } from '@angular/core';
-import { TemplateItem, askGroup, text, check, radio, CommandType, askObj } from './../../reporting-studio.model';
+import { Component, Input, OnDestroy, ViewEncapsulation, OnChanges, SimpleChange } from '@angular/core';
+import { TemplateItem, askGroup, text, check, radio, CommandType, askObj, hotlink } from './../../reporting-studio.model';
 
 @Component({
   selector: 'rs-askdialog',
@@ -14,6 +14,7 @@ import { TemplateItem, askGroup, text, check, radio, CommandType, askObj } from 
 export class AskdialogComponent implements OnDestroy, OnChanges {
 
   @Input() ask: string;
+  @Input() hotLinkValues: any;
 
   public askObject;
   public commType: CommandType;
@@ -27,13 +28,24 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
   }
 
 
-
-  ngOnChanges() {
-    let msg = JSON.parse(this.ask);
-    this.commType = msg.commandType;
-    this.askObject = JSON.parse(msg.message);
-    this.RenderLayout(this.askObject);
-
+  ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
+    if (changes.ask !== undefined) {
+      let msg = JSON.parse(this.ask);
+      this.commType = msg.commandType;
+      this.askObject = JSON.parse(msg.message);
+      this.RenderLayout(this.askObject);
+    }
+    if (changes.hotLinkValues !== undefined && !changes.hotLinkValues.isFirstChange()) {
+      for (let i = 0; i < this.objects.length; i++) {
+        for (let y = 0; y < this.objects[i].entries.length; y++) {
+          if (this.objects[i].entries[y].id === this.hotLinkValues.page) {
+            let h: hotlink = <hotlink>this.objects[i].entries[y];
+            h.selectionList = JSON.parse(this.hotLinkValues.message);
+            return;
+          }
+        }
+      }
+    }
   }
 
   ngOnDestroy() {

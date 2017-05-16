@@ -30,21 +30,23 @@ namespace Microarea.AdminServer
 			DMSDBServer = @DMSDBServer, DMSDBName = @DMSDBName, DMSDBOwner = @DMSDBOwner, DMSDBPassword = @DMSDBPassword
 			WHERE CompanyId = @CompanyId";
 		public const string DeleteCompany = @"DELETE MP_Companies WHERE CompanyId = @CompanyId";
-		//
+        //
 
-		// Account
-		public const string InsertAccount = @"INSERT INTO MP_Accounts (Name, Password, Description, Email, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
+        // Account
+        public const string SelectAccountByAccountName = @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
+
+        public const string InsertAccount = @"INSERT INTO MP_Accounts (AccountName, FullName, Password, Notes, Email, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
 			ExpiryDateCannotChange, ExpiryDatePassword, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, ApplicationLanguage) 
-			VALUES (@Name, @Password, @Description, @Email, @PasswordNeverExpires, @MustChangePassword, @CannotChangePassword, 
+			VALUES (@AccountName, @FullName, @Password, @Notes, @Email, @PasswordNeverExpires, @MustChangePassword, @CannotChangePassword, 
 			@ExpiryDateCannotChange, @ExpiryDatePassword, @Disabled, @Locked, @ProvisioningAdmin, @WindowsAuthentication, @PreferredLanguage, @ApplicationLanguage)";
 
-		public const string UpdateAccount = @"UPDATE MP_Accounts SET Name = @Name, Password = @Password, Description = @Description, Email = @Email, 
+		public const string UpdateAccount = @"UPDATE MP_Accounts SET AccountName = @AccountName, FullName = @FullName, Password = @Password, Notes = @Notes, Email = @Email, 
 			PasswordNeverExpires = @PasswordNeverExpires, MustChangePassword = @MustChangePassword, CannotChangePassword = @CannotChangePassword, 
 			ExpiryDateCannotChange = @ExpiryDateCannotChange, ExpiryDatePassword = @ExpiryDatePassword, Disabled = @Disabled, Locked = @Locked, 
 			ProvisioningAdmin = @ProvisioningAdmin, WindowsAuthentication = @WindowsAuthentication, PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage) 
 			WHERE AccountId = @AccountId";
 
-		public const string DeleteAccount = @"DELETE MP_Accounts WHERE AccountId = @AccountId";
+		public const string DeleteAccount = @"DELETE MP_Accounts WHERE AccountName = @AccountName";
 		//
 	}
 }

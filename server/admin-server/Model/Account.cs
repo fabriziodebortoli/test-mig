@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 
@@ -9,30 +7,30 @@ namespace Microarea.AdminServer.Model
     //================================================================================
     public class Account : IAccount
     {
-        int accountId;
-        string name = string.Empty;
+        // model attributes
+
+        string accountName;
+        string fullName = string.Empty;
 		string password = string.Empty;
-		string description = string.Empty;
+		string notes = string.Empty;
 		string email = string.Empty;
 		bool provisioningAdmin;
 		bool passwordNeverExpires = false;
 		bool mustChangePassword = false;
 		bool cannotChangePassword = false;
 		bool expiryDateCannotChange = false;
-		DateTime expiryDatePassword = (DateTime)SqlDateTime.MinValue;
+        DateTime expiryDatePassword;
 		bool disabled = false;
 		bool locked = false;
 		string applicationLanguage = string.Empty;
         string preferredLanguage = string.Empty;
         bool isWindowsAuthentication = false;
 
-        IDataProvider dataProvider;
-	
-		//---------------------------------------------------------------------
-		public int AccountId { get { return this.accountId; } set { this.accountId = value; } }
-		public string Name { get { return this.name; } set { this.name = value; } }
+        //---------------------------------------------------------------------
+        public string AccountName { get { return this.accountName; } }
+        public string FullName { get { return this.fullName; } set { this.fullName = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
-		public string Description { get { return this.description; } set { this.description = value; } }
+		public string Notes { get { return this.notes; } set { this.notes = value; } }
 		public string Email { get { return this.email; } set { this.email = value; } }
 		public bool ProvisioningAdmin { get { return this.provisioningAdmin; } set { this.provisioningAdmin = value; } }
 		public bool PasswordNeverExpires { get { return this.passwordNeverExpires; } set { this.passwordNeverExpires = value; } }
@@ -46,85 +44,38 @@ namespace Microarea.AdminServer.Model
 		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
         public bool IsWindowsAuthentication { get { return this.isWindowsAuthentication; } set { this.isWindowsAuthentication = value; } }
 
-        public IDataProvider DataProvider
-        {
-            get
-            {
-                return dataProvider;
-            }
+        // data provider
+        IDataProvider dataProvider;
 
-            set
-            {
-                dataProvider = value;
-            }
+        //---------------------------------------------------------------------
+        public Account()
+        {
+        }
+        public Account(string userName)
+        {
+            this.accountName= userName;
         }
 
         //---------------------------------------------------------------------
-        public bool Save(string connectionString)
+        public void SetDataProvider(IDataProvider dataProvider)
+        {
+            this.dataProvider = dataProvider;
+
+            // setting database-dependent values
+            this.expiryDatePassword = this.dataProvider.MinDateTimeValue;
+        }
+
+        //---------------------------------------------------------------------
+        public bool Save()
 		{
-            return this.dataProvider.Save(this, connectionString);
+            return this.dataProvider.Save(this);
 		}
 
-		//---------------------------------------------------------------------
-		public bool Update(Account updateAccount, string connectionString)
-		{
-			try
-			{
-				using (SqlConnection connection = new SqlConnection(connectionString))
-				{
-					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.UpdateAccount, connection))
-					{
-						command.Parameters.AddWithValue("@Name", updateAccount.Name);
-						command.Parameters.AddWithValue("@Description", updateAccount.Description);
-						command.Parameters.AddWithValue("@Email", updateAccount.Email);
-						command.Parameters.AddWithValue("@PasswordNeverExpires", updateAccount.PasswordNeverExpires);
-						command.Parameters.AddWithValue("@MustChangePassword", updateAccount.MustChangePassword);
-						command.Parameters.AddWithValue("@CannotChangePassword", updateAccount.CannotChangePassword);
-						command.Parameters.AddWithValue("@ExpiryDateCannotChange", updateAccount.ExpiryDateCannotChange);
-						command.Parameters.AddWithValue("@ExpiryDatePassword", updateAccount.ExpiryDatePassword);
-						command.Parameters.AddWithValue("@Disabled", updateAccount.Disabled);
-						command.Parameters.AddWithValue("@Locked", updateAccount.Locked);
-						command.Parameters.AddWithValue("@ProvisioningAdmin", updateAccount.ProvisioningAdmin);
-						command.Parameters.AddWithValue("@WindowsAuthentication", updateAccount.IsWindowsAuthentication);
-						command.Parameters.AddWithValue("@PreferredLanguage", updateAccount.PreferredLanguage);
-						command.Parameters.AddWithValue("@ApplicationLanguage", updateAccount.ApplicationLanguage);
-						command.Parameters.AddWithValue("@AccountId", updateAccount.AccountId);
-						command.ExecuteNonQuery();
-					}
-				}
-			}
-			catch (SqlException e)
-			{
-				Console.WriteLine(e.Message);
-				return false;
-			}
+        //---------------------------------------------------------------------
+        public IAdminModel Load()
+        {
+            return this.dataProvider.Load(this);
+        }
 
-			return true;
-		}
-
-		//---------------------------------------------------------------------
-		public bool Delete(int accountId, string connectionString)
-		{
-			try
-			{
-				using (SqlConnection connection = new SqlConnection(connectionString))
-				{
-					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.DeleteAccount, connection))
-					{
-						command.Parameters.AddWithValue("@AccountId", accountId);
-						command.ExecuteNonQuery();
-					}
-				}
-			}
-			catch (SqlException e)
-			{
-				Console.WriteLine(e.Message);
-				return false;
-			}
-
-			return true;
-		}
-	}
+    }
 }

@@ -1,13 +1,16 @@
 ﻿using Microarea.AdminServer.Model.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Services
 {
     public interface IDataProvider
     {
-        bool Save(IAdminModel iModel, string connString);
+        IAdminModel Load(IAdminModel iModel);
+        bool Save(IAdminModel iModel);
+        bool Update(IAdminModel iModel);
+        bool Delete(string userName);
+
+        // database-dependent values
+        DateTime MinDateTimeValue { get; }
     }
 }

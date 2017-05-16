@@ -38,10 +38,7 @@ namespace Microarea.AdminServer
                     .AllowCredentials());
             });
 
-            // Add framework services.
             services.AddMvc();
-
-
             services.Configure<AppOptions>(options => Configuration.GetSection("App").Bind(options));
         }
 
