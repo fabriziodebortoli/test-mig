@@ -88,12 +88,23 @@ export class BOService extends DocumentService {
         }));
 
 
-         this.subscriptions.push(this.eventData.onContextMenu.subscribe((obj: any) => {
+        this.subscriptions.push(this.eventData.onContextMenu.subscribe((obj: any) => {
             this.webSocketService.getContextMenu(this.mainCmpId, obj);
         }));
 
         this.subscriptions.push(this.eventData.closeMessageDialog.subscribe((args: MessageDlgResult) => {
             this.webSocketService.doCloseMessageDialog(this.mainCmpId, args);
+        }));
+
+        this.subscriptions.push(this.webSocketService.buttonsState.subscribe(data => {
+
+            console.log(data);
+
+            const result: any = data.response;
+            const cmpId = this.mainCmpId;
+               if (result.id === cmpId) {
+                    this.eventData.buttonsState = result.buttonsState;
+                }
         }));
 
     }

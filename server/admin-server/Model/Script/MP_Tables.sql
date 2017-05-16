@@ -74,21 +74,21 @@ GO
 if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_Accounts]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
  BEGIN
 CREATE TABLE [dbo].[MP_Accounts] (
-	[AccountId] [int] IDENTITY (1, 1) NOT NULL ,
-	[AccountName] [varchar] (255) NOT NULL ,
-	[Password] [varchar] (128) NOT NULL ,
+	[AccountId] [int] IDENTITY (1, 1) NOT NULL,
+	[AccountName] [varchar] (255) NOT NULL,
+	[Password] [varchar] (128) NOT NULL,
 	[FullName] [varchar] (255) NULL CONSTRAINT DF_Accounts_FullName DEFAULT(''),
 	[Notes] [varchar] (500) NULL CONSTRAINT DF_Accounts_Notes DEFAULT(''),
 	[Email] [varchar] (255) NULL CONSTRAINT DF_Accounts_Email DEFAULT(''),
-	[PasswordNeverExpired] [bit] NULL CONSTRAINT DF_Accounts_PasswordNeverExpired DEFAULT(0),
+	[PasswordNeverExpires] [bit] NULL CONSTRAINT DF_Accounts_PasswordNeverExpires DEFAULT(0),
 	[MustChangePassword] [bit] NULL CONSTRAINT DF_Accounts_MustChangePassword DEFAULT(0),
 	[CannotChangePassword] [bit] NULL CONSTRAINT DF_Accounts_CannotChangePassword DEFAULT(0),
-	[ExpiredDateCannotChange] [bit] NULL CONSTRAINT DF_Accounts_ExpiredDateCannotChange DEFAULT(0),
-	[ExpiredDatePassword] [datetime] NULL CONSTRAINT DF_Accounts_ExpiredDatePassword DEFAULT (getdate()),
+	[ExpiryDateCannotChange] [bit] NULL CONSTRAINT DF_Accounts_ExpiryDateCannotChange DEFAULT(0),
+	[ExpiryDatePassword] [datetime] NULL CONSTRAINT DF_Accounts_ExpiryDatePassword DEFAULT (getdate()),
 	[Disabled] [bit] NULL CONSTRAINT DF_Accounts_Disabled DEFAULT (0),
 	[Locked] [bit] NULL CONSTRAINT DF_Accounts_Locked DEFAULT (0),
 	[ProvisioningAdmin] [bit] NULL CONSTRAINT DF_Accounts_ProvisioningAdmin DEFAULT (0),
-	[WindowsAuthentication] [bit] NOT NULL  DEFAULT (0),
+	[WindowsAuthentication] [bit] NULL CONSTRAINT DF_Accounts_WindowsAuthentication DEFAULT (0),
 	[PreferredLanguage] [varchar] (10) NULL CONSTRAINT DF_Accounts_PreferredLanguage DEFAULT (''),
 	[ApplicationLanguage] [varchar] (10) NULL CONSTRAINT DF_Accounts_ApplicationLanguage DEFAULT (''),
 	CONSTRAINT [PK_MP_Accounts] PRIMARY KEY NONCLUSTERED 

@@ -114,7 +114,10 @@ namespace Microarea.AdminServer.Controllers
 			{
                 IAccount iAccount = new Account();
                 iAccount.SetDataProvider(_accountSqlDataProvider);
-                iAccount.Email = _email;
+				iAccount.AccountName = accountname;
+				iAccount.Password = password;
+
+				iAccount.Email = _email;
                 result = iAccount.Save();
             }
 			catch (SqlException e)
