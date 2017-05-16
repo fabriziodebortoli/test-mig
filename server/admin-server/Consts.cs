@@ -19,6 +19,10 @@ namespace Microarea.AdminServer
 		//
 
 		// Company
+		public const string ExistCompany = @"SELECT COUNT(*) FROM MP_Companies WHERE CompanyId = @CompanyId";
+
+		public const string SelectCompanyByName = @"SELECT * FROM MP_Companies WHERE Name = @Name";
+
 		public const string InsertCompany = @"INSERT INTO MP_Companies (Name, Description, CompanyDBServer, CompanyDBName, CompanyDBOwner, CompanyDBPassword, Disabled,
 			DatabaseCulture, IsUnicode, PreferredLanguage, ApplicationLanguage, Provider, SubscriptionId, UseDMS, DMSDBServer, DMSDBName, DMSDBOwner, DMSDBPassword) 
 			VALUES (@Name, @Description, @CompanyDBServer, @CompanyDBName, @CompanyDBOwner, @CompanyDBPassword, @Disabled,
@@ -29,11 +33,14 @@ namespace Microarea.AdminServer
 			PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage, Provider = @Provider, SubscriptionId = @SubscriptionId, UseDMS = @UseDMS, 
 			DMSDBServer = @DMSDBServer, DMSDBName = @DMSDBName, DMSDBOwner = @DMSDBOwner, DMSDBPassword = @DMSDBPassword
 			WHERE CompanyId = @CompanyId";
-		public const string DeleteCompany = @"DELETE MP_Companies WHERE CompanyId = @CompanyId";
-        //
 
-        // Account
-        public const string SelectAccountByAccountName = @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
+		public const string DeleteCompany = @"DELETE MP_Companies WHERE CompanyId = @CompanyId";
+		//
+
+		// Account
+		public const string ExistAccount = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountId = @AccountId";
+
+		public const string SelectAccountByAccountName = @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
 
         public const string InsertAccount = @"INSERT INTO MP_Accounts (AccountName, FullName, Password, Notes, Email, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
 			ExpiryDateCannotChange, ExpiryDatePassword, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, ApplicationLanguage) 
@@ -46,7 +53,7 @@ namespace Microarea.AdminServer
 			ProvisioningAdmin = @ProvisioningAdmin, WindowsAuthentication = @WindowsAuthentication, PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage) 
 			WHERE AccountId = @AccountId";
 
-		public const string DeleteAccount = @"DELETE MP_Accounts WHERE AccountName = @AccountName";
+		public const string DeleteAccount = @"DELETE MP_Accounts WHERE AccountId = @AccountId";
 		//
 	}
 }

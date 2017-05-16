@@ -119,7 +119,8 @@ namespace Microarea.RSWeb.Models
                 string msgNs = Encoding.UTF8.GetString(nsBuffer.Array, nsBuffer.Offset, nsBuffer.Count).Replace("\0", "");
 
                 /// creates states machine associated with pipe  
-                JsonReportEngine jengine = CreateEngine(JsonConvert.DeserializeObject<NamespaceMessage>(msgNs), webSocket);
+                NamespaceMessage nm = JsonConvert.DeserializeObject<NamespaceMessage>(msgNs);
+                JsonReportEngine jengine = CreateEngine(nm, webSocket);
 
                 if (jengine == null)
                 {    /// handle errors
