@@ -126,6 +126,22 @@ namespace Microarea.RSWeb.Render
             return string.Empty;
         }
 
+        public List<string> GetHotlinkValues(string ns, string filter, string name)
+        {
+            //{
+            //    comandType: GetHotlinkValues,
+            //   message:
+            //    {
+            //        values: array values,
+            //        id: id
+            //    },
+            //    page: 0 oppure id
+            //}
+
+            string[] temporary_values = { "Hola Chica", "Ciao Chica", "This is the value", "Hell Yeah!" };
+            return new List<string>(temporary_values);
+        }
+
         //---------------------------------------------------------------------
         public Message GetResponseFor(Message msg)
         {
@@ -144,6 +160,14 @@ namespace Microarea.RSWeb.Render
                     msg.commandType = MessageBuilder.CommandType.NONE;
                     break;
                 }
+                case MessageBuilder.CommandType.HOTLINK:
+                    {
+                        var obj = JsonConvert.DeserializeObject<HotlinkDescr>(msg.message);
+                        List<string> values = GetHotlinkValues(obj.ns, obj.filter, obj.name);
+                        msg.message = JsonConvert.SerializeObject(values);
+                    
+                        break;
+                    }
                 case MessageBuilder.CommandType.UPDATEASK:
                     {
                       msg.page = msg.page;

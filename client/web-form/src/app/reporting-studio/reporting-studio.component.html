@@ -14,7 +14,7 @@
     <tb-frame-content>
         <tb-view-container>
             <tb-view>
-                <rs-askdialog *ngIf="rsService.showAsk" [ask]="askDialogTemplate" ></rs-askdialog>
+                <rs-askdialog *ngIf="rsService.showAsk" [ask]="askDialogTemplate" [hotLinkValues]="hotLinkValues"></rs-askdialog>
                 <div [ngStyle]="layoutBackStyle" *ngIf="!showAsk">
                     <div [ngStyle]="layoutStyle">
                         <div *ngFor="let item of objects">
@@ -36,10 +36,10 @@
     </tb-frame-content>
     <tb-toolbar-bottom>
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Radar.png" caption="Radar" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button> -->
-        <tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Save.png" caption="Save"></tb-toolbar-bottom-button>
+        <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Save.png" caption="Save"></tb-toolbar-bottom-button>-->
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Escape.png" caption="Undo Changes" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>-->
-        <tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.New.png" caption="New"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Exit.png" caption="Exit"></tb-toolbar-bottom-button>
+        <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.New.png" caption="New"></tb-toolbar-bottom-button> -->
+        <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Exit.png" caption="Exit"></tb-toolbar-bottom-button>-->
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Delete.png" caption="Delete" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>-->
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Print.png" caption="Print" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>-->
     </tb-toolbar-bottom>

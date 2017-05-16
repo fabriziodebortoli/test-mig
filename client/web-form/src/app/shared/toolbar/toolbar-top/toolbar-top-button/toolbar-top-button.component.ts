@@ -13,8 +13,9 @@ enum IconType { MD, TB, IMG };
 export class ToolbarTopButtonComponent extends TbComponent implements OnInit {
 
   @Input() caption: string = '';
-
   @Input() icon: string = '';
+  @Input() disabled: boolean = false;
+  
   iconType: IconType;
   iconTypes = IconType;
   iconTxt: string;
