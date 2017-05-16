@@ -135,17 +135,21 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   rsInitStateMachine() {
-    const xmlArgs = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : '';
-    let message = {
+   let p: string = '';
+    let p2: string = '';
+                if (this.args.params) {
+                  if (this.args.params.xargs != null) {
+                  }
+                }
+let message = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
-      parameters: xmlArgs,
+      parameters: p2,
       authtoken: this.cookieService.get('authtoken')
     };
-
     this.rsService.doSendSync(JSON.stringify(message));
-
   }
+
 
   // -----------------------------------------------
   RunReport() {

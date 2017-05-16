@@ -21,6 +21,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Threading;
 using Microarea.Common.Applications;
+using System.Diagnostics;
 
 namespace Microarea.Common.Applications
 {
@@ -540,10 +541,31 @@ namespace Microarea.Common.Applications
             set
             {
                 reportParameters = value;
+                if (reportParameters.CompareNoCase("{}")) 
+                    reportParameters = "";
                 if (!reportParameters.IsNullOrEmpty())
                 {
-                    XmlDomParameters = new XmlDocument();
-                    XmlDomParameters.LoadXml(reportParameters);
+                    if (reportParameters.IndexOf("\"<Arguments", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        reportParameters = reportParameters.Mid(1); 
+                        reportParameters = reportParameters.Left(reportParameters.Length - 1);
+
+                        //reportParameters = "<?xml version = \"1.0\" encoding = \"utf-16\" ?><maxs:UnknowReport tbNamespace= \"erp.company.isocountrycodes\" xmlns:\"http://www.microarea.it/Schema/2004/Smart///Users/sa/.xsd\" ><maxs:Parameters>"+
+                        //reportParameters +
+                        //"</maxs:Parameters></maxs:UnknowReport>";
+                        reportParameters = "<?xml version = \"1.0\" encoding = \"utf-16\" ?><Parameters>" +
+                         reportParameters +
+                         "</Parameters>";
+                    }
+                    try               
+                    {
+                        XmlDomParameters = new XmlDocument();
+                        XmlDomParameters.LoadXml(reportParameters);
+                        }
+                    catch (Exception ex)
+                    {
+                        Debug.Fail(ex.Message);
+                    }
                 }
                 if (XmlReport)
                     ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);
