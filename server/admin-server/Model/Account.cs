@@ -7,8 +7,8 @@ namespace Microarea.AdminServer.Model
     //================================================================================
     public class Account : IAccount
     {
-        // model attributes
-
+		// model attributes
+		int accountId = -1;
         string accountName;
         string fullName = string.Empty;
 		string password = string.Empty;
@@ -26,9 +26,10 @@ namespace Microarea.AdminServer.Model
         string preferredLanguage = string.Empty;
         bool isWindowsAuthentication = false;
 
-        //---------------------------------------------------------------------
-        public string AccountName { get { return this.accountName; } }
-        public string FullName { get { return this.fullName; } set { this.fullName = value; } }
+		//---------------------------------------------------------------------
+		public int AccountId { get { return this.accountId; } }
+		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
+		public string FullName { get { return this.fullName; } set { this.fullName = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
 		public string Notes { get { return this.notes; } set { this.notes = value; } }
 		public string Email { get { return this.email; } set { this.email = value; } }
@@ -50,10 +51,12 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public Account()
         {
-        }
-        public Account(string userName)
+		}
+
+		//---------------------------------------------------------------------
+		public Account(string userName)
         {
-            this.accountName= userName;
+            this.accountName = userName;
         }
 
         //---------------------------------------------------------------------
@@ -76,6 +79,5 @@ namespace Microarea.AdminServer.Model
         {
             return this.dataProvider.Load(this);
         }
-
     }
 }
