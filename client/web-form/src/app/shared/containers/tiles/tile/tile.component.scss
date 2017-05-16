@@ -30,3 +30,7 @@ $mf-font-size: 1rem !default;
 :host(.tile-autofill) {
     flex: 1;
 }
+
+:host(.tile-standard) .sameHeight {
+    height: 100%;
+}
