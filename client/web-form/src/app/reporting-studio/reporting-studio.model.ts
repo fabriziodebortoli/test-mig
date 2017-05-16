@@ -4,9 +4,9 @@ export interface Message {
   message?: string;
 }
 
-export enum CommandType {WRONG, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, RUNREPORT, ENDREPORT, NONE }
+export enum CommandType { WRONG, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, RUNREPORT, ENDREPORT, NONE, HOTLINK }
 
-export enum AskObjectType { text, radio, check, dropdownlist }
+export enum AskObjectType { text, radio, check, dropdownlist, hotlink }
 
 export enum ReportObjectType { textrect, fieldrect, table, graphrect, sqrrect, repeater, cell, link }
 
@@ -362,22 +362,15 @@ export class askGroup {
       else if (element.dropdownlist !== undefined) {
         obj = new dropdownlist(element.dropdownlist);
       }
+       else if (element.textwithhotlink !== undefined) {
+        obj = new hotlink(element.textwithhotlink);
+      }
 
       this.entries.push(obj);
     }
   }
 }
 
-export class hotlinkObj {
-  ns: string;
-  selection_type: string;
-  selection_list: any;
-  constructor(jsonObj: any) {
-    this.ns = jsonObj.ns;
-    this.selection_type = jsonObj.selection_type;
-    this.selection_list = jsonObj.selection_list;
-  }
-}
 export class fieldAskObj {
   name: string;
   id: string;
@@ -398,7 +391,7 @@ export class askObj extends fieldAskObj {
   left_aligned: boolean;
   left_text: boolean;
   runatserver: boolean;
-  hotlink: hotlinkObj;
+
   constructor(jsonObj: any) {
     super(jsonObj.field);
     this.hidden = jsonObj.hidden;
@@ -407,7 +400,7 @@ export class askObj extends fieldAskObj {
     this.left_aligned = jsonObj.left_aligned;
     this.left_text = jsonObj.left_text;
     this.runatserver = jsonObj.runatserver;
-    this.hotlink = jsonObj.hotlink ? new hotlinkObj(jsonObj.hotlink) : undefined;
+
   }
 }
 
@@ -446,6 +439,18 @@ export class dropdownlist extends askObj {
   }
 }
 
+export class hotlink extends askObj {
+  obj: AskObjectType = AskObjectType.hotlink;
+  ns: string;
+  selectionList: string[] = [];
+  selection_type: string;
+  constructor(jsonObj: any) {
+    super(jsonObj);
+    this.ns = jsonObj.hotlink.ns;
+    this.selection_type = jsonObj.hotlink.selection_type;
+  }
+
+}
 export class dropdownListPair {
   code: string;
   description: string;

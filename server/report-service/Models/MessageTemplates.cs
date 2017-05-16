@@ -25,5 +25,12 @@ namespace Microarea.RSWeb.Models
         public string name { get; set; }
         public string value { get; set; }
     }
- 
+
+    public class HotlinkDescr
+    {
+        public string ns { get; set; }
+        public string filter { get; set; }
+        public string name { get; set; }
+    }
+
 }

@@ -73,7 +73,7 @@ namespace Microarea.RSWeb.WoormEngine
 					case AskStyle.COMBO_STYLE: return XmlWriterTokens.AttributeValue.Combo; 
 				}
 		
-				return XmlWriterTokens.AttributeValue.Text;
+				return this.Hotlink!=null? XmlWriterTokens.AttributeValue.TextWithHotlink : XmlWriterTokens.AttributeValue.Text;
 			}
 		}
 

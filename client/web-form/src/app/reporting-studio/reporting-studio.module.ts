@@ -31,6 +31,7 @@ import { AskCheckComponent } from './report-objects/askdialog/ask-check/ask-chec
 import { AskRadioComponent } from './report-objects/askdialog/ask-radio/ask-radio.component';
 import { AskDropdownlistComponent } from './report-objects/askdialog/ask-dropdownlist/ask-dropdownlist.component';
 import { AskTextComponent } from './report-objects/askdialog/ask-text/ask-text.component';
+import { AskHotlinkComponent } from './report-objects/askdialog/ask-hotlink/ask-hotlink.component';
 
 
 
@@ -74,7 +75,8 @@ const KENDO_UI_MODULES = [
     AskCheckComponent,
     AskRadioComponent,
     AskTextComponent,
-    AskDropdownlistComponent
+    AskDropdownlistComponent,
+    AskHotlinkComponent
   ],
   entryComponents:
   [

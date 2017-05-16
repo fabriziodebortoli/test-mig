@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer.Model.Interfaces
 {
     public interface IAdminModel
     {
-        bool Save(string connectionString);
+        void SetDataProvider(IDataProvider dataProvider);
+        bool Save();
+        IAdminModel Load();
     }
 }

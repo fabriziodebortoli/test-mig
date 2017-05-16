@@ -3,30 +3,29 @@ using System.Data.SqlClient;
 using System.IO;
 using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Model.Interfaces;
-using Microarea.AdminServer.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microarea.AdminServer.Model;
 using Microsoft.Extensions.Options;
+using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer.Controllers
 {
-	//=========================================================================
-	public class AdminController : Controller
+    //=========================================================================
+    public class AdminController : Controller
     {
         AppOptions _settings;
         private IHostingEnvironment _env;
-        private IAdminDataServiceProvider _adminDataService;
-
-        JsonHelper jsonHelper;
+        AccountSQLDataProvider _accountSqlDataProvider;
+        JsonHelper _jsonHelper;
 
 		//-----------------------------------------------------------------------------	
-		public AdminController(IHostingEnvironment env, IAdminDataServiceProvider adminDataService, IOptions<AppOptions> settings)
+		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings)
         {
             _env = env;
-            _adminDataService = adminDataService;
             _settings = settings.Value;
-            this.jsonHelper = new JsonHelper();
+            _jsonHelper = new JsonHelper();
+            _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
         }
 
         [HttpGet]
@@ -48,58 +47,56 @@ namespace Microarea.AdminServer.Controllers
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiHome()
         {
-            jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea Admin-Server API");
-            return new ContentResult { Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
+            _jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea Admin-Server API");
+            return new ContentResult { Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
         }
 
-        [HttpGet("/api/accounts/{username}/{field}")]  
+        [HttpGet("/api/accounts/{username}/{field?}")]
         [Produces("application/json")]
         //-----------------------------------------------------------------------------	
-        public IActionResult ApiAccountsInformations(string username)
+        public IActionResult ApiAccountsInformations(string username, string field)
         {
             string user = username;
 
             if (String.IsNullOrEmpty(user))
             {
-                jsonHelper.AddJsonCouple<bool>("result", false);
-                jsonHelper.AddJsonCouple<string>("message", "Username cannot be empty");
-                return new ContentResult { StatusCode = 400, Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
+                _jsonHelper.AddJsonCouple<bool>("result", false);
+                _jsonHelper.AddJsonCouple<string>("message", "Username cannot be empty");
+                return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
             }
 
-			IAccount account;
-			try
-			{
-				account = _adminDataService.ReadLogin(user, String.Empty);
-			}
-			catch (NotImplementedException ex)
-			{
-				jsonHelper.AddJsonCouple<bool>("result", false);
-				jsonHelper.AddJsonCouple<string>("message", ex.Message);
-				return new ContentResult { StatusCode = 501, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
-			}
-			catch (SqlException e)
-			{
-				jsonHelper.AddJsonCouple<bool>("result", false);
-				jsonHelper.AddJsonCouple<string>("message", e.Message);
-				return new ContentResult { StatusCode = 501, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
-			}
+            IAccount account = new Account(user);
+            account.SetDataProvider(_accountSqlDataProvider);
 
-            if (account == null)
+            try
             {
-                jsonHelper.AddJsonCouple<bool>("result", false);
-                jsonHelper.AddJsonCouple<string>("message", "Invalid Username and Password");
-                return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+                account.Load();
+            }
+            catch (NotImplementedException ex)
+            {
+                _jsonHelper.AddJsonCouple<bool>("result", false);
+                _jsonHelper.AddJsonCouple<string>("message", ex.Message);
+                return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+            }
+            catch (SqlException e)
+            {
+                _jsonHelper.AddJsonCouple<bool>("result", false);
+                _jsonHelper.AddJsonCouple<string>("message", e.Message);
+                return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
             }
 
             // user has been found
-            jsonHelper.AddJsonCouple<bool>("result", true);
-			jsonHelper.AddJsonCouple<string>("message", "Username recognized in the provisioning database");
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+            _jsonHelper.AddJsonCouple<bool>("result", true);
+            _jsonHelper.AddJsonObject("account", account);
+            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+        
         }
 
-		[HttpPost("/api/accounts/{accountname}")] // post
+
+        [HttpPost("/api/accounts/{accountname}")] // post
 		//-----------------------------------------------------------------------------	
-		public IActionResult ApiAddAccount(string accountname, string password, string email)
+        // adds and updates accounts
+		public IActionResult ApiAccounts(string accountname, string password, string email)
 		{
 			string user = accountname;
 			string psw = password;
@@ -107,35 +104,36 @@ namespace Microarea.AdminServer.Controllers
 
 			if (String.IsNullOrEmpty(user))
 			{
-				jsonHelper.AddJsonCouple<bool>("result", false);
-				jsonHelper.AddJsonCouple<string>("message", "Account name cannot be empty");
-				return new ContentResult { StatusCode = 400, Content = jsonHelper.WriteAndClear(), ContentType = "application/json" };
+                _jsonHelper.AddJsonCouple<bool>("result", false);
+                _jsonHelper.AddJsonCouple<string>("message", "Account name cannot be empty");
+				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
 			}
 
 			bool result = false;
 			try
 			{
                 IAccount iAccount = new Account();
+                iAccount.SetDataProvider(_accountSqlDataProvider);
                 iAccount.Email = _email;
-                result = iAccount.Save(_settings.DatabaseInfo.ConnectionString);
+                result = iAccount.Save();
             }
 			catch (SqlException e)
 			{
-				jsonHelper.AddJsonCouple<bool>("result", false);
-				jsonHelper.AddJsonCouple<string>("message", e.Message);
-				return new ContentResult { StatusCode = 501, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+                _jsonHelper.AddJsonCouple<bool>("result", false);
+                _jsonHelper.AddJsonCouple<string>("message", e.Message);
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
 			}
 
 			if (!result)
 			{
-				jsonHelper.AddJsonCouple<bool>("result", false);
-				jsonHelper.AddJsonCouple<string>("message", "Adding account operation failed");
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+                _jsonHelper.AddJsonCouple<bool>("result", false);
+                _jsonHelper.AddJsonCouple<string>("message", "Adding account operation failed");
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
 			}
 
-			jsonHelper.AddJsonCouple<bool>("result", true);
-			jsonHelper.AddJsonCouple<string>("message", "Adding account operation successfully completed");
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteAndClear(), ContentType = "text/html" };
+            _jsonHelper.AddJsonCouple<bool>("result", true);
+            _jsonHelper.AddJsonCouple<string>("message", "Adding account operation successfully completed");
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
 		}
 	}
 }
