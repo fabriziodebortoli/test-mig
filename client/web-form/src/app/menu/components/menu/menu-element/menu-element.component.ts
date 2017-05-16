@@ -31,6 +31,7 @@ export class MenuElementComponent {
   }
 
   runFunction(object) {
+    event.stopPropagation();
     this.menuService.runFunction(object);
   }
 
