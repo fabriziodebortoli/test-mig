@@ -113,7 +113,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.UpdateData(k);
           break;
         case CommandType.RUNREPORT:
-          const params = { xmlArgs: encodeURIComponent(k.arguments), runAtTbLoader: false };
+          const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
           this.componentService.createReportComponent(k.ns, params);
           break;
         case CommandType.ENDREPORT:

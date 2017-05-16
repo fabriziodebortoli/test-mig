@@ -482,7 +482,7 @@ namespace Microarea.Common.Applications
         //-------------------------------------------------------------------------------------------------
         public class MyMessage
         {
-            public int commandType = 7;     //commandtype.RUNREPORT
+            public int commandType = 8;     //commandtype.RUNREPORT
             public string message { get; set; }
 
             public string page = string.Empty;
@@ -501,7 +501,7 @@ namespace Microarea.Common.Applications
             string xargs = d.OuterXml;
 
             MyMessage msg = new MyMessage(); //commandtype.RUNREPORT
-            msg.message = '{' + fun.NameSpace.ToString().ToJson("ns") + ',' + xargs.ToJson("args", false, false) + '}';
+            msg.message = '{' + fun.NameSpace.ToString().ToJson("ns") + ',' + xargs.ToJson("args", false, true) + '}';
 
             string jmsg = JsonConvert.SerializeObject(msg);
 
