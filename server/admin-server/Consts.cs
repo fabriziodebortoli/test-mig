@@ -15,6 +15,7 @@ namespace Microarea.AdminServer
 
 		// Subscription
 		public const string ExistSubscription = @"SELECT COUNT(*) FROM MP_Subscriptions WHERE SubscriptionId = @SubscriptionId";
+		public const string SelectSubscriptionByName = @"SELECT * FROM MP_Subscriptions WHERE Name = @Name";
 		public const string InsertSubscription = @"INSERT INTO MP_Subscriptions (Name, ActivationKey, PurchaseId, InstanceId) VALUES (@Name, @ActivationKey, @PurchaseId, @InstanceId)";
 		public const string UpdateSubscription = @"UPDATE MP_Subscriptions SET Name = @Name, ActivationKey = @ActivationKey, PurchaseId = @PurchaseId, InstanceId = @InstanceId 
 												WHERE SubscriptionId = @SubscriptionId";

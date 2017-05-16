@@ -16,9 +16,12 @@ namespace Microarea.AdminServer.Controllers
     {
         AppOptions _settings;
         private IHostingEnvironment _env;
+
         AccountSQLDataProvider _accountSqlDataProvider;
 		CompanySQLDataProvider _companySqlDataProvider;
 		InstanceSQLDataProvider _instanceSqlDataProvider;
+		SubscriptionSQLDataProvider _subscriptionSQLDataProvider;
+
 		JsonHelper _jsonHelper;
 
 		//-----------------------------------------------------------------------------	
@@ -31,6 +34,7 @@ namespace Microarea.AdminServer.Controllers
             _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
 			_companySqlDataProvider = new CompanySQLDataProvider(_settings.DatabaseInfo.ConnectionString);
 			_instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
+			_subscriptionSQLDataProvider = new SubscriptionSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
 		}
 
         [HttpGet]
@@ -188,7 +192,7 @@ namespace Microarea.AdminServer.Controllers
 			if (String.IsNullOrEmpty(instancename))
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Company name cannot be empty");
+				_jsonHelper.AddJsonCouple<string>("message", "Instance name cannot be empty");
 				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
 			}
 
@@ -217,6 +221,47 @@ namespace Microarea.AdminServer.Controllers
 
 			_jsonHelper.AddJsonCouple<bool>("result", true);
 			_jsonHelper.AddJsonCouple<string>("message", "Save instance operation successfully completed");
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+		}
+
+		/// <summary>
+		/// Insert/update Subscription
+		/// </summary>
+		//-----------------------------------------------------------------------------	
+		[HttpPost("/api/subscriptions/{subscriptionname}")]
+		public IActionResult ApiSubscriptions(string subscriptionname, int instanceid)
+		{
+			if (String.IsNullOrEmpty(subscriptionname))
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", "Subscription name cannot be empty");
+				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+			}
+
+			bool result = false;
+			try
+			{
+				ISubscription iSubscription = new Subscription(subscriptionname);
+				iSubscription.SetDataProvider(_subscriptionSQLDataProvider);
+				iSubscription.InstanceId = instanceid;
+				result = iSubscription.Save();
+			}
+			catch (SqlException e)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", e.Message);
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			}
+
+			if (!result)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", "Save subscription operation failed");
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			}
+
+			_jsonHelper.AddJsonCouple<bool>("result", true);
+			_jsonHelper.AddJsonCouple<string>("message", "Save subscription operation successfully completed");
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
 		}
 	}
