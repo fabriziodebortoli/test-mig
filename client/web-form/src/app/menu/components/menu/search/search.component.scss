@@ -6,6 +6,11 @@
     width: 330px;
 }
 
+.tb-search .mat-input-element {
+    font-size: 14px;
+    line-height: 26px;
+}
+
 .tb-search .mat-input-wrapper {
     margin: 0;
     padding: 0;
@@ -21,10 +26,43 @@
     width: 300px;
 }
 
+.tb-search .mat-icon {
+    margin: 3px 5px 0 0;
+    color: #4791bd;
+}
+
 
 /************/
 
 .search-element .menu-element {
     margin: 0;
+    padding: 0;
+    background: #fff;
+}
+
+.search-element .menu-element-content .mat-icon {
+    margin-right: 0;
+}
+
+.search-element .menu-element span {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+}
+
+.search-element .menu-element .object-type {
+    margin: 2px 0px 2px 5px;
+}
+
+.cdk-overlay-pane {
+    width: 351px !important;
+    margin-left: -35px;
+}
+
+.mat-option {
+    line-height: 24px;
+    height: 24px;
     padding: 0;
 }
