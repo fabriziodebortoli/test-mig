@@ -47,7 +47,14 @@ namespace Microarea.AdminServer.Controllers
             {
                 return NotFound();
             }
+
             string file = Path.Combine(_env.WebRootPath, "index.html");
+
+            if (!System.IO.File.Exists(file))
+            {
+                return NotFound();
+            }
+
             byte[] buff = System.IO.File.ReadAllBytes(file);
             return File(buff, "text/html");
         }
