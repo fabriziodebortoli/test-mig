@@ -851,10 +851,10 @@ namespace Microarea.Common.Hotlink
 
                 if (this.IsQueryRule)
                 {
-                    field.SetData(DataLevel.Events, CoreTypes.ObjectHelper.CastFromDBData(o, field.GetData(DataLevel.Events) ));
+                    field.SetData(DataLevel.Events, CoreTypes.ObjectHelper.CastFromDBData(o, field.GetData(DataLevel.Events), field));
                 }
                 else
-                    field.Data = CoreTypes.ObjectHelper.CastFromDBData(o, field.Data);
+                    field.Data = CoreTypes.ObjectHelper.CastFromDBData(o, field.Data, field);
 
                 //Debug.WriteLine(string.Format("Field {0}: {1}\n", tagLink.name, field.Data.ToString()));
 

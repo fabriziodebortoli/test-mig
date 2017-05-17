@@ -608,13 +608,13 @@ namespace Microarea.Common.Generic
 
         public static string ToJson(this double d, string name = null, bool bracket = false)
         {
-            return d.ToString().ToJson(name, bracket, false, false);
+            return d.ToString("F").ToJson(name, bracket, false, false);
         }
 
         public static string ToJson(this DateTime d, string name = null, bool bracket = false)
         {
             //TODO RSWEB datetime to string manca culture
-            return d.ToString().ToJson(name, bracket, false, true);
+            return d.ToString("yyyy-MM-dd").ToJson(name, bracket, false, true);
         }
 
         //----------------------------------------------------------------------------------
