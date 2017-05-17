@@ -327,14 +327,15 @@ let message = {
   setDocumentStyle(layout: any) {
 
     this.layoutStyle = {
-      'width': layout.pageinfo.width + 'px',
-      'height': layout.pageinfo.length + 'px',
+      'width': (layout.pageinfo.width/10) + 'mm',
+      'height': (layout.pageinfo.length/10) + 'mm',
       'background-color': 'white',
+      'border': '1px solid #ccc',
+      'margin': '5px auto',
       'position': 'relative'
     }
     this.layoutBackStyle = {
       'width': '100%',
-      'background-color': 'black',
       'position': 'relative',
       'overflow': 'scroll',
       'height': this.viewHeight + 'px'
