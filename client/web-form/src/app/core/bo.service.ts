@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { MessageDlgArgs, MessageDlgResult } from './../shared/containers/message-dialog/message-dialog.component';
 import { UtilsService } from './utils.service';
 import { Injectable } from '@angular/core';
@@ -11,7 +12,7 @@ import { BOHelperService } from 'app/core/bohelper.service';
 
 @Injectable()
 export class BOService extends DocumentService {
-    serverSideCommandMap: any; // TODO SILVANO needs typing
+    serverSideCommandMap = [];
 
     subscriptions = [];
 
@@ -58,12 +59,23 @@ export class BOService extends DocumentService {
                 this.serverSideCommandMap = data.map;
             }
         }));
-        this.subscriptions.push(this.eventData.command.subscribe((cmpId: String) => {
-            const patch = this.getPatchedData();
-            this.webSocketService.doCommand(this.mainCmpId, cmpId, patch);
-            if (patch.length > 0) {
-                // client data has been sent to server, so reset oldModel
-                this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
+        this.subscriptions.push(this.eventData.command.subscribe((cmpId: string) => {
+            const ret = this.onCommand(cmpId);
+            if (ret === true) {
+                this.doCommand(cmpId);
+                return;
+            }
+            if (ret === false) {
+                return;
+            }
+           //se sono observable
+            if (ret.subscribe) {
+                const subs = ret.subscribe(goOn => {
+                    if (goOn) {
+                        this.doCommand(cmpId);
+                    }
+                    subs.unsubscribe();
+                });
             }
         }));
 
@@ -72,14 +84,23 @@ export class BOService extends DocumentService {
                 this.eventData.openMessageDialog.emit(args);
             }
         }));
-        this.subscriptions.push(this.eventData.change.subscribe((cmpId: String) => {
-            if (this.isServerSideCommand(cmpId)) {
-                const patch = this.getPatchedData();
-                if (patch.length > 0) {
-                    this.webSocketService.doValueChanged(this.mainCmpId, cmpId, patch);
-                    // client data has been sent to server, so reset oldModel
-                    this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
-                }
+        this.subscriptions.push(this.eventData.change.subscribe((cmpId: string) => {
+            const ret = this.onChange(cmpId);
+            if (ret === true) {
+                this.doChange(cmpId);
+                return;
+            }
+            if (ret === false) {
+                return;
+            }
+            //se sono observable
+            if (ret.subscribe) {
+                const subs = ret.subscribe(goOn => {
+                    if (goOn) {
+                        this.doChange(cmpId);
+                    }
+                    subs.unsubscribe();
+                });
             }
         }));
 
@@ -87,24 +108,16 @@ export class BOService extends DocumentService {
             this.webSocketService.doFillListBox(this.mainCmpId, obj);
         }));
 
-
-        this.subscriptions.push(this.eventData.onContextMenu.subscribe((obj: any) => {
-            this.webSocketService.getContextMenu(this.mainCmpId, obj);
-        }));
-
         this.subscriptions.push(this.eventData.closeMessageDialog.subscribe((args: MessageDlgResult) => {
             this.webSocketService.doCloseMessageDialog(this.mainCmpId, args);
         }));
 
         this.subscriptions.push(this.webSocketService.buttonsState.subscribe(data => {
-
-            console.log(data);
-
             const result: any = data.response;
             const cmpId = this.mainCmpId;
-               if (result.id === cmpId) {
-                    this.eventData.buttonsState = result.buttonsState;
-                }
+            if (result.id === cmpId) {
+                this.eventData.buttonsState = result.buttonsState;
+            }
         }));
 
     }
@@ -127,10 +140,32 @@ export class BOService extends DocumentService {
         super.close();
         this.webSocketService.doCommand(this.mainCmpId, 'ID_FILE_CLOSE');
     }
-    isServerSideCommand(idCommand: String) {
-        // per ora sono considerati tutti server-side,ma in futuro ci sara la mappa dei comandi che vanno eseguito server side
+    isServerSideCommand(idCommand: string) {
+        return this.serverSideCommandMap.includes(idCommand);
+    }
+    onCommand(id: string): boolean | Observable<boolean> {
         return true;
     }
-
+    doCommand(id: string) {
+        const patch = this.getPatchedData();
+        this.webSocketService.doCommand(this.mainCmpId, id, patch);
+        if (patch.length > 0) {
+            // client data has been sent to server, so reset oldModel
+            this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
+        }
+    }
+    onChange(id: string): boolean | Observable<boolean> {
+        return true;
+    }
+    doChange(id: string) {
+        if (this.isServerSideCommand(id)) {
+            const patch = this.getPatchedData();
+            if (patch.length > 0) {
+                this.webSocketService.doValueChanged(this.mainCmpId, id, patch);
+                // client data has been sent to server, so reset oldModel
+                this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
+            }
+        }
+    }
 }
 
