@@ -113,7 +113,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.UpdateData(k);
           break;
         case CommandType.RUNREPORT:
-          const params = { xmlArgs: encodeURIComponent(k.arguments), runAtTbLoader: false };
+          const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
           this.componentService.createReportComponent(k.ns, params);
           break;
         case CommandType.ENDREPORT:
@@ -135,17 +135,24 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   rsInitStateMachine() {
-    const xmlArgs = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : '';
-    let message = {
+   let p: string = '';
+    let p2: string = '';
+                if (this.args.params) {
+                  if (this.args.params.xargs != null) {
+                               p = JSON.stringify(this.args.params.xargs);
+                               p2 = decodeURIComponent(p);
+                  }
+                  else p2 = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : JSON.stringify(this.args.params);
+                }
+let message = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
-      parameters: xmlArgs,
+      parameters: p2,
       authtoken: this.cookieService.get('authtoken')
     };
-
     this.rsService.doSendSync(JSON.stringify(message));
-
   }
+
 
   // -----------------------------------------------
   RunReport() {

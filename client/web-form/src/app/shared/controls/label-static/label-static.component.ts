@@ -1,3 +1,4 @@
+import { TextComponent } from './../text/text.component';
 import { Component, OnInit, Input } from '@angular/core';
 import { ControlComponent } from './../control.component';
 
@@ -6,7 +7,7 @@ import { ControlComponent } from './../control.component';
   templateUrl: './label-static.component.html',
   styleUrls: ['./label-static.component.scss']
 })
-export class LabelStaticComponent  extends ControlComponent implements OnInit {
+export class LabelStaticComponent  extends TextComponent implements OnInit {
   @Input() caption = '';
   ngOnInit() {
   }
