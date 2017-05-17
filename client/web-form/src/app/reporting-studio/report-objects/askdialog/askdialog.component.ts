@@ -16,11 +16,14 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
   @Input() ask: string;
   @Input() hotLinkValues: any;
 
+  nameButton: string = 'Next';
+
   public askObject;
   public commType: CommandType;
   public objects: askGroup[] = [];
   public templates: TemplateItem[] = [];
   subscriptions: Array<Subscription> = [];
+
   constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
     this.subscriptions.push(adService.askChanged.subscribe(() => {
       this.updateAsk();
@@ -33,6 +36,9 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
       let msg = JSON.parse(this.ask);
       this.commType = msg.commandType;
       this.askObject = JSON.parse(msg.message);
+      if(this.askObject.isLast === true){
+        this.nameButton = 'Execute';
+      }
       this.RenderLayout(this.askObject);
     }
     if (changes.hotLinkValues !== undefined && !changes.hotLinkValues.isFirstChange()) {
@@ -99,24 +105,6 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
   }
 
   Next() {
-    /*let arrayComp: any[] = [];
-    for (let i = 0; i < this.objects.length; i++) {
-      let group = this.objects[i];
-      for (let j = 0; j < group.entries.length; j++) {
-        let component: askObj = group.entries[j];
-        let obj = {
-          id: component.id,
-          value: component.value.toString()
-        };
-        arrayComp.push(obj);
-      }
-    }
-    let message = {
-      commandType: CommandType.ASK,
-      message: JSON.stringify(arrayComp),
-      page: this.rsService.askPage
-    };
-    this.rsService.doSend(JSON.stringify(message));*/
     this.SendAsk(CommandType.ASK);
   }
 
@@ -127,6 +115,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
     //this.templates[this.templates.length-1].templateObjects;
     this.templates.pop();
     this.objects = this.templates[this.templates.length - 1].templateObjects;
+    this.askObject = this.templates[this.templates.length - 1].template;
   }
 
   close() {
@@ -135,24 +124,6 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
   }
 
   updateAsk() {
-    /*let arrayComp: any[] = [];
-    for (let i = 0; i < this.objects.length; i++) {
-      let group = this.objects[i];
-      for (let j = 0; j < group.entries.length; j++) {
-        let component: askObj = group.entries[j];
-        let obj = {
-          id: component.id,
-          value: component.value.toString()
-        };
-        arrayComp.push(obj);
-      }
-    }
-    let message = {
-      commandType: CommandType.UPDATEASK,
-      message: JSON.stringify(arrayComp),
-      page: this.rsService.askPage
-    };
-    this.rsService.doSend(JSON.stringify(message));*/
     this.SendAsk(CommandType.UPDATEASK);
   }
 

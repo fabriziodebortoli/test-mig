@@ -1,15 +1,20 @@
-﻿using System;
+﻿using Microarea.AdminServer.Model.Interfaces;
+using System;
 using System.Collections;
 
 namespace Microarea.AdminServer.Services
 {
     //================================================================================
-    public class OperationResult
+    public class ServiceResult
     {
         bool result;
+        int affectedItem;
         ArrayList messages;
+        IAdminModel objectResult;
 
         public bool Result { get { return this.result; } }
+
+        public int AffectedItem { get { return this.affectedItem; } }
         public string Description {
             get {
                 string allMessages = String.Empty;
@@ -21,10 +26,13 @@ namespace Microarea.AdminServer.Services
             }
         }
 
+        public IAdminModel ObjectResult { get { return this.objectResult; } }
+
         //--------------------------------------------------------------------------------
-        OperationResult()
+        public ServiceResult()
         {
             this.result = false;
+            this.affectedItem = 0;
             this.messages = new ArrayList();
         }
 
@@ -32,6 +40,12 @@ namespace Microarea.AdminServer.Services
         public void SetResult(bool result)
         {
             this.result = result;
+        }
+
+        //--------------------------------------------------------------------------------
+        public void SetObjectResult(IAdminModel objResult)
+        {
+            this.objectResult = objResult;
         }
 
         //--------------------------------------------------------------------------------

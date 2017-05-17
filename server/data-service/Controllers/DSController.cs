@@ -39,20 +39,19 @@ namespace DataService.Controllers
             UserInfo ui = GetLoginInformation();
             if (ui == null)
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
-
-            TbSession session = new TbSession(ui, nameSpace);
+			TbSession session = new TbSession(ui, nameSpace);
 
             Datasource ds = new Datasource(session);
 
-            if (!ds.PrepareQuery(HttpContext.Request.Query, selectionType))
+			if (!ds.PrepareQuery(HttpContext.Request.Query, selectionType))
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
-            string records;
+			string records;
             if (!ds.GetCompactJson(out records))
                 return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
-
-            //---------------------
-            return new ContentResult { Content = records, ContentType = "application/json" };
+			
+			//---------------------
+			return new ContentResult { Content = records, ContentType = "application/json" };
         }
 
         [Route("getcolumns/{namespace}/{selectiontype}")]

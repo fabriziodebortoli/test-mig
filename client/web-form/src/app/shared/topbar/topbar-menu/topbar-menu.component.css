@@ -1,0 +1,48 @@
+.topbar-menu-layout .k-widget .k-button[disabled],
+.topbar-menu-layout .k-widget .k-button.k-state-disabled:hover,
+.topbar-menu-layout .k-widget .k-button.k-state-disabled:focus,
+.topbar-menu-layout .k-widget [disabled] .k-button {
+    outline: none;
+    cursor: default;
+    opacity: .6;
+    -webkit-filter: grayscale(0.1);
+    filter: grayscale(0.1);
+    pointer-events: none;
+}
+
+.k-widget {
+    color: white;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.topbar-menu-layout .k-widget .k-animation-container .k-popup {
+    color: white;
+    background-color: #00578c;
+    border-color: transparent;
+}
+
+.topbar-menu-layout .k-widget .k-button {
+    color: white;
+    background-color: transparent;
+    border-color: transparent;
+    background-image: none;
+    /*background-image: linear-gradient(red, red);*/
+}
+
+.topbar-menu-layout .k-widget .k-button:hover,
+.topbar-menu-layout .k-widget .k-button.k-state-hover,
+.topbar-menu-layout .k-widget .k-button.k-flat:hover,
+.topbar-menu-layout .k-widget .k-button.k-flat.k-state-hover {
+    color: #bcd3e1;
+    background-color: transparent;
+    border-color: transparent;
+    background-image: none;
+    /*background-image: linear-gradient(red, red);*/
+}
+
+.topbar-menu-layout .k-widget .k-animation-container .k-popup .k-list .k-item:hover,
+.topbar-menu-layout .k-widget .k-animation-container .k-popup.k-list .k-item.k-state-hover {
+    color: #bcd3e1;
+    background-color: transparent;
+}

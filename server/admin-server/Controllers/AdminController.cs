@@ -8,6 +8,7 @@ using Microarea.AdminServer.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microarea.AdminServer.Services.Providers;
 
 namespace Microarea.AdminServer.Controllers
 {
@@ -46,7 +47,14 @@ namespace Microarea.AdminServer.Controllers
             {
                 return NotFound();
             }
+
             string file = Path.Combine(_env.WebRootPath, "index.html");
+
+            if (!System.IO.File.Exists(file))
+            {
+                return NotFound();
+            }
+
             byte[] buff = System.IO.File.ReadAllBytes(file);
             return File(buff, "text/html");
         }

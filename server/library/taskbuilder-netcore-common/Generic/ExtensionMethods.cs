@@ -311,6 +311,22 @@ namespace Microarea.Common.Generic
         }
 
         /// <summary>
+        /// LastIndexOf with Occurence
+        /// </summary>
+        //-------------------------------------------------------------------------
+        public static string RemovePrefix(this string s, string pref)
+        {
+            int pos = s.IndexOf('.');
+            if (pos == -1) return s;
+
+            string p = s.Left(pos);
+            if (p.CompareNoCase(pref))
+                return s.Mid(pos + 1);
+            return s;
+        }
+
+
+        /// <summary>
         /// 
         /// </summary>
         //-------------------------------------------------------------------------

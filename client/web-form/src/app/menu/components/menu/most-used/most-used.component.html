@@ -1,12 +1,12 @@
 <div class="most-used" *ngIf="menuService?.mostUsedCount > 0">
 
-  <ul class="most-used-list">
-    <li *ngFor="let object of utilsService.toArray(menuService?.mostUsed)" class="most-used-item">
+    <ul class="most-used-list">
+        <li *ngFor="let object of utilsService.toArray(menuService?.mostUsed) | slice:0:9;" class="most-used-item">
 
-      <md-icon class="type">{{imageService.getObjectIcon(object)}}</md-icon>
+            <md-icon class="type">{{imageService.getObjectIcon(object)}}</md-icon>
 
-      <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
-    </li>
-  </ul>
+            <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
+        </li>
+    </ul>
 
 </div>

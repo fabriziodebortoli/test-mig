@@ -20,11 +20,11 @@ export class AppComponent {
     this.accountService = accountService;
   }
 
-  getAccountInfo() {
-    alert(this.username);
-    this.accountService.GetAccount(this.username)
-          .subscribe(
-            str => this.resText = str,
-            error => this.errText);
-  }
+  // getAccountInfo() {
+  //   alert(this.username);
+  //   this.accountService.GetAccount(this.username)
+  //         .subscribe(
+  //           str => this.resText = str,
+  //           error => this.errText);
+  // }
 }
