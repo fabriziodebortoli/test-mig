@@ -15,7 +15,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
 
   @Input() ask: string;
   @Input() hotLinkValues: any;
-  
+
   public askObject;
   public commType: CommandType;
   public objects: askGroup[] = [];
@@ -85,7 +85,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
         let component: askObj = group.entries[j];
         let obj = {
           name: component.name,
-          value: component.value.toString()
+          value: component.value.code ? component.value.code.toString() : component.value.toString()
         };
         arrayComp.push(obj);
       }
