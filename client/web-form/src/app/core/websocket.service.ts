@@ -107,11 +107,6 @@ export class WebSocketService {
         this.connection.send(JSON.stringify(data));
     }
 
-    getContextMenu(cmpId: String, contextMenu: any): void {
-        const data = { cmd: 'doContextMenu', cmpId: cmpId, contextMenu: contextMenu };
-        this.connection.send(JSON.stringify(data));
-    }
-
     doCommand(cmpId: String, id: String, modelData?: any): void {
         const data = { cmd: 'doCommand', cmpId: cmpId, id: id, model: modelData };
         this.connection.send(JSON.stringify(data));

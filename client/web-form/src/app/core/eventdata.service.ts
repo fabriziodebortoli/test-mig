@@ -8,8 +8,6 @@ export class EventDataService {
     public change: EventEmitter<string> = new EventEmitter();
     public openDropdown: EventEmitter<any> = new EventEmitter();
 
-    public onContextMenu: EventEmitter<any> = new EventEmitter();
-
     public openMessageDialog: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public closeMessageDialog: EventEmitter<MessageDlgResult> = new EventEmitter();
 
