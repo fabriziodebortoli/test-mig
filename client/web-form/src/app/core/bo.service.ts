@@ -22,7 +22,7 @@ export class BOService extends DocumentService {
         eventData: EventDataService) {
         super(boHelperService.logger, eventData);
 
-        this.subscriptions.push(this.webSocketService.dataReady.subscribe(data => {
+        this.subscriptions.push(this.webSocketService.modelData.subscribe(data => {
             const models: Array<any> = data.models;
             const cmpId = this.mainCmpId;
             models.forEach(model => {
@@ -53,7 +53,7 @@ export class BOService extends DocumentService {
             });
         }));
 
-        this.subscriptions.push(this.webSocketService.serverCommandMapReady.subscribe(data => {
+        this.subscriptions.push(this.webSocketService.serverCommands.subscribe(data => {
             const cmpId = this.mainCmpId;
             if (data.id === cmpId) {
                 this.serverSideCommandMap = data.map;
