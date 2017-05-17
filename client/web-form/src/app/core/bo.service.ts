@@ -97,9 +97,6 @@ export class BOService extends DocumentService {
         }));
 
         this.subscriptions.push(this.webSocketService.buttonsState.subscribe(data => {
-
-            console.log(data);
-
             const result: any = data.response;
             const cmpId = this.mainCmpId;
                if (result.id === cmpId) {
