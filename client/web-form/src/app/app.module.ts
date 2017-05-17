@@ -12,6 +12,7 @@ import { MaterialModule } from '@angular/material';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { MenuModule } from './menu/menu.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 import { HomeComponent, HomeSidenavComponent } from './home';
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
@@ -44,6 +45,7 @@ import { StandaloneReportComponent } from './home/standalone.report/standalone.r
     CoreModule.forRoot(),
     SharedModule,
     MenuModule.forRoot(),
+    DashboardModule,
     routing,
     MomentModule,
     LayoutModule
