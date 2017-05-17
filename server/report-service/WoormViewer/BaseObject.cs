@@ -380,6 +380,7 @@ namespace Microarea.RSWeb.Objects
                 case ConnectionLinkType.ReportByAlias:
                 {
                     navigateURL = navigateURL.RemoveExtension(".wrm");
+                    navigateURL = navigateURL.RemovePrefix("report.");
 
                     if (!template)
                     {
