@@ -8,6 +8,7 @@ using Microarea.AdminServer.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microarea.AdminServer.Services.Providers;
 
 namespace Microarea.AdminServer.Controllers
 {

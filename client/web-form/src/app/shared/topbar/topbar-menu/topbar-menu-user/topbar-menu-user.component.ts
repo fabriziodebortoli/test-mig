@@ -9,6 +9,20 @@ import { Component, OnInit } from '@angular/core';
 export class TopbarMenuUserComponent implements OnInit {
 
   private title: string = "User menu";
+data: Array<any> = [{
+         actionName: 'Refresh',
+    }, {
+        actionName: 'Settings',
+    }, {
+        actionName: 'Help',
+    }, {
+        actionName: 'Sign Out',
+         click: (dataItem) => {
+           this.logout();
+        }
+    }
+];
+
 
   constructor(private loginSessionService: LoginSessionService) { }
 
