@@ -9,6 +9,7 @@ using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Models;
 using Microarea.RSWeb.WoormEngine;
+using Microarea.Common.Hotlink;
 
 namespace Microarea.RSWeb.Render
 {
@@ -126,19 +127,27 @@ namespace Microarea.RSWeb.Render
             return string.Empty;
         }
 
-        public List<string> GetHotlinkValues(string ns, string filter, string name)
+        public List<string> GetHotlinkValues(string ns, string filter, string fieldName)
         {
-            //{
-            //    comandType: GetHotlinkValues,
-            //   message:
-            //    {
-            //        values: array values,
-            //        id: id
-            //    },
-            //    page: 0 oppure id
-            //}
+            TbSession hklSession = new TbSession(this.ReportSession, ns);
 
-            string[] temporary_values = { "Hola Chica", "Ciao Chica", "This is the value", "Hell Yeah!" };
+            Datasource ds = new Datasource(hklSession);
+
+            //TODO RSWEB - manca il passaggio dei parametri dell'hotlink
+            if (!ds.PrepareQuery(/*HttpContext.Request.Query,*/ "Code"/*TODO RSWEB*/, filter))
+                return null;
+
+            string records; 
+            if (!ds.GetCompactJson(out records, fieldName))
+                return null;
+            //recods contiene i record selezionati
+ 
+            //TODO DEMO
+            string[] temporary_values = { "BDF3","BDF36","BDF6","BFM3","BFM36","BFM6","BON",
+                    "CONT","RB","RB369-15","RBDF3","RBDF36","RBDF369",
+                    "RBDF6","RBFM3","RBFM36","RBFM369","RBFM6","RD","RDDF3",
+                    "RDDF36","RDDF369","RDDF6","RDFM3","RDFM36","RDFM369","RDFM6","TRFM4560" };
+
             return new List<string>(temporary_values);
         }
 

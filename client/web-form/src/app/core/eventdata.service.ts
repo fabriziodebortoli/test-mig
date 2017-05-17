@@ -17,6 +17,8 @@ export class EventDataService {
     public model: any = {}; // current model
 
     public activation: any = {}; // contains activation data
+    public buttonsState: any = {}; // contains activation data
+    
     constructor() {
         console.log('EventDataService created');
     }

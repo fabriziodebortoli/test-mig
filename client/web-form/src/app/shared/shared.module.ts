@@ -101,7 +101,7 @@ const TB_DIRECTIVES = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule.forRoot(),
+    MaterialModule,
     RouterModule,
     KENDO_UI_MODULES
   ],

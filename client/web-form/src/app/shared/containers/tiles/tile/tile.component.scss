@@ -1,32 +1,49 @@
-$mf-font-size: 1rem !default;
-:host(tb-tile) {}
-
-:host(.h200) md-card-content {
+.h200 md-card-content {
     min-height: 200px;
     max-height: 200px;
     overflow: auto;
 }
 
-:host(tb-tile) {
+tb-tile {
     flex: 1;
 }
 
-:host(.tile-micro) {
+tb-tile.tile-micro {
     flex: 0 0 12.5%;
 }
 
-:host(.tile-mini) {
+tb-tile.tile-mini {
     flex: 0 0 25%;
 }
 
-:host(.tile-standard) {
+tb-tile.tile-standard {
     flex: 0 0 50%;
 }
 
-:host(.tile-wide) {
+tb-tile.tile-wide {
     flex: 0 0 100%;
 }
 
-:host(.tile-autofill) {
+tb-tile.tile-autofill {
     flex: 1;
 }
+
+tb-tile.tile-wide {
+    md-card-content  {
+        display:flex;
+    }
+
+    .col {
+       flex: 0 0 50%;
+    }
+
+    .col2{
+            margin-left: 16px;
+    }
+}
+
+.anchored {   
+    display: flex;
+    flex-direction: row;    
+}
+

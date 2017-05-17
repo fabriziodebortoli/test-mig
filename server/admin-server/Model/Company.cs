@@ -1,11 +1,12 @@
 ﻿using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer.Model
 {
     //================================================================================
     public class Company : ICompany
     {
-        int companyId;
+        int companyId = -1;
         string name = string.Empty;
 		string description = string.Empty;
 		int subscriptionId;
@@ -33,5 +34,37 @@ namespace Microarea.AdminServer.Model
 		public string PreferredLanguage { get { return this.preferredLanguage; } set { this.preferredLanguage = value; } }
 		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
 		public string Provider { get { return this.provider; } set { this.provider = value; } }
-    }
+
+		// data provider
+		IDataProvider dataProvider;
+
+		//---------------------------------------------------------------------
+		public Company()
+		{
+		}
+
+		//---------------------------------------------------------------------
+		public Company(string companyName)
+		{
+			this.name = companyName;
+		}
+
+		//---------------------------------------------------------------------
+		public void SetDataProvider(IDataProvider dataProvider)
+		{
+			this.dataProvider = dataProvider;
+		}
+
+		//---------------------------------------------------------------------
+		public bool Save()
+		{
+			return this.dataProvider.Save(this);
+		}
+
+		//---------------------------------------------------------------------
+		public IAdminModel Load()
+		{
+			return this.dataProvider.Load(this);
+		}
+	}
 }
