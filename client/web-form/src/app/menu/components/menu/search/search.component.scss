@@ -7,6 +7,16 @@
     box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .1), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .1);
 }
 
+.tb-search .mat-focused .mat-input-placeholder.mat-float,
+.tb-search .mat-input-placeholder.mat-float:not(.mat-empty) {
+    color: #4791bd;
+    display: none;
+}
+
+.tb-search .mat-input-placeholder.mat-empty {
+    color: #4791bd;
+}
+
 .tb-search .mat-input-element {
     font-size: 14px;
     line-height: 26px;
