@@ -327,8 +327,8 @@ let message = {
   setDocumentStyle(layout: any) {
 
     this.layoutStyle = {
-      'width': (layout.pageinfo.width/10) + 'mm',
-      'height': (layout.pageinfo.length/10) + 'mm',
+      'width': (layout.pageinfo.width) + 'mm',
+      'height': (layout.pageinfo.length) + 'mm',
       'background-color': 'white',
       'border': '1px solid #ccc',
       'margin': '5px auto',
