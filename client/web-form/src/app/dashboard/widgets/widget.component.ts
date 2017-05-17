@@ -1,4 +1,4 @@
-import { Component, Input, AfterContentInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, AfterContentInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Widget, WidgetsService } from './widgets.service';
 
 @Component({
@@ -16,10 +16,10 @@ import { Widget, WidgetsService } from './widgets.service';
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      padding: 13px 15px 0 15px;
+      /*padding: 13px 15px 0 15px;*/
     }
     .widget-header {
-      margin-bottom: 12px;
+      margin-bottom: 0;
     }
     .widget-title {
       margin-bottom: 10px;
@@ -27,7 +27,7 @@ import { Widget, WidgetsService } from './widgets.service';
       flex-direction: row;
     }
     .mat-card-header .mat-card-subtitle:not(:first-child), .mat-card>.mat-card-xl-image:first-child {
-      margin-top: -10px;
+      margin-top: -16px;
     }    
     .widget-content {
         flex: 1;
@@ -83,7 +83,7 @@ import { Widget, WidgetsService } from './widgets.service';
     }
   `]
 })
-export class WidgetComponent implements AfterContentInit {
+export class WidgetComponent implements AfterViewInit {
   @Input() widget: Widget;
   @ViewChild('cardContent') cardContent: ElementRef;
   ContentHeight: number;
@@ -91,9 +91,11 @@ export class WidgetComponent implements AfterContentInit {
 
   isLoading: boolean = false;
 
-  constructor(private widgetsService: WidgetsService) { }
+  constructor(private widgetsService: WidgetsService) { 
+    
+  }
 
-  ngAfterContentInit() {
+  ngAfterViewInit() {
     setTimeout(() => {
       this.ContentHeight = this.cardContent ? this.cardContent.nativeElement.offsetHeight : 0;
       this.ContentWidth = this.cardContent ? this.cardContent.nativeElement.offsetWidth : 0;

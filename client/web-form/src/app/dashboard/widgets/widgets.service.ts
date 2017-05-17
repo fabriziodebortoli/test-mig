@@ -94,7 +94,7 @@ export class WidgetsService {
       this.pad00(d.getSeconds());
   }
 
-  getActiveWidgets(): Observable<Widget[]> {
+  getActiveWidgets(): Observable<WidgetRow[]> {
     const url: string = environment.baseUrl + 'widgets-service/getActiveWidgets';
 
     return this.http.get(url, { withCredentials: true }).map(

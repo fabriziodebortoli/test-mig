@@ -35,24 +35,18 @@ export class WidgetContainerComponent implements OnInit {
 
   ngOnInit() {
     this.widgetsService.getActiveWidgets().subscribe(
-      (w: Widget[]) => {
+          (w) => {
+            this.widgets = w;
 
-        let wRow: WidgetRow = new WidgetRow();
-        wRow.widgets = w;
-        this.widgets.push(wRow);
-
-        console.log(w)
-
-        this.widgets.forEach((row) => {
-          console.log(row)
-          row.widgets.forEach((wdg) => {
-            this.widgetsService.refreshContent(wdg).subscribe(
-              (data) => {
-                wdg.data = data;
-              }
-            );
-          });
-        });
+            this.widgets.forEach((row) => {
+              row.widgets.forEach((wdg) => {
+                this.widgetsService.refreshContent(wdg).subscribe(
+                  (data) => {
+                    wdg.data = data;
+                  }
+                );
+              });
+            });
 
         if (this.widgetsService.isFirstUse) {
           this.snackBar.open('Your dashboard was empty, and has been created with a default layout.', 'Ok');

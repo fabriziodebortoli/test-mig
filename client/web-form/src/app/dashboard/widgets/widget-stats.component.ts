@@ -51,27 +51,25 @@ import { Widget } from './widgets.service';
 
     :host .green {
       background: linear-gradient(60deg, #66bb6a, #43a047);
-      box-shadow: 0 12px 20px -10px rgba(76, 175, 80, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(76, 175, 80, 0.2);
     }
     :host .purple {
       background: linear-gradient(60deg, #ab47bc, #8e24aa);
-      box-shadow: 0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2);
     }
     :host .blue {
       background: linear-gradient(60deg, #03A2FF, #0277BD);
-      box-shadow: 0 12px 20px -10px rgba(0, 188, 212, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(0, 188, 212, 0.2);
     }
     :host .orange {
       background: linear-gradient(60deg, #ffa726, #fb8c00);
-      box-shadow: 0 12px 20px -10px rgba(255, 152, 0, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(255, 152, 0, 0.2);
     }
     :host .red {
       background: linear-gradient(60deg, #ef5350, #e53935);
-      box-shadow: 0 12px 20px -10px rgba(244, 67, 54, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(244, 67, 54, 0.2);
     }
     :host .cyan {
       background: linear-gradient(60deg, #26c6da, #00acc1);
-      box-shadow: 0 12px 20px -10px rgba(0, 188, 212, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(0, 188, 212, 0.2);
+    }
+
+    :host .w-shadow{
+      box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
     }
   `]
 })
@@ -116,9 +114,9 @@ export class WidgetStatsComponent implements OnInit {
 
   statsIconColorClass() {
     if (this.widget.layout.statsFormat && this.widget.layout.statsFormat.color) {
-      return this.widget.layout.statsFormat.color;
+      return 'w-shadow ' + this.widget.layout.statsFormat.color;
     } else {
-      return 'blue';
+      return 'w-shadow blue';
     }
   }
 }

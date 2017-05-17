@@ -60,10 +60,13 @@ import { Widget } from './widgets.service';
 export class WidgetGridComponent {
   @Input() widget: Widget;
 
-  constructor(private widgetComponent: WidgetComponent) { }
+  constructor(private widgetComponent: WidgetComponent) {
+
+  }
 
   gridHeight(): number {
-    return this.widgetComponent.ContentHeight - 31; // 31 = altezza header @@TODO rendere dinamico!
+    let h = this.widgetComponent.ContentHeight ? this.widgetComponent.ContentHeight : 120;// 31 = altezza header @@TODO rendere dinamico!
+    return h;
   }
 
   gridHeaderColorClass() {

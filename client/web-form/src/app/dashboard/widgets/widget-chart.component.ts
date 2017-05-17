@@ -25,6 +25,9 @@ export class WidgetChartComponent implements OnInit, AfterViewInit {
   constructor(private widgetComponent: WidgetComponent) { }
 
   ngOnInit() {
+
+    console.log(this.widget)
+
     // for column type, shorten the label if too long
     if (this.widget.layout.chartFormat.type === 'column') {
       this.categoryAxis = { labels: { content: this.labelContent } };
