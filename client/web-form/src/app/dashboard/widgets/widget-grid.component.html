@@ -1,0 +1,8 @@
+<kendo-grid class="widget-grid" [ngClass]="gridHeaderColorClass()" [data]="widget.data?.grid?.rows" [height]="gridHeight()" (dataStateChange)="calcHeight($event)">
+    <div *ngFor="let col of widget.data?.grid?.columns">
+        <kendo-grid-column *ngIf="col.width" field="{{col.id}}" title="{{col.caption}}" [class]="'grid-cell ' + (col.right ? 'grid-cell-right' : '')" [width]="col.width">
+        </kendo-grid-column>
+        <kendo-grid-column *ngIf="!col.width" field="{{col.id}}" title="{{col.caption}}" [class]="'grid-cell ' + (col.right ? 'grid-cell-right' : '')">
+        </kendo-grid-column>
+    </div>
+</kendo-grid>

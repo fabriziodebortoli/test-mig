@@ -1,3 +1,6 @@
+import { ImageService } from './../../menu/services/image.service';
+import { MenuService } from './../../menu/services/menu.service';
+import { UtilsService } from './../../core/utils.service';
 import { Component, OnInit } from '@angular/core';
 
 import { EventDataService } from './../../core/eventdata.service';
@@ -10,9 +13,15 @@ import { EventDataService } from './../../core/eventdata.service';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  private favorites: Array<any> = [];
+
+  constructor(
+    private menuService: MenuService,
+    private imageService: ImageService,
+    private utilsService: UtilsService) { }
 
   ngOnInit() {
+    this.favorites = this.menuService.getFavorites();
   }
 
 }
