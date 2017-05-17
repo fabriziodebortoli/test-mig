@@ -1,0 +1,11 @@
+<div class="widget-stats">
+    <div class="widget-stats-icon-box" [ngClass]="statsIconColorClass()">
+        <md-icon class="widget-stats-icon">{{widget.layout.statsFormat?widget.layout.statsFormat.icon:'info_outline'}}</md-icon>
+    </div>
+    <span class="widget-stats-spacer"></span>
+    <div class="widget-stats-box">
+        <div class="widget-stats-title">{{widget.title}}</div>
+        <div class="widget-stats-value">{{getValue()}}</div>
+        <div class="widget-stats-subtitle">{{widget.subtitle}}</div>
+    </div>
+</div>
