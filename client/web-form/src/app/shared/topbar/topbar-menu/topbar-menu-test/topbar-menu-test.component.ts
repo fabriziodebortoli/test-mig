@@ -9,10 +9,36 @@ import { ComponentService } from './../../../../core/component.service';
 })
 export class TopbarMenuTestComponent implements OnInit {
 
+data: Array<any> = [{
+        actionName: 'Data Service',
+        click: (dataItem) => {
+           this.openDataService();
+        }
+    }, {
+        actionName: 'Reporting Studio',
+        click: (dataItem) => {
+           this.openRS();
+        }
+    }, {
+        actionName: 'TB Explorer',
+         click: (dataItem) => {
+           this.openTBExplorer();
+        }
+    }, {
+        actionName: 'Test Grid Component',
+         click: (dataItem) => {
+           this.openTestGrid();
+        }
+    }, {
+        actionName: 'Test Icons',
+        click: (dataItem) => {
+           this.openTestIcons();
+        }
+    }];
+
   private title: string = "Test menu";
 
   constructor(private componentService: ComponentService) { }
-
   ngOnInit() {
   }
 

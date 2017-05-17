@@ -1,4 +1,4 @@
-<button md-icon-button [md-menu-trigger-for]="menuTest" title="{{title}}">
+<!--<button md-icon-button [md-menu-trigger-for]="menuTest" title="{{title}}">
     <md-icon>build</md-icon>
 </button>
 
@@ -8,4 +8,8 @@
     <button md-menu-item (click)="openTBExplorer()">TB Explorer</button>
     <button md-menu-item (click)="openTestGrid()">Test Grid Component</button>
     <button md-menu-item (click)="openTestIcons()">Test Icons</button>
-</md-menu>
+</md-menu>-->
+
+<kendo-dropdownbutton [data]="data" [textField]="'actionName'">
+    <md-icon style="color:white; background-color: yellow;">build</md-icon>
+</kendo-dropdownbutton>

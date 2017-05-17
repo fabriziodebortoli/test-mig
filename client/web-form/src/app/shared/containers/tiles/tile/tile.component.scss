@@ -28,8 +28,10 @@ tb-tile.tile-autofill {
     flex: 1;
 }
 
-:host(.tile-standard) .sameHeight {
-    height: 100%;
+tb-tile.tile-standard {
+    md-card.sameHeight {
+        height: 100%;
+    }
 }
 
 tb-tile.tile-wide {
