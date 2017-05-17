@@ -319,7 +319,7 @@ namespace Microarea.Common.Generic
             int pos = s.IndexOf('.');
             if (pos == -1) return s;
 
-            string p = s.Left(pos);
+            string p = s.Left(pos + 1);
             if (p.CompareNoCase(pref))
                 return s.Mid(pos + 1);
             return s;

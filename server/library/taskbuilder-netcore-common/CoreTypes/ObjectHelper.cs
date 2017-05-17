@@ -8,6 +8,7 @@ using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces.Model;
 using TaskBuilderNetCore.Data;
 using Microarea.Common.Hotlink;
+using System.IO;
 
 namespace Microarea.Common.CoreTypes
 {
@@ -135,7 +136,7 @@ namespace Microarea.Common.CoreTypes
 		//-----------------------------------------------------------------------------
 		public static string GetMaxString(string str, string cultureMaxString, int len)
 		{
-			return str + (new string((GetMaxString(cultureMaxString))[0], len - str.Length));
+			return str + (new string((GetMaxString(cultureMaxString))[0], Math.Max(0, len - str.Length)));
 		}
 		//-----------------------------------------------------------------------------
 		public static string TrimMaxString(string s, string cultureMaxString)
@@ -198,9 +199,8 @@ namespace Microarea.Common.CoreTypes
 				case "object"	: object o = new object(); return o;
 
                 case "void"     :
-				case "Void"		:	
 				case "variant"	:
-                case "Variant"  : return null;
+                                    return null;
 			}
 
 			throw(new ObjectHelperException("CreateObject: illegal data type " + type));
