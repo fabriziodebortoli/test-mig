@@ -29,6 +29,17 @@
                     </ng-template>
                     <template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
+                            <tb-dashboard></tb-dashboard>
+                        </div>
+                    </template>
+                </kendo-tabstrip-tab>
+
+                <kendo-tabstrip-tab>
+                    <ng-template kendoTabTitle>
+                        <md-icon>dashboard</md-icon>Menu
+                    </ng-template>
+                    <template kendoTabContent>
+                        <div class='kendoTabContent' [style.height.px]="viewHeight">
                             <tb-menu></tb-menu>
                         </div>
                     </template>
