@@ -4,15 +4,15 @@ using System.Data.SqlTypes;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 
-namespace Microarea.AdminServer.Services
+namespace Microarea.AdminServer.Services.Providers
 {
 	//================================================================================
-	public class InstanceSQLDataProvider : IDataProvider
+	public class SubscriptionSQLDataProvider : IDataProvider
     {
         string connectionString;
 
 		//---------------------------------------------------------------------
-		public InstanceSQLDataProvider(string connString)
+		public SubscriptionSQLDataProvider(string connString)
         {
             this.connectionString = connString;
         }
@@ -23,23 +23,23 @@ namespace Microarea.AdminServer.Services
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
-			Instance instance;
+			Subscription subscription;
 
 			try
 			{
-				instance = (Instance)iModel;
+				subscription = (Subscription)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.SelectInstanceByName, connection))
+					using (SqlCommand command = new SqlCommand(Consts.SelectSubscriptionByName, connection))
 					{
-						command.Parameters.AddWithValue("@Name", instance.Name);
+						command.Parameters.AddWithValue("@Name", subscription.Name);
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
 							{
-								instance.Customer = dataReader["Customer"] as string;
-								instance.Disabled = (bool)dataReader["Disabled"];
+								subscription.ActivationKey = dataReader["ActivationKey"] as string;
+								subscription.PurchaseId = dataReader["PurchaseId"] as string;
 							}
 						}
 					}
@@ -51,40 +51,41 @@ namespace Microarea.AdminServer.Services
 				return null;
 			}
 
-			return instance;
+			return subscription;
 		}
 
 		//---------------------------------------------------------------------
 		public bool Save(IAdminModel iModel)
         {
-			Instance instance;
+			Subscription subscription;
 
             try
             {
-				instance = (Instance)iModel;
+				subscription = (Subscription)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
 
-					bool existInstance = false;
+					bool existSubscription = false;
 
-					using (SqlCommand command = new SqlCommand(Consts.ExistInstance, connection))
+					using (SqlCommand command = new SqlCommand(Consts.ExistSubscription, connection))
 					{
-						command.Parameters.AddWithValue("@InstanceId", instance.InstanceId);
-						existInstance = (int)command.ExecuteScalar() > 0;
+						command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
+						existSubscription = (int)command.ExecuteScalar() > 0;
 					}
 
 					using (SqlCommand command = new SqlCommand())
 					{
 						command.Connection = connection;
-						command.CommandText = existInstance ? Consts.UpdateInstance : Consts.InsertInstance;
+						command.CommandText = existSubscription ? Consts.UpdateSubscription : Consts.InsertSubscription;
 						
-						command.Parameters.AddWithValue("@Name", instance.Name);
-						command.Parameters.AddWithValue("@Customer", instance.Customer);
-						command.Parameters.AddWithValue("@Disabled", instance.Disabled);
+						command.Parameters.AddWithValue("@Name", subscription.Name);
+						command.Parameters.AddWithValue("@ActivationKey", subscription.ActivationKey);
+						command.Parameters.AddWithValue("@PurchaseId", subscription.PurchaseId);
+						command.Parameters.AddWithValue("@InstanceId", subscription.InstanceId);
 
-						if (existInstance)
-							command.Parameters.AddWithValue("@InstanceId", instance.InstanceId);
+						if (existSubscription)
+							command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
 
 						command.ExecuteNonQuery();
 					}
@@ -102,17 +103,17 @@ namespace Microarea.AdminServer.Services
 		//---------------------------------------------------------------------
 		public bool Delete(IAdminModel iModel)
 		{
-			Instance instance;
+			Subscription subscription;
 
 			try
 			{
-				instance = (Instance)iModel;
+				subscription = (Subscription)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.DeleteInstance, connection))
+					using (SqlCommand command = new SqlCommand(Consts.DeleteSubscription, connection))
 					{
-						command.Parameters.AddWithValue("@InstanceId", instance.InstanceId);
+						command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
 						command.ExecuteNonQuery();
 					}
 				}

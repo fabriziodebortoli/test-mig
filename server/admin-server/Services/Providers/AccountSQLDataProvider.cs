@@ -4,7 +4,7 @@ using System.Data.SqlTypes;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 
-namespace Microarea.AdminServer.Services
+namespace Microarea.AdminServer.Services.Providers
 {
 	//================================================================================
 	public class AccountSQLDataProvider : IDataProvider
