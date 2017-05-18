@@ -2,7 +2,7 @@
     <ul class="application-list">
         <li *ngFor="let application of applications" (click)="selecteApplication(application)">
             <div *ngIf="application != undefined">
-                <img [src]="imageService.getStaticImage(application)" /><br />
+                <img [src]="imageService.getApplicationIcon(application)" /><br />
                 <span>{{application.title}}</span>
             </div>
         </li>

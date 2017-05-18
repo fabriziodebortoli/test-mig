@@ -20,7 +20,21 @@ export class ImageService {
     }
 
     getApplicationIcon(application) {
-        return this.getStaticImage(application);
+
+        let url = 'assets/images/';
+
+        switch(application.name){
+            case 'TBS':
+                url += 'LogoTBSSmall.png';
+                break;
+            case 'ERP':
+                url += 'LogoMagoNetSmall.png';
+                break;
+            default:
+                url = this.getStaticImage(application);
+        }
+
+        return url;
     }
 
     getStaticImage(item) {
