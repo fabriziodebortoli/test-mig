@@ -20,6 +20,7 @@ namespace Microarea.Menu.Controllers
     //==============================================================================
     public class TBResourcesController : Controller
     {
+        #region pregresso
         private NameSpace nameSpace;
 
         //--------------------------------------------------------------------------
@@ -81,7 +82,6 @@ namespace Microarea.Menu.Controllers
             string s = sb.ToString();
             return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
         }
-
 
         [Route("explorer-open/get-folders/{applicationPath}")]
         //--------------------------------------------------------------------------
@@ -172,6 +172,26 @@ namespace Microarea.Menu.Controllers
 
             string s = sb.ToString();
             return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
+        }
+
+        #endregion pregresso
+
+        [Route("FileSystemMonitor/Init")]
+        //-----------------------------------------------------------------------
+        public bool Init(string authenticationToken)
+        {
+            //    if (!FileSystemMonitor.Engine.IsValidToken(authenticationToken))
+            //        return false;
+
+            //    return FileSystemMonitor.Engine.Init();
+            return true;
+        }
+
+        [Route("FileSystemMonitor/IsAlive")]
+        //-----------------------------------------------------------------------
+        public bool IsAlive()
+        {
+            return true;
         }
     }
 }

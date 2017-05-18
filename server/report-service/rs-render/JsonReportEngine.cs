@@ -137,9 +137,12 @@ namespace Microarea.RSWeb.Render
             if (!ds.PrepareQuery(/*HttpContext.Request.Query,*/ "Code"/*TODO RSWEB*/, filter))
                 return null;
 
-            string records; 
-            if (!ds.GetCompactJson(out records, fieldName))
+            string records;
+            // Lara
+            //if (!ds.GetCompactJson(out records, fieldName))
+            if (!ds.GetCompactJson(out records))
                 return null;
+
             //recods contiene i record selezionati
  
             //TODO DEMO
