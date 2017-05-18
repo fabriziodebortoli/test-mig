@@ -20,7 +20,7 @@ export class IDD_TD_PYMTTERMService extends BOService {
         if (id === 'ID_EXTDOC_SAVE') {
             if (this.eventData.model.PaymentTerms.Description.value.length < 3) {
                 const args = new MessageDlgArgs();
-                args.text = 'Descrizione un po\' corta, continuo ugualmente?';
+                args.text = 'Description is too short, go on anyway?';
                 args.yes = true;
                 args.no = true;
 
