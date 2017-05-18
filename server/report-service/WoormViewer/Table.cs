@@ -2975,7 +2975,7 @@ namespace Microarea.RSWeb.Objects
 
 			// inital value;
 			int x = TitleRect.Left;
-			int y = TitleRect.Bottom;
+            int y = TitleRect.Bottom;
 			int h = columnTitleHeight;
 
 			// update Columns
@@ -3033,17 +3033,23 @@ namespace Microarea.RSWeb.Objects
 			// parse all Columns
 			if (!ParseColumnsBlock(lex))
 				return false;
+            
+            //Analogo a Woorm
+            if (this.HideTableTitle)
+                origin.Y += tableTitleHeight;
+            /*if (!this.HideColumnsTitle)
+                origin.Y += columnTitleHeight;*/
 
-
-			// ricostruisce il layout della tabella
-			RebuildTableSizes
-				(
+            // ricostruisce il layout della tabella
+            RebuildTableSizes
+                (
 				origin,
 				tableTitleHeight,
 				columnTitleHeight,
 				rowHeight,
 				totalHeight
 				);
+
 
 			return true;
 		}
