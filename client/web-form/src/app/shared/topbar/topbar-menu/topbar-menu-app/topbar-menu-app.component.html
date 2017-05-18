@@ -1,4 +1,4 @@
-<button md-icon-button [md-menu-trigger-for]="menuApp" title="{{title}}">
+<!--<button md-icon-button [md-menu-trigger-for]="menuApp" title="{{title}}">
     <md-icon>more_vert</md-icon>
 </button>
 
@@ -9,4 +9,8 @@
     <button md-menu-item (click)=clearCachedData()>{{localizationService.getLocalizedElement('ClearCachedData')}}</button>
     <button md-menu-item (click)=activateViaSMS()>{{localizationService.getLocalizedElement('ActivateViaSMS')}}</button>
     <button md-menu-item (click)=activateViaInternet()>{{localizationService.getLocalizedElement('ActivateViaInternet')}}</button>
-</md-menu>
+</md-menu>-->
+
+<kendo-dropdownbutton [data]="data" [textField]="'{{localizationService.getLocalizedElement('ActivateViaInternet')}}'">
+    <md-icon>more_vert</md-icon>
+</kendo-dropdownbutton>

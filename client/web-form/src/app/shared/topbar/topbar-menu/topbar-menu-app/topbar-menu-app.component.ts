@@ -15,10 +15,10 @@ import { Component, OnInit } from '@angular/core';
 export class TopbarMenuAppComponent implements OnInit {
 
   private title: string = "App menu";
-
+  viewProductInfo: string;
   productInfoDialogRef: MdDialogRef<ProductInfoDialogComponent>;
   connectionInfoDialogRef: MdDialogRef<ConnectionInfoDialogComponent>;
-
+  data: Array<any>;
   constructor(
     public dialog: MdDialog,
     private httpMenuService: HttpMenuService,
@@ -29,8 +29,33 @@ export class TopbarMenuAppComponent implements OnInit {
   }
 
   ngOnInit() {
+      this.data = [{
+        actionName: "'{{" + this.localizationService.getLocalizedElement('ViewProductInfo') + "}}'",
+        click: (dataItem) => {
+           this.openProductInfoDialog();
+        }
+    }, {
+        actionName:  this.localizationService.getLocalizedElement('ConnectionInfo') ,
+        click: (dataItem) => {
+           this.openConnectionInfoDialog();
+        }
+    }, {
+        actionName: this.localizationService.getLocalizedElement('ClearCachedData') ,
+         click: (dataItem) => {
+           this.clearCachedData();
+        }
+    }, {
+        actionName: this.localizationService.getLocalizedElement('ActivateViaSMS') ,
+         click: (dataItem) => {
+           this.activateViaSMS();
+        }
+    }, {
+        actionName:  this.localizationService.getLocalizedElement('ActivateViaInternet') ,
+        click: (dataItem) => {
+           this.activateViaInternet();
+        }
+    }];
   }
-
 
   //---------------------------------------------------------------------------------------------
   activateViaSMS() {
