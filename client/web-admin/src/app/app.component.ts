@@ -8,7 +8,7 @@ import { AccountService } from './services/account.service';
 })
 export class AppComponent {
 
-  title = 'Admin Server is running';
+  title = 'Admin Server';
   username:string;
   resText:string;
   errText:string;
