@@ -217,7 +217,7 @@ export class MenuService {
             });
         }
         else {
-            this.httpService.runDocument(object.target);
+            this.httpService.runDocument(object.target, object.args);
         }
 
         this.addToMostUsed(object);

@@ -6,6 +6,8 @@ import { URLSearchParams, Http, Response } from '@angular/http';
 
 export class Widget {
   title: string;
+  linkedNamespace: string;
+  recordKeys: string;
   layout: WidgetLayout;
   provider: WidgetProvider;
   data?: WidgetData;
