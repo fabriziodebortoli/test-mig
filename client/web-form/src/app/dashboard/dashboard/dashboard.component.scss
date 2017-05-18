@@ -1,8 +1,14 @@
-.dash-menu {
-    padding: 10px 20px;
+.dashboard-page {
+    display: flex;
+    flex-direction: row;
 }
 
-.dash-menu h4 {
-    font-size: 14px;
-    text-transform: uppercase
+.dashboard-sidebar {
+    flex: 0 0 260px;
+    background: #fff;
+    border-right: 1px solid #ddd
+}
+
+.dashboard-content {
+    flex: 1
 }
