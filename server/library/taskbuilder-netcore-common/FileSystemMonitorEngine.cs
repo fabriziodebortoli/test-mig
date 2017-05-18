@@ -44,16 +44,12 @@ namespace Microarea.Common
 	internal class FileSystemMonitor
 	{
 		#region Data Members
-		
 		private static FileSystemMonitorEngine engine = new FileSystemMonitorEngine();
-		
 		#endregion
 
 		#region Properties
-
-		internal static FileSystemMonitorEngine Engine { get { return engine; } }
-
-		#endregion
+        internal static FileSystemMonitorEngine Engine { get { return engine; } }
+        #endregion
 
 		#region Construction and Destruction
 
@@ -1502,22 +1498,23 @@ namespace Microarea.Common
 				return false;
 			}
 
-			DataRow column = (DataRow) columnsFound[columnName];
-				
-			TBType providerType = (TBType) ((SqlDbType) column["ProviderType"]);
-			string typeFound = TBDatabaseType.GetDBDataType(providerType , DBMSType.SQLSERVER);
-			
-			if	(
-					string.Compare(typeFound, "N" + columnType, true) != 0 &&
-					string.Compare(typeFound, columnType, true) != 0
-				) 
-			{
-				diagnostic.Set(
-					DiagnosticType.LogInfo | DiagnosticType.Error,
-					string.Format( FileSystemMonitorStrings.WrongTypeColumn , Database.Strings.FileNameColumnName)
-					);
-				return false;
-			}
+            //Lara    
+            //DataRow column = (DataRow) columnsFound[columnName];
+
+            //TBType providerType = (TBType) ((SqlDbType) column["ProviderType"]);
+            //string typeFound = TBDatabaseType.GetDBDataType(providerType , DBMSType.SQLSERVER);
+
+   //         if (
+			//		string.Compare(typeFound, "N" + columnType, true) != 0 &&
+			//		string.Compare(typeFound, columnType, true) != 0
+			//	) 
+			//{
+			//	diagnostic.Set(
+			//		DiagnosticType.LogInfo | DiagnosticType.Error,
+			//		string.Format( FileSystemMonitorStrings.WrongTypeColumn , Database.Strings.FileNameColumnName)
+			//		);
+			//	return false;
+			//}
 			return true;
 		}
 		//-----------------------------------------------------------------------
@@ -1527,8 +1524,9 @@ namespace Microarea.Common
 			bool ok = true;
 			try
 			{
-				foreach (DataRow col in table.Rows)
-					columnsFound.Add(col["ColumnName"].ToString(), col);
+                //Lara
+				//foreach (DataRow col in table.Rows)
+				//	columnsFound.Add(col["ColumnName"].ToString(), col);
 
 				ok = CheckSingleColumn (columnsFound, Database.Strings.FileNameColumnName, SqlDbType.VarChar.ToString ());
 				ok = CheckSingleColumn (columnsFound, Database.Strings.PathNameColumnName, SqlDbType.VarChar.ToString ())		&& ok;
@@ -1556,8 +1554,9 @@ namespace Microarea.Common
 			bool ok = true;
 			try
 			{
-				foreach (DataRow col in table.Rows)
-					columnsFound.Add(col["ColumnName"].ToString(), col);
+                //Lara
+				//foreach (DataRow col in table.Rows)
+				//	columnsFound.Add(col["ColumnName"].ToString(), col);
 
 				ok = CheckSingleColumn (columnsFound, Database.Strings.FileNameColumnName, SqlDbType.VarChar.ToString ());
 				ok = CheckSingleColumn (columnsFound, Database.Strings.PathNameColumnName, SqlDbType.VarChar.ToString ())		&& ok;
@@ -1584,52 +1583,53 @@ TODOBRUNA		ok = CheckSingleColumn (columnsFound, Database.Strings.RoleIDColumnNa
 		//-----------------------------------------------------------------------
 		private bool CheckDatabase()
 		{
-			TBConnection myConnection = null;			
+            //Lara
+		//	TBConnection myConnection = null;			
 			OpenConnection();
 
-			try
-			{
-				myConnection = new TBConnection(connection.ConnectionString, DBMSType.SQLSERVER);
-				myConnection.Open();
-				TBDatabaseSchema mySchema = new TBDatabaseSchema(myConnection);
+            //try
+            //{
+            //	myConnection = new TBConnection(connection.ConnectionString, DBMSType.SQLSERVER);
+            //	myConnection.Open();
+            //	TBDatabaseSchema mySchema = new TBDatabaseSchema(myConnection);
 
-				// table existance
-				if	(
-					!mySchema.ExistTable(Database.Strings.StandardTableName) || 	
-					!mySchema.ExistTable(Database.Strings.CustomTableName)
-					)
-				{
-					myConnection.Close();
-					myConnection.Dispose();
-					databaseExist = false;
-				}
+            //	// table existance
+            //	if	(
+            //		!mySchema.ExistTable(Database.Strings.StandardTableName) || 	
+            //		!mySchema.ExistTable(Database.Strings.CustomTableName)
+            //		)
+            //	{
+            //		myConnection.Close();
+            //		myConnection.Dispose();
+            //		databaseExist = false;
+            //	}
 
-				// columns checking
-				DataTable standardCols = mySchema.GetTableSchema(Database.Strings.StandardTableName, false);
-				DataTable customCols = mySchema.GetTableSchema(Database.Strings.CustomTableName, false);
+            //	// columns checking
+            //	DataTable standardCols = mySchema.GetTableSchema(Database.Strings.StandardTableName, false);
+            //	DataTable customCols = mySchema.GetTableSchema(Database.Strings.CustomTableName, false);
 
-				if (CheckStandardTableColumns(standardCols) && CheckCustomTableColumns(customCols))
-					databaseExist = true;
-				else 
-					databaseExist = false;
-			}
-			catch(TBException e)
-			{
-				diagnostic.Set(DiagnosticType.LogInfo | DiagnosticType.Warning,
-					string.Format(FileSystemMonitorStrings.GenericDatabaseError , e.Message)
-					);
-				return databaseExist = false;
-			}
-			finally
-			{
-				if (myConnection.State == ConnectionState.Open || myConnection.State == ConnectionState.Broken)
-				{
-					myConnection.Close(); 
-					myConnection.Dispose();
-				}
-			}
-			return databaseExist;
-
+            //	if (CheckStandardTableColumns(standardCols) && CheckCustomTableColumns(customCols))
+            //		databaseExist = true;
+            //	else 
+            //		databaseExist = false;
+            //}
+            //catch(TBException e)
+            //{
+            //	diagnostic.Set(DiagnosticType.LogInfo | DiagnosticType.Warning,
+            //		string.Format(FileSystemMonitorStrings.GenericDatabaseError , e.Message)
+            //		);
+            //	return databaseExist = false;
+            //}
+            //finally
+            //{
+            //	if (myConnection.State == ConnectionState.Open || myConnection.State == ConnectionState.Broken)
+            //	{
+            //		myConnection.Close(); 
+            //		myConnection.Dispose();
+            //	}
+            //}
+            //return databaseExist;
+            return true;
 		}
 
 		//----------------------------------------------------------------------
@@ -1858,8 +1858,9 @@ TODOBRUNA		ok = CheckSingleColumn (columnsFound, Database.Strings.RoleIDColumnNa
 			//-----------------------------------------------------------------------
 			public static void InitServerPath (BasePathFinder pathFinder)
 			{
-				serverPath = string.Concat (Path.DirectorySeparatorChar,  Path.DirectorySeparatorChar, 
-							pathFinder.RemoteServer, Path.DirectorySeparatorChar + pathFinder.Installation + "_");
+                //Lara
+				//serverPath = string.Concat (Path.DirectorySeparatorChar,  Path.DirectorySeparatorChar, 
+				//			pathFinder.RemoteServer, Path.DirectorySeparatorChar + pathFinder.Installation + "_");
 				
 				serverPath = serverPath.ToLower ();
 			}
