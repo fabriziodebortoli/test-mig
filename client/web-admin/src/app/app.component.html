@@ -1,8 +1,13 @@
 <md-sidenav-container fullscreen>
 
   <md-sidenav #start mode="side">
-    <a [routerLink]="['/appHome']">Home</a>
-    <a [routerLink]="['/subscriptionHome']">Subscriptions</a>
+    <h4>Sections</h4>
+    <div>
+      <a [routerLink]="['/appHome']">Home</a>
+    </div>
+    <div>
+      <a [routerLink]="['/subscriptionHome']">Subscriptions</a>
+    </div>
   </md-sidenav>
 
   <md-toolbar color="primary">

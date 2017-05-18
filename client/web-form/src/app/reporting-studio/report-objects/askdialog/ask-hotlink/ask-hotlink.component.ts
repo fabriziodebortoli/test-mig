@@ -24,7 +24,7 @@ export class AskHotlinkComponent implements DoCheck {
 
   public valueNormalizer = (text: Observable<string>) => text.map((text: string) => {
     return {
-      description: '',
+      description: text,
       code: text
     }
   });
@@ -33,17 +33,14 @@ export class AskHotlinkComponent implements DoCheck {
     let changes = this.differ.diff(this.hotlink);
     if (changes && this.hotlink.values && this.hotlink.values.rows) {
       let vals: any[] = [];
+      let keyValue = this.hotlink.values.key;
       for (let i = 0; i < this.hotlink.values.rows.length; i++) {
         let k = this.hotlink.values.rows[i];
         let text = '';
-        let value = '';
+        const value = k[keyValue];
         for (let key in k) {
           if (k.hasOwnProperty(key)) {
-            let element = k[key];
-            if (value === '') {
-              value = element;
-            }
-            text += ' ' + element;
+            text += ' ' + k[key];
           }
         }
         let obj = {

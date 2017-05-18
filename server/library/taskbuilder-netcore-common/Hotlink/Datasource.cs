@@ -224,7 +224,7 @@ namespace Microarea.Common.Hotlink
         }
 
         //---------------------------------------------------------------------
-        public bool GetCompactJson(out string records, string name = "")
+        public bool GetCompactJson(out string records)
         {
             records = string.Empty;
 
@@ -235,7 +235,10 @@ namespace Microarea.Common.Hotlink
             CurrentQuery.EnumColumns(columns);
 
             //emit json record header (localized title column, column name, datatype column
-           records = "{\"columns\":[";
+           records = "{" +
+                  XmlDescription.DbFieldName.Replace('.', '_').ToJson("key");
+
+           records += ", \"columns\":[";
            bool first = true;
            foreach (SymField f in columns)
             {
@@ -244,11 +247,7 @@ namespace Microarea.Common.Hotlink
                 else
                     records += ',';
 
-                string fname;
-                if (!name.IsNullOrEmpty() && f.Name.CompareNoCase(XmlDescription.DbFieldName))
-                    fname = name.ToJson("id");
-                else
-                    fname = f.Name.Replace('.', '_').ToJson("id");
+                string fname = f.Name.Replace('.', '_').ToJson("id");
 
                 records += '{' +
                            fname +

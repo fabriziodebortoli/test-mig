@@ -1449,6 +1449,8 @@ namespace Microarea.RSWeb.WoormEngine
             if (values != null)
                 foreach (AskDialogElement entry in values)
                 {
+                    //if (entry.value.CompareNoCase("[object Object]"))
+                    //    entry.value = string.Empty;
                     AssignAskData(entry.name, entry.value);
                 }
 
