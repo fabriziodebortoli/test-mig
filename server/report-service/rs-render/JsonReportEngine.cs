@@ -151,6 +151,13 @@ namespace Microarea.RSWeb.Render
             return records;
         }
 
+
+        //---------------------------------------------------------------------
+        private void PreviousAskDialog(string page)
+        {
+            throw new NotImplementedException();
+        }
+
         //---------------------------------------------------------------------
         public Message GetResponseFor(Message msg)
         {
@@ -215,6 +222,11 @@ namespace Microarea.RSWeb.Render
                         msg.message = GetJsonDataPage(pageNum);
                         break;
                     }
+                case MessageBuilder.CommandType.PREVASK:
+                    {
+                        PreviousAskDialog(msg.page);
+                        break;
+                    }
 
                 //----------------------------------------------
                 //TODO
@@ -227,6 +239,8 @@ namespace Microarea.RSWeb.Render
             }
             return msg;
         }
+
+       
 
         //---------------------------------------------------------------------
         //per debug
