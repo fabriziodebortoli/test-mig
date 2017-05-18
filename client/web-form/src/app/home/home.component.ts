@@ -4,6 +4,9 @@ import { MessageDialogComponent, MessageDlgArgs } from './../shared/containers/m
 import { Subscription } from 'rxjs';
 import { ComponentInfo } from './../shared/models/component.info';
 import { LayoutService } from 'app/core/layout.service';
+
+import { MenuService } from '../menu/services/menu.service';
+
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 
 import { environment } from './../../environments/environment';
@@ -37,7 +40,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
     private loginSession: LoginSessionService,
     private componentService: ComponentService,
     private layoutService: LayoutService,
+
     private tabberService: TabberService
+    private menuService: MenuService
+
   ) {
     this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
 
@@ -80,10 +86,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
-
-  toggleSidenav() {
-    this.sidenavService.toggleSidenav();
   }
 
   closeTab(info: ComponentInfo) {

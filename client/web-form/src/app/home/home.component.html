@@ -36,11 +36,14 @@
 
                 <kendo-tabstrip-tab>
                     <ng-template kendoTabTitle>
-                        <md-icon>dashboard</md-icon>Menu
+                        <div (click)="menuService.activateMenu()">
+                            <md-icon>dashboard</md-icon>
+                            <span>Menu</span>
+                        </div>
                     </ng-template>
                     <template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
-                            <tb-menu></tb-menu>
+                            <tb-menu *ngIf="menuService.menuActivated"></tb-menu>
                         </div>
                     </template>
                 </kendo-tabstrip-tab>
