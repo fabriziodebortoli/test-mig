@@ -61,7 +61,13 @@ namespace Microarea.RSWeb.Render
                     //    break;
                 };  //wait 
 
-            woorm.LoadPage(page);
+            //TODO RSWEB bloccare prima
+            if (page > woorm.RdeReader.TotalPages)
+            {
+                page = woorm.RdeReader.TotalPages;
+            }
+
+           woorm.LoadPage(page);
 
             return woorm.ToJson(true);
         }
@@ -72,13 +78,19 @@ namespace Microarea.RSWeb.Render
 
             //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
             if (StateMachine.Report.EngineType != EngineType.FullExtraction)
-                while (!woorm.RdeReader.IsPageReady(page))
-                {
-                    System.Threading.Tasks.Task.Delay(1000).Wait();
+            while (!woorm.RdeReader.IsPageReady(page))
+            {
+                System.Threading.Tasks.Task.Delay(1000).Wait();
 
-                    //if (woorm.RdeReader.LoadTotPage())
-                    //    break;
-                };  //wait 
+                //if (woorm.RdeReader.LoadTotPage())
+                //    break;
+            };  //wait 
+
+            //TODO RSWEB bloccare prima
+            if (page > woorm.RdeReader.TotalPages)
+            {
+                page = woorm.RdeReader.TotalPages;
+            }
 
             woorm.LoadPage(page);
 
