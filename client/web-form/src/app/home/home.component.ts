@@ -40,8 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
     private loginSession: LoginSessionService,
     private componentService: ComponentService,
     private layoutService: LayoutService,
-
-    private tabberService: TabberService
+    private tabberService: TabberService,
     private menuService: MenuService
 
   ) {
