@@ -138,7 +138,7 @@ namespace Microarea.RSWeb.Render
                 return null;
 
             string records;
-            if (!ds.GetCompactJson(out records, fieldName))
+            if (!ds.GetCompactJson(out records))
                 return null;
 
             //recods contiene i record selezionati

@@ -85,7 +85,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
         let component: askObj = group.entries[j];
         let obj = {
           name: component.name,
-          value: component.value.code ? component.value.code.toString() : component.value.toString()
+          value: component.value.code !== undefined ? component.value.code : component.value.toString()
         };
         arrayComp.push(obj);
       }
