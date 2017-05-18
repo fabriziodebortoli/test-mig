@@ -11,10 +11,10 @@
 <tb-application-selector [Menu]="menuService?.applicationMenu"></tb-application-selector>
 
 <div class="sidenav-subtitle">Groups</div>
-<tb-group-selector (itemSelected)="toggleSidenav()"></tb-group-selector>
+<tb-group-selector (itemSelected)="toggleSidenav(true)"></tb-group-selector>
 
 <div class="sidenav-subtitle">{{localizationService?.getLocalizedElement('FavoritesLabel')}}</div>
-<tb-favorites (itemSelected)="toggleSidenav()"></tb-favorites>
+<tb-favorites (itemSelected)="toggleSidenav(true)"></tb-favorites>
 
 <div class="sidenav-subtitle">{{localizationService.getLocalizedElement('MostUsedLabel')}}</div>
-<tb-most-used (itemSelected)="toggleSidenav()"></tb-most-used>
+<tb-most-used (itemSelected)="toggleSidenav(true)"></tb-most-used>

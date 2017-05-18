@@ -1,3 +1,4 @@
+import { TabberService } from './../core/tabber.service';
 import { EventDataService } from './../core/eventdata.service';
 import { MessageDialogComponent, MessageDlgArgs } from './../shared/containers/message-dialog/message-dialog.component';
 import { Subscription } from 'rxjs';
@@ -35,9 +36,12 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
     private sidenavService: SidenavService,
     private loginSession: LoginSessionService,
     private componentService: ComponentService,
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
+    private tabberService: TabberService
   ) {
     this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
+
+    this.subscriptions.push(tabberService.tabSelected$.subscribe((index:number) => this.kendoTabStripInstance.selectTab(index)));
 
     this.subscriptions.push(componentService.componentCreated$.subscribe((tabIndex) => {
       this.kendoTabStripInstance.selectTab(tabIndex);

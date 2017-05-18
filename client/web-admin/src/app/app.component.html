@@ -1,3 +1,20 @@
-<md-toolbar>
-  {{title}}
-</md-toolbar>
+<md-sidenav-container fullscreen>
+
+  <md-sidenav #start mode="side">
+    <a [routerLink]="['/appHome']">Home</a>
+    <a [routerLink]="['/subscriptionHome']">Subscriptions</a>
+  </md-sidenav>
+
+  <md-toolbar color="primary">
+    <md-icon (click)="start.toggle()" style="cursor:pointer">menu</md-icon>
+    <span style="margin-left:20px">M4Cloud Admin</span>
+    <span class="demo-fill-remaining"></span>
+  </md-toolbar>
+
+  <div class="demo-sidenav-content">
+    <div class="outer-outlet">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</md-sidenav-container>
