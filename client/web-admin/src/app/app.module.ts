@@ -13,6 +13,7 @@ import { AppHomeComponent } from './app-home/app-home.component';
 import { routes } from './app.routes';
 import { LoginComponent } from './login/login.component';
 import { AuthGuardService } from './guards/auth-guard.service';
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AuthGuardService } from './guards/auth-guard.service';
     RouterModule.forRoot(routes),
     HttpModule,
     MaterialModule.forRoot(),
+    FlexLayoutModule,
     MdToolbarModule,
     MdSidenavModule
   ],
