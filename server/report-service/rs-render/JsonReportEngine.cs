@@ -47,7 +47,7 @@ namespace Microarea.RSWeb.Render
             return woorm.ToJson(true);
         }
 
-        public string GetJsonTemplatePage(int page)
+        public string GetJsonTemplatePage(ref int page)
         {
             WoormDocument woorm = StateMachine.Woorm;
 
@@ -237,7 +237,10 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
                         if (int.TryParse(msg.page, out pageNum))
-                            msg.message = GetJsonTemplatePage(pageNum);
+                        {
+                            msg.message = GetJsonTemplatePage(ref pageNum);
+                            msg.page = pageNum.ToString();
+                        }
                         break;
                     }
 

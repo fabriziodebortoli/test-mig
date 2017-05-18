@@ -8,7 +8,7 @@ using TaskBuilderNetCore.Interfaces;
 
 using Microarea.Common.StringLoader;
 using Microarea.Common.Applications;
-using Microarea.Common.Lexan;
+using Microarea.Common.Generic;
 
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
@@ -524,6 +524,11 @@ namespace Microarea.RSWeb.Render
 								CurrentInternalState = InternalState.ExecuteBeforeActions;
 								DoExtraction();
 
+                                bool ok = this.Woorm.RdeReader.LoadTotPage();
+
+                                string tot = this.Woorm.RdeReader.TotalPages.ToJson("totalPages", true);
+                                RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.ENDREPORT, tot); //TotalPages //.Wait();
+
                                 Woorm.LoadPage(1);
                                 RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.TEMPLATE, Woorm.ToJson(true)); //.Wait();
                                 return false;
@@ -749,7 +754,8 @@ namespace Microarea.RSWeb.Render
 						}
                     case State.End:
                         {
-                            RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.ENDREPORT, "{\"TotalPages\":1}"); //TotalPages //.Wait();
+                            //string tot = this.Woorm.RdeReader.TotalPages.ToJson("totalPages", true) ;
+                            //RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.ENDREPORT, tot); //TotalPages //.Wait();
 
                             return false;
                         }

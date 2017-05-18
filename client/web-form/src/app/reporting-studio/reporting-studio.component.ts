@@ -36,6 +36,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   private viewHeightSubscription: Subscription;
   private viewHeight: number;
+  private totalPages: number;
 
   constructor(
     private rsService: ReportingStudioService,
@@ -120,6 +121,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.componentService.createReportComponent(k.ns, params);
           break;
         case CommandType.ENDREPORT:
+          this.totalPages = k.totalPages;
           break;
         case CommandType.NONE:
           break;
