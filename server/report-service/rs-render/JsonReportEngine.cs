@@ -137,9 +137,12 @@ namespace Microarea.RSWeb.Render
             if (!ds.PrepareQuery(/*HttpContext.Request.Query,*/ "Code"/*TODO RSWEB*/, filter))
                 return null;
 
-            string records; 
-            if (!ds.GetCompactJson(out records, fieldName))
+            string records;
+            // Lara
+            //if (!ds.GetCompactJson(out records, fieldName))
+            if (!ds.GetCompactJson(out records))
                 return null;
+
             //recods contiene i record selezionati
  
             //TODO DEMO
@@ -149,6 +152,13 @@ namespace Microarea.RSWeb.Render
                     "RDDF36","RDDF369","RDDF6","RDFM3","RDFM36","RDFM369","RDFM6","TRFM4560" };
 
             return records;
+        }
+
+
+        //---------------------------------------------------------------------
+        private void PreviousAskDialog(string page)
+        {
+            throw new NotImplementedException();
         }
 
         //---------------------------------------------------------------------
@@ -215,6 +225,11 @@ namespace Microarea.RSWeb.Render
                         msg.message = GetJsonDataPage(pageNum);
                         break;
                     }
+                case MessageBuilder.CommandType.PREVASK:
+                    {
+                        PreviousAskDialog(msg.page);
+                        break;
+                    }
 
                 //----------------------------------------------
                 //TODO
@@ -227,6 +242,8 @@ namespace Microarea.RSWeb.Render
             }
             return msg;
         }
+
+       
 
         //---------------------------------------------------------------------
         //per debug

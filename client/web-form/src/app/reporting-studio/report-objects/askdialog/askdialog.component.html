@@ -4,6 +4,6 @@
   </div>
   <kendo-dialog-actions>
     <button kendoButton (click)="Prev()" [disabled]="askObject.isFirst">Prev</button>
-    <button kendoButton primary="true" (click)="Next()">{{nameButton}}</button>
+    <button kendoButton primary="true" (click)="Next()">{{!askObject.isLast? 'Next':'Execute'}}</button>
   </kendo-dialog-actions>
 </kendo-dialog>

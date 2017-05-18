@@ -16,8 +16,6 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
   @Input() ask: string;
   @Input() hotLinkValues: any;
 
-  nameButton: string = 'Next';
-
   public askObject;
   public commType: CommandType;
   public objects: askGroup[] = [];
@@ -36,9 +34,6 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
       let msg = JSON.parse(this.ask);
       this.commType = msg.commandType;
       this.askObject = JSON.parse(msg.message);
-      if(this.askObject.isLast === true){
-        this.nameButton = 'Execute';
-      }
       this.RenderLayout(this.askObject);
     }
     if (changes.hotLinkValues !== undefined && !changes.hotLinkValues.isFirstChange()) {
@@ -78,7 +73,6 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
     }
     this.templates.push(new TemplateItem(msg.name, msg, objects));
     this.objects = objects;
-    this.rsService.askPage = msg.name;
     return;
 
   }
@@ -99,7 +93,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
     let message = {
       commandType: ct,
       message: JSON.stringify(arrayComp),
-      page: this.rsService.askPage
+      page: this.askObject.name
     };
     this.rsService.doSend(JSON.stringify(message));
   }
@@ -112,10 +106,15 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
     if (this.templates.length <= 1) {
       return;
     }
-    //this.templates[this.templates.length-1].templateObjects;
     this.templates.pop();
     this.objects = this.templates[this.templates.length - 1].templateObjects;
     this.askObject = this.templates[this.templates.length - 1].template;
+    let message = {
+      commandType: CommandType.PREVASK,
+      message: '',
+      page: this.askObject.name
+    };
+    this.rsService.doSend(JSON.stringify(message));
   }
 
   close() {

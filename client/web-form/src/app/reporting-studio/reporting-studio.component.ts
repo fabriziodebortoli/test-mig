@@ -338,7 +338,6 @@ let message = {
       'width': '100%',
       'position': 'relative',
       'overflow': 'scroll',
-      'height': this.viewHeight + 'px'
     }
   }
 

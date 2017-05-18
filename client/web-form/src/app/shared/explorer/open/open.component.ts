@@ -11,6 +11,7 @@ import { ImageService } from '../../../menu/services/image.service';
 import { MenuService } from './../../../menu/services/menu.service';
 import { EventDataService } from './../../../core/eventdata.service';
 import { ExplorerService } from './../../../core/explorer.service';
+import { PanelBarExpandMode, PanelBarItemModel } from '@progress/kendo-angular-layout';
 
 @Component({
   selector: 'tb-open',
@@ -24,9 +25,13 @@ export class OpenComponent extends DocumentComponent implements OnInit {
 
   public applications: any;
   public folders: any;
-
+  public files: any;
+ // public foldersarray: Array<String> = [];
+  public kendoPanelBarExpandMode: any = PanelBarExpandMode.Multiple;
+  
   applicationsSubscription: Subscription;
   folderSubscription: Subscription;
+  filesSubscription: Subscription;
 
   constructor(
     private explorerService: ExplorerService,
@@ -70,9 +75,7 @@ export class OpenComponent extends DocumentComponent implements OnInit {
 
   selecteApplication(application) {
     this.folderSubscription = this.callGetFolder(application).subscribe(result => {
-      console.log(result);
       this.folders = result.Folders.Folder;
-      console.log(this.folders);
     });
   }
 
@@ -83,5 +86,23 @@ export class OpenComponent extends DocumentComponent implements OnInit {
       return res.json();
     }).catch(this.handleError);
   }
+
+  selecteFolder(folder) {
+    console.log('sono nella selectFolder');
+    this.filesSubscription = this.callGetFolderFiles(folder).subscribe(result => {
+      console.log(result);
+      this.files = result.Files.File;
+      console.log(this.files);
+    });
+  }
+
+  callGetFolderFiles(folder) {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('folderPath', folder);
+    return this.http.get('http://localhost:5000/explorer-open/get-folderFiles/'  +  "kk",  { search: params } ).map((res: Response) => {
+      return res.json();
+    }).catch(this.handleError);
+  }
+
 }
 
