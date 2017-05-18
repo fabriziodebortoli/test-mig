@@ -3706,8 +3706,8 @@ namespace Microarea.Common.ExpressionManager
                 if (i == 0)
                 {
                     string rep = ObjectHelper.CastString(itemName.Data);
-                    if (rep.Length > 4 && rep.Right(4).CompareNoCase(".wrm"))
-                        rep = rep.Left(rep.Length - 4);
+                    rep = rep.RemoveExtension(".wrm");
+                    rep = rep.RemovePrefix("report.");
 
                     fun = new FunctionPrototype(rep, "Boolean");
                     continue;

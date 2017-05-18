@@ -311,6 +311,22 @@ namespace Microarea.Common.Generic
         }
 
         /// <summary>
+        /// LastIndexOf with Occurence
+        /// </summary>
+        //-------------------------------------------------------------------------
+        public static string RemovePrefix(this string s, string pref)
+        {
+            int pos = s.IndexOf('.');
+            if (pos == -1) return s;
+
+            string p = s.Left(pos + 1);
+            if (p.CompareNoCase(pref))
+                return s.Mid(pos + 1);
+            return s;
+        }
+
+
+        /// <summary>
         /// 
         /// </summary>
         //-------------------------------------------------------------------------
@@ -592,13 +608,13 @@ namespace Microarea.Common.Generic
 
         public static string ToJson(this double d, string name = null, bool bracket = false)
         {
-            return d.ToString().ToJson(name, bracket, false, false);
+            return d.ToString("F").ToJson(name, bracket, false, false);
         }
 
         public static string ToJson(this DateTime d, string name = null, bool bracket = false)
         {
             //TODO RSWEB datetime to string manca culture
-            return d.ToString().ToJson(name, bracket, false, true);
+            return d.ToString("yyyy-MM-dd").ToJson(name, bracket, false, true);
         }
 
         //----------------------------------------------------------------------------------

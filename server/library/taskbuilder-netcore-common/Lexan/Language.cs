@@ -616,6 +616,8 @@ namespace Microarea.Common.Lexan
             keywords.Add("Choose"               , Token.CHOOSE);
             keywords.Add("IIF"                  , Token.IIF);
 
+            keywords.Add("InvertOrientation"    , Token.INVERT_ORIENTATION);
+ 
             //new tokes post 3.0 - THEY ARE NOT PUBLIC
             keywords.Add("Convert"              ,Token.CONVERT);
             keywords.Add("TypeOf"               ,Token.TYPEOF);
@@ -1184,6 +1186,7 @@ namespace Microarea.Common.Lexan
         FormatTbLink,
         CHOOSE,
         IIF,
+        INVERT_ORIENTATION,
 
         // -------------------------------------------------  keywords end
         //new tokens post 3.0

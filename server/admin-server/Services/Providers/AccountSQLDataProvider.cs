@@ -4,10 +4,10 @@ using System.Data.SqlTypes;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 
-namespace Microarea.AdminServer.Services
+namespace Microarea.AdminServer.Services.Providers
 {
-	//================================================================================
-	public class AccountSQLDataProvider : IDataProvider
+    //================================================================================
+    public class AccountSQLDataProvider : IDataProvider
     {
         string connectionString;
 
@@ -24,6 +24,7 @@ namespace Microarea.AdminServer.Services
 		public IAdminModel Load(IAdminModel iModel)
 		{
 			Account account;
+            ServiceResult sResult = new ServiceResult();
 
 			try
 			{
@@ -48,6 +49,7 @@ namespace Microarea.AdminServer.Services
 						}
 					}
 				}
+
 			}
 			catch (Exception e)
 			{
