@@ -144,6 +144,6 @@ export class ComponentService {
   }
 
   onComponentCreated(info: ComponentInfo) {
-    this.componentCreatedSource.next(this.components.indexOf(info) + 1);
+    this.componentCreatedSource.next(this.components.indexOf(info) + 2);
   }
 }

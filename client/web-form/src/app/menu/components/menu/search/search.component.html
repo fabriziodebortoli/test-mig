@@ -1,7 +1,7 @@
 <div class="tb-search">
     <md-input-container>
         <span md-prefix><md-icon>search</md-icon></span>
-        <input #myInput type="text" mdInput [mdAutocomplete]="auto" [formControl]="inputControl">
+        <input #myInput type="text" mdInput [mdAutocomplete]="auto" [formControl]="inputControl" placeholder="Search...">
     </md-input-container>
 
     <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayElement">

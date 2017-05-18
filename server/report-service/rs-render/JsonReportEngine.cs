@@ -127,7 +127,7 @@ namespace Microarea.RSWeb.Render
             return string.Empty;
         }
 
-        public List<string> GetHotlinkValues(string ns, string filter, string fieldName)
+        public string GetHotlinkValues(string ns, string filter, string fieldName)
         {
             TbSession hklSession = new TbSession(this.ReportSession, ns);
 
@@ -148,7 +148,7 @@ namespace Microarea.RSWeb.Render
                     "RBDF6","RBFM3","RBFM36","RBFM369","RBFM6","RD","RDDF3",
                     "RDDF36","RDDF369","RDDF6","RDFM3","RDFM36","RDFM369","RDFM6","TRFM4560" };
 
-            return new List<string>(temporary_values);
+            return records;
         }
 
         //---------------------------------------------------------------------
@@ -172,14 +172,13 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.HOTLINK:
                     {
                         var obj = JsonConvert.DeserializeObject<HotlinkDescr>(msg.message);
-                        List<string> values = GetHotlinkValues(obj.ns, obj.filter, obj.name);
-                        msg.message = JsonConvert.SerializeObject(values);
+                        msg.message = GetHotlinkValues(obj.ns, obj.filter, obj.name);                 
                     
                         break;
                     }
                 case MessageBuilder.CommandType.UPDATEASK:
                     {
-                      msg.page = msg.page;
+
                       List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null
                                                          : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
 

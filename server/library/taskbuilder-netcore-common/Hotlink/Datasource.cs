@@ -293,7 +293,16 @@ namespace Microarea.Common.Hotlink
                     {
                         string s = o.ToString();
 
+                        //if (string.Compare(f.WoormType, "double", true)
+
                         rows += s.ToJson(null, false, true);
+                    }
+                   else if (string.Compare(f.DataType, "double", true) == 0)
+                    {
+                        double d = (double)o;
+                        
+
+                        rows += d.ToJson();
                     }
                     else
                         rows += o.ToString();

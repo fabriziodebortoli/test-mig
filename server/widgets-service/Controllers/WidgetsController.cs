@@ -68,7 +68,6 @@ namespace widgets_service.Controllers
             }
 
             PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
-
             string widgetsFilePath = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
 
             // no configured widgets, is not an error

@@ -1506,6 +1506,12 @@ namespace Microarea.RSWeb.WoormEngine
             s += this.FormName.ToJson("name") + ',';
             s += this.LocalizedFormTitle.ToJson("caption") + ',';
 
+            bool firstDlg = this.Report.AskingRules[0] == this;
+            bool lastDlg = this.Report.AskingRules[this.Report.AskingRules.Count - 1] == this;
+  
+            s += firstDlg.ToJson("isFirst") + ',';
+            s += lastDlg.ToJson("isLast") + ',';
+
             s += "\"controls\":[";
             bool first = true; ushort idx = 1;
             foreach (AskGroup group in groups)

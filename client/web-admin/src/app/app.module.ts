@@ -5,6 +5,8 @@ import { HttpModule } from '@angular/http';
 import { AccountService } from './services/account.service';
 import { AppComponent } from './app.component';
 import { JsonVisualizerPipe } from './json-visualizer.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule, MdToolbarModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -13,8 +15,11 @@ import { JsonVisualizerPipe } from './json-visualizer.pipe';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    MaterialModule.forRoot(),
+    MdToolbarModule
   ],
   providers: [AccountService],
   bootstrap: [AppComponent]
