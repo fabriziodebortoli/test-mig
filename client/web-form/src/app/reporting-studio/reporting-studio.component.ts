@@ -97,7 +97,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.UPDATEASK:
           this.askDialogTemplate = message;
           break;
-        case CommandType.NAMESPACE: break;
+        case CommandType.PREVASK:
+          this.askDialogTemplate = message;
+          break;
+       case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
           this.RenderLayout(k);

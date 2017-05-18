@@ -138,27 +138,29 @@ namespace Microarea.RSWeb.Render
                 return null;
 
             string records;
-            // Lara
-            //if (!ds.GetCompactJson(out records, fieldName))
-            if (!ds.GetCompactJson(out records))
+            if (!ds.GetCompactJson(out records, fieldName))
                 return null;
 
             //recods contiene i record selezionati
  
-            //TODO DEMO
+            /*
             string[] temporary_values = { "BDF3","BDF36","BDF6","BFM3","BFM36","BFM6","BON",
                     "CONT","RB","RB369-15","RBDF3","RBDF36","RBDF369",
                     "RBDF6","RBFM3","RBFM36","RBFM369","RBFM6","RD","RDDF3",
                     "RDDF36","RDDF369","RDDF6","RDFM3","RDFM36","RDFM369","RDFM6","TRFM4560" };
-
+            */
             return records;
         }
 
 
         //---------------------------------------------------------------------
-        private void PreviousAskDialog(string page)
+        private string PreviousAskDialog(string currentClientDialogName)
         {
-            throw new NotImplementedException();
+            AskDialog askDialog = StateMachine.Report.Engine.GetAskDialog(currentClientDialogName);
+            if (askDialog != null)
+                StateMachine.Report.CurrentAskDialog = askDialog;
+
+            return askDialog.ToJson();
         }
 
         //---------------------------------------------------------------------
@@ -179,13 +181,13 @@ namespace Microarea.RSWeb.Render
                     msg.commandType = MessageBuilder.CommandType.NONE;
                     break;
                 }
-                case MessageBuilder.CommandType.HOTLINK:
-                    {
-                        var obj = JsonConvert.DeserializeObject<HotlinkDescr>(msg.message);
-                        msg.message = GetHotlinkValues(obj.ns, obj.filter, obj.name);                 
-                    
-                        break;
-                    }
+
+                case MessageBuilder.CommandType.PREVASK:
+                {
+                    msg.message = PreviousAskDialog(msg.page);
+                    break;
+                }
+
                 case MessageBuilder.CommandType.UPDATEASK:
                     {
 
@@ -195,6 +197,14 @@ namespace Microarea.RSWeb.Render
                       msg.message = UpdateJsonAskDialog(values, msg.page);
 
                       break;
+                    }
+
+                case MessageBuilder.CommandType.HOTLINK:
+                    {
+                        var obj = JsonConvert.DeserializeObject<HotlinkDescr>(msg.message);
+                        msg.message = GetHotlinkValues(obj.ns, obj.filter, obj.name);                 
+                    
+                        break;
                     }
                 /*
                  case MessageBuilder.CommandType.ABORTASK:  //click on CANCEL
@@ -223,11 +233,6 @@ namespace Microarea.RSWeb.Render
                     {
                         msg.page = pageNum.ToString();
                         msg.message = GetJsonDataPage(pageNum);
-                        break;
-                    }
-                case MessageBuilder.CommandType.PREVASK:
-                    {
-                        PreviousAskDialog(msg.page);
                         break;
                     }
 
