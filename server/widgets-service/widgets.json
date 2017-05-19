@@ -90,6 +90,8 @@
       },
       {
         "title": "Last Sale Orders",
+		"linkedNamespace": "ERP.CustomersSuppliers.Documents.Customers", 
+		"recordKeys" : "CustSupp:Customer, CustSuppType:CustSuppType",
         "subtitle": "by order date",
         "layout": {
           "height": 200,
@@ -111,6 +113,7 @@
     "widgets": [
       {
         "title": "Top customers",
+		"link": "ERP.CustomersSuppliers.Documents.Customers",
         "subtitle": "by turnover",
         "layout": {
           "style": "chart",
@@ -151,6 +154,7 @@
       {
         "title": "Last Purchase Orders",
         "subtitle": "by order date",
+
         "layout": {
           "style": "grid",
           "size": "medium",
