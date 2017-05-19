@@ -51,7 +51,6 @@ export class ContextMenuComponent {
   }
 
   onOpen() {
-    this.eventDataService.onContextMenu.emit(this.contextMenuBinding); // idd_pippo_ContextMenu
   }
 
   public doCommand(menuItem: any) {

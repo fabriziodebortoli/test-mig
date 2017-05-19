@@ -36,6 +36,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   private viewHeightSubscription: Subscription;
   private viewHeight: number;
+<<<<<<< HEAD
+=======
+  private totalPages: number;
+>>>>>>> master
 
   constructor(
     private rsService: ReportingStudioService,
@@ -97,6 +101,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.UPDATEASK:
           this.askDialogTemplate = message;
           break;
+<<<<<<< HEAD
+=======
+        case CommandType.PREVASK:
+          this.askDialogTemplate = message;
+          break;
+>>>>>>> master
         case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
@@ -113,10 +123,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.UpdateData(k);
           break;
         case CommandType.RUNREPORT:
-          const params = { xmlArgs: encodeURIComponent(k.arguments), runAtTbLoader: false };
-          this.componentService.createReportComponent(k.ns, params);
+          const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
+          this.componentService.createReportComponent(k.ns, true, params);
           break;
         case CommandType.ENDREPORT:
+          this.totalPages = k.totalPages;
           break;
         case CommandType.NONE:
           break;
@@ -135,23 +146,28 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   rsInitStateMachine() {
-    const xmlArgs = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : '';
+    let p: string = '';
+    let p2: string = '';
+    if (this.args.params) {
+      if (this.args.params.xargs != null) {
+        p = JSON.stringify(this.args.params.xargs);
+        p2 = decodeURIComponent(p);
+      }
+      else p2 = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : JSON.stringify(this.args.params);
+    }
     let message = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
-      parameters: xmlArgs,
+      parameters: p2,
       authtoken: this.cookieService.get('authtoken')
     };
-
     this.rsService.doSendSync(JSON.stringify(message));
-
   }
+
 
   // -----------------------------------------------
   RunReport() {
     this.running = true;
-
-    //ASK
     let message = {
       commandType: CommandType.ASK,
       message: '',
@@ -162,7 +178,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   GetData() {
-
     let message = {
       commandType: CommandType.DATA,
       message: this.args.params.xmlArgs,
@@ -174,7 +189,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   StopReport() {
     this.running = false;
-
     let message = {
       commandType: CommandType.STOP,
       message: this.args.nameSpace,
@@ -184,7 +198,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   NextPage() {
-    this.rsService.pageNum++;
+    if (this.rsService.pageNum < this.totalPages) {
+      this.rsService.pageNum++;
+    }
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
@@ -205,6 +221,30 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       page: this.rsService.pageNum
     };
 
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  // -----------------------------------------------
+  FirstPage() {
+    let message = {
+      commandType: CommandType.TEMPLATE,
+      message: this.args.nameSpace,
+      page: 1
+    };
+    
+    this.rsService.pageNum = message.page;
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  // -----------------------------------------------
+  LastPage() {
+    let message = {
+      commandType: CommandType.TEMPLATE,
+      message: this.args.nameSpace,
+      page: this.totalPages
+    };
+
+    this.rsService.pageNum = message.page;
     this.rsService.doSend(JSON.stringify(message));
   }
 
@@ -320,17 +360,17 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   setDocumentStyle(layout: any) {
 
     this.layoutStyle = {
-      'width': layout.pageinfo.width + 'px',
-      'height': layout.pageinfo.length + 'px',
+      'width': (layout.pageinfo.width) + 'mm',
+      'height': (layout.pageinfo.length) + 'mm',
       'background-color': 'white',
+      'border': '1px solid #ccc',
+      'margin': '5px auto',
       'position': 'relative'
     }
     this.layoutBackStyle = {
       'width': '100%',
-      'background-color': 'black',
       'position': 'relative',
       'overflow': 'scroll',
-      'height': this.viewHeight + 'px'
     }
   }
 

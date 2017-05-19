@@ -3697,37 +3697,61 @@ namespace Microarea.Common.ExpressionManager
         {
             FunctionPrototype fun = null;
 
-            int np = 0;
             object [] ar = paramStack.ToArray();
             for (int i = 0; i < ar.Length; i++)
             {
-                DataItem item = ar[i] as DataItem;
+                //DataItem item = ar[i] as DataItem;
+                DataItem itemName = (DataItem)paramStack.Pop();
 
                 if (i == 0)
                 {
-                    fun = new FunctionPrototype(ObjectHelper.CastString(item.Data), "Boolean", new string[] { });
+                    string rep = ObjectHelper.CastString(itemName.Data);
+                    rep = rep.RemoveExtension(".wrm");
+                    rep = rep.RemovePrefix("report.");
+
+                    fun = new FunctionPrototype(rep, "Boolean");
                     continue;
                 }
 
-                string parName = ObjectHelper.CastString(item.Data);
+                string parName = ObjectHelper.CastString(itemName.Data);
                 i++;
 
-                DataItem itemValue = ar[i] as DataItem;
-                string v = SoapTypes.To(item.Data);
+                //DataItem itemValue = ar[i] as DataItem;
+                DataItem itemValue = (DataItem)paramStack.Pop();
 
-                //Parameter pInfo = new Parameter(parName, type);
+                string v = SoapTypes.To(itemValue.Data);
 
-                //pInfo.ValueString = v;
+                string t = itemValue.Data.GetType().ToString();
+                int idx = t.IndexOf("System.", StringComparison.OrdinalIgnoreCase);
+                if (idx == 0)
+                    t = t.Mid("System.".Length);
+                    
+                Parameter pInfo = new Parameter(parName, t);
 
-                //fun.Parameters.Add(pInfo);
+                pInfo.ValueString = v;
+
+                fun.Parameters.Add(pInfo);
             }
 
             //------------------------------
             object ret = TbSession.SendRunReport(this.TbSession, fun);
+<<<<<<< HEAD
+=======
+/*
+            if (ret != null)
+            {
+                for (int i = 0; i < fun.Parameters.Count; i++)
+                {
+                    DataItem item = (DataItem)paramStack.Pop();
+>>>>>>> master
 
-            ret = true; //TODO
+                    Parameter p = fun.Parameters[i];
 
-            return new Value(WcfTypes.From(ret, function.ReturnType, function.ReturnBaseType));
+                    item.Data = SoapTypes.From(p.ValueString, p.Type);
+               }
+            }
+*/
+            return new Value(ret);
         }
 
         //-----------------------------------------------------------------------------
@@ -3755,7 +3779,8 @@ namespace Microarea.Common.ExpressionManager
                         return new Value(0);
                 }
                 if (function.Name.CompareNoCase("Framework.TbWoormViewer.TbWoormViewer.RunReport") ||
-                    function.Name.CompareNoCase("Woorm.RunReport"))
+                    function.Name.CompareNoCase("Woorm.RunReport") ||
+                    function.Name.CompareNoCase("RS.RunReport"))
                 {
                     return ApplyRunReport(function, paramStack);
                 }

@@ -1,4 +1,5 @@
 .tb-search .mat-input-container {
+<<<<<<< HEAD
     background: #00578c;
     padding: 5px 10px;
     border-radius: 3px;
@@ -20,6 +21,45 @@
     display: none;
 }
 
+=======
+    background: #ffffff;
+    padding: 1px 5px;
+    border-radius: 3px;
+    border: 1px solid #044e7b;
+    border: none;
+    width: 330px;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .1), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .1);
+}
+
+.tb-search .mat-focused .mat-input-placeholder.mat-float,
+.tb-search .mat-input-placeholder.mat-float:not(.mat-empty) {
+    display: none;
+}
+
+.tb-search .mat-input-placeholder.mat-empty {
+    color: #00578c;
+    font-size: 16px;
+    position: relative;
+    padding: 0;
+    line-height: 26px;
+}
+
+.tb-search .mat-input-element {
+    font-size: 14px;
+    line-height: 26px;
+    color: #00578c;
+}
+
+.tb-search .mat-input-wrapper {
+    margin: 0;
+    padding: 0;
+}
+
+.tb-search .mat-input-underline {
+    display: none;
+}
+
+>>>>>>> master
 .tb-search .mat-input-container .mat-icon {}
 
 .tb-search .dropdown-menu {
@@ -28,7 +68,11 @@
 
 .tb-search .mat-icon {
     margin: 3px 5px 0 0;
+<<<<<<< HEAD
     color: #4791bd;
+=======
+    color: #00578c;
+>>>>>>> master
 }
 
 

@@ -2,7 +2,7 @@ import { UtilsService } from './../../core/utils.service';
 import { HttpService } from './../../core/http.service';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 import { Logger } from './../../core/logger.service';
 

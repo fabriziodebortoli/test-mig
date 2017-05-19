@@ -21,6 +21,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Threading;
 using Microarea.Common.Applications;
+using System.Diagnostics;
 
 namespace Microarea.Common.Applications
 {
@@ -118,19 +119,35 @@ namespace Microarea.Common.Applications
             ;
         }
 
+        public TbSession(TbSession s, string ns)
+        {
+            this.Namespace = ns;
+            //this.filePath = s.FilePath;
+            this.TbBaseAddress = s.TbBaseAddress;
+            this.UserInfo = s.UserInfo;
+            this.PathFinder = s.PathFinder;
+            this.TbInstanceID = s.TbInstanceID;
+            this.LoggedToTb = s.LoggedToTb;
+            this.WebSocket = s.WebSocket;
+            this.Localizer = s.Localizer;
+            this.Enums = s.Enums;
+            this.ApplicationFontStyles = s.ApplicationFontStyles;
+            this.ApplicationFormatStyles = s.ApplicationFormatStyles;
+            this.Hotlinks = s.Hotlinks;
+    }
 
-        //private Hashtable cache; // used to store application reportSession values
-        //public Hashtable Cache
-        //{
-        //    get
-        //    {
-        //        if (cache == null)
-        //            cache = new Hashtable(StringComparer.OrdinalIgnoreCase);
-        //        return cache;
-        //    }
-        //}
+    //private Hashtable cache; // used to store application reportSession values
+    //public Hashtable Cache
+    //{
+    //    get
+    //    {
+    //        if (cache == null)
+    //            cache = new Hashtable(StringComparer.OrdinalIgnoreCase);
+    //        return cache;
+    //    }
+    //}
 
-        virtual public bool SkipTypeChecking { get { return string.IsNullOrEmpty(CompanyDbConnection); } }
+    virtual public bool SkipTypeChecking { get { return string.IsNullOrEmpty(CompanyDbConnection); } }
 
         // Il caricamento di function per le funzioni interne pesa poco e quelle esterne sono caricate on demand
         // gli Hotlinks sono solo caricati on demand e quindi non pesano.
@@ -481,7 +498,7 @@ namespace Microarea.Common.Applications
         //-------------------------------------------------------------------------------------------------
         public class MyMessage
         {
-            public int commandType = 7;     //commandtype.RUNREPORT
+            public int commandType = 8;     //commandtype.RUNREPORT
             public string message { get; set; }
 
             public string page = string.Empty;
@@ -500,7 +517,11 @@ namespace Microarea.Common.Applications
             string xargs = d.OuterXml;
 
             MyMessage msg = new MyMessage(); //commandtype.RUNREPORT
+<<<<<<< HEAD
             msg.message = '{' + fun.NameSpace.ToString().ToJson("ns") + ',' + xargs.ToJson("args", false, false) + '}';
+=======
+            msg.message = '{' + fun.FullName.ToJson("ns") + ',' + xargs.ToJson("args", false, true) + '}';
+>>>>>>> master
 
             string jmsg = JsonConvert.SerializeObject(msg);
 
@@ -540,10 +561,31 @@ namespace Microarea.Common.Applications
             set
             {
                 reportParameters = value;
+                if (reportParameters.CompareNoCase("{}")) 
+                    reportParameters = "";
                 if (!reportParameters.IsNullOrEmpty())
                 {
-                    XmlDomParameters = new XmlDocument();
-                    XmlDomParameters.LoadXml(reportParameters);
+                    if (reportParameters.IndexOf("\"<Arguments", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        reportParameters = reportParameters.Mid(1); 
+                        reportParameters = reportParameters.Left(reportParameters.Length - 1);
+
+                        //reportParameters = "<?xml version = \"1.0\" encoding = \"utf-16\" ?><maxs:UnknowReport tbNamespace= \"erp.company.isocountrycodes\" xmlns:\"http://www.microarea.it/Schema/2004/Smart///Users/sa/.xsd\" ><maxs:Parameters>"+
+                        //reportParameters +
+                        //"</maxs:Parameters></maxs:UnknowReport>";
+                        reportParameters = "<?xml version = \"1.0\" encoding = \"utf-16\" ?><Parameters>" +
+                         reportParameters +
+                         "</Parameters>";
+                    }
+                    try               
+                    {
+                        XmlDomParameters = new XmlDocument();
+                        XmlDomParameters.LoadXml(reportParameters);
+                        }
+                    catch (Exception ex)
+                    {
+                        Debug.Fail(ex.Message);
+                    }
                 }
                 if (XmlReport)
                     ReportNamespace = XmlDomParameters.DocumentElement.GetAttribute(XmlWriterTokens.Attribute.TbNamespace);

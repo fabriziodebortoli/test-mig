@@ -8,7 +8,7 @@ import { AccountService } from './services/account.service';
 })
 export class AppComponent {
 
-  title = 'Admin Server is running';
+  title = 'Admin Server';
   username:string;
   resText:string;
   errText:string;
@@ -20,11 +20,11 @@ export class AppComponent {
     this.accountService = accountService;
   }
 
-  getAccountInfo() {
-    alert(this.username);
-    this.accountService.GetAccount(this.username)
-          .subscribe(
-            str => this.resText = str,
-            error => this.errText);
-  }
+  // getAccountInfo() {
+  //   alert(this.username);
+  //   this.accountService.GetAccount(this.username)
+  //         .subscribe(
+  //           str => this.resText = str,
+  //           error => this.errText);
+  // }
 }

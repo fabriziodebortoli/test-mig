@@ -378,7 +378,7 @@ namespace Microarea.Common.Hotlink
 						ns,
 						function.GetAttribute(ReferenceObjectsXML.Attribute.Localize),
 						TableName(qualifiedColumnName),
-						ColumnName(qualifiedColumnName),
+						qualifiedColumnName,
 						dbFieldDescriptionName,
 						dbTableName,
 						radarReportName,

@@ -28,7 +28,7 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
   }
 
   public masonryOptions: MasonryOptions = {
-    transitionDuration: '0.5s'
+    transitionDuration: '0.2s'
   };
 
   ngOnInit() {

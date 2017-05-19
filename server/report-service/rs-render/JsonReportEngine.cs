@@ -9,6 +9,7 @@ using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Models;
 using Microarea.RSWeb.WoormEngine;
+using Microarea.Common.Hotlink;
 
 namespace Microarea.RSWeb.Render
 {
@@ -46,7 +47,7 @@ namespace Microarea.RSWeb.Render
             return woorm.ToJson(true);
         }
 
-        public string GetJsonTemplatePage(int page)
+        public string GetJsonTemplatePage(ref int page)
         {
             WoormDocument woorm = StateMachine.Woorm;
 
@@ -60,7 +61,13 @@ namespace Microarea.RSWeb.Render
                     //    break;
                 };  //wait 
 
-            woorm.LoadPage(page);
+            //TODO RSWEB bloccare prima
+            if (page > woorm.RdeReader.TotalPages)
+            {
+                page = woorm.RdeReader.TotalPages;
+            }
+
+           woorm.LoadPage(page);
 
             return woorm.ToJson(true);
         }
@@ -71,13 +78,19 @@ namespace Microarea.RSWeb.Render
 
             //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
             if (StateMachine.Report.EngineType != EngineType.FullExtraction)
-                while (!woorm.RdeReader.IsPageReady(page))
-                {
-                    System.Threading.Tasks.Task.Delay(1000).Wait();
+            while (!woorm.RdeReader.IsPageReady(page))
+            {
+                System.Threading.Tasks.Task.Delay(1000).Wait();
 
-                    //if (woorm.RdeReader.LoadTotPage())
-                    //    break;
-                };  //wait 
+                //if (woorm.RdeReader.LoadTotPage())
+                //    break;
+            };  //wait 
+
+            //TODO RSWEB bloccare prima
+            if (page > woorm.RdeReader.TotalPages)
+            {
+                page = woorm.RdeReader.TotalPages;
+            }
 
             woorm.LoadPage(page);
 
@@ -126,6 +139,7 @@ namespace Microarea.RSWeb.Render
             return string.Empty;
         }
 
+<<<<<<< HEAD
         public List<string> GetHotlinkValues(string ns, string filter, string name)
         {
             //{
@@ -140,6 +154,42 @@ namespace Microarea.RSWeb.Render
 
             string[] temporary_values = { "Hola Chica", "Ciao Chica", "This is the value", "Hell Yeah!" };
             return new List<string>(temporary_values);
+=======
+        public string GetHotlinkValues(string ns, string filter, string fieldName)
+        {
+            TbSession hklSession = new TbSession(this.ReportSession, ns);
+
+            Datasource ds = new Datasource(hklSession);
+
+            //TODO RSWEB - manca il passaggio dei parametri dell'hotlink
+            if (!ds.PrepareQuery(/*HttpContext.Request.Query,*/ "Code"/*TODO RSWEB*/, filter))
+                return null;
+
+            string records;
+            if (!ds.GetCompactJson(out records))
+                return null;
+
+            //recods contiene i record selezionati
+ 
+            /*
+            string[] temporary_values = { "BDF3","BDF36","BDF6","BFM3","BFM36","BFM6","BON",
+                    "CONT","RB","RB369-15","RBDF3","RBDF36","RBDF369",
+                    "RBDF6","RBFM3","RBFM36","RBFM369","RBFM6","RD","RDDF3",
+                    "RDDF36","RDDF369","RDDF6","RDFM3","RDFM36","RDFM369","RDFM6","TRFM4560" };
+            */
+            return records;
+        }
+
+
+        //---------------------------------------------------------------------
+        private string PreviousAskDialog(string currentClientDialogName)
+        {
+            AskDialog askDialog = StateMachine.Report.Engine.GetAskDialog(currentClientDialogName);
+            if (askDialog != null)
+                StateMachine.Report.CurrentAskDialog = askDialog;
+
+            return askDialog.ToJson();
+>>>>>>> master
         }
 
         //---------------------------------------------------------------------
@@ -158,6 +208,7 @@ namespace Microarea.RSWeb.Render
                     GetJsonAskDialog(values, msg.page);
 
                     msg.commandType = MessageBuilder.CommandType.NONE;
+<<<<<<< HEAD
                     break;
                 }
                 case MessageBuilder.CommandType.HOTLINK:
@@ -171,12 +222,34 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.UPDATEASK:
                     {
                       msg.page = msg.page;
+=======
+                    break;
+                }
+
+                case MessageBuilder.CommandType.PREVASK:
+                {
+                    msg.message = PreviousAskDialog(msg.page);
+                    break;
+                }
+
+                case MessageBuilder.CommandType.UPDATEASK:
+                    {
+
+>>>>>>> master
                       List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null
                                                          : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
 
                       msg.message = UpdateJsonAskDialog(values, msg.page);
 
                       break;
+                    }
+
+                case MessageBuilder.CommandType.HOTLINK:
+                    {
+                        var obj = JsonConvert.DeserializeObject<HotlinkDescr>(msg.message);
+                        msg.message = GetHotlinkValues(obj.ns, obj.filter, obj.name);                 
+                    
+                        break;
                     }
                 /*
                  case MessageBuilder.CommandType.ABORTASK:  //click on CANCEL
@@ -197,7 +270,10 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
                         if (int.TryParse(msg.page, out pageNum))
-                            msg.message = GetJsonTemplatePage(pageNum);
+                        {
+                            msg.message = GetJsonTemplatePage(ref pageNum);
+                            msg.page = pageNum.ToString();
+                        }
                         break;
                     }
 
@@ -219,6 +295,8 @@ namespace Microarea.RSWeb.Render
             }
             return msg;
         }
+
+       
 
         //---------------------------------------------------------------------
         //per debug

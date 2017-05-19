@@ -7,6 +7,8 @@ using System.Threading;
 using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces.Model;
 using TaskBuilderNetCore.Data;
+using Microarea.Common.Hotlink;
+using System.IO;
 
 namespace Microarea.Common.CoreTypes
 {
@@ -134,7 +136,7 @@ namespace Microarea.Common.CoreTypes
 		//-----------------------------------------------------------------------------
 		public static string GetMaxString(string str, string cultureMaxString, int len)
 		{
-			return str + (new string((GetMaxString(cultureMaxString))[0], len - str.Length));
+			return str + (new string((GetMaxString(cultureMaxString))[0], Math.Max(0, len - str.Length)));
 		}
 		//-----------------------------------------------------------------------------
 		public static string TrimMaxString(string s, string cultureMaxString)
@@ -197,9 +199,8 @@ namespace Microarea.Common.CoreTypes
 				case "object"	: object o = new object(); return o;
 
                 case "void"     :
-				case "Void"		:	
 				case "variant"	:
-                case "Variant"  : return null;
+                                    return null;
 			}
 
 			throw(new ObjectHelperException("CreateObject: illegal data type " + type));
@@ -872,7 +873,7 @@ namespace Microarea.Common.CoreTypes
 		}
 
 		//-----------------------------------------------------------------------------
-		public static object CastFromDBData(object from, object to)
+		public static object CastFromDBData(object from, object to, SymField field = null)
 		{
 			if (from is System.DBNull)
 			{
@@ -882,26 +883,38 @@ namespace Microarea.Common.CoreTypes
 
             if (from is System.Data.SqlClient.SqlParameter)
             {
-                return CastFromDBData((from as System.Data.SqlClient.SqlParameter).Value, to); 
+                return CastFromDBData((from as System.Data.SqlClient.SqlParameter).Value, to, field); 
             }
 
-            switch (to.GetType().Name)
-			{
-				case "Boolean"	: return CastBool(from);
-				case "Byte"		: return CastByte(from);
-				case "Int16"	: return CastShort(from);
-				case "Int32"	: return CastInt(from);
-				case "Int64"	: return CastLong(from);
-				case "Decimal"	: return CastDecimal(from);
-				case "Single"	: return CastFloat(from);
-				case "Double"	: return CastDouble(from);
-				case "String"	: return CastString(from);
-				case "Guid"		: return CastGuid(from);
-				case "DateTime"	: return CastDateTime(from);
-				case "DataEnum"	: return CastDataEnum(from);
-			}
+            string stype = field != null ? field.WoormType.ToLower() : to.GetType().Name.ToLower();
+            stype.RemovePrefix("system.");
 
-			throw (new ObjectHelperException(CoreTypeStrings.IllegalType));
+            switch (stype)
+			{
+               case "string"	: return CastString(from);
+				case "boolean"	: return CastBool(from);
+                case "bool"     : return CastBool(from);
+ 				case "int16"	: return CastShort(from);
+                case "integer"  : return CastShort(from);
+                case "int"      : return CastInt(from);
+                case "int32"	: return CastInt(from);
+				case "int64"	: return CastLong(from);
+                case "long"     : return CastLong(from);
+                case "double"	: return CastDouble(from);
+                case "money"    : return CastDouble(from);
+                case "quantity" : return CastDouble(from);
+                case "percent"  : return CastDouble(from);
+ 				case "datetime"	: return CastDateTime(from);
+				case "dataenum"	: return CastDataEnum(from);
+                case "enum"     : return CastDataEnum(from);
+				case "guid"		: return CastGuid(from);
+				case "decimal"	: return CastDecimal(from);
+				case "single"	: return CastFloat(from);
+                case "byte"		: return CastByte(from);
+                case "text"     : return CastString(from);
+            }
+
+            throw (new ObjectHelperException(CoreTypeStrings.IllegalType));
 		}
 
 		// evita l'eccezione

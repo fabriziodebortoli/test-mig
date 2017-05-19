@@ -103,8 +103,8 @@ namespace Microarea.RSWeb.WoormViewer
 		//---------------------------------------------------------------------------
 		public string FormatToken(string source)
 		{
-            string shortDatePattern = null; // Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;     TODO rsweb
-            string longDatePattern = null; // Thread.CurrentThread.CurrentCulture.DateTimeFormat.LongDatePattern;    TODO rsweb
+            string shortDatePattern = "dd/MM/yyyy"; // Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;     TODO rsweb
+            string longDatePattern = "dd/MM/yyyy"; // Thread.CurrentThread.CurrentCulture.DateTimeFormat.LongDatePattern;    TODO rsweb
 
             switch (source)
             {
@@ -214,7 +214,7 @@ namespace Microarea.RSWeb.WoormViewer
 
                 case SPECIAL_PRODUCT_DATE:
                     {
-                        //DateTime d = document.ReportSession.PathFinder.ProductDate;
+                        //TODO RSWEB DateTime d = document.ReportSession.PathFinder.ProductDate;
                         //string formatStyleName = ObjectHelper.DefaultFormatStyleName(d);
                         return document.ReportSession.PathFinder.ProductDate.ToString(shortDatePattern);
                     }
@@ -579,12 +579,13 @@ namespace Microarea.RSWeb.WoormViewer
 		}
 
 		//---------------------------------------------------------------------------------
-		public void Add(string name)
+		public Layout Add(string name)
 		{
 			Layout l = new Layout(woormdoc, name);
 			Add(name, l);
 			Current = l;
-		}
+            return l;
+        }
 
 		//---------------------------------------------------------------------------------
 		public bool SetCurrent(string name)
@@ -892,11 +893,14 @@ namespace Microarea.RSWeb.WoormViewer
 					Lex.SetError(WoormViewerStrings.PageLayOutNotFound);
 					return false;
 				}
-				Lex.ParseBegin();
+
+                bool invertOrientation = lex.Parsed(Token.INVERT_ORIENTATION);
+
+                Lex.ParseBegin();
 			
 				if (!layouts.SetCurrent(layoutName))
 				{
-					layouts.Add(layoutName);
+					layouts.Add(layoutName).Invert = invertOrientation;
 					//automatico layouts.SetCurrent(layoutName)
 				}
 				if (!ParseObjects(lex, true))
@@ -1926,10 +1930,11 @@ namespace Microarea.RSWeb.WoormViewer
                 //TODO errore
                 return string.Empty;
             }
-            s += '{' +
+
+             s += '{' +
                    (template ? "template" : "data").ToJson("type") + ','  +
                     pageNo.ToJson("page_number") + ',' +
-                    (template ? this.pageInfo.ToJson() + ',' : "") +
+                    (template ? this.pageInfo.ToJson(this.Objects.Invert) + ',' : "") +
                    this.Objects.ToJson(template, "layout") +
                  '}';
 

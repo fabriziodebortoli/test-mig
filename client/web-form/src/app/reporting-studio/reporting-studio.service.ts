@@ -12,7 +12,6 @@ import { CommandType } from "app/reporting-studio";
 @Injectable()
 export class ReportingStudioService extends DocumentService {
     public pageNum: number = 1;
-    public askPage: string = '';
     public showAsk = false;
     private rsServer: string = environment.baseSocket + 'rs';
     websocket: WebSocket;

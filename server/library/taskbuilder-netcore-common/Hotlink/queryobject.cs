@@ -232,7 +232,7 @@ namespace Microarea.Common.Hotlink
 			queryTemplateString += auditString;
 			sqlString += auditString;
 			
-			Debug.WriteLine(string.Format("\nQuery Name: {0}:\nQuery: {1}\nSql: {2}\n", queryNameString, queryTemplateString, sqlString));
+			//Debug.WriteLine(string.Format("\nQuery Name: {0}:\nQuery: {1}\nSql: {2}\n", queryNameString, queryTemplateString, sqlString));
 //			if (parser.LookAhead(Token.EOF))
 //				return  false;
 			return true;
@@ -739,7 +739,7 @@ namespace Microarea.Common.Hotlink
 				if (!Build())
 					return false;
 
-				Debug.WriteLine(string.Format("Query {0} Sql:\n{1}\nend query\n", queryNameString, sqlString));
+				//Debug.WriteLine(string.Format("Query {0} Sql:\n{1}\nend query\n", queryNameString, sqlString));
 	
 				iDataReader = tbCommand.ExecuteReader();
 
@@ -771,7 +771,7 @@ namespace Microarea.Common.Hotlink
 		//------------------------------------------------------------------------------
 		private bool ClearColumns ()
 		{
-			Debug.WriteLine(string.Format("Clear columns\n", queryNameString));
+			//Debug.WriteLine(string.Format("Clear columns\n", queryNameString));
 
 			for (int i = 0; i < tagLinkArrayList.Count; i++)
 			{
@@ -807,7 +807,7 @@ namespace Microarea.Common.Hotlink
 		//------------------------------------------------------------------------------
 		private bool ValorizeColumns ()
 		{
-			Debug.WriteLine(string.Format("Query {0} Fetch row\n", queryNameString));
+			//Debug.WriteLine(string.Format("Query {0} Fetch row\n", queryNameString));
 
 			//TODO int nDataLevel = 0; //REPORT_ENGINE;//symbolTable->GetDataLevel(); // RULE_ENGINE QUERY_ENGINE REPORT_ENGINE
 
@@ -851,12 +851,12 @@ namespace Microarea.Common.Hotlink
 
                 if (this.IsQueryRule)
                 {
-                    field.SetData(DataLevel.Events, CoreTypes.ObjectHelper.CastFromDBData(o, field.GetData(DataLevel.Events) ));
+                    field.SetData(DataLevel.Events, CoreTypes.ObjectHelper.CastFromDBData(o, field.GetData(DataLevel.Events), field));
                 }
                 else
-                    field.Data = CoreTypes.ObjectHelper.CastFromDBData(o, field.Data);
+                    field.Data = CoreTypes.ObjectHelper.CastFromDBData(o, field.Data, field);
 
-                Debug.WriteLine(string.Format("Field {0}: {1}\n", tagLink.name, field.Data.ToString()));
+                //Debug.WriteLine(string.Format("Field {0}: {1}\n", tagLink.name, field.Data.ToString()));
 
                 field.RuleDataFetched = true;
 				field.ValidRuleData = true;
@@ -931,7 +931,7 @@ namespace Microarea.Common.Hotlink
 				if (!Build())
 					return false;
 
-				Debug.WriteLine(string.Format("Query {0} Sql:\n{1}\nend query\n", queryNameString, sqlString));
+				//Debug.WriteLine(string.Format("Query {0} Sql:\n{1}\nend query\n", queryNameString, sqlString));
 
 				int nr = tbCommand.ExecuteNonQuery(); //It returns the number of rows affected.
 
@@ -959,7 +959,7 @@ namespace Microarea.Common.Hotlink
                 if (!Build(true))
                     return false;
 
-                Debug.WriteLine(string.Format("Query {0} Sql:\n{1}\nend query\n", queryNameString, sqlString));
+                //Debug.WriteLine(string.Format("Query {0} Sql:\n{1}\nend query\n", queryNameString, sqlString));
                 
                 //devo convertire la sintassi OLEDB in quella minimale di ADO.NET
                 string sql = tbCommand.CommandText.ToUpper();
@@ -987,7 +987,7 @@ namespace Microarea.Common.Hotlink
 
                 sql = sql.Trim();
 
-                Debug.WriteLine(string.Format("Query {0} normalize to call store procedure: {1}\n", queryNameString, sql));
+                //Debug.WriteLine(string.Format("Query {0} normalize to call store procedure: {1}\n", queryNameString, sql));
 
                 tbCommand.CommandText = sql;
                 //----

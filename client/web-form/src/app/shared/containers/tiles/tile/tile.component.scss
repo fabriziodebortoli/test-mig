@@ -28,6 +28,7 @@ tb-tile.tile-autofill {
     flex: 1;
 }
 
+<<<<<<< HEAD
 tb-tile.tile-wide {
     md-card-content  {
         display:flex;
@@ -47,3 +48,27 @@ tb-tile.tile-wide {
     flex-direction: row;    
 }
 
+=======
+tb-tile.tile-standard {
+    md-card.sameHeight {
+        height: 100%;
+    }
+}
+
+tb-tile.tile-wide {
+    md-card-content {
+        display: flex;
+    }
+    .col {
+        flex: 0 0 50%;
+    }
+    .col2 {
+        margin-left: 16px;
+    }
+}
+
+.anchored {
+    display: flex;
+    flex-direction: row;
+}
+>>>>>>> master

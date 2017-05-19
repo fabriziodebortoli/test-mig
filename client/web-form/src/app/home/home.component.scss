@@ -16,6 +16,11 @@ md-sidenav-container,
     overflow: hidden;
 }
 
+.topbar-title-content>img,
+.sidenav-title>img {
+    margin-top: 5px;
+}
+
 .tabber-container {
     flex-grow: 1;
     display: flex;
@@ -59,7 +64,8 @@ md-sidenav-container,
     color: #0277bd;
 }
 
-.tabber-container>.k-tabstrip>.k-tabstrip-items #k-tabstrip-tab-0 {
+.tabber-container>.k-tabstrip>.k-tabstrip-items #k-tabstrip-tab-0,
+.tabber-container>.k-tabstrip>.k-tabstrip-items #k-tabstrip-tab-1 {
     padding: 0;
 }
 
@@ -76,4 +82,9 @@ md-sidenav-container,
     width: 14px;
     font-size: 14px;
     height: 14px;
+}
+
+.menu-tab {
+    display: flex;
+    flex-direction: row;
 }

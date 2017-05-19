@@ -1,4 +1,11 @@
 <div>{{hotlink.caption}}</div>
+<<<<<<< HEAD
 <kendo-autocomplete [data]="hotlink.values" [suggest]="true" [placeholder]="'start to type and then click the button'" [(ngModel)]="value"
    (open)="OnOpen($event)"></kendo-autocomplete>
 <button kendoButton (click)="onButtonClick()" [icon]="'filter'"></button>
+=======
+<kendo-combobox [allowCustom]="true" [data]="hotlink.values" [textField]="'description'" [valueNormalizer]="valueNormalizer"
+        [valueField]="'code'" [placeholder]="'start to type and then click the search button'" [suggest]="true" [(ngModel)]="hotlink.value"
+        (open)="OnOpen($event)" id="hotlink-combo"></kendo-combobox>
+<button kendoButton (click)="onButtonClick()" [icon]="'search'"></button>
+>>>>>>> master

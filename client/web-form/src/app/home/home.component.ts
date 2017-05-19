@@ -1,13 +1,17 @@
+import { TabberService } from './../core/tabber.service';
 import { EventDataService } from './../core/eventdata.service';
 import { MessageDialogComponent, MessageDlgArgs } from './../shared/containers/message-dialog/message-dialog.component';
 import { Subscription } from 'rxjs';
 import { ComponentInfo } from './../shared/models/component.info';
 import { LayoutService } from 'app/core/layout.service';
+
+import { MenuService } from '../menu/services/menu.service';
+
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 
 import { environment } from './../../environments/environment';
 
-import { ComponentService } from './../core/component.service';
+import { ComponentService, ComponentCreatedArgs } from './../core/component.service';
 import { LoginSessionService } from './../core/login-session.service';
 import { SidenavService } from './../core/sidenav.service';
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
@@ -35,12 +39,19 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
     private sidenavService: SidenavService,
     private loginSession: LoginSessionService,
     private componentService: ComponentService,
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
+    private tabberService: TabberService,
+    private menuService: MenuService
+
   ) {
     this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
 
-    this.subscriptions.push(componentService.componentCreated$.subscribe((tabIndex) => {
-      this.kendoTabStripInstance.selectTab(tabIndex);
+    this.subscriptions.push(componentService.componentInfoCreated.subscribe(arg => {
+      if (arg.activate) {
+        this.kendoTabStripInstance.selectTab(arg.index + 2);
+      }
+       this.subscriptions.push(tabberService.tabSelected$.subscribe((index:number) => this.kendoTabStripInstance.selectTab(index)));
+
     }));
 
     this.subscriptions.push(componentService.componentInfoRemoved.subscribe(cmp => {
@@ -76,10 +87,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
-
-  toggleSidenav() {
-    this.sidenavService.toggleSidenav();
   }
 
   closeTab(info: ComponentInfo) {

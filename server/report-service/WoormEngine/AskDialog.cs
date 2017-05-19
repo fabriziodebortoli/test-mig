@@ -1449,6 +1449,11 @@ namespace Microarea.RSWeb.WoormEngine
             if (values != null)
                 foreach (AskDialogElement entry in values)
                 {
+<<<<<<< HEAD
+=======
+                    //if (entry.value.CompareNoCase("[object Object]"))
+                    //    entry.value = string.Empty;
+>>>>>>> master
                     AssignAskData(entry.name, entry.value);
                 }
 
@@ -1505,6 +1510,12 @@ namespace Microarea.RSWeb.WoormEngine
 
             s += this.FormName.ToJson("name") + ',';
             s += this.LocalizedFormTitle.ToJson("caption") + ',';
+
+            bool firstDlg = this.Report.AskingRules[0] == this;
+            bool lastDlg = this.Report.AskingRules[this.Report.AskingRules.Count - 1] == this;
+  
+            s += firstDlg.ToJson("isFirst") + ',';
+            s += lastDlg.ToJson("isLast") + ',';
 
             s += "\"controls\":[";
             bool first = true; ushort idx = 1;
