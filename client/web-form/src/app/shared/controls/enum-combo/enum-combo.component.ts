@@ -40,8 +40,10 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         }
         else {
             let allItems = this.enumsService.getItemsFromTag(this.tag);
-            for (let index = 0; index < allItems.length; index++) {
-                this.items.push({ code: allItems[index].value, description: allItems[index].name });
+            if (allItems != undefined) {
+                for (let index = 0; index < allItems.length; index++) {
+                    this.items.push({ code: allItems[index].value, description: allItems[index].name });
+                }
             }
 
         }
@@ -91,7 +93,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
             temp = enumItem.name;
 
         this.items.splice(0, this.items.length);
-    
+
         let obj = { code: temp, description: temp };
         this.items.push(obj);
         this.selectedItem = obj;
