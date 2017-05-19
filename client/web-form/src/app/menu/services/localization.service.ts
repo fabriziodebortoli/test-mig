@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { UtilsService } from './../../core/utils.service';
@@ -11,6 +11,7 @@ import { Logger } from './../../core/logger.service';
 export class LocalizationService {
 
     private localizedElements: any = undefined;
+    public localizationsLoaded: EventEmitter<any> = new EventEmitter();
 
     constructor(
         private httpMenuService: HttpMenuService,
@@ -28,6 +29,7 @@ export class LocalizationService {
 
         this.httpMenuService.loadLocalizedElements(needLoginThread).subscribe(result => {
             this.localizedElements = result.LocalizedElements;
+            this.localizationsLoaded.emit();
         })
     }
 

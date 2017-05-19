@@ -8,6 +8,8 @@ using Microarea.Common.Applications;
 using Microarea.Common.NameSolver;
 using Microarea.Common.Generic;
 using System.IO;
+using System.Reflection;
+using Microsoft.DotNet.PlatformAbstractions;
 
 namespace widgets_service.Controllers
 {
@@ -57,8 +59,16 @@ namespace widgets_service.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET widgets-service/getActiveWidgets
-        [Route("getActiveWidgets")]
+		//public static string CurrentPath()
+		//{
+		//	string codeBase = typeof(WidgetsController).FullName;
+		//	//UriBuilder uri = new UriBuilder(codeBase);
+		//	//string path = Uri.UnescapeDataString(uri.Path);
+		//	//return Path.GetDirectoryName(path);
+		//}
+
+		// GET widgets-service/getActiveWidgets
+		[Route("getActiveWidgets")]
         public IActionResult getActiveWidgets()
         {
             string errMessage;
@@ -66,16 +76,25 @@ namespace widgets_service.Controllers
             {
                 return new ContentResult { StatusCode = 504, Content = errMessage, ContentType = "application/text" };
             }
-
-            PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
-            string widgetsFilePath = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
+			string code = Assembly.GetEntryAssembly().Location;
+			DirectoryInfo di = new DirectoryInfo(code);
+			string serverName = di.FullName.ToLower().Replace("web-server.dll", "");
+			string widgetFullPath = serverName.ToLower().Replace("web-server", "widgets-service");
+			string widgetFileFullName = Path.Combine(widgetFullPath, "widgets.json");
+			if (!System.IO.File.Exists(widgetFileFullName))
+			{
+				PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
+				widgetFileFullName = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
+			}
+			//PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
+   //         string widgetsFilePath = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
 
             // no configured widgets, is not an error
-            if (!System.IO.File.Exists(widgetsFilePath))
+            if (!System.IO.File.Exists(widgetFileFullName))
                 return new ContentResult { Content = "[]", ContentType = "application/json" };
 
             String content;
-            using (StreamReader sr = System.IO.File.OpenText(widgetsFilePath))
+            using (StreamReader sr = System.IO.File.OpenText(widgetFileFullName))
             {
                 content = sr.ReadToEnd();
             }

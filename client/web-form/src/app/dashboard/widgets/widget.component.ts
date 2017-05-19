@@ -1,3 +1,4 @@
+import { MenuService } from './../../menu/services/menu.service';
 import { Component, Input, AfterContentInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Widget, WidgetsService } from './widgets.service';
 
@@ -91,7 +92,7 @@ export class WidgetComponent implements AfterViewInit {
 
   isLoading: boolean = false;
 
-  constructor(private widgetsService: WidgetsService) { 
+  constructor(private widgetsService: WidgetsService, private menuService: MenuService) { 
     
   }
 
@@ -115,6 +116,12 @@ export class WidgetComponent implements AfterViewInit {
           this.isLoading = false;
         }
     );
+  }
+
+  executeLink()
+  {
+    let object = { target: this.widget.link, objectType: "Document" };
+    this.menuService.runFunction(object);
   }
 
 }

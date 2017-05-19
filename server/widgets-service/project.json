@@ -41,10 +41,11 @@
     }
   },
 
-  "buildOptions": {
-    "emitEntryPoint": true,
-    "preserveCompilationContext": true
-  },
+    "buildOptions": {
+        "emitEntryPoint": true,
+        "preserveCompilationContext": true,
+        "copyToOutput": [ "widgets.json"]
+    },
 
   "runtimeOptions": {
     "configProperties": {
@@ -54,10 +55,11 @@
 
   "publishOptions": {
     "include": [
-      "wwwroot",
-      "**/*.cshtml",
-      "appsettings.json",
-      "web.config"
+        "wwwroot",
+        "**/*.cshtml",
+        "appsettings.json",
+        "web.config"
+        
     ]
   },
 

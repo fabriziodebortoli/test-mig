@@ -1,6 +1,7 @@
+import { MenuService } from './../../menu/services/menu.service';
 import { WidgetComponent } from './widget.component';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-
+import { GridModule } from '@progress/kendo-angular-grid';
 import { Widget } from './widgets.service';
 
 @Component({
@@ -60,8 +61,25 @@ import { Widget } from './widgets.service';
 export class WidgetGridComponent {
   @Input() widget: Widget;
 
-  constructor(private widgetComponent: WidgetComponent) {
+  constructor(private widgetComponent: WidgetComponent, private menuService: MenuService) {
 
+  }
+
+  onClick(event: any, rowIndex: any, item: any) {
+
+    if (this.widget.linkedNamespace == undefined || this.widget.recordKeys == undefined)
+      return;
+
+    let args: string = "";
+    let keys: string[] = this.widget.recordKeys.split(',');
+
+    for (let i = 0; i < keys.length; i++) {
+      let vals: string[] = keys[i].split(':');
+      args += vals[0] + ":" + item[vals[1]] + ";"
+    }
+
+    let object = { target: this.widget.linkedNamespace, objectType: "Document", args: args };
+    this.menuService.runFunction(object);
   }
 
   gridHeight(): number {

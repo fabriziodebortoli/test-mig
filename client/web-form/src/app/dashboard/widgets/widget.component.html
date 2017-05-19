@@ -8,7 +8,7 @@
             {{widget.subtitle}}
         </md-card-subtitle>
         <span class="widget-spacer"></span>
-        <md-icon *ngIf="widget.link" class="widget-icon">link</md-icon>
+        <md-icon *ngIf="widget.link" class="widget-icon" (click)="executeLink()">link</md-icon>
     </md-card-header>
     <md-card-content #cardContent class="widget-content">
         <md-spinner *ngIf="isLoading" class="widget-spinner"></md-spinner>

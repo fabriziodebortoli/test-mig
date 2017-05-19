@@ -159,7 +159,7 @@ namespace Microarea.RSWeb.Controllers
             JsonReportEngine report = new JsonReportEngine(session);
             report.Execute();
 
-            string pageLayout = report.GetJsonTemplatePage(page);
+            string pageLayout = report.GetJsonTemplatePage(ref page);
 
             return new ContentResult { Content = pageLayout, ContentType = "application/json" };
         }

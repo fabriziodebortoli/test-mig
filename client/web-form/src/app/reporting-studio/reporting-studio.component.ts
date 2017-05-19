@@ -36,6 +36,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   private viewHeightSubscription: Subscription;
   private viewHeight: number;
+  private totalPages: number;
 
   constructor(
     private rsService: ReportingStudioService,
@@ -97,6 +98,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.UPDATEASK:
           this.askDialogTemplate = message;
           break;
+        case CommandType.PREVASK:
+          this.askDialogTemplate = message;
+          break;
         case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
@@ -117,6 +121,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.componentService.createReportComponent(k.ns, true, params);
           break;
         case CommandType.ENDREPORT:
+          this.totalPages = k.totalPages;
           break;
         case CommandType.NONE:
           break;
@@ -135,16 +140,16 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   rsInitStateMachine() {
-   let p: string = '';
+    let p: string = '';
     let p2: string = '';
-                if (this.args.params) {
-                  if (this.args.params.xargs != null) {
-                               p = JSON.stringify(this.args.params.xargs);
-                               p2 = decodeURIComponent(p);
-                  }
-                  else p2 = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : JSON.stringify(this.args.params);
-                }
-let message = {
+    if (this.args.params) {
+      if (this.args.params.xargs != null) {
+        p = JSON.stringify(this.args.params.xargs);
+        p2 = decodeURIComponent(p);
+      }
+      else p2 = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : JSON.stringify(this.args.params);
+    }
+    let message = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
       parameters: p2,
@@ -157,8 +162,6 @@ let message = {
   // -----------------------------------------------
   RunReport() {
     this.running = true;
-
-    //ASK
     let message = {
       commandType: CommandType.ASK,
       message: '',
@@ -169,7 +172,6 @@ let message = {
 
   // -----------------------------------------------
   GetData() {
-
     let message = {
       commandType: CommandType.DATA,
       message: this.args.params.xmlArgs,
@@ -181,7 +183,6 @@ let message = {
   // -----------------------------------------------
   StopReport() {
     this.running = false;
-
     let message = {
       commandType: CommandType.STOP,
       message: this.args.nameSpace,
@@ -191,7 +192,9 @@ let message = {
 
   // -----------------------------------------------
   NextPage() {
-    this.rsService.pageNum++;
+    if (this.rsService.pageNum < this.totalPages) {
+      this.rsService.pageNum++;
+    }
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
@@ -212,6 +215,30 @@ let message = {
       page: this.rsService.pageNum
     };
 
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  // -----------------------------------------------
+  FirstPage() {
+    let message = {
+      commandType: CommandType.TEMPLATE,
+      message: this.args.nameSpace,
+      page: 1
+    };
+    
+    this.rsService.pageNum = message.page;
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  // -----------------------------------------------
+  LastPage() {
+    let message = {
+      commandType: CommandType.TEMPLATE,
+      message: this.args.nameSpace,
+      page: this.totalPages
+    };
+
+    this.rsService.pageNum = message.page;
     this.rsService.doSend(JSON.stringify(message));
   }
 
