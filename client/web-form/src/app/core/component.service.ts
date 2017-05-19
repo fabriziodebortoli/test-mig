@@ -16,11 +16,11 @@ export class ComponentService {
   currentComponentId: string; //id del componente in fase di creazione
   creatingComponent = false;//semaforo
   subscriptions = [];
-  private componentCreatedSource = new Subject<number>();
-  componentCreated$ = this.componentCreatedSource.asObservable();
+  componentInfoCreated = new EventEmitter<ComponentCreatedArgs>();
   componentInfoAdded = new EventEmitter<ComponentInfo>();
   componentInfoRemoved = new EventEmitter<ComponentInfo>();
   componentCreationError: EventEmitter<string> = new EventEmitter();
+  activateComponent = false;
   constructor(
     private router: Router,
     private webSocketService: WebSocketService,
@@ -50,13 +50,13 @@ export class ComponentService {
     }
 
   }
-  createReportComponent(ns: string, args: any = undefined) {
+  createReportComponent(ns: string, activate: boolean, args: any = undefined) {
     let url = 'rs/reportingstudio/' + ns + '/';
     args = this.argsToString(args);
     if (args !== undefined) {
       url += args;
     }
-    this.createComponentFromUrl(url);
+    this.createComponentFromUrl(url, activate);
   }
   dispose() {
     this.subscriptions.forEach(subs => subs.unsubscribe());
@@ -81,7 +81,7 @@ export class ComponentService {
     if (args !== undefined) {
       url += '/' + args;
     }
-    this.createComponentFromUrl(url);
+    this.createComponentFromUrl(url, true);
   }
 
   addComponent<T>(component: ComponentInfo) {
@@ -118,7 +118,8 @@ export class ComponentService {
     this.componentInfoRemoved.emit(removed);
   }
 
-  createComponentFromUrl(url: string): void {
+  createComponentFromUrl(url: string, activate : boolean): void {
+    this.activateComponent = activate;
     this.router.navigate([{ outlets: { dynamic: 'proxy/' + url }, skipLocationChange: false, replaceUrl: false }])
       .then(
       success => {
@@ -144,6 +145,11 @@ export class ComponentService {
   }
 
   onComponentCreated(info: ComponentInfo) {
-    this.componentCreatedSource.next(this.components.indexOf(info) + 2);
+    this.componentInfoCreated.emit(new ComponentCreatedArgs(this.components.indexOf(info), this.activateComponent));
+  }
+}
+export class ComponentCreatedArgs {
+  constructor(public index: Number, public activate: boolean) { 
+
   }
 }

@@ -114,7 +114,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           break;
         case CommandType.RUNREPORT:
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
-          this.componentService.createReportComponent(k.ns, params);
+          this.componentService.createReportComponent(k.ns, true, params);
           break;
         case CommandType.ENDREPORT:
           break;
