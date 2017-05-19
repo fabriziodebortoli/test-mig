@@ -7,11 +7,20 @@
             <div class="dashboard-sidebar">
                 <div class="favorites">
 
-                    <span>Favorites</span>
+                    <h4>Favorites</h4>
                     <div class="favorites" *ngIf="menuService?.favoritesCount > 0">
-                        <div class="row">
-                            <tb-menu-element [object]="object" *ngFor="let object of favorites" class="menu-content col-xs-12" [ngClass]="{'col-md-6': favorites.length > 10 , 'col-md-12': favorites.length <= 10}"></tb-menu-element>
-                        </div>
+
+                        <ul class="favorites-list">
+                            <li *ngFor="let favorite of favorites" class="favorite-item">
+
+                                <md-icon class="type" [ngClass]="favorite.objectType">{{imageService.getObjectIcon(favorite)}}</md-icon>
+
+                                <span class="truncate" (click)="runFunction(favorite)">{{favorite.title}}</span>
+
+                                <md-icon class="close" (click)="menuService.toggleFavorites(favorite)" title="Remove">close</md-icon>
+                            </li>
+                        </ul>
+
                     </div>
                 </div>
             </div>
