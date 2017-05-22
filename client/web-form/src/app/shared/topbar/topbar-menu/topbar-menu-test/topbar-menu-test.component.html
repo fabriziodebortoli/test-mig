@@ -1,3 +1,14 @@
 <kendo-dropdownbutton [data]="data" [textField]="'actionName'">
     <md-icon>build</md-icon>
 </kendo-dropdownbutton>
+
+<button #anchor (click)="show=!show">
+     <md-icon>build</md-icon>
+</button>
+<kendo-popup [popupClass]="'content popup'" *ngIf="show" [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
+    <button kendoButton class="content" (click)="openDataService()">Data Service</button>
+    <button kendoButton class="content" (click)="openRS()">Reporting Studio</button>
+    <button kendoButton class="content" (click)="openTBExplorer()">TB Explorer</button>
+    <button kendoButton class="content" (click)="openTestGrid()">Test Grid Component</button>
+    <button kendoButton class="content" (click)="openTestIcons()">Test Icons</button>
+</kendo-popup>

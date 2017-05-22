@@ -1,4 +1,6 @@
 import { Component, OnInit,ViewEncapsulation } from '@angular/core';
+import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
+import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 
 import { ComponentService } from './../../../../core/component.service';
 
@@ -9,6 +11,10 @@ import { ComponentService } from './../../../../core/component.service';
 })
 export class TopbarMenuTestComponent implements OnInit {
 
+ anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
+  popupAlign: Align = { horizontal: 'right', vertical: 'top' };
+  private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
+ 
 data: Array<any> = [{
         actionName: 'Data Service',
         click: (dataItem) => {
