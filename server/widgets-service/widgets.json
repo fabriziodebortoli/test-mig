@@ -107,9 +107,10 @@
         ]
     },
     {
-        "widgets": [{
+        "widgets": [
+            {
                 "title": "Top customers",
-                "link": "ERP.CustomersSuppliers.Documents.Customers",
+                "link": "ERP.Contacts.ContactsAddressBook",
                 "subtitle": "by turnover",
                 "layout": {
                     "style": "chart",
@@ -157,7 +158,8 @@
                     "gridFormat": {
                         "maxRows": 10,
                         "color": "green",
-                        "columns": [{
+                        "columns": [
+                            {
                                 "caption": "Order Date",
                                 "id": "OrderDate",
                                 "width": "100"

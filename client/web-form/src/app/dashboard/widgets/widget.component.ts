@@ -42,7 +42,7 @@ export class WidgetComponent implements AfterViewInit {
   }
 
   executeLink() {
-    let object = { target: this.widget.link, objectType: "Document" };
+    let object = { target: this.widget.link, objectType: "Report" };
     this.menuService.runFunction(object);
   }
 
