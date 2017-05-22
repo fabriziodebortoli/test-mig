@@ -13,10 +13,10 @@
         <md-card-content>
             <div class="form-group">
                 <md-input-container class="form-control">
-                    <input mdInput type="text" [placeholder]="'User'" autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user)/>
+                    <input mdInput type="text" [placeholder]="'User'" autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keydown)="keyDownFunction($event)" />
                 </md-input-container>
                 <md-input-container class="form-control">
-                    <input mdInput type="password" [placeholder]="'Password'" [(ngModel)]="connectionData.password" />
+                    <input mdInput type="password" [placeholder]="'Password'" [(ngModel)]="connectionData.password" (keydown)="keyDownFunction($event)" />
                 </md-input-container>
 
                 <md-select class="form-control" placeholder="Company" [(ngModel)]="connectionData.company" style="display:none">
