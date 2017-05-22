@@ -1,7 +1,7 @@
 import { fieldrect } from './../../reporting-studio.model';
 import { UtilsService } from './../../../core/utils.service';
 
-import { Component, Input, ChangeDetectorRef,AfterViewInit } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'rs-fieldrect',
@@ -64,6 +64,9 @@ export class ReportFieldrectComponent implements AfterViewInit {
     let obj = {
       'position': 'relative',
       'display': 'block',
+      'overflow': 'hidden',
+      //'text-overflow': 'ellipsis',
+      'white-space': 'nowrap',
       'text-align': this.rect.label.text_align,
       'font-family': this.rect.label.font.face,
       'font-size': this.rect.label.font.size + 'px',
