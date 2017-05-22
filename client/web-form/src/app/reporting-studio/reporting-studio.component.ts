@@ -47,7 +47,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData);
 
-
   }
 
   // -----------------------------------------------
@@ -225,7 +224,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       message: this.args.nameSpace,
       page: 1
     };
-    
+
     this.rsService.pageNum = message.page;
     this.rsService.doSend(JSON.stringify(message));
   }
