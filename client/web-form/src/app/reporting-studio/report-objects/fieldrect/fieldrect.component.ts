@@ -25,7 +25,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
     let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
     let obj = {
       'position': 'absolute',
-      'display': 'table',
+      //'display': 'table',
       'top': this.rect.rect.top + 'px',
       'left': this.rect.rect.left + 'px',
       'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
@@ -47,7 +47,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
   applyValueStyle(): any {
     let obj = {
       'position': 'relative',
-      'display': 'table-cell',
+      'display': 'block',
       'font-family': this.rect.font.face,
       'font-size': this.rect.font.size + 'px',
       'font-style': this.rect.font.italic ? 'italic' : 'normal',
@@ -63,7 +63,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
   applyLabelStyle(): any {
     let obj = {
       'position': 'relative',
-      'display': 'table-cell',
+      'display': 'block',
       'text-align': this.rect.label.text_align,
       'font-family': this.rect.label.font.face,
       'font-size': this.rect.label.font.size + 'px',
