@@ -4,13 +4,45 @@
     <tb-frame-content class="scroll">
         <div class="dashboard-page">
 
-            <!--<tb-header-strip title="Dashboard">
-                <div class="header-strip-under">
+            <div class="dashboard-sidebar">
+                <div class="favorites">
 
+                    <h4>Favorites</h4>
+                    <div class="favorites" *ngIf="menuService?.favoritesCount > 0">
+
+                        <ul class="favorites-list">
+                            <li *ngFor="let favorite of favorites" class="favorite-item">
+
+                                <md-icon class="type" [ngClass]="favorite.objectType">{{imageService.getObjectIcon(favorite)}}</md-icon>
+
+                                <span class="truncate" (click)="runFunction(favorite)">{{favorite.title}}</span>
+
+                                <md-icon class="close" (click)="menuService.toggleFavorites(favorite)" title="Remove">close</md-icon>
+                            </li>
+                        </ul>
+
+                    </div>
                 </div>
-            </tb-header-strip>
+            </div>
 
-            <div class="row">
+            <div class="dashboard-content">
+
+                <tb-header-strip title="Dashboard">
+                    <div class="header-strip-under">
+
+                    </div>
+                </tb-header-strip>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <tb-widget-container></tb-widget-container>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--            <div class="row">
                 <div class="col-sm-4">
                     <md-card>
 
@@ -19,11 +51,7 @@
                         </md-card-title>
 
                         <md-card-content>
-                            <div class="favorites" *ngIf="menuService?.favoritesCount > 0">
-                                <div class="row">
-                                    <tb-menu-element [object]="object" *ngFor="let object of favorites" class="menu-content col-xs-12" [ngClass]="{'col-md-6': favorites.length > 10 , 'col-md-12': favorites.length <= 10}"></tb-menu-element>
-                                </div>
-                            </div>
+                            
                         </md-card-content>
 
                     </md-card>
@@ -56,11 +84,7 @@
                 </div>
             </div>-->
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <tb-widget-container></tb-widget-container>
-                </div>
-            </div>
+
 
         </div>
     </tb-frame-content>

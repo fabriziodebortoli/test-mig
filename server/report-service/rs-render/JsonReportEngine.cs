@@ -118,9 +118,13 @@ namespace Microarea.RSWeb.Render
         {
             if (currentClientDialogName.IsNullOrEmpty() || values == null || values.Count == 0)
             {
+                //TODO RSWEB in caso di RERUN occorre cambiare la cartella dei file temporanei
+                //if (StateMachine.CurrentState == State.End)
+                    //StateMachine.CurrentState = State.ExecuteAsk;
+
                 //viene cercata la prima, se esiste
-                StateMachine.Step();
-                return string.Empty;
+                 StateMachine.Step();
+                 return string.Empty;
             }
 
             if (!currentClientDialogName.CompareNoCase(StateMachine.Report.CurrentAskDialog.FormName))

@@ -49,23 +49,23 @@ data: Array<any> = [{
   }
 
   openDataService() {
-    this.componentService.createComponentFromUrl('test/dataservice');
+    this.componentService.createComponentFromUrl('test/dataservice', true);
   }
 
   openRS() {
-    this.componentService.createReportComponent('');
+    this.componentService.createReportComponent('', true);
   }
 
   openTBExplorer() {
-    this.componentService.createComponentFromUrl('test/explorer');
+    this.componentService.createComponentFromUrl('test/explorer', true);
   }
 
   openTestGrid() {
-    this.componentService.createComponentFromUrl('test/grid');
+    this.componentService.createComponentFromUrl('test/grid', true);
   }
 
   openTestIcons() {
-    this.componentService.createComponentFromUrl('test/icons');
+    this.componentService.createComponentFromUrl('test/icons', true);
   }
 
 }

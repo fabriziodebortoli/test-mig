@@ -211,7 +211,7 @@ export class MenuService {
         if (object.objectType.toLowerCase() == 'report') {
             let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
                 if (!jsonObj.desktop) {
-                    this.componentService.createReportComponent(object.target);
+                    this.componentService.createReportComponent(object.target, true);
                 }
                 obs.unsubscribe();
             });
@@ -222,7 +222,7 @@ export class MenuService {
 
         this.addToMostUsed(object);
         object.isLoading = true;
-        const subs1 = this.componentService.componentCreated$.subscribe(index => {
+        const subs1 = this.componentService.componentInfoCreated.subscribe(arg => {
             object.isLoading = false;
             subs1.unsubscribe();
         });
@@ -569,6 +569,6 @@ export class MenuService {
         this.showDescription = !this.showDescription;
     }
 
-    menuActivated:boolean = false;
+    menuActivated:boolean = true; // TODO temporaneo per demo, poi vedremo...
     activateMenu(){this.menuActivated = true;console.log("act", this.menuActivated)}
 }

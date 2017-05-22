@@ -24,4 +24,8 @@ export class DashboardComponent implements OnInit {
     this.favorites = this.menuService.getFavorites();
   }
 
+  runFunction(object) {
+    this.menuService.runFunction(object);
+  }
+
 }
