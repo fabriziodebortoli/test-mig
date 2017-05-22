@@ -1,43 +1,62 @@
 <tb-frame>
-    <tb-toolbar-top title="Dashboard"></tb-toolbar-top>
+    <tb-toolbar-top title="Mario Rossi's Page 1">
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Prev.png" caption="Previous" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Next.png" caption="Next" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+    </tb-toolbar-top>
 
-    <tb-frame-content class="scroll">
+    <tb-frame-content>
         <div class="dashboard-page">
 
             <div class="dashboard-sidebar">
-                <div class="favorites">
+                <div class="dashboard-sidebar-riq favorites">
 
                     <h4>Favorites</h4>
-                    <div class="favorites" *ngIf="menuService?.favoritesCount > 0">
 
-                        <ul class="favorites-list">
-                            <li *ngFor="let favorite of favorites" class="favorite-item">
+                    <ul class="dashboard-sidebar-list" *ngIf="menuService?.favoritesCount > 0">
+                        <li *ngFor="let favorite of favorites" class="dashboard-sidebar-item">
 
-                                <md-icon class="type" [ngClass]="favorite.objectType">{{imageService.getObjectIcon(favorite)}}</md-icon>
+                            <md-icon class="type" [ngClass]="favorite.objectType">{{imageService.getObjectIcon(favorite)}}</md-icon>
 
-                                <span class="truncate" (click)="runFunction(favorite)">{{favorite.title}}</span>
+                            <span class="truncate" (click)="runFunction(favorite)">{{favorite.title}}</span>
 
-                                <md-icon class="close" (click)="menuService.toggleFavorites(favorite)" title="Remove">close</md-icon>
-                            </li>
-                        </ul>
+                            <md-icon class="close" (click)="menuService.toggleFavorites(favorite)" title="Remove">close</md-icon>
+                        </li>
+                    </ul>
 
-                    </div>
+                </div>
+
+                <div class="dashboard-sidebar-riq most-used">
+
+                    <h4>Recently Used</h4>
+
+                    <ul class="dashboard-sidebar-list" *ngIf="menuService?.mostUsedCount > 0">
+                        <li *ngFor="let object of utilsService.toArray(menuService?.mostUsed) | slice:0:9;" class="dashboard-sidebar-item">
+
+                            <md-icon class="type" [ngClass]="object.objectType">{{imageService.getObjectIcon(object)}}</md-icon>
+
+                            <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
+                        </li>
+                    </ul>
+
                 </div>
             </div>
 
             <div class="dashboard-content">
 
                 <tb-header-strip title="Dashboard">
-                    <div class="header-strip-under">
 
+                    <div class="header-strip-content">
+                        <button class="tool" kendoButton><md-icon>refresh</md-icon></button>
+                        <button class="tool" kendoButton><md-icon>settings</md-icon></button>
+                    </div>
+
+                    <div class="header-strip-under">
+                        <div>Mario Rossi's Page 1</div>
                     </div>
                 </tb-header-strip>
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <tb-widget-container></tb-widget-container>
-                    </div>
-                </div>
+                <tb-widget-container></tb-widget-container>
+
             </div>
 
 
