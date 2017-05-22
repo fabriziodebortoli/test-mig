@@ -1,4 +1,4 @@
-<button #anchor (click)="show=!show">
+<button #anchor (click)="show=!show" (blur)="closePopup()">
      <md-icon  class="material-icons">build</md-icon>
 </button>
 <kendo-popup [popupClass]="'popup'" *ngIf="show" [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">

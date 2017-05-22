@@ -2,7 +2,7 @@
     <md-icon>person</md-icon>
 </kendo-dropdownbutton>-->
 
-<button #anchor (click)="show=!show">
+<button #anchor (click)="show=!show" (blur)="closePopup()">
      <md-icon  class="material-icons">person</md-icon>
 </button>
 <kendo-popup [popupClass]="'popup'" *ngIf="show" [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">

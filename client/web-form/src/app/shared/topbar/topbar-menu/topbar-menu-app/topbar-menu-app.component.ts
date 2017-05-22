@@ -21,6 +21,8 @@ anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
   private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
   contextMenu: MenuItem[] = new Array<MenuItem>();
 
+   private show = false;
+
   viewProductInfo: string;
   productInfoDialogRef: MdDialogRef<ProductInfoDialogComponent>;
   connectionInfoDialogRef: MdDialogRef<ConnectionInfoDialogComponent>;
@@ -66,7 +68,10 @@ const item1 = new MenuItem(this.localizationService.getLocalizedElement('ViewPro
           break;
       }
    }
-
+   
+public closePopup(): void {
+      this.show = false;
+    }
   ngOnDestroy() {
     this.localizationsLoadedSubscription.unsubscribe();
   }

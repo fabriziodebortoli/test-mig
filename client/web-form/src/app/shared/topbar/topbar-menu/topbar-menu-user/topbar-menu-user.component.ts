@@ -15,6 +15,8 @@ export class TopbarMenuUserComponent implements OnInit {
   popupAlign: Align = { horizontal: 'right', vertical: 'top' };
   private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
   contextMenu: MenuItem[] = new Array<MenuItem>();
+  private show = false;
+
 
   constructor(private loginSessionService: LoginSessionService) { 
     const item1 = new MenuItem('Refresh', 'idRefreshButton', false, false);
@@ -31,15 +33,6 @@ export class TopbarMenuUserComponent implements OnInit {
 switch (buttonName) {
   case 'idSignOutButton':
     return this.logout();
-  // case 'idReportingStudioButton':
-  //   return this.openRS();
-  //     case 'idTBExplorerButton':
-  //   return this.openTBExplorer();
-  //     case 'idTBExplorerButton':
-  //   return this.openTestGrid();
-  //     case 'idTestIconsButton':
-  //   return this.openTestIcons();
-
   default:
     break;
     }
@@ -48,4 +41,7 @@ switch (buttonName) {
   logout() {
     this.loginSessionService.logout();
   }
+    public closePopup(): void {
+      this.show = false;
+    }
 }
