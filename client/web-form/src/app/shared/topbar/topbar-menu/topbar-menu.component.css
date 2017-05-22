@@ -1,63 +1,131 @@
-.topbar-menu-layout .k-widget .k-button[disabled],
-.topbar-menu-layout .k-widget .k-button.k-state-disabled:hover,
-.topbar-menu-layout .k-widget .k-button.k-state-disabled:focus,
-.topbar-menu-layout .k-widget [disabled] .k-button {
-    outline: none;
-    cursor: default;
-    opacity: .6;
-    -webkit-filter: grayscale(0.1);
-    filter: grayscale(0.1);
-    pointer-events: none;
-}
+/* .topbar-menu-layout .k-widget .k-button[disabled],
+ .topbar-menu-layout .k-widget .k-button.k-state-disabled:hover,
+ .topbar-menu-layout .k-widget .k-button.k-state-disabled:focus,
+ .topbar-menu-layout .k-widget [disabled] .k-button {
+     outline: none;
+     cursor: default;
+     opacity: .6;
+     -webkit-filter: grayscale(0.1);
+     filter: grayscale(0.1);
+     pointer-events: none;
+ }
+ 
+ .topbar-menu-layout .k-widget {
+     color: white;
+     background-color: transparent;
+     border-color: transparent;
+ }
+ 
+ .topbar-menu-layout .k-widget .k-animation-container .k-popup {
+     color: white;
+     background-color: #00578c;
+     border-color: transparent;
+ }
+ 
+ .topbar-menu-layout .k-widget .k-button {
+     color: white;
+     background-color: transparent;
+     border-color: transparent;
+     background-image: none;
+     background-image: linear-gradient(red, red);
+ }
+ 
+ .topbar-menu-layout .k-widget .k-button:hover,
+ .topbar-menu-layout .k-widget .k-button.k-state-hover,
+ .topbar-menu-layout .k-widget .k-button.k-flat:hover,
+ .topbar-menu-layout .k-widget .k-button.k-flat.k-state-hover {
+     color: #bcd3e1;
+     background-color: transparent;
+     border-color: transparent;
+     background-image: none;
+     background-image: linear-gradient(red, red);
+ }
+ 
+ .topbar-menu-layout .k-widget .k-animation-container .k-popup {
+     width: 200px;
+     background: #00578c;
+     padding: 5px 10px;
+     border-radius: 3px;
+     border: 1px solid #044e7b;
+     width: 330px;
+     box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+ }
+ 
+ .topbar-menu-layout .k-widget .k-animation-container .k-popup .k-list .k-item:hover,
+ .topbar-menu-layout .k-widget .k-animation-container .k-popup.k-list .k-item.k-state-hover {
+     color: #bcd3e1;
+     background-color: transparent;
+ } */
 
-.topbar-menu-layout .k-widget {
-    color: white;
-    background-color: transparent;
-    border-color: transparent;
-}
-
-.topbar-menu-layout .k-widget .k-animation-container .k-popup {
+.topbar-menu-layout .k-button {
     color: white;
     background-color: #00578c;
+    background-image: none;
     border-color: transparent;
+    border: 0;
+    border-radius: 0px;
 }
 
-.topbar-menu-layout .k-widget .k-button {
+.topbar-menu-layout .k-button:hover {
     color: white;
-    background-color: transparent;
-    border-color: transparent;
+    background-color: red;
     background-image: none;
-    /*background-image: linear-gradient(red, red);*/
-}
-
-.topbar-menu-layout .k-widget .k-button:hover,
-.topbar-menu-layout .k-widget .k-button.k-state-hover,
-.topbar-menu-layout .k-widget .k-button.k-flat:hover,
-.topbar-menu-layout .k-widget .k-button.k-flat.k-state-hover {
-    color: #bcd3e1;
-    background-color: transparent;
     border-color: transparent;
-    background-image: none;
-    /*background-image: linear-gradient(red, red);*/
-}
-
-.topbar-menu-layout .k-widget .k-animation-container .k-popup {
-    width: 200px;
-    background: #00578c;
-    padding: 5px 10px;
-    border-radius: 3px;
-    border: 1px solid #044e7b;
-    width: 330px;
-    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
-}
-
-.topbar-menu-layout .k-widget .k-animation-container .k-popup .k-list .k-item:hover,
-.topbar-menu-layout .k-widget .k-animation-container .k-popup.k-list .k-item.k-state-hover {
-    color: #bcd3e1;
-    background-color: transparent;
+    border: 0;
+    border-radius: 0px;
 }
 
 .k-list .k-item:focus,
 .k-list .k-item.k-state-focused {
     box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.contextMenuClass {
+    width: 5%;
+    margin-right: 0px;
+    margin-left: auto;
+    padding-top: 5px;
+    outline: none;
+}
+
+.material-icons {
+    color: white;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 200px;
+    height: 24px;
+}
+
+.divW {
+    width: inherit;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: left;
+    font-size: smaller;
+}
+
+.checkIcon {
+    float: right;
+}
+
+.subsIcon {
+    float: left;
+}
+
+.borderOn {
+    border: 1px solid blue;
+}
+
+.spaceOn {
+    padding-left: 24px;
+}
+
+span {
+    vertical-align: sub;
 }
