@@ -1,6 +1,6 @@
 <header>
     <md-toolbar color="primary">
-        <span>MagoWeb</span>
+        <img src="assets/images/logoM4_h40.png" />
         <span class="fill-remaining-space"></span>
         <span>Microarea Spa</span>
     </md-toolbar>
@@ -18,7 +18,8 @@
                 <md-input-container class="form-control">
                     <input mdInput type="password" [placeholder]="'Password'" [(ngModel)]="connectionData.password" />
                 </md-input-container>
-                <md-select class="form-control" placeholder="Company" [(ngModel)]="connectionData.company">
+
+                <md-select class="form-control" placeholder="Company" [(ngModel)]="connectionData.company" style="display:none">
                     <md-option *ngIf="!companies">Loading...</md-option>
                     <md-option *ngFor="let company of companies" [value]="company?.name">
                         {{ company?.name }}
@@ -27,7 +28,7 @@
 
                 <div class="error" *ngFor="let errorMessage of loginSessionService.errorMessages">{{errorMessage.text}}</div>
 
-                <button class="form-button" md-raised-button color="primary" (click)="login();">Login</button>
+                <button class="form-button" md-raised-button color="primary" (click)="login();" [disabled]="companies.length == 0">Login</button>
             </div>
 
 
