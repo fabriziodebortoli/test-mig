@@ -33,7 +33,7 @@ export class StandaloneReportComponent implements OnInit {
         subs.unsubscribe();
       });
 
-     this.componentService.createReportComponent(this.namespace, this.params);
+     this.componentService.createReportComponent(this.namespace, true, this.params);
 
     });
   }

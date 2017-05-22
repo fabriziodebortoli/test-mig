@@ -73,6 +73,9 @@ namespace Microarea.Common.Hotlink
                 SymTable.Add(paramField);
             }
 
+            //string t = XmlDescription.DbTableName;
+            //DBData.DBInfo.GetColumnType(Session.UserInfo.CompanyDbConnection, t, string columnName)
+
             //viene cercato il corpo della query ------------------
             string selectionName = selection_type.Data as string;
             SelectionMode  sm = XmlDescription.GetMode(selectionName); 

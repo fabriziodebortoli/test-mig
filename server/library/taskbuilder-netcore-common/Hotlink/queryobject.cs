@@ -486,11 +486,7 @@ namespace Microarea.Common.Hotlink
 
                     if (res != null)
                     {
-                            string nat = "";/* TBDatabaseType.DBNativeConvert(
-                                res,
-                                isUnicode,
-                                dbType
-                                );   TODO rsweb*/
+                        string nat = DBInfo.GetNativeConvert(res, this.UserInfo.UseUnicode, this.UserInfo.DatabaseType);    
                         if (nat == null)
                             return false;
 
