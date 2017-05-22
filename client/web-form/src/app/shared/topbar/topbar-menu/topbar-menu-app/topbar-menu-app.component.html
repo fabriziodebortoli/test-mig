@@ -10,7 +10,14 @@
     <button md-menu-item (click)=activateViaSMS()>{{localizationService.getLocalizedElement('ActivateViaSMS')}}</button>
     <button md-menu-item (click)=activateViaInternet()>{{localizationService.getLocalizedElement('ActivateViaInternet')}}</button>
 </md-menu>-->
-
+<!--
 <kendo-dropdownbutton [data]="data" [textField]="'actionName'">
     <md-icon>more_vert</md-icon>
-</kendo-dropdownbutton>
+</kendo-dropdownbutton>-->
+
+<button #anchor (click)="show=!show">
+</button>
+<kendo-popup [popupClass]="'popup'" *ngIf="show" [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
+
+    <button kendoButton *ngFor="let menuItem of contextMenu" class="content" (click)="chooseAction(menuItem.id)">{{menuItem.text}}</button>
+</kendo-popup>
