@@ -23,8 +23,26 @@ tb-tilemanager {
 
 .tile-manager .k-tabstrip>.k-tabstrip-items {
     flex-direction: column;
-    flex: 0 0 260px;
+    flex: 0 0 60px;
     background: #fff;
+}
+
+@media screen and (min-width: 48em) {
+    .tile-manager .k-tabstrip>.k-tabstrip-items {
+        flex: 0 0 160px;
+    }
+}
+
+@media screen and (min-width: 64em) {
+    .tile-manager .k-tabstrip>.k-tabstrip-items {
+        flex: 0 0 200px;
+    }
+}
+
+@media screen and (min-width: 75em) {
+    .tile-manager .k-tabstrip>.k-tabstrip-items {
+        flex: 0 0 260px;
+    }
 }
 
 .tile-manager .k-item .k-link {
@@ -47,80 +65,3 @@ tb-tilemanager {
     border: none;
     background: #f1f4f7;
 }
-
-
-/*.selector {
-    border-color:lightgray;
-    border-width: 1px;
-    width: 100%;
-    height: 100%;
-    border-style: solid;
-}
-
-.tabGroupContent
-{
-
-  padding-left: 20px;
-}
-
-.multipleTabs { margin-left: 10%;
-}
-
-ul
-{
-  padding: 10px 10px 10px 0px;
-   margin:0px;
-  display: inline-block;
-}
-li
-{
-    display: block;
-    
-    position: relative;
-    cursor: pointer;
-    padding: 10px;
-    width: 100%;
-    // border-bottom-left-radius: 10px;
-    // border-top-left-radius: 10px;
-    border-radius: 3px;
-    font-weight: 300;
-}
-li.active
-{
-  background-color: lightskyblue;
-}
-a
-{
-    text-decoration:none;
-}
-a.tabTitle
-{
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
-.tab-content {
-   margin: 10;
-    flex: 1;
-}
-
-div.content
-{
-  display: inline-block;
-}
-
-
-section {
-    width: 100%;
-    height: auto;
-    margin: auto;
-}
-div#one {
-    width: 10%;
-    height: 100%;
-    float: left;
-}
-
-ul {
-	padding-left: 10px;
-}*/

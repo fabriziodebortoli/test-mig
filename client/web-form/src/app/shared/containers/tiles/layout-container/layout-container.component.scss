@@ -1,5 +1,6 @@
 .layout-container {
     display: flex;
+    flex-direction: column;
 }
 
 :host(.layoutType-column) {
@@ -15,4 +16,14 @@
 :host(.layoutType-vbox) {
     display: flex;
     flex-direction: column;
+}
+
+@media screen and (min-width: 48em) {}
+
+@media screen and (min-width: 64em) {}
+
+@media screen and (min-width: 75em) {
+    .layout-container {
+        flex-direction: row;
+    }
 }

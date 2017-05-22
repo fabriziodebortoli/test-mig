@@ -478,9 +478,12 @@ tb-caption label {
 .k-textbox:disabled,
 .k-textbox[disabled],
 .k-textbox.k-state-disabled,
-.k-dropdown-wrap.k-state-disabled {
-    background: transparent;
+.k-dropdown-wrap.k-state-disabled .k-input,
+.k-numeric-wrap .k-input[disabled] {
+    background: transparent !important;
     border: 1px solid #ddd;
+    color: #000;
+    opacity: 0.6;
     font-weight: bold;
 }
 

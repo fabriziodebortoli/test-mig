@@ -164,7 +164,7 @@ namespace TaskBuilderNetCore.Data
 
         public new void Dispose()
         {
-            connection.Dispose();
+            //connection.Dispose();
         }
     }
 }
