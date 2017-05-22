@@ -16,7 +16,7 @@ export class TopbarMenuTestComponent implements OnInit {
   popupAlign: Align = { horizontal: 'right', vertical: 'top' };
   private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
   contextMenu: MenuItem[] = new Array<MenuItem>();
-
+   private show = false;
   private title: string = "Test menu";
 
   constructor(private componentService: ComponentService) { 
@@ -71,4 +71,7 @@ switch (buttonName) {
     this.componentService.createComponentFromUrl('test/icons', true);
   }
 
+  public closePopup(): void {
+      this.show = false;
+    }
 }
