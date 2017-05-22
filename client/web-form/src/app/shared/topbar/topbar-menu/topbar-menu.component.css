@@ -66,11 +66,32 @@
     border-radius: 0px;
 }
 
-.topbar-menu-layout .k-button:hover {
-    color: white;
-    background-color: red;
-    background-image: none;
+.topbar-menu-layout .topbar-menu-button {
+    background-color: transparent;
+    border-width: 0px;
+    border-style: none;
     border-color: transparent;
+    border-image: none;
+    padding-top: 5px;
+    margin: 0px;
+}
+
+.topbar-menu-layout .k-button:hover {
+    color: #0277BD;
+    background-color: white;
+    background-image: none;
+    border-color: #00578c;
+    border: 0;
+    border-left: 2px;
+    border-right: 2px;
+    border-radius: 0px;
+}
+
+.topbar-menu-layout .topbar-menu-button:focus,
+.topbar-menu-layout .topbar-menu-button:active {
+    background-color: #00578c;
+    background-image: none;
+    border-color: #00578c;
     border: 0;
     border-radius: 0px;
 }
@@ -88,8 +109,14 @@
     outline: none;
 }
 
-.material-icons {
+.topbar-menu-layout .material-icons {
     color: white;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.topbar-menu-layout .material-icons:focus {
+    color: #bcd3e1;
     background-color: transparent;
     border-color: transparent;
 }
