@@ -44,7 +44,7 @@ namespace Microarea.RSWeb.Render
         public string GetJsonInitTemplate()
         {
             WoormDocument woorm = StateMachine.Woorm;
-            return woorm.ToJson(true);
+            return woorm.ToJson(true,"page",true,StateMachine.ReportTitle);
         }
 
         public string GetJsonTemplatePage(ref int page)

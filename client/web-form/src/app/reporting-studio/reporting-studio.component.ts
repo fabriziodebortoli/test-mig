@@ -52,7 +52,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   ngOnInit() {
     super.ngOnInit();
-    this.eventData.model = { 'Title': { 'value': this.args.nameSpace } };
+    this.eventData.model = { 'Title': { 'value': "..." } };
 
     this.subMessage = this.rsService.message.subscribe(received => {
       this.onMessage(received);
@@ -103,6 +103,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
+          this.eventData.model.Title.value = k.page.report_title;
           this.RenderLayout(k);
           this.RunReport();
           break;
