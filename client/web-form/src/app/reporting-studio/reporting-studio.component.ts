@@ -50,13 +50,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData);
 
-
   }
 
   // -----------------------------------------------
   ngOnInit() {
     super.ngOnInit();
-    this.eventData.model = { 'Title': { 'value': this.args.nameSpace } };
+    this.eventData.model = { 'Title': { 'value': "..." } };
 
     this.subMessage = this.rsService.message.subscribe(received => {
       this.onMessage(received);
@@ -110,6 +109,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
+          this.eventData.model.Title.value = k.page.report_title;
           this.RenderLayout(k);
           this.RunReport();
           break;
@@ -231,7 +231,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       message: this.args.nameSpace,
       page: 1
     };
-    
+
     this.rsService.pageNum = message.page;
     this.rsService.doSend(JSON.stringify(message));
   }

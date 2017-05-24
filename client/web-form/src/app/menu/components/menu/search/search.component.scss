@@ -1,27 +1,4 @@
 .tb-search .mat-input-container {
-<<<<<<< HEAD
-    background: #00578c;
-    padding: 5px 10px;
-    border-radius: 3px;
-    border: 1px solid #044e7b;
-    width: 330px;
-}
-
-.tb-search .mat-input-element {
-    font-size: 14px;
-    line-height: 26px;
-}
-
-.tb-search .mat-input-wrapper {
-    margin: 0;
-    padding: 0;
-}
-
-.tb-search .mat-input-underline {
-    display: none;
-}
-
-=======
     background: #ffffff;
     padding: 1px 5px;
     border-radius: 3px;
@@ -41,7 +18,7 @@
     font-size: 16px;
     position: relative;
     padding: 0;
-    line-height: 26px;
+    line-height: 34px;
 }
 
 .tb-search .mat-input-element {
@@ -59,7 +36,6 @@
     display: none;
 }
 
->>>>>>> master
 .tb-search .mat-input-container .mat-icon {}
 
 .tb-search .dropdown-menu {
@@ -68,11 +44,8 @@
 
 .tb-search .mat-icon {
     margin: 3px 5px 0 0;
-<<<<<<< HEAD
-    color: #4791bd;
-=======
+    margin: 6px 5px 0 0;
     color: #00578c;
->>>>>>> master
 }
 
 

@@ -28,27 +28,6 @@ tb-tile.tile-autofill {
     flex: 1;
 }
 
-<<<<<<< HEAD
-tb-tile.tile-wide {
-    md-card-content  {
-        display:flex;
-    }
-
-    .col {
-       flex: 0 0 50%;
-    }
-
-    .col2{
-            margin-left: 16px;
-    }
-}
-
-.anchored {   
-    display: flex;
-    flex-direction: row;    
-}
-
-=======
 tb-tile.tile-standard {
     md-card.sameHeight {
         height: 100%;
@@ -58,9 +37,10 @@ tb-tile.tile-standard {
 tb-tile.tile-wide {
     md-card-content {
         display: flex;
+        flex-direction: column;
     }
     .col {
-        flex: 0 0 50%;
+        flex: 0 0 100%;
     }
     .col2 {
         margin-left: 16px;
@@ -69,6 +49,28 @@ tb-tile.tile-wide {
 
 .anchored {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
->>>>>>> master
+
+@media screen and (min-width: 48em) {
+    tb-tile.tile-wide md-card-content {
+        flex-direction: row;
+    }
+    tb-tile.tile-wide .col {
+        flex: 0 0 100%;
+    }
+}
+
+@media screen and (min-width: 64em) {}
+
+@media screen and (min-width: 75em) {
+    tb-tile.tile-wide md-card-content {
+        flex-direction: row;
+    }
+    tb-tile.tile-wide .col {
+        flex: 0 0 50%;
+    }
+    .anchored {
+        flex-direction: row;
+    }
+}

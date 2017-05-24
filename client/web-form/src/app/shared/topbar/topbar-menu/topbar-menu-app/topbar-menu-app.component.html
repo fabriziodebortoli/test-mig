@@ -1,16 +1,7 @@
-<!--<button md-icon-button [md-menu-trigger-for]="menuApp" title="{{title}}">
-    <md-icon>more_vert</md-icon>
+<button #anchor (click)="show=!show" (blur)="closePopup()" class="topbar-menu-button">
+     <md-icon class="material-icons"> more_vert</md-icon>
 </button>
+<kendo-popup [popupClass]="'popup'" *ngIf="show" [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
 
-<md-menu #menuApp="mdMenu">
-    <button md-menu-item (click)=openProductInfoDialog()>{{localizationService.getLocalizedElement('ViewProductInfo')}}</button>
-    <button md-menu-item (click)=openConnectionInfoDialog()>{{localizationService.getLocalizedElement('ConnectionInfo')}}</button>
-    <button md-menu-item (click)=goToSite()>{{localizationService.getLocalizedElement('GotoProducerSite')}}</button>
-    <button md-menu-item (click)=clearCachedData()>{{localizationService.getLocalizedElement('ClearCachedData')}}</button>
-    <button md-menu-item (click)=activateViaSMS()>{{localizationService.getLocalizedElement('ActivateViaSMS')}}</button>
-    <button md-menu-item (click)=activateViaInternet()>{{localizationService.getLocalizedElement('ActivateViaInternet')}}</button>
-</md-menu>-->
-
-<kendo-dropdownbutton [data]="data" [textField]="'actionName'">
-    <md-icon>more_vert</md-icon>
-</kendo-dropdownbutton>
+    <button kendoButton *ngFor="let menuItem of contextMenu" class="content" (click)="chooseAction(menuItem.id)">{{menuItem.text}}</button>
+</kendo-popup>

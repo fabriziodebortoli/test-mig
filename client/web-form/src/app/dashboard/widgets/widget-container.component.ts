@@ -5,20 +5,7 @@ import { MdSnackBar } from '@angular/material';
 @Component({
   selector: 'tb-widget-container',
   templateUrl: './widget-container.component.html',
-  styles: [`
-      .widgets-container {
-          height: inherit;
-      }
-      .widgets-row {
-        margin-left: 0;
-        margin-right: 10px;
-      }
-      .widget-col {
-        padding-left: 10px;
-        padding-right: 0;
-        padding-top: 10px;
-      }
-  `]
+  styleUrls: ['./widget-container.component.scss']
 })
 export class WidgetContainerComponent implements OnInit {
   widgets: WidgetRow[] = [];
@@ -35,18 +22,18 @@ export class WidgetContainerComponent implements OnInit {
 
   ngOnInit() {
     this.widgetsService.getActiveWidgets().subscribe(
-          (w) => {
-            this.widgets = w;
+      (w) => {
+        this.widgets = w;
 
-            this.widgets.forEach((row) => {
-              row.widgets.forEach((wdg) => {
-                this.widgetsService.refreshContent(wdg).subscribe(
-                  (data) => {
-                    wdg.data = data;
-                  }
-                );
-              });
-            });
+        this.widgets.forEach((row) => {
+          row.widgets.forEach((wdg) => {
+            this.widgetsService.refreshContent(wdg).subscribe(
+              (data) => {
+                wdg.data = data;
+              }
+            );
+          });
+        });
 
         if (this.widgetsService.isFirstUse) {
           this.snackBar.open('Your dashboard was empty, and has been created with a default layout.', 'Ok');

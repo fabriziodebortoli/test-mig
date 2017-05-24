@@ -1911,7 +1911,7 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //---------------------------------------------------------------------
-        public string ToJson(bool template, string name = "page", bool bracket = true)
+        public string ToJson(bool template, string name = "page", bool bracket = true, string reportTitle="")
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
@@ -1934,6 +1934,7 @@ namespace Microarea.RSWeb.WoormViewer
              s += '{' +
                    (template ? "template" : "data").ToJson("type") + ','  +
                     pageNo.ToJson("page_number") + ',' +
+                    ("\"report_title\":" ) + (!reportTitle.IsNullOrEmpty() ? ('\"' + reportTitle + '\"') : ('\"' + this.Namespace.ToString() + '\"')) +','+
                     (template ? this.pageInfo.ToJson(this.Objects.Invert) + ',' : "") +
                    this.Objects.ToJson(template, "layout") +
                  '}';
