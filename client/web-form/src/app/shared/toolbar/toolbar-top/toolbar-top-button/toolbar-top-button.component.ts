@@ -13,8 +13,7 @@ export class ToolbarTopButtonComponent extends TbComponent {
   @Input() caption: string = '';
   @Input() disabled: boolean = false;
 
-  // @Input() iconType: string = 'MD'; // MD, TB, CLASS, IMG
-  @Input() iconType; // MD, TB, CLASS, IMG
+  @Input() iconType: string = 'IMG'; // MD, TB, CLASS, IMG  
   @Input() icon: string = '';
 
   imgUrl: string;
