@@ -1,4 +1,3 @@
-
 import { NameDirective } from './directives/name-directive';
 
 import {
@@ -45,7 +44,6 @@ import { MaskedTextBoxComponent } from './controls/masked-text-box/masked-text-b
 import { NumericTextBoxComponent } from './controls/numeric-text-box/numeric-text-box.component';
 import { DateInputComponent } from './controls/date-input/date-input.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
-
 import { LabelStaticComponent } from './controls/label-static/label-static.component';
 
 import { ContextMenuDirective } from './directives/context-menu.directive';
@@ -60,6 +58,7 @@ import { LinkComponent } from './controls/link/link.component';
 import { ComboSimpleComponent } from './controls/combo-simple/combo-simple.component';
 import { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
 
+import { IconComponent } from './icon.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -85,7 +84,8 @@ const TB_COMPONENTS = [
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
   BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
-  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent
+  PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent,
+  IconComponent
 ];
 
 const TB_DIRECTIVES = [

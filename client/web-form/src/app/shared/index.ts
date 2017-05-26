@@ -1,4 +1,5 @@
 export * from './tb.component';
+export * from './icon.component';
 
 export * from './containers';
 export * from './topbar';
