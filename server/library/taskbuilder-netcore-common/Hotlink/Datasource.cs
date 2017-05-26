@@ -152,7 +152,7 @@ namespace Microarea.Common.Hotlink
 
            string path = this.Session.PathFinder.GetStandardDataFilePath(ns.Application, ns.Module, this.Session.UserInfo.UserUICulture.ToString()) + 
                 Path.DirectorySeparatorChar +
-                ns.ObjectName;
+                ns.ObjectName + ".xml";
 
             //carica l'xml del datafile in una struttura (data member di questa classe)
             // throw new NotImplementedException();
