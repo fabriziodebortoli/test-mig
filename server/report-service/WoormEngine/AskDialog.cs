@@ -952,8 +952,8 @@ namespace Microarea.RSWeb.WoormEngine
 				}
 			}
 
-            if (askEntry.Hotlink.Prototype.IsDatafile)
-                askEntry.Hotlink = null;    //hkl type unsupported
+            //if (askEntry.Hotlink.Prototype.IsDatafile)
+            //    askEntry.Hotlink = null;    //hkl type unsupported
 
 			// controlla il tipo del valore di ritorno
             if (askEntry.MultiSelections)

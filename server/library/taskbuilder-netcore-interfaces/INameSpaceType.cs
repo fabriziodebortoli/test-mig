@@ -30,6 +30,8 @@ namespace TaskBuilderNetCore.Interfaces
 		Table,
 		View,
 		Procedure,
+        DataFile,
+
 		ExcelDocument,
 		ExcelTemplate,
 		WordDocument,
