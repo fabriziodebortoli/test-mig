@@ -61,10 +61,10 @@ namespace Microarea.Common.Hotlink
     {
         public string ModeName;
         public string ModeType; //QUERY, SCRIPT, ...
-        public string Body;        
+        public string Body;
 
-        public SelectionMode(string n, string t, string b) 
-            { ModeName = n;  ModeType = t;  Body = b;  }
+        public SelectionMode(string n, string t, string b)
+        { ModeName = n; ModeType = t; Body = b; }
     }
 
     public class SelectionType
@@ -74,7 +74,7 @@ namespace Microarea.Common.Hotlink
         public string Title;
 
         public SelectionType(string n, string m, string t)
-            { SelectionName = n; ModeName = m; Title = t; }
+        { SelectionName = n; ModeName = m; Title = t; }
     }
 
     /// <summary>
@@ -82,12 +82,12 @@ namespace Microarea.Common.Hotlink
     /// </summary>
     ///=============================================================================
     public class ReferenceObjectsPrototype : FunctionPrototype
-	{
-		string dbFieldName = "";
-		string dbFieldTableName = "";
-		string dbTableName = "";
-		string dbFieldDescriptionName = "";
-		string radarReportName = "";
+    {
+        string dbFieldName = "";
+        string dbFieldTableName = "";
+        string dbTableName = "";
+        string dbFieldDescriptionName = "";
+        string radarReportName = "";
         public bool IsDatafile = false;
         public string Datafile = string.Empty;
 
@@ -97,7 +97,7 @@ namespace Microarea.Common.Hotlink
         public SelectionMode GetMode(string selectionName)
         {
             string modeName = string.Empty;
- 
+
             for (int i = 0; i < this.SelectionTypeList.Count; i++)
             {
                 SelectionType st = this.SelectionTypeList[i];
@@ -124,49 +124,49 @@ namespace Microarea.Common.Hotlink
         }
 
         //-----------------------------------------------------------------------------
-        public string DbFieldName				{ get { return dbFieldName; }}
-		public string DbFieldTableName			{ get { return dbFieldTableName; }}
-		public string DbTableName				{ get { return dbTableName; } }
-		public string DbFieldDescriptionName	{ get { return dbFieldDescriptionName; } }
-		public string RadarReportName			{ get { return radarReportName; } }
+        public string DbFieldName { get { return dbFieldName; } }
+        public string DbFieldTableName { get { return dbFieldTableName; } }
+        public string DbTableName { get { return dbTableName; } }
+        public string DbFieldDescriptionName { get { return dbFieldDescriptionName; } }
+        public string RadarReportName { get { return radarReportName; } }
 
-		public override string Title
-		{
-			get
-			{
-				return
-					moduleInfo == null
-					? title
-					: LocalizableXmlDocument.LoadXMLString
-					(
-						title,
-						NameSolverStrings.ReferenceObjects,
-						moduleInfo.DictionaryFilePath
-					); 
-			}
-		}
-		
-		//-----------------------------------------------------------------------------
-		public ReferenceObjectsPrototype
-			(
-			string		name, 
-			string		localizedName,
-			string		dbFieldTableName,
-			string		dbFieldName,
-			string		dbFieldDescriptionName,
-			string		dbTableName,
-			string		radarReportName,
-			string		returnType,
+        public override string Title
+        {
+            get
+            {
+                return
+                    moduleInfo == null
+                    ? title
+                    : LocalizableXmlDocument.LoadXMLString
+                    (
+                        title,
+                        NameSolverStrings.ReferenceObjects,
+                        moduleInfo.DictionaryFilePath
+                    );
+            }
+        }
+
+        //-----------------------------------------------------------------------------
+        public ReferenceObjectsPrototype
+            (
+            string name,
+            string localizedName,
+            string dbFieldTableName,
+            string dbFieldName,
+            string dbFieldDescriptionName,
+            string dbTableName,
+            string radarReportName,
+            string returnType,
             ParametersList parameters,
-			string		server,
-			int		    port,
-			string		service,
-			string		serviceNamespace,
-			IBaseModuleInfo	moduleInfo
-			)
-			:
-			base(name, localizedName, returnType, String.Empty)
-		{
+            string server,
+            int port,
+            string service,
+            string serviceNamespace,
+            IBaseModuleInfo moduleInfo
+            )
+            :
+            base(name, localizedName, returnType, String.Empty)
+        {
             this.Server = server;
             this.Port = port;
             this.Service = service;
@@ -176,56 +176,62 @@ namespace Microarea.Common.Hotlink
 
             this.Parameters = parameters;
 
-			this.dbFieldTableName = dbFieldTableName;
-			this.dbFieldName = dbFieldName;
-			this.dbFieldDescriptionName = dbFieldDescriptionName; 
-			this.dbTableName = dbTableName;
+            this.dbFieldTableName = dbFieldTableName;
+            this.dbFieldName = dbFieldName;
+            this.dbFieldDescriptionName = dbFieldDescriptionName;
+            this.dbTableName = dbTableName;
 
-			this.radarReportName = radarReportName;
-		}
-	}
+            this.radarReportName = radarReportName;
+        }
+    }
 
-	///=============================================================================
-	public class ReferenceObjectsList
-	{
-		private ArrayList prototypes;
-		private TbSession tbSession;
-
-		//-----------------------------------------------------------------------------
-		public TbSession	TbSession	{ get { return tbSession; }}
+    ///=============================================================================
+    public class ReferenceObjectsList
+    {
+        private ArrayList prototypes;
+        private TbSession tbSession;
 
         //-----------------------------------------------------------------------------
-        public IBasePathFinder PathFinder { get { return tbSession != null && tbSession.PathFinder != null ?
-                                                     (tbSession.PathFinder as IBasePathFinder) :
-                                                     BasePathFinder.BasePathFinderInstance; } }
+        public TbSession TbSession { get { return tbSession; } }
+
+        //-----------------------------------------------------------------------------
+        public IBasePathFinder PathFinder
+        {
+            get
+            {
+                return tbSession != null && tbSession.PathFinder != null ?
+                   (tbSession.PathFinder as IBasePathFinder) :
+                   BasePathFinder.BasePathFinderInstance;
+            }
+        }
 
 
         //-----------------------------------------------------------------------------
         public ReferenceObjectsList(TbSession session)
-		{
-			// è necessario inizializzare prima una sessione di lavoro.
-			this.tbSession = session;
-			//if (session == null)
-			//	throw (new Exception(ApplicationsStrings.ReferenceObjectsSessionError));
+        {
+            // è necessario inizializzare prima una sessione di lavoro.
+            this.tbSession = session;
+            //if (session == null)
+            //	throw (new Exception(ApplicationsStrings.ReferenceObjectsSessionError));
 
-			prototypes = new ArrayList();
-		}
+            prototypes = new ArrayList();
+        }
 
-		// elimina il nome della tabella se esiste perche il grid vuole solo il nome della colonna.
-		//-----------------------------------------------------------------------------
-		static private string ColumnName(string name)
-		{
-			int pos = name.IndexOf('.');
-			return pos >= 0 ? name.Substring(pos + 1) : name;
-		}	
+        // elimina il nome della tabella se esiste perche il grid vuole solo il nome della colonna.
+        //-----------------------------------------------------------------------------
+        static private string ColumnName(string name)
+        {
+            int pos = name.IndexOf('.');
+            return pos >= 0 ? name.Substring(pos + 1) : name;
+        }
 
-		// serve per poter localizzare i nomi di colonna nel titolo del grid
-		//-----------------------------------------------------------------------------
-		static private string TableName(string name)
-		{
-			int pos = name.IndexOf('.');
-			return pos >= 0 ? name.Substring(0, pos) : "";
-		}
+        // serve per poter localizzare i nomi di colonna nel titolo del grid
+        //-----------------------------------------------------------------------------
+        static private string TableName(string name)
+        {
+            int pos = name.IndexOf('.');
+            return pos >= 0 ? name.Substring(0, pos) : "";
+        }
 
         //-----------------------------------------------------------------------------
         //TODO RSWEB - data-service
@@ -244,74 +250,74 @@ namespace Microarea.Common.Hotlink
         //...\Framework\TbWoormEngine\QueryObject.cpp        
 
         static public ReferenceObjectsPrototype LoadPrototypeFromXml(string name, IBasePathFinder PathFinder)
-		{
-			NameSpace ns = new NameSpace(name, NameSpaceObjectType.HotKeyLink);
+        {
+            NameSpace ns = new NameSpace(name, NameSpaceObjectType.HotKeyLink);
             if (!ns.IsValid())
                 return null;
 
             IBaseModuleInfo mi = PathFinder.GetModuleInfo(ns);
-			if  (mi == null)
-				return null;
+            if (mi == null)
+                return null;
 
-			// se il file delle funzioni esterne non esiste allora la funzione è indefinita
-			string path = mi.GetReferenceObjectFileName(ns);
-			if (!File.Exists(path))
-				return null;
+            // se il file delle funzioni esterne non esiste allora la funzione è indefinita
+            string path = mi.GetReferenceObjectFileName(ns);
+            if (!File.Exists(path))
+                return null;
 
-			// restituisce il dom già tradotto per i Tag o gli Attribute che sono localizzati
-			LocalizableXmlDocument dom = new LocalizableXmlDocument(ns.Application, ns.Module, PathFinder);
-			dom.Load(path);
+            // restituisce il dom già tradotto per i Tag o gli Attribute che sono localizzati
+            LocalizableXmlDocument dom = new LocalizableXmlDocument(ns.Application, ns.Module, PathFinder);
+            dom.Load(path);
 
-			// cerca con XPath solo le funzioni con un dato nome per poi selezionare quella con i parametri giusti
-			XmlNode root = dom.DocumentElement;
-			string xpath = string.Format
-				(
-				"/{0}/{1}[@{2}]",
-				ReferenceObjectsXML.Element.HotKeyLink,
-				ReferenceObjectsXML.Element.Function,
-				ReferenceObjectsXML.Attribute.Namespace
-				);
+            // cerca con XPath solo le funzioni con un dato nome per poi selezionare quella con i parametri giusti
+            XmlNode root = dom.DocumentElement;
+            string xpath = string.Format
+                (
+                "/{0}/{1}[@{2}]",
+                ReferenceObjectsXML.Element.HotKeyLink,
+                ReferenceObjectsXML.Element.Function,
+                ReferenceObjectsXML.Attribute.Namespace
+                );
 
-			// se non esiste la sezione allora il ReferenceObject è Undefined
-			XmlNodeList functions = root.SelectNodes(xpath);
-			if (functions == null) return null;
+            // se non esiste la sezione allora il ReferenceObject è Undefined
+            XmlNodeList functions = root.SelectNodes(xpath);
+            if (functions == null) return null;
 
-			foreach (XmlElement function in functions)
-			{
-				// controllo che il namespace sia quello giusto in modalità CaseInsensitive
-				string namespaceAttribute = function.GetAttribute(ReferenceObjectsXML.Attribute.Namespace);
-				if ((namespaceAttribute == null) || (string.Compare(namespaceAttribute, name, StringComparison.OrdinalIgnoreCase) != 0))
-					continue;
+            foreach (XmlElement function in functions)
+            {
+                // controllo che il namespace sia quello giusto in modalità CaseInsensitive
+                string namespaceAttribute = function.GetAttribute(ReferenceObjectsXML.Attribute.Namespace);
+                if ((namespaceAttribute == null) || (string.Compare(namespaceAttribute, name, StringComparison.OrdinalIgnoreCase) != 0))
+                    continue;
 
-				// se il numero di parametri non corrisponde allora cerca un'altra funzione con lo stesso nome
-				XmlNodeList paramNodeList = function.SelectNodes(ReferenceObjectsXML.Element.Param);
-				if (paramNodeList == null)
-					continue;
+                // se il numero di parametri non corrisponde allora cerca un'altra funzione con lo stesso nome
+                XmlNodeList paramNodeList = function.SelectNodes(ReferenceObjectsXML.Element.Param);
+                if (paramNodeList == null)
+                    continue;
 
                 ParametersList parameters = new ParametersList();
                 parameters.Parse(paramNodeList);
 
-				// deve esistere la dichiarazione altrimenti io considero il referenceObject inesistente
-				XmlElement dbField = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.DbField);
-				if (dbField == null)
-					return null;
+                // deve esistere la dichiarazione altrimenti io considero il referenceObject inesistente
+                XmlElement dbField = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.DbField);
+                if (dbField == null)
+                    return null;
 
-				string qualifiedColumnName = dbField.GetAttribute(ReferenceObjectsXML.Attribute.Name);
+                string qualifiedColumnName = dbField.GetAttribute(ReferenceObjectsXML.Attribute.Name);
 
-				//DbFieldDescription, DbTable e DbRadarReport
+                //DbFieldDescription, DbTable e DbRadarReport
 
-				string dbFieldDescriptionName = "";
-				XmlElement dbFieldDescription = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.DbFieldDescription);
-				if (dbFieldDescription != null)
-					dbFieldDescriptionName = dbFieldDescription.GetAttribute(ReferenceObjectsXML.Attribute.Name);
-				
-				string dbTableName = "";
-				XmlElement dbTable = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.DbTable);
-				if (dbTable != null)
-					dbTableName = dbTable.GetAttribute(ReferenceObjectsXML.Attribute.Name);
+                string dbFieldDescriptionName = "";
+                XmlElement dbFieldDescription = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.DbFieldDescription);
+                if (dbFieldDescription != null)
+                    dbFieldDescriptionName = dbFieldDescription.GetAttribute(ReferenceObjectsXML.Attribute.Name);
+
+                string dbTableName = "";
+                XmlElement dbTable = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.DbTable);
+                if (dbTable != null)
+                    dbTableName = dbTable.GetAttribute(ReferenceObjectsXML.Attribute.Name);
 
                 //----
-                string  datafile = string.Empty;
+                string datafile = string.Empty;
                 XmlElement combo = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.ComboBox);
                 if (combo != null)
                 {
@@ -321,17 +327,17 @@ namespace Microarea.Common.Hotlink
                 //----
 
                 ParametersList parametersHotLink = new ParametersList();
-   				string radarReportName = "";
-				XmlElement radarReport = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.RadarReport);
-				if (radarReport != null)
-				{
-					radarReportName = radarReport.GetAttribute(ReferenceObjectsXML.Attribute.Name);
-					XmlNodeList paramNodeListHotLink = radarReport.SelectNodes(ReferenceObjectsXML.Element.Param);
-					if ((paramNodeListHotLink == null) || (paramNodeListHotLink.Count != 3))
-						continue;
+                string radarReportName = "";
+                XmlElement radarReport = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.RadarReport);
+                if (radarReport != null)
+                {
+                    radarReportName = radarReport.GetAttribute(ReferenceObjectsXML.Attribute.Name);
+                    XmlNodeList paramNodeListHotLink = radarReport.SelectNodes(ReferenceObjectsXML.Element.Param);
+                    if ((paramNodeListHotLink == null) || (paramNodeListHotLink.Count != 3))
+                        continue;
 
-					parametersHotLink.Parse(paramNodeListHotLink);
-				}
+                    parametersHotLink.Parse(paramNodeListHotLink);
+                }
 
                 int port;
                 if (!int.TryParse(function.GetAttribute(ReferenceObjectsXML.Attribute.Port), out port))
@@ -364,9 +370,9 @@ namespace Microarea.Common.Hotlink
                 {
                     foreach (XmlElement sel in selTypeRoot.ChildNodes)
                     {
-                        string selectionName    = sel.GetAttribute("type");
-                        string modeName         = sel.GetAttribute("name");
-                        string title            = sel.GetAttribute("localize");
+                        string selectionName = sel.GetAttribute("type");
+                        string modeName = sel.GetAttribute("name");
+                        string title = sel.GetAttribute("localize");
 
                         selectionTypeList.Add(new SelectionType(selectionName, modeName, title));
                     }
@@ -375,22 +381,22 @@ namespace Microarea.Common.Hotlink
                 //---------------------
                 // crea il nuovo prototipo e lo aggiunge all'elenco indicando anche in che dll si trova
                 ReferenceObjectsPrototype fp = new ReferenceObjectsPrototype
-					(
-						ns,
-						function.GetAttribute(ReferenceObjectsXML.Attribute.Localize),
-						TableName(qualifiedColumnName),
-						qualifiedColumnName,
-						dbFieldDescriptionName,
-						dbTableName,
-						radarReportName,
-						ObjectHelper.FromTBType(function.GetAttribute(ReferenceObjectsXML.Attribute.Type)),
-						parameters,
-						function.GetAttribute(ReferenceObjectsXML.Attribute.Server),
-						port,
-						function.GetAttribute(ReferenceObjectsXML.Attribute.Service),
-						function.GetAttribute(ReferenceObjectsXML.Attribute.ServiceNamespace),
-						mi
-					);
+                    (
+                        ns,
+                        function.GetAttribute(ReferenceObjectsXML.Attribute.Localize),
+                        TableName(qualifiedColumnName),
+                        qualifiedColumnName,
+                        dbFieldDescriptionName,
+                        dbTableName,
+                        radarReportName,
+                        ObjectHelper.FromTBType(function.GetAttribute(ReferenceObjectsXML.Attribute.Type)),
+                        parameters,
+                        function.GetAttribute(ReferenceObjectsXML.Attribute.Server),
+                        port,
+                        function.GetAttribute(ReferenceObjectsXML.Attribute.Service),
+                        function.GetAttribute(ReferenceObjectsXML.Attribute.ServiceNamespace),
+                        mi
+                    );
 
                 fp.IsDatafile = isDatafile;
                 fp.Datafile = datafile;
@@ -401,18 +407,18 @@ namespace Microarea.Common.Hotlink
                     fp.SelectionTypeList = selectionTypeList;
 
                 return fp;
-			}
+            }
 
-			// la funzione non è dichiarata
-			return null;
-		}
+            // la funzione non è dichiarata
+            return null;
+        }
 
         //-----------------------------------------------------------------------------
         public ReferenceObjectsPrototype GetPrototype(string name)
-		{
-			foreach (ReferenceObjectsPrototype fp in prototypes)
+        {
+            foreach (ReferenceObjectsPrototype fp in prototypes)
                 if (name.CompareNoCase(fp.FullName))
-					return fp;
+                    return fp;
 
             ReferenceObjectsPrototype fpNew = LoadPrototypeFromXml(name, PathFinder);
             if (fpNew != null)
@@ -420,8 +426,8 @@ namespace Microarea.Common.Hotlink
                 prototypes.Add(fpNew);
             }
             return fpNew;
-		}
-     }
+        }
+    }
 
     ///////////////////////////////////////////////////////////////////////////
 

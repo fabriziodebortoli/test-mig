@@ -44,7 +44,7 @@ namespace Microarea.RSWeb.Render
         public string GetJsonInitTemplate()
         {
             WoormDocument woorm = StateMachine.Woorm;
-            return woorm.ToJson(true,"page",true,StateMachine.ReportTitle);
+            return woorm.ToJson(true, "page", true, StateMachine.ReportTitle);
         }
 
         public string GetJsonTemplatePage(ref int page)
@@ -67,7 +67,7 @@ namespace Microarea.RSWeb.Render
                 page = woorm.RdeReader.TotalPages;
             }
 
-           woorm.LoadPage(page);
+            woorm.LoadPage(page);
 
             return woorm.ToJson(true);
         }
@@ -78,13 +78,13 @@ namespace Microarea.RSWeb.Render
 
             //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
             if (StateMachine.Report.EngineType != EngineType.FullExtraction)
-            while (!woorm.RdeReader.IsPageReady(page))
-            {
-                System.Threading.Tasks.Task.Delay(1000).Wait();
+                while (!woorm.RdeReader.IsPageReady(page))
+                {
+                    System.Threading.Tasks.Task.Delay(1000).Wait();
 
-                //if (woorm.RdeReader.LoadTotPage())
-                //    break;
-            };  //wait 
+                    //if (woorm.RdeReader.LoadTotPage())
+                    //    break;
+                };  //wait 
 
             //TODO RSWEB bloccare prima
             if (page > woorm.RdeReader.TotalPages)
@@ -120,11 +120,11 @@ namespace Microarea.RSWeb.Render
             {
                 //TODO RSWEB in caso di RERUN occorre cambiare la cartella dei file temporanei
                 //if (StateMachine.CurrentState == State.End)
-                    //StateMachine.CurrentState = State.ExecuteAsk;
+                //StateMachine.CurrentState = State.ExecuteAsk;
 
                 //viene cercata la prima, se esiste
-                 StateMachine.Step();
-                 return string.Empty;
+                StateMachine.Step();
+                return string.Empty;
             }
 
             if (!currentClientDialogName.CompareNoCase(StateMachine.Report.CurrentAskDialog.FormName))
@@ -136,7 +136,7 @@ namespace Microarea.RSWeb.Render
             }
 
             StateMachine.Report.CurrentAskDialog.AssignAllAskData(values);
-            
+
             //passa alla prossima dialog se esiste oppure inizia estrazione dati
             StateMachine.Step();
 
@@ -158,7 +158,7 @@ namespace Microarea.RSWeb.Render
                 return null;
 
             //recods contiene i record selezionati
- 
+
             /*
             string[] temporary_values = { "BDF3","BDF36","BDF6","BFM3","BFM36","BFM6","BON",
                     "CONT","RB","RB369-15","RBDF3","RBDF36","RBDF369",
@@ -182,44 +182,44 @@ namespace Microarea.RSWeb.Render
         //---------------------------------------------------------------------
         public Message GetResponseFor(Message msg)
         {
-       
-            switch(msg.commandType)
+
+            switch (msg.commandType)
             {
-               case MessageBuilder.CommandType.ASK:
-                {         
-                    //contiene il nome della dialog, se è vuota/=="0" viene richiesta la prima per la prima volta
-                    msg.page = msg.page;   
-                    List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null 
-                                                    : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
+                case MessageBuilder.CommandType.ASK:
+                    {
+                        //contiene il nome della dialog, se è vuota/=="0" viene richiesta la prima per la prima volta
+                        msg.page = msg.page;
+                        List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null
+                                                        : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
 
-                    GetJsonAskDialog(values, msg.page);
+                        GetJsonAskDialog(values, msg.page);
 
-                    msg.commandType = MessageBuilder.CommandType.NONE;
-                    break;
-                }
+                        msg.commandType = MessageBuilder.CommandType.NONE;
+                        break;
+                    }
 
                 case MessageBuilder.CommandType.PREVASK:
-                {
-                    msg.message = PreviousAskDialog(msg.page);
-                    break;
-                }
+                    {
+                        msg.message = PreviousAskDialog(msg.page);
+                        break;
+                    }
 
                 case MessageBuilder.CommandType.UPDATEASK:
                     {
 
-                      List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null
-                                                         : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
+                        List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null
+                                                           : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
 
-                      msg.message = UpdateJsonAskDialog(values, msg.page);
+                        msg.message = UpdateJsonAskDialog(values, msg.page);
 
-                      break;
+                        break;
                     }
 
                 case MessageBuilder.CommandType.HOTLINK:
                     {
                         var obj = JsonConvert.DeserializeObject<HotlinkDescr>(msg.message);
-                        msg.message = GetHotlinkValues(obj.ns, obj.filter, obj.name);                 
-                    
+                        msg.message = GetHotlinkValues(obj.ns, obj.filter, obj.name);
+
                         break;
                     }
                 /*
@@ -267,7 +267,7 @@ namespace Microarea.RSWeb.Render
             return msg;
         }
 
-       
+
 
         //---------------------------------------------------------------------
         //per debug
