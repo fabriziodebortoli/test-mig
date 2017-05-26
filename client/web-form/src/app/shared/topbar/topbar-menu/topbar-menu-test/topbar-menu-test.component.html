@@ -1,4 +1,4 @@
-<button #anchor (click)="show=!show" (blur)="closePopup()" class="topbar-menu-button">
+<button #anchor (click)="show=!show" class="topbar-menu-button">
      <md-icon  class="material-icons">build</md-icon>
 </button>
 <kendo-popup [popupClass]="'popup'" *ngIf="show" [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
