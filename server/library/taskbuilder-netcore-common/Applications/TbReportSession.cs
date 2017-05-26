@@ -517,11 +517,7 @@ namespace Microarea.Common.Applications
             string xargs = d.OuterXml;
 
             MyMessage msg = new MyMessage(); //commandtype.RUNREPORT
-<<<<<<< HEAD
-            msg.message = '{' + fun.NameSpace.ToString().ToJson("ns") + ',' + xargs.ToJson("args", false, false) + '}';
-=======
             msg.message = '{' + fun.FullName.ToJson("ns") + ',' + xargs.ToJson("args", false, true) + '}';
->>>>>>> master
 
             string jmsg = JsonConvert.SerializeObject(msg);
 

@@ -7,12 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D519BEB7-3A17-40C8-AB1C-7E737B413C99}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tbloader-gate", "tbloader-gate\tbloader-gate.csproj", "{B2373B0A-B692-494A-B291-521C9B0DF4F3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web-server", "web-server\web-server.csproj", "{2158CD02-0A4C-4806-98FF-AA079FE998ED}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B2373B0A-B692-494A-B291-521C9B0DF4F3} = {B2373B0A-B692-494A-B291-521C9B0DF4F3}
 	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tbloader-gate", "tbloader-gate\tbloader-gate.csproj", "{B2373B0A-B692-494A-B291-521C9B0DF4F3}"
+EndProject
+
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDFSharpCore", "library\PDFSharpCore\PDFSharpCore.csproj", "{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}"
 EndProject

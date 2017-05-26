@@ -3735,15 +3735,12 @@ namespace Microarea.Common.ExpressionManager
 
             //------------------------------
             object ret = TbSession.SendRunReport(this.TbSession, fun);
-<<<<<<< HEAD
-=======
 /*
             if (ret != null)
             {
                 for (int i = 0; i < fun.Parameters.Count; i++)
                 {
                     DataItem item = (DataItem)paramStack.Pop();
->>>>>>> master
 
                     Parameter p = fun.Parameters[i];
 

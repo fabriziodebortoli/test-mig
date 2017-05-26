@@ -755,12 +755,8 @@ namespace Microarea.RSWeb.Render
                         }
                     case State.End:
                         {
-<<<<<<< HEAD
-                            RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.ENDREPORT, "{\"TotalPages\":1}"); //TotalPages //.Wait();
-=======
                             //string tot = this.Woorm.RdeReader.TotalPages.ToJson("totalPages", true) ;
                             //RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.ENDREPORT, tot); //TotalPages //.Wait();
->>>>>>> master
 
                             return false;
                         }

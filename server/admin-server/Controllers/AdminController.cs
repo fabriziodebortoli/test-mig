@@ -4,33 +4,19 @@ using System.IO;
 using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
-<<<<<<< HEAD
-=======
 using Microarea.AdminServer.Services;
->>>>>>> master
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-<<<<<<< HEAD
-using Microarea.AdminServer.Services;
-=======
 using Microarea.AdminServer.Services.Providers;
->>>>>>> master
 
 namespace Microarea.AdminServer.Controllers
 {
-    //=========================================================================
-    public class AdminController : Controller
+	//=========================================================================
+	public class AdminController : Controller
     {
         AppOptions _settings;
         private IHostingEnvironment _env;
-<<<<<<< HEAD
-        AccountSQLDataProvider _accountSqlDataProvider;
-        JsonHelper _jsonHelper;
-
-        //-----------------------------------------------------------------------------	
-        public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings)
-=======
 
         AccountSQLDataProvider _accountSqlDataProvider;
 		CompanySQLDataProvider _companySqlDataProvider;
@@ -41,27 +27,21 @@ namespace Microarea.AdminServer.Controllers
 
 		//-----------------------------------------------------------------------------	
 		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings)
->>>>>>> master
         {
             _env = env;
             _settings = settings.Value;
             _jsonHelper = new JsonHelper();
-<<<<<<< HEAD
-            _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-        }
-=======
 
             _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
 			_companySqlDataProvider = new CompanySQLDataProvider(_settings.DatabaseInfo.ConnectionString);
 			_instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
 			_subscriptionSQLDataProvider = new SubscriptionSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
 		}
->>>>>>> master
 
         [HttpGet]
         [Route("/")]
-        //-----------------------------------------------------------------------------	
-        public IActionResult Index()
+		//-----------------------------------------------------------------------------	
+		public IActionResult Index()
         {
             if (_env.WebRootPath == null)
             {
@@ -81,8 +61,8 @@ namespace Microarea.AdminServer.Controllers
 
         [HttpGet]
         [Route("api")]
-        //-----------------------------------------------------------------------------	
-        public IActionResult ApiHome()
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiHome()
         {
             _jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea Admin-Server API");
             return new ContentResult { Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
@@ -110,13 +90,8 @@ namespace Microarea.AdminServer.Controllers
             catch (NotImplementedException ex)
             {
                 _jsonHelper.AddJsonCouple<bool>("result", false);
-<<<<<<< HEAD
-                _jsonHelper.AddJsonCouple<string>("message", "Username cannot be empty");
-                return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
-=======
                 _jsonHelper.AddJsonCouple<string>("message", ex.Message);
                 return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
->>>>>>> master
             }
             catch (SqlException e)
             {
@@ -145,83 +120,6 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
 			}
 
-<<<<<<< HEAD
-            IAccount account = new Account(user);
-            account.SetDataProvider(_accountSqlDataProvider);
-
-            try
-            {
-                account.Load();
-            }
-            catch (NotImplementedException ex)
-            {
-                _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple<string>("message", ex.Message);
-                return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
-            }
-            catch (SqlException e)
-            {
-                _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple<string>("message", e.Message);
-                return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
-            }
-
-            // user has been found
-            _jsonHelper.AddJsonCouple<bool>("result", true);
-            _jsonHelper.AddJsonObject("account", account);
-            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
-
-        }
-
-
-        [HttpPost("/api/accounts/{accountname}")] // post
-                                                  //-----------------------------------------------------------------------------	
-                                                  // adds and updates accounts
-        public IActionResult ApiAccounts(string accountname, string password, string email)
-        {
-            string user = accountname;
-            string psw = password;
-            string _email = email;
-
-            if (String.IsNullOrEmpty(user))
-            {
-                _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple<string>("message", "Account name cannot be empty");
-                return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
-            }
-
-            bool result = false;
-            try
-            {
-                IAccount iAccount = new Account();
-                iAccount.SetDataProvider(_accountSqlDataProvider);
-                iAccount.AccountName = accountname;
-                iAccount.Password = password;
-
-                iAccount.Email = _email;
-                result = iAccount.Save();
-            }
-            catch (SqlException e)
-            {
-                _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple<string>("message", e.Message);
-                return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
-            }
-
-            if (!result)
-            {
-                _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple<string>("message", "Adding account operation failed");
-                return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
-            }
-
-            _jsonHelper.AddJsonCouple<bool>("result", true);
-            _jsonHelper.AddJsonCouple<string>("message", "Adding account operation successfully completed");
-            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
-        }
-    }
-}
-=======
 			bool result = false;
 			try
 			{
@@ -376,4 +274,3 @@ namespace Microarea.AdminServer.Controllers
 		}
 	}
 }
->>>>>>> master

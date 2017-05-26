@@ -54,15 +54,9 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-<<<<<<< HEAD
-		public Account(string userName)
-        {
-            this.accountName = userName;
-=======
 		public Account(string accountName)
         {
             this.accountName = accountName;
->>>>>>> master
         }
 
         //---------------------------------------------------------------------

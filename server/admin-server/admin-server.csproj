@@ -27,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\data-service\data-service.csproj" />
+    <ProjectReference Include="..\database-service\database-service.csproj" />
     <ProjectReference Include="..\library\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj" />
     <ProjectReference Include="..\library\taskbuilder-netcore-data\taskbuilder-netcore-data.csproj" />
     <ProjectReference Include="..\library\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.csproj" />
