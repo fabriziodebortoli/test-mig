@@ -89,6 +89,7 @@ namespace Microarea.Common.Hotlink
 		string dbFieldDescriptionName = "";
 		string radarReportName = "";
         public bool IsDatafile = false;
+        public string Datafile = string.Empty;
 
         public List<SelectionType> SelectionTypeList = new List<SelectionType>();
         public List<SelectionMode> SelectionModeList = new List<SelectionMode>();
@@ -392,6 +393,7 @@ namespace Microarea.Common.Hotlink
 					);
 
                 fp.IsDatafile = isDatafile;
+                fp.Datafile = datafile;
 
                 if (selectionModeList.Count > 0)
                     fp.SelectionModeList = selectionModeList;

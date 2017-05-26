@@ -13,6 +13,7 @@ using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.Generic;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
+using System.IO;
 
 namespace Microarea.Common.Hotlink
 {
@@ -100,6 +101,11 @@ namespace Microarea.Common.Hotlink
             if (XmlDescription == null)
                 return false;
 
+            if (XmlDescription.IsDatafile)
+            {
+                return LoadDataFile();
+            }
+
             //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
             foreach (IParameter p in XmlDescription.Parameters)
             {
@@ -136,6 +142,23 @@ namespace Microarea.Common.Hotlink
 
             return true;
         }
+
+        //---------------------------------------------------------------------
+        public bool LoadDataFile()
+        {
+           NameSpace ns = new NameSpace(XmlDescription.Datafile, NameSpaceObjectType.DataFile);
+           if (!ns.IsValid())
+               return false;
+
+           string path = this.Session.PathFinder.GetStandardDataFilePath(ns.Application, ns.Module, this.Session.UserInfo.UserUICulture.ToString()) + 
+                Path.DirectorySeparatorChar +
+                ns.ObjectName;
+
+            //carica l'xml del datafile in una struttura (data member di questa classe)
+            // throw new NotImplementedException();
+            return false;
+        }
+
         //---------------------------------------------------------------------
         public bool GetSelectionTypes(out string list)
         {
@@ -231,6 +254,11 @@ namespace Microarea.Common.Hotlink
         {
             records = string.Empty;
 
+            if (XmlDescription.IsDatafile)
+            {
+                return GetDataFileJson(out records);
+            }
+
             if (!CurrentQuery.Open())
                 return false;
 
@@ -318,6 +346,12 @@ namespace Microarea.Common.Hotlink
 
             CurrentQuery.Close();
             return true;
+        }
+
+        private bool GetDataFileJson(out string records)
+        {
+            //dalla struttura letta prima a json stessa sintassi dell'altro metodo
+            throw new NotImplementedException();
         }
 
         //---------------------------------------------------------------------

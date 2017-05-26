@@ -2197,11 +2197,24 @@ namespace Microarea.Common.NameSolver
                 NameSolverStrings.DataManager;
 		}
 
-		/// <summary>
-		/// Standard\TaskBuilderApplication\Application\Module\DataManager\Default\<language>\<edition>
-		/// </summary>
-		//---------------------------------------------------------------------------------
-		public string GetStandardDataManagerDefaultPath(string application, string module, string language, string edition)
+        /// <summary>
+        /// Standard\TaskBuilderApplication\Application\Module\DataManager
+        /// </summary>
+        //---------------------------------------------------------------------------------
+        public string GetStandardDataFilePath(string application, string module, string culture)
+        {
+            return GetStandardDataManagerPath(application, module) +
+                Path.DirectorySeparatorChar +
+                NameSolverStrings.DataFile + 
+                Path.DirectorySeparatorChar +
+                culture;
+        }
+
+        /// <summary>
+        /// Standard\TaskBuilderApplication\Application\Module\DataManager\Default\<language>\<edition>
+        /// </summary>
+        //---------------------------------------------------------------------------------
+        public string GetStandardDataManagerDefaultPath(string application, string module, string language, string edition)
 		{
 			return GetStandardDataManagerPath(application, module) +
                 Path.DirectorySeparatorChar +

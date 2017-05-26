@@ -145,7 +145,11 @@ namespace Microarea.Common.Generic
 			nameNameSpaceTypeTable.Add(aNameSpaceType.PublicName, aNameSpaceType);
 			nameSpaceObjectTypeNameSpaceTypeTable.Add(aNameSpaceType.Type, aNameSpaceType);
 
-			aNameSpaceType = new NameSpaceType(NameSpaceObjectType.View, 4, NameSpaceSegment.View);
+            aNameSpaceType = new NameSpaceType(NameSpaceObjectType.DataFile, 3, NameSpaceSegment.DataFile);
+            nameNameSpaceTypeTable.Add(aNameSpaceType.PublicName, aNameSpaceType);
+            nameSpaceObjectTypeNameSpaceTypeTable.Add(aNameSpaceType.Type, aNameSpaceType);
+
+            aNameSpaceType = new NameSpaceType(NameSpaceObjectType.View, 4, NameSpaceSegment.View);
 			nameNameSpaceTypeTable.Add(aNameSpaceType.PublicName, aNameSpaceType);
 			nameSpaceObjectTypeNameSpaceTypeTable.Add(aNameSpaceType.Type, aNameSpaceType);
 
@@ -316,7 +320,13 @@ namespace Microarea.Common.Generic
 			get { return GetTokenValue(NameSpaceObjectType.Library);			}
 			set { SetTokenValue(NameSpaceObjectType.Library, value); }
 		}
-		public string Report			{ get { return GetTokenValue(NameSpaceObjectType.Report);			} }
+
+        public string ObjectName
+        {
+            get { return GetTokenValue(nameSpaceType.Type); }
+        }
+
+        public string Report			{ get { return GetTokenValue(NameSpaceObjectType.Report);			} }
 		public string Dbt				{ get { return GetTokenValue(NameSpaceObjectType.Dbt);				} }
 		public string Hotlink			{ get { return GetTokenValue(NameSpaceObjectType.Hotlink);			} }
         public string HotKeyLink        { get { return GetTokenValue(NameSpaceObjectType.HotKeyLink); } }
@@ -325,7 +335,8 @@ namespace Microarea.Common.Generic
 		public string Image				{ get { return GetTokenValue(NameSpaceObjectType.Image);			} }
 		public string Text				{ get { return GetTokenValue(NameSpaceObjectType.Text);	            } }
 		public string File              { get { return GetTokenValue(NameSpaceObjectType.File);				} }
-		public string View              { get { return GetTokenValue(NameSpaceObjectType.View);				} }
+        public string DataFile          { get { return GetTokenValue(NameSpaceObjectType.DataFile); } }
+        public string View              { get { return GetTokenValue(NameSpaceObjectType.View);				} }
 		public string ExcelDocument		{ get { return GetTokenValue(NameSpaceObjectType.ExcelDocument);	} }
 		public string ExcelTemplate		{ get { return GetTokenValue(NameSpaceObjectType.ExcelTemplate);	} }
 		public string WordDocument		{ get { return GetTokenValue(NameSpaceObjectType.WordDocument);		} }
