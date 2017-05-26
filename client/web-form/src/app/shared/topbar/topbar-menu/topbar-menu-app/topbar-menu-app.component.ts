@@ -69,9 +69,9 @@ const item1 = new MenuItem(this.localizationService.getLocalizedElement('ViewPro
       }
    }
    
-public closePopup(): void {
-      this.show = false;
-    }
+// public closePopup(): void {
+//       this.show = false;
+//     }
   ngOnDestroy() {
     this.localizationsLoadedSubscription.unsubscribe();
   }

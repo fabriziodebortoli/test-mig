@@ -71,7 +71,7 @@ switch (buttonName) {
     this.componentService.createComponentFromUrl('test/icons', true);
   }
 
-  public closePopup(): void {
-      this.show = false;
-    }
+  // public closePopup(): void {
+  //     this.show = false;
+  //   }
 }
