@@ -1,15 +1,14 @@
-<!--<div (click)='onCommand()' title='{{caption}}' [ngSwitch]="iconType">
+<button kendoButton class="top-button" (click)="onCommand()" [imageUrl]="iconTxt" [disabled]="disabled" title="{{caption}}" [ngSwitch]="iconType">
+    <div [ngSwitch]="iconType" class="div-icon">
+        <img *ngSwitchCase="'IMG'" src="{{imgUrl}}{{icon}}" />
 
-    <img *ngSwitchCase="iconTypes.IMG" src="{{iconTxt}}" />
+        <md-icon *ngSwitchCase="'MD'">{{icon}}</md-icon>
 
-    <md-icon *ngSwitchCase="iconTypes.MD">{{iconTxt}}</md-icon>
+        <tb-icon *ngSwitchCase="'TB'" icon="{{icon}}"></tb-icon>
 
-    <tb-icon *ngSwitchCase="iconTypes.TB" />{{iconTxt}}</tb-icon>
+        <i *ngSwitchCase="'CLASS'" class="{{icon}}"></i>
 
-    <i *ngSwitchCase="iconTypes.CLASS" class="{{iconTxt}}"></i>
-
-</div>-->
-
-<div class="top-button">
-    <button kendoButton (click)="onCommand()" [imageUrl]="iconTxt"  [disabled]="disabled" title="{{caption}}"><span>{{caption}}</span></button>
-</div>
+        <h5  *ngSwitchDefault>boh</h5>
+    </div>
+    <span>{{caption}}</span>
+</button>
