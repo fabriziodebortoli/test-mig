@@ -15,11 +15,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
 
   @Input() ask: string;
   @Input() hotLinkValues: any;
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> master
   public askObject;
   public commType: CommandType;
   public objects: askGroup[] = [];
@@ -89,32 +85,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
         let component: askObj = group.entries[j];
         let obj = {
           name: component.name,
-<<<<<<< HEAD
-          value: component.value.toString()
-        };
-        arrayComp.push(obj);
-      }
-    }
-    let message = {
-      commandType: ct,
-      message: JSON.stringify(arrayComp),
-      page: this.rsService.askPage
-    };
-    this.rsService.doSend(JSON.stringify(message));
-  }
-
-  Next() {
-    /*let arrayComp: any[] = [];
-    for (let i = 0; i < this.objects.length; i++) {
-      let group = this.objects[i];
-      for (let j = 0; j < group.entries.length; j++) {
-        let component: askObj = group.entries[j];
-        let obj = {
-          id: component.id,
-          value: component.value.toString()
-=======
           value: component.value.code !== undefined ? component.value.code : component.value.toString()
->>>>>>> master
         };
         arrayComp.push(obj);
       }
@@ -124,8 +95,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
       message: JSON.stringify(arrayComp),
       page: this.askObject.name
     };
-    this.rsService.doSend(JSON.stringify(message));*/
-    this.SendAsk(CommandType.ASK);
+    this.rsService.doSend(JSON.stringify(message));
   }
 
   Next() {
@@ -153,27 +123,6 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
   }
 
   updateAsk() {
-<<<<<<< HEAD
-    /*let arrayComp: any[] = [];
-    for (let i = 0; i < this.objects.length; i++) {
-      let group = this.objects[i];
-      for (let j = 0; j < group.entries.length; j++) {
-        let component: askObj = group.entries[j];
-        let obj = {
-          id: component.id,
-          value: component.value.toString()
-        };
-        arrayComp.push(obj);
-      }
-    }
-    let message = {
-      commandType: CommandType.UPDATEASK,
-      message: JSON.stringify(arrayComp),
-      page: this.rsService.askPage
-    };
-    this.rsService.doSend(JSON.stringify(message));*/
-=======
->>>>>>> master
     this.SendAsk(CommandType.UPDATEASK);
   }
 

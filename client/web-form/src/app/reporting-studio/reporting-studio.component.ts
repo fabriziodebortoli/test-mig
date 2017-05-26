@@ -36,10 +36,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   private viewHeightSubscription: Subscription;
   private viewHeight: number;
-<<<<<<< HEAD
-=======
   private totalPages: number;
->>>>>>> master
 
   constructor(
     private rsService: ReportingStudioService,
@@ -100,12 +97,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.UPDATEASK:
           this.askDialogTemplate = message;
           break;
-<<<<<<< HEAD
-=======
         case CommandType.PREVASK:
           this.askDialogTemplate = message;
           break;
->>>>>>> master
         case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:

@@ -12,11 +12,7 @@ import { BOHelperService } from 'app/core/bohelper.service';
 
 @Injectable()
 export class BOService extends DocumentService {
-<<<<<<< HEAD
-    serverSideCommandMap: any; // TODO SILVANO needs typing
-=======
     serverSideCommandMap = [];
->>>>>>> master
 
     subscriptions = [];
 
@@ -112,35 +108,16 @@ export class BOService extends DocumentService {
             this.webSocketService.doFillListBox(this.mainCmpId, obj);
         }));
 
-<<<<<<< HEAD
-
-        this.subscriptions.push(this.eventData.onContextMenu.subscribe((obj: any) => {
-            this.webSocketService.getContextMenu(this.mainCmpId, obj);
-        }));
-
-=======
->>>>>>> master
         this.subscriptions.push(this.eventData.closeMessageDialog.subscribe((args: MessageDlgResult) => {
             this.webSocketService.doCloseMessageDialog(this.mainCmpId, args);
         }));
 
         this.subscriptions.push(this.webSocketService.buttonsState.subscribe(data => {
-<<<<<<< HEAD
-
-            console.log(data);
-
-            const result: any = data.response;
-            const cmpId = this.mainCmpId;
-               if (result.id === cmpId) {
-                    this.eventData.buttonsState = result.buttonsState;
-                }
-=======
             const result: any = data.response;
             const cmpId = this.mainCmpId;
             if (result.id === cmpId) {
                 this.eventData.buttonsState = result.buttonsState;
             }
->>>>>>> master
         }));
 
     }
