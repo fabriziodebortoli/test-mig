@@ -41,7 +41,7 @@ switch (buttonName) {
   logout() {
     this.loginSessionService.logout();
   }
-    public closePopup(): void {
-      this.show = false;
-    }
+    // public closePopup(): void {
+    //   this.show = false;
+    // }
 }
