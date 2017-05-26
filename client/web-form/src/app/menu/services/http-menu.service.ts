@@ -35,7 +35,7 @@ export class HttpMenuService {
         //         return res.ok;
         //     });
 
-        return this.http.get(this.httpService.getMenuGateUrl() + 'getMenuElements/', { withCredentials: true })
+        return this.http.get(this.httpService.getMenuBaseUrl() + 'getMenuElements/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
