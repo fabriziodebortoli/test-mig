@@ -27,7 +27,15 @@ export class HttpMenuService {
      * @returns {Observable<any>} getMenuElements
      */
     getMenuElements(): Observable<any> {
-        return this.http.get(this.httpService.getMenuBaseUrl() + 'getMenuElements/', { withCredentials: true })
+
+        // let obj = { user: this.cookieService.get('_user'), company:this.cookieService.get('_company'), token: this.cookieService.get('authtoken')}
+        // let urlToRun = this.httpService.getMenuGateUrl() + 'getMenuElements/';
+        // return this.postData(urlToRun, obj)
+        //     .map((res: Response) => {
+        //         return res.ok;
+        //     });
+
+        return this.http.get(this.httpService.getMenuGateUrl() + 'getMenuElements/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
