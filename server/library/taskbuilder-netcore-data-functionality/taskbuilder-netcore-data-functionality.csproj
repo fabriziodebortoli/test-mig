@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1.1</TargetFramework>
+    <AssemblyName>taskbuilder-netcore-data-functionality</AssemblyName>
+    <PackageId>taskbuilder-netcore-data-functionality</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj" />
+    <ProjectReference Include="..\taskbuilder-netcore-data\taskbuilder-netcore-data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.DotNet.InternalAbstractions" Version="1.0.0" />
+    <PackageReference Include="Npgsql" Version="3.2.2" />
+    <PackageReference Include="NuGet.CommandLine" Version="3.5.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

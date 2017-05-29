@@ -1,6 +1,0 @@
-{
-    "projects": [ "library/task-builder-net-core-interfaces/src", "library/task-builder-net-core-data/src", "library", "library/pdf", "library/taskbuilder-netcore-data/src", "library/taskbuilder-netcore-interfaces/src" ],
-    "sdk": {
-        "version": "1.0.0-preview2-1-003177"
-    }
-}
