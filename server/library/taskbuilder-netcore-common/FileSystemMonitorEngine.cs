@@ -379,7 +379,7 @@ namespace Microarea.Common
                 //sr.Close (); Lara
                 sr.Dispose();
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return false;
 			}
@@ -607,7 +607,7 @@ namespace Microarea.Common
 				bool isADir		= (attributes & FileAttributes.Directory) == FileAttributes.Directory;
 				bool system		= (attributes & FileAttributes.System) == FileAttributes.System;
 			}
-			catch(Exception e)
+			catch(Exception)
 			{
 				diagnostic.Set
 					(
@@ -640,7 +640,7 @@ namespace Microarea.Common
 				//	FileIOPermission fp = new FileIOPermission (FileIOPermissionAccess.Write, fileInfo.FullName);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
 			{
 				diagnostic.Set
 					(
@@ -671,7 +671,7 @@ namespace Microarea.Common
 					//FileIOPermission fp = new FileIOPermission (FileIOPermissionAccess.Write, pathName);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 diagnostic.Set
 					(
@@ -704,7 +704,7 @@ namespace Microarea.Common
                 if (SetFolderWriteAttributes (pathName))
                     Directory.Delete(pathName, recursive);
             }
-            catch(Exception e)
+            catch(Exception)
 			{
 				diagnostic.Set(				
 					DiagnosticType.LogInfo | DiagnosticType.Error, 					
@@ -734,7 +734,7 @@ namespace Microarea.Common
 			{
 				Directory.CreateDirectory(pathName);
 			}
-			catch(Exception e)
+			catch(Exception)
 			{
 				diagnostic.Set(				
 					DiagnosticType.LogInfo | DiagnosticType.Error, 					
@@ -763,7 +763,7 @@ namespace Microarea.Common
 				if (SetFileWriteAttributes(oldPathName) && SetFileWriteAttributes(newPathName))
 					CopyAllDirectories(oldPathName,newPathName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 diagnostic.Set(
 					DiagnosticType.LogInfo | DiagnosticType.Error,
@@ -815,7 +815,7 @@ namespace Microarea.Common
                 if (SetFileWriteAttributes (fileName))
                     File.Delete(fileName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 diagnostic.Set(
 					DiagnosticType.LogInfo | DiagnosticType.Error,
@@ -844,7 +844,7 @@ namespace Microarea.Common
 				if (SetFileWriteAttributes(oldFileName) && SetFileWriteAttributes(newFileName))
 					File.Copy(oldFileName, newFileName);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				diagnostic.Set(
 					DiagnosticType.LogInfo | DiagnosticType.Error, 
@@ -872,7 +872,7 @@ namespace Microarea.Common
                 if (SetFileWriteAttributes(oldFileName) && SetFileWriteAttributes(newFileName))
                     File.Move(oldFileName, newFileName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 diagnostic.Set(
 					DiagnosticType.LogInfo | DiagnosticType.Error, 
@@ -920,7 +920,7 @@ namespace Microarea.Common
                 lastWrite  = fileInfo.LastWriteTime;
                 length     = fileInfo.Length;
 		    }
-            catch (Exception e)
+            catch (Exception)
             {
                 diagnostic.Set(
 					DiagnosticType.LogInfo | DiagnosticType.Error,

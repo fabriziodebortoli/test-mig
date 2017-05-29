@@ -1,7 +1,7 @@
 import { UtilsService } from './../../core/utils.service';
 import { HttpService } from './../../core/http.service';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { Logger } from './../../core/logger.service';
@@ -28,7 +28,7 @@ export class HttpMenuService {
      */
     getMenuElements(): Observable<any> {
 
-        // let obj = { user: this.cookieService.get('_user'), company:this.cookieService.get('_company'), token: this.cookieService.get('authtoken')}
+        // let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company'), token: this.cookieService.get('authtoken') }
         // let urlToRun = this.httpService.getMenuGateUrl() + 'getMenuElements/';
         // return this.postData(urlToRun, obj)
         //     .map((res: Response) => {
@@ -279,9 +279,16 @@ export class HttpMenuService {
             .catch(this.handleError);
     };
 
-    private postData(url: string, data: Object): Observable<Response> {
-        return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true })
-            .catch(this.handleError);
+    // private postData(url: string, data: Object): Observable<Response> {
+    //     return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true })
+    //         .catch(this.handleError);
+    // }
+
+    postData(url: string, data: Object): Observable<Response> {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true, headers: headers });
+        //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
     }
 
     /**
@@ -295,4 +302,6 @@ export class HttpMenuService {
         console.error(errMsg);
         return Observable.throw(errMsg);
     }
+
+
 }

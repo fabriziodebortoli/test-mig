@@ -425,7 +425,6 @@ namespace Microarea.Common.MenuLoader
 		private MenuXmlParser traceFavoritesChanges = null;
 		private MenuSecurityFilter menuSecurityFilter = null;
 		private LoginManager loginManager = null;
-		private LoginManagerSession loginManagerSession = null;
 		private IPathFinder menuPathFinder = null;
 
 		//---------------------------------------------------------------------------
@@ -1047,7 +1046,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		private void InitSecurityLightDeniedAccesses()
 		{
-			if (loginManagerSession == null || loginManagerSession.LoginManagerState != LoginManagerState.Logged)
+			if (loginManager == null || loginManager.LoginManagerState != LoginManagerState.Logged)
 				return;
 
 			loginManager.RefreshSecurityStatus();
@@ -1060,8 +1059,8 @@ namespace Microarea.Common.MenuLoader
 		{
 			if (
 				aParser == null ||
-				loginManagerSession == null ||
-				loginManagerSession.LoginManagerState != LoginManagerState.Logged ||
+				loginManager == null ||
+				loginManager.LoginManagerState != LoginManagerState.Logged ||
 				!loginManager.IsSecurityLightEnabled()
 				)
 				return false;
@@ -2822,7 +2821,6 @@ namespace Microarea.Common.MenuLoader
 		private bool environmentStandAlone = false;
 		private IPathFinder pathFinder = null;
 		private LoginManager loginManager = null;
-		private LoginManagerSession loginManagerSession = null;
 		private IBrandLoader brandLoader = null;
 
 		public event MenuLoaderEventHandler LoadAllMenusStarted;
@@ -2878,11 +2876,12 @@ namespace Microarea.Common.MenuLoader
 			// fatto SOLO SE si è loggati !!! 
 			bool applySecurityFilter = false;
 			
+			
 			if (!ignoreAllSecurityChecks && loginManager != null)
 				applySecurityFilter = loginManager.IsActivated("MicroareaConsole", "SecurityAdmin") && 
 					(
-					loginManagerSession.LoginManagerState != LoginManagerState.Logged ||
-					loginManagerSession.Security
+					loginManager.LoginManagerState != LoginManagerState.Logged //||
+					//loginManagers.Security
 					);
 
 			return LoadAllMenus(applySecurityFilter, commandsTypeToLoad, ignoreAllSecurityChecks, clearCachedData);

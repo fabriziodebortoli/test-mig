@@ -31,7 +31,7 @@ namespace Microarea.Common.Hotlink
 
 		private SymbolTable	symbolTable	= null;
 
-		private bool			disposed		= false;//Track whether Dispose has been called.
+		//private bool			disposed		= false;//Track whether Dispose has been called.
 		private DBConnection	tbConnection	= null; //m_pSqlSession
 		private DBCommand tbCommand		= null; //m_pSqlTable
 		private IDataReader		iDataReader		= null; 

@@ -90,46 +90,44 @@ namespace Microarea.Common.MenuLoader
 
         }
 
-        //---------------------------------------------------------------------------
-        public static string DoSSOLoginWeb
-            (string cryptedtoken, string username, string password, string company, bool winNT, bool overwriteLogin,
-            bool relogin, IntPtr menuHandle, IDatabaseCkecker dbChecker, out string jsonMessage, out bool alreadyLogged,
-            out bool changePassword, out bool changeAutologinInfo, out int result, string saveAutologinInfo)
-        {
-            GenericForms.LoginFacilities lf = new GenericForms.LoginFacilities();
-            string token = lf.SSOLogin(cryptedtoken, username, password, company, false, winNT, overwriteLogin, relogin, IntPtr.Zero, out alreadyLogged, out changePassword, out changeAutologinInfo, saveAutologinInfo, out  result);
+        ////---------------------------------------------------------------------------
+        //public static string DoSSOLoginWeb
+        //    (string cryptedtoken, string username, string password, string company, bool winNT, bool overwriteLogin,
+        //    bool relogin, IntPtr menuHandle, IDatabaseCkecker dbChecker, out string jsonMessage, out bool alreadyLogged,
+        //    out bool changePassword, out bool changeAutologinInfo, out int result, string saveAutologinInfo)
+        //{
+        //    GenericForms.LoginFacilities lf = new GenericForms.LoginFacilities();
+        //    string token = lf.SSOLogin(cryptedtoken, username, password, company, false, winNT, overwriteLogin, relogin, IntPtr.Zero, out alreadyLogged, out changePassword, out changeAutologinInfo, saveAutologinInfo, out  result);
 
+        //    if (string.IsNullOrEmpty(token))
+        //    {
+        //        SendMessageMarshal("logging", menuHandle, (uint)ExternalAPI.UM_LOGIN_INCOMPLETED);
+        //    }
+        //    else
+        //    {
+        //        if (dbChecker.Check(token))
+        //            SendMessageMarshal(token, menuHandle, (relogin) ? (uint)ExternalAPI.UM_RELOGIN_COMPLETED : (uint)ExternalAPI.UM_LOGIN_COMPLETED);
+        //        else
+        //        {
+        //            SendMessageMarshal("logging", menuHandle, (uint)ExternalAPI.UM_LOGIN_INCOMPLETED);
+        //            lf.Diagnostic.Set(dbChecker.Diagnostic);
+        //            lf.Logoff(token);
+        //            token = "";
+        //        }
+        //    }
+        //    jsonMessage = lf.Diagnostic.ToJson(false);
+        //    return token;
 
+        //    /*if (!authtoken.IsNullOrEmpty() && !dbChecker.Check(authtoken))
+        //    {
+        //        lf.Diagnostic.Set(dbChecker.Diagnostic);
+        //        lf.Logoff();
+        //        authtoken = "";
+        //    }
+        //    jsonMessage = lf.Diagnostic.ToJson(false);
 
-            if (string.IsNullOrEmpty(token))
-            {
-                SendMessageMarshal("logging", menuHandle, (uint)ExternalAPI.UM_LOGIN_INCOMPLETED);
-            }
-            else
-            {
-                if (dbChecker.Check(token))
-                    SendMessageMarshal(token, menuHandle, (relogin) ? (uint)ExternalAPI.UM_RELOGIN_COMPLETED : (uint)ExternalAPI.UM_LOGIN_COMPLETED);
-                else
-                {
-                    SendMessageMarshal("logging", menuHandle, (uint)ExternalAPI.UM_LOGIN_INCOMPLETED);
-                    lf.Diagnostic.Set(dbChecker.Diagnostic);
-                    lf.Logoff();
-                    token = "";
-                }
-            }
-            jsonMessage = lf.Diagnostic.ToJson(false);
-            return token;
-
-            /*if (!authtoken.IsNullOrEmpty() && !dbChecker.Check(authtoken))
-            {
-                lf.Diagnostic.Set(dbChecker.Diagnostic);
-                lf.Logoff();
-                authtoken = "";
-            }
-            jsonMessage = lf.Diagnostic.ToJson(false);
-
-            return authtoken;*/
-        }
+        //    return authtoken;*/
+        //} //TODOLUCA
 
         //---------------------------------------------------------------------------------
         internal static string GetCustomUserHiddenTilesFile(IPathFinder pathFinder)
@@ -280,10 +278,10 @@ namespace Microarea.Common.MenuLoader
 		//}
 
 		//---------------------------------------------------------------------------
-		public static string ChangePassword(string password)
+		public static string ChangePassword(string user, string oldPassword, string password)
 		{
 			GenericForms.LoginFacilities lf = new GenericForms.LoginFacilities();
-			return lf.ChangePassword(password);
+			return lf.ChangePassword(user, oldPassword, password);
 		}
 
 		//---------------------------------------------------------------------------
@@ -303,10 +301,9 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public static void SetRememberMe(string checkedVal)
+		public static void SetRememberMe(string authenticationToken, string checkedVal)
 		{
-			GenericForms.LoginFacilities.SetRememberMe(checkedVal);
-
+			GenericForms.LoginFacilities.SetRememberMe(authenticationToken, checkedVal);
 		}
 
 		//---------------------------------------------------------------------------
@@ -351,7 +348,7 @@ namespace Microarea.Common.MenuLoader
 				{
 					SendMessageMarshal("logging", menuHandle, (uint)ExternalAPI.UM_LOGIN_INCOMPLETED);
 					lf.Diagnostic.Set(dbChecker.Diagnostic);
-					lf.Logoff();
+					lf.Logoff(token);
 					token = "";
 				}
 			}
@@ -372,7 +369,7 @@ namespace Microarea.Common.MenuLoader
 			if (!token.IsNullOrEmpty() && !dbChecker.Check(token))
 			{
 				lf.Diagnostic.Set(dbChecker.Diagnostic);
-				lf.Logoff();
+				lf.Logoff(token);
 				token = "";
 			}
 			jsonMessage = lf.Diagnostic.ToJson(false);
