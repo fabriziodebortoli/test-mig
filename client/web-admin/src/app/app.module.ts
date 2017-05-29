@@ -29,7 +29,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     FormsModule,
     RouterModule.forRoot(routes),
     HttpModule,
-    MaterialModule.forRoot(),
+    MaterialModule,
     FlexLayoutModule,
     MdToolbarModule,
     MdSidenavModule
