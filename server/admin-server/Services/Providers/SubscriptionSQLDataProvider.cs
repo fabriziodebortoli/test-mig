@@ -38,7 +38,7 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								subscription.ActivationToken = new Library.ActivationToken (dataReader["ActivationKey"] );
+								subscription.ActivationToken = new Library.ActivationToken (dataReader["ActivationKey"] as string);
 								subscription.PurchaseId = dataReader["PurchaseId"] as string;
 							}
 						}

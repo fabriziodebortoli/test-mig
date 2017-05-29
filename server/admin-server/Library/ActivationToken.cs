@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Globalization;
@@ -10,7 +9,8 @@ namespace Microarea.AdminServer.Library
     public class ActivationToken
     {
         List<ProductInfo> Products = new List<ProductInfo> { };
-       // string MACAddress;
+        // string MACAddress;
+        string key;
         string /*DateTime*/ ExpiryDate;
         String Edition;
         String Database;
@@ -28,6 +28,7 @@ namespace Microarea.AdminServer.Library
         {
             if (string.IsNullOrWhiteSpace(key))
                 return;
+            this.key= key;
             //MACAddress = LocalMachine.GetMacAddress();
             //string mykey = CrypterManager.Decrypt(key);
             XmlDocument xmldoc = new XmlDocument();
@@ -54,11 +55,7 @@ namespace Microarea.AdminServer.Library
 
         }
 
-        public ActivationToken(object v)
-        {
-            this.v = v;
-        }
-
+       
         //---------------------------------------------------------------------
         public void Login()
         {
@@ -76,6 +73,15 @@ namespace Microarea.AdminServer.Library
             int slotsRes = authenticationSlots.Init(this, null /*SysDBConnection*/);
 
         }
+
+        //---------------------------------------------------------------------
+        public override string ToString()
+        {
+            //per ora torna la roba vecchia;
+            return key;
+        }
+  
+
 
         //---------------------------------------------------------------------
         public bool IsEnterprise()
