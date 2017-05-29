@@ -87,20 +87,29 @@ namespace Microarea.AdminServer.Controllers
 				account.SetDataProvider(_accountSqlDataProvider);
 				account.Load();
             }
-            catch (NotImplementedException ex)
+            catch (Exception ex)
             {
                 _jsonHelper.AddJsonCouple<bool>("result", false);
                 _jsonHelper.AddJsonCouple<string>("message", ex.Message);
                 return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
             }
-            catch (SqlException e)
-            {
-                _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple<string>("message", e.Message);
-                return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
-            }
+
+			if (account == null)
+			{
+				// TODO ask to GWAM
+			}
+
+			// here account doesn't even exist in GWAM
+
+			if (account == null)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonObject("message", "Invalid user");
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+			}
 
             // user has been found
+
             _jsonHelper.AddJsonCouple<bool>("result", true);
             _jsonHelper.AddJsonObject("account", account);
             return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
