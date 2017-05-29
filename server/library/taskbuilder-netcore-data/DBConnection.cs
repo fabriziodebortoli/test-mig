@@ -140,8 +140,9 @@ namespace TaskBuilderNetCore.Data
         {
             try
             {
-                if (connection.State != ConnectionState.Closed)
-                    connection.Close();
+                //TODO RSWEB
+                //if (connection.State == ConnectionState.Open)  != closed
+                //    connection.Close();
             }
             catch (SqlException se)
             {; }
@@ -163,7 +164,7 @@ namespace TaskBuilderNetCore.Data
 
         public new void Dispose()
         {
-            connection.Dispose();
+            //connection.Dispose();
         }
     }
 }

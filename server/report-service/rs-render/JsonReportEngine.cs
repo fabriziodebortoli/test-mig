@@ -44,10 +44,10 @@ namespace Microarea.RSWeb.Render
         public string GetJsonInitTemplate()
         {
             WoormDocument woorm = StateMachine.Woorm;
-            return woorm.ToJson(true);
+            return woorm.ToJson(true, "page", true, StateMachine.ReportTitle);
         }
 
-        public string GetJsonTemplatePage(int page)
+        public string GetJsonTemplatePage(ref int page)
         {
             WoormDocument woorm = StateMachine.Woorm;
 
@@ -60,6 +60,12 @@ namespace Microarea.RSWeb.Render
                     //if (woorm.RdeReader.LoadTotPage())
                     //    break;
                 };  //wait 
+
+            //TODO RSWEB bloccare prima
+            if (page > woorm.RdeReader.TotalPages)
+            {
+                page = woorm.RdeReader.TotalPages;
+            }
 
             woorm.LoadPage(page);
 
@@ -79,6 +85,12 @@ namespace Microarea.RSWeb.Render
                     //if (woorm.RdeReader.LoadTotPage())
                     //    break;
                 };  //wait 
+
+            //TODO RSWEB bloccare prima
+            if (page > woorm.RdeReader.TotalPages)
+            {
+                page = woorm.RdeReader.TotalPages;
+            }
 
             woorm.LoadPage(page);
 
@@ -106,6 +118,10 @@ namespace Microarea.RSWeb.Render
         {
             if (currentClientDialogName.IsNullOrEmpty() || values == null || values.Count == 0)
             {
+                //TODO RSWEB in caso di RERUN occorre cambiare la cartella dei file temporanei
+                //if (StateMachine.CurrentState == State.End)
+                //StateMachine.CurrentState = State.ExecuteAsk;
+
                 //viene cercata la prima, se esiste
                 StateMachine.Step();
                 return string.Empty;
@@ -120,14 +136,14 @@ namespace Microarea.RSWeb.Render
             }
 
             StateMachine.Report.CurrentAskDialog.AssignAllAskData(values);
-            
+
             //passa alla prossima dialog se esiste oppure inizia estrazione dati
             StateMachine.Step();
 
             return string.Empty;
         }
 
-        public List<string> GetHotlinkValues(string ns, string filter, string fieldName)
+        public string GetHotlinkValues(string ns, string filter, string fieldName)
         {
             TbSession hklSession = new TbSession(this.ReportSession, ns);
 
@@ -137,55 +153,74 @@ namespace Microarea.RSWeb.Render
             if (!ds.PrepareQuery(/*HttpContext.Request.Query,*/ "Code"/*TODO RSWEB*/, filter))
                 return null;
 
-            string records; 
-            if (!ds.GetCompactJson(out records, fieldName))
+            string records;
+            if (!ds.GetCompactJson(out records))
                 return null;
+
             //recods contiene i record selezionati
- 
-            //TODO DEMO
+
+            /*
             string[] temporary_values = { "BDF3","BDF36","BDF6","BFM3","BFM36","BFM6","BON",
                     "CONT","RB","RB369-15","RBDF3","RBDF36","RBDF369",
                     "RBDF6","RBFM3","RBFM36","RBFM369","RBFM6","RD","RDDF3",
                     "RDDF36","RDDF369","RDDF6","RDFM3","RDFM36","RDFM369","RDFM6","TRFM4560" };
+            */
+            return records;
+        }
 
-            return new List<string>(temporary_values);
+
+        //---------------------------------------------------------------------
+        private string PreviousAskDialog(string currentClientDialogName)
+        {
+            AskDialog askDialog = StateMachine.Report.Engine.GetAskDialog(currentClientDialogName);
+            if (askDialog != null)
+                StateMachine.Report.CurrentAskDialog = askDialog;
+
+            return askDialog.ToJson();
         }
 
         //---------------------------------------------------------------------
         public Message GetResponseFor(Message msg)
         {
-       
-            switch(msg.commandType)
+
+            switch (msg.commandType)
             {
-               case MessageBuilder.CommandType.ASK:
-                {         
-                    //contiene il nome della dialog, se è vuota/=="0" viene richiesta la prima per la prima volta
-                    msg.page = msg.page;   
-                    List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null 
-                                                    : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
+                case MessageBuilder.CommandType.ASK:
+                    {
+                        //contiene il nome della dialog, se è vuota/=="0" viene richiesta la prima per la prima volta
+                        msg.page = msg.page;
+                        List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null
+                                                        : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
 
-                    GetJsonAskDialog(values, msg.page);
+                        GetJsonAskDialog(values, msg.page);
 
-                    msg.commandType = MessageBuilder.CommandType.NONE;
-                    break;
-                }
+                        msg.commandType = MessageBuilder.CommandType.NONE;
+                        break;
+                    }
+
+                case MessageBuilder.CommandType.PREVASK:
+                    {
+                        msg.message = PreviousAskDialog(msg.page);
+                        break;
+                    }
+
+                case MessageBuilder.CommandType.UPDATEASK:
+                    {
+
+                        List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null
+                                                           : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
+
+                        msg.message = UpdateJsonAskDialog(values, msg.page);
+
+                        break;
+                    }
+
                 case MessageBuilder.CommandType.HOTLINK:
                     {
                         var obj = JsonConvert.DeserializeObject<HotlinkDescr>(msg.message);
-                        List<string> values = GetHotlinkValues(obj.ns, obj.filter, obj.name);
-                        msg.message = JsonConvert.SerializeObject(values);
-                    
+                        msg.message = GetHotlinkValues(obj.ns, obj.filter, obj.name);
+
                         break;
-                    }
-                case MessageBuilder.CommandType.UPDATEASK:
-                    {
-                      msg.page = msg.page;
-                      List<AskDialogElement> values = msg.page.IsNullOrEmpty() ? null
-                                                         : JsonConvert.DeserializeObject<List<AskDialogElement>>(msg.message);
-
-                      msg.message = UpdateJsonAskDialog(values, msg.page);
-
-                      break;
                     }
                 /*
                  case MessageBuilder.CommandType.ABORTASK:  //click on CANCEL
@@ -206,7 +241,10 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
                         if (int.TryParse(msg.page, out pageNum))
-                            msg.message = GetJsonTemplatePage(pageNum);
+                        {
+                            msg.message = GetJsonTemplatePage(ref pageNum);
+                            msg.page = pageNum.ToString();
+                        }
                         break;
                     }
 
@@ -228,6 +266,8 @@ namespace Microarea.RSWeb.Render
             }
             return msg;
         }
+
+
 
         //---------------------------------------------------------------------
         //per debug

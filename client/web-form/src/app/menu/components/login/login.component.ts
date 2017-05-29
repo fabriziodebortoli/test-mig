@@ -79,4 +79,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         subs.unsubscribe();
       });
   }
+
+  keyDownFunction(event) {
+    if (event.keyCode === 13) {
+      this.login();
+    }
+  }
 }

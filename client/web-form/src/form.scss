@@ -440,7 +440,7 @@
 //     border: 1px solid $mf-error-color
 // }
 .tb-control {
-    margin: 0.2rem;
+    margin: 0.4rem;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -456,6 +456,20 @@ tb-caption label {
     padding: 0 5px 0 0;
 }
 
+.k-colorpicker,
+.k-combobox,
+.k-dateinput,
+.k-datepicker,
+.k-datetimepicker,
+.k-dropdown,
+.k-multiselect,
+.k-numerictextbox,
+.k-maskedtextbox,
+.k-timepicker {
+    border-width: 0;
+    background-color: #f3f3f3;
+}
+
 .k-disabled,
 .k-state-disabled {
     // border: 1px solid #ddd;
@@ -464,9 +478,12 @@ tb-caption label {
 .k-textbox:disabled,
 .k-textbox[disabled],
 .k-textbox.k-state-disabled,
-.k-dropdown-wrap.k-state-disabled {
-    background: transparent;
+.k-dropdown-wrap.k-state-disabled .k-input,
+.k-numeric-wrap .k-input[disabled] {
+    background: transparent !important;
     border: 1px solid #ddd;
+    color: #000;
+    opacity: 0.6;
     font-weight: bold;
 }
 

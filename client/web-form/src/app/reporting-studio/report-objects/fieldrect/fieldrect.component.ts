@@ -1,7 +1,7 @@
 import { fieldrect } from './../../reporting-studio.model';
 import { UtilsService } from './../../../core/utils.service';
 
-import { Component, Input, ChangeDetectorRef,AfterViewInit } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'rs-fieldrect',
@@ -25,7 +25,6 @@ export class ReportFieldrectComponent implements AfterViewInit {
     let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
     let obj = {
       'position': 'absolute',
-      'display': 'table',
       'top': this.rect.rect.top + 'px',
       'left': this.rect.rect.left + 'px',
       'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
@@ -38,16 +37,35 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'border-color': this.rect.pen.color,
       'border-radius': this.rect.ratio + 'px',
       'border-style': 'solid',
-      'box-shadow': this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_color
+
+      'box-shadow': this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px '
+      + this.rect.shadow_height + 'px ' + this.rect.shadow_color
 
     };
     return obj;
   }
 
   applyValueStyle(): any {
+    let lineHeight = 1 + 'px';
+    if (this.rect.vertical_align === 'bottom') {
+      // tslint:disable-next-line:max-line-length
+      lineHeight = this.rect.label ? ((this.rect.rect.bottom - this.rect.rect.top) + (this.rect.rect.bottom - this.rect.rect.top) / 2) / 2 - 4 + 'px' :
+        (this.rect.rect.bottom - this.rect.rect.top - 2) + (this.rect.rect.bottom - this.rect.rect.top - 2) / 2 - 4 + 'px';
+    }
+    if (this.rect.vertical_align === 'top') {
+      // tslint:disable-next-line:max-line-length
+      lineHeight = this.rect.label ? ((this.rect.rect.bottom - this.rect.rect.top - 2) - (this.rect.rect.bottom - this.rect.rect.top - 2) / 2) / 2 - 4 + 'px' :
+        (this.rect.rect.bottom - this.rect.rect.top - 2) - (this.rect.rect.bottom - this.rect.rect.top - 2) / 2 - 4 + 'px';
+    }
+    else if (this.rect.vertical_align === 'middle') {
+      lineHeight = this.rect.label ? (this.rect.rect.bottom - this.rect.rect.top) / 2 + 'px' :
+        (this.rect.rect.bottom - this.rect.rect.top) + 'px';
+    }
+
     let obj = {
+      'width': this.rect.rect.right - this.rect.rect.left + 'px',
       'position': 'relative',
-      'display': 'table-cell',
+      'display': 'block',
       'font-family': this.rect.font.face,
       'font-size': this.rect.font.size + 'px',
       'font-style': this.rect.font.italic ? 'italic' : 'normal',
@@ -55,15 +73,19 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'text-decoration': this.rect.font.underline ? 'underline' : 'none',
       'color': this.rect.textcolor,
       'text-align': this.rect.text_align,
-      'vertical-align': this.rect.vertical_align
+      'line-height': lineHeight
     };
     return obj;
   }
 
   applyLabelStyle(): any {
+
     let obj = {
+      'width': this.rect.rect.right - this.rect.rect.left + 'px',
       'position': 'relative',
-      'display': 'table-cell',
+      'display': 'block',
+      'overflow': 'hidden',
+      'white-space': 'nowrap',
       'text-align': this.rect.label.text_align,
       'font-family': this.rect.label.font.face,
       'font-size': this.rect.label.font.size + 'px',

@@ -190,6 +190,7 @@ namespace Microarea.RSWeb.WoormViewer
         public const string DefaultName = "default";
 
         public string Name = DefaultName;
+        public bool Invert = false;
 
         public Layout() : base(null) { }
         /// ---------------------------------------------------------------------------------

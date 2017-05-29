@@ -224,18 +224,33 @@ namespace Microarea.RSWeb.WoormViewer
 		}
 
         //---------------------------------------------------------------
-        public string ToJson(string name = "pageinfo", bool bracket = false)
+        public string ToJson(bool invert, string name = "pageinfo", bool bracket = false)
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
                 s = '\"' + name + "\":";
 
-            s += '{' +
+            s += '{';
 
-                this.printerPageInfo.dmPaperLength.ToJson("length") + ',' +
-                this.printerPageInfo.dmPaperWidth.ToJson("width") +
+            int l = this.printerPageInfo.dmPaperLength / 10 ;
+            int w = this.printerPageInfo.dmPaperWidth / 10 ;
 
-            '}';
+            if (dmOrientation == PageInfo.DM_ORIENTATION)
+            {
+                int t = l;
+                l = w;
+                w = t;
+            }
+            if (invert)
+            {
+                int t = l;
+                l = w;
+                w = t;
+            }
+
+            s += l.ToJson("length") + ',';
+            s += w.ToJson("width");
+           s += '}';
 
             if (bracket)
                 s = '{' + s + '}';

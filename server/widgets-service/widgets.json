@@ -1,0 +1,193 @@
+[{
+        "widgets": [{
+                "title": "Purchase Orders to receive",
+                "subtitle": "next week",
+                "layout": {
+                    "height": 200,
+                    "size": "small",
+                    "style": "stats",
+                    "statsFormat": {
+                        "color": "blue",
+                        "icon": "shopping_basket"
+                    }
+                }
+            },
+            {
+                "title": "Sales Orders to fulfill",
+                "subtitle": "today",
+                "layout": {
+                    "height": 200,
+                    "size": "small",
+                    "style": "stats",
+                    "statsFormat": {
+                        "color": "orange",
+                        "icon": "local_shipping",
+                        "value": "OrderCount"
+                    }
+                },
+                "provider": {
+                    "type": "dataservice",
+                    "namespace": "ERP.SaleOrders.Dbl.DS_LastSaleOrders",
+                    "selection": "toFulfillSummary"
+                }
+            },
+            {
+                "title": "Incoming payments",
+                "layout": {
+                    "height": 200,
+                    "size": "small",
+                    "style": "stats",
+                    "statsFormat": {
+                        "color": "green",
+                        "icon": "euro_symbol",
+                        "value": "TotalReceivableAmount",
+                        "format": "money"
+                    }
+                },
+                "provider": {
+                    "type": "dataservice",
+                    "namespace": "ERP.AP_AR.Dbl.DS_PaymentSchedules",
+                    "selection": "dueReceivableSummary"
+                }
+            },
+            {
+                "title": "Late deliveries",
+                "layout": {
+                    "height": 200,
+                    "size": "small",
+                    "style": "stats",
+                    "statsFormat": {
+                        "color": "red",
+                        "icon": "access_time"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "widgets": [{
+                "title": "Top items",
+                "subtitle": "by turnover",
+                "layout": {
+                    "style": "chart",
+                    "size": "large",
+                    "chartFormat": {
+                        "type": "column",
+                        "categoryField": "Description",
+                        "field": "Amount",
+                        "color": "green"
+                    }
+                },
+                "provider": {
+                    "type": "dataservice",
+                    "namespace": "ERP.Sales.Dbl.DS_SaleDocuments",
+                    "selection": "turnoverPerItem",
+                    "maxRows": 10
+                }
+            },
+            {
+                "title": "Last Sale Orders",
+                "linkedNamespace": "ERP.CustomersSuppliers.Documents.Customers",
+                "recordKeys": "CustSupp:Customer, CustSuppType:CustSuppType",
+                "subtitle": "by order date",
+                "layout": {
+                    "height": 200,
+                    "style": "grid",
+                    "gridFormat": {
+                        "maxRows": 10,
+                        "color": "orange"
+                    }
+                },
+                "provider": {
+                    "type": "dataservice",
+                    "namespace": "ERP.SaleOrders.Dbl.DS_LastSaleOrders",
+                    "selection": "byOrderDate"
+                }
+            }
+        ]
+    },
+    {
+        "widgets": [
+            {
+                "title": "Top customers",
+                "link": "ERP.Contacts.ContactsAddressBook",
+                "subtitle": "by turnover",
+                "layout": {
+                    "style": "chart",
+                    "size": "medium",
+                    "chartFormat": {
+                        "type": "bar",
+                        "categoryField": "CompanyName",
+                        "field": "Amount"
+                    }
+                },
+                "provider": {
+                    "type": "dataservice",
+                    "namespace": "ERP.Sales.Dbl.DS_SaleDocuments",
+                    "selection": "turnoverPerCustomer",
+                    "maxRows": 10
+                }
+            },
+            {
+                "title": "Turnover per Area",
+                "subtitle": "current FY",
+                "layout": {
+                    "style": "chart",
+                    "size": "medium",
+                    "chartFormat": {
+                        "type": "donut",
+                        "categoryField": "Description",
+                        "field": "Amount",
+                        "color": "orange"
+                    }
+                },
+                "provider": {
+                    "type": "dataservice",
+                    "namespace": "ERP.Sales.Dbl.DS_SaleDocuments",
+                    "selection": "turnoverPerArea",
+                    "maxRows": 10
+                }
+            },
+            {
+                "title": "Last Purchase Orders",
+                "subtitle": "by order date",
+
+                "layout": {
+                    "style": "grid",
+                    "size": "medium",
+                    "gridFormat": {
+                        "maxRows": 10,
+                        "color": "green",
+                        "columns": [
+                            {
+                                "caption": "Order Date",
+                                "id": "OrderDate",
+                                "width": "100"
+                            },
+                            {
+                                "caption": "Order No.",
+                                "id": "InternalOrdNo",
+                                "width": "100"
+                            },
+                            {
+                                "caption": "Supplier",
+                                "id": "CompanyName"
+                            },
+                            {
+                                "caption": "Total",
+                                "id": "TotalAmount",
+                                "right": true,
+                                "width": "100"
+                            }
+                        ]
+                    }
+                },
+                "provider": {
+                    "type": "dataservice",
+                    "namespace": "ERP.PurchaseOrders.Dbl.DS_LastPurchaseOrders",
+                    "selection": "byOrderDate"
+                }
+            }
+        ]
+    }
+]

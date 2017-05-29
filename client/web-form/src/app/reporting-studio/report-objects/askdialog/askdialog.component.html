@@ -3,7 +3,7 @@
     <rs-ask-group [askGroup]="item" *ngIf="!item.hidden"></rs-ask-group>
   </div>
   <kendo-dialog-actions>
-    <button kendoButton (click)="Prev()">Prev</button>
-    <button kendoButton primary="true" (click)="Next()">Next</button>
+    <button kendoButton (click)="Prev()" [disabled]="askObject.isFirst">Prev</button>
+    <button kendoButton primary="true" (click)="Next()">{{!askObject.isLast? 'Next':'Execute'}}</button>
   </kendo-dialog-actions>
 </kendo-dialog>

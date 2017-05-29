@@ -7,8 +7,7 @@
     <div class="main-content">
         <tb-topbar>
             <div class="topbar-title-content">
-                <h1>{{appName}}</h1>
-                <h2>{{companyName}}</h2>
+                <img src="assets/images/logoM4_h40.png" />
             </div>
 
             <div class="topbar-center">
@@ -29,7 +28,21 @@
                     </ng-template>
                     <template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
-                            <tb-menu></tb-menu>
+                            <tb-dashboard></tb-dashboard>
+                        </div>
+                    </template>
+                </kendo-tabstrip-tab>
+
+                <kendo-tabstrip-tab>
+                    <ng-template kendoTabTitle>
+                        <div (click)="menuService.activateMenu()" class="menu-tab">
+                            <md-icon>dashboard</md-icon>
+                            <span>Menu</span>
+                        </div>
+                    </ng-template>
+                    <template kendoTabContent>
+                        <div class='kendoTabContent' [style.height.px]="viewHeight">
+                            <tb-menu *ngIf="menuService.menuActivated"></tb-menu>
                         </div>
                     </template>
                 </kendo-tabstrip-tab>

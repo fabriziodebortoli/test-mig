@@ -15,12 +15,13 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
 
   @Input() ask: string;
   @Input() hotLinkValues: any;
-  
+
   public askObject;
   public commType: CommandType;
   public objects: askGroup[] = [];
   public templates: TemplateItem[] = [];
   subscriptions: Array<Subscription> = [];
+
   constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
     this.subscriptions.push(adService.askChanged.subscribe(() => {
       this.updateAsk();
@@ -72,7 +73,6 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
     }
     this.templates.push(new TemplateItem(msg.name, msg, objects));
     this.objects = objects;
-    this.rsService.askPage = msg.name;
     return;
 
   }
@@ -85,7 +85,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
         let component: askObj = group.entries[j];
         let obj = {
           name: component.name,
-          value: component.value.toString()
+          value: component.value.code !== undefined ? component.value.code : component.value.toString()
         };
         arrayComp.push(obj);
       }
@@ -93,30 +93,12 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
     let message = {
       commandType: ct,
       message: JSON.stringify(arrayComp),
-      page: this.rsService.askPage
+      page: this.askObject.name
     };
     this.rsService.doSend(JSON.stringify(message));
   }
 
   Next() {
-    /*let arrayComp: any[] = [];
-    for (let i = 0; i < this.objects.length; i++) {
-      let group = this.objects[i];
-      for (let j = 0; j < group.entries.length; j++) {
-        let component: askObj = group.entries[j];
-        let obj = {
-          id: component.id,
-          value: component.value.toString()
-        };
-        arrayComp.push(obj);
-      }
-    }
-    let message = {
-      commandType: CommandType.ASK,
-      message: JSON.stringify(arrayComp),
-      page: this.rsService.askPage
-    };
-    this.rsService.doSend(JSON.stringify(message));*/
     this.SendAsk(CommandType.ASK);
   }
 
@@ -124,9 +106,15 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
     if (this.templates.length <= 1) {
       return;
     }
-    //this.templates[this.templates.length-1].templateObjects;
     this.templates.pop();
     this.objects = this.templates[this.templates.length - 1].templateObjects;
+    this.askObject = this.templates[this.templates.length - 1].template;
+    let message = {
+      commandType: CommandType.PREVASK,
+      message: '',
+      page: this.askObject.name
+    };
+    this.rsService.doSend(JSON.stringify(message));
   }
 
   close() {
@@ -135,24 +123,6 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
   }
 
   updateAsk() {
-    /*let arrayComp: any[] = [];
-    for (let i = 0; i < this.objects.length; i++) {
-      let group = this.objects[i];
-      for (let j = 0; j < group.entries.length; j++) {
-        let component: askObj = group.entries[j];
-        let obj = {
-          id: component.id,
-          value: component.value.toString()
-        };
-        arrayComp.push(obj);
-      }
-    }
-    let message = {
-      commandType: CommandType.UPDATEASK,
-      message: JSON.stringify(arrayComp),
-      page: this.rsService.askPage
-    };
-    this.rsService.doSend(JSON.stringify(message));*/
     this.SendAsk(CommandType.UPDATEASK);
   }
 

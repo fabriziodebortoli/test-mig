@@ -1,10 +1,6 @@
-<button md-icon-button [md-menu-trigger-for]="menuUser" title="{{title}}">
-    <md-icon>person</md-icon>
+<button #anchor (click)="show=!show" class="topbar-menu-button">
+     <md-icon  class="material-icons">person</md-icon>
 </button>
-
-<md-menu #menuUser="mdMenu">
-    <button md-menu-item> Refresh </button>
-    <button md-menu-item> Settings </button>
-    <button md-menu-item> Help </button>
-    <button md-menu-item (click)=logout()>Sign Out</button>
-</md-menu>
+<kendo-popup [popupClass]="'popup'" *ngIf="show" [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
+    <button kendoButton *ngFor="let menuItem of contextMenu" class="content" (click)="chooseAction(menuItem.id)">{{menuItem.text}}</button>
+</kendo-popup>

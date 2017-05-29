@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
@@ -154,6 +154,11 @@ export class HttpService {
 
     getAccountManagerBaseUrl() {
         let url = this.baseUrl + 'account-manager/';
+        return url;
+    }
+
+     getMenuGateUrl() {
+       let url = this.baseUrl + 'menu-gate/';
         return url;
     }
 

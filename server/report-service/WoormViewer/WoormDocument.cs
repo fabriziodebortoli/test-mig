@@ -579,12 +579,13 @@ namespace Microarea.RSWeb.WoormViewer
 		}
 
 		//---------------------------------------------------------------------------------
-		public void Add(string name)
+		public Layout Add(string name)
 		{
 			Layout l = new Layout(woormdoc, name);
 			Add(name, l);
 			Current = l;
-		}
+            return l;
+        }
 
 		//---------------------------------------------------------------------------------
 		public bool SetCurrent(string name)
@@ -892,11 +893,14 @@ namespace Microarea.RSWeb.WoormViewer
 					Lex.SetError(WoormViewerStrings.PageLayOutNotFound);
 					return false;
 				}
-				Lex.ParseBegin();
+
+                bool invertOrientation = lex.Parsed(Token.INVERT_ORIENTATION);
+
+                Lex.ParseBegin();
 			
 				if (!layouts.SetCurrent(layoutName))
 				{
-					layouts.Add(layoutName);
+					layouts.Add(layoutName).Invert = invertOrientation;
 					//automatico layouts.SetCurrent(layoutName)
 				}
 				if (!ParseObjects(lex, true))
@@ -1907,7 +1911,7 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //---------------------------------------------------------------------
-        public string ToJson(bool template, string name = "page", bool bracket = true)
+        public string ToJson(bool template, string name = "page", bool bracket = true, string reportTitle="")
         {
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
@@ -1926,10 +1930,12 @@ namespace Microarea.RSWeb.WoormViewer
                 //TODO errore
                 return string.Empty;
             }
-            s += '{' +
+
+             s += '{' +
                    (template ? "template" : "data").ToJson("type") + ','  +
                     pageNo.ToJson("page_number") + ',' +
-                    (template ? this.pageInfo.ToJson() + ',' : "") +
+                    ("\"report_title\":" ) + (!reportTitle.IsNullOrEmpty() ? ('\"' + reportTitle + '\"') : ('\"' + this.Namespace.ToString() + '\"')) +','+
+                    (template ? this.pageInfo.ToJson(this.Objects.Invert) + ',' : "") +
                    this.Objects.ToJson(template, "layout") +
                  '}';
 

@@ -17,13 +17,12 @@ export class WebSocketService {
     private connection: WebSocket;
 
     public error: EventEmitter<any> = new EventEmitter();
-    public dataReady: EventEmitter<any> = new EventEmitter();
-    public serverCommandMapReady: EventEmitter<any> = new EventEmitter();
+    public modelData: EventEmitter<any> = new EventEmitter();
+    public serverCommands: EventEmitter<any> = new EventEmitter();
     public windowOpen: EventEmitter<any> = new EventEmitter();
     public windowClose: EventEmitter<any> = new EventEmitter();
     public activationData: EventEmitter<any> = new EventEmitter();
     public itemSource: EventEmitter<any> = new EventEmitter();
-    public contextMenu: EventEmitter<any> = new EventEmitter();
     public open: EventEmitter<any> = new EventEmitter();
     public close: EventEmitter<any> = new EventEmitter();
     public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
@@ -48,13 +47,12 @@ export class WebSocketService {
                     const obj = JSON.parse(e.data);
 
                     switch (obj.cmd) {
-                        case 'DataReady': $this.dataReady.emit(obj.args); break;
+                        case 'ModelData': $this.modelData.emit(obj.args); break;
                         case 'WindowOpen': $this.windowOpen.emit(obj.args); break;
                         case 'ActivationData': $this.activationData.emit(obj.args); break;
                         case 'WindowClose': $this.windowClose.emit(obj.args); break;
                         case 'ItemSource': $this.itemSource.emit(obj.args); break;
-                        case 'ContextMenu': $this.contextMenu.emit(obj.args); break;
-                        case 'ServerCommandMapReady': $this.serverCommandMapReady.emit(obj.args); break;
+                        case 'ServerCommands': $this.serverCommands.emit(obj.args); break;
                         // when tbloader has connected to gate, I receive this message; then I can
                         // request the list of opened windows
                         case 'MessageDialog': $this.message.emit(obj.args); break;

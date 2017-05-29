@@ -1,4 +1,4 @@
-<md-card>
+<md-card [ngClass]="{'sameHeight': !isCollapsed}">
 
     <md-card-title (click)="toggleCollapse($event)" *ngIf="hasTitle" [ngClass]="{'c-pointer': isCollapsible }">
         <span>{{title}}</span>

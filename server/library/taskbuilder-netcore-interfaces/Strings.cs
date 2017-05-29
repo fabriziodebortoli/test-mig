@@ -745,6 +745,7 @@ namespace TaskBuilderNetCore.Interfaces
         public const string Image = "Image";
         public const string Text = "Text";
         public const string File = "File";
+        public const string DataFile = "DataFile";
         public const string View = "View";
         public const string Document = "Document";
         public const string Hotlink = "Hotlink";

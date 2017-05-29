@@ -77,7 +77,7 @@ export class MenuService {
     selectedMenuChanged: EventEmitter<any> = new EventEmitter(true);
     selectedApplicationChanged: EventEmitter<any> = new EventEmitter(true);
     selectedGroupChanged: EventEmitter<string> = new EventEmitter(true);
-
+    
     constructor(
         private httpService: HttpService,
         private httpMenuService: HttpMenuService,
@@ -211,18 +211,18 @@ export class MenuService {
         if (object.objectType.toLowerCase() == 'report') {
             let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
                 if (!jsonObj.desktop) {
-                    this.componentService.createReportComponent(object.target);
+                    this.componentService.createReportComponent(object.target, true);
                 }
                 obs.unsubscribe();
             });
         }
         else {
-            this.httpService.runDocument(object.target);
+            this.httpService.runDocument(object.target, object.args);
         }
 
         this.addToMostUsed(object);
         object.isLoading = true;
-        const subs1 = this.componentService.componentCreated$.subscribe(index => {
+        const subs1 = this.componentService.componentInfoCreated.subscribe(arg => {
             object.isLoading = false;
             subs1.unsubscribe();
         });
@@ -568,4 +568,7 @@ export class MenuService {
     toggleDecription() {
         this.showDescription = !this.showDescription;
     }
+
+    menuActivated:boolean = true; // TODO temporaneo per demo, poi vedremo...
+    activateMenu(){this.menuActivated = true;console.log("act", this.menuActivated)}
 }

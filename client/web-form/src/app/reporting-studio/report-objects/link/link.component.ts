@@ -34,7 +34,7 @@ export class ReportLinkComponent {
 
   runReport() {
     const params = { xmlArgs : encodeURIComponent(this.link.arguments), runAtTbLoader: false};
-    this.componentService.createReportComponent(this.link.ns, params);
+    this.componentService.createReportComponent(this.link.ns, true, params);
   }
 
   openDocument() {

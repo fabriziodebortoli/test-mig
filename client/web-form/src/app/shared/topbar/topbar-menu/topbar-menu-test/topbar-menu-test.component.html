@@ -1,11 +1,7 @@
-<button md-icon-button [md-menu-trigger-for]="menuTest" title="{{title}}">
-    <md-icon>build</md-icon>
+<button #anchor (click)="show=!show" class="topbar-menu-button">
+     <md-icon  class="material-icons">build</md-icon>
 </button>
+<kendo-popup [popupClass]="'popup'" *ngIf="show" [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
 
-<md-menu #menuTest="mdMenu">
-    <button md-menu-item (click)="openDataService()">Data Service</button>
-    <button md-menu-item (click)="openRS()">Reporting Studio</button>
-    <button md-menu-item (click)="openTBExplorer()">TB Explorer</button>
-    <button md-menu-item (click)="openTestGrid()">Test Grid Component</button>
-    <button md-menu-item (click)="openTestIcons()">Test Icons</button>
-</md-menu>
+    <button kendoButton *ngFor="let menuItem of contextMenu" class="content" (click)="chooseAction(menuItem.id)">{{menuItem.text}}</button>
+</kendo-popup>

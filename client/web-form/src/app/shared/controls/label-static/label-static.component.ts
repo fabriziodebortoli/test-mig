@@ -7,8 +7,9 @@ import { ControlComponent } from './../control.component';
   templateUrl: './label-static.component.html',
   styleUrls: ['./label-static.component.scss']
 })
-export class LabelStaticComponent  extends TextComponent implements OnInit {
+export class LabelStaticComponent extends TextComponent implements OnInit {
   @Input() caption = '';
+  @Input() width: number;
   ngOnInit() {
   }
 
