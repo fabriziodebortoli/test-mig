@@ -14,6 +14,10 @@ import { routes } from './app.routes';
 import { LoginComponent } from './login/login.component';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { EntityListComponent } from './entity-list/entity-list.component';
+import { CompanyComponent } from './company/company.component';
+import { AccountComponent } from './account/account.component';
+import { CompanyAccountComponent } from './company-account/company-account.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     JsonVisualizerPipe,
     SubscriptionHomeComponent,
     AppHomeComponent,
-    LoginComponent
+    LoginComponent,
+    EntityListComponent,
+    CompanyComponent,
+    AccountComponent,
+    CompanyAccountComponent
   ],
   imports: [
     BrowserModule,
