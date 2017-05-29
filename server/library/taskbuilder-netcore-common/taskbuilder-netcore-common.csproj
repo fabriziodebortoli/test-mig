@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1.1</TargetFramework>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
     <AssemblyName>taskbuilder-netcore-common</AssemblyName>
     <PackageId>taskbuilder-netcore-common</PackageId>
     <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
@@ -23,6 +23,7 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.3.0" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.3.0" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
     <PackageReference Include="system.xml.xpath.xmldocument" Version="4.3.0" />
@@ -43,6 +44,10 @@
     <PackageReference Include="System.ServiceModel.Http" Version="4.3.0" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.3.0" />
     <PackageReference Include="System.ServiceModel.Security" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>
