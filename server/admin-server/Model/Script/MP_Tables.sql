@@ -18,7 +18,7 @@ if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_Sub
 CREATE TABLE [dbo].[MP_Subscriptions] (
 	[SubscriptionId] [int] IDENTITY (1, 1) NOT NULL ,
 	[Name] [varchar] (50) NOT NULL ,
-	[ActivationKey] [varchar](max) NULL CONSTRAINT DF_Subscriptions_ActivationKey DEFAULT(''),
+	[ActivationToken] [varchar](max) NULL CONSTRAINT DF_Subscriptions_ActivationToken DEFAULT(''),
 	[PurchaseId] [varchar] (50) NULL CONSTRAINT DF_Subscriptions_PurchaseId DEFAULT(''),
 	[InstanceId] [int] NOT NULL,
 	CONSTRAINT [PK_MP_Subscriptions] PRIMARY KEY NONCLUSTERED 
@@ -121,6 +121,19 @@ CREATE TABLE [dbo].[MP_CompanyAccounts] (
 		[CompanyId]
 	) REFERENCES [dbo].[MP_Companies] (
 		[CompanyId]
+	)
+)
+END
+GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_SubscriptionSlots]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].MP_SubscriptionSlots (
+	[SubscriptionId] [int]  NOT NULL ,
+	[SlotsXml] [varchar] (max) NULL CONSTRAINT DF_Accounts_SlotsXmln DEFAULT(''),
+	CONSTRAINT [PK_MP_SubscriptionSlots] PRIMARY KEY NONCLUSTERED 
+	(
+		[SubscriptionId]
 	)
 )
 END

@@ -35,7 +35,7 @@ namespace Microarea.Common.GenericForms
 		private bool rememberMe;
 		private bool winNTSelected = false;
 
-		public string processType = ProcessType.MenuManager;
+		public string processType = "MenuManager";//PROCESSTYPE
 		public bool autologinable = true;
 		public string NTLoginName = String.Empty;
 		public string NTcompany = String.Empty;

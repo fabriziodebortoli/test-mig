@@ -1,28 +1,7 @@
 
 namespace TaskBuilderNetCore.Interfaces
 {
-    //=========================================================================
-    public sealed class ProcessType
-    {
-        //---------------------------------------------------------------------
-        private ProcessType()
-        { }
-
-        public const string MenuManager = "MenuManager";
-        public const string SchedulerAgent = "SchedulerAgent";
-        public const string TbHermesAgent = "TbHermesAgent";
-        public const string MicroareaConsole = "MicroareaConsole";
-        public const string EasyLook = "EasyLook";
-        public const string MagicDocuments = "MagicDocuments";
-        public const string SchedulerManager = "SchedulerManager";
-        public const string ThirdPart = "ThirdPart";
-        public const string WMS = "WMSMobile";
-        public const string InvisibleWMS = "InvisibleWMS";//1
-        public const string InvisibleWARMAN = "InvisibleWARMAN";//2
-        public const string InvisibleMAN = "InvisibleMAN";//3
-
-
-    }
+    
 
     // Definizioni di ELEMENT e ATTRIBUTE dei files *.xml di ReferenceObjects
     //=========================================================================
