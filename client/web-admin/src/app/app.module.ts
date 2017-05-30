@@ -18,6 +18,7 @@ import { EntityListComponent } from './entity-list/entity-list.component';
 import { CompanyComponent } from './company/company.component';
 import { AccountComponent } from './account/account.component';
 import { CompanyAccountComponent } from './company-account/company-account.component';
+import { DividerComponent } from './divider/divider.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { CompanyAccountComponent } from './company-account/company-account.compo
     EntityListComponent,
     CompanyComponent,
     AccountComponent,
-    CompanyAccountComponent
+    CompanyAccountComponent,
+    DividerComponent
   ],
   imports: [
     BrowserModule,

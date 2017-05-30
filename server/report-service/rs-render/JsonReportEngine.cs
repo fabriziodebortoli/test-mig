@@ -254,6 +254,12 @@ namespace Microarea.RSWeb.Render
                         msg.message = GetJsonDataPage(pageNum);
                         break;
                     }
+                case MessageBuilder.CommandType.RERUN:
+                    {
+                          //reset state machine
+                          // sen message INITTEMPLATE
+                          break;
+                    }
 
                 //----------------------------------------------
                 //TODO
