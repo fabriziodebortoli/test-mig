@@ -38,7 +38,7 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								subscription.ActivationKey = dataReader["ActivationKey"] as string;
+								subscription.ActivationToken = new Library.ActivationToken (dataReader["ActivationKey"] as string);
 								subscription.PurchaseId = dataReader["PurchaseId"] as string;
 							}
 						}
@@ -80,7 +80,7 @@ namespace Microarea.AdminServer.Services.Providers
 						command.CommandText = existSubscription ? Consts.UpdateSubscription : Consts.InsertSubscription;
 						
 						command.Parameters.AddWithValue("@Name", subscription.Name);
-						command.Parameters.AddWithValue("@ActivationKey", subscription.ActivationKey);
+						command.Parameters.AddWithValue("@ActivationKey", subscription.ActivationToken.ToString());
 						command.Parameters.AddWithValue("@PurchaseId", subscription.PurchaseId);
 						command.Parameters.AddWithValue("@InstanceId", subscription.InstanceId);
 

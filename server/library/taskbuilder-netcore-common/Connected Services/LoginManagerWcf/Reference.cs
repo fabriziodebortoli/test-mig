@@ -11,7 +11,7 @@ namespace LoginManagerWcf
 {
     
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://microarea.it/LoginManager/", ConfigurationName="LoginManagerWcf.MicroareaLoginManagerSoap")]
     public interface MicroareaLoginManagerSoap
     {
@@ -484,7 +484,7 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetDBNetworkType", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.DBNetworkType> GetDBNetworkTypeAsync();
+        System.Threading.Tasks.Task<TaskBuilderNetCore.Interfaces.DBNetworkType> GetDBNetworkTypeAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetDatabaseType", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -700,7 +700,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="SendErrorFile", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class SendErrorFileRequest
     {
@@ -719,7 +719,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="SendErrorFileResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class SendErrorFileResponse
     {
@@ -742,7 +742,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="DownloadPdb", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class DownloadPdbRequest
     {
@@ -761,7 +761,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="DownloadPdbResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class DownloadPdbResponse
     {
@@ -785,7 +785,7 @@ namespace LoginManagerWcf
     
     /// <remarks/>
     [System.FlagsAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public enum MessageType
     {
@@ -810,7 +810,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="IsValidDate", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class IsValidDateRequest
     {
@@ -829,7 +829,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="IsValidDateResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class IsValidDateResponse
     {
@@ -852,7 +852,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public partial class ClientData
@@ -924,7 +924,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public partial class LocalizationBag
@@ -1012,7 +1012,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public partial class AdvertisementBody
@@ -1084,7 +1084,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public partial class Advertisement
@@ -1316,7 +1316,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public enum MessageSensation
     {
@@ -1341,7 +1341,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public partial class FirewallCredentialsSettings
@@ -1413,7 +1413,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public partial class ProxyAddress
@@ -1454,7 +1454,7 @@ namespace LoginManagerWcf
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ProxySettings))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public abstract partial class State
@@ -1478,7 +1478,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public partial class ProxySettings : State
@@ -1534,7 +1534,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public partial class ModuleNameInfo
@@ -1590,7 +1590,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public partial class TbSenderDatabaseInfo
@@ -1774,7 +1774,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public abstract partial class IBaseSynchroProvider
@@ -1830,7 +1830,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public partial class DataSynchroDatabaseInfo
@@ -2094,7 +2094,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public enum DBMSType
     {
@@ -2113,7 +2113,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public partial class DmsDatabaseInfo
@@ -2361,7 +2361,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetCalNumber", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetCalNumberRequest
     {
@@ -2372,7 +2372,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetCalNumberResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetCalNumberResponse
     {
@@ -2407,7 +2407,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetCalNumber2", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetCalNumber2Request
     {
@@ -2418,7 +2418,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetCalNumber2Response", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetCalNumber2Response
     {
@@ -2461,7 +2461,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ValidateUser", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class ValidateUserRequest
     {
@@ -2488,7 +2488,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="ValidateUserResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class ValidateUserResponse
     {
@@ -2535,7 +2535,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="LoginCompact", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class LoginCompactRequest
     {
@@ -2570,7 +2570,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="LoginCompactResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class LoginCompactResponse
     {
@@ -2601,7 +2601,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="LoginViaInfinityToken2", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class LoginViaInfinityToken2Request
     {
@@ -2632,7 +2632,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="LoginViaInfinityToken2Response", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class LoginViaInfinityToken2Response
     {
@@ -2655,7 +2655,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="Login", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class LoginRequest
     {
@@ -2690,7 +2690,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="LoginResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class LoginResponse
     {
@@ -2820,7 +2820,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="Login2", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class Login2Request
     {
@@ -2859,7 +2859,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="Login2Response", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class Login2Response
     {
@@ -2989,7 +2989,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetLoginInformation", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetLoginInformationRequest
     {
@@ -3008,7 +3008,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetLoginInformationResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetLoginInformationResponse
     {
@@ -3168,7 +3168,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="IsFloatingUser", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class IsFloatingUserRequest
     {
@@ -3187,7 +3187,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="IsFloatingUserResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class IsFloatingUserResponse
     {
@@ -3210,7 +3210,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="IsWebUser", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class IsWebUserRequest
     {
@@ -3229,7 +3229,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="IsWebUserResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class IsWebUserResponse
     {
@@ -3252,7 +3252,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetAuthenticationInformations", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetAuthenticationInformationsRequest
     {
@@ -3271,7 +3271,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetAuthenticationInformationsResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetAuthenticationInformationsResponse
     {
@@ -3302,7 +3302,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetAuthenticationNames", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetAuthenticationNamesRequest
     {
@@ -3321,7 +3321,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetAuthenticationNamesResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetAuthenticationNamesResponse
     {
@@ -3348,7 +3348,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetConfigurationStream", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetConfigurationStreamRequest
@@ -3360,7 +3360,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetConfigurationStreamResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetConfigurationStreamResponse
@@ -3381,7 +3381,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetInstallationVersion", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetInstallationVersionRequest
     {
@@ -3392,7 +3392,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetInstallationVersionResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetInstallationVersionResponse
     {
@@ -3427,7 +3427,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public enum DBNetworkType
     {
@@ -3443,7 +3443,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public enum GrantType
     {
@@ -3480,7 +3480,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public enum SerialNumberType
     {
@@ -3532,7 +3532,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public enum ActivationState
     {
@@ -3563,7 +3563,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="SetCurrentComponents", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class SetCurrentComponentsRequest
     {
@@ -3574,7 +3574,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="SetCurrentComponentsResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class SetCurrentComponentsResponse
     {
@@ -3597,7 +3597,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompanyLanguage", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetCompanyLanguageRequest
     {
@@ -3616,7 +3616,7 @@ namespace LoginManagerWcf
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="GetCompanyLanguageResponse", WrapperNamespace="http://microarea.it/LoginManager/", IsWrapped=true)]
     public partial class GetCompanyLanguageResponse
     {
@@ -3643,7 +3643,7 @@ namespace LoginManagerWcf
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public enum LoginSlotType
     {
@@ -3667,13 +3667,13 @@ namespace LoginManagerWcf
         Mobile,
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     public interface MicroareaLoginManagerSoapChannel : LoginManagerWcf.MicroareaLoginManagerSoap, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.4.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     public partial class MicroareaLoginManagerSoapClient : System.ServiceModel.ClientBase<LoginManagerWcf.MicroareaLoginManagerSoap>, LoginManagerWcf.MicroareaLoginManagerSoap
     {
         
@@ -4187,7 +4187,7 @@ namespace LoginManagerWcf
             return base.Channel.GetBrandedKeyAsync(source);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.DBNetworkType> GetDBNetworkTypeAsync()
+        public System.Threading.Tasks.Task<TaskBuilderNetCore.Interfaces.DBNetworkType> GetDBNetworkTypeAsync()
         {
             return base.Channel.GetDBNetworkTypeAsync();
         }

@@ -1,63 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using LoginManagerWcf;
 
 namespace Microarea.AccountManager.Controllers
 {
     [Route("account-manager")]
     public class LoginManagerController : Controller
     {
-        LoginManagerWcf.MicroareaLoginManagerSoapClient loginManagerClient = new LoginManagerWcf.MicroareaLoginManagerSoapClient(LoginManagerWcf.MicroareaLoginManagerSoapClient.EndpointConfiguration.MicroareaLoginManagerSoap);
 
-        public LoginManagerController()
+		static Microarea.Common.WebServicesWrapper.LoginManager loginManagerInstance;
+		static object staticLockTicket = new object();
+
+		//----------------------------------------------------------------------------
+		/// <summary>
+		/// Oggetto statico globale BasePathFinder utilizzato ovunque in Mago.Net siano necessarie
+		/// informazioni non dipendenti da username e company
+		/// </summary>
+		public static Microarea.Common.WebServicesWrapper.LoginManager LoginManagerInstance
+		{
+			get
+			{
+				lock (staticLockTicket)
+				{
+					if (loginManagerInstance == null)
+					{
+						loginManagerInstance = new Common.WebServicesWrapper.LoginManager();
+					}
+					return loginManagerInstance;
+				}
+			}
+		}
+
+		public LoginManagerController()
         {
-            ConfigureWebService();
-        }
-
-        private void ConfigureWebService()
-        {
-            string path = Assembly.GetEntryAssembly().Location;
-            int index = path.IndexOf("\\Standard\\Web\\", StringComparison.CurrentCultureIgnoreCase);
-            if (index < 0)
-            {
-                Debug.Assert(false, "Invalid Path");
-                return;
-            }
-
-            path = path.Substring(0, index);
-
-            int startIndex = path.LastIndexOf('\\');
-            string installation = path.Substring(startIndex + 1, path.Length - startIndex - 1);
-
-
-            string uri = string.Format("http://localhost/{0}/LoginManager/LoginManager.asmx", installation);
-            loginManagerClient.Endpoint.Address = new System.ServiceModel.EndpointAddress(uri);
-        }
+		}
 
         [Route("login-compact")]
         public IActionResult LoginCompact()
         {
-            string user = HttpContext.Request.Form["user"];
+			string user = HttpContext.Request.Form["user"];
             string password = HttpContext.Request.Form["password"];
             string company = HttpContext.Request.Form["company"];
             string askingProcess = HttpContext.Request.Form["askingProcess"];
             bool overwriteLogin = HttpContext.Request.Form["overwriteLogin"] == "true";
 
-
-            LoginManagerWcf.LoginCompactRequest request = new LoginManagerWcf.LoginCompactRequest(user, company, password, askingProcess, overwriteLogin);
-            Task<LoginManagerWcf.LoginCompactResponse> task = loginManagerClient.LoginCompactAsync(request);
-            int result = task.Result.LoginCompactResult;
-            string authenticationToken = task.Result.authenticationToken;
+			string authenticationToken;
+			int result = LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out authenticationToken);
             string errorMessage = "Error message"; // TODO read error message
 
             StringBuilder sb = new StringBuilder();
@@ -93,70 +82,74 @@ namespace Microarea.AccountManager.Controllers
         [Route("logout")]
         public IActionResult Logoff()
         {
-            string token = HttpContext.Request.Form["token"];
-
-            Task task = loginManagerClient.LogOffAsync(token);
-            task.Wait();
+			string token = HttpContext.Request.Form["token"];
+            LoginManagerInstance.LogOff(token);
             var result = new { Success = true, Message = "" };
             return new JsonResult(result);
         }
 
 
         [Route("getLoginInformation")]
-        public IActionResult getLoginInformation()
+        public IActionResult GetLoginInformation()
         {
-            string user = HttpContext.Request.Form["authtoken"];
+            string token = HttpContext.Request.Form["authtoken"];
 
-            GetLoginInformationRequest request = new GetLoginInformationRequest(user);
-            Task<GetLoginInformationResponse> task = loginManagerClient.GetLoginInformationAsync(request);
-            GetLoginInformationResponse result = task.Result;
+			LoginManagerInstance.GetLoginInformation(
+				token, 
+				out string userName,
+				out string companyName,
+				out bool admin, 
+				out string connectionString,
+				out string providerName,
+				out bool useUnicode, 
+				out string preferredLanguage,
+				out string applicationLanguage
+				);
 
-            StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
             JsonWriter jsonWriter = new JsonTextWriter(sw);
 
             jsonWriter.WriteStartObject();
 
             jsonWriter.WritePropertyName("userName");
-            jsonWriter.WriteValue(result.userName);
+            jsonWriter.WriteValue(userName);
 
             jsonWriter.WritePropertyName("companyName");
-            jsonWriter.WriteValue(result.companyName);
+            jsonWriter.WriteValue(companyName);
 
             jsonWriter.WritePropertyName("admin");
-            jsonWriter.WriteValue(result.admin);
+            jsonWriter.WriteValue(admin);
 
             jsonWriter.WritePropertyName("connectionString");
-            jsonWriter.WriteValue(result.nonProviderCompanyConnectionString);
+            jsonWriter.WriteValue(connectionString);
 
             jsonWriter.WritePropertyName("providerName");
-            jsonWriter.WriteValue(result.providerName);
+            jsonWriter.WriteValue(providerName);
 
             jsonWriter.WritePropertyName("useUnicode");
-            jsonWriter.WriteValue(result.useUnicode);
+            jsonWriter.WriteValue(useUnicode);
 
             jsonWriter.WritePropertyName("preferredLanguage");
-            jsonWriter.WriteValue(result.preferredLanguage);
+            jsonWriter.WriteValue(preferredLanguage);
 
             jsonWriter.WritePropertyName("applicationLanguage");
-            jsonWriter.WriteValue(result.applicationLanguage);
+            jsonWriter.WriteValue(applicationLanguage);
 
             jsonWriter.WriteEndObject();
 
             string s = sb.ToString();
             return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
-
         }
 
 
         [Route("getCompaniesForUser")]
-        public IActionResult getCompanyForUser()
+        public IActionResult GetCompanyForUser()
         {
             //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
             string user = HttpContext.Request.Form["user"];
 
-            Task<string[]> task = loginManagerClient.EnumCompaniesAsync(user);
-            string[] companies = task.Result;
+			string[] companies = LoginManagerInstance.EnumCompanies(user);
 
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
@@ -189,14 +182,13 @@ namespace Microarea.AccountManager.Controllers
         }
 
 		[Route("isActivated")]
-		public IActionResult isActivated()
+		public IActionResult IsActivated()
 		{
 			//string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
 			string application = HttpContext.Request.Form["application"];
 			string functionality = HttpContext.Request.Form["functionality"];
 
-			Task<bool> task = loginManagerClient.IsActivatedAsync(application, functionality);
-			bool result = task.Result;
+			bool result = LoginManagerInstance.IsActivated(application, functionality);
 
 			StringBuilder sb = new StringBuilder();
 			StringWriter sw = new StringWriter(sb);

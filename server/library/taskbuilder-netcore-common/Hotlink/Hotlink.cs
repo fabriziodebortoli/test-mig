@@ -125,7 +125,7 @@ namespace Microarea.Common.Hotlink
             {
                 response = TbSession.GetHotLinkQuery(session, Prototype.FullName, GetActualParamsAsXML(fieldData), (int) CurrentAction).Result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false; 
             }

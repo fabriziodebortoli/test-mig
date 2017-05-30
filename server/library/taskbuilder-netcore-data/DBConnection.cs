@@ -144,9 +144,9 @@ namespace TaskBuilderNetCore.Data
                 //if (connection.State == ConnectionState.Open)  != closed
                 //    connection.Close();
             }
-            catch (SqlException se)
+            catch (SqlException)
             {; }
-            catch (Exception e)
+            catch (Exception)
             {; }
 
         }
