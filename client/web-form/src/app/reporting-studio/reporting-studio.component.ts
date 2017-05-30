@@ -80,6 +80,17 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
   }
 
+ // -----------------------------------------------
+  reset() {
+    this.running = false;
+    this.layoutStyle = {};
+    this.layoutBackStyle = {};
+    this.objects = [];
+    this.templates = [];
+    this.askDialogTemplate = undefined;
+    this.hotLinkValues = undefined;
+  }
+
   // -----------------------------------------------
   onMessage(message: any) {
     //elaborate
@@ -239,6 +250,20 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
 
     this.rsService.pageNum = message.page;
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  // -----------------------------------------------
+  ReRunReport() {
+
+    let message = {
+      commandType: CommandType.RERUN,
+      message: this.args.nameSpace,
+      page: 0
+    };
+
+    this.rsService.reset();
+    this.reset();
     this.rsService.doSend(JSON.stringify(message));
   }
 
