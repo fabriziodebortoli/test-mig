@@ -15,9 +15,60 @@ using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using System.IO;
 using System.Xml;
+using Microarea.Common.StringLoader;
 
 namespace Microarea.Common.Hotlink
 {
+    /*public class SelectionFieldType
+    {
+        public string Name;
+        public string Key;
+        public string Hidden;
+        public string Type;
+
+        public SelectionFieldType(string name, string key, string hidden, string type)
+        {
+            Name = name;
+            Key = key;
+            Hidden = hidden;
+            Type = type;
+        }
+    }
+
+    public class SelectionHeader{
+        public List<SelectionFieldType> fields;
+        
+        public SelectionHeader(List<SelectionFieldType> listField)
+        {
+            fields = listField;
+        }
+    }*/
+
+    public class SelectionField
+    {
+        public string NameField;
+        public string ValueField;
+
+        public SelectionField(string name, string value)
+        {
+            NameField = name;
+            ValueField = value;
+        }
+    }
+
+    /*public class SelectionElements
+    {
+        public List<List<SelectionField>> Elements;
+
+        public SelectionElements(List<List<SelectionField>> listElements)
+        {
+            Elements = listElements;
+        }
+        
+    }*/
+
+    
+
     public class Datasource
     {
         public TbSession Session = null;
@@ -145,144 +196,98 @@ namespace Microarea.Common.Hotlink
         }
 
         //---------------------------------------------------------------------
+
+
+        static private string TableName(string name)
+        {
+            int pos = name.IndexOf('.');
+            return pos >= 0 ? name.Substring(0, pos) : "";
+        }
+
+
         public bool LoadDataFile()
         {
+
             NameSpace ns = new NameSpace(XmlDescription.Datafile, NameSpaceObjectType.DataFile);
             if (!ns.IsValid())
+                return false;
+
+            IBaseModuleInfo mi = Session.PathFinder.GetModuleInfo(ns);
+            if (mi == null)
                 return false;
 
             string path = this.Session.PathFinder.GetStandardDataFilePath(ns.Application, ns.Module, this.Session.UserInfo.UserUICulture.ToString()) +
                  Path.DirectorySeparatorChar +
                  ns.ObjectName + ".xml";
 
-            //carica l'xml del datafile in una struttura (data member di questa classe)
-            // TODO
-
             // restituisce il dom già tradotto per i Tag o gli Attribute che sono localizzati
-     //       XmlDocument dom = new XmlDocument();
-     //       dom.LoadXml(path);
+            LocalizableXmlDocument dom = new LocalizableXmlDocument(ns.Application, ns.Module, Session.PathFinder);
+            dom.Load(path);
 
-
-
-
-
-            /*
-             // cerca con XPath solo le funzioni con un dato nome per poi selezionare quella con i parametri giusti
+            // cerca con XPath solo le funzioni con un dato nome per poi selezionare quella con i parametri giusti
             XmlNode root = dom.DocumentElement;
             string xpath = string.Format
                 (
-                "/{0}/{1}[@{2}]",
-                ReferenceObjectsXML.Element.HotKeyLink,
-                ReferenceObjectsXML.Element.Function,
-                ReferenceObjectsXML.Attribute.Namespace
+                "/{0}/{1}",
+                ReferenceObjectsXML.Element.Auxdata,
+                ReferenceObjectsXML.Element.Header
+
+                /*ReferenceObjectsXML.Element.Elements,
+                ReferenceObjectsXML.Element.Elem,
+                ReferenceObjectsXML.Element.Field,
+                ReferenceObjectsXML.Attribute.Name*/
                 );
 
+
+            //----------------------------------
+
             // se non esiste la sezione allora il ReferenceObject è Undefined
-            XmlNodeList functions = root.SelectNodes(xpath);
-            if (functions == null) return null;
+            XmlNodeList headers = root.SelectNodes(xpath);
+            if (headers == null) return false;
 
-            foreach (XmlElement function in functions)
+            foreach (XmlElement head in headers)
             {
-                // controllo che il namespace sia quello giusto in modalità CaseInsensitive
-                string namespaceAttribute = function.GetAttribute(ReferenceObjectsXML.Attribute.Namespace);
-                if ((namespaceAttribute == null) || (string.Compare(namespaceAttribute, name, StringComparison.OrdinalIgnoreCase) != 0))
-                    continue;
-
                 // se il numero di parametri non corrisponde allora cerca un'altra funzione con lo stesso nome
-                XmlNodeList paramNodeList = function.SelectNodes(ReferenceObjectsXML.Element.Param);
-                if (paramNodeList == null)
+                XmlNodeList fieldNodeList = head.SelectNodes(ReferenceObjectsXML.Element.Fieldtype);
+                if (fieldNodeList == null)
                     continue;
 
                 ParametersList parameters = new ParametersList();
-                parameters.Parse(paramNodeList);
+                parameters.Parse(fieldNodeList);
 
-                // deve esistere la dichiarazione altrimenti io considero il referenceObject inesistente
-                XmlElement dbField = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.DbField);
-                if (dbField == null)
-                    return null;
+               
 
-                string qualifiedColumnName = dbField.GetAttribute(ReferenceObjectsXML.Attribute.Name);
-
-                //DbFieldDescription, DbTable e DbRadarReport
-
-                string dbFieldDescriptionName = "";
-                XmlElement dbFieldDescription = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.DbFieldDescription);
-                if (dbFieldDescription != null)
-                    dbFieldDescriptionName = dbFieldDescription.GetAttribute(ReferenceObjectsXML.Attribute.Name);
-
-                string dbTableName = "";
-                XmlElement dbTable = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.DbTable);
-                if (dbTable != null)
-                    dbTableName = dbTable.GetAttribute(ReferenceObjectsXML.Attribute.Name);
-
-                //----
-                string datafile = string.Empty;
-                XmlElement combo = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.ComboBox);
-                if (combo != null)
-                {
-                    datafile = combo.GetAttribute(ReferenceObjectsXML.Attribute.Datafile);
-                }
-                bool isDatafile = (datafile.Length > 0);
-                //----
-
-                ParametersList parametersHotLink = new ParametersList();
-                string radarReportName = "";
-                XmlElement radarReport = (XmlElement)function.ParentNode.SelectSingleNode(ReferenceObjectsXML.Element.RadarReport);
-                if (radarReport != null)
-                {
-                    radarReportName = radarReport.GetAttribute(ReferenceObjectsXML.Attribute.Name);
-                    XmlNodeList paramNodeListHotLink = radarReport.SelectNodes(ReferenceObjectsXML.Element.Param);
-                    if ((paramNodeListHotLink == null) || (paramNodeListHotLink.Count != 3))
-                        continue;
-
-                    parametersHotLink.Parse(paramNodeListHotLink);
-                }
 
                 int port;
-                if (!int.TryParse(function.GetAttribute(ReferenceObjectsXML.Attribute.Port), out port))
+                if (!int.TryParse(head.GetAttribute(ReferenceObjectsXML.Attribute.Port), out port))
                     port = 80;
 
                 //---------------------
-                List<SelectionMode> selectionModeList = new List<SelectionMode>();
-                XmlElement selModeRoot = (XmlElement)function.ParentNode.SelectSingleNode("SelectionModes");
-                if (selModeRoot != null)
+                List<SelectionField> selectionFieldList = new List<SelectionField>();
+                XmlElement selectionRoot = (XmlElement)head.ParentNode.SelectSingleNode("Elements");
+                if (selectionRoot != null)
                 {
-                    foreach (XmlElement mode in selModeRoot.ChildNodes)
+                    foreach (XmlElement elem in selectionRoot.ChildNodes)
                     {
-                        string modeName = mode.GetAttribute("name");
-                        string modeType = mode.GetAttribute("type");
+                        
+                            string fieldName = elem.GetAttribute("name");
 
-                        string body = string.Empty;
-                        XmlNode node = mode.ChildNodes[0];
-                        if (node is XmlCDataSection)
-                        {
-                            XmlCDataSection cdataSection = node as XmlCDataSection;
-                            body = cdataSection.Value;
-                        }
-                        selectionModeList.Add(new SelectionMode(modeName, modeType, body));
+                            string value = string.Empty;
+                            XmlNode node = elem.ChildNodes[0];
+                            if (node is XmlCDataSection)
+                            {
+                                XmlCDataSection cdataSection = node as XmlCDataSection;
+                                value = cdataSection.Value;
+                            }
+                            selectionFieldList.Add(new SelectionField(fieldName, value));
+                    }
+
+
+
                     }
                 }
 
-                List<SelectionType> selectionTypeList = new List<SelectionType>();
-                XmlElement selTypeRoot = (XmlElement)function.ParentNode.SelectSingleNode("SelectionTypes");
-                if (selTypeRoot != null)
-                {
-                    foreach (XmlElement sel in selTypeRoot.ChildNodes)
-                    {
-                        string selectionName = sel.GetAttribute("type");
-                        string modeName = sel.GetAttribute("name");
-                        string title = sel.GetAttribute("localize");
-
-                        selectionTypeList.Add(new SelectionType(selectionName, modeName, title));
-                    }
-                }\
-             
-             
-             */
-
-
-
-
+           
             return false;
         }
 

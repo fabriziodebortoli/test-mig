@@ -39,7 +39,7 @@ namespace Microarea.RSWeb.Controllers
             {
                 hsession = HttpContext.Session;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
@@ -139,7 +139,7 @@ namespace Microarea.RSWeb.Controllers
 
                 return new FileStreamResult(f, "image/" + ext);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             return new ContentResult { Content = "Cannot access file " + filename, ContentType = "application/text" };

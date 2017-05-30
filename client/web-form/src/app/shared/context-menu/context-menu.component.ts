@@ -20,12 +20,16 @@ export class ContextMenuComponent {
   popupAlign2: Align = { horizontal: 'right', vertical: 'top' };
   private show = false;
   private isMouseDown = false;
-  @ViewChild('anchor') divFocus: HTMLElement;
-
   contextMenuBinding: MenuItem[];
-  contextMenu: MenuItem[];
   currentItem: MenuItem;
 
+  @Input() fontIcon = 'more_vert';
+  @Input() contextMenu: MenuItem[];
+  @Input() popupClass= 'content popup';
+  @ViewChild('anchor') divFocus: HTMLElement;
+  
+  
+  
   constructor(private webSocketService: WebSocketService, private eventDataService: EventDataService) {
     // SCENARIO 1: RIEMPIRE DA SERVER
     // this.webSocketService.contextMenu.subscribe((result) => {
