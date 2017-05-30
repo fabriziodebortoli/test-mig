@@ -576,7 +576,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------
-		public static string GetConnectionInformation()
+		public static string GetConnectionInformation(string authenticationToken)
 		{
 			string Yes = "Yes";
 			string No = "No";
@@ -585,7 +585,9 @@ namespace Microarea.Common.MenuLoader
 
 
 			// la chiamata di questo metodo mi serve per caricare l'informazione EasyBuilderDeveloper
-			LoginFacilities.loginManager.GetLoginInformation(LoginFacilities.loginManagerSession.AuthenticationToken);
+
+			LoginFacilities.loginManager.GetLoginInformation(authenticationToken);
+			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
 			StringBuilder sb = new StringBuilder();
 			using (StringWriter sw = new StringWriter(sb))
 			{
@@ -595,25 +597,25 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.Formatting = Newtonsoft.Json.Formatting.Indented;
 				jsonWriter.WriteStartObject();
 
-				if (LoginFacilities.loginManagerSession.LoginManagerState == LoginManagerState.Logged)
+				if (LoginFacilities.loginManager.LoginManagerState == LoginManagerState.Logged)
 				{
 					jsonWriter.WritePropertyName("user");
-					jsonWriter.WriteValue(LoginFacilities.loginManagerSession.UserName);
+					jsonWriter.WriteValue(loginManagerSession.UserName);
 					jsonWriter.WritePropertyName("admin");
-					jsonWriter.WriteValue(LoginFacilities.loginManagerSession.Admin ? Yes : No);
+					jsonWriter.WriteValue(loginManagerSession.Admin ? Yes : No);
 					jsonWriter.WritePropertyName("ebdev");
 					bool ok = LoginFacilities.loginManager.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
-													LoginFacilities.loginManager.IsEasyBuilderDeveloper(LoginFacilities.loginManagerSession.AuthenticationToken);
+													LoginFacilities.loginManager.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
 					jsonWriter.WriteValue(ok ? Yes : No);
 					jsonWriter.WritePropertyName("company");
-					jsonWriter.WriteValue(LoginFacilities.loginManagerSession.CompanyName);
+					jsonWriter.WriteValue(loginManagerSession.CompanyName);
 
 					jsonWriter.WritePropertyName("dbserver");
-					jsonWriter.WriteValue(LoginFacilities.loginManagerSession.DbServer);
+					jsonWriter.WriteValue(loginManagerSession.DbServer);
 					jsonWriter.WritePropertyName("dbuser");
-					jsonWriter.WriteValue(LoginFacilities.loginManagerSession.DbUser);
+					jsonWriter.WriteValue(loginManagerSession.DbUser);
 					jsonWriter.WritePropertyName("dbname");
-					jsonWriter.WriteValue(LoginFacilities.loginManagerSession.DbName);
+					jsonWriter.WriteValue(loginManagerSession.DbName);
 
 					jsonWriter.WritePropertyName("installation");
 					jsonWriter.WriteValue(BasePathFinder.BasePathFinderInstance.Installation);
@@ -623,9 +625,9 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WriteValue(BasePathFinder.BasePathFinderInstance.RemoteWebServer);
 
 					jsonWriter.WritePropertyName("security");
-					jsonWriter.WriteValue(LoginFacilities.loginManagerSession.Security ? Yes : No);
+					jsonWriter.WriteValue(loginManagerSession.Security ? Yes : No);
 					jsonWriter.WritePropertyName("auditing");
-					jsonWriter.WriteValue(LoginFacilities.loginManagerSession.Auditing ? Yes : No);
+					jsonWriter.WriteValue(loginManagerSession.Auditing ? Yes : No);
 
 					bool showDBSizeControls = (LoginFacilities.loginManager.GetDBNetworkType() == DBNetworkType.Small &&
 							string.Compare(LoginFacilities.loginManager.ProviderName, NameSolverDatabaseStrings.SQLOLEDBProvider, StringComparison.OrdinalIgnoreCase) == 0 ||
@@ -656,11 +658,14 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------
-		public static string GetJsonMenuSettings()
+		public static string GetJsonMenuSettings(string authenticationToken)
 		{
 			ITheme theme = DefaultTheme.GetTheme();
 			if (theme == null)
 				return string.Empty;
+
+			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+
 
 			StringBuilder sb = new StringBuilder();
 			using (StringWriter sw = new StringWriter(sb))
@@ -680,8 +685,6 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WritePropertyName("nrMaxItemsSearch");
 					jsonWriter.WriteValue(val);
 				}
-
-
 
 				val = theme.GetStringThemeElement("ShowWorkerImage");
 				if (!string.IsNullOrEmpty(val))
@@ -730,12 +733,12 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WriteStartObject();
 
 				bool ok = LoginFacilities.loginManager.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
-												LoginFacilities.loginManager.IsEasyBuilderDeveloper(LoginFacilities.loginManagerSession.AuthenticationToken);
+												LoginFacilities.loginManager.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
 
 				jsonWriter.WritePropertyName("isEasyStudioActivated");
 				jsonWriter.WriteValue(ok);
 
-				ok = LoginFacilities.loginManager.IsActivated("MicroareaConsole", "TaskScheduler") && LoginFacilities.loginManagerSession.Admin;
+				ok = LoginFacilities.loginManager.IsActivated("MicroareaConsole", "TaskScheduler") && loginManagerSession.Admin;
 
 				jsonWriter.WritePropertyName("isTaskSchedulerActivated");
 				jsonWriter.WriteValue(ok);

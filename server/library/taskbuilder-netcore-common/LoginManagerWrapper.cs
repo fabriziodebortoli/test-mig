@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using LoginManagerWcf;
+using Microarea.Common.Generic;
+using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.Common.WebServicesWrapper
@@ -11,13 +16,84 @@ namespace Microarea.Common.WebServicesWrapper
 	public class LoginManagerSessionManager
 	{
 		public static Dictionary<string, LoginManagerSession> LoginManagerSessionTable = new Dictionary<string, LoginManagerSession>();
-	}
-	
-	//================================================================================================
-	public class LoginManagerSession
-	{
-		LoginManagerState loginManagerState = LoginManagerState.UnInitialized;
 
+		//-----------------------------------------------------------------------
+		public static LoginManagerSession GetLoginManagerSession(string authenticationToken)
+		{
+			LoginManagerSession temp;
+			LoginManagerSessionManager.LoginManagerSessionTable.TryGetValue(authenticationToken, out temp);
+			return temp;
+		}
+
+		//-----------------------------------------------------------------------
+		public static void RemoveLoginManagerSession(string authenticationToken)
+		{
+			LoginManagerSessionManager.LoginManagerSessionTable.Remove(authenticationToken);
+		}
+
+		//-----------------------------------------------------------------------
+		public static void AddLoginManagerSession(string authenticationToken, LoginManagerSession session)
+		{
+			LoginManagerSession temp;
+			if (LoginManagerSessionManager.LoginManagerSessionTable.TryGetValue(authenticationToken, out temp))
+			{
+				temp = session;
+				return;
+			}
+
+			LoginManagerSessionManager.LoginManagerSessionTable.Add(authenticationToken, session);
+		}
+	}
+
+	/// <summary>
+	/// Eccezione per gli errori del server
+	/// </summary>
+	//=================================================================================
+	public class LoginManagerException : Exception
+	{
+		private LoginManagerError errorCode;
+		public LoginManagerError ErrorCode { get { return errorCode; } }
+
+		//-----------------------------------------------------------------------
+		public LoginManagerException(LoginManagerError errorCode, string errorMessage)
+			:
+			base(errorMessage)
+		{
+			this.errorCode = errorCode;
+		}
+
+		//-----------------------------------------------------------------------
+		public LoginManagerException(LoginManagerError errorCode)
+			:
+			this(errorCode, GetExceptionMessageFromErrorCode(errorCode))
+		{
+		}
+
+		//-----------------------------------------------------------------------
+		private static string GetExceptionMessageFromErrorCode(LoginManagerError errorCode)
+		{
+			switch (errorCode)
+			{
+				case LoginManagerError.NotLogged:
+					return WebServicesWrapperStrings.NotLoggedExceptionMessage;
+				case LoginManagerError.UnInitialized:
+					return WebServicesWrapperStrings.UnInitializedExceptionMessage;
+				case LoginManagerError.CommunicationError:
+					return WebServicesWrapperStrings.CommunicationErrorExceptionMessage;
+				case LoginManagerError.GenericError:
+					return WebServicesWrapperStrings.GenericErrorExceptionMessage;
+				default:
+					break;
+			}
+
+			return String.Empty;
+		}
+	}
+
+	//================================================================================================
+	public class LoginManagerSession : IDisposable
+	{
+		
 		public LoginManagerSession()
 		{
 		}
@@ -25,19 +101,35 @@ namespace Microarea.Common.WebServicesWrapper
 		public LoginManagerSession(string authenticationToken)
 		{
 			this.AuthenticationToken = authenticationToken;
+
+			AddToSessionTable(authenticationToken);
 		}
-	
+
 		public void Init(string authenticationToken)
 		{
 			this.AuthenticationToken = authenticationToken;
+			AddToSessionTable(authenticationToken);
+		}
+
+		private void AddToSessionTable(string authenticationToken)
+		{
+			LoginManagerSession temp;
+			if (LoginManagerSessionManager.LoginManagerSessionTable.TryGetValue(authenticationToken, out temp))
+				return;
+
+			LoginManagerSessionManager.LoginManagerSessionTable.Add(authenticationToken, this);
+		}
+
+		public void Dispose()
+		{
+			LoginManagerSessionManager.RemoveLoginManagerSession(AuthenticationToken);
 		}
 
 		public string AuthenticationToken { get; internal set; }
-		public LoginManagerState LoginManagerState { get; internal set; }
-
 		public string UserName { get; internal set; }
 		public bool Admin { get; internal set; }
 		public string CompanyName { get; internal set; }
+		public string ConnectionString { get; internal set; }
 		public string DbServer { get; internal set; }
 		public string DbUser { get; internal set; }
 		public string DbName { get; internal set; }
@@ -51,28 +143,64 @@ namespace Microarea.Common.WebServicesWrapper
 		public bool UserMustChangePassword { get; internal set; }
 		public string ApplicationLanguage { get; internal set; }
 		public string PreferredLanguage { get; internal set; }
+		public string ProviderName { get; internal set; }
+		public bool UseUnicode { get; internal set; }
 	}
 
 	//================================================================================================
 	public class LoginManager
 	{
+		LoginManagerState loginManagerState = LoginManagerState.UnInitialized;
+
+		private char[] activationExpressionOperators = new char[2] { '&', '|' };
+		private char[] activationExpressionKeywords = new char[5] { '!', '&', '|', '(', ')' };
+
+		LoginManagerWcf.MicroareaLoginManagerSoapClient loginManagerClient = new LoginManagerWcf.MicroareaLoginManagerSoapClient(LoginManagerWcf.MicroareaLoginManagerSoapClient.EndpointConfiguration.MicroareaLoginManagerSoap);
 		private string baseUrl = "http://localhost:5000/";
 		//private string loginManagerUrl;
 		private int webServicesTimeOut;
+		private string[] modules;
 
 		public string ProviderName { get; internal set; }
+
+		public LoginManagerState LoginManagerState { get => loginManagerState; set => loginManagerState = value; }
 
 
 		//-----------------------------------------------------------------------------------------
 		public LoginManager()
 		{
+			ConfigureWebService();
 		}
+
+		//-----------------------------------------------------------------------------------------
+		private void ConfigureWebService()
+		{
+			string path = Assembly.GetEntryAssembly().Location;
+			int index = path.IndexOf("\\Standard\\Web\\", StringComparison.CurrentCultureIgnoreCase);
+			if (index < 0)
+			{
+				Debug.Assert(false, "Invalid Path");
+				return;
+			}
+
+			path = path.Substring(0, index);
+
+			int startIndex = path.LastIndexOf('\\');
+			string installation = path.Substring(startIndex + 1, path.Length - startIndex - 1);
+
+
+			string uri = string.Format("http://localhost/{0}/LoginManager/LoginManager.asmx", installation);
+			loginManagerClient.Endpoint.Address = new System.ServiceModel.EndpointAddress(uri);
+		}
+
 
 		//-----------------------------------------------------------------------------------------
 		public LoginManager(string loginManagerUrl, int webServicesTimeOut)
 		{
 			this.baseUrl = loginManagerUrl;
 			this.webServicesTimeOut = webServicesTimeOut;
+
+			ConfigureWebService();
 		}
 
 		//-----------------------------------------------------------------------------------------
@@ -97,135 +225,516 @@ namespace Microarea.Common.WebServicesWrapper
 		}
 
 		//-----------------------------------------------------------------------------------------
-		public string[] EnumCompanies(string userName)
+		public int LoginCompact(string user, string company, string password, string askingProcess, bool overwriteLogin, out string authenticationToken)
 		{
-			var postData = "user=" + userName;
-			var response = PostData(baseUrl + "account-manager/getCompanyForUser", postData);
-			return new string[] { };
+			LoginManagerWcf.LoginCompactRequest request = new LoginManagerWcf.LoginCompactRequest(user, company, password, askingProcess, overwriteLogin);
+			Task<LoginManagerWcf.LoginCompactResponse> task = loginManagerClient.LoginCompactAsync(request);
+			int result = task.Result.LoginCompactResult;
+			authenticationToken = task.Result.authenticationToken;
+			//string errorMessage = "Error message"; // TODO read error message
+
+			LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+		
+			return result;
 		}
 
 		//-----------------------------------------------------------------------------------------
-		public bool IsDeveloperActivation()
+		public void LogOff(string authenticationToken)
 		{
-			var response = PostData(baseUrl + "account-manager/IsDeveloperActivation", "");
-			return true;
+			Task task = loginManagerClient.LogOffAsync(authenticationToken);
+			task.Wait();
+
+			LoginManagerSessionManager.RemoveLoginManagerSession(authenticationToken);
 		}
 
 		//-----------------------------------------------------------------------------------------
-		public string GetConfigurationHash()
+		public void GetLoginInformation(
+			string authenticationToken,
+			out string userName,
+			out string companyName,
+			out bool admin,
+			out string connectionString,
+			out string providerName,
+			out bool useUnicode,
+			out string preferredLanguage,
+			out string applicationLanguage)
 		{
-			var response = PostData(baseUrl + "account-manager/GetConfigurationHash", "");
-			return "";
+			GetLoginInformationRequest request = new GetLoginInformationRequest(authenticationToken);
+			Task<GetLoginInformationResponse> task = loginManagerClient.GetLoginInformationAsync(request);
+			GetLoginInformationResponse result = task.Result;
+
+			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+			if (loginManagerSession == null)
+			{
+				loginManagerSession = new LoginManagerSession(authenticationToken);
+				LoginManagerSessionManager.AddLoginManagerSession(authenticationToken, loginManagerSession);
+			}
+
+			loginManagerSession.UserName = userName = result.userName;
+
+			loginManagerSession.CompanyName = companyName = result.companyName;
+			loginManagerSession.Admin = admin = result.admin;
+			loginManagerSession.ConnectionString = connectionString = result.nonProviderCompanyConnectionString;
+			loginManagerSession.ProviderName = providerName = result.providerName;
+			loginManagerSession.UseUnicode = useUnicode = result.useUnicode;
+			loginManagerSession.PreferredLanguage = preferredLanguage = result.preferredLanguage;
+			loginManagerSession.ApplicationLanguage = applicationLanguage = result.applicationLanguage;
 		}
 
 		//-----------------------------------------------------------------------------------------
-		public void GetLoginInformation(string token)
+		public void GetLoginInformation(string authenticationToken)
 		{
-			var postData = "token=" + token;
-			var response = PostData(baseUrl + "account-manager/GetLoginInformation", postData);
-		}
+			GetLoginInformationRequest request = new GetLoginInformationRequest(authenticationToken);
+			Task<GetLoginInformationResponse> task = loginManagerClient.GetLoginInformationAsync(request);
+			GetLoginInformationResponse result = task.Result;
 
-		//-----------------------------------------------------------------------------------------
-		public string GetUserInfo()
-		{
-			var response = PostData(baseUrl + "account-manager/GetUserInfo", "");
-			return "";
-		}
+			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+			if (loginManagerSession == null)
+			{
+				loginManagerSession = new LoginManagerSession(authenticationToken);
+				LoginManagerSessionManager.AddLoginManagerSession(authenticationToken, loginManagerSession);
+			}
 
-		//-----------------------------------------------------------------------------------------
-		public string GetInstallationVersion()
-		{
-			var response = PostData(baseUrl + "account-manager/GetInstallationVersion", "");
-			return "";
+			loginManagerSession.UserName = result.userName;
+
+			loginManagerSession.CompanyName = result.companyName;
+			loginManagerSession.Admin = result.admin;
+			loginManagerSession.ConnectionString = result.nonProviderCompanyConnectionString;
+			loginManagerSession.ProviderName = result.providerName;
+			loginManagerSession.UseUnicode = result.useUnicode;
+			loginManagerSession.PreferredLanguage = result.preferredLanguage;
+			loginManagerSession.ApplicationLanguage = result.applicationLanguage;
 		}
 
 		//-----------------------------------------------------------------------------------------
 		public bool IsActivated(string application, string functionality)
 		{
-			var postData = "application=" + application + "&=functionality" + functionality;
-
-			var response = PostData(baseUrl + "account-manager/IsActivated", postData);
-			return true;
+			Task<bool> task = loginManagerClient.IsActivatedAsync(application, functionality);
+			return task.Result;
 		}
 
+		//-----------------------------------------------------------------------------------------
+		public string[] EnumCompanies(string userName)
+		{
+			Task<string[]> task = loginManagerClient.EnumCompaniesAsync(userName);
+			return task.Result;
+		}
+
+		//-----------------------------------------------------------------------------------------
+		public bool IsDeveloperActivation()
+		{
+			Task<bool> task = loginManagerClient.CacheCounterAsync();
+			return task.Result;
+		}
+
+		//-----------------------------------------------------------------------------------------
+		public string GetConfigurationHash()
+		{
+			Task<string> task = loginManagerClient.GetConfigurationHashAsync();
+			return task.Result;
+		}
+
+
+		//-----------------------------------------------------------------------------------------
+		public string GetUserInfo()
+		{
+			Task<string> task = loginManagerClient.GetUserInfoAsync();
+			return task.Result;
+		}
+
+		//-----------------------------------------------------------------------------------------
+		public string GetInstallationVersion()
+		{
+			return GetInstallationVersion(out string productName, out DateTime buildDate, out DateTime instDate, out int build);
+		}
+
+		//-----------------------------------------------------------------------------------------
+		public string GetInstallationVersion(out string productName, out DateTime buildDate, out DateTime instDate, out int build)
+		{
+			GetInstallationVersionRequest request = new GetInstallationVersionRequest();
+
+			Task<GetInstallationVersionResponse> task = loginManagerClient.GetInstallationVersionAsync(request);
+			productName = task.Result.productName;
+			buildDate = task.Result.buildDate;
+			instDate = task.Result.instDate;
+			build = task.Result.build;
+
+			return task.Result.GetInstallationVersionResult;
+		}
+
+		//-----------------------------------------------------------------------------------------
 		internal bool IsEasyBuilderDeveloper(string authenticationToken)
 		{
-			throw new NotImplementedException();
+			Task<bool> task = loginManagerClient.IsEasyBuilderDeveloperAsync(authenticationToken);
+			return task.Result;
 		}
 
-		internal void IsAlive()
+		//-----------------------------------------------------------------------------------------
+		internal bool IsAlive()
 		{
-			throw new NotImplementedException();
+			Task<bool> task = loginManagerClient.IsAliveAsync();
+			return task.Result;
 		}
 
-		internal int ChangePassword(string newPassword)
+		//---------------------------------------------------------------------------
+		public int ChangePassword(string userName, string oldPassword, string newPassword)
 		{
-			throw new NotImplementedException();
+			Task<int> task = loginManagerClient.ChangePasswordAsync(userName, oldPassword, newPassword);
+			int result = task.Result;
+			if (result == (int)LoginReturnCodes.NoError)
+			{
+				//TODOLUCA
+				//loginManagerSession.UserMustChangePassword = false;
+				//loginManagerSession.ExpiredDatePassword = loginManagerSession.ExpiredDatePassword.AddDays(30);
+				//loginManagerSession.Password = newPassword;
+			}
+			return result;
 		}
 
-		internal void LogOff()
+		//---------------------------------------------------------------------------
+		internal bool IsRegistered(out string message, out TaskBuilderNetCore.Interfaces.ActivationState dummy)
 		{
-			throw new NotImplementedException();
+			message = "";
+			dummy = TaskBuilderNetCore.Interfaces.ActivationState.Undefined;
+			int daysToExpire = 0;
+
+			TaskBuilderNetCore.Interfaces.ActivationState actState = GetActivationState(out daysToExpire);
+
+			switch (actState)
+			{
+				case TaskBuilderNetCore.Interfaces.ActivationState.Disabled:
+					message = WebServicesWrapperStrings.ActivationStateDisabled;
+					return false;
+				case TaskBuilderNetCore.Interfaces.ActivationState.NoActivated:
+					message = WebServicesWrapperStrings.ActivationStateNoActivated;
+					return false;
+				case TaskBuilderNetCore.Interfaces.ActivationState.DemoWarning:
+				case TaskBuilderNetCore.Interfaces.ActivationState.Demo:
+					{
+						/*string msg = null;
+						if (daysToExpire == 0)
+							msg = WebServicesWrapperStrings.ToDayExpire;
+						else
+							msg = String.Format(WebServicesWrapperStrings.DayToExpire, daysToExpire);
+						message = string.Format(, msg);*/
+						message = WebServicesWrapperStrings.ActivationStateDemoNew;
+						return true;
+					}
+				case TaskBuilderNetCore.Interfaces.ActivationState.Warning:
+					{
+						string msg = null;
+						if (daysToExpire == 0)
+							msg = WebServicesWrapperStrings.ToDayExpire;
+						else
+							msg = String.Format(WebServicesWrapperStrings.DayToExpire, daysToExpire);
+						message = string.Format(WebServicesWrapperStrings.ActivationStateWarning, msg);
+						return true;
+					}
+				default:
+					return true;
+			}
 		}
 
-		internal bool IsRegistered(out string message, out ActivationState dummy)
+		//---------------------------------------------------------------------------
+		public TaskBuilderNetCore.Interfaces.ActivationState GetActivationState(out int daysToExpiration)
 		{
-			throw new NotImplementedException();
+			SetCurrentComponentsRequest request = new SetCurrentComponentsRequest();
+			Task<SetCurrentComponentsResponse> task = loginManagerClient.SetCurrentComponentsAsync(request);
+			daysToExpiration = task.Result.dte;
+			return (TaskBuilderNetCore.Interfaces.ActivationState)task.Result.SetCurrentComponentsResult;
 		}
 
-		internal void Ping()
+		//---------------------------------------------------------------------------
+		public string Ping()
 		{
-			throw new NotImplementedException();
+			Task<string> task = loginManagerClient.PingAsync();
+			return task.Result;
 		}
 
-		internal int ValidateUser(string username, string password, bool winNT)
+		//---------------------------------------------------------------------------
+		public int ValidateUser(string username, string password, bool winNT)
 		{
-			throw new NotImplementedException();
+			ValidateUserRequest request = new ValidateUserRequest(username, password, winNT);
+			Task<ValidateUserResponse> task = loginManagerClient.ValidateUserAsync(request);
+			return task.Result.ValidateUserResult;
 		}
 
-		internal int Login(string company, string processType, bool overwriteLogin)
+		//---------------------------------------------------------------------------
+		internal int Login(string userName, string company, string password, string askingProcess, bool overwriteLogin, out string authenticationToken, string macIp = null)
 		{
-			throw new NotImplementedException();
+			authenticationToken = string.Empty;
+			if (loginManagerState == LoginManagerState.UnInitialized)
+				throw new LoginManagerException(LoginManagerError.UnInitialized);
+
+			if (loginManagerState == LoginManagerState.Logged && !overwriteLogin)
+				return (int)LoginReturnCodes.UserAlreadyLoggedError;
+
+		
+			////TODO ILARIA MACADDRESS
+			//string macAddress = string.Empty;
+			//try
+			//{
+			//    macAddress = LocalMachine.GetMacAddress() + "-**-" + LocalMachine.GetIPAddress();
+			//}
+			//catch { }
+			//parametro morto
+			string activationDB = string.Empty;
+			authenticationToken = string.Empty;
+			Login2Request request = new Login2Request(userName, company, password, askingProcess, macIp, overwriteLogin);
+			Task<Login2Response> task = loginManagerClient.Login2Async(request);
+		
+			if (task.Result.Login2Result != (int)LoginReturnCodes.NoError)
+				return task.Result.Login2Result;
+
+			authenticationToken = task.Result.authenticationToken;
+			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+
+			loginManagerSession.CompanyName = company;
+			loginManagerState = LoginManagerState.Logged;
+
+			return (int)LoginReturnCodes.NoError;
 		}
 
+		//---------------------------------------------------------------------------
 		internal void SSOLogOff(string cryptedtoken)
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
+		//---------------------------------------------------------------------------
 		internal int LoginViaInfinityToken(string cryptedtoken, string username, string password, string company)
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
+			return -1;
 		}
 
-		internal DBNetworkType GetDBNetworkType()
+		//---------------------------------------------------------------------------
+		internal TaskBuilderNetCore.Interfaces.DBNetworkType GetDBNetworkType()
 		{
-			throw new NotImplementedException();
+			Task<TaskBuilderNetCore.Interfaces.DBNetworkType> task = loginManagerClient.GetDBNetworkTypeAsync();
+			return task.Result;
 		}
 
 		internal int GetUsagePercentageOnDBSize()
 		{
-			throw new NotImplementedException();
+			Task<int> task = loginManagerClient.GetUsagePercentageOnDBSizeAsync();
+			return task.Result;
 		}
 
+		//---------------------------------------------------------------------------
 		internal bool IsSecurityLightEnabled()
 		{
-			throw new NotImplementedException();
+			Task<bool> task = loginManagerClient.IsSecurityLightEnabledAsync();
+			return task.Result;
 		}
 
+		//---------------------------------------------------------------------------
 		internal void RefreshSecurityStatus()
 		{
-			throw new NotImplementedException();
+			Task task = loginManagerClient.RefreshSecurityStatusAsync();
+			task.Wait();
 		}
 
+		//---------------------------------------------------------------------------
 		internal string[] GetModules()
 		{
-			throw new NotImplementedException();
+			lock (this)
+			{
+				//modules contiene l'elenco dei module "standard",
+				//viene inizializzata la prima volta che si effettua una chiamata a GetModules e poi mai più.
+				//Ad ogni chiamata, invece, dobbiamo aggiungere l'elenco dei <Applicazione,modulo> che vengono
+				//creati dalle customizzazione EasyBuilder.
+				//Ciò è sensato perchè:
+				//1)i moduli della Standard vengono modificati solamente installando per cui è plausibile
+				//elencarli la prima volta e poi mai più
+				//2)i module delle customizzazioni, invece, nascono e muoiono come funghi anche durante il funzionamento
+				//del gestionale per cui la loro presenza va riverificata ad ogni chiamata GetModules.
+				//L'effetto collaterale di questa scelta è che se nei metodi di questa classe si accede a modules anzichè chiamare GetModules
+				//si lavora su un elenco di moduli che computa solo i moduli della Standard e non anche quelli delle customizzaizoni.
+				List<string> list = null;
+				if (modules == null)
+				{
+					list = new List<string>();
+					Task<string[]> task = loginManagerClient.GetModulesAsync();
+					list.AddRange(task.Result);
+					modules = list.ToArray();
+				}
+				//le customizzazioni sono di default attivate
+				list = new List<string>(modules);
+				foreach (BaseApplicationInfo bai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+					if (bai.ApplicationType == ApplicationType.Customization)
+					{
+						foreach (BaseModuleInfo bmi in bai.Modules)
+							list.Add(bai.Name + "." + bmi.Name);
+					}
+				return list.ToArray();
+			}
 		}
 
+		//---------------------------------------------------------------------------
 		internal bool CheckActivationExpression(string currentApplicationName, string activationExpression)
 		{
-			throw new NotImplementedException();
+			if (activationExpression == null || activationExpression.Trim().Length == 0)
+				return true;
+
+			char currentOperator = '\0';
+
+			string expression = activationExpression.Trim();
+			bool expressionvalue = true;
+
+			while (expression != null && expression.Length > 0)
+			{
+				bool tokenValue = true;
+
+				int firstKeyIndex = expression.IndexOfAny(activationExpressionKeywords);
+
+				if (firstKeyIndex >= 0)
+				{
+					if (firstKeyIndex == 0 && expression[0] != '!' && expression[0] != '(')
+					{
+						// errore di sintassi: l'espressione non può cominciare con un'operatore di tipo '&', '|', ')'
+						Debug.Fail("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
+						// non potendo testare correttamente l'attivazione sollevo un'eccezione
+						throw new LoginManagerException(LoginManagerError.GenericError, String.Format(WebServicesWrapperStrings.CheckActivationExpressionErrFmtMsg, expression));
+					}
+
+					bool negateToken = (expression[0] == '!');
+					if (negateToken)
+						expression = expression.Substring(1).TrimStart();
+
+					int openingParenthesisCount = 0;
+
+					int charIndex = 0;
+					do
+					{
+						if (expression[charIndex] == '(')
+							openingParenthesisCount++;
+						else if (expression[charIndex] == ')')
+							openingParenthesisCount--;
+
+						if (openingParenthesisCount == 0)
+							break;
+
+						charIndex++;
+
+					} while (charIndex < expression.Length);// esco dal while solo se l'espressione è terminata
+															// o se ho chiuso tutte eventuali le parentesi tonde
+					if (openingParenthesisCount != 0)
+					{
+						// errore di sintassi: non c'è un matching corretto di parentesi
+						Debug.Fail("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
+						// non potendo testare correttamente l'attivazione sollevo un'eccezione
+						throw new LoginManagerException(LoginManagerError.GenericError, String.Format(WebServicesWrapperStrings.CheckActivationExpressionErrFmtMsg, expression));
+					}
+
+					string token = String.Empty;
+
+					if (charIndex > 0)// il token comincia con una parentesi e charIndex punta all'ultima parentesi chiusa
+					{
+						token = expression.Substring(1, charIndex - 1).Trim();
+						expression = expression.Substring(charIndex + 1).Trim();
+					}
+					else
+					{
+						if (negateToken)
+						{
+							int tokenLength = expression.IndexOfAny(activationExpressionOperators);
+							if (tokenLength == -1)
+							{
+								token = expression;
+								expression = String.Empty;
+							}
+							else
+							{
+								token = expression.Substring(0, tokenLength).Trim();
+								expression = expression.Substring(tokenLength).Trim();
+							}
+						}
+						else
+						{
+							token = expression.Substring(0, firstKeyIndex).Trim();
+							expression = expression.Substring(firstKeyIndex).Trim();
+						}
+					}
+					if (currentOperator != '\0' && (token == null || token.Length == 0)) // non è il primo operando !
+					{
+						// errore di sintassi: l'espressione non può terminare con un'operatore di tipo '&', '|', ')'
+						Debug.Fail("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
+						// non potendo testare correttamente l'attivazione sollevo un'eccezione
+						throw new LoginManagerException(LoginManagerError.GenericError, String.Format(WebServicesWrapperStrings.CheckActivationExpressionErrFmtMsg, expression));
+					}
+
+					tokenValue = CheckActivationExpression(currentApplicationName, token);
+
+					if (negateToken)
+						tokenValue = !tokenValue;
+				}
+				else
+				{
+					tokenValue = CheckSingleActivation(currentApplicationName, expression);
+
+					expression = String.Empty;
+				}
+
+				if (currentOperator == '&')
+					expressionvalue = expressionvalue && tokenValue;
+				else if (currentOperator == '|')
+					expressionvalue = expressionvalue || tokenValue;
+				else if (currentOperator == '\0') // è il primo operando !
+					expressionvalue = tokenValue;
+
+				if (expression == null || expression.Length == 0)
+					break;
+
+				currentOperator = expression[0];
+
+				if (!expressionvalue && currentOperator == '&')
+					return false;
+
+				if (expressionvalue && currentOperator == '|')
+					return true;
+
+				expression = expression.Substring(1).TrimStart();
+
+				if (currentOperator != '\0' && (expression == null || expression.Length == 0))
+				{
+					// errore di sintassi: l'espressione non può terminare con un'operatore di tipo '&', '|', ')'
+					Debug.Fail("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
+					// non potendo testare correttamente l'attivazione sollevo un'eccezione
+					throw new LoginManagerException(LoginManagerError.GenericError, String.Format(WebServicesWrapperStrings.CheckActivationExpressionErrFmtMsg, expression));
+				}
+			}
+			return expressionvalue;
 		}
+
+
+		//---------------------------------------------------------------------------
+		private bool CheckSingleActivation(string currentApplicationName, string singleActivation)
+		{
+			string activationToCheck = singleActivation.Trim();
+			if (activationToCheck == null || activationToCheck.Length == 0)
+				return true;
+
+			// In nome di default dell'applicazione contenente il modulo del quale si vuole
+			// testare l'attivazione viene passato come argomento alla funzione
+			string activationApplicationName = currentApplicationName;
+
+			string activationModuleName = activationToCheck;
+
+			// Se la stringa contenente l'attivazione da testare ha dei punti al suo interno,
+			// vuol dire che essa rappresenta un namespace, cioè che è nella forma 
+			// <nome_applicazione>.<nome_modulo>
+			if (activationToCheck.IndexOf('.') >= 0)
+			{
+				NameSpace namespaceActivation = new NameSpace(activationToCheck, NameSpaceObjectType.Module);
+				if (namespaceActivation.Application != null && namespaceActivation.Application.Length > 0)
+					activationApplicationName = namespaceActivation.Application;
+				if (namespaceActivation.Module != null && namespaceActivation.Module.Length > 0)
+					activationModuleName = namespaceActivation.Module;
+			}
+
+			return IsActivated(activationApplicationName, activationModuleName);
+		}
+
 	}
 }

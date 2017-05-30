@@ -4,7 +4,7 @@
     <Description>PDFSharp 3.5.0.4 beta 3 - without forms</Description>
     <AssemblyTitle>PDFSharp </AssemblyTitle>
     <VersionPrefix>3.5.0-4</VersionPrefix>
-    <TargetFramework>netcoreapp1.1.1</TargetFramework>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
     <DefineConstants>$(DefineConstants);GDI</DefineConstants>
     <AssemblyName>PDFSharpCore</AssemblyName>
     <PackageId>PDFSharpCore</PackageId>
