@@ -18,8 +18,8 @@ export class ReportingStudioService extends DocumentService {
     public message: Subject<any> = new Subject<string>();
 
     constructor(
-        logger: Logger, 
-        eventData: EventDataService, 
+        logger: Logger,
+        eventData: EventDataService,
         private cmpService: ComponentService) {
         super(logger, eventData);
 
@@ -84,6 +84,11 @@ export class ReportingStudioService extends DocumentService {
         super.close();
         this.cmpService.removeComponentById(this.mainCmpId);
         this.closeConnection();
-       
+
+    }
+
+    reset() {
+        this.pageNum = 1;
+        this.showAsk = false;
     }
 }
