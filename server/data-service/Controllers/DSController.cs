@@ -21,7 +21,7 @@ namespace DataService.Controllers
             {
                 hsession = HttpContext.Session;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
