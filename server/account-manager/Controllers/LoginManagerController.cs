@@ -1,33 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Microarea.Common.WebServicesWrapper;
-using LoginManagerWcf;
 
 namespace Microarea.AccountManager.Controllers
 {
     [Route("account-manager")]
     public class LoginManagerController : Controller
     {
-       
-        public LoginManagerController()
+
+		static Microarea.Common.WebServicesWrapper.LoginManager loginManagerInstance;
+		static object staticLockTicket = new object();
+
+		//----------------------------------------------------------------------------
+		/// <summary>
+		/// Oggetto statico globale BasePathFinder utilizzato ovunque in Mago.Net siano necessarie
+		/// informazioni non dipendenti da username e company
+		/// </summary>
+		public static Microarea.Common.WebServicesWrapper.LoginManager LoginManagerInstance
+		{
+			get
+			{
+				lock (staticLockTicket)
+				{
+					if (loginManagerInstance == null)
+					{
+						loginManagerInstance = new Common.WebServicesWrapper.LoginManager();
+					}
+					return loginManagerInstance;
+				}
+			}
+		}
+
+		public LoginManagerController()
         {
-        }
+		}
 
         [Route("login-compact")]
         public IActionResult LoginCompact()
         {
-			Microarea.Common.WebServicesWrapper.LoginManager loginManager = new Common.WebServicesWrapper.LoginManager();
-
 			string user = HttpContext.Request.Form["user"];
             string password = HttpContext.Request.Form["password"];
             string company = HttpContext.Request.Form["company"];
@@ -35,7 +46,7 @@ namespace Microarea.AccountManager.Controllers
             bool overwriteLogin = HttpContext.Request.Form["overwriteLogin"] == "true";
 
 			string authenticationToken;
-			int result = loginManager.LoginCompact(user, company, password, askingProcess, overwriteLogin, out authenticationToken);
+			int result = LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out authenticationToken);
             string errorMessage = "Error message"; // TODO read error message
 
             StringBuilder sb = new StringBuilder();
@@ -71,23 +82,19 @@ namespace Microarea.AccountManager.Controllers
         [Route("logout")]
         public IActionResult Logoff()
         {
-			Microarea.Common.WebServicesWrapper.LoginManager loginManager = new Common.WebServicesWrapper.LoginManager();
-
 			string token = HttpContext.Request.Form["token"];
-            loginManager.LogOff(token);
+            LoginManagerInstance.LogOff(token);
             var result = new { Success = true, Message = "" };
             return new JsonResult(result);
         }
 
 
         [Route("getLoginInformation")]
-        public IActionResult getLoginInformation()
+        public IActionResult GetLoginInformation()
         {
             string token = HttpContext.Request.Form["authtoken"];
 
-			Microarea.Common.WebServicesWrapper.LoginManager loginManager = new Common.WebServicesWrapper.LoginManager();
-
-			loginManager.GetLoginInformation(
+			LoginManagerInstance.GetLoginInformation(
 				token, 
 				out string userName,
 				out string companyName,
@@ -137,13 +144,12 @@ namespace Microarea.AccountManager.Controllers
 
 
         [Route("getCompaniesForUser")]
-        public IActionResult getCompanyForUser()
+        public IActionResult GetCompanyForUser()
         {
             //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
             string user = HttpContext.Request.Form["user"];
 
-			Microarea.Common.WebServicesWrapper.LoginManager loginManager = new Common.WebServicesWrapper.LoginManager();
-			string[] companies = loginManager.EnumCompanies(user);
+			string[] companies = LoginManagerInstance.EnumCompanies(user);
 
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
@@ -176,14 +182,13 @@ namespace Microarea.AccountManager.Controllers
         }
 
 		[Route("isActivated")]
-		public IActionResult isActivated()
+		public IActionResult IsActivated()
 		{
 			//string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
 			string application = HttpContext.Request.Form["application"];
 			string functionality = HttpContext.Request.Form["functionality"];
 
-			Microarea.Common.WebServicesWrapper.LoginManager loginManager = new Common.WebServicesWrapper.LoginManager();
-			bool result = loginManager.IsActivated(application, functionality);
+			bool result = LoginManagerInstance.IsActivated(application, functionality);
 
 			StringBuilder sb = new StringBuilder();
 			StringWriter sw = new StringWriter(sb);

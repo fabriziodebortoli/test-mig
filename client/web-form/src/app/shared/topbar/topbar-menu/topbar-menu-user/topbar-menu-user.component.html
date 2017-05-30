@@ -1,6 +1,1 @@
-<button #anchor (click)="show=!show" class="topbar-menu-button">
-     <md-icon  class="material-icons">person</md-icon>
-</button>
-<kendo-popup [popupClass]="'popup'" *ngIf="show" [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
-    <button kendoButton *ngFor="let menuItem of contextMenu" class="content" (click)="chooseAction(menuItem.id)">{{menuItem.text}}</button>
-</kendo-popup>
+<tb-context-menu [contextMenu]="contextMenu" [fontIcon]="'person'" [popupClass]='popup'></tb-context-menu>

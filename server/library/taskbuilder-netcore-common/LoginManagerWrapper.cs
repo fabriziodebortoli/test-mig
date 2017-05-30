@@ -203,26 +203,26 @@ namespace Microarea.Common.WebServicesWrapper
 			ConfigureWebService();
 		}
 
-		//-----------------------------------------------------------------------------------------
-		private string PostData(string url, string body)
-		{
-			WebRequest request = (HttpWebRequest)WebRequest.Create(url);
-			var data = Encoding.ASCII.GetBytes(body);
+		////-----------------------------------------------------------------------------------------
+		//private string PostData(string url, string body)
+		//{
+		//	WebRequest request = (HttpWebRequest)WebRequest.Create(url);
+		//	var data = Encoding.ASCII.GetBytes(body);
 
-			request.Method = "POST";
-			request.ContentType = "application/x-www-form-urlencoded";
-			//request.ContentLength = data.Length;
+		//	request.Method = "POST";
+		//	request.ContentType = "application/x-www-form-urlencoded";
+		//	//request.ContentLength = data.Length;
 
-			Task<Stream> stream = request.GetRequestStreamAsync();
-			Stream s = stream.Result;
-			s.Write(data, 0, data.Length);
+		//	Task<Stream> stream = request.GetRequestStreamAsync();
+		//	Stream s = stream.Result;
+		//	s.Write(data, 0, data.Length);
 
-			Task<WebResponse> response = request.GetResponseAsync();
-			WebResponse r = response.Result;
+		//	Task<WebResponse> response = request.GetResponseAsync();
+		//	WebResponse r = response.Result;
 
-			var responseString = new StreamReader(r.GetResponseStream()).ReadToEnd();
-			return responseString;
-		}
+		//	var responseString = new StreamReader(r.GetResponseStream()).ReadToEnd();
+		//	return responseString;
+		//}
 
 		//-----------------------------------------------------------------------------------------
 		public int LoginCompact(string user, string company, string password, string askingProcess, bool overwriteLogin, out string authenticationToken)
