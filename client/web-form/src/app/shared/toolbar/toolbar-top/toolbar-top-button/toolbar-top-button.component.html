@@ -1,14 +1,4 @@
-<button kendoButton class="top-button" (click)="onCommand()" [imageUrl]="iconTxt" [disabled]="disabled" title="{{caption}}" [ngSwitch]="iconType">
-    <div [ngSwitch]="iconType" class="div-icon">
-        <img *ngSwitchCase="'IMG'" src="{{imgUrl}}{{icon}}" />
-
-        <md-icon *ngSwitchCase="'MD'">{{icon}}</md-icon>
-
-        <tb-icon *ngSwitchCase="'TB'" icon="{{icon}}"></tb-icon>
-
-        <i *ngSwitchCase="'CLASS'" class="{{icon}}"></i>
-
-        <h5 *ngSwitchDefault>no-icon</h5>
-    </div>
+<button kendoButton class="top-button" (click)="onCommand()" [disabled]="disabled" title="{{caption}}">
+    <tb-icon [iconType]="iconType" [icon]="icon"></tb-icon>
     <span>{{caption}}</span>
 </button>
