@@ -13,6 +13,27 @@ CREATE TABLE [dbo].[MP_Instances] (
 END
 GO
 
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_ServerURLs]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[MP_ServerURLs] (
+	[InstanceId] [int] NOT NULL,
+	[URLType] [int] NOT NULL,
+	[URL] [varchar] (255) NULL CONSTRAINT DF_ServerURLs_URL DEFAULT(''),
+	CONSTRAINT [PK_MP_ServerURLs] PRIMARY KEY NONCLUSTERED 
+	(
+		[InstanceId],
+		[URLType]
+	),
+	CONSTRAINT [FK_MP_ServerURLs_Instances] FOREIGN KEY 
+	(
+		[InstanceId]
+	) REFERENCES [dbo].[MP_Instances] (
+		[InstanceId]
+	)
+)
+END
+GO
+
 if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_Subscriptions]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
  BEGIN
 CREATE TABLE [dbo].[MP_Subscriptions] (
@@ -30,6 +51,25 @@ CREATE TABLE [dbo].[MP_Subscriptions] (
 		[InstanceId]
 	) REFERENCES [dbo].[MP_Instances] (
 		[InstanceId]
+	)
+)
+END
+GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_SubscriptionSlots]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[MP_SubscriptionSlots] (
+	[SubscriptionId] [int] NOT NULL,
+	[SlotsXml] [varchar] (max) NULL CONSTRAINT DF_SubscriptionSlots_SlotsXml DEFAULT(''),
+	CONSTRAINT [PK_MP_SubscriptionSlots] PRIMARY KEY NONCLUSTERED 
+	(
+		[SubscriptionId]
+	),
+	CONSTRAINT [FK_MP_Subscriptions_SubscriptionSlots] FOREIGN KEY 
+	(
+		[SubscriptionId]
+	) REFERENCES [dbo].[MP_Subscriptions] (
+		[SubscriptionId]
 	)
 )
 END
@@ -126,14 +166,76 @@ CREATE TABLE [dbo].[MP_CompanyAccounts] (
 END
 GO
 
-if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_SubscriptionSlots]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_InstanceAccounts]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
  BEGIN
-CREATE TABLE [dbo].MP_SubscriptionSlots (
-	[SubscriptionId] [int]  NOT NULL ,
-	[SlotsXml] [varchar] (max) NULL CONSTRAINT DF_Accounts_SlotsXmln DEFAULT(''),
-	CONSTRAINT [PK_MP_SubscriptionSlots] PRIMARY KEY NONCLUSTERED 
+CREATE TABLE [dbo].[MP_InstanceAccounts] (
+	[AccountId] [int] NOT NULL ,
+	[InstanceId] [int] NOT NULL,
+	CONSTRAINT [PK_MP_InstanceAccounts] PRIMARY KEY NONCLUSTERED 
+	(
+		[AccountId],
+		[InstanceId]
+	),
+	CONSTRAINT [FK_MP_InstanceAccounts_Accounts] FOREIGN KEY 
+	(
+		[AccountId]
+	) REFERENCES [dbo].[MP_Accounts] (
+		[AccountId]
+	),
+	CONSTRAINT [FK_MP_InstanceAccounts_Instances] FOREIGN KEY 
+	(
+		[InstanceId]
+	) REFERENCES [dbo].[MP_Instances] (
+		[InstanceId]
+	)
+)
+END
+GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_SubscriptionAccounts]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[MP_SubscriptionAccounts] (
+	[AccountId] [int] NOT NULL ,
+	[SubscriptionId] [int] NOT NULL,
+	CONSTRAINT [PK_MP_SubscriptionAccounts] PRIMARY KEY NONCLUSTERED 
+	(
+		[AccountId],
+		[SubscriptionId]
+	),
+	CONSTRAINT [FK_MP_SubscriptionAccounts_Accounts] FOREIGN KEY 
+	(
+		[AccountId]
+	) REFERENCES [dbo].[MP_Accounts] (
+		[AccountId]
+	),
+	CONSTRAINT [FK_MP_SubscriptionAccounts_Subscriptions] FOREIGN KEY 
 	(
 		[SubscriptionId]
+	) REFERENCES [dbo].[MP_Subscriptions] (
+		[SubscriptionId]
+	)
+)
+END
+GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_SecurityTokens]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[MP_SecurityTokens] (
+	[AccountId] [int] NOT NULL ,
+	[TokenType] [int] NOT NULL,
+	[Token] [uniqueidentifier] NULL CONSTRAINT DF_SecurityTokens_Token DEFAULT(0x00),
+	[CreationDate] [datetime] NULL CONSTRAINT DF_SecurityTokens_CreationDate DEFAULT(getdate()),
+	[Expired] [bit] NULL CONSTRAINT DF_SecurityTokens_Expired DEFAULT (0),
+	CONSTRAINT [PK_MP_SecurityTokens] PRIMARY KEY NONCLUSTERED 
+	(
+		[AccountId],
+		[TokenType]
+	),
+	CONSTRAINT [FK_MP_SecurityTokens_Accounts] FOREIGN KEY 
+	(
+		[AccountId]
+	) REFERENCES [dbo].[MP_Accounts] (
+		[AccountId]
 	)
 )
 END

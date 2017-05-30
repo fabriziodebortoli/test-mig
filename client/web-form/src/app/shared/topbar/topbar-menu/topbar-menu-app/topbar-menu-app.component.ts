@@ -1,3 +1,4 @@
+import { EventDataService } from './../../../../core/eventdata.service';
 import { UtilsService } from './../../../../core/utils.service';
 import { MenuService } from './../../../../menu/services/menu.service';
 import { HttpMenuService } from './../../../../menu/services/http-menu.service';
@@ -7,8 +8,6 @@ import { LocalizationService } from './../../../../menu/services/localization.se
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { MenuItem } from './../../../context-menu/menu-item.model';
-import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
-import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 
 @Component({
   selector: 'tb-topbar-menu-app',
@@ -16,9 +15,6 @@ import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interf
   styleUrls: ['./topbar-menu-app.component.scss']
 })
 export class TopbarMenuAppComponent implements OnDestroy {
-  anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
-  popupAlign: Align = { horizontal: 'right', vertical: 'top' };
-  private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
   contextMenu: MenuItem[] = new Array<MenuItem>();
 
   private show = false;
@@ -34,23 +30,24 @@ export class TopbarMenuAppComponent implements OnDestroy {
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private localizationService: LocalizationService
+    private localizationService: LocalizationService,
+    private eventDataService: EventDataService
   ) {
 
     this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe(() => {
-      const item1 = new MenuItem(this.localizationService.getLocalizedElement('ViewProductInfo'), 'idViewProductInfoButton', false, false);
-      const item2 = new MenuItem(this.localizationService.getLocalizedElement('ConnectionInfo'), 'idConnectionInfoButton', false, false);
-      const item3 = new MenuItem(this.localizationService.getLocalizedElement('GotoProducerSite'), 'idGotoProducerSiteButton', false, false);
-      const item4 = new MenuItem(this.localizationService.getLocalizedElement('ClearCachedData'), 'idClearCachedDataButton', false, false);
-      const item5 = new MenuItem(this.localizationService.getLocalizedElement('ActivateViaSMS'), 'idActivateViaSMSButton', false, false);
-      const item6 = new MenuItem(this.localizationService.getLocalizedElement('ActivateViaInternet'),
-        'idActivateViaInternetButton', false, false);
+      const item1 = new MenuItem(this.localizationService.getLocalizedElement('ViewProductInfo'), 'idViewProductInfoButton', true, false);
+      const item2 = new MenuItem(this.localizationService.getLocalizedElement('ConnectionInfo'), 'idConnectionInfoButton', true, false);
+      const item3 = new MenuItem(this.localizationService.getLocalizedElement('GotoProducerSite'), 'idGotoProducerSiteButton', true, false);
+      const item4 = new MenuItem(this.localizationService.getLocalizedElement('ClearCachedData'), 'idClearCachedDataButton', true, false);
+      const item5 = new MenuItem(this.localizationService.getLocalizedElement('ActivateViaSMS'), 'idActivateViaSMSButton', true, false);
+      const item6 = new MenuItem(this.localizationService.getLocalizedElement('ActivateViaInternet'), 'idActivateViaInternetButton', true, false);
       this.contextMenu.push(item1, item2, item3, item4, item5, item6);
     });
-  }
 
-  chooseAction(buttonID: string) {
-    switch (buttonID) {
+
+    
+    this.eventDataService.command.subscribe((cmpId: string) => {
+           switch (cmpId) {
       case 'idViewProductInfoButton':
         return this.openProductInfoDialog();
       case 'idConnectionInfoButton':
@@ -66,12 +63,10 @@ export class TopbarMenuAppComponent implements OnDestroy {
 
       default:
         break;
-    }
+            }
+        });
   }
 
-  // public closePopup(): void {
-  //       this.show = false;
-  //     }
   ngOnDestroy() {
     this.localizationsLoadedSubscription.unsubscribe();
   }
