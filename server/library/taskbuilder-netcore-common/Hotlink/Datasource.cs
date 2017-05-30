@@ -57,9 +57,16 @@ namespace Microarea.Common.Hotlink
         public List<SelectionField> Fields = new List<SelectionField>();
 
     }
-    
+
+    public class Auxdata
+    {
+        public List<SelectionHeader> HeaderList = new List<SelectionHeader>();
+        public List<SelectionElem> ElemList = new List<SelectionElem>();
+    }
+
     public class Datasource
     {
+        Auxdata auxData;
         public TbSession Session = null;
 
         ReferenceObjectsPrototype XmlDescription = null;
@@ -223,16 +230,16 @@ namespace Microarea.Common.Hotlink
                 );
 
             //----------------------------------
+            auxData = new Auxdata();
 
             // se non esiste la sezione allora il ReferenceObject è Undefined
             XmlNodeList headers = root.SelectNodes(xpath);
             if (headers == null) return false;
 
-            List<SelectionHeader> headerList = new List<SelectionHeader>();
             foreach (XmlElement head in headers)
             {
                 SelectionHeader fieldTypeList = new SelectionHeader();
-                headerList.Add(fieldTypeList);
+                auxData.HeaderList.Add(fieldTypeList);
 
                 foreach (XmlElement sel in head.ChildNodes)
                 {
@@ -259,12 +266,10 @@ namespace Microarea.Common.Hotlink
             XmlNodeList elements = root.SelectNodes(xpath2);
             if (elements == null) return false;
 
-            List<SelectionElem> elementsList = new List<SelectionElem>();
-
             foreach (XmlElement elem in elements)
             {
                 SelectionElem fieldList = new SelectionElem();
-                elementsList.Add(fieldList);
+                auxData.ElemList.Add(fieldList);
 
                 foreach (XmlElement sel in elem.ChildNodes)
                 {
@@ -278,7 +283,7 @@ namespace Microarea.Common.Hotlink
                 //----------------------------------------
 
             }
-            return false;
+            return true;
         }
 
         //---------------------------------------------------------------------
@@ -472,8 +477,9 @@ namespace Microarea.Common.Hotlink
 
         private bool GetDataFileJson(out string records)
         {
-            //dalla struttura letta prima a json stessa sintassi dell'altro metodo
             throw new NotImplementedException();
+            //dalla struttura letta prima a json stessa sintassi dell'altro metodo
+
         }
 
         //---------------------------------------------------------------------
