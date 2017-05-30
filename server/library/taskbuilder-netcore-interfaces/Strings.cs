@@ -29,6 +29,14 @@ namespace TaskBuilderNetCore.Interfaces
             public const string DbFieldDescription = "DbFieldDescription";
             public const string RadarReport = "RadarReport";
             public const string ClassName = "ClassName";
+
+            public const string Auxdata = "Auxdata";
+            public const string Header = "Header";
+            public const string Fieldtype = "Fieldtype";
+            public const string Elements = "Elements";
+            public const string Elem = "Element";
+            public const string Field = "Field";
+
         }
 
         public sealed class Attribute
