@@ -1,10 +1,9 @@
 ﻿namespace Microarea.AdminServer.Model.Interfaces
 {
     //================================================================================
-    interface ICompanyAccount : IAdminModel
+    interface ISubscriptionAccount : IAdminModel
 	{
         int AccountId { get; }
-        int CompanyId { get; }
-        bool Admin { get; }
+        int SubscriptionId { get; }
     }
 }

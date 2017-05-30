@@ -19,7 +19,7 @@ using Microarea.Common.StringLoader;
 
 namespace Microarea.Common.Hotlink
 {
-    /*public class SelectionFieldType
+    public class SelectionFieldType
     {
         public string Name;
         public string Key;
@@ -35,14 +35,10 @@ namespace Microarea.Common.Hotlink
         }
     }
 
-    public class SelectionHeader{
-        public List<SelectionFieldType> fields;
-        
-        public SelectionHeader(List<SelectionFieldType> listField)
-        {
-            fields = listField;
-        }
-    }*/
+    public class SelectionHeader
+    {
+        public List<SelectionFieldType> FieldTypes = new List<SelectionFieldType>();
+    }
 
     public class SelectionField
     {
@@ -56,19 +52,12 @@ namespace Microarea.Common.Hotlink
         }
     }
 
-    /*public class SelectionElements
+    public class SelectionElem
     {
-        public List<List<SelectionField>> Elements;
+        public List<SelectionField> Fields = new List<SelectionField>();
 
-        public SelectionElements(List<List<SelectionField>> listElements)
-        {
-            Elements = listElements;
-        }
-        
-    }*/
-
+    }
     
-
     public class Datasource
     {
         public TbSession Session = null;
@@ -231,13 +220,7 @@ namespace Microarea.Common.Hotlink
                 "/{0}/{1}",
                 ReferenceObjectsXML.Element.Auxdata,
                 ReferenceObjectsXML.Element.Header
-
-                /*ReferenceObjectsXML.Element.Elements,
-                ReferenceObjectsXML.Element.Elem,
-                ReferenceObjectsXML.Element.Field,
-                ReferenceObjectsXML.Attribute.Name*/
                 );
-
 
             //----------------------------------
 
@@ -245,49 +228,56 @@ namespace Microarea.Common.Hotlink
             XmlNodeList headers = root.SelectNodes(xpath);
             if (headers == null) return false;
 
+            List<SelectionHeader> headerList = new List<SelectionHeader>();
             foreach (XmlElement head in headers)
             {
-                // se il numero di parametri non corrisponde allora cerca un'altra funzione con lo stesso nome
-                XmlNodeList fieldNodeList = head.SelectNodes(ReferenceObjectsXML.Element.Fieldtype);
-                if (fieldNodeList == null)
-                    continue;
+                SelectionHeader fieldTypeList = new SelectionHeader();
+                headerList.Add(fieldTypeList);
 
-                ParametersList parameters = new ParametersList();
-                parameters.Parse(fieldNodeList);
-
-               
-
-
-                int port;
-                if (!int.TryParse(head.GetAttribute(ReferenceObjectsXML.Attribute.Port), out port))
-                    port = 80;
-
-                //---------------------
-                List<SelectionField> selectionFieldList = new List<SelectionField>();
-                XmlElement selectionRoot = (XmlElement)head.ParentNode.SelectSingleNode("Elements");
-                if (selectionRoot != null)
+                foreach (XmlElement sel in head.ChildNodes)
                 {
-                    foreach (XmlElement elem in selectionRoot.ChildNodes)
-                    {
-                        
-                            string fieldName = elem.GetAttribute("name");
+                    string selName = sel.GetAttribute("name");
+                    string selKey = sel.GetAttribute("key");
+                    string selHidden = sel.GetAttribute("hidden");
+                    string selType = sel.GetAttribute("type");
 
-                            string value = string.Empty;
-                            XmlNode node = elem.ChildNodes[0];
-                            if (node is XmlCDataSection)
-                            {
-                                XmlCDataSection cdataSection = node as XmlCDataSection;
-                                value = cdataSection.Value;
-                            }
-                            selectionFieldList.Add(new SelectionField(fieldName, value));
-                    }
+                    SelectionFieldType fieldType = new SelectionFieldType(selName, selKey, selHidden, selType);
+                    fieldTypeList.FieldTypes.Add(fieldType);
 
+                }
+            }
+            //----------------------------------------
+            string xpath2 = string.Format
+                (
+                 "/{0}/{1}/{2}",
+                 ReferenceObjectsXML.Element.Auxdata,
+                 ReferenceObjectsXML.Element.Elements,
+                 ReferenceObjectsXML.Element.Elem
+                );
 
+            // se non esiste la sezione allora il ReferenceObject è Undefined
+            XmlNodeList elements = root.SelectNodes(xpath2);
+            if (elements == null) return false;
 
-                    }
+            List<SelectionElem> elementsList = new List<SelectionElem>();
+
+            foreach (XmlElement elem in elements)
+            {
+                SelectionElem fieldList = new SelectionElem();
+                elementsList.Add(fieldList);
+
+                foreach (XmlElement sel in elem.ChildNodes)
+                {
+                    string selName = sel.GetAttribute("name");
+                    string selValue = sel.InnerText;
+
+                    SelectionField field = new SelectionField(selName, selValue);
+                    fieldList.Fields.Add(field);
                 }
 
-           
+                //----------------------------------------
+
+            }
             return false;
         }
 
