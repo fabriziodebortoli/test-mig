@@ -1,5 +1,5 @@
-import { UtilsService } from './../../../core/utils.service';
-import { table, column, cell } from './../../reporting-studio.model';
+import { UtilsService } from './../../../../core/utils.service';
+import { table, column, cell } from './../../../reporting-studio.model';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 declare var $: any;

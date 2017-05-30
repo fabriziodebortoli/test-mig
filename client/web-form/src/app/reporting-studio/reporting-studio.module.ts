@@ -9,12 +9,12 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { GridModule } from '@progress/kendo-angular-grid';
 
-import { ReportLinkComponent } from './report-objects/link/link.component';
-import { ReportRectComponent } from './report-objects/rect/rect.component';
-import { ReportImageComponent } from './report-objects/image/image.component';
-import { ReportTableComponent } from './/report-objects/table/table.component';
-import { ReportFieldrectComponent } from './report-objects/fieldrect/fieldrect.component';
-import { ReportTextrectComponent } from './report-objects/textrect/textrect.component';
+import { ReportLinkComponent } from './report-objects/layout/link/link.component';
+import { ReportRectComponent } from './report-objects/layout/rect/rect.component';
+import { ReportImageComponent } from './report-objects/layout/image/image.component';
+import { ReportTableComponent } from './report-objects/layout/table/table.component';
+import { ReportFieldrectComponent } from './report-objects/layout/fieldrect/fieldrect.component';
+import { ReportTextrectComponent } from './report-objects/layout/textrect/textrect.component';
 import { AskdialogComponent } from './report-objects/askdialog/askdialog.component';
 
 import { SharedModule } from './../shared/shared.module';
@@ -32,6 +32,7 @@ import { AskRadioComponent } from './report-objects/askdialog/ask-radio/ask-radi
 import { AskDropdownlistComponent } from './report-objects/askdialog/ask-dropdownlist/ask-dropdownlist.component';
 import { AskTextComponent } from './report-objects/askdialog/ask-text/ask-text.component';
 import { AskHotlinkComponent } from './report-objects/askdialog/ask-hotlink/ask-hotlink.component';
+import { ReportLayoutComponent } from './report-objects/layout/layout.component';
 
 
 
@@ -76,7 +77,8 @@ const KENDO_UI_MODULES = [
     AskRadioComponent,
     AskTextComponent,
     AskDropdownlistComponent,
-    AskHotlinkComponent
+    AskHotlinkComponent,
+    ReportLayoutComponent
   ],
   entryComponents:
   [

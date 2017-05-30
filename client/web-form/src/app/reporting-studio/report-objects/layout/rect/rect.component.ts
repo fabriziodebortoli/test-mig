@@ -1,5 +1,5 @@
-import { sqrrect } from './../../reporting-studio.model';
-import { UtilsService } from './../../../core/utils.service';
+import { sqrrect } from './../../../reporting-studio.model';
+import { UtilsService } from './../../../../core/utils.service';
 import { Component, Input } from '@angular/core';
 
 @Component({

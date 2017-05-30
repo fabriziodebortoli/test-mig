@@ -1,5 +1,5 @@
-import { fieldrect } from './../../reporting-studio.model';
-import { UtilsService } from './../../../core/utils.service';
+import { UtilsService } from './../../../../core/utils.service';
+import { fieldrect } from './../../../reporting-studio.model';
 
 import { Component, Input, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 
