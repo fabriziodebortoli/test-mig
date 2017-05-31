@@ -15,7 +15,7 @@ import { MenuItem } from './../../../context-menu/menu-item.model';
   styleUrls: ['./topbar-menu-app.component.scss']
 })
 export class TopbarMenuAppComponent implements OnDestroy {
-  contextMenu: MenuItem[] = new Array<MenuItem>();
+  menuElements: MenuItem[] = new Array<MenuItem>();
 
   private show = false;
 
@@ -41,7 +41,7 @@ export class TopbarMenuAppComponent implements OnDestroy {
       const item4 = new MenuItem(this.localizationService.getLocalizedElement('ClearCachedData'), 'idClearCachedDataButton', true, false);
       const item5 = new MenuItem(this.localizationService.getLocalizedElement('ActivateViaSMS'), 'idActivateViaSMSButton', true, false);
       const item6 = new MenuItem(this.localizationService.getLocalizedElement('ActivateViaInternet'), 'idActivateViaInternetButton', true, false);
-      this.contextMenu.push(item1, item2, item3, item4, item5, item6);
+      this.menuElements.push(item1, item2, item3, item4, item5, item6);
     });
 
 

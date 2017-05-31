@@ -10,7 +10,7 @@ import { ComponentService } from './../../../../core/component.service';
 })
 export class TopbarMenuTestComponent {
 
-  contextMenu: MenuItem[] = new Array<MenuItem>();
+  menuElements: MenuItem[] = new Array<MenuItem>();
 
   constructor(private componentService: ComponentService, private eventDataService: EventDataService) {
 
@@ -19,7 +19,7 @@ export class TopbarMenuTestComponent {
     const item3 = new MenuItem('TB Explorer', 'idTBExplorerButton', true, false);
     const item4 = new MenuItem('Test Grid Component', 'idTBExplorerButton', true, false);
     const item5 = new MenuItem('Test Icons', 'idTestIconsButton', true, false);
-    this.contextMenu.push(item1, item2, item3, item4, item5);
+    this.menuElements.push(item1, item2, item3, item4, item5);
 
     this.eventDataService.command.subscribe((cmpId: string) => {
             switch (cmpId) {

@@ -9,7 +9,7 @@ import { EventDataService } from './../../../../core/eventdata.service';
   styleUrls: ['./topbar-menu-user.component.scss']
 })
 export class TopbarMenuUserComponent {
- contextMenu: MenuItem[] = new Array<MenuItem>();
+ menuElements: MenuItem[] = new Array<MenuItem>();
 
 
   constructor(private loginSessionService: LoginSessionService,  private eventDataService: EventDataService) {
@@ -17,7 +17,7 @@ export class TopbarMenuUserComponent {
     const item2 = new MenuItem('Settings', 'idSettingsButton', true, false);
     const item3 = new MenuItem('Help', 'idHelpButton', true, false);
     const item4 = new MenuItem('Sign Out', 'idSignOutButton', true, false);
-    this.contextMenu.push(item1, item2, item3, item4);
+    this.menuElements.push(item1, item2, item3, item4);
 
 
     this.eventDataService.command.subscribe((cmpId: string) => {
