@@ -13,7 +13,7 @@ import { BOHelperService } from 'app/core/bohelper.service';
 @Injectable()
 export class BOService extends DocumentService {
     serverSideCommandMap = [];
-
+    modelStructure = {};
     subscriptions = [];
     boClients = new Array<BOClient>();
     constructor(
@@ -32,7 +32,7 @@ export class BOService extends DocumentService {
                         model.data = patched.doc.data;
                     }
                     if (model.data) {
-                        for (let prop in model.data) {
+                        for (const prop in model.data) {
                             if (model.data.hasOwnProperty(prop)) {
                                 this.eventData.model[prop] = model.data[prop];
                             }
@@ -74,8 +74,9 @@ export class BOService extends DocumentService {
                     if (goOn) {
                         this.doCommand(cmpId);
                     }
-                    if (subs)
+                    if (subs) {
                         subs.unsubscribe();
+                    }
 
                 });
             }
@@ -101,9 +102,9 @@ export class BOService extends DocumentService {
                     if (goOn) {
                         this.doChange(cmpId);
                     }
-                    if (subs)
+                    if (subs) {
                         subs.unsubscribe();
-
+                    }
                 });
             }
         }));
@@ -131,7 +132,7 @@ export class BOService extends DocumentService {
     }
     init(cmpId: string) {
         super.init(cmpId);
-        this.webSocketService.getDocumentData(this.mainCmpId);
+        this.webSocketService.getDocumentData(this.mainCmpId, this.modelStructure);
         this.webSocketService.checkMessageDialog(this.mainCmpId);
     }
     dispose() {
@@ -146,6 +147,17 @@ export class BOService extends DocumentService {
     }
     isServerSideCommand(idCommand: string) {
         return this.serverSideCommandMap.includes(idCommand);
+    }
+    registerModelField(owner: string, name: string) {
+        if (!owner) {
+            owner = 'global';
+        }
+        let container = this.modelStructure[owner];
+        if (!container) {
+            container = [];
+            this.modelStructure[owner] = container;
+        }
+        container.push(name);
     }
     doCommand(id: string) {
         const patch = this.getPatchedData();
