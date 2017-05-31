@@ -59,6 +59,7 @@ import { ComboSimpleComponent } from './controls/combo-simple/combo-simple.compo
 import { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
 
 import { IconComponent } from './icon.component';
+import { TopbarMenuElementsComponent } from './topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -105,7 +106,7 @@ const TB_DIRECTIVES = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent],
+  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent, TopbarMenuElementsComponent],
   exports: [TB_COMPONENTS, TB_DIRECTIVES],
   entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
 
