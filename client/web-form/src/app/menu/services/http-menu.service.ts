@@ -28,32 +28,17 @@ export class HttpMenuService {
      */
     getMenuElements(): Observable<any> {
 
-        // let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company'), token: this.cookieService.get('authtoken') }
-        // let urlToRun = this.httpService.getMenuGateUrl() + 'getMenuElements/';
-        // return this.postData(urlToRun, obj)
-        //     .map((res: Response) => {
-        //         return res.ok;
-        //     });
 
-        return this.http.get(this.httpService.getMenuBaseUrl() + 'getMenuElements/', { withCredentials: true })
-            .map((res: Response) => {
+        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company'), token: this.cookieService.get('authtoken') }
+        let urlToRun = this.httpService.getMenuGateUrl() + 'getMenuElements/';
+        return this.postData(urlToRun, obj)
+            .map((res: any) => {
                 return res.json();
             })
             .catch(this.handleError);
     }
 
-    /**
-     * API /getProductInfo
-     * 
-     * @returns {Observable<any>} getProductInfo
-     */
-    getProductInfo(): Observable<any> {
-        return this.http.get(this.httpService.getMenuBaseUrl() + 'getProductInfo/', { withCredentials: true })
-            .map((res: Response) => {
-                return res.json();
-            })
-            .catch(this.handleError);
-    }
+
 
     /**
      * API /getPreferences
@@ -61,8 +46,11 @@ export class HttpMenuService {
      * @returns {Observable<any>} getPreferences
      */
     getPreferences(): Observable<any> {
-        return this.http.get(this.httpService.getMenuBaseUrl() + 'getPreferences/', { withCredentials: true })
-            .map((res: Response) => {
+        let urlToRun = this.httpService.getMenuGateUrl() + 'getPreferences/';
+        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company') }
+
+        return this.postData(urlToRun, obj)
+            .map((res: any) => {
                 return res.json();
             })
             .catch(this.handleError);
@@ -77,8 +65,8 @@ export class HttpMenuService {
      * @returns {Observable<any>} setPreference
      */
     setPreference(referenceName: string, referenceValue: string): Observable<any> {
-        let obj = { name: referenceName, value: referenceValue };
-        var urlToRun = this.httpService.getMenuBaseUrl() + 'setPreference/';
+        let obj = { name: referenceName, value: referenceValue, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
+        var urlToRun = this.httpService.getMenuGateUrl() + 'setPreference/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.ok;
@@ -92,11 +80,12 @@ export class HttpMenuService {
      * @returns {Observable<any>} getThemedSettings
      */
     getThemedSettings(): Observable<any> {
-        return this.http.get(this.httpService.getMenuBaseUrl() + 'getThemedSettings/', { withCredentials: true })
+        let obj = { token: this.cookieService.get('authtoken') };
+        var urlToRun = this.httpService.getMenuGateUrl() + 'getThemedSettings/';
+        return this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.json();
-            })
-            .catch(this.handleError);
+            });
     }
 
     /**
@@ -105,18 +94,142 @@ export class HttpMenuService {
      * @returns {Observable<any>} getConnectionInfo
      */
     getConnectionInfo(): Observable<any> {
-        return this.http.get(this.httpService.getMenuBaseUrl() + 'getConnectionInfo/', { withCredentials: true })
+
+        let obj = { token: this.cookieService.get('authtoken') };
+        var urlToRun = this.httpService.getMenuGateUrl() + 'getConnectionInfo/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+
+    /**
+     * API /favoriteObject
+     * 
+     * @returns {Observable<any>} favoriteObject
+     */
+    favoriteObject(object) {
+        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
+
+        var urlToRun = this.httpService.getMenuGateUrl() + 'favoriteObject/';
+        let subs = this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.ok;
+            })
+            .subscribe(result => {
+                subs.unsubscribe();
+            });
+    }
+
+    /**
+     * API /unFavoriteObject
+     * 
+     * @returns {Observable<any>} unFavoriteObject
+     */
+    unFavoriteObject(object) {
+        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
+        var urlToRun = this.httpService.getMenuGateUrl() + 'unFavoriteObject/';
+        let subs = this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.ok;
+            })
+            .subscribe(result => {
+                subs.unsubscribe();
+            });
+    }
+
+    /**
+     * API /mostUsedClearAll
+     *
+     * @returns {Observable<any>} mostUsedClearAll
+     */
+    mostUsedClearAll(): Observable<any> {
+        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company') }
+        return this.postData(this.httpService.getMenuGateUrl() + 'clearAllMostUsed/', obj)
+            .map((res: Response) => {
+                return res.ok;
+            });
+
+    };
+
+    /**
+     * API /getMostUsedShowNr
+     * 
+     * @returns {Observable<any>} getMostUsedShowNr
+     */
+    getMostUsedShowNr(callback) {
+        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company') }
+        return this.postData(this.httpService.getMenuGateUrl() + 'getMostUsedShowNr/', obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+    /**
+     * API /addToMostUsed
+     * 
+     * @returns {Observable<any>} addToMostUsed
+     */
+    addToMostUsed(object): Observable<any> {
+        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
+        return this.postData(this.httpService.getMenuGateUrl() + 'addToMostUsed/', obj)
+            .map((res: Response) => {
+                return res.ok;
+            });
+    };
+
+    /**
+     * API /removeFromMostUsed
+     * 
+     * @returns {Observable<any>} removeFromMostUsed
+     */
+    removeFromMostUsed = function (object) {
+         let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
+       
+        return this.postData(this.httpService.getMenuGateUrl() + 'removeFromMostUsed/', obj)
+            .map((res: Response) => {
+                return res.ok;
+            });
+    };
+
+    /**
+     * API /loadLocalizedElements
+     * 
+     * @returns {Observable<any>} loadLocalizedElements
+     */
+    loadLocalizedElements(needLoginThread): Observable<any> {
+        return this.http.get(this.httpService.getMenuBaseUrl() + 'getLocalizedElements/?needLoginThread=' + needLoginThread, { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
             .catch(this.handleError);
+    };
+
+    // private postData(url: string, data: Object): Observable<Response> {
+    //     return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true })
+    //         .catch(this.handleError);
+    // }
+
+    postData(url: string, data: Object): Observable<Response> {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true, headers: headers });
+        //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
+    }
+
+    getData(url: string, data: Object): Observable<Response> {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this.http.get(url, { withCredentials: true, body: data, headers: headers });
+        //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
     }
 
     /**
-     * API /activateViaSMS
-     * 
-     * @returns {Observable<any>} activateViaSMS
-     */
+ * API /activateViaSMS
+ * 
+ * @returns {Observable<any>} activateViaSMS
+ */
     activateViaSMS() {
         var urlToRun = this.httpService.getMenuBaseUrl() + 'activateViaSMS/';
         let subs = this.postData(urlToRun, undefined)
@@ -174,122 +287,18 @@ export class HttpMenuService {
     }
 
     /**
-     * API /favoriteObject
-     * 
-     * @returns {Observable<any>} favoriteObject
-     */
-    favoriteObject(object) {
-        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName };
-
-        var urlToRun = this.httpService.getMenuBaseUrl() + 'favoriteObject/';
-        let subs = this.postData(urlToRun, obj)
-            .map((res: Response) => {
-                return res.ok;
-            })
-            .subscribe(result => {
-                subs.unsubscribe();
-            });
-    }
-
-    /**
-     * API /unFavoriteObject
-     * 
-     * @returns {Observable<any>} unFavoriteObject
-     */
-    unFavoriteObject(object) {
-        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName };
-        var urlToRun = this.httpService.getMenuBaseUrl() + 'unFavoriteObject/';
-        let subs = this.postData(urlToRun, obj)
-            .map((res: Response) => {
-                return res.ok;
-            })
-            .subscribe(result => {
-                subs.unsubscribe();
-            });
-    }
-
-    /**
-     * API /mostUsedClearAll
-     *
-     * @returns {Observable<any>} mostUsedClearAll
-     */
-    mostUsedClearAll(): Observable<any> {
-        return this.postData(this.httpService.getMenuBaseUrl() + 'clearAllMostUsed/', undefined)
-            .map((res: Response) => {
-                return res.ok;
-            });
-
-    };
-
-    /**
-     * API /getMostUsedShowNr
-     * 
-     * @returns {Observable<any>} getMostUsedShowNr
-     */
-    getMostUsedShowNr(callback) {
-
-        var urlToRun = this.httpService.getMenuBaseUrl() + 'getMostUsedShowNr/';
-        let subs = this.postData(urlToRun, undefined)
-            .map((res: Response) => {
-                callback(res);
-                return res.ok;
-            })
-            .catch(this.handleError)
-            .subscribe(result => {
-                subs.unsubscribe();
-            });
-    }
-
-    /**
-     * API /addToMostUsed
-     * 
-     * @returns {Observable<any>} addToMostUsed
-     */
-    addToMostUsed(object): Observable<any> {
-        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName };
-        return this.postData(this.httpService.getMenuBaseUrl() + 'addToMostUsed/', obj)
-            .map((res: Response) => {
-                return res.ok;
-            });
-    };
-
-    /**
-     * API /removeFromMostUsed
-     * 
-     * @returns {Observable<any>} removeFromMostUsed
-     */
-    removeFromMostUsed = function (object) {
-        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName };
-        return this.postData(this.baseUrl + 'removeFromMostUsed/', obj)
-            .map((res: Response) => {
-                return res.ok;
-            });
-    };
-
-    /**
-     * API /loadLocalizedElements
-     * 
-     * @returns {Observable<any>} loadLocalizedElements
-     */
-    loadLocalizedElements(needLoginThread): Observable<any> {
-        return this.http.get(this.httpService.getMenuBaseUrl() + 'getLocalizedElements/?needLoginThread=' + needLoginThread, { withCredentials: true })
+ * API /getProductInfo
+ * 
+ * @returns {Observable<any>} getProductInfo
+ */
+    getProductInfo(): Observable<any> {
+        return this.http.get(this.httpService.getMenuBaseUrl() + 'getProductInfo/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
             .catch(this.handleError);
-    };
-
-    // private postData(url: string, data: Object): Observable<Response> {
-    //     return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true })
-    //         .catch(this.handleError);
-    // }
-
-    postData(url: string, data: Object): Observable<Response> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true, headers: headers });
-        //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
     }
+
 
     /**
      * TODO refactor with custom logger

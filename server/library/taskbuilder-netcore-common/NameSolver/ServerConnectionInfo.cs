@@ -92,11 +92,11 @@ namespace Microarea.Common.NameSolver
                 if (sysDBConnectionString == string.Empty)
                     return string.Empty;
 
-                return Crypto.Decrypt(sysDBConnectionString);
+                return AesCrypto.DecryptString(sysDBConnectionString);
             }
             set
             {
-                sysDBConnectionString = Crypto.Encrypt(value);
+                sysDBConnectionString = AesCrypto.EncryptString(value);
             }
         }
 
