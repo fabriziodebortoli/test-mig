@@ -153,7 +153,7 @@ namespace Microarea.RSWeb.Render
             if (!ds.PrepareQuery(/*HttpContext.Request.Query,*/ "Code"/*TODO RSWEB*/, filter))
                 return null;
 
-            string records;
+            string records="";
             if (!ds.GetCompactJson(out records))
                 return null;
 

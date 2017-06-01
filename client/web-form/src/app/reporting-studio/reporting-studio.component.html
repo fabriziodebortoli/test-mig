@@ -2,16 +2,16 @@
     <tb-toolbar-top>
 
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Find.png" caption="Search"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.First.png" caption="First" (click)="FirstPage()" *ngIf="running"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.First.png" caption="First" (click)="FirstPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Prev.png" caption="Previous Page" (click)="PrevPage()"
-            *ngIf="running"></tb-toolbar-top-button>
+            *ngIf="rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Next.png" caption="Next Page" (click)="NextPage()"
-            *ngIf="running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Last.png" caption="Last" (click)="LastPage()" *ngIf="running"></tb-toolbar-top-button>
+            *ngIf="rsService.running"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Last.png" caption="Last" (click)="LastPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.StartReport.png" caption="Run Report" (click)="RunReport()"
-            *ngIf="!running"></tb-toolbar-top-button>
+            *ngIf="!rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.StopReport.png" caption="Stop Report" (click)="StopReport()"
-            *ngIf="running"></tb-toolbar-top-button>
+            *ngIf="rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ReRun.png" caption="ReRun" (click)="ReRunReport()"></tb-toolbar-top-button>
     </tb-toolbar-top>
     <tb-frame-content>
