@@ -64,12 +64,7 @@ export class AskHotlinkComponent implements DoCheck {
 
   inputStyle() {
     return {
-      'width': '80%',
-      'height': '26px',
-      'padding': '0',
-      'border-width': '1px',
-      'border-color': 'rgba(0,0,0,0.3)'
-
+      'width': '60%',
     };
   }
 
@@ -77,5 +72,12 @@ export class AskHotlinkComponent implements DoCheck {
     this.showTable = false;
   }
 
-
+  showFilteredTable() {
+    if (this.showTable) {
+      this.showTable = false;
+    }
+    else if (this.hotlink.values && this.hotlink.values.rows) {
+      this.showTable = true;
+    }
+  }
 }

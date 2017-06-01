@@ -1,7 +1,8 @@
 <div>{{hotlink.caption}}</div>
-<input [(ngModel)]="filter" [ngStyle]="inputStyle()" (blur)="onBlur()" #anchorTable>
 
-<button kendoButton #anchor (click)="show=!show" [icon]="'more-vertical'"></button>
+<kendo-maskedtextbox [(ngModel)]="filter" [ngStyle]="inputStyle()" (blur)="onBlur()" ></kendo-maskedtextbox>
+<button kendoButton  [icon]="'arrow-60-down'" style="margin-left:-5px" (click)="showFilteredTable()"></button>
+<button kendoButton #anchor (click)="show=!show" [icon]="'more-vertical'" ></button>
 <kendo-popup [popupClass]="'popup-radio'" [anchor]="anchor" (anchorViewportLeave)="show = false" *ngIf="show">
   Search for:<br>
   <md-radio-group>
@@ -12,6 +13,7 @@
 <!--<button kendoButton (click)="onButtonClick(); " [icon]="'search'"></button> -->
 
 <button kendoButton  (click)="onButtonClick()" [icon]="'search'"></button>
+<div #anchorTable></div>
 <kendo-popup [anchor]="anchorTable" class="'popup-radio'" (anchorViewportLeave)="showTable = false" *ngIf="showTable" [ngStyle]="popupStyle()">
   <kendo-grid [data]="hotlink.values.rows" [selectable]="true" (selectionChange)="selectionChanged($event)" [scrollable]="'scrollable'"
    [height]="300">
