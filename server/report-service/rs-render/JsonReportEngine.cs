@@ -158,16 +158,8 @@ namespace Microarea.RSWeb.Render
                 return null;
 
             //recods contiene i record selezionati
-
-            /*
-            string[] temporary_values = { "BDF3","BDF36","BDF6","BFM3","BFM36","BFM6","BON",
-                    "CONT","RB","RB369-15","RBDF3","RBDF36","RBDF369",
-                    "RBDF6","RBFM3","RBFM36","RBFM369","RBFM6","RD","RDDF3",
-                    "RDDF36","RDDF369","RDDF6","RDFM3","RDFM36","RDFM369","RDFM6","TRFM4560" };
-            */
             return records;
         }
-
 
         //---------------------------------------------------------------------
         private string PreviousAskDialog(string currentClientDialogName)
@@ -229,7 +221,6 @@ namespace Microarea.RSWeb.Render
 
                             StateMachine.CurrentState = State.ExecuteUserBreak;
                             StateMachine.Step();
-                           
                         }
                  * */
 
@@ -272,8 +263,6 @@ namespace Microarea.RSWeb.Render
             }
             return msg;
         }
-
-
 
         //---------------------------------------------------------------------
         //per debug

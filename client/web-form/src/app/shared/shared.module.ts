@@ -58,8 +58,12 @@ import { LinkComponent } from './controls/link/link.component';
 import { ComboSimpleComponent } from './controls/combo-simple/combo-simple.component';
 import { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
 
-import { IconComponent } from './icon.component';
 import { TopbarMenuElementsComponent } from './topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
+import { TbCardComponent } from './controls/tb-card/tb-card.component';
+import { TbCardTitleComponent } from './controls/tb-card/tb-card-title/tb-card-title.component';
+import { TbCardContentComponent } from './controls/tb-card/tb-card-content/tb-card-content.component';
+import { IconComponent } from './icons/icon.component';
+import { M4IconComponent } from './icons/m4-icon.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -86,7 +90,9 @@ const TB_COMPONENTS = [
   PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
   BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
   PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent,
-  IconComponent
+  IconComponent, TopbarMenuElementsComponent, TbCardComponent, TbCardTitleComponent, TbCardContentComponent,
+  M4IconComponent
+
 ];
 
 const TB_DIRECTIVES = [
@@ -106,7 +112,7 @@ const TB_DIRECTIVES = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent, TopbarMenuElementsComponent],
+  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent],
   exports: [TB_COMPONENTS, TB_DIRECTIVES],
   entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
 

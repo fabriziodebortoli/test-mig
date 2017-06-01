@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'tb-icon',
-    template: `<i class="tb-icon tb-icon-{{icon}}"></i>`
+    selector: 'm4-icon',
+    template: `<i class="m4-icon m4-{{icon}}"></i>`
 })
-export class IconComponent {
+export class M4IconComponent {
 
     @Input('icon') icon: string = '';
 

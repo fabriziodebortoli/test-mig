@@ -1,9 +1,5 @@
 import { Component, Input } from '@angular/core';
 
-import { HttpService } from './../../../../core/http.service';
-
-enum IconType { MD, TB, IMG };
-
 @Component({
   selector: 'tb-tilegroup',
   templateUrl: './tile-group.component.html',
@@ -11,32 +7,14 @@ enum IconType { MD, TB, IMG };
 })
 export class TileGroupComponent {
 
-  @Input() title: string;
-
   active: boolean;
 
-  @Input() icon: string = '';
-  iconType: IconType;
-  iconTypes = IconType;
-  iconTxt: string;
+  @Input() title: string;
 
-  constructor(private httpService: HttpService) {
-  }
+  @Input() iconType: string = 'M4';
+  @Input() icon: string = 'erp-purchaseorder';
 
-  ngOnInit() {
-    this.checkIcon();
-  }
+  constructor() { }
 
-  checkIcon() {
-    if (this.icon.startsWith("md-")) {
-      this.iconType = IconType.MD;
-      this.iconTxt = this.icon.slice(3);
-    } else if (this.icon.startsWith("tb-")) {
-      this.iconType = IconType.TB;
-      this.iconTxt = this.icon.slice(3);
-    } else {
-      this.iconType = IconType.IMG;
-      this.iconTxt = this.httpService.getDocumentBaseUrl() + 'getImage/?src=' + this.icon;
-    }
-  }
+  ngOnInit() { }
 }

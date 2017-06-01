@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { LayoutService } from './../../../../core/layout.service';
 import { TileGroupComponent } from './../tile-group/tile-group.component';
-import { Component, ContentChildren, QueryList, AfterContentInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ContentChildren, QueryList, AfterContentInit, ViewChild, ViewEncapsulation, Input } from '@angular/core';
 import { TabberComponent } from '../../tabs';
 
 @Component({
