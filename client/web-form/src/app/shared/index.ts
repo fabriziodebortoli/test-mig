@@ -1,5 +1,6 @@
 export * from './tb.component';
-export * from './icon.component';
+export * from './icons/icon.component';
+export * from './icons/m4-icon.component';
 
 export * from './containers';
 export * from './topbar';

@@ -215,6 +215,8 @@ namespace Microarea.Common.Hotlink
             string path = this.Session.PathFinder.GetStandardDataFilePath(ns.Application, ns.Module, this.Session.UserInfo.UserUICulture.ToString()) +
                  Path.DirectorySeparatorChar +
                  ns.ObjectName + ".xml";
+            if (!File.Exists(path))
+                return false;
 
             // restituisce il dom già tradotto per i Tag o gli Attribute che sono localizzati
             LocalizableXmlDocument dom = new LocalizableXmlDocument(ns.Application, ns.Module, Session.PathFinder);
