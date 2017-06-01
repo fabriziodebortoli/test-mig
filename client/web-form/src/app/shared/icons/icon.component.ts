@@ -7,7 +7,7 @@ import { HttpService } from './../../core/http.service';
 })
 export class IconComponent {
 
-    @Input() iconType: string = 'IMG'; // MD, TB, CLASS, IMG  
+    @Input() iconType: string = 'IMG'; // TB, CLASS, IMG  
     @Input() icon: string = '';
 
     imgUrl: string;

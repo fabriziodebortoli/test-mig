@@ -1,8 +1,6 @@
 <div [ngSwitch]="iconType" class="div-icon">
     <img *ngSwitchCase="'IMG'" src="{{imgUrl}}{{icon}}" />
 
-    <!--<md-icon *ngSwitchCase="'MD'">{{icon}}</md-icon>-->
-
     <m4-icon *ngSwitchCase="'M4'" icon="{{icon}}"></m4-icon>
 
     <i *ngSwitchCase="'CLASS'" class="{{icon}}"></i>
