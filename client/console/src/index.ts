@@ -1,11 +1,11 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { SampleComponent } from './sample.component';
+import { SampleComponent } from './sample.component';
 // import { SampleDirective } from './sample.directive';
 // import { SamplePipe } from './sample.pipe';
 // import { SampleService } from './sample.service';
 
-// export * from './sample.component';
+export * from './sample.component';
 // export * from './sample.directive';
 // export * from './sample.pipe';
 // export * from './sample.service';
@@ -15,12 +15,12 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ],
   declarations: [
-    // SampleComponent,
+    SampleComponent,
     // SampleDirective,
     // SamplePipe
   ],
   exports: [
-    // SampleComponent,
+    SampleComponent,
     // SampleDirective,
     // SamplePipe
   ]

@@ -5,6 +5,8 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
+import { ConsoleModule } from '@taskbuilder/console';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -12,6 +14,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     FormsModule,
+    ConsoleModule,
     HttpModule
   ],
   providers: [],
