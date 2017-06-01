@@ -1,7 +1,5 @@
-import { text } from './../../../../reporting-studio/reporting-studio.model';
+import { EventDataService } from './../../../../core/eventdata.service';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
-import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { MenuItem } from './../../../context-menu/menu-item.model';
 import { ComponentService } from './../../../../core/component.service';
 
@@ -10,47 +8,36 @@ import { ComponentService } from './../../../../core/component.service';
   templateUrl: './topbar-menu-test.component.html',
   styleUrls: ['./topbar-menu-test.component.scss']
 })
-export class TopbarMenuTestComponent implements OnInit {
+export class TopbarMenuTestComponent {
 
-  anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
-  popupAlign: Align = { horizontal: 'right', vertical: 'top' };
-  private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
-  contextMenu: MenuItem[] = new Array<MenuItem>();
-  private show = false;
-  private title: string = "Test menu";
+  menuElements: MenuItem[] = new Array<MenuItem>();
 
-  constructor(private componentService: ComponentService) {
-    const item1 = new MenuItem('Data Service', 'idDataServiceButton', false, false);
-    const item2 = new MenuItem('Reporting Studio', 'idReportingStudioButton', false, false);
-    const item3 = new MenuItem('TB Explorer', 'idTBExplorerButton', false, false);
-    const item4 = new MenuItem('Test Grid Component', 'idTBExplorerButton', false, false);
-    const item5 = new MenuItem('Test Icons', 'idTestIconsButton', false, false);
-    this.contextMenu.push(item1, item2, item3, item4, item5);
+  constructor(private componentService: ComponentService, private eventDataService: EventDataService) {
+
+    const item1 = new MenuItem('Data Service', 'idDataServiceButton', true, false);
+    const item2 = new MenuItem('Reporting Studio', 'idReportingStudioButton', true, false);
+    const item3 = new MenuItem('TB Explorer', 'idTBExplorerButton', true, false);
+    const item4 = new MenuItem('Test Grid Component', 'idTBExplorerButton', true, false);
+    const item5 = new MenuItem('Test Icons', 'idTestIconsButton', true, false);
+    this.menuElements.push(item1, item2, item3, item4, item5);
+
+    this.eventDataService.command.subscribe((cmpId: string) => {
+            switch (cmpId) {
+              case 'idDataServiceButton':
+                return this.openDataService();
+              case 'idReportingStudioButton':
+                return this.openRS();
+              case 'idTBExplorerButton':
+                return this.openTBExplorer();
+              case 'idTBExplorerButton':
+                return this.openTestGrid();
+              case 'idTestIconsButton':
+                return this.openTestIcons();
+              default:
+                break;
+            }
+        });
   }
-
-  ngOnInit() {
-  }
-
-  chooseAction(buttonName: string) {
-    switch (buttonName) {
-      case 'idDataServiceButton':
-        return this.openDataService();
-      case 'idReportingStudioButton':
-        return this.openRS();
-      case 'idTBExplorerButton':
-        return this.openTBExplorer();
-      case 'idTBExplorerButton':
-        return this.openTestGrid();
-      case 'idTestIconsButton':
-        return this.openTestIcons();
-
-      default:
-        break;
-    }
-
-  }
-
-
   openDataService() {
     this.componentService.createComponentFromUrl('test/dataservice', true);
   }
@@ -70,8 +57,4 @@ export class TopbarMenuTestComponent implements OnInit {
   openTestIcons() {
     this.componentService.createComponentFromUrl('test/icons', true);
   }
-
-  // public closePopup(): void {
-  //     this.show = false;
-  //   }
 }

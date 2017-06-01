@@ -84,7 +84,7 @@ namespace Microarea.Common.NameSolver
 				return;
 
 			xmlThemeDocument = new XmlDocument();
-			xmlThemeDocument.Load(File.Open(themeFileName, FileMode.Open));
+			xmlThemeDocument.Load(File.Open(themeFileName, FileMode.Open, FileAccess.Read));
 		}
 
 		//---------------------------------------------------------------------

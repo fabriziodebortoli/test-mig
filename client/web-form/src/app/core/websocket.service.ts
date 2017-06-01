@@ -125,8 +125,8 @@ export class WebSocketService {
         // azione solo lato client.
     }*/
 
-    getDocumentData(cmpId: String) {
-        const data = { cmd: 'getDocumentData', cmpId: cmpId };
+    getDocumentData(cmpId: String, modelStructure: any) {
+        const data = { cmd: 'getDocumentData', cmpId: cmpId, modelStructure: modelStructure };
         this.connection.send(JSON.stringify(data));
     }
     checkMessageDialog(cmpId: String) {

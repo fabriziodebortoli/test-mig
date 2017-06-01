@@ -1,40 +1,24 @@
 <tb-frame>
     <tb-toolbar-top>
-        
+
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Find.png" caption="Search"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.First.png" caption="First" (click)="FirstPage()"
-            *ngIf="running"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.First.png" caption="First" (click)="FirstPage()" *ngIf="running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Prev.png" caption="Previous Page" (click)="PrevPage()"
             *ngIf="running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Next.png" caption="Next Page" (click)="NextPage()"
             *ngIf="running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Last.png" caption="Last"(click)="LastPage()"
-            *ngIf="running"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Last.png" caption="Last" (click)="LastPage()" *ngIf="running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.StartReport.png" caption="Run Report" (click)="RunReport()"
             *ngIf="!running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.StopReport.png" caption="Stop Report" (click)="StopReport()"
             *ngIf="running"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ReRun.png" caption="ReRun" (click)="ReRunReport()"></tb-toolbar-top-button>
     </tb-toolbar-top>
     <tb-frame-content>
         <tb-view-container>
             <tb-view>
                 <rs-askdialog *ngIf="rsService.showAsk" [ask]="askDialogTemplate" [hotLinkValues]="hotLinkValues"></rs-askdialog>
-                <div [ngStyle]="layoutBackStyle" *ngIf="!showAsk">
-                    <div [ngStyle]="layoutStyle">
-                        <div *ngFor="let item of objects">
-                            <div [ngSwitch]="item.obj">
-
-                                <rs-textrect [rect]="item" *ngSwitchCase="0"> </rs-textrect>
-                                <rs-fieldrect [rect]="item" *ngSwitchCase="1"> </rs-fieldrect>
-                                <rs-table [table]="item" *ngSwitchCase="2"> </rs-table>
-                                <rs-image [image]="item" *ngSwitchCase="3"> </rs-image>
-                                <rs-rect [rect]="item" *ngSwitchCase="4"> </rs-rect>
-                                <!--          <rs-repeater [repeater]="item" *ngSwitchCase="5"> </rs-repeater> -->
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <rs-layout [reportTemplate]="reportTemplate" [reportData]="reportData"></rs-layout>
             </tb-view>
         </tb-view-container>
     </tb-frame-content>

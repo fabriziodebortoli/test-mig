@@ -13,6 +13,14 @@ namespace Microarea.AdminServer
 		public const string DeleteInstance =            @"DELETE MP_Instances WHERE InstanceId = @InstanceId";
 		//
 
+		// ServerURL
+		public const string ExistServerURL = @"SELECT COUNT(*) FROM MP_ServerURLs WHERE InstanceId = @InstanceId AND URLType = @URLType";
+		public const string SelectServerURL = @"SELECT * FROM MP_ServerURLs WHERE InstanceId = @InstanceId AND URLType = @URLType";
+		public const string InsertServerURL = @"INSERT INTO MP_ServerURLs (InstanceId, URLType, URL) VALUES (@InstanceId, @URLType, @URL)";
+		public const string UpdateServerURL = @"UPDATE MP_ServerURLs SET URL = @URL WHERE InstanceId = @InstanceId AND URLType = @URLType";
+		public const string DeleteServerURL = @"DELETE MP_ServerURLs WHERE InstanceId = @InstanceId AND URLType = @URLType";
+		//
+
 		// Subscription
 		public const string ExistSubscription =         @"SELECT COUNT(*) FROM MP_Subscriptions WHERE SubscriptionId = @SubscriptionId";
 		public const string SelectSubscriptionByName =  @"SELECT * FROM MP_Subscriptions WHERE Name = @Name";
@@ -55,6 +63,30 @@ namespace Microarea.AdminServer
 			                                            ProvisioningAdmin = @ProvisioningAdmin, WindowsAuthentication = @WindowsAuthentication, PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage) 
 			                                            WHERE AccountId = @AccountId";
 		public const string DeleteAccount =             @"DELETE MP_Accounts WHERE AccountId = @AccountId";
+		//
+
+		// CompanyAccount
+		public const string ExistCompanyAccount = @"SELECT COUNT(*) FROM MP_CompanyAccounts WHERE AccountId = @AccountId AND CompanyId = @CompanyId";
+		public const string SelectCompanyAccount = @"SELECT * FROM MP_CompanyAccounts WHERE AccountId = @AccountId AND CompanyId = @CompanyId";
+		public const string InsertCompanyAccount = @"INSERT INTO MP_CompanyAccounts (AccountId, CompanyId, Admin) VALUES (@AccountId, @CompanyId, @Admin)";
+		public const string UpdateCompanyAccount = @"UPDATE MP_CompanyAccounts SET Admin = @Admin WHERE @AccountId = @AccountId AND CompanyId = @CompanyId";
+		public const string DeleteCompanyAccount = @"DELETE MP_CompanyAccounts WHERE @AccountId = @AccountId AND CompanyId = @CompanyId";
+		//
+
+		// InstanceAccount
+		public const string ExistInstanceAccount = @"SELECT COUNT(*) FROM MP_InstanceAccounts WHERE AccountId = @AccountId AND InstanceId = @InstanceId";
+		public const string SelectInstanceAccountByInstanceId = @"SELECT * FROM MP_InstanceAccounts WHERE InstanceId = @InstanceId";
+		public const string SelectInstanceAccountByAccountId = @"SELECT * FROM MP_InstanceAccounts WHERE AccountId = @AccountId";
+		public const string InsertInstanceAccount = @"INSERT INTO MP_InstanceAccounts (AccountId, InstanceId) VALUES (@AccountId, @InstanceId)";
+		public const string DeleteInstanceAccount = @"DELETE MP_InstanceAccounts WHERE @AccountId = @AccountId AND InstanceId = @InstanceId";
+		//
+
+		// SubscriptionAccount
+		public const string ExistSubscriptionAccount = @"SELECT COUNT(*) FROM MP_SubscriptionAccounts WHERE AccountId = @AccountId AND SubscriptionId = @SubscriptionId";
+		public const string SelectSubscriptionAccountBySubscriptionId = @"SELECT * FROM MP_SubscriptionAccounts WHERE SubscriptionId = @SubscriptionId";
+		public const string SelectSubscriptionAccountByAccountId = @"SELECT * FROM MP_SubscriptionAccounts WHERE AccountId = @AccountId";
+		public const string InsertSubscriptionAccount = @"INSERT INTO MP_SubscriptionAccounts (AccountId, SubscriptionId) VALUES (@AccountId, @SubscriptionId)";
+		public const string DeleteSubscriptionAccount = @"DELETE MP_SubscriptionAccounts WHERE @AccountId = @AccountId AND SubscriptionId = @SubscriptionId";
 		//
 	}
 }

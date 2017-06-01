@@ -30,6 +30,9 @@ export class AskHotlinkComponent implements DoCheck {
   });
 
   ngDoCheck() {
+    if (this.hotlink === undefined) {
+      return;
+    }
     let changes = this.differ.diff(this.hotlink);
     if (changes && this.hotlink.values && this.hotlink.values.rows) {
       let vals: any[] = [];

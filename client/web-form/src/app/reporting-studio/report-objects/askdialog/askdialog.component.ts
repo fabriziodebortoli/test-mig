@@ -31,18 +31,30 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (changes.ask !== undefined) {
-      let msg = JSON.parse(this.ask);
-      this.commType = msg.commandType;
-      this.askObject = JSON.parse(msg.message);
-      this.RenderLayout(this.askObject);
+      if (changes.ask.currentValue === 'empty') {
+        this.ask = undefined;
+        this.objects = undefined;
+        this.templates = undefined;
+      }
+      else {
+        let msg = JSON.parse(this.ask);
+        this.commType = msg.commandType;
+        this.askObject = JSON.parse(msg.message);
+        this.RenderLayout(this.askObject);
+      }
     }
     if (changes.hotLinkValues !== undefined && !changes.hotLinkValues.isFirstChange()) {
-      for (let i = 0; i < this.objects.length; i++) {
-        for (let y = 0; y < this.objects[i].entries.length; y++) {
-          if (this.objects[i].entries[y].id === this.hotLinkValues.page) {
-            let h: hotlink = <hotlink>this.objects[i].entries[y];
-            h.values = JSON.parse(this.hotLinkValues.message);
-            return;
+      if (changes.hotLinkValues.currentValue === 'empty') {
+        this.hotLinkValues = undefined;
+      }
+      else {
+        for (let i = 0; i < this.objects.length; i++) {
+          for (let y = 0; y < this.objects[i].entries.length; y++) {
+            if (this.objects[i].entries[y].id === this.hotLinkValues.page) {
+              let h: hotlink = <hotlink>this.objects[i].entries[y];
+              h.values = JSON.parse(this.hotLinkValues.message);
+              return;
+            }
           }
         }
       }
