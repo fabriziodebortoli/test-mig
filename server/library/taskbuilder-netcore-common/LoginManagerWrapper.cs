@@ -144,6 +144,8 @@ namespace Microarea.Common.WebServicesWrapper
 		public string ApplicationLanguage { get; internal set; }
 		public string PreferredLanguage { get; internal set; }
 		public string ProviderName { get; internal set; }
+		public string ProviderDescription { get; internal set; }
+		
 		public bool UseUnicode { get; internal set; }
 	}
 
@@ -160,8 +162,6 @@ namespace Microarea.Common.WebServicesWrapper
 		//private string loginManagerUrl;
 		private int webServicesTimeOut;
 		private string[] modules;
-
-		public string ProviderName { get; internal set; }
 
 		public LoginManagerState LoginManagerState { get => loginManagerState; set => loginManagerState = value; }
 
@@ -248,47 +248,18 @@ namespace Microarea.Common.WebServicesWrapper
 		}
 
 		//-----------------------------------------------------------------------------------------
-		public void GetLoginInformation(
-			string authenticationToken,
-			out string userName,
-			out string companyName,
-			out bool admin,
-			out string connectionString,
-			out string providerName,
-			out bool useUnicode,
-			out string preferredLanguage,
-			out string applicationLanguage)
-		{
-			GetLoginInformationRequest request = new GetLoginInformationRequest(authenticationToken);
-			Task<GetLoginInformationResponse> task = loginManagerClient.GetLoginInformationAsync(request);
-			GetLoginInformationResponse result = task.Result;
-
-			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-			if (loginManagerSession == null)
-			{
-				loginManagerSession = new LoginManagerSession(authenticationToken);
-				LoginManagerSessionManager.AddLoginManagerSession(authenticationToken, loginManagerSession);
-			}
-
-			loginManagerSession.UserName = userName = result.userName;
-
-			loginManagerSession.CompanyName = companyName = result.companyName;
-			loginManagerSession.Admin = admin = result.admin;
-			loginManagerSession.ConnectionString = connectionString = result.nonProviderCompanyConnectionString;
-			loginManagerSession.ProviderName = providerName = result.providerName;
-			loginManagerSession.UseUnicode = useUnicode = result.useUnicode;
-			loginManagerSession.PreferredLanguage = preferredLanguage = result.preferredLanguage;
-			loginManagerSession.ApplicationLanguage = applicationLanguage = result.applicationLanguage;
-		}
-
-		//-----------------------------------------------------------------------------------------
 		public void GetLoginInformation(string authenticationToken)
 		{
+			//se la sessione esiste, già, la chiamata alla getlogininformation non serve
+			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+			if (loginManagerSession != null)
+				return;
+
 			GetLoginInformationRequest request = new GetLoginInformationRequest(authenticationToken);
 			Task<GetLoginInformationResponse> task = loginManagerClient.GetLoginInformationAsync(request);
 			GetLoginInformationResponse result = task.Result;
 
-			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+			loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
 			if (loginManagerSession == null)
 			{
 				loginManagerSession = new LoginManagerSession(authenticationToken);
@@ -300,10 +271,11 @@ namespace Microarea.Common.WebServicesWrapper
 			loginManagerSession.CompanyName = result.companyName;
 			loginManagerSession.Admin = result.admin;
 			loginManagerSession.ConnectionString = result.nonProviderCompanyConnectionString;
-			loginManagerSession.ProviderName = result.providerName;
 			loginManagerSession.UseUnicode = result.useUnicode;
 			loginManagerSession.PreferredLanguage = result.preferredLanguage;
 			loginManagerSession.ApplicationLanguage = result.applicationLanguage;
+			loginManagerSession.ProviderName = result.providerName;
+			loginManagerSession.ProviderDescription = result.providerDescription;
 		}
 
 		//-----------------------------------------------------------------------------------------
@@ -340,6 +312,68 @@ namespace Microarea.Common.WebServicesWrapper
 		{
 			Task<string> task = loginManagerClient.GetUserInfoAsync();
 			return task.Result;
+		}
+
+		//-----------------------------------------------------------------------------------------
+		public string GetEditionType()
+		{
+			Task<string> task = loginManagerClient.GetEditionTypeAsync();
+			return task.Result;
+		}
+
+		//-----------------------------------------------------------------------------------------
+		public SerialNumberType GetSerialNumberType()
+		{
+			Task<TaskBuilderNetCore.Interfaces.SerialNumberType> task = loginManagerClient.CacheCounterGTGAsync();
+			return task.Result;
+		}
+		
+		//----------------------------------------------------------------------------
+		public String GetActivationStateInfo()
+		{
+			string sMessage;
+			TaskBuilderNetCore.Interfaces.ActivationState actState = GetActivationState(out int daysToExpiration);
+
+			switch (actState)
+			{
+				case TaskBuilderNetCore.Interfaces.ActivationState.Activated:
+					sMessage = EnumsStateStrings.Activated;
+					break;
+				case TaskBuilderNetCore.Interfaces.ActivationState.Demo:
+				case TaskBuilderNetCore.Interfaces.ActivationState.DemoWarning:
+					sMessage = EnumsStateStrings.DemoVersion;
+					break;
+				case TaskBuilderNetCore.Interfaces.ActivationState.SilentWarning:
+					sMessage = EnumsStateStrings.SilentWarning;
+					break;
+				case TaskBuilderNetCore.Interfaces.ActivationState.Warning:
+					sMessage = EnumsStateStrings.Warning;
+					break;
+				case TaskBuilderNetCore.Interfaces.ActivationState.Disabled:
+					sMessage = EnumsStateStrings.Disabled;
+					break;
+				default:
+					sMessage = EnumsStateStrings.NotActivated;
+					break;
+			}
+
+			// serial number type
+			switch (GetSerialNumberType())
+			{
+				case SerialNumberType.Development:
+					sMessage += EnumsStateStrings.SerialNumberDevelopment;
+					break;
+				case SerialNumberType.Reseller:
+					sMessage += EnumsStateStrings.SerialNumberReseller;
+					break;
+				case SerialNumberType.Distributor:
+					sMessage += EnumsStateStrings.SerialNumberDistributor;
+					break;
+				default:
+					break;
+			}
+
+			return sMessage;
 		}
 
 		//-----------------------------------------------------------------------------------------

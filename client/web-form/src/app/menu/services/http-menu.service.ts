@@ -21,14 +21,18 @@ export class HttpMenuService {
         private httpService: HttpService) {
     }
 
+    postData(url: string, data: Object): Observable<Response> {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true, headers: headers });
+    }
+
     /**
      * API /getMenuElements
      * 
      * @returns {Observable<any>} getMenuElements
      */
     getMenuElements(): Observable<any> {
-
-
         let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company'), token: this.cookieService.get('authtoken') }
         let urlToRun = this.httpService.getMenuGateUrl() + 'getMenuElements/';
         return this.postData(urlToRun, obj)
@@ -37,8 +41,6 @@ export class HttpMenuService {
             })
             .catch(this.handleError);
     }
-
-
 
     /**
      * API /getPreferences
@@ -73,12 +75,11 @@ export class HttpMenuService {
             });
     }
 
-
     /**
-     * API /getThemedSettings
-     * 
-     * @returns {Observable<any>} getThemedSettings
-     */
+  * API /getThemedSettings
+  * 
+  * @returns {Observable<any>} getThemedSettings
+  */
     getThemedSettings(): Observable<any> {
         let obj = { token: this.cookieService.get('authtoken') };
         var urlToRun = this.httpService.getMenuGateUrl() + 'getThemedSettings/';
@@ -185,8 +186,8 @@ export class HttpMenuService {
      * @returns {Observable<any>} removeFromMostUsed
      */
     removeFromMostUsed = function (object) {
-         let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
-       
+        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
+
         return this.postData(this.httpService.getMenuGateUrl() + 'removeFromMostUsed/', obj)
             .map((res: Response) => {
                 return res.ok;
@@ -194,50 +195,55 @@ export class HttpMenuService {
     };
 
     /**
+     * API /clearCachedData
+     * 
+     * @returns {Observable<any>} clearCachedData
+     */
+    clearCachedData(): Observable<any> {
+        var urlToRun = this.httpService.getMenuGateUrl() + 'clearCachedData/';
+        return this.postData(urlToRun, undefined)
+            .map((res: Response) => {
+                return res.ok;
+            });
+    }
+
+    /**
      * API /loadLocalizedElements
      * 
      * @returns {Observable<any>} loadLocalizedElements
      */
     loadLocalizedElements(needLoginThread): Observable<any> {
-        return this.http.get(this.httpService.getMenuBaseUrl() + 'getLocalizedElements/?needLoginThread=' + needLoginThread, { withCredentials: true })
+        let obj = { token: this.cookieService.get('authtoken') }
+        return this.postData(this.httpService.getMenuGateUrl() + 'getLocalizedElements/', obj)
             .map((res: Response) => {
                 return res.json();
-            })
-            .catch(this.handleError);
+            });
     };
 
-    // private postData(url: string, data: Object): Observable<Response> {
-    //     return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true })
-    //         .catch(this.handleError);
-    // }
 
-    postData(url: string, data: Object): Observable<Response> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http.post(url, this.utilsService.serializeData(data), { withCredentials: true, headers: headers });
-        //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
-    }
 
-    getData(url: string, data: Object): Observable<Response> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http.get(url, { withCredentials: true, body: data, headers: headers });
-        //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
+    /**
+ * API /getProductInfo
+ * 
+ * @returns {Observable<any>} getProductInfo
+ */
+    getProductInfo(): Observable<any> {
+        let obj = { token: this.cookieService.get('authtoken') }
+        return this.postData(this.httpService.getMenuGateUrl() + 'getProductInfo/', obj)
+            .map((res: Response) => {
+                return res.json();
+            });
     }
 
     /**
- * API /activateViaSMS
- * 
- * @returns {Observable<any>} activateViaSMS
- */
-    activateViaSMS() {
-        var urlToRun = this.httpService.getMenuBaseUrl() + 'activateViaSMS/';
-        let subs = this.postData(urlToRun, undefined)
+  * API /activateViaSMS
+  * 
+  * @returns {Observable<any>} activateViaSMS
+  */
+    activateViaSMS(): Observable<any> {
+      return this.http.get(this.httpService.getMenuGateUrl() + 'getPingViaSMSUrl/', { withCredentials: true })
             .map((res: Response) => {
-                return res.ok;
-            })
-            .subscribe(result => {
-                subs.unsubscribe();
+                return res.json();
             });
     }
 
@@ -246,59 +252,13 @@ export class HttpMenuService {
      * 
      * @returns {Observable<any>} goToSite
      */
-    goToSite() {
-        var urlToRun = this.httpService.getMenuBaseUrl() + 'producerSite/';
-        let subs = this.postData(urlToRun, undefined)
-            .map((res: Response) => {
-                return res.ok;
-            })
-            .subscribe(result => {
-                subs.unsubscribe();
-            });
-    }
+    goToSite(): Observable<any> {
 
-    /**
-     * API /clearCachedData
-     * 
-     * @returns {Observable<any>} clearCachedData
-     */
-    clearCachedData(): Observable<any> {
-        var urlToRun = this.httpService.getMenuBaseUrl() + 'clearCachedData/';
-        return this.postData(urlToRun, undefined)
-            .map((res: Response) => {
-                return res.ok;
-            });
-    }
-
-    /**
-     * API /activateViaInternet
-     * 
-     * @returns {Observable<any>} activateViaInternet
-     */
-    activateViaInternet() {
-        var urlToRun = this.httpService.getMenuBaseUrl() + 'activateViaInternet/';
-        let subs = this.postData(urlToRun, undefined)
-            .map((res: Response) => {
-                return res.ok;
-            })
-            .subscribe(result => {
-                subs.unsubscribe();
-            });
-    }
-
-    /**
- * API /getProductInfo
- * 
- * @returns {Observable<any>} getProductInfo
- */
-    getProductInfo(): Observable<any> {
-        return this.http.get(this.httpService.getMenuBaseUrl() + 'getProductInfo/', { withCredentials: true })
+          return this.http.get(this.httpService.getMenuGateUrl() + 'getProducerSite/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
-            })
-            .catch(this.handleError);
+            });
     }
-
 
     /**
      * TODO refactor with custom logger

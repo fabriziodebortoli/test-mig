@@ -1,53 +1,75 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
-    <AssemblyName>taskbuilder-netcore-common</AssemblyName>
-    <PackageId>taskbuilder-netcore-common</PackageId>
-     
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp1.1</TargetFramework>
+		<AssemblyName>taskbuilder-netcore-common</AssemblyName>
+		<PackageId>taskbuilder-netcore-common</PackageId>
+		<RootNamespace>Microarea.Common</RootNamespace>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.csproj" />
-    <ProjectReference Include="..\taskbuilder-netcore-data\taskbuilder-netcore-data.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.csproj" />
+		<ProjectReference Include="..\taskbuilder-netcore-data\taskbuilder-netcore-data.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
-    <PackageReference Include="Microsoft.AspNetCore.WebSockets.Server" Version="0.1.0" />
-    <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
-    <PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.3.1" />
-    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
-    <PackageReference Include="System.ServiceModel.Duplex" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
-    <PackageReference Include="system.xml.xpath.xmldocument" Version="4.3.0" />
-    <PackageReference Include="System.Collections" Version="4.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.1.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.ServiceModel.Http" Version="4.3.0" />
-    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.3.0" />
-    <PackageReference Include="System.ServiceModel.Security" Version="4.3.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
+		<PackageReference Include="Microsoft.AspNetCore.WebSockets.Server" Version="0.1.0" />
+		<PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
+		<PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.3.1" />
+		<PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+		<PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
+		<PackageReference Include="System.ServiceModel.Duplex" Version="4.3.0" />
+		<PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
+		<PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
+		<PackageReference Include="system.xml.xpath.xmldocument" Version="4.3.0" />
+		<PackageReference Include="System.Collections" Version="4.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Routing" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.1.3" />
+		<PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+		<PackageReference Include="System.ServiceModel.Primitives" Version="4.3.0" />
+		<PackageReference Include="System.ServiceModel.Http" Version="4.3.0" />
+		<PackageReference Include="System.ServiceModel.NetTcp" Version="4.3.0" />
+		<PackageReference Include="System.ServiceModel.Security" Version="4.3.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
+	<ItemGroup>
+		<WCFMetadata Include="Connected Services" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="EnumsStateStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>EnumsStateStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="MenuLoader\MenuStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>MenuStrings.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="EnumsStateStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>EnumsStateStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="MenuLoader\MenuStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>MenuStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
 
 </Project>

@@ -6,35 +6,35 @@
 
             <tr>
                 <td style="text-align:right">
-                    {{localizationService.getLocalizedElement('InstallationVersion')}}:
+                    {{localizationService.localizedElements?.InstallationVersion}}:
                 </td>
                 <td><b>{{productInfos?.installationVersion}} {{productInfos?.debugState}}</b></td>
 
             </tr>
             <tr>
                 <td style="text-align:right">
-                    {{localizationService.getLocalizedElement('Provider')}}:
+                    {{localizationService.localizedElements?.Provider}}:
                 </td>
                 <td><b>{{productInfos?.providerDescription}}</b></td>
 
             </tr>
             <tr>
                 <td style="text-align:right">
-                    {{localizationService.getLocalizedElement('Edition')}}:
+                    {{localizationService.localizedElements?.Edition}}:
                 </td>
                 <td><b>{{productInfos?.edition}}</b></td>
 
             </tr>
             <tr>
                 <td style="text-align:right">
-                    {{localizationService.getLocalizedElement('InstallationName')}}:
+                    {{localizationService.localizedElements?.InstallationName}}:
                 </td>
                 <td><b>{{productInfos?.installationName}}</b></td>
 
             </tr>
             <tr>
                 <td style="text-align:right">
-                    {{localizationService.getLocalizedElement('ActivationState')}}:
+                    {{localizationService.localizedElements?.ActivationState}}:
                 </td>
                 <td><b>{{productInfos?.activationState}}</b></td>
 
@@ -51,6 +51,6 @@
 
 
         </table>
-     <button type="button" (click)="dialogRef.close('yes')">{{localizationService.getLocalizedElement('CloseLabel')}}</button>
+     <button type="button" (click)="dialogRef.close('yes')">{{localizationService.localizedElements?.CloseLabel}}</button>
 
 
