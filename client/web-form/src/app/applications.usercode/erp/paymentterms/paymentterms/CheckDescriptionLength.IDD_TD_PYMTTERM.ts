@@ -4,8 +4,8 @@ import { BOService, BOClient } from './../../../../core/bo.service';
 
 export class CheckDescriptionLength extends BOClient {
     constructor(
-        private boService: BOService) {
-        super();
+        boService: BOService) {
+        super(boService);
     }
 
     onCommand(id: string): Observable<boolean> {
