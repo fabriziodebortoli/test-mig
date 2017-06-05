@@ -34,11 +34,12 @@ tb-tile.tile-standard {
     }
 }
 
-// tb-tile.tile-standard {
-//     div.sameHeight {
-//         height: 100%;
-//     }
-// }
+tb-tile.tile-standard {
+    div.sameHeight {
+        height: 100%;
+    }
+}
+
 tb-tile.tile-wide {
     md-card-content {
         display: flex;
@@ -55,15 +56,6 @@ tb-tile.tile-wide {
 .anchored {
     display: flex;
     flex-direction: column;
-}
-
-.tbcard {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    transition: 0.3s;
-}
-
-.tbcard:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 tb-tile>div {
