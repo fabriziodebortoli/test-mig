@@ -1,5 +1,14 @@
-$mf-border-color: #999 !default;
 textarea {
-    border-color: $mf-border-color;
-    background: lighten($mf-border-color, 37%);
+    width: 100%;
+    background: #ffffde;
+    border: 1px solid #ddd
+}
+
+textarea[disabled] {
+    width: 100%;
+    background-color: #f3f3f3;
+    border: 1px solid #ddd;
+    font-weight: bold;
+    color: #9c9c9c;
+    font-family: inherit;
 }

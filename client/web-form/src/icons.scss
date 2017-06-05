@@ -864,6 +864,7 @@
     content: "\e071";
 }
 
+<<<<<<< HEAD
 .m4-tb-attach:before {
     content: "\e072";
 }
@@ -877,6 +878,21 @@
 }
 
 .m4-tb-cancel:before {
+=======
+.m4-erp-wmsmore-c:before {
+    content: "\e072";
+}
+
+.m4-erp-zoomin:before {
+    content: "\e073";
+}
+
+.m4-erp-zoomout:before {
+    content: "\e074";
+}
+
+.m4-tb-master:before {
+>>>>>>> 5ed86839c033393037f9ae484dec30c8861071f4
     content: "\e075";
 }
 

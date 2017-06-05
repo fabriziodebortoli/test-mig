@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Microarea.Common.Generic
@@ -18,7 +19,9 @@ namespace Microarea.Common.Generic
 			byte[] inBlock = UnicodeEncoding.Unicode.GetBytes(inString);
 			ICryptoTransform xfrm = aesCSP.CreateEncryptor();
 			byte[] outBlock = xfrm.TransformFinalBlock(inBlock, 0, inBlock.Length);
-			return UnicodeEncoding.Unicode.GetString(outBlock);
+
+			//string output = UnicodeEncoding.Unicode.GetString(outBlock);
+			return Convert.ToBase64String(outBlock);
 		}
 
 		//-----------------------------------------------------------------------
@@ -28,7 +31,7 @@ namespace Microarea.Common.Generic
 
 			aesCSP.Key = key;
 			aesCSP.IV = iv;
-			byte[] inBlock = UnicodeEncoding.Unicode.GetBytes(inString);
+			byte[] inBlock = Convert.FromBase64String(inString);
 			ICryptoTransform xfrm = aesCSP.CreateDecryptor();
 			byte[] outBlock = xfrm.TransformFinalBlock(inBlock, 0, inBlock.Length);
 

@@ -35,7 +35,7 @@ namespace Microarea.Common.Hotlink
         }
     }
 
-    public class SelectionHeader
+    public class FieldTypeList
     {
         public List<SelectionFieldType> FieldTypes = new List<SelectionFieldType>();
     }
@@ -52,7 +52,7 @@ namespace Microarea.Common.Hotlink
         }
     }
 
-    public class SelectionElem
+    public class ElementList
     {
         public List<SelectionField> Fields = new List<SelectionField>();
 
@@ -60,8 +60,8 @@ namespace Microarea.Common.Hotlink
 
     public class Auxdata
     {
-        public List<SelectionHeader> HeaderList = new List<SelectionHeader>();
-        public List<SelectionElem> ElemList = new List<SelectionElem>();
+        public List<SelectionFieldType> Headers = new List<SelectionFieldType>();
+        public List<ElementList> Elements = new List<ElementList>();
     }
 
     public class Datasource
@@ -215,6 +215,8 @@ namespace Microarea.Common.Hotlink
             string path = this.Session.PathFinder.GetStandardDataFilePath(ns.Application, ns.Module, this.Session.UserInfo.UserUICulture.ToString()) +
                  Path.DirectorySeparatorChar +
                  ns.ObjectName + ".xml";
+            if (!File.Exists(path))
+                return false;
 
             // restituisce il dom già tradotto per i Tag o gli Attribute che sono localizzati
             LocalizableXmlDocument dom = new LocalizableXmlDocument(ns.Application, ns.Module, Session.PathFinder);
@@ -238,9 +240,7 @@ namespace Microarea.Common.Hotlink
 
             foreach (XmlElement head in headers)
             {
-                SelectionHeader fieldTypeList = new SelectionHeader();
-                auxData.HeaderList.Add(fieldTypeList);
-
+ 
                 foreach (XmlElement sel in head.ChildNodes)
                 {
                     string selName = sel.GetAttribute("name");
@@ -249,7 +249,7 @@ namespace Microarea.Common.Hotlink
                     string selType = sel.GetAttribute("type");
 
                     SelectionFieldType fieldType = new SelectionFieldType(selName, selKey, selHidden, selType);
-                    fieldTypeList.FieldTypes.Add(fieldType);
+                    auxData.Headers.Add(fieldType);
 
                 }
             }
@@ -268,8 +268,8 @@ namespace Microarea.Common.Hotlink
 
             foreach (XmlElement elem in elements)
             {
-                SelectionElem fieldList = new SelectionElem();
-                auxData.ElemList.Add(fieldList);
+                ElementList fieldList = new ElementList();
+                auxData.Elements.Add(fieldList);
 
                 foreach (XmlElement sel in elem.ChildNodes)
                 {
@@ -477,9 +477,54 @@ namespace Microarea.Common.Hotlink
 
         private bool GetDataFileJson(out string records)
         {
-            throw new NotImplementedException();
-            //dalla struttura letta prima a json stessa sintassi dell'altro metodo
+            records = "{" +
+                    XmlDescription.DbFieldName.Replace('.', '_').ToJson("key");
 
+            records += ", \"columns\":[";
+            bool first = true;
+            foreach (SelectionFieldType ft in auxData.Headers)
+            {
+                if (ft.Hidden == "1") continue;
+
+                if (first)
+                    first = false;
+                else
+                    records += ',';
+
+                records += '{' +
+                           ft.Name.ToJson("id") +
+                           ',' +
+                           ft.Name.ToJson("caption") +
+                           '}';
+            }
+            records += "],\n\"rows\":[";
+
+            string rows = string.Empty;
+            foreach (ElementList el in auxData.Elements)
+            {
+                bool first2 = true;
+                foreach (SelectionField f  in el.Fields)
+                {
+                    if (first2)
+                    {
+                        rows += '{';
+                        first2 = false;
+                    }
+                    else
+                        rows += ',';
+
+                    rows += f.ValueField.ToJson(f.NameField, false, true) ;
+                }
+                first2 = true;
+                rows += "},\n";
+            }
+            
+            if (rows != string.Empty)
+                rows = rows.Remove(rows.Length - 2); //ultima ,
+
+            records += rows + "]}";
+
+            return true;
         }
 
         //---------------------------------------------------------------------
