@@ -4,7 +4,7 @@ export interface Message {
   message?: string;
 }
 
-export enum CommandType { WRONG, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, RUNREPORT, ENDREPORT, NONE, HOTLINK, PREVASK, RERUN  }
+export enum CommandType { WRONG, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, RUNREPORT, ENDREPORT, NONE, HOTLINK, PREVASK, RERUN }
 
 export enum AskObjectType { text, radio, check, dropdownlist, hotlink }
 
@@ -27,6 +27,7 @@ export class link {
 }
 
 export class baseobj {
+  obj: ReportObjectType;
   id: string;
   hidden: boolean;
   transparent: boolean;
@@ -58,22 +59,22 @@ export class baserect extends baseobj {
 }
 
 export class sqrrect extends baserect {
-  obj: ReportObjectType = ReportObjectType.sqrrect;
   bkgcolor: string;
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
+    this.obj = ReportObjectType.sqrrect;
     this.bkgcolor = jsonObj.bkgcolor;
   };
 }
 
 export class graphrect extends sqrrect {
-  obj: ReportObjectType = ReportObjectType.graphrect;
   value: string;
   text_align: string;
   vertical_align: string;
   src: string = '';
   constructor(jsonObj: any) {
     super(jsonObj.sqrrect !== undefined ? jsonObj.sqrrect : jsonObj); // if image is constructed from fieldRect the jsonObj, else jsonObj.sqrrect
+    this.obj = ReportObjectType.graphrect;
     this.text_align = jsonObj.text_align;
     this.vertical_align = jsonObj.vertical_align;
     this.value = jsonObj.image ? jsonObj.image : '';
@@ -81,13 +82,13 @@ export class graphrect extends sqrrect {
 }
 
 export class repeater extends sqrrect {
-  obj: ReportObjectType = ReportObjectType.repeater;
   rows: number;
   columns: number;
   xoffset: number;
   yoffset: number;
   constructor(jsonObj: any) {
     super(jsonObj.sqrrect);
+    this.obj = ReportObjectType.repeater;
     this.rows = jsonObj.rows;
     this.columns = jsonObj.columns;
     this.xoffset = jsonObj.xoffset;
@@ -96,7 +97,6 @@ export class repeater extends sqrrect {
 }
 
 export class textrect extends baserect {
-  obj: ReportObjectType = ReportObjectType.textrect;
   value: string;
   bkgcolor: string;
   textcolor: string;
@@ -107,6 +107,7 @@ export class textrect extends baserect {
   value_is_barcode: boolean;
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
+    this.obj = ReportObjectType.textrect;
     this.text_align = jsonObj.text_align;
     this.vertical_align = jsonObj.vertical_align;
     this.value = jsonObj.value ? jsonObj.value : '';
@@ -119,7 +120,6 @@ export class textrect extends baserect {
 }
 
 export class fieldrect extends baserect {
-  obj: ReportObjectType = ReportObjectType.fieldrect;
   value: string = '';
   label: label;
   font: font;
@@ -133,6 +133,7 @@ export class fieldrect extends baserect {
   link: link = undefined;
   constructor(jsonObj: any) {
     super(jsonObj.baserect);
+    this.obj = ReportObjectType.fieldrect;
     this.label = jsonObj.label ? new label(jsonObj.label) : undefined;
     this.font = new font(jsonObj.font);
     this.text_align = jsonObj.text_align;
@@ -147,8 +148,6 @@ export class fieldrect extends baserect {
 }
 
 export class table extends baseobj {
-
-  obj: ReportObjectType = ReportObjectType.table;
   column_number: number;
   row_number: number;
   row_height: number;
@@ -161,6 +160,7 @@ export class table extends baseobj {
 
   constructor(jsonObj: any) {
     super(jsonObj.baseobj);
+    this.obj = ReportObjectType.table;
     this.column_number = jsonObj.column_number;
     this.row_number = jsonObj.row_number;
     this.row_height = jsonObj.row_height;
@@ -385,6 +385,7 @@ export class fieldAskObj {
 }
 
 export class askObj extends fieldAskObj {
+  obj: AskObjectType;
   hidden: boolean;
   enabled: boolean;
   caption: string;
@@ -405,33 +406,33 @@ export class askObj extends fieldAskObj {
 }
 
 export class text extends askObj {
-  obj: AskObjectType = AskObjectType.text;
   constructor(jsonObj: any) {
     super(jsonObj);
+    this.obj = AskObjectType.text;
   }
 }
 
 export class check extends askObj {
-  obj: AskObjectType = AskObjectType.check;
   constructor(jsonObj: any) {
     super(jsonObj);
+    this.obj = AskObjectType.check;
   }
 }
 
 export class radio extends askObj {
-  obj: AskObjectType = AskObjectType.radio;
   group_name: string;
   constructor(jsonObj: any) {
     super(jsonObj);
     this.group_name = jsonObj.group_name;
+    this.obj = AskObjectType.radio;
   }
 }
 
 export class dropdownlist extends askObj {
-  obj: AskObjectType = AskObjectType.dropdownlist;
   list: dropdownListPair[] = [];
   constructor(jsonObj: any) {
     super(jsonObj);
+    this.obj = AskObjectType.dropdownlist;
     for (let i = 0; i < jsonObj.list.length; i++) {
       let item = jsonObj.list[i];
       this.list.push(new dropdownListPair(item));
@@ -440,13 +441,13 @@ export class dropdownlist extends askObj {
 }
 
 export class hotlink extends askObj {
-  obj: AskObjectType = AskObjectType.hotlink;
   ns: string;
   selectionList: string[] = [];
   values: any = undefined;
   selection_type: string;
   constructor(jsonObj: any) {
     super(jsonObj);
+    this.obj = AskObjectType.hotlink;
     this.ns = jsonObj.hotlink.ns;
     this.selection_type = jsonObj.hotlink.selection_type;
     this.selectionList = jsonObj.hotlink.selection_list;
