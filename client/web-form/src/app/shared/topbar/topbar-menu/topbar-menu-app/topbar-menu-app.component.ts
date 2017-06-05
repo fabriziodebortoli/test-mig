@@ -35,36 +35,36 @@ export class TopbarMenuAppComponent implements OnDestroy {
   ) {
 
     this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe(() => {
-      const item1 = new MenuItem(this.localizationService.getLocalizedElement('ViewProductInfo'), 'idViewProductInfoButton', true, false);
-      const item2 = new MenuItem(this.localizationService.getLocalizedElement('ConnectionInfo'), 'idConnectionInfoButton', true, false);
-      const item3 = new MenuItem(this.localizationService.getLocalizedElement('GotoProducerSite'), 'idGotoProducerSiteButton', true, false);
-      const item4 = new MenuItem(this.localizationService.getLocalizedElement('ClearCachedData'), 'idClearCachedDataButton', true, false);
-      const item5 = new MenuItem(this.localizationService.getLocalizedElement('ActivateViaSMS'), 'idActivateViaSMSButton', true, false);
-      const item6 = new MenuItem(this.localizationService.getLocalizedElement('ActivateViaInternet'), 'idActivateViaInternetButton', true, false);
-      this.menuElements.push(item1, item2, item3, item4, item5, item6);
+      const item1 = new MenuItem(this.localizationService.localizedElements.ViewProductInfo, 'idViewProductInfoButton', true, false);
+      const item2 = new MenuItem(this.localizationService.localizedElements.ConnectionInfo, 'idConnectionInfoButton', true, false);
+      const item3 = new MenuItem(this.localizationService.localizedElements.GotoProducerSite, 'idGotoProducerSiteButton', true, false);
+      const item4 = new MenuItem(this.localizationService.localizedElements.ClearCachedData, 'idClearCachedDataButton', true, false);
+      const item5 = new MenuItem(this.localizationService.localizedElements.ActivateViaSMS, 'idActivateViaSMSButton', true, false);
+      // const item6 = new MenuItem(this.localizationService.localizedElements.ActivateViaInternet, 'idActivateViaInternetButton', true, false);
+      this.menuElements.push(item1, item2, item3, item4, item5/*, item6*/);
     });
 
 
-    
-    this.eventDataService.command.subscribe((cmpId: string) => {
-           switch (cmpId) {
-      case 'idViewProductInfoButton':
-        return this.openProductInfoDialog();
-      case 'idConnectionInfoButton':
-        return this.openConnectionInfoDialog();
-      case 'idGotoProducerSiteButton':
-        return this.goToSite();
-      case 'idClearCachedDataButton':
-        return this.clearCachedData();
-      case 'idActivateViaSMSButton':
-        return this.activateViaSMS();
-      case 'idActivateViaInternetButton':
-        return this.activateViaInternet();
 
-      default:
-        break;
-            }
-        });
+    this.eventDataService.command.subscribe((cmpId: string) => {
+      switch (cmpId) {
+        case 'idViewProductInfoButton':
+          return this.openProductInfoDialog();
+        case 'idConnectionInfoButton':
+          return this.openConnectionInfoDialog();
+        case 'idGotoProducerSiteButton':
+          return this.goToSite();
+        case 'idClearCachedDataButton':
+          return this.clearCachedData();
+        case 'idActivateViaSMSButton':
+          return this.activateViaSMS();
+        // case 'idActivateViaInternetButton':
+        //   return this.activateViaInternet();
+
+        default:
+          break;
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -73,18 +73,25 @@ export class TopbarMenuAppComponent implements OnDestroy {
 
   //---------------------------------------------------------------------------------------------
   activateViaSMS() {
-    this.httpMenuService.activateViaSMS();
+    this.httpMenuService.activateViaSMS().subscribe((result) => {
+      window.open(result.url, "_blank");
+
+    });
+
   }
 
   //---------------------------------------------------------------------------------------------
   goToSite() {
-    this.httpMenuService.goToSite();
+    this.httpMenuService.goToSite().subscribe((result) => {
+      window.open(result.url, "_blank");
+
+    });
   }
 
-  //---------------------------------------------------------------------------------------------
-  activateViaInternet() {
-    this.httpMenuService.activateViaInternet();
-  }
+  // //---------------------------------------------------------------------------------------------
+  // activateViaInternet() {
+  //   this.httpMenuService.activateViaInternet();
+  // }
 
   clearCachedData() {
     this.httpMenuService.clearCachedData().subscribe(result => {

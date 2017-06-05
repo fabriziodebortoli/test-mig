@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Xml;
 using Microarea.Common.Generic;
@@ -19,41 +25,41 @@ namespace Microarea.Common.MenuLoader
 	/// </summary>
 	public static class NewMenuLoader
 	{
-	
+
 		//---------------------------------------------------------------------
 		public static XmlDocument GetMenuXmlInfinity(string user, string company, string connection, string filename, string LoginId, string CompanyId)
-        {
-            PathFinder pf = new PathFinder(company, user);
-            XmlDocument doc = null;
-            string error = "";
-            try
-            {
-                using (MagoMenuParser mgmenu = new MagoMenuParser(connection, filename))
-                {
-                    MenuLoader menuLoader = new MenuLoader(pf, null, true);
-                    int nMenuRows = mgmenu.ExistMenu(Int32.Parse(LoginId), Int32.Parse(CompanyId));
-                    if (nMenuRows > -1)
-                    {
-                        MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, menuLoader.LoginManager.GetConfigurationHash(), user);
-                        if (pInfo != null && nMenuRows > 0)
-                            return null;
-                        menuLoader.LoadAllMenus(false, false);
-                        doc = menuLoader.ProcessMenu();
+		{
+			PathFinder pf = new PathFinder(company, user);
+			XmlDocument doc = null;
+			string error = "";
+			try
+			{
+				using (MagoMenuParser mgmenu = new MagoMenuParser(connection, filename))
+				{
+					MenuLoader menuLoader = new MenuLoader(pf, null, true);
+					int nMenuRows = mgmenu.ExistMenu(Int32.Parse(LoginId), Int32.Parse(CompanyId));
+					if (nMenuRows > -1)
+					{
+						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, menuLoader.LoginManager.GetConfigurationHash(), user);
+						if (pInfo != null && nMenuRows > 0)
+							return null;
+						menuLoader.LoadAllMenus(false, false);
+						doc = menuLoader.ProcessMenu();
 					}
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.Write(ex.Message);
-                error = ex.Message;
-            }
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.Write(ex.Message);
+				error = ex.Message;
+			}
 
-            if (doc == null)
-                throw new Exception("Error parsing Mago Menu " + error);
-            return doc;
-        }
-        //---------------------------------------------------------------------
-        private static XmlDocument GetMenuXml(string user, string company, string authenticationToken)
+			if (doc == null)
+				throw new Exception("Error parsing Mago Menu " + error);
+			return doc;
+		}
+		//---------------------------------------------------------------------
+		private static XmlDocument GetMenuXml(string user, string company, string authenticationToken)
 		{
 			PathFinder pf = new PathFinder(company, user);
 			XmlDocument doc = null;
@@ -88,7 +94,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------
 		private static void EnumerateNodes(XmlDocument doc)
 		{
-			XmlNodeList list =  doc.SelectNodes("//*");
+			XmlNodeList list = doc.SelectNodes("//*");
 			foreach (XmlNode item in list)
 			{
 				XmlAttribute s = doc.CreateAttribute("node_id");
@@ -219,6 +225,8 @@ namespace Microarea.Common.MenuLoader
 			}
 		}
 
+
+
 		//---------------------------------------------------------------------
 		private static void ProcessHiddenNodes(XmlDocument doc, string user, string company)
 		{
@@ -259,6 +267,51 @@ namespace Microarea.Common.MenuLoader
 				hiddenTileAttribute.Value = "true";
 			}
 		}
+
+		//-----------------------------------------------------------------
+		public static string GetLocalizationJson(string token)
+		{
+			if (token == null)
+				return string.Empty;
+
+			CultureInfo ci = new CultureInfo("en");
+			LoginManager lm = new LoginManager();
+			lm.GetLoginInformation(token);
+			LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(token);
+			if (session != null && !string.IsNullOrEmpty(session.PreferredLanguage))
+				ci = new CultureInfo(session.PreferredLanguage);
+
+			Stream sm = typeof(Microarea.Common.MenuLoader.MenuStrings).GetTypeInfo().Assembly.GetManifestResourceStream("Microarea.Common.MenuLoader.MenuStrings.resources");
+			ResourceReader reader = new ResourceReader(sm);
+			ResourceManager manager = new ResourceManager(typeof(Microarea.Common.MenuLoader.MenuStrings));
+
+			StringBuilder sb = new StringBuilder();
+			using (StringWriter sw = new StringWriter(sb))
+			{
+				JsonWriter jsonWriter = new JsonTextWriter(sw);
+
+				jsonWriter.WriteStartObject();
+				jsonWriter.WritePropertyName("LocalizedElements");
+
+				IDictionaryEnumerator enumerator = reader.GetEnumerator();
+				jsonWriter.WriteStartObject();
+				while (enumerator.MoveNext())
+				{
+					string currentKey = enumerator.Entry.Key.ToString();
+					jsonWriter.WritePropertyName(currentKey);
+					jsonWriter.WriteValue(manager.GetString(currentKey, ci));
+				}
+
+				jsonWriter.WriteEndObject();
+				jsonWriter.WriteEndObject();
+				string json = sb.ToString();
+
+				jsonWriter.Close();
+				return json;
+			}
+		
+		}
+
 
 		//---------------------------------------------------------------------	
 		private static string GetNrOfElementsToShow(XmlDocument doc)
@@ -357,9 +410,9 @@ namespace Microarea.Common.MenuLoader
 			}
 		}
 
-       
-        //---------------------------------------------------------------------
-        public static string LoadBrandInfoAsJson()
+
+		//---------------------------------------------------------------------
+		public static string LoadBrandInfoAsJson()
 		{
 			string producerSite = InstallationData.BrandLoader.GetBrandedStringBySourceString("ProducerSite");
 			string releaseInfoUrl = InstallationData.BrandLoader.GetBrandedStringBySourceString("ReleaseInfoUrl");
@@ -381,7 +434,7 @@ namespace Microarea.Common.MenuLoader
 				productTitle = info.ProductTitle;
 			}
 
-			
+
 			string companyMenuBanner = GetImagePathFromBrand("MenuBannerImage");
 			string producerLogo = GetImagePathFromBrand("ProducerLogo");
 
@@ -515,12 +568,12 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------
 		public static string GetLoginInitImage()
 		{
-            LoginManager lm = new LoginManager();
-            if (lm.IsActivated("Erp", "imago"))
-            return GetImagePathFromBrand("ILoginHeaderImage");
-            else
-            return GetImagePathFromBrand("LoginHeaderImage");
-        }
+			LoginManager lm = new LoginManager();
+			if (lm.IsActivated("Erp", "imago"))
+				return GetImagePathFromBrand("ILoginHeaderImage");
+			else
+				return GetImagePathFromBrand("LoginHeaderImage");
+		}
 
 		//---------------------------------------------------------------------
 		public static string GetLoginInitInformation()
@@ -591,7 +644,6 @@ namespace Microarea.Common.MenuLoader
 			StringBuilder sb = new StringBuilder();
 			using (StringWriter sw = new StringWriter(sb))
 			{
-
 				JsonWriter jsonWriter = new JsonTextWriter(sw);
 
 				jsonWriter.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -602,11 +654,11 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WritePropertyName("user");
 					jsonWriter.WriteValue(loginManagerSession.UserName);
 					jsonWriter.WritePropertyName("admin");
-					jsonWriter.WriteValue(loginManagerSession.Admin ? Yes : No);
+					jsonWriter.WriteValue(loginManagerSession.Admin);
 					jsonWriter.WritePropertyName("ebdev");
 					bool ok = LoginFacilities.loginManager.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
 													LoginFacilities.loginManager.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
-					jsonWriter.WriteValue(ok ? Yes : No);
+					jsonWriter.WriteValue(ok);
 					jsonWriter.WritePropertyName("company");
 					jsonWriter.WriteValue(loginManagerSession.CompanyName);
 
@@ -625,13 +677,13 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WriteValue(BasePathFinder.BasePathFinderInstance.RemoteWebServer);
 
 					jsonWriter.WritePropertyName("security");
-					jsonWriter.WriteValue(loginManagerSession.Security ? Yes : No);
+					jsonWriter.WriteValue(loginManagerSession.Security);
 					jsonWriter.WritePropertyName("auditing");
-					jsonWriter.WriteValue(loginManagerSession.Auditing ? Yes : No);
+					jsonWriter.WriteValue(loginManagerSession.Auditing);
 
 					bool showDBSizeControls = (LoginFacilities.loginManager.GetDBNetworkType() == DBNetworkType.Small &&
-							string.Compare(LoginFacilities.loginManager.ProviderName, NameSolverDatabaseStrings.SQLOLEDBProvider, StringComparison.OrdinalIgnoreCase) == 0 ||
-							string.Compare(LoginFacilities.loginManager.ProviderName, NameSolverDatabaseStrings.SQLODBCProvider, StringComparison.OrdinalIgnoreCase) == 0);
+							string.Compare(loginManagerSession.ProviderName, NameSolverDatabaseStrings.SQLOLEDBProvider, StringComparison.OrdinalIgnoreCase) == 0 ||
+							string.Compare(loginManagerSession.ProviderName, NameSolverDatabaseStrings.SQLODBCProvider, StringComparison.OrdinalIgnoreCase) == 0);
 
 					jsonWriter.WritePropertyName("showdbsizecontrols");
 					jsonWriter.WriteValue(showDBSizeControls ? Yes : No);
@@ -655,6 +707,87 @@ namespace Microarea.Common.MenuLoader
 				return output;
 			}
 
+		}
+
+		//---------------------------------------------------------------------
+		public static string GetJsonProductInfo(string authenticationToken)
+		{
+
+			LoginManager lm = new LoginManager();
+			lm.GetLoginInformation(authenticationToken);
+			LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+			StringBuilder sb = new StringBuilder();
+			using (StringWriter sw = new StringWriter(sb))
+			{
+				JsonWriter jsonWriter = new JsonTextWriter(sw);
+				jsonWriter.WriteStartObject();
+				jsonWriter.WritePropertyName("ProductInfos");
+
+				jsonWriter.WriteStartObject();
+
+				jsonWriter.WritePropertyName("installationVersion");
+				jsonWriter.WriteValue(lm.GetInstallationVersion());
+
+				jsonWriter.WritePropertyName("providerDescription");
+				jsonWriter.WriteValue(session.ProviderDescription);
+
+				jsonWriter.WritePropertyName("edition");
+				jsonWriter.WriteValue(lm.GetEditionType());
+
+				jsonWriter.WritePropertyName("installationName");
+				jsonWriter.WriteValue(BasePathFinder.BasePathFinderInstance.Installation); ////jsonWriter.WriteString(_T("installationName"), AfxGetPathFinder()->GetInstallationName());
+
+				jsonWriter.WritePropertyName("activationState");
+				jsonWriter.WriteValue(lm.GetActivationStateInfo());
+
+				string debugState = string.Empty;
+#if DEBUG
+				debugState += MenuStrings.DebugVersion;
+#endif
+				jsonWriter.WritePropertyName("debugState");
+				jsonWriter.WriteValue(debugState);
+
+				
+				
+				jsonWriter.WritePropertyName("Applications");
+				jsonWriter.WriteStartArray();
+				
+
+				BasePathFinder.BasePathFinderInstance.GetApplicationsList(ApplicationType.All, out StringCollection apps);
+
+				foreach (string app in apps)
+				{
+					IBaseApplicationInfo appInfo = BasePathFinder.BasePathFinderInstance.GetApplicationInfoByName(app);
+					//appInfo.Name
+
+					if (appInfo.Modules.Count <= 0)
+						continue;
+
+					IEnumerator enumerator = appInfo.Modules.GetEnumerator();
+					if (!enumerator.MoveNext())
+						continue;
+					
+					IBaseModuleInfo firstModule = enumerator.Current as IBaseModuleInfo;
+					if (firstModule == null)
+						continue;
+					string sActive = lm.IsActivated(appInfo.Name, firstModule.Name) ? EnumsStateStrings.Licensed : EnumsStateStrings.NotLicensed;
+					jsonWriter.WriteStartObject();
+					jsonWriter.WritePropertyName("application");
+					jsonWriter.WriteValue(appInfo.Name);  // TODOLUCA manca la versione accanto al name
+					jsonWriter.WritePropertyName("licensed");
+					jsonWriter.WriteValue(sActive);
+					jsonWriter.WriteEndObject();
+				}
+				
+				jsonWriter.WriteEndArray();
+				jsonWriter.WriteEndObject();
+				jsonWriter.WriteEndObject();
+
+				string output = sw.ToString();
+
+				jsonWriter.Close();
+				return output;
+			}
 		}
 
 		//---------------------------------------------------------------------
@@ -707,26 +840,6 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WriteValue(val);
 				}
 
-				val = theme.GetStringThemeElement("LastApplicationName");
-				if (!string.IsNullOrEmpty(val))
-				{
-					jsonWriter.WritePropertyName("lastApplicationName");
-					jsonWriter.WriteValue(val);
-				}
-
-				val = theme.GetStringThemeElement("LastGroupName");
-				if (!string.IsNullOrEmpty(val))
-				{
-					jsonWriter.WritePropertyName("lastGroupName");
-					jsonWriter.WriteValue(val);
-				}
-
-				val = theme.GetStringThemeElement("LastMenuName");
-				if (!string.IsNullOrEmpty(val))
-				{
-					jsonWriter.WritePropertyName("lastMenuName");
-					jsonWriter.WriteValue(val);
-				}
 				jsonWriter.WriteEndObject();
 
 				jsonWriter.WritePropertyName("OtherSettings");
@@ -755,105 +868,105 @@ namespace Microarea.Common.MenuLoader
 		}
 	}
 
-    public class MagoMenuParser : IDisposable
-    {
-        private XmlDocument _doc = null;
-        private string _SQLConnection;// = "Data Source={0}; Initial Catalog='{1}';User ID='{2}';Password='{3}'";
+	public class MagoMenuParser : IDisposable
+	{
+		private XmlDocument _doc = null;
+		private string _SQLConnection;// = "Data Source={0}; Initial Catalog='{1}';User ID='{2}';Password='{3}'";
 
-        private string sqlInsert = "insert into MSD_IMagoMenu (MMMENUID, MMLSTUPD, MM__VOCE, MM_LEVEL, MMDIRECT, MMINFMOD, MMLVLKEY, MMELEMEN, MM_PROGR, MMINFPRO) values ('{0}', '{1}', '{2}', {3}, {4}, 1, '{5}',{6}, {7}, '{8}')";
-        private string sqlDelete = "delete from MSD_IMagoMenu where MMMENUID='{0}' AND MMLSTUPD='{1}'";
-        private string sqlSelect = "select count(*) from MSD_IMagoMenu where MMMENUID='{0}' AND MMLSTUPD='{1}'";
-        private string sqlSelCompUsr = "select MMMENUID from MSD_CompanyLogins where LoginId={0} AND CompanyId={1}";
-        private string magofunc = "function:openMago(\"{0}\", \"\",\"\",\"{1}\")";
-        private string prefix = "001.";
-        private char pad = '0';
-        private int nIdx = 0;
-        private string _mmenuid;
-        private string _mmlstupid;
-        private string _logfile;
-        private int _loginId;
-        private int _CompanyId;
-        SqlConnection connection = null;
-        SqlCommand sqlRowInsert = null;
-        StreamWriter sw = null;
-        SqlTransaction transaction = null;
-        int nrows;
+		private string sqlInsert = "insert into MSD_IMagoMenu (MMMENUID, MMLSTUPD, MM__VOCE, MM_LEVEL, MMDIRECT, MMINFMOD, MMLVLKEY, MMELEMEN, MM_PROGR, MMINFPRO) values ('{0}', '{1}', '{2}', {3}, {4}, 1, '{5}',{6}, {7}, '{8}')";
+		private string sqlDelete = "delete from MSD_IMagoMenu where MMMENUID='{0}' AND MMLSTUPD='{1}'";
+		private string sqlSelect = "select count(*) from MSD_IMagoMenu where MMMENUID='{0}' AND MMLSTUPD='{1}'";
+		private string sqlSelCompUsr = "select MMMENUID from MSD_CompanyLogins where LoginId={0} AND CompanyId={1}";
+		private string magofunc = "function:openMago(\"{0}\", \"\",\"\",\"{1}\")";
+		private string prefix = "001.";
+		private char pad = '0';
+		private int nIdx = 0;
+		private string _mmenuid;
+		private string _mmlstupid;
+		private string _logfile;
+		private int _loginId;
+		private int _CompanyId;
+		SqlConnection connection = null;
+		SqlCommand sqlRowInsert = null;
+		StreamWriter sw = null;
+		SqlTransaction transaction = null;
+		int nrows;
 
-        //-----------------------------------------------------------------
-        public MagoMenuParser(
-                                string connection,
-                                string logfilename
-                               )
-        {
-            string[] tk = connection.Split(';');
+		//-----------------------------------------------------------------
+		public MagoMenuParser(
+								string connection,
+								string logfilename
+							   )
+		{
+			string[] tk = connection.Split(';');
 
-            _SQLConnection += tk[1];
+			_SQLConnection += tk[1];
 
-            for (int i = 2; i < tk.Length; i++)
-                _SQLConnection += ';' + tk[i];
+			for (int i = 2; i < tk.Length; i++)
+				_SQLConnection += ';' + tk[i];
 
-            _logfile = logfilename;
-        }
+			_logfile = logfilename;
+		}
 
-        //-----------------------------------------------------------------
-        public MagoMenuParser(
-                                string connectstr,
-                                string xmldoc,
-                                string loginid,
-                                string companyid,
-                                string logfilename
-                                )
-        {
-            string[] tk = connectstr.Split(';');
+		//-----------------------------------------------------------------
+		public MagoMenuParser(
+								string connectstr,
+								string xmldoc,
+								string loginid,
+								string companyid,
+								string logfilename
+								)
+		{
+			string[] tk = connectstr.Split(';');
 
-            _SQLConnection += tk[1];
+			_SQLConnection += tk[1];
 
-            for (int i = 2; i < tk.Length; i++)
-                _SQLConnection += ';' + tk[i];
+			for (int i = 2; i < tk.Length; i++)
+				_SQLConnection += ';' + tk[i];
 
-            _logfile = logfilename;
+			_logfile = logfilename;
 
-            _loginId = Int32.Parse(loginid);
-            _CompanyId = Int32.Parse(companyid);
+			_loginId = Int32.Parse(loginid);
+			_CompanyId = Int32.Parse(companyid);
 
-            _doc = new XmlDocument();
-            _doc.LoadXml(xmldoc);
+			_doc = new XmlDocument();
+			_doc.LoadXml(xmldoc);
 
-        }
+		}
 
-        //--------------------------------------------------------------------------------------------------------
-        public void Dispose()
-        {
-            if (sqlRowInsert != null)
-                sqlRowInsert.Dispose();
-            if (transaction != null)
-                transaction.Dispose();
-            if (connection != null)
-            {
-                connection.Close();
-                connection.Dispose();
-            }
-            if (sw != null)
-            {
-                sw.Flush();
-                //sw.Close();
-                sw.Dispose();
-            }
-        }
+		//--------------------------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			if (sqlRowInsert != null)
+				sqlRowInsert.Dispose();
+			if (transaction != null)
+				transaction.Dispose();
+			if (connection != null)
+			{
+				connection.Close();
+				connection.Dispose();
+			}
+			if (sw != null)
+			{
+				sw.Flush();
+				//sw.Close();
+				sw.Dispose();
+			}
+		}
 
-        //--------------------------------------------------------------------------------------------------------
-        private bool RetrieveMMENUID(int LoginID, int CompanyId)
-        {
-            if (connection == null)
-            {
-                connection = new SqlConnection(_SQLConnection);
-                connection.Open();
-            }
+		//--------------------------------------------------------------------------------------------------------
+		private bool RetrieveMMENUID(int LoginID, int CompanyId)
+		{
+			if (connection == null)
+			{
+				connection = new SqlConnection(_SQLConnection);
+				connection.Open();
+			}
 
-            try
-            {
-                string SqlSelect = string.Format(sqlSelCompUsr, LoginID, CompanyId);
-                SqlCommand sqlSel = new SqlCommand(SqlSelect, connection);
+			try
+			{
+				string SqlSelect = string.Format(sqlSelCompUsr, LoginID, CompanyId);
+				SqlCommand sqlSel = new SqlCommand(SqlSelect, connection);
 				using (SqlDataReader reader = sqlSel.ExecuteReader())
 				{
 					try
@@ -871,285 +984,287 @@ namespace Microarea.Common.MenuLoader
 						//reader.Close();
 					}
 				}
-            }
-            catch (Exception ex)
-            {
-                _mmenuid = "";
-                _mmlstupid = "";
-                sw.WriteLine("RetrieveMMENUID(): Exception Type: {0}", ex.GetType());
-                sw.WriteLine("RetrieveMMENUID():  Message: {0}", ex.Message);
-                sw.WriteLine("RetrieveMMENUID():  Parametri: LoginID: {0} - CompanyId: {1}", LoginID.ToString(), CompanyId.ToString());
-                return false;
-            }
-            return true;
-        }
+			}
+			catch (Exception ex)
+			{
+				_mmenuid = "";
+				_mmlstupid = "";
+				sw.WriteLine("RetrieveMMENUID(): Exception Type: {0}", ex.GetType());
+				sw.WriteLine("RetrieveMMENUID():  Message: {0}", ex.Message);
+				sw.WriteLine("RetrieveMMENUID():  Parametri: LoginID: {0} - CompanyId: {1}", LoginID.ToString(), CompanyId.ToString());
+				return false;
+			}
+			return true;
+		}
 
-        //-----------------------------------------------------------------
-        public int ExistMenu(int LoginID, int CompanyId)
-        {
-            int rownum = -1;
+		//-----------------------------------------------------------------
+		public int ExistMenu(int LoginID, int CompanyId)
+		{
+			int rownum = -1;
 
-            if (sw == null)
-                try
-                {
-                    string dirPath = Path.GetDirectoryName(_logfile);
-                    if (!Directory.Exists(dirPath))
-                        Directory.CreateDirectory(dirPath);
-                    sw = File.AppendText(_logfile);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message);
-                }
+			if (sw == null)
+				try
+				{
+					string dirPath = Path.GetDirectoryName(_logfile);
+					if (!Directory.Exists(dirPath))
+						Directory.CreateDirectory(dirPath);
+					sw = File.AppendText(_logfile);
+				}
+				catch (Exception ex)
+				{
+					throw new Exception(ex.Message);
+				}
 
-            bool bOk = RetrieveMMENUID(LoginID, CompanyId);
+			bool bOk = RetrieveMMENUID(LoginID, CompanyId);
 
-            if (bOk)
-            {
-                try
-                {
-                    string SqlSelect = string.Format(sqlSelect, _mmenuid, _mmlstupid);
-                    SqlCommand sqlSel = new SqlCommand(SqlSelect, connection);
-                    rownum = (int)sqlSel.ExecuteScalar();
+			if (bOk)
+			{
+				try
+				{
+					string SqlSelect = string.Format(sqlSelect, _mmenuid, _mmlstupid);
+					SqlCommand sqlSel = new SqlCommand(SqlSelect, connection);
+					rownum = (int)sqlSel.ExecuteScalar();
 
-                    if (rownum > 0)
-                        connection.Close();
+					if (rownum > 0)
+						connection.Close();
 
-                }
-                catch (Exception ex)
-                {
-                    sw.WriteLine("ExistMenu(): Exception Type: {0}", ex.GetType());
-                    sw.WriteLine("ExistMenu(): Message: {0}", ex.Message);
-                }
-            }
+				}
+				catch (Exception ex)
+				{
+					sw.WriteLine("ExistMenu(): Exception Type: {0}", ex.GetType());
+					sw.WriteLine("ExistMenu(): Message: {0}", ex.Message);
+				}
+			}
 
-            return rownum;
-        }
+			return rownum;
+		}
 
-        //-----------------------------------------------------------------
-        public void menu_insert(XmlNodeList nodeList, string prefix, int lvl, ref int nIdx)
-        {
-            int mylvl = lvl + 1;
-            int menu_idx = 1;
-            string proc = "function:javascript(0)";
-            int mm_direct = 1;
-            int mm_elem = 0;
-            string padded_prefix;
+		//-----------------------------------------------------------------
+		public void menu_insert(XmlNodeList nodeList, string prefix, int lvl, ref int nIdx)
+		{
+			int mylvl = lvl + 1;
+			int menu_idx = 1;
+			string proc = "function:javascript(0)";
+			int mm_direct = 1;
+			int mm_elem = 0;
+			string padded_prefix;
 
-            foreach (XmlNode xn in nodeList)
-            {
-                if (xn.Name != "Title")
-                {
-                    if (xn.Name == "Menu" && xn.ChildNodes.Count == 0)
-                        continue;
+			foreach (XmlNode xn in nodeList)
+			{
+				if (xn.Name != "Title")
+				{
+					if (xn.Name == "Menu" && xn.ChildNodes.Count == 0)
+						continue;
 
-                    string sql;
+					string sql;
 
-                    padded_prefix = menu_idx.ToString();
-                    string str_lvlkey = prefix + '.' + padded_prefix.PadLeft(3, pad);
-                    XmlAttributeCollection Attributes = xn.Attributes;
-                    if (xn.Attributes["title"] == null)
-                        return;
-                    if (xn.Name == "Object")
-                    {
-                        if (xn.Attributes["objectType"].Value == "Report")
-                            proc = string.Format(magofunc, xn.Attributes["target"].Value, "report");
-                        else if (xn.Attributes["objectType"].Value == "Function")
-                            proc = string.Format(magofunc, xn.Attributes["target"].Value, "function");
-                        else
-                            proc = string.Format(magofunc, xn.Attributes["target"].Value, "document");
-                        mm_direct = 1;
-                        mm_elem = 0;
-                    }
-                    else
-                    {
-                        mm_direct = 2;
-                        mm_elem = 1;
-                    }
+					padded_prefix = menu_idx.ToString();
+					string str_lvlkey = prefix + '.' + padded_prefix.PadLeft(3, pad);
+					XmlAttributeCollection Attributes = xn.Attributes;
+					if (xn.Attributes["title"] == null)
+						return;
+					if (xn.Name == "Object")
+					{
+						if (xn.Attributes["objectType"].Value == "Report")
+							proc = string.Format(magofunc, xn.Attributes["target"].Value, "report");
+						else if (xn.Attributes["objectType"].Value == "Function")
+							proc = string.Format(magofunc, xn.Attributes["target"].Value, "function");
+						else
+							proc = string.Format(magofunc, xn.Attributes["target"].Value, "document");
+						mm_direct = 1;
+						mm_elem = 0;
+					}
+					else
+					{
+						mm_direct = 2;
+						mm_elem = 1;
+					}
 
-                    string escaped_cmd = xn.Attributes["title"].Value.Replace("'", "''");
-                    if (xn.Name == "Object" && xn.Attributes["objectType"].Value == "Report")
-                        escaped_cmd += " (Report)";
-                    sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, escaped_cmd, mylvl, mm_direct, str_lvlkey, mm_elem, nIdx, proc);
+					string escaped_cmd = xn.Attributes["title"].Value.Replace("'", "''");
+					if (xn.Name == "Object" && xn.Attributes["objectType"].Value == "Report")
+						escaped_cmd += " (Report)";
+					sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, escaped_cmd, mylvl, mm_direct, str_lvlkey, mm_elem, nIdx, proc);
 
-                    try
-                    {
-                        sqlRowInsert = new SqlCommand(sql, connection, transaction);
-                        nrows = sqlRowInsert.ExecuteNonQuery();
-                        nIdx += 1;
-                        menu_idx += 1;
-                        if (xn.ChildNodes.Count > 0)
-                            menu_insert(xn.ChildNodes, str_lvlkey, mylvl, ref nIdx);
-                    }
-                    catch (Exception ex)
-                    {
-                        sw.WriteLine("menu_insert(): Query Exception Type: {0}", ex.GetType());
-                        sw.WriteLine("menu_insert(): Exception Message: {0}", ex.Message);
-                        sw.WriteLine("menu_insert(): Query: {0}", sql);
-                    }
-                }
-            }
-        }
-        //-----------------------------------------------------------------
-        public bool Parse()
-        {
-            if (sw == null)
-                try
-                {
-                    string dirPath = Path.GetDirectoryName(_logfile);
-                    if (!Directory.Exists(dirPath))
-                        Directory.CreateDirectory(dirPath);
-                    sw = File.AppendText(_logfile);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message);
-                }
+					try
+					{
+						sqlRowInsert = new SqlCommand(sql, connection, transaction);
+						nrows = sqlRowInsert.ExecuteNonQuery();
+						nIdx += 1;
+						menu_idx += 1;
+						if (xn.ChildNodes.Count > 0)
+							menu_insert(xn.ChildNodes, str_lvlkey, mylvl, ref nIdx);
+					}
+					catch (Exception ex)
+					{
+						sw.WriteLine("menu_insert(): Query Exception Type: {0}", ex.GetType());
+						sw.WriteLine("menu_insert(): Exception Message: {0}", ex.Message);
+						sw.WriteLine("menu_insert(): Query: {0}", sql);
+					}
+				}
+			}
+		}
+		//-----------------------------------------------------------------
+		public bool Parse()
+		{
+			if (sw == null)
+				try
+				{
+					string dirPath = Path.GetDirectoryName(_logfile);
+					if (!Directory.Exists(dirPath))
+						Directory.CreateDirectory(dirPath);
+					sw = File.AppendText(_logfile);
+				}
+				catch (Exception ex)
+				{
+					throw new Exception(ex.Message);
+				}
 
-            RetrieveMMENUID(_loginId, _CompanyId);
+			RetrieveMMENUID(_loginId, _CompanyId);
 
-            string SqlDelete = string.Format(sqlDelete, _mmenuid, _mmlstupid);
-            SqlCommand sqlDel = new SqlCommand(SqlDelete, connection);
-            nrows = sqlDel.ExecuteNonQuery();
+			string SqlDelete = string.Format(sqlDelete, _mmenuid, _mmlstupid);
+			SqlCommand sqlDel = new SqlCommand(SqlDelete, connection);
+			nrows = sqlDel.ExecuteNonQuery();
 
-            transaction = connection.BeginTransaction();
+			transaction = connection.BeginTransaction();
 
-            try
-            {
+			try
+			{
 
-                XmlNodeList nodeList;
-                XmlElement root = _doc.DocumentElement;
+				XmlNodeList nodeList;
+				XmlElement root = _doc.DocumentElement;
 
-                string initprefix = "001";
+				string initprefix = "001";
 
-                string sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, "Menu Principale", 1, 1, initprefix, 0, nIdx, "function:javascript(0)");
-                sqlRowInsert = new SqlCommand(sql, connection, transaction);
-                nrows = sqlRowInsert.ExecuteNonQuery();
-                nIdx += 1;
+				string sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, "Menu Principale", 1, 1, initprefix, 0, nIdx, "function:javascript(0)");
+				sqlRowInsert = new SqlCommand(sql, connection, transaction);
+				nrows = sqlRowInsert.ExecuteNonQuery();
+				nIdx += 1;
 
-                XmlNodeList nodeAppList = root.SelectNodes("/Root/ApplicationMenu/AppMenu/Application");
-                int macro_menu_idx = 1;
-                string macro_menu_prefix = string.Empty;
-                int macro_level;
-                string padded_prefix;
-                string lvl_prefix;
+				XmlNodeList nodeAppList = root.SelectNodes("/Root/ApplicationMenu/AppMenu/Application");
+				int macro_menu_idx = 1;
+				string macro_menu_prefix = string.Empty;
+				int macro_level;
+				string padded_prefix;
+				string lvl_prefix;
 
-                foreach (XmlNode xnApp in nodeAppList)
-                {
-                    if (xnApp.Attributes["name"].Value != "ERP")
-                    {
-                        padded_prefix = macro_menu_idx.ToString();
-                        macro_menu_prefix = prefix + padded_prefix.PadLeft(3, pad);
-                        sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, xnApp.Attributes["name"].Value, 2, 2, macro_menu_prefix, 1, nIdx, "function:javascript(0)");
-                        sqlRowInsert = new SqlCommand(sql, connection, transaction);
-                        nrows = sqlRowInsert.ExecuteNonQuery();
-                        nIdx += 1;
-                    }
+				foreach (XmlNode xnApp in nodeAppList)
+				{
+					if (xnApp.Attributes["name"].Value != "ERP")
+					{
+						padded_prefix = macro_menu_idx.ToString();
+						macro_menu_prefix = prefix + padded_prefix.PadLeft(3, pad);
+						sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, xnApp.Attributes["name"].Value, 2, 2, macro_menu_prefix, 1, nIdx, "function:javascript(0)");
+						sqlRowInsert = new SqlCommand(sql, connection, transaction);
+						nrows = sqlRowInsert.ExecuteNonQuery();
+						nIdx += 1;
+					}
 
-                    nodeList = root.SelectNodes("/Root/ApplicationMenu/AppMenu/Application[@name='" + xnApp.Attributes["name"].Value + "']/Group");
+					nodeList = root.SelectNodes("/Root/ApplicationMenu/AppMenu/Application[@name='" + xnApp.Attributes["name"].Value + "']/Group");
 
-                    if (xnApp.Attributes["name"].Value != "ERP")
-                        lvl_prefix = macro_menu_prefix + ".";
-                    else
-                        lvl_prefix = prefix;
+					if (xnApp.Attributes["name"].Value != "ERP")
+						lvl_prefix = macro_menu_prefix + ".";
+					else
+						lvl_prefix = prefix;
 
-                    foreach (XmlNode xn in nodeList)
-                    {
-                        XmlAttributeCollection Attributes = xn.Attributes;
-                        XmlNode title = xn.SelectSingleNode(".//Title");
+					foreach (XmlNode xn in nodeList)
+					{
+						XmlAttributeCollection Attributes = xn.Attributes;
+						XmlNode title = xn.SelectSingleNode(".//Title");
 
-                        macro_level = 2;
+						macro_level = 2;
 
-                        padded_prefix = macro_menu_idx.ToString();
-                        macro_menu_prefix = lvl_prefix  + padded_prefix.PadLeft(3, pad);
-                        if (xn.ChildNodes.Count > 0)
-                        {
-                            sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, xn.Attributes["title"].Value, macro_level, 2, macro_menu_prefix, 1, nIdx, "");
-                            sqlRowInsert = new SqlCommand(sql, connection, transaction);
-                            nrows = sqlRowInsert.ExecuteNonQuery();
-                            menu_insert(xn.ChildNodes, macro_menu_prefix, macro_level, ref nIdx);
-                            nIdx += 1;
-                            macro_menu_idx += 1;
-                        }
-                    }
-                }
-                //nodeList = root.SelectNodes("/Root/ApplicationMenu/AppMenu/Application[@name='TBS']/Group");
+						padded_prefix = macro_menu_idx.ToString();
+						macro_menu_prefix = lvl_prefix + padded_prefix.PadLeft(3, pad);
+						if (xn.ChildNodes.Count > 0)
+						{
+							sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, xn.Attributes["title"].Value, macro_level, 2, macro_menu_prefix, 1, nIdx, "");
+							sqlRowInsert = new SqlCommand(sql, connection, transaction);
+							nrows = sqlRowInsert.ExecuteNonQuery();
+							menu_insert(xn.ChildNodes, macro_menu_prefix, macro_level, ref nIdx);
+							nIdx += 1;
+							macro_menu_idx += 1;
+						}
+					}
+				}
+				//nodeList = root.SelectNodes("/Root/ApplicationMenu/AppMenu/Application[@name='TBS']/Group");
 
-                //foreach (XmlNode xn in nodeList)
-                //{
-                //    XmlAttributeCollection Attributes = xn.Attributes;
-                //    XmlNode title = xn.SelectSingleNode(".//Title");
-                //    macro_level = 2;
-                //    padded_prefix = macro_menu_idx.ToString();
-                //    macro_menu_prefix = prefix + padded_prefix.PadLeft(3, pad);
-                //    if (xn.ChildNodes.Count > 0)
-                //    {
-                //        sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, xn.Attributes["title"].Value, macro_level, 2, macro_menu_prefix, 1, nIdx, "");
-                //        sqlRowInsert = new SqlCommand(sql, connection, transaction);
-                //        nrows = sqlRowInsert.ExecuteNonQuery();
-                //        menu_insert(xn.ChildNodes, macro_menu_prefix, macro_level, ref nIdx);
-                //        nIdx += 1;
-                //        macro_menu_idx += 1;
-                //    }
-                //}
-                nodeList = root.SelectNodes("/Root/EnvironmentMenu/AppMenu/Application[@name='Framework']");
-                if (nodeList.Count > 0)
-                {
-                    padded_prefix = macro_menu_idx.ToString();
-                    macro_menu_prefix = prefix + padded_prefix.PadLeft(3, pad);
-                    sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, "TBF", 2, 2, macro_menu_prefix, 1, nIdx, "function:javascript(0)");
-                    sqlRowInsert = new SqlCommand(sql, connection, transaction);
-                    nrows = sqlRowInsert.ExecuteNonQuery();
-                    nIdx += 1;
-                }
-                nodeList = root.SelectNodes("/Root/EnvironmentMenu/AppMenu/Application[@name='Framework']/Group");
+				//foreach (XmlNode xn in nodeList)
+				//{
+				//    XmlAttributeCollection Attributes = xn.Attributes;
+				//    XmlNode title = xn.SelectSingleNode(".//Title");
+				//    macro_level = 2;
+				//    padded_prefix = macro_menu_idx.ToString();
+				//    macro_menu_prefix = prefix + padded_prefix.PadLeft(3, pad);
+				//    if (xn.ChildNodes.Count > 0)
+				//    {
+				//        sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, xn.Attributes["title"].Value, macro_level, 2, macro_menu_prefix, 1, nIdx, "");
+				//        sqlRowInsert = new SqlCommand(sql, connection, transaction);
+				//        nrows = sqlRowInsert.ExecuteNonQuery();
+				//        menu_insert(xn.ChildNodes, macro_menu_prefix, macro_level, ref nIdx);
+				//        nIdx += 1;
+				//        macro_menu_idx += 1;
+				//    }
+				//}
+				nodeList = root.SelectNodes("/Root/EnvironmentMenu/AppMenu/Application[@name='Framework']");
+				if (nodeList.Count > 0)
+				{
+					padded_prefix = macro_menu_idx.ToString();
+					macro_menu_prefix = prefix + padded_prefix.PadLeft(3, pad);
+					sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, "TBF", 2, 2, macro_menu_prefix, 1, nIdx, "function:javascript(0)");
+					sqlRowInsert = new SqlCommand(sql, connection, transaction);
+					nrows = sqlRowInsert.ExecuteNonQuery();
+					nIdx += 1;
+				}
+				nodeList = root.SelectNodes("/Root/EnvironmentMenu/AppMenu/Application[@name='Framework']/Group");
 
-                macro_menu_idx = 1;
-                string tbf_prefix = macro_menu_prefix + ".";
+				macro_menu_idx = 1;
+				string tbf_prefix = macro_menu_prefix + ".";
 
-                foreach (XmlNode xn in nodeList)
-                {
-                    XmlAttributeCollection Attributes = xn.Attributes;
-                    XmlNode title = xn.SelectSingleNode(".//Title");
-                    macro_level = 2;
+				foreach (XmlNode xn in nodeList)
+				{
+					XmlAttributeCollection Attributes = xn.Attributes;
+					XmlNode title = xn.SelectSingleNode(".//Title");
+					macro_level = 2;
 
-                    padded_prefix = macro_menu_idx.ToString();
-                    macro_menu_prefix = tbf_prefix + padded_prefix.PadLeft(3, pad);
-                    if (xn.ChildNodes.Count > 0)
-                    {
-                        sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, xn.Attributes["title"].Value, macro_level, 2, macro_menu_prefix, 1, nIdx, "");
-                        sqlRowInsert = new SqlCommand(sql, connection, transaction);
-                        nrows = sqlRowInsert.ExecuteNonQuery();
-                        menu_insert(xn.ChildNodes, macro_menu_prefix, macro_level, ref nIdx);
-                        nIdx += 1;
-                        macro_menu_idx += 1;
-                    }
-                }
-                transaction.Commit();
-            }
-            catch (Exception ex)
-            {
-                sw.WriteLine("Parse(): Commit Exception Type: {0}", ex.GetType());
-                sw.WriteLine("Parse(): Exception Message: {0}", ex.Message);
-                try
-                {
-                    transaction.Rollback();
-                }
-                catch (Exception ex2)
-                {
-                    // This catch block will handle any errors that may have occurred
-                    // on the server that would cause the rollback to fail, such as
-                    // a closed connection.
-                    sw.WriteLine("Parse(): Rollback Exception Type: {0}", ex2.GetType());
-                    sw.WriteLine("Parse(): Message: {0}", ex2.Message);
-                }
-                return false;
-            }
-            connection.Close();
-            sw.WriteLine("==================================================");
-            return true;
-        }
+					padded_prefix = macro_menu_idx.ToString();
+					macro_menu_prefix = tbf_prefix + padded_prefix.PadLeft(3, pad);
+					if (xn.ChildNodes.Count > 0)
+					{
+						sql = string.Format(sqlInsert, _mmenuid, _mmlstupid, xn.Attributes["title"].Value, macro_level, 2, macro_menu_prefix, 1, nIdx, "");
+						sqlRowInsert = new SqlCommand(sql, connection, transaction);
+						nrows = sqlRowInsert.ExecuteNonQuery();
+						menu_insert(xn.ChildNodes, macro_menu_prefix, macro_level, ref nIdx);
+						nIdx += 1;
+						macro_menu_idx += 1;
+					}
+				}
+				transaction.Commit();
+			}
+			catch (Exception ex)
+			{
+				sw.WriteLine("Parse(): Commit Exception Type: {0}", ex.GetType());
+				sw.WriteLine("Parse(): Exception Message: {0}", ex.Message);
+				try
+				{
+					transaction.Rollback();
+				}
+				catch (Exception ex2)
+				{
+					// This catch block will handle any errors that may have occurred
+					// on the server that would cause the rollback to fail, such as
+					// a closed connection.
+					sw.WriteLine("Parse(): Rollback Exception Type: {0}", ex2.GetType());
+					sw.WriteLine("Parse(): Message: {0}", ex2.Message);
+				}
+				return false;
+			}
+			connection.Close();
+			sw.WriteLine("==================================================");
+			return true;
+		}
 
-    }
+
+
+	}
 }
 

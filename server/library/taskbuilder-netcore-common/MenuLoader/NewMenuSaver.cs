@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Xml;
 using Microarea.Common.NameSolver;
 
@@ -88,11 +89,7 @@ namespace Microarea.Common.MenuLoader
 			}
 
 			//TODOLUCA
-			FileInfo saveFile = new FileInfo(file);
-			using (StreamWriter text = saveFile.CreateText())
-			{
-				doc.Save(text);
-			}
+			SaveXml(doc, file);
 
 			return true;
 		}
@@ -142,11 +139,7 @@ namespace Microarea.Common.MenuLoader
 
 			UpdateAllFavoritesPositions(doc);
 
-			FileInfo saveFile = new FileInfo(file);
-			using (StreamWriter text = saveFile.CreateText())
-			{
-				doc.Save(text);
-			}
+			SaveXml(doc, file);
 
 			return true;
 		}
@@ -178,11 +171,7 @@ namespace Microarea.Common.MenuLoader
 
 			UpdateAllFavoritesPositions(doc);
 
-			FileInfo saveFile = new FileInfo(file);
-			using (StreamWriter text = saveFile.CreateText())
-			{
-				doc.Save(text);
-			}
+			SaveXml(doc, file);
 
 			return true;
 		}
@@ -211,11 +200,7 @@ namespace Microarea.Common.MenuLoader
 			if (node != null)
 			{
 				node.ParentNode.RemoveChild(node);
-				FileInfo saveFile = new FileInfo(file);
-				using (StreamWriter text = saveFile.CreateText())
-				{
-					doc.Save(text);
-				}
+				SaveXml(doc, file);
 			}
 
 			return true;
@@ -237,11 +222,7 @@ namespace Microarea.Common.MenuLoader
 			}
 			attributeNrElementToShow.Value = nrElements;
 
-			FileInfo saveFile = new FileInfo(file);
-			using (StreamWriter text = saveFile.CreateText())
-			{
-				doc.Save(text);
-			}
+			SaveXml(doc, file);
 			return true;
 		}
 
@@ -301,11 +282,7 @@ namespace Microarea.Common.MenuLoader
 				doc.DocumentElement.AppendChild(element);
 			}
 
-			FileInfo saveFile = new FileInfo(file);
-			using (StreamWriter text = saveFile.CreateText())
-			{
-				doc.Save(text);
-			}
+			SaveXml(doc, file);
 			return true;
 		}
 
@@ -348,15 +325,11 @@ namespace Microarea.Common.MenuLoader
 				doc.DocumentElement.AppendChild(element);
 			}
 
-			FileInfo saveFile = new FileInfo(file);
-			using (StreamWriter text = saveFile.CreateText())
-			{
-				doc.Save(text);
-			}
+			SaveXml(doc, file);
 			return true;
-		
+
 		}
-		
+
 		//---------------------------------------------------------------------
 		public static bool ClearHistory(string user, string company)
 		{
@@ -367,11 +340,9 @@ namespace Microarea.Common.MenuLoader
 
 			doc.DocumentElement.RemoveAll();
 
-			FileInfo saveFile = new FileInfo(file);
-			using (StreamWriter text = saveFile.CreateText())
-			{
-				doc.Save(text);
-			}
+			SaveXml(doc, file);
+
+
 			return true;
 		}
 
@@ -384,11 +355,7 @@ namespace Microarea.Common.MenuLoader
 			XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
 			doc.DocumentElement.RemoveAll();
 
-			FileInfo saveFile = new FileInfo(file);
-			using (StreamWriter text = saveFile.CreateText())
-			{
-				doc.Save(text);
-			}
+			SaveXml(doc, file);
 			return true;
 		}
 
@@ -460,11 +427,7 @@ namespace Microarea.Common.MenuLoader
 
 			UpdateAllFavoritesPositions(doc);
 
-			FileInfo saveFile = new FileInfo(file);
-			using (StreamWriter text = saveFile.CreateText())
-			{
-				doc.Save(text);
-			}
+			SaveXml(doc, file);
 			return true;
 		}
 
@@ -504,7 +467,7 @@ namespace Microarea.Common.MenuLoader
 					string.Format(MenuTranslatorStrings.translateTemplate, "groupName", groupName) + " and ",
 					string.Format(MenuTranslatorStrings.translateTemplate, "menuName", menuName) + " and ",
 					string.Format(MenuTranslatorStrings.translateTemplate, "tileName", tileName) + " ] "));
-				
+
 			if (node != null)
 				return true;
 			else
@@ -531,11 +494,7 @@ namespace Microarea.Common.MenuLoader
 				doc.DocumentElement.AppendChild(node);
 			}
 
-			FileInfo saveFile = new FileInfo(file);
-			using (StreamWriter text = saveFile.CreateText())
-			{
-				doc.Save(text);
-			}
+			SaveXml(doc, file);
 
 			return true;
 		}
@@ -557,17 +516,25 @@ namespace Microarea.Common.MenuLoader
 
 			if (node == null)
 				return true;
-			
+
 			doc.DocumentElement.RemoveChild(node);
 
-			FileInfo saveFile = new FileInfo(file);
-			using (StreamWriter text = saveFile.CreateText())
-			{
-				doc.Save(text);
-			}
+			SaveXml(doc, file);
 
 			return true;
 		}
-	}
 
+		//---------------------------------------------------------------------
+		public static void SaveXml(XmlDocument doc, string file) //TODOLUCA, questo sistema di salvataggio è da cambiare
+		{
+			using (FileStream fileStream = new FileStream(file, FileMode.OpenOrCreate))
+			{
+				XmlWriterSettings settings = new XmlWriterSettings() { Indent = true };
+				using (XmlWriter writer = XmlWriter.Create(fileStream, settings))
+				{
+					doc.Save(writer);
+				}
+			}
+		}
+	}
 }

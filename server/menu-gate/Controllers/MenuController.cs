@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microarea.MenuGate.Models;
 using Microarea.Common.MenuLoader;
+using Microarea.TaskBuilderNet.Core.Generic;
 
 namespace Microarea.Menu.Controllers
 {
 	//da ripristinare quando inserisce il nuovo menu nel cef
 	[Route("menu-gate")]
-    public class MenuController : Controller
-    {
+	public class MenuController : Controller
+	{
+
+		public MenuController()
+		{
+		}
+
+
 		//da modificare quando inserisce il nuovo menu nel cef
 		[Route("tb/menu/getInstallationInfo/")]
 		[HttpPost]
@@ -31,19 +34,6 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
 		}
 
-
-		//[Route("getProductInfo")]
-		//public IActionResult GetProductInfo()
-		//{
-		//	string user = HttpContext.Request.Form["user"];
-		//	string company = HttpContext.Request.Form["company"];
-		//	string authtoken = HttpContext.Request.Form["token"];
-
-		//	string content = NewMenuLoader.GetJsonProductInfo(user, company, authtoken);
-		//	return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
-		//}
-
-
 		[Route("getPreferences")]
 		public IActionResult GetPreferences()
 		{
@@ -55,15 +45,15 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
 		}
 
-		[Route("setPreferences")]
-		public IActionResult SetPreferences()
+		[Route("setPreference")]
+		public IActionResult SetPreference()
 		{
 			string user = HttpContext.Request.Form["user"];
 			string company = HttpContext.Request.Form["company"];
 			string preferenceName = HttpContext.Request.Form["name"];
 			string preferenceValue = HttpContext.Request.Form["value"];
-			
-			bool result = NewMenuSaver.SetPreference(preferenceName, preferenceValue,  user, company);
+
+			bool result = NewMenuSaver.SetPreference(preferenceName, preferenceValue, user, company);
 			return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
 		}
 
@@ -150,7 +140,49 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
 		}
 
+		[Route("clearCachedData")]
+		public IActionResult ClearCachedData()
+		{
+			string user = HttpContext.Request.Form["user"];
+			Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(user);
+			return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+		}
+
+		[Route("getLocalizedElements")]
+		public IActionResult GetLocalizedElements()
+		{
+			string token = HttpContext.Request.Form["token"];
+			string needLoginThread = HttpContext.Request.Form["needLoginThread"];
+
+			string json = NewMenuLoader.GetLocalizationJson(token);
+			return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+		}
 
 
+		[Route("getProductInfo")]
+		public IActionResult GetProductInfo()
+		{
+			string token = HttpContext.Request.Form["token"];
+			string json = NewMenuLoader. GetJsonProductInfo(token);
+			return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+		}
+
+		[Route("getPingViaSMSUrl")]
+		public IActionResult GetPingViaSMSUrl()
+		{
+			string url = MenuStaticFunctions.PingViaSMSUrl();
+			string json = string.Format("{{ \"url\": \"{0}\" }}", url);
+			return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+		}
+
+		[Route("getProducerSite")]
+		public IActionResult GetProducerSite()
+		{
+			string url = MenuStaticFunctions.ProducerSiteUrl();
+			string json = string.Format("{{ \"url\": \"{0}\" }}", url);
+			return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+		}
 	}
 }
+
+
