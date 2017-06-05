@@ -73,7 +73,7 @@ namespace PdfSharp.Pdf
             _state = DocumentState.Created;
             _version = 14;
             Initialize();
-            //TODO RSWEB Info.CreationDate = _creation;
+            Info.CreationDate = _creation;
         }
 
         /// <summary>
@@ -329,9 +329,13 @@ namespace PdfSharp.Pdf
                 if (stream != null)
                 {
                     if (closeStream)
-
-                        stream.Dispose();
-
+                    {
+#if UWP
+                        stream.Flush(); stream.Dispose();
+#else
+                        stream.Flush(); stream.Dispose();
+#endif
+                    }
                     else
                         stream.Position = 0; // Reset the stream position if the stream is kept open.
                 }
