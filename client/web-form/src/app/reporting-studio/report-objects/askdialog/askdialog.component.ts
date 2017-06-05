@@ -131,6 +131,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
 
   close() {
     this.rsService.showAsk = false;
+    this.rsService.running = false;
     this.ngOnDestroy();
   }
 

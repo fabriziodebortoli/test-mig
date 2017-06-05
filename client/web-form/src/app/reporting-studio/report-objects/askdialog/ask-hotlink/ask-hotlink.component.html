@@ -1,5 +1,23 @@
 <div>{{hotlink.caption}}</div>
-<kendo-combobox [allowCustom]="true" [data]="hotlink.values" [textField]="'description'" [valueNormalizer]="valueNormalizer"
-        [valueField]="'code'" [placeholder]="'start to type and then click the search button'" [suggest]="true" [(ngModel)]="hotlink.value"
-        (open)="OnOpen($event)" id="hotlink-combo"></kendo-combobox>
-<button kendoButton (click)="onButtonClick()" [icon]="'search'"></button>
+
+<kendo-maskedtextbox [(ngModel)]="filter" [ngStyle]="inputStyle()" (blur)="onBlur()" ></kendo-maskedtextbox>
+<button kendoButton  [icon]="'arrow-60-down'" style="margin-left:-5px" (click)="showFilteredTable()"></button>
+<button kendoButton #anchor (click)="show=!show" [icon]="'more-vertical'" ></button>
+<kendo-popup [popupClass]="'popup-radio'" [anchor]="anchor" (anchorViewportLeave)="show = false" *ngIf="show">
+  Search for:<br>
+  <md-radio-group>
+    <md-radio-button value="Code">Code</md-radio-button><br>
+    <md-radio-button value="Description">Description</md-radio-button><br>
+  </md-radio-group>
+</kendo-popup>
+<!--<button kendoButton (click)="onButtonClick(); " [icon]="'search'"></button> -->
+
+<button kendoButton  (click)="onButtonClick()" [icon]="'search'"></button>
+<div #anchorTable></div>
+<kendo-popup [anchor]="anchorTable" class="'popup-radio'" (anchorViewportLeave)="showTable = false" *ngIf="showTable" [ngStyle]="popupStyle()">
+  <kendo-grid [data]="hotlink.values.rows" [selectable]="true" (selectionChange)="selectionChanged($event)" [scrollable]="'scrollable'"
+   [height]="300">
+    <kendo-grid-column *ngFor="let col of hotlink.values.columns" field="{{col.id}}" title="{{col.id}}">
+    </kendo-grid-column>
+  </kendo-grid>
+</kendo-popup>

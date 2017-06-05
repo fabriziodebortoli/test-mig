@@ -1,0 +1,5 @@
+<div>{{hotlink.caption}}</div>
+<kendo-combobox [allowCustom]="true" [data]="hotlink.values" [textField]="'description'" [valueNormalizer]="valueNormalizer"
+        [valueField]="'code'" [placeholder]="'start to type and then click the search button'" [suggest]="true" [(ngModel)]="hotlink.value"
+        (open)="OnOpen($event)" id="hotlink-combo"></kendo-combobox>
+<button kendoButton (click)="onButtonClick()" [icon]="'search'"></button>

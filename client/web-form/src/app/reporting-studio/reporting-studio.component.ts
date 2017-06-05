@@ -25,7 +25,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   otherwise it is passed by the ComponentService creation logic*/
   private subMessage: Subscription;
   private message: any = '';
-  public running: boolean = false;
+ 
 
 
   // report template objects
@@ -108,7 +108,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   reset() {
-    this.running = false;
+    this.rsService.running = false;
     this.askDialogTemplate = 'empty';
     this.hotLinkValues = 'empty';
     this.reportTemplate = 'empty';
@@ -175,7 +175,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   RunReport() {
-    this.running = true;
+   this.rsService.running = true;
     let message = {
       commandType: CommandType.ASK,
       message: '',
@@ -196,7 +196,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   StopReport() {
-    this.running = false;
+    this.rsService.running = false;
     let message = {
       commandType: CommandType.STOP,
       message: this.args.nameSpace,
