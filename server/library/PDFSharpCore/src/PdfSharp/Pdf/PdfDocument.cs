@@ -39,6 +39,16 @@ using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.AcroForms;
 using PdfSharp.Pdf.Security;
 
+using NUnit.Framework;
+using PdfSharp.Drawing;
+
+using PdfSharp.Pdf;
+using System.Globalization;
+
+
+
+
+
 // ReSharper disable ConvertPropertyToExpressionBody
 
 namespace PdfSharp.Pdf
@@ -330,11 +340,7 @@ namespace PdfSharp.Pdf
                 {
                     if (closeStream)
                     {
-#if UWP
                         stream.Flush(); stream.Dispose();
-#else
-                        stream.Flush(); stream.Dispose();
-#endif
                     }
                     else
                         stream.Position = 0; // Reset the stream position if the stream is kept open.

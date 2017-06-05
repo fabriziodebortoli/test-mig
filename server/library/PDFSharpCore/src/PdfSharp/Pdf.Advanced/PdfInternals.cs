@@ -200,9 +200,11 @@ namespace PdfSharp.Pdf.Advanced
         public T CreateIndirectObject<T>() where T : PdfObject
         {
             T result = null;
-#if false//!NETFX_CORE && !UWP
-            ConstructorInfo ctorInfo = typeof(T).GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic /*| BindingFlags.ExactBinding*/,
-                null, new Type[] { typeof(PdfDocument) }, null);
+#if !NETFX_CORE && !UWP
+            //ConstructorInfo ctorInfo = typeof(T).GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.ExactBinding,
+            //    null, new Type[] { typeof(PdfDocument) }, null);
+            ConstructorInfo ctorInfo = typeof(T).GetConstructor(new Type[] { typeof(PdfDocument) });
+
 #else
             ConstructorInfo ctorInfo = null; // TODO
 #endif

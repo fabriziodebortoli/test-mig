@@ -43,6 +43,7 @@ namespace Microarea.RSWeb.Render
             try
             {
                 PdfPage page = document.AddPage();
+
                 page.Width = XUnit.FromMillimeter(woorm.PageInfo.DmPaperWidth / 10).Point;
                 page.Height = XUnit.FromMillimeter(woorm.PageInfo.DmPaperLength / 10).Point;
 
@@ -64,7 +65,7 @@ namespace Microarea.RSWeb.Render
                 RenderBaseObjList(xg, woorm.Objects);
 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
 
             }

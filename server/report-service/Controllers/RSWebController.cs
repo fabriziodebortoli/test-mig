@@ -19,7 +19,7 @@ localhost:5000/rs/data/erp.company.isocountrycodes/1
 
 localhost:5000/rs/xml/erp.company.isocountrycodes
 
-localhost:5000/rs/pdf/erp.company.isocountrycodes
+localhost:5000/rs/pdf/erp.company.titles
 */
 
 namespace Microarea.RSWeb.Controllers
@@ -102,6 +102,11 @@ namespace Microarea.RSWeb.Controllers
             PdfReportEngine report = new PdfReportEngine(session);
 
             string err = string.Empty;
+
+            PDFSharpTests.src.PdfSharp.Pdf.Samples miaClasse = new PDFSharpTests.src.PdfSharp.Pdf.Samples();
+            miaClasse.HelloWorld("Arial", 12, PdfSharp.Drawing.XFontStyle.Italic);
+
+
             byte[] pdf = report.ExecuteReport(ref err);
 
             return new ContentResult { Content = pdf.ToString(), ContentType = "application/pdf" };
