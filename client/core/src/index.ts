@@ -1,28 +1,18 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { SampleComponent } from './sample.component';
-// import { SampleDirective } from './sample.directive';
-// import { SamplePipe } from './sample.pipe';
-// import { SampleService } from './sample.service';
+import { TestComponent } from './test/test.component';
 
-// export * from './sample.component';
-// export * from './sample.directive';
-// export * from './sample.pipe';
-// export * from './sample.service';
+export * from './test/test.component';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
-    // SampleComponent,
-    // SampleDirective,
-    // SamplePipe
+    TestComponent
   ],
   exports: [
-    // SampleComponent,
-    // SampleDirective,
-    // SamplePipe
+    TestComponent
   ]
 })
 export class TaskbuilderModule {
