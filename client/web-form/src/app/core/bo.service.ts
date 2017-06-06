@@ -131,6 +131,11 @@ export class BOService extends DocumentService {
         return patch;
     }
     init(cmpId: string) {
+
+        this.boClients.forEach(boClient => {
+            boClient.init();
+        });
+        this.registerModelField('', 'Title');
         super.init(cmpId);
         this.webSocketService.getDocumentData(this.mainCmpId, this.modelStructure);
         this.webSocketService.checkMessageDialog(this.mainCmpId);
@@ -226,6 +231,12 @@ export class BOService extends DocumentService {
 }
 
 export class BOClient {
+    constructor(
+        protected boService: BOService) {
+    }
+    init() {
+
+    }
     onCommand(id: string): Observable<boolean> {
         return Observable.create(observer => {
             observer.next(true);

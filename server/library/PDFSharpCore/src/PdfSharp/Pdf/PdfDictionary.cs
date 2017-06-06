@@ -987,23 +987,28 @@ namespace PdfSharp.Pdf
 
             PdfArray CreateArray(Type type, PdfArray oldArray)
             {
-#if false//!NETFX_CORE && !UWP
+#if !NETFX_CORE && !UWP
                 ConstructorInfo ctorInfo;
                 PdfArray array;
                 if (oldArray == null)
                 {
                     // Use contstructor with signature 'Ctor(PdfDocument owner)'.
-                    ctorInfo = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                        null, new Type[] { typeof(PdfDocument) }, null);
+                    //TODO RSWEB ctorInfo = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                    //   null, new Type[] { typeof(PdfDocument) }, null);
+                    //BindingFlags bf = (BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    ctorInfo = type.GetConstructor(new Type[] { typeof(PdfDocument) });
+
                     Debug.Assert(ctorInfo != null, "No appropriate constructor found for type: " + type.Name);
                     array = ctorInfo.Invoke(new object[] { _ownerDictionary.Owner }) as PdfArray;
                 }
                 else
                 {
                     // Use contstructor with signature 'Ctor(PdfDictionary dict)'.
-                    ctorInfo = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                        null, new Type[] { typeof(PdfArray) }, null);
-                    Debug.Assert(ctorInfo != null, "No appropriate constructor found for type: " + type.Name);
+                    //TODO RSWEB ctorInfo = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                    //    null, new Type[] { typeof(PdfArray) }, null);
+                    ctorInfo = type.GetConstructor(new Type[] { typeof(PdfArray) });
+                    
+					Debug.Assert(ctorInfo != null, "No appropriate constructor found for type: " + type.Name);
                     array = ctorInfo.Invoke(new object[] { oldArray }) as PdfArray;
                 }
                 return array;
@@ -1048,22 +1053,24 @@ namespace PdfSharp.Pdf
 
             PdfDictionary CreateDictionary(Type type, PdfDictionary oldDictionary)
             {
-#if false//!NETFX_CORE && !UWP
+#if !NETFX_CORE && !UWP
                 ConstructorInfo ctorInfo;
                 PdfDictionary dict;
                 if (oldDictionary == null)
                 {
                     // Use contstructor with signature 'Ctor(PdfDocument owner)'.
-                    ctorInfo = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                        null, new Type[] { typeof(PdfDocument) }, null);
+                    //TODO RSWEB ctorInfo = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                    //    null, new Type[] { typeof(PdfDocument) }, null);
+                    ctorInfo = type.GetConstructor(new Type[] { typeof(PdfDocument) });
                     Debug.Assert(ctorInfo != null, "No appropriate constructor found for type: " + type.Name);
                     dict = ctorInfo.Invoke(new object[] { _ownerDictionary.Owner }) as PdfDictionary;
                 }
                 else
                 {
                     // Use contstructor with signature 'Ctor(PdfDictionary dict)'.
-                    ctorInfo = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                      null, new Type[] { typeof(PdfDictionary) }, null);
+                    //TODO RSWEB ctorInfo = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                    //  null, new Type[] { typeof(PdfDictionary) }, null);
+                    ctorInfo = type.GetConstructor(new Type[] { typeof(PdfDictionary) });
                     Debug.Assert(ctorInfo != null, "No appropriate constructor found for type: " + type.Name);
                     dict = ctorInfo.Invoke(new object[] { oldDictionary }) as PdfDictionary;
                 }
@@ -1107,9 +1114,10 @@ namespace PdfSharp.Pdf
 
             PdfItem CreateValue(Type type, PdfDictionary oldValue)
             {
-#if false//!NETFX_CORE && !UWP
-                ConstructorInfo ctorInfo = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                    null, new Type[] { typeof(PdfDocument) }, null);
+#if !NETFX_CORE && !UWP
+                //TODO RSWEB ConstructorInfo ctorInfo = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                //    null, new Type[] { typeof(PdfDocument) }, null);
+                ConstructorInfo ctorInfo = type.GetConstructor(new Type[] { typeof(PdfDocument) });
                 PdfObject obj = ctorInfo.Invoke(new object[] { _ownerDictionary.Owner }) as PdfObject;
                 if (oldValue != null)
                 {

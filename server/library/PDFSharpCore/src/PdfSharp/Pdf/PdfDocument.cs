@@ -39,6 +39,16 @@ using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.AcroForms;
 using PdfSharp.Pdf.Security;
 
+using NUnit.Framework;
+using PdfSharp.Drawing;
+
+using PdfSharp.Pdf;
+using System.Globalization;
+
+
+
+
+
 // ReSharper disable ConvertPropertyToExpressionBody
 
 namespace PdfSharp.Pdf
@@ -73,7 +83,7 @@ namespace PdfSharp.Pdf
             _state = DocumentState.Created;
             _version = 14;
             Initialize();
-            //TODO RSWEB Info.CreationDate = _creation;
+            Info.CreationDate = _creation;
         }
 
         /// <summary>
@@ -329,9 +339,9 @@ namespace PdfSharp.Pdf
                 if (stream != null)
                 {
                     if (closeStream)
-
-                        stream.Dispose();
-
+                    {
+                        stream.Flush(); stream.Dispose();
+                    }
                     else
                         stream.Position = 0; // Reset the stream position if the stream is kept open.
                 }

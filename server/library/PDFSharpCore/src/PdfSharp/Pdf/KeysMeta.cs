@@ -193,23 +193,26 @@ namespace PdfSharp.Pdf
             //                Test.It();
             //            }
             //#endif
-
-#if false//!NETFX_CORE && !UWP
+#if !NETFX_CORE && !UWP
             FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             foreach (FieldInfo field in fields)
             {
-                object[] attributes = field.GetCustomAttributes(typeof(KeyInfoAttribute), false);
-                if (attributes.Length == 1)
+                /*object[] */
+                IEnumerable<Attribute> attributes = field.GetCustomAttributes(typeof(KeyInfoAttribute), false);
+                foreach (Attribute a in attributes)
                 {
-                    KeyInfoAttribute attribute = (KeyInfoAttribute)attributes[0];
-                    KeyDescriptor descriptor = new KeyDescriptor(attribute);
-                    descriptor.KeyValue = (string)field.GetValue(null);
-                    _keyDescriptors[descriptor.KeyValue] = descriptor;
+                    if (a is KeyInfoAttribute)
+                    {
+                        KeyInfoAttribute attribute = (KeyInfoAttribute)a; //[0];
+                        KeyDescriptor descriptor = new KeyDescriptor(attribute);
+                        descriptor.KeyValue = (string)field.GetValue(null);
+                        _keyDescriptors[descriptor.KeyValue] = descriptor;
+                    }
                 }
             }
 #else
             // Rewritten for WinRT.
-            //CollectKeyDescriptors(type);
+            CollectKeyDescriptors(type);
             //var fields = type.GetRuntimeFields();  // does not work
             //fields2.GetType();
             //foreach (FieldInfo field in fields)

@@ -183,9 +183,8 @@ namespace Microarea.Common.MenuLoader
 				try
 				{
 					//doc.Load(file);  TODOLUCA
-
 					FileInfo saveFile = new FileInfo(file);
-					using (FileStream text = saveFile.OpenRead())
+					using (FileStream text = saveFile.Open(FileMode.Open, FileAccess.Read))
 					{
 						doc.Load(text);
 					}

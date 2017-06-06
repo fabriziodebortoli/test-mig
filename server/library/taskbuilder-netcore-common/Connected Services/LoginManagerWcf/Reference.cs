@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using TaskBuilderNetCore.Interfaces;
+
 namespace LoginManagerWcf
 {
     
@@ -504,7 +506,7 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/CacheCounterGTG", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.SerialNumberType> CacheCounterGTGAsync();
+        System.Threading.Tasks.Task<SerialNumberType> CacheCounterGTGAsync();
         
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/SetCurrentComponents", ReplyAction="*")]
@@ -3482,58 +3484,6 @@ namespace LoginManagerWcf
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
-    public enum SerialNumberType
-    {
-        
-        /// <remarks/>
-        Normal,
-        
-        /// <remarks/>
-        Development,
-        
-        /// <remarks/>
-        Reseller,
-        
-        /// <remarks/>
-        Distributor,
-        
-        /// <remarks/>
-        Demo,
-        
-        /// <remarks/>
-        DevelopmentIU,
-        
-        /// <remarks/>
-        Multi,
-        
-        /// <remarks/>
-        StandAlone,
-        
-        /// <remarks/>
-        Backup,
-        
-        /// <remarks/>
-        Test,
-        
-        /// <remarks/>
-        PersonalPlusK,
-        
-        /// <remarks/>
-        DevelopmentPlusK,
-        
-        /// <remarks/>
-        DevelopmentPlusUser,
-        
-        /// <remarks/>
-        PersonalPlusUser,
-        
-        /// <remarks/>
-        UNDEFINED,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public enum ActivationState
     {
         
@@ -4207,7 +4157,7 @@ namespace LoginManagerWcf
             return base.Channel.CacheCounterAsync();
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.SerialNumberType> CacheCounterGTGAsync()
+        public System.Threading.Tasks.Task<SerialNumberType> CacheCounterGTGAsync()
         {
             return base.Channel.CacheCounterGTGAsync();
         }

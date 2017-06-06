@@ -14,8 +14,8 @@ export const routes: Routes = [
   { path: 'loginComponent', component: LoginComponent },
   { 
     path: 'appHome', 
-    canActivate: [AuthGuardService],
-    canActivateChild: [AuthGuardService],    
+    // canActivate: [AuthGuardService],
+    // canActivateChild: [AuthGuardService],    
     component: AppHomeComponent 
   },
   { 
@@ -38,9 +38,9 @@ export const routes: Routes = [
   },
   { 
     path: 'account', 
-    canActivate: [AuthGuardService],
-    canActivateChild: [AuthGuardService],
-    component: AccountComponent,
+    // canActivate: [AuthGuardService],
+    // canActivateChild: [AuthGuardService],
+    component: AccountComponent
   },
   { 
     path: 'company-account', 

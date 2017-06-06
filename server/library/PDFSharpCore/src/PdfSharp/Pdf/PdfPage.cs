@@ -67,7 +67,7 @@ namespace PdfSharp.Pdf
             Initialize();
         }
 
-        internal PdfPage(PdfDictionary dict)
+        public PdfPage(PdfDictionary dict)
             : base(dict)
         {
             // Set Orientation depending on /Rotate.
