@@ -1542,6 +1542,9 @@ namespace Microarea.Common.NameSolver
 		//------------------------------------------------------------------------------
 		public static bool MatchType(ApplicationType aType, ApplicationType aTargetType)
 		{
+			if (aTargetType == ApplicationType.All)
+				return true;
+
 			return (aType & aTargetType) == aTargetType;
 		}
 		 

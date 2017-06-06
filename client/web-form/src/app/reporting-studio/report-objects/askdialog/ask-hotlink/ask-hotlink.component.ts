@@ -1,42 +1,56 @@
 import { Observable } from 'rxjs/Rx';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { hotlink, CommandType } from './../../../reporting-studio.model';
-import { Component, Input, DoCheck, KeyValueDiffers, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, DoCheck, KeyValueDiffers, Output, EventEmitter, ViewChild, ViewEncapsulation, OnInit } from '@angular/core';
 
 @Component({
   selector: 'rs-ask-hotlink',
   templateUrl: './ask-hotlink.component.html',
-  styleUrls: ['./ask-hotlink.component.scss']
+  styleUrls: ['./ask-hotlink.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
-export class AskHotlinkComponent implements DoCheck {
+export class AskHotlinkComponent implements DoCheck, OnInit {
 
 
   @Input() hotlink: hotlink;
   differ: any;
   showTable: boolean = false;
-  filter: string = '';
-  selectionCreteria: string = '';
+  showOptions: boolean = false;
+  selectionColumn: string = '';
+  selectionTypeLower: string = '';
   constructor(private rsService: ReportingStudioService, private differs: KeyValueDiffers) {
 
     this.differ = differs.find({}).create(null);
   }
 
+  ngOnInit() {
+    this.selectionTypeLower = this.hotlink.selection_type.toLocaleLowerCase();
+  }
 
   ngDoCheck() {
     if (this.hotlink === undefined) {
       return;
     }
-    let changes = this.differ.diff(this.hotlink);
-    if (changes && this.hotlink.values && this.hotlink.values.rows) {
-      this.selectionCreteria = this.hotlink.values.key;
+
+    let hotLinkChanged = this.differ.diff(this.hotlink);
+    if (hotLinkChanged && this.hotlink.values && this.hotlink.values.rows) {
+      this.selectionColumn = this.hotlink.values.key;
       this.showTable = true;
     }
   }
 
+
   onButtonClick() {
+
+    if (this.showTable) {
+      this.showTable = false;
+      return;
+    }
+
     let msg = {
       ns: this.hotlink.ns,
-      filter: this.filter,
+      filter: this.hotlink.value[this.selectionTypeLower],
+      selection_type: this.hotlink.selection_type,
       name: this.hotlink.name
     };
 
@@ -51,8 +65,7 @@ export class AskHotlinkComponent implements DoCheck {
 
   selectionChanged(value: any) {
     let k = this.hotlink.values.rows[value.index];
-    this.hotlink.value = k[this.selectionCreteria];
-    this.filter = this.hotlink.value;
+    this.hotlink.value[this.selectionTypeLower] = k[this.selectionColumn];
   }
 
   popupStyle() {
@@ -70,6 +83,7 @@ export class AskHotlinkComponent implements DoCheck {
 
   onBlur() {
     this.showTable = false;
+    this.showOptions = false;
   }
 
   showFilteredTable() {
@@ -79,5 +93,12 @@ export class AskHotlinkComponent implements DoCheck {
     else if (this.hotlink.values && this.hotlink.values.rows) {
       this.showTable = true;
     }
+  }
+
+  selectionTypeChanged() {
+    let oldValue = this.hotlink.value[this.selectionTypeLower];
+    this.hotlink.value[this.selectionTypeLower] = '';
+    this.selectionTypeLower = this.hotlink.selection_type.toLowerCase();
+    this.hotlink.value[this.selectionTypeLower] = oldValue;
   }
 }

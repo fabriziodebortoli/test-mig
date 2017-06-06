@@ -30,6 +30,7 @@ namespace Microarea.RSWeb.Models
     {
         public string ns { get; set; }
         public string filter { get; set; }
+        public string selection_type { get; set; }
         public string name { get; set; }
     }
 

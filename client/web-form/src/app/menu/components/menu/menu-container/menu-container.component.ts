@@ -52,7 +52,7 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
 
     let found = false;
     for (let i = 0; i < tempMenuArray.length; i++) {
-      if (tempMenuArray[i].name.toLowerCase() == this.settingsService.lastMenuName.toLowerCase()) {
+      if (tempMenuArray[i].name.toLowerCase() == this.settingsService.LastMenuName.toLowerCase()) {
         this.menuService.setSelectedMenu(tempMenuArray[i]);
         return;
       }

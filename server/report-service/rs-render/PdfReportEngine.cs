@@ -51,8 +51,10 @@ namespace Microarea.RSWeb.Render
             // faccio partire la macchina a stati che si ferma o su completamento dell'estrazione
             // o su errore. A differenza del caso Web non rientra mai su se stessa perchè non ci sono postback.
             StateMachine.Step();
+            if (StateMachine.CurrentState == State.ExecuteAsk)
+                StateMachine.Step();
 
-			if (StateMachine.HtmlPage == HtmlPageType.Error)
+            if (StateMachine.HtmlPage == HtmlPageType.Error)
 			{
 				diagnostic = string.Format("{0}, {1}", GetErrorMessage(StateMachine.Report.Diagnostic), GetErrorMessage(StateMachine.Woorm.Diagnostic));
 				return new byte[0]; //array vuoto

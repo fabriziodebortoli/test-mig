@@ -12,8 +12,8 @@
 <div class="sidenav-subtitle">Groups</div>
 <tb-group-selector (itemSelected)="toggleSidenav(true)"></tb-group-selector>
 
-<div class="sidenav-subtitle">{{localizationService?.getLocalizedElement('FavoritesLabel')}}</div>
+<div class="sidenav-subtitle">{{localizationService?.localizedElements?.FavoritesLabel}}</div>
 <tb-favorites (itemSelected)="toggleSidenav(true)"></tb-favorites>
 
-<div class="sidenav-subtitle">{{localizationService.getLocalizedElement('MostUsedLabel')}}</div>
+<div class="sidenav-subtitle">{{localizationService.localizedElements?.MostUsedLabel}}</div>
 <tb-most-used (itemSelected)="toggleSidenav(true)"></tb-most-used>

@@ -464,8 +464,6 @@ namespace Microarea.Common.MenuLoader
 			if (loginManager == null && menuPathFinder != null && menuPathFinder.LoginManagerUrl != null && menuPathFinder.LoginManagerUrl.Length > 0)
 				loginManager = new LoginManager(menuPathFinder.LoginManagerUrl, InstallationData.ServerConnectionInfo.WebServicesTimeOut);
 
-
-			
 			if 
 				(
 				applySecurityFilter && 

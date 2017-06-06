@@ -190,10 +190,7 @@ namespace PdfSharp.Fonts
         {
             if (string.IsNullOrEmpty(typefaceKey))
                 typefaceKey = XGlyphTypeface.ComputeKey(familyName, fontResolvingOptions);
-#if true_
-            if (familyName == "Cambria")
-                Debug-Break.Break();
-#endif
+
             GdiFontStyle gdiStyle = (GdiFontStyle)(fontResolvingOptions.FontStyle & XFontStyle.BoldItalic);
 
             // Create a 10 point GDI+ font as an exemplar.
@@ -204,7 +201,7 @@ namespace PdfSharp.Fonts
             {
                 Debug.Assert(font != null);
                 // Case: Font was created by a GDI+ private font collection.
-#if true
+#if false
 #if DEBUG
                 XFontSource existingFontSource;
                 Debug.Assert(FontFactory.TryGetFontSourceByTypefaceKey(typefaceKey, out existingFontSource) &&
