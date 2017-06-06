@@ -892,10 +892,6 @@
     content: "\e078";
 }
 
-.m4-tb-collapsed:before {
-    content: "\e079";
-}
-
 .m4-tb-colours:before {
     content: "\e07a";
 }
@@ -988,10 +984,6 @@
     content: "\e092";
 }
 
-.m4-tb-resources:before {
-    content: "\e093";
-}
-
 .m4-tb-save:before {
     content: "\e094";
 }
@@ -1030,10 +1022,6 @@
 
 .m4-tb-table:before {
     content: "\e09d";
-}
-
-.m4-tb-top:before {
-    content: "\e09e";
 }
 
 .m4-tb-unpin:before {
@@ -1248,10 +1236,6 @@
     content: "\e0d3";
 }
 
-.m4-tb-next:before {
-    content: "\e0d4";
-}
-
 .m4-tb-ok:before {
     content: "\e0d5";
 }
@@ -1304,6 +1288,62 @@
     content: "\e0e1";
 }
 
-.m4-tb-master-1:before {
+.m4-tb-socialshare:before {
+    content: "\e084";
+}
+
+.m4-tb-top:before {
+    content: "\e093";
+}
+
+.m4-tb-rectangle:before {
+    content: "\e0e3";
+}
+
+.m4-tb-inspect:before {
+    content: "\e0e4";
+}
+
+.m4-tb-last:before {
+    content: "\e0e5";
+}
+
+.m4-tb-pause:before {
+    content: "\e0e6";
+}
+
+.m4-tb-first:before {
+    content: "\e0e7";
+}
+
+.m4-tb-collapsed:before {
+    content: "\e0e8";
+}
+
+.m4-tb-editquery:before {
+    content: "\e0e9";
+}
+
+.m4-tb-deletecolumn:before {
+    content: "\e0ea";
+}
+
+.m4-tb-bottom:before {
+    content: "\e0eb";
+}
+
+.m4-tb-bq-temp:before {
+    content: "\e0ec";
+}
+
+.m4-tb-debug:before {
+    content: "\e0ed";
+}
+
+.m4-tb-multiselect:before {
+    content: "\e086";
+}
+
+.m4-tb-next:before {
     content: "\e0e2";
 }
