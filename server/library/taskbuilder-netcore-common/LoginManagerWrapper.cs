@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using LoginManagerWcf;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
+using Newtonsoft.Json;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.Common.WebServicesWrapper
@@ -16,7 +17,7 @@ namespace Microarea.Common.WebServicesWrapper
 	public class LoginManagerSessionManager
 	{
 		public static Dictionary<string, LoginManagerSession> LoginManagerSessionTable = new Dictionary<string, LoginManagerSession>();
-
+		public static Object staticTicket = new object();
 		//-----------------------------------------------------------------------
 		public static LoginManagerSession GetLoginManagerSession(string authenticationToken)
 		{
@@ -28,20 +29,22 @@ namespace Microarea.Common.WebServicesWrapper
 		//-----------------------------------------------------------------------
 		public static void RemoveLoginManagerSession(string authenticationToken)
 		{
-			LoginManagerSessionManager.LoginManagerSessionTable.Remove(authenticationToken);
+			lock (staticTicket)
+			{
+				LoginManagerSessionManager.LoginManagerSessionTable.Remove(authenticationToken);
+			}
 		}
 
 		//-----------------------------------------------------------------------
 		public static void AddLoginManagerSession(string authenticationToken, LoginManagerSession session)
 		{
-			LoginManagerSession temp;
-			if (LoginManagerSessionManager.LoginManagerSessionTable.TryGetValue(authenticationToken, out temp))
+			lock (staticTicket)
 			{
-				temp = session;
-				return;
-			}
+				if (LoginManagerSessionManager.LoginManagerSessionTable.TryGetValue(authenticationToken, out LoginManagerSession temp))
+					return;
 
-			LoginManagerSessionManager.LoginManagerSessionTable.Add(authenticationToken, session);
+				LoginManagerSessionManager.LoginManagerSessionTable.Add(authenticationToken, session);
+			}
 		}
 	}
 
@@ -93,7 +96,7 @@ namespace Microarea.Common.WebServicesWrapper
 	//================================================================================================
 	public class LoginManagerSession : IDisposable
 	{
-		
+
 		public LoginManagerSession()
 		{
 		}
@@ -102,27 +105,19 @@ namespace Microarea.Common.WebServicesWrapper
 		{
 			this.AuthenticationToken = authenticationToken;
 
-			AddToSessionTable(authenticationToken);
+			LoginManagerSessionManager.AddLoginManagerSession(authenticationToken, this);
 		}
 
 		public void Init(string authenticationToken)
 		{
 			this.AuthenticationToken = authenticationToken;
-			AddToSessionTable(authenticationToken);
-		}
-
-		private void AddToSessionTable(string authenticationToken)
-		{
-			LoginManagerSession temp;
-			if (LoginManagerSessionManager.LoginManagerSessionTable.TryGetValue(authenticationToken, out temp))
-				return;
-
-			LoginManagerSessionManager.LoginManagerSessionTable.Add(authenticationToken, this);
+			LoginManagerSessionManager.AddLoginManagerSession(authenticationToken, this);
 		}
 
 		public void Dispose()
 		{
 			LoginManagerSessionManager.RemoveLoginManagerSession(AuthenticationToken);
+			AuthenticationToken = string.Empty;
 		}
 
 		public string AuthenticationToken { get; internal set; }
@@ -145,13 +140,36 @@ namespace Microarea.Common.WebServicesWrapper
 		public string PreferredLanguage { get; internal set; }
 		public string ProviderName { get; internal set; }
 		public string ProviderDescription { get; internal set; }
-		
+
 		public bool UseUnicode { get; internal set; }
 	}
 
 	//================================================================================================
 	public class LoginManager
 	{
+		static Microarea.Common.WebServicesWrapper.LoginManager loginManagerInstance;
+		static object staticLockTicket = new object();
+
+		//----------------------------------------------------------------------------
+		/// <summary>
+		/// Oggetto statico globale BasePathFinder utilizzato ovunque in Mago.Net siano necessarie
+		/// informazioni non dipendenti da username e company
+		/// </summary>
+		public static Microarea.Common.WebServicesWrapper.LoginManager LoginManagerInstance
+		{
+			get
+			{
+				lock (staticLockTicket)
+				{
+					if (loginManagerInstance == null)
+					{
+						loginManagerInstance = new Common.WebServicesWrapper.LoginManager();
+					}
+					return loginManagerInstance;
+				}
+			}
+		}
+
 		LoginManagerState loginManagerState = LoginManagerState.UnInitialized;
 
 		private char[] activationExpressionOperators = new char[2] { '&', '|' };
@@ -234,7 +252,7 @@ namespace Microarea.Common.WebServicesWrapper
 			//string errorMessage = "Error message"; // TODO read error message
 
 			LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-		
+
 			return result;
 		}
 
@@ -327,7 +345,7 @@ namespace Microarea.Common.WebServicesWrapper
 			Task<TaskBuilderNetCore.Interfaces.SerialNumberType> task = loginManagerClient.CacheCounterGTGAsync();
 			return task.Result;
 		}
-		
+
 		//----------------------------------------------------------------------------
 		public String GetActivationStateInfo()
 		{
@@ -503,7 +521,7 @@ namespace Microarea.Common.WebServicesWrapper
 			if (loginManagerState == LoginManagerState.Logged && !overwriteLogin)
 				return (int)LoginReturnCodes.UserAlreadyLoggedError;
 
-		
+
 			////TODO ILARIA MACADDRESS
 			//string macAddress = string.Empty;
 			//try
@@ -516,7 +534,7 @@ namespace Microarea.Common.WebServicesWrapper
 			authenticationToken = string.Empty;
 			Login2Request request = new Login2Request(userName, company, password, askingProcess, macIp, overwriteLogin);
 			Task<Login2Response> task = loginManagerClient.Login2Async(request);
-		
+
 			if (task.Result.Login2Result != (int)LoginReturnCodes.NoError)
 				return task.Result.Login2Result;
 
@@ -741,6 +759,49 @@ namespace Microarea.Common.WebServicesWrapper
 			return expressionvalue;
 		}
 
+
+		//---------------------------------------------------------------------------
+		public string GetJsonLoginInformation(string token)
+		{
+			LoginManager.LoginManagerInstance.GetLoginInformation(token);
+			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(token);
+			if (loginManagerSession == null)
+				return string.Empty;
+
+			StringBuilder sb = new StringBuilder();
+			StringWriter sw = new StringWriter(sb);
+			JsonWriter jsonWriter = new JsonTextWriter(sw);
+
+			jsonWriter.WriteStartObject();
+
+			jsonWriter.WritePropertyName("userName");
+			jsonWriter.WriteValue(loginManagerSession.UserName);
+
+			jsonWriter.WritePropertyName("companyName");
+			jsonWriter.WriteValue(loginManagerSession.CompanyName);
+
+			jsonWriter.WritePropertyName("admin");
+			jsonWriter.WriteValue(loginManagerSession.Admin);
+
+			jsonWriter.WritePropertyName("connectionString");
+			jsonWriter.WriteValue(loginManagerSession.ConnectionString);
+
+			jsonWriter.WritePropertyName("providerName");
+			jsonWriter.WriteValue(loginManagerSession.ProviderName);
+
+			jsonWriter.WritePropertyName("useUnicode");
+			jsonWriter.WriteValue(loginManagerSession.UseUnicode);
+
+			jsonWriter.WritePropertyName("preferredLanguage");
+			jsonWriter.WriteValue(loginManagerSession.PreferredLanguage);
+
+			jsonWriter.WritePropertyName("applicationLanguage");
+			jsonWriter.WriteValue(loginManagerSession.ApplicationLanguage);
+
+			jsonWriter.WriteEndObject();
+
+			return sb.ToString();
+		}
 
 		//---------------------------------------------------------------------------
 		private bool CheckSingleActivation(string currentApplicationName, string singleActivation)
