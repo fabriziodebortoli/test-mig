@@ -65,9 +65,8 @@ namespace Microarea.Common.MenuLoader
 			XmlDocument doc = null;
 			try
 			{
-				LoginManager lm = new LoginManager(pf.LoginManagerUrl, InstallationData.ServerConnectionInfo.WebServicesTimeOut);
-				lm.GetLoginInformation(authenticationToken);
-				MenuLoader menuLoader = new MenuLoader(pf, lm, true);
+				LoginManager.LoginManagerInstance.GetLoginInformation(authenticationToken);
+				MenuLoader menuLoader = new MenuLoader(pf, LoginManager.LoginManagerInstance, true);
 				menuLoader.LoadAllMenus(false, false);
 				doc = menuLoader.ProcessMenu();
 			}
@@ -275,8 +274,7 @@ namespace Microarea.Common.MenuLoader
 				return string.Empty;
 
 			CultureInfo ci = new CultureInfo("en");
-			LoginManager lm = new LoginManager();
-			lm.GetLoginInformation(token);
+			LoginManager.LoginManagerInstance.GetLoginInformation(token);
 			LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(token);
 			if (session != null && !string.IsNullOrEmpty(session.PreferredLanguage))
 				ci = new CultureInfo(session.PreferredLanguage);
@@ -546,14 +544,12 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------
 		public static void GetVersionAndUserInfos(out string userInfoName, out string userInfoCompany, out string version)
 		{
-			LoginManager lm = new LoginManager();
-
 			userInfoName = null;
 			userInfoCompany = null;
 			version = null;
 
 			XmlDocument xDoc = new XmlDocument();
-			xDoc.LoadXml(lm.GetUserInfo());
+			xDoc.LoadXml(LoginManager.LoginManagerInstance.GetUserInfo());
 			XmlNode node = xDoc.SelectSingleNode("//Name");
 			if (node != null)
 				userInfoName = node.InnerText;
@@ -562,14 +558,13 @@ namespace Microarea.Common.MenuLoader
 			if (node != null)
 				userInfoCompany = node.InnerText;
 
-			version = lm.GetInstallationVersion();
+			version = LoginManager.LoginManagerInstance.GetInstallationVersion();
 		}
 
 		//---------------------------------------------------------------------
 		public static string GetLoginInitImage()
 		{
-			LoginManager lm = new LoginManager();
-			if (lm.IsActivated("Erp", "imago"))
+			if (LoginManager.LoginManagerInstance.IsActivated("Erp", "imago"))
 				return GetImagePathFromBrand("ILoginHeaderImage");
 			else
 				return GetImagePathFromBrand("LoginHeaderImage");
@@ -713,8 +708,7 @@ namespace Microarea.Common.MenuLoader
 		public static string GetJsonProductInfo(string authenticationToken)
 		{
 
-			LoginManager lm = new LoginManager();
-			lm.GetLoginInformation(authenticationToken);
+			LoginManager.LoginManagerInstance.GetLoginInformation(authenticationToken);
 			LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
 			StringBuilder sb = new StringBuilder();
 			using (StringWriter sw = new StringWriter(sb))
@@ -726,19 +720,19 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WriteStartObject();
 
 				jsonWriter.WritePropertyName("installationVersion");
-				jsonWriter.WriteValue(lm.GetInstallationVersion());
+				jsonWriter.WriteValue(LoginManager.LoginManagerInstance.GetInstallationVersion());
 
 				jsonWriter.WritePropertyName("providerDescription");
 				jsonWriter.WriteValue(session.ProviderDescription);
 
 				jsonWriter.WritePropertyName("edition");
-				jsonWriter.WriteValue(lm.GetEditionType());
+				jsonWriter.WriteValue(LoginManager.LoginManagerInstance.GetEditionType());
 
 				jsonWriter.WritePropertyName("installationName");
 				jsonWriter.WriteValue(BasePathFinder.BasePathFinderInstance.Installation); ////jsonWriter.WriteString(_T("installationName"), AfxGetPathFinder()->GetInstallationName());
 
 				jsonWriter.WritePropertyName("activationState");
-				jsonWriter.WriteValue(lm.GetActivationStateInfo());
+				jsonWriter.WriteValue(LoginManager.LoginManagerInstance.GetActivationStateInfo());
 
 				string debugState = string.Empty;
 #if DEBUG
@@ -770,7 +764,7 @@ namespace Microarea.Common.MenuLoader
 					IBaseModuleInfo firstModule = enumerator.Current as IBaseModuleInfo;
 					if (firstModule == null)
 						continue;
-					string sActive = lm.IsActivated(appInfo.Name, firstModule.Name) ? EnumsStateStrings.Licensed : EnumsStateStrings.NotLicensed;
+					string sActive = LoginManager.LoginManagerInstance.IsActivated(appInfo.Name, firstModule.Name) ? EnumsStateStrings.Licensed : EnumsStateStrings.NotLicensed;
 					jsonWriter.WriteStartObject();
 					jsonWriter.WritePropertyName("application");
 					jsonWriter.WriteValue(appInfo.Name);  // TODOLUCA manca la versione accanto al name

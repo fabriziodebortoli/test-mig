@@ -26,8 +26,17 @@ namespace Microarea.TbLoaderGate
 
 		internal void Remove(WebSocket webSocket)
 		{
-			if (clientSocket == webSocket) clientSocket = null;
-			else if (serverSocket == webSocket) serverSocket = null;
+			if (clientSocket == webSocket)
+			{
+				clientSocket.Dispose();
+				clientSocket = null;
+			}
+
+			else if (serverSocket == webSocket)
+			{
+				serverSocket.Dispose();
+				serverSocket = null;
+			}
 		}
 	}
 	public class SocketDispatcher
