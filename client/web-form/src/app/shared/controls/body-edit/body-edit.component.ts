@@ -9,11 +9,11 @@ import { Subscription } from 'rxjs';
 })
 export class BodyEditComponent extends ControlComponent {
   @Input() columns: Array<any>;
+
+public pageSize: number = 10;
+public skip: number = 0;
+
   constructor() {
     super();
-
   }
-
 }
-
- 
