@@ -115,7 +115,7 @@ export class WidgetsService {
     const data = new WidgetData;
     data.lastExecuted = this.getExecutionTime();
     if (wdg.provider && wdg.provider.type === 'dataservice') {
-      this.dataService.getData(wdg.provider.namespace, wdg.provider.selection, wdg.provider.params).subscribe(dsData => {
+      let subs = this.dataService.getData(wdg.provider.namespace, wdg.provider.selection, wdg.provider.params).subscribe(dsData => {
         if (wdg.provider.maxRows) {
           data.grid.rows = dsData.rows.slice(0, wdg.provider.maxRows);
         } else {
@@ -126,6 +126,8 @@ export class WidgetsService {
         } else {
           data.grid.columns = dsData.columns;
         }
+
+        subs.unsubscribe();
       });
     }
     return Observable.of(data);

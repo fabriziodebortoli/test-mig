@@ -112,18 +112,6 @@ export class HttpService {
             })
             .catch(this.handleError);
     }
-    getLoginActiveThreads() {
-        /*return new Promise(function (resolve, reject) {
-         me.http.get(me.getDocumentBaseUrl() + "getLoginActiveThreads/")
-         .subscribe(response => {
-         if (response.ok) {
-         resolve(response.text());
-         }
-         else
-         reject(response.toString());
-         });
-         });*/
-    }
 
     postData(url: string, data: Object): Observable<Response> {
         let headers = new Headers();

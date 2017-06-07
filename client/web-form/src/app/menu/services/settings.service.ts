@@ -82,11 +82,10 @@ export class SettingsService {
     setPreference(referenceName, referenceValue, callback) {
 
         this.cookieService.put(referenceName, referenceValue);
-        //this.httpMenuService.setPreference(referenceName, referenceValue).subscribe(result => { if (callback != undefined) callback() });
     }
 
     getThemedSettings() {
-        this.httpMenuService.getThemedSettings().subscribe(data => {
+        let sub = this.httpMenuService.getThemedSettings().subscribe(data => {
 
             if (data.ThemedSettings.nrMaxItemsSearch != undefined)
                 this.nrMaxItemsSearch = parseInt(data.ThemedSettings.nrMaxItemsSearch);
@@ -104,13 +103,15 @@ export class SettingsService {
 
             if (data.OtherSettings != undefined && data.OtherSettings.isEasyStudioActivated != undefined)
                 this.isEasyStudioActivated = this.utilsService.parseBool(data.OtherSettings.isEasyStudioActivated);
+                
+            sub.unsubscribe()
         });
     }
 
     //---------------------------------------------------------------------------------------------
     getPreferences() {
 
-        this.httpMenuService.getPreferences().subscribe(data => {
+       let subs = this.httpMenuService.getPreferences().subscribe(data => {
 
             var current = this.getPreferenceByName(data.Root.Preference, "NrMaxItemsSearch");
             if (current != undefined)
@@ -128,6 +129,7 @@ export class SettingsService {
             }
 
             this.eventManagerService.emitPreferenceLoaded();
+            subs.unsubscribe();
         })
     }
 

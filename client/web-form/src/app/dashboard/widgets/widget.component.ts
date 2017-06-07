@@ -29,14 +29,16 @@ export class WidgetComponent implements AfterViewInit {
 
   onRefreshClicked() {
     this.isLoading = true;
-    this.widgetsService.refreshContent(this.widget).subscribe(
+    let subs = this.widgetsService.refreshContent(this.widget).subscribe(
       (data) => {
         this.widget.data = data;
         this.isLoading = false;
+        subs.unsubscribe();
       },
       (err) => {
         // TODO report error
         this.isLoading = false;
+        subs.unsubscribe();
       }
     );
   }
