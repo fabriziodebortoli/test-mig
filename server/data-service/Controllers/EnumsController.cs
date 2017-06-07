@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microarea.Common.Applications;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace DataService.Controllers
 	{
 		//---------------------------------------------------------------------
 		[Route("getEnumsTable")]
-		public IActionResult GetEnumsTable(string nameSpace, string selectionType)
+		public IActionResult GetEnumsTable()
 		{
 			string content = Enums.GetJsonEnumsTable();
 			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };

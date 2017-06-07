@@ -21,7 +21,7 @@ namespace Microarea.Common.StringLoader
 		//---------------------------------------------------------------------
 		public static string Culture
 		{      
-			get { return ""; }// TODO rsweb System.Threading.Thread.CurrentThread.Name; }
+			get { return "";  }// TODO rsweb System.Threading.Thread.CurrentThread.Name; }
 		}
 
 		//---------------------------------------------------------------------

@@ -201,8 +201,6 @@ export class MenuService {
         if (object === undefined)
             return;
 
-        console.log(object)
-
         if (object.objectType.toLowerCase() == 'report') {
             let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
                 if (!jsonObj.desktop) {
