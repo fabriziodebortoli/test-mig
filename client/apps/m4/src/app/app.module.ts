@@ -1,11 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-
-import { TaskbuilderModule } from '@taskbuilder/core';
 
 import { AppComponent } from './app.component';
+
+import { TaskbuilderCoreModule } from '@taskbuilder/core';
 
 @NgModule({
   declarations: [
@@ -13,9 +11,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    HttpModule,
-    TaskbuilderModule
+    TaskbuilderCoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
