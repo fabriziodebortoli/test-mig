@@ -858,5 +858,14 @@ namespace Microarea.RSWeb.Render
 
             Working = false;
         }
+        //--------------------------------------------------------------------
+       public void StopReport()
+       {
+            Report.Engine.StopEngine(WoormViewerStrings.ExecutionStopped);
+            Woorm.ReportSession.StoppedByUser = true;
+            ExtractionThread.Join();
+            CurrentState = State.UserInterrupted;
+            Step();
+        }
     }
-}
+ }

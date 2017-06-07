@@ -388,7 +388,9 @@ namespace Microarea.RSWeb.WoormEngine
                 s += ",\"hotlink\":{" +
                             Hotlink.Prototype.FullName.ToJson("ns") + ',' +
                             seltype.ToJson("selection_type") + ',' +
-                            sellist + "}";
+                            this.MultiSelections.ToJson("multi_selection") + ',' +
+                            sellist +
+                            "}";
             }
 
             //------
