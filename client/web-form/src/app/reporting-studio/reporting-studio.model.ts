@@ -445,16 +445,16 @@ export class hotlink extends askObj {
   selectionList: string[] = [];
   values: any = undefined;
   selection_type: string;
+  multi_selection: boolean;
+  
   constructor(jsonObj: any) {
     super(jsonObj);
     this.obj = AskObjectType.hotlink;
     this.ns = jsonObj.hotlink.ns;
+    this.multi_selection = jsonObj.hotlink.multi_selection;
     this.selection_type = jsonObj.hotlink.selection_type;
     this.selectionList = jsonObj.hotlink.selection_list;
-    this.value = {
-      description: '',
-      code: ''
-    };
+    this.value = '';
   }
 
 }

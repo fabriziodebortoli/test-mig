@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Rx';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { hotlink, CommandType } from './../../../reporting-studio.model';
-import { Component, Input, DoCheck, KeyValueDiffers, Output, EventEmitter, ViewChild, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, Input, DoCheck, KeyValueDiffers, Output, EventEmitter, ViewChild, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'rs-ask-hotlink',
@@ -9,7 +9,7 @@ import { Component, Input, DoCheck, KeyValueDiffers, Output, EventEmitter, ViewC
   styleUrls: ['./ask-hotlink.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AskHotlinkComponent implements DoCheck, OnInit {
+export class AskHotlinkComponent implements DoCheck {
 
 
   @Input() hotlink: hotlink;
@@ -17,29 +17,35 @@ export class AskHotlinkComponent implements DoCheck, OnInit {
   showTable: boolean = false;
   showOptions: boolean = false;
   selectionColumn: string = '';
-  selectionTypeLower: string = '';
+  multiSelectedValues: any[] = [];
+
   constructor(private rsService: ReportingStudioService, private differs: KeyValueDiffers) {
 
     this.differ = differs.find({}).create(null);
   }
 
-  ngOnInit() {
-    this.selectionTypeLower = this.hotlink.selection_type.toLocaleLowerCase();
-  }
-
+  // ---------------------------------------------------------------------------------------
   ngDoCheck() {
     if (this.hotlink === undefined) {
       return;
     }
 
-    let hotLinkChanged = this.differ.diff(this.hotlink);
+    let hotLinkChanged = this.differ.diff(this.hotlink.values);
     if (hotLinkChanged && this.hotlink.values && this.hotlink.values.rows) {
       this.selectionColumn = this.hotlink.values.key;
+      if (this.hotlink.multi_selection && this.multiSelectedValues.length > 0) {
+        for (let i = 0; i < this.hotlink.values.rows.length; i++) {
+          let item = this.hotlink.values.rows[i];
+          if (this.multiSelectedValues.indexOf(item[this.selectionColumn]) >= 0) {
+            item.Selected = true;
+          }
+        }
+      }
       this.showTable = true;
     }
   }
 
-
+  // ---------------------------------------------------------------------------------------
   onButtonClick() {
 
     if (this.showTable) {
@@ -49,7 +55,7 @@ export class AskHotlinkComponent implements DoCheck, OnInit {
 
     let msg = {
       ns: this.hotlink.ns,
-      filter: this.hotlink.value[this.selectionTypeLower],
+      filter: this.hotlink.multi_selection ? '' : this.hotlink.value,
       selection_type: this.hotlink.selection_type,
       name: this.hotlink.name
     };
@@ -63,11 +69,58 @@ export class AskHotlinkComponent implements DoCheck, OnInit {
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // ---------------------------------------------------------------------------------------
   selectionChanged(value: any) {
+    if (this.hotlink.multi_selection) {
+      return;
+    }
     let k = this.hotlink.values.rows[value.index];
-    this.hotlink.value[this.selectionTypeLower] = k[this.selectionColumn];
+    this.hotlink.value = k[this.selectionColumn];
   }
 
+  // ---------------------------------------------------------------------------------------
+  onBlur() {
+    this.showTable = false;
+    this.showOptions = false;
+  }
+
+  // ---------------------------------------------------------------------------------------
+  toggleOptions() {
+    this.showOptions = !this.showOptions;
+    this.showTable = false;
+  }
+
+  // ---------------------------------------------------------------------------------------
+  onRowChecked(event, dataItem) {
+    if (dataItem.Selected === undefined) {
+      dataItem.Selected = false;
+    }
+
+    dataItem.Selected = !dataItem.Selected;
+
+    if (dataItem.Selected) {
+      this.multiSelectedValues.push(dataItem[this.selectionColumn]);
+      this.multiSelectedValues.sort();
+    }
+    else {
+      let index = this.multiSelectedValues.indexOf(dataItem[this.selectionColumn]);
+      this.multiSelectedValues.splice(index, 1);
+    }
+
+    this.hotlink.value = '';
+    this.multiSelectedValues.forEach(item => {
+
+      this.hotlink.value += ' ' + item + ',';
+
+    });
+
+    if (this.multiSelectedValues.length > 0) {
+      this.hotlink.value = this.hotlink.value.substring(0, this.hotlink.value.length - 1);
+    }
+  }
+
+  // Styling
+  // ---------------------------------------------------------------------------------------
   popupStyle() {
     return {
       'max-width': '50%',
@@ -75,30 +128,10 @@ export class AskHotlinkComponent implements DoCheck, OnInit {
     };
   }
 
+  // ---------------------------------------------------------------------------------------
   inputStyle() {
     return {
       'width': '60%',
     };
-  }
-
-  onBlur() {
-    this.showTable = false;
-    this.showOptions = false;
-  }
-
-  showFilteredTable() {
-    if (this.showTable) {
-      this.showTable = false;
-    }
-    else if (this.hotlink.values && this.hotlink.values.rows) {
-      this.showTable = true;
-    }
-  }
-
-  selectionTypeChanged() {
-    let oldValue = this.hotlink.value[this.selectionTypeLower];
-    this.hotlink.value[this.selectionTypeLower] = '';
-    this.selectionTypeLower = this.hotlink.selection_type.toLowerCase();
-    this.hotlink.value[this.selectionTypeLower] = oldValue;
   }
 }

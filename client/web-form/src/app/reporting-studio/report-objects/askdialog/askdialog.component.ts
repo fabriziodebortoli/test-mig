@@ -95,20 +95,11 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
       let group = this.objects[i];
       for (let j = 0; j < group.entries.length; j++) {
         let component: askObj = group.entries[j];
-        let obj;
-        let sel_type_lower = (<hotlink>component).selection_type.toLocaleLowerCase();
-        if (component.obj === AskObjectType.hotlink) {
-          obj = {
-            name: component.name,
-            value: component.value[sel_type_lower]
-          };
-        }
-        else {
+        let obj;       
           obj = {
             name: component.name,
             value: component.value.toString()
           };
-        }
         arrayComp.push(obj);
       }
     }
