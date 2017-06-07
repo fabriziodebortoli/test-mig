@@ -48,26 +48,116 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="ApplicationsStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>ApplicationsStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="CoreTypeStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>CoreTypeStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="DiagnosticManagerStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>DiagnosticManagerStrings.resx</DependentUpon>
+	  </Compile>
 	  <Compile Update="EnumsStateStrings.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>EnumsStateStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="ExpressionManagerStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>ExpressionManagerStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="LexanStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>LexanStrings.resx</DependentUpon>
 	  </Compile>
 	  <Compile Update="MenuLoader\MenuStrings.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>MenuStrings.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="MenuManagerLoaderStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>MenuManagerLoaderStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="SoapCallStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>SoapCallStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="StringLoaderStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>StringLoaderStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Strings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Strings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="WebServicesWrapperStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>WebServicesWrapperStrings.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Update="ApplicationsStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>ApplicationsStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="CoreTypeStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>CoreTypeStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="DiagnosticManagerStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>DiagnosticManagerStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	  <EmbeddedResource Update="EnumsStateStrings.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>
 	    <LastGenOutput>EnumsStateStrings.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
+	  <EmbeddedResource Update="ExpressionManagerStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>ExpressionManagerStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="LexanStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>LexanStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	  <EmbeddedResource Update="MenuLoader\MenuStrings.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>
 	    <LastGenOutput>MenuStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="MenuManagerLoaderStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>MenuManagerLoaderStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="SoapCallStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>SoapCallStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="StringLoaderStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>StringLoaderStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Strings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="WebServicesWrapperStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>WebServicesWrapperStrings.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
 
