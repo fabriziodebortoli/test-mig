@@ -150,6 +150,11 @@ export class HttpService {
         return url;
     }
 
+    getEnumsServiceUrl() {
+       let url = this.baseUrl + 'enums-service/';
+        return url;
+    }
+
     protected handleError(error: any) {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
@@ -160,7 +165,7 @@ export class HttpService {
     }
 
     getEnumsTable(): Observable<any> {
-        return this.http.get(this.getDocumentBaseUrl() + 'getEnumsTable/', { withCredentials: true })
+        return this.http.get(this.getEnumsServiceUrl() + 'getEnumsTable/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
