@@ -1,6 +1,7 @@
-﻿import { EnumsService } from './../../../core/enums.service';
+﻿import { Subscription } from 'rxjs';
+import { EnumsService } from './../../../core/enums.service';
 import { ControlComponent } from './../control.component';
-import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
 import { EventDataService } from './../../../core/eventdata.service';
 import { DocumentService } from './../../../core/document.service';
 import { WebSocketService } from './../../../core/websocket.service';
@@ -11,13 +12,13 @@ import { WebSocketService } from './../../../core/websocket.service';
     styleUrls: ['./enum-combo.component.scss']
 })
 
-export class EnumComboComponent extends ControlComponent implements OnChanges, DoCheck {
+export class EnumComboComponent extends ControlComponent implements OnChanges, DoCheck, OnDestroy {
 
     private tag: string;
 
     private items: Array<any> = [];
     private selectedItem: any;
-
+ private itemSourceSub : Subscription;
     @Input() public itemSource: any;
     @Input() width: number;
 
@@ -27,7 +28,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         private enumsService: EnumsService) {
         super();
 
-        this.webSocketService.itemSource.subscribe((result) => {
+        this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
             this.items = result.itemSource;
         });
     }
@@ -98,4 +99,8 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         this.items.push(obj);
         this.selectedItem = obj;
     }
+
+    ngOnDestroy(){
+        this.itemSourceSub.unsubscribe();
+     }
 }

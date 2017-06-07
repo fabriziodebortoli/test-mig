@@ -1,3 +1,4 @@
+import { UserDefaultModule } from './../applications/erp/userdefault/userdefault.module';
 import { HttpService } from './http.service';
 import { URLSearchParams, Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -12,8 +13,9 @@ export class EnumsService {
     }
 
     getEnumsTable() {
-        this.getEnumsTableSubscription = this.httpService.getEnumsTable().subscribe((json) => {
+        let subs = this.getEnumsTableSubscription = this.httpService.getEnumsTable().subscribe((json) => {
             this.enumsTable = json.enums;
+            subs.unsubscribe();
         });
     }
 

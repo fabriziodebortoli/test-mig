@@ -20,7 +20,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
   public commType: CommandType;
   public objects: askGroup[] = [];
   public templates: TemplateItem[] = [];
-  subscriptions: Array<Subscription> = [];
+  subscriptions: Subscription [];
 
   constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
     this.subscriptions.push(adService.askChanged.subscribe(() => {

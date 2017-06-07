@@ -22,7 +22,6 @@ export class HttpService {
         protected utils: UtilsService,
         protected logger: Logger,
         protected cookieService: CookieService) {
-        console.log('HttpService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
     createOperationResult(res: Response): OperationResult {
         let jObject = res.ok ? res.json() : null;
@@ -112,18 +111,6 @@ export class HttpService {
             })
             .catch(this.handleError);
     }
-    getLoginActiveThreads() {
-        /*return new Promise(function (resolve, reject) {
-         me.http.get(me.getDocumentBaseUrl() + "getLoginActiveThreads/")
-         .subscribe(response => {
-         if (response.ok) {
-         resolve(response.text());
-         }
-         else
-         reject(response.toString());
-         });
-         });*/
-    }
 
     postData(url: string, data: Object): Observable<Response> {
         let headers = new Headers();
@@ -162,6 +149,11 @@ export class HttpService {
         return url;
     }
 
+    getEnumsServiceUrl() {
+       let url = this.baseUrl + 'enums-service/';
+        return url;
+    }
+
     protected handleError(error: any) {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
@@ -172,7 +164,7 @@ export class HttpService {
     }
 
     getEnumsTable(): Observable<any> {
-        return this.http.get(this.getDocumentBaseUrl() + 'getEnumsTable/', { withCredentials: true })
+        return this.http.get(this.getEnumsServiceUrl() + 'getEnumsTable/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })

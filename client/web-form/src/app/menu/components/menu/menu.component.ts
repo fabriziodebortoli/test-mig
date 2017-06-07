@@ -22,9 +22,7 @@ import { HttpMenuService } from './../../services/http-menu.service';
 
 export class MenuComponent implements OnInit, OnDestroy {
 
-  private getMenuElementsSubscription: Subscription;
-  private selectedGroupChangedSubscription: Subscription;
-
+private subscriptions : Subscription[] = [];
   constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
@@ -34,9 +32,10 @@ export class MenuComponent implements OnInit, OnDestroy {
     private eventData: EventDataService,
     private enumsService: EnumsService
   ) {
-    this.eventManagerService.preferenceLoaded.subscribe(result => {
+    this.subscriptions.push(this.eventManagerService.preferenceLoaded.subscribe(result => {
       this.menuService.initApplicationAndGroup(this.menuService.applicationMenu.Application);  //qui bisogna differenziare le app da caricare, potrebbero essere app o environment
-    });
+
+    }));
 
     this.eventData.model = {
       Title: {
@@ -45,22 +44,21 @@ export class MenuComponent implements OnInit, OnDestroy {
       viewModeType: ViewModeType.M
     };
 
-    this.selectedGroupChangedSubscription = this.menuService.selectedGroupChanged.subscribe((title) => {
+    this.subscriptions.push(this.menuService.selectedGroupChanged.subscribe((title) => {
       this.eventData.model.Title.value = title + ' Menu';
-    });
+    }));
   }
 
   ngOnInit() {
-    this.getMenuElementsSubscription = this.httpMenuService.getMenuElements().subscribe(result => {
+    this.subscriptions.push(this.httpMenuService.getMenuElements().subscribe(result => {
       this.menuService.onAfterGetMenuElements(result.Root);
       this.localizationService.loadLocalizedElements(true);
       this.settingsService.getSettings();
       this.enumsService.getEnumsTable();
-    });
+    }));
   }
 
   ngOnDestroy() {
-    this.getMenuElementsSubscription.unsubscribe();
-    this.selectedGroupChangedSubscription.unsubscribe();
+    this.subscriptions.forEach((sub)=> sub.unsubscribe());
   }
 }

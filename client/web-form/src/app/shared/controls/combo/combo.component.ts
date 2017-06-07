@@ -1,5 +1,6 @@
+import { Subscription } from 'rxjs';
 import { ControlComponent } from './../control.component';
-import { Component, Input, OnChanges, OnInit, AfterViewInit, DoCheck } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
 import { EnumsService } from './../../../core/enums.service';
 import { EventDataService } from './../../../core/eventdata.service';
 import { DocumentService } from './../../../core/document.service';
@@ -11,11 +12,11 @@ import { WebSocketService } from './../../../core/websocket.service';
     styleUrls: ['combo.component.scss']
 })
 
-export class ComboComponent extends ControlComponent implements OnChanges, DoCheck {
+export class ComboComponent extends ControlComponent implements OnChanges, DoCheck, OnDestroy {
 
     private items: Array<any> = [];
     private selectedItem: any;
-
+    private itemSourceSub : Subscription;
     @Input() public itemSource: any = undefined;
     @Input() public hotLink: any = undefined;
     @Input() width: number;
@@ -26,7 +27,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     ) {
         super();
 
-        this.webSocketService.itemSource.subscribe((result) => {
+       this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
             this.items = result.itemSource;
         });
     }
@@ -77,4 +78,9 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
         this.items.push(obj);
         this.selectedItem = obj;
     }
+
+    ngOnDestroy(){
+        this.itemSourceSub.unsubscribe();
+    }
+
 }

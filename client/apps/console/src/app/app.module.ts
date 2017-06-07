@@ -16,6 +16,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SubscriptionHomeComponent } from './subscription-home/subscription-home.component';
 import { routes } from './app.routes';
+import { ConsoleModule } from '@taskbuilder/console';
 
 @NgModule({
   declarations: [
@@ -33,8 +34,8 @@ import { routes } from './app.routes';
     BrowserModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    HttpModule
-    // ConsoleModule
+    HttpModule,
+    ConsoleModule
   ],
   providers: [AccountService, AuthGuardService],
   bootstrap: [AppComponent]
