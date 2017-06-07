@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tbloader-gate", "tbloader-g
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDFSharpCore", "library\PDFSharpCore\PDFSharpCore.csproj", "{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "menu-gate", "menu-gate\menu-gate.csproj", "{E33B70BB-1E54-4B58-A76F-D0288C52A329}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "menu-service", "menu-service\menu-service.csproj", "{E33B70BB-1E54-4B58-A76F-D0288C52A329}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "taskbuilder-netcore-common", "library\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj", "{97589AEC-B103-4568-A0DA-4847FF657DB9}"
 EndProject

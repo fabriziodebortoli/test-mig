@@ -9,14 +9,12 @@ using System;
 namespace Microarea.Menu.Controllers
 {
 	//da ripristinare quando inserisce il nuovo menu nel cef
-	[Route("menu-gate")]
+	[Route("menu-service")]
 	public class MenuController : Controller
 	{
-
 		public MenuController()
 		{
 		}
-
 
 		//da modificare quando inserisce il nuovo menu nel cef
 		[Route("tb/menu/getInstallationInfo/")]

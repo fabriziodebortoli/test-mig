@@ -144,8 +144,8 @@ export class HttpService {
         return url;
     }
 
-     getMenuGateUrl() {
-       let url = this.baseUrl + 'menu-gate/';
+     getMenuServiceUrl() {
+       let url = this.baseUrl + 'menu-service/';
         return url;
     }
 
