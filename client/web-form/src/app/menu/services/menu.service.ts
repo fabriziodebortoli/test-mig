@@ -552,5 +552,4 @@ export class MenuService {
     }
 
     menuActivated:boolean = true; // TODO temporaneo per demo, poi vedremo...
-    activateMenu(){this.menuActivated = true;console.log("act", this.menuActivated)}
 }

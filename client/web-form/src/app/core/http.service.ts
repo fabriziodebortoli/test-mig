@@ -22,7 +22,6 @@ export class HttpService {
         protected utils: UtilsService,
         protected logger: Logger,
         protected cookieService: CookieService) {
-        console.log('HttpService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
     createOperationResult(res: Response): OperationResult {
         let jObject = res.ok ? res.json() : null;

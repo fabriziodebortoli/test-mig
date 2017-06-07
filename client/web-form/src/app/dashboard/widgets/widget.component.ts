@@ -23,7 +23,6 @@ export class WidgetComponent implements AfterViewInit {
     setTimeout(() => {
       this.ContentHeight = this.cardContent ? this.cardContent.nativeElement.offsetHeight : 0;
       this.ContentWidth = this.cardContent ? this.cardContent.nativeElement.offsetWidth : 0;
-      console.log(this.ContentHeight, this.ContentWidth);
     }, 0);
   }
 
