@@ -1,24 +1,28 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TestComponent } from './test/test.component';
 
-export * from './test/test.component';
+import { MdButtonModule } from '@angular/material';
+
+import { SampleComponent } from './sample.component';
+
+export * from './sample.component';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    MdButtonModule
   ],
   declarations: [
-    TestComponent
+    SampleComponent
   ],
   exports: [
-    TestComponent
+    SampleComponent
   ]
 })
-export class TaskbuilderModule {
+export class TaskbuilderCoreModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: TaskbuilderModule,
+      ngModule: TaskbuilderCoreModule,
       // providers: [SampleService]
     };
   }
