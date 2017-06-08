@@ -5,18 +5,21 @@ import { MdButtonModule } from '@angular/material';
 
 import { SampleComponent } from './sample.component';
 
+import { TbIconsModule } from './icons/icons.module';
+
 export * from './sample.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    MdButtonModule
+    MdButtonModule,
+    TbIconsModule
   ],
   declarations: [
     SampleComponent
   ],
   exports: [
-    SampleComponent
+    SampleComponent, TbIconsModule
   ]
 })
 export class TaskbuilderCoreModule {
