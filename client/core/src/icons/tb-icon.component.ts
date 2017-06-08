@@ -3,9 +3,9 @@ import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'tb-icon',
-    templateUrl: './icon.component.html'
+    templateUrl: './tb-icon.component.html'
 })
-export class IconComponent {
+export class TbIconComponent {
 
     @Input() iconType: string = 'IMG'; // TB, CLASS, IMG  
     @Input() icon: string = '';

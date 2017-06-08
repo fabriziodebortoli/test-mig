@@ -1,32 +1,14 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { MdButtonModule } from '@angular/material';
-
-import { SampleComponent } from './sample.component';
+import { NgModule } from '@angular/core';
 
 import { TbIconsModule } from './icons/icons.module';
+export * from './icons/icons.module';
 
-export * from './sample.component';
+const TASKBUILDER_MODULES = [
+  TbIconsModule
+];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MdButtonModule,
-    TbIconsModule
-  ],
-  declarations: [
-    SampleComponent
-  ],
-  exports: [
-    SampleComponent, TbIconsModule
-  ]
+  imports: [TASKBUILDER_MODULES],
+  exports: [TASKBUILDER_MODULES]
 })
-export class TaskbuilderCoreModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: TaskbuilderCoreModule,
-      // providers: [SampleService]
-    };
-  }
-}
+export class TaskbuilderCoreModule { }

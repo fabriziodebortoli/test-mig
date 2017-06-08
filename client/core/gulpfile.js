@@ -147,8 +147,8 @@ gulp.task('rollup:umd', function() {
  * Copia la cartella fonts e il file style.css nella /dist
  */
 gulp.task('copy:fonts', function() {
-    gulp.src(`${srcFolder}/icons.scss`).pipe(gulp.dest(distFolder));
-    gulp.src(`${srcFolder}/icons/fonts/*`).pipe(gulp.dest(`${distFolder}/fonts/`));
+    // gulp.src(`${srcFolder}/icons/icons.css`).pipe(gulp.dest(`${distFolder}/icons/`));
+    gulp.src(`${srcFolder}/icons/fonts/*`).pipe(gulp.dest(`${distFolder}/icons/fonts/`));
 });
 
 /**
