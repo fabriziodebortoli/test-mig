@@ -1,5 +1,6 @@
+import { Subscription } from 'rxjs';
 import { LoginSessionService } from './../../../../core/login-session.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuItem } from './../../../context-menu/menu-item.model';
 import { EventDataService } from './../../../../core/eventdata.service';
 
@@ -8,11 +9,11 @@ import { EventDataService } from './../../../../core/eventdata.service';
   templateUrl: './topbar-menu-user.component.html',
   styleUrls: ['./topbar-menu-user.component.scss']
 })
-export class TopbarMenuUserComponent {
- menuElements: MenuItem[] = new Array<MenuItem>();
+export class TopbarMenuUserComponent implements OnDestroy {
+  menuElements: MenuItem[] = new Array<MenuItem>();
 
-
-  constructor(private loginSessionService: LoginSessionService,  private eventDataService: EventDataService) {
+  commandSubscription: Subscription;
+  constructor(private loginSessionService: LoginSessionService, private eventDataService: EventDataService) {
     const item1 = new MenuItem('Refresh', 'idRefreshButton', true, false);
     const item2 = new MenuItem('Settings', 'idSettingsButton', true, false);
     const item3 = new MenuItem('Help', 'idHelpButton', true, false);
@@ -20,16 +21,21 @@ export class TopbarMenuUserComponent {
     this.menuElements.push(item1, item2, item3, item4);
 
 
-    this.eventDataService.command.subscribe((cmpId: string) => {
-       switch (cmpId) {
-      case 'idSignOutButton':
-        return this.logout();
-      default:
-        break;
-    }
-  });
-}
+    this.commandSubscription = this.eventDataService.command.subscribe((cmpId: string) => {
+      switch (cmpId) {
+        case 'idSignOutButton':
+          return this.logout();
+        default:
+          break;
+      }
+    });
+  }
   logout() {
     this.loginSessionService.logout();
+  }
+
+  ngOnDestroy() {
+
+    this.commandSubscription.unsubscribe();
   }
 }

@@ -65,7 +65,7 @@ namespace Microarea.RSWeb.Render
                 RenderBaseObjList(xg, woorm.Objects);
 
             }
-            catch (System.Exception ex)
+            catch (Exception)
             {
 
             }

@@ -247,9 +247,10 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.RERUN:
                     {
-                          //reset state machine
-                          // sen message INITTEMPLATE
-                          break;
+                        //reset state machine
+                        //StateMachine.CurrentState = State.;
+                        // sen message INITTEMPLATE
+                        break;
                     }
 
                 //----------------------------------------------
@@ -258,11 +259,15 @@ namespace Microarea.RSWeb.Render
                     {
                         // this.stateMachine.Do()
                         msg.message = "Executed STOP()";
+
+                        StateMachine.StopReport();
                         break;
                     }
             }
             return msg;
         }
+
+       
 
         //---------------------------------------------------------------------
         //per debug

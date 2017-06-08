@@ -64,7 +64,7 @@ namespace Microarea.AdminServer.Library
         }
 
         AuthenticationSlots authenticationSlots = null;
-        private object v;
+        //private object v;
 
         //---------------------------------------------------------------------
         public void CreateSlots()

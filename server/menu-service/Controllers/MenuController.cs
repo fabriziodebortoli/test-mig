@@ -2,18 +2,19 @@
 using Microarea.MenuGate.Models;
 using Microarea.Common.MenuLoader;
 using Microarea.TaskBuilderNet.Core.Generic;
+using System.IO;
+using Microarea.Common.NameSolver;
+using System;
 
 namespace Microarea.Menu.Controllers
 {
 	//da ripristinare quando inserisce il nuovo menu nel cef
-	[Route("menu-gate")]
+	[Route("menu-service")]
 	public class MenuController : Controller
 	{
-
 		public MenuController()
 		{
 		}
-
 
 		//da modificare quando inserisce il nuovo menu nel cef
 		[Route("tb/menu/getInstallationInfo/")]
@@ -163,7 +164,7 @@ namespace Microarea.Menu.Controllers
 		public IActionResult GetProductInfo()
 		{
 			string token = HttpContext.Request.Form["token"];
-			string json = NewMenuLoader. GetJsonProductInfo(token);
+			string json = NewMenuLoader.GetJsonProductInfo(token);
 			return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
 		}
 
@@ -181,6 +182,28 @@ namespace Microarea.Menu.Controllers
 			string url = MenuStaticFunctions.ProducerSiteUrl();
 			string json = string.Format("{{ \"url\": \"{0}\" }}", url);
 			return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+		}
+
+		[Route("getStaticImage/{imageFile?}")]
+		public IActionResult getStaticImage(string imageFile)
+		{
+			string fullImagePath = Path.Combine(BasePathFinder.BasePathFinderInstance.GetStandardPath(), imageFile);
+			if (!System.IO.File.Exists(fullImagePath))
+				return new ContentResult { Content = "File does not exists " + fullImagePath, ContentType = "application/text" };
+
+			string ext = System.IO.Path.GetExtension(fullImagePath);
+
+			try
+			{
+				FileStream f = System.IO.File.Open(fullImagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+				return new FileStreamResult(f, "image/" + ext);
+			}
+			catch (Exception)
+			{
+			}
+
+			return new ContentResult { Content = "Cannot access file " + fullImagePath, ContentType = "application/text" };
 		}
 	}
 }

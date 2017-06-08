@@ -6,6 +6,7 @@
     <AssemblyName>account-manager</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>account-manager</PackageId>
+    <RootNamespace>Microarea.AccountManager</RootNamespace>
      
   </PropertyGroup>
 

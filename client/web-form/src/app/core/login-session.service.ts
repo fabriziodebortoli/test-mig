@@ -54,7 +54,7 @@ export class LoginSessionService {
     }
     login(connectionData: LoginSession): Observable<OperationResult> {
         return Observable.create(observer => {
-            this.httpService.login(connectionData).subscribe(
+            const subs = this.httpService.login(connectionData).subscribe(
                 result => {
                     this.setConnected(!result.error);
                     this.errorMessages = result.messages;
@@ -63,6 +63,7 @@ export class LoginSessionService {
                     }
                     observer.next(result);
                     observer.complete();
+                    subs.unsubscribe();
 
                 },
                 error => {
@@ -70,6 +71,7 @@ export class LoginSessionService {
                     this.errorMessages = [error];
                     observer.error(error);
                     observer.complete();
+                    subs.unsubscribe();
                 }
 
             );
