@@ -408,6 +408,13 @@ namespace Microarea.Common.WebServicesWrapper
 		}
 
 		//-----------------------------------------------------------------------------------------
+		public bool IsValidToken(string authToken)
+		{
+			Task<bool> task = loginManagerClient.IsValidTokenAsync(authToken);
+			return task.Result;
+		}
+
+		//-----------------------------------------------------------------------------------------
 		public void WakeUp()
 		{
 			Task<bool> task = loginManagerClient.IsAliveAsync();

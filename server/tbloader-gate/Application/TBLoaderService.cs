@@ -18,10 +18,12 @@ namespace Microarea.TbLoaderGate
 
     public class TBLoaderResponse
     {
-        public bool Result { get; set; }
-        public string Message { get; set; }
-        public int Port { get; set; }
-    }
+		public bool Result { get; set; }
+		public string Message { get; set; }
+		public int Port { get; set; }
+		public int ProcessId { get; set; }
+	}
+
     public class TBLoaderService
     {
         private string serviceComputerName = "localhost";
@@ -129,7 +131,7 @@ namespace Microarea.TbLoaderGate
         }
 
         //-----------------------------------------------------------------------
-        public async Task<int> ExecuteRemoteProcessAsync(string clientID)
+        public async Task<TBLoaderResponse> ExecuteRemoteProcessAsync(string clientID)
         {
             try
             {
@@ -139,7 +141,7 @@ namespace Microarea.TbLoaderGate
                 TBLoaderResponse res = await SocketSendReceive(serviceComputerName, servicePort, cmd);
                 if (!res.Result)
                     throw new Exception(res.Message);
-                return res.Port;
+                return res;
             }
             catch (Exception e)
             {
