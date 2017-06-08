@@ -6,7 +6,6 @@ import { AuthGuardService } from './guards/auth-guard.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { CompanyAccountComponent } from './company-account/company-account.component';
 import { CompanyComponent } from './company/company.component';
-// import { ConsoleModule } from '@taskbuilder/console';
 import { EntityListComponent } from './entity-list/entity-list.component';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
