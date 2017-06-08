@@ -20,7 +20,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
   public commType: CommandType;
   public objects: askGroup[] = [];
   public templates: TemplateItem[] = [];
-  subscriptions: Subscription [];
+  subscriptions: Subscription[] = [];
 
   constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
     this.subscriptions.push(adService.askChanged.subscribe(() => {
@@ -95,11 +95,11 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
       let group = this.objects[i];
       for (let j = 0; j < group.entries.length; j++) {
         let component: askObj = group.entries[j];
-        let obj;       
-          obj = {
-            name: component.name,
-            value: component.value.toString()
-          };
+        let obj;
+        obj = {
+          name: component.name,
+          value: component.value.toString()
+        };
         arrayComp.push(obj);
       }
     }
