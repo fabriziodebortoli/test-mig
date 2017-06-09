@@ -28,6 +28,7 @@ export class LoginSessionService {
 
          const subs = this.socket.close.subscribe(() => {
          
+             this.connected = false;
              this.openTbConnection(true);
         });
     }
@@ -44,6 +45,7 @@ export class LoginSessionService {
                 }
             } else {
                 this.socket.wsConnect();
+                this.connected = true;
             }
             tbSubs.unsubscribe();
         });
