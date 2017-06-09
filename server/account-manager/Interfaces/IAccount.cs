@@ -8,6 +8,7 @@ namespace Microarea.AccountManager.Interfaces
         string Id { get; set; }
         string Name { get; set; }
         string Password { get; set; }
+        
         bool PasswordNeverExpires { get; set; }
         bool UserMustChangePassword { get; set; }
         bool UserCannotChangePassword { get; set; }

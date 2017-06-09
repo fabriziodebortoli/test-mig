@@ -1,4 +1,7 @@
 ﻿
+using System;
+using Microarea.AdminServer.Model.Interfaces;
+
 namespace Microarea.AdminServer.Library
 {
     //Classe per la verifica delle credenziali ed il ritorno dei token
@@ -6,22 +9,92 @@ namespace Microarea.AdminServer.Library
     //nota: per ora il provider è un db detto microareaprovisioningdb
     public class LoginBaseClass
     {
-        string loginId;
-        string password;
-       
+        IAccount account;
+        
 
-        public LoginBaseClass(string loginid, string password) { }
-        public LoginReturnCodes VerifyCredential()
+        public LoginBaseClass(IAccount account) { this.account = account; }
+        public LoginReturnCodes VerifyCredential(string password)
         {
+            //verifica login lockata
+            //Verifica password errata
+
+            //se corretta:
+            //verifica password da cambiare
+            //verifica password scaduta
+
+            if (account.Locked) return LoginReturnCodes.LoginLocked;
+
+            if (account.Password != Crypt(password))
+            {
+                AddWrongPwdLoginCount();
+                if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+                return LoginReturnCodes.InvalidUserError;
+            }
+
+            ClearWrongPwdLoginCount();
+            if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+
+            if (account.MustChangePassword)
+                return LoginReturnCodes.UserMustChangePasswordError;
+
+            if (account.PasswordExpirationDate < DateTime.Now)
+            {
+                if (account.CannotChangePassword)
+                    return LoginReturnCodes.CannotChangePasswordError;
+                return account.PasswordExpirationDateCannotChange ? LoginReturnCodes.PasswordExpiredError : LoginReturnCodes.UserMustChangePasswordError;
+            } 
+
             return LoginReturnCodes.NoError;
         }
 
-        public AuthenticationTokens CreateTokens()
+        //----------------------------------------------------------------------
+        public LoginReturnCodes ChangePasssword(string oldpassword, string newpassword)
         {
-            return new AuthenticationTokens();
+            if (account.Locked)
+                return LoginReturnCodes.LoginLocked;
+            if (account.CannotChangePassword)
+                return LoginReturnCodes.CannotChangePasswordError;
+            if (account.PasswordExpirationDateCannotChange && account.PasswordExpirationDate < DateTime.Now)
+                return LoginReturnCodes.PasswordExpiredError;
+            if (account.Password != Crypt(oldpassword))
+            {
+                AddWrongPwdLoginCount();
+                return LoginReturnCodes.InvalidUserError;
+            }
+            account.Password = Crypt(newpassword);
+            if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+
+            ClearWrongPwdLoginCount();
+            CreateTokens();
+            return LoginReturnCodes.NoError;
         }
 
+        //----------------------------------------------------------------------
+        private void AddWrongPwdLoginCount()
+        {
+            int x = 5;//todo parametri server connection config?
 
+            if (++account.LoginFailedCount >= x)
+                account.Locked = true;
+        }
 
+        //----------------------------------------------------------------------
+        private void ClearWrongPwdLoginCount()
+        {
+            account.Locked = false;
+            account.LoginFailedCount = 0;
+        }
+
+        //----------------------------------------------------------------------
+        private string Crypt(string password)
+        {
+            return password;//TODO
+        }
+
+        //----------------------------------------------------------------------
+        public void CreateTokens()
+        {
+            account.Tokens = new UserTokens();
+        }
     }
 }
