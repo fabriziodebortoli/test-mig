@@ -2,7 +2,7 @@ export class Subscription {
     
     subscriptionId: number;
     name: string;
-    // ActivationToken // ??
+    activationToken: string;
     purchaseId: string;
     instanceId: number;
 
