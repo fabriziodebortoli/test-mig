@@ -25,6 +25,28 @@ export class LoginSessionService {
         private router: Router) {
 
         this.checkIfLogged();
+
+         const subs = this.socket.close.subscribe(() => {
+         
+             this.openTbConnection(true);
+        });
+    }
+
+    openTbConnection(retry: boolean = false) {
+        const tbSubs = this.httpService.openTBConnection().subscribe(tbRes => {
+            if (tbRes.error) {
+                this.logger.debug(tbRes.messages);
+                if (retry)
+                {
+                    setTimeout(function() {
+                        this.openTbConnection(true);
+                    }, 5000);
+                }
+            } else {
+                this.socket.wsConnect();
+            }
+            tbSubs.unsubscribe();
+        });
     }
 
     checkIfLogged() {
@@ -35,14 +57,7 @@ export class LoginSessionService {
                 } else {
                     this.logger.debug('Just logged in');
                     this.setConnected(true);
-                    const tbSubs = this.httpService.openTBConnection().subscribe(tbRes => {
-                        if (tbRes.error) {
-                            this.logger.debug(tbRes.messages);
-                        } else {
-                            this.socket.wsConnect();
-                        }
-                        tbSubs.unsubscribe();
-                    });
+                    this.openTbConnection();
 
                 }
                 subs.unsubscribe();
@@ -61,9 +76,9 @@ export class LoginSessionService {
                 result => {
                     this.setConnected(!result.error);
                     this.errorMessages = result.messages;
-                    // if (this.connected) {
-                    //     this.socket.wsConnect();
-                    // }
+                    if (this.connected) {
+                       this.openTbConnection();
+                    }
                     observer.next(result);
                     observer.complete();
                     subs.unsubscribe();
@@ -88,7 +103,7 @@ export class LoginSessionService {
                 this.logger.debug('logout returns: ' + loggedOut);
                 this.setConnected(!loggedOut);
                 this.httpService.closeTBConnection();
-               // this.socket.wsClose(); lo chiude il server facendo logoff
+                // this.socket.wsClose(); lo chiude il server facendo logoff
                 this.cookieService.remove('authtoken');
                 subscription.unsubscribe();
             },
@@ -107,7 +122,7 @@ export class LoginSessionService {
         if (url.length === 0) {
             url = this.defaultUrl;
         }
-        
+
         this.router.navigate(url, { skipLocationChange: false, replaceUrl: false });
     }
 }

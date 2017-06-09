@@ -65,8 +65,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
 
       this.messageDialog.open(args);
     }));
-
-    this.loginSession.checkIfLogged();
   }
 
   ngOnInit() {
