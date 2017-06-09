@@ -1,23 +1,28 @@
 <div>{{hotlink.caption}}</div>
 
-<kendo-maskedtextbox [(ngModel)]="filter" [ngStyle]="inputStyle()" (blur)="onBlur()" ></kendo-maskedtextbox>
-<button kendoButton  [icon]="'arrow-60-down'" style="margin-left:-5px" (click)="showFilteredTable()"></button>
-<button kendoButton #anchor (click)="show=!show" [icon]="'more-vertical'" ></button>
-<kendo-popup [popupClass]="'popup-radio'" [anchor]="anchor" (anchorViewportLeave)="show = false" *ngIf="show">
-  Search for:<br>
-  <md-radio-group>
-    <md-radio-button value="Code">Code</md-radio-button><br>
-    <md-radio-button value="Description">Description</md-radio-button><br>
-  </md-radio-group>
-</kendo-popup>
-<!--<button kendoButton (click)="onButtonClick(); " [icon]="'search'"></button> -->
+<kendo-maskedtextbox [(ngModel)]="hotlink.value" [ngStyle]="inputStyle()" (focus)="onBlur()" (blur)="onBlur()" [disabled]="hotlink.multi_selection"></kendo-maskedtextbox>
 
-<button kendoButton  (click)="onButtonClick()" [icon]="'search'"></button>
+<button kendoButton #anchor (click)="toggleOptions()" [icon]="'more-vertical'"></button>
+<kendo-popup [anchor]="anchor" (blur)="showOptions = false" *ngIf="showOptions">
+  <div class="search-options">
+    Search for:<br>
+    <md-radio-group [(ngModel)]="hotlink.selection_type" >
+      <md-radio-button *ngFor="let item of hotlink.selectionList" [value]="item.value">{{item.value}}</md-radio-button>
+    </md-radio-group>
+  </div>
+</kendo-popup>
+
+<button kendoButton (click)="onButtonClick()" [icon]="'search'"></button>
 <div #anchorTable></div>
-<kendo-popup [anchor]="anchorTable" class="'popup-radio'" (anchorViewportLeave)="showTable = false" *ngIf="showTable" [ngStyle]="popupStyle()">
+<kendo-popup [anchor]="anchorTable" (anchorViewportLeave)="showTable = false" *ngIf="showTable" [ngStyle]="popupStyle()">
   <kendo-grid [data]="hotlink.values.rows" [selectable]="true" (selectionChange)="selectionChanged($event)" [scrollable]="'scrollable'"
-   [height]="300">
-    <kendo-grid-column *ngFor="let col of hotlink.values.columns" field="{{col.id}}" title="{{col.id}}">
+    [height]="300">
+    <kendo-grid-column  *ngIf="hotlink.multi_selection"  [width]="45" [headerClass]="{'tableHeader':true}">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <input type="checkbox" [checked]="dataItem.Selected" (change)="onRowChecked($event, dataItem)"/>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column *ngFor="let col of hotlink.values.columns" field="{{col.id}}" title="{{col.id}}" [headerClass]="{'tableHeader':true}">
     </kendo-grid-column>
   </kendo-grid>
 </kendo-popup>

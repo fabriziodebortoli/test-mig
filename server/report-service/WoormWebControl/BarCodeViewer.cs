@@ -61,9 +61,9 @@ namespace Microarea.RSWeb.WoormWebControl
 					barCodeType = BarCodeWrapper.GetBarCodeType(bcType);
 				}
 
-                bool italic = false;  //(FontStyle.Italic & fe.FontStyle) == FontStyle.Italic; todo rsweb
-                bool bold = false;  //(FontStyle.Bold & fe.FontStyle) == FontStyle.Bold;todo rsweb
-			
+				//bool italic = false;  (FontStyle.Italic & fe.FontStyle) == FontStyle.Italic; todo rsweb
+				//bool bold = false;  (FontStyle.Bold & fe.FontStyle) == FontStyle.Bold;todo rsweb
+
 				int x, y, height;
 				if
 					(	// in questi casi le dimensioni del font vengono comunque decise dalla libreria

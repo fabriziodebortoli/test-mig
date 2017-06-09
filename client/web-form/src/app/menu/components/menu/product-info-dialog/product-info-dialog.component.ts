@@ -23,7 +23,9 @@ private productInfos: any;
   }
 
   ngOnInit() {
-    this.httpMenuService.getProductInfo().subscribe(result=> { this.productInfos = result.ProductInfos; });
+   let sub = this.httpMenuService.getProductInfo().subscribe(result=> { 
+     this.productInfos = result.ProductInfos; sub.unsubscribe()
+     });
   }
 }
 

@@ -143,14 +143,14 @@ namespace Microarea.RSWeb.Render
             return string.Empty;
         }
 
-        public string GetHotlinkValues(string ns, string filter, string fieldName)
+        public string GetHotlinkValues(string ns, string filter, string fieldName, string selType)
         {
             TbSession hklSession = new TbSession(this.ReportSession, ns);
 
             Datasource ds = new Datasource(hklSession);
 
             //TODO RSWEB - manca il passaggio dei parametri dell'hotlink
-            if (!ds.PrepareQuery(/*HttpContext.Request.Query,*/ "Code"/*TODO RSWEB*/, filter))
+            if (!ds.PrepareQuery(/*HttpContext.Request.Query,*/ "Code"/*TODO RSWEB*//*selType*/, filter))
                 return null;
 
             string records="";
@@ -210,7 +210,7 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.HOTLINK:
                     {
                         var obj = JsonConvert.DeserializeObject<HotlinkDescr>(msg.message);
-                        msg.message = GetHotlinkValues(obj.ns, obj.filter, obj.name);
+                        msg.message = GetHotlinkValues(obj.ns, obj.filter, obj.name, obj.selection_type);
 
                         break;
                     }
@@ -247,9 +247,10 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.RERUN:
                     {
-                          //reset state machine
-                          // sen message INITTEMPLATE
-                          break;
+                        //reset state machine
+                        //StateMachine.CurrentState = State.;
+                        // sen message INITTEMPLATE
+                        break;
                     }
 
                 //----------------------------------------------
@@ -258,11 +259,15 @@ namespace Microarea.RSWeb.Render
                     {
                         // this.stateMachine.Do()
                         msg.message = "Executed STOP()";
+
+                        StateMachine.StopReport();
                         break;
                     }
             }
             return msg;
         }
+
+       
 
         //---------------------------------------------------------------------
         //per debug

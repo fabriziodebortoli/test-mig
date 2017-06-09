@@ -146,9 +146,9 @@ namespace PdfSharp.Pdf.Filters
             zip.Write(data, 0, data.Length);
             zip.Finish();
 #endif
-#if false//!NETFX_CORE && !UWP
+#if !NETFX_CORE && !UWP
             ms.Capacity = (int)ms.Length;
-            return ms.GetBuffer();
+            return ms.ToArray(); //GetBuffer();
 #else
             return ms.ToArray();
 #endif

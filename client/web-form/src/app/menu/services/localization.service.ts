@@ -10,7 +10,7 @@ import { Logger } from './../../core/logger.service';
 @Injectable()
 export class LocalizationService {
 
-    private localizedElements: any = undefined;
+    public localizedElements: any = undefined;
     public localizationsLoaded: EventEmitter<any> = new EventEmitter();
 
     constructor(
@@ -27,26 +27,27 @@ export class LocalizationService {
         if (this.localizedElements != undefined)
             return this.localizedElements;
 
-        this.httpMenuService.loadLocalizedElements(needLoginThread).subscribe(result => {
+       let subs =  this.httpMenuService.loadLocalizedElements(needLoginThread).subscribe(result => {
             this.localizedElements = result.LocalizedElements;
             this.localizationsLoaded.emit();
+            subs.unsubscribe();
         })
     }
 
-    //---------------------------------------------------------------------------------------------
-    getLocalizedElement(key) {
-        if (this.localizedElements == undefined || this.localizedElements.LocalizedElement == undefined)
-            return undefined;
+    // //---------------------------------------------------------------------------------------------
+    // getLocalizedElement(key) {
+    //     if (this.localizedElements == undefined || this.localizedElements.LocalizedElement == undefined)
+    //         return undefined;
 
-        var allElements = this.localizedElements.LocalizedElement;
-        for (var i = 0; i < allElements.length; i++) {
-            if (allElements[i].key == key) {
+    //     var allElements = this.localizedElements.LocalizedElement;
+    //     for (var i = 0; i < allElements.length; i++) {
+    //         if (allElements[i].key == key) {
 
-                return allElements[i].value;
-            }
-        };
+    //             return allElements[i].value;
+    //         }
+    //     };
 
-        return key;
-    }
+    //     return key;
+    // }
 
 };

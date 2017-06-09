@@ -48,7 +48,7 @@ export class ImageService {
         }
 
         let imageFile = item['image_file'];
-        return imageFile === undefined ? 'Images/Default.png' : this.httpService.getMenuBaseUrl() + '/staticimage/' + imageFile;
+         return imageFile === undefined ? 'Images/Default.png' : this.httpService.getMenuServiceUrl() + 'getStaticImage/?imageFile=' + imageFile;
     }
 
     //---------------------------------------------------------------------------------------------

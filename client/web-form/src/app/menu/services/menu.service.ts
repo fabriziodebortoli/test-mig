@@ -39,8 +39,7 @@ export class MenuService {
     set selectedMenu(menu: any) {
         this._selectedMenu = menu;
         if (menu != undefined) {
-            this.settingsService.lastMenuName = menu.name;
-            this.settingsService.setPreference('LastMenuName', encodeURIComponent(this.settingsService.lastMenuName), undefined);
+            this.settingsService.LastMenuName = menu.name;
         }
         this.selectedMenuChanged.emit();
     }
@@ -53,8 +52,7 @@ export class MenuService {
     set selectedGroup(group: any) {
         this._selectedGroup = group;
         if (group != undefined) {
-            this.settingsService.lastGroupName = group.name;
-            this.settingsService.setPreference('LastGroupName', encodeURIComponent(this.settingsService.lastGroupName), undefined);
+            this.settingsService.LastGroupName = group.name;
         }
 
         this.selectedGroupChanged.emit(group.title);
@@ -68,8 +66,7 @@ export class MenuService {
     set selectedApplication(application: any) {
         this._selectedApplication = application;
         if (application != undefined) {
-            this.settingsService.lastApplicationName = application.name;
-            this.settingsService.setPreference('LastApplicationName', encodeURIComponent(this.settingsService.lastApplicationName), undefined);
+            this.settingsService.LastApplicationName = application.name;
         }
         this.selectedApplicationChanged.emit();
     }
@@ -98,17 +95,17 @@ export class MenuService {
 
         var queryStringLastApplicationName = this.utilsService.getApplicationFromQueryString();
         if (queryStringLastApplicationName != '')
-            this.settingsService.lastApplicationName = queryStringLastApplicationName;
+            this.settingsService.LastApplicationName = queryStringLastApplicationName;
 
         var tempAppArray = this.utilsService.toArray(applications);
         this.ifMoreAppsExist = tempAppArray.length > 1;
 
-        if (this.settingsService.lastApplicationName != '' && this.settingsService.lastApplicationName != undefined) {
+        if (this.settingsService.LastApplicationName != '' && this.settingsService.LastApplicationName != undefined) {
             for (var i = 0; i < tempAppArray.length; i++) {
-                if (tempAppArray[i].name.toLowerCase() == this.settingsService.lastApplicationName.toLowerCase()) {
+                if (tempAppArray[i].name.toLowerCase() == this.settingsService.LastApplicationName.toLowerCase()) {
                     this.selectedApplication = tempAppArray[i];
                     this.selectedApplication.isSelected = true;
-                    this.settingsService.lastApplicationName = tempAppArray[i].name;
+                    this.settingsService.LastApplicationName = tempAppArray[i].name;
                     break;
                 }
             }
@@ -117,13 +114,13 @@ export class MenuService {
         if (this.selectedApplication == undefined)
             this.setSelectedApplication(tempAppArray[0]);
 
-        if (this.settingsService.lastGroupName != '' && this.settingsService.lastGroupName != undefined) {
+        if (this.settingsService.LastGroupName != '' && this.settingsService.LastGroupName != undefined) {
             var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
             for (var i = 0; i < tempGroupArray.length; i++) {
-                if (tempGroupArray[i].name.toLowerCase() == this.settingsService.lastGroupName.toLowerCase()) {
+                if (tempGroupArray[i].name.toLowerCase() == this.settingsService.LastGroupName.toLowerCase()) {
                     this.selectedGroup = tempGroupArray[i];
                     this.selectedGroup.isSelected = true;
-                    this.settingsService.lastGroupName = tempGroupArray[i].name;
+                    this.settingsService.LastGroupName = tempGroupArray[i].name;
                     break;
                 }
             }
@@ -150,7 +147,6 @@ export class MenuService {
 
         this.selectedApplication = application;
         this.selectedApplication.isSelected = true;
-
 
         var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
         if (tempGroupArray[0] != undefined)
@@ -184,8 +180,7 @@ export class MenuService {
 
         if (menu == undefined) {
             this.selectedMenu = undefined;
-            this.settingsService.lastMenuName = '';
-            this.settingsService.setPreference('LastMenuName', encodeURIComponent(this.settingsService.lastMenuName), undefined);
+            this.settingsService.LastMenuName = '';
             return;
         }
 
@@ -205,8 +200,6 @@ export class MenuService {
     runFunction = function (object) {
         if (object === undefined)
             return;
-
-        console.log(object)
 
         if (object.objectType.toLowerCase() == 'report') {
             let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
@@ -472,17 +465,9 @@ export class MenuService {
         return this.favorites;
     }
 
-
-    // //---------------------------------------------------------------------------------------------
-    // this.listenToMostUsed = function () {
-    //     $rootScope.$on('runFunctionCompleted', function (event, object) { this.addToMostUsed(object); });
-    // };
-
     //---------------------------------------------------------------------------------------------
     addToMostUsed(object) {
 
-        // if (!settingsService.showMostUsedOptions)
-        //     return;
         this.httpMenuService.addToMostUsed(object).subscribe(result => {
             this.addToMostUsedArray(object);
         })
@@ -491,9 +476,6 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     removeFromMostUsed = function (object) {
-
-        // if (!settingsService.showMostUsedOptions)
-        //     return;
         this.httpMenuService.removeFromMostUsed(object).subscribe(result => {
             this.removeFromMostUsedArray(object);
         })
@@ -570,5 +552,5 @@ export class MenuService {
     }
 
     menuActivated:boolean = true; // TODO temporaneo per demo, poi vedremo...
-    activateMenu(){this.menuActivated = true;console.log("act", this.menuActivated)}
+    activateMenu(){this.menuActivated = true;}
 }

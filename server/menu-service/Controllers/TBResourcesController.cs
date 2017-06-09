@@ -19,7 +19,7 @@ namespace Microarea.Menu.Controllers
     public class TBResourcesController : Controller
     {
 
-        private NameSpace nameSpace;
+        //private NameSpace nameSpace;
 
         #region Riky
         //--------------------------------------------------------------------------

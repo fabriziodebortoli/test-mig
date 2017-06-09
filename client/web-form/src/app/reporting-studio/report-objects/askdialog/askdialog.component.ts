@@ -2,7 +2,7 @@ import { AskdialogService } from './askdialog.service';
 import { Subscription } from 'rxjs';
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { Component, Input, OnDestroy, ViewEncapsulation, OnChanges, SimpleChange, EventEmitter, Output } from '@angular/core';
-import { TemplateItem, askGroup, text, check, radio, CommandType, askObj, hotlink } from './../../reporting-studio.model';
+import { TemplateItem, askGroup, text, check, radio, CommandType, askObj, hotlink, AskObjectType } from './../../reporting-studio.model';
 
 @Component({
   selector: 'rs-askdialog',
@@ -20,7 +20,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
   public commType: CommandType;
   public objects: askGroup[] = [];
   public templates: TemplateItem[] = [];
-  subscriptions: Array<Subscription> = [];
+  subscriptions: Subscription[] = [];
 
   constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
     this.subscriptions.push(adService.askChanged.subscribe(() => {
@@ -95,9 +95,10 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
       let group = this.objects[i];
       for (let j = 0; j < group.entries.length; j++) {
         let component: askObj = group.entries[j];
-        let obj = {
+        let obj;
+        obj = {
           name: component.name,
-          value: component.value.code !== undefined ? component.value.code : component.value.toString()
+          value: component.value.toString()
         };
         arrayComp.push(obj);
       }

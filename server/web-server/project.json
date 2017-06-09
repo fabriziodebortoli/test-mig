@@ -9,7 +9,7 @@
     "data-service": "1.0.0-*",
     "database-service": "1.0.0-*",
     "account-manager": "1.0.0-*",
-    "menu-gate": "1.0.0-*",
+    "menu-service": "1.0.0-*",
     "report-service": "1.0.0-*",
     "tbloader-gate": "1.0.0-*",
     "widgets-service": "1.0.0-*",

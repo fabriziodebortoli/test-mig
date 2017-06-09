@@ -25,14 +25,12 @@ export class WidgetChartComponent implements OnInit, AfterViewInit {
   constructor(private widgetComponent: WidgetComponent) { }
 
   ngOnInit() {
-
-    console.log(this.widget)
-
     // for column type, shorten the label if too long
     if (this.widget.layout.chartFormat.type === 'column') {
       this.categoryAxis = { labels: { content: this.labelContent } };
       this.visibleTooltip = true; // provide a tooltip to show the full description
-    } else if (this.widget.layout.chartFormat.type === 'pie' || this.widget.layout.chartFormat.type === 'donut') {
+    }
+     else if (this.widget.layout.chartFormat.type === 'pie' || this.widget.layout.chartFormat.type === 'donut') {
        this.seriesDefaults = {
           labels: {
               position: 'outside',
@@ -58,6 +56,9 @@ export class WidgetChartComponent implements OnInit, AfterViewInit {
   }
 
   chartColor(colorName: string) {
+    if (colorName == undefined)
+      return '#03A2FF';
+
     switch (colorName) {
       case 'green' : return '#66bb6a';
       case 'purple' : return '#ab47bc';

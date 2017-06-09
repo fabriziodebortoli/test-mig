@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { UtilsService } from './../../../../core/utils.service';
 import { LocalizationService } from './../../../services/localization.service';
 import { MenuService } from './../../../services/menu.service';
@@ -13,7 +14,7 @@ import { MasonryOptions } from "angular2-masonry";
 })
 
 export class MenuContainerComponent implements OnInit, OnDestroy {
-  private selectedMenuChangedSubscription;
+  private subscriptions: Subscription[] = [];
   private selectedGroupChangedSubscription;
   private tiles: any[];
 
@@ -33,14 +34,14 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.selectedMenuChangedSubscription = this.menuService.selectedMenuChanged.subscribe(() => {
+    this.subscriptions.push(this.menuService.selectedMenuChanged.subscribe(() => {
       this.changeTabWhenMenuChanges();
       this.tiles = this.getTiles();
-    });
+    }));
 
-    this.selectedGroupChangedSubscription = this.menuService.selectedGroupChanged.subscribe(() => {
+    this.subscriptions.push(this.menuService.selectedGroupChanged.subscribe(() => {
       this.initTab();
-    });
+    }));
   }
 
   initTab() {
@@ -52,7 +53,7 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
 
     let found = false;
     for (let i = 0; i < tempMenuArray.length; i++) {
-      if (tempMenuArray[i].name.toLowerCase() == this.settingsService.lastMenuName.toLowerCase()) {
+      if (tempMenuArray[i].name.toLowerCase() == this.settingsService.LastMenuName.toLowerCase()) {
         this.menuService.setSelectedMenu(tempMenuArray[i]);
         return;
       }
@@ -89,8 +90,7 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.selectedMenuChangedSubscription.unsubscribe();
-    this.selectedGroupChangedSubscription.unsubscribe();
+    this.subscriptions.forEach((sub)=> sub.unsubscribe());
   }
 
   changeTabByIndex(event) {

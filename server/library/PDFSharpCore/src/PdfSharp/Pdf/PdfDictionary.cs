@@ -995,7 +995,7 @@ namespace PdfSharp.Pdf
                     // Use contstructor with signature 'Ctor(PdfDocument owner)'.
                     //TODO RSWEB ctorInfo = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                     //   null, new Type[] { typeof(PdfDocument) }, null);
-                    BindingFlags bf = (BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    //BindingFlags bf = (BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                     ctorInfo = type.GetConstructor(new Type[] { typeof(PdfDocument) });
 
                     Debug.Assert(ctorInfo != null, "No appropriate constructor found for type: " + type.Name);
@@ -1007,7 +1007,8 @@ namespace PdfSharp.Pdf
                     //TODO RSWEB ctorInfo = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                     //    null, new Type[] { typeof(PdfArray) }, null);
                     ctorInfo = type.GetConstructor(new Type[] { typeof(PdfArray) });
-                    Debug.Assert(ctorInfo != null, "No appropriate constructor found for type: " + type.Name);
+                    
+					Debug.Assert(ctorInfo != null, "No appropriate constructor found for type: " + type.Name);
                     array = ctorInfo.Invoke(new object[] { oldArray }) as PdfArray;
                 }
                 return array;

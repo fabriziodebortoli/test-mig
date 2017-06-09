@@ -14,6 +14,8 @@ using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.Applications;
 using System.Xml;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace Microarea.Common.Applications
 {
@@ -2077,5 +2079,66 @@ namespace Microarea.Common.Applications
         {
             return enumTags.GetTagByStoredValue(storedValue);
         }
+
+		//-----------------------------------------------------------------------------
+		public static string GetJsonEnumsTable()
+		{
+			Enums enums = new Enums(); //TODOLUCA, manca localizzazione
+			enums.LoadXml(true);
+
+			StringBuilder sb = new StringBuilder();
+			using (StringWriter sw = new StringWriter(sb))
+			{
+				JsonWriter jsonWriter = new JsonTextWriter(sw);
+
+				try
+				{
+					jsonWriter.WriteStartObject();
+					jsonWriter.WritePropertyName("enums");
+
+					jsonWriter.WriteStartObject();
+					jsonWriter.WritePropertyName("tags");
+					jsonWriter.WriteStartArray();
+
+					foreach (EnumTag tag in enums.Tags)
+					{
+						jsonWriter.WriteStartObject();
+
+						jsonWriter.WritePropertyName("name");
+						jsonWriter.WriteValue(tag.LocalizedName);
+						jsonWriter.WritePropertyName("value");
+						jsonWriter.WriteValue(tag.Value);
+
+						//jsonWriter.WriteStartObject();
+						jsonWriter.WritePropertyName("items");
+						jsonWriter.WriteStartArray();
+						foreach (EnumItem item in tag.EnumItems)
+						{
+							jsonWriter.WriteStartObject();
+							jsonWriter.WritePropertyName("name");
+							jsonWriter.WriteValue(item.LocalizedName);
+							jsonWriter.WritePropertyName("value");
+							jsonWriter.WriteValue(item.Value);
+							jsonWriter.WritePropertyName("stored");
+							jsonWriter.WriteValue(item.Stored);
+							jsonWriter.WriteEndObject();
+						}
+						//jsonWriter.WriteEndObject();
+						jsonWriter.WriteEndArray();
+						jsonWriter.WriteEndObject();
+
+					}
+
+					jsonWriter.WriteEndArray();
+					jsonWriter.WriteEndObject();
+					jsonWriter.WriteEndObject();
+				}
+				catch (Exception)
+				{
+				}
+
+				return sb.ToString();
+			}
+		}
 	}
 }

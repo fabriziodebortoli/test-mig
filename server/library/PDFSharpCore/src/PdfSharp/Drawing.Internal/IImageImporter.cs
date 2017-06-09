@@ -168,7 +168,7 @@ namespace PdfSharp.Drawing
         {
             get { return _ownedMemoryStream; }
         }
-        private readonly MemoryStream _ownedMemoryStream;
+        private readonly MemoryStream _ownedMemoryStream = null;
 #endif
     }
 

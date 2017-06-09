@@ -43,14 +43,14 @@ namespace PdfSharp.Pdf
     [DebuggerDisplay("(PageCount={Count})")]
     public sealed class PdfPages : PdfDictionary, IEnumerable<PdfPage>
     {
-        internal PdfPages(PdfDocument document)
+        public PdfPages(PdfDocument document)
             : base(document)
         {
             Elements.SetName(Keys.Type, "/Pages");
             Elements[Keys.Count] = new PdfInteger(0);
         }
 
-        internal PdfPages(PdfDictionary dictionary)
+        public PdfPages(PdfDictionary dictionary)
             : base(dictionary)
         { }
 
