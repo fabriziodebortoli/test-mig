@@ -354,23 +354,23 @@ namespace Microarea.Common
 		}
 
         //-------------------------------------------------------------------------
-        public bool GetServerConnectionConfig (out string fileContent)
+        public string GetServerConnectionConfig ()
 		{
-			return GetTextFile (pathFinder.ServerConnectionFile, out fileContent);
+			return GetTextFile (pathFinder.ServerConnectionFile);
 		}
 
         //-----------------------------------------------------------------------
-        public bool GetTextFile (string theFileName, out string fileContent)
+        public string GetTextFile (string theFileName)
 		{
-			fileContent = string.Empty;
+			string fileContent = string.Empty;
 
 			if (theFileName == string.Empty)
-				return false;
+				return string.Empty;
 
 			string fileName = GetAdjustedPath(theFileName); 
 			
 			if (!File.Exists(fileName))
-				return false;
+				return string.Empty;
 			try
 			{
 				// file content
@@ -381,9 +381,9 @@ namespace Microarea.Common
 			}
 			catch (Exception)
 			{
-				return false;
+				return string.Empty;
 			}
-			return true;
+			return fileContent;
 		}
 
         //-----------------------------------------------------------------------
