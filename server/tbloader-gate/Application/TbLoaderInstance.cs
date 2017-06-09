@@ -10,6 +10,7 @@ namespace Microarea.TbLoaderGate
     {
 		public string name;
 		public int httpPort = 11000;
+		public int processId = -1;
         public string server = "localhost";
 
         public string BaseUrl { get { return string.Concat("http://", server, ":", httpPort); } }
@@ -21,8 +22,10 @@ namespace Microarea.TbLoaderGate
         internal async Task ExecuteAsync()
         {
             TBLoaderService svc = new TBLoaderService();
-            httpPort = await svc.ExecuteRemoteProcessAsync(name);
-        }
+			TBLoaderResponse response =  await svc.ExecuteRemoteProcessAsync(name);
+			httpPort = response.Port;
+			processId = response.ProcessId;
+		}
         internal async void RequireWebSocketConnection(string name, HostString host)
         {
             using (var client = new HttpClient())

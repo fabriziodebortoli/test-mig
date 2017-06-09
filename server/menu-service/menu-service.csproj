@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    <AssemblyName>menu-gate</AssemblyName>
+    <AssemblyName>menu-service</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>menu-gate</PackageId>
      

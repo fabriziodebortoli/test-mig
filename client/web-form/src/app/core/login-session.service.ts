@@ -24,11 +24,6 @@ export class LoginSessionService {
         private logger: Logger,
         private router: Router) {
 
-        const subs = this.socket.close.subscribe(() => {
-            subs.unsubscribe();
-            this.setConnected(false);
-        });
-
         this.checkIfLogged();
     }
 
@@ -40,7 +35,15 @@ export class LoginSessionService {
                 } else {
                     this.logger.debug('Just logged in');
                     this.setConnected(true);
-                    this.socket.wsConnect();
+                    const tbSubs = this.httpService.openTBConnection().subscribe(tbRes => {
+                        if (tbRes.error) {
+                            this.logger.debug(tbRes.messages);
+                        } else {
+                            this.socket.wsConnect();
+                        }
+                        tbSubs.unsubscribe();
+                    });
+
                 }
                 subs.unsubscribe();
             },
@@ -58,9 +61,9 @@ export class LoginSessionService {
                 result => {
                     this.setConnected(!result.error);
                     this.errorMessages = result.messages;
-                    if (this.connected) {
-                        this.socket.wsConnect();
-                    }
+                    // if (this.connected) {
+                    //     this.socket.wsConnect();
+                    // }
                     observer.next(result);
                     observer.complete();
                     subs.unsubscribe();
@@ -80,11 +83,12 @@ export class LoginSessionService {
     }
 
     logout(): void {
-        const subscription = this.httpService.logout().subscribe(
+        const subscription = this.httpService.logoff().subscribe(
             loggedOut => {
                 this.logger.debug('logout returns: ' + loggedOut);
                 this.setConnected(!loggedOut);
-                this.socket.wsClose();
+                this.httpService.closeTBConnection();
+               // this.socket.wsClose(); lo chiude il server facendo logoff
                 this.cookieService.remove('authtoken');
                 subscription.unsubscribe();
             },
@@ -103,6 +107,7 @@ export class LoginSessionService {
         if (url.length === 0) {
             url = this.defaultUrl;
         }
+        
         this.router.navigate(url, { skipLocationChange: false, replaceUrl: false });
     }
 }

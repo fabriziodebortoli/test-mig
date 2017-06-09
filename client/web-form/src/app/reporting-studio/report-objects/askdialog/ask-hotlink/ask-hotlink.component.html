@@ -17,12 +17,12 @@
 <kendo-popup [anchor]="anchorTable" (anchorViewportLeave)="showTable = false" *ngIf="showTable" [ngStyle]="popupStyle()">
   <kendo-grid [data]="hotlink.values.rows" [selectable]="true" (selectionChange)="selectionChanged($event)" [scrollable]="'scrollable'"
     [height]="300">
-    <kendo-grid-column  *ngIf="hotlink.multi_selection"  [width]="45">
+    <kendo-grid-column  *ngIf="hotlink.multi_selection"  [width]="45" [headerClass]="{'tableHeader':true}">
       <ng-template kendoGridCellTemplate let-dataItem>
         <input type="checkbox" [checked]="dataItem.Selected" (change)="onRowChecked($event, dataItem)"/>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column *ngFor="let col of hotlink.values.columns" field="{{col.id}}" title="{{col.id}}">
+    <kendo-grid-column *ngFor="let col of hotlink.values.columns" field="{{col.id}}" title="{{col.id}}" [headerClass]="{'tableHeader':true}">
     </kendo-grid-column>
   </kendo-grid>
 </kendo-popup>
