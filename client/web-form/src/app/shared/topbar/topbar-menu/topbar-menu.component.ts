@@ -1,3 +1,4 @@
+import { LoginSessionService } from './../../../core/login-session.service';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
@@ -8,7 +9,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class TopbarMenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(private loginSession: LoginSessionService) { }
 
   ngOnInit() {
   }
