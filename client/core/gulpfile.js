@@ -50,7 +50,7 @@ gulp.task('inline-resources', function() {
  */
 gulp.task('ngc', function() {
     return ngc({
-            project: `${tmpFolder}/tsconfig.es5.json`
+            project: `${tmpFolder}/tsconfig.es2015.json`
         })
         .then((exitCode) => {
             if (exitCode === 1) {
@@ -117,7 +117,9 @@ gulp.task('rollup:umd', function() {
             // See https://github.com/rollup/rollup/wiki/JavaScript-API#external
             external: [
                 '@angular/core',
-                '@angular/common'
+                '@angular/common',
+                '@angular/http',
+                '@angular/router'
             ],
 
             // Format of generated bundle
