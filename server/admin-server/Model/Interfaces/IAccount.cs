@@ -28,8 +28,7 @@ namespace Microarea.AdminServer.Model.Interfaces
 
     public interface ITokens
     {
-        string SubscriptionToken { get; set; }
-        string SecurityToken { get; set; }
-        string AccountToken { get; set; }
+        string ApiSecurityToken { get; set; }
+        string AuthenticationToken { get; set; }
     }
 }

@@ -118,7 +118,7 @@ CREATE TABLE [dbo].[MP_Accounts] (
 	[AccountName] [varchar] (255) NOT NULL,
 	[Password] [varchar] (128) NOT NULL,
 	[FullName] [varchar] (255) NULL CONSTRAINT DF_Accounts_FullName DEFAULT(''),
-	[LoginFailedCount] [int] NOT NULL DEFAULT (0), 
+	[LoginFailedCount] [int] NULL CONSTRAINT DF_Accounts_LoginFailedCount  DEFAULT (0), 
 	[Notes] [varchar] (500) NULL CONSTRAINT DF_Accounts_Notes DEFAULT(''),
 	[Email] [varchar] (255) NULL CONSTRAINT DF_Accounts_Email DEFAULT(''),
 	[PasswordNeverExpires] [bit] NULL CONSTRAINT DF_Accounts_PasswordNeverExpires DEFAULT(0),
