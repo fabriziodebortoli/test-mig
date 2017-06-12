@@ -31,12 +31,15 @@
         "@angular/compiler": "^4.0.0",
         "@angular/compiler-cli": "^4.0.0",
         "@angular/core": "^4.0.0",
+        "@angular/http": "^4.1.3",
         "@angular/material": "^2.0.0-beta.6",
         "@angular/platform-browser": "^4.0.0",
         "@angular/platform-browser-dynamic": "^4.0.0",
+        "@angular/router": "^4.1.3",
         "@compodoc/compodoc": "^1.0.0-beta.7",
         "@types/jasmine": "2.5.38",
         "@types/node": "~6.0.60",
+        "angular2-cookie": "^1.2.6",
         "codelyzer": "~2.0.0",
         "core-js": "^2.4.1",
         "del": "^2.2.2",
@@ -45,6 +48,7 @@
         "gulp-rollup": "^2.11.0",
         "jasmine-core": "~2.5.2",
         "jasmine-spec-reporter": "~3.2.0",
+        "json8-patch": "^0.4.0",
         "karma": "~1.4.1",
         "karma-chrome-launcher": "~2.0.0",
         "karma-cli": "~1.0.1",
@@ -67,6 +71,8 @@
         "node": ">=6.0.0"
     },
     "dependencies": {
-        "@angular/material": "^2.0.0-beta.6"
+        "@angular/material": "^2.0.0-beta.6",
+        "angular2-cookie": "^1.2.6",
+        "json8-patch": "^0.4.0"
     }
 }
