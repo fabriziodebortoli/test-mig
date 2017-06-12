@@ -107,7 +107,7 @@ export class WebSocketService {
                 observer.next(this.connection);
                 observer.complete();
             } else {
-                const subs = this.loginSessionService.openTbConnection().subscribe(ret => {
+                const subs = this.loginSessionService.openTbConnectionAsync().subscribe(ret => {
                     subs.unsubscribe();
                     if (ret) {
                         observer.next(this.connection);
@@ -119,7 +119,9 @@ export class WebSocketService {
     }
     safeSend(data: any) {
         const subs = this.getOpenConnection().subscribe(conn => {
-            subs.unsubscribe();
+            if (subs) {
+                subs.unsubscribe();
+            }
             conn.send(JSON.stringify(data));
         });
 

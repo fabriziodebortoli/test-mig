@@ -27,13 +27,15 @@ export class LoginSessionService {
         this.checkIfLogged();
 
         const subs = this.socket.close.subscribe(() => {
-             this.connected = false;
+            this.connected = false;
             this.openTbConnection(true);
         });
         socket.loginSessionService = this;
     }
-
-    openTbConnection(retry: boolean = false): Observable<boolean> {
+    openTbConnection(retry: boolean = false) {
+        const subs = this.openTbConnectionAsync(retry).subscribe(ret => { subs.unsubscribe() });
+    }
+    openTbConnectionAsync(retry: boolean = false): Observable<boolean> {
         return Observable.create(observer => {
             const tbSubs = this.httpService.openTBConnection().subscribe(tbRes => {
                 if (tbRes.error) {
