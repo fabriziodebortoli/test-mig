@@ -1,6 +1,6 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { Observable } from 'rxjs';
+import { Injectable, forwardRef, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
@@ -26,29 +26,39 @@ export class LoginSessionService {
 
         this.checkIfLogged();
 
-         const subs = this.socket.close.subscribe(() => {
-         
-             this.connected = false;
-             this.openTbConnection(true);
+        const subs = this.socket.close.subscribe(() => {
+            this.connected = false;
+            this.openTbConnection(true);
         });
+        socket.loginSessionService = this;
     }
-
     openTbConnection(retry: boolean = false) {
-        const tbSubs = this.httpService.openTBConnection().subscribe(tbRes => {
-            if (tbRes.error) {
-                this.logger.debug(tbRes.messages);
-                if (retry)
-                {
-                    setTimeout(function() {
-                        this.openTbConnection(true);
-                    }, 5000);
+        const subs = this.openTbConnectionAsync(retry).subscribe(ret => { subs.unsubscribe() });
+    }
+    openTbConnectionAsync(retry: boolean = false): Observable<boolean> {
+        return Observable.create(observer => {
+            const tbSubs = this.httpService.openTBConnection().subscribe(tbRes => {
+                if (tbRes.error) {
+                    this.logger.debug(tbRes.messages);
+                    if (retry) {
+                        setTimeout(function () {
+                            this.openTbConnection(true);
+                        }, 5000);
+                    }
+                    observer.next(false);
+                } else {
+                    const wsSubs = this.socket.open.subscribe(() => {
+                        wsSubs.unsubscribe();
+                        observer.next(true);
+                    });
+                    this.socket.wsConnect();
+
                 }
-            } else {
-                this.socket.wsConnect();
-                this.connected = true;
-            }
-            tbSubs.unsubscribe();
+                observer.complete();
+                tbSubs.unsubscribe();
+            });
         });
+
     }
 
     checkIfLogged() {
@@ -79,7 +89,7 @@ export class LoginSessionService {
                     this.setConnected(!result.error);
                     this.errorMessages = result.messages;
                     if (this.connected) {
-                       this.openTbConnection();
+                        this.openTbConnection();
                     }
                     observer.next(result);
                     observer.complete();
