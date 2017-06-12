@@ -1,4 +1,1 @@
-<!--<div>connection status: {{loginSession.connected}}</div>
-
-<md-icon role="img" class="material-icons mat-icon" aria-label="subject">subject</md-icon>-->
-<i class="material-icons md-24" [ngClass]="loginSession.connected ? 'connected' : 'disconnected'"  mdTooltip="{{getConnectionStatus()}}">lens</i>
+<i class="material-icons md-24" [ngClass]="connectionStatusClass"  mdTooltip="{{connectionStatus}}">lens</i>

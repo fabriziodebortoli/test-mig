@@ -1,3 +1,5 @@
+import { WebSocketService } from './../../../core/websocket.service';
+import { SocketConnectionStatus } from './../../../core/websocket-connection.enum';
 import { Subscription } from 'rxjs';
 import { LocalizationService } from './../../../menu/services/localization.service';
 import { LoginSessionService } from './../../../core/login-session.service';
@@ -11,27 +13,55 @@ import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy } 
 })
 
 export class ConnectionStatusComponent implements OnDestroy {
-  localizationsLoadedSubscription: Subscription;
+  subscriptions: Subscription[] = [];
   localizationLoaded: boolean = false;
+  connectionStatus: string = "";
+  connectionStatusClass: string = "disconnected";
+  status: SocketConnectionStatus = SocketConnectionStatus.None;
   constructor(
-    private loginSession: LoginSessionService,
+    private webSocketService: WebSocketService,
     private localizationService: LocalizationService) {
 
-    this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe(() => { this.localizationLoaded = true; });
+    this.subscriptions.push(localizationService.localizationsLoaded.subscribe(() => {
+      this.localizationLoaded = true;
+    }));
+    this.subscriptions.push(this.webSocketService.connectionStatus.subscribe((status) => {
+      this.status = status;
+      this.connectionStatus = this.getConnectedStatusString(status);
+      this.connectionStatusClass = this.getConnectionStatusClass(status);
+    }));
   }
 
-
-  getConnectionStatus() {
-   
+  private getConnectedStatusString(status: SocketConnectionStatus): string {
     if (!this.localizationLoaded)
       return "";
 
-    return this.loginSession.connected ? this.localizationService.localizedElements.Connected : this.localizationService.localizedElements.Disconnected;
+    switch (status) {
+      case SocketConnectionStatus.Connected:
+        return this.localizationService.localizedElements.Connected;
+      case SocketConnectionStatus.Connecting:
+        return this.localizationService.localizedElements.Connecting;
+      case SocketConnectionStatus.Disconnected:
+        return this.localizationService.localizedElements.Disconnected;
+      default:
+        return "";
+    }
   }
 
-  ngOnDestroy()
-  {
-     this.localizationsLoadedSubscription.unsubscribe();
+  private getConnectionStatusClass(status: SocketConnectionStatus): string {
+    switch (status) {
+      case SocketConnectionStatus.Connected:
+        return "connected";
+      case SocketConnectionStatus.Connecting:
+        return "connecting";
+      case SocketConnectionStatus.Disconnected:
+        return "disconnected";
+      default:
+        return "";
+    }
+  }
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }
 

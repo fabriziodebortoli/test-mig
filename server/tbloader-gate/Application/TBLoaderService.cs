@@ -48,13 +48,10 @@ namespace Microarea.TbLoaderGate
                 foreach (IPAddress address in hostEntry.AddressList)
                 {
                     if (address.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork)
-                    {
                         continue;
-                    }
-                    IPEndPoint ipe = new IPEndPoint(address, port);
-                    Socket tempSocket =
-                        new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
+                    
+					IPEndPoint ipe = new IPEndPoint(address, port);
+                    Socket tempSocket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                     tempSocket.Connect(ipe);
 
                     if (tempSocket.Connected)
@@ -69,8 +66,6 @@ namespace Microarea.TbLoaderGate
                 }
                 return s;
             });
-
-
         }
 
         // This method requests the home page content for the specified server.
@@ -124,10 +119,7 @@ namespace Microarea.TbLoaderGate
                     s.Dispose();
                     return resp;
                 }
-
             });
-
-
         }
 
         //-----------------------------------------------------------------------

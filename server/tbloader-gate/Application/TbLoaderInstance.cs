@@ -53,14 +53,11 @@ namespace Microarea.TbLoaderGate
                 msg.RequestUri = new Uri(url);
                 HttpResponseMessage resp = await client.SendAsync(msg);
                 string ret = await resp.Content.ReadAsStringAsync();
-
-				//effettua anche la inittblogin
-				InternalInitTbLogin(name);
 			}
 		}
 
 		//-----------------------------------------------------------------------------------------
-		private async void InternalInitTbLogin(string token)
+		internal async void InternalInitTbLogin(string token)
 		{
 			using (var client = new HttpClient())
 			{

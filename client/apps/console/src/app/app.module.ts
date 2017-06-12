@@ -15,6 +15,7 @@ import { RouterModule } from '@angular/router';
 import { SubscriptionHomeComponent } from './subscription-home/subscription-home.component';
 import { routes } from './app.routes';
 import { ConsoleModule } from '@taskbuilder/console';
+import { DatabaseInfoComponent } from './database-info/database-info.component';
 import { ModelService } from './services/model.service';
 
 @NgModule({
@@ -27,7 +28,8 @@ import { ModelService } from './services/model.service';
     EntityListComponent,
     CompanyComponent,
     AccountComponent,
-    CompanyAccountComponent
+    CompanyAccountComponent,
+    DatabaseInfoComponent
   ],
   imports: [
     BrowserModule,
