@@ -1,4 +1,4 @@
-import { AccountService } from './services/account.service';
+import { ModelService } from './services/model.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -14,9 +14,9 @@ export class AppComponent {
   errText:string;
 
   // services
-  accountService: AccountService;
+  accountService: ModelService;
 
-  constructor(accountService:AccountService) {
+  constructor(accountService:ModelService) {
     this.accountService = accountService;
   }
 

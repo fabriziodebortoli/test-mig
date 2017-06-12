@@ -29,7 +29,7 @@ import { LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirec
 import {
   CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
   CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent, UnknownComponent, BodyEditComponent,
-  LinearGaugeComponent
+  LinearGaugeComponent, ConnectionStatusComponent
 } from './controls/';
 import { DynamicCmpComponent } from './dynamic-cmp.component';
 import { PageNotFoundComponent } from './page-not-found.component';
@@ -91,7 +91,7 @@ const TB_COMPONENTS = [
   BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
   PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent,
   IconComponent, TopbarMenuElementsComponent, TbCardComponent, TbCardTitleComponent, TbCardContentComponent,
-  M4IconComponent
+  M4IconComponent, ConnectionStatusComponent
 
 ];
 

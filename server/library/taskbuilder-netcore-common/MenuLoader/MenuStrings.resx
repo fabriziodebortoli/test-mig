@@ -141,6 +141,12 @@
   <data name="CompanyLabel" xml:space="preserve">
     <value>Company</value>
   </data>
+  <data name="Connected" xml:space="preserve">
+    <value>Connected</value>
+  </data>
+  <data name="Connecting" xml:space="preserve">
+    <value>Connecting</value>
+  </data>
   <data name="ConnectionInfo" xml:space="preserve">
     <value>Connection Info</value>
   </data>
@@ -155,6 +161,9 @@
   </data>
   <data name="DebugVersion" xml:space="preserve">
     <value>Debug Version</value>
+  </data>
+  <data name="Disconnected" xml:space="preserve">
+    <value>Disconnected</value>
   </data>
   <data name="EasyStudioDeveloper" xml:space="preserve">
     <value>Easy Studio Developer</value>

@@ -1,7 +1,9 @@
-﻿import { MessageDlgArgs, MessageDlgResult } from './../shared/containers/message-dialog/message-dialog.component';
+﻿import { LoginSessionService } from './login-session.service';
+import { SocketConnectionStatus } from './websocket-connection.enum';
+import { MessageDlgArgs, MessageDlgResult } from './../shared/containers/message-dialog/message-dialog.component';
 import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-
+import { Observable } from 'rxjs/Rx';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { environment } from './../../environments/environment';
@@ -11,10 +13,15 @@ import { HttpService } from './http.service';
 
 import { Logger } from './logger.service';
 
+
+
 @Injectable()
 export class WebSocketService {
     public status = 'Undefined';
+    public loginSessionService: LoginSessionService;
+
     private connection: WebSocket;
+    private _socketConnectionStatus: SocketConnectionStatus = SocketConnectionStatus.None;
 
     public error: EventEmitter<any> = new EventEmitter();
     public modelData: EventEmitter<any> = new EventEmitter();
@@ -27,15 +34,30 @@ export class WebSocketService {
     public close: EventEmitter<any> = new EventEmitter();
     public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public buttonsState: EventEmitter<any> = new EventEmitter();
-    
+    public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
 
-    constructor(private httpService: HttpService,
+
+
+    constructor(
+        private httpService: HttpService,
         private cookieService: CookieService,
         private logger: Logger) {
     }
 
+    SetSocketConnectionStatus(status: SocketConnectionStatus) {
+
+        this._socketConnectionStatus = status;
+        this.connectionStatus.emit(status);
+    }
+
+    SetConnecting() {
+        this.SetSocketConnectionStatus(SocketConnectionStatus.Connecting);
+    }
+
     wsConnect(): void {
         const $this = this;
+
+        this.SetConnecting();
 
         const url = environment.wsBaseUrl;
         this.logger.debug('wsConnecting... ' + url);
@@ -83,13 +105,16 @@ export class WebSocketService {
                 }
             }));
 
+            this.SetSocketConnectionStatus(SocketConnectionStatus.Connected);
             this.status = 'Open';
             this.open.emit(arg);
+
         };
 
         this.connection.onclose = (arg) => {
-            this.close.emit(arg);
+            this.SetSocketConnectionStatus(SocketConnectionStatus.Disconnected);
             this.status = 'Closed';
+            this.close.emit(arg);
         };
     }
 
@@ -98,48 +123,74 @@ export class WebSocketService {
             this.connection.close();
         }
     }
+    getOpenConnection(): Observable<WebSocket> {
+        return Observable.create(observer => {
+            if (this.connection.OPEN) {
+                observer.next(this.connection);
+                observer.complete();
+            } else {
+                const subs = this.loginSessionService.openTbConnectionAsync().subscribe(ret => {
+                    subs.unsubscribe();
+                    if (ret) {
+                        observer.next(this.connection);
+                        observer.complete();
+                    }
+                });
+            }
+        });
+    }
+    safeSend(data: any) {
+        const subs = this.getOpenConnection().subscribe(conn => {
+            if (subs) {
+                subs.unsubscribe();
+            }
+            conn.send(JSON.stringify(data));
+        });
 
+    }
     doFillListBox(cmpId: String, obj: any): void {
         const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: obj.itemSource, hotLink: obj.hotLink };
 
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
     }
 
     doCommand(cmpId: String, id: String, modelData?: any): void {
         const data = { cmd: 'doCommand', cmpId: cmpId, id: id, model: modelData };
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
     }
 
-   doValueChanged(cmpId: String, id: String, modelData?: any): void {
+    doValueChanged(cmpId: String, id: String, modelData?: any): void {
         const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
     }
 
-   /* doValueChanged(cmpId: String, id: String, modelData?: any): void {
-        const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
-        // questo if andrebbe anticipato nel chiamante, se so che non e' azione server side, non devo chiamare servizio websocket
-        if (this.commandService.isServerSideCommand(id)) {
-            this.connection.send(JSON.stringify(data));
-        }
-        // else
-        // azione solo lato client.
-    }*/
+    /* doValueChanged(cmpId: String, id: String, modelData?: any): void {
+         const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
+         // questo if andrebbe anticipato nel chiamante, se so che non e' azione server side, non devo chiamare servizio websocket
+         if (this.commandService.isServerSideCommand(id)) {
+             this.connection.send(JSON.stringify(data));
+         }
+         // else
+         // azione solo lato client.
+     }*/
 
     getDocumentData(cmpId: String, modelStructure: any) {
         const data = { cmd: 'getDocumentData', cmpId: cmpId, modelStructure: modelStructure };
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
+
     }
+
     checkMessageDialog(cmpId: String) {
         const data = { cmd: 'checkMessageDialog', cmpId: cmpId };
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
     }
     doCloseMessageDialog(cmpId: String, result: MessageDlgResult): void {
         const data = { cmd: 'doCloseMessageDialog', cmpId: cmpId, result: result };
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
     }
     setReportResult(cmpId: String, result: any): void {
         const data = { cmd: 'setReportResult', cmpId: cmpId, result: result };
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
     }
 }
 export class SocketMessage {
