@@ -1,4 +1,3 @@
-import { UserDefaultModule } from './../applications/erp/userdefault/userdefault.module';
 import { HttpService } from './http.service';
 import { URLSearchParams, Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
