@@ -77,7 +77,7 @@ namespace Microarea.AdminServer.Library
         //---------------------------------------------------------------------
         public override string ToString()
         {
-            //per ora torna la roba vecchia;
+            //per ora torna la roba vecchia; poi dovrà serializzare l oggetto in memoria
             return key;
         }
   

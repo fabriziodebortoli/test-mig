@@ -10,5 +10,6 @@ namespace Microarea.AdminServer.Model.Interfaces
         ActivationToken ActivationToken { get; set; }
         string PurchaseId { get; set; }
 		int InstanceId { get; set; }
-	}
+     
+    }
 }

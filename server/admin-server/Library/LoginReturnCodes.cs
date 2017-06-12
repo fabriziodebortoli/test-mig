@@ -62,8 +62,8 @@ namespace Microarea.AdminServer.Library
         ImagoUserAlreadyAssociated = 58,
         SsoTokenError = 59,
         SSOIDNotAssociated = 60,
-        ImagoCompanyNotCorresponding = 61
-
+        ImagoCompanyNotCorresponding = 61,
+            ErrorSavingAccount=62
     }
 
 }

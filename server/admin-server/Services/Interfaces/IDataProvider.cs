@@ -8,8 +8,9 @@ namespace Microarea.AdminServer.Services
         IAdminModel Load(IAdminModel iModel);
         bool Save(IAdminModel iModel);
         bool Delete(IAdminModel iModel);
-
+        //
         // database-dependent values
         DateTime MinDateTimeValue { get; }
+     
     }
 }
