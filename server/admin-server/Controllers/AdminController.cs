@@ -104,14 +104,14 @@ namespace Microarea.AdminServer.Controllers
 			if (account == null)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonObject("message", "Invalid user");
+				_jsonHelper.AddJsonCouple<string>("message", "Invalid user");
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
 			}
 
             // user has been found
 
             _jsonHelper.AddJsonCouple<bool>("result", true);
-            _jsonHelper.AddJsonObject("account", account);
+            _jsonHelper.AddJsonCouple("account", account);
             return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
 		}
 
@@ -153,14 +153,14 @@ namespace Microarea.AdminServer.Controllers
 			if (account == null)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonObject("message", "Invalid user");
+				_jsonHelper.AddJsonCouple("message", "Invalid user");
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
 			}
 
 			// user has been found
 
 			_jsonHelper.AddJsonCouple<bool>("result", true);
-			_jsonHelper.AddJsonObject("account", account);
+			_jsonHelper.AddJsonCouple("account", account);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
 
 		}
