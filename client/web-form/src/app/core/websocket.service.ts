@@ -1,4 +1,5 @@
 ﻿import { LoginSessionService } from './login-session.service';
+import { SocketConnectionStatus } from './websocket-connection.enum';
 import { MessageDlgArgs, MessageDlgResult } from './../shared/containers/message-dialog/message-dialog.component';
 import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
@@ -12,11 +13,15 @@ import { HttpService } from './http.service';
 
 import { Logger } from './logger.service';
 
+
+
 @Injectable()
 export class WebSocketService {
     public status = 'Undefined';
     public loginSessionService: LoginSessionService;
+
     private connection: WebSocket;
+    private _socketConnectionStatus: SocketConnectionStatus = SocketConnectionStatus.None;
 
     public error: EventEmitter<any> = new EventEmitter();
     public modelData: EventEmitter<any> = new EventEmitter();
@@ -29,6 +34,8 @@ export class WebSocketService {
     public close: EventEmitter<any> = new EventEmitter();
     public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public buttonsState: EventEmitter<any> = new EventEmitter();
+    public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
+
 
 
     constructor(
@@ -37,8 +44,20 @@ export class WebSocketService {
         private logger: Logger) {
     }
 
+    SetSocketConnectionStatus(status: SocketConnectionStatus) {
+
+        this._socketConnectionStatus = status;
+        this.connectionStatus.emit(status);
+    }
+
+    SetConnecting() {
+        this.SetSocketConnectionStatus(SocketConnectionStatus.Connecting);
+    }
+
     wsConnect(): void {
         const $this = this;
+
+        this.SetConnecting();
 
         const url = environment.wsBaseUrl;
         this.logger.debug('wsConnecting... ' + url);
@@ -86,13 +105,16 @@ export class WebSocketService {
                 }
             }));
 
+            this.SetSocketConnectionStatus(SocketConnectionStatus.Connected);
             this.status = 'Open';
             this.open.emit(arg);
+
         };
 
         this.connection.onclose = (arg) => {
-            this.close.emit(arg);
+            this.SetSocketConnectionStatus(SocketConnectionStatus.Disconnected);
             this.status = 'Closed';
+            this.close.emit(arg);
         };
     }
 
