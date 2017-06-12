@@ -10,7 +10,6 @@ namespace Microarea.AdminServer.Library
     public class LoginBaseClass
     {
         IAccount account;
-        
 
         public LoginBaseClass(IAccount account) { this.account = account; }
         public LoginReturnCodes VerifyCredential(string password)
@@ -94,7 +93,7 @@ namespace Microarea.AdminServer.Library
         //----------------------------------------------------------------------
         public void CreateTokens()
         {
-            account.Tokens = new UserTokens();
+            account.Tokens = new UserTokens(account.ProvisioningAdmin);//non sono sicura todo
         }
     }
 }

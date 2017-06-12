@@ -141,20 +141,22 @@ namespace Microarea.AdminServer.Controllers
             {
                 account.SetDataProvider(_accountSqlDataProvider);
                 account.Load();
-
-                //Verifica credenziali su db
-                LoginBaseClass lbc = new LoginBaseClass(account);
-                LoginReturnCodes res = lbc.VerifyCredential(password);
-                if (res != LoginReturnCodes.NoError)
+                if (account != null)
                 {
-                    _jsonHelper.AddJsonCouple<bool>("result", false);
+                    //Verifica credenziali su db
+                    LoginBaseClass lbc = new LoginBaseClass(account);
+                    LoginReturnCodes res = lbc.VerifyCredential(password);
+                    if (res != LoginReturnCodes.NoError)
+                    {
+                        _jsonHelper.AddJsonCouple<bool>("result", false);
+                        _jsonHelper.AddJsonObject("message", res.ToString());//TODO STRINGHE?
+                        return new ContentResult { StatusCode = 401, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+                    }
+                    //se successo?
+                    _jsonHelper.AddJsonCouple<bool>("result", true);
                     _jsonHelper.AddJsonObject("message", res.ToString());//TODO STRINGHE?
-                    return new ContentResult { StatusCode = 401, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
                 }
-                //se successo?
-                _jsonHelper.AddJsonCouple<bool>("result", true);
-                _jsonHelper.AddJsonObject("message", res.ToString());//TODO STRINGHE?
-                return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
             }
             catch (Exception ex)
             {
@@ -182,9 +184,9 @@ namespace Microarea.AdminServer.Controllers
             else
             {
                 // user has been found
-                //GWAMAccount.Save();//in locale
+                //account.Save();//in locale
                 //Verifica credenziali su GWAM con salvataggio sul provider locale
-                //LoginBaseClass lbc = new LoginBaseClass(GWAMAccount);
+                //LoginBaseClass lbc = new LoginBaseClass(account);
                 //LoginReturnCodes res = lbc.VerifyCredential(password);
             }
             _jsonHelper.AddJsonCouple<bool>("result", true);
