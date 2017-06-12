@@ -27,7 +27,6 @@ export class LoginSessionService {
         this.checkIfLogged();
 
         const subs = this.socket.close.subscribe(() => {
-            this.connected = false;
             this.openTbConnection(true);
         });
         socket.loginSessionService = this;
