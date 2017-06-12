@@ -18,6 +18,8 @@ export class MenuService {
     private _selectedGroup: any;
     private _selectedMenu: any;
 
+    isMenuActivated: boolean = true; // TODO temporaneo per demo, poi vedremo...
+
     public applicationMenu: any;
     public environmentMenu: any;
     public favoritesCount: number = 0;
@@ -74,7 +76,8 @@ export class MenuService {
     selectedMenuChanged: EventEmitter<any> = new EventEmitter(true);
     selectedApplicationChanged: EventEmitter<any> = new EventEmitter(true);
     selectedGroupChanged: EventEmitter<string> = new EventEmitter(true);
-    
+    menuActivated: EventEmitter<any> = new EventEmitter();
+
     constructor(
         private httpService: HttpService,
         private httpMenuService: HttpMenuService,
@@ -547,10 +550,13 @@ export class MenuService {
         return string.slice(0, prefix.length) == prefix;
     }
 
+    //---------------------------------------------------------------------------------------------
     toggleDecription() {
         this.showDescription = !this.showDescription;
     }
 
-    menuActivated:boolean = true; // TODO temporaneo per demo, poi vedremo...
-    activateMenu(){this.menuActivated = true;}
+    //---------------------------------------------------------------------------------------------
+    activateMenu() {
+        this.isMenuActivated = true; this.menuActivated.emit();
+    }
 }
