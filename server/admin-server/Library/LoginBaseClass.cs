@@ -31,6 +31,7 @@ namespace Microarea.AdminServer.Library
             }
 
             ClearWrongPwdLoginCount();
+            CreateTokens();
             if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
 
             if (account.MustChangePassword)

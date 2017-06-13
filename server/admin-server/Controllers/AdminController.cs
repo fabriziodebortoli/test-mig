@@ -47,8 +47,8 @@ namespace Microarea.AdminServer.Controllers
 
 		HttpClient client;
 		//The URL of the WEB API Service
-		//string url = "http://gwam.azurewebsites.net/api/accounts/";
-		string url = "http://localhost:9010/api/accounts/";
+		string url = "http://gwam.azurewebsites.net/api/accounts/";
+		//string url = "http://localhost:9010/api/accounts/";
 
 		//-----------------------------------------------------------------------------	
 		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings)
@@ -167,70 +167,78 @@ namespace Microarea.AdminServer.Controllers
             }
 
             IAccount account = new Account(accountname);
-
-            try
-            {
-                account.SetDataProvider(_accountSqlDataProvider);
-                account.Load();
-                if (account.AccountId != -1)
+            if (account.AccountId != -1)//non esiste richiedi a gwam//todo 
+                try
                 {
-                    //Verifica credenziali su db
-                    LoginBaseClass lbc = new LoginBaseClass(account);
-                    LoginReturnCodes res = lbc.VerifyCredential(password);
-                    if (res != LoginReturnCodes.NoError)
+                    account.SetDataProvider(_accountSqlDataProvider);
+                    account.Load();
+                    if (account.AccountId != -1)
                     {
-                        _jsonHelper.AddJsonCouple<bool>("result", false);
+                        //Verifica credenziali su db
+                        LoginBaseClass lbc = new LoginBaseClass(account);
+                        LoginReturnCodes res = lbc.VerifyCredential(password);
+                        if (res != LoginReturnCodes.NoError)
+                        {
+                            _jsonHelper.AddJsonCouple<bool>("result", false);
+                            _jsonHelper.AddJsonCouple("message", res.ToString());//TODO STRINGHE?
+                            return new ContentResult { StatusCode = 401, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+                        }
+                        //se successo?
+                        _jsonHelper.AddJsonCouple<bool>("result", true);
                         _jsonHelper.AddJsonCouple("message", res.ToString());//TODO STRINGHE?
-                        return new ContentResult { StatusCode = 401, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+                        return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
                     }
-                    //se successo?
-                    _jsonHelper.AddJsonCouple<bool>("result", true);
-                    _jsonHelper.AddJsonCouple("message", res.ToString());//TODO STRINGHE?
+                }
+                catch (Exception ex)
+                {
+                    _jsonHelper.AddJsonCouple<bool>("result", false);
+                    _jsonHelper.AddJsonCouple<string>("message", ex.Message);
+                    return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+                }
+
+            else //if (account.AccountId == -1)//non esiste richiedi a gwam 
+            {
+                var formContent = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("password", password),
+                    new KeyValuePair<string, string>("instanceid", "1")
+                });
+
+                HttpResponseMessage responseMessage = await client.PostAsync(url + accountname, formContent);
+                var responseData = responseMessage.Content.ReadAsStringAsync();
+
+                loginPack = JsonConvert.DeserializeObject<LoginPack>(responseData.Result);
+
+
+                if (loginPack.account.AccountId == -1) // it doesn't exist on GWAM
+                {
+                    _jsonHelper.AddJsonCouple<bool>("result", false);
+                    _jsonHelper.AddJsonCouple("message", "Invalid user");
                     return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
                 }
+                else
+                {
+                    // user has been found
+                    account = loginPack.account;
+                    account.SetDataProvider(_accountSqlDataProvider);
+                   
+                    account.Save();//in locale
+                    //Verifica credenziali con salvataggio sul provider locale
+                    LoginBaseClass lbc = new LoginBaseClass(account);
+                    LoginReturnCodes res = lbc.VerifyCredential(password);
+                }
+
+                _jsonHelper.AddJsonCouple<bool>("result", true);
+                _jsonHelper.AddJsonCouple("account", loginPack.account);
+
+                return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
             }
-            catch (Exception ex)
-            {
-                _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple<string>("message", ex.Message);
-                return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
-            }
-			
-            if (account.AccountId == -1)//non esiste richiedi a gwam//todo 
-            {
-				var formContent = new FormUrlEncodedContent(new[]
-				{
-					new KeyValuePair<string, string>("password", password),
-					new KeyValuePair<string, string>("instanceid", "1")
-				});
-
-				HttpResponseMessage responseMessage = await client.PostAsync(url + accountname, formContent);
-				var responseData = responseMessage.Content.ReadAsStringAsync();
-
-				loginPack = JsonConvert.DeserializeObject<LoginPack>(responseData.Result);
-			}
-
-            if (loginPack.account.AccountId == -1) // it doesn't exist on GWAM
-            {
+            
                 _jsonHelper.AddJsonCouple<bool>("result", false);
                 _jsonHelper.AddJsonCouple("message", "Invalid user");
                 return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
-            }
-            else
-            {
-                // user has been found
-                //account.Save();//in locale
-                //Verifica credenziali su GWAM con salvataggio sul provider locale
-                //LoginBaseClass lbc = new LoginBaseClass(account);
-                //LoginReturnCodes res = lbc.VerifyCredential(password);
-            }
-
-            _jsonHelper.AddJsonCouple<bool>("result", true);
-			_jsonHelper.AddJsonCouple("account", loginPack.account);
-
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
-
-		}
+            
+        }
 
 		/// <summary>
 		/// Insert/update account
