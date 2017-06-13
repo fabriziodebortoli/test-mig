@@ -28,18 +28,19 @@ namespace Microarea.AdminServer.Library
             if (account.Password != Crypt(password))
             {
                 AddWrongPwdLoginCount();
-                if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+                if (!account.Save()) return LoginReturnCodes.ErrorSavingTokens;
                 return LoginReturnCodes.InvalidUserError;
             }
 
             ClearWrongPwdLoginCount();
-            CreateTokens();
-           // if (!token.Save()) return LoginReturnCodes.ErrorSavingAccount;
+            if (!CreateTokens())
+                 return LoginReturnCodes.ErrorSavingTokens;
+           
 
             if (account.MustChangePassword)
                 return LoginReturnCodes.UserMustChangePasswordError;
 
-            if (account.PasswordExpirationDate < DateTime.Now)
+            if (account.IsPasswordExpirated())
             {
                 if (account.CannotChangePassword)
                     return LoginReturnCodes.CannotChangePasswordError;
@@ -64,7 +65,7 @@ namespace Microarea.AdminServer.Library
                 return LoginReturnCodes.InvalidUserError;
             }
             account.Password = Crypt(newpassword);
-            if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+            if (!account.Save()) return LoginReturnCodes.ErrorSavingTokens;
 
             ClearWrongPwdLoginCount();
             CreateTokens();
@@ -94,9 +95,10 @@ namespace Microarea.AdminServer.Library
         }
 
         //----------------------------------------------------------------------
-        public void CreateTokens()
+        public bool CreateTokens()
         {
-            tokens = new UserTokens(account.ProvisioningAdmin);//non sono sicura todo
+            tokens = new UserTokens(account.ProvisioningAdmin, account.AccountId);
+            return tokens.Save();
         }
     }
 }
