@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-import { TbIconsModule } from '@taskbuilder/core';
+import { TaskbuilderCoreModule } from '@taskbuilder/core';
 
 @NgModule({
   declarations: [
@@ -11,11 +11,9 @@ import { TbIconsModule } from '@taskbuilder/core';
   ],
   imports: [
     BrowserModule,
-    TbIconsModule
+    TaskbuilderCoreModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-
-
 export class AppModule { }
