@@ -527,7 +527,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------
 		public static void SaveXml(XmlDocument doc, string file) //TODOLUCA, questo sistema di salvataggio è da cambiare
 		{
-			using (FileStream fileStream = new FileStream(file, FileMode.OpenOrCreate))
+			using (FileStream fileStream = new FileStream(file, FileMode.Create))
 			{
 				XmlWriterSettings settings = new XmlWriterSettings() { Indent = true };
 				using (XmlWriter writer = XmlWriter.Create(fileStream, settings))
