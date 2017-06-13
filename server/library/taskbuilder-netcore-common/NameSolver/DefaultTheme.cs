@@ -12,10 +12,10 @@ using Microarea.Common.Generic;
 
 namespace Microarea.Common.NameSolver
 {
-    //=========================================================================
-    /// <summary>
-    /// UI theme for the application
-    /// </summary>
+	//=========================================================================
+	/// <summary>
+	/// UI theme for the application
+	/// </summary>
 	public class DefaultTheme : ITheme
 	{
 		static DefaultTheme theme;
@@ -68,7 +68,7 @@ namespace Microarea.Common.NameSolver
 		private DefaultTheme(string themeName)
 		{
 			this.name = Path.GetFileNameWithoutExtension(themeName);
-			List<string> themes =  BasePathFinder.BasePathFinderInstance.GetAvailableThemesFullNames();
+			List<string> themes = BasePathFinder.BasePathFinderInstance.GetAvailableThemesFullNames();
 
 			string themeFileName = string.Empty;
 			foreach (string item in themes)
@@ -84,7 +84,8 @@ namespace Microarea.Common.NameSolver
 				return;
 
 			xmlThemeDocument = new XmlDocument();
-			xmlThemeDocument.Load(File.Open(themeFileName, FileMode.Open, FileAccess.Read));
+			using (FileStream fs = File.Open(themeFileName, FileMode.Open, FileAccess.Read))
+				xmlThemeDocument.Load(fs);
 		}
 
 		//---------------------------------------------------------------------
@@ -92,7 +93,7 @@ namespace Microarea.Common.NameSolver
 		{
 			int colorRef = Int32.Parse(value);
 
-            return Color.FromArgb(colorRef); //ColorTranslator.FromWin32(colorRef); TODO rsweb
+			return Color.FromArgb(colorRef); //ColorTranslator.FromWin32(colorRef); TODO rsweb
 		}
 
 		//---------------------------------------------------------------------
@@ -116,18 +117,20 @@ namespace Microarea.Common.NameSolver
 			}
 			catch (Exception)
 			{
-                return new Color();
+				return new Color();
 			}
 		}
 
 		//---------------------------------------------------------------------
 		public Color GetThemeElementColor(string themeElement)
-        {
-            if (xmlThemeDocument == null)
-				return new Color(); ;
+		{
+			if (xmlThemeDocument == null)
+				return new Color();
+			;
 			XmlNode node = xmlThemeDocument.SelectSingleNode(string.Format(themeElementXPathQuery, themeElement));
 			if (node == null)
-				return new Color(); ;
+				return new Color();
+			;
 
 			XmlAttribute rgbLongAttribute = node.Attributes["rgbLong"];
 			if (rgbLongAttribute != null)
@@ -136,7 +139,8 @@ namespace Microarea.Common.NameSolver
 			XmlAttribute rgbHexAttribute = node.Attributes["rgbHex"];
 			if (rgbHexAttribute != null)
 				return GetColorFromHexValue(rgbHexAttribute.Value);
-			return new Color(); ;
+			return new Color();
+			;
 		}
 
 		//---------------------------------------------------------------------
@@ -152,7 +156,7 @@ namespace Microarea.Common.NameSolver
 		//	Font defaultFont = new Font(fontName, fontSize, style);
 
 		//	//	<ThemeElement name="FormFontFace" type="font" fontName="Segoe UI" fontCharset="DEFAULT" fontSize="10" fontSmallSize="3" isUnderline="1" isStriked="0" isItalic="0"/><!-- customizzato ofm-->
-		
+
 		//	if (xmlThemeDocument == null)
 		//		return defaultFont;
 
@@ -160,7 +164,7 @@ namespace Microarea.Common.NameSolver
 		//	if (node == null)
 		//		return defaultFont;
 
-			
+
 		//	XmlAttribute fontNameAttribute = node.Attributes["fontName"];
 		//	if (fontNameAttribute != null)
 		//		fontName = fontNameAttribute.Value;
@@ -183,7 +187,7 @@ namespace Microarea.Common.NameSolver
 		//		bool.TryParse(isUnderlineAttribute.Value, out isUnderline);
 
 		//		if (isUnderline)
- 	//				style |= FontStyle.Underline;
+		//				style |= FontStyle.Underline;
 		//	}
 
 		//	XmlAttribute isStrikedAttribute = node.Attributes["isStriked"];
@@ -192,7 +196,7 @@ namespace Microarea.Common.NameSolver
 		//		bool.TryParse(isStrikedAttribute.Value, out isStriked);
 
 		//		if (isStriked)
- 	//				style |= FontStyle.Strikeout;
+		//				style |= FontStyle.Strikeout;
 		//	}
 
 		//	XmlAttribute isItalicAttribute = node.Attributes["isItalic"];
@@ -201,7 +205,7 @@ namespace Microarea.Common.NameSolver
 		//		bool.TryParse(isItalicAttribute.Value, out isItalic);
 
 		//		if (isItalic)
- 	//				style |= FontStyle.Strikeout;
+		//				style |= FontStyle.Strikeout;
 		//	}
 
 		//	return new Font(fontName, fontSize, style);
@@ -258,7 +262,7 @@ namespace Microarea.Common.NameSolver
 
 			XmlNode node = xmlThemeDocument.SelectSingleNode(string.Format(themeElementXPathQuery, themeElement));
 			if (node == null)
-				return null	;
+				return null;
 
 			string ns = string.Empty;
 			XmlAttribute imageNamespaceAttribute = node.Attributes["value"];
@@ -271,7 +275,7 @@ namespace Microarea.Common.NameSolver
 			try
 			{
 				string imagePath = BasePathFinder.BasePathFinderInstance.GetImagePath(new NameSpace(ns));
-                return null; //ImagesHelper.LoadImageWithoutLockFile(imagePath);  TODO rsweb
+				return null; //ImagesHelper.LoadImageWithoutLockFile(imagePath);  TODO rsweb
 			}
 			catch (Exception)
 			{
@@ -279,10 +283,10 @@ namespace Microarea.Common.NameSolver
 			}
 		}
 
-        int ITheme.GetThemeElementColor(string themeElement)
-        {
-            throw new NotImplementedException();
-        }
+		int ITheme.GetThemeElementColor(string themeElement)
+		{
+			throw new NotImplementedException();
+		}
 
-    }
+	}
 }
