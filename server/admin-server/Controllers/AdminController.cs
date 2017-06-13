@@ -165,9 +165,9 @@ namespace Microarea.AdminServer.Controllers
                 return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
             }
 
-            if (account == null)//non esiste richiedi a gwam
+            if (account == null)//non esiste richiedi a gwam//todo 
             {
-                //todo 
+                
                 //account = GWAM.GetAccount(accountname);
 
 
