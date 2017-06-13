@@ -31,7 +31,7 @@ namespace Microarea.AdminServer.Model
         ITokens tokens;
 
         //---------------------------------------------------------------------
-        public int AccountId { get { return this.accountId; } }
+        public int AccountId { get { return this.accountId; } set { this.accountId = value; } }
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
 		public string FullName { get { return this.fullName; } set { this.fullName = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
