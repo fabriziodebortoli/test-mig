@@ -32,8 +32,8 @@ export const routes: Routes = [
   },
   { 
     path: 'company', 
-    canActivate: [AuthGuardService],
-    canActivateChild: [AuthGuardService],
+    // canActivate: [AuthGuardService],
+    // canActivateChild: [AuthGuardService],
     component: CompanyComponent,
   },
   { 
