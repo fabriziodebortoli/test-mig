@@ -172,7 +172,7 @@ namespace Microarea.TbLoaderGate
 								tb.RequireWebSocketConnection(coupleName, http.Request.Host);
 
 								//effettua anche la inittblogin
-								tb.InternalInitTbLogin(coupleName);
+								//tb.InternalInitTbLogin(coupleName);
 							}
 						}
 						else if (cmd == setServerWebSocketName)
