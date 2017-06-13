@@ -110,14 +110,14 @@ namespace Microarea.AdminServer.Controllers
 			if (account == null)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonObject("message", "Invalid user");
+				_jsonHelper.AddJsonCouple<string>("message", "Invalid user");
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
 			}
 
             // user has been found
 
             _jsonHelper.AddJsonCouple<bool>("result", true);
-            _jsonHelper.AddJsonObject("account", account);
+            _jsonHelper.AddJsonCouple("account", account);
             return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
 		}
 
@@ -149,12 +149,12 @@ namespace Microarea.AdminServer.Controllers
                     if (res != LoginReturnCodes.NoError)
                     {
                         _jsonHelper.AddJsonCouple<bool>("result", false);
-                        _jsonHelper.AddJsonObject("message", res.ToString());//TODO STRINGHE?
+                        _jsonHelper.AddJsonCouple("message", res.ToString());//TODO STRINGHE?
                         return new ContentResult { StatusCode = 401, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
                     }
                     //se successo?
                     _jsonHelper.AddJsonCouple<bool>("result", true);
-                    _jsonHelper.AddJsonObject("message", res.ToString());//TODO STRINGHE?
+                    _jsonHelper.AddJsonCouple("message", res.ToString());//TODO STRINGHE?
                     return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
                 }
             }
@@ -165,6 +165,7 @@ namespace Microarea.AdminServer.Controllers
                 return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
             }
 
+
             if (account == null)//non esiste richiedi a gwam//todo 
             {
                 
@@ -172,13 +173,15 @@ namespace Microarea.AdminServer.Controllers
 
 
             }
-
+            
             // here account doesn't even exist in GWAM
+			_jsonHelper.AddJsonCouple<bool>("result", true);
+			_jsonHelper.AddJsonCouple("account", account);
 
             if (account == null)//non esiste su gwam
             {
                 _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonObject("message", "Invalid user");
+                _jsonHelper.AddJsonCouple("message", "Invalid user");
                 return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
             }
             else
@@ -190,7 +193,8 @@ namespace Microarea.AdminServer.Controllers
                 //LoginReturnCodes res = lbc.VerifyCredential(password);
             }
             _jsonHelper.AddJsonCouple<bool>("result", true);
-			_jsonHelper.AddJsonObject("account", account);
+			_jsonHelper.AddJsonCouple("account", account);
+
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
 
 		}
