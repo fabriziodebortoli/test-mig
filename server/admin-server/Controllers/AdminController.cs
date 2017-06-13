@@ -47,8 +47,8 @@ namespace Microarea.AdminServer.Controllers
 
 		HttpClient client;
 		//The URL of the WEB API Service
-		//string url = "http://gwam.azurewebsites.net/api/accounts/";
-		string url = "http://localhost:9010/api/accounts/";
+		string url = "http://gwam.azurewebsites.net/api/accounts/";
+		//string url = "http://localhost:9010/api/accounts/";
 
 		//-----------------------------------------------------------------------------	
 		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings)
