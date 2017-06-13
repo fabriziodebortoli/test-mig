@@ -50,7 +50,7 @@ namespace Microarea.AdminServer
 		//
 
 		// Account
-		public const string ExistAccount =              @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountId = @AccountId";
+		public const string ExistAccount                = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
 		public const string SelectAccountByAccountName= @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
         public const string InsertAccount =				@"INSERT INTO MP_Accounts (AccountName, FullName, Password, Notes, Email, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
 		                                            	PasswordExpirationDateCannotChange, PasswordExpirationDate, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, ApplicationLanguage, LoginFailedCount) 

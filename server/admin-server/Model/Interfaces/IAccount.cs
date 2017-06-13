@@ -23,12 +23,6 @@ namespace Microarea.AdminServer.Model.Interfaces
         string PreferredLanguage { get; set; }
         string ApplicationLanguage { get; set; }
         bool IsWindowsAuthentication { get; }
-        ITokens Tokens { get; set; }
     }
 
-    public interface ITokens
-    {
-        string ApiSecurityToken { get; set; }
-        string AuthenticationToken { get; set; }
-    }
 }

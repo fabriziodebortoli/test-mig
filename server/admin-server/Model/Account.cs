@@ -28,7 +28,6 @@ namespace Microarea.AdminServer.Model
         string preferredLanguage = string.Empty;
         bool isWindowsAuthentication = false;
         DateTime expirationDate = DateTime.Now.AddDays(3);// todo per ora scadenza 3 giorni per esempio
-        ITokens tokens;
 
         //---------------------------------------------------------------------
         public int AccountId { get { return this.accountId; } set { this.accountId = value; } }
@@ -50,7 +49,6 @@ namespace Microarea.AdminServer.Model
 		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
         public bool IsWindowsAuthentication { get { return this.isWindowsAuthentication; } set { this.isWindowsAuthentication = value; } }
         public DateTime ExpirationDate { get { return this.expirationDate; } set { this.expirationDate = value; } }
-        public ITokens Tokens { get { return this.tokens; } set { this.tokens = value; } }
 
         // data provider
         IDataProvider dataProvider;

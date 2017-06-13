@@ -3,10 +3,10 @@ using System;
 
 namespace Microarea.AdminServer.Library
 {
-    public class UserTokens : ITokens
+    public class UserTokens
     {
-        string apiSecurityToken;
-        string authenticationToken;
+        string apiSecurityToken = string.Empty;
+        string authenticationToken = string.Empty;
 
         public string ApiSecurityToken { get; set; }
         public string AuthenticationToken { get; set; }
@@ -21,7 +21,7 @@ namespace Microarea.AdminServer.Library
         //---------------------------------------------------------------------
         private string GetToken()
         {
-            return new Guid().ToString();
+            return Guid.NewGuid().ToString();
         }
     }
 }

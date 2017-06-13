@@ -1,6 +1,7 @@
 ﻿
 using System;
 using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Controllers.Helpers;
 
 namespace Microarea.AdminServer.Library
 {
@@ -10,7 +11,8 @@ namespace Microarea.AdminServer.Library
     public class LoginBaseClass
     {
         IAccount account;
-
+        UserTokens tokens;
+        public UserTokens Tokens {get  {return tokens;} }
         public LoginBaseClass(IAccount account) { this.account = account; }
         public LoginReturnCodes VerifyCredential(string password)
         {
@@ -32,7 +34,7 @@ namespace Microarea.AdminServer.Library
 
             ClearWrongPwdLoginCount();
             CreateTokens();
-            if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+           // if (!token.Save()) return LoginReturnCodes.ErrorSavingAccount;
 
             if (account.MustChangePassword)
                 return LoginReturnCodes.UserMustChangePasswordError;
@@ -94,7 +96,7 @@ namespace Microarea.AdminServer.Library
         //----------------------------------------------------------------------
         public void CreateTokens()
         {
-            account.Tokens = new UserTokens(account.ProvisioningAdmin);//non sono sicura todo
+            tokens = new UserTokens(account.ProvisioningAdmin);//non sono sicura todo
         }
     }
 }

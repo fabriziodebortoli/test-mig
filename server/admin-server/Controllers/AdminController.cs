@@ -20,18 +20,7 @@ using System.Text;
 
 namespace Microarea.AdminServer.Controllers
 {
-	public class LoginPack
-	{
-		public Account account;
-		public Subscription subscription;
-
-		public LoginPack()
-		{
-			this.account = new Account();
-			this.subscription = new Subscription();
-		}
-	}
-
+	
 	//=========================================================================
 	public class AdminController : Controller
     {
@@ -100,7 +89,7 @@ namespace Microarea.AdminServer.Controllers
 		public IActionResult ApiHome()
         {
             _jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea Admin-Server API");
-            return new ContentResult { Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+            return new ContentResult { Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
         }
 
         [HttpGet("/api/accounts/{username}/{field?}")]
@@ -112,7 +101,7 @@ namespace Microarea.AdminServer.Controllers
             {
                 _jsonHelper.AddJsonCouple<bool>("result", false);
                 _jsonHelper.AddJsonCouple<string>("message", "Username cannot be empty");
-                return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+                return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
             }
 
 			IAccount account = new Account(username);
@@ -126,7 +115,7 @@ namespace Microarea.AdminServer.Controllers
             {
                 _jsonHelper.AddJsonCouple<bool>("result", false);
                 _jsonHelper.AddJsonCouple<string>("message", ex.Message);
-                return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+                return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
             }
 
 			if (account == null)
@@ -140,14 +129,14 @@ namespace Microarea.AdminServer.Controllers
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", "Invalid user");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
             // user has been found
 
             _jsonHelper.AddJsonCouple<bool>("result", true);
             _jsonHelper.AddJsonCouple("account", account);
-            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 		}
 
         // <summary>
@@ -157,13 +146,18 @@ namespace Microarea.AdminServer.Controllers
         [HttpPost("/api/logins/{accountname}")]
         public async Task<IActionResult> ApiAccounts(string accountname, string password)
         {
-			LoginPack loginPack = new LoginPack();
+            //usato in lettura da gwam
+            AccountIdentityPack accIdPack = new AccountIdentityPack();
+            //usato come risposta al frontend
+            BootstrapToken bootstrapToken = new BootstrapToken();
+            LoginBaseClass lbc = null;
 
-			if (String.IsNullOrEmpty(accountname))
+            if (String.IsNullOrEmpty(accountname))
             {
-                _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple<string>("message", "Username cannot be empty");
-                return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+                bootstrapToken.Result = false;
+                bootstrapToken.Message = "Username cannot be empty";
+                _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
             }
 
             IAccount account = new Account(accountname);
@@ -175,25 +169,31 @@ namespace Microarea.AdminServer.Controllers
                     if (account.AccountId != -1)
                     {
                         //Verifica credenziali su db
-                        LoginBaseClass lbc = new LoginBaseClass(account);
+                        lbc = new LoginBaseClass(account);
                         LoginReturnCodes res = lbc.VerifyCredential(password);
                         if (res != LoginReturnCodes.NoError)
                         {
-                            _jsonHelper.AddJsonCouple<bool>("result", false);
-                            _jsonHelper.AddJsonCouple("message", res.ToString());//TODO STRINGHE?
-                            return new ContentResult { StatusCode = 401, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+                            bootstrapToken.Result = false;
+                            bootstrapToken.Message = res.ToString();//TODO STRINGHE?
+                            bootstrapToken.AccountName = accountname;
+                            _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                            return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                         }
                         //se successo?
-                        _jsonHelper.AddJsonCouple<bool>("result", true);
-                        _jsonHelper.AddJsonCouple("message", res.ToString());//TODO STRINGHE?
-                        return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+                        bootstrapToken.Result = true;
+                        bootstrapToken.Message = res.ToString();//TODO STRINGHE?
+                        bootstrapToken.AccountName = accountname;
+                        _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                        return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                     }
                 }
                 catch (Exception ex)
                 {
-                    _jsonHelper.AddJsonCouple<bool>("result", false);
-                    _jsonHelper.AddJsonCouple<string>("message", ex.Message);
-                    return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+                    bootstrapToken.Result = false;
+                    bootstrapToken.Message = ex.Message;
+                    bootstrapToken.AccountName = accountname;
+                    _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                    return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                 }
 
             else //if (account.AccountId == -1)//non esiste richiedi a gwam 
@@ -207,51 +207,60 @@ namespace Microarea.AdminServer.Controllers
                 HttpResponseMessage responseMessage = await client.PostAsync(url + accountname, formContent);
                 var responseData = responseMessage.Content.ReadAsStringAsync();
 
-                loginPack = JsonConvert.DeserializeObject<LoginPack>(responseData.Result);
+                accIdPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
 
 
-                if (loginPack.account.AccountId == -1) // it doesn't exist on GWAM
+                if (accIdPack.Account.AccountId == -1) // it doesn't exist on GWAM
                 {
-                    _jsonHelper.AddJsonCouple<bool>("result", false);
-                    _jsonHelper.AddJsonCouple("message", "Invalid user");
-                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+                    bootstrapToken.Result = false;
+                    bootstrapToken.Message = "Invalid user";//TODO STRINGHE?
+                    bootstrapToken.AccountName = accountname;
+                    _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                 }
                 else
                 {
                     // user has been found
-                    account = loginPack.account;
+                    account = accIdPack.Account;
                     account.SetDataProvider(_accountSqlDataProvider);
-                   
+
                     account.Save();//in locale
                     //Verifica credenziali con salvataggio sul provider locale
-                    LoginBaseClass lbc = new LoginBaseClass(account);
+                     lbc = new LoginBaseClass(account);
                     LoginReturnCodes res = lbc.VerifyCredential(password);
                 }
+                //login ok, creaimo token e urls per pacchetto di risposta
+                bootstrapToken.Result = true;
+                bootstrapToken.Message = "Login OK";//TODO STRINGHE?
+                bootstrapToken.AccountName = accountname;
+                bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
+                bootstrapToken.PreferredLanguage = account.PreferredLanguage;
+                bootstrapToken.Subscriptions = accIdPack.Subscriptions;
+                bootstrapToken.UserTokens = lbc.Tokens;
+                _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 
-                _jsonHelper.AddJsonCouple<bool>("result", true);
-                _jsonHelper.AddJsonCouple("account", loginPack.account);
-
-                return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
             }
-            
-                _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple("message", "Invalid user");
-                return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
-            
+            bootstrapToken.Result = false;
+            bootstrapToken.Message = "Invalid user";//TODO STRINGHE?
+            bootstrapToken.AccountName = accountname;
+            _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+
         }
 
-		/// <summary>
-		/// Insert/update account
-		/// </summary>
-		//-----------------------------------------------------------------------------	
-		[HttpPost("/api/accounts/{accountname}")]
+        /// <summary>
+        /// Insert/update account
+        /// </summary>
+        //-----------------------------------------------------------------------------	
+        [HttpPost("/api/accounts/{accountname}")]
 		public IActionResult ApiAccounts(string accountname, string password, string email)
 		{
 			if (String.IsNullOrEmpty(accountname))
 			{
                 _jsonHelper.AddJsonCouple<bool>("result", false);
                 _jsonHelper.AddJsonCouple<string>("message", "Account name cannot be empty");
-				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			bool result = false;
@@ -267,19 +276,19 @@ namespace Microarea.AdminServer.Controllers
 			{
                 _jsonHelper.AddJsonCouple<bool>("result", false);
                 _jsonHelper.AddJsonCouple<string>("message", e.Message);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 			}
 
 			if (!result)
 			{
                 _jsonHelper.AddJsonCouple<bool>("result", false);
                 _jsonHelper.AddJsonCouple<string>("message", "Save account operation failed");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 			}
 
             _jsonHelper.AddJsonCouple<bool>("result", true);
             _jsonHelper.AddJsonCouple<string>("message", "Save account operation successfully completed");
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 		}
 
 		/// <summary>
@@ -293,7 +302,7 @@ namespace Microarea.AdminServer.Controllers
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", "Company name cannot be empty");
-				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			bool result = false;
@@ -309,19 +318,19 @@ namespace Microarea.AdminServer.Controllers
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", e.Message);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 			}
 
 			if (!result)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", "Save company operation failed");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 			}
 
 			_jsonHelper.AddJsonCouple<bool>("result", true);
 			_jsonHelper.AddJsonCouple<string>("message", "Save company operation successfully completed");
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 		}
 
 		/// <summary>
@@ -335,7 +344,7 @@ namespace Microarea.AdminServer.Controllers
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", "Instance name cannot be empty");
-				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			bool result = false;
@@ -351,19 +360,19 @@ namespace Microarea.AdminServer.Controllers
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", e.Message);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 			}
 
 			if (!result)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", "Save instance operation failed");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 			}
 
 			_jsonHelper.AddJsonCouple<bool>("result", true);
 			_jsonHelper.AddJsonCouple<string>("message", "Save instance operation successfully completed");
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 		}
 
 		/// <summary>
@@ -377,7 +386,7 @@ namespace Microarea.AdminServer.Controllers
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", "Subscription name cannot be empty");
-				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteAndClear(), ContentType = "application/json" };
+				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			bool result = false;
@@ -392,19 +401,19 @@ namespace Microarea.AdminServer.Controllers
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", e.Message);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 			}
 
 			if (!result)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", "Save subscription operation failed");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 			}
 
 			_jsonHelper.AddJsonCouple<bool>("result", true);
 			_jsonHelper.AddJsonCouple<string>("message", "Save subscription operation successfully completed");
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteAndClear(), ContentType = "text/html" };
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 		}
 	}
 }

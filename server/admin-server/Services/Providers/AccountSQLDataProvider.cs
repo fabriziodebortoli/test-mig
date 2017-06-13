@@ -86,7 +86,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					using (SqlCommand command = new SqlCommand(Consts.ExistAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", account.AccountId);
+						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						existAccount = (int)command.ExecuteScalar() > 0;
 					}
 
