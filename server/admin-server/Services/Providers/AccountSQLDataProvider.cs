@@ -40,7 +40,8 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								account.FullName = dataReader["FullName"] as string;
+                                account.AccountId = (int)dataReader["accountid"];
+                                account.FullName = dataReader["FullName"] as string;
 								account.Notes = dataReader["Notes"] as string;
 								account.Email = dataReader["Email"] as string;
 								account.Password = dataReader["Password"] as string;

@@ -30,8 +30,9 @@ namespace Microarea.AdminServer.Controllers
         IDataProvider _companySqlDataProvider;
         IDataProvider _instanceSqlDataProvider;
         IDataProvider _subscriptionSQLDataProvider;
+        IDataProvider _tokenSQLDataProvider;
 
-		JsonHelper _jsonHelper;
+        JsonHelper _jsonHelper;
 
 		HttpClient client;
 
@@ -59,6 +60,7 @@ namespace Microarea.AdminServer.Controllers
             _companySqlDataProvider = new CompanySQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _subscriptionSQLDataProvider = new SubscriptionSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
+            _tokenSQLDataProvider =  new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
         }
 
         [HttpGet]
@@ -159,50 +161,60 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			IAccount account = new Account(accountname);
+            IAccount account = new Account(accountname);
 
-            if (account.AccountId != -1)//non esiste richiedi a gwam//todo 
-                try
+            try
+            {
+                account.SetDataProvider(_accountSqlDataProvider);
+                account.Load();
+                if (account.AccountId != -1)
                 {
-                    account.SetDataProvider(_accountSqlDataProvider);
-                    account.Load();
-                    if (account.AccountId != -1)
+                    //Verifica credenziali su db
+                    lbc = new LoginBaseClass(account);
+                    LoginReturnCodes res = lbc.VerifyCredential(password);
+                    if (res != LoginReturnCodes.NoError)
                     {
-                        //Verifica credenziali su db
-                        lbc = new LoginBaseClass(account);
-                        LoginReturnCodes res = lbc.VerifyCredential(password);
-                        if (res != LoginReturnCodes.NoError)
-                        {
-                            bootstrapToken.Result = false;
-                            bootstrapToken.Message = res.ToString();//TODO STRINGHE?
-                            bootstrapToken.AccountName = accountname;
-                            _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-                            return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-                        }
-                        //se successo?
-                        bootstrapToken.Result = true;
+                        bootstrapToken.Result = false;
                         bootstrapToken.Message = res.ToString();//TODO STRINGHE?
                         bootstrapToken.AccountName = accountname;
                         _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-                        return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                        return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                     }
-                }
-                catch (Exception ex)
-                {
-                    bootstrapToken.Result = false;
-                    bootstrapToken.Message = ex.Message;
-                    bootstrapToken.AccountName = accountname;
-                    _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-                    return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-                }
+                    //se successo
+                    UserTokens t = CreateTokens(account);
+                    if ( t== null)
+                    {
+                        bootstrapToken.Result = false;
+                        bootstrapToken.Message = LoginReturnCodes.ErrorSavingTokens.ToString();//TODO STRINGHE?
+                        bootstrapToken.AccountName = accountname;
+                        _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                        return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                    }
 
-			else //if (account.AccountId == -1)//non esiste richiedi a gwam 
-			{
-				var formContent = new FormUrlEncodedContent(new[]
-				{
-					new KeyValuePair<string, string>("password", password),
-					new KeyValuePair<string, string>("instanceid", "1")
-				});
+
+                    bootstrapToken.Result = true;
+                    bootstrapToken.Message = res.ToString();//TODO STRINGHE?
+                    bootstrapToken.AccountName = accountname;
+                    bootstrapToken.UserTokens = t;
+                    _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                }
+            }
+            catch (Exception ex)
+            {
+                bootstrapToken.Result = false;
+                bootstrapToken.Message = ex.Message;
+                bootstrapToken.AccountName = accountname;
+                _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+            }
+            if (account.AccountId == -1)//non esiste richiedi a gwam 
+            {
+                var formContent = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("password", password),
+                    new KeyValuePair<string, string>("instanceid", "1")
+                });
 
 				HttpResponseMessage responseMessage = await client.PostAsync(url + accountname, formContent);
 				var responseData = responseMessage.Content.ReadAsStringAsync();
@@ -224,34 +236,54 @@ namespace Microarea.AdminServer.Controllers
 					account = accIdPack.Account;
 					account.SetDataProvider(_accountSqlDataProvider);
 
-					account.Save();//in locale
-								   //Verifica credenziali con salvataggio sul provider locale
-					lbc = new LoginBaseClass(account);
-					LoginReturnCodes res = lbc.VerifyCredential(password);
-				}
-				//login ok, creaimo token e urls per pacchetto di risposta
-				bootstrapToken.Result = true;
-				bootstrapToken.Message = "Login OK";//TODO STRINGHE?
-				bootstrapToken.AccountName = accountname;
-				bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
-				bootstrapToken.PreferredLanguage = account.PreferredLanguage;
-				bootstrapToken.Subscriptions = accIdPack.Subscriptions;
-				bootstrapToken.UserTokens = lbc.Tokens;
-				_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                    account.Save();//in locale
+                                   //Verifica credenziali con salvataggio sul provider locale
+                    lbc = new LoginBaseClass(account);
+                    LoginReturnCodes res = lbc.VerifyCredential(password);
+                }
+                //login ok, creaimo token e urls per pacchetto di risposta
+                UserTokens t = CreateTokens(account);
+                if (t == null)
+                {
+                    bootstrapToken.Result = false;
+                    bootstrapToken.Message = LoginReturnCodes.ErrorSavingTokens.ToString();//TODO STRINGHE?
+                    bootstrapToken.AccountName = accountname;
+                    _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                    return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                }
+                bootstrapToken.Result = true;
+                bootstrapToken.Message = "Login OK";//TODO STRINGHE?
+                bootstrapToken.AccountName = accountname;
+                bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
+                bootstrapToken.PreferredLanguage = account.PreferredLanguage;
+                bootstrapToken.Subscriptions = accIdPack.Subscriptions;
+                bootstrapToken.UserTokens = t;
+                _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 
-			}
-			bootstrapToken.Result = false;
-			bootstrapToken.Message = "Invalid user";//TODO STRINGHE?
-			bootstrapToken.AccountName = accountname;
-			_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-		}
+            }
+            bootstrapToken.Result = false;
+            bootstrapToken.Message = "Invalid user";//TODO STRINGHE?
+            bootstrapToken.AccountName = accountname;
+            _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+        }
+
+
+
+        //----------------------------------------------------------------------
+        private UserTokens CreateTokens(IAccount account)
+        {
+            UserTokens tokens = new UserTokens(account.ProvisioningAdmin, account.AccountId);
+            tokens.Setprovider(_tokenSQLDataProvider);
+            if (tokens.Save()) return tokens;
+            return null;
+        }
 
         /// <summary>
         /// Insert/update account
         /// </summary>
-        //-----------------------------------------------------------------------------	
+            //-----------------------------------------------------------------------------	
         [HttpPost("/api/accounts/{accountname}")]
 		public IActionResult ApiAccounts(string accountname, string password, string email)
 		{

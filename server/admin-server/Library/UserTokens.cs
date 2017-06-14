@@ -1,6 +1,7 @@
 ﻿using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using System;
+using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer.Library
 {
@@ -22,6 +23,12 @@ namespace Microarea.AdminServer.Library
         internal bool  Save()
         {
             return apiSecurityToken.Save() && authenticationToken.Save();
+        }
+
+        internal void Setprovider(IDataProvider tokenSQLDataProvider)
+        {
+             apiSecurityToken.SetDataProvider(tokenSQLDataProvider);
+            authenticationToken.SetDataProvider(tokenSQLDataProvider);
         }
     }
 }
