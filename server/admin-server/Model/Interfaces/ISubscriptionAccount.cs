@@ -3,7 +3,7 @@
     //================================================================================
     interface ISubscriptionAccount : IAdminModel
 	{
-        int AccountId { get; }
+        string AccountName { get; }
         int SubscriptionId { get; }
     }
 }

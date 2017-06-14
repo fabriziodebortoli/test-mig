@@ -3,7 +3,7 @@
     //================================================================================
     interface ICompanyAccount : IAdminModel
 	{
-        int AccountId { get; }
+        string AccountName { get; }
         int CompanyId { get; }
         bool Admin { get; }
     }

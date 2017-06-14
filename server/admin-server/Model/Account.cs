@@ -9,7 +9,6 @@ namespace Microarea.AdminServer.Model
     public class Account : IAccount
     {
 		// model attributes
-		int accountId = -1;
         string accountName;
         string fullName = string.Empty;
 		string password = string.Empty;
@@ -30,7 +29,6 @@ namespace Microarea.AdminServer.Model
         DateTime expirationDate = DateTime.Now.AddDays(3);// todo per ora scadenza 3 giorni per esempio
 
         //---------------------------------------------------------------------
-        public int AccountId { get { return this.accountId; } set { this.accountId = value; } }
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
 		public string FullName { get { return this.fullName; } set { this.fullName = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
