@@ -20,7 +20,6 @@ using System.Text;
 
 namespace Microarea.AdminServer.Controllers
 {
-	
 	//=========================================================================
 	public class AdminController : Controller
     {
@@ -35,9 +34,9 @@ namespace Microarea.AdminServer.Controllers
 		JsonHelper _jsonHelper;
 
 		HttpClient client;
+
 		//The URL of the WEB API Service
 		string url = "http://gwam.azurewebsites.net/api/accounts/";
-		//string url = "http://localhost:9010/api/accounts/";
 
 		//-----------------------------------------------------------------------------	
 		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings)
@@ -51,7 +50,6 @@ namespace Microarea.AdminServer.Controllers
 			client.BaseAddress = new Uri(url);
 			client.DefaultRequestHeaders.Accept.Clear();
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
 		}
 
 		//-----------------------------------------------------------------------------	
@@ -161,7 +159,8 @@ namespace Microarea.AdminServer.Controllers
                 return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
             }
 
-            IAccount account = new Account(accountname);
+			IAccount account = new Account(accountname);
+
             if (account.AccountId != -1)//non esiste richiedi a gwam//todo 
                 try
                 {
