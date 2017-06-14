@@ -115,13 +115,6 @@ export class HttpService {
         //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
     }
 
-    getComponentUrl(url: string) {
-        if (url[0] === '\\') {
-            url = url.substring(1);
-        }
-        return 'app/htmlforms/' + url + '.js';
-    }
-
     getBaseUrl() {
         return this.apiBaseUrl;
     }

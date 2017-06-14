@@ -43,24 +43,23 @@ namespace Microarea.AdminServer.Services.Providers
 								account.FullName = dataReader["FullName"] as string;
 								account.Notes = dataReader["Notes"] as string;
 								account.Email = dataReader["Email"] as string;
-                                account.PasswordNeverExpires = (bool)dataReader["PasswordNeverExpires"];
+								account.Password = dataReader["Password"] as string;
+								account.PasswordNeverExpires = (bool)dataReader["PasswordNeverExpires"];
                                 account.LoginFailedCount = (int)dataReader["LoginFailedCount"];
                                 account.MustChangePassword = (bool)dataReader["MustChangePassword"];
                                 account.CannotChangePassword = (bool)dataReader["CannotChangePassword"];
                                 account.PasswordExpirationDateCannotChange = (bool)dataReader["PasswordExpirationDateCannotChange"];
-                                account.PasswordExpirationDate = (DateTime)dataReader["ExpiryDatePassword"];
+                                account.PasswordExpirationDate = (DateTime)dataReader["PasswordExpirationDate"];
                                 account.ProvisioningAdmin = (bool)dataReader["ProvisioningAdmin"];
                                 account.IsWindowsAuthentication = (bool)dataReader["WindowsAuthentication"];
                                 account.Disabled = (bool)dataReader["Disabled"];
 								account.Locked = (bool)dataReader["Locked"];
 								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
                                 account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
-
                             }
 						}
 					}
 				}
-
 			}
 			catch (Exception e)
 			{
@@ -87,7 +86,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					using (SqlCommand command = new SqlCommand(Consts.ExistAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", account.AccountId);
+						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						existAccount = (int)command.ExecuteScalar() > 0;
 					}
 
@@ -105,7 +104,7 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@MustChangePassword", account.MustChangePassword);
 						command.Parameters.AddWithValue("@CannotChangePassword", account.CannotChangePassword);
 						command.Parameters.AddWithValue("@PasswordExpirationDateCannotChange", account.PasswordExpirationDateCannotChange);
-						command.Parameters.AddWithValue("@ExpiryDatePassword", account.PasswordExpirationDate);
+						command.Parameters.AddWithValue("@PasswordExpirationDate", account.PasswordExpirationDate);
 						command.Parameters.AddWithValue("@Disabled", account.Disabled);
 						command.Parameters.AddWithValue("@Locked", account.Locked);
 						command.Parameters.AddWithValue("@ProvisioningAdmin", account.ProvisioningAdmin);

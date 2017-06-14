@@ -1,27 +1,27 @@
-﻿using Microarea.AdminServer.Model.Interfaces;
+﻿using Microarea.AdminServer.Model;
+using Microarea.AdminServer.Model.Interfaces;
 using System;
 
 namespace Microarea.AdminServer.Library
 {
-    public class UserTokens : ITokens
+    public class UserTokens
     {
-        string apiSecurityToken;
-        string authenticationToken;
+        SecurityToken apiSecurityToken = SecurityToken.Empty;
+        SecurityToken authenticationToken = SecurityToken.Empty;
 
         public string ApiSecurityToken { get; set; }
         public string AuthenticationToken { get; set; }
 
         //---------------------------------------------------------------------
-        public UserTokens(bool isAdmin)
+        public UserTokens(bool isAdmin, int accountid)
         {
-            if (isAdmin) apiSecurityToken = GetToken();
-            authenticationToken = GetToken();
+            if (isAdmin) apiSecurityToken = SecurityToken.GetToken(TokenType.API, accountid);
+            authenticationToken = SecurityToken.GetToken(TokenType.Authentication, accountid);
         }
 
-        //---------------------------------------------------------------------
-        private string GetToken()
+        internal bool  Save()
         {
-            return new Guid().ToString();
+            return apiSecurityToken.Save() && authenticationToken.Save();
         }
     }
 }
