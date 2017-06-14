@@ -17,7 +17,6 @@ import { Logger } from './logger.service';
 
 @Injectable()
 export class WebSocketService {
-    public status = 'Undefined';
     public loginSessionService: LoginSessionService;
 
     private connection: WebSocket;
@@ -44,20 +43,20 @@ export class WebSocketService {
         private logger: Logger) {
     }
 
-    SetSocketConnectionStatus(status: SocketConnectionStatus) {
+    setSocketConnectionStatus(status: SocketConnectionStatus) {
 
         this._socketConnectionStatus = status;
         this.connectionStatus.emit(status);
     }
 
-    SetConnecting() {
-        this.SetSocketConnectionStatus(SocketConnectionStatus.Connecting);
+    setConnecting() {
+        this.setSocketConnectionStatus(SocketConnectionStatus.Connecting);
     }
 
     wsConnect(): void {
         const $this = this;
 
-        this.SetConnecting();
+        this.setConnecting();
 
         const url = environment.wsBaseUrl;
         this.logger.debug('wsConnecting... ' + url);
@@ -91,7 +90,6 @@ export class WebSocketService {
         this.connection.onerror = (arg) => {
             this.logger.error('wsOnError' + JSON.stringify(arg));
             this.error.emit(arg);
-            this.status = 'Error';
         };
 
         this.connection.onopen = (arg) => {
@@ -105,15 +103,13 @@ export class WebSocketService {
                 }
             }));
 
-            this.SetSocketConnectionStatus(SocketConnectionStatus.Connected);
-            this.status = 'Open';
+            this.setSocketConnectionStatus(SocketConnectionStatus.Connected);
             this.open.emit(arg);
 
         };
 
         this.connection.onclose = (arg) => {
-            this.SetSocketConnectionStatus(SocketConnectionStatus.Disconnected);
-            this.status = 'Closed';
+            this.setSocketConnectionStatus(SocketConnectionStatus.Disconnected);
             this.close.emit(arg);
         };
     }
@@ -125,9 +121,11 @@ export class WebSocketService {
     }
     getOpenConnection(): Observable<WebSocket> {
         return Observable.create(observer => {
-            if (this.connection.OPEN) {
+            if (this._socketConnectionStatus === SocketConnectionStatus.Connected) {
                 observer.next(this.connection);
                 observer.complete();
+            } else if (this._socketConnectionStatus === SocketConnectionStatus.Connecting) {
+
             } else {
                 const subs = this.loginSessionService.openTbConnectionAsync().subscribe(ret => {
                     subs.unsubscribe();

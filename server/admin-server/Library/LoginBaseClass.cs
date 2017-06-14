@@ -1,6 +1,7 @@
 ﻿
 using System;
 using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Controllers.Helpers;
 
 namespace Microarea.AdminServer.Library
 {
@@ -10,7 +11,8 @@ namespace Microarea.AdminServer.Library
     public class LoginBaseClass
     {
         IAccount account;
-
+        UserTokens tokens;
+        public UserTokens Tokens {get  {return tokens;} }
         public LoginBaseClass(IAccount account) { this.account = account; }
         public LoginReturnCodes VerifyCredential(string password)
         {
@@ -26,17 +28,19 @@ namespace Microarea.AdminServer.Library
             if (account.Password != Crypt(password))
             {
                 AddWrongPwdLoginCount();
-                if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+                if (!account.Save()) return LoginReturnCodes.ErrorSavingTokens;
                 return LoginReturnCodes.InvalidUserError;
             }
 
             ClearWrongPwdLoginCount();
-            if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+            if (!CreateTokens())
+                 return LoginReturnCodes.ErrorSavingTokens;
+           
 
             if (account.MustChangePassword)
                 return LoginReturnCodes.UserMustChangePasswordError;
 
-            if (account.PasswordExpirationDate < DateTime.Now)
+            if (account.IsPasswordExpirated())
             {
                 if (account.CannotChangePassword)
                     return LoginReturnCodes.CannotChangePasswordError;
@@ -61,7 +65,7 @@ namespace Microarea.AdminServer.Library
                 return LoginReturnCodes.InvalidUserError;
             }
             account.Password = Crypt(newpassword);
-            if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+            if (!account.Save()) return LoginReturnCodes.ErrorSavingTokens;
 
             ClearWrongPwdLoginCount();
             CreateTokens();
@@ -91,9 +95,10 @@ namespace Microarea.AdminServer.Library
         }
 
         //----------------------------------------------------------------------
-        public void CreateTokens()
+        public bool CreateTokens()
         {
-            account.Tokens = new UserTokens(account.ProvisioningAdmin);//non sono sicura todo
+            tokens = new UserTokens(account.ProvisioningAdmin, account.AccountId);
+            return tokens.Save();
         }
     }
 }

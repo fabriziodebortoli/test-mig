@@ -28,10 +28,9 @@ namespace Microarea.AdminServer.Model
         string preferredLanguage = string.Empty;
         bool isWindowsAuthentication = false;
         DateTime expirationDate = DateTime.Now.AddDays(3);// todo per ora scadenza 3 giorni per esempio
-        ITokens tokens;
 
         //---------------------------------------------------------------------
-        public int AccountId { get { return this.accountId; } }
+        public int AccountId { get { return this.accountId; } set { this.accountId = value; } }
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
 		public string FullName { get { return this.fullName; } set { this.fullName = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
@@ -50,7 +49,6 @@ namespace Microarea.AdminServer.Model
 		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
         public bool IsWindowsAuthentication { get { return this.isWindowsAuthentication; } set { this.isWindowsAuthentication = value; } }
         public DateTime ExpirationDate { get { return this.expirationDate; } set { this.expirationDate = value; } }
-        public ITokens Tokens { get { return this.tokens; } set { this.tokens = value; } }
 
         // data provider
         IDataProvider dataProvider;
@@ -85,6 +83,11 @@ namespace Microarea.AdminServer.Model
         public IAdminModel Load()
         {
             return this.dataProvider.Load(this);
+        }
+        //---------------------------------------------------------------------
+        public bool IsPasswordExpirated() {//la data è inferioread adesso , ma comunque non è il min value che è il default ( seocndo me cè un erroe di logica, todo)
+            return passwordExpirationDate < DateTime.Now && 
+                passwordExpirationDate > this.dataProvider.MinDateTimeValue;
         }
     }
 }

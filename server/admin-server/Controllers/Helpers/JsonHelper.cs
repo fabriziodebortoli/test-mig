@@ -4,10 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Controllers.Helpers
 {
@@ -18,6 +16,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 		StringWriter sw;
 		JsonWriter jsonWriter;
 		Dictionary<string, object> entries;
+		object plainObject;
 
 		//---------------------------------------------------------------------
 		public JsonHelper()
@@ -31,7 +30,18 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			CleanAll();
 		}
 
-		//---------------------------------------------------------------------
+		public void AddPlainObject<T>(T val)
+		{
+			try
+			{
+				this.plainObject = (T)val;
+				//this.jsonWriter.WritePropertyName(name);
+				//this.jsonWriter.WriteValue(val);
+			}
+			catch (Exception)
+			{ }
+		}
+
 		public void AddJsonCouple<T>(string name, T val)
 		{
 			try
@@ -59,9 +69,8 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			  || type.Equals(typeof(string))
 			  || type.Equals(typeof(decimal));
 		}
-
 		//---------------------------------------------------------------------
-		public string WriteAndClear()
+		public string WriteFromKeysAndClear()
 		{
 			this.jsonWriter.WriteStartObject();
 			object kObj;
@@ -82,6 +91,30 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			}
 
 			this.jsonWriter.WriteEndObject();
+
+			try
+			{
+				return this.sb.ToString();
+			}
+			catch (Exception)
+			{
+			}
+			finally
+			{
+				this.sb.Clear();
+				this.sw = new StringWriter(sb);
+			}
+
+			return String.Empty;
+		}
+
+		//---------------------------------------------------------------------
+		public string WritePlainAndClear()
+		{
+			if (this.plainObject == null)
+				return String.Empty;
+
+			this.jsonWriter.WriteRawValue(JsonConvert.SerializeObject(this.plainObject));
 
 			try
 			{
