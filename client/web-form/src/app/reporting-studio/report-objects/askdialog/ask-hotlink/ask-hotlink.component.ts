@@ -1,3 +1,4 @@
+import { HttpService } from './../../../../core/http.service';
 import { Observable } from 'rxjs/Rx';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { hotlink, CommandType } from './../../../reporting-studio.model';
@@ -7,66 +8,55 @@ import { Component, Input, DoCheck, KeyValueDiffers, Output, EventEmitter, ViewC
   selector: 'rs-ask-hotlink',
   templateUrl: './ask-hotlink.component.html',
   styleUrls: ['./ask-hotlink.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
-export class AskHotlinkComponent implements DoCheck {
+export class AskHotlinkComponent {
 
 
   @Input() hotlink: hotlink;
-  differ: any;
+
   showTable: boolean = false;
   showOptions: boolean = false;
   selectionColumn: string = '';
   multiSelectedValues: any[] = [];
 
-  constructor(private rsService: ReportingStudioService, private differs: KeyValueDiffers) {
-
-    this.differ = differs.find({}).create(null);
+  constructor(private httpService: HttpService) {
   }
 
   // ---------------------------------------------------------------------------------------
-  ngDoCheck() {
-    if (this.hotlink === undefined) {
-      return;
-    }
-
-    let hotLinkChanged = this.differ.diff(this.hotlink.values);
-    if (hotLinkChanged && this.hotlink.values && this.hotlink.values.rows) {
-      this.selectionColumn = this.hotlink.values.key;
-      if (this.hotlink.multi_selection && this.multiSelectedValues.length > 0) {
-        for (let i = 0; i < this.hotlink.values.rows.length; i++) {
-          let item = this.hotlink.values.rows[i];
-          if (this.multiSelectedValues.indexOf(item[this.selectionColumn]) >= 0) {
-            item.Selected = true;
-          }
-        }
-      }
-      this.showTable = true;
-    }
-  }
+  /* ngDoCheck() {
+     if (this.hotlink === undefined) {
+       return;
+     }
+ 
+     let hotLinkChanged = this.differ.diff(this.hotlink.values);
+     if (hotLinkChanged && this.hotlink.values && this.hotlink.values.rows) {
+       this.selectionColumn = this.hotlink.values.key;
+       if (this.hotlink.multi_selection && this.multiSelectedValues.length > 0) {
+         for (let i = 0; i < this.hotlink.values.rows.length; i++) {
+           let item = this.hotlink.values.rows[i];
+           if (this.multiSelectedValues.indexOf(item[this.selectionColumn]) >= 0) {
+             item.Selected = true;
+           }
+         }
+       }
+       this.showTable = true;
+     }
+   }*/
 
   // ---------------------------------------------------------------------------------------
-  onButtonClick() {
+  onSearchClick() {
 
     if (this.showTable) {
       this.showTable = false;
       return;
     }
 
-    let msg = {
-      ns: this.hotlink.ns,
-      filter: this.hotlink.multi_selection ? '' : this.hotlink.value,
-      selection_type: this.hotlink.selection_type,
-      name: this.hotlink.name
-    };
-
-    let message = {
-      commandType: CommandType.HOTLINK,
-      message: JSON.stringify(msg),
-      page: this.hotlink.id
-    };
-
-    this.rsService.doSend(JSON.stringify(message));
+    let subs = this.httpService.getHotlinkData(this.hotlink.ns, this.hotlink.selection_type, this.hotlink.multi_selection ? '' : this.hotlink.value).subscribe((json) => {
+      this.hotlink.values = json;
+      subs.unsubscribe();
+      this.showTable = true;
+    })
   }
 
   // ---------------------------------------------------------------------------------------
@@ -85,7 +75,16 @@ export class AskHotlinkComponent implements DoCheck {
   }
 
   // ---------------------------------------------------------------------------------------
-  toggleOptions() {
+  onOptionsClick() {
+
+    if (this.hotlink.selectionList.length === 0) {
+      let subs = this.httpService.getHotlinkSelectionTypes(this.hotlink.ns).subscribe((json) => {
+        this.hotlink.selectionList = json.selections;
+        subs.unsubscribe();
+      })
+      this.showOptions = true;
+      return;
+    }
     this.showOptions = !this.showOptions;
     this.showTable = false;
   }
