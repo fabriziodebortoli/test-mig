@@ -150,7 +150,7 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    getHotlinkData(namespace: string, selectionType: string = 'Code', filter: string = ''): Observable<any> {
+    getHotlinkData(namespace: string, selectionType: string = 'code', filter: string = ''): Observable<any> {
         return this.http.get(this.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType + '/' + filter, { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
