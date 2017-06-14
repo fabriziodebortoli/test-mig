@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -19,6 +18,9 @@ namespace Microarea.AdminServer.Controllers.Helpers
 		object plainObject;
 
 		//---------------------------------------------------------------------
+		public Dictionary<string, object> Entries { get => entries; }
+
+		//---------------------------------------------------------------------
 		public JsonHelper()
 		{
 			CleanAll();
@@ -30,6 +32,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			CleanAll();
 		}
 
+		//---------------------------------------------------------------------
 		public void AddPlainObject<T>(T val)
 		{
 			try
@@ -42,6 +45,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			{ }
 		}
 
+		//---------------------------------------------------------------------
 		public void AddJsonCouple<T>(string name, T val)
 		{
 			try
@@ -64,11 +68,13 @@ namespace Microarea.AdminServer.Controllers.Helpers
 				// nullable type, check if the nested type is simple.
 				return IsSimple((type.GetGenericArguments()[0]).GetTypeInfo());
 			}
+
 			return type.IsPrimitive
 			  || type.IsEnum
 			  || type.Equals(typeof(string))
 			  || type.Equals(typeof(decimal));
 		}
+
 		//---------------------------------------------------------------------
 		public string WriteFromKeysAndClear()
 		{

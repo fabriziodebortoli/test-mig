@@ -140,115 +140,114 @@ namespace Microarea.AdminServer.Controllers
             return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 		}
 
-        // <summary>
-        // validate a new login
-        // </summary>
-        //-----------------------------------------------------------------------------	
-        [HttpPost("/api/logins/{accountname}")]
-        public async Task<IActionResult> ApiAccounts(string accountname, string password)
-        {
-            //usato in lettura da gwam
-            AccountIdentityPack accIdPack = new AccountIdentityPack();
-            //usato come risposta al frontend
-            BootstrapToken bootstrapToken = new BootstrapToken();
-            LoginBaseClass lbc = null;
+		// <summary>
+		// validate a new login
+		// </summary>
+		//-----------------------------------------------------------------------------	
+		[HttpPost("/api/logins/{accountname}")]
+		public async Task<IActionResult> ApiAccounts(string accountname, string password)
+		{
+			//usato in lettura da gwam
+			AccountIdentityPack accIdPack = new AccountIdentityPack();
+			//usato come risposta al frontend
+			BootstrapToken bootstrapToken = new BootstrapToken();
+			LoginBaseClass lbc = null;
 
-            if (String.IsNullOrEmpty(accountname))
-            {
-                bootstrapToken.Result = false;
-                bootstrapToken.Message = "Username cannot be empty";
-                _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-                return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-            }
+			if (String.IsNullOrEmpty(accountname))
+			{
+				bootstrapToken.Result = false;
+				bootstrapToken.Message = "Username cannot be empty";
+				_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
 
-            IAccount account = new Account(accountname);
-            if (account.AccountId != -1)//non esiste richiedi a gwam//todo 
-                try
-                {
-                    account.SetDataProvider(_accountSqlDataProvider);
-                    account.Load();
-                    if (account.AccountId != -1)
-                    {
-                        //Verifica credenziali su db
-                        lbc = new LoginBaseClass(account);
-                        LoginReturnCodes res = lbc.VerifyCredential(password);
-                        if (res != LoginReturnCodes.NoError)
-                        {
-                            bootstrapToken.Result = false;
-                            bootstrapToken.Message = res.ToString();//TODO STRINGHE?
-                            bootstrapToken.AccountName = accountname;
-                            _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-                            return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-                        }
-                        //se successo?
-                        bootstrapToken.Result = true;
-                        bootstrapToken.Message = res.ToString();//TODO STRINGHE?
-                        bootstrapToken.AccountName = accountname;
-                        _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-                        return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-                    }
-                }
-                catch (Exception ex)
-                {
-                    bootstrapToken.Result = false;
-                    bootstrapToken.Message = ex.Message;
-                    bootstrapToken.AccountName = accountname;
-                    _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-                    return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-                }
+			IAccount account = new Account(accountname);
+			if (account.AccountId != -1)//non esiste richiedi a gwam//todo 
+				try
+				{
+					account.SetDataProvider(_accountSqlDataProvider);
+					account.Load();
+					if (account.AccountId != -1)
+					{
+						//Verifica credenziali su db
+						lbc = new LoginBaseClass(account);
+						LoginReturnCodes res = lbc.VerifyCredential(password);
+						if (res != LoginReturnCodes.NoError)
+						{
+							bootstrapToken.Result = false;
+							bootstrapToken.Message = res.ToString();//TODO STRINGHE?
+							bootstrapToken.AccountName = accountname;
+							_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+							return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+						}
+						//se successo?
+						bootstrapToken.Result = true;
+						bootstrapToken.Message = res.ToString();//TODO STRINGHE?
+						bootstrapToken.AccountName = accountname;
+						_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					}
+				}
+				catch (Exception ex)
+				{
+					bootstrapToken.Result = false;
+					bootstrapToken.Message = ex.Message;
+					bootstrapToken.AccountName = accountname;
+					_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+					return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				}
 
-            else //if (account.AccountId == -1)//non esiste richiedi a gwam 
-            {
-                var formContent = new FormUrlEncodedContent(new[]
-                {
-                    new KeyValuePair<string, string>("password", password),
-                    new KeyValuePair<string, string>("instanceid", "1")
-                });
+			else //if (account.AccountId == -1)//non esiste richiedi a gwam 
+			{
+				var formContent = new FormUrlEncodedContent(new[]
+				{
+					new KeyValuePair<string, string>("password", password),
+					new KeyValuePair<string, string>("instanceid", "1")
+				});
 
-                HttpResponseMessage responseMessage = await client.PostAsync(url + accountname, formContent);
-                var responseData = responseMessage.Content.ReadAsStringAsync();
+				HttpResponseMessage responseMessage = await client.PostAsync(url + accountname, formContent);
+				var responseData = responseMessage.Content.ReadAsStringAsync();
 
-                accIdPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
+				accIdPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
 
 
-                if (accIdPack.Account.AccountId == -1) // it doesn't exist on GWAM
-                {
-                    bootstrapToken.Result = false;
-                    bootstrapToken.Message = "Invalid user";//TODO STRINGHE?
-                    bootstrapToken.AccountName = accountname;
-                    _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-                }
-                else
-                {
-                    // user has been found
-                    account = accIdPack.Account;
-                    account.SetDataProvider(_accountSqlDataProvider);
+				if (accIdPack.Account.AccountId == -1) // it doesn't exist on GWAM
+				{
+					bootstrapToken.Result = false;
+					bootstrapToken.Message = "Invalid user";//TODO STRINGHE?
+					bootstrapToken.AccountName = accountname;
+					_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				}
+				else
+				{
+					// user has been found
+					account = accIdPack.Account;
+					account.SetDataProvider(_accountSqlDataProvider);
 
-                    account.Save();//in locale
-                    //Verifica credenziali con salvataggio sul provider locale
-                     lbc = new LoginBaseClass(account);
-                    LoginReturnCodes res = lbc.VerifyCredential(password);
-                }
-                //login ok, creaimo token e urls per pacchetto di risposta
-                bootstrapToken.Result = true;
-                bootstrapToken.Message = "Login OK";//TODO STRINGHE?
-                bootstrapToken.AccountName = accountname;
-                bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
-                bootstrapToken.PreferredLanguage = account.PreferredLanguage;
-                bootstrapToken.Subscriptions = accIdPack.Subscriptions;
-                bootstrapToken.UserTokens = lbc.Tokens;
-                _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-                return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+					account.Save();//in locale
+								   //Verifica credenziali con salvataggio sul provider locale
+					lbc = new LoginBaseClass(account);
+					LoginReturnCodes res = lbc.VerifyCredential(password);
+				}
+				//login ok, creaimo token e urls per pacchetto di risposta
+				bootstrapToken.Result = true;
+				bootstrapToken.Message = "Login OK";//TODO STRINGHE?
+				bootstrapToken.AccountName = accountname;
+				bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
+				bootstrapToken.PreferredLanguage = account.PreferredLanguage;
+				bootstrapToken.Subscriptions = accIdPack.Subscriptions;
+				bootstrapToken.UserTokens = lbc.Tokens;
+				_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 
-            }
-            bootstrapToken.Result = false;
-            bootstrapToken.Message = "Invalid user";//TODO STRINGHE?
-            bootstrapToken.AccountName = accountname;
-            _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-
-        }
+			}
+			bootstrapToken.Result = false;
+			bootstrapToken.Message = "Invalid user";//TODO STRINGHE?
+			bootstrapToken.AccountName = accountname;
+			_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
 
         /// <summary>
         /// Insert/update account
@@ -271,9 +270,12 @@ namespace Microarea.AdminServer.Controllers
 			_jsonHelper.Read(bodyString);
 
 			bool result = false;
+
 			try
 			{
-                IAccount iAccount = new Account(accountname);
+				IAccount iAccount = new Account();
+				iAccount = JsonConvert.DeserializeObject<Account>(bodyString);
+
                 iAccount.SetDataProvider(_accountSqlDataProvider);
 				iAccount.Password = password;
 				iAccount.Email = email;
