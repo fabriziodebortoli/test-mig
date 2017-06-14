@@ -20,7 +20,7 @@ namespace Microarea.AdminServer.Services.Providers
 			this.connectionString = connString;
 		}
 
-		// carica le subscription di uno specifico AccountId
+		// carica le subscription di uno specifico AccountName
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
@@ -34,7 +34,7 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.SelectSubscriptionAccountBySubscriptionId, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", isubscripion.AccountId);
+						command.Parameters.AddWithValue("@AccountName", isubscripion.AccountName);
 						
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
@@ -70,7 +70,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					using (SqlCommand command = new SqlCommand(Consts.ExistSubscriptionAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", isubscripion.AccountId);
+						command.Parameters.AddWithValue("@AccountName", isubscripion.AccountName);
 						command.Parameters.AddWithValue("@SubscriptionId", isubscripion.SubscriptionId);
 						existSubscription = (int)command.ExecuteScalar() > 0;
 					}
@@ -83,7 +83,7 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Connection = connection;
 						command.CommandText = Consts.InsertInstanceAccount;
 
-						command.Parameters.AddWithValue("@AccountId", isubscripion.AccountId);
+						command.Parameters.AddWithValue("@AccountName", isubscripion.AccountName);
 						command.Parameters.AddWithValue("@SubscriptionId", isubscripion.SubscriptionId);
 
 						command.ExecuteNonQuery();
@@ -112,7 +112,7 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.DeleteSubscriptionAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", isubscription.AccountId);
+						command.Parameters.AddWithValue("@AccountName", isubscription.AccountName);
 						command.Parameters.AddWithValue("@SubscriptionId", isubscription.SubscriptionId);
 						command.ExecuteNonQuery();
 					}

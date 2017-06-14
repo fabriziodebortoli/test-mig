@@ -3,17 +3,16 @@
   <div class="row bottom-xs">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Email" value="">
+        <input type="text" placeholder="Email" value="" [(ngModel)]="model.email" required>
       </div>
       <div class="box">
-      </div>
-      <div class="box">
-        <input type="password" placeholder="Password" value="">
+        <input type="password" placeholder="Password" value="" [(ngModel)]="model.password" required
+        ng-pattern = '/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i'>
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="checkbox" name="cboxPwNeverExpires" value="">
+        <input type="checkbox" name="cboxPwNeverExpires" value="" [(ngModel)]="model.passwordNeverExpires" >
         <label for="cboxPwNeverExpires">Password never expires</label>
       </div>
     </div>
@@ -22,12 +21,12 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Full Name" value="">
+        <input type="text" placeholder="Full Name" value="" [(ngModel)]="model.fullName">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="checkbox" name="cboxLocked" value="">
+        <input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.provisioningAdmin">
         <label for="cboxLocked">Provisioning Administrator</label>
       </div>
     </div>
@@ -36,13 +35,13 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="checkbox" name="cboxDisabled" value="">
+        <input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.disabled">
         <label for="cboxDisabled">Disabled</label>
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="checkbox" name="cboxLocked" value="">
+        <input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.locked">
         <label for="cboxLocked">Locked</label>
       </div>
     </div>
@@ -72,7 +71,7 @@
   <div class="row end-xs center-sm center-lg">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-primary" (click)="submitAccount()">Save</button>
       </div>
     </div>
   </div>

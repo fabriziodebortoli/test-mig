@@ -9,7 +9,6 @@ namespace Microarea.AdminServer.Model
     public class Account : IAccount
     {
 		// model attributes
-		int accountId = -1;
         string accountName;
         string fullName = string.Empty;
 		string password = string.Empty;
@@ -30,7 +29,6 @@ namespace Microarea.AdminServer.Model
         DateTime expirationDate = DateTime.Now.AddDays(3);// todo per ora scadenza 3 giorni per esempio
 
         //---------------------------------------------------------------------
-        public int AccountId { get { return this.accountId; } set { this.accountId = value; } }
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
 		public string FullName { get { return this.fullName; } set { this.fullName = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
@@ -84,8 +82,11 @@ namespace Microarea.AdminServer.Model
         {
             return this.dataProvider.Load(this);
         }
+
         //---------------------------------------------------------------------
-        public bool IsPasswordExpirated() {//la data è inferioread adesso , ma comunque non è il min value che è il default ( seocndo me cè un erroe di logica, todo)
+        public bool IsPasswordExpirated()
+		{
+			//la data è inferiore ad adesso, ma comunque non è il min value che è il default ( seocndo me cè un erroe di logica, todo)
             return passwordExpirationDate < DateTime.Now && 
                 passwordExpirationDate > this.dataProvider.MinDateTimeValue;
         }

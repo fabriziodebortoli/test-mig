@@ -50,42 +50,42 @@ namespace Microarea.AdminServer
 		//
 
 		// Account
-		public const string ExistAccount                = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
+		public const string ExistAccount              = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
 		public const string SelectAccountByAccountName= @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
         public const string InsertAccount =				@"INSERT INTO MP_Accounts (AccountName, FullName, Password, Notes, Email, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
 		                                            	PasswordExpirationDateCannotChange, PasswordExpirationDate, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, ApplicationLanguage, LoginFailedCount) 
 		                                            	VALUES (@AccountName, @FullName, @Password, @Notes, @Email, @PasswordNeverExpires, @MustChangePassword, @CannotChangePassword, 
 		                                            	@PasswordExpirationDateCannotChange, @PasswordExpirationDate, @Disabled, @Locked, @ProvisioningAdmin, @WindowsAuthentication, @PreferredLanguage, @ApplicationLanguage, @LoginFailedCount)";
-		public const string UpdateAccount				= @"UPDATE MP_Accounts SET AccountName = @AccountName, FullName = @FullName, Password = @Password, Notes = @Notes, Email = @Email, 
+		public const string UpdateAccount				= @"UPDATE MP_Accounts SET FullName = @FullName, Password = @Password, Notes = @Notes, Email = @Email, 
 			                                            PasswordNeverExpires = @PasswordNeverExpires, MustChangePassword = @MustChangePassword, CannotChangePassword = @CannotChangePassword, 
 			                                            PasswordExpirationDateCannotChange = @PasswordExpirationDateCannotChange, PasswordExpirationDate = @PasswordExpirationDate, Disabled = @Disabled, Locked = @Locked, 
 			                                            ProvisioningAdmin = @ProvisioningAdmin, WindowsAuthentication = @WindowsAuthentication, PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage, LoginFailedCount = @LoginFailedCount) 
-			                                            WHERE AccountId = @AccountId";
-		public const string DeleteAccount =             @"DELETE MP_Accounts WHERE AccountId = @AccountId";
+			                                            WHERE AccountName = @AccountName";
+		public const string DeleteAccount			=	@"DELETE MP_Accounts WHERE AccountName = @AccountName";
 		//
 
 		// CompanyAccount
-		public const string ExistCompanyAccount	 = @"SELECT COUNT(*) FROM MP_CompanyAccounts WHERE AccountId = @AccountId AND CompanyId = @CompanyId";
-		public const string SelectCompanyAccount = @"SELECT * FROM MP_CompanyAccounts WHERE AccountId = @AccountId AND CompanyId = @CompanyId";
-		public const string InsertCompanyAccount = @"INSERT INTO MP_CompanyAccounts (AccountId, CompanyId, Admin) VALUES (@AccountId, @CompanyId, @Admin)";
-		public const string UpdateCompanyAccount = @"UPDATE MP_CompanyAccounts SET Admin = @Admin WHERE @AccountId = @AccountId AND CompanyId = @CompanyId";
-		public const string DeleteCompanyAccount = @"DELETE MP_CompanyAccounts WHERE @AccountId = @AccountId AND CompanyId = @CompanyId";
+		public const string ExistCompanyAccount	 = @"SELECT COUNT(*) FROM MP_CompanyAccounts WHERE AccountName = @AccountName AND CompanyId = @CompanyId";
+		public const string SelectCompanyAccount = @"SELECT * FROM MP_CompanyAccounts WHERE AccountName = @AccountName AND CompanyId = @CompanyId";
+		public const string InsertCompanyAccount = @"INSERT INTO MP_CompanyAccounts (AccountName, CompanyId, Admin) VALUES (@AccountName, @CompanyId, @Admin)";
+		public const string UpdateCompanyAccount = @"UPDATE MP_CompanyAccounts SET Admin = @Admin WHERE @AccountName = @AccountName AND CompanyId = @CompanyId";
+		public const string DeleteCompanyAccount = @"DELETE MP_CompanyAccounts WHERE @AccountName = @AccountName AND CompanyId = @CompanyId";
 		//
 
 		// InstanceAccount
-		public const string ExistInstanceAccount = @"SELECT COUNT(*) FROM MP_InstanceAccounts WHERE AccountId = @AccountId AND InstanceId = @InstanceId";
-		public const string SelectInstanceAccountByInstanceId = @"SELECT * FROM MP_InstanceAccounts WHERE InstanceId = @InstanceId";
-		public const string SelectInstanceAccountByAccountId = @"SELECT * FROM MP_InstanceAccounts WHERE AccountId = @AccountId";
-		public const string InsertInstanceAccount = @"INSERT INTO MP_InstanceAccounts (AccountId, InstanceId) VALUES (@AccountId, @InstanceId)";
-		public const string DeleteInstanceAccount = @"DELETE MP_InstanceAccounts WHERE @AccountId = @AccountId AND InstanceId = @InstanceId";
+		public const string ExistInstanceAccount				= @"SELECT COUNT(*) FROM MP_InstanceAccounts WHERE AccountName = @AccountName AND InstanceId = @InstanceId";
+		public const string SelectInstanceAccountByInstanceId	= @"SELECT * FROM MP_InstanceAccounts WHERE InstanceId = @InstanceId";
+		public const string SelectInstanceAccountByAccount		= @"SELECT * FROM MP_InstanceAccounts WHERE AccountName = @AccountName";
+		public const string InsertInstanceAccount				= @"INSERT INTO MP_InstanceAccounts (AccountName, InstanceId) VALUES (@AccountName, @InstanceId)";
+		public const string DeleteInstanceAccount				= @"DELETE MP_InstanceAccounts WHERE @AccountName = @AccountName AND InstanceId = @InstanceId";
 		//
 
 		// SubscriptionAccount
-		public const string ExistSubscriptionAccount = @"SELECT COUNT(*) FROM MP_SubscriptionAccounts WHERE AccountId = @AccountId AND SubscriptionId = @SubscriptionId";
-		public const string SelectSubscriptionAccountBySubscriptionId = @"SELECT * FROM MP_SubscriptionAccounts WHERE SubscriptionId = @SubscriptionId";
-		public const string SelectSubscriptionAccountByAccountId = @"SELECT * FROM MP_SubscriptionAccounts WHERE AccountId = @AccountId";
-		public const string InsertSubscriptionAccount = @"INSERT INTO MP_SubscriptionAccounts (AccountId, SubscriptionId) VALUES (@AccountId, @SubscriptionId)";
-		public const string DeleteSubscriptionAccount = @"DELETE MP_SubscriptionAccounts WHERE @AccountId = @AccountId AND SubscriptionId = @SubscriptionId";
+		public const string ExistSubscriptionAccount					= @"SELECT COUNT(*) FROM MP_SubscriptionAccounts WHERE AccountName = @AccountName AND SubscriptionId = @SubscriptionId";
+		public const string SelectSubscriptionAccountBySubscriptionId	= @"SELECT * FROM MP_SubscriptionAccounts WHERE SubscriptionId = @SubscriptionId";
+		public const string SelectSubscriptionAccountByAccount			= @"SELECT * FROM MP_SubscriptionAccounts WHERE AccountName = @AccountName";
+		public const string InsertSubscriptionAccount					= @"INSERT INTO MP_SubscriptionAccounts (AccountName, SubscriptionId) VALUES (@AccountName, @SubscriptionId)";
+		public const string DeleteSubscriptionAccount					= @"DELETE MP_SubscriptionAccounts WHERE @AccountName = @AccountName AND SubscriptionId = @SubscriptionId";
 		//
 	}
 }

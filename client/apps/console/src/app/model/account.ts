@@ -1,6 +1,5 @@
 export class Account {
 
-    accountId:number;
     accountName:string;
     fullName:string;
     password:string;

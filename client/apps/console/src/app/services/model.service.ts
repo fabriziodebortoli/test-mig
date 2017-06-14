@@ -12,15 +12,16 @@ export class ModelService {
   modelBackEndUrl:string;
 
   constructor(private http: Http) { 
-    this.modelBackEndUrl = "http://localhost:5052/api/logins";
+    this.modelBackEndUrl = "http://localhost:5052/api/accounts";
   }
 
   addAccount(body:Object): Observable<Account[]> {
-    let bodyString = JSON.stringify(body);
+    let bodyString   = JSON.stringify(body);
     let headers      = new Headers({ 'Content-Type': 'application/json' });
-    let options       = new RequestOptions({ headers: headers });
+    let options      = new RequestOptions({ headers: headers });
+    let addedAccount = body as Account;
 
-    return this.http.post(this.modelBackEndUrl, body, options)
+    return this.http.post(this.modelBackEndUrl + '/' + addedAccount.email, body, options)
       .map((res:Response)=>res.json())
       .catch((error:any)=>Observable.throw(error.json().error || 'server error'));
   }

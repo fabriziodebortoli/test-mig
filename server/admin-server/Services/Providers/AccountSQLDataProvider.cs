@@ -40,7 +40,7 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								account.FullName = dataReader["FullName"] as string;
+                                account.FullName = dataReader["FullName"] as string;
 								account.Notes = dataReader["Notes"] as string;
 								account.Email = dataReader["Email"] as string;
 								account.Password = dataReader["Password"] as string;
@@ -95,7 +95,6 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Connection = connection;
 						command.CommandText = existAccount ? Consts.UpdateAccount : Consts.InsertAccount;
 						
-						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						command.Parameters.AddWithValue("@FullName", account.FullName);
 						command.Parameters.AddWithValue("@Password", account.Password);
 						command.Parameters.AddWithValue("@Notes", account.Notes);
@@ -114,7 +113,7 @@ namespace Microarea.AdminServer.Services.Providers
                         command.Parameters.AddWithValue("@LoginFailedCount", account.LoginFailedCount);
 
                         if (existAccount)
-							command.Parameters.AddWithValue("@AccountId", account.AccountId);
+							command.Parameters.AddWithValue("@AccountName", account.AccountName);
 
 						command.ExecuteNonQuery();
 					}
@@ -142,7 +141,7 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.DeleteAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", account.AccountId);
+						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						command.ExecuteNonQuery();
 					}
 				}
