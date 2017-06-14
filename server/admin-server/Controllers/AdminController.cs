@@ -167,7 +167,7 @@ namespace Microarea.AdminServer.Controllers
             {
                 account.SetDataProvider(_accountSqlDataProvider);
                 account.Load();
-                if (account.AccountId != -1)
+                if (account != null)
                 {
                     //Verifica credenziali su db
                     lbc = new LoginBaseClass(account);
@@ -208,7 +208,8 @@ namespace Microarea.AdminServer.Controllers
                 _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
                 return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
             }
-            if (account.AccountId == -1)//non esiste richiedi a gwam 
+
+            if (account == null)//non esiste richiedi a gwam 
             {
                 var formContent = new FormUrlEncodedContent(new[]
                 {
@@ -222,7 +223,7 @@ namespace Microarea.AdminServer.Controllers
 				accIdPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
 
 
-				if (accIdPack.Account.AccountId == -1) // it doesn't exist on GWAM
+				if (accIdPack.Account == null) // it doesn't exist on GWAM
 				{
 					bootstrapToken.Result = false;
 					bootstrapToken.Message = "Invalid user";//TODO STRINGHE?
@@ -274,7 +275,7 @@ namespace Microarea.AdminServer.Controllers
         //----------------------------------------------------------------------
         private UserTokens CreateTokens(IAccount account)
         {
-            UserTokens tokens = new UserTokens(account.ProvisioningAdmin, account.AccountId);
+            UserTokens tokens = new UserTokens(account.ProvisioningAdmin, account.AccountName);
             tokens.Setprovider(_tokenSQLDataProvider);
             if (tokens.Save()) return tokens;
             return null;

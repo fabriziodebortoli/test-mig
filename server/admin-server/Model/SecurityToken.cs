@@ -6,20 +6,20 @@ namespace Microarea.AdminServer.Model
 {
     public class SecurityToken : ISecurityToken
     {
-        int accountId = -1;
+        string accountName = null;
         TokenType tokenType = 0;
         string token = Guid.Empty.ToString();
         bool expired = true;
         DateTime expirationDate = DateTime.MinValue;
 
-        public int AccountId { get { return accountId; } set { accountId = value; } }
+        public string AccountName { get { return accountName; } set { accountName = value; } }
         public TokenType TokenType { get { return tokenType; } set { tokenType = value; } }
         public string Token { get { return token; } set { token = value; } }
 
-        internal static SecurityToken GetToken(TokenType type, int accountid)
+        internal static SecurityToken GetToken(TokenType type, string accountName)
         {
            SecurityToken t = new SecurityToken();
-            t.accountId = accountid;
+            t.accountName = accountName;
             t.token  = Guid.NewGuid().ToString();
             t.expired = false;
             t.expirationDate = DateTime.MaxValue;

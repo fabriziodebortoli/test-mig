@@ -14,10 +14,10 @@ namespace Microarea.AdminServer.Library
         public string AuthenticationToken { get; set; }
 
         //---------------------------------------------------------------------
-        public UserTokens(bool isAdmin, int accountid)
+        public UserTokens(bool isAdmin, string accountName)
         {
-            if (isAdmin) apiSecurityToken = SecurityToken.GetToken(TokenType.API, accountid);
-            authenticationToken = SecurityToken.GetToken(TokenType.Authentication, accountid);
+            if (isAdmin) apiSecurityToken = SecurityToken.GetToken(TokenType.API, accountName);
+            authenticationToken = SecurityToken.GetToken(TokenType.Authentication, accountName);
         }
 
         internal bool  Save()
