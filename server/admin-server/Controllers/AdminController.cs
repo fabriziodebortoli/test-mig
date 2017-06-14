@@ -20,7 +20,6 @@ using System.Text;
 
 namespace Microarea.AdminServer.Controllers
 {
-	
 	//=========================================================================
 	public class AdminController : Controller
     {
@@ -35,9 +34,9 @@ namespace Microarea.AdminServer.Controllers
 		JsonHelper _jsonHelper;
 
 		HttpClient client;
+
 		//The URL of the WEB API Service
 		string url = "http://gwam.azurewebsites.net/api/accounts/";
-		//string url = "http://localhost:9010/api/accounts/";
 
 		//-----------------------------------------------------------------------------	
 		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings)
@@ -51,7 +50,6 @@ namespace Microarea.AdminServer.Controllers
 			client.BaseAddress = new Uri(url);
 			client.DefaultRequestHeaders.Accept.Clear();
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
 		}
 
 		//-----------------------------------------------------------------------------	
@@ -162,40 +160,41 @@ namespace Microarea.AdminServer.Controllers
 			}
 
 			IAccount account = new Account(accountname);
-			if (account.AccountId != -1)//non esiste richiedi a gwam//todo 
-				try
-				{
-					account.SetDataProvider(_accountSqlDataProvider);
-					account.Load();
-					if (account.AccountId != -1)
-					{
-						//Verifica credenziali su db
-						lbc = new LoginBaseClass(account);
-						LoginReturnCodes res = lbc.VerifyCredential(password);
-						if (res != LoginReturnCodes.NoError)
-						{
-							bootstrapToken.Result = false;
-							bootstrapToken.Message = res.ToString();//TODO STRINGHE?
-							bootstrapToken.AccountName = accountname;
-							_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-							return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-						}
-						//se successo?
-						bootstrapToken.Result = true;
-						bootstrapToken.Message = res.ToString();//TODO STRINGHE?
-						bootstrapToken.AccountName = accountname;
-						_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-					}
-				}
-				catch (Exception ex)
-				{
-					bootstrapToken.Result = false;
-					bootstrapToken.Message = ex.Message;
-					bootstrapToken.AccountName = accountname;
-					_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-					return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-				}
+
+            if (account.AccountId != -1)//non esiste richiedi a gwam//todo 
+                try
+                {
+                    account.SetDataProvider(_accountSqlDataProvider);
+                    account.Load();
+                    if (account.AccountId != -1)
+                    {
+                        //Verifica credenziali su db
+                        lbc = new LoginBaseClass(account);
+                        LoginReturnCodes res = lbc.VerifyCredential(password);
+                        if (res != LoginReturnCodes.NoError)
+                        {
+                            bootstrapToken.Result = false;
+                            bootstrapToken.Message = res.ToString();//TODO STRINGHE?
+                            bootstrapToken.AccountName = accountname;
+                            _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                            return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                        }
+                        //se successo?
+                        bootstrapToken.Result = true;
+                        bootstrapToken.Message = res.ToString();//TODO STRINGHE?
+                        bootstrapToken.AccountName = accountname;
+                        _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                        return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                    }
+                }
+                catch (Exception ex)
+                {
+                    bootstrapToken.Result = false;
+                    bootstrapToken.Message = ex.Message;
+                    bootstrapToken.AccountName = accountname;
+                    _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+                    return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                }
 
 			else //if (account.AccountId == -1)//non esiste richiedi a gwam 
 			{

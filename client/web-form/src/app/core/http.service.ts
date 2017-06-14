@@ -142,6 +142,10 @@ export class HttpService {
         let url = this.baseUrl + 'enums-service/';
         return url;
     }
+    getDataServiceUrl() {
+        let url = this.baseUrl + 'data-service/';
+        return url;
+    }
 
     protected handleError(error: any) {
         // In a real world app, we might use a remote logging infrastructure
@@ -154,6 +158,22 @@ export class HttpService {
 
     getEnumsTable(): Observable<any> {
         return this.http.get(this.getEnumsServiceUrl() + 'getEnumsTable/', { withCredentials: true })
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+    getHotlinkData(namespace: string, selectionType: string = 'Code', filter: string = ''): Observable<any> {
+        return this.http.get(this.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType + '/' + filter, { withCredentials: true })
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+    getHotlinkSelectionTypes(namespace: string): Observable<any> {
+        return this.http.get(this.getDataServiceUrl() + 'getselections/' + namespace + '/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
