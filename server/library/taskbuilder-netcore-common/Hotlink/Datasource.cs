@@ -140,7 +140,7 @@ namespace Microarea.Common.Hotlink
             return true;
         }
 
-        public bool PrepareQuery(/*IQueryCollection requestQuery,*/ string selectionType = "Code", string likeValue = "")
+        public async Task<bool> PrepareQueryAsync(/*IQueryCollection requestQuery,*/ string selectionType = "Code", string likeValue = "")
         {
             selection_type.Data = selectionType;
             like_value.Data = likeValue + '%';
@@ -179,13 +179,27 @@ namespace Microarea.Common.Hotlink
             //viene cercato il corpo della query ------------------
             string selectionName = selection_type.Data as string;
             SelectionMode sm = XmlDescription.GetMode(selectionName);
+            string query = "";
             if (sm == null)
-                return false;
-            //-------------------------------
+            {
+                if (XmlDescription.SelectionTypeList.Count == 0)
+                {
+                  query = await TbSession.GetHotLinkQuery(Session, Session.Namespace, /*aParams*/"", (int)Hotlink.HklAction.DirectAccess);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                this.CurrentQuery = new QueryObject(sm.ModeName, SymTable, Session, null);
+                query = sm.Body;
+            }
 
-            this.CurrentQuery = new QueryObject(sm.ModeName, SymTable, Session, null);
 
-            if (!this.CurrentQuery.Define(sm.Body))
+            //------------------------------ 
+            if (!this.CurrentQuery.Define(query))
                 return false;
 
             return true;
@@ -240,7 +254,7 @@ namespace Microarea.Common.Hotlink
 
             foreach (XmlElement head in headers)
             {
- 
+
                 foreach (XmlElement sel in head.ChildNodes)
                 {
                     string selName = sel.GetAttribute("name");
@@ -503,7 +517,7 @@ namespace Microarea.Common.Hotlink
             foreach (ElementList el in auxData.Elements)
             {
                 bool first2 = true;
-                foreach (SelectionField f  in el.Fields)
+                foreach (SelectionField f in el.Fields)
                 {
                     if (first2)
                     {
@@ -513,12 +527,12 @@ namespace Microarea.Common.Hotlink
                     else
                         rows += ',';
 
-                    rows += f.ValueField.ToJson(f.NameField, false, true) ;
+                    rows += f.ValueField.ToJson(f.NameField, false, true);
                 }
                 first2 = true;
                 rows += "},\n";
             }
-            
+
             if (rows != string.Empty)
                 rows = rows.Remove(rows.Length - 2); //ultima ,
 

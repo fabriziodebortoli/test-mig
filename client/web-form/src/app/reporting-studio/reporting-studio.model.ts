@@ -452,7 +452,7 @@ export class hotlink extends askObj {
     this.obj = AskObjectType.hotlink;
     this.ns = jsonObj.hotlink.ns;
     this.multi_selection = jsonObj.hotlink.multi_selection;
-    this.selection_type = 'Code';
+    this.selection_type = 'code';
     this.value = '';
   }
 
