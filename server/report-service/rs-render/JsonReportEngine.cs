@@ -143,23 +143,7 @@ namespace Microarea.RSWeb.Render
             return string.Empty;
         }
 
-        public string GetHotlinkValues(string ns, string filter, string fieldName, string selType)
-        {
-            TbSession hklSession = new TbSession(this.ReportSession, ns);
-
-            Datasource ds = new Datasource(hklSession);
-
-            //TODO RSWEB - manca il passaggio dei parametri dell'hotlink
-            if (!ds.PrepareQuery(/*HttpContext.Request.Query,*/ "Code"/*TODO RSWEB*//*selType*/, filter))
-                return null;
-
-            string records="";
-            if (!ds.GetCompactJson(out records))
-                return null;
-
-            //recods contiene i record selezionati
-            return records;
-        }
+      
 
         //---------------------------------------------------------------------
         private string PreviousAskDialog(string currentClientDialogName)
@@ -207,13 +191,6 @@ namespace Microarea.RSWeb.Render
                         break;
                     }
 
-                case MessageBuilder.CommandType.HOTLINK:
-                    {
-                        var obj = JsonConvert.DeserializeObject<HotlinkDescr>(msg.message);
-                        msg.message = GetHotlinkValues(obj.ns, obj.filter, obj.name, obj.selection_type);
-
-                        break;
-                    }
                 /*
                  case MessageBuilder.CommandType.ABORTASK:  //click on CANCEL
                     {

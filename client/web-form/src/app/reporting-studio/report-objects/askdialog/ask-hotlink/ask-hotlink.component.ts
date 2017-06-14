@@ -24,27 +24,6 @@ export class AskHotlinkComponent {
   }
 
   // ---------------------------------------------------------------------------------------
-  /* ngDoCheck() {
-     if (this.hotlink === undefined) {
-       return;
-     }
- 
-     let hotLinkChanged = this.differ.diff(this.hotlink.values);
-     if (hotLinkChanged && this.hotlink.values && this.hotlink.values.rows) {
-       this.selectionColumn = this.hotlink.values.key;
-       if (this.hotlink.multi_selection && this.multiSelectedValues.length > 0) {
-         for (let i = 0; i < this.hotlink.values.rows.length; i++) {
-           let item = this.hotlink.values.rows[i];
-           if (this.multiSelectedValues.indexOf(item[this.selectionColumn]) >= 0) {
-             item.Selected = true;
-           }
-         }
-       }
-       this.showTable = true;
-     }
-   }*/
-
-  // ---------------------------------------------------------------------------------------
   onSearchClick() {
 
     if (this.showTable) {
