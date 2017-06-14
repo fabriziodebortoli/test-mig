@@ -182,11 +182,12 @@ namespace Microarea.AdminServer.Controllers
                     }
                     //se successo
                     UserTokens t = CreateTokens(account);
-                    if ( t== null)
+                    if ( t == null)
                     {
                         bootstrapToken.Result = false;
                         bootstrapToken.Message = LoginReturnCodes.ErrorSavingTokens.ToString();//TODO STRINGHE?
                         bootstrapToken.AccountName = accountname;
+                        
                         _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
                         return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                     }
