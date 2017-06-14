@@ -54,7 +54,8 @@ namespace Microarea.AdminServer.Controllers
 
 		}
 
-        private void SqlProviderFactory()
+		//-----------------------------------------------------------------------------	
+		private void SqlProviderFactory()
         {
             _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _companySqlDataProvider = new CompanySQLDataProvider(_settings.DatabaseInfo.ConnectionString);
@@ -262,6 +263,12 @@ namespace Microarea.AdminServer.Controllers
                 _jsonHelper.AddJsonCouple<string>("message", "Account name cannot be empty");
 				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
+
+			Stream body = HttpContext.Request.Body;
+			StreamReader sr = new StreamReader(body);
+			string bodyString = sr.ReadToEnd();
+
+			_jsonHelper.Read(bodyString);
 
 			bool result = false;
 			try
