@@ -144,7 +144,7 @@ namespace Microarea.AdminServer.Controllers
 		// validate a new login
 		// </summary>
 		//-----------------------------------------------------------------------------	
-		[HttpPost("/api/logins/{accountname}")]
+		[HttpPost("/api/tokens")]
 		public async Task<IActionResult> ApiAccounts(string accountname, string password)
 		{
 			//usato in lettura da gwam
