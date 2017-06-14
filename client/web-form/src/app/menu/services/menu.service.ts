@@ -1,3 +1,4 @@
+import { WebSocketService } from './../../core/websocket.service';
 import { ComponentService } from './../../core/component.service';
 import { HttpService } from './../../core/http.service';
 import { UtilsService } from './../../core/utils.service';
@@ -80,6 +81,7 @@ export class MenuService {
 
     constructor(
         private httpService: HttpService,
+        private webSocketService: WebSocketService,
         private httpMenuService: HttpMenuService,
         private logger: Logger,
         private utilsService: UtilsService,
@@ -205,15 +207,10 @@ export class MenuService {
             return;
 
         if (object.objectType.toLowerCase() == 'report') {
-            let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
-                if (!jsonObj.desktop) {
-                    this.componentService.createReportComponent(object.target, true);
-                }
-                obs.unsubscribe();
-            });
+            this.componentService.createReportComponent(object.target, true);
         }
         else {
-            this.httpService.runDocument(object.target, object.args);
+            this.webSocketService.runDocument(object.target, object.args);
         }
 
         this.addToMostUsed(object);

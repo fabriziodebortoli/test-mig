@@ -1,6 +1,6 @@
+import { WebSocketService } from './../../../../core/websocket.service';
 import { ComponentService } from './../../../../core/component.service';
 import { link } from './../../../reporting-studio.model';
-import { HttpService } from './../../../../core/http.service';
 import { Component, Input } from '@angular/core';
 import { LinkType } from './../../../reporting-studio.model';
 
@@ -14,7 +14,9 @@ export class ReportLinkComponent {
 
   @Input() link: link;
 
-  constructor(private httpService: HttpService, private componentService: ComponentService) { }
+  constructor(
+    private componentService: ComponentService,
+    private webSocketService: WebSocketService) { }
 
   linkClicked() {
     switch (this.link.type) {
@@ -33,12 +35,12 @@ export class ReportLinkComponent {
   }
 
   runReport() {
-    const params = { xmlArgs : encodeURIComponent(this.link.arguments), runAtTbLoader: false};
+    const params = { xmlArgs: encodeURIComponent(this.link.arguments), runAtTbLoader: false };
     this.componentService.createReportComponent(this.link.ns, true, params);
   }
 
   openDocument() {
-   this.httpService.runDocument(this.link.ns, this.link.arguments);
+    this.webSocketService.runDocument(this.link.ns, this.link.arguments); 
   }
 
   openLink() {
