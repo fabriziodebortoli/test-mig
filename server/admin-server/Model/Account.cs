@@ -84,8 +84,11 @@ namespace Microarea.AdminServer.Model
         {
             return this.dataProvider.Load(this);
         }
+
         //---------------------------------------------------------------------
-        public bool IsPasswordExpirated() {//la data è inferioread adesso , ma comunque non è il min value che è il default ( seocndo me cè un erroe di logica, todo)
+        public bool IsPasswordExpirated()
+		{
+			//la data è inferiore ad adesso, ma comunque non è il min value che è il default ( seocndo me cè un erroe di logica, todo)
             return passwordExpirationDate < DateTime.Now && 
                 passwordExpirationDate > this.dataProvider.MinDateTimeValue;
         }

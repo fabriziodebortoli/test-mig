@@ -20,7 +20,6 @@ using System.Text;
 
 namespace Microarea.AdminServer.Controllers
 {
-	
 	//=========================================================================
 	public class AdminController : Controller
     {
@@ -36,9 +35,9 @@ namespace Microarea.AdminServer.Controllers
         JsonHelper _jsonHelper;
 
 		HttpClient client;
+
 		//The URL of the WEB API Service
 		string url = "http://gwam.azurewebsites.net/api/accounts/";
-		//string url = "http://localhost:9010/api/accounts/";
 
 		//-----------------------------------------------------------------------------	
 		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings)
@@ -52,10 +51,10 @@ namespace Microarea.AdminServer.Controllers
 			client.BaseAddress = new Uri(url);
 			client.DefaultRequestHeaders.Accept.Clear();
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
 		}
 
-        private void SqlProviderFactory()
+		//-----------------------------------------------------------------------------	
+		private void SqlProviderFactory()
         {
             _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _companySqlDataProvider = new CompanySQLDataProvider(_settings.DatabaseInfo.ConnectionString);
@@ -141,26 +140,26 @@ namespace Microarea.AdminServer.Controllers
             return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 		}
 
-        // <summary>
-        // validate a new login
-        // </summary>
-        //-----------------------------------------------------------------------------	
-        [HttpPost("/api/logins/{accountname}")]
-        public async Task<IActionResult> ApiAccounts(string accountname, string password)
-        {
-            //usato in lettura da gwam
-            AccountIdentityPack accIdPack = new AccountIdentityPack();
-            //usato come risposta al frontend
-            BootstrapToken bootstrapToken = new BootstrapToken();
-            LoginBaseClass lbc = null;
+		// <summary>
+		// validate a new login
+		// </summary>
+		//-----------------------------------------------------------------------------	
+		[HttpPost("/api/logins/{accountname}")]
+		public async Task<IActionResult> ApiAccounts(string accountname, string password)
+		{
+			//usato in lettura da gwam
+			AccountIdentityPack accIdPack = new AccountIdentityPack();
+			//usato come risposta al frontend
+			BootstrapToken bootstrapToken = new BootstrapToken();
+			LoginBaseClass lbc = null;
 
-            if (String.IsNullOrEmpty(accountname))
-            {
-                bootstrapToken.Result = false;
-                bootstrapToken.Message = "Username cannot be empty";
-                _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-                return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-            }
+			if (String.IsNullOrEmpty(accountname))
+			{
+				bootstrapToken.Result = false;
+				bootstrapToken.Message = "Username cannot be empty";
+				_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
 
             IAccount account = new Account(accountname);
 
@@ -217,25 +216,25 @@ namespace Microarea.AdminServer.Controllers
                     new KeyValuePair<string, string>("instanceid", "1")
                 });
 
-                HttpResponseMessage responseMessage = await client.PostAsync(url + accountname, formContent);
-                var responseData = responseMessage.Content.ReadAsStringAsync();
+				HttpResponseMessage responseMessage = await client.PostAsync(url + accountname, formContent);
+				var responseData = responseMessage.Content.ReadAsStringAsync();
 
-                accIdPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
+				accIdPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
 
 
-                if (accIdPack.Account.AccountId == -1) // it doesn't exist on GWAM
-                {
-                    bootstrapToken.Result = false;
-                    bootstrapToken.Message = "Invalid user";//TODO STRINGHE?
-                    bootstrapToken.AccountName = accountname;
-                    _jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
-                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-                }
-                else
-                {
-                    // user has been found
-                    account = accIdPack.Account;
-                    account.SetDataProvider(_accountSqlDataProvider);
+				if (accIdPack.Account.AccountId == -1) // it doesn't exist on GWAM
+				{
+					bootstrapToken.Result = false;
+					bootstrapToken.Message = "Invalid user";//TODO STRINGHE?
+					bootstrapToken.AccountName = accountname;
+					_jsonHelper.AddPlainObject<BootstrapToken>(bootstrapToken);
+					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				}
+				else
+				{
+					// user has been found
+					account = accIdPack.Account;
+					account.SetDataProvider(_accountSqlDataProvider);
 
                     account.Save();//in locale
                                    //Verifica credenziali con salvataggio sul provider locale
@@ -295,10 +294,19 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
+			Stream body = HttpContext.Request.Body;
+			StreamReader sr = new StreamReader(body);
+			string bodyString = sr.ReadToEnd();
+
+			_jsonHelper.Read(bodyString);
+
 			bool result = false;
+
 			try
 			{
-                IAccount iAccount = new Account(accountname);
+				IAccount iAccount = new Account();
+				iAccount = JsonConvert.DeserializeObject<Account>(bodyString);
+
                 iAccount.SetDataProvider(_accountSqlDataProvider);
 				iAccount.Password = password;
 				iAccount.Email = email;

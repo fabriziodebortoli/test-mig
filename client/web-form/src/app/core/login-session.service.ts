@@ -36,7 +36,7 @@ export class LoginSessionService {
     }
     openTbConnectionAsync(retry: boolean = false): Observable<boolean> {
         console.log("onconnecting")
-        this.socket.SetConnecting();
+        this.socket.setConnecting();
         return Observable.create(observer => {
 
             const tbSubs = this.httpService.openTBConnection().subscribe(tbRes => {

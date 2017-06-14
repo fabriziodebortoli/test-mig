@@ -85,13 +85,13 @@ namespace Microarea.Common.Hotlink
             this.Session = session;
         }
 
-        public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "Code")
+        public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "code")
         {
             string s = requestQuery["selection_type"];
             if (s.IsNullOrEmpty() && selectionType.IsNullOrEmpty())
                 return false;
 
-            selection_type.Data = (s.IsNullOrEmpty() ? selectionType : s);
+            selection_type.Data = (s.IsNullOrEmpty() ? selectionType : s).ToLower();
 
             s = requestQuery["like_value"];
             like_value.Data = s != null ? s : "%";
