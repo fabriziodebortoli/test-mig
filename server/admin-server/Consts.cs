@@ -53,13 +53,16 @@ namespace Microarea.AdminServer
 		public const string ExistAccount              = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
 		public const string SelectAccountByAccountName= @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
         public const string InsertAccount =				@"INSERT INTO MP_Accounts (AccountName, FullName, Password, Notes, Email, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
-		                                            	PasswordExpirationDateCannotChange, PasswordExpirationDate, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, ApplicationLanguage, LoginFailedCount) 
+		                                            	PasswordExpirationDateCannotChange, PasswordExpirationDate, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, 
+														ApplicationLanguage, LoginFailedCount) 
 		                                            	VALUES (@AccountName, @FullName, @Password, @Notes, @Email, @PasswordNeverExpires, @MustChangePassword, @CannotChangePassword, 
-		                                            	@PasswordExpirationDateCannotChange, @PasswordExpirationDate, @Disabled, @Locked, @ProvisioningAdmin, @WindowsAuthentication, @PreferredLanguage, @ApplicationLanguage, @LoginFailedCount)";
-		public const string UpdateAccount				= @"UPDATE MP_Accounts SET FullName = @FullName, Password = @Password, Notes = @Notes, Email = @Email, 
+		                                            	@PasswordExpirationDateCannotChange, @PasswordExpirationDate, @Disabled, @Locked, @ProvisioningAdmin, @WindowsAuthentication, @PreferredLanguage, 
+														@ApplicationLanguage, @LoginFailedCount)";
+		public const string UpdateAccount =				@"UPDATE MP_Accounts SET FullName = @FullName, Password = @Password, Notes = @Notes, Email = @Email, 
 			                                            PasswordNeverExpires = @PasswordNeverExpires, MustChangePassword = @MustChangePassword, CannotChangePassword = @CannotChangePassword, 
 			                                            PasswordExpirationDateCannotChange = @PasswordExpirationDateCannotChange, PasswordExpirationDate = @PasswordExpirationDate, Disabled = @Disabled, Locked = @Locked, 
-			                                            ProvisioningAdmin = @ProvisioningAdmin, WindowsAuthentication = @WindowsAuthentication, PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage, LoginFailedCount = @LoginFailedCount) 
+			                                            ProvisioningAdmin = @ProvisioningAdmin, WindowsAuthentication = @WindowsAuthentication, PreferredLanguage = @PreferredLanguage, 
+														ApplicationLanguage = @ApplicationLanguage, LoginFailedCount = @LoginFailedCount 
 			                                            WHERE AccountName = @AccountName";
 		public const string DeleteAccount			=	@"DELETE MP_Accounts WHERE AccountName = @AccountName";
 		//

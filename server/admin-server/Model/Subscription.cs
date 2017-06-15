@@ -12,6 +12,7 @@ namespace Microarea.AdminServer.Model
         ActivationToken activationtoken;
         string purchaseId = string.Empty;
 		int instanceId;
+		bool existsOnDB;
 
 		//---------------------------------------------------------------------
 		public int SubscriptionId { get { return this.subscriptionId; } set { this.subscriptionId = value; } }
@@ -19,6 +20,7 @@ namespace Microarea.AdminServer.Model
         public ActivationToken ActivationToken { get { return this.activationtoken; } set { this.activationtoken = value; } }
         public string PurchaseId { get { return this.purchaseId; } set { this.purchaseId = value; } }
 		public int InstanceId { get { return this.instanceId; } set { this.instanceId = value; } }
+		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
 		// data provider
 		IDataProvider dataProvider;

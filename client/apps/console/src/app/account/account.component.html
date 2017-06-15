@@ -3,7 +3,7 @@
   <div class="row bottom-xs">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Email" value="" [(ngModel)]="model.email" required>
+        <input type="text" placeholder="Email" value="" [(ngModel)]="model.accountName" required>
       </div>
       <div class="box">
         <input type="password" placeholder="Password" value="" [(ngModel)]="model.password" required
@@ -50,7 +50,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <textarea rows="5" cols="36" placeholder="Notes" maxlength="500"></textarea>
+        <textarea rows="5" cols="36" placeholder="Notes" maxlength="500" [(ngModel)]="model.notes"></textarea>
       </div>
     </div>
   </div>
@@ -58,12 +58,12 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Preferred Language" value="">
+        <input type="text" placeholder="Preferred Language" value="" [(ngModel)]="model.preferredLanguage">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Application Language" value="">
+        <input type="text" placeholder="Application Language" value="" [(ngModel)]="model.applicationLanguage">
       </div>
     </div>
   </div>

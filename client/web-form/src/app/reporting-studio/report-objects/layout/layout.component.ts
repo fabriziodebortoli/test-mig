@@ -1,3 +1,4 @@
+import { PdfType } from 'app/reporting-studio';
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj } from './../../reporting-studio.model';
 import { Component, OnInit, Input, OnChanges, SimpleChange } from '@angular/core';
@@ -37,6 +38,10 @@ export class ReportLayoutComponent implements OnChanges {
       }
       else {
         this.UpdateData();
+        if(this.rsService.pdfState == PdfType.PREPAREDPDF){
+          this.rsService.pdfState = PdfType.SAVINGPDF;
+          this.rsService.loopPdfPage();
+        }
       }
     }
     /* else {

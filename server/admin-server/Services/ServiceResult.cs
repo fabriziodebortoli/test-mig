@@ -12,16 +12,16 @@ namespace Microarea.AdminServer.Services
         ArrayList messages;
         IAdminModel objectResult;
 
-        public bool Result { get { return this.result; } }
-
+		//--------------------------------------------------------------------------------
+		public bool Result { get { return this.result; } }
         public int AffectedItem { get { return this.affectedItem; } }
-        public string Description {
-            get {
+        public string Description
+		{
+            get
+			{
                 string allMessages = String.Empty;
                 foreach (string item in this.messages)
-                {
                     allMessages += item;
-                }
                 return allMessages;
             }
         }
@@ -53,6 +53,19 @@ namespace Microarea.AdminServer.Services
         {
             this.messages.Add(message);
         }
-
     }
+
+	//================================================================================
+	public class OperationResult
+	{
+		public bool Result { get; private set; }
+		public string Message { get; private set; }
+
+		//--------------------------------------------------------------------------------
+		public OperationResult(bool result, string message)
+		{
+			this.Result = result;
+			this.Message = message;
+		}
+	}
 }

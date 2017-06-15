@@ -7,5 +7,6 @@ namespace Microarea.AdminServer.Model.Interfaces
         void SetDataProvider(IDataProvider dataProvider);
         bool Save();
         IAdminModel Load();
+		bool ExistsOnDB { get; set; }
     }
 }
