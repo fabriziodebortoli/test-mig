@@ -6,7 +6,7 @@
                     <img src="assets/provisioning-tools.png"  />
                 </div>
                 <div class="box">
-                    <h5 style="color:#888888;">M4 Provisioning System</h5>
+                    <h5 style="color:#999999;">M4 Provisioning System</h5>
                 </div>
             </div>
             <div class="row start-xs">
@@ -19,7 +19,7 @@
                 <input type="password" placeholder="Password" value="" [(ngModel)]="loginInfo.password" required>
             </div>
             <div class="box" class="end-xs" style="margin-top:40px;"> 
-                <button color="primary">Login</button>
+                <button color="primary" (click)="submitLogin()">Login</button>
             </div>
         </div>
     </div>

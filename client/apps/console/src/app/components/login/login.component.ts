@@ -14,6 +14,12 @@ export class LoginComponent implements OnInit {
     this.loginInfo = new LoginInfo();
   }
 
+  submitLogin() {
+    if (this.loginInfo.accountName == '' || this.loginInfo.password == '') {
+      return;
+    }
+  }
+
   ngOnInit() {
   }
 
