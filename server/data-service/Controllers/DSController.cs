@@ -43,7 +43,7 @@ namespace DataService.Controllers
 
             Datasource ds = new Datasource(session);
 
-			if (!ds.PrepareQueryAsync(/*HttpContext.Request.Query,*/ selectionType, filter).Result)
+			if (!ds.PrepareQueryAsync(HttpContext.Request.Query, selectionType, filter).Result)
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
 			string records;
