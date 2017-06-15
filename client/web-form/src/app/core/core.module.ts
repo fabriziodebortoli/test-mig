@@ -1,3 +1,4 @@
+import { DataService } from './data.service';
 import { TabberService } from './tabber.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpModule } from '@angular/http';
@@ -37,7 +38,8 @@ const TB_SERVICES = [
   InfoService,
   LayoutService,
   EnumsService,
-  TabberService
+  TabberService,
+  DataService
 ];
 
 @NgModule({
