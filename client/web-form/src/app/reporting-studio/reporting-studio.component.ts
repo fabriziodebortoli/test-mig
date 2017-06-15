@@ -1,4 +1,3 @@
-import { PdfType } from 'app/reporting-studio';
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
 import { WebSocketService } from './../core/websocket.service';
 import { UtilsService } from './../core/utils.service';
@@ -6,12 +5,11 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link } from './reporting-studio.model';
+import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType } from './reporting-studio.model';
 import { DocumentComponent } from '../shared/document.component';
 import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
-import { TemplateItem } from 'app/reporting-studio';
 import { LayoutService } from './../core/layout.service';
 
 declare var jsPDF: any;
