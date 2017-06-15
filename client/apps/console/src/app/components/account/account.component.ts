@@ -10,6 +10,7 @@ import { ModelService } from './../../services/model.service';
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css']
 })
+
 export class AccountComponent implements OnInit {
 
   model:Account;
@@ -23,6 +24,12 @@ export class AccountComponent implements OnInit {
   }
 
   submitAccount() {
+    if (this.model.accountName == undefined || this.model.password == undefined)
+    {
+      alert('Mandatory fields are empty! Check email/password!')
+      return;
+    }
+
     let accountOperation:Observable<OperationResult>;
 
     if (!this.editing){
@@ -31,17 +38,20 @@ export class AccountComponent implements OnInit {
       //accountOperation = this.modelService.updateAccount(this.model)
     }
 
-    accountOperation.subscribe(
+    let subs = accountOperation.subscribe(
       accountResult => 
       {
         this.model = new Account();
         if (this.editing) this.editing = !this.editing;
         alert(accountResult.Message);
+        subs.unsubscribe();
       },
-      err => { console.log(err); alert(err);}
+      err => 
+      { 
+        console.log(err); 
+        alert(err); 
+        subs.unsubscribe();
+      }
     )
-
-    //accountSubs.unsubscribe(); //ng destroy
-
   }
 }

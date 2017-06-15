@@ -3,11 +3,10 @@
   <div class="row bottom-xs">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Email" value="" [(ngModel)]="model.accountName" required>
+        <input type="email" placeholder="Email" value="" [(ngModel)]="model.accountName" required>
       </div>
       <div class="box">
-        <input type="password" placeholder="Password" value="" [(ngModel)]="model.password" required
-        ng-pattern = '/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i'>
+        <input type="password" placeholder="Password" value="" [(ngModel)]="model.password" required>
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
