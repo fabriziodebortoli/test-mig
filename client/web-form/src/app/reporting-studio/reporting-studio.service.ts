@@ -1,19 +1,17 @@
-import { ReportingStudioComponent } from './reporting-studio.component';
 import { ComponentService } from './../core/component.service';
+import { Logger } from './../core/logger.service';
 import { environment } from './../../environments/environment';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import { Logger } from './../core/logger.service';
-
 import { EventDataService } from './../core/eventdata.service';
 import { DocumentService } from './../core/document.service';
-import { CommandType, PdfType } from "app/reporting-studio";
+import { CommandType, PdfType } from './reporting-studio.model';
 
 import { Group } from '@progress/kendo-drawing';
 import { drawDOM, exportPDF } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
-import { DrawOptions } from "@progress/kendo-drawing/dist/es/html";
+import { DrawOptions } from '@progress/kendo-drawing/dist/es/html';
 
 @Injectable()
 export class ReportingStudioService extends DocumentService {
@@ -106,9 +104,9 @@ export class ReportingStudioService extends DocumentService {
     }
 
     loopPdfPage() {
-        if (this.pdfState == PdfType.PREPAREDPDF){ 
+        if (this.pdfState === PdfType.PREPAREDPDF){ 
             this.renderPDF();
-            if (this.pageNum == this.totalPages) {
+            if (this.pageNum === this.totalPages) {
                 this.pdfState = PdfType.NOPDF;
             }
             else {
@@ -118,7 +116,7 @@ export class ReportingStudioService extends DocumentService {
     }
 
     public renderPDF() {
-        drawDOM(document.getElementById("rsLayout")).then((group: Group) => {
+        drawDOM(document.getElementById('rsLayout')).then((group: Group) => {
             return exportPDF(group, { multiPage: true });
         }).then((dataUri) => {
             saveAs(dataUri, 'export.pdf');
