@@ -64,6 +64,7 @@ import { TbCardTitleComponent } from './controls/tb-card/tb-card-title/tb-card-t
 import { TbCardContentComponent } from './controls/tb-card/tb-card-content/tb-card-content.component';
 import { IconComponent } from './icons/icon.component';
 import { M4IconComponent } from './icons/m4-icon.component';
+import { HotlinkComponent } from './controls/hotlink/hotlink.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -112,7 +113,7 @@ const TB_DIRECTIVES = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent],
+  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent, HotlinkComponent],
   exports: [TB_COMPONENTS, TB_DIRECTIVES],
   entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
 

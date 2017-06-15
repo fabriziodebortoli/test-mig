@@ -14,7 +14,6 @@ import { TemplateItem, askGroup, text, check, radio, CommandType, askObj, hotlin
 export class AskdialogComponent implements OnDestroy, OnChanges {
 
   @Input() ask: string;
-  @Input() hotLinkValues: any;
 
   public askObject;
   public commType: CommandType;
@@ -43,23 +42,8 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
         this.RenderLayout(this.askObject);
       }
     }
-    if (changes.hotLinkValues !== undefined && !changes.hotLinkValues.isFirstChange()) {
-      if (changes.hotLinkValues.currentValue === 'empty') {
-        this.hotLinkValues = undefined;
-      }
-      else {
-        for (let i = 0; i < this.objects.length; i++) {
-          for (let y = 0; y < this.objects[i].entries.length; y++) {
-            if (this.objects[i].entries[y].id === this.hotLinkValues.page) {
-              let h: hotlink = <hotlink>this.objects[i].entries[y];
-              h.values = JSON.parse(this.hotLinkValues.message);
-              return;
-            }
-          }
-        }
-      }
-    }
   }
+
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());

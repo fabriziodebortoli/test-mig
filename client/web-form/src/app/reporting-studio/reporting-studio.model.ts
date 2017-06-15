@@ -445,7 +445,6 @@ export class dropdownlist extends askObj {
 export class hotlink extends askObj {
   ns: string;
   selectionList: string[] = [];
-  values: any = undefined;
   selection_type: string;
   multi_selection: boolean;
   
