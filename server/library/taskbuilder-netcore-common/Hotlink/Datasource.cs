@@ -182,7 +182,7 @@ namespace Microarea.Common.Hotlink
             string query = "";
             if (sm == null)
             {
-                if (XmlDescription.SelectionTypeList.Count == 0)
+                if (XmlDescription.SelectionTypeList.Count == 0 && !XmlDescription.ClassType.IsNullOrEmpty())
                 {
                   query = await TbSession.GetHotLinkQuery(Session, Session.Namespace, /*aParams*/"", (int)Hotlink.HklAction.DirectAccess);
                 }
