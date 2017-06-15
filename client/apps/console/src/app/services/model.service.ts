@@ -1,3 +1,4 @@
+import { OperationResult } from './operationResult';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
@@ -15,14 +16,19 @@ export class ModelService {
     this.modelBackEndUrl = "http://localhost:5052/api/accounts";
   }
 
-  addAccount(body:Object): Observable<Account[]> {
+  addAccount(body:Object): Observable<OperationResult> {
     let bodyString   = JSON.stringify(body);
     let headers      = new Headers({ 'Content-Type': 'application/json' });
     let options      = new RequestOptions({ headers: headers });
     let addedAccount = body as Account;
 
-    return this.http.post(this.modelBackEndUrl + '/' + addedAccount.email, body, options)
-      .map((res:Response)=>res.json())
+    return this.http.post(this.modelBackEndUrl + '/' + addedAccount.accountName, body, options)
+      .map((res:Response)=> 
+      { 
+        console.log(res.json()); 
+        return res.json(); 
+      })
       .catch((error:any)=>Observable.throw(error.json().error || 'server error'));
+      //.catch((error:OperationResult)=>Observable.throw(error.Message)); // prova
   }
 }

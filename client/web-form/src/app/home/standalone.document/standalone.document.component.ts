@@ -1,6 +1,6 @@
+import { WebSocketService } from './../../core/websocket.service';
 import { ComponentService } from './../../core/component.service';
 import { DynamicCmpComponent } from './../../shared/dynamic-cmp.component';
-import { HttpService } from './../../core/http.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
@@ -16,7 +16,7 @@ export class StandaloneDocumentComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private httpService: HttpService,
+    private webSocketService: WebSocketService,
     private componentService: ComponentService) {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.namespace = params['ns'];
@@ -30,7 +30,7 @@ export class StandaloneDocumentComponent implements OnInit {
       });
 
       //eseguo la rundocument
-      httpService.runDocument(this.namespace);
+      webSocketService.runDocument(this.namespace);
 
     });
   }

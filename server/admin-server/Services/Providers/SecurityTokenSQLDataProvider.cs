@@ -21,24 +21,25 @@ namespace Microarea.AdminServer.Services.Providers
         //---------------------------------------------------------------------
         public IAdminModel Load(IAdminModel iModel)
         {
-            // ISecurityToken token;
+			// ISecurityToken token;
 
-            //try
-            //{
-            //    token = (ISecurityToken)iModel;
-            //    using (SqlConnection connection = new SqlConnection(this.connectionString))
-            //    {
-            //        connection.Open();
-            //        using (SqlCommand command = new SqlCommand(Consts.SelectISecurityTokenByAccountidAndType, connection))
-            //        {
-            //            command.Parameters.AddWithValue("@AccountID", token.AccountId);
-            //            command.Parameters.AddWithValue("@type", token.TokenType);
-            //            using (SqlDataReader dataReader = command.ExecuteReader())
-            //            {
-            //                while (dataReader.Read())
-            //                {
-            //                    token.ActivationToken = new Library.ActivationToken(dataReader["ActivationKey"] as string);
-            //                    token.PurchaseId = dataReader["PurchaseId"] as string;
+			//try
+			//{
+			//    token = (ISecurityToken)iModel;
+			//    using (SqlConnection connection = new SqlConnection(this.connectionString))
+			//    {
+			//        connection.Open();
+			//        using (SqlCommand command = new SqlCommand(Consts.SelectISecurityTokenByAccountidAndType, connection))
+			//        {
+			//            command.Parameters.AddWithValue("@AccountID", token.AccountId);
+			//            command.Parameters.AddWithValue("@type", token.TokenType);
+			//            using (SqlDataReader dataReader = command.ExecuteReader())
+			//            {
+			//                while (dataReader.Read())
+			//                {
+			//                    token.ActivationToken = new Library.ActivationToken(dataReader["ActivationKey"] as string);
+			//                    token.PurchaseId = dataReader["PurchaseId"] as string;
+			//					token.ExistsOnDB = true;
             //                }
             //            }
             //        }

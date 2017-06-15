@@ -24,23 +24,27 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
-			InstanceAccount iaccount;
+			InstanceAccount iAccount;
 
 			try
 			{
-				iaccount = (InstanceAccount)iModel;
+				iAccount = (InstanceAccount)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
 
 					using (SqlCommand command = new SqlCommand(Consts.SelectInstanceAccountByAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountName", iaccount.AccountName);
+						command.Parameters.AddWithValue("@AccountName", iAccount.AccountName);
 						
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
-								iaccount.InstanceId = (int)dataReader["InstanceId"];
+							{
+								iAccount.InstanceId = (int)dataReader["InstanceId"];
+								iAccount.ExistsOnDB = true;
+							}
+								
 						}
 					}
 				}
@@ -51,7 +55,7 @@ namespace Microarea.AdminServer.Services.Providers
 				return null;
 			}
 
-			return iaccount;
+			return iAccount;
 		}
 
 		// si occupa solo dell'insert, se il record esiste gia' torno false

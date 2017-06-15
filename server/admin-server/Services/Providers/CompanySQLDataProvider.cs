@@ -42,6 +42,7 @@ namespace Microarea.AdminServer.Services.Providers
 								company.Provider = dataReader["Provider"] as string;
 								company.Disabled = (bool)dataReader["Disabled"];
 								company.IsUnicode = (bool)dataReader["IsUnicode"];
+								company.ExistsOnDB = true;
 							}
 						}
 					}

@@ -40,6 +40,7 @@ namespace Microarea.AdminServer.Services.Providers
 							{
 								instance.Customer = dataReader["Customer"] as string;
 								instance.Disabled = (bool)dataReader["Disabled"];
+								instance.ExistsOnDB = true;
 							}
 						}
 					}
