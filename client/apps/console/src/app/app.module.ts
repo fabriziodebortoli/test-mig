@@ -40,7 +40,7 @@ import { LoginService } from './services/login.service';
     HttpModule,
     ConsoleModule
   ],
-  providers: [ModelService, AuthGuardService, ModelService, LoginService, CompanyService],
+  providers: [AuthGuardService, ModelService, LoginService, CompanyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
