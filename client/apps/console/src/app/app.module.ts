@@ -1,3 +1,4 @@
+import { CompanyService } from './services/company.service';
 import { AccountComponent } from './components/account/account.component';
 import { AppComponent } from './app.component';
 import { AppHomeComponent } from './components/app-home/app-home.component';
@@ -38,7 +39,7 @@ import { ModelService } from './services/model.service';
     HttpModule,
     ConsoleModule
   ],
-  providers: [ModelService, AuthGuardService, ModelService],
+  providers: [ModelService, AuthGuardService, ModelService, CompanyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

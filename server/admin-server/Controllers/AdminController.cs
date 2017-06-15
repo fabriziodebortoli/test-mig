@@ -294,7 +294,7 @@ namespace Microarea.AdminServer.Controllers
         [HttpPost("/api/accounts/{accountname}")]
 		public IActionResult ApiAccounts(string accountname)
 		{
-			if (String.IsNullOrEmpty(accountname) || string.Compare(accountname, "undefined", StringComparison.OrdinalIgnoreCase) == 0)
+			if (String.IsNullOrEmpty(accountname))
 			{
 				_jsonHelper.AddPlainObject<OperationResult>(new OperationResult(false, "Account name cannot be empty!"));
 				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
@@ -363,7 +363,7 @@ namespace Microarea.AdminServer.Controllers
 		/// </summary>
 		//-----------------------------------------------------------------------------	
 		[HttpPost("/api/companies/{companyname}")]
-		public IActionResult ApiCompanies(string companyname, string description, int subscriptionid)
+		public IActionResult ApiCompanies(string companyname)
 		{
 			if (String.IsNullOrEmpty(companyname))
 			{
@@ -372,32 +372,54 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
+			if (HttpContext.Request == null || HttpContext.Request.Body == null)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", "The Request / Body cannot be null");
+				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+			}
+
+			string body = string.Empty;
+			using (StreamReader sr = new StreamReader(HttpContext.Request.Body))
+				body = sr.ReadToEnd();
+
+			if (string.IsNullOrWhiteSpace(body))
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", "The Body cannot be empty");
+				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+			}
+
 			bool result = false;
 			try
 			{
-				ICompany iCompany = new Company(companyname);
-				iCompany.SetDataProvider(_companySqlDataProvider);
-				iCompany.Description = description;
-				iCompany.SubscriptionId = subscriptionid;
-				result = iCompany.Save();
+				ICompany iCompany = JsonConvert.DeserializeObject<Company>(body);
+				if (iCompany != null)
+				{
+					iCompany.SetDataProvider(_companySqlDataProvider);
+					result = iCompany.Save();
+				}
 			}
 			catch (SqlException e)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", e.Message);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			if (!result)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", "Save company operation failed");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddJsonCouple<bool>("result", true);
+			/*_jsonHelper.AddJsonCouple<bool>("result", true);
 			_jsonHelper.AddJsonCouple<string>("message", "Save company operation successfully completed");
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };*/
+
+			_jsonHelper.AddPlainObject<OperationResult>(new OperationResult(result, "Save company operation successfully completed"));
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
 		/// <summary>
@@ -427,19 +449,19 @@ namespace Microarea.AdminServer.Controllers
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", e.Message);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			if (!result)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", "Save instance operation failed");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			_jsonHelper.AddJsonCouple<bool>("result", true);
 			_jsonHelper.AddJsonCouple<string>("message", "Save instance operation successfully completed");
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 		}
 
 		/// <summary>
