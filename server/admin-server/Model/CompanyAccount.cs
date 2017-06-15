@@ -10,6 +10,8 @@ namespace Microarea.AdminServer.Model
 		public int companyId;
         public bool admin;
 
+		bool existsOnDB;
+
 		// data provider
 		IDataProvider dataProvider;
 
@@ -17,6 +19,7 @@ namespace Microarea.AdminServer.Model
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
         public int CompanyId { get { return this.companyId; } set { this.companyId = value; } }
         public bool Admin { get { return this.admin; } set { this.admin = value; } }
+		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
 		//---------------------------------------------------------------------
 		public CompanyAccount()

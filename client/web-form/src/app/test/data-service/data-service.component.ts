@@ -37,7 +37,7 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
     this.eventData.model = { 'Title': { 'value': this.nameSpace } };
 
     this.nameSpace = 'erp.items.dbl.ds_ItemsSimple';
-    this.selection_type = 'Code';
+    this.selection_type = 'code';
     this.like_value = '%';
     this.disabled = '2';
     this.good_type = '2';

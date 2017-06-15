@@ -1,4 +1,5 @@
-﻿using Microarea.AdminServer.Model.Interfaces;
+﻿using System;
+using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer.Model
@@ -19,6 +20,7 @@ namespace Microarea.AdminServer.Model
 		string preferredLanguage = string.Empty;
 		string applicationLanguage = string.Empty;
 		string provider = string.Empty;
+		bool existsOnDB = false;
 
 		//---------------------------------------------------------------------
 		public int CompanyId { get { return this.companyId; } set { this.companyId = value; } }
@@ -34,6 +36,7 @@ namespace Microarea.AdminServer.Model
 		public string PreferredLanguage { get { return this.preferredLanguage; } set { this.preferredLanguage = value; } }
 		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
 		public string Provider { get { return this.provider; } set { this.provider = value; } }
+		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
 		// data provider
 		IDataProvider dataProvider;

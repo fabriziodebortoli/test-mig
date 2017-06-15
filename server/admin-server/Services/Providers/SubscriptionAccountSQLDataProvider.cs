@@ -24,22 +24,25 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
-			SubscriptionAccount isubscripion;
+			SubscriptionAccount iSubscription;
 
 			try
 			{
-				isubscripion = (SubscriptionAccount)iModel;
+				iSubscription = (SubscriptionAccount)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.SelectSubscriptionAccountBySubscriptionId, connection))
 					{
-						command.Parameters.AddWithValue("@AccountName", isubscripion.AccountName);
+						command.Parameters.AddWithValue("@AccountName", iSubscription.AccountName);
 						
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
-								isubscripion.SubscriptionId = (int)dataReader["SubscriptionId"];
+							{
+								iSubscription.SubscriptionId = (int)dataReader["SubscriptionId"];
+								iSubscription.ExistsOnDB = true;
+							}
 						}
 					}
 				}
@@ -50,7 +53,7 @@ namespace Microarea.AdminServer.Services.Providers
 				return null;
 			}
 
-			return isubscripion;
+			return iSubscription;
 		}
 
 		// si occupa solo dell'insert, se il record esiste gia' torno false

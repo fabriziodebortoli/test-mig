@@ -11,12 +11,14 @@ namespace Microarea.AdminServer.Model
         string name = string.Empty;
 		string customer = string.Empty;
 		bool disabled = false;
+		bool existsOnDB = false;
 
 		//---------------------------------------------------------------------
 		public int InstanceId { get { return this.instanceId; } set { this.instanceId = value; } }
         public string Name { get { return this.name; } set { this.name = value; } }
 		public string Customer { get { return this.customer; } set { this.customer = value; } }
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
+		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
 		// data provider
 		IDataProvider dataProvider;

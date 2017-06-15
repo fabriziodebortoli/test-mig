@@ -4,13 +4,15 @@ export interface Message {
   message?: string;
 }
 
-export enum CommandType { WRONG, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, RUNREPORT, ENDREPORT, NONE, HOTLINK, PREVASK, RERUN }
+export enum CommandType { WRONG, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, RUNREPORT, ENDREPORT, NONE, PREVASK, RERUN }
 
 export enum AskObjectType { text, radio, check, dropdownlist, hotlink }
 
 export enum ReportObjectType { textrect, fieldrect, table, graphrect, sqrrect, repeater, cell, link }
 
 export enum LinkType { report, document, url, file, function }
+
+export enum PdfType { NOPDF, PREPAREDPDF, SAVINGPDF }
 
 export class link {
   obj: ReportObjectType = ReportObjectType.link;
@@ -452,7 +454,7 @@ export class hotlink extends askObj {
     this.obj = AskObjectType.hotlink;
     this.ns = jsonObj.hotlink.ns;
     this.multi_selection = jsonObj.hotlink.multi_selection;
-    this.selection_type = 'Code';
+    this.selection_type = 'code';
     this.value = '';
   }
 

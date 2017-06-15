@@ -56,6 +56,7 @@ namespace Microarea.AdminServer.Services.Providers
 								account.Locked = (bool)dataReader["Locked"];
 								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
                                 account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								account.ExistsOnDB = true;
                             }
 						}
 					}

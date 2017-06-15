@@ -94,20 +94,6 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    runDocument(ns: String, args: string = ''): void {
-        let subs = this.postData(this.getMenuBaseUrl() + 'runDocument/', { ns: ns, sKeyArgs: args })
-            .subscribe(() => {
-                subs.unsubscribe();
-            });
-    }
-    runReport(ns: String): Observable<any> {
-        return this.postData(this.getMenuBaseUrl() + 'runReport/', { ns: ns })
-            .map((res: Response) => {
-                return res.json();
-            })
-            .catch(this.handleError);
-    }
-
     postData(url: string, data: Object): Observable<Response> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -164,7 +150,7 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    getHotlinkData(namespace: string, selectionType: string = 'Code', filter: string = ''): Observable<any> {
+    getHotlinkData(namespace: string, selectionType: string = 'code', filter: string = ''): Observable<any> {
         return this.http.get(this.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType + '/' + filter, { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
