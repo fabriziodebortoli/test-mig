@@ -1,3 +1,26 @@
-<p>
-  login works!
-</p>
+<div class="container"style="padding:10px">
+    <div class="row center-xs">
+        <div class="col-xs-12" style="background-color:#ffffff; max-width:340px; height:370px;margin-top:20px;padding:10px;">
+            <div class="row between-xs" style="padding:20px;">
+                <div class="box">
+                    <img src="assets/provisioning-tools.png"  />
+                </div>
+                <div class="box">
+                    <h5 style="color:#888888;">M4 Provisioning System</h5>
+                </div>
+            </div>
+            <div class="row start-xs">
+                <h2 style="color:#666666; margin-left:22px;">Login</h2>
+            </div>            
+            <div class="box">
+                <input type="text" class="ctrlInput" placeholder="Your Account Name" value="" [(ngModel)]="loginInfo.accountName" required>
+            </div>
+            <div class="box">            
+                <input type="password" placeholder="Password" value="" [(ngModel)]="loginInfo.password" required>
+            </div>
+            <div class="box" class="end-xs" style="margin-top:40px;"> 
+                <button color="primary">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
