@@ -13,51 +13,59 @@ using Microsoft.DotNet.PlatformAbstractions;
 
 namespace widgets_service.Controllers
 {
-    [Route("widgets-service")]
-    public class WidgetsController : Controller
-    {
-        private LoginInfoMessage loginInfo = null;
-        private UserInfo userInfo = null;
+	[Route("widgets-service")]
+	public class WidgetsController : Controller
+	{
+		private LoginInfoMessage loginInfo = null;
+		private UserInfo userInfo = null;
 
-        private bool CheckAuthentication(out string errMessage)
-        {
-            errMessage = string.Empty;
+		private bool CheckAuthentication(out string errMessage)
+		{
+			errMessage = string.Empty;
 
-            string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
-            if (string.IsNullOrEmpty(sAuthT))
-            {
-                errMessage = "Missing authentication";
-                return false;
-            }
+			string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
+			if (string.IsNullOrEmpty(sAuthT))
+			{
+				errMessage = "Missing authentication";
+				return false;
+			}
 
-            if (loginInfo == null)
-            {
-                loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT);
-            }
+			if (loginInfo == null)
+			{
+				//string baseAddress = "http://" + HttpContext.Request.Host + HttpContext.Request.PathBase + "/";
+				loginInfo = LoginInfoMessage.GetLoginInformation(sAuthT /*, baseAddress*/);
+			}
 
-            if (string.IsNullOrEmpty(loginInfo.userName))
-            {
-                errMessage = "Invalid authentication token";
-                return false;
-            }
+			if (loginInfo == null || string.IsNullOrEmpty(loginInfo.userName))
+			{
+				errMessage = "Invalid authentication token";
+				return false;
+			}
 
-            if (userInfo == null)
-            {
-                userInfo = new UserInfo(loginInfo, sAuthT);
-            }
+			if (userInfo == null)
+			{
+				userInfo = new UserInfo(loginInfo, sAuthT);
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        // GET api/values
-        [HttpPost]
-        public IEnumerable<string> Get()
-        {
-            string param1 = HttpContext.Request.Form["param"];
-            string param2 = HttpContext.Request.Form["param2"];
-            string param3 = HttpContext.Request.Form["param3"];
-            return new string[] { "value1", "value2" };
-        }
+		// GET api/values
+		[HttpPost]
+		public IEnumerable<string> Get()
+		{
+			string param1 = HttpContext.Request.Form["param"];
+			string param2 = HttpContext.Request.Form["param2"];
+			string param3 = HttpContext.Request.Form["param3"];
+			return new string[] { "value1", "value2" };
+		}
+
+		//[HttpGet]
+		////[Route("prova")]
+		//public IEnumerable<string> Prova()
+		//{
+		//	return new string[] { "value1", "value2" };
+		//}
 
 		//public static string CurrentPath()
 		//{
@@ -69,37 +77,60 @@ namespace widgets_service.Controllers
 
 		// GET widgets-service/getActiveWidgets
 		[Route("getActiveWidgets")]
-        public IActionResult getActiveWidgets()
-        {
-            string errMessage;
-            if (!CheckAuthentication(out errMessage))
-            {
-                return new ContentResult { StatusCode = 504, Content = errMessage, ContentType = "application/text" };
-            }
-			string code = Assembly.GetEntryAssembly().Location;
-			DirectoryInfo di = new DirectoryInfo(code);
-			string serverName = di.FullName.ToLower().Replace("web-server.dll", "");
-			string widgetFullPath = serverName.ToLower().Replace("web-server", "widgets-service");
-			string widgetFileFullName = Path.Combine(widgetFullPath, "widgets.json");
-			if (!System.IO.File.Exists(widgetFileFullName))
+		public IActionResult GetActiveWidgets()
+		{
+
+			string errMessage = "";
+			String content = "";
+			string widgetFileFullName = "";
+			try
 			{
-				PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
-				widgetFileFullName = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
+				if (!CheckAuthentication(out errMessage))
+				{
+					return new ContentResult { StatusCode = 504, Content = errMessage, ContentType = "application/text" };
+				}
+			}
+			catch (Exception e)
+			{
+				return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "application/text" };
+			}
+			try
+			{
+				string code = Assembly.GetEntryAssembly().Location;
+				DirectoryInfo di = new DirectoryInfo(code);
+				widgetFileFullName = di.FullName.ToLower().Replace("web-server.dll", "widgets.json");
+				if (!System.IO.File.Exists(widgetFileFullName))
+				{
+					PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
+					widgetFileFullName = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
+				}
+			}
+			catch (Exception e)
+			{
+
+				return new ContentResult { StatusCode = 501, Content = e.Message, ContentType = "application/text" };
 			}
 			//PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
-   //         string widgetsFilePath = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
+			//         string widgetsFilePath = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
 
-            // no configured widgets, is not an error
-            if (!System.IO.File.Exists(widgetFileFullName))
-                return new ContentResult { Content = "[]", ContentType = "application/json" };
+			// no configured widgets, is not an error
+			if (!System.IO.File.Exists(widgetFileFullName))
+				return new ContentResult { StatusCode = 500, Content = "file non trovato", ContentType = "application/text" };
 
-            String content;
-            using (StreamReader sr = System.IO.File.OpenText(widgetFileFullName))
-            {
-                content = sr.ReadToEnd();
-            }
 
-            return new ContentResult { Content = content, ContentType = "application/json" };
-        }
-    }
+			try
+			{
+				using (StreamReader sr = System.IO.File.OpenText(widgetFileFullName))
+				{
+					content = sr.ReadToEnd();
+				}
+			}
+			catch (Exception e)
+			{
+
+				return new ContentResult { StatusCode = 500, Content = e.Message, ContentType = "application/text" };
+			}
+			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+		}
+	}
 }

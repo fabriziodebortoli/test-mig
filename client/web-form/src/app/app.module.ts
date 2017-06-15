@@ -45,7 +45,7 @@ import { StandaloneReportComponent } from './home/standalone.report/standalone.r
     CoreModule.forRoot(),
     SharedModule,
     MenuModule.forRoot(),
-    DashboardModule,
+    DashboardModule.forRoot(),
     routing,
     MomentModule,
     LayoutModule
