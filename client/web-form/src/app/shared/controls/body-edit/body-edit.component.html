@@ -1,16 +1,16 @@
-<kendo-grid [kendoGridBinding]="model" [pageable]="true" [pageSize]="pageSize" [skip]="skip">
-    <!--    -->
+<kendo-grid [kendoGridBinding]="gridData" [sortable]="{ mode: 'multiple' }" [sort]="sort" (sortChange)="sortChange($event)" [pageable]="true" [pageSize]="state.take" [skip]="state.skip" [filterable]="true" [filter]="state.filter" (dataStateChange)="dataStateChange($event)"
+    (pageChange)="pageChange($event)">
     <kendo-grid-column *ngFor="let column of columns" field="{{column?.binding?.datasource}}" title="{{column?.text}}" width="200">
         <template kendoGridCellTemplate let-dataItem>
             <div>{{dataItem[column.binding.datasource]?.value}}</div>
         </template>
     </kendo-grid-column>
 
-    <ng-template kendoPagerTemplate>
+    <ng-template kendoPagerTemplate class="pager">
         <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
         <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
         <kendo-pager-next-buttons></kendo-pager-next-buttons>
-        <kendo-pager-info></kendo-pager-info>
         <kendo-pager-page-sizes [pageSizes]="[5, 10, 50, 100]"></kendo-pager-page-sizes>
+        <kendo-pager-info></kendo-pager-info>
     </ng-template>
 </kendo-grid>

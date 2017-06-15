@@ -12,7 +12,10 @@
 </md-card>-->
 <div [ngClass]="{'sameHeight': !isCollapsed}" class="tbcard">
     <tb-card-title [ngClass]="{'c-pointer': isCollapsible }" [isCollapsible]="isCollapsible" [isCollapsed]="isCollapsed" (click)="toggleCollapse($event)" *ngIf="hasTitle" [title]="title"></tb-card-title>
-    <md-card-content *ngIf="!isCollapsed">
+    <!--<md-card-content *ngIf="!isCollapsed">
         <ng-content></ng-content>
-    </md-card-content>
+    </md-card-content>-->
+    <tb-card-content>
+        <ng-content></ng-content>
+    </tb-card-content>
 </div>
