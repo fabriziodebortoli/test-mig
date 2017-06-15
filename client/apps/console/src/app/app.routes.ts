@@ -1,13 +1,13 @@
-import { AccountComponent } from "app/account/account.component";
+import { AccountComponent } from "app/components/account/account.component";
 import { AppComponent } from 'app/app.component';
-import { AppHomeComponent } from 'app/app-home/app-home.component';
+import { AppHomeComponent } from 'app/components/app-home/app-home.component';
 import { AuthGuardService } from 'app/guards/auth-guard.service';
-import { CompanyAccountComponent } from "app/company-account/company-account.component";
-import { CompanyComponent } from "app/company/company.component";
-import { EntityListComponent } from "app/entity-list/entity-list.component";
-import { LoginComponent } from "app/login/login.component";
+import { CompanyAccountComponent } from "app/components/company-account/company-account.component";
+import { CompanyComponent } from "app/components/company/company.component";
+import { EntityListComponent } from "app/components/entity-list/entity-list.component";
+import { LoginComponent } from "app/components/login/login.component";
 import { Routes } from '@angular/router';
-import { SubscriptionHomeComponent } from 'app/subscription-home/subscription-home.component';
+import { SubscriptionHomeComponent } from 'app/components/subscription-home/subscription-home.component';
 
 export const routes: Routes = [
   { path: '', component: AppComponent },

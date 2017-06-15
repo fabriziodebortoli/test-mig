@@ -1,9 +1,9 @@
-import { OperationResult } from './../services/operationResult';
+import { OperationResult } from './../../services/operationResult';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { NgForm }    from '@angular/forms';
-import { Account } from './../model/account';
-import { ModelService } from './../services/model.service';
+import { Account } from './../../model/account';
+import { ModelService } from './../../services/model.service';
 
 @Component({
   selector: 'app-account',
