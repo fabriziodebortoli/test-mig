@@ -167,7 +167,8 @@ namespace Microarea.AdminServer.Controllers
             {
                 account.SetDataProvider(_accountSqlDataProvider);
                 account.Load();
-                if (account != null)
+
+                if (account.ExistsOnDB)
                 {
                     //Verifica credenziali su db
                     lbc = new LoginBaseClass(account);

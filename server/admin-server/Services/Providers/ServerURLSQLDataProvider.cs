@@ -40,7 +40,10 @@ namespace Microarea.AdminServer.Services.Providers
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
+							{
 								serverUrl.URL = dataReader["URL"] as string;
+								serverUrl.ExistsOnDB = true;
+							}
 						}
 					}
 				}

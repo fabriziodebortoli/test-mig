@@ -11,12 +11,14 @@ namespace Microarea.AdminServer.Model
         string token = Guid.Empty.ToString();
         bool expired = true;
         DateTime expirationDate = DateTime.MinValue;
+		bool existsOnDB = false;
 
         public string AccountName { get { return accountName; } set { accountName = value; } }
         public TokenType TokenType { get { return tokenType; } set { tokenType = value; } }
         public string Token { get { return token; } set { token = value; } }
+		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
-        internal static SecurityToken GetToken(TokenType type, string accountName)
+		internal static SecurityToken GetToken(TokenType type, string accountName)
         {
            SecurityToken t = new SecurityToken();
             t.accountName = accountName;
