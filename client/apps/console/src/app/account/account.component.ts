@@ -1,5 +1,6 @@
+import { OperationResult } from './../services/operationResult';
 import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 import { NgForm }    from '@angular/forms';
 import { Account } from './../model/account';
 import { ModelService } from './../services/model.service';
@@ -21,8 +22,8 @@ export class AccountComponent implements OnInit {
   ngOnInit() {
   }
 
-  submitAccount(){
-    let accountOperation:Observable<Account[]>;
+  submitAccount() {
+    let accountOperation:Observable<OperationResult>;
 
     if (!this.editing){
       accountOperation = this.modelService.addAccount(this.model)
@@ -31,14 +32,16 @@ export class AccountComponent implements OnInit {
     }
 
     accountOperation.subscribe(
-      accounts => {
+      accountResult => 
+      {
         this.model = new Account();
         if (this.editing) this.editing = !this.editing;
+        alert(accountResult.Message);
       },
-      err => {
-        console.log(err);
-      }
+      err => { console.log(err); alert(err);}
     )
-  }
 
+    //accountSubs.unsubscribe(); //ng destroy
+
+  }
 }

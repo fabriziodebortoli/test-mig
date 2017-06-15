@@ -1,6 +1,6 @@
 export class CompanyAccount {
 
-    accountName: number;
+    accountName: string;
     companyId: number;
     admin: boolean;
 

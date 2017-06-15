@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,9 +15,6 @@ namespace Microarea.AdminServer.Controllers.Helpers
 		JsonWriter jsonWriter;
 		Dictionary<string, object> entries;
 		object plainObject;
-
-		//---------------------------------------------------------------------
-		public Dictionary<string, object> Entries { get => entries; }
 
 		//---------------------------------------------------------------------
 		public JsonHelper()
@@ -146,81 +142,6 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			this.sw = new StringWriter(sb);
 			this.jsonWriter = new JsonTextWriter(sw);
 			this.jsonWriter.Formatting = Formatting.Indented;
-		}
-
-		//---------------------------------------------------------------------
-		public void Read(string jsonText)
-		{
-			CleanAll();
-
-			JObject jObject = null;
-
-			try
-			{
-				jObject = JObject.Parse(jsonText);
-
-				foreach (JProperty property in jObject.Properties())
-				{
-					JToken tok = property.Value;
-					string tagName = tok.Path;
-					JTokenType tagType = tok.Type;
-					object tagValue = ((JValue)tok).Value;
-
-					switch (tagType)
-					{
-						case JTokenType.Integer:
-							AddJsonCouple<int>(tagName, (int)tagValue);
-							break;
-						case JTokenType.Float:
-							AddJsonCouple<float>(tagName, (float)tagValue);
-							break;
-						case JTokenType.String:
-							AddJsonCouple<string>(tagName, (string)tagValue);
-							break;
-						case JTokenType.Boolean:
-							AddJsonCouple<bool>(tagName, (bool)tagValue);
-							break;
-						case JTokenType.Date:
-							AddJsonCouple<DateTime>(tagName, (DateTime)tagValue);
-							break;
-						case JTokenType.Guid:
-							AddJsonCouple<Guid>(tagName, (Guid)tagValue);
-							break;
-						case JTokenType.Undefined:
-						case JTokenType.Null:
-						case JTokenType.None:
-						case JTokenType.Object:
-						case JTokenType.Array:
-						case JTokenType.Constructor:
-						case JTokenType.Property:
-						case JTokenType.Comment:
-						case JTokenType.Raw:
-						case JTokenType.Bytes:
-						case JTokenType.Uri:
-						case JTokenType.TimeSpan:
-						default:
-							break;
-					}
-				}
-
-				/*JEnumerable<JToken> children = jObject.Children<JToken>();
-
-				foreach (JToken item in children)
-				{
-					string p = item.Path;
-					JTokenType t = item.Type;
-					JProperty prop = ((JProperty)item);
-					JToken tok = prop.Value;
-					JValue va = ((JValue)tok);
-					object sva = va.Value;
-
-					//JValue val = ((JValue)((JProperty)item).Value).Value;
-				}*/
-			}
-			catch (JsonReaderException)
-			{
-				throw;
-			}
 		}
 	}
 }
