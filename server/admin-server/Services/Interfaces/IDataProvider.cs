@@ -5,7 +5,7 @@ namespace Microarea.AdminServer.Services
 {
     public interface IDataProvider
     {
-        void Load(IAdminModel iModel);
+        IAdminModel Load(IAdminModel iModel);
         bool Save(IAdminModel iModel);
         bool Delete(IAdminModel iModel);
         //

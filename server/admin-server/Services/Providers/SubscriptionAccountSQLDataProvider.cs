@@ -22,44 +22,35 @@ namespace Microarea.AdminServer.Services.Providers
 
 		// carica le subscription di uno specifico AccountName
 		//---------------------------------------------------------------------
-		public void Load(IAdminModel iModel)
+		public IAdminModel Load(IAdminModel iModel)
 		{
-			SubscriptionAccount iSubscription;
-			bool found = false;
+			SubscriptionAccount isubscripion;
 
 			try
 			{
-				iSubscription = (SubscriptionAccount)iModel;
+				isubscripion = (SubscriptionAccount)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.SelectSubscriptionAccountBySubscriptionId, connection))
 					{
-						command.Parameters.AddWithValue("@AccountName", iSubscription.AccountName);
+						command.Parameters.AddWithValue("@AccountName", isubscripion.AccountName);
 						
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
-							{
-								iSubscription.SubscriptionId = (int)dataReader["SubscriptionId"];
-								found = true;
-							}
-								
+								isubscripion.SubscriptionId = (int)dataReader["SubscriptionId"];
 						}
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				iSubscription = new SubscriptionAccount();
-				return;
+				Console.WriteLine(e.Message);
+				return null;
 			}
 
-			if (!found)
-			{
-				iSubscription = new SubscriptionAccount();
-				return;
-			}
+			return isubscripion;
 		}
 
 		// si occupa solo dell'insert, se il record esiste gia' torno false

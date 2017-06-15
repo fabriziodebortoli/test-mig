@@ -22,10 +22,9 @@ namespace Microarea.AdminServer.Services.Providers
 
 		// carica le istanze di uno specifico AccountName
 		//---------------------------------------------------------------------
-		public void Load(IAdminModel iModel)
+		public IAdminModel Load(IAdminModel iModel)
 		{
 			InstanceAccount iaccount;
-			bool found = false;
 
 			try
 			{
@@ -41,27 +40,18 @@ namespace Microarea.AdminServer.Services.Providers
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
-							{
 								iaccount.InstanceId = (int)dataReader["InstanceId"];
-								found = true;
-							}
 						}
 					}
 				}
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				iaccount = new InstanceAccount();
-				return;
+				Console.WriteLine(e.Message);
+				return null;
 			}
 
-			if (!found)
-			{
-				// we didn't find on the database,
-				// so we make the current object an empty object
-				iaccount = new InstanceAccount();
-			}
-
+			return iaccount;
 		}
 
 		// si occupa solo dell'insert, se il record esiste gia' torno false

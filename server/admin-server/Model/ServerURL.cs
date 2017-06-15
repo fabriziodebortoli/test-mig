@@ -26,7 +26,7 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-		public void Load()
+		public IAdminModel Load()
 		{
 			throw new NotImplementedException();
 		}

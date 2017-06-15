@@ -21,10 +21,9 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public void Load(IAdminModel iModel)
+		public IAdminModel Load(IAdminModel iModel)
 		{
 			CompanyAccount account;
-			bool found = false;
 
 			try
 			{
@@ -39,24 +38,18 @@ namespace Microarea.AdminServer.Services.Providers
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
-							{
 								account.Admin = (bool)dataReader["Admin"];
-								found = true;
-							}
 						}
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				account = new CompanyAccount();
-				return;
+				Console.WriteLine(e.Message);
+				return null;
 			}
 
-			if (!found)
-			{
-				account = new CompanyAccount();
-			}
+			return account;
 		}
 
 		//---------------------------------------------------------------------
