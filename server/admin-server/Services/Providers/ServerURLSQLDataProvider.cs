@@ -22,7 +22,7 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public IAdminModel Load(IAdminModel iModel)
+		public void Load(IAdminModel iModel)
 		{
 			ServerURL serverUrl;
 
@@ -48,10 +48,10 @@ namespace Microarea.AdminServer.Services.Providers
 			catch (Exception e)
 			{
 				Console.WriteLine(e.Message);
-				return null;
+				return;
 			}
 
-			return serverUrl;
+			return;
 		}
 
 		//---------------------------------------------------------------------

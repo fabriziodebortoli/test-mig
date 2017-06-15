@@ -21,9 +21,10 @@ namespace Microarea.AdminServer.Services.Providers
 		public DateTime MinDateTimeValue  { get { return (DateTime)SqlDateTime.MinValue; } }
 
 		//---------------------------------------------------------------------
-		public IAdminModel Load(IAdminModel iModel)
+		public void Load(IAdminModel iModel)
 		{
 			Instance instance;
+			bool found = false;
 
 			try
 			{
@@ -40,6 +41,7 @@ namespace Microarea.AdminServer.Services.Providers
 							{
 								instance.Customer = dataReader["Customer"] as string;
 								instance.Disabled = (bool)dataReader["Disabled"];
+								found = true;
 							}
 						}
 					}
@@ -47,11 +49,14 @@ namespace Microarea.AdminServer.Services.Providers
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.Message);
-				return null;
+				instance = new Instance();
+				return;
 			}
 
-			return instance;
+			if (!found)
+			{
+				instance = new Instance();
+			}
 		}
 
 		//---------------------------------------------------------------------

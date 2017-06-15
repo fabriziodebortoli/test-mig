@@ -21,14 +21,15 @@ namespace Microarea.AdminServer.Services.Providers
 		public DateTime MinDateTimeValue  { get { return (DateTime)SqlDateTime.MinValue; } }
 
 		//---------------------------------------------------------------------
-		public IAdminModel Load(IAdminModel iModel)
+		public void Load(IAdminModel iModel)
 		{
 			Account account;
-            ServiceResult sResult = new ServiceResult();
+			bool foundObject = false;
 
 			try
 			{
 				account = (Account)iModel;
+
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
@@ -56,18 +57,23 @@ namespace Microarea.AdminServer.Services.Providers
 								account.Locked = (bool)dataReader["Locked"];
 								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
                                 account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								foundObject = true;
                             }
 						}
 					}
 				}
+
+				if (!foundObject)
+				{
+					// we didn't find on the database,
+					// so we make the current object an empty object
+					account = new Account();
+				}
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.Message);
-				return null;
+				account = new Account();
 			}
-
-			return account;
 		}
 
 		//---------------------------------------------------------------------

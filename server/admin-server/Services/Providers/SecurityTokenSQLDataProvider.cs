@@ -19,7 +19,7 @@ namespace Microarea.AdminServer.Services.Providers
         public DateTime MinDateTimeValue { get { return (DateTime)SqlDateTime.MinValue; } }
 
         //---------------------------------------------------------------------
-        public IAdminModel Load(IAdminModel iModel)
+        public void Load(IAdminModel iModel)
         {
             // ISecurityToken token;
 
@@ -51,7 +51,7 @@ namespace Microarea.AdminServer.Services.Providers
             //}
 
             // return token;
-            return null;
+            return;
         }
 
         //---------------------------------------------------------------------

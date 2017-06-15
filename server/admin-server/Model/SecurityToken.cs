@@ -48,9 +48,9 @@ namespace Microarea.AdminServer.Model
         }
 
         //---------------------------------------------------------------------
-        public IAdminModel Load()
+        public void Load()
         {
-            return this.dataProvider.Load(this);
+            this.dataProvider.Load(this);
         }
         //---------------------------------------------------------------------
         public static SecurityToken Empty
