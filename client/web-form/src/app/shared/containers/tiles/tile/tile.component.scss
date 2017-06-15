@@ -58,38 +58,6 @@ tb-tile.tile-wide {
     flex-direction: column;
 }
 
-tb-tile>div {
-    background: white;
-    margin: 5px 5px 0px 5px;
-    padding: 5px;
-    tb-card-title {
-        position: relative;
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: #000;
-        font-size: 1rem;
-        text-transform: uppercase;
-        div {
-            display: flex;
-            flex-wrap: nowrap;
-            flex-basis: row;
-            span {
-                flex: 2 0 0%;
-                align-self: flex-start;
-            }
-            md-icon {
-                align-self: flex-end;
-            }
-        }
-    }
-    md-card-content {
-        border-top: 0px;
-        display: flex;
-        flex-wrap: nowrap;
-        flex-basis: row;
-    }
-}
-
 @media screen and (min-width: 48em) {
     tb-tile.tile-wide md-card-content {
         flex-direction: row;
