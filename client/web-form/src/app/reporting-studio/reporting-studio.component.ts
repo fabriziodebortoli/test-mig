@@ -1,17 +1,19 @@
+import { ReportLayoutComponent } from './report-objects/layout/layout.component';
 import { WebSocketService } from './../core/websocket.service';
 import { UtilsService } from './../core/utils.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link } from './reporting-studio.model';
+import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType } from './reporting-studio.model';
 import { DocumentComponent } from '../shared/document.component';
 import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
-import { TemplateItem } from 'app/reporting-studio';
-import { LayoutService } from 'app/core/layout.service';
+import { LayoutService } from './../core/layout.service';
 
+declare var jsPDF: any;
+declare var html2pdf: any;
 
 @Component({
   selector: 'tb-reporting-studio',
@@ -25,7 +27,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   otherwise it is passed by the ComponentService creation logic*/
   private subMessage: Subscription;
   private message: any = '';
- 
 
 
   // report template objects
@@ -34,13 +35,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // ask dialog objects
   public askDialogTemplate: any;
-  // hotlink possible values
-  public hotLinkValues: any;
-
+ 
 
   private viewHeightSubscription: Subscription;
   private viewHeight: number;
-  private totalPages: number;
+
+  @Output() prova = new EventEmitter<void>();
+  
 
   constructor(
     private rsService: ReportingStudioService,
@@ -50,7 +51,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData);
-
+    
+    this.prova.emit();
   }
 
   // -----------------------------------------------
@@ -73,6 +75,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
 
     this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
+
+    this.rsService.eventDownload.subscribe(()=> this.NextPage());
   }
 
   // -----------------------------------------------
@@ -95,8 +99,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSendSync(JSON.stringify(message));
   }
 
-
-
   // -----------------------------------------------
   ngOnDestroy() {
     this.subMessage.unsubscribe();
@@ -110,11 +112,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   reset() {
     this.rsService.running = false;
     this.askDialogTemplate = 'empty';
-    this.hotLinkValues = 'empty';
+
     this.reportTemplate = 'empty';
     this.reportData = 'empty';
   }
-
+  
   // -----------------------------------------------
   onMessage(message: any) {
     //elaborate
@@ -125,9 +127,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.ASK:
           this.askDialogTemplate = message;
           this.rsService.showAsk = true;
-          break;
-        case CommandType.HOTLINK:
-          this.hotLinkValues = msg;
           break;
         case CommandType.UPDATEASK:
           this.askDialogTemplate = message;
@@ -150,13 +149,14 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.DATA:
           this.rsService.showAsk = false;
           this.reportData = k;
+          
           break;
         case CommandType.RUNREPORT:
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
           this.componentService.createReportComponent(k.ns, true, params);
           break;
         case CommandType.ENDREPORT:
-          this.totalPages = k.totalPages;
+          this.rsService.totalPages = k.totalPages;
           break;
         case CommandType.NONE:
           break;
@@ -175,7 +175,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   RunReport() {
-   this.rsService.running = true;
+    this.rsService.running = true;
     let message = {
       commandType: CommandType.ASK,
       message: '',
@@ -206,7 +206,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   NextPage() {
-    if (this.rsService.pageNum < this.totalPages) {
+    if (this.rsService.pageNum < this.rsService.totalPages) {
       this.rsService.pageNum++;
     }
     let message = {
@@ -249,7 +249,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
-      page: this.totalPages
+      page: this.rsService.totalPages
     };
 
     this.rsService.pageNum = message.page;
@@ -270,6 +270,20 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  //--------------------------------------------------
+
+  public startSavePDF() {
+    if(this.rsService.pageNum != 1){
+      this.rsService.pdfState = PdfType.PREPAREDPDF
+      this.FirstPage();
+    }
+    else {
+      this.rsService.pdfState = PdfType.SAVINGPDF;
+      this.rsService.loopPdfPage();
+    }
+    
+  }
+  
 }
 
 

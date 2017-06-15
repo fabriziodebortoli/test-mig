@@ -6,17 +6,20 @@ namespace Microarea.AdminServer.Model
     //================================================================================
     public class CompanyAccount : ICompanyAccount
 	{
-        public int accountId;
-        public int companyId;
+        public string accountName;
+		public int companyId;
         public bool admin;
+
+		bool existsOnDB;
 
 		// data provider
 		IDataProvider dataProvider;
 
 		//---------------------------------------------------------------------
-		public int AccountId { get { return this.accountId; } set { this.accountId = value; } }
+		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
         public int CompanyId { get { return this.companyId; } set { this.companyId = value; } }
         public bool Admin { get { return this.admin; } set { this.admin = value; } }
+		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
 		//---------------------------------------------------------------------
 		public CompanyAccount()

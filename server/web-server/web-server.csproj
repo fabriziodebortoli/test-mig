@@ -15,7 +15,7 @@
     <ProjectReference Include="..\data-service\data-service.csproj" />
     <ProjectReference Include="..\database-service\database-service.csproj" />
     <ProjectReference Include="..\account-manager\account-manager.csproj" />
-    <ProjectReference Include="..\menu-gate\menu-gate.csproj" />
+    <ProjectReference Include="..\menu-service\menu-service.csproj" />
     <ProjectReference Include="..\report-service\report-service.csproj" />
     <ProjectReference Include="..\tbloader-gate\tbloader-gate.csproj" />
     <ProjectReference Include="..\widgets-service\widgets-service.csproj" />
@@ -50,9 +50,9 @@
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
     <Exec Command="npm install" />
-    <Exec Command="bower install" />
+    <!--<Exec Command="bower install" />
     <Exec Command="gulp clean" />
-    <Exec Command="gulp min" />
+    <Exec Command="gulp min" />-->
   </Target>
 
   <ItemGroup>

@@ -168,7 +168,12 @@ namespace Microarea.TbLoaderGate
 							bool dummy;
 							TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbName, false, out dummy);
 							if (tb != null)
+							{
 								tb.RequireWebSocketConnection(coupleName, http.Request.Host);
+
+								//effettua anche la inittblogin
+								//tb.InternalInitTbLogin(coupleName);
+							}
 						}
 						else if (cmd == setServerWebSocketName)
 						{

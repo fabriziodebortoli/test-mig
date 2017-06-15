@@ -1,6 +1,7 @@
 export class LoginSession {
-    company: string;
-    user: string;
+    company = "";
+    user = "";
+    password = "";
     overwrite: boolean = true;
-    askingProcess: string;
+    askingProcess = "TBWeb";
 }

@@ -1,3 +1,4 @@
+import { WebSocketService } from './../../core/websocket.service';
 import { ComponentService } from './../../core/component.service';
 import { HttpService } from './../../core/http.service';
 import { UtilsService } from './../../core/utils.service';
@@ -17,6 +18,8 @@ export class MenuService {
     private _selectedApplication: any;
     private _selectedGroup: any;
     private _selectedMenu: any;
+
+    isMenuActivated: boolean = true; // TODO temporaneo per demo, poi vedremo...
 
     public applicationMenu: any;
     public environmentMenu: any;
@@ -74,9 +77,11 @@ export class MenuService {
     selectedMenuChanged: EventEmitter<any> = new EventEmitter(true);
     selectedApplicationChanged: EventEmitter<any> = new EventEmitter(true);
     selectedGroupChanged: EventEmitter<string> = new EventEmitter(true);
-    
+    menuActivated: EventEmitter<any> = new EventEmitter();
+
     constructor(
         private httpService: HttpService,
+        private webSocketService: WebSocketService,
         private httpMenuService: HttpMenuService,
         private logger: Logger,
         private utilsService: UtilsService,
@@ -201,18 +206,11 @@ export class MenuService {
         if (object === undefined)
             return;
 
-        console.log(object)
-
         if (object.objectType.toLowerCase() == 'report') {
-            let obs = this.httpService.runReport(object.target).subscribe((jsonObj) => {
-                if (!jsonObj.desktop) {
-                    this.componentService.createReportComponent(object.target, true);
-                }
-                obs.unsubscribe();
-            });
+            this.componentService.createReportComponent(object.target, true);
         }
         else {
-            this.httpService.runDocument(object.target, object.args);
+            this.webSocketService.runDocument(object.target, object.args);
         }
 
         this.addToMostUsed(object);
@@ -549,10 +547,13 @@ export class MenuService {
         return string.slice(0, prefix.length) == prefix;
     }
 
+    //---------------------------------------------------------------------------------------------
     toggleDecription() {
         this.showDescription = !this.showDescription;
     }
 
-    menuActivated:boolean = true; // TODO temporaneo per demo, poi vedremo...
-    activateMenu(){this.menuActivated = true;console.log("act", this.menuActivated)}
+    //---------------------------------------------------------------------------------------------
+    activateMenu() {
+        this.isMenuActivated = true; this.menuActivated.emit();
+    }
 }

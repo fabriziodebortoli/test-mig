@@ -10,20 +10,28 @@ namespace Microarea.TbLoaderGate
     {
 		public string name;
 		public int httpPort = 11000;
+		public int processId = -1;
         public string server = "localhost";
 
         public string BaseUrl { get { return string.Concat("http://", server, ":", httpPort); } }
 
+		//-----------------------------------------------------------------------------------------
 		public TBLoaderInstance()
 		{
 			this.name = Guid.NewGuid().ToString();
 		}
-        internal async Task ExecuteAsync()
+
+		//-----------------------------------------------------------------------------------------
+		internal async Task ExecuteAsync()
         {
             TBLoaderService svc = new TBLoaderService();
-            httpPort = await svc.ExecuteRemoteProcessAsync(name);
-        }
-        internal async void RequireWebSocketConnection(string name, HostString host)
+			TBLoaderResponse response =  await svc.ExecuteRemoteProcessAsync(name);
+			httpPort = response.Port;
+			processId = response.ProcessId;
+		}
+
+		//-----------------------------------------------------------------------------------------
+		internal async void RequireWebSocketConnection(string name, HostString host)
         {
             using (var client = new HttpClient())
             {
@@ -45,7 +53,20 @@ namespace Microarea.TbLoaderGate
                 msg.RequestUri = new Uri(url);
                 HttpResponseMessage resp = await client.SendAsync(msg);
                 string ret = await resp.Content.ReadAsStringAsync();
-            }
-        }
-    }
+			}
+		}
+
+		//-----------------------------------------------------------------------------------------
+		internal async void InternalInitTbLogin(string token)
+		{
+			using (var client = new HttpClient())
+			{
+				string url = string.Concat(BaseUrl, "/tb/menu/initTBLogin/?authtoken=" + token);
+				HttpRequestMessage msg = new HttpRequestMessage();
+				msg.RequestUri = new Uri(url);
+				HttpResponseMessage resp = await client.SendAsync(msg);
+				string ret = await resp.Content.ReadAsStringAsync();
+			}
+		}
+	}
 }

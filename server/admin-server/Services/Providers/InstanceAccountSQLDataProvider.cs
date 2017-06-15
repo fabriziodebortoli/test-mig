@@ -20,26 +20,31 @@ namespace Microarea.AdminServer.Services.Providers
 			this.connectionString = connString;
 		}
 
-		// carica le istanze di uno specifico AccountId
+		// carica le istanze di uno specifico AccountName
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
-			InstanceAccount iaccount;
+			InstanceAccount iAccount;
 
 			try
 			{
-				iaccount = (InstanceAccount)iModel;
+				iAccount = (InstanceAccount)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.SelectInstanceAccountByAccountId, connection))
+
+					using (SqlCommand command = new SqlCommand(Consts.SelectInstanceAccountByAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", iaccount.AccountId);
+						command.Parameters.AddWithValue("@AccountName", iAccount.AccountName);
 						
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
-								iaccount.InstanceId = (int)dataReader["InstanceId"];
+							{
+								iAccount.InstanceId = (int)dataReader["InstanceId"];
+								iAccount.ExistsOnDB = true;
+							}
+								
 						}
 					}
 				}
@@ -50,7 +55,7 @@ namespace Microarea.AdminServer.Services.Providers
 				return null;
 			}
 
-			return iaccount;
+			return iAccount;
 		}
 
 		// si occupa solo dell'insert, se il record esiste gia' torno false
@@ -70,7 +75,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					using (SqlCommand command = new SqlCommand(Consts.ExistInstanceAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", iaccount.AccountId);
+						command.Parameters.AddWithValue("@AccountName", iaccount.AccountName);
 						command.Parameters.AddWithValue("@InstanceId", iaccount.InstanceId);
 						existInstance = (int)command.ExecuteScalar() > 0;
 					}
@@ -83,7 +88,7 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Connection = connection;
 						command.CommandText = Consts.InsertInstanceAccount;
 
-						command.Parameters.AddWithValue("@AccountId", iaccount.AccountId);
+						command.Parameters.AddWithValue("@AccountName", iaccount.AccountName);
 						command.Parameters.AddWithValue("@InstanceId", iaccount.InstanceId);
 
 						command.ExecuteNonQuery();
@@ -112,7 +117,7 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.DeleteInstanceAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", iaccount.AccountId);
+						command.Parameters.AddWithValue("@AccountName", iaccount.AccountName);
 						command.Parameters.AddWithValue("@InstanceId", iaccount.InstanceId);
 						command.ExecuteNonQuery();
 					}

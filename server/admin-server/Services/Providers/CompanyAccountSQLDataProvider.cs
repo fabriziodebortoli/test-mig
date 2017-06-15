@@ -33,12 +33,16 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.SelectCompanyAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", account.AccountId);
+						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						command.Parameters.AddWithValue("@CompanyId", account.CompanyId);
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
+							{
 								account.Admin = (bool)dataReader["Admin"];
+								account.ExistsOnDB = true;
+							}
+								
 						}
 					}
 				}
@@ -68,7 +72,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					using (SqlCommand command = new SqlCommand(Consts.ExistCompanyAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", account.AccountId);
+						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						command.Parameters.AddWithValue("@CompanyId", account.CompanyId);
 						existUrl = (int)command.ExecuteScalar() > 0;
 					}
@@ -78,7 +82,7 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Connection = connection;
 						command.CommandText = existUrl ? Consts.UpdateCompanyAccount : Consts.InsertCompanyAccount;
 
-						command.Parameters.AddWithValue("@AccountId", account.AccountId);
+						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						command.Parameters.AddWithValue("@CompanyId", account.CompanyId);
 						command.Parameters.AddWithValue("@Admin", account.Admin);
 
@@ -108,7 +112,7 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.DeleteCompanyAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", account.AccountId);
+						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						command.Parameters.AddWithValue("@CompanyId", account.CompanyId);
 						command.ExecuteNonQuery();
 					}

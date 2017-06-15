@@ -220,28 +220,7 @@ namespace Microarea.Common.WebServicesWrapper
 
 			ConfigureWebService();
 		}
-
-		////-----------------------------------------------------------------------------------------
-		//private string PostData(string url, string body)
-		//{
-		//	WebRequest request = (HttpWebRequest)WebRequest.Create(url);
-		//	var data = Encoding.ASCII.GetBytes(body);
-
-		//	request.Method = "POST";
-		//	request.ContentType = "application/x-www-form-urlencoded";
-		//	//request.ContentLength = data.Length;
-
-		//	Task<Stream> stream = request.GetRequestStreamAsync();
-		//	Stream s = stream.Result;
-		//	s.Write(data, 0, data.Length);
-
-		//	Task<WebResponse> response = request.GetResponseAsync();
-		//	WebResponse r = response.Result;
-
-		//	var responseString = new StreamReader(r.GetResponseStream()).ReadToEnd();
-		//	return responseString;
-		//}
-
+		
 		//-----------------------------------------------------------------------------------------
 		public int LoginCompact(string user, string company, string password, string askingProcess, bool overwriteLogin, out string authenticationToken)
 		{
@@ -422,10 +401,24 @@ namespace Microarea.Common.WebServicesWrapper
 		}
 
 		//-----------------------------------------------------------------------------------------
-		internal bool IsAlive()
+		public bool IsAlive()
 		{
 			Task<bool> task = loginManagerClient.IsAliveAsync();
 			return task.Result;
+		}
+
+		//-----------------------------------------------------------------------------------------
+		public bool IsValidToken(string authToken)
+		{
+			Task<bool> task = loginManagerClient.IsValidTokenAsync(authToken);
+			return task.Result;
+		}
+
+		//-----------------------------------------------------------------------------------------
+		public void WakeUp()
+		{
+			Task<bool> task = loginManagerClient.IsAliveAsync();
+			task.Start();
 		}
 
 		//---------------------------------------------------------------------------

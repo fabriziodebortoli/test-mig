@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Widget, WidgetsService, WidgetRow } from './widgets.service';
 import { MdSnackBar } from '@angular/material';
 
@@ -7,9 +7,14 @@ import { MdSnackBar } from '@angular/material';
   templateUrl: './widget-container.component.html',
   styleUrls: ['./widget-container.component.scss']
 })
-export class WidgetContainerComponent implements OnInit {
+export class WidgetContainerComponent implements OnInit, OnDestroy {
   widgets: WidgetRow[] = [];
-  constructor(private widgetsService: WidgetsService, public snackBar: MdSnackBar) { }
+  subscriptions = [];
+  constructor(private widgetsService: WidgetsService, public snackBar: MdSnackBar) {
+
+
+
+   }
 
   getColspan(size: string) {
     switch (size) {
@@ -21,17 +26,17 @@ export class WidgetContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.widgetsService.getActiveWidgets().subscribe(
+    this.subscriptions.push(this.widgetsService.getActiveWidgets().subscribe(
       (w) => {
         this.widgets = w;
 
         this.widgets.forEach((row) => {
           row.widgets.forEach((wdg) => {
-            this.widgetsService.refreshContent(wdg).subscribe(
+            this.subscriptions.push(this.widgetsService.refreshContent(wdg).subscribe(
               (data) => {
                 wdg.data = data;
               }
-            );
+            ));
           });
         });
 
@@ -42,7 +47,11 @@ export class WidgetContainerComponent implements OnInit {
       (error) => {
         this.snackBar.open('There was an error retreiving your dashboard:' + error, 'Close');
       }
-    );
+    ));
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subs => subs.unsubscribe());
   }
 
 }

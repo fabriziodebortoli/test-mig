@@ -12,8 +12,9 @@ export class EnumsService {
     }
 
     getEnumsTable() {
-        this.getEnumsTableSubscription = this.httpService.getEnumsTable().subscribe((json) => {
+        let subs = this.getEnumsTableSubscription = this.httpService.getEnumsTable().subscribe((json) => {
             this.enumsTable = json.enums;
+            subs.unsubscribe();
         });
     }
 

@@ -20,26 +20,29 @@ namespace Microarea.AdminServer.Services.Providers
 			this.connectionString = connString;
 		}
 
-		// carica le subscription di uno specifico AccountId
+		// carica le subscription di uno specifico AccountName
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
-			SubscriptionAccount isubscripion;
+			SubscriptionAccount iSubscription;
 
 			try
 			{
-				isubscripion = (SubscriptionAccount)iModel;
+				iSubscription = (SubscriptionAccount)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.SelectSubscriptionAccountBySubscriptionId, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", isubscripion.AccountId);
+						command.Parameters.AddWithValue("@AccountName", iSubscription.AccountName);
 						
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
-								isubscripion.SubscriptionId = (int)dataReader["SubscriptionId"];
+							{
+								iSubscription.SubscriptionId = (int)dataReader["SubscriptionId"];
+								iSubscription.ExistsOnDB = true;
+							}
 						}
 					}
 				}
@@ -50,7 +53,7 @@ namespace Microarea.AdminServer.Services.Providers
 				return null;
 			}
 
-			return isubscripion;
+			return iSubscription;
 		}
 
 		// si occupa solo dell'insert, se il record esiste gia' torno false
@@ -70,7 +73,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					using (SqlCommand command = new SqlCommand(Consts.ExistSubscriptionAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", isubscripion.AccountId);
+						command.Parameters.AddWithValue("@AccountName", isubscripion.AccountName);
 						command.Parameters.AddWithValue("@SubscriptionId", isubscripion.SubscriptionId);
 						existSubscription = (int)command.ExecuteScalar() > 0;
 					}
@@ -83,7 +86,7 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Connection = connection;
 						command.CommandText = Consts.InsertInstanceAccount;
 
-						command.Parameters.AddWithValue("@AccountId", isubscripion.AccountId);
+						command.Parameters.AddWithValue("@AccountName", isubscripion.AccountName);
 						command.Parameters.AddWithValue("@SubscriptionId", isubscripion.SubscriptionId);
 
 						command.ExecuteNonQuery();
@@ -112,7 +115,7 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.DeleteSubscriptionAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountId", isubscription.AccountId);
+						command.Parameters.AddWithValue("@AccountName", isubscription.AccountName);
 						command.Parameters.AddWithValue("@SubscriptionId", isubscription.SubscriptionId);
 						command.ExecuteNonQuery();
 					}

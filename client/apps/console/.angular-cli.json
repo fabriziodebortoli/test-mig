@@ -20,7 +20,8 @@
       "prefix": "app",
       "styles": [
         "../node_modules/flexboxgrid/dist/flexboxgrid.min.css",
-        "styles.css"
+        "styles.css",
+        "indigo-pink.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

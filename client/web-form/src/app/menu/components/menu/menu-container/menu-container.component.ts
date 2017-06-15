@@ -1,8 +1,9 @@
+import { Subscription } from 'rxjs';
 import { UtilsService } from './../../../../core/utils.service';
 import { LocalizationService } from './../../../services/localization.service';
 import { MenuService } from './../../../services/menu.service';
 import { SettingsService } from './../../../services/settings.service';
-import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit } from '@angular/core';
 import { MasonryOptions } from "angular2-masonry";
 
 @Component({
@@ -13,18 +14,28 @@ import { MasonryOptions } from "angular2-masonry";
 })
 
 export class MenuContainerComponent implements OnInit, OnDestroy {
-  private selectedMenuChangedSubscription;
+  private subscriptions: Subscription[] = [];
   private selectedGroupChangedSubscription;
   private tiles: any[];
 
   @ViewChild('tabber') tabber;
-
+  @ViewChild('masonryContainer') masonryContainer: any;
   constructor(
     private menuService: MenuService,
     private utilsService: UtilsService,
     private settingsService: SettingsService,
     private localizationService: LocalizationService
   ) {
+
+  this.subscriptions.push(this.menuService.menuActivated.subscribe( ()=>{
+      this.refreshLayout();
+    }));
+  }
+
+  refreshLayout() {
+    if (this.masonryContainer != undefined) {
+      this.masonryContainer.layout();
+    }
   }
 
   public masonryOptions: MasonryOptions = {
@@ -33,14 +44,14 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.selectedMenuChangedSubscription = this.menuService.selectedMenuChanged.subscribe(() => {
+    this.subscriptions.push(this.menuService.selectedMenuChanged.subscribe(() => {
       this.changeTabWhenMenuChanges();
       this.tiles = this.getTiles();
-    });
+    }));
 
-    this.selectedGroupChangedSubscription = this.menuService.selectedGroupChanged.subscribe(() => {
+    this.subscriptions.push(this.menuService.selectedGroupChanged.subscribe(() => {
       this.initTab();
-    });
+    }));
   }
 
   initTab() {
@@ -89,8 +100,7 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.selectedMenuChangedSubscription.unsubscribe();
-    this.selectedGroupChangedSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
   changeTabByIndex(event) {
@@ -100,8 +110,9 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
 
     let tempMenuArray = this.utilsService.toArray(this.menuService.selectedGroup.Menu);
     let tab = tempMenuArray[index];
-    if (tab != undefined)
+    if (tab != undefined) {
       this.menuService.setSelectedMenu(tab);
+    }
   }
 
   getTiles() {

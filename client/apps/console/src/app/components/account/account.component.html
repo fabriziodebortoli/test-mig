@@ -1,0 +1,78 @@
+<div class="container" fxLayout="column" style="padding:10px">
+  <h2 class="componentTitle">Account</h2>
+  <div class="row bottom-xs">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="text" placeholder="Email" value="" [(ngModel)]="model.accountName" required>
+      </div>
+      <div class="box">
+        <input type="password" placeholder="Password" value="" [(ngModel)]="model.password" required
+        ng-pattern = '/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i'>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="checkbox" name="cboxPwNeverExpires" value="" [(ngModel)]="model.passwordNeverExpires" >
+        <label for="cboxPwNeverExpires">Password never expires</label>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="text" placeholder="Full Name" value="" [(ngModel)]="model.fullName">
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.provisioningAdmin">
+        <label for="cboxLocked">Provisioning Administrator</label>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.disabled">
+        <label for="cboxDisabled">Disabled</label>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.locked">
+        <label for="cboxLocked">Locked</label>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <textarea rows="5" cols="36" placeholder="Notes" maxlength="500" [(ngModel)]="model.notes"></textarea>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="text" placeholder="Preferred Language" value="" [(ngModel)]="model.preferredLanguage">
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="text" placeholder="Application Language" value="" [(ngModel)]="model.applicationLanguage">
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row end-xs center-sm center-lg">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <button type="button" class="btn btn-primary" (click)="submitAccount()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

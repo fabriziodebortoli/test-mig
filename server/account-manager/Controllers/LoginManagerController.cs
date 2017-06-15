@@ -28,34 +28,7 @@ namespace Microarea.AccountManager.Controllers
 			int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out authenticationToken);
 			string errorMessage = "Error message"; // TODO read error message
 
-			StringBuilder sb = new StringBuilder();
-			StringWriter sw = new StringWriter(sb);
-			JsonWriter jsonWriter = new JsonTextWriter(sw);
-			jsonWriter.Formatting = Formatting.Indented;
-
-			jsonWriter.WriteStartObject();
-
-			jsonWriter.WritePropertyName("result");
-			jsonWriter.WriteValue(result.ToString());
-
-			if (result > 0)
-			{
-				jsonWriter.WritePropertyName("errorCode");
-				jsonWriter.WriteValue(result.ToString());
-				jsonWriter.WritePropertyName("errorMessage");
-				jsonWriter.WriteValue(errorMessage);
-			}
-			else
-			{
-				jsonWriter.WritePropertyName("authenticationToken");
-				jsonWriter.WriteValue(authenticationToken);
-			}
-
-			jsonWriter.WriteEndObject();
-
-			string content = sb.ToString();
-
-			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+			return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken });
 		}
 
 		[Route("logout")]
@@ -76,6 +49,14 @@ namespace Microarea.AccountManager.Controllers
 			return new ContentResult { Content = json, ContentType = "application/json" };
 		}
 
+		[Route("isValidToken")]
+		public IActionResult IsValidToken()
+		{
+			string token = HttpContext.Request.Form["authtoken"];
+			bool valid =  Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsValidToken(token);
+			var result = new { Success = valid, Message = "" };
+			return new JsonResult(result);
+		}
 
 		[Route("getCompaniesForUser")]
 		public IActionResult GetCompanyForUser()
