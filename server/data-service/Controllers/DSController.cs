@@ -33,8 +33,8 @@ namespace DataService.Controllers
         }
         //---------------------------------------------------------------------
 
-        [Route("getdata/{namespace}/{selectiontype}")]
-        public IActionResult GetData(string nameSpace, string selectionType)
+        [Route("getdata/{namespace}/{selectiontype}/{filter?}")]
+        public IActionResult GetData(string nameSpace, string selectionType, string filter="")
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
@@ -43,7 +43,7 @@ namespace DataService.Controllers
 
             Datasource ds = new Datasource(session);
 
-			if (!ds.PrepareQuery(HttpContext.Request.Query, selectionType))
+			if (!ds.PrepareQueryAsync(/*HttpContext.Request.Query,*/ selectionType, filter).Result)
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
 			string records;

@@ -6,14 +6,14 @@ namespace Microarea.AdminServer.Model
     //================================================================================
     public class InstanceAccount : IInstanceAccount
 	{
-        public int accountId;
-        public int instanceId;
+        public string accountName;
+		public int instanceId;
 
 		// data provider
 		IDataProvider dataProvider;
 
 		//---------------------------------------------------------------------
-		public int AccountId { get { return this.accountId; } set { this.accountId = value; } }
+		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
         public int InstanceId { get { return this.instanceId; } set { this.instanceId = value; } }
 
 		//---------------------------------------------------------------------

@@ -11,8 +11,7 @@ namespace Microarea.AdminServer.Library
     public class LoginBaseClass
     {
         IAccount account;
-        UserTokens tokens;
-        public UserTokens Tokens {get  {return tokens;} }
+      
         public LoginBaseClass(IAccount account) { this.account = account; }
         public LoginReturnCodes VerifyCredential(string password)
         {
@@ -28,13 +27,12 @@ namespace Microarea.AdminServer.Library
             if (account.Password != Crypt(password))
             {
                 AddWrongPwdLoginCount();
-                if (!account.Save()) return LoginReturnCodes.ErrorSavingTokens;
+                if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
                 return LoginReturnCodes.InvalidUserError;
             }
 
             ClearWrongPwdLoginCount();
-            if (!CreateTokens())
-                 return LoginReturnCodes.ErrorSavingTokens;
+           
            
 
             if (account.MustChangePassword)
@@ -65,10 +63,10 @@ namespace Microarea.AdminServer.Library
                 return LoginReturnCodes.InvalidUserError;
             }
             account.Password = Crypt(newpassword);
-            if (!account.Save()) return LoginReturnCodes.ErrorSavingTokens;
+            if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
 
             ClearWrongPwdLoginCount();
-            CreateTokens();
+       
             return LoginReturnCodes.NoError;
         }
 
@@ -94,11 +92,6 @@ namespace Microarea.AdminServer.Library
             return password;//TODO
         }
 
-        //----------------------------------------------------------------------
-        public bool CreateTokens()
-        {
-            tokens = new UserTokens(account.ProvisioningAdmin, account.AccountId);
-            return tokens.Save();
-        }
+       
     }
 }

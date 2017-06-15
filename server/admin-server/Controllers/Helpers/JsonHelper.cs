@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Text;
 
 namespace Microarea.AdminServer.Controllers.Helpers
 {
+	//================================================================================
 	public class JsonHelper
 	{
 		StringBuilder sb;
@@ -15,16 +17,22 @@ namespace Microarea.AdminServer.Controllers.Helpers
 		Dictionary<string, object> entries;
 		object plainObject;
 
+		//---------------------------------------------------------------------
+		public Dictionary<string, object> Entries { get => entries; }
+
+		//---------------------------------------------------------------------
 		public JsonHelper()
 		{
-			cleanAll();
+			CleanAll();
 		}
 
+		//---------------------------------------------------------------------
 		public void Init()
 		{
-			cleanAll();
+			CleanAll();
 		}
 
+		//---------------------------------------------------------------------
 		public void AddPlainObject<T>(T val)
 		{
 			try
@@ -37,6 +45,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			{ }
 		}
 
+		//---------------------------------------------------------------------
 		public void AddJsonCouple<T>(string name, T val)
 		{
 			try
@@ -49,6 +58,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			{ }
 		}
 
+		//---------------------------------------------------------------------
 		bool IsSimple(object obj)
 		{
 			TypeInfo type = obj.GetType().GetTypeInfo();
@@ -58,12 +68,14 @@ namespace Microarea.AdminServer.Controllers.Helpers
 				// nullable type, check if the nested type is simple.
 				return IsSimple((type.GetGenericArguments()[0]).GetTypeInfo());
 			}
+
 			return type.IsPrimitive
 			  || type.IsEnum
 			  || type.Equals(typeof(string))
 			  || type.Equals(typeof(decimal));
 		}
 
+		//---------------------------------------------------------------------
 		public string WriteFromKeysAndClear()
 		{
 			this.jsonWriter.WriteStartObject();
@@ -102,6 +114,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			return String.Empty;
 		}
 
+		//---------------------------------------------------------------------
 		public string WritePlainAndClear()
 		{
 			if (this.plainObject == null)
@@ -125,7 +138,8 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			return String.Empty;
 		}
 
-		void cleanAll()
+		//---------------------------------------------------------------------
+		void CleanAll()
 		{
 			this.entries = new Dictionary<string, object>();
 			this.sb = new StringBuilder();
@@ -134,5 +148,79 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			this.jsonWriter.Formatting = Formatting.Indented;
 		}
 
+		//---------------------------------------------------------------------
+		public void Read(string jsonText)
+		{
+			CleanAll();
+
+			JObject jObject = null;
+
+			try
+			{
+				jObject = JObject.Parse(jsonText);
+
+				foreach (JProperty property in jObject.Properties())
+				{
+					JToken tok = property.Value;
+					string tagName = tok.Path;
+					JTokenType tagType = tok.Type;
+					object tagValue = ((JValue)tok).Value;
+
+					switch (tagType)
+					{
+						case JTokenType.Integer:
+							AddJsonCouple<int>(tagName, (int)tagValue);
+							break;
+						case JTokenType.Float:
+							AddJsonCouple<float>(tagName, (float)tagValue);
+							break;
+						case JTokenType.String:
+							AddJsonCouple<string>(tagName, (string)tagValue);
+							break;
+						case JTokenType.Boolean:
+							AddJsonCouple<bool>(tagName, (bool)tagValue);
+							break;
+						case JTokenType.Date:
+							AddJsonCouple<DateTime>(tagName, (DateTime)tagValue);
+							break;
+						case JTokenType.Guid:
+							AddJsonCouple<Guid>(tagName, (Guid)tagValue);
+							break;
+						case JTokenType.Undefined:
+						case JTokenType.Null:
+						case JTokenType.None:
+						case JTokenType.Object:
+						case JTokenType.Array:
+						case JTokenType.Constructor:
+						case JTokenType.Property:
+						case JTokenType.Comment:
+						case JTokenType.Raw:
+						case JTokenType.Bytes:
+						case JTokenType.Uri:
+						case JTokenType.TimeSpan:
+						default:
+							break;
+					}
+				}
+
+				/*JEnumerable<JToken> children = jObject.Children<JToken>();
+
+				foreach (JToken item in children)
+				{
+					string p = item.Path;
+					JTokenType t = item.Type;
+					JProperty prop = ((JProperty)item);
+					JToken tok = prop.Value;
+					JValue va = ((JValue)tok);
+					object sva = va.Value;
+
+					//JValue val = ((JValue)((JProperty)item).Value).Value;
+				}*/
+			}
+			catch (JsonReaderException)
+			{
+				throw;
+			}
+		}
 	}
 }

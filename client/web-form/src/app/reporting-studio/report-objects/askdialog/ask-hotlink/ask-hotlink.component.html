@@ -2,17 +2,17 @@
 
 <kendo-maskedtextbox [(ngModel)]="hotlink.value" [ngStyle]="inputStyle()" (focus)="onBlur()" (blur)="onBlur()" [disabled]="hotlink.multi_selection"></kendo-maskedtextbox>
 
-<button kendoButton #anchor (click)="toggleOptions()" [icon]="'more-vertical'"></button>
+<button kendoButton #anchor (click)="onOptionsClick()" [icon]="'more-vertical'"></button>
 <kendo-popup [anchor]="anchor" (blur)="showOptions = false" *ngIf="showOptions">
   <div class="search-options">
     Search for:<br>
     <md-radio-group [(ngModel)]="hotlink.selection_type" >
-      <md-radio-button *ngFor="let item of hotlink.selectionList" [value]="item.value">{{item.value}}</md-radio-button>
+      <md-radio-button *ngFor="let item of hotlink.selectionList" [value]="item">{{item}}</md-radio-button>
     </md-radio-group>
   </div>
 </kendo-popup>
 
-<button kendoButton (click)="onButtonClick()" [icon]="'search'"></button>
+<button kendoButton (click)="onSearchClick()" [icon]="'search'"></button>
 <div #anchorTable></div>
 <kendo-popup [anchor]="anchorTable" (anchorViewportLeave)="showTable = false" *ngIf="showTable" [ngStyle]="popupStyle()">
   <kendo-grid [data]="hotlink.values.rows" [selectable]="true" (selectionChange)="selectionChanged($event)" [scrollable]="'scrollable'"
