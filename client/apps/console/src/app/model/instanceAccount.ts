@@ -1,6 +1,6 @@
 export class InstanceAccount {
 
-    accountId: number;
+    accountName:string;
     instanceId: number;
     
     constructor() {

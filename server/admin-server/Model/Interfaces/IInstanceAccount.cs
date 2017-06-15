@@ -3,7 +3,7 @@
     //================================================================================
     interface IInstanceAccount : IAdminModel
 	{
-        int AccountId { get; }
+        string AccountName { get; }
         int InstanceId { get; }
     }
 }

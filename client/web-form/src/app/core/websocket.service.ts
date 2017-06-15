@@ -119,18 +119,19 @@ export class WebSocketService {
             this.connection.close();
         }
     }
-    getOpenConnection(): Observable<WebSocket> {
+    checkForOpenConnection(): Observable<boolean> {
         return Observable.create(observer => {
             if (this._socketConnectionStatus === SocketConnectionStatus.Connected) {
-                observer.next(this.connection);
+                observer.next(true);
                 observer.complete();
             } else if (this._socketConnectionStatus === SocketConnectionStatus.Connecting) {
-
+                observer.next(false);
+                observer.complete();
             } else {
                 const subs = this.loginSessionService.openTbConnectionAsync().subscribe(ret => {
                     subs.unsubscribe();
                     if (ret) {
-                        observer.next(this.connection);
+                        observer.next(true);
                         observer.complete();
                     }
                 });
@@ -138,14 +139,25 @@ export class WebSocketService {
         });
     }
     safeSend(data: any) {
-        const subs = this.getOpenConnection().subscribe(conn => {
+        const subs = this.checkForOpenConnection().subscribe(valid => {
             if (subs) {
                 subs.unsubscribe();
             }
-            conn.send(JSON.stringify(data));
+            if (valid) {
+                this.connection.send(JSON.stringify(data));
+            }
+            else {
+                this.logger.info("Cannot use web socket, perhaps it is connecting");
+            }
+
         });
 
     }
+    runDocument(ns: String, args: string = ''): void {
+        const data = { cmd: 'runDocument', ns: ns, sKeyArgs: args };
+        this.safeSend(data);
+    }
+
     doFillListBox(cmpId: String, obj: any): void {
         const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: obj.itemSource, hotLink: obj.hotLink };
 

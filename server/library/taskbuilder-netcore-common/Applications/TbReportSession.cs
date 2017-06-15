@@ -48,6 +48,7 @@ namespace Microarea.Common.Applications
         public const string TbBaseRoute = "tbloader/api/";
         public const string TbLoginRoute = "tb/document/login/";
         public const string TbRunFunctionRoute = "tb/document/runFunction/";
+        public const string TbHotlinkQueryRoute = "tb/document/getHotlinkQuery/";
 
         public const string TbInstanceKey = "tbloader-name";
         public string TbInstanceID = string.Empty;
@@ -106,11 +107,7 @@ namespace Microarea.Common.Applications
 
         public TbSession(UserInfo ui, string ns)
         {
-            //solleva l'eccezione per far si che easylook reindirizzi sulla pagina di login
-            if (ui == null)
-                throw new InvalidSessionException();
-
-            this.UserInfo = ui;
+            this.UserInfo = ui ?? throw new InvalidSessionException();
             this.Namespace = ns;
             this.PathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
 
@@ -134,20 +131,20 @@ namespace Microarea.Common.Applications
             this.ApplicationFontStyles = s.ApplicationFontStyles;
             this.ApplicationFormatStyles = s.ApplicationFormatStyles;
             this.Hotlinks = s.Hotlinks;
-    }
+        }
 
-    //private Hashtable cache; // used to store application reportSession values
-    //public Hashtable Cache
-    //{
-    //    get
-    //    {
-    //        if (cache == null)
-    //            cache = new Hashtable(StringComparer.OrdinalIgnoreCase);
-    //        return cache;
-    //    }
-    //}
+        //private Hashtable cache; // used to store application reportSession values
+        //public Hashtable Cache
+        //{
+        //    get
+        //    {
+        //        if (cache == null)
+        //            cache = new Hashtable(StringComparer.OrdinalIgnoreCase);
+        //        return cache;
+        //    }
+        //}
 
-    virtual public bool SkipTypeChecking { get { return string.IsNullOrEmpty(CompanyDbConnection); } }
+        virtual public bool SkipTypeChecking { get { return string.IsNullOrEmpty(CompanyDbConnection); } }
 
         // Il caricamento di function per le funzioni interne pesa poco e quelle esterne sono caricate on demand
         // gli Hotlinks sono solo caricati on demand e quindi non pesano.
@@ -340,7 +337,7 @@ namespace Microarea.Common.Applications
         //valore di ritorno della 
         public class RunFuctionResultMessage
         {
-           public class ResultMessage
+            public class ResultMessage
             {
                 public bool enabled { get; set; }
                 public int type { get; set; }
@@ -421,7 +418,7 @@ namespace Microarea.Common.Applications
                     var stringResponse = await response.Content.ReadAsStringAsync();
 
                     //TODO RSWEB decodificare meglio result value
-                    return stringResponse.IndexOf("true") > 0; 
+                    return stringResponse.IndexOf("true") > 0;
                 }
                 catch (HttpRequestException e)
                 {
@@ -452,10 +449,10 @@ namespace Microarea.Common.Applications
             //	return hotlinkInterface.GetHotlinkQuery(aNamespace, aParams, (int)action);
             //-----------------------
 
-            if (!session.LoggedToTb)
+         /*   if (!session.LoggedToTb)
                 return null;
             if (session.TbInstanceID.IsNullOrEmpty())
-                return null;
+                return null;    */
 
             var cookieContainer = new CookieContainer();
             using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
@@ -475,7 +472,7 @@ namespace Microarea.Common.Applications
                         new KeyValuePair<string, string>("action", action.ToString())
                    });
 
-                    var response = await client.PostAsync(TbSession.TbBaseRoute + TbSession.TbRunFunctionRoute, content);
+                    var response = await client.PostAsync(TbSession.TbBaseRoute + TbSession.TbHotlinkQueryRoute, content);
                     response.EnsureSuccessStatusCode(); // Throw in not success
 
                     var stringResponse = await response.Content.ReadAsStringAsync();
@@ -557,13 +554,13 @@ namespace Microarea.Common.Applications
             set
             {
                 reportParameters = value;
-                if (reportParameters.CompareNoCase("{}")) 
+                if (reportParameters.CompareNoCase("{}"))
                     reportParameters = "";
                 if (!reportParameters.IsNullOrEmpty())
                 {
                     if (reportParameters.IndexOf("\"<Arguments", StringComparison.OrdinalIgnoreCase) == 0)
                     {
-                        reportParameters = reportParameters.Mid(1); 
+                        reportParameters = reportParameters.Mid(1);
                         reportParameters = reportParameters.Left(reportParameters.Length - 1);
 
                         //reportParameters = "<?xml version = \"1.0\" encoding = \"utf-16\" ?><maxs:UnknowReport tbNamespace= \"erp.company.isocountrycodes\" xmlns:\"http://www.microarea.it/Schema/2004/Smart///Users/sa/.xsd\" ><maxs:Parameters>"+
@@ -573,11 +570,11 @@ namespace Microarea.Common.Applications
                          reportParameters +
                          "</Parameters>";
                     }
-                    try               
+                    try
                     {
                         XmlDomParameters = new XmlDocument();
                         XmlDomParameters.LoadXml(reportParameters);
-                        }
+                    }
                     catch (Exception ex)
                     {
                         Debug.Fail(ex.Message);

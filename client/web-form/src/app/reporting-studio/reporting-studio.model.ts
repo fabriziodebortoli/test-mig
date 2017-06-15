@@ -4,7 +4,7 @@ export interface Message {
   message?: string;
 }
 
-export enum CommandType { WRONG, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, RUNREPORT, ENDREPORT, NONE, HOTLINK, PREVASK, RERUN }
+export enum CommandType { WRONG, NAMESPACE, INITTEMPLATE, TEMPLATE, ASK, UPDATEASK, DATA, STOP, RUNREPORT, ENDREPORT, NONE, PREVASK, RERUN }
 
 export enum AskObjectType { text, radio, check, dropdownlist, hotlink }
 
@@ -452,8 +452,7 @@ export class hotlink extends askObj {
     this.obj = AskObjectType.hotlink;
     this.ns = jsonObj.hotlink.ns;
     this.multi_selection = jsonObj.hotlink.multi_selection;
-    this.selection_type = jsonObj.hotlink.selection_type;
-    this.selectionList = jsonObj.hotlink.selection_list;
+    this.selection_type = 'code';
     this.value = '';
   }
 

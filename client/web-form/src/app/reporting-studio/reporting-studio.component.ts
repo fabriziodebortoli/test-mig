@@ -34,9 +34,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // ask dialog objects
   public askDialogTemplate: any;
-  // hotlink possible values
-  public hotLinkValues: any;
-
+ 
 
   private viewHeightSubscription: Subscription;
   private viewHeight: number;
@@ -110,7 +108,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   reset() {
     this.rsService.running = false;
     this.askDialogTemplate = 'empty';
-    this.hotLinkValues = 'empty';
+
     this.reportTemplate = 'empty';
     this.reportData = 'empty';
   }
@@ -125,9 +123,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.ASK:
           this.askDialogTemplate = message;
           this.rsService.showAsk = true;
-          break;
-        case CommandType.HOTLINK:
-          this.hotLinkValues = msg;
           break;
         case CommandType.UPDATEASK:
           this.askDialogTemplate = message;
