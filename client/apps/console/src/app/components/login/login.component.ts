@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginInfo } from './login-info';
 
 @Component({
   selector: 'app-login',
@@ -7,7 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  loginInfo: LoginInfo;
+
+  constructor() { 
+    this.loginInfo = new LoginInfo();
+  }
+
+  submitLogin() {
+    if (this.loginInfo.accountName == '' || this.loginInfo.password == '') {
+      return;
+    }
+  }
 
   ngOnInit() {
   }

@@ -1,3 +1,4 @@
+import { CompanyService } from './services/company.service';
 import { AccountComponent } from './components/account/account.component';
 import { AppComponent } from './app.component';
 import { AppHomeComponent } from './components/app-home/app-home.component';
@@ -17,6 +18,7 @@ import { routes } from './app.routes';
 import { ConsoleModule } from '@taskbuilder/console';
 import { DatabaseInfoComponent } from './components/database-info/database-info.component';
 import { ModelService } from './services/model.service';
+import { LoginService } from './services/login.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,7 @@ import { ModelService } from './services/model.service';
     HttpModule,
     ConsoleModule
   ],
-  providers: [ModelService, AuthGuardService, ModelService],
+  providers: [AuthGuardService, ModelService, LoginService, CompanyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

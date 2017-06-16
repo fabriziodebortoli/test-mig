@@ -64,6 +64,7 @@ import { TbCardTitleComponent } from './containers/tb-card/tb-card-title/tb-card
 import { TbCardContentComponent } from './containers/tb-card/tb-card-content/tb-card-content.component';
 import { IconComponent } from './icons/icon.component';
 import { M4IconComponent } from './icons/m4-icon.component';
+import { HotlinkComponent } from './controls/hotlink/hotlink.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -91,7 +92,7 @@ const TB_COMPONENTS = [
   BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
   PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent,
   IconComponent, TopbarMenuElementsComponent, TbCardComponent, TbCardTitleComponent, TbCardContentComponent,
-  M4IconComponent, ConnectionStatusComponent
+  M4IconComponent, ConnectionStatusComponent, HotlinkComponent
 
 ];
 

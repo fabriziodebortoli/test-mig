@@ -3,19 +3,19 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Name" value="">
+        <input type="text" placeholder="Name" value="" [(ngModel)]="model.name">
       </div>
       <div class="box">
-        <input type="text" placeholder="Subscription" value="">
+        <input type="text" placeholder="Subscription" value="" [(ngModel)]="model.subscriptionId">
       </div>
       <div class="box">
-        <input type="checkbox" name="cboxDisabled" value="">
+        <input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.disabled">
         <label for="cboxDisabled">Disabled</label>
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-      <textarea rows="5" cols="36" placeholder="Description" maxlength="255"></textarea>
+      <textarea rows="5" cols="36" placeholder="Description" maxlength="255" [(ngModel)]="model.description"></textarea>
       </div>
     </div>
   </div>
@@ -23,12 +23,12 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Provider" value="">
+        <input type="text" placeholder="Provider" value="" [(ngModel)]="model.provider">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="checkbox" name="cboxIsUnicode" value="">
+        <input type="checkbox" name="cboxIsUnicode" value="" [(ngModel)]="model.isUnicode">
         <label for="cboxIsUnicode">Use Unicode</label>
       </div>
     </div>
@@ -40,7 +40,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="checkbox" name="cboxUseDMS" value="" (change)="onUseDMSChange($event)">
+        <input type="checkbox" name="cboxUseDMS" value="" (change)="onUseDMSChange($event)" [(ngModel)]="model.useDMS">
         <label for="cboxUseDMS">Use DMS</label>
       </div>
     </div>
@@ -52,12 +52,12 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Preferred Language" value="">
+        <input type="text" placeholder="Preferred Language" value="" [(ngModel)]="model.preferredLanguage">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Application Language" value="">
+        <input type="text" placeholder="Application Language" value="" [(ngModel)]="model.applicationLanguage">
       </div>
     </div>
   </div>
@@ -65,7 +65,7 @@
   <div class="row end-xs center-sm center-lg">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-primary" (click)=" submitCompany()">Save</button>
       </div>
     </div>
   </div>
