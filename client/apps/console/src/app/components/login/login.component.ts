@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginInfo } from './login-info';
+import { Credentials } from './credentials';
+import { LoginService } from './../../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -8,19 +9,20 @@ import { LoginInfo } from './login-info';
 })
 export class LoginComponent implements OnInit {
 
-  loginInfo: LoginInfo;
+  loginInfo: Credentials;
 
-  constructor() { 
-    this.loginInfo = new LoginInfo();
+  constructor(private loginService: LoginService) { 
+    this.loginInfo = new Credentials();
   }
 
   submitLogin() {
     if (this.loginInfo.accountName == '' || this.loginInfo.password == '') {
       return;
     }
+
+    this.loginService.login(this.loginInfo);
   }
 
   ngOnInit() {
   }
-
 }
