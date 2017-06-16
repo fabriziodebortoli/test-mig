@@ -14,15 +14,17 @@
                     <h4>Favorites</h4>
 
                     <ul class="dashboard-sidebar-list" *ngIf="menuService?.favoritesCount > 0">
-                        <li *ngFor="let favorite of favorites" class="dashboard-sidebar-item">
 
-                            <md-icon class="type" [ngClass]="favorite.objectType">{{imageService.getObjectIcon(favorite)}}</md-icon>
+                        <li *ngFor="let object of favorites" class="dashboard-sidebar-item">
+                            <md-spinner *ngIf="object.isLoading" class="spinner"></md-spinner>
+                            <md-icon class="type" [ngClass]="object.objectType">{{imageService.getObjectIcon(object)}}</md-icon>
 
-                            <span class="truncate" (click)="runFunction(favorite)">{{favorite.title}}</span>
+                            <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
 
-                            <md-icon class="close" (click)="menuService.toggleFavorites(favorite)" title="Remove">close</md-icon>
+                            <md-icon class="close" (click)="menuService.toggleFavorites(object)" title="Remove">close</md-icon>
                         </li>
                     </ul>
+
 
                 </div>
 
@@ -33,11 +35,12 @@
                     <ul class="dashboard-sidebar-list" *ngIf="menuService?.mostUsedCount > 0">
                         <li *ngFor="let object of utilsService.toArray(menuService?.mostUsed) | slice:0:9;" class="dashboard-sidebar-item">
 
+                            <md-spinner *ngIf="object.isLoading" class="spinner"></md-spinner>
                             <md-icon class="type" [ngClass]="object.objectType">{{imageService.getObjectIcon(object)}}</md-icon>
 
                             <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
 
-                              <md-icon class="close" (click)="menuService.removeFromMostUsed(object)" title="Remove">close</md-icon>
+                            <md-icon class="close" (click)="menuService.removeFromMostUsed(object)" title="Remove">close</md-icon>
                         </li>
                     </ul>
 
