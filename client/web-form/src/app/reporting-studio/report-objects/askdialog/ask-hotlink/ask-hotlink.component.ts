@@ -3,7 +3,7 @@ import { HttpService } from './../../../../core/http.service';
 import { Observable } from 'rxjs/Rx';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { hotlink, CommandType } from './../../../reporting-studio.model';
-import { Component, Input, DoCheck, KeyValueDiffers, Output, EventEmitter, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, DoCheck, KeyValueDiffers, Output, EventEmitter, ViewChild, ViewEncapsulation, OnInit } from '@angular/core';
 
 @Component({
   selector: 'rs-ask-hotlink',
@@ -11,12 +11,15 @@ import { Component, Input, DoCheck, KeyValueDiffers, Output, EventEmitter, ViewC
   styleUrls: ['./ask-hotlink.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AskHotlinkComponent extends HotlinkComponent {
+export class AskHotlinkComponent extends HotlinkComponent implements OnInit {
 
 
   @Input() hotlink: hotlink;
   constructor(http: HttpService) {
     super(http);
+  }
+
+  ngOnInit() {
     this.value = this.hotlink.value;
     this.selectionType = this.hotlink.selection_type;
   }

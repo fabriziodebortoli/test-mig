@@ -20,6 +20,8 @@ export class GridComponent implements OnInit, OnDestroy {
   private gridColumns: string[];
   private gridData: any[];
 
+
+
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
@@ -34,5 +36,6 @@ export class GridComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.dataSubscription.unsubscribe();
   }
+
 
 }

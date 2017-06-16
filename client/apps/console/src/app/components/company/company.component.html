@@ -34,7 +34,7 @@
     </div>
   </div>
    <div class="row">
-    <app-database-info></app-database-info>
+    <app-database-info [isDMS]="false" [companyModel]="model"></app-database-info>
   </div>
   <br>
   <div class="row">
@@ -46,7 +46,7 @@
     </div>
   </div>
   <div class="row" *ngIf="useDMS">
-    <app-database-info></app-database-info>
+    <app-database-info [isDMS]="true" [companyModel]="model"></app-database-info>
   </div>
   <br>
   <div class="row">

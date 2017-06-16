@@ -17,7 +17,7 @@
     <tb-frame-content>
         <tb-view-container>
             <tb-view>
-                <rs-askdialog *ngIf="rsService.showAsk" [ask]="askDialogTemplate" [hotLinkValues]="hotLinkValues"></rs-askdialog>
+                <rs-askdialog *ngIf="rsService.showAsk" [ask]="askDialogTemplate"></rs-askdialog>
                 <div id="rsLayout" #rsLayout >
                     <rs-layout [reportTemplate]="reportTemplate" [reportData]="reportData"></rs-layout>
                 </div>
