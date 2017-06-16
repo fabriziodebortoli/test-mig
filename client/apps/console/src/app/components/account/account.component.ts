@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { NgForm }    from '@angular/forms';
 import { Account } from './../../model/account';
-import { ModelService } from './../../services/model.service';
+import { AccountService } from './../../services/account.service';
 
 @Component({
   selector: 'app-account',
@@ -16,7 +16,7 @@ export class AccountComponent implements OnInit {
   model:Account;
   editing:boolean = false;
 
-  constructor(private modelService: ModelService) { 
+  constructor(private modelService: AccountService) { 
     this.model = new Account();
   }
 

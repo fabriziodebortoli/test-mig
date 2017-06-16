@@ -414,6 +414,12 @@ namespace Microarea.AdminServer.Controllers
 				_jsonHelper.AddJsonCouple<string>("message", e.Message);
 				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
+			catch (Exception ex)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", ex.Message);
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+			}
 
 			if (!result)
 			{
