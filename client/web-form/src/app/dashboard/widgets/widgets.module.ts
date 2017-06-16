@@ -56,6 +56,6 @@ const KENDO_UI_MODULES = [
     WidgetGridComponent,
     WidgetChartComponent
   ],
-  providers: [WidgetsService, DataService, EventDataService]
+  providers: [EventDataService]
 })
 export class WidgetsModule { }

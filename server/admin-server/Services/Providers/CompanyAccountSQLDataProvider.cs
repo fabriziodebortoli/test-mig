@@ -38,7 +38,11 @@ namespace Microarea.AdminServer.Services.Providers
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
+							{
 								account.Admin = (bool)dataReader["Admin"];
+								account.ExistsOnDB = true;
+							}
+								
 						}
 					}
 				}

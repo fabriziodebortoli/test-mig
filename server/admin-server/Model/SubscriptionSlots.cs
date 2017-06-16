@@ -9,14 +9,15 @@ namespace Microarea.AdminServer.Model
     {
         int subscriptionId;
         string value = string.Empty;
-        
+		bool existsOnDB = false;
 
         //---------------------------------------------------------------------
         public int SubscriptionId { get { return this.subscriptionId; } set { this.subscriptionId = value; } }
         public string Value { get { return this.value; } set { this.value = value; } }
-       
-        // data provider
-        IDataProvider dataProvider;
+		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
+
+		// data provider
+		IDataProvider dataProvider;
 
         //---------------------------------------------------------------------
         public SubscriptionSlots()

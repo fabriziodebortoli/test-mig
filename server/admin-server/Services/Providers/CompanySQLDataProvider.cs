@@ -42,6 +42,7 @@ namespace Microarea.AdminServer.Services.Providers
 								company.Provider = dataReader["Provider"] as string;
 								company.Disabled = (bool)dataReader["Disabled"];
 								company.IsUnicode = (bool)dataReader["IsUnicode"];
+								company.ExistsOnDB = true;
 							}
 						}
 					}
@@ -68,18 +69,18 @@ namespace Microarea.AdminServer.Services.Providers
                 {
                     connection.Open();
 
-					bool existCompany = false;
-
 					using (SqlCommand command = new SqlCommand(Consts.ExistCompany, connection))
 					{
-						command.Parameters.AddWithValue("@CompanyId", company.CompanyId);
-						existCompany = (int)command.ExecuteScalar() > 0;
+						command.Parameters.AddWithValue("@Name", company.Name);
+						using (SqlDataReader reader = command.ExecuteReader())
+							while (reader.Read())
+								company.CompanyId = (int)reader["CompanyId"];
 					}
 
 					using (SqlCommand command = new SqlCommand())
 					{
 						command.Connection = connection;
-						command.CommandText = existCompany ? Consts.UpdateCompany : Consts.InsertCompany;
+						command.CommandText = (company.CompanyId != -1) ? Consts.UpdateCompany : Consts.InsertCompany;
 						
 						command.Parameters.AddWithValue("@Name", company.Name);
 						command.Parameters.AddWithValue("@Description", company.Description);
@@ -100,7 +101,7 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@DMSDBOwner", (company.DMSDatabaseInfo != null) ? company.DMSDatabaseInfo.DBOwner : string.Empty);
 						command.Parameters.AddWithValue("@DMSDBPassword", (company.DMSDatabaseInfo != null) ? company.DMSDatabaseInfo.Password : string.Empty);
 
-						if (existCompany)
+						if (company.CompanyId != -1)
 							command.Parameters.AddWithValue("@CompanyId", company.CompanyId);
 
 						command.ExecuteNonQuery();

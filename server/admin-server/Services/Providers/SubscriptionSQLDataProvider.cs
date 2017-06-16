@@ -40,6 +40,7 @@ namespace Microarea.AdminServer.Services.Providers
 							{
 								subscription.ActivationToken = new Library.ActivationToken (dataReader["ActivationKey"] as string);
 								subscription.PurchaseId = dataReader["PurchaseId"] as string;
+								subscription.ExistsOnDB = true;
 							}
 						}
 					}

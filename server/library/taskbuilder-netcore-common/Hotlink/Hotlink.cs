@@ -55,7 +55,7 @@ namespace Microarea.Common.Hotlink
 		*/
 		// i parametri sono valorizzati i tipi in formato Soap
 		//----------------------------------------------------------------------------
-		private string GetActualParamsAsXML(object fieldData)
+		public string GetActualParamsAsXML(object fieldData)
 		{
 			XmlDocument dom = new XmlDocument();
 			dom.LoadXml(string.Format("<{0}/>", ReferenceObjectsXML.Element.HotKeyLink));
@@ -85,8 +85,32 @@ namespace Microarea.Common.Hotlink
 			return s.ToString();
 		}
 
-		//----------------------------------------------------------------------------
-		public string ParamName(int i)
+        // i parametri sono valorizzati i tipi in formato Soap
+        //----------------------------------------------------------------------------
+        public string GetActualParamsAsJson()
+        {
+            string args = string.Empty;
+            int i = 0;
+            foreach (Expression expression in ActualParams)
+            {
+                Value result = expression.Eval();
+                if (result != null)
+                {
+                    string name = this.Prototype.GetParameter(i).Name;
+
+                    string v = SoapTypes.To(result.Data);
+
+                    args += (i > 0 ? '&' : '?');
+                    args += name + '=' + v;
+                }
+                i++;
+            }
+
+            return args;
+        }
+
+        //----------------------------------------------------------------------------
+        public string ParamName(int i)
 		{
 			return "@P" + i.ToString();
 		}

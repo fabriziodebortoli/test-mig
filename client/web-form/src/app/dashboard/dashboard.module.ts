@@ -1,7 +1,7 @@
-import { WidgetsModule } from './widgets/dashboard.module';
+import { WidgetsModule } from './widgets/widgets.module';
 import { WidgetsService } from './widgets/widgets.service';
 import { MaterialModule } from '@angular/material';
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SharedModule } from '../shared/shared.module';
@@ -46,4 +46,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   providers: [WidgetsService],
   declarations: [DashboardComponent]
 })
-export class DashboardModule { }
+export class DashboardModule {
+   static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: DashboardModule,
+      providers: [WidgetsService]
+    };
+  }
+ }

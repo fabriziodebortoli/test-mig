@@ -1,13 +1,17 @@
 import { ComponentService } from './../core/component.service';
-import { environment } from './../../environments/environment';
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-
 import { Logger } from './../core/logger.service';
+import { environment } from './../../environments/environment';
+import { Injectable, EventEmitter, Output } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 import { EventDataService } from './../core/eventdata.service';
 import { DocumentService } from './../core/document.service';
-import { CommandType } from "app/reporting-studio";
+import { CommandType, PdfType } from './reporting-studio.model';
+
+import { Group } from '@progress/kendo-drawing';
+import { drawDOM, exportPDF } from '@progress/kendo-drawing';
+import { saveAs } from '@progress/kendo-file-saver';
+import { DrawOptions } from '@progress/kendo-drawing/dist/es/html';
 
 @Injectable()
 export class ReportingStudioService extends DocumentService {
@@ -17,6 +21,12 @@ export class ReportingStudioService extends DocumentService {
     private rsServer: string = environment.baseSocket + 'rs';
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
+
+    @Output() eventDownload = new EventEmitter<void>();
+
+    public savingPdf: boolean = false;
+    public totalPages: number;
+    public pdfState: PdfType = PdfType.NOPDF;
 
     constructor(
         logger: Logger,
@@ -91,5 +101,26 @@ export class ReportingStudioService extends DocumentService {
     reset() {
         this.pageNum = 1;
         this.showAsk = false;
+    }
+
+    loopPdfPage() {
+        if (this.pdfState === PdfType.PREPAREDPDF){ 
+            this.renderPDF();
+            if (this.pageNum === this.totalPages) {
+                this.pdfState = PdfType.NOPDF;
+            }
+            else {
+                this.eventDownload.emit();
+            }
+        }
+    }
+
+    public renderPDF() {
+        drawDOM(document.getElementById('rsLayout')).then((group: Group) => {
+            return exportPDF(group, { multiPage: true });
+        }).then((dataUri) => {
+            saveAs(dataUri, 'export.pdf');
+        });
+
     }
 }

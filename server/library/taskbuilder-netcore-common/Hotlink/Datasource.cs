@@ -140,7 +140,7 @@ namespace Microarea.Common.Hotlink
             return true;
         }
 
-        public async Task<bool> PrepareQueryAsync(/*IQueryCollection requestQuery,*/ string selectionType = "Code", string likeValue = "")
+        public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "Code", string likeValue = "")
         {
             selection_type.Data = selectionType;
             like_value.Data = likeValue + '%';
@@ -159,7 +159,7 @@ namespace Microarea.Common.Hotlink
             {
                 SymField paramField = new SymField(p.TbType, p.Name);
 
-                string sp = null; // requestQuery[p.Name];
+                string sp = requestQuery[p.Name];
 
                 if (sp == null)
                 {
@@ -182,7 +182,7 @@ namespace Microarea.Common.Hotlink
             string query = "";
             if (sm == null)
             {
-                if (XmlDescription.SelectionTypeList.Count == 0)
+                if (XmlDescription.SelectionTypeList.Count == 0 && !XmlDescription.ClassType.IsNullOrEmpty())
                 {
                   query = await TbSession.GetHotLinkQuery(Session, Session.Namespace, /*aParams*/"", (int)Hotlink.HklAction.DirectAccess);
                 }
