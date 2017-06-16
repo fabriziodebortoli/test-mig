@@ -8,7 +8,8 @@ export class AuthGuardService implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate() {
-    if (localStorage.getItem('currentUser')) {
+
+    if (localStorage.getItem('jwt-token')) {
         // logged in so return true
         return true;
     }

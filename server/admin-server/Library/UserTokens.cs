@@ -10,11 +10,17 @@ namespace Microarea.AdminServer.Library
         SecurityToken apiSecurityToken = SecurityToken.Empty;
         SecurityToken authenticationToken = SecurityToken.Empty;
 
-        public string ApiSecurityToken { get; set; }
-        public string AuthenticationToken { get; set; }
+        public string ApiSecurityToken { get { return this.apiSecurityToken.Token; } }
+        public string AuthenticationToken { get { return this.authenticationToken.Token; } }
 
-        //---------------------------------------------------------------------
-        public UserTokens(bool isAdmin, string accountName)
+		//---------------------------------------------------------------------
+		public UserTokens()
+		{
+			apiSecurityToken = new SecurityToken();
+			authenticationToken = new SecurityToken();
+		}
+
+		public UserTokens(bool isAdmin, string accountName)
         {
             if (isAdmin) apiSecurityToken = SecurityToken.GetToken(TokenType.API, accountName);
             authenticationToken = SecurityToken.GetToken(TokenType.Authentication, accountName);

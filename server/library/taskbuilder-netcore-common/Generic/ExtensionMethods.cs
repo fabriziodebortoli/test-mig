@@ -1,7 +1,9 @@
 ﻿using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -638,7 +640,7 @@ namespace Microarea.Common.Generic
                 verticalAlign = "middle";
 
             string s = textAlign.ToJson("text_align") + ',' + verticalAlign.ToJson("vertical_align");
-  
+
             if (bracket)
                 s = '{' + s + '}';
 
@@ -652,10 +654,10 @@ namespace Microarea.Common.Generic
                 s = '"' + name + "\":";
 
             s += '{' +
-                    rect.Left   .ToHtml_px("left") + ',' +
-                    rect.Right  .ToHtml_px("right") + ',' +
-                    rect.Top    .ToHtml_px("top") + ',' +
-                    rect.Bottom .ToHtml_px("bottom") +
+                    rect.Left.ToHtml_px("left") + ',' +
+                    rect.Right.ToHtml_px("right") + ',' +
+                    rect.Top.ToHtml_px("top") + ',' +
+                    rect.Bottom.ToHtml_px("bottom") +
                  '}';
 
             if (bracket)
@@ -702,8 +704,63 @@ namespace Microarea.Common.Generic
             return s;
         }
 
+        public static string ToJson(this object o, string name = null, bool bracket = false)
+        {
+            if (o is string)
+            {
+                string s = o as string;
+                return s.ToJson(name, bracket, true);
+            }
+            if (o is double)
+            {
+                double d = (double)o;
+                return d.ToJson(name, bracket);
+            }
+            if (o is DateTime)
+            {
+                DateTime dt = (DateTime)o;
+                return dt.ToJson(name, bracket);
+            }
+            if (o is int || o is Int32)
+            {
+                int i = (int)o;
+                return i.ToJson(name, bracket);
+            }
+            if (o is Boolean)
+            {
+                Boolean b = (Boolean)o;
+                return b.ToJson(name, bracket);
+            }
+            if (o is DataEnum)
+            {
+                DataEnum de = (DataEnum)o;
+                return de.ToJson(name, bracket);
+            }
+            if (o is uint)
+            {
+                uint i = (uint)o;
+                return i.ToJson(name, bracket);
+            }
+            if (o is ushort)
+            {
+                ushort i = (ushort)o;
+                return i.ToJson(name, bracket);
+            }
+            if (o is long)
+            {
+                long i = (uint)o;
+                return i.ToJson(name, bracket);
+            }
+            if (o is short || o is Int16)
+            {
+                long i = (short)o;
+                return i.ToJson(name, bracket);
+            }
+            Debug.Fail("ToJson(object..." + o.GetType().ToString());
+            return o.ToString().ToJson(name, bracket, true);
+        }
     }
-
+    
     //================================================================================
     public static class ListStringExtensions
 	{
