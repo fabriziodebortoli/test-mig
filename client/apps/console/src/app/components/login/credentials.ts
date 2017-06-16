@@ -3,5 +3,8 @@ export class Credentials {
     accountName: string;
     password: string;
 
-    constructor() {}
+    constructor() {
+        this.accountName = '';
+        this.password = '';
+    }
 }
