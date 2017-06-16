@@ -165,8 +165,7 @@ namespace Microarea.TbLoaderGate
 							}
 							string tbName = jArgs["tbLoaderName"].ToString();
 
-							bool dummy;
-							TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbName, false, out dummy);
+							TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbName, false, out bool dummy);
 							if (tb != null)
 							{
 								tb.RequireWebSocketConnection(coupleName, http.Request.Host);

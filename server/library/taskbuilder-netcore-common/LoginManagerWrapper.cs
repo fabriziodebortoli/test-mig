@@ -21,8 +21,7 @@ namespace Microarea.Common.WebServicesWrapper
 		//-----------------------------------------------------------------------
 		public static LoginManagerSession GetLoginManagerSession(string authenticationToken)
 		{
-			LoginManagerSession temp;
-			LoginManagerSessionManager.LoginManagerSessionTable.TryGetValue(authenticationToken, out temp);
+			LoginManagerSessionTable.TryGetValue(authenticationToken, out LoginManagerSession temp);
 			return temp;
 		}
 
@@ -31,7 +30,7 @@ namespace Microarea.Common.WebServicesWrapper
 		{
 			lock (staticTicket)
 			{
-				LoginManagerSessionManager.LoginManagerSessionTable.Remove(authenticationToken);
+				LoginManagerSessionTable.Remove(authenticationToken);
 			}
 		}
 
@@ -40,10 +39,10 @@ namespace Microarea.Common.WebServicesWrapper
 		{
 			lock (staticTicket)
 			{
-				if (LoginManagerSessionManager.LoginManagerSessionTable.TryGetValue(authenticationToken, out LoginManagerSession temp))
+				if (LoginManagerSessionTable.TryGetValue(authenticationToken, out LoginManagerSession temp))
 					return;
 
-				LoginManagerSessionManager.LoginManagerSessionTable.Add(authenticationToken, session);
+				LoginManagerSessionTable.Add(authenticationToken, session);
 			}
 		}
 	}
