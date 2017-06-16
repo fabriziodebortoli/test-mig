@@ -125,6 +125,7 @@ export class WebSocketService {
                 observer.next(true);
                 observer.complete();
             } else if (this._socketConnectionStatus === SocketConnectionStatus.Connecting) {
+                this.logger.info('Connection not yet avCannot yet use connection, connecting...');
                 observer.next(false);
                 observer.complete();
             } else {

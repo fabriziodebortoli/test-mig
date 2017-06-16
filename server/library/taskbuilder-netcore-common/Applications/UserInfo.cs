@@ -178,12 +178,13 @@ namespace Microarea.Common.Applications
 
         public static LoginInfoMessage GetLoginInformation(Microsoft.AspNetCore.Http.ISession session, string authtoken, string baseAddress = "http://localhost:5000/")
         {
-            string loginInfo = session != null ? session.GetString(authtoken) : string.Empty;
+			//prima era GetRemoteLoginInformation, ora unificata temporaneamente per togliere la conoscenza del base address di accountmanager
+			string loginInfo = session != null ? session.GetString(authtoken) : string.Empty;
             if (loginInfo.IsNullOrEmpty())
             {
-                loginInfo = GetRemoteLoginInformation(authtoken, baseAddress).Result;
+                loginInfo = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(authtoken);
 
-                if (session != null && !loginInfo.IsNullOrEmpty())
+				if (session != null && !loginInfo.IsNullOrEmpty())
                     session.SetString(authtoken, loginInfo);
             }
 
@@ -193,8 +194,9 @@ namespace Microarea.Common.Applications
 
         public static LoginInfoMessage GetLoginInformation(string authtoken, string baseAddress = "http://localhost:5000/")
         {
-            string loginInfo = GetRemoteLoginInformation(authtoken, baseAddress).Result;
-            if (loginInfo.IsNullOrEmpty())
+			//prima era GetRemoteLoginInformation, ora unificata temporaneamente per togliere la conoscenza del base address di accountmanager
+			string loginInfo = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(authtoken);
+			if (loginInfo.IsNullOrEmpty())
                 return null;
 
             LoginInfoMessage msg = JsonConvert.DeserializeObject<LoginInfoMessage>(loginInfo);

@@ -1,18 +1,8 @@
-<!--<md-card [ngClass]="{'sameHeight': !isCollapsed}">
-
-    <md-card-title (click)="toggleCollapse($event)" *ngIf="hasTitle" [ngClass]="{'c-pointer': isCollapsible }">
-        <span>{{title}}</span>
-        <md-icon *ngIf="isCollapsible">{{getArrowIcon()}}</md-icon>
-    </md-card-title>
-
-    <md-card-content *ngIf="!isCollapsed">
-        <ng-content></ng-content>
-    </md-card-content>
-
-</md-card>-->
-<div [ngClass]="{'sameHeight': !isCollapsed}" class="tbcard">
-    <tb-card-title [ngClass]="{'c-pointer': isCollapsible }" [isCollapsible]="isCollapsible" [isCollapsed]="isCollapsed" (click)="toggleCollapse($event)" *ngIf="hasTitle" [title]="title"></tb-card-title>
-    <md-card-content *ngIf="!isCollapsed">
-        <ng-content></ng-content>
-    </md-card-content>
+<div class="tb-card" [ngClass]="{'sameHeight': !isCollapsed}">
+    <tb-card>
+        <tb-card-title class="tb-card-title" [ngClass]="{'c-pointer': isCollapsible }" [isCollapsible]="isCollapsible" [isCollapsed]="isCollapsed" (click)="toggleCollapse($event)" *ngIf="hasTitle" [title]="title"></tb-card-title>
+        <tb-card-content *ngIf="!isCollapsed" class="tb-card-content">
+            <ng-content></ng-content>
+        </tb-card-content>
+    </tb-card>
 </div>

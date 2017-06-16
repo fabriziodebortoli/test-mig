@@ -1,24 +1,21 @@
 ﻿namespace Microarea.AdminServer.Model.Interfaces
 {
-    //================================================================================
-    public interface IDatabaseInfo
-    {
-        string Database { get; }
-        string Server { get; }
-        string DBOwner { get; }
-        string Password { get; }
-    }
-
-    //================================================================================
+     //================================================================================
     interface ICompany : IAdminModel
 	{
         int CompanyId { get; }
 		string Name { get; }
 		string Description { get; set; }
 		int SubscriptionId { get; set; }
-        IDatabaseInfo CompanyDatabaseInfo { get; }
+		string CompanyDBServer { get; set; }
+		string CompanyDBName { get; set; }
+		string CompanyDBOwner { get; set; }
+		string CompanyDBPassword { get; set; }
 		bool UseDMS { get; }
-		IDatabaseInfo DMSDatabaseInfo { get; }
+		string DMSDBServer { get; set; }
+		string DMSDBName { get; set; }
+		string DMSDBOwner { get; set; }
+		string DMSDBPassword { get; set; }
         bool Disabled { get; }
         string DatabaseCulture { get; }
         bool IsUnicode { get; }
