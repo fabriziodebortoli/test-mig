@@ -1,4 +1,4 @@
-import { ModelService } from './services/model.service';
+import { AccountService } from './services/account.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -14,11 +14,11 @@ export class AppComponent {
   errText:string;
 
   // services
-  accountService: ModelService;
+  /*accountService: AccountService;
 
-  constructor(accountService:ModelService) {
+  constructor(accountService:AccountService) {
     this.accountService = accountService;
-  }
+  }*/
 
   // getAccountInfo() {
   //   alert(this.username);
