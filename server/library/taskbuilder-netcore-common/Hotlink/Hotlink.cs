@@ -90,7 +90,7 @@ namespace Microarea.Common.Hotlink
         //----------------------------------------------------------------------------
         public string GetActualParamsAsJson()
         {
-            string args = string.Empty;
+            string args = "\"args\":{";
             int i = 0;
             foreach (Expression expression in ActualParams)
             {
@@ -100,13 +100,13 @@ namespace Microarea.Common.Hotlink
                     string name = this.Prototype.GetParameter(i).Name;
                     object v = result.Data;
 
-                    if (i > 0) args +=  ',';
+                    if (i > 0) args +=  ',' ;
     
                     args += v.ToJson(name);
                 }
                 i++;
             }
- 
+            args += '}';
             return args;
         }
 
