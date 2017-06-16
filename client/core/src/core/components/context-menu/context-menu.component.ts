@@ -1,10 +1,12 @@
+import { Component, Input, ViewChild } from '@angular/core';
+
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
-import { ContextMenuDirective } from '../../directives/context-menu.directive';
-import { ContextMenuItem } from '../../models/context-menu-item.model';
-import { Component, Input, ViewChild } from '@angular/core';
-import { EventDataService } from './../../core/eventdata.service';
-import { WebSocketService } from './../../core/websocket.service';
+
+import { ContextMenuItem } from '../../../shared/models/context-menu-item.model';
+
+import { EventDataService } from '../../../core/services/eventdata.service';
+import { WebSocketService } from '../../../core/services/websocket.service';
 
 @Component({
   selector: 'tb-context-menu',

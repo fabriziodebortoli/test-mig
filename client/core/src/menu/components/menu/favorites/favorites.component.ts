@@ -1,9 +1,10 @@
-import { UtilsService } from './../../../../core/utils.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
-import { MenuService } from './../../../services/menu.service';
-import { ImageService } from './../../../services/image.service';
-import { LocalizationService } from './../../../services/localization.service';
+import { UtilsService } from '../../../../core/services/utils.service';
+
+import { MenuService } from '../../../services/menu.service';
+import { ImageService } from '../../../services/image.service';
+import { LocalizationService } from '../../../services/localization.service';
 
 @Component({
   selector: 'tb-favorites',

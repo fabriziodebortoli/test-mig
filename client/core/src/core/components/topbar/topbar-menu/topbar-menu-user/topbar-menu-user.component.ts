@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
-import { ContextMenuItem } from '../../../../models/context-menu-item.model';
-import { LoginSessionService } from './../../../../services/login-session.service';
-import { EventDataService } from './../../../../services/eventdata.service';
+import { ContextMenuItem } from '../../../../../shared';
+import { LoginSessionService } from '../../../../services/login-session.service';
+import { EventDataService } from '../../../../services/eventdata.service';
 
 @Component({
   selector: 'tb-topbar-menu-user',

@@ -1,8 +1,9 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MaterialModule, MdDialog, MdDialogRef } from '@angular/material';
+import { MdDialogRef } from '@angular/material';
+
 import { HttpMenuService } from './../../../services/http-menu.service';
 import { LocalizationService } from './../../../services/localization.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'tb-connection-info-dialog',

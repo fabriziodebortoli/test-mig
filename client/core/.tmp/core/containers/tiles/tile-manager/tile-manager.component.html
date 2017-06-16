@@ -1,0 +1,15 @@
+<div class="tile-manager">
+    <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)">
+        <kendo-tabstrip-tab *ngFor="let tile of getTiles();let i = index" [selected]="i == 0">
+            <ng-template kendoTabTitle>
+                <tb-icon [iconType]="tile?.iconType" [icon]="tile?.icon"></tb-icon>
+                <span>{{tile?.title}}</span>
+            </ng-template>
+            <template kendoTabContent>
+                <div class='kendoTabContent' [style.height.px]="viewHeight">
+                    <ng-content></ng-content>
+                </div>
+            </template>
+        </kendo-tabstrip-tab>
+    </kendo-tabstrip>
+</div>

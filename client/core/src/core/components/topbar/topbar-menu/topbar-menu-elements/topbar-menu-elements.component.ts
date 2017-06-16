@@ -3,9 +3,9 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 
-import { ContextMenuItem } from './../../../../models/context-menu-item.model';
-import { EventDataService } from './../../../../services/eventdata.service';
-import { WebSocketService } from './../../../../services/websocket.service';
+import { ContextMenuItem } from '../../../../../shared';
+import { WebSocketService } from '../../../../services/websocket.service';
+import { EventDataService } from '../../../../services/eventdata.service';
 
 @Component({
   selector: 'tb-topbar-menu-elements',

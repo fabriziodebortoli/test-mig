@@ -1,9 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { Observable } from 'rxjs/Rx';
-import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
-
 import { LocalizationService } from './../../../services/localization.service';
 import { MenuService } from './../../../services/menu.service';
 

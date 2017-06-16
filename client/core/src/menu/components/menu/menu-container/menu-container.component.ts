@@ -1,10 +1,12 @@
+import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { UtilsService } from './../../../../core/utils.service';
+
+import { MasonryOptions } from 'angular2-masonry';
+
+import { UtilsService } from './../../../../core/services/utils.service';
 import { LocalizationService } from './../../../services/localization.service';
 import { MenuService } from './../../../services/menu.service';
 import { SettingsService } from './../../../services/settings.service';
-import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit } from '@angular/core';
-import { MasonryOptions } from "angular2-masonry";
 
 @Component({
   selector: 'tb-menu-container',
@@ -27,7 +29,7 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
     private localizationService: LocalizationService
   ) {
 
-  this.subscriptions.push(this.menuService.menuActivated.subscribe( ()=>{
+    this.subscriptions.push(this.menuService.menuActivated.subscribe(() => {
       this.refreshLayout();
     }));
   }

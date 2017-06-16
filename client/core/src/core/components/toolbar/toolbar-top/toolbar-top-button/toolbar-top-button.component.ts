@@ -1,6 +1,8 @@
-import { HttpService } from './../../../../core/http.service';
-import { EventDataService } from './../../../../core/eventdata.service';
 import { Component, Input } from '@angular/core';
+
+import { HttpService } from './../../../../services/http.service';
+import { EventDataService } from './../../../../services/eventdata.service';
+
 import { TbComponent } from './../../..';
 
 @Component({

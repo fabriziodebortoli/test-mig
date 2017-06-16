@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { SidenavService } from '../../services/sidenav.service';
+import { SidenavService } from '../../../core/services/sidenav.service';
 
 @Component({
   selector: 'tb-topbar',
@@ -8,7 +8,6 @@ import { SidenavService } from '../../services/sidenav.service';
   styleUrls: ['./topbar.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-
 export class TopbarComponent implements OnInit {
 
   constructor(private sidenavService: SidenavService) { }

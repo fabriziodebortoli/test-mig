@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { ContextMenuItem } from './../../../../models/context-menu-item.model';
-import { EventDataService } from './../../../../services/eventdata.service';
-import { ComponentService } from './../../../../services/component.service';
+import { ContextMenuItem } from '../../../../../shared';
+import { ComponentService } from '../../../../services/component.service';
+import { EventDataService } from '../../../../services/eventdata.service';
 
 @Component({
   selector: 'tb-topbar-menu-test',

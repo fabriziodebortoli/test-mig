@@ -83,8 +83,20 @@ gulp.task('rollup:fesm', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See https://github.com/rollup/rollup/wiki/JavaScript-API#external
             external: [
+                '@angular/animation',
                 '@angular/core',
-                '@angular/common'
+                '@angular/common',
+                '@angular/http',
+                '@angular/material',
+                '@angular/router',
+                'angular2-cookie/services/cookies.service',
+                'json8-patch',
+                'rxjs',
+                'rxjs/Rx',
+                'rxjs/add/operator/toPromise',
+                'rxjs/BehaviorSubject',
+                'rxjs/Subject',
+                '@progress/kendo-angular-layout'
             ],
 
             // Format of generated bundle

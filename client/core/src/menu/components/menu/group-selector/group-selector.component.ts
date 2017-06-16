@@ -1,9 +1,9 @@
-import { UtilsService } from './../../../../core/utils.service';
 import { Component, Output, EventEmitter } from '@angular/core';
 
+import { UtilsService } from '../../../../core/services/utils.service';
 
-import { MenuService } from './../../../services/menu.service';
-import { ImageService } from './../../../services/image.service';
+import { MenuService } from '../../../services/menu.service';
+import { ImageService } from '../../../services/image.service';
 
 
 @Component({

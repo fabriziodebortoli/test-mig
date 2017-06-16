@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { EventDataService } from './../../../core/eventdata.service';
-import { ViewModeType } from '../../';
+import { EventDataService } from './../../../services/eventdata.service';
+import { ViewModeType } from '../../../../shared';
 
 @Component({
   selector: 'tb-toolbar-top',

@@ -1,7 +1,8 @@
 import { Component, Input, ViewChild, OnChanges, AfterViewInit } from '@angular/core';
 
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
-import { formatDate } from '@telerik/kendo-intl';
+
+import { formatDate } from '@progress/kendo-angular-intl';
 
 import { ControlComponent } from './../control.component';
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { StateButton } from '../../models/state-button.model';
+import { StateButton } from '../../../shared/models/state-button.model';
 
 @Component({
   selector: 'tb-state-button',

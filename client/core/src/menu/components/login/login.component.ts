@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { LoginSession } from './../../../shared/models/login-session';
+import { LoginSession } from './../../../shared';
 
-import { HttpService } from './../../../core/http.service';
-import { LoginSessionService } from './../../../core/login-session.service';
+import { HttpService, } from '../../../core/services/http.service';
+import { LoginSessionService } from '../../../core/services/login-session.service';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 

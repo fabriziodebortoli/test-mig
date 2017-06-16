@@ -1,11 +1,11 @@
-import { Subscription } from 'rxjs';
-import { title } from './../../../reporting-studio/reporting-studio.model';
-import { EnumsService } from './../../../core/enums.service';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 
 import { ViewModeType } from '../../../shared/models/view-mode-type.model';
 
-import { EventDataService } from './../../../core/eventdata.service';
+import { EnumsService } from './../../../core/services/enums.service';
+import { EventDataService } from './../../../core/services/eventdata.service';
 
 import { EventManagerService } from './../../services/event-manager.service';
 import { SettingsService } from './../../services/settings.service';
@@ -22,7 +22,7 @@ import { HttpMenuService } from './../../services/http-menu.service';
 
 export class MenuComponent implements OnInit, OnDestroy {
 
-private subscriptions : Subscription[] = [];
+  private subscriptions: Subscription[] = [];
   constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
@@ -59,6 +59,6 @@ private subscriptions : Subscription[] = [];
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((sub)=> sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

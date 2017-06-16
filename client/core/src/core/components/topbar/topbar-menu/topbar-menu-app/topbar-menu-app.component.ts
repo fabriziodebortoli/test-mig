@@ -1,16 +1,15 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 
-import { ContextMenuItem } from './../../../../models/context-menu-item.model';
-import { EventDataService } from './../../../../services/eventdata.service';
-import { UtilsService } from './../../../../services/utils.service';
+import { ContextMenuItem } from '../../../../../shared';
+import { UtilsService } from '../../../../services/utils.service';
+import { EventDataService } from '../../../../services/eventdata.service';
 
-import { MenuService } from './../../../../menu/services/menu.service';
-import { HttpMenuService } from './../../../../menu/services/http-menu.service';
-import { LocalizationService } from './../../../../menu/services/localization.service';
-import { ConnectionInfoDialogComponent } from './../../../../menu/components/menu/connection-info-dialog/connection-info-dialog.component';
-import { ProductInfoDialogComponent } from './../../../../menu/components/menu/product-info-dialog/product-info-dialog.component';
+import { ConnectionInfoDialogComponent, ProductInfoDialogComponent } from '../../../../../menu';
+import { MenuService } from '../../../../../menu/services/menu.service';
+import { HttpMenuService } from '../../../../../menu/services/http-menu.service';
+import { LocalizationService } from '../../../../../menu/services/localization.service';
 
 @Component({
   selector: 'tb-topbar-menu-app',

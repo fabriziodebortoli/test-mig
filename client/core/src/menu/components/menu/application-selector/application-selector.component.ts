@@ -1,9 +1,9 @@
-import { UtilsService } from './../../../../core/utils.service';
 import { Component, Input, OnInit } from '@angular/core';
 
 
-import { ImageService } from './../../../services/image.service';
-import { MenuService } from './../../../services/menu.service';
+import { UtilsService } from '../../../../core/services/utils.service';
+import { ImageService } from '../../../services/image.service';
+import { MenuService } from '../../../services/menu.service';
 
 @Component({
     selector: 'tb-application-selector',

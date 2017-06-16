@@ -1,0 +1,27 @@
+.toolbar-top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    height: 30px;
+}
+
+.title {
+    flex-grow: 2;
+    display: flex;
+}
+
+.navigation {
+    display: flex;
+}
+
+.document-title {
+    line-height: 32px;
+    margin: 0 10px;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase
+}
