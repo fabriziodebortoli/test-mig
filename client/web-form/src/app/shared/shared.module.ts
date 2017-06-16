@@ -92,7 +92,7 @@ const TB_COMPONENTS = [
   BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
   PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent,
   IconComponent, TopbarMenuElementsComponent, TbCardComponent, TbCardTitleComponent, TbCardContentComponent,
-  M4IconComponent, ConnectionStatusComponent
+  M4IconComponent, ConnectionStatusComponent, HotlinkComponent
 
 ];
 
@@ -113,7 +113,7 @@ const TB_DIRECTIVES = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent, HotlinkComponent],
+  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent],
   exports: [TB_COMPONENTS, TB_DIRECTIVES],
   entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
 
