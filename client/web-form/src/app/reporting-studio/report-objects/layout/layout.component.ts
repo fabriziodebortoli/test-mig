@@ -38,11 +38,6 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   ngOnDestroy() {
     this.viewHeightSubscription.unsubscribe();
   }
-
-  // -----------------------------------------------
-  ngOnDestroy() {
-    this.viewHeightSubscription.unsubscribe();
-  }
   // -----------------------------------------------
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (changes.reportTemplate !== undefined) {
@@ -211,8 +206,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       'width': '100%',
       'height': this.viewHeight - 65 + 'px',
       'position': 'relative',
-      'overflow': 'scroll',
-      'height': this.viewHeight-70 + 'px',
+      'overflow': 'scroll'
     }
   }
 
