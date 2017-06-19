@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Logger } from '@taskbuilder/core';
+// import { Logger } from '@taskbuilder/core';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import { Logger } from '@taskbuilder/core';
 export class AppComponent {
   title = 'app';
 
-  constructor(private logger: Logger) {
-    logger.error('test');
-  }
+  // constructor(private logger: Logger) {
+  //   logger.error('test');
+  // }
 }
