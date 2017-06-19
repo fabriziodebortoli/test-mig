@@ -206,18 +206,9 @@ namespace Microarea.AdminServer.Controllers
 					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 				}
 
-
 				if (!account.ExistsOnDB) // se non esiste, richiedi a gwam
 				{
-					var formContent = new FormUrlEncodedContent(new[]
-						{
-							new KeyValuePair<string, string>("password", credentials.Password),
-							new KeyValuePair<string, string>("instanceid", "1")
-						}
-					);
-
-					HttpResponseMessage responseMessage = await client.PostAsync(url + credentials.AccountName, formContent);
-					var responseData = responseMessage.Content.ReadAsStringAsync();
+					Task<string> responseData = await VerifyUserOnGWAM(credentials);
 
 					// used as a container for the GWAM response
 					AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
@@ -284,8 +275,23 @@ namespace Microarea.AdminServer.Controllers
 			}
 		}
 
-        //----------------------------------------------------------------------
-        private UserTokens CreateTokens(IAccount account)
+		//----------------------------------------------------------------------
+		private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials)
+		{
+			var formContent = new FormUrlEncodedContent(new[]
+				{
+							new KeyValuePair<string, string>("password", credentials.Password),
+							new KeyValuePair<string, string>("instanceid", "1")
+						}
+			);
+
+			HttpResponseMessage responseMessage = await client.PostAsync(url + credentials.AccountName, formContent);
+			var responseData = responseMessage.Content.ReadAsStringAsync();
+			return responseData;
+		}
+
+		//----------------------------------------------------------------------
+		private UserTokens CreateTokens(IAccount account)
         {
             UserTokens tokens = new UserTokens(account.ProvisioningAdmin, account.AccountName);
             tokens.Setprovider(_tokenSQLDataProvider);
