@@ -1,14 +1,15 @@
-import { PdfType } from 'app/reporting-studio';
 import { ReportingStudioService } from './../../reporting-studio.service';
-import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj } from './../../reporting-studio.model';
+import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, PdfType } from './../../reporting-studio.model';
 import { Component, OnInit, Input, OnChanges, SimpleChange } from '@angular/core';
+
+
 
 @Component({
   selector: 'rs-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class ReportLayoutComponent implements OnChanges {
+export class ReportLayoutComponent implements OnChanges{
 
 
   @Input() reportTemplate;
@@ -38,7 +39,10 @@ export class ReportLayoutComponent implements OnChanges {
       }
       else {
         this.UpdateData();
-        if(this.rsService.pdfState == PdfType.PREPAREDPDF){
+        if (this.rsService.pdfState == PdfType.SAVINGPDF) {
+          this.rsService.renderPDF();
+        }
+        if (this.rsService.pdfState == PdfType.PREPAREDPDF) {
           this.rsService.pdfState = PdfType.SAVINGPDF;
           this.rsService.loopPdfPage();
         }
@@ -52,6 +56,7 @@ export class ReportLayoutComponent implements OnChanges {
       
      }*/
   }
+
   // -----------------------------------------------
   RenderLayout() {
 

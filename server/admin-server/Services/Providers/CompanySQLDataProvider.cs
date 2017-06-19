@@ -84,10 +84,10 @@ namespace Microarea.AdminServer.Services.Providers
 						
 						command.Parameters.AddWithValue("@Name", company.Name);
 						command.Parameters.AddWithValue("@Description", company.Description);
-						command.Parameters.AddWithValue("@CompanyDBServer", (company.CompanyDatabaseInfo != null) ? company.CompanyDatabaseInfo.Server : string.Empty);
-						command.Parameters.AddWithValue("@CompanyDBName", (company.CompanyDatabaseInfo != null) ? company.CompanyDatabaseInfo.Database : string.Empty);
-						command.Parameters.AddWithValue("@CompanyDBOwner", (company.CompanyDatabaseInfo != null) ? company.CompanyDatabaseInfo.DBOwner : string.Empty);
-						command.Parameters.AddWithValue("@CompanyDBPassword", (company.CompanyDatabaseInfo != null) ? company.CompanyDatabaseInfo.Password : string.Empty);
+						command.Parameters.AddWithValue("@CompanyDBServer", company.CompanyDBServer);
+						command.Parameters.AddWithValue("@CompanyDBName", company.CompanyDBName);
+						command.Parameters.AddWithValue("@CompanyDBOwner", company.CompanyDBOwner);
+						command.Parameters.AddWithValue("@CompanyDBPassword", company.CompanyDBPassword);
 						command.Parameters.AddWithValue("@DatabaseCulture", company.DatabaseCulture);
 						command.Parameters.AddWithValue("@Disabled", company.Disabled);
 						command.Parameters.AddWithValue("@IsUnicode", company.IsUnicode);
@@ -96,10 +96,10 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@Provider", company.Provider);
 						command.Parameters.AddWithValue("@SubscriptionId", company.SubscriptionId);
 						command.Parameters.AddWithValue("@UseDMS", company.UseDMS);
-						command.Parameters.AddWithValue("@DMSDBServer", (company.DMSDatabaseInfo != null) ? company.DMSDatabaseInfo.Server : string.Empty);
-						command.Parameters.AddWithValue("@DMSDBName", (company.DMSDatabaseInfo != null) ? company.DMSDatabaseInfo.Database : string.Empty);
-						command.Parameters.AddWithValue("@DMSDBOwner", (company.DMSDatabaseInfo != null) ? company.DMSDatabaseInfo.DBOwner : string.Empty);
-						command.Parameters.AddWithValue("@DMSDBPassword", (company.DMSDatabaseInfo != null) ? company.DMSDatabaseInfo.Password : string.Empty);
+						command.Parameters.AddWithValue("@DMSDBServer", company.DMSDBServer);
+						command.Parameters.AddWithValue("@DMSDBName", company.DMSDBName);
+						command.Parameters.AddWithValue("@DMSDBOwner", company.DMSDBOwner);
+						command.Parameters.AddWithValue("@DMSDBPassword", company.DMSDBPassword);
 
 						if (company.CompanyId != -1)
 							command.Parameters.AddWithValue("@CompanyId", company.CompanyId);

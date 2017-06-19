@@ -59,9 +59,9 @@ import { ComboSimpleComponent } from './controls/combo-simple/combo-simple.compo
 import { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
 
 import { TopbarMenuElementsComponent } from './topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
-import { TbCardComponent } from './controls/tb-card/tb-card.component';
-import { TbCardTitleComponent } from './controls/tb-card/tb-card-title/tb-card-title.component';
-import { TbCardContentComponent } from './controls/tb-card/tb-card-content/tb-card-content.component';
+import { TbCardComponent } from './containers/tb-card/tb-card.component';
+import { TbCardTitleComponent } from './containers/tb-card/tb-card-title/tb-card-title.component';
+import { TbCardContentComponent } from './containers/tb-card/tb-card-content/tb-card-content.component';
 import { IconComponent } from './icons/icon.component';
 import { M4IconComponent } from './icons/m4-icon.component';
 import { HotlinkComponent } from './controls/hotlink/hotlink.component';
@@ -92,7 +92,7 @@ const TB_COMPONENTS = [
   BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
   PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent,
   IconComponent, TopbarMenuElementsComponent, TbCardComponent, TbCardTitleComponent, TbCardContentComponent,
-  M4IconComponent, ConnectionStatusComponent
+  M4IconComponent, ConnectionStatusComponent, HotlinkComponent
 
 ];
 
@@ -113,7 +113,7 @@ const TB_DIRECTIVES = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent, HotlinkComponent],
+  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent],
   exports: [TB_COMPONENTS, TB_DIRECTIVES],
   entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
 

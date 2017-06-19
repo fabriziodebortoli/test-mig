@@ -8,7 +8,7 @@ import { environment } from './../../environments/environment';
 import { Account } from '../model/account';
 
 @Injectable()
-export class ModelService {
+export class AccountService {
 
   modelBackEndUrl:string;
 

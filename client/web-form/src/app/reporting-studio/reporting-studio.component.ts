@@ -2,7 +2,7 @@ import { ReportLayoutComponent } from './report-objects/layout/layout.component'
 import { WebSocketService } from './../core/websocket.service';
 import { UtilsService } from './../core/utils.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType } from './reporting-studio.model';
@@ -35,13 +35,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // ask dialog objects
   public askDialogTemplate: any;
- 
+
 
   private viewHeightSubscription: Subscription;
   private viewHeight: number;
-
-  @Output() prova = new EventEmitter<void>();
-  
 
   constructor(
     private rsService: ReportingStudioService,
@@ -51,8 +48,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData);
-    
-    this.prova.emit();
   }
 
   // -----------------------------------------------
@@ -76,7 +71,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
 
-    this.rsService.eventDownload.subscribe(()=> this.NextPage());
+    this.rsService.eventDownload.subscribe(() => this.NextPage());
+
+
   }
 
   // -----------------------------------------------
@@ -116,7 +113,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.reportTemplate = 'empty';
     this.reportData = 'empty';
   }
-  
+
   // -----------------------------------------------
   onMessage(message: any) {
     //elaborate
@@ -149,7 +146,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.DATA:
           this.rsService.showAsk = false;
           this.reportData = k;
-          
+
           break;
         case CommandType.RUNREPORT:
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
@@ -273,7 +270,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   //--------------------------------------------------
 
   public startSavePDF() {
-    if(this.rsService.pageNum != 1){
+    if (this.rsService.pageNum != 1) {
       this.rsService.pdfState = PdfType.PREPAREDPDF
       this.FirstPage();
     }
@@ -281,9 +278,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       this.rsService.pdfState = PdfType.SAVINGPDF;
       this.rsService.loopPdfPage();
     }
-    
+
   }
-  
+
 }
 
 
