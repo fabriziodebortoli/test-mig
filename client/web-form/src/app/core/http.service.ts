@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -150,8 +150,10 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    getHotlinkData(namespace: string, selectionType: string = 'code', filter: string = ''): Observable<any> {
-        return this.http.get(this.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType + '/' + filter, { withCredentials: true })
+    // tslint:disable-next-line:max-line-length
+    getHotlinkData(namespace: string, selectionType: string = 'code', filter: string = '', params: URLSearchParams): Observable<any> {
+        // tslint:disable-next-line:max-line-length
+        return this.http.get(this.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType + '/' + filter, {search: params,  withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
