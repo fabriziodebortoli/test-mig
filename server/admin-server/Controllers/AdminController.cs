@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Controllers
@@ -41,7 +40,6 @@ namespace Microarea.AdminServer.Controllers
             _settings = settings.Value;
             _jsonHelper = jsonHelper;
 			_httpHelper = httpHelper;
-
 			SqlProviderFactory();
 		}
 
@@ -272,13 +270,6 @@ namespace Microarea.AdminServer.Controllers
 		//----------------------------------------------------------------------
 		private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials)
 		{
-			var formContent = new FormUrlEncodedContent(new[]
-				{
-							new KeyValuePair<string, string>("password", credentials.Password),
-							new KeyValuePair<string, string>("instanceid", "1")
-						}
-			);
-
 			string url = _settings.ExternalUrls.GWAMUrl + "accounts/" + credentials.AccountName;
 
 			List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
