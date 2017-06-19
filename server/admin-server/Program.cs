@@ -19,7 +19,6 @@ namespace Microarea.AdminServer
                 .UseStartup<Startup>()
                 .UseUrls("http://localhost:5052")
                 .Build();
-
             host.Run();
         }
     }
