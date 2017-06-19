@@ -10,7 +10,6 @@ import { DocumentComponent } from '../shared/document.component';
 import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
-import { LayoutService } from './../core/layout.service';
 
 declare var jsPDF: any;
 declare var html2pdf: any;
@@ -36,15 +35,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // ask dialog objects
   public askDialogTemplate: any;
 
-
-  private viewHeightSubscription: Subscription;
-  private viewHeight: number;
-
   constructor(
     private rsService: ReportingStudioService,
     eventData: EventDataService,
     private cookieService: CookieService,
-    private layoutService: LayoutService,
+    
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData);
@@ -69,7 +64,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
     this.rsService.doSend(JSON.stringify(message));
 
-    this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
+    
 
     this.rsService.eventDownload.subscribe(() => this.NextPage());
 
@@ -99,7 +94,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   ngOnDestroy() {
     this.subMessage.unsubscribe();
-    this.viewHeightSubscription.unsubscribe();
+   
     if (this.args.params.runAtTbLoader) {
       this.tbLoaderWebSocketService.closeServerComponent(this.rsService.mainCmpId);
     }
