@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { NgForm }    from '@angular/forms';
 import { Account } from './../../model/account';
-import { AccountService } from './../../services/account.service';
 
 @Component({
   selector: 'app-account',
