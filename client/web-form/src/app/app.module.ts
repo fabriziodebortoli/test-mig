@@ -49,7 +49,6 @@ import { StandaloneReportComponent } from './home/standalone.report/standalone.r
     routing,
     MomentModule,
     LayoutModule
-    
   ],
   bootstrap: [AppComponent],
   entryComponents: [
