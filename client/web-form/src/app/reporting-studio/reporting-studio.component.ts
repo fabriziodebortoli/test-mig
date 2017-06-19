@@ -11,8 +11,9 @@ import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
 
-declare var jsPDF: any;
-declare var html2pdf: any;
+import { Image, Surface, Path, Text, Group, } from '@progress/kendo-drawing';
+import { Rect, Point, Size, transform, Circle } from '@progress/kendo-drawing/geometry';
+
 
 @Component({
   selector: 'tb-reporting-studio',
@@ -34,6 +35,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // ask dialog objects
   public askDialogTemplate: any;
+
+
+  
 
   constructor(
     private rsService: ReportingStudioService,
@@ -271,10 +275,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
     else {
       this.rsService.pdfState = PdfType.SAVINGPDF;
-      this.rsService.loopPdfPage();
+      this.rsService.loopPdfPage(this.document.getTitle());
     }
-
   }
+
 
 }
 

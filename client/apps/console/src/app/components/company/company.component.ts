@@ -1,5 +1,5 @@
+import { ModelService } from './../../services/model.service';
 import { OperationResult } from './../../services/operationResult';
-import { CompanyService } from './../../services/company.service';
 import { Component, OnInit } from '@angular/core';
 import { Company } from '../../model/company';
 import { Observable } from 'rxjs/Rx';
@@ -16,7 +16,7 @@ export class CompanyComponent implements OnInit {
   editing: boolean = false;
   useDMS: boolean = false;
 
-  constructor(private companyService: CompanyService) {
+  constructor(private modelService: ModelService) {
     this.model = new Company();
   }
 
@@ -34,13 +34,13 @@ export class CompanyComponent implements OnInit {
       return;
     }
 
-    // da togliere quando valorizzeremo la Suscriptionid con quella corrente
+    // da togliere quando valorizzeremo la Subscriptionid con quella corrente
     if (this.model.subscriptionId == undefined)
       this.model.subscriptionId = 1;
 
     let companyOperation: Observable<OperationResult>;
     if (!this.editing)
-      companyOperation = this.companyService.addCompany(this.model);
+      companyOperation = this.modelService.addCompany(this.model);
     else {
       //companyOperation = this.companyService.updateCompany(this.model);   
     }

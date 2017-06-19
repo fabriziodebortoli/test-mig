@@ -40,6 +40,10 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   // -----------------------------------------------
+  ngOnDestroy() {
+    this.viewHeightSubscription.unsubscribe();
+  }
+  // -----------------------------------------------
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (changes.reportTemplate !== undefined) {
       if (changes.reportTemplate.currentValue === 'empty') {
@@ -58,11 +62,12 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       else {
         this.UpdateData();
         if (this.rsService.pdfState == PdfType.SAVINGPDF) {
-          this.rsService.renderPDF();
+          this.rsService.appendPDF();
+          //this.rsService.renderPDF();
         }
         if (this.rsService.pdfState == PdfType.PREPAREDPDF) {
           this.rsService.pdfState = PdfType.SAVINGPDF;
-          this.rsService.loopPdfPage();
+          this.rsService.loopPdfPage(this.rsService.titleReport);
         }
       }
     }
@@ -207,6 +212,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       'height': this.viewHeight - 65 + 'px',
       'position': 'relative',
       'overflow': 'scroll',
+      'height': this.viewHeight-70 + 'px',
     }
   }
 
