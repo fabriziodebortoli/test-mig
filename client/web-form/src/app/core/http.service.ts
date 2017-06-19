@@ -75,7 +75,14 @@ export class HttpService {
             })
             .catch(this.handleError);
     }
-
+    getDBTData(): Observable<any[]> {
+        const obj = { };
+        return this.postData(this.getDocumentBaseUrl() + 'getDBTData/', obj)
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
     openTBConnection(): Observable<OperationResult> {
         let token = this.cookieService.get('authtoken');
         return this.postData(this.getMenuBaseUrl() + 'initTBLogin/', token)
@@ -153,7 +160,7 @@ export class HttpService {
     // tslint:disable-next-line:max-line-length
     getHotlinkData(namespace: string, selectionType: string = 'code', filter: string = '', params: URLSearchParams): Observable<any> {
         // tslint:disable-next-line:max-line-length
-        return this.http.get(this.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType + '/' + filter, {search: params,  withCredentials: true })
+        return this.http.get(this.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType + '/' + filter, { search: params, withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             })
