@@ -60,7 +60,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         }
         if (this.rsService.pdfState == PdfType.PREPAREDPDF) {
           this.rsService.pdfState = PdfType.SAVINGPDF;
-          this.rsService.loopPdfPage();
+          this.rsService.loopPdfPage(this.rsService.titleReport);
         }
       }
     }
@@ -204,7 +204,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       'width': '100%',
       'position': 'relative',
       'overflow': 'scroll',
-      'height': this.viewHeight-40 + 'px',
+      'height': this.viewHeight-70 + 'px',
     }
   }
 

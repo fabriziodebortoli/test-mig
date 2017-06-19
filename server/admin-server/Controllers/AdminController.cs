@@ -293,15 +293,9 @@ namespace Microarea.AdminServer.Controllers
         /// Insert/update account
         /// </summary>
         //-----------------------------------------------------------------------------	
-        [HttpPost("/api/accounts/{accountname}")]
-		public IActionResult ApiAccounts(string accountname)
+        [HttpPost("/api/accounts")]
+		public IActionResult ApiAccounts()
 		{
-			if (String.IsNullOrEmpty(accountname))
-			{
-				_jsonHelper.AddPlainObject<OperationResult>(new OperationResult(false, "Account name cannot be empty!"));
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
 			if (HttpContext.Request == null || HttpContext.Request.Body == null)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
@@ -356,16 +350,9 @@ namespace Microarea.AdminServer.Controllers
 		/// Insert/update company
 		/// </summary>
 		//-----------------------------------------------------------------------------	
-		[HttpPost("/api/companies/{companyname}")]
+		[HttpPost("/api/companies")]
 		public IActionResult ApiCompanies(string companyname)
 		{
-			if (String.IsNullOrEmpty(companyname))
-			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Company name cannot be empty");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-			}
-
 			if (HttpContext.Request == null || HttpContext.Request.Body == null)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
@@ -499,6 +486,35 @@ namespace Microarea.AdminServer.Controllers
 			_jsonHelper.AddJsonCouple<bool>("result", true);
 			_jsonHelper.AddJsonCouple<string>("message", "Save subscription operation successfully completed");
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
+		}
+
+		[HttpGet("/api/accounts/{accountName?}")]
+		[Produces("application/json")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiGetAccounts()
+		{
+			IAccount[] accountArray = null;
+
+			try
+			{
+				accountArray = ((AccountSQLDataProvider)_accountSqlDataProvider).GetAccounts(); // gestire il parametro
+			}
+			catch (Exception ex)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", ex.Message);
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+			}
+
+			if (accountArray == null)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", "Invalid user");
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+			}
+
+			_jsonHelper.AddPlainObject<IAccount[]>(accountArray);
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 	}
 }

@@ -1,4 +1,4 @@
-import { CompanyService } from './services/company.service';
+import { ModelService } from './services/model.service';
 import { AccountComponent } from './components/account/account.component';
 import { AppComponent } from './app.component';
 import { AppHomeComponent } from './components/app-home/app-home.component';
@@ -17,8 +17,9 @@ import { SubscriptionHomeComponent } from './components/subscription-home/subscr
 import { routes } from './app.routes';
 import { ConsoleModule } from '@taskbuilder/console';
 import { DatabaseInfoComponent } from './components/database-info/database-info.component';
-import { AccountService } from './services/account.service';
 import { LoginService } from './services/login.service';
+import { AccountListComponent } from './components/account/account-list/account-list.component';
+import { AccountItemComponent } from './components/account/account-item/account-item.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,9 @@ import { LoginService } from './services/login.service';
     CompanyComponent,
     AccountComponent,
     CompanyAccountComponent,
-    DatabaseInfoComponent
+    DatabaseInfoComponent,
+    AccountListComponent,
+    AccountItemComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,7 @@ import { LoginService } from './services/login.service';
     HttpModule,
     ConsoleModule
   ],
-  providers: [AuthGuardService, AccountService, LoginService, CompanyService],
+  providers: [AuthGuardService, LoginService, ModelService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

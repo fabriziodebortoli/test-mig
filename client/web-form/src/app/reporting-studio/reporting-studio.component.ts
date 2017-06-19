@@ -276,7 +276,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
     else {
       this.rsService.pdfState = PdfType.SAVINGPDF;
-      this.rsService.loopPdfPage();
+      this.rsService.loopPdfPage(this.document.getTitle());
     }
   }
 
