@@ -1,31 +1,23 @@
-﻿using System;
-using System.Data.SqlClient;
-using System.IO;
-using Microarea.AdminServer.Controllers.Helpers;
+﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Library;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.Providers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microarea.AdminServer.Services.Providers;
-using Microarea.AdminServer.Library;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.Text;
 
 namespace Microarea.AdminServer.Controllers
 {
-	public class Credentials
-	{
-		public string AccountName;
-		public string Password;
-	}
-
 	//=========================================================================
 	public class AdminController : Controller
     {
