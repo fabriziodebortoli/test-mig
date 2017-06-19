@@ -118,7 +118,7 @@ export class ComponentService {
     this.componentInfoRemoved.emit(removed);
   }
 
-  createComponentFromUrl(url: string, activate : boolean): void {
+  createComponentFromUrl(url: string, activate: boolean): void {
     this.activateComponent = activate;
     this.router.navigate([{ outlets: { dynamic: 'proxy/' + url }, skipLocationChange: false, replaceUrl: false }])
       .then(
@@ -133,7 +133,10 @@ export class ComponentService {
       .catch(reason => {
         console.log(reason);
         this.componentCreationError.emit(reason);
-
+        //cannot create client component: close server one!
+        this.webSocketService.closeServerComponent(this.currentComponentId);
+        this.creatingComponent = false;
+        this.createNextComponent();
       });
   }
   createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver, args: any = {}) {
@@ -149,7 +152,7 @@ export class ComponentService {
   }
 }
 export class ComponentCreatedArgs {
-  constructor(public index: Number, public activate: boolean) { 
+  constructor(public index: Number, public activate: boolean) {
 
   }
 }

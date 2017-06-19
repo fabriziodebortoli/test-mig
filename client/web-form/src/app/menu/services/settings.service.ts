@@ -1,4 +1,3 @@
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Injectable } from '@angular/core';
 
 import { UtilsService } from './../../core/utils.service';
@@ -13,6 +12,8 @@ export class SettingsService {
     private isRelogin: boolean = false;
 
     private nrMaxItemsSearch: number = 20;
+    private nrMaxFavorites: number = 10;
+    private nrMaxMostUsed: number = 10;
     private showSearchBox: boolean = true;
     private showFilterBox: boolean = true;
     private showWorkerImage: boolean = false;
@@ -26,19 +27,19 @@ export class SettingsService {
     public isEasyStudioActivated: boolean = false;
 
     constructor(
-        private cookieService: CookieService,
         private httpMenuService: HttpMenuService,
         private eventManagerService: EventManagerService,
         private logger: Logger,
-        private utilsService: UtilsService) {
+        private utilsService: UtilsService
+    ) {
         this.logger.debug('SettingsService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
-
-  //---------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
     get LastApplicationName() {
         if (this._lastApplicationName == undefined) {
-            this._lastApplicationName = this.cookieService.get('_lastApplicationName');
+
+            this._lastApplicationName = localStorage.getItem('_lastApplicationName')
         }
         return this._lastApplicationName;
     }
@@ -46,13 +47,13 @@ export class SettingsService {
     //---------------------------------------------------------------------------------------------
     set LastGroupName(val) {
         this._lastApplicationName = val;
-        this.cookieService.put('_lastApplicationName', this._lastApplicationName);
+        localStorage.setItem('_lastApplicationName', this._lastApplicationName);
     }
 
     //---------------------------------------------------------------------------------------------
     get LastGroupName() {
         if (this._lastGroupName == undefined) {
-            this._lastGroupName = this.cookieService.get('_lastGroupName');
+            this._lastGroupName = localStorage.getItem('_lastGroupName');
         }
         return this._lastGroupName;
     }
@@ -60,13 +61,13 @@ export class SettingsService {
     //---------------------------------------------------------------------------------------------
     set LastApplicationName(val) {
         this._lastGroupName = val;
-        this.cookieService.put('_lastGroupName', this._lastGroupName);
+        localStorage.setItem('_lastGroupName', this._lastGroupName);
     }
 
     //---------------------------------------------------------------------------------------------
     get LastMenuName() {
         if (this._lastMenuName == undefined) {
-            this._lastMenuName = this.cookieService.get('_lastMenuName');
+            this._lastMenuName = localStorage.getItem('_lastMenuName');
         }
         return this._lastMenuName;
     }
@@ -74,14 +75,14 @@ export class SettingsService {
     //---------------------------------------------------------------------------------------------
     set LastMenuName(val) {
         this._lastMenuName = val;
-        this.cookieService.put('_lastMenuName', this._lastMenuName);
+        localStorage.setItem('_lastMenuName', this._lastMenuName);
     }
 
 
     //---------------------------------------------------------------------------------------------
     setPreference(referenceName, referenceValue, callback) {
 
-        this.cookieService.put(referenceName, referenceValue);
+        localStorage.setItem(referenceName, referenceValue);
     }
 
     getThemedSettings() {
@@ -103,7 +104,7 @@ export class SettingsService {
 
             if (data.OtherSettings != undefined && data.OtherSettings.isEasyStudioActivated != undefined)
                 this.isEasyStudioActivated = this.utilsService.parseBool(data.OtherSettings.isEasyStudioActivated);
-                
+
             sub.unsubscribe()
         });
     }
@@ -111,7 +112,7 @@ export class SettingsService {
     //---------------------------------------------------------------------------------------------
     getPreferences() {
 
-       let subs = this.httpMenuService.getPreferences().subscribe(data => {
+        let subs = this.httpMenuService.getPreferences().subscribe(data => {
 
             var current = this.getPreferenceByName(data.Root.Preference, "NrMaxItemsSearch");
             if (current != undefined)

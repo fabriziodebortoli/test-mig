@@ -1,3 +1,5 @@
+import { LocalizationService } from './../../menu/services/localization.service';
+import { SettingsService } from './../../menu/services/settings.service';
 import { ImageService } from './../../menu/services/image.service';
 import { MenuService } from './../../menu/services/menu.service';
 import { UtilsService } from './../../core/utils.service';
@@ -18,10 +20,13 @@ export class DashboardComponent implements OnInit {
   constructor(
     private menuService: MenuService,
     private imageService: ImageService,
-    private utilsService: UtilsService) { }
+    private utilsService: UtilsService,
+    private settingsService: SettingsService,
+    private localizationService: LocalizationService
+
+  ) { }
 
   ngOnInit() {
-    this.favorites = this.menuService.getFavorites();
   }
 
   runFunction(object) {

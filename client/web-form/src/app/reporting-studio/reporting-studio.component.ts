@@ -101,7 +101,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.subMessage.unsubscribe();
    
     if (this.args.params.runAtTbLoader) {
-      this.tbLoaderWebSocketService.doCommand(this.rsService.mainCmpId, 'ID_FILE_CLOSE');
+      this.tbLoaderWebSocketService.closeServerComponent(this.rsService.mainCmpId);
     }
   }
 

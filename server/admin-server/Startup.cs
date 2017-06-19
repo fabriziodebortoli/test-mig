@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Controllers.Helpers;
 
 namespace Microarea.AdminServer
 {
@@ -40,7 +41,9 @@ namespace Microarea.AdminServer
 
             services.AddMvc();
             services.Configure<AppOptions>(options => Configuration.GetSection("App").Bind(options));
-        }
+			services.AddTransient<IJsonHelper, JsonHelper>();
+			services.AddTransient<IHttpHelper, HttpHelper>();
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

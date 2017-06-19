@@ -9,13 +9,7 @@ namespace Microarea.AccountManager.Controllers
 	[Route("account-manager")]
 	public class LoginManagerController : Controller
 	{
-
-		
-
-		public LoginManagerController()
-		{
-		}
-
+		//-----------------------------------------------------------------------------------------
 		[Route("login-compact")]
 		public IActionResult LoginCompact()
 		{
@@ -31,6 +25,7 @@ namespace Microarea.AccountManager.Controllers
 			return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken });
 		}
 
+		//-----------------------------------------------------------------------------------------
 		[Route("logout")]
 		public IActionResult Logoff()
 		{
@@ -41,6 +36,7 @@ namespace Microarea.AccountManager.Controllers
 		}
 
 
+		//-----------------------------------------------------------------------------------------
 		[Route("getLoginInformation")]
 		public IActionResult GetLoginInformation()
 		{
@@ -49,6 +45,7 @@ namespace Microarea.AccountManager.Controllers
 			return new ContentResult { Content = json, ContentType = "application/json" };
 		}
 
+		//-----------------------------------------------------------------------------------------
 		[Route("isValidToken")]
 		public IActionResult IsValidToken()
 		{
@@ -58,6 +55,7 @@ namespace Microarea.AccountManager.Controllers
 			return new JsonResult(result);
 		}
 
+		//-----------------------------------------------------------------------------------------
 		[Route("getCompaniesForUser")]
 		public IActionResult GetCompanyForUser()
 		{
@@ -96,6 +94,7 @@ namespace Microarea.AccountManager.Controllers
 
 		}
 
+		//-----------------------------------------------------------------------------------------
 		[Route("isActivated")]
 		public IActionResult IsActivated()
 		{
