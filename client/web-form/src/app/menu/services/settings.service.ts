@@ -13,6 +13,8 @@ export class SettingsService {
     private isRelogin: boolean = false;
 
     private nrMaxItemsSearch: number = 20;
+    private nrMaxFavorites: number = 10;
+    private nrMaxMostUsed: number = 10;
     private showSearchBox: boolean = true;
     private showFilterBox: boolean = true;
     private showWorkerImage: boolean = false;
