@@ -9,29 +9,23 @@
         <div class="dashboard-page">
 
             <div class="dashboard-sidebar">
-                <div class="dashboard-sidebar-riq favorites">
-
+                <div class="dashboard-sidebar-riq">
                     <h4>{{localizationService?.localizedElements?.FavoritesLabel}}</h4>
-                    <ul class="dashboard-sidebar-list" *ngIf="menuService?.favoritesCount > 0">
-                        <li *ngFor="let object of utilsService.toArray(menuService?.favorites)" class="dashboard-sidebar-item">
-                            <md-spinner *ngIf="object.isLoading" class="spinner"></md-spinner>
-                            <md-icon class="type" [ngClass]="object.objectType">{{imageService.getObjectIcon(object)}}</md-icon>
-                            <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
-                            <md-icon class="close" (click)="menuService.toggleFavorites(object)" title="Remove">close</md-icon>
-                        </li>
-                    </ul>
+                    <tb-favorites class="dashboard"></tb-favorites>
                 </div>
 
-                <div class="dashboard-sidebar-riq most-used">
+                <div class="dashboard-sidebar-riq">
                     <h4>{{localizationService.localizedElements?.MostUsedLabel}}</h4>
-                    <ul class="dashboard-sidebar-list" *ngIf="menuService?.mostUsedCount > 0">
+                      <tb-most-used class="dashboard"></tb-most-used>
+
+                    <!--<ul class="dashboard-sidebar-list" *ngIf="menuService?.mostUsedCount > 0">
                         <li *ngFor="let object of utilsService.toArray(menuService?.mostUsed) | slice:0:9;" class="dashboard-sidebar-item">
                             <md-spinner *ngIf="object.isLoading" class="spinner"></md-spinner>
                             <md-icon class="type" [ngClass]="object.objectType">{{imageService.getObjectIcon(object)}}</md-icon>
                             <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
                             <md-icon class="close" (click)="menuService.removeFromMostUsed(object)" title="Remove">close</md-icon>
                         </li>
-                    </ul>
+                    </ul>-->
                 </div>
             </div>
 
