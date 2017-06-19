@@ -1,3 +1,4 @@
+import { ModelService } from './../../services/model.service';
 import { OperationResult } from './../../services/operationResult';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
@@ -16,7 +17,7 @@ export class AccountComponent implements OnInit {
   model:Account;
   editing:boolean = false;
 
-  constructor(private modelService: AccountService) { 
+  constructor(private modelService: ModelService) { 
     this.model = new Account();
   }
 

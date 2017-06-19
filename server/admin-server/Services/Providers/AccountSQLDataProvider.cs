@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Services.Providers
 {
@@ -153,5 +154,56 @@ namespace Microarea.AdminServer.Services.Providers
 
 			return true;
 		}
+
+		//---------------------------------------------------------------------
+		public Account[] GetAccounts()
+		{
+			List<Account> accountList = new List<Account>();
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand("SELECT * FROM MP_Accounts", connection))
+					{
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								Account account = new Account();
+								account.AccountName = dataReader["AccountName"] as string;
+								account.FullName = dataReader["FullName"] as string;
+								account.Notes = dataReader["Notes"] as string;
+								account.Email = dataReader["Email"] as string;
+								account.Password = dataReader["Password"] as string;
+								account.PasswordNeverExpires = (bool)dataReader["PasswordNeverExpires"];
+								account.LoginFailedCount = (int)dataReader["LoginFailedCount"];
+								account.MustChangePassword = (bool)dataReader["MustChangePassword"];
+								account.CannotChangePassword = (bool)dataReader["CannotChangePassword"];
+								account.PasswordExpirationDateCannotChange = (bool)dataReader["PasswordExpirationDateCannotChange"];
+								account.PasswordExpirationDate = (DateTime)dataReader["PasswordExpirationDate"];
+								account.ProvisioningAdmin = (bool)dataReader["ProvisioningAdmin"];
+								account.IsWindowsAuthentication = (bool)dataReader["WindowsAuthentication"];
+								account.Disabled = (bool)dataReader["Disabled"];
+								account.Locked = (bool)dataReader["Locked"];
+								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
+								account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								accountList.Add(account);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return null;
+			}
+
+			return accountList.ToArray();
+		}
+
 	}
 }
