@@ -20,6 +20,12 @@ using System.Text;
 
 namespace Microarea.AdminServer.Controllers
 {
+	public class Credentials
+	{
+		public string AccountName;
+		public string Password;
+	}
+
 	//=========================================================================
 	public class AdminController : Controller
     {
@@ -145,15 +151,13 @@ namespace Microarea.AdminServer.Controllers
 		// </summary>
 		//-----------------------------------------------------------------------------	
 		[HttpPost("/api/tokens")]
-		public async Task<IActionResult> ApiAccounts(string accountname, string password)
+		public async Task<IActionResult> ApiAccounts([FromBody] Credentials credentials)
 		{
 			// used as a response to the front-end
 			BootstrapToken bootstrapToken = new BootstrapToken();
 			BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
 
-			LoginBaseClass lbc = null;
-
-			if (String.IsNullOrEmpty(accountname))
+			if (credentials == null || String.IsNullOrEmpty(credentials.AccountName) || String.IsNullOrEmpty(credentials.Password))
 			{
 				bootstrapTokenContainer.Result = false;
 				bootstrapTokenContainer.Message = "Username cannot be empty";
@@ -161,7 +165,9 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-            IAccount account = new Account(accountname);
+			LoginBaseClass lbc = null;
+
+            IAccount account = new Account(credentials.AccountName);
 
             try
             {
@@ -173,7 +179,7 @@ namespace Microarea.AdminServer.Controllers
                     // Verifica credenziali su db
 
                     lbc = new LoginBaseClass(account);
-                    LoginReturnCodes res = lbc.VerifyCredential(password);
+                    LoginReturnCodes res = lbc.VerifyCredential(credentials.Password);
 
                     if (res != LoginReturnCodes.NoError)
                     {
@@ -197,7 +203,7 @@ namespace Microarea.AdminServer.Controllers
 
 
 					// setting the token...
-                    bootstrapToken.AccountName = accountname;
+                    bootstrapToken.AccountName = credentials.AccountName;
                     bootstrapToken.UserTokens = t;
 
 					// ...and its container.
@@ -222,18 +228,18 @@ namespace Microarea.AdminServer.Controllers
             {
                 var formContent = new FormUrlEncodedContent(new[]
                 {
-                    new KeyValuePair<string, string>("password", password),
+                    new KeyValuePair<string, string>("password", credentials.Password),
                     new KeyValuePair<string, string>("instanceid", "1")
                 });
 
-				HttpResponseMessage responseMessage = await client.PostAsync(url + accountname, formContent);
+				HttpResponseMessage responseMessage = await client.PostAsync(url + credentials.AccountName, formContent);
 				var responseData = responseMessage.Content.ReadAsStringAsync();
 
 				// used as a container for the GWAM response
-				AccountIdentityPack acconutIdentityPack = new AccountIdentityPack();
-				acconutIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
+				AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
+				accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
 
-				if (acconutIdentityPack.Account == null) // it doesn't exist on GWAM
+				if (!accountIdentityPack.Result) // it doesn't exist on GWAM
 				{
 					bootstrapTokenContainer.Result = false;
 					bootstrapTokenContainer.Message = "Invalid User";
@@ -243,13 +249,13 @@ namespace Microarea.AdminServer.Controllers
 				else
 				{
 					// user has been found
-					account = acconutIdentityPack.Account;
+					account = accountIdentityPack.Account;
 					account.SetDataProvider(_accountSqlDataProvider);
                     account.Save(); // in locale
                     
 					// Verifica credenziali con salvataggio sul provider locale
                     lbc = new LoginBaseClass(account);
-                    LoginReturnCodes res = lbc.VerifyCredential(password);
+                    LoginReturnCodes res = lbc.VerifyCredential(credentials.Password);
                 }
 
 				// login ok, creaimo token e urls per pacchetto di risposta
@@ -264,10 +270,10 @@ namespace Microarea.AdminServer.Controllers
                     return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                 }
 
-                bootstrapToken.AccountName = accountname;
+                bootstrapToken.AccountName = credentials.AccountName;
                 bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
                 bootstrapToken.PreferredLanguage = account.PreferredLanguage;
-                bootstrapToken.Subscriptions = acconutIdentityPack.Subscriptions;
+                bootstrapToken.Subscriptions = accountIdentityPack.Subscriptions;
 				bootstrapToken.Urls = new List<string>(); // todo: get server urls for this account
 				bootstrapToken.UserTokens = t;
 
