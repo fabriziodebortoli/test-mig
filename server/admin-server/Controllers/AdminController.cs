@@ -30,26 +30,19 @@ namespace Microarea.AdminServer.Controllers
         IDataProvider _subscriptionSQLDataProvider;
         IDataProvider _tokenSQLDataProvider;
 
-        JsonHelper _jsonHelper;
-
-		HttpClient client;
-
-		//The URL of the WEB API Service
-		string url = "http://gwam.azurewebsites.net/api/accounts/";
+        IJsonHelper _jsonHelper;
+		IHttpHelper _httpHelper;
 
 		//-----------------------------------------------------------------------------	
-		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings, JsonHelper jsonHelper)
+		public AdminController(
+			IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper, IHttpHelper httpHelper)
         {
             _env = env;
             _settings = settings.Value;
             _jsonHelper = jsonHelper;
+			_httpHelper = httpHelper;
 
 			SqlProviderFactory();
-
-			client = new HttpClient();
-			client.BaseAddress = new Uri(url);
-			client.DefaultRequestHeaders.Accept.Clear();
-			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 		}
 
 		//-----------------------------------------------------------------------------	
@@ -286,9 +279,14 @@ namespace Microarea.AdminServer.Controllers
 						}
 			);
 
-			HttpResponseMessage responseMessage = await client.PostAsync(url + credentials.AccountName, formContent);
-			var responseData = responseMessage.Content.ReadAsStringAsync();
-			return responseData;
+			string url = _settings.ExternalUrls.GWAMUrl + "accounts/" + credentials.AccountName;
+
+			List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
+			entries.Add(new KeyValuePair<string, string>("password", credentials.Password));
+			entries.Add(new KeyValuePair<string, string>("instanceid", "1"));
+
+			OperationResult opRes = await _httpHelper.PostDataAsync(url, entries);
+			return (Task<string>) opRes.ObjectResult;
 		}
 
 		//----------------------------------------------------------------------
