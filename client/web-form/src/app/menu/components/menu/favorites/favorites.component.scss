@@ -1,3 +1,9 @@
+//stile quando usato nella sidenav
+/// inizio sidenav
+
+
+:host-context(.sidenav) {
+
 .favorites{
     margin-bottom: 20px;
 }
@@ -46,4 +52,84 @@ ul.favorites-list{
 
 .favorite-item>md-icon.close:hover{
     color:#fff;
+}
+
+}
+/// fine sidenav
+
+
+//stile quando usato nella dashboard
+/// inizio dashboard
+:host-context(.dashboard) {
+.favorites{
+    margin-bottom: 20px;
+}
+
+ul.favorites-list{
+    padding: 0 5px;
+}
+
+
+
+
+.favorite-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: #f1f4f7;
+    margin: 3px;
+    padding: 2px;
+    border: 1px solid #ddd;
+    align-items: center;
+}
+
+.favorite-item .type {
+    margin-right: 3px;
+    cursor: default;
+}
+
+.favorite-item>span {
+    flex: 1;
+    cursor: pointer;
+    max-width: 210px;
+    font-size: 13px;
+}
+
+.favorite-item .close {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.favorite-item .close:hover {
+    color: #000
+}
+
+.favorite-item .type {
+    color: #bbb;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.favorite-item .type.Document {
+    color: #0277bd;
+}
+
+.favorite-item .type.Report,
+.favorite-item .type.Function {
+    color: #3EAB66;
+}
+
+.favorite-item .type.Batch {
+    color: #ffa700;
+}
+
+
+/// fine dashboard
+.spinner {  
+    height: 24px;
+    width: 24px;
+}
 }

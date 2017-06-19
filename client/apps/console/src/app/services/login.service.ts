@@ -20,20 +20,20 @@ export class LoginService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     
-    // this.http.post(this.modelBackEndUrl, bodyString, options)
-    //   .map(res => res.json())
-    //   .subscribe(
-    //     // We're assuming the response will be an object
-    //     // with the JWT on an jwttoken key
-    //   data =>
-    //   {
-    //     if (data.Result)
-    //       localStorage.setItem('jwt-token', data.jwttoken)
-    //     else
-    //       alert('Cannot do the login');  
-    //   },
-    //     error => alert(error)
-    //   );
+    this.http.post(this.modelBackEndUrl, bodyString, options)
+      .map(res => res.json())
+      .subscribe(
+        // We're assuming the response will be an object
+        // with the JWT on an jwttoken key
+      data =>
+      {
+        if (data.Result)
+          localStorage.setItem('jwt-token', data.jwttoken)
+        else
+          alert('Cannot do the login ' + data.Message);  
+      },
+        error => alert(error)
+      );
   }
   
 
