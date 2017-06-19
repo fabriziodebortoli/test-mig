@@ -1,6 +1,8 @@
+import { LayoutService } from './../../../core/layout.service';
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, PdfType } from './../../reporting-studio.model';
-import { Component, OnInit, Input, OnChanges, SimpleChange } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
+import { Subscription } from "rxjs/Subscription";
 
 
 
@@ -9,7 +11,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChange } from '@angular/core
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class ReportLayoutComponent implements OnChanges{
+export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
 
   @Input() reportTemplate;
@@ -19,8 +21,21 @@ export class ReportLayoutComponent implements OnChanges{
   public layoutBackStyle: any = {};
   public objects: baseobj[] = [];
   public templates: TemplateItem[] = [];
-  constructor(private rsService: ReportingStudioService) { }
 
+  private viewHeightSubscription: Subscription;
+  private viewHeight: number;
+
+  constructor(private rsService: ReportingStudioService, private layoutService: LayoutService) { }
+
+  // -----------------------------------------------
+  ngOnInit() {
+    this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
+  }
+
+  // -----------------------------------------------
+  ngOnDestroy() {
+    this.viewHeightSubscription.unsubscribe();
+  }
   // -----------------------------------------------
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (changes.reportTemplate !== undefined) {
@@ -40,11 +55,12 @@ export class ReportLayoutComponent implements OnChanges{
       else {
         this.UpdateData();
         if (this.rsService.pdfState == PdfType.SAVINGPDF) {
-          this.rsService.renderPDF();
+          this.rsService.appendPDF();
+          //this.rsService.renderPDF();
         }
         if (this.rsService.pdfState == PdfType.PREPAREDPDF) {
           this.rsService.pdfState = PdfType.SAVINGPDF;
-          this.rsService.loopPdfPage();
+          this.rsService.loopPdfPage(this.rsService.titleReport);
         }
       }
     }
@@ -188,6 +204,7 @@ export class ReportLayoutComponent implements OnChanges{
       'width': '100%',
       'position': 'relative',
       'overflow': 'scroll',
+      'height': this.viewHeight-70 + 'px',
     }
   }
 

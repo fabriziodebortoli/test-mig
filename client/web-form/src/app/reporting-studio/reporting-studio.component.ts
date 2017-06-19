@@ -12,8 +12,9 @@ import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
 import { LayoutService } from './../core/layout.service';
 
-declare var jsPDF: any;
-declare var html2pdf: any;
+import { Image, Surface, Path, Text, Group, } from '@progress/kendo-drawing';
+import { Rect, Point, Size, transform, Circle } from '@progress/kendo-drawing/geometry';
+
 
 @Component({
   selector: 'tb-reporting-studio',
@@ -37,14 +38,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public askDialogTemplate: any;
 
 
-  private viewHeightSubscription: Subscription;
-  private viewHeight: number;
+  
 
   constructor(
     private rsService: ReportingStudioService,
     eventData: EventDataService,
     private cookieService: CookieService,
-    private layoutService: LayoutService,
+    
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData);
@@ -69,7 +69,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
     this.rsService.doSend(JSON.stringify(message));
 
-    this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
+    
 
     this.rsService.eventDownload.subscribe(() => this.NextPage());
 
@@ -99,7 +99,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   ngOnDestroy() {
     this.subMessage.unsubscribe();
-    this.viewHeightSubscription.unsubscribe();
+   
     if (this.args.params.runAtTbLoader) {
       this.tbLoaderWebSocketService.closeServerComponent(this.rsService.mainCmpId);
     }
@@ -276,10 +276,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
     else {
       this.rsService.pdfState = PdfType.SAVINGPDF;
-      this.rsService.loopPdfPage();
+      this.rsService.loopPdfPage(this.document.getTitle());
     }
-
   }
+
 
 }
 

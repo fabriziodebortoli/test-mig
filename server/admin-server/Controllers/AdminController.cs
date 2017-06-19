@@ -209,7 +209,7 @@ namespace Microarea.AdminServer.Controllers
 					if (!accountIdentityPack.Result) // it doesn't exist on GWAM
 					{
 						bootstrapTokenContainer.Result = false;
-						bootstrapTokenContainer.Message = "Invalid User";
+						bootstrapTokenContainer.Message = "GWAM doesn't like this. Why? " + accountIdentityPack.Message;
 						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
