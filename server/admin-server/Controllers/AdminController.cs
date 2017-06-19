@@ -38,12 +38,13 @@ namespace Microarea.AdminServer.Controllers
 		string url = "http://gwam.azurewebsites.net/api/accounts/";
 
 		//-----------------------------------------------------------------------------	
-		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings)
+		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings, JsonHelper jsonHelper)
         {
             _env = env;
             _settings = settings.Value;
-            _jsonHelper = new JsonHelper();
-            SqlProviderFactory();//gestione provider da rivedere se si porrà il caso
+            _jsonHelper = jsonHelper;
+
+			SqlProviderFactory();
 
 			client = new HttpClient();
 			client.BaseAddress = new Uri(url);
