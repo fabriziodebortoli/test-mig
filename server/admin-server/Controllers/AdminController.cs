@@ -167,9 +167,6 @@ namespace Microarea.AdminServer.Controllers
 
 			try
 			{
-
-
-
 				LoginBaseClass lbc = null;
 				IAccount account = new Account(credentials.AccountName);
 
@@ -203,7 +200,6 @@ namespace Microarea.AdminServer.Controllers
 						return new ContentResult { StatusCode = 400, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
 
-
 					// setting the token...
 					bootstrapToken.AccountName = credentials.AccountName;
 					bootstrapToken.UserTokens = t;
@@ -219,13 +215,14 @@ namespace Microarea.AdminServer.Controllers
 				}
 
 
-				if (!account.ExistsOnDB) // non esiste richiedi a gwam
+				if (!account.ExistsOnDB) // se non esiste, richiedi a gwam
 				{
 					var formContent = new FormUrlEncodedContent(new[]
-					{
-					new KeyValuePair<string, string>("password", credentials.Password),
-					new KeyValuePair<string, string>("instanceid", "1")
-				});
+						{
+							new KeyValuePair<string, string>("password", credentials.Password),
+							new KeyValuePair<string, string>("instanceid", "1")
+						}
+					);
 
 					HttpResponseMessage responseMessage = await client.PostAsync(url + credentials.AccountName, formContent);
 					var responseData = responseMessage.Content.ReadAsStringAsync();
