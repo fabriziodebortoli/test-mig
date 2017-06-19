@@ -1,7 +1,9 @@
+import { URLSearchParams } from '@angular/http';
 import { HttpService } from './../../../core/http.service';
 
 import { ControlComponent } from './../control.component';
 import { Component, OnInit, Input } from '@angular/core';
+
 
 @Component({
   selector: 'tb-hotlink',
@@ -11,7 +13,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class HotlinkComponent extends ControlComponent {
 
-  @Input() namespace: string;
+  @Input() ns: string;
   @Input() enableMultiSelection: boolean = false;
   public isReport: boolean = false;
   public data: any;
@@ -34,11 +36,29 @@ export class HotlinkComponent extends ControlComponent {
       this.showTable = false;
       return;
     }
+    
+    let p: URLSearchParams = new URLSearchParams(this.args);
+    for (var key in this.args) {
+      if (this.args.hasOwnProperty(key)) {
+        var element = this.args[key];
+        p.set(key, element);
+      }
+    }
 
-    let subs = this.httpService.getHotlinkData(this.namespace, this.selectionType, this.enableMultiSelection ? '' : this.value).subscribe((json) => {
+    let subs = this.httpService.getHotlinkData(this.ns, this.selectionType, this.enableMultiSelection ? '' : this.value, p).subscribe((json) => {
       this.data = json;
+      this.selectionColumn = this.data.key;
+      if (this.enableMultiSelection && this.multiSelectedValues.length > 0) {
+        for (let i = 0; i < this.data.rows.length; i++) {
+          let item = this.data.rows[i];
+          if (this.multiSelectedValues.indexOf(item[this.selectionColumn]) >= 0) {
+            item.Selected = true;
+          }
+        }
+      }
       subs.unsubscribe();
       this.showTable = true;
+      this.showOptions = false;
     })
   }
 
@@ -57,22 +77,22 @@ export class HotlinkComponent extends ControlComponent {
     this.showOptions = false;
   }
 
-   // ---------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------
   onBlur() {
     this.showTable = false;
     this.showOptions = false;
-     let subs = this.httpService.getHotlinkData(this.namespace, 'direct', this.enableMultiSelection ? '' : this.value).subscribe((json) => {
-      this.data = json;
-      subs.unsubscribe();
-      this.showTable = true;
-    })
+    /* let subs = this.httpService.getHotlinkData(this.ns, 'direct', this.enableMultiSelection ? '' : this.value, undefined).subscribe((json) => {
+       this.data = json;
+       subs.unsubscribe();
+       this.showTable = true;
+     })*/
   }
 
   // ---------------------------------------------------------------------------------------
   onOptionsClick() {
 
     if (this.selectionTypes.length === 0) {
-      let subs = this.httpService.getHotlinkSelectionTypes(this.namespace).subscribe((json) => {
+      let subs = this.httpService.getHotlinkSelectionTypes(this.ns).subscribe((json) => {
         this.selectionTypes = json.selections;
         subs.unsubscribe();
       })
