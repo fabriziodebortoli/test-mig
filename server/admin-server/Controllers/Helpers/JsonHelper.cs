@@ -44,8 +44,6 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			try
 			{
 				this.plainObject = (T)val;
-				//this.jsonWriter.WritePropertyName(name);
-				//this.jsonWriter.WriteValue(val);
 			}
 			catch (Exception)
 			{ }
@@ -57,8 +55,6 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			try
 			{
 				this.entries.Add(name, val);
-				//this.jsonWriter.WritePropertyName(name);
-				//this.jsonWriter.WriteValue(val);
 			}
 			catch (Exception)
 			{ }
