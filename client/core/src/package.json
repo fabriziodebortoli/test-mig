@@ -1,6 +1,10 @@
 {
     "name": "@taskbuilder/core",
+<<<<<<< HEAD
     "version": "0.1.0",
+=======
+    "version": "0.1.2",
+>>>>>>> core lib v0.1.2 Logger
     "repository": {
         "type": "git",
         "url": "https://github.com/Microarea/Taskbuilder.git"
