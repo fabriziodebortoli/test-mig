@@ -7,7 +7,7 @@ namespace Microarea.AdminServer.Model
     public class InstanceAccount : IInstanceAccount
 	{
         public string accountName;
-		public int instanceId;
+		public string instanceKey;
 
 		bool existsOnDB = false;
 
@@ -16,7 +16,7 @@ namespace Microarea.AdminServer.Model
 
 		//---------------------------------------------------------------------
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
-        public int InstanceId { get { return this.instanceId; } set { this.instanceId = value; } }
+        public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
 		//---------------------------------------------------------------------

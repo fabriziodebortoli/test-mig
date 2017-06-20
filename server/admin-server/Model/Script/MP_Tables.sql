@@ -1,12 +1,13 @@
 if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_Instances]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
  BEGIN
 CREATE TABLE [dbo].[MP_Instances] (
-	[InstanceName] [varchar] (50) NOT NULL ,
+	[InstanceKey] [varchar] (50) NOT NULL,
+	[Description] [varchar] (255) NULL CONSTRAINT DF_Instances_Description DEFAULT(''),
 	[Customer] [varchar] (12) NULL CONSTRAINT DF_Instances_Customer DEFAULT(''),
 	[Disabled] [bit] NULL CONSTRAINT DF_Instances_Disabled DEFAULT(0),
 	CONSTRAINT [PK_MP_Instances] PRIMARY KEY NONCLUSTERED 
 	(
-		[InstanceName]
+		[InstanceKey]
 	)
 )
 END
@@ -15,39 +16,43 @@ GO
 if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_ServerURLs]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
  BEGIN
 CREATE TABLE [dbo].[MP_ServerURLs] (
-	[InstanceName] [varchar] (50) NOT NULL,
+	[InstanceKey] [varchar] (50) NOT NULL,
 	[URLType] [int] NOT NULL,
 	[URL] [varchar] (255) NULL CONSTRAINT DF_ServerURLs_URL DEFAULT(''),
 	CONSTRAINT [PK_MP_ServerURLs] PRIMARY KEY NONCLUSTERED 
 	(
-		[InstanceName],
+		[InstanceKey],
 		[URLType]
 	),
 	CONSTRAINT [FK_MP_ServerURLs_Instances] FOREIGN KEY 
 	(
-		[InstanceName]
+		[InstanceKey]
 	) REFERENCES [dbo].[MP_Instances] (
-		[InstanceName]
+		[InstanceKey]
 	)
 )
 END
 GO
 
 if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_Subscriptions]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
- BEGIN
+ BEGIN	
 CREATE TABLE [dbo].[MP_Subscriptions] (
-	[SubscriptionKey] [varchar] (50) NOT NULL ,
+	[SubscriptionKey] [varchar] (50) NOT NULL,
+	[Description] [varchar] (255) NULL CONSTRAINT DF_Subscriptions_Description DEFAULT(''),
 	[ActivationToken] [varchar](max) NULL CONSTRAINT DF_Subscriptions_ActivationToken DEFAULT(''),
-	[InstanceName] [varchar] (50) NOT NULL,
+	[PreferredLanguage] [varchar] (10) NULL CONSTRAINT DF_Subscriptions_PreferredLanguage DEFAULT(''),
+	[ApplicationLanguage] [varchar] (10) NULL CONSTRAINT DF_Subscriptions_ApplicationLanguage DEFAULT(''),
+	[MinDBSizeToWarn] [int] NULL CONSTRAINT DF_Subscriptions_MinDBSizeToWarn DEFAULT(2044723), 
+	[InstanceKey] [varchar] (50) NOT NULL,
 	CONSTRAINT [PK_MP_Subscriptions] PRIMARY KEY NONCLUSTERED 
 	(
 		[SubscriptionKey]
 	),
 	CONSTRAINT [FK_MP_Subscriptions_Instances] FOREIGN KEY 
 	(
-		[InstanceName]
+		[InstanceKey]
 	) REFERENCES [dbo].[MP_Instances] (
-		[InstanceName]
+		[InstanceKey]
 	)
 )
 END
@@ -111,23 +116,24 @@ GO
 if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_Accounts]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
  BEGIN
 CREATE TABLE [dbo].[MP_Accounts] (
-	[AccountName] [varchar] (255) NOT NULL,
+	[AccountName] [varchar] (128) NOT NULL,
 	[Password] [varchar] (128) NOT NULL,
 	[FullName] [varchar] (255) NULL CONSTRAINT DF_Accounts_FullName DEFAULT(''),
-	[LoginFailedCount] [int] NULL CONSTRAINT DF_Accounts_LoginFailedCount  DEFAULT (0), 
 	[Notes] [varchar] (500) NULL CONSTRAINT DF_Accounts_Notes DEFAULT(''),
 	[Email] [varchar] (255) NULL CONSTRAINT DF_Accounts_Email DEFAULT(''),
+	[LoginFailedCount] [int] NULL CONSTRAINT DF_Accounts_LoginFailedCount  DEFAULT (0), 
 	[PasswordNeverExpires] [bit] NULL CONSTRAINT DF_Accounts_PasswordNeverExpires DEFAULT(0),
 	[MustChangePassword] [bit] NULL CONSTRAINT DF_Accounts_MustChangePassword DEFAULT(0),
 	[CannotChangePassword] [bit] NULL CONSTRAINT DF_Accounts_CannotChangePassword DEFAULT(0),
-	[PasswordExpirationDateCannotChange] [bit] NULL CONSTRAINT DF_Accounts_PasswordExpirationDateCannotChange DEFAULT(0),
 	[PasswordExpirationDate] [datetime] NULL CONSTRAINT DF_Accounts_PasswordExpirationDate DEFAULT (getdate()),
+	[PasswordDuration] [int] NULL CONSTRAINT DF_Accounts_PasswordDuration DEFAULT(90),
 	[Disabled] [bit] NULL CONSTRAINT DF_Accounts_Disabled DEFAULT (0),
 	[Locked] [bit] NULL CONSTRAINT DF_Accounts_Locked DEFAULT (0),
 	[ProvisioningAdmin] [bit] NULL CONSTRAINT DF_Accounts_ProvisioningAdmin DEFAULT (0),
 	[WindowsAuthentication] [bit] NULL CONSTRAINT DF_Accounts_WindowsAuthentication DEFAULT (0),
 	[PreferredLanguage] [varchar] (10) NULL CONSTRAINT DF_Accounts_PreferredLanguage DEFAULT (''),
 	[ApplicationLanguage] [varchar] (10) NULL CONSTRAINT DF_Accounts_ApplicationLanguage DEFAULT (''),
+	[ExpirationDate] [datetime] NULL CONSTRAINT DF_Accounts_ExpirationDate DEFAULT('17530101'),
 	CONSTRAINT [PK_MP_Accounts] PRIMARY KEY NONCLUSTERED 
 	(
 		[AccountName]
@@ -139,7 +145,7 @@ GO
 if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_CompanyAccounts]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
  BEGIN
 CREATE TABLE [dbo].[MP_CompanyAccounts] (
-	[AccountName] [varchar] (255) NOT NULL ,
+	[AccountName] [varchar] (128) NOT NULL,
 	[CompanyId] [int] NOT NULL,
 	[Admin] [bit] NULL CONSTRAINT DF_CompanyAccounts_Admin DEFAULT (0),
 	CONSTRAINT [PK_MP_CompanyAccounts] PRIMARY KEY NONCLUSTERED 
@@ -166,12 +172,12 @@ GO
 if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_InstanceAccounts]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
  BEGIN
 CREATE TABLE [dbo].[MP_InstanceAccounts] (
-	[AccountName] [varchar] (255) NOT NULL ,
-	[InstanceName] [varchar] (50) NOT NULL,
+	[AccountName] [varchar] (128) NOT NULL ,
+	[InstanceKey] [varchar] (50) NOT NULL,
 	CONSTRAINT [PK_MP_InstanceAccounts] PRIMARY KEY NONCLUSTERED 
 	(
 		[AccountName],
-		[InstanceName]
+		[InstanceKey]
 	),
 	CONSTRAINT [FK_MP_InstanceAccounts_Accounts] FOREIGN KEY 
 	(
@@ -181,9 +187,9 @@ CREATE TABLE [dbo].[MP_InstanceAccounts] (
 	),
 	CONSTRAINT [FK_MP_InstanceAccounts_Instances] FOREIGN KEY 
 	(
-		[InstanceName]
+		[InstanceKey]
 	) REFERENCES [dbo].[MP_Instances] (
-		[InstanceName]
+		[InstanceKey]
 	)
 )
 END
@@ -192,7 +198,7 @@ GO
 if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_SubscriptionAccounts]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
  BEGIN
 CREATE TABLE [dbo].[MP_SubscriptionAccounts] (
-	[AccountName] [varchar] (255) NOT NULL ,
+	[AccountName] [varchar] (128) NOT NULL ,
 	[SubscriptionKey] [varchar] (50) NOT NULL,
 	CONSTRAINT [PK_MP_SubscriptionAccounts] PRIMARY KEY NONCLUSTERED 
 	(
@@ -218,10 +224,10 @@ GO
 if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_SecurityTokens]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
  BEGIN
 CREATE TABLE [dbo].[MP_SecurityTokens] (
-	[AccountName] [varchar] (255) NOT NULL ,
+	[AccountName] [varchar] (128) NOT NULL,
 	[TokenType] [int] NOT NULL,
 	[Token] [uniqueidentifier] NULL CONSTRAINT DF_SecurityTokens_Token DEFAULT(0x00),
-	[CreationDate] [datetime] NULL CONSTRAINT DF_SecurityTokens_CreationDate DEFAULT(getdate()),
+	[ExpirationDate] [datetime] NULL CONSTRAINT DF_SecurityTokens_ExpirationDate DEFAULT(getdate()),
 	[Expired] [bit] NULL CONSTRAINT DF_SecurityTokens_Expired DEFAULT (0),
 	CONSTRAINT [PK_MP_SecurityTokens] PRIMARY KEY NONCLUSTERED 
 	(

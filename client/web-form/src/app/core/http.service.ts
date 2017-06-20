@@ -78,7 +78,7 @@ export class HttpService {
 
     openTBConnection(): Observable<OperationResult> {
         let token = this.cookieService.get('authtoken');
-        return this.postData(this.getMenuBaseUrl() + 'initTBLogin/', token)
+        return this.postData(this.getDocumentBaseUrl() + 'initTBLogin/', token)
             .map((res: Response) => {
                 return this.createOperationResult(res);
             })
@@ -87,7 +87,7 @@ export class HttpService {
     closeTBConnection(): Observable<OperationResult> {
         let token = this.cookieService.get('authtoken');
         this.logger.debug('httpService.logout (' + token + ')');
-        return this.postData(this.getMenuBaseUrl() + 'doLogoff/', token)
+        return this.postData(this.getDocumentBaseUrl() + 'doLogoff/', token)
             .map((res: Response) => {
                 return this.createOperationResult(res);
             })
@@ -107,11 +107,6 @@ export class HttpService {
 
     getDocumentBaseUrl() {
         return this.apiBaseUrl + 'tb/document/';
-    }
-
-    getMenuBaseUrl() {
-        let url = this.apiBaseUrl + 'tb/menu/';
-        return url;
     }
 
     getAccountManagerBaseUrl() {

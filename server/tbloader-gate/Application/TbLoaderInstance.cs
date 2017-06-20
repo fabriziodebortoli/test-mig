@@ -48,7 +48,7 @@ namespace Microarea.TbLoaderGate
 				int port = host.Port.HasValue ? host.Port.Value : 80;
 				string server = goodAddress.ToString();
 				string wsUrl = string.Concat("ws://", server, ":", port, "/tbloader/");  
-                string url = string.Concat(BaseUrl, "/tb/menu/openWebSocket/?name=", name, "&url=", WebUtility.HtmlEncode(wsUrl));
+                string url = string.Concat(BaseUrl, "/tb/document/openWebSocket/?name=", name, "&url=", WebUtility.HtmlEncode(wsUrl));
                 HttpRequestMessage msg = new HttpRequestMessage();
                 msg.RequestUri = new Uri(url);
                 HttpResponseMessage resp = await client.SendAsync(msg);
@@ -61,7 +61,7 @@ namespace Microarea.TbLoaderGate
 		{
 			using (var client = new HttpClient())
 			{
-				string url = string.Concat(BaseUrl, "/tb/menu/initTBLogin/?authtoken=" + token);
+				string url = string.Concat(BaseUrl, "/tb/document/initTBLogin/?authtoken=" + token);
 				HttpRequestMessage msg = new HttpRequestMessage();
 				msg.RequestUri = new Uri(url);
 				HttpResponseMessage resp = await client.SendAsync(msg);

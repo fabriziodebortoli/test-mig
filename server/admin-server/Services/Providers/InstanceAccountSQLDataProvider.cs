@@ -21,6 +21,7 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		// carica le istanze di uno specifico AccountName
+		// la query potrebbe estrarre piu' righe, quindi dovrebbe ritornare una lista di istanze per account
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
@@ -41,10 +42,9 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								iAccount.InstanceId = (int)dataReader["InstanceId"];
+								iAccount.InstanceKey = dataReader["InstanceKey"] as string;
 								iAccount.ExistsOnDB = true;
 							}
-								
 						}
 					}
 				}
@@ -76,7 +76,7 @@ namespace Microarea.AdminServer.Services.Providers
 					using (SqlCommand command = new SqlCommand(Consts.ExistInstanceAccount, connection))
 					{
 						command.Parameters.AddWithValue("@AccountName", iaccount.AccountName);
-						command.Parameters.AddWithValue("@InstanceId", iaccount.InstanceId);
+						command.Parameters.AddWithValue("@InstanceKey", iaccount.InstanceKey);
 						existInstance = (int)command.ExecuteScalar() > 0;
 					}
 
@@ -89,7 +89,7 @@ namespace Microarea.AdminServer.Services.Providers
 						command.CommandText = Consts.InsertInstanceAccount;
 
 						command.Parameters.AddWithValue("@AccountName", iaccount.AccountName);
-						command.Parameters.AddWithValue("@InstanceId", iaccount.InstanceId);
+						command.Parameters.AddWithValue("@InstanceKey", iaccount.InstanceKey);
 
 						command.ExecuteNonQuery();
 					}
@@ -118,7 +118,7 @@ namespace Microarea.AdminServer.Services.Providers
 					using (SqlCommand command = new SqlCommand(Consts.DeleteInstanceAccount, connection))
 					{
 						command.Parameters.AddWithValue("@AccountName", iaccount.AccountName);
-						command.Parameters.AddWithValue("@InstanceId", iaccount.InstanceId);
+						command.Parameters.AddWithValue("@InstanceKey", iaccount.InstanceKey);
 						command.ExecuteNonQuery();
 					}
 				}

@@ -144,6 +144,7 @@ namespace Microarea.AdminServer.Controllers
 			if (credentials == null || String.IsNullOrEmpty(credentials.AccountName) || String.IsNullOrEmpty(credentials.Password))
 			{
 				bootstrapTokenContainer.Result = false;
+				bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.Error;
 				bootstrapTokenContainer.Message = "Username cannot be empty";
 				_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
@@ -168,6 +169,7 @@ namespace Microarea.AdminServer.Controllers
 					{
 						bootstrapTokenContainer.Result = false;
 						bootstrapTokenContainer.Message = res.ToString();
+						bootstrapTokenContainer.ResultCode = (int)res;
 						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
@@ -180,6 +182,7 @@ namespace Microarea.AdminServer.Controllers
 					{
 						bootstrapTokenContainer.Result = false;
 						bootstrapTokenContainer.Message = LoginReturnCodes.ErrorSavingTokens.ToString();
+						bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.ErrorSavingTokens;
 						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
@@ -191,6 +194,7 @@ namespace Microarea.AdminServer.Controllers
 					// ...and its container.
 					bootstrapTokenContainer.Result = true;
 					bootstrapTokenContainer.Message = res.ToString();
+					bootstrapTokenContainer.ResultCode = (int)res;
 					bootstrapTokenContainer.JWTToken = bootstrapToken;
 					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
 
@@ -209,7 +213,9 @@ namespace Microarea.AdminServer.Controllers
 					if (!accountIdentityPack.Result) // it doesn't exist on GWAM
 					{
 						bootstrapTokenContainer.Result = false;
-						bootstrapTokenContainer.Message = "GWAM doesn't like this. Why? " + accountIdentityPack.Message;
+						bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.UnknownAccountName;
+						bootstrapTokenContainer.Message = String.Concat(
+							LoginReturnCodes.UnknownAccountName.ToString(), " GWAM: ", accountIdentityPack.Message);
 						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
@@ -233,6 +239,7 @@ namespace Microarea.AdminServer.Controllers
 					{
 						bootstrapTokenContainer.Result = false;
 						bootstrapTokenContainer.Message = LoginReturnCodes.ErrorSavingTokens.ToString();
+						bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.ErrorSavingTokens;
 						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
@@ -245,7 +252,8 @@ namespace Microarea.AdminServer.Controllers
 					bootstrapToken.UserTokens = t;
 
 					bootstrapTokenContainer.Result = true;
-					bootstrapTokenContainer.Message = "Login ok";
+					bootstrapTokenContainer.Message = LoginReturnCodes.NoError.ToString();
+					bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.NoError;
 					bootstrapTokenContainer.JWTToken = bootstrapToken;
 					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
 
@@ -254,13 +262,15 @@ namespace Microarea.AdminServer.Controllers
 				}
 
 				bootstrapTokenContainer.Result = false;
-				bootstrapTokenContainer.Message = "Invalid user";
+				bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.InvalidUserError;
+				bootstrapTokenContainer.Message = LoginReturnCodes.InvalidUserError.ToString();
 				_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 			catch (Exception exc)
 			{
 				bootstrapTokenContainer.Result = false;
+				bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.GenericLoginFailure;
 				bootstrapTokenContainer.Message = exc.Message;
 				_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
@@ -274,7 +284,7 @@ namespace Microarea.AdminServer.Controllers
 
 			List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
 			entries.Add(new KeyValuePair<string, string>("password", credentials.Password));
-			entries.Add(new KeyValuePair<string, string>("instanceid", "1"));
+			entries.Add(new KeyValuePair<string, string>("instanceid", "1")); //@@TODO bisogna mettere instancekey?
 
 			OperationResult opRes = await _httpHelper.PostDataAsync(url, entries);
 			return (Task<string>) opRes.ObjectResult;
@@ -451,22 +461,15 @@ namespace Microarea.AdminServer.Controllers
 		/// Insert/update Subscription
 		/// </summary>
 		//-----------------------------------------------------------------------------	
-		[HttpPost("/api/subscriptions/{subscriptionname}")]
-		public IActionResult ApiSubscriptions(string subscriptionname, int instanceid)
+		[HttpPost("/api/subscriptions/{subscriptionKey?}")]
+		public IActionResult ApiSubscriptions(string subscriptionKey, string instanceKey)
 		{
-			if (String.IsNullOrEmpty(subscriptionname))
-			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Subscription name cannot be empty");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-			}
-
 			bool result = false;
 			try
 			{
-				ISubscription iSubscription = new Subscription(subscriptionname);
+				ISubscription iSubscription = new Subscription(subscriptionKey);
 				iSubscription.SetDataProvider(_subscriptionSQLDataProvider);
-				iSubscription.InstanceId = instanceid;
+				iSubscription.InstanceKey = instanceKey;
 				result = iSubscription.Save();
 			}
 			catch (SqlException e)

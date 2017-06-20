@@ -34,9 +34,9 @@ export class CompanyComponent implements OnInit {
       return;
     }
 
-    // da togliere quando valorizzeremo la Subscriptionid con quella corrente
-    if (this.model.subscriptionId == undefined)
-      this.model.subscriptionId = 1;
+    // da togliere quando valorizzeremo la SubscriptionKey con quella corrente
+    if (this.model.subscriptionKey == undefined)
+      this.model.subscriptionKey = '1';
 
     let companyOperation: Observable<OperationResult>;
     if (!this.editing)

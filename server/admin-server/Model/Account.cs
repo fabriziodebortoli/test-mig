@@ -19,8 +19,8 @@ namespace Microarea.AdminServer.Model
 		bool passwordNeverExpires = false;
 		bool mustChangePassword = false;
 		bool cannotChangePassword = false;
-		bool passwordExpirationDateCannotChange = false;
         DateTime passwordExpirationDate;
+		int passwordDuration;
 		bool disabled = false;
 		bool locked = false;
 		string applicationLanguage = string.Empty;
@@ -40,8 +40,8 @@ namespace Microarea.AdminServer.Model
 		public bool PasswordNeverExpires { get { return this.passwordNeverExpires; } set { this.passwordNeverExpires = value; } }
 		public bool MustChangePassword { get { return this.mustChangePassword; } set { this.mustChangePassword = value; } }
 		public bool CannotChangePassword { get { return this.cannotChangePassword; } set { this.cannotChangePassword = value; } }
-		public bool PasswordExpirationDateCannotChange { get { return this.passwordExpirationDateCannotChange; } set { this.passwordExpirationDateCannotChange = value; } }
 		public DateTime PasswordExpirationDate { get { return this.passwordExpirationDate; } set { this.passwordExpirationDate = value; } }
+		public int PasswordDuration { get { return this.passwordDuration; } set { this.passwordDuration = value; } }
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
 		public bool Locked { get { return this.locked; } set { this.locked = value; } }
 		public string PreferredLanguage { get { return this.preferredLanguage; } set { this.preferredLanguage = value; } }
