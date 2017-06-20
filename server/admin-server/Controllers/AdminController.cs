@@ -434,7 +434,6 @@ namespace Microarea.AdminServer.Controllers
 			{
 				IInstance iInstance = new Instance(instancename);
 				iInstance.SetDataProvider(_instanceSqlDataProvider);
-				iInstance.Customer = customer;
 				iInstance.Disabled = disabled;
 				result = iInstance.Save();
 			}

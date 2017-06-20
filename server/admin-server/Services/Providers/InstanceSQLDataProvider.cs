@@ -39,7 +39,6 @@ namespace Microarea.AdminServer.Services.Providers
 							while (dataReader.Read())
 							{
 								instance.Description = dataReader["Description"] as string;
-								instance.Customer = dataReader["Customer"] as string;
 								instance.Disabled = (bool)dataReader["Disabled"];
 								instance.ExistsOnDB = true;
 							}
@@ -80,9 +79,7 @@ namespace Microarea.AdminServer.Services.Providers
 					{
 						command.Connection = connection;
 						command.CommandText = existInstance ? Consts.UpdateInstance : Consts.InsertInstance;
-						
 						command.Parameters.AddWithValue("@Description", instance.Description);
-						command.Parameters.AddWithValue("@Customer", instance.Customer);
 						command.Parameters.AddWithValue("@Disabled", instance.Disabled);
 
 						if (existInstance)
