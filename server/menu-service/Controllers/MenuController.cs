@@ -16,14 +16,6 @@ namespace Microarea.Menu.Controllers
 		{
 		}
 
-		//da modificare quando inserisce il nuovo menu nel cef
-		[Route("tb/menu/getInstallationInfo/")]
-		[HttpPost]
-		public IActionResult GetInstallationInfo()
-		{
-			return new ObjectResult(new InstallationInfo { desktop = false });
-		}
-
 		[Route("getMenuElements")]
 		public IActionResult GetMenuElements()
 		{
