@@ -12,6 +12,7 @@ namespace Microarea.AdminServer.Model
         string accountName;
         string fullName = string.Empty;
 		string password = string.Empty;
+        bool isCloudAdmin = false;
         int loginFailedCount = 0;
         string notes = string.Empty;
 		string email = string.Empty;
@@ -28,12 +29,13 @@ namespace Microarea.AdminServer.Model
         bool isWindowsAuthentication = false;
         DateTime expirationDate = DateTime.Now.AddDays(3);// todo per ora scadenza 3 giorni per esempio
 		bool existsOnDB = false;
-        string ticks;
+        long ticks;
 
         //---------------------------------------------------------------------
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
 		public string FullName { get { return this.fullName; } set { this.fullName = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
+        public bool IsCloudAdmin { get { return this.isCloudAdmin; } set { this.isCloudAdmin = value; } }
         public int LoginFailedCount { get { return this.loginFailedCount; } set { this.loginFailedCount = value; } }
         public string Notes { get { return this.notes; } set { this.notes = value; } }
 		public string Email { get { return this.email; } set { this.email = value; } }
@@ -50,7 +52,7 @@ namespace Microarea.AdminServer.Model
         public bool IsWindowsAuthentication { get { return this.isWindowsAuthentication; } set { this.isWindowsAuthentication = value; } }
         public DateTime ExpirationDate { get { return this.expirationDate; } set { this.expirationDate = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
-        public string Ticks { get { return this.ticks; } set { this.ticks = value; } }
+        public long Ticks { get { return this.ticks; } set { this.ticks = value; } }
 
         // data provider
         IDataProvider dataProvider;

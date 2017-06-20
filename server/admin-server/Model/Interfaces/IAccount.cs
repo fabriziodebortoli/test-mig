@@ -7,7 +7,8 @@ namespace Microarea.AdminServer.Model.Interfaces
     {
         string AccountName { get; }
 		string Password { get; set; }
-		string FullName { get; set; }
+        bool IsCloudAdmin{ get; set; }
+        string FullName { get; set; }
         string Notes { get; set; }
         string Email { get; set; }
         bool ProvisioningAdmin { get; set; }
@@ -22,7 +23,7 @@ namespace Microarea.AdminServer.Model.Interfaces
         string PreferredLanguage { get; set; }
         string ApplicationLanguage { get; set; }
         bool IsWindowsAuthentication { get; }
-        string Ticks { get; }
+        long Ticks { get; }
         bool IsPasswordExpirated();
 		DateTime ExpirationDate { get; set; }
     }

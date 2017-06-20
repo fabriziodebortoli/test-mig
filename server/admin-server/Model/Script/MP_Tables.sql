@@ -117,6 +117,7 @@ if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_Acc
 CREATE TABLE [dbo].[MP_Accounts] (
 	[AccountName] [varchar] (128) NOT NULL,
 	[Password] [varchar] (128) NOT NULL,
+	[IsCloudAdmin] [bit] NULL CONSTRAINT DF_Accounts_IsCloudAdmin DEFAULT(0),
 	[FullName] [varchar] (255) NULL CONSTRAINT DF_Accounts_FullName DEFAULT(''),
 	[Notes] [varchar] (500) NULL CONSTRAINT DF_Accounts_Notes DEFAULT(''),
 	[Email] [varchar] (255) NULL CONSTRAINT DF_Accounts_Email DEFAULT(''),
@@ -132,6 +133,7 @@ CREATE TABLE [dbo].[MP_Accounts] (
 	[WindowsAuthentication] [bit] NULL CONSTRAINT DF_Accounts_WindowsAuthentication DEFAULT (0),
 	[PreferredLanguage] [varchar] (10) NULL CONSTRAINT DF_Accounts_PreferredLanguage DEFAULT (''),
 	[ApplicationLanguage] [varchar] (10) NULL CONSTRAINT DF_Accounts_ApplicationLanguage DEFAULT (''),
+	[Ticks] [bigint] NULL CONSTRAINT DF_Accounts_Ticks DEFAULT (0),
 	[ExpirationDate] [datetime] NULL CONSTRAINT DF_Accounts_ExpirationDate DEFAULT('17530101'),
 	CONSTRAINT [PK_MP_Accounts] PRIMARY KEY NONCLUSTERED 
 	(

@@ -101,7 +101,8 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						command.Parameters.AddWithValue("@FullName", account.FullName);
 						command.Parameters.AddWithValue("@Password", account.Password);
-						command.Parameters.AddWithValue("@Notes", account.Notes);
+                        command.Parameters.AddWithValue("@IsCloudAdmin", account.IsCloudAdmin);
+                        command.Parameters.AddWithValue("@Notes", account.Notes);
 						command.Parameters.AddWithValue("@Email", account.Email);
 						command.Parameters.AddWithValue("@LoginFailedCount", account.LoginFailedCount);
 						command.Parameters.AddWithValue("@PasswordNeverExpires", account.PasswordNeverExpires);
@@ -115,7 +116,8 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@WindowsAuthentication", account.IsWindowsAuthentication);
 						command.Parameters.AddWithValue("@PreferredLanguage", account.PreferredLanguage);
 						command.Parameters.AddWithValue("@ApplicationLanguage", account.ApplicationLanguage);
-						command.Parameters.AddWithValue("@ExpirationDate", account.ExpirationDate);
+                        command.Parameters.AddWithValue("@Ticks", account.Ticks);
+                        command.Parameters.AddWithValue("@ExpirationDate", account.ExpirationDate);
 
 						command.ExecuteNonQuery();
 					}
@@ -176,7 +178,8 @@ namespace Microarea.AdminServer.Services.Providers
 							{
 								Account account = new Account();
 								account.AccountName = dataReader["AccountName"] as string;
-								account.FullName = dataReader["FullName"] as string;
+                                account.IsCloudAdmin = (bool)dataReader["IsCloudAdmin"];
+                                account.FullName = dataReader["FullName"] as string;
 								account.Notes = dataReader["Notes"] as string;
 								account.Email = dataReader["Email"] as string;
 								account.Password = dataReader["Password"] as string;
@@ -192,7 +195,8 @@ namespace Microarea.AdminServer.Services.Providers
 								account.Locked = (bool)dataReader["Locked"];
 								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
 								account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
-								account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
+                                account.Ticks = (long)dataReader["Ticks"];
+                                account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
 								accountList.Add(account);
 							}
 						}
