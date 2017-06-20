@@ -31,13 +31,14 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.SelectInstanceByName, connection))
+					using (SqlCommand command = new SqlCommand(Consts.SelectInstance, connection))
 					{
-						command.Parameters.AddWithValue("@Name", instance.Name);
+						command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
 							{
+								instance.Description = dataReader["Description"] as string;
 								instance.Customer = dataReader["Customer"] as string;
 								instance.Disabled = (bool)dataReader["Disabled"];
 								instance.ExistsOnDB = true;
@@ -71,7 +72,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					using (SqlCommand command = new SqlCommand(Consts.ExistInstance, connection))
 					{
-						command.Parameters.AddWithValue("@InstanceId", instance.InstanceId);
+						command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 						existInstance = (int)command.ExecuteScalar() > 0;
 					}
 
@@ -80,12 +81,12 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Connection = connection;
 						command.CommandText = existInstance ? Consts.UpdateInstance : Consts.InsertInstance;
 						
-						command.Parameters.AddWithValue("@Name", instance.Name);
+						command.Parameters.AddWithValue("@Description", instance.Description);
 						command.Parameters.AddWithValue("@Customer", instance.Customer);
 						command.Parameters.AddWithValue("@Disabled", instance.Disabled);
 
 						if (existInstance)
-							command.Parameters.AddWithValue("@InstanceId", instance.InstanceId);
+							command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 
 						command.ExecuteNonQuery();
 					}
@@ -113,7 +114,7 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.DeleteInstance, connection))
 					{
-						command.Parameters.AddWithValue("@InstanceId", instance.InstanceId);
+						command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 						command.ExecuteNonQuery();
 					}
 				}

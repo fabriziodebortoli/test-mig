@@ -6,7 +6,7 @@ namespace Microarea.AdminServer.Model.Interfaces
     //================================================================================
     interface ISecurityToken : IAdminModel
     {
-        string AccountName { get;set;  }
+        string AccountName { get; set; }
         TokenType TokenType { get; set; }
         string Token { get; set; }
         bool Expired { get; set; }
