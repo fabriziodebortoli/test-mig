@@ -20,7 +20,8 @@ const TB_MODULES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, TB_MODULES]
+  imports: [CommonModule, TB_MODULES],
+  exports: [TB_MODULES]
 })
 export class TaskbuilderCoreModule {
   static forRoot(): ModuleWithProviders {
