@@ -9,14 +9,12 @@ namespace Microarea.AdminServer.Model
     {
         string instanceKey;
         string description = string.Empty;
-		string customer = string.Empty;
 		bool disabled = false;
 		bool existsOnDB = false;
 
 		//---------------------------------------------------------------------
 		public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
         public string Description { get { return this.description; } set { this.description = value; } }
-		public string Customer { get { return this.customer; } set { this.customer = value; } }
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 

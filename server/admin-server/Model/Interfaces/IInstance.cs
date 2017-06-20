@@ -5,7 +5,6 @@
 	{
         string InstanceKey { get; }
         string Description { get; }
-		string Customer { get; set; }
 		bool Disabled { get; set; }
     }
 }
