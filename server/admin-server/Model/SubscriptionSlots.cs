@@ -7,12 +7,12 @@ namespace Microarea.AdminServer.Model
     //================================================================================
     public class SubscriptionSlots : IAdminModel
     {
-        int subscriptionId;
+        string subscriptionKey;
         string value = string.Empty;
 		bool existsOnDB = false;
 
         //---------------------------------------------------------------------
-        public int SubscriptionId { get { return this.subscriptionId; } set { this.subscriptionId = value; } }
+        public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
         public string Value { get { return this.value; } set { this.value = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 

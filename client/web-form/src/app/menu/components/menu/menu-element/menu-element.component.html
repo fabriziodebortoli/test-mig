@@ -4,9 +4,7 @@
     <div class="menu-element-content">
         <div class="header">
             <md-icon class="object-type" [ngClass]="object.objectType">{{imageService.getObjectIcon(object)}}</md-icon>
-
             <span (click)="runFunction(object)">{{object.title}}</span>
-
             <md-icon class="star" [class.favorite]="object.isFavorite" (click)="menuService.toggleFavorites(object)" (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false">{{getFavoriteClass(object)}}</md-icon>
         </div>
 

@@ -1,8 +1,8 @@
 <div>{{caption}}</div>
 
-<kendo-maskedtextbox [(ngModel)]="value" [ngStyle]="inputStyle()" (focus)="onFocus()" (blur)="onBlur()" [disabled]="enableMultiSelection || !model.enabled"></kendo-maskedtextbox>
+<kendo-maskedtextbox [(ngModel)]="value" [ngStyle]="inputStyle()" (focus)="onFocus()" (blur)="onBlur($event)" [disabled]="enableMultiSelection || !model.enabled"></kendo-maskedtextbox>
 
-<button kendoButton #anchor (click)="onOptionsClick()" [icon]="'more-vertical'" [disabled]="!model.enabled"></button>
+<button kendoButton #anchor (click)="onOptionsClick()" [icon]="'more-vertical'" [disabled]="!model.enabled" ></button>
 <kendo-popup [anchor]="anchor" (blur)="showOptions = false" *ngIf="showOptions">
   <div class="search-options">
     Search for:<br>
@@ -12,7 +12,7 @@
   </div>
 </kendo-popup>
 
-<button kendoButton (click)="onSearchClick()" [icon]="'search'" [disabled]="!model.enabled"></button>
+<button kendoButton (click)="onSearchClick()" [icon]="'search'" [disabled]="!model.enabled" ></button>
 <div #anchorTable></div>
 <kendo-popup [anchor]="anchorTable" (anchorViewportLeave)="showTable = false" *ngIf="showTable" [ngStyle]="popupStyle()">
   <kendo-grid [data]="data.rows" [selectable]="true" (selectionChange)="selectionChanged($event)" [scrollable]="'scrollable'"

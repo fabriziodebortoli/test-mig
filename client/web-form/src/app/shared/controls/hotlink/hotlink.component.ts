@@ -19,6 +19,7 @@ export class HotlinkComponent extends ControlComponent {
   public data: any;
   public selectionTypes: any[] = [];
   public selectionType: string = 'code';
+  // private skipBlurFlag: boolean = false;
 
   showTable: boolean = false;
   showOptions: boolean = false;
@@ -36,7 +37,9 @@ export class HotlinkComponent extends ControlComponent {
       this.showTable = false;
       return;
     }
-    
+
+    this.showOptions = false;
+
     let p: URLSearchParams = new URLSearchParams(this.args);
     for (var key in this.args) {
       if (this.args.hasOwnProperty(key)) {
@@ -78,9 +81,13 @@ export class HotlinkComponent extends ControlComponent {
   }
 
   // ---------------------------------------------------------------------------------------
-  onBlur() {
+  onBlur(value) {
     this.showTable = false;
     this.showOptions = false;
+    /*if (this.skipBlurFlag || this.value==='') {
+      this.skipBlurFlag = false;
+      return;
+    }*/
     /* let subs = this.httpService.getHotlinkData(this.ns, 'direct', this.enableMultiSelection ? '' : this.value, undefined).subscribe((json) => {
        this.data = json;
        subs.unsubscribe();
@@ -89,8 +96,14 @@ export class HotlinkComponent extends ControlComponent {
   }
 
   // ---------------------------------------------------------------------------------------
+ /* skipBlur() {
+    this.skipBlurFlag = true;
+  }
+*/
+  // ---------------------------------------------------------------------------------------
   onOptionsClick() {
 
+    this.showTable = false;
     if (this.selectionTypes.length === 0) {
       let subs = this.httpService.getHotlinkSelectionTypes(this.ns).subscribe((json) => {
         this.selectionTypes = json.selections;
@@ -100,7 +113,6 @@ export class HotlinkComponent extends ControlComponent {
       return;
     }
     this.showOptions = !this.showOptions;
-    this.showTable = false;
   }
 
   // ---------------------------------------------------------------------------------------

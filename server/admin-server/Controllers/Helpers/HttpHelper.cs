@@ -1,14 +1,20 @@
 ﻿using Microarea.AdminServer.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Controllers.Helpers
 {
 	//================================================================================
-	public class HttpHelper
+	public interface IHttpHelper
+	{
+		Task<OperationResult> PostDataAsync(string url, List<KeyValuePair<string, string>> bodyEntries);
+	}
+
+	//================================================================================
+	public class HttpHelper : IHttpHelper
     {
 		HttpClient client;
 
@@ -16,6 +22,8 @@ namespace Microarea.AdminServer.Controllers.Helpers
 		public HttpHelper()
 		{
 			client = new HttpClient();
+			client.DefaultRequestHeaders.Accept.Clear();
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 		}
 
 		//--------------------------------------------------------------------------------

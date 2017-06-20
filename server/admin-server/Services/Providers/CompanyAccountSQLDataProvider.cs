@@ -20,6 +20,7 @@ namespace Microarea.AdminServer.Services.Providers
 			this.connectionString = connString;
 		}
 
+		// la query potrebbe estrarre piu' righe, quindi dovrebbe ritornare una lista di companies per account
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
