@@ -1,6 +1,6 @@
 import { WebSocketService } from './../../core/websocket.service';
 import { ComponentService } from './../../core/component.service';
-import { HttpService } from './../../core/http.service';
+import { HttpService } from '@taskbuilder/core';
 import { UtilsService } from './../../core/utils.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';

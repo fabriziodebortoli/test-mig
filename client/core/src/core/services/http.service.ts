@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
@@ -30,23 +30,18 @@ export class HttpService {
         let messages = jObject ? jObject.messages : [];
         return new OperationResult(!ok, messages);
     }
-    isLogged(): Observable<string> {
-        return this.postData(this.getMenuBaseUrl() + 'isLogged/', {})
+    isLogged(): Observable<boolean> {
+        let obj = { authtoken: this.cookieService.get('authtoken') };
+        return this.postData(this.getAccountManagerBaseUrl() + 'isValidToken/', obj)
             .map((res: Response) => {
                 return res.ok && res.json().success === true;
             })
             .catch(this.handleError);
     }
-    getInstallationInfo(): Observable<any> {
-        return this.postData(this.urlService.getBackendUrl() + 'tb/menu/getInstallationInfo/', {})
-            .map((res: any) => {
-                return res.json();
-            })
-            .catch(this.handleError);
-    }
     login(connectionData: LoginSession): Observable<OperationResult> {
-        return this.postData(this.getMenuBaseUrl() + 'doLogin/', connectionData)
+        return this.postData(this.getAccountManagerBaseUrl() + 'login-compact/', connectionData)
             .map((res: Response) => {
+                this.cookieService.put('authtoken', res.ok ? res.json().authtoken : null);
                 return this.createOperationResult(res);
             })
             .catch(this.handleError);
@@ -70,45 +65,33 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    loginCompact(connectionData: LoginSession): Observable<OperationResult> {
-        return this.postData(this.getAccountManagerBaseUrl() + '/login-compact/', connectionData)
-            .map((res: Response) => {
-                return res.json();
-            })
-            .catch(this.handleError);
-    }
-
     logoff(): Observable<OperationResult> {
         let token = this.cookieService.get('authtoken');
         this.logger.debug('httpService.logout (' + token + ')');
 
         return this.postData(this.getAccountManagerBaseUrl() + 'logoff/', token)
             .map((res: Response) => {
-                return res.json();
+                return this.createOperationResult(res);
             })
             .catch(this.handleError);
     }
 
-    logout(): Observable<OperationResult> {
+    openTBConnection(): Observable<OperationResult> {
         let token = this.cookieService.get('authtoken');
-        this.logger.debug('httpService.logout (' + token + ')');
-        return this.postData(this.getMenuBaseUrl() + 'doLogoff/', token)
+
+        return this.postData(this.getDocumentBaseUrl() + 'initTBLogin/', token)
             .map((res: Response) => {
                 return this.createOperationResult(res);
             })
             .catch(this.handleError);
     }
 
-    runDocument(ns: String, args: string = ''): void {
-        let subs = this.postData(this.getMenuBaseUrl() + 'runDocument/', { ns: ns, sKeyArgs: args })
-            .subscribe(() => {
-                subs.unsubscribe();
-            });
-    }
-    runReport(ns: String): Observable<any> {
-        return this.postData(this.getMenuBaseUrl() + 'runReport/', { ns: ns })
+    closeTBConnection(): Observable<OperationResult> {
+        let token = this.cookieService.get('authtoken');
+        this.logger.debug('httpService.logout (' + token + ')');
+        return this.postData(this.getDocumentBaseUrl() + 'doLogoff/', token)
             .map((res: Response) => {
-                return res.json();
+                return this.createOperationResult(res);
             })
             .catch(this.handleError);
     }
@@ -120,23 +103,12 @@ export class HttpService {
         //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
     }
 
-    getComponentUrl(url: string) {
-        if (url[0] === '\\') {
-            url = url.substring(1);
-        }
-        return 'app/htmlforms/' + url + '.js';
-    }
-
     getBaseUrl() {
         return this.urlService.getApiUrl();
     }
 
     getDocumentBaseUrl() {
         return this.urlService.getApiUrl() + 'tb/document/';
-    }
-
-    getMenuBaseUrl() {
-        return this.urlService.getApiUrl() + 'tb/menu/';
     }
 
     getAccountManagerBaseUrl() {
@@ -148,7 +120,12 @@ export class HttpService {
     }
 
     getEnumsServiceUrl() {
-        return this.urlService.getBackendUrl() + 'enums-service/';
+        let url = this.urlService.getBackendUrl() + 'enums-service/';
+        return url;
+    }
+    getDataServiceUrl() {
+        let url = this.urlService.getBackendUrl() + 'data-service/';
+        return url;
     }
 
     protected handleError(error: any): ErrorObservable {
@@ -169,4 +146,21 @@ export class HttpService {
             .catch(this.handleError);
     }
 
+    // tslint:disable-next-line:max-line-length
+    getHotlinkData(namespace: string, selectionType: string = 'code', filter: string = '', params: URLSearchParams): Observable<any> {
+        // tslint:disable-next-line:max-line-length
+        return this.http.get(this.getDataServiceUrl() + 'getdata/' + namespace + '/' + selectionType + '/' + filter, { search: params, withCredentials: true })
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+    getHotlinkSelectionTypes(namespace: string): Observable<any> {
+        return this.http.get(this.getDataServiceUrl() + 'getselections/' + namespace + '/', { withCredentials: true })
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
 }

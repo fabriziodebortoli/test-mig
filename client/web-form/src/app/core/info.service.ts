@@ -1,4 +1,4 @@
-import { HttpService } from './http.service';
+import { HttpService } from '@taskbuilder/core';
 import { Injectable } from '@angular/core';
 
 @Injectable()

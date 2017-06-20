@@ -20,30 +20,13 @@ const TB_MODULES = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [
-    SampleComponent,
-    SampleDirective,
-    SamplePipe
-  ],
-  exports: [
-    SampleComponent,
-    SampleDirective,
-    SamplePipe
-  ]
+  imports: [CommonModule, TB_MODULES]
 })
-export class SampleModule {
+export class TaskbuilderCoreModule {
   static forRoot(): ModuleWithProviders {
     return {
-<<<<<<< HEAD
-      ngModule: SampleModule,
-      providers: [SampleService]
-=======
       ngModule: TaskbuilderCoreModule,
       providers: [TB_SERVICES]
->>>>>>> core lib v0.1.2 Logger
     };
   }
 }

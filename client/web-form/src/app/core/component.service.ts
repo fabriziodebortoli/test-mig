@@ -4,7 +4,7 @@ import { Injectable, Type, ComponentFactoryResolver, EventEmitter } from '@angul
 import { Router } from '@angular/router';
 
 import { Logger } from './logger.service';
-import { HttpService } from './http.service';
+import { HttpService } from '@taskbuilder/core';
 import { WebSocketService } from './websocket.service';
 
 import { ComponentInfo } from './../shared/models/component.info';

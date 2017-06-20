@@ -1,5 +1,5 @@
 import { URLSearchParams } from '@angular/http';
-import { HttpService } from './../../../core/http.service';
+import { HttpService } from '@taskbuilder/core';
 
 import { ControlComponent } from './../control.component';
 import { Component, OnInit, Input } from '@angular/core';
