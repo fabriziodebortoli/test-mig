@@ -1,4 +1,4 @@
-import { SidenavService } from '../../core/sidenav.service';
+import { SidenavService } from '@taskbuilder/core';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({

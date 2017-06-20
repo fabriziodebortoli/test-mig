@@ -1,4 +1,4 @@
-import { UtilsService } from './../../../../core/utils.service';
+import { UtilsService } from '@taskbuilder/core';
 import { MaterialModule, MdDialog, MdDialogRef } from '@angular/material';
 import { HttpMenuService } from './../../../services/http-menu.service';
 import { LocalizationService } from './../../../services/localization.service';

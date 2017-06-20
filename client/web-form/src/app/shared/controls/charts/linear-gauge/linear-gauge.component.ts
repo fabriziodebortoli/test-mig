@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { HttpService } from './../../../../core/http.service';
+import { HttpService } from '@taskbuilder/core';
 import { EventDataService } from './../../../../core/eventdata.service';
 import { ControlComponent } from './../../control.component';
 

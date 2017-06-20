@@ -1,9 +1,9 @@
-import { TabberService } from './../core/tabber.service';
 import { EventDataService } from './../core/eventdata.service';
 import { MessageDialogComponent, MessageDlgArgs } from './../shared/containers/message-dialog/message-dialog.component';
 import { Subscription } from 'rxjs';
 import { ComponentInfo } from './../shared/models/component.info';
-import { LayoutService } from 'app/core/layout.service';
+
+import { LayoutService,TabberService,SidenavService } from '@taskbuilder/core';
 
 import { MenuService } from '../menu/services/menu.service';
 
@@ -13,7 +13,6 @@ import { environment } from './../../environments/environment';
 
 import { ComponentService, ComponentCreatedArgs } from './../core/component.service';
 import { LoginSessionService } from './../core/login-session.service';
-import { SidenavService } from './../core/sidenav.service';
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
 
 @Component({

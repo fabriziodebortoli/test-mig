@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Output, EventEmitter, OnInit, AfterContentInit, Input, ViewChild, ElementRef, ContentChildren, QueryList, HostListener } from '@angular/core';
-import { LayoutService } from './../../../../core/layout.service';
+import { LayoutService } from '@taskbuilder/core';
 import { TbComponent } from '../../../';
 import { TabComponent } from '../tab/tab.component';
 

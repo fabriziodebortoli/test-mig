@@ -1,4 +1,4 @@
-import { UtilsService } from './../../../../core/utils.service';
+import { UtilsService } from '@taskbuilder/core';
 import { Component, Output, EventEmitter } from '@angular/core';
 
 

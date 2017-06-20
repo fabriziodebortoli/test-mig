@@ -5,8 +5,8 @@ import { Observable, Subscription } from 'rxjs';
 
 import { DocumentComponent } from '../../document.component';
 
-import { HttpService } from './../../../core/http.service';
-import { UtilsService } from './../../../core/utils.service';
+import { HttpService } from '@taskbuilder/core';
+import { UtilsService } from '@taskbuilder/core';
 import { ImageService } from '../../../menu/services/image.service';
 import { MenuService } from './../../../menu/services/menu.service';
 import { EventDataService } from './../../../core/eventdata.service';

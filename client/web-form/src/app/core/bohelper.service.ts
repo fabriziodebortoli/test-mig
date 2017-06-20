@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { WebSocketService } from './websocket.service';
-import { Logger } from './logger.service';
+import { Logger } from '@taskbuilder/core';
 
 @Injectable()
 export class BOHelperService {

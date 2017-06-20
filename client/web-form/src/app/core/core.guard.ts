@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { environment } from './../../environments/environment';
 
-import { InfoService } from './info.service';
+import { InfoService } from '@taskbuilder/core';
 import { LoginSessionService } from './login-session.service';
 
 export class CoreGuard implements CanActivate {

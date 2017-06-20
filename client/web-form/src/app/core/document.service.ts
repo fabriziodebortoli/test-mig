@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ViewModeType } from '../shared/models/view-mode-type.model';
 
-import { Logger } from './logger.service';
+import { Logger } from '@taskbuilder/core';
 
 import { EventDataService } from './eventdata.service';
 

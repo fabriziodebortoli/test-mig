@@ -36,7 +36,7 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 
 import { LoginComponent } from './components/login/login.component';
-import { Logger } from './../core/logger.service';
+import { Logger } from '@taskbuilder/core';
 import { Accordion, AccordionGroup } from '../shared/containers/accordion/accordion.component';
 import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';

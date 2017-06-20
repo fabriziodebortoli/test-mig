@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 import { URLSearchParams, Http, Response } from '@angular/http';
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
-import { Logger } from './logger.service';
+import { Logger } from '@taskbuilder/core';
 import { Injectable } from '@angular/core';
 
 @Injectable()

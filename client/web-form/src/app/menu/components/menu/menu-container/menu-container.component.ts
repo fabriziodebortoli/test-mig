@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { UtilsService } from './../../../../core/utils.service';
+import { UtilsService } from '@taskbuilder/core';
 import { LocalizationService } from './../../../services/localization.service';
 import { MenuService } from './../../../services/menu.service';
 import { SettingsService } from './../../../services/settings.service';

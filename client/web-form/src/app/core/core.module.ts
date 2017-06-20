@@ -1,22 +1,16 @@
 import { DataService } from './data.service';
-import { TabberService } from './tabber.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 
-import { InfoService } from './info.service';
 import { ComponentService } from './component.service';
-import { SidenavService } from './sidenav.service';
 import { WebSocketService } from './websocket.service';
-import { UtilsService } from './utils.service';
-import { HttpService } from './http.service';
+
 import { LoginSessionService } from './login-session.service';
 import { ExplorerService } from './explorer.service';
-import { LayoutService } from './layout.service';
 import { EnumsService } from './enums.service';
-import { Logger } from './logger.service';
 
 import { CoreGuard } from './core.guard';
 
@@ -26,19 +20,12 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 const TB_SERVICES = [
   CookieService,
-  HttpService,
-  UtilsService,
-  Logger,
   LoginSessionService,
   WebSocketService,
-  SidenavService,
   ComponentService,
   CoreGuard,
   ExplorerService,
-  InfoService,
-  LayoutService,
   EnumsService,
-  TabberService,
   DataService
 ];
 

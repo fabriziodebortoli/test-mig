@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
+import { HttpService } from '@taskbuilder/core';
+
 import { OperationResult } from './operation.result';
 import { LoginSession } from './../shared/models/login-session';
-import { HttpService } from './http.service';
 import { WebSocketService } from './websocket.service';
 
-import { Logger } from './logger.service';
+import { Logger } from '@taskbuilder/core';
 
 @Injectable()
 export class LoginSessionService {

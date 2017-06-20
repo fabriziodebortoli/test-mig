@@ -1,5 +1,5 @@
 import { ComponentService } from './../../core/component.service';
-import { HttpService } from './../../core/http.service';
+import { HttpService } from '@taskbuilder/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DynamicCmpComponent } from './../../shared/dynamic-cmp.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
