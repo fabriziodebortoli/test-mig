@@ -19,6 +19,7 @@ import { ConsoleModule } from '@taskbuilder/console';
 import { LoginService } from './services/login.service';
 import { AccountListComponent } from './components/account/account-list/account-list.component';
 import { AccountItemComponent } from './components/account/account-item/account-item.component';
+import { DatabaseInfoComponent } from './components/database-info/database-info.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { AccountItemComponent } from './components/account/account-item/account-
     AccountComponent,
     CompanyAccountComponent,
     AccountListComponent,
-    AccountItemComponent
+    AccountItemComponent,
+    DatabaseInfoComponent
   ],
   imports: [
     BrowserModule,
