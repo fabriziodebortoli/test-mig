@@ -3,7 +3,6 @@ if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_Ins
 CREATE TABLE [dbo].[MP_Instances] (
 	[InstanceKey] [varchar] (50) NOT NULL,
 	[Description] [varchar] (255) NULL CONSTRAINT DF_Instances_Description DEFAULT(''),
-	[Customer] [varchar] (12) NULL CONSTRAINT DF_Instances_Customer DEFAULT(''),
 	[Disabled] [bit] NULL CONSTRAINT DF_Instances_Disabled DEFAULT(0),
 	CONSTRAINT [PK_MP_Instances] PRIMARY KEY NONCLUSTERED 
 	(
