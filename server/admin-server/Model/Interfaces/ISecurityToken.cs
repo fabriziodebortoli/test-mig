@@ -13,5 +13,6 @@ namespace Microarea.AdminServer.Model.Interfaces
         DateTime ExpirationDate { get; set; }
     }
 
+    //---------------------------------------------------------------------
     public enum TokenType { Undefined, API, Authentication }
 }

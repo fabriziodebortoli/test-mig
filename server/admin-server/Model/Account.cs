@@ -28,6 +28,7 @@ namespace Microarea.AdminServer.Model
         bool isWindowsAuthentication = false;
         DateTime expirationDate = DateTime.Now.AddDays(3);// todo per ora scadenza 3 giorni per esempio
 		bool existsOnDB = false;
+        string ticks;
 
         //---------------------------------------------------------------------
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
@@ -49,9 +50,10 @@ namespace Microarea.AdminServer.Model
         public bool IsWindowsAuthentication { get { return this.isWindowsAuthentication; } set { this.isWindowsAuthentication = value; } }
         public DateTime ExpirationDate { get { return this.expirationDate; } set { this.expirationDate = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
+        public string Ticks { get { return this.ticks; } set { this.ticks = value; } }
 
-		// data provider
-		IDataProvider dataProvider;
+        // data provider
+        IDataProvider dataProvider;
 
         //---------------------------------------------------------------------
         public Account()

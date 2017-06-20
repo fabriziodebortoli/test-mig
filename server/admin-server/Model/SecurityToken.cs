@@ -18,12 +18,14 @@ namespace Microarea.AdminServer.Model
         public string Token { get { return token; } set { token = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
-		public SecurityToken()
+        //---------------------------------------------------------------------
+        public SecurityToken()
 		{
 			this.token = String.Empty;
 		}
 
-		internal static SecurityToken GetToken(TokenType type, string accountName)
+        //---------------------------------------------------------------------
+        internal static SecurityToken GetToken(TokenType type, string accountName)
         {
 			SecurityToken t = new SecurityToken();
 			t.accountName = accountName;
@@ -34,6 +36,7 @@ namespace Microarea.AdminServer.Model
 			return t;
         }
 
+        //---------------------------------------------------------------------
         public bool Expired { get { return expired; } set { expired = value; } }
         public DateTime ExpirationDate { get { return expirationDate; } set { expirationDate = value; } }
         // data provider

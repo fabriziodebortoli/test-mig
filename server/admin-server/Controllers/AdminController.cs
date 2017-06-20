@@ -168,9 +168,21 @@ namespace Microarea.AdminServer.Controllers
 
 				if (account.ExistsOnDB)
 				{
-					// Verifica credenziali su db
+                    // //chiedo al gwam se qualcosa e modificato facendo un check sui tick, se qualcosa moficiato devo aggiornare
+                    //Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks));
+                
+                    //// used as a container for the GWAM response
+                    //AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
+                    //accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
 
-					lbc = new LoginBaseClass(account);
+                    //if (accountIdentityPack.Result) //sul gwam non corrisponde xcui salvo questo account- todo concettualmente result true o fale?
+                    //{
+                    //    account = accountIdentityPack.Account;
+                    //    account.Save(); // in locale
+
+                    //}
+    // Verifica credenziali su db
+                    lbc = new LoginBaseClass(account);
 					LoginReturnCodes res = lbc.VerifyCredential(credentials.Password);
 
 					if (res != LoginReturnCodes.NoError)
@@ -291,8 +303,22 @@ namespace Microarea.AdminServer.Controllers
 			return responseData;
 		}
 
-		//----------------------------------------------------------------------
-		private UserTokens CreateTokens(IAccount account)
+        //----------------------------------------------------------------------
+        private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
+        {//todo modificare
+            var formContent = new FormUrlEncodedContent(new[]
+                {
+                            new KeyValuePair<string, string>("Ticks", accMod.Ticks),
+                        }
+            );
+
+            HttpResponseMessage responseMessage = await client.PostAsync(url + accMod.AccountName, formContent);
+            var responseData = responseMessage.Content.ReadAsStringAsync();
+            return responseData;
+        }
+
+        //----------------------------------------------------------------------
+        private UserTokens CreateTokens(IAccount account)
         {
             UserTokens tokens = new UserTokens(account.ProvisioningAdmin, account.AccountName);
             tokens.Setprovider(_tokenSQLDataProvider);
