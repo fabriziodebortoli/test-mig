@@ -5,7 +5,7 @@
 	//================================================================================
 	interface IServerURL : IAdminModel
 	{
-		int InstanceId { get; }
+		string InstanceKey { get; }
 		URLType URLType { get; }
 		string URL { get; set; }
 	}

@@ -1,7 +1,7 @@
 export class name {
 
-    instanceId: number;
-    name: string;
+    instanceKey: string;
+    description: string;
     customer: string;
     disabled: boolean;
 

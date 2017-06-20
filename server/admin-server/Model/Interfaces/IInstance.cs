@@ -3,10 +3,9 @@
 	//================================================================================
 	interface IInstance : IAdminModel
 	{
-        int InstanceId { get; }
-        string Name { get; }
+        string InstanceKey { get; }
+        string Description { get; }
 		string Customer { get; set; }
 		bool Disabled { get; set; }
-      
     }
 }

@@ -1,10 +1,12 @@
 export class Subscription {
     
-    subscriptionId: number;
-    name: string;
+    subscriptionKey: string;
+    description: string;
     activationToken: string;
-    purchaseId: string;
-    instanceId: number;
+    preferredLanguage: string;
+    applicationLanguage: string;
+    minDBSizeToWarn: number;
+    instanceKey: string;
 
     constructor() {
     }

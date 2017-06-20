@@ -7,15 +7,15 @@ namespace Microarea.AdminServer.Model
 	//================================================================================
 	public class Instance : IInstance
     {
-        int instanceId;
-        string name = string.Empty;
+        string instanceKey;
+        string description = string.Empty;
 		string customer = string.Empty;
 		bool disabled = false;
 		bool existsOnDB = false;
 
 		//---------------------------------------------------------------------
-		public int InstanceId { get { return this.instanceId; } set { this.instanceId = value; } }
-        public string Name { get { return this.name; } set { this.name = value; } }
+		public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
+        public string Description { get { return this.description; } set { this.description = value; } }
 		public string Customer { get { return this.customer; } set { this.customer = value; } }
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
@@ -29,9 +29,9 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-		public Instance(string instanceName)
+		public Instance(string instanceKey)
 		{
-			this.name = instanceName;
+			this.instanceKey = instanceKey;
 		}
 
 		//---------------------------------------------------------------------

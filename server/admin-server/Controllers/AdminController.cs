@@ -274,7 +274,7 @@ namespace Microarea.AdminServer.Controllers
 
 			List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
 			entries.Add(new KeyValuePair<string, string>("password", credentials.Password));
-			entries.Add(new KeyValuePair<string, string>("instanceid", "1"));
+			entries.Add(new KeyValuePair<string, string>("instanceid", "1")); //@@TODO bisogna mettere instancekey?
 
 			OperationResult opRes = await _httpHelper.PostDataAsync(url, entries);
 			return (Task<string>) opRes.ObjectResult;
@@ -451,22 +451,15 @@ namespace Microarea.AdminServer.Controllers
 		/// Insert/update Subscription
 		/// </summary>
 		//-----------------------------------------------------------------------------	
-		[HttpPost("/api/subscriptions/{subscriptionname}")]
-		public IActionResult ApiSubscriptions(string subscriptionname, int instanceid)
+		[HttpPost("/api/subscriptions/{subscriptionKey?}")]
+		public IActionResult ApiSubscriptions(string subscriptionKey, string instanceKey)
 		{
-			if (String.IsNullOrEmpty(subscriptionname))
-			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Subscription name cannot be empty");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-			}
-
 			bool result = false;
 			try
 			{
-				ISubscription iSubscription = new Subscription(subscriptionname);
+				ISubscription iSubscription = new Subscription(subscriptionKey);
 				iSubscription.SetDataProvider(_subscriptionSQLDataProvider);
-				iSubscription.InstanceId = instanceid;
+				iSubscription.InstanceKey = instanceKey;
 				result = iSubscription.Save();
 			}
 			catch (SqlException e)

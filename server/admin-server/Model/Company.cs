@@ -10,7 +10,7 @@ namespace Microarea.AdminServer.Model
         int companyId = -1;
         string name = string.Empty;
 		string description = string.Empty;
-		int subscriptionId;
+		string subscriptionKey;
 		string companyDBServer = string.Empty;
 		string companyDBName = string.Empty;
 		string companyDBOwner = string.Empty;
@@ -32,7 +32,7 @@ namespace Microarea.AdminServer.Model
 		public int CompanyId { get { return this.companyId; } set { this.companyId = value; } }
 		public string Name { get { return this.name; } set { this.name = value; } }
 		public string Description { get { return this.description; } set { this.description = value; } }
-		public int SubscriptionId { get { return this.subscriptionId; } set { this.subscriptionId = value; } }
+		public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
 		public string CompanyDBServer { get { return this.companyDBServer; } set { this.companyDBServer = value; } }
 		public string CompanyDBName { get { return this.companyDBName; } set { this.companyDBName = value; } }
 		public string CompanyDBOwner { get { return this.companyDBOwner; } set { this.companyDBOwner = value; } }
