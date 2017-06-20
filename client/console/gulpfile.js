@@ -10,6 +10,7 @@ var gulp = require('gulp'),
 
 const rootFolder = path.join(__dirname);
 const srcFolder = path.join(rootFolder, 'src');
+const stylesFolder = path.join(rootFolder, 'src/styles');
 const tmpFolder = path.join(rootFolder, '.tmp');
 const buildFolder = path.join(rootFolder, 'build');
 const distFolder = path.join(rootFolder, 'dist');
@@ -154,6 +155,14 @@ gulp.task('copy:build', function() {
 });
 
 /**
+ * 7,5 . Copy styles to dist folder, to make them available to apps that consume this library
+ */
+gulp.task('copy:styles', function() {
+    return gulp.src([`${stylesFolder}/**/*`])
+        .pipe(gulp.dest(`${distFolder}/styles`));
+});
+
+/**
  * 8. Copy package.json from /src to /dist
  */
 gulp.task('copy:manifest', function() {
@@ -194,6 +203,7 @@ gulp.task('compile', function() {
         'copy:build',
         'copy:manifest',
         'copy:readme',
+        'copy:styles',
         'clean:build',
         'clean:tmp',
         function(err) {
