@@ -1,7 +1,7 @@
 export class SubscriptionAccount {
 
     accountName:string;
-    subscriptionId: number;
+    subscriptionKey: string;
     
     constructor() {
     }

@@ -6,7 +6,7 @@
         <input type="text" placeholder="Name" value="" [(ngModel)]="model.name">
       </div>
       <div class="box">
-        <input type="text" placeholder="Subscription" value="" [(ngModel)]="model.subscriptionId">
+        <input type="text" placeholder="Subscription" value="" [(ngModel)]="model.subscriptionKey">
       </div>
       <div class="box">
         <input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.disabled">
@@ -34,7 +34,7 @@
     </div>
   </div>
    <div class="row">
-    <app-database-info></app-database-info>
+    <app-database-info [isDMS]="false" [companyModel]="model"></app-database-info>
   </div>
   <br>
   <div class="row">
@@ -46,7 +46,7 @@
     </div>
   </div>
   <div class="row" *ngIf="useDMS">
-    <app-database-info></app-database-info>
+    <app-database-info [isDMS]="true" [companyModel]="model"></app-database-info>
   </div>
   <br>
   <div class="row">

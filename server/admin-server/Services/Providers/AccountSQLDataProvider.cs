@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Services.Providers
 {
@@ -33,7 +34,7 @@ namespace Microarea.AdminServer.Services.Providers
 				{
 					connection.Open();
                    
-                    using (SqlCommand command = new SqlCommand(Consts.SelectAccountByAccountName, connection))
+                    using (SqlCommand command = new SqlCommand(Consts.SelectAccount, connection))
 					{
 						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						using (SqlDataReader dataReader = command.ExecuteReader())
@@ -44,18 +45,19 @@ namespace Microarea.AdminServer.Services.Providers
 								account.Notes = dataReader["Notes"] as string;
 								account.Email = dataReader["Email"] as string;
 								account.Password = dataReader["Password"] as string;
-								account.PasswordNeverExpires = (bool)dataReader["PasswordNeverExpires"];
                                 account.LoginFailedCount = (int)dataReader["LoginFailedCount"];
-                                account.MustChangePassword = (bool)dataReader["MustChangePassword"];
+								account.PasswordNeverExpires = (bool)dataReader["PasswordNeverExpires"];
+								account.MustChangePassword = (bool)dataReader["MustChangePassword"];
                                 account.CannotChangePassword = (bool)dataReader["CannotChangePassword"];
-                                account.PasswordExpirationDateCannotChange = (bool)dataReader["PasswordExpirationDateCannotChange"];
                                 account.PasswordExpirationDate = (DateTime)dataReader["PasswordExpirationDate"];
-                                account.ProvisioningAdmin = (bool)dataReader["ProvisioningAdmin"];
+								account.PasswordDuration = (int)dataReader["PasswordDuration"];
+								account.ProvisioningAdmin = (bool)dataReader["ProvisioningAdmin"];
                                 account.IsWindowsAuthentication = (bool)dataReader["WindowsAuthentication"];
                                 account.Disabled = (bool)dataReader["Disabled"];
 								account.Locked = (bool)dataReader["Locked"];
 								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
                                 account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
 								account.ExistsOnDB = true;
                             }
 						}
@@ -99,20 +101,23 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						command.Parameters.AddWithValue("@FullName", account.FullName);
 						command.Parameters.AddWithValue("@Password", account.Password);
-						command.Parameters.AddWithValue("@Notes", account.Notes);
+                        command.Parameters.AddWithValue("@IsCloudAdmin", account.IsCloudAdmin);
+                        command.Parameters.AddWithValue("@Notes", account.Notes);
 						command.Parameters.AddWithValue("@Email", account.Email);
+						command.Parameters.AddWithValue("@LoginFailedCount", account.LoginFailedCount);
 						command.Parameters.AddWithValue("@PasswordNeverExpires", account.PasswordNeverExpires);
 						command.Parameters.AddWithValue("@MustChangePassword", account.MustChangePassword);
 						command.Parameters.AddWithValue("@CannotChangePassword", account.CannotChangePassword);
-						command.Parameters.AddWithValue("@PasswordExpirationDateCannotChange", account.PasswordExpirationDateCannotChange);
 						command.Parameters.AddWithValue("@PasswordExpirationDate", account.PasswordExpirationDate);
+						command.Parameters.AddWithValue("@PasswordDuration", account.PasswordDuration);
 						command.Parameters.AddWithValue("@Disabled", account.Disabled);
 						command.Parameters.AddWithValue("@Locked", account.Locked);
 						command.Parameters.AddWithValue("@ProvisioningAdmin", account.ProvisioningAdmin);
 						command.Parameters.AddWithValue("@WindowsAuthentication", account.IsWindowsAuthentication);
 						command.Parameters.AddWithValue("@PreferredLanguage", account.PreferredLanguage);
 						command.Parameters.AddWithValue("@ApplicationLanguage", account.ApplicationLanguage);
-                        command.Parameters.AddWithValue("@LoginFailedCount", account.LoginFailedCount);
+                        command.Parameters.AddWithValue("@Ticks", account.Ticks);
+                        command.Parameters.AddWithValue("@ExpirationDate", account.ExpirationDate);
 
 						command.ExecuteNonQuery();
 					}
@@ -153,5 +158,59 @@ namespace Microarea.AdminServer.Services.Providers
 
 			return true;
 		}
+
+		//---------------------------------------------------------------------
+		public Account[] GetAccounts()
+		{
+			List<Account> accountList = new List<Account>();
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand("SELECT * FROM MP_Accounts", connection))
+					{
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								Account account = new Account();
+								account.AccountName = dataReader["AccountName"] as string;
+                                account.IsCloudAdmin = (bool)dataReader["IsCloudAdmin"];
+                                account.FullName = dataReader["FullName"] as string;
+								account.Notes = dataReader["Notes"] as string;
+								account.Email = dataReader["Email"] as string;
+								account.Password = dataReader["Password"] as string;
+								account.LoginFailedCount = (int)dataReader["LoginFailedCount"];
+								account.PasswordNeverExpires = (bool)dataReader["PasswordNeverExpires"];
+								account.MustChangePassword = (bool)dataReader["MustChangePassword"];
+								account.CannotChangePassword = (bool)dataReader["CannotChangePassword"];
+								account.PasswordExpirationDate = (DateTime)dataReader["PasswordExpirationDate"];
+								account.PasswordDuration = (int)dataReader["PasswordDuration"];
+								account.ProvisioningAdmin = (bool)dataReader["ProvisioningAdmin"];
+								account.IsWindowsAuthentication = (bool)dataReader["WindowsAuthentication"];
+								account.Disabled = (bool)dataReader["Disabled"];
+								account.Locked = (bool)dataReader["Locked"];
+								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
+								account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+                                account.Ticks = (long)dataReader["Ticks"];
+                                account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
+								accountList.Add(account);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return null;
+			}
+
+			return accountList.ToArray();
+		}
+
 	}
 }

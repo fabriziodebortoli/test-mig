@@ -2,7 +2,7 @@ import { ReportLayoutComponent } from './report-objects/layout/layout.component'
 import { WebSocketService } from './../core/websocket.service';
 import { UtilsService } from './../core/utils.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType } from './reporting-studio.model';
@@ -10,10 +10,10 @@ import { DocumentComponent } from '../shared/document.component';
 import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
-import { LayoutService } from './../core/layout.service';
 
-declare var jsPDF: any;
-declare var html2pdf: any;
+import { Image, Surface, Path, Text, Group, } from '@progress/kendo-drawing';
+import { Rect, Point, Size, transform, Circle } from '@progress/kendo-drawing/geometry';
+
 
 @Component({
   selector: 'tb-reporting-studio',
@@ -37,22 +37,16 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public askDialogTemplate: any;
 
 
-  private viewHeightSubscription: Subscription;
-  private viewHeight: number;
-
-  @Output() prova = new EventEmitter<void>();
-
+  
 
   constructor(
     private rsService: ReportingStudioService,
     eventData: EventDataService,
     private cookieService: CookieService,
-    private layoutService: LayoutService,
+    
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData);
-
-    this.prova.emit();
   }
 
   // -----------------------------------------------
@@ -74,9 +68,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
     this.rsService.doSend(JSON.stringify(message));
 
-    this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
+    
 
     this.rsService.eventDownload.subscribe(() => this.NextPage());
+
+
   }
 
   // -----------------------------------------------
@@ -102,9 +98,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   ngOnDestroy() {
     this.subMessage.unsubscribe();
-    this.viewHeightSubscription.unsubscribe();
+   
     if (this.args.params.runAtTbLoader) {
-      this.tbLoaderWebSocketService.doCommand(this.rsService.mainCmpId, 'ID_FILE_CLOSE');
+      this.tbLoaderWebSocketService.closeServerComponent(this.rsService.mainCmpId);
     }
   }
 
@@ -279,10 +275,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
     else {
       this.rsService.pdfState = PdfType.SAVINGPDF;
-      this.rsService.loopPdfPage();
+      this.rsService.loopPdfPage(this.document.getTitle());
     }
-
   }
+
 
 }
 

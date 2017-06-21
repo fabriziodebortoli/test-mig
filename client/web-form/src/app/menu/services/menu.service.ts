@@ -413,10 +413,14 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     loadFavoritesAndMostUsed() {
+        this.favorites.splice(0, this.favorites.length);
+        this.mostUsed.splice(0, this.mostUsed.length);
+
         if (this.applicationMenu != undefined)
             this.findFavoritesAndMostUsedInApplication(this.applicationMenu.Application);
         if (this.environmentMenu != undefined)
             this.findFavoritesAndMostUsedInApplication(this.environmentMenu.Application);
+
 
         this.favorites = this.favorites.sort(this.compareFavorites);
         this.mostUsed = this.mostUsed.sort(this.compareMostUsed);
@@ -460,10 +464,6 @@ export class MenuService {
             this.getFavoritesAndMostUsedObjectsFromMenu(allSubMenus[j]);
         }
     };
-
-    getFavorites() {
-        return this.favorites;
-    }
 
     //---------------------------------------------------------------------------------------------
     addToMostUsed(object) {

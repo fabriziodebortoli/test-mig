@@ -10,11 +10,17 @@ namespace Microarea.AdminServer.Model
         int companyId = -1;
         string name = string.Empty;
 		string description = string.Empty;
-		int subscriptionId;
-        IDatabaseInfo companyDatabaseInfo = null;
+		string subscriptionKey;
+		string companyDBServer = string.Empty;
+		string companyDBName = string.Empty;
+		string companyDBOwner = string.Empty;
+		string companyDBPassword = string.Empty;
 		bool useDMS = false;
-        IDatabaseInfo dmsDatabaseInfo = null;
-        bool disabled = false;
+		string dmsDBServer = string.Empty;
+		string dmsDBName = string.Empty;
+		string dmsDBOwner = string.Empty;
+		string dmsDBPassword = string.Empty;
+		bool disabled = false;
         string databaseCulture = string.Empty;
 		bool isUnicode = false;
 		string preferredLanguage = string.Empty;
@@ -26,10 +32,16 @@ namespace Microarea.AdminServer.Model
 		public int CompanyId { get { return this.companyId; } set { this.companyId = value; } }
 		public string Name { get { return this.name; } set { this.name = value; } }
 		public string Description { get { return this.description; } set { this.description = value; } }
-		public int SubscriptionId { get { return this.subscriptionId; } set { this.subscriptionId = value; } }
-		public IDatabaseInfo CompanyDatabaseInfo { get { return this.companyDatabaseInfo; } set { this.companyDatabaseInfo = value; } }
+		public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
+		public string CompanyDBServer { get { return this.companyDBServer; } set { this.companyDBServer = value; } }
+		public string CompanyDBName { get { return this.companyDBName; } set { this.companyDBName = value; } }
+		public string CompanyDBOwner { get { return this.companyDBOwner; } set { this.companyDBOwner = value; } }
+		public string CompanyDBPassword { get { return this.companyDBPassword; } set { this.companyDBPassword = value; } }
 		public bool UseDMS { get { return this.useDMS; } set { this.useDMS = value; } }
-		public IDatabaseInfo DMSDatabaseInfo { get { return this.dmsDatabaseInfo; } set { this.dmsDatabaseInfo = value; } }
+		public string DMSDBServer { get { return this.dmsDBServer; } set { this.dmsDBServer = value; } }
+		public string DMSDBName { get { return this.dmsDBName; } set { this.dmsDBName = value; } }
+		public string DMSDBOwner { get { return this.dmsDBOwner; } set { this.dmsDBOwner = value; } }
+		public string DMSDBPassword { get { return this.dmsDBPassword; } set { this.dmsDBPassword = value; } }
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
 		public string DatabaseCulture { get { return this.databaseCulture; } set { this.databaseCulture = value; } }
 		public bool IsUnicode { get { return this.isUnicode; } set { this.isUnicode = value; } }

@@ -62,7 +62,7 @@ namespace Microarea.Common.NameSolver
 		private string customPath = string.Empty;
 		private string appsPath = string.Empty;
 		private string publishPath = string.Empty;
-
+		private string baseAddressUrl = string.Empty;
 		private SettingsConfigInfoTable settingsTable = new SettingsConfigInfoTable();
 
 		//indica se chi sta utilizzando pathfinder si trova nello stesso server della
@@ -117,6 +117,8 @@ namespace Microarea.Common.NameSolver
 			}
 		}
 
+		public string BaseAddressUrl { get => baseAddressUrl; set => baseAddressUrl = value; }
+
 		#endregion
 
 		#region proprietà
@@ -157,12 +159,13 @@ namespace Microarea.Common.NameSolver
         /// Indica se il path finder sta girando sullo stesso server dell'installazione
         /// </summary>
         public static bool IsInitialized
-        {
-            get
-            {
-                return basePathFinderInstance != null;
-            }
-        }
+		{
+			get
+			{
+				return basePathFinderInstance != null;
+			}
+		}
+
 
 		//----------------------------------------------------------------------------
 		/// <summary>
@@ -4260,10 +4263,11 @@ namespace Microarea.Common.NameSolver
 				return this.enums;
 			}
 		}
-        #endregion
 
-        //---------------------------------------------------------------------------
-        public string GetGenericBrandFilePath()
+		#endregion
+
+		//---------------------------------------------------------------------------
+		public string GetGenericBrandFilePath()
         {
             return Path.Combine(
                 GetStandardPath(),

@@ -9,6 +9,7 @@ namespace Microarea.AdminServer
     public class AppOptions
     {
         public DatabaseInfo DatabaseInfo { get; set; }
+		public ExternalUrls ExternalUrls { get; set; }
     }
 
     //================================================================================

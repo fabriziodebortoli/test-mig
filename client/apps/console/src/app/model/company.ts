@@ -1,14 +1,18 @@
-import { DatabaseInfo } from './databaseInfo';
-
 export class Company {
 
     companyId: number;
     name: string;
     description: string;
-	subscriptionId: number;
-    companyDatabaseInfo: DatabaseInfo;
+	subscriptionKey: string;
+    companyDBServer: string;
+    companyDBName: string;
+    companyDBOwner: string;
+    companyDBPassword: string;
 	useDMS: boolean;
-    dmsDatabaseInfo: DatabaseInfo;
+    dmsDBServer: string;
+    dmsDBName: string;
+    dmsDBOwner: string;
+    dmsDBPassword: string;
     disabled: boolean;
     databaseCulture: string;
 	isUnicode: boolean;

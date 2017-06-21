@@ -9,6 +9,7 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.ExpressionManager;
 using TaskBuilderNetCore.Interfaces;
 using System;
+using Microarea.Common.Generic;
 
 namespace Microarea.Common.Hotlink
 {
@@ -89,7 +90,7 @@ namespace Microarea.Common.Hotlink
         //----------------------------------------------------------------------------
         public string GetActualParamsAsJson()
         {
-            string args = string.Empty;
+            string args = "\"args\":{";
             int i = 0;
             foreach (Expression expression in ActualParams)
             {
@@ -97,15 +98,15 @@ namespace Microarea.Common.Hotlink
                 if (result != null)
                 {
                     string name = this.Prototype.GetParameter(i).Name;
+                    object v = result.Data;
 
-                    string v = SoapTypes.To(result.Data);
-
-                    args += (i > 0 ? '&' : '?');
-                    args += name + '=' + v;
+                    if (i > 0) args +=  ',' ;
+    
+                    args += v.ToJson(name);
                 }
                 i++;
             }
-
+            args += '}';
             return args;
         }
 

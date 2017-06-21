@@ -125,6 +125,7 @@ export class WebSocketService {
                 observer.next(true);
                 observer.complete();
             } else if (this._socketConnectionStatus === SocketConnectionStatus.Connecting) {
+                this.logger.info('Connection not yet avCannot yet use connection, connecting...');
                 observer.next(false);
                 observer.complete();
             } else {
@@ -162,6 +163,9 @@ export class WebSocketService {
         const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: obj.itemSource, hotLink: obj.hotLink };
 
         this.safeSend(data);
+    }
+    closeServerComponent(cmpId: string) {
+        this.doCommand(cmpId, 'ID_FILE_CLOSE');
     }
 
     doCommand(cmpId: String, id: String, modelData?: any): void {

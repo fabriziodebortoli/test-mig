@@ -6,18 +6,28 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
 
   title = 'Admin Server';
-  username:string;
-  resText:string;
-  errText:string;
+  username: string;
+  resText: string;
+  errText: string;
 
-  // services
-  accountService: ModelService;
+  accountArray: Account[];
 
-  constructor(accountService:ModelService) {
-    this.accountService = accountService;
+  // service
+  modelService: ModelService;
+
+  constructor(modelService: ModelService) {
+    this.modelService = modelService;
+  }
+
+  getAccounts() {
+    this.modelService.getAccounts()
+      .subscribe(
+      ar => this.accountArray = ar,
+      error => this.errText);
   }
 
   // getAccountInfo() {

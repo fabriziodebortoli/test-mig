@@ -31,15 +31,14 @@ namespace Microarea.AdminServer.Services.Providers
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Consts.SelectSubscriptionByName, connection))
+                    using (SqlCommand command = new SqlCommand(Consts.SelectSubscription, connection))
                     {
-                        command.Parameters.AddWithValue("@Name", subscription.Name);
+                        command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
                         using (SqlDataReader dataReader = command.ExecuteReader())
                         {
                             while (dataReader.Read())
                             {
-                                subscription.ActivationToken = new Library.ActivationToken(dataReader["ActivationKey"] as string);
-                                subscription.PurchaseId = dataReader["PurchaseId"] as string;
+                                subscription.ActivationToken = new Library.ActivationToken(dataReader["ActivationToken"] as string);
 								subscription.ExistsOnDB = true;
 							}
                         }
@@ -71,7 +70,7 @@ namespace Microarea.AdminServer.Services.Providers
 
                     using (SqlCommand command = new SqlCommand(Consts.ExistSubscription, connection))
                     {
-                        command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
+                        command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
                         existSubscription = (int)command.ExecuteScalar() > 0;
                     }
 
@@ -80,13 +79,12 @@ namespace Microarea.AdminServer.Services.Providers
                         command.Connection = connection;
                         command.CommandText = existSubscription ? Consts.UpdateSubscription : Consts.InsertSubscription;
 
-                        command.Parameters.AddWithValue("@Name", subscription.Name);
-                        command.Parameters.AddWithValue("@ActivationKey", subscription.ActivationToken.ToString());
-                        command.Parameters.AddWithValue("@PurchaseId", subscription.PurchaseId);
-                        command.Parameters.AddWithValue("@InstanceId", subscription.InstanceId);
+                        command.Parameters.AddWithValue("@Description", subscription.Description);
+                        command.Parameters.AddWithValue("@ActivationToken", subscription.ActivationToken.ToString());
+                        command.Parameters.AddWithValue("@InstanceKey", subscription.InstanceKey);
 
                         if (existSubscription)
-                            command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
+                            command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
 
                         command.ExecuteNonQuery();
                     }
@@ -114,7 +112,7 @@ namespace Microarea.AdminServer.Services.Providers
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(Consts.DeleteSubscriptionSlot, connection))
                     {
-                        command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
+                        command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
                         command.ExecuteNonQuery();
                     }
                 }

@@ -379,7 +379,7 @@ namespace Microarea.RSWeb.WoormEngine
 
             if (this.Hotlink != null)
             {
-                string args = this.Hotlink.GetActualParamsAsJson();
+                string jargs = this.Hotlink.GetActualParamsAsJson();
 
                 string seltype = "Code";
                 string sellist = "\"selection_list\":[" +
@@ -391,7 +391,7 @@ namespace Microarea.RSWeb.WoormEngine
                             Hotlink.Prototype.FullName.ToJson("ns") + ',' +
                             seltype.ToJson("selection_type") + ',' +
                             this.MultiSelections.ToJson("multi_selection") + ',' +
-                            args.ToJson("args", false, true) + ',' +
+                            jargs + ',' +
                             sellist +   //TODO RSWEB da eliminare e chiedere dinamicamente
                             "}";
             }
