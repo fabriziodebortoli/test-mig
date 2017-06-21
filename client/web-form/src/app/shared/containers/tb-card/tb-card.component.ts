@@ -7,5 +7,5 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class TbCardComponent {
-  
+  @Input() isCollapsed: boolean;
 }

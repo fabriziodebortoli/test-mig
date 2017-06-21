@@ -1,10 +1,15 @@
 <div class="tile-panel">
-     <md-card-title (click)="toggleCollapse($event)" *ngIf="showAsTile" [ngClass]="{'c-pointer': isCollapsible }">
+    <md-card-title (click)="toggleCollapse($event)" *ngIf="showAsTile" [ngClass]="{'c-pointer': isCollapsible }">
         <span>{{title}}</span>
         <md-icon *ngIf="isCollapsible">{{getArrowIcon()}}</md-icon>
     </md-card-title>
-    
-   <md-card-content *ngIf="!isCollapsed">
+
+    <md-card-content *ngIf="!isCollapsed">
         <ng-content></ng-content>
     </md-card-content>
+    <!--<tb-card-title class="tb-card-title" [isCollapsible]="isCollapsible" [isCollapsed]="isCollapsed" [title]="title" (click)="toggleCollapse($event)" *ngIf="showAsTile" [ngClass]="{'c-pointer': isCollapsible }">
+    </tb-card-title>
+    <tb-card-content *ngIf="!isCollapsed" class="tb-card-content">
+        <ng-content></ng-content>
+    </tb-card-content>-->
 </div>
