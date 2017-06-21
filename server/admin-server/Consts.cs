@@ -53,13 +53,13 @@ namespace Microarea.AdminServer
 		// Account
 		public const string ExistAccount	= @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
 		public const string SelectAccount	= @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
-        public const string InsertAccount	= @"INSERT INTO MP_Accounts (AccountName, FullName, Password, IsCloudAdmin, Notes, Email, LoginFailedCount, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
+        public const string InsertAccount	= @"INSERT INTO MP_Accounts (AccountName, FullName, Password, CloudAdmin, Notes, Email, LoginFailedCount, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
 		                                    PasswordExpirationDate, PasswordDuration, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, ApplicationLanguage, Ticks, ExpirationDate) 
-		                                    VALUES (@AccountName, @FullName, @Password, @IsCloudAdmin, @Notes, @Email, @LoginFailedCount, @PasswordNeverExpires, @MustChangePassword, @CannotChangePassword, 
-		                                    @PasswordExpirationDate, @PasswordDuration, @Disabled, @Locked, @ProvisioningAdmin, @WindowsAuthentication, @PreferredLanguage, @ApplicationLanguage, @Ticks, @ExpirationDate)";
-		public const string UpdateAccount	= @"UPDATE MP_Accounts SET FullName = @FullName, Password = @Password, IsCloudAdmin = @IsCloudAdmin, Notes = @Notes, Email = @Email, LoginFailedCount = @LoginFailedCount
+		                                    VALUES (@AccountName, @FullName, @Password,  @Notes, @Email, @LoginFailedCount, @PasswordNeverExpires, @MustChangePassword, @CannotChangePassword, 
+		                                    @PasswordExpirationDate, @PasswordDuration, @Disabled, @Locked, @ProvisioningAdmin, @CloudAdmin, @WindowsAuthentication, @PreferredLanguage, @ApplicationLanguage, @Ticks, @ExpirationDate)";
+		public const string UpdateAccount	= @"UPDATE MP_Accounts SET FullName = @FullName, Password = @Password,  Notes = @Notes, Email = @Email, LoginFailedCount = @LoginFailedCount
 			                                PasswordNeverExpires = @PasswordNeverExpires, MustChangePassword = @MustChangePassword, CannotChangePassword = @CannotChangePassword, 
-			                                PasswordExpirationDate = @PasswordExpirationDate, PasswordDuration = @PasswordDuration, Disabled = @Disabled, Locked = @Locked, ProvisioningAdmin = @ProvisioningAdmin, 
+			                                PasswordExpirationDate = @PasswordExpirationDate, PasswordDuration = @PasswordDuration, Disabled = @Disabled, Locked = @Locked, ProvisioningAdmin = @ProvisioningAdmin, CloudAdmin = @CloudAdmin,
 											WindowsAuthentication = @WindowsAuthentication, PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage, Ticks=@Ticks, ExpirationDate = @ExpirationDate
 			                                WHERE AccountName = @AccountName";
 		public const string DeleteAccount	= @"DELETE MP_Accounts WHERE AccountName = @AccountName";
@@ -87,6 +87,14 @@ namespace Microarea.AdminServer
 		public const string SelectSubscriptionAccountByAccount			= @"SELECT * FROM MP_SubscriptionAccounts WHERE AccountName = @AccountName";
 		public const string InsertSubscriptionAccount					= @"INSERT INTO MP_SubscriptionAccounts (AccountName, SubscriptionKey) VALUES (@AccountName, @SubscriptionKey)";
 		public const string DeleteSubscriptionAccount					= @"DELETE MP_SubscriptionAccounts WHERE @AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
-		//
-	}
+        //
+
+        // securitytoken
+        public const string ExistSecurityToken = "SELECT COUNT(*) FROM MP_SecurityTokens WHERE InstanceKey = @InstanceKey";
+        public const string SelectSecurityToken = "SELECT * FROM MP_SecurityTokens WHERE InstanceKey = @InstanceKey";
+        public const string InsertSecurityToken = "INSERT INTO MP_SecurityTokens (InstanceKey, Description, Customer, Disabled) VALUES (@InstanceKey, @Description, @Customer, @Disabled)";
+        public const string UpdateSecurityToken = "UPDATE MP_SecurityTokens SET Description = @Description, Customer = @Customer, Disabled = @Disabled WHERE InstanceKey = @InstanceKey";
+        public const string DeleteSecurityToken = "DELETE MP_SecurityTokens WHERE InstanceKey = @InstanceKey";
+
+    }
 }

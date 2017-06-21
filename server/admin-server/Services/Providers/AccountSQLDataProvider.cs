@@ -101,7 +101,7 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						command.Parameters.AddWithValue("@FullName", account.FullName);
 						command.Parameters.AddWithValue("@Password", account.Password);
-                        command.Parameters.AddWithValue("@IsCloudAdmin", account.IsCloudAdmin);
+                        command.Parameters.AddWithValue("@CloudAdmin", account.CloudAdmin);
                         command.Parameters.AddWithValue("@Notes", account.Notes);
 						command.Parameters.AddWithValue("@Email", account.Email);
 						command.Parameters.AddWithValue("@LoginFailedCount", account.LoginFailedCount);
@@ -182,7 +182,7 @@ namespace Microarea.AdminServer.Services.Providers
 							{
 								Account account = new Account();
 								account.AccountName = dataReader["AccountName"] as string;
-                                account.IsCloudAdmin = (bool)dataReader["IsCloudAdmin"];
+                                account.CloudAdmin = (bool)dataReader["CloudAdmin"];
                                 account.FullName = dataReader["FullName"] as string;
 								account.Notes = dataReader["Notes"] as string;
 								account.Email = dataReader["Email"] as string;
