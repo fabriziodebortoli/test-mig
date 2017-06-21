@@ -9,8 +9,7 @@ import { TbComponent } from '../../../';
   encapsulation: ViewEncapsulation.None
 })
 export class TileComponent implements OnInit {
-
-
+  @Input() title: string;
   private _isCollapsed: boolean = false;
   private _isCollapsible: boolean = true;
   private _hasTitle: boolean = true;
