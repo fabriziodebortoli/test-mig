@@ -38,7 +38,6 @@ export class MenuService {
         return this._selectedMenu;
     }
 
-    @Input()
     set selectedMenu(menu: any) {
         this._selectedMenu = menu;
         if (menu != undefined) {
@@ -51,7 +50,6 @@ export class MenuService {
         return this._selectedGroup;
     }
 
-    @Input()
     set selectedGroup(group: any) {
         this._selectedGroup = group;
         if (group != undefined) {
@@ -65,7 +63,6 @@ export class MenuService {
         return this._selectedApplication;
     }
 
-    @Input()
     set selectedApplication(application: any) {
         this._selectedApplication = application;
         if (application != undefined) {
@@ -87,9 +84,7 @@ export class MenuService {
         private utilsService: UtilsService,
         private imageService: ImageService,
         private settingsService: SettingsService,
-        private router: Router,
-        private componentService: ComponentService,
-        private resolver: ComponentFactoryResolver
+        private componentService: ComponentService
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
 
@@ -194,11 +189,6 @@ export class MenuService {
         menu.visible = true;
 
         // this.eventData.model.Title.value = "Menu > " + menu.name;
-    }
-
-    //---------------------------------------------------------------------------------------------
-    getApplicationIcon(application) {
-        return this.imageService.getStaticImage(application);
     }
 
     //---------------------------------------------------------------------------------------------
