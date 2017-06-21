@@ -5,7 +5,7 @@ namespace Microarea.AdminServer.Model.Interfaces
     public interface IAdminModel
     {
         void SetDataProvider(IDataProvider dataProvider);
-        bool Save();
+        OperationResult Save();
         IAdminModel Load();
 		bool ExistsOnDB { get; set; }
     }

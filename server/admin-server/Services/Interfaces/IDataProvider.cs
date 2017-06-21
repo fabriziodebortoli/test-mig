@@ -6,7 +6,7 @@ namespace Microarea.AdminServer.Services
     public interface IDataProvider
     {
         IAdminModel Load(IAdminModel iModel);
-        bool Save(IAdminModel iModel);
+        OperationResult Save(IAdminModel iModel);
         bool Delete(IAdminModel iModel);
         //
         // database-dependent values

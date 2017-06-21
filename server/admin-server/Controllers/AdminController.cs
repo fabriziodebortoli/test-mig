@@ -330,15 +330,9 @@ namespace Microarea.AdminServer.Controllers
         /// Insert/update account
         /// </summary>
         //-----------------------------------------------------------------------------	
-        [HttpPost("/api/accounts/{accountname}")]
+        [HttpPost("/api/accounts")]
 		public IActionResult ApiAccounts(string accountname)
 		{
-			if (String.IsNullOrEmpty(accountname))
-			{
-				_jsonHelper.AddPlainObject<OperationResult>(new OperationResult(false, "Account name cannot be empty!"));
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
 			if (HttpContext.Request == null || HttpContext.Request.Body == null)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
@@ -364,11 +358,11 @@ namespace Microarea.AdminServer.Controllers
 				IAccount iAccount = JsonConvert.DeserializeObject<Account>(body);
 				if (iAccount != null)
 				{
-					// per ora l'AccountName e la Email sono uguali!
+					OperationResult opRes = new OperationResult();
 					iAccount.Email = iAccount.AccountName;
-
 					iAccount.SetDataProvider(_accountSqlDataProvider);
-					result = iAccount.Save();
+					opRes = iAccount.Save();
+					result = opRes.Result;
 				}
             }
 			catch (SqlException e)
@@ -393,16 +387,9 @@ namespace Microarea.AdminServer.Controllers
 		/// Insert/update company
 		/// </summary>
 		//-----------------------------------------------------------------------------	
-		[HttpPost("/api/companies/{companyname}")]
+		[HttpPost("/api/companies")]
 		public IActionResult ApiCompanies(string companyname)
 		{
-			if (String.IsNullOrEmpty(companyname))
-			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Company name cannot be empty");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-			}
-
 			if (HttpContext.Request == null || HttpContext.Request.Body == null)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
@@ -428,7 +415,7 @@ namespace Microarea.AdminServer.Controllers
 				if (iCompany != null)
 				{
 					iCompany.SetDataProvider(_companySqlDataProvider);
-					result = iCompany.Save();
+					result = iCompany.Save().Result;
 				}
 			}
 			catch (SqlException e)
@@ -475,7 +462,7 @@ namespace Microarea.AdminServer.Controllers
 				IInstance iInstance = new Instance(instancename);
 				iInstance.SetDataProvider(_instanceSqlDataProvider);
 				iInstance.Disabled = disabled;
-				result = iInstance.Save();
+				result = iInstance.Save().Result;
 			}
 			catch (SqlException e)
 			{
@@ -500,23 +487,16 @@ namespace Microarea.AdminServer.Controllers
 		/// Insert/update Subscription
 		/// </summary>
 		//-----------------------------------------------------------------------------	
-		[HttpPost("/api/subscriptions/{subscriptionname}")]
-		public IActionResult ApiSubscriptions(string subscriptionname, string instancekey)
+		[HttpPost("/api/subscriptions/{subscriptionKey?}")]
+		public IActionResult ApiSubscriptions(string subscriptionKey, string instancekey)
 		{
-			if (String.IsNullOrEmpty(subscriptionname))
-			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Subscription name cannot be empty");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-			}
-
 			bool result = false;
 			try
 			{
-				ISubscription iSubscription = new Subscription(subscriptionname);
+				ISubscription iSubscription = new Subscription(subscriptionKey);
 				iSubscription.SetDataProvider(_subscriptionSQLDataProvider);
 				iSubscription.InstanceKey = instancekey;
-				result = iSubscription.Save();
+				result = iSubscription.Save().Result;
 			}
 			catch (SqlException e)
 			{
@@ -535,6 +515,35 @@ namespace Microarea.AdminServer.Controllers
 			_jsonHelper.AddJsonCouple<bool>("result", true);
 			_jsonHelper.AddJsonCouple<string>("message", "Save subscription operation successfully completed");
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
+		}
+
+		[HttpGet("/api/accounts/{accountName?}")]
+		[Produces("application/json")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiGetAccounts()
+		{
+			IAccount[] accountArray = null;
+
+			try
+			{
+				accountArray = ((AccountSQLDataProvider)_accountSqlDataProvider).GetAccounts(); // gestire il parametro facoltativo per il caricamento di un solo elemento
+			}
+			catch (Exception ex)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", ex.Message);
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+			}
+
+			if (accountArray == null)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", "Invalid user");
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+			}
+
+			_jsonHelper.AddPlainObject<IAccount[]>(accountArray);
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 	}
 }
