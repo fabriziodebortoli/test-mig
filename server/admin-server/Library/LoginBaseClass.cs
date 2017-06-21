@@ -27,7 +27,7 @@ namespace Microarea.AdminServer.Library
             if (account.Password != Crypt(password))
             {
                 AddWrongPwdLoginCount();
-                if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+                if (!account.Save().Result) return LoginReturnCodes.ErrorSavingAccount;
                 return LoginReturnCodes.InvalidUserError;
             }
 
@@ -63,7 +63,7 @@ namespace Microarea.AdminServer.Library
                 return LoginReturnCodes.InvalidUserError;
             }
             account.Password = Crypt(newpassword);
-            if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+            if (!account.Save().Result) return LoginReturnCodes.ErrorSavingAccount;
 
             ClearWrongPwdLoginCount();
        

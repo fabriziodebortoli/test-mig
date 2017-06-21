@@ -59,9 +59,10 @@ namespace Microarea.AdminServer.Services.Providers
 
 		// si occupa solo dell'insert, se il record esiste gia' torno false
 		//---------------------------------------------------------------------
-		public bool Save(IAdminModel iModel)
+		public OperationResult Save(IAdminModel iModel)
 		{
 			SubscriptionAccount isubscripion;
+			OperationResult opRes = new OperationResult();
 
 			try
 			{
@@ -80,7 +81,11 @@ namespace Microarea.AdminServer.Services.Providers
 					}
 
 					if (existSubscription)
-						return false;
+					{
+						opRes.Result = false;
+						opRes.Message = "SubscriptionAccount already exists";
+						return opRes;
+					}
 
 					using (SqlCommand command = new SqlCommand())
 					{
@@ -92,15 +97,18 @@ namespace Microarea.AdminServer.Services.Providers
 
 						command.ExecuteNonQuery();
 					}
+
+					opRes.Result = true;
 				}
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.Message);
-				return false;
+				opRes.Result = false;
+				opRes.Message = String.Concat("An error occurred while saving InstanceAccount: ", e.Message);
+				return opRes;
 			}
 
-			return true;
+			return opRes;
 		}
 
 		//---------------------------------------------------------------------
