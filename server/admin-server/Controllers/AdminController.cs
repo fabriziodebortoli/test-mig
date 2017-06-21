@@ -35,7 +35,8 @@ namespace Microarea.AdminServer.Controllers
 		HttpClient client;
 
 		//The URL of the WEB API Service
-		string url = "http://gwam.azurewebsites.net/api/accounts/";
+		//string url = "http://localhost:9011/api/"; // local
+		string url = "http://gwam.azurewebsites.net/api/"; // azure
 
 		//-----------------------------------------------------------------------------	
 		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper)
@@ -227,7 +228,7 @@ namespace Microarea.AdminServer.Controllers
 					AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
 					accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
 
-					if (!accountIdentityPack.Result) // it doesn't exist on GWAM
+					if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
 					{
 						bootstrapTokenContainer.Result = false;
 						bootstrapTokenContainer.Message = "Invalid User";
@@ -293,12 +294,13 @@ namespace Microarea.AdminServer.Controllers
 		{
 			var formContent = new FormUrlEncodedContent(new[]
 				{
-							new KeyValuePair<string, string>("password", credentials.Password),
-							new KeyValuePair<string, string>("instanceid", "1")
-						}
+					new KeyValuePair<string, string>("accountName", credentials.AccountName),
+					new KeyValuePair<string, string>("password", credentials.Password),
+					new KeyValuePair<string, string>("instanceKey", "M4-STD-ALL")
+				}
 			);
 
-			HttpResponseMessage responseMessage = await client.PostAsync(url + credentials.AccountName, formContent);
+			HttpResponseMessage responseMessage = await client.PostAsync(url + "accounts/", formContent);
 			var responseData = responseMessage.Content.ReadAsStringAsync();
 			return responseData;
 		}

@@ -17,9 +17,16 @@ export class ModelService {
 
   //--------------------------------------------------------------------------------------------------------
   addAccount(body: Object): Observable<OperationResult> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': true });
     let options = new RequestOptions({ headers: headers });
 
+    /*return this.http.put(environment.gwamAPIUrl + 'accounts', body, options)
+        .map((res: Response) => {
+        console.log(res.json());
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));*/
+    
     return this.http.post(environment.adminAPIUrl + 'accounts', body, options)
       .map((res: Response) => {
         console.log(res.json());
