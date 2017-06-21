@@ -10,7 +10,6 @@ import { TbComponent } from '../../../';
 })
 export class TileComponent implements OnInit {
 
-  @Input('title') title: string;
 
   private _isCollapsed: boolean = false;
   private _isCollapsible: boolean = true;

@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TbCardTitleComponent implements OnInit {
 private _isCollapsible = true;
   private _isCollapsed: boolean = false;
- @Input('title') title: string;
+ @Input() title: string;
  
  @Input()
   set isCollapsible(value: boolean) {
@@ -30,6 +30,7 @@ private _isCollapsible = true;
   constructor() { }
 
   ngOnInit() {
+
   }
 
  getArrowIcon() {
