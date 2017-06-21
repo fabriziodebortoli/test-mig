@@ -58,9 +58,10 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public bool Save(IAdminModel iModel)
+		public OperationResult Save(IAdminModel iModel)
 		{
 			CompanyAccount account;
+			OperationResult opRes = new OperationResult();
 
 			try
 			{
@@ -90,14 +91,17 @@ namespace Microarea.AdminServer.Services.Providers
 						command.ExecuteNonQuery();
 					}
 				}
+
+				opRes.Result = true;
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.Message);
-				return false;
+				opRes.Result = false;
+				opRes.Message = String.Concat("An error occurred while saving CompanyAccount: ", e.Message);
+				return opRes;
 			}
 
-			return true;
+			return opRes;
 		}
 
 		//---------------------------------------------------------------------

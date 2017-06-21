@@ -39,7 +39,7 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-		public bool Save()
+		public OperationResult Save()
 		{
 			return this.dataProvider.Save(this);
 		}

@@ -56,47 +56,50 @@ namespace Microarea.AdminServer.Services.Providers
         }
 
         //---------------------------------------------------------------------
-        public bool Save(IAdminModel iModel)
+        public OperationResult Save(IAdminModel iModel)
         {
-            //ISecurityToken token;
+			//ISecurityToken token;
 
-            //try
-            //{
-            //    token = (ISecurityToken)iModel;
-            //    using (SqlConnection connection = new SqlConnection(this.connectionString))
-            //    {
-            //        connection.Open();
+			//try
+			//{
+			//    token = (ISecurityToken)iModel;
+			//    using (SqlConnection connection = new SqlConnection(this.connectionString))
+			//    {
+			//        connection.Open();
 
-            //        bool existSubscription = false;
+			//        bool existSubscription = false;
 
-            //        using (SqlCommand command = new SqlCommand(Consts.ExistToken, connection))
-            //        {
-            //            command.Parameters.AddWithValue("@SubscriptionId", token.AccountId);
-            //            command.Parameters.AddWithValue("@type", token.TokenType);
-            //            existSubscription = (int)command.ExecuteScalar() > 0;
-            //        }
+			//        using (SqlCommand command = new SqlCommand(Consts.ExistToken, connection))
+			//        {
+			//            command.Parameters.AddWithValue("@SubscriptionId", token.AccountId);
+			//            command.Parameters.AddWithValue("@type", token.TokenType);
+			//            existSubscription = (int)command.ExecuteScalar() > 0;
+			//        }
 
-            //        using (SqlCommand command = new SqlCommand())
-            //        {
-            //            command.Connection = connection;
-            //            command.CommandText = existSubscription ? Consts.UpdateToken: Consts.InsertToken;
+			//        using (SqlCommand command = new SqlCommand())
+			//        {
+			//            command.Connection = connection;
+			//            command.CommandText = existSubscription ? Consts.UpdateToken: Consts.InsertToken;
 
-            //            command.Parameters.AddWithValue("@accountid", token.AccountId );
-                      
-            //            if (existSubscription)
-            //                command.Parameters.AddWithValue("@accountid", token.AccountId);
+			//            command.Parameters.AddWithValue("@accountid", token.AccountId );
 
-            //            command.ExecuteNonQuery();
-            //        }
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e.Message);
-            //    return false;
-            //}
+			//            if (existSubscription)
+			//                command.Parameters.AddWithValue("@accountid", token.AccountId);
 
-            return true;
+			//            command.ExecuteNonQuery();
+			//        }
+			//    }
+			//}
+			//catch (Exception e)
+			//{
+			//    Console.WriteLine(e.Message);
+			//    return false;
+			//}
+
+			OperationResult opRes = new OperationResult();
+			opRes.Result = true;
+
+            return opRes;
         }
 
         //---------------------------------------------------------------------

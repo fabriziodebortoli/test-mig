@@ -358,11 +358,11 @@ namespace Microarea.AdminServer.Controllers
 				IAccount iAccount = JsonConvert.DeserializeObject<Account>(body);
 				if (iAccount != null)
 				{
-					// per ora l'AccountName e la Email sono uguali!
+					OperationResult opRes = new OperationResult();
 					iAccount.Email = iAccount.AccountName;
-
 					iAccount.SetDataProvider(_accountSqlDataProvider);
-					result = iAccount.Save();
+					opRes = iAccount.Save();
+					result = opRes.Result;
 				}
             }
 			catch (SqlException e)
@@ -415,7 +415,7 @@ namespace Microarea.AdminServer.Controllers
 				if (iCompany != null)
 				{
 					iCompany.SetDataProvider(_companySqlDataProvider);
-					result = iCompany.Save();
+					result = iCompany.Save().Result;
 				}
 			}
 			catch (SqlException e)
@@ -462,7 +462,7 @@ namespace Microarea.AdminServer.Controllers
 				IInstance iInstance = new Instance(instancename);
 				iInstance.SetDataProvider(_instanceSqlDataProvider);
 				iInstance.Disabled = disabled;
-				result = iInstance.Save();
+				result = iInstance.Save().Result;
 			}
 			catch (SqlException e)
 			{
@@ -496,7 +496,7 @@ namespace Microarea.AdminServer.Controllers
 				ISubscription iSubscription = new Subscription(subscriptionKey);
 				iSubscription.SetDataProvider(_subscriptionSQLDataProvider);
 				iSubscription.InstanceKey = instancekey;
-				result = iSubscription.Save();
+				result = iSubscription.Save().Result;
 			}
 			catch (SqlException e)
 			{
