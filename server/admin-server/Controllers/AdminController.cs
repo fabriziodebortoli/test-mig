@@ -30,7 +30,7 @@ namespace Microarea.AdminServer.Controllers
         IDataProvider _subscriptionSQLDataProvider;
         IDataProvider _tokenSQLDataProvider;
 
-        JsonHelper _jsonHelper;
+        IJsonHelper _jsonHelper;
 
 		HttpClient client;
 
@@ -38,7 +38,7 @@ namespace Microarea.AdminServer.Controllers
 		string url = "http://gwam.azurewebsites.net/api/accounts/";
 
 		//-----------------------------------------------------------------------------	
-		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings, JsonHelper jsonHelper)
+		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper)
         {
             _env = env;
             _settings = settings.Value;
