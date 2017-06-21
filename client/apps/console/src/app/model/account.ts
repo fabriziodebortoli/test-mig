@@ -1,22 +1,24 @@
 export class Account {
 
-    accountName:string;
-    fullName:string;
-    password:string;
-    notes:string;
-    email:string;
-    provisioningAdmin:boolean;
-    passwordNeverExpires:boolean;
-    mustChangePassword:boolean;
-    cannotChangePassword:boolean;
-    expiryDateCannotChange:boolean;
-    expiryDatePassword:Date
+    accountName: string;
+    fullName: string;
+    password: string;
+    notes: string;
+    email: string;
+    loginFailedCount: number;
+    passwordNeverExpires: boolean;
+    mustChangePassword: boolean;
+    cannotChangePassword: boolean;
+    passwordExpirationDate: Date;
+    passwordDuration: number;
     disabled:boolean;
     locked:boolean;
-    applicationLanguage:string;
-    preferredLanguage:string;
-    isWindowsAuthentication:boolean;
-
+    provisioningAdmin: boolean;
+    applicationLanguage: string;
+    preferredLanguage: string;
+    isWindowsAuthentication: boolean;
+    expirationDate: Date;
+    
     constructor(){
     }
 }

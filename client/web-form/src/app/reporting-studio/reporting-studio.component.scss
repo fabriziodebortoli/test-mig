@@ -1,8 +1,11 @@
-
-
-body{
-    overflow-y:hidden;
+body {
+    overflow-y: hidden;
 }
+
+#rsLayout {
+    width: 100%;
+}
+
 .canvas-container {
     -webkit-flex: 1 1 auto;
     overflow-y: auto;

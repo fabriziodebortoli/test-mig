@@ -465,10 +465,6 @@ export class MenuService {
         }
     };
 
-    getFavorites() {
-        return this.favorites;
-    }
-
     //---------------------------------------------------------------------------------------------
     addToMostUsed(object) {
 

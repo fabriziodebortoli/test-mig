@@ -164,6 +164,9 @@ export class WebSocketService {
 
         this.safeSend(data);
     }
+    closeServerComponent(cmpId: string) {
+        this.doCommand(cmpId, 'ID_FILE_CLOSE');
+    }
 
     doCommand(cmpId: String, id: String, modelData?: any): void {
         const data = { cmd: 'doCommand', cmpId: cmpId, id: id, model: modelData };

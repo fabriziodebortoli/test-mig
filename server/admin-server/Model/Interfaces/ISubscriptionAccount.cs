@@ -4,6 +4,6 @@
     interface ISubscriptionAccount : IAdminModel
 	{
         string AccountName { get; }
-        int SubscriptionId { get; }
+        string SubscriptionKey { get; }
     }
 }

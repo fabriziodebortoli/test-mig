@@ -8,7 +8,17 @@ using System.Text;
 namespace Microarea.AdminServer.Controllers.Helpers
 {
 	//================================================================================
-	public class JsonHelper
+	public interface IJsonHelper
+	{
+		void Init();
+		void AddPlainObject<T>(T val);
+		void AddJsonCouple<T>(string name, T val);
+		string WriteFromKeysAndClear();
+		string WritePlainAndClear();
+	}
+
+	//================================================================================
+	public class JsonHelper : IJsonHelper
 	{
 		StringBuilder sb;
 		StringWriter sw;
@@ -34,8 +44,6 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			try
 			{
 				this.plainObject = (T)val;
-				//this.jsonWriter.WritePropertyName(name);
-				//this.jsonWriter.WriteValue(val);
 			}
 			catch (Exception)
 			{ }
@@ -47,8 +55,6 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			try
 			{
 				this.entries.Add(name, val);
-				//this.jsonWriter.WritePropertyName(name);
-				//this.jsonWriter.WriteValue(val);
 			}
 			catch (Exception)
 			{ }

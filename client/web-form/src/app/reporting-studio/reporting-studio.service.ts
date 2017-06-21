@@ -8,9 +8,10 @@ import { EventDataService } from './../core/eventdata.service';
 import { DocumentService } from './../core/document.service';
 import { CommandType, PdfType } from './reporting-studio.model';
 
-import { drawDOM, Group, exportPDF } from '@progress/kendo-drawing';
+import { drawDOM, Group, exportPDF, drawing } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
 import { DrawOptions } from '@progress/kendo-drawing/dist/es/html';
+import { Rect, Point, Size, transform } from '@progress/kendo-drawing/geometry';
 
 
 @Injectable()
@@ -28,6 +29,7 @@ export class ReportingStudioService extends DocumentService {
     public totalPages: number;
     public pdfState: PdfType = PdfType.NOPDF;
     public filePdf = new Group();
+    public titleReport: string;
 
     constructor(
         logger: Logger,
@@ -104,7 +106,8 @@ export class ReportingStudioService extends DocumentService {
         this.showAsk = false;
     }
 
-    loopPdfPage() {
+    loopPdfPage(title: string) {
+        this.titleReport = title;
         if (this.pdfState === PdfType.SAVINGPDF) {
             if (this.pageNum === this.totalPages) {
                 this.renderPDF();
@@ -116,7 +119,7 @@ export class ReportingStudioService extends DocumentService {
         }
     }
 
-    public renderPDF() {
+    /*public renderPDF() {
         drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 return exportPDF(group, { multiPage: true });
@@ -124,6 +127,28 @@ export class ReportingStudioService extends DocumentService {
             .then((dataUri) => {
                 saveAs(dataUri, 'export.pdf');
                 this.loopPdfPage();
+            });
+    }*/
+
+     public appendPDF() {
+        drawDOM(document.getElementById('rsLayout'))
+            .then((group: Group) => {
+                this.filePdf.append(group);
+                this.loopPdfPage(this.titleReport);
+         })
+
+    }
+
+    public renderPDF() {
+        drawDOM(document.getElementById('rsLayout'))
+            .then((group: Group) => {
+                this.filePdf.append(group);
+                return exportPDF(this.filePdf, { 
+                    multiPage: true
+                });
+         })
+            .then((dataUri) => {
+                saveAs(dataUri, this.titleReport+'.pdf');
             });
     }
 
