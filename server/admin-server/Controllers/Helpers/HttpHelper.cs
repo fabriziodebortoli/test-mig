@@ -42,7 +42,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 				var formContent = new FormUrlEncodedContent(bodyEntries);
 				HttpResponseMessage responseMessage = await client.PostAsync(url, formContent);
 				var responseData = responseMessage.Content.ReadAsStringAsync();
-				operationResult.ObjectResult = responseData;
+				operationResult.Content = responseData;
 			}
 			catch (Exception ex)
 			{
