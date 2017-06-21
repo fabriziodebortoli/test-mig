@@ -2,7 +2,7 @@ import { Component, Input, ViewChild, OnChanges, AfterViewInit } from '@angular/
 import { ControlComponent } from './../control.component';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 // import * as moment from 'moment';
-import { formatDate } from '@telerik/kendo-intl';
+// import { formatDate } from '@telerik/kendo-intl';
 import { EventDataService } from './../../../core/eventdata.service';
 
 @Component({
@@ -43,7 +43,7 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
     }
 
     this.selectedDate = newDate;
-    this.model.value = formatDate(this.selectedDate, 'y-MM-ddTHH:mm:ss');
+    // this.model.value = formatDate(this.selectedDate, 'y-MM-ddTHH:mm:ss');
   }
 
   ngAfterViewInit(): void {
