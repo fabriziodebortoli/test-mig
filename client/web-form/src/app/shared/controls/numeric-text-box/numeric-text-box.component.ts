@@ -18,6 +18,7 @@ private errorMessage: string;
 private constraint: RegExp =  new RegExp('\\d');
 public selectedValue: number;
 private showError = '';
+@Input() public hotLink: any = undefined;
 
 
 
