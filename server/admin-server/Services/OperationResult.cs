@@ -3,22 +3,29 @@
 namespace Microarea.AdminServer.Services
 {
 	//================================================================================
+	//================================================================================
 	public class OperationResult
 	{
-		public bool Result { get; set; }
-		public string Message { get; set; }
-		public object ObjectResult { get; set; }
+		bool result;
+		string message;
+		object objectResult;
+
+		public bool Result { get { return this.result; } set { this.result = value; } }
+		public string Message { get { return this.message; } set { this.message = value; } }
+		public object Content { get { return (this.objectResult == null) ? new object() : this.objectResult; } set { this.objectResult = value; } }
 
 		//--------------------------------------------------------------------------------
 		public OperationResult()
 		{
-			this.Result = false;
-			this.Message = String.Empty;
+			this.result = false;
+			this.message = String.Empty;
 		}
+
+		//--------------------------------------------------------------------------------
 		public OperationResult(bool result, string message)
 		{
-			this.Result = result;
-			this.Message = message;
+			this.result = result;
+			this.message = message;
 		}
 	}
 }
