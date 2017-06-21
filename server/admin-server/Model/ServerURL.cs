@@ -7,13 +7,13 @@ namespace Microarea.AdminServer.Model
 	//================================================================================
 	public class ServerURL : IServerURL
 	{
-		int instanceId;
+		string instanceKey;
 		URLType urlType = URLType.API;
 		bool existsOnDB = false;
 		string url = string.Empty;
 
 		//---------------------------------------------------------------------
-		public int InstanceId { get { return this.instanceId; } set { this.instanceId = value; } }
+		public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
 		public URLType URLType { get { return this.urlType; } set { this.urlType = value; } }
 		public string URL { get { return this.url; } set { this.url = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
@@ -33,7 +33,7 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-		public bool Save()
+		public OperationResult Save()
 		{
 			throw new NotImplementedException();
 		}

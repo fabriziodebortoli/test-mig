@@ -20,17 +20,20 @@ namespace Microarea.AdminServer.Library
 			authenticationToken = new SecurityToken();
 		}
 
-		public UserTokens(bool isAdmin, string accountName)
+        //---------------------------------------------------------------------
+        public UserTokens(bool isAdmin, string accountName)
         {
             if (isAdmin) apiSecurityToken = SecurityToken.GetToken(TokenType.API, accountName);
             authenticationToken = SecurityToken.GetToken(TokenType.Authentication, accountName);
         }
 
+        //---------------------------------------------------------------------
         internal bool  Save()
         {
-            return apiSecurityToken.Save() && authenticationToken.Save();
+            return apiSecurityToken.Save().Result && authenticationToken.Save().Result;
         }
 
+        //---------------------------------------------------------------------
         internal void Setprovider(IDataProvider tokenSQLDataProvider)
         {
              apiSecurityToken.SetDataProvider(tokenSQLDataProvider);

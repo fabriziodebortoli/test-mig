@@ -16,10 +16,10 @@ import { RouterModule } from '@angular/router';
 import { SubscriptionHomeComponent } from './components/subscription-home/subscription-home.component';
 import { routes } from './app.routes';
 import { ConsoleModule } from '@taskbuilder/console';
-import { DatabaseInfoComponent } from './components/database-info/database-info.component';
 import { LoginService } from './services/login.service';
 import { AccountListComponent } from './components/account/account-list/account-list.component';
 import { AccountItemComponent } from './components/account/account-item/account-item.component';
+import { DatabaseInfoComponent } from './components/database-info/database-info.component';
 
 @NgModule({
   declarations: [
@@ -32,9 +32,9 @@ import { AccountItemComponent } from './components/account/account-item/account-
     CompanyComponent,
     AccountComponent,
     CompanyAccountComponent,
-    DatabaseInfoComponent,
     AccountListComponent,
-    AccountItemComponent
+    AccountItemComponent,
+    DatabaseInfoComponent
   ],
   imports: [
     BrowserModule,

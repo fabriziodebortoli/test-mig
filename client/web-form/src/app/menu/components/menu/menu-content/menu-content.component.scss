@@ -1,12 +1,16 @@
 @media screen and (min-width: 48em) {
-    md-card-content {
+    tb-card-content {
         // min-height: 215px;
     }
 }
 
-:host(tb-menu-content).limited md-card-content {
+:host(tb-menu-content).limited tb-card-content {
     max-height: 215px;
     overflow: auto;
+}
+
+.brick tb-card .tb-card-title div {
+    padding: 5 px;
 }
 
 

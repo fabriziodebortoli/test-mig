@@ -27,14 +27,12 @@ namespace Microarea.AdminServer.Library
             if (account.Password != Crypt(password))
             {
                 AddWrongPwdLoginCount();
-                if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+                if (!account.Save().Result) return LoginReturnCodes.ErrorSavingAccount;
                 return LoginReturnCodes.InvalidUserError;
             }
 
             ClearWrongPwdLoginCount();
            
-           
-
             if (account.MustChangePassword)
                 return LoginReturnCodes.UserMustChangePasswordError;
 
@@ -42,10 +40,11 @@ namespace Microarea.AdminServer.Library
             {
                 if (account.CannotChangePassword)
                     return LoginReturnCodes.CannotChangePasswordError;
-                return account.PasswordExpirationDateCannotChange ? LoginReturnCodes.PasswordExpiredError : LoginReturnCodes.UserMustChangePasswordError;
-            } 
+				//@@TODO gestire la colonna ExpirationDate
+				//return account.PasswordExpirationDateCannotChange ? LoginReturnCodes.PasswordExpiredError : LoginReturnCodes.UserMustChangePasswordError;
+			}
 
-            return LoginReturnCodes.NoError;
+			return LoginReturnCodes.NoError;
         }
 
         //----------------------------------------------------------------------
@@ -55,15 +54,16 @@ namespace Microarea.AdminServer.Library
                 return LoginReturnCodes.LoginLocked;
             if (account.CannotChangePassword)
                 return LoginReturnCodes.CannotChangePasswordError;
-            if (account.PasswordExpirationDateCannotChange && account.PasswordExpirationDate < DateTime.Now)
-                return LoginReturnCodes.PasswordExpiredError;
-            if (account.Password != Crypt(oldpassword))
+			//@@TODO gestire la colonna ExpirationDate
+			//if (account.PasswordExpirationDateCannotChange && account.PasswordExpirationDate < DateTime.Now)
+			//    return LoginReturnCodes.PasswordExpiredError;
+			if (account.Password != Crypt(oldpassword))
             {
                 AddWrongPwdLoginCount();
                 return LoginReturnCodes.InvalidUserError;
             }
             account.Password = Crypt(newpassword);
-            if (!account.Save()) return LoginReturnCodes.ErrorSavingAccount;
+            if (!account.Save().Result) return LoginReturnCodes.ErrorSavingAccount;
 
             ClearWrongPwdLoginCount();
        
@@ -91,7 +91,5 @@ namespace Microarea.AdminServer.Library
         {
             return password;//TODO
         }
-
-       
     }
 }

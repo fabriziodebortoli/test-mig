@@ -7,19 +7,23 @@ namespace Microarea.AdminServer.Model
 	//================================================================================
 	public class Subscription : ISubscription
 	{
-		int subscriptionId;
-		string name = string.Empty;
+		string subscriptionKey;
+		string description = string.Empty;
         ActivationToken activationtoken;
-        string purchaseId = string.Empty;
-		int instanceId;
+		string preferredLanguage = string.Empty;
+		string applicationLanguage = string.Empty;
+		string instanceKey;
+		int minDBSizeToWarn;
 		bool existsOnDB;
 
 		//---------------------------------------------------------------------
-		public int SubscriptionId { get { return this.subscriptionId; } set { this.subscriptionId = value; } }
-		public string Name { get { return this.name; } set { this.name = value; } }
+		public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
+		public string Description { get { return this.description; } set { this.description = value; } }
         public ActivationToken ActivationToken { get { return this.activationtoken; } set { this.activationtoken = value; } }
-        public string PurchaseId { get { return this.purchaseId; } set { this.purchaseId = value; } }
-		public int InstanceId { get { return this.instanceId; } set { this.instanceId = value; } }
+		public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
+		public string PreferredLanguage { get { return this.preferredLanguage; } set { this.preferredLanguage = value; } }
+		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
+		public int MinDBSizeToWarn { get { return this.minDBSizeToWarn; } set { this.minDBSizeToWarn = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
 		// data provider
@@ -28,12 +32,15 @@ namespace Microarea.AdminServer.Model
 		//---------------------------------------------------------------------
 		public Subscription()
 		{
+			subscriptionKey = string.Empty;
+			description = string.Empty;
+			activationtoken = new ActivationToken(string.Empty);
+			instanceKey = string.Empty;
 		}
 
-		//---------------------------------------------------------------------
-		public Subscription(string subscriptionName)
+		public Subscription(string subscriptionKey) : this()
 		{
-			this.name = subscriptionName;
+			this.subscriptionKey = subscriptionKey;
 		}
 
 		//---------------------------------------------------------------------
@@ -43,7 +50,7 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-		public bool Save()
+		public OperationResult Save()
 		{
 			return this.dataProvider.Save(this);
 		}

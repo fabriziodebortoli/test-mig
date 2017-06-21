@@ -5,11 +5,12 @@ namespace Microarea.AdminServer.Model.Interfaces
 	//================================================================================
 	interface ISubscription : IAdminModel
 	{
-		int SubscriptionId { get; }
-		string Name { get; }
+		string SubscriptionKey { get; }
+		string Description { get; }
         ActivationToken ActivationToken { get; set; }
-        string PurchaseId { get; set; }
-		int InstanceId { get; set; }
-     
-    }
+        string PreferredLanguage { get; set; }
+		string ApplicationLanguage { get; set; }
+		int MinDBSizeToWarn { get; set; }
+		string InstanceKey { get; set; }
+	}
 }

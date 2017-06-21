@@ -6,7 +6,7 @@
         int CompanyId { get; }
 		string Name { get; }
 		string Description { get; set; }
-		int SubscriptionId { get; set; }
+		string SubscriptionKey { get; set; }
 		string CompanyDBServer { get; set; }
 		string CompanyDBName { get; set; }
 		string CompanyDBOwner { get; set; }

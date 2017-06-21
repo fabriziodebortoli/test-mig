@@ -7,7 +7,7 @@ namespace Microarea.AdminServer.Model
     public class SubscriptionAccount : ISubscriptionAccount
 	{
         public string accountName;
-		public int subscriptionId;
+		public string subscriptionKey;
 
 		bool existsOnDB = false;
 
@@ -16,13 +16,12 @@ namespace Microarea.AdminServer.Model
 
 		//---------------------------------------------------------------------
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
-        public int SubscriptionId { get { return this.subscriptionId; } set { this.subscriptionId = value; } }
+        public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
 		//---------------------------------------------------------------------
 		public SubscriptionAccount()
 		{
-
 		}
 
 		//---------------------------------------------------------------------
@@ -32,7 +31,7 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-		public bool Save()
+		public OperationResult Save()
 		{
 			return this.dataProvider.Save(this);
 		}

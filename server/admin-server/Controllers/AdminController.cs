@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Controllers
@@ -30,17 +31,25 @@ namespace Microarea.AdminServer.Controllers
         IDataProvider _tokenSQLDataProvider;
 
         IJsonHelper _jsonHelper;
-		IHttpHelper _httpHelper;
+
+		HttpClient client;
+
+		//The URL of the WEB API Service
+		string url = "http://gwam.azurewebsites.net/api/accounts/";
 
 		//-----------------------------------------------------------------------------	
-		public AdminController(
-			IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper, IHttpHelper httpHelper)
+		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper)
         {
             _env = env;
             _settings = settings.Value;
             _jsonHelper = jsonHelper;
-			_httpHelper = httpHelper;
+
 			SqlProviderFactory();
+
+			client = new HttpClient();
+			client.BaseAddress = new Uri(url);
+			client.DefaultRequestHeaders.Accept.Clear();
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 		}
 
 		//-----------------------------------------------------------------------------	
@@ -159,9 +168,21 @@ namespace Microarea.AdminServer.Controllers
 
 				if (account.ExistsOnDB)
 				{
-					// Verifica credenziali su db
+                    // //chiedo al gwam se qualcosa e modificato facendo un check sui tick, se qualcosa moficiato devo aggiornare
+                    //Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks));
+                
+                    //// used as a container for the GWAM response
+                    //AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
+                    //accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
 
-					lbc = new LoginBaseClass(account);
+                    //if (accountIdentityPack.Result) //sul gwam non corrisponde xcui salvo questo account- todo concettualmente result true o fale?
+                    //{
+                    //    account = accountIdentityPack.Account;
+                    //    account.Save(); // in locale
+
+                    //}
+    // Verifica credenziali su db
+                    lbc = new LoginBaseClass(account);
 					LoginReturnCodes res = lbc.VerifyCredential(credentials.Password);
 
 					if (res != LoginReturnCodes.NoError)
@@ -209,7 +230,7 @@ namespace Microarea.AdminServer.Controllers
 					if (!accountIdentityPack.Result) // it doesn't exist on GWAM
 					{
 						bootstrapTokenContainer.Result = false;
-						bootstrapTokenContainer.Message = "GWAM doesn't like this. Why? " + accountIdentityPack.Message;
+						bootstrapTokenContainer.Message = "Invalid User";
 						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
@@ -270,18 +291,34 @@ namespace Microarea.AdminServer.Controllers
 		//----------------------------------------------------------------------
 		private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials)
 		{
-			string url = _settings.ExternalUrls.GWAMUrl + "accounts/" + credentials.AccountName;
+			var formContent = new FormUrlEncodedContent(new[]
+				{
+							new KeyValuePair<string, string>("password", credentials.Password),
+							new KeyValuePair<string, string>("instanceid", "1")
+						}
+			);
 
-			List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
-			entries.Add(new KeyValuePair<string, string>("password", credentials.Password));
-			entries.Add(new KeyValuePair<string, string>("instanceid", "1"));
-
-			OperationResult opRes = await _httpHelper.PostDataAsync(url, entries);
-			return (Task<string>) opRes.ObjectResult;
+			HttpResponseMessage responseMessage = await client.PostAsync(url + credentials.AccountName, formContent);
+			var responseData = responseMessage.Content.ReadAsStringAsync();
+			return responseData;
 		}
 
-		//----------------------------------------------------------------------
-		private UserTokens CreateTokens(IAccount account)
+        //----------------------------------------------------------------------
+        private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
+        {//todo modifiare
+            var formContent = new FormUrlEncodedContent(new[]
+                {
+                            new KeyValuePair<string, string>("Ticks", accMod.Ticks),
+                        }
+            );
+
+            HttpResponseMessage responseMessage = await client.PostAsync(url + accMod.AccountName, formContent);
+            var responseData = responseMessage.Content.ReadAsStringAsync();
+            return responseData;
+        }
+
+        //----------------------------------------------------------------------
+        private UserTokens CreateTokens(IAccount account)
         {
             UserTokens tokens = new UserTokens(account.ProvisioningAdmin, account.AccountName);
             tokens.Setprovider(_tokenSQLDataProvider);
@@ -294,7 +331,7 @@ namespace Microarea.AdminServer.Controllers
         /// </summary>
         //-----------------------------------------------------------------------------	
         [HttpPost("/api/accounts")]
-		public IActionResult ApiAccounts()
+		public IActionResult ApiAccounts(string accountname)
 		{
 			if (HttpContext.Request == null || HttpContext.Request.Body == null)
 			{
@@ -321,11 +358,11 @@ namespace Microarea.AdminServer.Controllers
 				IAccount iAccount = JsonConvert.DeserializeObject<Account>(body);
 				if (iAccount != null)
 				{
-					// per ora l'AccountName e la Email sono uguali!
+					OperationResult opRes = new OperationResult();
 					iAccount.Email = iAccount.AccountName;
-
 					iAccount.SetDataProvider(_accountSqlDataProvider);
-					result = iAccount.Save();
+					opRes = iAccount.Save();
+					result = opRes.Result;
 				}
             }
 			catch (SqlException e)
@@ -378,7 +415,7 @@ namespace Microarea.AdminServer.Controllers
 				if (iCompany != null)
 				{
 					iCompany.SetDataProvider(_companySqlDataProvider);
-					result = iCompany.Save();
+					result = iCompany.Save().Result;
 				}
 			}
 			catch (SqlException e)
@@ -424,9 +461,8 @@ namespace Microarea.AdminServer.Controllers
 			{
 				IInstance iInstance = new Instance(instancename);
 				iInstance.SetDataProvider(_instanceSqlDataProvider);
-				iInstance.Customer = customer;
 				iInstance.Disabled = disabled;
-				result = iInstance.Save();
+				result = iInstance.Save().Result;
 			}
 			catch (SqlException e)
 			{
@@ -451,23 +487,16 @@ namespace Microarea.AdminServer.Controllers
 		/// Insert/update Subscription
 		/// </summary>
 		//-----------------------------------------------------------------------------	
-		[HttpPost("/api/subscriptions/{subscriptionname}")]
-		public IActionResult ApiSubscriptions(string subscriptionname, int instanceid)
+		[HttpPost("/api/subscriptions/{subscriptionKey?}")]
+		public IActionResult ApiSubscriptions(string subscriptionKey, string instancekey)
 		{
-			if (String.IsNullOrEmpty(subscriptionname))
-			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Subscription name cannot be empty");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-			}
-
 			bool result = false;
 			try
 			{
-				ISubscription iSubscription = new Subscription(subscriptionname);
+				ISubscription iSubscription = new Subscription(subscriptionKey);
 				iSubscription.SetDataProvider(_subscriptionSQLDataProvider);
-				iSubscription.InstanceId = instanceid;
-				result = iSubscription.Save();
+				iSubscription.InstanceKey = instancekey;
+				result = iSubscription.Save().Result;
 			}
 			catch (SqlException e)
 			{
@@ -497,7 +526,7 @@ namespace Microarea.AdminServer.Controllers
 
 			try
 			{
-				accountArray = ((AccountSQLDataProvider)_accountSqlDataProvider).GetAccounts(); // gestire il parametro
+				accountArray = ((AccountSQLDataProvider)_accountSqlDataProvider).GetAccounts(); // gestire il parametro facoltativo per il caricamento di un solo elemento
 			}
 			catch (Exception ex)
 			{

@@ -31,15 +31,19 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.SelectSubscriptionByName, connection))
+					using (SqlCommand command = new SqlCommand(Consts.SelectSubscription, connection))
 					{
-						command.Parameters.AddWithValue("@Name", subscription.Name);
+						command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
 							{
-								subscription.ActivationToken = new Library.ActivationToken (dataReader["ActivationKey"] as string);
-								subscription.PurchaseId = dataReader["PurchaseId"] as string;
+								subscription.ActivationToken = new Library.ActivationToken (dataReader["ActivationToken"] as string);
+								subscription.Description = dataReader["Description"] as string;
+								subscription.PreferredLanguage = dataReader["PreferredLanguage"] as string;
+								subscription.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								subscription.MinDBSizeToWarn = (int)dataReader["MinDBSizeToWarn"];
+								subscription.InstanceKey = dataReader["InstanceKey"] as string;
 								subscription.ExistsOnDB = true;
 							}
 						}
@@ -56,9 +60,10 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public bool Save(IAdminModel iModel)
+		public OperationResult Save(IAdminModel iModel)
         {
 			Subscription subscription;
+			OperationResult opRes = new OperationResult();
 
             try
             {
@@ -71,7 +76,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					using (SqlCommand command = new SqlCommand(Consts.ExistSubscription, connection))
 					{
-						command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
+						command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
 						existSubscription = (int)command.ExecuteScalar() > 0;
 					}
 
@@ -80,25 +85,30 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Connection = connection;
 						command.CommandText = existSubscription ? Consts.UpdateSubscription : Consts.InsertSubscription;
 						
-						command.Parameters.AddWithValue("@Name", subscription.Name);
-						command.Parameters.AddWithValue("@ActivationKey", subscription.ActivationToken.ToString());
-						command.Parameters.AddWithValue("@PurchaseId", subscription.PurchaseId);
-						command.Parameters.AddWithValue("@InstanceId", subscription.InstanceId);
+						command.Parameters.AddWithValue("@Description", subscription.Description);
+						command.Parameters.AddWithValue("@ActivationToken", subscription.ActivationToken.ToString());
+						command.Parameters.AddWithValue("@PreferredLanguage", subscription.PreferredLanguage);
+						command.Parameters.AddWithValue("@ApplicationLanguage", subscription.ApplicationLanguage);
+						command.Parameters.AddWithValue("@MinDBSizeToWarn", subscription.MinDBSizeToWarn);
+						command.Parameters.AddWithValue("@InstanceKey", subscription.InstanceKey);
 
 						if (existSubscription)
-							command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
+							command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
 
 						command.ExecuteNonQuery();
 					}
+
+					opRes.Result = true;
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                return false;
+				opRes.Result = false;
+				opRes.Message = String.Concat("An error occurred while saving Subscription: ", e.Message);
+				return opRes;
             }
 
-            return true;
+            return opRes;
         }
 
 		//---------------------------------------------------------------------
@@ -114,7 +124,7 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.DeleteSubscription, connection))
 					{
-						command.Parameters.AddWithValue("@SubscriptionId", subscription.SubscriptionId);
+						command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
 						command.ExecuteNonQuery();
 					}
 				}

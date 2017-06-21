@@ -1,8 +1,7 @@
 export class name {
 
-    instanceId: number;
-    name: string;
-    customer: string;
+    instanceKey: string;
+    description: string;
     disabled: boolean;
 
     constructor() {

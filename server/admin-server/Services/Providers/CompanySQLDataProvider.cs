@@ -31,7 +31,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.SelectCompanyByName, connection))
+					using (SqlCommand command = new SqlCommand(Consts.SelectCompany, connection))
 					{
 						command.Parameters.AddWithValue("@Name", company.Name);
 						using (SqlDataReader dataReader = command.ExecuteReader())
@@ -39,9 +39,22 @@ namespace Microarea.AdminServer.Services.Providers
 							while (dataReader.Read())
 							{
 								company.Description = dataReader["Description"] as string;
-								company.Provider = dataReader["Provider"] as string;
+								company.CompanyDBServer = dataReader["CompanyDBServer"] as string;
+								company.CompanyDBName = dataReader["CompanyDBName"] as string;
+								company.CompanyDBOwner = dataReader["CompanyDBOwner"] as string;
+								company.CompanyDBPassword = dataReader["CompanyDBPassword"] as string;
+								company.DatabaseCulture = dataReader["DatabaseCulture"] as string;
 								company.Disabled = (bool)dataReader["Disabled"];
 								company.IsUnicode = (bool)dataReader["IsUnicode"];
+								company.PreferredLanguage = dataReader["PreferredLanguage"] as string;
+								company.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								company.Provider = dataReader["Provider"] as string;
+								company.SubscriptionKey = dataReader["SubscriptionKey"] as string;
+								company.UseDMS = (bool)dataReader["UseDMS"];
+								company.DMSDBServer = dataReader["DMSDBServer"] as string;
+								company.DMSDBName = dataReader["DMSDBName"] as string;
+								company.DMSDBOwner = dataReader["DMSDBOwner"] as string;
+								company.DMSDBPassword = dataReader["DMSDBPassword"] as string;
 								company.ExistsOnDB = true;
 							}
 						}
@@ -58,9 +71,10 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public bool Save(IAdminModel iModel)
+		public OperationResult Save(IAdminModel iModel)
         {
 			Company company;
+			OperationResult opRes = new OperationResult();
 
             try
             {
@@ -94,7 +108,7 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@PreferredLanguage", company.PreferredLanguage);
 						command.Parameters.AddWithValue("@ApplicationLanguage", company.ApplicationLanguage);
 						command.Parameters.AddWithValue("@Provider", company.Provider);
-						command.Parameters.AddWithValue("@SubscriptionId", company.SubscriptionId);
+						command.Parameters.AddWithValue("@SubscriptionKey", company.SubscriptionKey);
 						command.Parameters.AddWithValue("@UseDMS", company.UseDMS);
 						command.Parameters.AddWithValue("@DMSDBServer", company.DMSDBServer);
 						command.Parameters.AddWithValue("@DMSDBName", company.DMSDBName);
@@ -106,15 +120,18 @@ namespace Microarea.AdminServer.Services.Providers
 
 						command.ExecuteNonQuery();
 					}
+
+					opRes.Result = true;
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                return false;
-            }
+				opRes.Result = false;
+				opRes.Message = String.Concat("An error occurred while saving Compan: ", e.Message);
+				return opRes;
+			}
 
-            return true;
+            return opRes;
         }
 
 		//---------------------------------------------------------------------

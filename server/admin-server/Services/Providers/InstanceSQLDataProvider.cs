@@ -31,14 +31,14 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.SelectInstanceByName, connection))
+					using (SqlCommand command = new SqlCommand(Consts.SelectInstance, connection))
 					{
-						command.Parameters.AddWithValue("@Name", instance.Name);
+						command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
 							{
-								instance.Customer = dataReader["Customer"] as string;
+								instance.Description = dataReader["Description"] as string;
 								instance.Disabled = (bool)dataReader["Disabled"];
 								instance.ExistsOnDB = true;
 							}
@@ -56,9 +56,10 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public bool Save(IAdminModel iModel)
+		public OperationResult Save(IAdminModel iModel)
         {
 			Instance instance;
+			OperationResult opRes = new OperationResult();
 
             try
             {
@@ -71,7 +72,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					using (SqlCommand command = new SqlCommand(Consts.ExistInstance, connection))
 					{
-						command.Parameters.AddWithValue("@InstanceId", instance.InstanceId);
+						command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 						existInstance = (int)command.ExecuteScalar() > 0;
 					}
 
@@ -79,25 +80,26 @@ namespace Microarea.AdminServer.Services.Providers
 					{
 						command.Connection = connection;
 						command.CommandText = existInstance ? Consts.UpdateInstance : Consts.InsertInstance;
-						
-						command.Parameters.AddWithValue("@Name", instance.Name);
-						command.Parameters.AddWithValue("@Customer", instance.Customer);
+						command.Parameters.AddWithValue("@Description", instance.Description);
 						command.Parameters.AddWithValue("@Disabled", instance.Disabled);
 
 						if (existInstance)
-							command.Parameters.AddWithValue("@InstanceId", instance.InstanceId);
+							command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 
 						command.ExecuteNonQuery();
 					}
+
+					opRes.Result = true;
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                return false;
+				opRes.Result = false;
+				opRes.Message = String.Concat("An error occurred while saving Instance ", e.Message);
+				return opRes;
             }
 
-            return true;
+            return opRes;
         }
 
 		//---------------------------------------------------------------------
@@ -113,7 +115,7 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.DeleteInstance, connection))
 					{
-						command.Parameters.AddWithValue("@InstanceId", instance.InstanceId);
+						command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 						command.ExecuteNonQuery();
 					}
 				}
