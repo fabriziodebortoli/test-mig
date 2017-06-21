@@ -25,7 +25,6 @@ namespace Microarea.AdminServer.Services.Providers
 		public IAdminModel Load(IAdminModel iModel)
 		{
 			Account account;
-            ServiceResult sResult = new ServiceResult();
 
 			try
 			{
