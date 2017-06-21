@@ -7,17 +7,4 @@
             </div>
         </tb-card-content>
     </tb-card>
-    <md-card *ngIf="tile != undefined">
-
-        <md-card-title>
-            <span>{{tile.title}}</span>
-        </md-card-title>
-
-        <md-card-content>
-            <div class="row">
-                <tb-menu-element [object]="object" *ngFor="let object of getObjects();" class="menu-content col-xs-12" [ngClass]="{'col-md-6': getObjects().length > 10 , 'col-md-12': getObjects().length <= 10}"></tb-menu-element>
-            </div>
-        </md-card-content>
-
-    </md-card>
 </masonry-brick>
