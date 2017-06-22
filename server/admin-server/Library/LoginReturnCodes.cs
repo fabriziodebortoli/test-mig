@@ -65,7 +65,8 @@ namespace Microarea.AdminServer.Library
         ImagoCompanyNotCorresponding = 61,
         ErrorSavingTokens=62,
         ErrorSavingAccount = 63,
-		UnknownAccountName = 64
+		UnknownAccountName = 64,
+        UserExpired = 65
     }
 
 }

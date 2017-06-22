@@ -34,7 +34,7 @@ namespace Microarea.RSWeb.Render
             // istanzio una nuova macchina per la elaborazione del report per generare solo XML
             //uso il sessionId della sessione e genero un GUID come uniqueID, sono usati per determinare il percorso
             //dove salvare  su file system i file delle pagina del report e di symbol table
-            StateMachine = new RSEngine(ReportSession, ReportSession.XmlDomParameters, Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            StateMachine = new RSEngine(ReportSession, ReportSession.XmlDomParameters);
 
             // se ci sono stati errore nel caricamento fermo tutto (solo dopo aver istanziato la RSEngine)
             //if (!sessionOk)

@@ -14,13 +14,13 @@ import { ReportingStudioService } from './reporting-studio.service';
 import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF, } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
 
-
 @Component({
   selector: 'tb-reporting-studio',
   templateUrl: './reporting-studio.component.html',
   styleUrls: ['./reporting-studio.component.scss'],
   providers: [ReportingStudioService, EventDataService],
 })
+
 export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy {
 
   /*if this component is used standalone, the namespace has to be passed from the outside template,
@@ -28,16 +28,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   private subMessage: Subscription;
   private message: any = '';
 
-
   // report template objects
   public reportTemplate: any;
   public reportData: any;
 
   // ask dialog objects
   public askDialogTemplate: any;
-
-
-  
 
   constructor(
     private rsService: ReportingStudioService,
@@ -68,11 +64,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
     this.rsService.doSend(JSON.stringify(message));
 
-    
-
     this.rsService.eventDownload.subscribe(() => this.NextPage());
-
-
   }
 
   // -----------------------------------------------
