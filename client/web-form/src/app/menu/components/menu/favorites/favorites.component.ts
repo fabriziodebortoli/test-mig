@@ -5,6 +5,7 @@ import { MenuService } from './../../../services/menu.service';
 import { ImageService } from './../../../services/image.service';
 import { UtilsService } from './../../../../core/utils.service';
 import { LocalizationService } from './../../../services/localization.service';
+import { SettingsService } from './../../../services/settings.service';
 
 @Component({
   selector: 'tb-favorites',
@@ -20,6 +21,7 @@ export class FavoritesComponent implements OnInit {
     private imageService: ImageService,
     private utilsService: UtilsService,
     private localizationService: LocalizationService, 
+    private settingsService : SettingsService
   ) { }
 
   ngOnInit() {

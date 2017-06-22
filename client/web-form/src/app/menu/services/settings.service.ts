@@ -15,10 +15,7 @@ export class SettingsService {
     private nrMaxFavorites: number = 10;
     private nrMaxMostUsed: number = 10;
     private showSearchBox: boolean = true;
-    private showFilterBox: boolean = true;
-    private showWorkerImage: boolean = false;
     private canEditDate: boolean = true;
-    private showListIcons: boolean = false;
 
     private _lastApplicationName: string = undefined;
     private _lastGroupName: string = undefined;
@@ -94,14 +91,6 @@ export class SettingsService {
             if (data.ThemedSettings.canEditDate != undefined)
                 this.canEditDate = this.utilsService.parseBool(data.ThemedSettings.canEditDate);
 
-            if (data.ThemedSettings.showSearchBox != undefined) {
-                this.showSearchBox = this.utilsService.parseBool(data.ThemedSettings.showSearchBox);
-                this.showFilterBox = !this.showSearchBox;
-            }
-
-            if (data.ThemedSettings.showWorkerImage != undefined)
-                this.showWorkerImage = this.utilsService.parseBool(data.ThemedSettings.showWorkerImage);
-
             if (data.OtherSettings != undefined && data.OtherSettings.isEasyStudioActivated != undefined)
                 this.isEasyStudioActivated = this.utilsService.parseBool(data.OtherSettings.isEasyStudioActivated);
 
@@ -117,17 +106,6 @@ export class SettingsService {
             var current = this.getPreferenceByName(data.Root.Preference, "NrMaxItemsSearch");
             if (current != undefined)
                 this.nrMaxItemsSearch = parseInt(current);
-
-            current = this.getPreferenceByName(data.Root.Preference, "ShowSearchBox");
-            if (current != undefined) {
-                this.showSearchBox = this.utilsService.parseBool(current);
-                this.showFilterBox = !this.showSearchBox;
-            }
-
-            current = this.getPreferenceByName(data.Root.Preference, "ShowListIcons");
-            if (current != undefined) {
-                this.showListIcons = this.utilsService.parseBool(current);
-            }
 
             this.eventManagerService.emitPreferenceLoaded();
             subs.unsubscribe();

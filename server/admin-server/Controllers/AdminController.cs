@@ -31,12 +31,8 @@ namespace Microarea.AdminServer.Controllers
         IDataProvider _tokenSQLDataProvider;
 
         IJsonHelper _jsonHelper;
-
 		HttpClient client;
-
-		//The URL of the WEB API Service
-		//string url = "http://localhost:9011/api/"; // local
-		string url = "http://gwam.azurewebsites.net/api/"; // azure
+		string GWAMUrl;
 
 		//-----------------------------------------------------------------------------	
 		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper)
@@ -44,11 +40,10 @@ namespace Microarea.AdminServer.Controllers
             _env = env;
             _settings = settings.Value;
             _jsonHelper = jsonHelper;
-
 			SqlProviderFactory();
+			this.GWAMUrl = _settings.ExternalUrls.GWAMUrl;
 
 			client = new HttpClient();
-			client.BaseAddress = new Uri(url);
 			client.DefaultRequestHeaders.Accept.Clear();
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 		}
@@ -154,7 +149,8 @@ namespace Microarea.AdminServer.Controllers
 			if (credentials == null || String.IsNullOrEmpty(credentials.AccountName) || String.IsNullOrEmpty(credentials.Password))
 			{
 				bootstrapTokenContainer.Result = false;
-				bootstrapTokenContainer.Message = "Username cannot be empty";
+                bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.Error;
+                bootstrapTokenContainer.Message = "Username cannot be empty";
 				_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
@@ -169,20 +165,29 @@ namespace Microarea.AdminServer.Controllers
 
 				if (account.ExistsOnDB)
 				{
-                    // //chiedo al gwam se qualcosa e modificato facendo un check sui tick, se qualcosa moficiato devo aggiornare
-                    //Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks));
-                
-                    //// used as a container for the GWAM response
-                    //AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
-                    //accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
+                    //chiedo al gwam se qualcosa e modificato facendo un check sui tick, se qualcosa moficiato devo aggiornare
+                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks));
 
-                    //if (accountIdentityPack.Result) //sul gwam non corrisponde xcui salvo questo account- todo concettualmente result true o fale?
-                    //{
-                    //    account = accountIdentityPack.Account;
-                    //    account.Save(); // in locale
+                    // used as a container for the GWAM response
+                    AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
+                    accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
 
-                    //}
-    // Verifica credenziali su db
+                    if (accountIdentityPack.Result) //sul gwam non corrisponde xcui salvo questo account- todo concettualmente result true o fale?
+                    {
+                        if (accountIdentityPack.Account.ExistsOnDB)//se non fosse ExistsOnDB vuol dire che il tick corrisponde, non suona bene ma è così, forse dovrebbe tornare un codice da valutare.
+                        {
+                            account = accountIdentityPack.Account;
+                            account.Save(); // in locale
+                        }
+                    }
+                    else
+                    {
+                        bootstrapTokenContainer.Result = false;
+                        bootstrapTokenContainer.Message = accountIdentityPack.Message;
+                        _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                        return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                    }
+                    // Verifica credenziali su db
                     lbc = new LoginBaseClass(account);
 					LoginReturnCodes res = lbc.VerifyCredential(credentials.Password);
 
@@ -190,7 +195,8 @@ namespace Microarea.AdminServer.Controllers
 					{
 						bootstrapTokenContainer.Result = false;
 						bootstrapTokenContainer.Message = res.ToString();
-						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                        bootstrapTokenContainer.ResultCode = (int)res;
+                        _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
 
@@ -202,7 +208,8 @@ namespace Microarea.AdminServer.Controllers
 					{
 						bootstrapTokenContainer.Result = false;
 						bootstrapTokenContainer.Message = LoginReturnCodes.ErrorSavingTokens.ToString();
-						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                        bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.ErrorSavingTokens;
+                        _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
 
@@ -213,7 +220,8 @@ namespace Microarea.AdminServer.Controllers
 					// ...and its container.
 					bootstrapTokenContainer.Result = true;
 					bootstrapTokenContainer.Message = res.ToString();
-					bootstrapTokenContainer.JWTToken = bootstrapToken;
+                    bootstrapTokenContainer.ResultCode = (int)res;
+                    bootstrapTokenContainer.JWTToken = bootstrapToken;
 					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
 
 					_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
@@ -231,8 +239,9 @@ namespace Microarea.AdminServer.Controllers
 					if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
 					{
 						bootstrapTokenContainer.Result = false;
-						bootstrapTokenContainer.Message = "Invalid User";
-						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+						bootstrapTokenContainer.Message = "GWAM doesn't like this. Why? " + accountIdentityPack.Message;
+                        bootstrapTokenContainer.ResultCode= (int)LoginReturnCodes.UnknownAccountName;
+                        _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
 					else
@@ -240,22 +249,28 @@ namespace Microarea.AdminServer.Controllers
 						// user has been found
 						account = accountIdentityPack.Account;
 						account.SetDataProvider(_accountSqlDataProvider);
-						account.Save(); // in locale
-
-						// Verifica credenziali con salvataggio sul provider locale
-						lbc = new LoginBaseClass(account);
+						account.Save(); //salvataggio sul provider locale 
+						lbc = new LoginBaseClass(account);// Verifica credenziali 
 						LoginReturnCodes res = lbc.VerifyCredential(credentials.Password);
+                        if (res != LoginReturnCodes.NoError)
+                        {
+                            bootstrapTokenContainer.Result = false;
+                            bootstrapTokenContainer.Message = res.ToString();
+                            bootstrapTokenContainer.ResultCode= (int)res;
+                            _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                        }
 					}
-
-					// login ok, creaimo token e urls per pacchetto di risposta
-
-					UserTokens t = CreateTokens(account);
+                    // login ok, creaimo token e urls per pacchetto di risposta
+                   
+                    UserTokens t = CreateTokens(account);
 
 					if (t == null)
 					{
 						bootstrapTokenContainer.Result = false;
 						bootstrapTokenContainer.Message = LoginReturnCodes.ErrorSavingTokens.ToString();
-						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                        bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.ErrorSavingTokens;
+                        _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
 
@@ -268,7 +283,9 @@ namespace Microarea.AdminServer.Controllers
 
 					bootstrapTokenContainer.Result = true;
 					bootstrapTokenContainer.Message = "Login ok";
-					bootstrapTokenContainer.JWTToken = bootstrapToken;
+                    bootstrapTokenContainer.ResultCode= (int)LoginReturnCodes.NoError;
+
+                    bootstrapTokenContainer.JWTToken = bootstrapToken;
 					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
 
 					_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
@@ -276,15 +293,17 @@ namespace Microarea.AdminServer.Controllers
 				}
 
 				bootstrapTokenContainer.Result = false;
-				bootstrapTokenContainer.Message = "Invalid user";
-				_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.InvalidUserError;
+                bootstrapTokenContainer.Message = LoginReturnCodes.InvalidUserError.ToString();
+                _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 			catch (Exception exc)
 			{
 				bootstrapTokenContainer.Result = false;
-				bootstrapTokenContainer.Message = exc.Message;
-				_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+				bootstrapTokenContainer.Message = "ApiAccounts Exception: " + exc.Message;
+                bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.GenericLoginFailure;
+                _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 		}
@@ -300,29 +319,29 @@ namespace Microarea.AdminServer.Controllers
 				}
 			);
 
-			HttpResponseMessage responseMessage = await client.PostAsync(url + "accounts/", formContent);
+			HttpResponseMessage responseMessage = await client.PostAsync(this.GWAMUrl + "accounts/", formContent);
+			var responseData = responseMessage.Content.ReadAsStringAsync();
+			return responseData;
+		}
+
+		//----------------------------------------------------------------------
+		private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
+		{//todo modifiare
+			var formContent = new FormUrlEncodedContent(new[]
+				{
+					new KeyValuePair<string, string>("Ticks", accMod.Ticks.ToString()),
+				}
+			);
+
+			HttpResponseMessage responseMessage = await client.PostAsync(this.GWAMUrl + accMod.AccountName, formContent);
 			var responseData = responseMessage.Content.ReadAsStringAsync();
 			return responseData;
 		}
 
         //----------------------------------------------------------------------
-        private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
-        {//todo modifiare
-            var formContent = new FormUrlEncodedContent(new[]
-                {
-                            new KeyValuePair<string, string>("Ticks", accMod.Ticks),
-                        }
-            );
-
-            HttpResponseMessage responseMessage = await client.PostAsync(url + accMod.AccountName, formContent);
-            var responseData = responseMessage.Content.ReadAsStringAsync();
-            return responseData;
-        }
-
-        //----------------------------------------------------------------------
         private UserTokens CreateTokens(IAccount account)
         {
-            UserTokens tokens = new UserTokens(account.ProvisioningAdmin, account.AccountName);
+            UserTokens tokens = new UserTokens(account.IsAdmin, account.AccountName);
             tokens.Setprovider(_tokenSQLDataProvider);
             if (tokens.Save()) return tokens;
             return null;
@@ -333,7 +352,7 @@ namespace Microarea.AdminServer.Controllers
         /// </summary>
         //-----------------------------------------------------------------------------	
         [HttpPost("/api/accounts")]
-		public IActionResult ApiAccounts(string accountname)
+		public IActionResult ApiAccounts()
 		{
 			if (HttpContext.Request == null || HttpContext.Request.Body == null)
 			{
