@@ -9,7 +9,8 @@ export class TbCardTitleComponent implements OnInit {
 private _isCollapsible = true;
   private _isCollapsed: boolean = false;
  @Input() title: string;
- 
+ @Input() icon: string;
+@Input() iconClass: string;
  @Input()
   set isCollapsible(value: boolean) {
     this._isCollapsible = value;
@@ -33,7 +34,8 @@ private _isCollapsible = true;
 
   }
 
- getArrowIcon() {
-    return this._isCollapsed ? 'keyboard_arrow_down' : 'keyboard_arrow_up';
+ getIcon() {
+     if(this.icon !== ''){return this.icon;}
+    else {return this._isCollapsed ? 'keyboard_arrow_down' : 'keyboard_arrow_up';}
   }
 }
