@@ -11,8 +11,8 @@ import { ComponentService } from './../core/component.service';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
 
-import { Image, Surface, Path, Text, Group, } from '@progress/kendo-drawing';
-import { Rect, Point, Size, transform, Circle } from '@progress/kendo-drawing/geometry';
+import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF, } from '@progress/kendo-drawing';
+import { saveAs } from '@progress/kendo-file-saver';
 
 
 @Component({
@@ -275,12 +275,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
     else {
       this.rsService.pdfState = PdfType.SAVINGPDF;
-      this.rsService.loopPdfPage(this.document.getTitle());
+      this.rsService.loopPdfPage(this.rsService.getTitle());
     }
   }
-
-
 }
+
+
 
 
 @Component({
@@ -301,3 +301,4 @@ export class ReportingStudioFactoryComponent {
     });
   }
 }
+

@@ -7,7 +7,7 @@ namespace Microarea.AdminServer.Model.Interfaces
     {
         string AccountName { get; }
 		string Password { get; set; }
-        bool IsCloudAdmin{ get; set; }
+        bool CloudAdmin{ get; set; }
         string FullName { get; set; }
         string Notes { get; set; }
         string Email { get; set; }

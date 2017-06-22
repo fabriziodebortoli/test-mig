@@ -32,10 +32,13 @@ namespace Microarea.AdminServer.Model
 		//---------------------------------------------------------------------
 		public Subscription()
 		{
+			subscriptionKey = string.Empty;
+			description = string.Empty;
+			activationtoken = new ActivationToken(string.Empty);
+			instanceKey = string.Empty;
 		}
 
-		//---------------------------------------------------------------------
-		public Subscription(string subscriptionKey)
+		public Subscription(string subscriptionKey) : this()
 		{
 			this.subscriptionKey = subscriptionKey;
 		}
@@ -47,7 +50,7 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-		public bool Save()
+		public OperationResult Save()
 		{
 			return this.dataProvider.Save(this);
 		}

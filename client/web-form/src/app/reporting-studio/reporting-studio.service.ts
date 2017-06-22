@@ -8,10 +8,8 @@ import { EventDataService } from './../core/eventdata.service';
 import { DocumentService } from './../core/document.service';
 import { CommandType, PdfType } from './reporting-studio.model';
 
-import { drawDOM, Group, exportPDF, drawing } from '@progress/kendo-drawing';
+import { drawDOM, exportPDF, DrawOptions, Group } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
-import { DrawOptions } from '@progress/kendo-drawing/dist/es/html';
-import { Rect, Point, Size, transform } from '@progress/kendo-drawing/geometry';
 
 
 @Injectable()
@@ -119,23 +117,12 @@ export class ReportingStudioService extends DocumentService {
         }
     }
 
-    /*public renderPDF() {
-        drawDOM(document.getElementById('rsLayout'))
-            .then((group: Group) => {
-                return exportPDF(group, { multiPage: true });
-         })
-            .then((dataUri) => {
-                saveAs(dataUri, 'export.pdf');
-                this.loopPdfPage();
-            });
-    }*/
-
-     public appendPDF() {
+    public appendPDF() {
         drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
                 this.loopPdfPage(this.titleReport);
-         })
+            })
 
     }
 
@@ -143,13 +130,14 @@ export class ReportingStudioService extends DocumentService {
         drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
-                return exportPDF(this.filePdf, { 
+                return exportPDF(this.filePdf, {
                     multiPage: true
                 });
-         })
+            })
             .then((dataUri) => {
-                saveAs(dataUri, this.titleReport+'.pdf');
+                saveAs(dataUri, this.titleReport + '.pdf');
             });
+        this.eventDownload.emit();
     }
 
 

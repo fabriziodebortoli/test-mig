@@ -30,7 +30,7 @@ namespace Microarea.AdminServer.Library
         //---------------------------------------------------------------------
         internal bool  Save()
         {
-            return apiSecurityToken.Save() && authenticationToken.Save();
+            return apiSecurityToken.Save().Result && authenticationToken.Save().Result;
         }
 
         //---------------------------------------------------------------------

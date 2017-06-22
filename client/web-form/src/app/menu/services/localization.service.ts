@@ -1,7 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { UtilsService } from './../../core/utils.service';
 import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
 
@@ -15,7 +14,6 @@ export class LocalizationService {
 
     constructor(
         private httpMenuService: HttpMenuService,
-        private utils: UtilsService,
         private logger: Logger
     ) {
         this.logger.debug('LocalizationService instantiated - ' + Math.round(new Date().getTime() / 1000));
