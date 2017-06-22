@@ -383,19 +383,18 @@ namespace Microarea.AdminServer.Controllers
 			return responseData;
 		}
 
-		//----------------------------------------------------------------------
-		private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
-		{//todo modifiare
-			var formContent = new FormUrlEncodedContent(new[]
-				{
-					new KeyValuePair<string, string>("Ticks", accMod.Ticks.ToString()),
-				}
-			);
-
-			HttpResponseMessage responseMessage = await client.PostAsync(this.GWAMUrl + accMod.AccountName, formContent);
-			var responseData = responseMessage.Content.ReadAsStringAsync();
-			return responseData;
-		}
+        //----------------------------------------------------------------------
+        private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
+        {
+            var formContent = new FormUrlEncodedContent(new[]
+                   {
+                    new KeyValuePair<string, string>("", "")//todo come metterlo vuoto che non serve? null? FormUrlEncodedContent.Empty?
+                }
+               );
+            HttpResponseMessage responseMessage = await client.PostAsync(this.GWAMUrl + accMod.AccountName + accMod.Ticks, formContent);
+            var responseData = responseMessage.Content.ReadAsStringAsync();
+            return responseData;
+        }
 
         //----------------------------------------------------------------------
         private UserTokens CreateTokens(IAccount account)
