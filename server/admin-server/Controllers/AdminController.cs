@@ -31,12 +31,8 @@ namespace Microarea.AdminServer.Controllers
         IDataProvider _tokenSQLDataProvider;
 
         IJsonHelper _jsonHelper;
-
 		HttpClient client;
-
-		//The URL of the WEB API Service
-		//string url = "http://localhost:9011/api/"; // local
-		string url = "http://gwam.azurewebsites.net/api/"; // azure
+		string GWAMUrl;
 
 		//-----------------------------------------------------------------------------	
 		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper)
@@ -44,11 +40,10 @@ namespace Microarea.AdminServer.Controllers
             _env = env;
             _settings = settings.Value;
             _jsonHelper = jsonHelper;
-
 			SqlProviderFactory();
+			this.GWAMUrl = _settings.ExternalUrls.GWAMUrl;
 
 			client = new HttpClient();
-			client.BaseAddress = new Uri(url);
 			client.DefaultRequestHeaders.Accept.Clear();
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 		}
@@ -300,7 +295,7 @@ namespace Microarea.AdminServer.Controllers
 				}
 			);
 
-			HttpResponseMessage responseMessage = await client.PostAsync(url + "accounts/", formContent);
+			HttpResponseMessage responseMessage = await client.PostAsync(this.GWAMUrl + "accounts/", formContent);
 			var responseData = responseMessage.Content.ReadAsStringAsync();
 			return responseData;
 		}
@@ -314,7 +309,7 @@ namespace Microarea.AdminServer.Controllers
                         }
             );
 
-            HttpResponseMessage responseMessage = await client.PostAsync(url + accMod.AccountName, formContent);
+            HttpResponseMessage responseMessage = await client.PostAsync(this.GWAMUrl + accMod.AccountName, formContent);
             var responseData = responseMessage.Content.ReadAsStringAsync();
             return responseData;
         }
