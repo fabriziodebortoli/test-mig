@@ -11,9 +11,9 @@ namespace Microarea.RSWeb.WoormViewer
 		private string rdeFileName;
 
 		//--------------------------------------------------------------------------------
-		public RDEWoormDocument(string rdeFilename, TbReportSession session, string sessionID, string uniqueID)
+		public RDEWoormDocument(string rdeFilename, TbReportSession session)
 		{
-			Init(session, sessionID, uniqueID);
+			Init(session);
 
 			this.rdeFileName	= rdeFilename;
 			lex = new WoormParser(Parser.SourceType.FromString);

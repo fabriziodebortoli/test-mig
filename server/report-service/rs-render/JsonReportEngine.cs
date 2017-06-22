@@ -31,7 +31,7 @@ namespace Microarea.RSWeb.Render
 
         public void Execute()
         {
-            StateMachine = new RSEngine(ReportSession, ReportSession.ReportPath, Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            StateMachine = new RSEngine(ReportSession);
 
             StateMachine.Step();
 
@@ -127,13 +127,16 @@ namespace Microarea.RSWeb.Render
                 return string.Empty;
             }
 
-            if (!currentClientDialogName.CompareNoCase(StateMachine.Report.CurrentAskDialog.FormName))
+            if (StateMachine.Report.CurrentAskDialog == null || !currentClientDialogName.CompareNoCase(StateMachine.Report.CurrentAskDialog.FormName))
             {
                 //il client ha fatto prev
                 AskDialog dlg = StateMachine.Report.Engine.GetAskDialog(currentClientDialogName);
                 if (dlg != null)
                     StateMachine.Report.CurrentAskDialog = dlg;
             }
+
+            if (StateMachine.Report.CurrentAskDialog == null)
+                return string.Empty;
 
             StateMachine.Report.CurrentAskDialog.AssignAllAskData(values);
 

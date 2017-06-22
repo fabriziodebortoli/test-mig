@@ -58,7 +58,6 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         this.UpdateData();
         if (this.rsService.pdfState == PdfType.SAVINGPDF) {
           this.rsService.appendPDF();
-          //this.rsService.renderPDF();
         }
         if (this.rsService.pdfState == PdfType.PREPAREDPDF) {
           this.rsService.pdfState = PdfType.SAVINGPDF;
@@ -200,14 +199,23 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       'background-color': 'white',
       'border': '1px solid #ccc',
       'margin': '5px auto',
-      'position': 'relative'
-    }
-    this.layoutBackStyle = {
-      'width': '100%',
-      'height': this.viewHeight - 65 + 'px',
       'position': 'relative',
-      'overflow': 'scroll'
     }
+    if (this.rsService.pdfState == PdfType.NOPDF){
+      this.layoutBackStyle = {
+        'width': '100%',
+        'height': this.viewHeight - 65 + 'px',
+        'position': 'relative',
+        'overflow': 'scroll'
+      }
+    }
+
+    if (this.rsService.pdfState == PdfType.SAVINGPDF || this.rsService.pdfState == PdfType.PREPAREDPDF) {
+      this.layoutBackStyle = {
+        'overflow': 'hidden'
+      }
+    }
+
   }
 
   // -----------------------------------------------

@@ -134,22 +134,24 @@ namespace Microarea.RSWeb.Render
         public TbReportSession ReportSession { get { return reportSession; } }
 
         //--------------------------------------------------------------------------
-        public RSEngine(TbReportSession reportSession, string filename, string sessionID, string uniqueID)
+        public RSEngine(TbReportSession reportSession)
         {
             this.reportSession = reportSession;
+            string filename = ReportSession.ReportPath;
+
             if (reportSession.UserInfo.IsAuthenticated())
             {
                 // Se sono  un file XML allora sono uno snapshot e quindi serve solo il visualizzatore altrimenti
                 // eseguo tutto normalmente ed estraggo dati e li visualizzo
                 if (string.Compare(Path.GetExtension(filename), NameSolverStrings.XmlExtension, StringComparison.OrdinalIgnoreCase) == 0)
                 {
-                    Woorm = new RDEWoormDocument(filename, reportSession, sessionID, uniqueID);
+                    Woorm = new RDEWoormDocument(filename, reportSession);
                     Report = null;
                 }
                 else
                 {
-                    Woorm = new WoormDocument(filename, reportSession, sessionID, uniqueID);
-                    Report = new Report(filename, reportSession, sessionID, uniqueID, Woorm);
+                    Woorm = new WoormDocument(filename, reportSession);
+                    Report = new Report(filename, reportSession, Woorm);
                 }
             }
         }
@@ -173,8 +175,8 @@ namespace Microarea.RSWeb.Render
             {
                 this.reportSession.Localizer = new WoormLocalizer(reportSession.ReportPath, ReportSession.PathFinder);
                 // Woorm serve per gestire il parse delle release
-                Woorm = new WoormDocument(reportSession.ReportPath, reportSession, "", "");
-                Report = new Report(reportSession.ReportPath, reportSession, xmlDomParameters, xmlResultReports);
+                Woorm   = new WoormDocument (reportSession.ReportPath, reportSession);
+                Report  = new Report        (reportSession.ReportPath, reportSession, xmlDomParameters, xmlResultReports);
             }
         }
 
@@ -183,9 +185,7 @@ namespace Microarea.RSWeb.Render
         public RSEngine
             (
                 TbReportSession reportSession,
-                XmlDocument xmlDomParameters,
-                string sessionID,
-                string uniqueID
+                XmlDocument xmlDomParameters
             )
         {
             this.reportSession = reportSession;
@@ -194,8 +194,8 @@ namespace Microarea.RSWeb.Render
             {
                 this.reportSession.Localizer = new WoormLocalizer(reportSession.ReportPath, ReportSession.PathFinder);
                 //serve sia visualizzatore (WoormDocument) che motore (Report), per generare il pdf.
-                Woorm = new WoormDocument(reportSession.ReportPath, reportSession, sessionID, uniqueID);
-                Report = new Report(reportSession.ReportPath, reportSession, xmlDomParameters, sessionID, uniqueID);
+                Woorm   = new WoormDocument (reportSession.ReportPath, reportSession);
+                Report  = new Report        (reportSession.ReportPath, reportSession, xmlDomParameters);
             }
         }
 
