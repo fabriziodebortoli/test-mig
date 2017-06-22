@@ -1,24 +1,19 @@
-<md-card class="widget">
-    <md-card-header *ngIf="widget.layout.style !== 'stats'" class="widget-header">
-        <md-card-title class="widget-title">
-            <md-icon class="widget-icon widget-icon-menu">more_vert</md-icon>
-            <h4>{{widget.title}}</h4>
-        </md-card-title>
-        <md-card-subtitle *ngIf="widget.subtitle" class="widget-subtitle">
-            {{widget.subtitle}}
-        </md-card-subtitle>
+<tb-card class="widget">
+    <tb-card-header *ngIf="widget.layout.style !== 'stats'" class="widget-header">
+        <tb-card-title class="widget-title" [title]="widget.title" [icon]="more_vert"></tb-card-title>
+        <tb-card-subtitle *ngIf="widget.subtitle" class="widget-subtitle" [subTitle]="widget.title"></tb-card-subtitle>
         <span class="widget-spacer"></span>
         <md-icon *ngIf="widget.link" class="widget-icon" (click)="executeLink()">link</md-icon>
-    </md-card-header>
-    <md-card-content #cardContent class="widget-content">
+    </tb-card-header>
+    <tb-card-content #cardContent class="widget-content">
         <md-spinner *ngIf="isLoading" class="widget-spinner"></md-spinner>
         <div class="widget-content-area" *ngIf="!isLoading">
             <tb-widget-stats *ngIf="widget.layout.style === 'stats'" [widget]="widget"></tb-widget-stats>
             <tb-widget-grid *ngIf="widget.layout.style === 'grid'" [widget]="widget"></tb-widget-grid>
             <tb-widget-chart *ngIf="widget.layout.style === 'chart'" [widget]="widget"></tb-widget-chart>
         </div>
-    </md-card-content>
-    <md-card-footer class="widget-footer">
+    </tb-card-content>
+    <tb-card-footer class="widget-footer">
         <hr class="widget-hr" />
         <div class="widget-footer-elements">
             <md-icon class="widget-icon" (click)="onRefreshClicked()">refresh</md-icon>
@@ -26,5 +21,5 @@
             <span class="widget-spacer"></span>
             <md-icon class="widget-icon">settings</md-icon>
         </div>
-    </md-card-footer>
-</md-card>
+    </tb-card-footer>
+</tb-card>
