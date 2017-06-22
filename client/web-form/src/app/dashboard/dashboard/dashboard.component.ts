@@ -2,7 +2,7 @@ import { LocalizationService } from './../../menu/services/localization.service'
 import { SettingsService } from './../../menu/services/settings.service';
 import { ImageService } from './../../menu/services/image.service';
 import { MenuService } from './../../menu/services/menu.service';
-import { UtilsService } from './../../core/utils.service';
+import { UtilsService } from '@taskbuilder/core';
 import { Component, OnInit } from '@angular/core';
 
 import { EventDataService } from './../../core/eventdata.service';

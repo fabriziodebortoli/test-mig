@@ -24,12 +24,43 @@ export class LoginSessionService {
         private logger: Logger,
         private router: Router) {
 
+        this.checkIfLogged();
+
         const subs = this.socket.close.subscribe(() => {
-            subs.unsubscribe();
-            this.setConnected(false);
+            this.openTbConnection(true);
+        });
+        socket.loginSessionService = this;
+    }
+    openTbConnection(retry: boolean = false) {
+        const subs = this.openTbConnectionAsync(retry).subscribe(ret => { subs.unsubscribe() });
+    }
+    openTbConnectionAsync(retry: boolean = false): Observable<boolean> {
+        console.log("onconnecting")
+        this.socket.setConnecting();
+        return Observable.create(observer => {
+
+            const tbSubs = this.httpService.openTBConnection().subscribe(tbRes => {
+                if (tbRes.error) {
+                    this.logger.debug(tbRes.messages);
+                    if (retry) {
+                        setTimeout(function () {
+                            this.openTbConnection(true);
+                        }, 5000);
+                    }
+                    observer.next(false);
+                } else {
+                    const wsSubs = this.socket.open.subscribe(() => {
+                        wsSubs.unsubscribe();
+                        observer.next(true);
+                    });
+                    this.socket.wsConnect();
+
+                }
+                observer.complete();
+                tbSubs.unsubscribe();
+            });
         });
 
-        this.checkIfLogged();
     }
 
     checkIfLogged() {
@@ -40,7 +71,8 @@ export class LoginSessionService {
                 } else {
                     this.logger.debug('Just logged in');
                     this.setConnected(true);
-                    this.socket.wsConnect();
+                    this.openTbConnection();
+
                 }
                 subs.unsubscribe();
             },
@@ -59,7 +91,7 @@ export class LoginSessionService {
                     this.setConnected(!result.error);
                     this.errorMessages = result.messages;
                     if (this.connected) {
-                        this.socket.wsConnect();
+                        this.openTbConnection();
                     }
                     observer.next(result);
                     observer.complete();
@@ -80,11 +112,12 @@ export class LoginSessionService {
     }
 
     logout(): void {
-        const subscription = this.httpService.logout().subscribe(
+        const subscription = this.httpService.logoff().subscribe(
             loggedOut => {
                 this.logger.debug('logout returns: ' + loggedOut);
                 this.setConnected(!loggedOut);
-                this.socket.wsClose();
+                this.httpService.closeTBConnection();
+                // this.socket.wsClose(); lo chiude il server facendo logoff
                 this.cookieService.remove('authtoken');
                 subscription.unsubscribe();
             },
@@ -103,6 +136,7 @@ export class LoginSessionService {
         if (url.length === 0) {
             url = this.defaultUrl;
         }
+
         this.router.navigate(url, { skipLocationChange: false, replaceUrl: false });
     }
 }

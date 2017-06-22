@@ -1,6 +1,6 @@
 ﻿import { Observable } from 'rxjs/Rx';
 import { MessageDlgArgs } from './../../../../shared/containers/message-dialog/message-dialog.component';
-import { BOService, BOClient } from './../../../../core/bo.service';
+import { BOService, BOClient } from '@taskbuilder/core';
 
 export class CheckNotesLength extends BOClient {
     constructor(

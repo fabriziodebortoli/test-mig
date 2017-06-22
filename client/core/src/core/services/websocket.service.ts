@@ -1,10 +1,13 @@
-﻿import { EventEmitter, Injectable } from '@angular/core';
-
+﻿import { Observable } from 'rxjs/Rx';
+import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
+
 
 import { MessageDlgArgs, MessageDlgResult } from './../containers/message-dialog/message-dialog.component';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
+import { LoginSessionService } from './login-session.service';
+import { SocketConnectionStatus } from '../../shared/models';
 import { HttpService } from './http.service';
 import { UrlService } from './url.service';
 // import { CommandService } from './command.service';
@@ -13,8 +16,10 @@ import { Logger } from './logger.service';
 
 @Injectable()
 export class WebSocketService {
-    public status = 'Undefined';
+    public loginSessionService: LoginSessionService;
+
     private connection: WebSocket;
+    private _socketConnectionStatus: SocketConnectionStatus = SocketConnectionStatus.None;
 
     public error: EventEmitter<any> = new EventEmitter();
     public modelData: EventEmitter<any> = new EventEmitter();
@@ -27,7 +32,7 @@ export class WebSocketService {
     public close: EventEmitter<any> = new EventEmitter();
     public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public buttonsState: EventEmitter<any> = new EventEmitter();
-
+    public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
 
     constructor(
         private httpService: HttpService,
@@ -36,10 +41,23 @@ export class WebSocketService {
         private logger: Logger) {
     }
 
+    setSocketConnectionStatus(status: SocketConnectionStatus) {
+
+        this._socketConnectionStatus = status;
+        this.connectionStatus.emit(status);
+    }
+
+    setConnecting() {
+        this.setSocketConnectionStatus(SocketConnectionStatus.Connecting);
+    }
+
     wsConnect(): void {
         const $this = this;
 
+        this.setConnecting();
+
         const url = this.urlService.getWsUrl();
+        this.logger.info('wsConnect-url', url)
         this.logger.debug('wsConnecting... ' + url);
 
         this.connection = new WebSocket(url);
@@ -71,7 +89,6 @@ export class WebSocketService {
         this.connection.onerror = (arg) => {
             this.logger.error('wsOnError' + JSON.stringify(arg));
             this.error.emit(arg);
-            this.status = 'Error';
         };
 
         this.connection.onopen = (arg) => {
@@ -85,13 +102,15 @@ export class WebSocketService {
                 }
             }));
 
-            this.status = 'Open';
+            this.setSocketConnectionStatus(SocketConnectionStatus.Connected);
+
             this.open.emit(arg);
+
         };
 
         this.connection.onclose = (arg) => {
+            this.setSocketConnectionStatus(SocketConnectionStatus.Disconnected);
             this.close.emit(arg);
-            this.status = 'Closed';
         };
     }
 
@@ -100,21 +119,63 @@ export class WebSocketService {
             this.connection.close();
         }
     }
+    checkForOpenConnection(): Observable<boolean> {
+        return Observable.create(observer => {
+            if (this._socketConnectionStatus === SocketConnectionStatus.Connected) {
+                observer.next(true);
+                observer.complete();
+            } else if (this._socketConnectionStatus === SocketConnectionStatus.Connecting) {
+                this.logger.info('Connection not yet avCannot yet use connection, connecting...');
+                observer.next(false);
+                observer.complete();
+            } else {
+                const subs = this.loginSessionService.openTbConnectionAsync().subscribe(ret => {
+                    subs.unsubscribe();
+                    if (ret) {
+                        observer.next(true);
+                        observer.complete();
+                    }
+                });
+            }
+        });
+    }
+    safeSend(data: any) {
+        const subs = this.checkForOpenConnection().subscribe(valid => {
+            if (subs) {
+                subs.unsubscribe();
+            }
+            if (valid) {
+                this.connection.send(JSON.stringify(data));
+            }
+            else {
+                this.logger.info("Cannot use web socket, perhaps it is connecting");
+            }
+
+        });
+
+    }
+    runDocument(ns: String, args: string = ''): void {
+        const data = { cmd: 'runDocument', ns: ns, sKeyArgs: args };
+        this.safeSend(data);
+    }
 
     doFillListBox(cmpId: String, obj: any): void {
         const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: obj.itemSource, hotLink: obj.hotLink };
 
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
+	}
+    closeServerComponent(cmpId: string) {
+        this.doCommand(cmpId, 'ID_FILE_CLOSE');
     }
 
     doCommand(cmpId: String, id: String, modelData?: any): void {
         const data = { cmd: 'doCommand', cmpId: cmpId, id: id, model: modelData };
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
     }
 
     doValueChanged(cmpId: String, id: String, modelData?: any): void {
         const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
     }
 
     /* doValueChanged(cmpId: String, id: String, modelData?: any): void {
@@ -129,19 +190,21 @@ export class WebSocketService {
 
     getDocumentData(cmpId: String, modelStructure: any) {
         const data = { cmd: 'getDocumentData', cmpId: cmpId, modelStructure: modelStructure };
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
+
     }
+
     checkMessageDialog(cmpId: String) {
         const data = { cmd: 'checkMessageDialog', cmpId: cmpId };
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
     }
     doCloseMessageDialog(cmpId: String, result: MessageDlgResult): void {
         const data = { cmd: 'doCloseMessageDialog', cmpId: cmpId, result: result };
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
     }
     setReportResult(cmpId: String, result: any): void {
         const data = { cmd: 'setReportResult', cmpId: cmpId, result: result };
-        this.connection.send(JSON.stringify(data));
+        this.safeSend(data);
     }
 }
 export class SocketMessage {

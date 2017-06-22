@@ -3,7 +3,7 @@ import { MessageDialogComponent, MessageDlgArgs } from './../shared/containers/m
 import { Subscription } from 'rxjs';
 import { ComponentInfo } from './../shared/models/component.info';
 
-import { LayoutService,TabberService,SidenavService } from '@taskbuilder/core';
+import { LayoutService, TabberService, SidenavService } from '@taskbuilder/core';
 
 import { MenuService } from '../menu/services/menu.service';
 
@@ -11,8 +11,9 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostList
 
 import { environment } from './../../environments/environment';
 
-import { ComponentService, ComponentCreatedArgs } from './../core/component.service';
-import { LoginSessionService } from './../core/login-session.service';
+import { ComponentService, ComponentCreatedArgs } from '@taskbuilder/core';
+
+import { LoginSessionService } from '@taskbuilder/core';
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
 
 @Component({
@@ -49,7 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
       if (arg.activate) {
         this.kendoTabStripInstance.selectTab(arg.index + 2);
       }
-       this.subscriptions.push(tabberService.tabSelected$.subscribe((index:number) => this.kendoTabStripInstance.selectTab(index)));
+      this.subscriptions.push(tabberService.tabSelected$.subscribe((index: number) => this.kendoTabStripInstance.selectTab(index)));
 
     }));
 

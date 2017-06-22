@@ -1,4 +1,8 @@
+
+
+
 import { Injectable } from '@angular/core';
+
 
 import { Observable } from 'rxjs/Rx';
 
@@ -10,6 +14,7 @@ import { WebSocketService } from './websocket.service';
 import { BOHelperService } from './bohelper.service';
 
 import { apply, diff } from 'json8-patch';
+
 
 @Injectable()
 export class BOService extends DocumentService {
@@ -149,7 +154,7 @@ export class BOService extends DocumentService {
 
     close() {
         super.close();
-        this.webSocketService.doCommand(this.mainCmpId, 'ID_FILE_CLOSE');
+        this.webSocketService.closeServerComponent(this.mainCmpId);
     }
     isServerSideCommand(idCommand: string) {
         return this.serverSideCommandMap.includes(idCommand);

@@ -15,19 +15,22 @@ import { TbIconsModule } from './icons/icons.module';
 export * from './icons/icons.module';
 
 const TB_MODULES = [
-  TbCoreModule,
+  // TbCoreModule,
   TbIconsModule
 ];
+
+export * from './shared/models';
+export { SocketConnectionStatus } from './shared';
 
 @NgModule({
   imports: [CommonModule, TB_MODULES],
   exports: [TB_MODULES]
 })
 export class TaskbuilderCoreModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: TaskbuilderCoreModule,
-      providers: [TB_SERVICES]
-    };
-  }
+  // static forRoot(): ModuleWithProviders {
+  //   return {
+  //     ngModule: TaskbuilderCoreModule,
+  //     providers: [TB_SERVICES]
+  //   };
+  // }
 }

@@ -1,5 +1,5 @@
 import { EventDataService } from './eventdata.service';
-import { DocumentService } from './document.service';
+import { DocumentService } from '@taskbuilder/core';
 import { Logger } from '@taskbuilder/core';
 import { Injectable } from '@angular/core';
 

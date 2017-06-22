@@ -1,3 +1,5 @@
+
+
 import { Injectable, Type, ComponentFactoryResolver, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -132,7 +134,10 @@ export class ComponentService {
       .catch(reason => {
         console.log(reason);
         this.componentCreationError.emit(reason);
-
+		//cannot create client component: close server one!
+        this.webSocketService.closeServerComponent(this.currentComponentId);
+        this.creatingComponent = false;
+        this.createNextComponent();
       });
   }
   createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver, args: any = {}) {

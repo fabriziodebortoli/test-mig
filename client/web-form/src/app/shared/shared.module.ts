@@ -108,19 +108,18 @@ const TB_DIRECTIVES = [
 
 @NgModule({
   imports: [
-    ReactiveFormsModule, InputsModule,
-    DialogModule,
+    ReactiveFormsModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
     KENDO_UI_MODULES,
-    TaskbuilderCoreModule.forRoot()
+    TaskbuilderCoreModule
   ],
   declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent],
   exports: [TB_COMPONENTS, TB_DIRECTIVES, TaskbuilderCoreModule],
-  entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
+  // entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
 
 })
 export class SharedModule {

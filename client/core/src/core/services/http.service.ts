@@ -31,6 +31,9 @@ export class HttpService {
         return new OperationResult(!ok, messages);
     }
     isLogged(): Observable<boolean> {
+
+        this.logger.warn(this.getAccountManagerBaseUrl() + 'isValidToken/')
+
         let obj = { authtoken: this.cookieService.get('authtoken') };
         return this.postData(this.getAccountManagerBaseUrl() + 'isValidToken/', obj)
             .map((res: Response) => {
@@ -112,19 +115,19 @@ export class HttpService {
     }
 
     getAccountManagerBaseUrl() {
-        return this.urlService.getBackendUrl() + 'account-manager/';
+        return this.urlService.getBackendUrl() + '/account-manager/';
     }
 
     getMenuServiceUrl() {
-        return this.urlService.getBackendUrl() + 'menu-service/';
+        return this.urlService.getBackendUrl() + '/menu-service/';
     }
 
     getEnumsServiceUrl() {
-        let url = this.urlService.getBackendUrl() + 'enums-service/';
+        let url = this.urlService.getBackendUrl() + '/enums-service/';
         return url;
     }
     getDataServiceUrl() {
-        let url = this.urlService.getBackendUrl() + 'data-service/';
+        let url = this.urlService.getBackendUrl() + '/data-service/';
         return url;
     }
 

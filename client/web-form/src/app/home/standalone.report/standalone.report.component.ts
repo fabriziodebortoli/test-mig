@@ -1,4 +1,4 @@
-import { ComponentService } from './../../core/component.service';
+import { ComponentService } from '@taskbuilder/core';
 import { HttpService } from '@taskbuilder/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DynamicCmpComponent } from './../../shared/dynamic-cmp.component';

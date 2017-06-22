@@ -1,23 +1,26 @@
 import { Injectable } from '@angular/core';
 
+import { Logger } from './logger.service';
+
 @Injectable()
 export class UrlService {
 
-    private host: string;
+    private hostname: string;
     private port: number = 5000;
     private secure: boolean = false;
 
-    constructor() { }
+    constructor(private logger: Logger) { }
 
     getBackendUrl() {
-        if (!this.host) {
-            this.host = window.location.host;
+        if (!this.hostname) {
+            this.hostname = window.location.hostname;
         }
+
         let protocol = 'http:';
         if (this.secure) {
             protocol = 'https:';
         }
-        return protocol += '//' + this.host + ':' + this.port;
+        return protocol += '//' + this.hostname + ':' + this.port;
     }
 
     getApiUrl() {
@@ -25,22 +28,22 @@ export class UrlService {
     }
 
     getWsUrl() {
-        if (!this.host) {
-            this.host = window.location.host;
+        if (!this.hostname) {
+            this.hostname = window.location.hostname;
         }
         let protocol = 'ws:';
         if (this.secure) {
             protocol = 'wss:';
         }
-        return protocol += '//' + this.host + ':' + this.port;
+        return protocol += '//' + this.hostname + ':' + this.port + '/tbloader';
     }
 
     setPort(port: number) {
         this.port = port;
     }
 
-    setHost(host: string) {
-        this.host = host;
+    setHostname(hostname: string) {
+        this.hostname = hostname;
     }
 
     setSecure(secure: boolean) {

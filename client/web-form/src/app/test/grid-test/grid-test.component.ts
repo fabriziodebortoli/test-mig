@@ -5,7 +5,7 @@ import { DocumentComponent } from '../../shared/document.component';
 
 import { DataService } from './../../core/data.service';
 import { EventDataService } from './../../core/eventdata.service';
-import { ComponentService } from './../../core/component.service';
+import { ComponentService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-grid-test',

@@ -23,9 +23,8 @@ export class DocumentService {
     getTitle() {
         let title = '...';
 
-        if (this.eventData.model && this.eventData.model.Title && this.eventData.model.Title.value) {
+        if (this.eventData.model && this.eventData.model.Title && this.eventData.model.Title.value)
             title = this.eventData.model.Title.value;
-        }
 
         return title;
     }
@@ -42,7 +41,8 @@ export class DocumentService {
         // return viewModeType;
     }
 
-    close() {
-
+    close()
+    {
+        
     }
 }

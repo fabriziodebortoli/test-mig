@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 
 import { DocumentComponent } from '../../shared/document.component';
 
-import { ComponentService } from './../../core/component.service';
+import { ComponentService } from '@taskbuilder/core';
 import { ExplorerService } from './../../core/explorer.service';
 import { EventDataService } from './../../core/eventdata.service';
 

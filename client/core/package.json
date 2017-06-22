@@ -1,6 +1,6 @@
 {
     "name": "@taskbuilder/core",
-    "version": "0.1.2",
+    "version": "0.1.5",
     "scripts": {
         "build": "gulp build",
         "build:watch": "gulp",
@@ -36,7 +36,7 @@
         "@angular/material": "^2.0.0-beta.6",
         "@angular/platform-browser": "^4.2.2",
         "@angular/platform-browser-dynamic": "^4.2.2",
-        "@angular/router": "^4.2.3",
+        "@angular/router": "^4.2.2",
         "@compodoc/compodoc": "^1.0.0-beta.7",
         "@types/jasmine": "2.5.38",
         "@types/node": "~6.0.60",
@@ -73,6 +73,7 @@
     },
     "dependencies": {
         "@angular/material": "^2.0.0-beta.6",
+        "@angular/router": "^4.2.4",
         "@progress/kendo-angular-buttons": "^1.0.1",
         "@progress/kendo-angular-charts": "^1.1.1",
         "@progress/kendo-angular-dateinputs": "^1.0.3",

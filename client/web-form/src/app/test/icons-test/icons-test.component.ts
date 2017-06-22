@@ -3,7 +3,7 @@ import { DataService } from './../../core/data.service';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
 import { EventDataService } from './../../core/eventdata.service';
-import { ComponentService } from './../../core/component.service';
+import { ComponentService } from '@taskbuilder/core';
 
 import { DocumentComponent } from "../../shared";
 

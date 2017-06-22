@@ -1,13 +1,13 @@
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
-import { WebSocketService } from './../core/websocket.service';
-import { UtilsService } from './../core/utils.service';
+import { WebSocketService } from '@taskbuilder/core';
+import { UtilsService } from '@taskbuilder/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType } from './reporting-studio.model';
 import { DocumentComponent } from '../shared/document.component';
-import { ComponentService } from './../core/component.service';
+import { ComponentService } from '@taskbuilder/core';
 import { EventDataService } from './../core/eventdata.service';
 import { ReportingStudioService } from './reporting-studio.service';
 
@@ -34,6 +34,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // ask dialog objects
   public askDialogTemplate: any;
+
+
+
 
   constructor(
     private rsService: ReportingStudioService,
@@ -66,9 +69,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     this.rsService.eventNextPage.subscribe(() => this.NextPage());
     this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
-
-
-
   }
 
   // -----------------------------------------------

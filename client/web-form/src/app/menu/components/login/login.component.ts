@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LoginSession } from './../../../shared/models/login-session';
 
 import { HttpService } from '@taskbuilder/core';
-import { LoginSessionService } from './../../../core/login-session.service';
+import { LoginSessionService } from '@taskbuilder/core';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 

@@ -1,7 +1,7 @@
-import { WebSocketService } from './../../core/websocket.service';
-import { ComponentService } from './../../core/component.service';
+import { WebSocketService } from '@taskbuilder/core';
+import { ComponentService } from '@taskbuilder/core';
 import { HttpService } from '@taskbuilder/core';
-import { UtilsService } from './../../core/utils.service';
+import { UtilsService } from '@taskbuilder/core';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
 
 
-import { Logger } from './../../core/logger.service';
+import { Logger } from '@taskbuilder/core';
 
 @Injectable()
 export class MenuService {

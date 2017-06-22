@@ -1,7 +1,7 @@
 import { EventDataService } from './../../../../core/eventdata.service';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MenuItem } from './../../../context-menu/menu-item.model';
-import { ComponentService } from './../../../../core/component.service';
+import { ComponentService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-topbar-menu-test',

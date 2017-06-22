@@ -5,10 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 
-import { ComponentService } from './component.service';
-import { WebSocketService } from './websocket.service';
+import { ComponentService } from '@taskbuilder/core';
+import { WebSocketService } from '@taskbuilder/core';
 
-import { LoginSessionService } from './login-session.service';
+import { LoginSessionService } from '@taskbuilder/core';
 import { ExplorerService } from './explorer.service';
 import { EnumsService } from './enums.service';
 
