@@ -21,7 +21,9 @@ export class ReportingStudioService extends DocumentService {
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
 
-    @Output() eventDownload = new EventEmitter<void>();
+    @Output() eventNextPage = new EventEmitter<void>();
+    @Output() eventReloadPage = new EventEmitter<void>();
+    @Output() eventFirstPage = new EventEmitter<void>();
 
     public savingPdf: boolean = false;
     public totalPages: number;
@@ -108,11 +110,14 @@ export class ReportingStudioService extends DocumentService {
         this.titleReport = title;
         if (this.pdfState === PdfType.SAVINGPDF) {
             if (this.pageNum === this.totalPages) {
+                /*if (this.totalPages === 1) {
+                    this.eventReloadPage.emit();
+                }*/
                 this.renderPDF();
                 this.pdfState = PdfType.NOPDF;
             }
             else {
-                this.eventDownload.emit();
+                this.eventNextPage.emit();
             }
         }
     }
@@ -134,10 +139,8 @@ export class ReportingStudioService extends DocumentService {
                     multiPage: true
                 });
             })
-            .then((dataUri) => {
-                saveAs(dataUri, this.titleReport + '.pdf');
-            });
-        this.eventDownload.emit();
+            .then((dataUri) => { saveAs(dataUri, this.titleReport + '.pdf'); });
+        this.eventFirstPage.emit();
     }
 
 

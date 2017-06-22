@@ -13,7 +13,6 @@ import { Subscription } from "rxjs/Subscription";
 })
 export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
-
   @Input() reportTemplate;
   @Input() reportData;
 
@@ -22,16 +21,17 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   public objects: baseobj[] = [];
   public templates: TemplateItem[] = [];
 
-
   private viewHeightSubscription: Subscription;
   private viewHeight: number;
 
-  constructor(private layoutService: LayoutService, private rsService: ReportingStudioService) { }
+  constructor(private layoutService: LayoutService, private rsService: ReportingStudioService) {}
 
   // -----------------------------------------------
   ngOnInit() {
 
     this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
+
+    this.rsService.eventReloadPage.subscribe(() => this.RenderLayout());
   }
 
   // -----------------------------------------------
