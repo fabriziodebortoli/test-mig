@@ -131,8 +131,6 @@ namespace Microarea.RSWeb.WoormEngine
 		private string				helpFileName = "";
 		private ReportEngine		engine = null;
 		private RepSymTable			symTable = null;
-		private string				uniqueID = "";
-		private string				sessionID = "";
 		private DataEnum			reportStatus;
 		private RuleReturn			exitStatus = RuleReturn.Success;
 		private TbReportSession     reportSession;
@@ -148,8 +146,8 @@ namespace Microarea.RSWeb.WoormEngine
 		public TbReportSession ReportSession		{ get { return reportSession; }}
 		public EngineType		EngineType			{ get { return ReportSession.EngineType; } set { ReportSession.EngineType = value; }}
 
-		public string			UniqueID			{ get { return uniqueID; }}
-		public string			SessionID			{ get { return sessionID; }}
+		public string			UniqueID			{ get { return ReportSession.uniqueID; }}
+		public string			SessionID			{ get { return ReportSession.sessionID; }}
 		public Parser			Lex					{ get { return lex;}}
 		public List<AskDialog>	AskingRules			{ get { return engine.AskingRules; } }
 		public string			ReportName			{ get { return reportName; }}
@@ -184,18 +182,13 @@ namespace Microarea.RSWeb.WoormEngine
 			(
 				string reportName,
                 TbReportSession reportSession,
-				XmlDocument xmlDomParameters,
-				string sessionID,
-				string uniqueID
+				XmlDocument xmlDomParameters
 			)
 		{
 			this.lex		= new Parser(Parser.SourceType.FromFile);
 
 			this.reportName	= reportName;
 			this.reportSession	= reportSession;
-
-			this.sessionID	= sessionID;
-			this.uniqueID	= uniqueID;
 
 			this.XmlDomParameters	= xmlDomParameters;
 			this.XmlResultReports	= null;
@@ -213,21 +206,20 @@ namespace Microarea.RSWeb.WoormEngine
 		public Report
 			(
 				string				reportName,
-                TbReportSession reportSession,
+                TbReportSession     reportSession,
 				XmlDocument			xmlDomParameters,
 				StringCollection	xmlResultReports
 			)
 		{
-			this.lex		= new Parser(Parser.SourceType.FromFile);
-			this.reportName	= reportName;
-			this.sessionID	= "";
-			this.uniqueID	= "";
+			this.lex = new Parser(Parser.SourceType.FromFile);
+
+			this.reportName	    = reportName;
 			this.reportSession	= reportSession;
 
 			this.XmlDomParameters	= xmlDomParameters;
 			this.XmlResultReports	= xmlResultReports;
 
-			this.maxString = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.UserUICulture.ToString());
+			this.maxString              = ReadSetting.GetMaxString(ReportSession.PathFinder, ReportSession.UserInfo.UserUICulture.ToString());
 			ObjectHelper.DataDblEpsilon = ReadSetting.GetDataDblDecimal(ReportSession.PathFinder);
 
 			symTable		= new RepSymTable();
@@ -242,15 +234,12 @@ namespace Microarea.RSWeb.WoormEngine
 			(
 			string				reportName,
             TbReportSession     session,
-			string				sessionID,
-			string				uniqueID,
 			IWoormDocumentObj   woormDoumentObj = null
 			)
 		{
 			this.lex		= new Parser(Parser.SourceType.FromFile);
-			this.reportName	= reportName;
-			this.sessionID	= sessionID;
-			this.uniqueID	= uniqueID;
+
+			this.reportName	    = reportName;
 			this.reportSession	= session;
  
 			this.XmlDomParameters	= null;
@@ -284,7 +273,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//------------------------------------------------------------------------------
 		protected virtual void Dispose(bool disposing)
 		{
-			if(!disposed)
+			if (!disposed)
 			{
 			}
 			disposed = true;         
@@ -464,7 +453,6 @@ namespace Microarea.RSWeb.WoormEngine
 
 			return procedure.Exec();
 		}
-
 
 		//---------------------------------------------------------------------------
 		public bool OnBeginPrinting(bool bPreview)

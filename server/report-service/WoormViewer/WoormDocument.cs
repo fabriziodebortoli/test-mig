@@ -689,8 +689,8 @@ namespace Microarea.RSWeb.WoormViewer
 		public bool				TemplateError			{ get { return templateError; } }
 		public Properties		Properties				{ get { return properties; }}
 		public string			Filename				{ get { return filename; }}
-		public string			UniqueID				{ get { return uniqueID; }}
-		public string			SessionID				{ get { return sessionID; }}
+		public string			UniqueID				{ get { return ReportSession.uniqueID; }}
+		public string			SessionID				{ get { return ReportSession.sessionID; }}
 		public ILocalizer		Localizer				{ get { return ReportSession.Localizer; } }
 		public IDiagnostic		Diagnostic				{ get { return lex.Diagnostic; }}
 		public Options			Options					{ get { return options; }}
@@ -784,16 +784,16 @@ namespace Microarea.RSWeb.WoormViewer
 		}
 
 		//------------------------------------------------------------------------------
-		public WoormDocument(string filename, TbReportSession session,string sessionID,string uniqueID)
-			:this(filename,session,sessionID,uniqueID,false/*default non e' template*/)
+		public WoormDocument(string filename, TbReportSession session)
+			:this(filename,session,false/*default non e' template*/)
 		{
 		}
 
 		//------------------------------------------------------------------------------
-		public WoormDocument(string filename, TbReportSession session, string sessionID, string uniqueID, bool loadAsTemplate)
+		public WoormDocument(string filename, TbReportSession session, bool loadAsTemplate)
 		{
 			this.loadAsTemplate = loadAsTemplate;
-			Init(session, sessionID, uniqueID);
+			Init(session);
 	
 			this.filename	= filename;
 			this.Namespace  = ReportSession.PathFinder.GetNamespaceFromPath(filename);
@@ -806,10 +806,8 @@ namespace Microarea.RSWeb.WoormViewer
 
 		// mettere qui le inizializzazioni comuni a WoormDocument e RDEWoormDocument
 		//------------------------------------------------------------------------------
-		protected void Init(TbReportSession session, string sessionID, string uniqueID)
+		protected void Init(TbReportSession session)
 		{
-			this.sessionID	= sessionID;
-			this.uniqueID	= uniqueID;
 			this.ReportSession	= session;
 
 			layouts			= new MultiLayout(this);
@@ -1569,7 +1567,7 @@ namespace Microarea.RSWeb.WoormViewer
 			}
 
 			//istanzio il template
-			Template.wrmTemplate = new WoormDocument(file,ReportSession,SessionID,UniqueID,true);
+			Template.wrmTemplate = new WoormDocument(file, ReportSession, true);
 			Template.wrmTemplate.ForLocalizer = true; // inibisce il type checking e la valutazione delle espressioni di "hidden when"
 			
 			bool loaded = Template.wrmTemplate.LoadDocument() && Template.wrmTemplate.ParseDocument();
