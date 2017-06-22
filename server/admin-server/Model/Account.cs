@@ -12,7 +12,7 @@ namespace Microarea.AdminServer.Model
         string accountName;
         string fullName = string.Empty;
 		string password = string.Empty;
-        bool isCloudAdmin = false;
+        bool cloudAdmin = false;
         int loginFailedCount = 0;
         string notes = string.Empty;
 		string email = string.Empty;
@@ -35,7 +35,7 @@ namespace Microarea.AdminServer.Model
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
 		public string FullName { get { return this.fullName; } set { this.fullName = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
-        public bool IsCloudAdmin { get { return this.isCloudAdmin; } set { this.isCloudAdmin = value; } }
+        public bool CloudAdmin { get { return this.cloudAdmin; } set { this.cloudAdmin = value; } }
         public int LoginFailedCount { get { return this.loginFailedCount; } set { this.loginFailedCount = value; } }
         public string Notes { get { return this.notes; } set { this.notes = value; } }
 		public string Email { get { return this.email; } set { this.email = value; } }

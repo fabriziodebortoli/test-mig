@@ -5,8 +5,6 @@ import { Logger } from './logger.service';
 
 @Injectable()
 export class BOHelperService {
-
-
     constructor(
         public logger: Logger,
         private webSocketService: WebSocketService) {

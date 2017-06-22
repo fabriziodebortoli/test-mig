@@ -1,9 +1,6 @@
-import { UtilsService } from './../../core/utils.service';
 import { HttpService } from './../../core/http.service';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Logger } from './../../core/logger.service';
 
 
@@ -12,10 +9,9 @@ export class ImageService {
       
     constructor(
         protected http: Http,
-        protected utils: UtilsService,
         protected logger: Logger,
-        protected cookieService: CookieService,
-        private httpService: HttpService) {
+        private httpService: HttpService
+        ) {
         this.logger.debug('ImageService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
