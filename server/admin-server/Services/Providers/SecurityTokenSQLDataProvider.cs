@@ -21,110 +21,112 @@ namespace Microarea.AdminServer.Services.Providers
         //---------------------------------------------------------------------
         public IAdminModel Load(IAdminModel iModel)
         {
-			// ISecurityToken token;
+            ISecurityToken token= (ISecurityToken)iModel;
 
-			//try
-			//{
-			//    token = (ISecurityToken)iModel;
-			//    using (SqlConnection connection = new SqlConnection(this.connectionString))
-			//    {
-			//        connection.Open();
-			//        using (SqlCommand command = new SqlCommand(Consts.SelectISecurityTokenByAccountidAndType, connection))
-			//        {
-			//            command.Parameters.AddWithValue("@AccountID", token.AccountId);
-			//            command.Parameters.AddWithValue("@type", token.TokenType);
-			//            using (SqlDataReader dataReader = command.ExecuteReader())
-			//            {
-			//                while (dataReader.Read())
-			//                {
-			//                    token.ActivationToken = new Library.ActivationToken(dataReader["ActivationKey"] as string);
-			//                    token.PurchaseId = dataReader["PurchaseId"] as string;
-			//					token.ExistsOnDB = true;
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e.Message);
-            //    return null;
-            //}
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(this.connectionString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(Consts.SelectSecurityToken, connection))
+                    {
+                        command.Parameters.AddWithValue("@AccountName", token.AccountName);
+                        command.Parameters.AddWithValue("@TokenType", token.TokenType);
+                        using (SqlDataReader dataReader = command.ExecuteReader())
+                        {
+                            while (dataReader.Read())
+                            {
+                                token.Token = dataReader["Token"] as string;
+                                token.ExpirationDate = (DateTime)dataReader["ExpirationDate"] ;
+                                token.Expired = (bool)dataReader["Expired"];
+                                token.ExistsOnDB = true;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return token;
+            }
 
-            // return token;
-            return null;
+            return token;
+           
         }
 
         //---------------------------------------------------------------------
         public OperationResult Save(IAdminModel iModel)
         {
-			//ISecurityToken token;
+            ISecurityToken token;
+            OperationResult opRes = new OperationResult();
+            opRes.Result = false;
+            try
+            {
+                token = (ISecurityToken)iModel;
+                using (SqlConnection connection = new SqlConnection(this.connectionString))
+                {
+                    connection.Open();
 
-			//try
-			//{
-			//    token = (ISecurityToken)iModel;
-			//    using (SqlConnection connection = new SqlConnection(this.connectionString))
-			//    {
-			//        connection.Open();
+                    bool existSecurityToken = false;
 
-			//        bool existSubscription = false;
+                    using (SqlCommand command = new SqlCommand(Consts.ExistSecurityToken, connection))
+                    {
+                        command.Parameters.AddWithValue("@AccountName", token.AccountName);
+                        command.Parameters.AddWithValue("@TokenType", token.TokenType);
+                        existSecurityToken = (int)command.ExecuteScalar() > 0;
+                    }
 
-			//        using (SqlCommand command = new SqlCommand(Consts.ExistToken, connection))
-			//        {
-			//            command.Parameters.AddWithValue("@SubscriptionId", token.AccountId);
-			//            command.Parameters.AddWithValue("@type", token.TokenType);
-			//            existSubscription = (int)command.ExecuteScalar() > 0;
-			//        }
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.Connection = connection;
+                        command.CommandText = existSecurityToken ? Consts.UpdateSecurityToken : Consts.InsertSecurityToken;
 
-			//        using (SqlCommand command = new SqlCommand())
-			//        {
-			//            command.Connection = connection;
-			//            command.CommandText = existSubscription ? Consts.UpdateToken: Consts.InsertToken;
+                        command.Parameters.AddWithValue("@AccountName", token.AccountName);
+                        command.Parameters.AddWithValue("@TokenType", token.TokenType);
+                        command.Parameters.AddWithValue("@Token", token.Token);
+                        command.Parameters.AddWithValue("@ExpirationDate", token.ExpirationDate);
+                        command.Parameters.AddWithValue("@Expired", token.Expired);
 
-			//            command.Parameters.AddWithValue("@accountid", token.AccountId );
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+               
+                return opRes;
+            }
 
-			//            if (existSubscription)
-			//                command.Parameters.AddWithValue("@accountid", token.AccountId);
-
-			//            command.ExecuteNonQuery();
-			//        }
-			//    }
-			//}
-			//catch (Exception e)
-			//{
-			//    Console.WriteLine(e.Message);
-			//    return false;
-			//}
-
-			OperationResult opRes = new OperationResult();
-			opRes.Result = true;
-
+            opRes.Result = true;
             return opRes;
         }
 
         //---------------------------------------------------------------------
         public bool Delete(IAdminModel iModel)
         {
-            //ISecurityToken token;
+            ISecurityToken token;
 
-            //try
-            //{
-            //    token = (ISecurityToken)iModel;
-            //    using (SqlConnection connection = new SqlConnection(this.connectionString))
-            //    {
-            //        connection.Open();
-            //        using (SqlCommand command = new SqlCommand(Consts.DeleteToken, connection))
-            //        {
-            //            command.Parameters.AddWithValue("@SubscriptionId", token.SubscriptionId);
-            //            command.ExecuteNonQuery();
-            //        }
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e.Message);
-            //    return false;
-            //}
+            try
+            {
+                token = (ISecurityToken)iModel;
+                using (SqlConnection connection = new SqlConnection(this.connectionString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(Consts.DeleteSecurityToken, connection))
+                    {
+                        command.Parameters.AddWithValue("@AccountName", token.AccountName);
+                        command.Parameters.AddWithValue("@TokenType", token.TokenType);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
 
             return true;
         }
