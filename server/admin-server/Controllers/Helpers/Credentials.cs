@@ -8,15 +8,15 @@ namespace Microarea.AdminServer.Controllers.Helpers
 		public string AccountName;
 		public string Password;
 	}
+
     //================================================================================
     public class AccountModification
     {
         public string AccountName;
-        public string Ticks;
-        public AccountModification(string accountName, string ticks)
+        public long Ticks;
+        public AccountModification(string accountName, long ticks)
         {
             this.AccountName = accountName;
-        
             this.Ticks = ticks;
         }
 

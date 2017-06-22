@@ -169,20 +169,29 @@ namespace Microarea.AdminServer.Controllers
 
 				if (account.ExistsOnDB)
 				{
-                    // //chiedo al gwam se qualcosa e modificato facendo un check sui tick, se qualcosa moficiato devo aggiornare
-                    //Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks));
-                
-                    //// used as a container for the GWAM response
-                    //AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
-                    //accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
+                    //chiedo al gwam se qualcosa e modificato facendo un check sui tick, se qualcosa moficiato devo aggiornare
+                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks));
 
-                    //if (accountIdentityPack.Result) //sul gwam non corrisponde xcui salvo questo account- todo concettualmente result true o fale?
-                    //{
-                    //    account = accountIdentityPack.Account;
-                    //    account.Save(); // in locale
+                    // used as a container for the GWAM response
+                    AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
+                    accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
 
-                    //}
-    // Verifica credenziali su db
+                    if (accountIdentityPack.Result) //sul gwam non corrisponde xcui salvo questo account- todo concettualmente result true o fale?
+                    {
+                        if (accountIdentityPack.Account.ExistsOnDB)//se non fosse ExistsOnDB vuol dire che il tick corrisponde, non suona bene ma è così, forse dovrebbe tornare un codice da valutare.
+                        {
+                            account = accountIdentityPack.Account;
+                            account.Save(); // in locale
+                        }
+                    }
+                    else
+                    {
+                        bootstrapTokenContainer.Result = false;
+                        bootstrapTokenContainer.Message = accountIdentityPack.Message;
+                        _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                        return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                    }
+                    // Verifica credenziali su db
                     lbc = new LoginBaseClass(account);
 					LoginReturnCodes res = lbc.VerifyCredential(credentials.Password);
 
@@ -307,14 +316,8 @@ namespace Microarea.AdminServer.Controllers
 
         //----------------------------------------------------------------------
         private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
-        {//todo modifiare
-            var formContent = new FormUrlEncodedContent(new[]
-                {
-                            new KeyValuePair<string, string>("Ticks", accMod.Ticks),
-                        }
-            );
-
-            HttpResponseMessage responseMessage = await client.PostAsync(url + accMod.AccountName, formContent);
+        {
+            HttpResponseMessage responseMessage = await client.PostAsync(url + accMod.AccountName + accMod.Ticks, null);
             var responseData = responseMessage.Content.ReadAsStringAsync();
             return responseData;
         }
@@ -322,7 +325,7 @@ namespace Microarea.AdminServer.Controllers
         //----------------------------------------------------------------------
         private UserTokens CreateTokens(IAccount account)
         {
-            UserTokens tokens = new UserTokens(account.ProvisioningAdmin, account.AccountName);
+            UserTokens tokens = new UserTokens(account.IsAdmin, account.AccountName);
             tokens.Setprovider(_tokenSQLDataProvider);
             if (tokens.Save()) return tokens;
             return null;

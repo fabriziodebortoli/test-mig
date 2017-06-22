@@ -53,7 +53,7 @@ namespace Microarea.AdminServer.Model
         public DateTime ExpirationDate { get { return this.expirationDate; } set { this.expirationDate = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
         public long Ticks { get { return this.ticks; } set { this.ticks = value; } }
-
+        public bool IsAdmin { get { return this.provisioningAdmin || this.CloudAdmin; } }
         // data provider
         IDataProvider dataProvider;
 
