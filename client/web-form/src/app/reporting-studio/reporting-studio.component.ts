@@ -39,7 +39,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     private rsService: ReportingStudioService,
     eventData: EventDataService,
     private cookieService: CookieService,
-    
+
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData);
@@ -64,7 +64,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
     this.rsService.doSend(JSON.stringify(message));
 
-    this.rsService.eventDownload.subscribe(() => this.NextPage());
+    this.rsService.eventNextPage.subscribe(() => this.NextPage());
+    this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
+
+
+
   }
 
   // -----------------------------------------------
@@ -90,7 +94,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   ngOnDestroy() {
     this.subMessage.unsubscribe();
-   
+
     if (this.args.params.runAtTbLoader) {
       this.tbLoaderWebSocketService.closeServerComponent(this.rsService.mainCmpId);
     }
@@ -259,7 +263,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-
   public startSavePDF() {
     if (this.rsService.pageNum != 1) {
       this.rsService.pdfState = PdfType.PREPAREDPDF
@@ -271,7 +274,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
   }
 }
-
 
 
 

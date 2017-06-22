@@ -29,6 +29,7 @@ namespace Microarea.AdminServer.Controllers
         IDataProvider _instanceSqlDataProvider;
         IDataProvider _subscriptionSQLDataProvider;
         IDataProvider _tokenSQLDataProvider;
+        IDataProvider _urlsSQLDataProvider;
 
         IJsonHelper _jsonHelper;
 		HttpClient client;
@@ -56,6 +57,7 @@ namespace Microarea.AdminServer.Controllers
             _instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _subscriptionSQLDataProvider = new SubscriptionSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _tokenSQLDataProvider =  new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
+            _urlsSQLDataProvider = new ServerURLSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
         }
 
         [HttpGet]
@@ -203,8 +205,9 @@ namespace Microarea.AdminServer.Controllers
 					// se credenziali valide
 
 					UserTokens t = CreateTokens(account);
+                
 
-					if (t == null)
+                    if (t == null)
 					{
 						bootstrapTokenContainer.Result = false;
 						bootstrapTokenContainer.Message = LoginReturnCodes.ErrorSavingTokens.ToString();
@@ -250,7 +253,28 @@ namespace Microarea.AdminServer.Controllers
 						account = accountIdentityPack.Account;
 						account.SetDataProvider(_accountSqlDataProvider);
 						account.Save(); //salvataggio sul provider locale 
-						lbc = new LoginBaseClass(account);// Verifica credenziali 
+                                        //salvo anche l associazione con le  subscription e  tutti gli URLs
+
+                        OperationResult urlOpRes = SaveServerURLs(null);
+                        if (!urlOpRes.Result)//fallisce a salvare gli url associate e  interrompo la login, corretto?
+                        {
+                            bootstrapTokenContainer.Result = false;
+                            bootstrapTokenContainer.Message = urlOpRes.Message;
+                            bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.Error;
+                            _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                        }
+                        OperationResult subOpRes =  SaveSubscriptions(accountIdentityPack);
+                        if (!subOpRes.Result)//fallisce a salvare le subscription associate e  interrompo la login, corretto?
+                        {
+                            bootstrapTokenContainer.Result = false;
+                            bootstrapTokenContainer.Message = subOpRes.Message;
+                            bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.Error;
+                            _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                        }
+
+                        lbc = new LoginBaseClass(account);// Verifica credenziali 
 						LoginReturnCodes res = lbc.VerifyCredential(credentials.Password);
                         if (res != LoginReturnCodes.NoError)
                         {
@@ -264,6 +288,7 @@ namespace Microarea.AdminServer.Controllers
                     // login ok, creaimo token e urls per pacchetto di risposta
                    
                     UserTokens t = CreateTokens(account);
+
 
 					if (t == null)
 					{
@@ -319,8 +344,42 @@ namespace Microarea.AdminServer.Controllers
 			}
 		}
 
-		//----------------------------------------------------------------------
-		private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials)
+        //----------------------------------------------------------------------
+        private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)
+        {
+            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, "Empty Subscriptions");
+
+            foreach (ISubscription s in accountIdentityPack.Subscriptions)
+            {
+               s.SetDataProvider(_subscriptionSQLDataProvider);
+                OperationResult result = s.Save();
+                if (!result.Result)
+                {
+                    return result;
+                }
+            }
+            return new OperationResult(true, "ok");
+
+        }
+
+        //----------------------------------------------------------------------
+        private OperationResult SaveServerURLs(ServerURL[] urls)
+        {
+            if (urls == null || urls.Length == 0) return new OperationResult(false, "Empty URLS");
+            foreach (ServerURL  s in urls)
+            {
+                s.SetDataProvider(_urlsSQLDataProvider);
+                OperationResult result = s.Save();
+                if (!result.Result)
+                {
+                    return result;
+                }
+            }
+            return new OperationResult(true, "ok");
+        }
+
+        //----------------------------------------------------------------------
+        private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials)
 		{
 			var formContent = new FormUrlEncodedContent(new[]
 				{
@@ -335,19 +394,18 @@ namespace Microarea.AdminServer.Controllers
 			return responseData;
 		}
 
-		//----------------------------------------------------------------------
-		private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
-		{//todo modifiare
-			var formContent = new FormUrlEncodedContent(new[]
-				{
-					new KeyValuePair<string, string>("Ticks", accMod.Ticks.ToString()),
-				}
-			);
-
-			HttpResponseMessage responseMessage = await client.PostAsync(this.GWAMUrl + accMod.AccountName, formContent);
-			var responseData = responseMessage.Content.ReadAsStringAsync();
-			return responseData;
-		}
+        //----------------------------------------------------------------------
+        private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
+        {
+            var formContent = new FormUrlEncodedContent(new[]
+                   {
+                    new KeyValuePair<string, string>("", "")//todo come metterlo vuoto che non serve? null? FormUrlEncodedContent.Empty?
+                }
+               );
+            HttpResponseMessage responseMessage = await client.PostAsync(this.GWAMUrl + accMod.AccountName + accMod.Ticks, formContent);
+            var responseData = responseMessage.Content.ReadAsStringAsync();
+            return responseData;
+        }
 
         //----------------------------------------------------------------------
         private UserTokens CreateTokens(IAccount account)
