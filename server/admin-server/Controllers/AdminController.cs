@@ -224,7 +224,7 @@ namespace Microarea.AdminServer.Controllers
 					bootstrapTokenContainer.Result = true;
 					bootstrapTokenContainer.Message = res.ToString();
                     bootstrapTokenContainer.ResultCode = (int)res;
-                    bootstrapTokenContainer.JWTToken = bootstrapToken;
+                    bootstrapTokenContainer.PlainToken = bootstrapToken;
 					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
 
 					_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
@@ -310,7 +310,18 @@ namespace Microarea.AdminServer.Controllers
 					bootstrapTokenContainer.Message = "Login ok";
                     bootstrapTokenContainer.ResultCode= (int)LoginReturnCodes.NoError;
 
-                    bootstrapTokenContainer.JWTToken = bootstrapToken;
+					// creating JWT Token
+
+					JWTToken jwtToken = new JWTToken();
+					JWTTokenHeader jWTTokenHeader = new JWTTokenHeader();
+					jWTTokenHeader.alg = "HS256";
+					jWTTokenHeader.typ = "JWT";
+
+					jwtToken.header = jWTTokenHeader;
+					jwtToken.payload = bootstrapToken;
+					bootstrapTokenContainer.JwtToken = jwtToken.GetToken();
+
+					bootstrapTokenContainer.PlainToken = bootstrapToken;
 					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
 
 					_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
@@ -374,7 +385,7 @@ namespace Microarea.AdminServer.Controllers
 				{
 					new KeyValuePair<string, string>("accountName", credentials.AccountName),
 					new KeyValuePair<string, string>("password", credentials.Password),
-					new KeyValuePair<string, string>("instanceKey", "M4-STD-ALL")
+					new KeyValuePair<string, string>("instanceKey", _settings.InstanceIdentity.InstanceKey)
 				}
 			);
 

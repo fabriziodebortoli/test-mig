@@ -13,16 +13,18 @@ namespace Microarea.AdminServer.Controllers.Helpers
 	public class BootstrapTokenContainer
 	{
 		BootstrapToken bootstrapToken;
+		string jwtToken;
 		string message;
 		bool result;
 		int resultCode;
 		DateTime expirationDate;
 
-		public BootstrapToken JWTToken { get => bootstrapToken; set => bootstrapToken = value; }
+		public BootstrapToken PlainToken { get => bootstrapToken; set => bootstrapToken = value; }
 		public DateTime ExpirationDate { get => expirationDate; set => expirationDate = value; }
 		public bool Result { get => result; set => result = value; }
 		public string Message { get => message; set => message = value; }
 		public int ResultCode { get => resultCode; set => resultCode = value; }
+		public string JwtToken { get => jwtToken; set => jwtToken = value; }
 
 		public BootstrapTokenContainer()
 		{
