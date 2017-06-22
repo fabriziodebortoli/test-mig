@@ -149,7 +149,8 @@ namespace Microarea.AdminServer.Controllers
 			if (credentials == null || String.IsNullOrEmpty(credentials.AccountName) || String.IsNullOrEmpty(credentials.Password))
 			{
 				bootstrapTokenContainer.Result = false;
-				bootstrapTokenContainer.Message = "Username cannot be empty";
+                bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.Error;
+                bootstrapTokenContainer.Message = "Username cannot be empty";
 				_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
@@ -194,7 +195,8 @@ namespace Microarea.AdminServer.Controllers
 					{
 						bootstrapTokenContainer.Result = false;
 						bootstrapTokenContainer.Message = res.ToString();
-						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                        bootstrapTokenContainer.ResultCode = (int)res;
+                        _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
 
@@ -206,7 +208,8 @@ namespace Microarea.AdminServer.Controllers
 					{
 						bootstrapTokenContainer.Result = false;
 						bootstrapTokenContainer.Message = LoginReturnCodes.ErrorSavingTokens.ToString();
-						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                        bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.ErrorSavingTokens;
+                        _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
 
@@ -217,7 +220,8 @@ namespace Microarea.AdminServer.Controllers
 					// ...and its container.
 					bootstrapTokenContainer.Result = true;
 					bootstrapTokenContainer.Message = res.ToString();
-					bootstrapTokenContainer.JWTToken = bootstrapToken;
+                    bootstrapTokenContainer.ResultCode = (int)res;
+                    bootstrapTokenContainer.JWTToken = bootstrapToken;
 					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
 
 					_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
@@ -235,8 +239,9 @@ namespace Microarea.AdminServer.Controllers
 					if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
 					{
 						bootstrapTokenContainer.Result = false;
-						bootstrapTokenContainer.Message = "Invalid User";
-						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+						bootstrapTokenContainer.Message = "GWAM doesn't like this. Why? " + accountIdentityPack.Message;
+                        bootstrapTokenContainer.ResultCode= (int)LoginReturnCodes.UnknownAccountName;
+                        _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
 					else
@@ -244,22 +249,28 @@ namespace Microarea.AdminServer.Controllers
 						// user has been found
 						account = accountIdentityPack.Account;
 						account.SetDataProvider(_accountSqlDataProvider);
-						account.Save(); // in locale
-
-						// Verifica credenziali con salvataggio sul provider locale
-						lbc = new LoginBaseClass(account);
+						account.Save(); //salvataggio sul provider locale 
+						lbc = new LoginBaseClass(account);// Verifica credenziali 
 						LoginReturnCodes res = lbc.VerifyCredential(credentials.Password);
+                        if (res != LoginReturnCodes.NoError)
+                        {
+                            bootstrapTokenContainer.Result = false;
+                            bootstrapTokenContainer.Message = res.ToString();
+                            bootstrapTokenContainer.ResultCode= (int)res;
+                            _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                        }
 					}
-
-					// login ok, creaimo token e urls per pacchetto di risposta
-
-					UserTokens t = CreateTokens(account);
+                    // login ok, creaimo token e urls per pacchetto di risposta
+                   
+                    UserTokens t = CreateTokens(account);
 
 					if (t == null)
 					{
 						bootstrapTokenContainer.Result = false;
 						bootstrapTokenContainer.Message = LoginReturnCodes.ErrorSavingTokens.ToString();
-						_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                        bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.ErrorSavingTokens;
+                        _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 					}
 
@@ -272,7 +283,9 @@ namespace Microarea.AdminServer.Controllers
 
 					bootstrapTokenContainer.Result = true;
 					bootstrapTokenContainer.Message = "Login ok";
-					bootstrapTokenContainer.JWTToken = bootstrapToken;
+                    bootstrapTokenContainer.ResultCode= (int)LoginReturnCodes.NoError;
+
+                    bootstrapTokenContainer.JWTToken = bootstrapToken;
 					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
 
 					_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
@@ -280,15 +293,17 @@ namespace Microarea.AdminServer.Controllers
 				}
 
 				bootstrapTokenContainer.Result = false;
-				bootstrapTokenContainer.Message = "Invalid user";
-				_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.InvalidUserError;
+                bootstrapTokenContainer.Message = LoginReturnCodes.InvalidUserError.ToString();
+                _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 			catch (Exception exc)
 			{
 				bootstrapTokenContainer.Result = false;
-				bootstrapTokenContainer.Message = exc.Message;
-				_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+				bootstrapTokenContainer.Message = "ApiAccounts Exception: " + exc.Message;
+                bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.GenericLoginFailure;
+                _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 		}
@@ -337,7 +352,7 @@ namespace Microarea.AdminServer.Controllers
         /// </summary>
         //-----------------------------------------------------------------------------	
         [HttpPost("/api/accounts")]
-		public IActionResult ApiAccounts(string accountname)
+		public IActionResult ApiAccounts()
 		{
 			if (HttpContext.Request == null || HttpContext.Request.Body == null)
 			{
