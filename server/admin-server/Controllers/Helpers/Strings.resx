@@ -123,14 +123,29 @@
   <data name="AuthorizationHeaderMissing" xml:space="preserve">
     <value>Authorization header is missing</value>
   </data>
+  <data name="BodyCannotBeEmpty" xml:space="preserve">
+    <value>The Body cannot be empty</value>
+  </data>
   <data name="EmptyCredentials" xml:space="preserve">
     <value>AccountName / Password is empty</value>
+  </data>
+  <data name="EmptySubscriptions" xml:space="preserve">
+    <value>Empty Subscriptions</value>
+  </data>
+  <data name="EmptyURLS" xml:space="preserve">
+    <value>Empty URLS</value>
   </data>
   <data name="EmptyUser" xml:space="preserve">
     <value>The user is empty</value>
   </data>
   <data name="ExceptionOccurred" xml:space="preserve">
     <value>An unexpected exception occurred.</value>
+  </data>
+  <data name="GwamDislikes" xml:space="preserve">
+    <value>GWAM doesn't like this. Why?</value>
+  </data>
+  <data name="InstanceCannotBeEmpty" xml:space="preserve">
+    <value>Instance name cannot be empty</value>
   </data>
   <data name="InstanceNotValid" xml:space="preserve">
     <value>Instance is not valid for this subscription</value>
@@ -147,6 +162,9 @@
   <data name="InvalidUser" xml:space="preserve">
     <value>The user is invalid</value>
   </data>
+  <data name="LoginOK" xml:space="preserve">
+    <value>Login ok</value>
+  </data>
   <data name="MissingAppId" xml:space="preserve">
     <value>AppId is missing</value>
   </data>
@@ -155,6 +173,33 @@
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="RequestBodyCannotBeEmpty" xml:space="preserve">
+    <value>The Request / Body cannot be null</value>
+  </data>
+  <data name="SaveAccountKO" xml:space="preserve">
+    <value>Save account operation failed</value>
+  </data>
+  <data name="SaveAccountOK" xml:space="preserve">
+    <value>Save account operation successfully completed</value>
+  </data>
+  <data name="SaveCompanyKO" xml:space="preserve">
+    <value>Save company operation failed</value>
+  </data>
+  <data name="SaveCompanyOK" xml:space="preserve">
+    <value>Save company operation successfully completed</value>
+  </data>
+  <data name="SaveInstanceKO" xml:space="preserve">
+    <value>Save instance operation failed</value>
+  </data>
+  <data name="SaveInstanceOK" xml:space="preserve">
+    <value>Save instance operation successfully completed</value>
+  </data>
+  <data name="SaveSubscriptionKO" xml:space="preserve">
+    <value>Save subscription operation failed</value>
+  </data>
+  <data name="SaveSubscriptionOK" xml:space="preserve">
+    <value>Save subscription operation successfully completed</value>
   </data>
   <data name="SubscriptionKeyEmpty" xml:space="preserve">
     <value>SubscriptionKey is empty</value>

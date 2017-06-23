@@ -98,7 +98,7 @@ namespace Microarea.AdminServer.Controllers
             if (String.IsNullOrEmpty(username))
             {
                 _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple<string>("message", "Username cannot be empty");
+                _jsonHelper.AddJsonCouple<string>("message", Strings.AccountNameCannotBeEmpty);
                 return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
             }
 
@@ -109,10 +109,10 @@ namespace Microarea.AdminServer.Controllers
 				account.SetDataProvider(_accountSqlDataProvider);
 				account.Load();
             }
-            catch (Exception ex)
+            catch (Exception exc)
             {
                 _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple<string>("message", ex.Message);
+                _jsonHelper.AddJsonCouple<string>("message", "070 AdminController.ApiAccountsInformations" + exc.Message);
                 return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
             }
 
@@ -126,7 +126,7 @@ namespace Microarea.AdminServer.Controllers
 			if (account == null)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Invalid user");
+				_jsonHelper.AddJsonCouple<string>("message", Strings.InvalidUser);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
@@ -152,7 +152,7 @@ namespace Microarea.AdminServer.Controllers
 			{
 				bootstrapTokenContainer.Result = false;
                 bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.Error;
-                bootstrapTokenContainer.Message = "Username cannot be empty";
+                bootstrapTokenContainer.Message = Strings.AccountNameCannotBeEmpty;
 				_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
@@ -242,7 +242,7 @@ namespace Microarea.AdminServer.Controllers
 					if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
 					{
 						bootstrapTokenContainer.Result = false;
-						bootstrapTokenContainer.Message = "GWAM doesn't like this. Why? " + accountIdentityPack.Message;
+						bootstrapTokenContainer.Message = Strings.GwamDislikes + accountIdentityPack.Message;
                         bootstrapTokenContainer.ResultCode= (int)LoginReturnCodes.UnknownAccountName;
                         _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 						return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
@@ -307,7 +307,7 @@ namespace Microarea.AdminServer.Controllers
 					bootstrapToken.UserTokens = t;
 
 					bootstrapTokenContainer.Result = true;
-					bootstrapTokenContainer.Message = "Login ok";
+                    bootstrapTokenContainer.Message = Strings.LoginOK;
                     bootstrapTokenContainer.ResultCode= (int)LoginReturnCodes.NoError;
 
 					// creating JWT Token
@@ -330,7 +330,7 @@ namespace Microarea.AdminServer.Controllers
 			catch (Exception exc)
 			{
 				bootstrapTokenContainer.Result = false;
-				bootstrapTokenContainer.Message = "ApiAccounts Exception: " + exc.Message;
+				bootstrapTokenContainer.Message = "080 ApiAccounts Exception: " + exc.Message;
                 bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.GenericLoginFailure;
                 _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
@@ -353,7 +353,7 @@ namespace Microarea.AdminServer.Controllers
 		//----------------------------------------------------------------------
 		private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)
         {
-            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, "Empty Subscriptions");
+            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, Strings.EmptySubscriptions);
 
             foreach (ISubscription s in accountIdentityPack.Subscriptions)
             {
@@ -371,7 +371,7 @@ namespace Microarea.AdminServer.Controllers
         //----------------------------------------------------------------------
         private OperationResult SaveServerURLs(ServerURL[] urls)
         {
-            if (urls == null || urls.Length == 0) return new OperationResult(false, "Empty URLS");
+            if (urls == null || urls.Length == 0) return new OperationResult(false, Strings.EmptyURLS);
             foreach (ServerURL  s in urls)
             {
                 s.SetDataProvider(_urlsSQLDataProvider);
@@ -424,7 +424,7 @@ namespace Microarea.AdminServer.Controllers
 			if (HttpContext.Request == null || HttpContext.Request.Body == null)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "The Request / Body cannot be null");
+				_jsonHelper.AddJsonCouple<string>("message",Strings.RequestBodyCannotBeEmpty);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
@@ -435,7 +435,7 @@ namespace Microarea.AdminServer.Controllers
 			if (string.IsNullOrWhiteSpace(body))
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "The Body cannot be empty");
+				_jsonHelper.AddJsonCouple<string>("message", Strings.BodyCannotBeEmpty);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
@@ -453,21 +453,21 @@ namespace Microarea.AdminServer.Controllers
 					result = opRes.Result;
 				}
             }
-			catch (SqlException e)
+			catch (SqlException exc)
 			{
                 _jsonHelper.AddJsonCouple<bool>("result", result);
-                _jsonHelper.AddJsonCouple<string>("message", e.Message);
+                _jsonHelper.AddJsonCouple<string>("message", "060 AdminController.ApiAccounts" + exc.Message);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			if (!result)
 			{
                 _jsonHelper.AddJsonCouple<bool>("result", result);
-                _jsonHelper.AddJsonCouple<string>("message", "Save account operation failed");
+                _jsonHelper.AddJsonCouple<string>("message", Strings.SaveAccountKO);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddPlainObject<OperationResult>(new OperationResult(result, "Save account operation successfully completed"));
+			_jsonHelper.AddPlainObject<OperationResult>(new OperationResult(result, Strings.SaveAccountOK));
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
@@ -481,7 +481,7 @@ namespace Microarea.AdminServer.Controllers
 			if (HttpContext.Request == null || HttpContext.Request.Body == null)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "The Request / Body cannot be null");
+				_jsonHelper.AddJsonCouple<string>("message",Strings.RequestBodyCannotBeEmpty);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
@@ -492,7 +492,7 @@ namespace Microarea.AdminServer.Controllers
 			if (string.IsNullOrWhiteSpace(body))
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "The Body cannot be empty");
+				_jsonHelper.AddJsonCouple<string>("message", Strings.BodyCannotBeEmpty);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
@@ -506,27 +506,27 @@ namespace Microarea.AdminServer.Controllers
 					result = iCompany.Save().Result;
 				}
 			}
-			catch (SqlException e)
+			catch (SqlException exc)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", e.Message);
+				_jsonHelper.AddJsonCouple<string>("message", "050 AdminController.ApiCompanies" + exc.Message);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
-			catch (Exception ex)
+			catch (Exception exc)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", ex.Message);
+				_jsonHelper.AddJsonCouple<string>("message", "040 AdminController.ApiCompanies" + exc.Message);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			if (!result)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Save company operation failed");
+				_jsonHelper.AddJsonCouple<string>("message", Strings.SaveCompanyKO);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddPlainObject<OperationResult>(new OperationResult(result, "Save company operation successfully completed"));
+			_jsonHelper.AddPlainObject<OperationResult>(new OperationResult(result, Strings.SaveCompanyOK));
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
@@ -540,7 +540,7 @@ namespace Microarea.AdminServer.Controllers
 			if (String.IsNullOrEmpty(instancename))
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Instance name cannot be empty");
+				_jsonHelper.AddJsonCouple<string>("message", Strings.InstanceCannotBeEmpty);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
@@ -552,22 +552,22 @@ namespace Microarea.AdminServer.Controllers
 				iInstance.Disabled = disabled;
 				result = iInstance.Save().Result;
 			}
-			catch (SqlException e)
+			catch (SqlException exc)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", e.Message);
+				_jsonHelper.AddJsonCouple<string>("message", "030 AdminController.ApiInstances" + exc.Message);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			if (!result)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Save instance operation failed");
+				_jsonHelper.AddJsonCouple<string>("message", Strings.SaveInstanceOK);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			_jsonHelper.AddJsonCouple<bool>("result", true);
-			_jsonHelper.AddJsonCouple<string>("message", "Save instance operation successfully completed");
+			_jsonHelper.AddJsonCouple<string>("message",Strings.SaveInstanceOK);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 		}
 
@@ -586,22 +586,22 @@ namespace Microarea.AdminServer.Controllers
 				iSubscription.InstanceKey = instancekey;
 				result = iSubscription.Save().Result;
 			}
-			catch (SqlException e)
+			catch (SqlException exc)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", e.Message);
+				_jsonHelper.AddJsonCouple<string>("message", "020 AdminController.ApiSubscriptions" + exc.Message);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 			}
 
 			if (!result)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Save subscription operation failed");
+				_jsonHelper.AddJsonCouple<string>("message", Strings.SaveSubscriptionOK);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 			}
 
 			_jsonHelper.AddJsonCouple<bool>("result", true);
-			_jsonHelper.AddJsonCouple<string>("message", "Save subscription operation successfully completed");
+			_jsonHelper.AddJsonCouple<string>("message", Strings.SaveSubscriptionOK);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
 		}
 
@@ -616,17 +616,17 @@ namespace Microarea.AdminServer.Controllers
 			{
 				accountArray = ((AccountSQLDataProvider)_accountSqlDataProvider).GetAccounts(); // gestire il parametro facoltativo per il caricamento di un solo elemento
 			}
-			catch (Exception ex)
+			catch (Exception exc)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", ex.Message);
+				_jsonHelper.AddJsonCouple<string>("message", "010 AdminCOntroller.ApiGetAccounts" + exc.Message);
 				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			if (accountArray == null)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Invalid user");
+				_jsonHelper.AddJsonCouple<string>("message", Strings.InvalidUser);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
