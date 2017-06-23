@@ -33,7 +33,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------
-		public static bool AddToMostUsed(string target, string objectType, string objectName, string user, string company)
+		public static bool AddToMostUsed(string target, string objectType, string objectName, string user, string company, int maxElements = 50)
 		{
 			PathFinder pf = new PathFinder(company, user);
 			string file = NewMenuFunctions.GetCustomUserMostUsedFile(pf);
@@ -85,17 +85,40 @@ namespace Microarea.Common.MenuLoader
 				lastModifiedAttribute.Value = DateTime.Now.ToString("yyyyMMddHHmmss");
 				node.Attributes.Append(lastModifiedAttribute);
 
-				doc.DocumentElement.AppendChild(node);
+				doc.DocumentElement.InsertAt(node, 0);
 			}
 
-			//TODOLUCA
-			SaveXml(doc, file);
+            //limito a maxElements (default 50) il numero di elementi salvabili, se ne ho di più, gli ultimi li levo
+            RemoveAllMostRecentBeyondMaxLimit(doc, maxElements);
+
+            //TODOLUCA
+            SaveXml(doc, file);
 
 			return true;
 		}
 
-		//---------------------------------------------------------------------
-		public static bool AddToFavorites(string target, string objectType, string objectName, string user, string company)
+        //---------------------------------------------------------------------
+        private static void RemoveAllMostRecentBeyondMaxLimit(XmlDocument doc, int maxElements)
+        {
+            try
+            {
+                XmlNodeList allMostUsed = doc.SelectNodes("//MostUsed");
+                XmlNode root = doc.SelectSingleNode("Root");
+                if (allMostUsed.Count > maxElements)
+                {
+                    for (int i = allMostUsed.Count - 1; i >= maxElements; i--)
+                    {
+                        root.RemoveChild(allMostUsed[i]);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        //---------------------------------------------------------------------
+        public static bool AddToFavorites(string target, string objectType, string objectName, string user, string company)
 		{
 			PathFinder pf = new PathFinder(company, user);
 			string file = NewMenuFunctions.GetCustomUserFavoriteFile(pf);
@@ -108,7 +131,6 @@ namespace Microarea.Common.MenuLoader
 				string.Format(MenuTranslatorStrings.translateTemplate, "objectType", objectType));
 
 			if (!string.IsNullOrEmpty(objectName))
-
 				search += " and " + string.Format(MenuTranslatorStrings.translateTemplate, "objectName", objectName);
 			else
 				search += "]";
@@ -118,7 +140,7 @@ namespace Microarea.Common.MenuLoader
 			if (node != null)
 				return true;
 
-			node = doc.CreateElement("Favorite");
+            node = doc.CreateElement("Favorite");
 
 			XmlAttribute objectAttribute = doc.CreateAttribute("objectType");
 			objectAttribute.Value = objectType;

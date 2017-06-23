@@ -19,8 +19,6 @@ export class MenuService {
     private _selectedGroup: any;
     private _selectedMenu: any;
 
-    isMenuActivated: boolean = true; // TODO temporaneo per demo, poi vedremo...
-
     public applicationMenu: any;
     public environmentMenu: any;
     public favoritesCount: number = 0;
@@ -87,7 +85,6 @@ export class MenuService {
         private componentService: ComponentService
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
-
     }
 
     //---------------------------------------------------------------------------------------------
@@ -457,6 +454,8 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     addToMostUsed(object) {
+        if (object.isMostUsed)
+            return;
 
         this.httpMenuService.addToMostUsed(object).subscribe(result => {
             this.addToMostUsedArray(object);
@@ -544,6 +543,6 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     activateMenu() {
-        this.isMenuActivated = true; this.menuActivated.emit();
+        this.menuActivated.emit();
     }
 }
