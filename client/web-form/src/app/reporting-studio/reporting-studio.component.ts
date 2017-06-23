@@ -14,20 +14,19 @@ import { ReportingStudioService } from './reporting-studio.service';
 import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF, } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
 
-
 @Component({
   selector: 'tb-reporting-studio',
   templateUrl: './reporting-studio.component.html',
   styleUrls: ['./reporting-studio.component.scss'],
   providers: [ReportingStudioService, EventDataService],
 })
+
 export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy {
 
   /*if this component is used standalone, the namespace has to be passed from the outside template,
   otherwise it is passed by the ComponentService creation logic*/
   private subMessage: Subscription;
   private message: any = '';
-
 
   // report template objects
   public reportTemplate: any;
@@ -36,14 +35,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // ask dialog objects
   public askDialogTemplate: any;
 
-
-  
-
   constructor(
     private rsService: ReportingStudioService,
     eventData: EventDataService,
     private cookieService: CookieService,
-    
+
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData);
@@ -68,9 +64,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
     this.rsService.doSend(JSON.stringify(message));
 
-    
+    this.rsService.eventNextPage.subscribe(() => this.NextPage());
+    this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
 
-    this.rsService.eventDownload.subscribe(() => this.NextPage());
 
 
   }
@@ -98,7 +94,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   ngOnDestroy() {
     this.subMessage.unsubscribe();
-   
+
     if (this.args.params.runAtTbLoader) {
       this.tbLoaderWebSocketService.closeServerComponent(this.rsService.mainCmpId);
     }
@@ -267,7 +263,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-
   public startSavePDF() {
     if (this.rsService.pageNum != 1) {
       this.rsService.pdfState = PdfType.PREPAREDPDF
@@ -279,7 +274,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     }
   }
 }
-
 
 
 

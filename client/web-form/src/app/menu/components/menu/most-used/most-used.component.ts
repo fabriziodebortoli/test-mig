@@ -6,6 +6,7 @@ import { MenuService } from './../../../services/menu.service';
 import { HttpMenuService } from './../../../services/http-menu.service';
 import { ImageService } from './../../../services/image.service';
 import { LocalizationService } from './../../../services/localization.service';
+import { SettingsService } from './../../../services/settings.service';
 
 @Component({
   selector: 'tb-most-used',
@@ -21,7 +22,8 @@ export class MostUsedComponent {
     private menuService: MenuService,
     private utilsService: UtilsService,
     private imageService: ImageService,
-    private localizationService: LocalizationService
+    private localizationService: LocalizationService,
+    private settingsService : SettingsService
   ) { }
 
   runFunction(object) {

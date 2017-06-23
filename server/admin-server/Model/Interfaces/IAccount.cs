@@ -26,5 +26,6 @@ namespace Microarea.AdminServer.Model.Interfaces
         long Ticks { get; }
         bool IsPasswordExpirated();
 		DateTime ExpirationDate { get; set; }
+        bool IsAdmin { get; }
     }
 }

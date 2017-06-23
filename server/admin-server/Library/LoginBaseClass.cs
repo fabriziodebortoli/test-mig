@@ -1,26 +1,20 @@
-﻿
-using System;
+﻿using System;
 using Microarea.AdminServer.Model.Interfaces;
-using Microarea.AdminServer.Controllers.Helpers;
 
 namespace Microarea.AdminServer.Library
 {
-    //Classe per la verifica delle credenziali ed il ritorno dei token
-    //contatterà il provider dei dati, se non presenti o scaduti dovrà chiederli al GWAM ottenendo una risposta da lui e salvandosi sul provider locale le informazioni.
-    //nota: per ora il provider è un db detto microareaprovisioningdb
+    //=========================================================================
     public class LoginBaseClass
     {
-        IAccount account;
-      
+        private IAccount account;
+        private int maxPasswordError = 5;
         public LoginBaseClass(IAccount account) { this.account = account; }
+
+        //----------------------------------------------------------------------
         public LoginReturnCodes VerifyCredential(string password)
         {
-            //verifica login lockata
-            //Verifica password errata
-
-            //se corretta:
-            //verifica password da cambiare
-            //verifica password scaduta
+            if (account.ExpirationDate < DateTime.Now)
+                return LoginReturnCodes.UserExpired;
 
             if (account.Locked) return LoginReturnCodes.LoginLocked;
 
@@ -40,31 +34,36 @@ namespace Microarea.AdminServer.Library
             {
                 if (account.CannotChangePassword)
                     return LoginReturnCodes.CannotChangePasswordError;
-				//@@TODO gestire la colonna ExpirationDate
-				//return account.PasswordExpirationDateCannotChange ? LoginReturnCodes.PasswordExpiredError : LoginReturnCodes.UserMustChangePasswordError;
+                return LoginReturnCodes.UserMustChangePasswordError;
 			}
 
 			return LoginReturnCodes.NoError;
         }
 
         //----------------------------------------------------------------------
-        public LoginReturnCodes ChangePasssword(string oldpassword, string newpassword)
+        public LoginReturnCodes ChangePassword(string oldpassword, string newpassword)
         {
+            if (account.ExpirationDate < DateTime.Now)
+                return LoginReturnCodes.UserExpired;
+
             if (account.Locked)
                 return LoginReturnCodes.LoginLocked;
+
             if (account.CannotChangePassword)
                 return LoginReturnCodes.CannotChangePasswordError;
-			//@@TODO gestire la colonna ExpirationDate
-			//if (account.PasswordExpirationDateCannotChange && account.PasswordExpirationDate < DateTime.Now)
-			//    return LoginReturnCodes.PasswordExpiredError;
+			
+			if (account.PasswordExpirationDate < DateTime.Now)
+			    return LoginReturnCodes.PasswordExpiredError;
+
 			if (account.Password != Crypt(oldpassword))
             {
                 AddWrongPwdLoginCount();
                 return LoginReturnCodes.InvalidUserError;
             }
+
             account.Password = Crypt(newpassword);
             if (!account.Save().Result) return LoginReturnCodes.ErrorSavingAccount;
-
+        
             ClearWrongPwdLoginCount();
        
             return LoginReturnCodes.NoError;
@@ -73,10 +72,7 @@ namespace Microarea.AdminServer.Library
         //----------------------------------------------------------------------
         private void AddWrongPwdLoginCount()
         {
-            int x = 5;//todo parametri server connection config?
-
-            if (++account.LoginFailedCount >= x)
-                account.Locked = true;
+            account.Locked = (++account.LoginFailedCount >= maxPasswordError);  
         }
 
         //----------------------------------------------------------------------
@@ -87,9 +83,10 @@ namespace Microarea.AdminServer.Library
         }
 
         //----------------------------------------------------------------------
+        [Obsolete ("TODO-Warning: Crypt Password")]
         private string Crypt(string password)
         {
-            return password;//TODO
+            return password;//TODO CRYPT
         }
     }
 }
