@@ -65,6 +65,9 @@ import { TbCardContentComponent } from './containers/tb-card/tb-card-content/tb-
 import { IconComponent } from './icons/icon.component';
 import { M4IconComponent } from './icons/m4-icon.component';
 import { HotlinkComponent } from './controls/hotlink/hotlink.component';
+import { TbCardHeaderComponent } from './containers/tb-card/tb-card-header/tb-card-header.component';
+import { TbCardSubtitleComponent } from './containers/tb-card/tb-card-subtitle/tb-card-subtitle.component';
+import { TbCardFooterComponent } from './containers/tb-card/tb-card-footer/tb-card-footer.component';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -85,14 +88,16 @@ const TB_COMPONENTS = [
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   ViewComponent, DockpaneComponent, FrameComponent, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DynamicCmpComponent, UnknownComponent,
-  CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, DateInputComponent,
+  CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, 
+  DateInputComponent,
   OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
-  PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent, ImageComponent, ColorPickerComponent,
+  PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent,
+  ImageComponent, ColorPickerComponent,
   BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
   PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent,
   IconComponent, TopbarMenuElementsComponent, TbCardComponent, TbCardTitleComponent, TbCardContentComponent,
-  M4IconComponent, ConnectionStatusComponent, HotlinkComponent
+  M4IconComponent, ConnectionStatusComponent, HotlinkComponent, TbCardHeaderComponent, TbCardSubtitleComponent,TbCardFooterComponent
 
 ];
 
@@ -113,7 +118,7 @@ const TB_DIRECTIVES = [
     RouterModule,
     KENDO_UI_MODULES
   ],
-  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent],
+  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent ],
   exports: [TB_COMPONENTS, TB_DIRECTIVES],
   entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
 

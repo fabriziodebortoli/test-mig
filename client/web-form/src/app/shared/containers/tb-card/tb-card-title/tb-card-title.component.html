@@ -1,4 +1,4 @@
 <div>
-    <span>{{title}}</span>
-    <md-icon *ngIf="isCollapsible">{{getArrowIcon()}}</md-icon>
+    <span>{{title}}</span> {{icon}}
+    <md-icon *ngIf="isCollapsible" [ngClass]="{'widget-icon widget-icon-menu' : icon !==''}">{{getIcon()}}</md-icon>
 </div>

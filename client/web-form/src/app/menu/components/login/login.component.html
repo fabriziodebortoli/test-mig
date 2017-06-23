@@ -7,8 +7,38 @@
 </header>
 
 <main class="login-content">
+    <div class="login-form tb-card" *ngIf="!working">
+        <tb-card>
+            <tb-card-title title='Log In'></tb-card-title>
+            <tb-card-content>
+                <div class="form-group">
+                    <md-input-container class="form-control">
+                        <input mdInput type="text" [placeholder]="'User'" autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keydown)="keyDownFunction($event)" />
+                    </md-input-container>
+                    <md-input-container class="form-control">
+                        <input mdInput type="password" [placeholder]="'Password'" [(ngModel)]="connectionData.password" (keydown)="keyDownFunction($event)" />
+                    </md-input-container>
 
-    <md-card class="login-form" *ngIf="!working">
+                    <md-select class="form-control" placeholder="Company" [(ngModel)]="connectionData.company">
+                        <md-option *ngIf="!companies">Loading...</md-option>
+                        <md-option *ngFor="let company of companies" [value]="company?.name">
+                            {{ company?.name }}
+                        </md-option>
+                    </md-select>
+
+                    <div class="error" *ngFor="let errorMessage of loginSessionService.errorMessages">{{errorMessage.text}}</div>
+
+                    <button class="form-button" md-raised-button color="primary" (click)="login();" [disabled]="companies.length == 0">Login</button>
+                </div>
+
+
+            </tb-card-content>
+        </tb-card>
+    </div>
+
+
+
+    <!--<md-card class="login-form" *ngIf="!working">
         <md-card-title>Log In</md-card-title>
         <md-card-content>
             <div class="form-group">
@@ -33,7 +63,7 @@
 
 
         </md-card-content>
-    </md-card>
+    </md-card>-->
 
     <div class="spinner" *ngIf="working">
         <md-spinner mode="indeterminate" color="primary"></md-spinner>
