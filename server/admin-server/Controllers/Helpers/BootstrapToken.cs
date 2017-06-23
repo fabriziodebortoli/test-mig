@@ -44,19 +44,21 @@ namespace Microarea.AdminServer.Controllers.Helpers
 		public JWTTokenHeader header;
 		public BootstrapToken payload;
 
+		//--------------------------------------------------------------------------------
 		public string GetToken()
 		{
-			this.SignToken("LeonardoDaVinci");
-
-			return String.Concat(
-				EncodeHeader(),
-				".",
-				EncodePayload(),
-				".",
-				this.signature
-				);
+			try
+			{ 
+				this.SignToken("LeonardoDaVinci");
+				return String.Concat(EncodeHeader(), ".", EncodePayload(), ".", this.signature);
+			}
+			catch (Exception e)
+			{
+				return String.Empty; // todo: add log
+			}
 		}
 
+		//--------------------------------------------------------------------------------
 		void SignToken(string secret)
 		{
 			string encodedString = EncodeHeader() + "." + EncodePayload();
@@ -70,18 +72,21 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			this.signature = System.Text.Encoding.UTF8.GetString(hashValue);
 		}
 
+		//--------------------------------------------------------------------------------
 		string EncodeHeader()
 		{
 			string header = JsonConvert.SerializeObject(this.header);
 			return EncodeToBase64(header);
 		}
 
+		//--------------------------------------------------------------------------------
 		string EncodePayload()
 		{
 			string payload = JsonConvert.SerializeObject(this.payload);
 			return EncodeToBase64(payload);
 		}
 
+		//--------------------------------------------------------------------------------
 		string EncodeToBase64(string input)
 		{
 			byte[] encodedBytes = System.Text.Encoding.Unicode.GetBytes(input);

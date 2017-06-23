@@ -311,16 +311,9 @@ namespace Microarea.AdminServer.Controllers
                     bootstrapTokenContainer.ResultCode= (int)LoginReturnCodes.NoError;
 
 					// creating JWT Token
+					bootstrapTokenContainer.JwtToken = GenerateJWTToken(bootstrapToken);
 
-					JWTToken jwtToken = new JWTToken();
-					JWTTokenHeader jWTTokenHeader = new JWTTokenHeader();
-					jWTTokenHeader.alg = "HS256";
-					jWTTokenHeader.typ = "JWT";
-
-					jwtToken.header = jWTTokenHeader;
-					jwtToken.payload = bootstrapToken;
-					bootstrapTokenContainer.JwtToken = jwtToken.GetToken();
-
+					// for now, we maintain also the plain token
 					bootstrapTokenContainer.PlainToken = bootstrapToken;
 					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
 
@@ -344,8 +337,21 @@ namespace Microarea.AdminServer.Controllers
 			}
 		}
 
-        //----------------------------------------------------------------------
-        private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)
+		//----------------------------------------------------------------------
+		private string GenerateJWTToken(BootstrapToken bootstrapToken)
+		{
+			JWTToken jwtToken = new JWTToken();
+			JWTTokenHeader jWTTokenHeader = new JWTTokenHeader();
+			jWTTokenHeader.alg = "HS256";
+			jWTTokenHeader.typ = "JWT";
+
+			jwtToken.header = jWTTokenHeader;
+			jwtToken.payload = bootstrapToken;
+			return jwtToken.GetToken();
+		}
+
+		//----------------------------------------------------------------------
+		private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)
         {
             if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, "Empty Subscriptions");
 
