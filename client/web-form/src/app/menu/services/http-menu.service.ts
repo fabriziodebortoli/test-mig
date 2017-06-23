@@ -19,6 +19,8 @@ export class HttpMenuService {
         private logger: Logger,
         private cookieService: CookieService,
         private httpService: HttpService) {
+
+        this.logger.debug('HttpMenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
     postData(url: string, data: Object): Observable<Response> {
