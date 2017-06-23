@@ -387,7 +387,7 @@ namespace Microarea.AdminServer.Controllers
 		//----------------------------------------------------------------------
 		private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials)
 		{
-			string url = _settings.ExternalUrls.GWAMUrl + "accounts/" + credentials.AccountName;
+			string url = _settings.ExternalUrls.GWAMUrl + "accounts";
 
 			List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
 			entries.Add(new KeyValuePair<string, string>("accountName", credentials.AccountName));
