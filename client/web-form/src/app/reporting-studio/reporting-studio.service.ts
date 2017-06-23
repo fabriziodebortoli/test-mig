@@ -1,11 +1,11 @@
-import { ComponentService } from './../core/component.service';
-import { Logger } from './../core/logger.service';
+import { ComponentService } from '@taskbuilder/core';
+import { Logger } from '@taskbuilder/core';
 import { environment } from './../../environments/environment';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { EventDataService } from './../core/eventdata.service';
-import { DocumentService } from './../core/document.service';
+import { DocumentService } from '@taskbuilder/core';
 import { CommandType, PdfType } from './reporting-studio.model';
 
 import { drawDOM, exportPDF, DrawOptions, Group } from '@progress/kendo-drawing';
@@ -121,6 +121,17 @@ export class ReportingStudioService extends DocumentService {
             }
         }
     }
+
+    /*public renderPDF() {
+        drawDOM(document.getElementById('rsLayout'))
+            .then((group: Group) => {
+                return exportPDF(group, { multiPage: true });
+         })
+            .then((dataUri) => {
+                saveAs(dataUri, 'export.pdf');
+                this.loopPdfPage();
+            });
+    }*/
 
     public appendPDF() {
         drawDOM(document.getElementById('rsLayout'))

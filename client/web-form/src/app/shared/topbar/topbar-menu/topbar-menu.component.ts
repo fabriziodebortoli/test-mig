@@ -1,4 +1,4 @@
-import { LoginSessionService } from './../../../core/login-session.service';
+import { LoginSessionService } from '@taskbuilder/core';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({

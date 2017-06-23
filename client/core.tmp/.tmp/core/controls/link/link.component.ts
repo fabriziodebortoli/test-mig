@@ -1,0 +1,69 @@
+import { Component, OnInit, Input, OnChanges, AfterViewInit } from '@angular/core';
+
+import { ControlComponent } from './../control.component';
+
+import { EventDataService } from './../../services/eventdata.service';
+
+@Component({
+  selector: 'tb-link',
+  template: "<div class=\"tb-control tb-link\"> <tb-caption caption=\"{{caption}}\" [for]=\"cmpId\"></tb-caption> <kendo-maskedtextbox [ngClass]=\"showError\" [(ngModel)]=\"selectedValue\" required=\"required\" (blur)=\"onBlur()\" [disabled]=\"!model?.enabled\" (ngModelChange)=\"model.value=$event\"></kendo-maskedtextbox> <ng-container #stateButton></ng-container> <div class=\"has-error\">{{errorMessage}}</div> </div>",
+  styles: [""]
+})
+export class LinkComponent extends ControlComponent implements OnInit, OnChanges, AfterViewInit {
+
+  public selectedValue: string;
+  @Input() pattern: string;
+  private constraint: RegExp;
+
+  private errorMessage: string;
+  private showError = '';
+  constructor(private eventData: EventDataService) {
+    super();
+
+  }
+
+  ngOnInit() {
+  }
+
+  public onChange(val: any) {
+    this.onUpdateNgModel(val);
+  }
+
+  onUpdateNgModel(newValue: string): void {
+    if (!this.modelValid()) {
+      this.model = { enable: 'true', value: '' };
+    }
+    this.selectedValue = newValue;
+    this.model.value = newValue;
+  }
+
+  ngAfterViewInit(): void {
+    if (this.modelValid()) {
+      this.onUpdateNgModel(this.model.value);
+    }
+  }
+
+  ngOnChanges(): void {
+    if (this.modelValid()) {
+      this.onUpdateNgModel(this.model.value);
+    }
+  }
+
+  modelValid() {
+    return this.model !== undefined && this.model !== null;
+  }
+
+  onBlur(): any {
+    this.constraint = new RegExp('((http|https)(:\/\/))?([a-zA-Z0-9]+[.]{1}){2}[a-zA-z0-9]+(\/{1}[a-zA-Z0-9]+)*\/?', 'i');
+    if (!this.constraint.test(this.model.value)) {
+      this.errorMessage = 'Input not in correct form';
+      this.showError = 'inputError';
+    }
+    else {
+      this.errorMessage = '';
+      this.showError = '';
+    }
+    this.eventData.change.emit(this.cmpId);
+  }
+
+}

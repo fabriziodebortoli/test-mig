@@ -1,6 +1,6 @@
 import { ComponentFactory } from '@angular/core';
 
-import { DocumentService } from './../../core/document.service';
+import { DocumentService } from '@taskbuilder/core';
 
 export class ComponentInfo {
     factory: ComponentFactory<any>;//usata per creare dinamicamente il componente

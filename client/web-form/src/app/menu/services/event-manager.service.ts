@@ -1,4 +1,4 @@
-import { Logger } from './../../core/logger.service';
+import { Logger } from '@taskbuilder/core';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, Observer } from 'rxjs/Rx';
 

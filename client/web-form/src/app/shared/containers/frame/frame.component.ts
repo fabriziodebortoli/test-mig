@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { LayoutService } from './../../../core/layout.service';
+import { LayoutService } from '@taskbuilder/core';
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 
 @Component({

@@ -1,11 +1,11 @@
-# taskbuilder-core
+# @taskbuilder/core
 
 ## Installation
 
 To install this library, run:
 
 ```bash
-$ npm install taskbuilder-core --save
+$ npm install https://github.com/Microarea/ng-core.git --save
 ```
 
 ## Consuming your library
@@ -13,7 +13,7 @@ $ npm install taskbuilder-core --save
 Once you have published your library to npm, you can import your library in any Angular application by running:
 
 ```bash
-$ npm install taskbuilder-core
+$ npm install https://github.com/Microarea/ng-core.git
 ```
 
 and then from your Angular `AppModule`:
@@ -24,8 +24,8 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-// Import your library
-import { SampleModule } from 'taskbuilder-core';
+// Import library
+import { TaskbuilderCoreModule } from '@taskbuilder/core';
 
 @NgModule({
   declarations: [
@@ -34,8 +34,8 @@ import { SampleModule } from 'taskbuilder-core';
   imports: [
     BrowserModule,
 
-    // Specify your library as an import
-    LibraryModule
+    // Specify library as an import
+    TaskbuilderCoreModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -43,14 +43,22 @@ import { SampleModule } from 'taskbuilder-core';
 export class AppModule { }
 ```
 
-Once your library is imported, you can use its components, directives and pipes in your Angular application:
+Once library is imported, you can use its components, directives and pipes in your Angular application:
 
 ```xml
-<!-- You can now use your library component in app.component.html -->
+<!-- You can now use library component in app.component.html -->
 <h1>
   {{title}}
 </h1>
-<sampleComponent></sampleComponent>
+<m4-icon icon="erp-document"></m4-icon>
+<tb-icon iconType="M4" icon="erp-document"></tb-icon>
+
+```
+
+Add @import to style.scss
+
+```scss
+@import '../node_modules/@taskbuilder/core/icons/m4.css';
 ```
 
 ## Development

@@ -4,7 +4,7 @@ import { ContextMenuDirective } from './../directives/context-menu.directive';
 import { MenuItem } from './menu-item.model';
 import { Component, Input, ViewChild } from '@angular/core';
 import { EventDataService } from './../../core/eventdata.service';
-import { WebSocketService } from './../../core/websocket.service';
+import { WebSocketService } from '@taskbuilder/core';
 
 
 @Component({
@@ -25,11 +25,11 @@ export class ContextMenuComponent {
 
   @Input() fontIcon = 'more_vert';
   @Input() contextMenu: MenuItem[];
-  @Input() popupClass= 'content popup';
+  @Input() popupClass = 'content popup';
   @ViewChild('anchor') divFocus: HTMLElement;
-  
-  
-  
+
+
+
   constructor(private webSocketService: WebSocketService, private eventDataService: EventDataService) {
     // SCENARIO 1: RIEMPIRE DA SERVER
     // this.webSocketService.contextMenu.subscribe((result) => {

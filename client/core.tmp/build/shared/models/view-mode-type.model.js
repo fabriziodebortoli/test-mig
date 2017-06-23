@@ -1,0 +1,18 @@
+export let ViewModeType = {};
+ViewModeType.A = 0;
+ViewModeType.B = 1;
+ViewModeType.D = 2;
+ViewModeType.F = 3;
+ViewModeType.M = 4;
+ViewModeType.P = 5;
+ViewModeType.R = 6;
+ViewModeType.W = 7;
+ViewModeType[ViewModeType.A] = "A";
+ViewModeType[ViewModeType.B] = "B";
+ViewModeType[ViewModeType.D] = "D";
+ViewModeType[ViewModeType.F] = "F";
+ViewModeType[ViewModeType.M] = "M";
+ViewModeType[ViewModeType.P] = "P";
+ViewModeType[ViewModeType.R] = "R";
+ViewModeType[ViewModeType.W] = "W";
+;

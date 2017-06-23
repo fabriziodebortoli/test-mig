@@ -1,6 +1,7 @@
-import { HttpService } from './http.service';
 import { URLSearchParams, Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
+
+import { HttpService } from '@taskbuilder/core';
 
 @Injectable()
 export class EnumsService {

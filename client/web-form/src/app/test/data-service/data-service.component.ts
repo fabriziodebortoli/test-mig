@@ -5,7 +5,7 @@ import { environment } from './../../../environments/environment';
 
 import { DocumentComponent } from '../../shared/document.component';
 
-import { ComponentService } from './../../core/component.service';
+import { ComponentService } from '@taskbuilder/core';
 import { EventDataService } from './../../core/eventdata.service';
 import { DataService } from './../../core/data.service';
 

@@ -1,10 +1,10 @@
-import { UtilsService } from './../../core/utils.service';
-import { HttpService } from './../../core/http.service';
+import { UtilsService } from '@taskbuilder/core';
+import { HttpService } from '@taskbuilder/core';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { Logger } from './../../core/logger.service';
+import { Logger } from '@taskbuilder/core';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
@@ -37,6 +37,7 @@ export class HttpMenuService {
     getMenuElements(): Observable<any> {
         let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company'), token: this.cookieService.get('authtoken') }
         let urlToRun = this.httpService.getMenuServiceUrl() + 'getMenuElements/';
+        this.logger.error(urlToRun)
         return this.postData(urlToRun, obj)
             .map((res: any) => {
                 return res.json();

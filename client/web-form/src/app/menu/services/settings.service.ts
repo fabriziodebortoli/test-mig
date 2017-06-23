@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { UtilsService } from './../../core/utils.service';
+import { UtilsService } from '@taskbuilder/core';
 import { EventManagerService } from './event-manager.service';
 import { HttpMenuService } from './http-menu.service';
 
-import { Logger } from './../../core/logger.service';
+import { Logger } from '@taskbuilder/core';
 
 @Injectable()
 export class SettingsService {

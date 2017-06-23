@@ -62,12 +62,12 @@ import { TopbarMenuElementsComponent } from './topbar/topbar-menu/topbar-menu-el
 import { TbCardComponent } from './containers/tb-card/tb-card.component';
 import { TbCardTitleComponent } from './containers/tb-card/tb-card-title/tb-card-title.component';
 import { TbCardContentComponent } from './containers/tb-card/tb-card-content/tb-card-content.component';
-import { IconComponent } from './icons/icon.component';
-import { M4IconComponent } from './icons/m4-icon.component';
 import { HotlinkComponent } from './controls/hotlink/hotlink.component';
 import { TbCardHeaderComponent } from './containers/tb-card/tb-card-header/tb-card-header.component';
 import { TbCardSubtitleComponent } from './containers/tb-card/tb-card-subtitle/tb-card-subtitle.component';
 import { TbCardFooterComponent } from './containers/tb-card/tb-card-footer/tb-card-footer.component';
+
+import { TaskbuilderCoreModule } from '@taskbuilder/core';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -88,7 +88,7 @@ const TB_COMPONENTS = [
   ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
   ViewComponent, DockpaneComponent, FrameComponent, FrameContentComponent, ViewContainerComponent, DockpaneContainerComponent,
   DynamicCmpComponent, UnknownComponent,
-  CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent, 
+  CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
   DateInputComponent,
   OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
   TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent, HeaderStripComponent,
@@ -96,9 +96,8 @@ const TB_COMPONENTS = [
   ImageComponent, ColorPickerComponent,
   BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
   PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent, MessageDialogComponent,
-  IconComponent, TopbarMenuElementsComponent, TbCardComponent, TbCardTitleComponent, TbCardContentComponent,
-  M4IconComponent, ConnectionStatusComponent, HotlinkComponent, TbCardHeaderComponent, TbCardSubtitleComponent,TbCardFooterComponent
-
+  TopbarMenuElementsComponent, TbCardComponent, TbCardTitleComponent, TbCardContentComponent,
+  ConnectionStatusComponent, HotlinkComponent, TbCardHeaderComponent, TbCardSubtitleComponent, TbCardFooterComponent
 ];
 
 const TB_DIRECTIVES = [
@@ -109,18 +108,18 @@ const TB_DIRECTIVES = [
 
 @NgModule({
   imports: [
-    ReactiveFormsModule, InputsModule,
-    DialogModule,
+    ReactiveFormsModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
-    KENDO_UI_MODULES
+    KENDO_UI_MODULES,
+    TaskbuilderCoreModule
   ],
-  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent ],
-  exports: [TB_COMPONENTS, TB_DIRECTIVES],
-  entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
+  declarations: [TB_COMPONENTS, TB_DIRECTIVES, MessageDialogComponent],
+  exports: [TB_COMPONENTS, TB_DIRECTIVES, TaskbuilderCoreModule],
+  // entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
 
 })
 export class SharedModule {

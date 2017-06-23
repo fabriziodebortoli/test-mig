@@ -1,17 +1,19 @@
-import { HttpService } from './../../core/http.service';
+import { UtilsService } from '@taskbuilder/core';
+import { HttpService } from '@taskbuilder/core';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { Logger } from './../../core/logger.service';
 
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { Logger } from '@taskbuilder/core';
 
 @Injectable()
 export class ImageService {
-      
+
     constructor(
         protected http: Http,
         protected logger: Logger,
         private httpService: HttpService
-        ) {
+    ) {
         this.logger.debug('ImageService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
@@ -19,7 +21,7 @@ export class ImageService {
 
         let url = 'assets/images/';
 
-        switch(application.name){
+        switch (application.name) {
             case 'TBS':
                 url += 'LogoTBSSmall.png';
                 break;
@@ -44,7 +46,7 @@ export class ImageService {
         }
 
         let imageFile = item['image_file'];
-         return imageFile === undefined ? 'Images/Default.png' : this.httpService.getMenuServiceUrl() + 'getStaticImage/?imageFile=' + imageFile;
+        return imageFile === undefined ? 'Images/Default.png' : this.httpService.getMenuServiceUrl() + 'getStaticImage/?imageFile=' + imageFile;
     }
 
     //---------------------------------------------------------------------------------------------

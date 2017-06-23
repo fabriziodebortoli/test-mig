@@ -1,4 +1,4 @@
-import { UtilsService } from './../../../../core/utils.service';
+import { UtilsService } from '@taskbuilder/core';
 import { fieldrect } from './../../../reporting-studio.model';
 
 import { Component, Input, ChangeDetectorRef, AfterViewInit } from '@angular/core';

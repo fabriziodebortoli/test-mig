@@ -3,8 +3,8 @@ import { ControlComponent } from './../control.component';
 import { Component, Input, OnChanges, OnInit, AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
 import { EnumsService } from './../../../core/enums.service';
 import { EventDataService } from './../../../core/eventdata.service';
-import { DocumentService } from './../../../core/document.service';
-import { WebSocketService } from './../../../core/websocket.service';
+import { DocumentService } from '@taskbuilder/core';
+import { WebSocketService } from '@taskbuilder/core';
 
 @Component({
     selector: 'tb-combo',
@@ -16,7 +16,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
 
     private items: Array<any> = [];
     private selectedItem: any;
-    private itemSourceSub : Subscription;
+    private itemSourceSub: Subscription;
     @Input() public itemSource: any = undefined;
     @Input() public hotLink: any = undefined;
     @Input() width: number;
@@ -27,7 +27,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     ) {
         super();
 
-       this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
+        this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
             this.items = result.itemSource;
         });
     }
@@ -79,7 +79,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
         this.selectedItem = obj;
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.itemSourceSub.unsubscribe();
     }
 

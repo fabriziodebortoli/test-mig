@@ -1,0 +1,14 @@
+<div class="favorites" *ngIf="menuService?.favoritesCount > 0">
+
+    <ul class="favorites-list">
+        <li *ngFor="let favorite of favorites" class="favorite-item">
+
+            <md-icon class="type">{{imageService.getObjectIcon(favorite)}}</md-icon>
+
+            <span class="truncate" (click)="runFunction(favorite)">{{favorite.title}}</span>
+
+            <md-icon class="close" (click)="menuService.toggleFavorites(favorite)" title="Remove">close</md-icon>
+        </li>
+    </ul>
+
+</div>
