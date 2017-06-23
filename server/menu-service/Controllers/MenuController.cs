@@ -12,11 +12,13 @@ namespace Microarea.Menu.Controllers
 	[Route("menu-service")]
 	public class MenuController : Controller
 	{
-		public MenuController()
+        //---------------------------------------------------------------------
+        public MenuController()
 		{
 		}
 
-		[Route("getMenuElements")]
+        //---------------------------------------------------------------------
+        [Route("getMenuElements")]
 		public IActionResult GetMenuElements()
 		{
 			string user = HttpContext.Request.Form["user"];
@@ -27,7 +29,8 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
 		}
 
-		[Route("getPreferences")]
+        //---------------------------------------------------------------------
+        [Route("getPreferences")]
 		public IActionResult GetPreferences()
 		{
 			string user = HttpContext.Request.Form["user"];
@@ -38,7 +41,8 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
 		}
 
-		[Route("setPreference")]
+        //---------------------------------------------------------------------
+        [Route("setPreference")]
 		public IActionResult SetPreference()
 		{
 			string user = HttpContext.Request.Form["user"];
@@ -50,7 +54,8 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
 		}
 
-		[Route("getThemedSettings")]
+        //---------------------------------------------------------------------
+        [Route("getThemedSettings")]
 		public IActionResult GetThemedSettings()
 		{
 			string token = HttpContext.Request.Form["token"];
@@ -58,7 +63,8 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
 		}
 
-		[Route("getConnectionInfo")]
+        //---------------------------------------------------------------------
+        [Route("getConnectionInfo")]
 		public IActionResult GetConnectionInfo()
 		{
 			string token = HttpContext.Request.Form["token"];
@@ -66,31 +72,8 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
 		}
 
-		[Route("favoriteObject")]
-		public IActionResult FavoriteObject()
-		{
-			string target = HttpContext.Request.Form["target"];
-			string objectType = HttpContext.Request.Form["objectType"];
-			string objectName = HttpContext.Request.Form["objectName"];
-			string user = HttpContext.Request.Form["user"];
-			string company = HttpContext.Request.Form["company"];
-			NewMenuSaver.AddToFavorites(target, objectType, objectName, user, company);
-			return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
-		}
-
-		[Route("unFavoriteObject")]
-		public IActionResult UnFavoriteObject()
-		{
-			string target = HttpContext.Request.Form["target"];
-			string objectType = HttpContext.Request.Form["objectType"];
-			string objectName = HttpContext.Request.Form["objectName"];
-			string user = HttpContext.Request.Form["user"];
-			string company = HttpContext.Request.Form["company"];
-			NewMenuSaver.RemoveFromFavorites(target, objectType, objectName, user, company);
-			return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
-		}
-
-		[Route("clearAllMostUsed")]
+        //---------------------------------------------------------------------
+        [Route("clearAllMostUsed")]
 		public IActionResult ClearAllMostUsed()
 		{
 			string user = HttpContext.Request.Form["user"];
@@ -99,7 +82,8 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
 		}
 
-		[Route("getMostUsedShowNr")]
+        //---------------------------------------------------------------------
+        [Route("getMostUsedShowNr")]
 		public IActionResult GetMostUsedShowNr()
 		{
 			string user = HttpContext.Request.Form["user"];
@@ -108,32 +92,20 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
 		}
 
-		[Route("addToMostUsed")]
-		public IActionResult AddToMostUsed()
-		{
-			string target = HttpContext.Request.Form["target"];
-			string objectType = HttpContext.Request.Form["objectType"];
-			string objectName = HttpContext.Request.Form["objectName"];
-			string user = HttpContext.Request.Form["user"];
-			string company = HttpContext.Request.Form["company"];
-			NewMenuSaver.AddToMostUsed(target, objectType, objectName, user, company);
-			return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
-		}
+        //---------------------------------------------------------------------
+        [Route("updateAllFavoritesAndMostUsed")]
+        public IActionResult UpdateAllFavoritesAndMostUsed()
+        {
+            string favorites = HttpContext.Request.Form["favorites"];
+            string mostUsed = HttpContext.Request.Form["mostUsed"];
+            string user = HttpContext.Request.Form["user"];
+            string company = HttpContext.Request.Form["company"];
+            NewMenuSaver.UpdateAllFavoritesAndMostUsed(favorites, mostUsed, user, company);
+            return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+        }
 
-
-		[Route("removeFromMostUsed")]
-		public IActionResult RemoveFromMostUsed()
-		{
-			string target = HttpContext.Request.Form["target"];
-			string objectType = HttpContext.Request.Form["objectType"];
-			string objectName = HttpContext.Request.Form["objectName"];
-			string user = HttpContext.Request.Form["user"];
-			string company = HttpContext.Request.Form["company"];
-			NewMenuSaver.RemoveFromMostUsed(target, objectType, objectName, user, company);
-			return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
-		}
-
-		[Route("clearCachedData")]
+        //---------------------------------------------------------------------
+        [Route("clearCachedData")]
 		public IActionResult ClearCachedData()
 		{
 			string user = HttpContext.Request.Form["user"];
@@ -141,7 +113,8 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
 		}
 
-		[Route("getLocalizedElements")]
+        //---------------------------------------------------------------------
+        [Route("getLocalizedElements")]
 		public IActionResult GetLocalizedElements()
 		{
 			string token = HttpContext.Request.Form["token"];
@@ -152,7 +125,8 @@ namespace Microarea.Menu.Controllers
 		}
 
 
-		[Route("getProductInfo")]
+        //---------------------------------------------------------------------
+        [Route("getProductInfo")]
 		public IActionResult GetProductInfo()
 		{
 			string token = HttpContext.Request.Form["token"];
@@ -160,7 +134,8 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
 		}
 
-		[Route("getPingViaSMSUrl")]
+        //---------------------------------------------------------------------
+        [Route("getPingViaSMSUrl")]
 		public IActionResult GetPingViaSMSUrl()
 		{
 			string url = MenuStaticFunctions.PingViaSMSUrl();
@@ -168,7 +143,8 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
 		}
 
-		[Route("getProducerSite")]
+        //---------------------------------------------------------------------
+        [Route("getProducerSite")]
 		public IActionResult GetProducerSite()
 		{
 			string url = MenuStaticFunctions.ProducerSiteUrl();
@@ -176,7 +152,8 @@ namespace Microarea.Menu.Controllers
 			return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
 		}
 
-		[Route("getStaticImage/{imageFile?}")]
+        //---------------------------------------------------------------------
+        [Route("getStaticImage/{imageFile?}")]
 		public IActionResult getStaticImage(string imageFile)
 		{
 			string fullImagePath = Path.Combine(BasePathFinder.BasePathFinderInstance.GetStandardPath(), imageFile);
