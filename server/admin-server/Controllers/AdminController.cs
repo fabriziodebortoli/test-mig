@@ -32,11 +32,12 @@ namespace Microarea.AdminServer.Controllers
         IDataProvider _urlsSQLDataProvider;
 
         IJsonHelper _jsonHelper;
-		HttpClient client;
+		IHttpHelper _httpHelper;
+
 		string GWAMUrl;
 
 		//-----------------------------------------------------------------------------	
-		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper)
+		public AdminController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper, IHttpHelper httpHelper)
         {
             _env = env;
             _settings = settings.Value;
@@ -44,9 +45,8 @@ namespace Microarea.AdminServer.Controllers
 			SqlProviderFactory();
 			this.GWAMUrl = _settings.ExternalUrls.GWAMUrl;
 
-			client = new HttpClient();
-			client.DefaultRequestHeaders.Accept.Clear();
-			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+			_jsonHelper = jsonHelper;
+			_httpHelper = httpHelper;
 		}
 
 		//-----------------------------------------------------------------------------	
@@ -384,34 +384,26 @@ namespace Microarea.AdminServer.Controllers
             return new OperationResult(true, "ok");
         }
 
-        //----------------------------------------------------------------------
-        private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials)
+		//----------------------------------------------------------------------
+		private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials)
 		{
-			var formContent = new FormUrlEncodedContent(new[]
-				{
-					new KeyValuePair<string, string>("accountName", credentials.AccountName),
-					new KeyValuePair<string, string>("password", credentials.Password),
-					new KeyValuePair<string, string>("instanceKey", _settings.InstanceIdentity.InstanceKey)
-				}
-			);
+			string url = _settings.ExternalUrls.GWAMUrl + "accounts";
 
-			HttpResponseMessage responseMessage = await client.PostAsync(this.GWAMUrl + "accounts/", formContent);
-			var responseData = responseMessage.Content.ReadAsStringAsync();
-			return responseData;
+			List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
+			entries.Add(new KeyValuePair<string, string>("accountName", credentials.AccountName));
+			entries.Add(new KeyValuePair<string, string>("password", credentials.Password));
+			entries.Add(new KeyValuePair<string, string>("instanceKey", _settings.InstanceIdentity.InstanceKey));
+
+			OperationResult opRes = await _httpHelper.PostDataAsync(url, entries);
+			return (Task<string>)opRes.Content;
 		}
 
-        //----------------------------------------------------------------------
-        private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
+		//----------------------------------------------------------------------
+		private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
         {
-            var formContent = new FormUrlEncodedContent(new[]
-                   {
-                    new KeyValuePair<string, string>("", "")//todo come metterlo vuoto che non serve? null? FormUrlEncodedContent.Empty?
-                }
-               );
-            HttpResponseMessage responseMessage = await client.PostAsync(this.GWAMUrl + accMod.AccountName + accMod.Ticks, formContent);
-            var responseData = responseMessage.Content.ReadAsStringAsync();
-            return responseData;
-        }
+			OperationResult opRes = await _httpHelper.PostDataAsync(this.GWAMUrl + accMod.AccountName + accMod.Ticks, new List<KeyValuePair<string, string>>());
+			return (Task<string>)opRes.Content;
+		}
 
         //----------------------------------------------------------------------
         private UserTokens CreateTokens(IAccount account)
