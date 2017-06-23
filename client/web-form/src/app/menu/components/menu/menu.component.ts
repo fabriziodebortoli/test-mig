@@ -59,6 +59,7 @@ private subscriptions : Subscription[] = [];
   }
 
   ngOnDestroy() {
+    this.menuService.updateAllFavoritesAndMostUsed();
     this.subscriptions.forEach((sub)=> sub.unsubscribe());
   }
 }

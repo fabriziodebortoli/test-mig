@@ -308,13 +308,11 @@ export class MenuService {
         var isFavorite = object.isFavorite;
         if (object.isFavorite == undefined || !object.isFavorite) {
             object.isFavorite = true;
-            this.httpMenuService.favoriteObject(object);
             this.addToFavoritesInternal(object);
             // $rootScope.$emit('favoritesAdded', object);
         }
         else {
             object.isFavorite = false;
-            this.httpMenuService.unFavoriteObject(object);
             this.removeFromFavoritesInternal(object);
             // $rootScope.$emit('favoritesRemoved', object);
         }
@@ -349,6 +347,13 @@ export class MenuService {
         }
     }
 
+    updateAllFavoritesAndMostUsed() {
+        let sub = this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe(() => {
+            sub.unsubscribe();
+        });
+    }
+
+
     //---------------------------------------------------------------------------------------------
     setFavoritesIsOpened() {
 
@@ -375,9 +380,9 @@ export class MenuService {
     //---------------------------------------------------------------------------------------------
     compareMostUsed(a, b) {
         if (a.lastModified < b.lastModified)
-            return -1;
-        if (a.lastModified > b.lastModified)
             return 1;
+        if (a.lastModified > b.lastModified)
+            return -1;
         return 0;
     }
 
@@ -454,20 +459,13 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     addToMostUsed(object) {
-        if (object.isMostUsed)
-            return;
-
-        this.httpMenuService.addToMostUsed(object).subscribe(result => {
-            this.addToMostUsedArray(object);
-        })
+        this.addToMostUsedArray(object);
     }
-
 
     //---------------------------------------------------------------------------------------------
     removeFromMostUsed = function (object) {
-        this.httpMenuService.removeFromMostUsed(object).subscribe(result => {
-            this.removeFromMostUsedArray(object);
-        })
+
+        this.removeFromMostUsedArray(object);
     };
 
     //---------------------------------------------------------------------------------------------
@@ -479,6 +477,8 @@ export class MenuService {
             if (this.mostUsed[i].target == object.target && this.mostUsed[i].objectType == object.objectType &&
                 (object.objectName == undefined || (object.objectName != undefined && object.objectName == this.mostUsed[i].objectName))) {
                 this.mostUsed[i].lastModified = now;
+
+                 this.mostUsed = this.mostUsed.sort(this.compareMostUsed);
                 return;
             }
         }
@@ -504,6 +504,7 @@ export class MenuService {
         if (index >= 0) {
             this.mostUsed.splice(index, 1);
             this.mostUsedCount--;
+            this.mostUsed = this.mostUsed.sort(this.compareMostUsed);
         }
     };
 
