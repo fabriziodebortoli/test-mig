@@ -24,7 +24,7 @@ namespace Microarea.AdminServer.Services.Providers
 		public IAdminModel Load(IAdminModel iModel)
 		{
 			Instance instance;
-
+            
 			try
 			{
 				instance = (Instance)iModel;
@@ -33,12 +33,13 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.SelectInstance, connection))
 					{
-						command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
+					
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
 							{
-								instance.Description = dataReader["Description"] as string;
+                                instance.InstanceKey = dataReader["InstanceKey"] as string;
+                                instance.Description = dataReader["Description"] as string;
 								instance.Disabled = (bool)dataReader["Disabled"];
 								instance.ExistsOnDB = true;
 							}
