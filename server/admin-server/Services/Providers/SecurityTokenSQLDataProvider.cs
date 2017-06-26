@@ -64,6 +64,12 @@ namespace Microarea.AdminServer.Services.Providers
             try
             {
                 token = (ISecurityToken)iModel;
+                if (String.IsNullOrEmpty(token.AccountName) || String.IsNullOrEmpty(token.Token))
+                {
+                    // Se il token è empty non salvo e non do errore.
+                    opRes.Result = true;
+                    return opRes;
+                }
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
