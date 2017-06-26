@@ -60,7 +60,39 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public List<ServerURL> LoadURLs()
 		{
-			return new List<ServerURL>();
+			List<ServerURL> serverURLs = new List<ServerURL>();
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+					using (SqlCommand command = new SqlCommand(Consts.SelectURlsInstance, connection))
+					{
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							ServerURL serverUrl = new ServerURL();
+
+							while (dataReader.Read())
+							{
+								serverUrl.InstanceKey = dataReader["InstanceKey"] as string;
+								serverUrl.URLType = (URLType)dataReader["URLType"];
+								serverUrl.URL = dataReader["URL"] as string;
+
+								serverURLs.Add(serverUrl);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return new List<ServerURL>();
+			}
+
+			return serverURLs;
 		}
 
 		//---------------------------------------------------------------------
