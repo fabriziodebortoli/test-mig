@@ -264,6 +264,7 @@ namespace Microarea.AdminServer.Controllers
                             _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
                             return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                         }
+
                         OperationResult subOpRes =  SaveSubscriptions(accountIdentityPack);
                         if (!subOpRes.Result)//fallisce a salvare le subscription associate e  interrompo la login, corretto?
                         {
