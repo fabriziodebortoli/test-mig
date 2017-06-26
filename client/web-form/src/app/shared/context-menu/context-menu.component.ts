@@ -3,7 +3,7 @@ import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interf
 import { ContextMenuDirective } from './../directives/context-menu.directive';
 import { MenuItem } from './menu-item.model';
 import { Component, Input, ViewChild } from '@angular/core';
-import { EventDataService } from './../../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 import { WebSocketService } from '@taskbuilder/core';
 
 

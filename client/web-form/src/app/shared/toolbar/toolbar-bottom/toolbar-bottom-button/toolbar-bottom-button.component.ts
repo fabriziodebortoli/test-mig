@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { EventDataService } from './../../../../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-toolbar-bottom-button',

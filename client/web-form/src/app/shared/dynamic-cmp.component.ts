@@ -1,6 +1,6 @@
 import { MessageDialogComponent, MessageDlgArgs } from './containers/message-dialog/message-dialog.component';
 import { ComponentService } from '@taskbuilder/core';
-import { EventDataService } from './../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 import { BOService } from '@taskbuilder/core';
 import { DocumentComponent } from '.';
 import { ComponentInfo } from './models/component.info';

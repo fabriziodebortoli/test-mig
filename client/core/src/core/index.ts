@@ -2,11 +2,11 @@
 export * from './services/bo.service';
 export * from './services/bohelper.service';
 export * from './services/component.service';
-// export * from './services/data.service';
+export * from './services/data.service';
 export * from './services/document.service';
 // export * from './services/enums.service';
-// export * from './services/eventdata.service';
-// export * from './services/explorer.service';
+export * from './services/eventdata.service';
+export * from './services/explorer.service';
 export * from './services/http.service';
 export * from './services/info.service';
 export * from './services/layout.service';

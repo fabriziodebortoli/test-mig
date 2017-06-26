@@ -2,7 +2,7 @@
 import { EnumsService } from './../../../core/enums.service';
 import { ControlComponent } from './../control.component';
 import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
-import { EventDataService } from './../../../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 import { DocumentService } from '@taskbuilder/core';
 import { WebSocketService } from '@taskbuilder/core';
 

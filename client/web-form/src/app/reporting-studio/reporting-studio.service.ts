@@ -4,7 +4,7 @@ import { environment } from './../../environments/environment';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import { EventDataService } from './../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 import { DocumentService } from '@taskbuilder/core';
 import { CommandType, PdfType } from './reporting-studio.model';
 
