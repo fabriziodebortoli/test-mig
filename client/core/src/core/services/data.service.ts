@@ -16,27 +16,25 @@ export class DataService extends DocumentService {
   }
 
   getData(nameSpace: string, selectionType: string, params: URLSearchParams): Observable<Response> {
-
-    let url: string = this.urlService.getBackendUrl() + 'data-service/getdata/' + nameSpace + '/' + selectionType;
+    let url: string = this.urlService.getBackendUrl() + '/data-service/getdata/' + nameSpace + '/' + selectionType;
 
     return this.http.get(url, { search: params, withCredentials: true }).map((res: Response) => res.json());
   }
 
   getColumns(nameSpace: string, selectionType: string): Observable<Response> {
-
-    let url: string = this.urlService.getBackendUrl() + 'data-service/getcolumns/' + nameSpace + '/' + selectionType;
+    let url: string = this.urlService.getBackendUrl() + '/data-service/getcolumns/' + nameSpace + '/' + selectionType;
 
     return this.http.get(url, { withCredentials: true }).map((res: Response) => res.json());
   }
 
   getSelections(nameSpace: string): Observable<Response> {
-    let url: string = this.urlService.getBackendUrl() + 'data-service/getselections/' + nameSpace;
+    let url: string = this.urlService.getBackendUrl() + '/data-service/getselections/' + nameSpace;
 
     return this.http.get(url, { withCredentials: true }).map((res: Response) => res.json());
   }
 
   getParameters(nameSpace: string): Observable<Response> {
-    let url: string = this.urlService.getBackendUrl() + 'data-service/getparameters/' + nameSpace;
+    let url: string = this.urlService.getBackendUrl() + '/data-service/getparameters/' + nameSpace;
 
     return this.http.get(url, { withCredentials: true }).map((res: Response) => res.json());
   }

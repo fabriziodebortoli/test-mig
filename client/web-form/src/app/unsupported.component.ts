@@ -4,7 +4,7 @@ import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { DocumentComponent } from './shared/document.component';
 
 import { ComponentService } from '@taskbuilder/core';
-import { EventDataService } from './core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-unsupported',

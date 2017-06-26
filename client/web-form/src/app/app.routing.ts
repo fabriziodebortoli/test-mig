@@ -18,8 +18,8 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
-    { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard]},
-    { path: 'rs/:ns', component: StandaloneReportComponent},
+    { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard] },
+    { path: 'rs/:ns', component: StandaloneReportComponent },
     {
         path: 'proxy',
         outlet: 'dynamic',

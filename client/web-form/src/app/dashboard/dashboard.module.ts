@@ -47,10 +47,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   declarations: [DashboardComponent]
 })
 export class DashboardModule {
-   static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders {
     return {
       ngModule: DashboardModule,
       providers: [WidgetsService]
     };
   }
- }
+}

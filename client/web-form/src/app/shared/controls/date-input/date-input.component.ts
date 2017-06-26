@@ -3,7 +3,7 @@ import { ControlComponent } from './../control.component';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 // import * as moment from 'moment';
 // import { formatDate } from '@telerik/kendo-intl';
-import { EventDataService } from './../../../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-date-input',

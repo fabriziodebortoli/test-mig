@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnChanges, AfterContentInit, Output, EventEmitter } from '@angular/core';
 // import { ContextMenuComponent } from './../context-menu/context-menu.component';
-import { EventDataService } from './../../../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 import { ControlComponent } from '../control.component';
 
 @Component({

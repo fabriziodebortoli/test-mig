@@ -1,4 +1,4 @@
-import { EventDataService } from './../../../../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 import { UtilsService } from '@taskbuilder/core';
 import { MenuService } from './../../../../menu/services/menu.service';
 import { HttpMenuService } from './../../../../menu/services/http-menu.service';
