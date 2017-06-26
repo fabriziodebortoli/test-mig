@@ -1,5 +1,4 @@
-﻿using System;
-using Microarea.AdminServer.Model.Interfaces;
+﻿using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer.Model

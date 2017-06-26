@@ -7,6 +7,7 @@
 	{
 		string InstanceKey { get; }
 		URLType URLType { get; }
+		string AppName { get; set; }
 		string URL { get; set; }
 	}
 }
