@@ -607,13 +607,13 @@ namespace Microarea.AdminServer.Controllers
 		[HttpGet("/api/accounts/{accountName?}")]
 		[Produces("application/json")]
 		//-----------------------------------------------------------------------------	
-		public IActionResult ApiGetAccounts()
+		public IActionResult ApiGetAccounts(string accountName)
 		{
 			IAccount[] accountArray = null;
 
 			try
 			{
-				accountArray = ((AccountSQLDataProvider)_accountSqlDataProvider).GetAccounts(); // gestire il parametro facoltativo per il caricamento di un solo elemento
+				accountArray = ((AccountSQLDataProvider)_accountSqlDataProvider).GetAccounts(accountName);
 			}
 			catch (Exception exc)
 			{
