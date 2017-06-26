@@ -341,6 +341,7 @@ namespace Microarea.AdminServer.Controllers
 		private List<ServerURL> GetUrlsForThisInstance(string instanceKey)
 		{
 			Instance iInstance = new Instance(instanceKey);
+			iInstance.SetDataProvider(_instanceSqlDataProvider);
 			iInstance.Load();
 
 			if (!iInstance.ExistsOnDB)
