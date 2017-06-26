@@ -3,11 +3,12 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Services.Providers
 {
 	//================================================================================
-	public class InstanceSQLDataProvider : IDataProvider
+	public class InstanceSQLDataProvider : IDataProvider, IInstanceDataProvider
     {
         string connectionString;
 
@@ -24,7 +25,7 @@ namespace Microarea.AdminServer.Services.Providers
 		public IAdminModel Load(IAdminModel iModel)
 		{
 			Instance instance;
-
+            
 			try
 			{
 				instance = (Instance)iModel;
@@ -33,12 +34,13 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.SelectInstance, connection))
 					{
-						command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
+					
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
 							{
-								instance.Description = dataReader["Description"] as string;
+                                instance.InstanceKey = dataReader["InstanceKey"] as string;
+                                instance.Description = dataReader["Description"] as string;
 								instance.Disabled = (bool)dataReader["Disabled"];
 								instance.ExistsOnDB = true;
 							}
@@ -53,6 +55,44 @@ namespace Microarea.AdminServer.Services.Providers
 			}
 
 			return instance;
+		}
+
+		//---------------------------------------------------------------------
+		public List<ServerURL> LoadURLs()
+		{
+			List<ServerURL> serverURLs = new List<ServerURL>();
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+					using (SqlCommand command = new SqlCommand(Consts.SelectURlsInstance, connection))
+					{
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							ServerURL serverUrl = new ServerURL();
+
+							while (dataReader.Read())
+							{
+								serverUrl.InstanceKey = dataReader["InstanceKey"] as string;
+								serverUrl.URLType = (URLType)dataReader["URLType"];
+								serverUrl.URL = dataReader["URL"] as string;
+
+								serverURLs.Add(serverUrl);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return new List<ServerURL>();
+			}
+
+			return serverURLs;
 		}
 
 		//---------------------------------------------------------------------
