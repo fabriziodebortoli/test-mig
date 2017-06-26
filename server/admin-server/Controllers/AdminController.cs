@@ -142,7 +142,7 @@ namespace Microarea.AdminServer.Controllers
 		// </summary>
 		//-----------------------------------------------------------------------------	
 		[HttpPost("/api/tokens")]
-		public async Task<IActionResult> ApiAccounts([FromBody] Credentials credentials)
+		public async Task<IActionResult> ApiTokens([FromBody] Credentials credentials)
 		{
 			// used as a response to the front-end
 			BootstrapToken bootstrapToken = new BootstrapToken();
