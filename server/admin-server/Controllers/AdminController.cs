@@ -203,9 +203,7 @@ namespace Microarea.AdminServer.Controllers
 					}
 
 					// se credenziali valide
-
 					UserTokens t = CreateTokens(account);
-                
 
                     if (t == null)
 					{
@@ -252,20 +250,13 @@ namespace Microarea.AdminServer.Controllers
 						// user has been found
 						account = accountIdentityPack.Account;
 						account.SetDataProvider(_accountSqlDataProvider);
-						account.Save(); //salvataggio sul provider locale 
-                                        //salvo anche l associazione con le  subscription e  tutti gli URLs
 
-                        OperationResult urlOpRes = SaveServerURLs(null);
-                        if (!urlOpRes.Result)//fallisce a salvare gli url associate e  interrompo la login, corretto?
-                        {
-                            bootstrapTokenContainer.Result = false;
-                            bootstrapTokenContainer.Message = urlOpRes.Message;
-                            bootstrapTokenContainer.ResultCode = (int)LoginReturnCodes.Error;
-                            _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
-                            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-                        }
+						//salvataggio sul provider locale 
+						//salvo anche l associazione con le  subscription e  tutti gli URLs
+						account.Save();
 
                         OperationResult subOpRes =  SaveSubscriptions(accountIdentityPack);
+
                         if (!subOpRes.Result)//fallisce a salvare le subscription associate e  interrompo la login, corretto?
                         {
                             bootstrapTokenContainer.Result = false;
@@ -277,6 +268,7 @@ namespace Microarea.AdminServer.Controllers
 
                         lbc = new LoginBaseClass(account);// Verifica credenziali 
 						LoginReturnCodes res = lbc.VerifyCredential(credentials.Password);
+
                         if (res != LoginReturnCodes.NoError)
                         {
                             bootstrapTokenContainer.Result = false;
@@ -286,10 +278,10 @@ namespace Microarea.AdminServer.Controllers
                             return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
                         }
 					}
+
                     // login ok, creaimo token e urls per pacchetto di risposta
                    
                     UserTokens t = CreateTokens(account);
-
 
 					if (t == null)
 					{
@@ -304,7 +296,7 @@ namespace Microarea.AdminServer.Controllers
 					bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
 					bootstrapToken.PreferredLanguage = account.PreferredLanguage;
 					bootstrapToken.Subscriptions = accountIdentityPack.Subscriptions;
-					bootstrapToken.Urls = new List<string>(); // todo: get server urls for this account
+					bootstrapToken.Urls = GetUrlsForThisInstance(_settings.InstanceIdentity.InstanceKey);
 					bootstrapToken.UserTokens = t;
 
 					bootstrapTokenContainer.Result = true;
@@ -339,6 +331,12 @@ namespace Microarea.AdminServer.Controllers
 		}
 
 		//----------------------------------------------------------------------
+		private List<ServerURL> GetUrlsForThisInstance(string instanceKey)
+		{
+			return new List<ServerURL>();
+		}
+
+		//----------------------------------------------------------------------
 		private string GenerateJWTToken(BootstrapToken bootstrapToken)
 		{
 			JWTToken jwtToken = new JWTToken();
@@ -367,22 +365,6 @@ namespace Microarea.AdminServer.Controllers
             }
             return new OperationResult(true, "ok");
 
-        }
-
-        //----------------------------------------------------------------------
-        private OperationResult SaveServerURLs(ServerURL[] urls)
-        {
-            //if (urls == null || urls.Length == 0) return new OperationResult(false, Strings.EmptyURLS);
-            //foreach (ServerURL  s in urls)
-            //{
-            //    s.SetDataProvider(_urlsSQLDataProvider);
-            //    OperationResult result = s.Save();
-            //    if (!result.Result)
-            //    {
-            //        return result;
-            //    }
-            //}
-            return new OperationResult(true, "ok");
         }
 
 		//----------------------------------------------------------------------

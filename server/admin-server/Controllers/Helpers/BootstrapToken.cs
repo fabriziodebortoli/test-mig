@@ -52,7 +52,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 				this.SignToken("LeonardoDaVinci");
 				return String.Concat(EncodeHeader(), ".", EncodePayload(), ".", this.signature);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return String.Empty; // todo: add log
 			}
@@ -117,7 +117,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
         public string ApplicationLanguage;
         public UserTokens UserTokens;
         public Subscription[] Subscriptions;
-        public List<string> Urls;
+        public List<ServerURL> Urls;
 		
 		//--------------------------------------------------------------------------------
 		public BootstrapToken() {
@@ -127,7 +127,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			this.ApplicationLanguage = String.Empty;
 			this.UserTokens = new UserTokens();
 			this.Subscriptions = new Subscription[] { };
-			this.Urls = new List<string>();
+			this.Urls = new List<ServerURL>();
 		}
     }
     
