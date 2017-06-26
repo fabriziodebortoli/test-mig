@@ -55,10 +55,12 @@ namespace Microarea.AdminServer
         // Account
         public const string ExistAccount = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
         public const string SelectAccount = @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
+
         public const string InsertAccount = @"INSERT INTO MP_Accounts (AccountName, FullName, Password, CloudAdmin, Notes, Email, LoginFailedCount, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
 		                                    PasswordExpirationDate, PasswordDuration, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, ApplicationLanguage, Ticks, ExpirationDate) 
-		                                    VALUES (@AccountName, @FullName, @Password,  @Notes, @Email, @LoginFailedCount, @PasswordNeverExpires, @MustChangePassword, @CannotChangePassword, 
-		                                    @PasswordExpirationDate, @PasswordDuration, @Disabled, @Locked, @ProvisioningAdmin, @CloudAdmin, @WindowsAuthentication, @PreferredLanguage, @ApplicationLanguage, @Ticks, @ExpirationDate)";
+		                                    VALUES (@AccountName, @FullName, @Password, @CloudAdmin, @Notes, @Email, @LoginFailedCount, @PasswordNeverExpires, @MustChangePassword, @CannotChangePassword, 
+		                                    @PasswordExpirationDate, @PasswordDuration, @Disabled, @Locked, @ProvisioningAdmin, @WindowsAuthentication, @PreferredLanguage, @ApplicationLanguage, @Ticks, @ExpirationDate)";
+
         public const string UpdateAccount = @"UPDATE MP_Accounts SET FullName = @FullName, Password = @Password,  Notes = @Notes, Email = @Email, LoginFailedCount = @LoginFailedCount
 			                                PasswordNeverExpires = @PasswordNeverExpires, MustChangePassword = @MustChangePassword, CannotChangePassword = @CannotChangePassword, 
 			                                PasswordExpirationDate = @PasswordExpirationDate, PasswordDuration = @PasswordDuration, Disabled = @Disabled, Locked = @Locked, ProvisioningAdmin = @ProvisioningAdmin, CloudAdmin = @CloudAdmin,
