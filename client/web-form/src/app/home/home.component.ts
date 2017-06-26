@@ -1,4 +1,3 @@
-import { EventDataService } from './../core/eventdata.service';
 import { MessageDialogComponent, MessageDlgArgs } from './../shared/containers/message-dialog/message-dialog.component';
 import { Subscription } from 'rxjs';
 import { ComponentInfo } from './../shared/models/component.info';

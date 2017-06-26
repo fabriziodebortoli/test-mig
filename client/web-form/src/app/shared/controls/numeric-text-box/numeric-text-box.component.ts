@@ -1,4 +1,4 @@
-import { EventDataService } from './../../../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 import { Component, Input, OnChanges, AfterViewInit} from '@angular/core';
 import { ControlComponent } from './../control.component';
   

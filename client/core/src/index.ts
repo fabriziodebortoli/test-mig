@@ -26,11 +26,4 @@ export { SocketConnectionStatus } from './shared';
   imports: [CommonModule, TB_MODULES],
   exports: [TB_MODULES]
 })
-export class TaskbuilderCoreModule {
-  // static forRoot(): ModuleWithProviders {
-  //   return {
-  //     ngModule: TaskbuilderCoreModule,
-  //     providers: [TB_SERVICES]
-  //   };
-  // }
-}
+export class TaskbuilderCoreModule { }

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpService } from '@taskbuilder/core';
-import { EventDataService } from './../../../../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 import { ControlComponent } from './../../control.component';
 
 const DEFAULT_MAX_RANGE:number = 10;
