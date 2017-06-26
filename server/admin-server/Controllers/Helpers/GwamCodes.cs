@@ -44,32 +44,35 @@ namespace Microarea.AdminServer.Controllers.Helpers
                     return Strings.InternalError;
                 case 15:
                     return Strings.ExceptionOccurred;
+                case 16:
+                    return Strings.SubscriptionKeyEmpty;
+                    
             }
                 return Strings.UnknownError;
 
         }
         }
 
-   /* //-----------------------------------------------------------------------------	
-    public enum GwamCodes
-    {
-       0 OK,
-       1 Undefined,
-       2 AccountNameCannotBeEmpty,
-       3 InvalidAccountName,
-       4 NoSubscriptionsAvailable,
-       5 InstanceNotValid,
-       6 UserUpToDate,
-       7 UserLoaded,
-       8 AuthorizationHeaderMissing,
-       9 MissingAppId,
-       10 UnknownApplicationID,
-       11 InvalidCredentials,
-       12 SubscriptionKeyEmpty,
-       13 EmptyCredentials,
-       14 InternalError,
-       15 ExceptionOccurred
-
-    }*/
+    /* //-----------------------------------------------------------------------------	
+     public enum GwamCodes
+     {
+        0 OK,
+        1 Undefined,
+        2 AccountNameCannotBeEmpty,
+        3 InvalidAccountName,
+        4 NoSubscriptionsAvailable,
+        5 InstanceNotValid,
+        6 UserUpToDate,
+        7 UserLoaded,
+        8 AuthorizationHeaderMissing,
+        9 MissingAppId,
+        10 UnknownApplicationID,
+        11 InvalidCredentials,
+        12 SubscriptionKeyEmpty,
+        13 EmptyCredentials,
+        14 InternalError,
+        15 ExceptionOccurred
+        \gwam-app\server\gwam-app\Controllers\Helpers\GwamMessageCodes.cs
+     }*/
 
 }
