@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType } from './reporting-studio.model';
 import { DocumentComponent } from '../shared/document.component';
 import { ComponentService } from '@taskbuilder/core';
-import { EventDataService } from './../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 import { ReportingStudioService } from './reporting-studio.service';
 
 import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF, } from '@progress/kendo-drawing';

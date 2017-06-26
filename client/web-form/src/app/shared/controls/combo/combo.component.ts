@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { ControlComponent } from './../control.component';
 import { Component, Input, OnChanges, OnInit, AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
 import { EnumsService } from './../../../core/enums.service';
-import { EventDataService } from './../../../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 import { DocumentService } from '@taskbuilder/core';
 import { WebSocketService } from '@taskbuilder/core';
 

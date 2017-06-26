@@ -5,13 +5,10 @@ import { MenuService } from './../../menu/services/menu.service';
 import { UtilsService } from '@taskbuilder/core';
 import { Component, OnInit } from '@angular/core';
 
-import { EventDataService } from './../../core/eventdata.service';
-
 @Component({
   selector: 'tb-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
-  providers: [EventDataService]
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
 

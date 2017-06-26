@@ -9,8 +9,8 @@ import { HttpService } from '@taskbuilder/core';
 import { UtilsService } from '@taskbuilder/core';
 import { ImageService } from '../../../menu/services/image.service';
 import { MenuService } from './../../../menu/services/menu.service';
-import { EventDataService } from './../../../core/eventdata.service';
-import { ExplorerService } from './../../../core/explorer.service';
+import { EventDataService } from '@taskbuilder/core';
+import { ExplorerService } from '@taskbuilder/core';
 import { PanelBarExpandMode, PanelBarItemModel } from '@progress/kendo-angular-layout';
 
 @Component({
