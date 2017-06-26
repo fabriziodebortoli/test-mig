@@ -12,14 +12,12 @@ namespace Microarea.AdminServer.Controllers.Helpers
 	//================================================================================
 	public class BootstrapTokenContainer
 	{
-		BootstrapToken bootstrapToken;
 		string jwtToken;
 		string message;
 		bool result;
 		int resultCode;
 		DateTime expirationDate;
-
-		public BootstrapToken PlainToken { get => bootstrapToken; set => bootstrapToken = value; }
+		
 		public DateTime ExpirationDate { get => expirationDate; set => expirationDate = value; }
 		public bool Result { get => result; set => result = value; }
 		public string Message { get => message; set => message = value; }
@@ -28,7 +26,6 @@ namespace Microarea.AdminServer.Controllers.Helpers
 
 		public BootstrapTokenContainer()
 		{
-			this.bootstrapToken = new BootstrapToken();
 			this.expirationDate = DateTime.MinValue;
 			this.result = false;
 			this.message = String.Empty;

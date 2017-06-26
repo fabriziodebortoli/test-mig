@@ -229,7 +229,6 @@ namespace Microarea.AdminServer.Controllers
 					bootstrapTokenContainer.Result = true;
 					bootstrapTokenContainer.Message = res.ToString();
                     bootstrapTokenContainer.ResultCode = (int)res;
-                    bootstrapTokenContainer.PlainToken = bootstrapToken;
 					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
 
 					_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
@@ -314,7 +313,6 @@ namespace Microarea.AdminServer.Controllers
 					bootstrapTokenContainer.JwtToken = GenerateJWTToken(bootstrapToken);
 
 					// for now, we maintain also the plain token
-					bootstrapTokenContainer.PlainToken = bootstrapToken;
 					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
 
 					_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
