@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Services
 {
-    public interface IDataProvider
+	//================================================================================
+	public interface IDataProvider
     {
         IAdminModel Load(IAdminModel iModel);
         OperationResult Save(IAdminModel iModel);
@@ -15,8 +16,9 @@ namespace Microarea.AdminServer.Services
         DateTime MinDateTimeValue { get; }
     }
 
+	//================================================================================
 	public interface IInstanceDataProvider
 	{
-		List<ServerURL> LoadURLs();
+		List<ServerURL> LoadURLs(string instanceKey);
 	}
 }

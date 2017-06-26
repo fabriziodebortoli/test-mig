@@ -58,7 +58,7 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public List<ServerURL> LoadURLs()
+		public List<ServerURL> LoadURLs(string instanceKey)
 		{
 			List<ServerURL> serverURLs = new List<ServerURL>();
 
@@ -69,7 +69,7 @@ namespace Microarea.AdminServer.Services.Providers
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.SelectURlsInstance, connection))
 					{
-
+						command.Parameters.AddWithValue("@InstanceKey", instanceKey);
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							ServerURL serverUrl = new ServerURL();
