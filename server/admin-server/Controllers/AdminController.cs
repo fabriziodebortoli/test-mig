@@ -333,7 +333,15 @@ namespace Microarea.AdminServer.Controllers
 		//----------------------------------------------------------------------
 		private List<ServerURL> GetUrlsForThisInstance(string instanceKey)
 		{
-			return new List<ServerURL>();
+			Instance iInstance = new Instance(instanceKey);
+			iInstance.Load();
+
+			if (!iInstance.ExistsOnDB)
+			{
+				return new List<ServerURL>();
+			}
+
+			return iInstance.LoadURLs();
 		}
 
 		//----------------------------------------------------------------------

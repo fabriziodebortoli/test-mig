@@ -1,5 +1,6 @@
 ﻿using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Model
 {
@@ -47,6 +48,13 @@ namespace Microarea.AdminServer.Model
 		public IAdminModel Load()
 		{
 			return this.dataProvider.Load(this);
+		}
+
+		//---------------------------------------------------------------------
+		public List<ServerURL> LoadURLs()
+		{
+
+			return ((IInstanceDataProvider)this.dataProvider).LoadURLs();
 		}
 	}
 }
