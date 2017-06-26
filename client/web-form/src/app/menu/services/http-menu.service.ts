@@ -37,7 +37,6 @@ export class HttpMenuService {
     getMenuElements(): Observable<any> {
         let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company'), token: this.cookieService.get('authtoken') }
         let urlToRun = this.httpService.getMenuServiceUrl() + 'getMenuElements/';
-        this.logger.error(urlToRun)
         return this.postData(urlToRun, obj)
             .map((res: any) => {
                 return res.json();
