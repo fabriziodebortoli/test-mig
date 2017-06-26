@@ -174,6 +174,13 @@ namespace Microarea.AdminServer.Controllers
                     AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
                     accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
 
+                    if (accountIdentityPack == null)
+                    {
+                        bootstrapTokenContainer.Result = false;
+                        bootstrapTokenContainer.Message = Strings.UnknownError;
+                        _jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
+                        return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                    }
                     if (accountIdentityPack.Result) //sul gwam non corrisponde xcui salvo questo account- todo concettualmente result true o fale?
                     {
                         if (accountIdentityPack.Account.ExistsOnDB)//se non fosse ExistsOnDB vuol dire che il tick corrisponde, non suona bene ma è così, forse dovrebbe tornare un codice da valutare.
@@ -401,7 +408,7 @@ namespace Microarea.AdminServer.Controllers
 		//----------------------------------------------------------------------
 		private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod)
         {
-			OperationResult opRes = await _httpHelper.PostDataAsync(this.GWAMUrl + accMod.AccountName + accMod.Ticks, new List<KeyValuePair<string, string>>());
+			OperationResult opRes = await _httpHelper.PostDataAsync(this.GWAMUrl + "accounts/"+ accMod.AccountName +"/"+ accMod.Ticks, new List<KeyValuePair<string, string>>());
 			return (Task<string>)opRes.Content;
 		}
 
