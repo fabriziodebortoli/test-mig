@@ -371,16 +371,16 @@ namespace Microarea.AdminServer.Controllers
         //----------------------------------------------------------------------
         private OperationResult SaveServerURLs(ServerURL[] urls)
         {
-            if (urls == null || urls.Length == 0) return new OperationResult(false, Strings.EmptyURLS);
-            foreach (ServerURL  s in urls)
-            {
-                s.SetDataProvider(_urlsSQLDataProvider);
-                OperationResult result = s.Save();
-                if (!result.Result)
-                {
-                    return result;
-                }
-            }
+            //if (urls == null || urls.Length == 0) return new OperationResult(false, Strings.EmptyURLS);
+            //foreach (ServerURL  s in urls)
+            //{
+            //    s.SetDataProvider(_urlsSQLDataProvider);
+            //    OperationResult result = s.Save();
+            //    if (!result.Result)
+            //    {
+            //        return result;
+            //    }
+            //}
             return new OperationResult(true, "ok");
         }
 
