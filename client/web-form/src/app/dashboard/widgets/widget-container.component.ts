@@ -11,10 +11,7 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
   widgets: WidgetRow[] = [];
   subscriptions = [];
   constructor(private widgetsService: WidgetsService, public snackBar: MdSnackBar) {
-
-
-
-   }
+  }
 
   getColspan(size: string) {
     switch (size) {

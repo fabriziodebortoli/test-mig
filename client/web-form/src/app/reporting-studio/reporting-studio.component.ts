@@ -141,7 +141,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.DATA:
           this.rsService.showAsk = false;
           this.reportData = k;
-
+          this.rsService.currentPage = k.page.page_number;
           break;
         case CommandType.RUNREPORT:
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
@@ -264,14 +264,20 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   //--------------------------------------------------
   public startSavePDF() {
+    //this.rsService.lastAppendPdfPage = 0;
+    //this.rsService.pdfState = PdfType.PREPAREDPDF
+    //this.FirstPage();
     if (this.rsService.pageNum != 1) {
       this.rsService.pdfState = PdfType.PREPAREDPDF
       this.FirstPage();
+
     }
     else {
       this.rsService.pdfState = PdfType.SAVINGPDF;
       this.rsService.loopPdfPage(this.rsService.getTitle());
+      //this.NextPage();
     }
+
   }
 }
 
