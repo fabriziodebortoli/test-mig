@@ -227,8 +227,9 @@ namespace Microarea.Common.WebServicesWrapper
 			Task<LoginManagerWcf.LoginCompactResponse> task = loginManagerClient.LoginCompactAsync(request);
 			int result = task.Result.LoginCompactResult;
 			authenticationToken = task.Result.authenticationToken;
-			//string errorMessage = "Error message"; // TODO read error message
-
+            //string errorMessage = "Error message"; // TODO read error message
+            if (string.IsNullOrEmpty(authenticationToken))
+                return result;
 			LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
 
 			return result;
