@@ -29,11 +29,7 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
 
         this.widgets.forEach((row) => {
           row.widgets.forEach((wdg) => {
-            this.subscriptions.push(this.widgetsService.refreshContent(wdg).subscribe(
-              (data) => {
-                wdg.data = data;
-              }
-            ));
+            wdg.data = this.widgetsService.refreshContent(wdg);
           });
         });
 
