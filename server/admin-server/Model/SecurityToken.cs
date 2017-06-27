@@ -80,11 +80,5 @@ namespace Microarea.AdminServer.Model
                 return !expired;
             }
         }
-
-        //---------------------------------------------------------------------
-        public static SecurityToken Empty
-        {
-            get { return new SecurityToken(); }
-        }
     }
 }

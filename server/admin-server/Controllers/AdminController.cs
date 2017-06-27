@@ -224,11 +224,21 @@ namespace Microarea.AdminServer.Controllers
 					// setting the token...
 					bootstrapToken.AccountName = credentials.AccountName;
 					bootstrapToken.UserTokens = t;
+					bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
+					bootstrapToken.PreferredLanguage = account.PreferredLanguage;
+					bootstrapToken.Subscriptions = accountIdentityPack.Subscriptions;
+					bootstrapToken.Urls = GetUrlsForThisInstance(_settings.InstanceIdentity.InstanceKey);
 
 					// ...and its container.
 					bootstrapTokenContainer.Result = true;
 					bootstrapTokenContainer.Message = res.ToString();
                     bootstrapTokenContainer.ResultCode = (int)res;
+					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
+
+					// creating JWT Token
+					bootstrapTokenContainer.JwtToken = GenerateJWTToken(bootstrapToken);
+
+					// for now, we maintain also the plain token
 					bootstrapTokenContainer.ExpirationDate = DateTime.Now.AddMinutes(5);
 
 					_jsonHelper.AddPlainObject<BootstrapTokenContainer>(bootstrapTokenContainer);
@@ -407,8 +417,14 @@ namespace Microarea.AdminServer.Controllers
         {
             UserTokens tokens = new UserTokens(account.IsAdmin, account.AccountName);
             tokens.Setprovider(_tokenSQLDataProvider);
-            if (tokens.Save()) return tokens;
-            return null;
+
+			if (tokens.Save())
+			{
+				return tokens;
+			}
+
+			// we should never return null
+			return new UserTokens();
         }
 
         /// <summary>

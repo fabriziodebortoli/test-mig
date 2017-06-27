@@ -7,8 +7,9 @@ namespace Microarea.AdminServer.Library
 {
     public class UserTokens
     {
-        SecurityToken apiSecurityToken = SecurityToken.Empty;
-        SecurityToken authenticationToken = SecurityToken.Empty;
+		bool isAdmin;
+        SecurityToken apiSecurityToken;
+        SecurityToken authenticationToken;
 
         public string ApiSecurityToken { get { return this.apiSecurityToken.Token; } }
         public string AuthenticationToken { get { return this.authenticationToken.Token; } }
@@ -21,22 +22,31 @@ namespace Microarea.AdminServer.Library
 		}
 
         //---------------------------------------------------------------------
-        public UserTokens(bool isAdmin, string accountName)
+        public UserTokens(bool isAdmin, string accountName) : this()
         {
-            if (isAdmin) apiSecurityToken = SecurityToken.GetToken(TokenType.API, accountName);
+			if (isAdmin)
+			{
+				apiSecurityToken = SecurityToken.GetToken(TokenType.API, accountName);
+			}
+
             authenticationToken = SecurityToken.GetToken(TokenType.Authentication, accountName);
         }
 
         //---------------------------------------------------------------------
-        internal bool  Save()
+        public bool Save()
         {
-            return apiSecurityToken.Save().Result && authenticationToken.Save().Result;
-        }
+			if (this.isAdmin)
+			{
+				return apiSecurityToken.Save().Result && authenticationToken.Save().Result;
+			}
+
+			return authenticationToken.Save().Result;
+		}
 
         //---------------------------------------------------------------------
-        internal void Setprovider(IDataProvider tokenSQLDataProvider)
+        public void Setprovider(IDataProvider tokenSQLDataProvider)
         {
-             apiSecurityToken.SetDataProvider(tokenSQLDataProvider);
+            apiSecurityToken.SetDataProvider(tokenSQLDataProvider);
             authenticationToken.SetDataProvider(tokenSQLDataProvider);
         }
     }
