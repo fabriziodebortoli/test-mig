@@ -2,7 +2,7 @@
     <ul class="most-used-list">
         <li *ngFor="let object of utilsService.toArray(menuService?.mostUsed) | slice:0:settingsService?.nrMaxMostUsed;" class="most-used-item">
             <md-spinner *ngIf="object.isLoading" class="spinner"></md-spinner>
-            <md-icon class="type" [ngClass]="object.objectType">{{imageService.getObjectIcon(object)}}</md-icon>
+            <md-icon class="type" [ngClass]="object?.objectType">{{imageService.getObjectIcon(object)}}</md-icon>
             <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
             <md-icon class="close" (click)="menuService.removeFromMostUsed(object)" title="Remove">close</md-icon>
         </li>

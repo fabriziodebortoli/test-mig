@@ -13,19 +13,9 @@
                     <h4>{{localizationService?.localizedElements?.FavoritesLabel}}</h4>
                     <tb-favorites class="dashboard"></tb-favorites>
                 </div>
-
                 <div class="dashboard-sidebar-riq">
                     <h4>{{localizationService.localizedElements?.MostUsedLabel}}</h4>
                       <tb-most-used class="dashboard"></tb-most-used>
-
-                    <!--<ul class="dashboard-sidebar-list" *ngIf="menuService?.mostUsedCount > 0">
-                        <li *ngFor="let object of utilsService.toArray(menuService?.mostUsed) | slice:0:9;" class="dashboard-sidebar-item">
-                            <md-spinner *ngIf="object.isLoading" class="spinner"></md-spinner>
-                            <md-icon class="type" [ngClass]="object.objectType">{{imageService.getObjectIcon(object)}}</md-icon>
-                            <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
-                            <md-icon class="close" (click)="menuService.removeFromMostUsed(object)" title="Remove">close</md-icon>
-                        </li>
-                    </ul>-->
                 </div>
             </div>
 
@@ -44,55 +34,7 @@
                 </tb-header-strip>
 
                 <tb-widget-container></tb-widget-container>
-
             </div>
-
-
-
-            <!--            <div class="row">
-                <div class="col-sm-4">
-                    <md-card>
-
-                        <md-card-title>
-                            <span>Favorites</span>
-                        </md-card-title>
-
-                        <md-card-content>
-                            
-                        </md-card-content>
-
-                    </md-card>
-                </div>
-                <div class="col-sm-4">
-
-                    <md-card>
-
-                        <md-card-title>
-                            <span>Recent Used</span>
-                        </md-card-title>
-
-                        <md-card-content>
-                            <div class="most-used" *ngIf="menuService?.mostUsedCount > 0">
-
-                                <ul class="most-used-list">
-                                    <li *ngFor="let object of utilsService.toArray(menuService?.mostUsed) | slice:0:9;" class="most-used-item">
-
-                                        <md-icon class="type">{{imageService.getObjectIcon(object)}}</md-icon>
-
-                                        <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
-                                    </li>
-                                </ul>
-
-                            </div>
-                        </md-card-content>
-
-                    </md-card>
-
-                </div>
-            </div>-->
-
-
-
         </div>
     </tb-frame-content>
 </tb-frame>

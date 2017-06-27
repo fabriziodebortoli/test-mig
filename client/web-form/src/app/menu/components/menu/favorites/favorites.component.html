@@ -1,5 +1,4 @@
 <div class="favorites" *ngIf="menuService?.favoritesCount > 0">
-
     <ul class="favorites-list">
         <li *ngFor="let object of utilsService.toArray(menuService?.favorites) | slice:0:settingsService?.nrMaxFavorites;" class="favorite-item">
             <md-spinner *ngIf="object.isLoading" class="spinner"></md-spinner>
