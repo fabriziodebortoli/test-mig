@@ -8,8 +8,8 @@ using System.Collections.Generic;
 namespace Microarea.AdminServer.Services.Providers
 {
     //================================================================================
-    public class AccountSQLDataProvider : IDataProvider
-    {
+    public class AccountSQLDataProvider : IDataProvider, IAccountDataProvider
+	{
         string connectionString;
 
 		//---------------------------------------------------------------------
@@ -164,7 +164,7 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public Account[] GetAccounts(string accountName = "")
+		public List<Account> GetAccounts(string accountName)
 		{
 			List<Account> accountList = new List<Account>();
 
@@ -220,7 +220,7 @@ namespace Microarea.AdminServer.Services.Providers
 				return null;
 			}
 
-			return accountList.ToArray();
+			return accountList;
 		}
 
 	}

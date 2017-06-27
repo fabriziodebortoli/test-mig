@@ -97,7 +97,7 @@ namespace Microarea.AdminServer
         public const string ExistSecurityToken = "SELECT COUNT(*) FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
         public const string SelectSecurityToken = "SELECT * FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
         public const string InsertSecurityToken = "INSERT INTO MP_SecurityTokens (AccountName, TokenType, Token, ExpirationDate, Expired) VALUES (@AccountName, @TokenType, @Token, @ExpirationDate, @Expired)";
-        public const string UpdateSecurityToken = "UPDATE MP_SecurityTokens SET Token=@Token, ExpirationDate=@ExpirationDate, Expired=@Expired WHERE AccountName=@AccountName, TokenType=@TokenType";
+        public const string UpdateSecurityToken = "UPDATE MP_SecurityTokens SET Token=@Token, ExpirationDate=@ExpirationDate, Expired=@Expired WHERE AccountName=@AccountName AND TokenType=@TokenType";
         public const string DeleteSecurityToken = "DELETE MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
 
     }

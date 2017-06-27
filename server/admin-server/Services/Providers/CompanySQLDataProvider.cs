@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using Microarea.AdminServer.Model;
@@ -7,8 +8,8 @@ using Microarea.AdminServer.Model.Interfaces;
 namespace Microarea.AdminServer.Services.Providers
 {
 	//================================================================================
-	public class CompanySQLDataProvider : IDataProvider
-    {
+	public class CompanySQLDataProvider : IDataProvider, ICompanyDataProvider
+	{
         string connectionString;
 
 		//---------------------------------------------------------------------
@@ -38,6 +39,7 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
+								company.CompanyId = (int)dataReader["CompanyId"];
 								company.Description = dataReader["Description"] as string;
 								company.CompanyDBServer = dataReader["CompanyDBServer"] as string;
 								company.CompanyDBName = dataReader["CompanyDBName"] as string;
@@ -127,7 +129,7 @@ namespace Microarea.AdminServer.Services.Providers
             catch (Exception e)
             {
 				opRes.Result = false;
-				opRes.Message = String.Concat("An error occurred while saving Compan: ", e.Message);
+				opRes.Message = String.Concat("An error occurred while saving Company: ", e.Message);
 				return opRes;
 			}
 
@@ -159,6 +161,79 @@ namespace Microarea.AdminServer.Services.Providers
 			}
 
 			return true;
+		}
+
+		/// <summary>
+		/// Ritorna una lista di Company dato un accountName ed una subscriptionKey
+		/// </summary>
+		/// <param name="accountName"></param>
+		/// <param name="subscriptionKey"></param>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		public List<Company> GetCompanies(string accountName, string subscriptionKey)
+		{
+			if (string.IsNullOrWhiteSpace(accountName))
+				return null;
+
+			List<Company> companiesList = new List<Company>();
+
+			string selectQuery = @"SELECT * FROM MP_Companies INNER JOIN MP_CompanyAccounts ON MP_CompanyAccounts.CompanyId = MP_Companies.CompanyId 
+									WHERE MP_CompanyAccounts.AccountName = @AccountName";
+
+			if (!string.IsNullOrWhiteSpace(subscriptionKey))
+				selectQuery += " AND MP_Companies.SubscriptionKey = @SubscriptionKey";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand(selectQuery, connection))
+					{
+						command.Parameters.AddWithValue("@AccountName", accountName);
+
+						if (!string.IsNullOrWhiteSpace(subscriptionKey))
+							command.Parameters.AddWithValue("@SubscriptionKey", subscriptionKey);
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								Company company = new Company();
+								company.CompanyId = (int)dataReader["CompanyId"];
+								company.Name = dataReader["Name"] as string;
+								company.Description = dataReader["Description"] as string;
+								company.SubscriptionKey = dataReader["SubscriptionKey"] as string;
+								company.CompanyDBServer = dataReader["CompanyDBServer"] as string;
+								company.CompanyDBName = dataReader["CompanyDBName"] as string;
+								company.CompanyDBOwner = dataReader["CompanyDBOwner"] as string;
+								company.CompanyDBPassword = dataReader["CompanyDBPassword"] as string;
+								company.UseDMS = (bool)dataReader["UseDMS"];
+								company.DMSDBServer = dataReader["DMSDBServer"] as string;
+								company.DMSDBName = dataReader["DMSDBName"] as string;
+								company.DMSDBOwner = dataReader["DMSDBOwner"] as string;
+								company.DMSDBPassword = dataReader["DMSDBPassword"] as string;
+								company.Disabled = (bool)dataReader["Disabled"];
+								company.IsUnicode = (bool)dataReader["IsUnicode"];
+								company.Disabled = (bool)dataReader["Disabled"];
+								company.DatabaseCulture = dataReader["DatabaseCulture"] as string;
+								company.PreferredLanguage = dataReader["PreferredLanguage"] as string;
+								company.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								company.Provider = dataReader["Provider"] as string;
+								companiesList.Add(company);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return null;
+			}
+
+			return companiesList;
 		}
 	}
 }

@@ -21,4 +21,23 @@ namespace Microarea.AdminServer.Services
 	{
 		List<ServerURL> LoadURLs(string instanceKey);
 	}
+
+	//================================================================================
+	public interface IAccountDataProvider
+	{
+		List<Account> GetAccounts(string accountName);
+	}
+
+	//================================================================================
+	public interface ICompanyDataProvider
+	{
+		List<Company> GetCompanies(string accountName, string subscriptionKey);
+	}
+
+	//================================================================================
+	public interface ISubscriptionDataProvider
+	{
+		List<Subscription> GetSubscriptions(string instanceKey);
+	}
+
 }
