@@ -54,7 +54,7 @@ namespace Microarea.AdminServer.Controllers
         {
             _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _companySqlDataProvider = new CompanySQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
+			_instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _subscriptionSQLDataProvider = new SubscriptionSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _tokenSQLDataProvider =  new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _urlsSQLDataProvider = new ServerURLSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
@@ -473,7 +473,7 @@ namespace Microarea.AdminServer.Controllers
 		/// </summary>
 		//-----------------------------------------------------------------------------	
 		[HttpPost("/api/companies")]
-		public IActionResult ApiCompanies(string companyname)
+		public IActionResult ApiCompanies()
 		{
 			if (HttpContext.Request == null || HttpContext.Request.Body == null)
 			{
@@ -559,7 +559,7 @@ namespace Microarea.AdminServer.Controllers
 			if (!result)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", Strings.SaveInstanceOK);
+				_jsonHelper.AddJsonCouple<string>("message", Strings.SaveInstanceKO);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
@@ -587,19 +587,19 @@ namespace Microarea.AdminServer.Controllers
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", "020 AdminController.ApiSubscriptions" + exc.Message);
-				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
+				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			if (!result)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", Strings.SaveSubscriptionOK);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
+				_jsonHelper.AddJsonCouple<string>("message", Strings.SaveSubscriptionKO);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			_jsonHelper.AddJsonCouple<bool>("result", true);
 			_jsonHelper.AddJsonCouple<string>("message", Strings.SaveSubscriptionOK);
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 		}
 
 		[HttpGet("/api/accounts/{accountName?}")]
@@ -607,11 +607,13 @@ namespace Microarea.AdminServer.Controllers
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiGetAccounts(string accountName)
 		{
-			IAccount[] accountArray = null;
+			//@@TODO security
+
+			List<Account> accountsList = null;
 
 			try
 			{
-				accountArray = ((AccountSQLDataProvider)_accountSqlDataProvider).GetAccounts(accountName);
+				accountsList = ((AccountSQLDataProvider)_accountSqlDataProvider).GetAccounts(accountName);
 			}
 			catch (Exception exc)
 			{
@@ -620,14 +622,45 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			if (accountArray == null)
+			if (accountsList == null)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", Strings.InvalidUser);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddPlainObject<IAccount[]>(accountArray);
+			_jsonHelper.AddPlainObject<List<Account>>(accountsList);
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		[HttpGet("/api/companies/{accountName}/{subscriptionKey?}")]
+		[Produces("application/json")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiGetCompaniesByAccount(string accountName, string subscriptionKey)
+		{
+			//@@TODO security
+
+			List<Company> companiesList = null;
+
+			try
+			{
+				companiesList = ((CompanySQLDataProvider)_companySqlDataProvider).GetCompanies(accountName, subscriptionKey);
+			}
+			catch (Exception exc)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", "010 AdminController.ApiGetCompaniesByAccountAndSubscription" + exc.Message);
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+			}
+
+			if (companiesList == null)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", Strings.InvalidUser);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+			}
+
+			_jsonHelper.AddPlainObject<List<Company>>(companiesList);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 	}
