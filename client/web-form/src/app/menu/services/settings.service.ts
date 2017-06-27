@@ -101,13 +101,15 @@ export class SettingsService {
     getPreferences() {
 
         let subs = this.httpMenuService.getPreferences().subscribe(data => {
+            if (data != undefined && data.Root != undefined) {
 
-            var current = this.getPreferenceByName(data.Root.Preference, "NrMaxItemsSearch");
-            if (current != undefined)
-                this.nrMaxItemsSearch = parseInt(current);
+                var current = this.getPreferenceByName(data.Root.Preference, "NrMaxItemsSearch");
+                if (current != undefined)
+                    this.nrMaxItemsSearch = parseInt(current);
 
-            this.eventManagerService.emitPreferenceLoaded();
-            subs.unsubscribe();
+                this.eventManagerService.emitPreferenceLoaded();
+                subs.unsubscribe();
+            }
         })
     }
 

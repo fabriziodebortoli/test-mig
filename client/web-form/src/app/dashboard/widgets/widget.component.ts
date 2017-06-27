@@ -28,18 +28,9 @@ export class WidgetComponent implements AfterViewInit {
 
   onRefreshClicked() {
     this.isLoading = true;
-    let subs = this.widgetsService.refreshContent(this.widget).subscribe(
-      (data) => {
-        this.widget.data = data;
-        this.isLoading = false;
-        subs.unsubscribe();
-      },
-      (err) => {
-        // TODO report error
-        this.isLoading = false;
-        subs.unsubscribe();
-      }
-    );
+    const result = this.widgetsService.refreshContent(this.widget);
+    this.widget.data = result;
+    this.isLoading = false;
   }
 
   executeLink() {
