@@ -4,8 +4,6 @@ import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrr
 import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 
-
-
 @Component({
   selector: 'rs-layout',
   templateUrl: './layout.component.html',
@@ -16,6 +14,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   @Input() reportTemplate;
   @Input() reportData;
 
+
   public layoutStyle: any = {};
   public layoutBackStyle: any = {};
   public objects: baseobj[] = [];
@@ -24,7 +23,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   private viewHeightSubscription: Subscription;
   private viewHeight: number;
 
-  constructor(private layoutService: LayoutService, private rsService: ReportingStudioService) {}
+  constructor(private layoutService: LayoutService, private rsService: ReportingStudioService) { }
 
   // -----------------------------------------------
   ngOnInit() {
@@ -38,6 +37,18 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   ngOnDestroy() {
     this.viewHeightSubscription.unsubscribe();
   }
+
+  // -----------------------------------------------
+  /*ngAfterViewChecked() {
+    if (this.rsService.pdfState === PdfType.SAVINGPDF && this.rsService.lastAppendPdfPage < this.rsService.currentPage) {
+      if (this.rsService.currentPage === this.rsService.totalPages) {
+        this.rsService.renderPDF();
+        return;
+      }
+      this.rsService.lastAppendPdfPage = this.rsService.currentPage;
+    }
+  }*/
+
   // -----------------------------------------------
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (changes.reportTemplate !== undefined) {
@@ -58,10 +69,18 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         this.UpdateData();
         if (this.rsService.pdfState == PdfType.SAVINGPDF) {
           this.rsService.appendPDF();
+          /*if (this.rsService.pageNum === this.rsService.totalPages) {
+                this.rsService.eventFirstPage.emit();
+                this.rsService.renderPDF();
+                this.rsService.pdfState = PdfType.NOPDF;
+          }*/
+
+
         }
         if (this.rsService.pdfState == PdfType.PREPAREDPDF) {
           this.rsService.pdfState = PdfType.SAVINGPDF;
           this.rsService.loopPdfPage(this.rsService.titleReport);
+          //this.rsService.appendPDF();
         }
       }
     }
@@ -201,7 +220,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       'margin': '5px auto',
       'position': 'relative',
     }
-    if (this.rsService.pdfState == PdfType.NOPDF){
+    if (this.rsService.pdfState == PdfType.NOPDF) {
       this.layoutBackStyle = {
         'width': '100%',
         'height': this.viewHeight - 65 + 'px',

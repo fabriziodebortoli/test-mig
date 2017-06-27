@@ -27,6 +27,8 @@ export class ReportingStudioService extends DocumentService {
 
     public savingPdf: boolean = false;
     public totalPages: number;
+    public lastAppendPdfPage: number = 0;
+    public currentPage: number = 0;
     public pdfState: PdfType = PdfType.NOPDF;
     public filePdf = new Group();
     public titleReport: string;
@@ -110,9 +112,6 @@ export class ReportingStudioService extends DocumentService {
         this.titleReport = title;
         if (this.pdfState === PdfType.SAVINGPDF) {
             if (this.pageNum === this.totalPages) {
-                /*if (this.totalPages === 1) {
-                    this.eventReloadPage.emit();
-                }*/
                 this.renderPDF();
                 this.pdfState = PdfType.NOPDF;
             }
@@ -127,11 +126,13 @@ export class ReportingStudioService extends DocumentService {
             .then((group: Group) => {
                 this.filePdf.append(group);
                 this.loopPdfPage(this.titleReport);
+                 //this.eventNextPage.emit();
             })
+            
 
     }
 
-    public renderPDF() {
+     public renderPDF() {
         drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
