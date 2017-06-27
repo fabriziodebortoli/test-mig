@@ -31,10 +31,8 @@ export class HttpService {
         return new OperationResult(!ok, messages);
     }
     isLogged(): Observable<boolean> {
-
-        this.logger.warn(this.getAccountManagerBaseUrl() + 'isValidToken/')
-
         let obj = { authtoken: this.cookieService.get('authtoken') };
+
         return this.postData(this.getAccountManagerBaseUrl() + 'isValidToken/', obj)
             .map((res: Response) => {
                 return res.ok && res.json().success === true;

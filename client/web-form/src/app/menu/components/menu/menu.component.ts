@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { title } from './../../../reporting-studio/reporting-studio.model';
 import { EnumsService } from './../../../core/enums.service';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, HostListener } from '@angular/core';
 
 import { ViewModeType } from '../../../shared/models/view-mode-type.model';
 
@@ -21,6 +21,11 @@ import { HttpMenuService } from './../../services/http-menu.service';
 })
 
 export class MenuComponent implements OnInit, OnDestroy {
+
+ @HostListener('window:beforeunload')
+  onClose() {
+      this.menuService.updateAllFavoritesAndMostUsed();
+  }
 
 private subscriptions : Subscription[] = [];
   constructor(
@@ -59,7 +64,7 @@ private subscriptions : Subscription[] = [];
   }
 
   ngOnDestroy() {
-    this.menuService.updateAllFavoritesAndMostUsed();
+  
     this.subscriptions.forEach((sub)=> sub.unsubscribe());
   }
 }
