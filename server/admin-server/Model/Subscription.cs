@@ -38,6 +38,7 @@ namespace Microarea.AdminServer.Model
 			instanceKey = string.Empty;
 		}
 
+		//---------------------------------------------------------------------
 		public Subscription(string subscriptionKey) : this()
 		{
 			this.subscriptionKey = subscriptionKey;

@@ -172,10 +172,10 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public List<Company> GetCompanies(string accountName, string subscriptionKey)
 		{
-			List<Company> companiesList = new List<Company>();
-
 			if (string.IsNullOrWhiteSpace(accountName))
-				return companiesList;
+				return null;
+
+			List<Company> companiesList = new List<Company>();
 
 			string selectQuery = @"SELECT * FROM MP_Companies INNER JOIN MP_CompanyAccounts ON MP_CompanyAccounts.CompanyId = MP_Companies.CompanyId 
 									WHERE MP_CompanyAccounts.AccountName = @AccountName";

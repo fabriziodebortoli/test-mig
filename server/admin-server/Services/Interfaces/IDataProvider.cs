@@ -33,4 +33,11 @@ namespace Microarea.AdminServer.Services
 	{
 		List<Company> GetCompanies(string accountName, string subscriptionKey);
 	}
+
+	//================================================================================
+	public interface ISubscriptionDataProvider
+	{
+		List<Subscription> GetSubscriptions(string instanceKey);
+	}
+
 }
