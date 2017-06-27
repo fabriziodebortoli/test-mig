@@ -1,4 +1,4 @@
-import { DataService } from './../../core/data.service';
+import { DataService } from '@taskbuilder/core';
 import { environment } from 'environments/environment';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
@@ -115,7 +115,7 @@ export class WidgetsService {
     const data = new WidgetData;
     data.lastExecuted = this.getExecutionTime();
     if (wdg.provider && wdg.provider.type === 'dataservice') {
-      let subs = this.dataService.getData(wdg.provider.namespace, wdg.provider.selection, wdg.provider.params).subscribe(dsData => {
+      let subs = this.dataService.getData(wdg.provider.namespace, wdg.provider.selection, wdg.provider.params).subscribe((dsData: any) => {
         if (wdg.provider.maxRows) {
           data.grid.rows = dsData.rows.slice(0, wdg.provider.maxRows);
         } else {

@@ -2,16 +2,16 @@ import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collisio
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { MenuItem } from './../../../context-menu/menu-item.model';
 import { Component, Input, ViewChild } from '@angular/core';
-import { EventDataService } from './../../../../core/eventdata.service';
-import { WebSocketService } from './../../../../core/websocket.service';
+import { EventDataService } from '@taskbuilder/core';
+import { WebSocketService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-topbar-menu-elements',
   templateUrl: './topbar-menu-elements.component.html',
   styleUrls: ['./topbar-menu-elements.component.scss']
 })
-export class TopbarMenuElementsComponent  {
-anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
+export class TopbarMenuElementsComponent {
+  anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'right', vertical: 'top' };
   private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
   anchorAlign2: Align = { horizontal: 'left', vertical: 'top' };

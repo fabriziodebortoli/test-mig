@@ -12,14 +12,12 @@ namespace Microarea.AdminServer.Controllers.Helpers
 	//================================================================================
 	public class BootstrapTokenContainer
 	{
-		BootstrapToken bootstrapToken;
 		string jwtToken;
 		string message;
 		bool result;
 		int resultCode;
 		DateTime expirationDate;
-
-		public BootstrapToken PlainToken { get => bootstrapToken; set => bootstrapToken = value; }
+		
 		public DateTime ExpirationDate { get => expirationDate; set => expirationDate = value; }
 		public bool Result { get => result; set => result = value; }
 		public string Message { get => message; set => message = value; }
@@ -28,7 +26,6 @@ namespace Microarea.AdminServer.Controllers.Helpers
 
 		public BootstrapTokenContainer()
 		{
-			this.bootstrapToken = new BootstrapToken();
 			this.expirationDate = DateTime.MinValue;
 			this.result = false;
 			this.message = String.Empty;
@@ -52,7 +49,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 				this.SignToken("LeonardoDaVinci");
 				return String.Concat(EncodeHeader(), ".", EncodePayload(), ".", this.signature);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return String.Empty; // todo: add log
 			}
@@ -117,7 +114,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
         public string ApplicationLanguage;
         public UserTokens UserTokens;
         public Subscription[] Subscriptions;
-        public List<string> Urls;
+        public List<ServerURL> Urls;
 		
 		//--------------------------------------------------------------------------------
 		public BootstrapToken() {
@@ -127,7 +124,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			this.ApplicationLanguage = String.Empty;
 			this.UserTokens = new UserTokens();
 			this.Subscriptions = new Subscription[] { };
-			this.Urls = new List<string>();
+			this.Urls = new List<ServerURL>();
 		}
     }
     

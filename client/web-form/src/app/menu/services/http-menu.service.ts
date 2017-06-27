@@ -1,10 +1,10 @@
-import { UtilsService } from './../../core/utils.service';
-import { HttpService } from './../../core/http.service';
+import { UtilsService } from '@taskbuilder/core';
+import { HttpService } from '@taskbuilder/core';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { Logger } from './../../core/logger.service';
+import { Logger } from '@taskbuilder/core';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
@@ -19,6 +19,8 @@ export class HttpMenuService {
         private logger: Logger,
         private cookieService: CookieService,
         private httpService: HttpService) {
+
+        this.logger.debug('HttpMenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 
     postData(url: string, data: Object): Observable<Response> {
@@ -104,42 +106,6 @@ export class HttpMenuService {
             });
     }
 
-
-    /**
-     * API /favoriteObject
-     * 
-     * @returns {Observable<any>} favoriteObject
-     */
-    favoriteObject(object) {
-        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
-
-        var urlToRun = this.httpService.getMenuServiceUrl() + 'favoriteObject/';
-        let subs = this.postData(urlToRun, obj)
-            .map((res: Response) => {
-                return res.ok;
-            })
-            .subscribe(result => {
-                subs.unsubscribe();
-            });
-    }
-
-    /**
-     * API /unFavoriteObject
-     * 
-     * @returns {Observable<any>} unFavoriteObject
-     */
-    unFavoriteObject(object) {
-        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
-        var urlToRun = this.httpService.getMenuServiceUrl() + 'unFavoriteObject/';
-        let subs = this.postData(urlToRun, obj)
-            .map((res: Response) => {
-                return res.ok;
-            })
-            .subscribe(result => {
-                subs.unsubscribe();
-            });
-    }
-
     /**
      * API /mostUsedClearAll
      *
@@ -166,33 +132,23 @@ export class HttpMenuService {
                 return res.json();
             });
     }
-
+    
     /**
-     * API /addToMostUsed
-     * 
-     * @returns {Observable<any>} addToMostUsed
-     */
-    addToMostUsed(object): Observable<any> {
-        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
-        return this.postData(this.httpService.getMenuServiceUrl() + 'addToMostUsed/', obj)
+    * API /favoriteObject
+    * 
+    * @returns {Observable<boolean>}
+    */
+    updateAllFavoritesAndMostUsed(favorites: any, mostUsed: any): Observable<any> {
+        let obj = {
+            user: this.cookieService.get('_user'), company: this.cookieService.get('_company'),
+            favorites: JSON.stringify(favorites), mostUsed: JSON.stringify(mostUsed)
+        };
+        var urlToRun = this.httpService.getMenuServiceUrl() + 'updateAllFavoritesAndMostUsed/';
+        return this.postData(urlToRun, obj)
             .map((res: Response) => {
-                return res.ok;
+                return res.json;
             });
-    };
-
-    /**
-     * API /removeFromMostUsed
-     * 
-     * @returns {Observable<any>} removeFromMostUsed
-     */
-    removeFromMostUsed = function (object) {
-        let obj = { target: object.target, objectType: object.objectType, objectName: object.objectName, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
-
-        return this.postData(this.httpService.getMenuServiceUrl() + 'removeFromMostUsed/', obj)
-            .map((res: Response) => {
-                return res.ok;
-            });
-    };
+    }
 
     /**
      * API /clearCachedData
@@ -241,7 +197,7 @@ export class HttpMenuService {
   * @returns {Observable<any>} activateViaSMS
   */
     activateViaSMS(): Observable<any> {
-      return this.http.get(this.httpService.getMenuServiceUrl() + 'getPingViaSMSUrl/', { withCredentials: true })
+        return this.http.get(this.httpService.getMenuServiceUrl() + 'getPingViaSMSUrl/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             });
@@ -254,7 +210,7 @@ export class HttpMenuService {
      */
     goToSite(): Observable<any> {
 
-          return this.http.get(this.httpService.getMenuServiceUrl() + 'getProducerSite/', { withCredentials: true })
+        return this.http.get(this.httpService.getMenuServiceUrl() + 'getProducerSite/', { withCredentials: true })
             .map((res: Response) => {
                 return res.json();
             });

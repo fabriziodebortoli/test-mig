@@ -25,7 +25,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 
 import { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
-import { LayoutService } from '../core/layout.service';
+import { LayoutService } from '@taskbuilder/core';
 import { AskGroupComponent } from './report-objects/askdialog/ask-group/ask-group.component';
 import { AskCheckComponent } from './report-objects/askdialog/ask-check/ask-check.component';
 import { AskRadioComponent } from './report-objects/askdialog/ask-radio/ask-radio.component';

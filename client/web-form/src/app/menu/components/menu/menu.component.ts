@@ -5,7 +5,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 import { ViewModeType } from '../../../shared/models/view-mode-type.model';
 
-import { EventDataService } from './../../../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 
 import { EventManagerService } from './../../services/event-manager.service';
 import { SettingsService } from './../../services/settings.service';
@@ -59,6 +59,7 @@ private subscriptions : Subscription[] = [];
   }
 
   ngOnDestroy() {
+    this.menuService.updateAllFavoritesAndMostUsed();
     this.subscriptions.forEach((sub)=> sub.unsubscribe());
   }
 }

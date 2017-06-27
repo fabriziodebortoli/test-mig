@@ -1,35 +1,29 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { SampleComponent } from './sample.component';
-// import { SampleDirective } from './sample.directive';
-// import { SamplePipe } from './sample.pipe';
-// import { SampleService } from './sample.service';
 
-// export * from './sample.component';
-// export * from './sample.directive';
-// export * from './sample.pipe';
-// export * from './sample.service';
+/**
+ * Modulo Core con tutti i principali servizi e componenti di TB
+ */
+import { TbCoreModule, TB_SERVICES } from './core/core.module';
+export * from './core/core.module';
+// export * from './core';
+
+/**
+ * Modulo Icon Font
+ */
+import { TbIconsModule } from './icons/icons.module';
+export * from './icons/icons.module';
+
+const TB_MODULES = [
+  // TbCoreModule,
+  TbIconsModule
+];
+
+export * from './shared/models';
+export { SocketConnectionStatus } from './shared';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [
-    // SampleComponent,
-    // SampleDirective,
-    // SamplePipe
-  ],
-  exports: [
-    // SampleComponent,
-    // SampleDirective,
-    // SamplePipe
-  ]
+  imports: [CommonModule, TB_MODULES],
+  exports: [TB_MODULES]
 })
-export class TaskbuilderModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: TaskbuilderModule,
-      // providers: [SampleService]
-    };
-  }
-}
+export class TaskbuilderCoreModule { }

@@ -1,5 +1,5 @@
-import { HttpService } from './../../../../core/http.service';
-import { EventDataService } from './../../../../core/eventdata.service';
+import { HttpService } from '@taskbuilder/core';
+import { EventDataService } from '@taskbuilder/core';
 import { Component, Input } from '@angular/core';
 import { TbComponent } from './../../..';
 

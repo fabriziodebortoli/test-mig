@@ -1,5 +1,5 @@
 import { sqrrect } from './../../../reporting-studio.model';
-import { UtilsService } from './../../../../core/utils.service';
+import { UtilsService } from '@taskbuilder/core';
 import { Component, Input } from '@angular/core';
 
 @Component({

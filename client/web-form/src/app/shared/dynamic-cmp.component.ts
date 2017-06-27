@@ -1,7 +1,7 @@
 import { MessageDialogComponent, MessageDlgArgs } from './containers/message-dialog/message-dialog.component';
-import { ComponentService } from './../core/component.service';
-import { EventDataService } from './../core/eventdata.service';
-import { BOService } from './../core/bo.service';
+import { ComponentService } from '@taskbuilder/core';
+import { EventDataService } from '@taskbuilder/core';
+import { BOService } from '@taskbuilder/core';
 import { DocumentComponent } from '.';
 import { ComponentInfo } from './models/component.info';
 import { Component, ViewContainerRef, OnInit, OnDestroy, ComponentRef, Input, ViewChild } from '@angular/core';

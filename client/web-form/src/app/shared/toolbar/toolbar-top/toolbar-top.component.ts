@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { EventDataService } from './../../../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 import { ViewModeType } from '../../';
 
 @Component({

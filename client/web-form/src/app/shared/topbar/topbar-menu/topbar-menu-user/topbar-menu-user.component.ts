@@ -1,8 +1,8 @@
 import { Subscription } from 'rxjs';
-import { LoginSessionService } from './../../../../core/login-session.service';
+import { LoginSessionService } from '@taskbuilder/core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuItem } from './../../../context-menu/menu-item.model';
-import { EventDataService } from './../../../../core/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-topbar-menu-user',

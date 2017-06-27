@@ -1,10 +1,10 @@
-import { BOService } from './core/bo.service';
+import { BOService } from '@taskbuilder/core';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
 import { DocumentComponent } from './shared/document.component';
 
-import { ComponentService } from './core/component.service';
-import { EventDataService } from './core/eventdata.service';
+import { ComponentService } from '@taskbuilder/core';
+import { EventDataService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-unsupported',

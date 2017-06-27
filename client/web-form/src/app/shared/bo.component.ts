@@ -1,9 +1,9 @@
-import { BOHelperService } from 'app/core/bohelper.service';
+import { BOHelperService } from '@taskbuilder/core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DocumentComponent } from './document.component';
-import { EventDataService } from './../core/eventdata.service';
-import { BOService } from './../core/bo.service';
-import { ControlTypes}  from './../shared/controls/control-types.enum';
+import { EventDataService } from '@taskbuilder/core';
+import { BOService } from '@taskbuilder/core';
+import { ControlTypes } from './../shared/controls/control-types.enum';
 
 @Component({
   selector: 'tb-bo',
@@ -11,7 +11,7 @@ import { ControlTypes}  from './../shared/controls/control-types.enum';
   styles: []
 })
 export abstract class BOComponent extends DocumentComponent implements OnInit, OnDestroy {
-  
+
   controlTypeModel = ControlTypes;
   constructor(public bo: BOService, eventData: EventDataService) {
     super(bo, eventData);

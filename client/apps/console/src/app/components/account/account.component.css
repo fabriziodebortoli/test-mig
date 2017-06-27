@@ -7,3 +7,5 @@ input, textarea, label {
 input[type="text"], input[type="password"], textarea {
     width: 300px;
 }
+
+button { width:120px;height:30px;margin-right:14px; margin-left:110px}

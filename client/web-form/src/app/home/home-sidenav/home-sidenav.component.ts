@@ -1,11 +1,9 @@
-import { TabberService } from './../../core/tabber.service';
 import { EnumsService } from './../../core/enums.service';
-import { UtilsService } from './../../core/utils.service';
+import { UtilsService, TabberService, SidenavService } from '@taskbuilder/core';
 import { ImageService } from './../../menu/services/image.service';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { MenuService } from './../../menu/services/menu.service';
 import { LocalizationService } from './../../menu/services/localization.service';
-import { SidenavService } from './../../core/sidenav.service';
 import { Component, OnInit } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
@@ -29,17 +27,17 @@ export class HomeSidenavComponent implements OnInit {
     private localizationService: LocalizationService,
     private tabberService: TabberService
   ) {
-    
 
-   }
+
+  }
 
   ngOnInit() {
   }
 
-  toggleSidenav(menu:boolean = false) {
+  toggleSidenav(menu: boolean = false) {
     this.sidenavService.toggleSidenav();
 
-    if(menu){
+    if (menu) {
       this.tabberService.selectTab(1);
     }
   }

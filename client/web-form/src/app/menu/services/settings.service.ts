@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 
-import { UtilsService } from './../../core/utils.service';
+import { UtilsService } from '@taskbuilder/core';
 import { EventManagerService } from './event-manager.service';
 import { HttpMenuService } from './http-menu.service';
 
-import { Logger } from './../../core/logger.service';
+import { Logger } from '@taskbuilder/core';
 
 @Injectable()
 export class SettingsService {
 
     private isRelogin: boolean = false;
 
-    private nrMaxItemsSearch: number = 20;
-    private nrMaxFavorites: number = 10;
-    private nrMaxMostUsed: number = 10;
+    public nrMaxItemsSearch: number = 20;
+    public nrMaxFavorites: number = 10;
+    public nrMaxMostUsed: number = 10;
     private showSearchBox: boolean = true;
     private canEditDate: boolean = true;
 
@@ -35,7 +35,6 @@ export class SettingsService {
     //---------------------------------------------------------------------------------------------
     get LastApplicationName() {
         if (this._lastApplicationName == undefined) {
-
             this._lastApplicationName = localStorage.getItem('_lastApplicationName')
         }
         return this._lastApplicationName;

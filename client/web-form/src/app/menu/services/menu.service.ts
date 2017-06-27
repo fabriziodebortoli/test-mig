@@ -1,7 +1,7 @@
-import { WebSocketService } from './../../core/websocket.service';
-import { ComponentService } from './../../core/component.service';
-import { HttpService } from './../../core/http.service';
-import { UtilsService } from './../../core/utils.service';
+import { WebSocketService } from '@taskbuilder/core';
+import { ComponentService } from '@taskbuilder/core';
+import { HttpService } from '@taskbuilder/core';
+import { UtilsService } from '@taskbuilder/core';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
 
 
-import { Logger } from './../../core/logger.service';
+import { Logger } from '@taskbuilder/core';
 
 @Injectable()
 export class MenuService {
@@ -18,8 +18,6 @@ export class MenuService {
     private _selectedApplication: any;
     private _selectedGroup: any;
     private _selectedMenu: any;
-
-    isMenuActivated: boolean = true; // TODO temporaneo per demo, poi vedremo...
 
     public applicationMenu: any;
     public environmentMenu: any;
@@ -87,7 +85,6 @@ export class MenuService {
         private componentService: ComponentService
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
-
     }
 
     //---------------------------------------------------------------------------------------------
@@ -311,13 +308,11 @@ export class MenuService {
         var isFavorite = object.isFavorite;
         if (object.isFavorite == undefined || !object.isFavorite) {
             object.isFavorite = true;
-            this.httpMenuService.favoriteObject(object);
             this.addToFavoritesInternal(object);
             // $rootScope.$emit('favoritesAdded', object);
         }
         else {
             object.isFavorite = false;
-            this.httpMenuService.unFavoriteObject(object);
             this.removeFromFavoritesInternal(object);
             // $rootScope.$emit('favoritesRemoved', object);
         }
@@ -352,6 +347,13 @@ export class MenuService {
         }
     }
 
+    updateAllFavoritesAndMostUsed() {
+        let sub = this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe(() => {
+            sub.unsubscribe();
+        });
+    }
+
+
     //---------------------------------------------------------------------------------------------
     setFavoritesIsOpened() {
 
@@ -378,9 +380,9 @@ export class MenuService {
     //---------------------------------------------------------------------------------------------
     compareMostUsed(a, b) {
         if (a.lastModified < b.lastModified)
-            return -1;
-        if (a.lastModified > b.lastModified)
             return 1;
+        if (a.lastModified > b.lastModified)
+            return -1;
         return 0;
     }
 
@@ -457,18 +459,13 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     addToMostUsed(object) {
-
-        this.httpMenuService.addToMostUsed(object).subscribe(result => {
-            this.addToMostUsedArray(object);
-        })
+        this.addToMostUsedArray(object);
     }
-
 
     //---------------------------------------------------------------------------------------------
     removeFromMostUsed = function (object) {
-        this.httpMenuService.removeFromMostUsed(object).subscribe(result => {
-            this.removeFromMostUsedArray(object);
-        })
+
+        this.removeFromMostUsedArray(object);
     };
 
     //---------------------------------------------------------------------------------------------
@@ -480,6 +477,8 @@ export class MenuService {
             if (this.mostUsed[i].target == object.target && this.mostUsed[i].objectType == object.objectType &&
                 (object.objectName == undefined || (object.objectName != undefined && object.objectName == this.mostUsed[i].objectName))) {
                 this.mostUsed[i].lastModified = now;
+
+                 this.mostUsed = this.mostUsed.sort(this.compareMostUsed);
                 return;
             }
         }
@@ -505,6 +504,7 @@ export class MenuService {
         if (index >= 0) {
             this.mostUsed.splice(index, 1);
             this.mostUsedCount--;
+            this.mostUsed = this.mostUsed.sort(this.compareMostUsed);
         }
     };
 
@@ -544,6 +544,6 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     activateMenu() {
-        this.isMenuActivated = true; this.menuActivated.emit();
+        this.menuActivated.emit();
     }
 }

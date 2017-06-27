@@ -1,7 +1,8 @@
-import { EventDataService } from './../../../../core/eventdata.service';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+
 import { MenuItem } from './../../../context-menu/menu-item.model';
-import { ComponentService } from './../../../../core/component.service';
+
+import { ComponentService, EventDataService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-topbar-menu-test',
@@ -22,21 +23,21 @@ export class TopbarMenuTestComponent {
     this.menuElements.push(item1, item2, item3, item4, item5);
 
     this.eventDataService.command.subscribe((cmpId: string) => {
-            switch (cmpId) {
-              case 'idDataServiceButton':
-                return this.openDataService();
-              case 'idReportingStudioButton':
-                return this.openRS();
-              case 'idTBExplorerButton':
-                return this.openTBExplorer();
-              case 'idTBExplorerButton':
-                return this.openTestGrid();
-              case 'idTestIconsButton':
-                return this.openTestIcons();
-              default:
-                break;
-            }
-        });
+      switch (cmpId) {
+        case 'idDataServiceButton':
+          return this.openDataService();
+        case 'idReportingStudioButton':
+          return this.openRS();
+        case 'idTBExplorerButton':
+          return this.openTBExplorer();
+        case 'idTBExplorerButton':
+          return this.openTestGrid();
+        case 'idTestIconsButton':
+          return this.openTestIcons();
+        default:
+          break;
+      }
+    });
   }
   openDataService() {
     this.componentService.createComponentFromUrl('test/dataservice', true);

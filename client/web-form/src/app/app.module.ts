@@ -25,6 +25,8 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
 import { StandaloneReportComponent } from './home/standalone.report/standalone.report.component';
 
+import { TbCoreModule } from '@taskbuilder/core';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,8 +50,8 @@ import { StandaloneReportComponent } from './home/standalone.report/standalone.r
     DashboardModule.forRoot(),
     routing,
     MomentModule,
-    LayoutModule
-    
+    LayoutModule,
+    TbCoreModule.forRoot()
   ],
   bootstrap: [AppComponent],
   entryComponents: [

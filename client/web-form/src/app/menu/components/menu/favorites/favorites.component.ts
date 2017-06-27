@@ -3,7 +3,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { MenuService } from './../../../services/menu.service';
 import { ImageService } from './../../../services/image.service';
-import { UtilsService } from './../../../../core/utils.service';
+import { UtilsService } from '@taskbuilder/core';
 import { LocalizationService } from './../../../services/localization.service';
 import { SettingsService } from './../../../services/settings.service';
 
@@ -20,8 +20,8 @@ export class FavoritesComponent implements OnInit {
     private menuService: MenuService,
     private imageService: ImageService,
     private utilsService: UtilsService,
-    private localizationService: LocalizationService, 
-    private settingsService : SettingsService
+    private localizationService: LocalizationService,
+    private settingsService: SettingsService
   ) { }
 
   ngOnInit() {

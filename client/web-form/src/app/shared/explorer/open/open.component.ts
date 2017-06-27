@@ -5,12 +5,12 @@ import { Observable, Subscription } from 'rxjs';
 
 import { DocumentComponent } from '../../document.component';
 
-import { HttpService } from './../../../core/http.service';
-import { UtilsService } from './../../../core/utils.service';
+import { HttpService } from '@taskbuilder/core';
+import { UtilsService } from '@taskbuilder/core';
 import { ImageService } from '../../../menu/services/image.service';
 import { MenuService } from './../../../menu/services/menu.service';
-import { EventDataService } from './../../../core/eventdata.service';
-import { ExplorerService } from './../../../core/explorer.service';
+import { EventDataService } from '@taskbuilder/core';
+import { ExplorerService } from '@taskbuilder/core';
 import { PanelBarExpandMode, PanelBarItemModel } from '@progress/kendo-angular-layout';
 
 @Component({
@@ -26,9 +26,9 @@ export class OpenComponent extends DocumentComponent implements OnInit {
   public applications: any;
   public folders: any;
   public files: any;
- // public foldersarray: Array<String> = [];
+  // public foldersarray: Array<String> = [];
   public kendoPanelBarExpandMode: any = PanelBarExpandMode.Multiple;
-  
+
   applicationsSubscription: Subscription;
   folderSubscription: Subscription;
   filesSubscription: Subscription;
@@ -82,7 +82,7 @@ export class OpenComponent extends DocumentComponent implements OnInit {
   callGetFolder(application) {
     let params: URLSearchParams = new URLSearchParams();
     params.set('applicationPath', application);
-    return this.http.get('http://localhost:5000/explorer-open/get-folders/'  +  "kk",  { search: params } ).map((res: Response) => {
+    return this.http.get('http://localhost:5000/explorer-open/get-folders/' + "kk", { search: params }).map((res: Response) => {
       return res.json();
     }).catch(this.handleError);
   }
@@ -99,7 +99,7 @@ export class OpenComponent extends DocumentComponent implements OnInit {
   callGetFolderFiles(folder) {
     let params: URLSearchParams = new URLSearchParams();
     params.set('folderPath', folder);
-    return this.http.get('http://localhost:5000/explorer-open/get-folderFiles/'  +  "kk",  { search: params } ).map((res: Response) => {
+    return this.http.get('http://localhost:5000/explorer-open/get-folderFiles/' + "kk", { search: params }).map((res: Response) => {
       return res.json();
     }).catch(this.handleError);
   }

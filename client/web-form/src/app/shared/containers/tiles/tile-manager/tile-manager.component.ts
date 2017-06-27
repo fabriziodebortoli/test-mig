@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { LayoutService } from './../../../../core/layout.service';
+import { LayoutService } from '@taskbuilder/core';
 import { TileGroupComponent } from './../tile-group/tile-group.component';
 import { Component, ContentChildren, QueryList, AfterContentInit, ViewChild, ViewEncapsulation, Input } from '@angular/core';
 import { TabberComponent } from '../../tabs';

@@ -1,5 +1,5 @@
-import { WebSocketService } from './../../../../core/websocket.service';
-import { ComponentService } from './../../../../core/component.service';
+import { WebSocketService } from '@taskbuilder/core';
+import { ComponentService } from '@taskbuilder/core';
 import { link } from './../../../reporting-studio.model';
 import { Component, Input } from '@angular/core';
 import { LinkType } from './../../../reporting-studio.model';
@@ -40,7 +40,7 @@ export class ReportLinkComponent {
   }
 
   openDocument() {
-    this.webSocketService.runDocument(this.link.ns, this.link.arguments); 
+    this.webSocketService.runDocument(this.link.ns, this.link.arguments);
   }
 
   openLink() {

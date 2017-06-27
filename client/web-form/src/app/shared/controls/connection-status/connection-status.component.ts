@@ -1,8 +1,8 @@
-import { WebSocketService } from './../../../core/websocket.service';
-import { SocketConnectionStatus } from './../../../core/websocket-connection.enum';
+import { WebSocketService } from '@taskbuilder/core';
+import { SocketConnectionStatus } from '@taskbuilder/core/shared/models';
 import { Subscription } from 'rxjs';
 import { LocalizationService } from './../../../menu/services/localization.service';
-import { LoginSessionService } from './../../../core/login-session.service';
+import { LoginSessionService } from '@taskbuilder/core';
 import { ControlComponent } from './../control.component';
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy } from '@angular/core';
 

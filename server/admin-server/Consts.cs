@@ -6,15 +6,17 @@ namespace Microarea.AdminServer
     public class Consts
     {
         // Instance
-        public const string ExistInstance = "SELECT COUNT(*) FROM MP_Instances WHERE InstanceKey = @InstanceKey";
-        public const string SelectInstance = "SELECT * FROM MP_Instances WHERE InstanceKey = @InstanceKey";
+        public const string ExistInstance = "SELECT COUNT(*) FROM MP_Instances ";
+        public const string SelectInstance = "SELECT * FROM MP_Instances";
         public const string InsertInstance = "INSERT INTO MP_Instances (InstanceKey, Description, Customer, Disabled) VALUES (@InstanceKey, @Description, @Customer, @Disabled)";
         public const string UpdateInstance = "UPDATE MP_Instances SET Description = @Description, Customer = @Customer, Disabled = @Disabled WHERE InstanceKey = @InstanceKey";
         public const string DeleteInstance = "DELETE MP_Instances WHERE InstanceKey = @InstanceKey";
-        //
 
-        // ServerURL
-        public const string ExistServerURL = "SELECT COUNT(*) FROM MP_ServerURLs WHERE InstanceKey = @InstanceKey AND URLType = @URLType";
+		// Referenced tables
+		public const string SelectURlsInstance = "SELECT * FROM MP_ServerURLs WHERE InstanceKey = @InstanceKey";
+
+		// ServerURL
+		public const string ExistServerURL = "SELECT COUNT(*) FROM MP_ServerURLs WHERE InstanceKey = @InstanceKey AND URLType = @URLType";
         public const string SelectServerURL = "SELECT * FROM MP_ServerURLs WHERE InstanceKey = @InstanceKey AND URLType = @URLType";
         public const string InsertServerURL = "INSERT INTO MP_ServerURLs (InstanceKey, URLType, URL) VALUES (@InstanceKey, @URLType, @URL)";
         public const string UpdateServerURL = "UPDATE MP_ServerURLs SET URL = @URL WHERE InstanceKey = @InstanceKey AND URLType = @URLType";
@@ -53,10 +55,12 @@ namespace Microarea.AdminServer
         // Account
         public const string ExistAccount = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
         public const string SelectAccount = @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
+
         public const string InsertAccount = @"INSERT INTO MP_Accounts (AccountName, FullName, Password, CloudAdmin, Notes, Email, LoginFailedCount, PasswordNeverExpires, MustChangePassword, CannotChangePassword, 
 		                                    PasswordExpirationDate, PasswordDuration, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, ApplicationLanguage, Ticks, ExpirationDate) 
-		                                    VALUES (@AccountName, @FullName, @Password,  @Notes, @Email, @LoginFailedCount, @PasswordNeverExpires, @MustChangePassword, @CannotChangePassword, 
-		                                    @PasswordExpirationDate, @PasswordDuration, @Disabled, @Locked, @ProvisioningAdmin, @CloudAdmin, @WindowsAuthentication, @PreferredLanguage, @ApplicationLanguage, @Ticks, @ExpirationDate)";
+		                                    VALUES (@AccountName, @FullName, @Password, @CloudAdmin, @Notes, @Email, @LoginFailedCount, @PasswordNeverExpires, @MustChangePassword, @CannotChangePassword, 
+		                                    @PasswordExpirationDate, @PasswordDuration, @Disabled, @Locked, @ProvisioningAdmin, @WindowsAuthentication, @PreferredLanguage, @ApplicationLanguage, @Ticks, @ExpirationDate)";
+
         public const string UpdateAccount = @"UPDATE MP_Accounts SET FullName = @FullName, Password = @Password,  Notes = @Notes, Email = @Email, LoginFailedCount = @LoginFailedCount
 			                                PasswordNeverExpires = @PasswordNeverExpires, MustChangePassword = @MustChangePassword, CannotChangePassword = @CannotChangePassword, 
 			                                PasswordExpirationDate = @PasswordExpirationDate, PasswordDuration = @PasswordDuration, Disabled = @Disabled, Locked = @Locked, ProvisioningAdmin = @ProvisioningAdmin, CloudAdmin = @CloudAdmin,

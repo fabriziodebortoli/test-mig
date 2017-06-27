@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { LayoutService } from './../../../../core/layout.service';
+import { LayoutService } from '@taskbuilder/core';
 import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angular/core';
 import { TbComponent } from '../../../';
 import { TabberComponent } from '../tabber/tabber.component';

@@ -9,8 +9,7 @@
         <input type="text" placeholder="Subscription" value="" [(ngModel)]="model.subscriptionKey">
       </div>
       <div class="box">
-        <input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.disabled">
-        <label for="cboxDisabled">Disabled</label>
+        <label><input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.disabled">Disabled</label>
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
@@ -28,8 +27,7 @@
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="checkbox" name="cboxIsUnicode" value="" [(ngModel)]="model.isUnicode">
-        <label for="cboxIsUnicode">Use Unicode</label>
+        <label><input type="checkbox" name="cboxIsUnicode" value="" [(ngModel)]="model.isUnicode">Use Unicode</label>
       </div>
     </div>
   </div>
@@ -40,8 +38,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="checkbox" name="cboxUseDMS" value="" (change)="onUseDMSChange($event)" [(ngModel)]="model.useDMS">
-        <label for="cboxUseDMS">Use DMS</label>
+        <label><input type="checkbox" name="cboxUseDMS" value="" (change)="onUseDMSChange($event)" [(ngModel)]="model.useDMS">Use DMS</label>
       </div>
     </div>
   </div>

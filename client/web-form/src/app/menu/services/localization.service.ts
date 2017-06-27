@@ -4,7 +4,7 @@ import { Http } from '@angular/http';
 import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
 
-import { Logger } from './../../core/logger.service';
+import { Logger } from '@taskbuilder/core';
 
 @Injectable()
 export class LocalizationService {
@@ -25,7 +25,7 @@ export class LocalizationService {
         if (this.localizedElements != undefined)
             return this.localizedElements;
 
-       let subs =  this.httpMenuService.loadLocalizedElements(needLoginThread).subscribe(result => {
+        let subs = this.httpMenuService.loadLocalizedElements(needLoginThread).subscribe(result => {
             this.localizedElements = result.LocalizedElements;
             this.localizationsLoaded.emit();
             subs.unsubscribe();
