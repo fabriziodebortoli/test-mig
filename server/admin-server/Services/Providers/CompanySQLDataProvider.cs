@@ -124,7 +124,8 @@ namespace Microarea.AdminServer.Services.Providers
 					}
 
 					opRes.Result = true;
-                }
+					opRes.Content = company;
+				}
             }
             catch (Exception e)
             {

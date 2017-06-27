@@ -130,6 +130,7 @@ namespace Microarea.AdminServer.Services.Providers
 					}
 
 					opRes.Result = true;
+					opRes.Content = instance;
                 }
             }
             catch (Exception e)
