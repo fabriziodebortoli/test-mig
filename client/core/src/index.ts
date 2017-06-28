@@ -14,8 +14,15 @@ export * from './core/core.module';
 import { TbIconsModule } from './icons/icons.module';
 export * from './icons/icons.module';
 
+/**
+ * Modulo Shared
+ */
+import { TbSharedModule } from './shared/shared.module';
+export * from './shared/shared.module';
+
 const TB_MODULES = [
   // TbCoreModule,
+  TbSharedModule,
   TbIconsModule
 ];
 
