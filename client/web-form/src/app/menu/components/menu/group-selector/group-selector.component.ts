@@ -1,5 +1,5 @@
 import { UtilsService } from '@taskbuilder/core';
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 
 import { MenuService } from './../../../services/menu.service';
@@ -14,7 +14,7 @@ import { ImageService } from './../../../services/image.service';
 export class GroupSelectorComponent {
 
     @Output() itemSelected: EventEmitter<any> = new EventEmitter();
-
+    iconType: string = 'M4';
     constructor(
         private menuService: MenuService,
         private imageService: ImageService,
