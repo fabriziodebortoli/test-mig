@@ -1,6 +1,7 @@
-import { Subscription } from 'rxjs';
-import { LayoutService } from '@taskbuilder/core';
+import { LayoutService } from './../../../core/services/layout.service';
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'tb-frame',

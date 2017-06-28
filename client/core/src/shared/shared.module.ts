@@ -16,18 +16,18 @@ const KENDO_UI_MODULES = [
  * Containers - Contenitori di struttura della pagina derivati dalla versione desktop
  */
 import {
-    // FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent,
-    // DockpaneComponent, DockpaneContainerComponent,
+    FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent,
+    DockpaneComponent, DockpaneContainerComponent,
     // TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
     MessageDialogComponent
 } from './containers';
 
-// export * from './containers/frame/frame.component';
-// export * from './containers/frame/frame-content/frame-content.component';
-// export * from './containers/view/view.component';
-// export * from './containers/view/view-container/view-container.component';
-// export * from './containers/dockpane/dockpane.component';
-// export * from './containers/dockpane/dockpane-container/dockpane-container.component';
+export * from './containers/frame/frame.component';
+export * from './containers/frame/frame-content/frame-content.component';
+export * from './containers/view/view.component';
+export * from './containers/view/view-container/view-container.component';
+export * from './containers/dockpane/dockpane.component';
+export * from './containers/dockpane/dockpane-container/dockpane-container.component';
 // export * from './containers/tiles/tile-manager/tile-manager.component';
 // export * from './containers/tiles/tile-group/tile-group.component';
 // export * from './containers/tiles/tile/tile.component';
@@ -36,8 +36,8 @@ import {
 export * from './containers/message-dialog/message-dialog.component';
 
 const TB_CONTAINERS = [
-    // FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent,
-    // DockpaneComponent, DockpaneContainerComponent,
+    FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent,
+    DockpaneComponent, DockpaneContainerComponent,
     // TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
     MessageDialogComponent
 ];
