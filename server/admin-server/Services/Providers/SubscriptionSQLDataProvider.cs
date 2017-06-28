@@ -100,7 +100,8 @@ namespace Microarea.AdminServer.Services.Providers
 					}
 
 					opRes.Result = true;
-                }
+					opRes.Content = subscription;
+				}
             }
             catch (Exception e)
             {

@@ -61,7 +61,7 @@ namespace Microarea.AdminServer
 		                                    VALUES (@AccountName, @FullName, @Password, @CloudAdmin, @Notes, @Email, @LoginFailedCount, @PasswordNeverExpires, @MustChangePassword, @CannotChangePassword, 
 		                                    @PasswordExpirationDate, @PasswordDuration, @Disabled, @Locked, @ProvisioningAdmin, @WindowsAuthentication, @PreferredLanguage, @ApplicationLanguage, @Ticks, @ExpirationDate)";
 
-        public const string UpdateAccount = @"UPDATE MP_Accounts SET FullName = @FullName, Password = @Password,  Notes = @Notes, Email = @Email, LoginFailedCount = @LoginFailedCount
+        public const string UpdateAccount = @"UPDATE MP_Accounts SET FullName = @FullName, Password = @Password,  Notes = @Notes, Email = @Email, LoginFailedCount = @LoginFailedCount,
 			                                PasswordNeverExpires = @PasswordNeverExpires, MustChangePassword = @MustChangePassword, CannotChangePassword = @CannotChangePassword, 
 			                                PasswordExpirationDate = @PasswordExpirationDate, PasswordDuration = @PasswordDuration, Disabled = @Disabled, Locked = @Locked, ProvisioningAdmin = @ProvisioningAdmin, CloudAdmin = @CloudAdmin,
 											WindowsAuthentication = @WindowsAuthentication, PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage, Ticks=@Ticks, ExpirationDate = @ExpirationDate

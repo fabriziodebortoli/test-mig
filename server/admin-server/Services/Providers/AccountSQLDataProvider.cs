@@ -123,7 +123,8 @@ namespace Microarea.AdminServer.Services.Providers
 					}
 
 					opRes.Result = true;
-                }
+					opRes.Content = account;
+				}
             }
             catch (Exception e)
             {

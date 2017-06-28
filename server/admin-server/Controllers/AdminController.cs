@@ -452,35 +452,34 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			bool result = false;
+			OperationResult opRes = new OperationResult();
 
 			try
 			{
 				IAccount iAccount = JsonConvert.DeserializeObject<Account>(body);
 				if (iAccount != null)
 				{
-					OperationResult opRes = new OperationResult();
 					iAccount.Email = iAccount.AccountName;
 					iAccount.SetDataProvider(_accountSqlDataProvider);
 					opRes = iAccount.Save();
-					result = opRes.Result;
+					opRes.Message = Strings.SaveAccountOK;
 				}
             }
-			catch (SqlException exc)
+			catch (Exception exc)
 			{
-                _jsonHelper.AddJsonCouple<bool>("result", result);
+                _jsonHelper.AddJsonCouple<bool>("result", opRes.Result);
                 _jsonHelper.AddJsonCouple<string>("message", "060 AdminController.ApiAccounts" + exc.Message);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			if (!result)
+			if (!opRes.Result)
 			{
-                _jsonHelper.AddJsonCouple<bool>("result", result);
+                _jsonHelper.AddJsonCouple<bool>("result", opRes.Result);
                 _jsonHelper.AddJsonCouple<string>("message", Strings.SaveAccountKO);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddPlainObject<OperationResult>(new OperationResult(result, Strings.SaveAccountOK));
+			_jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
@@ -509,37 +508,33 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			bool result = false;
+			OperationResult opRes = new OperationResult();
+			
 			try
 			{
 				ICompany iCompany = JsonConvert.DeserializeObject<Company>(body);
 				if (iCompany != null)
 				{
 					iCompany.SetDataProvider(_companySqlDataProvider);
-					result = iCompany.Save().Result;
+					opRes = iCompany.Save();
+					opRes.Message = Strings.SaveCompanyOK;
 				}
-			}
-			catch (SqlException exc)
-			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "050 AdminController.ApiCompanies" + exc.Message);
-				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 			catch (Exception exc)
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<bool>("result", opRes.Result);
 				_jsonHelper.AddJsonCouple<string>("message", "040 AdminController.ApiCompanies" + exc.Message);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			if (!result)
+			if (!opRes.Result)
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<bool>("result", opRes.Result);
 				_jsonHelper.AddJsonCouple<string>("message", Strings.SaveCompanyKO);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddPlainObject<OperationResult>(new OperationResult(result, Strings.SaveCompanyOK));
+			_jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
@@ -548,7 +543,7 @@ namespace Microarea.AdminServer.Controllers
 		/// </summary>
 		//-----------------------------------------------------------------------------	
 		[HttpPost("/api/instances/{instancename}")]
-		public IActionResult ApiInstances(string instancename, string customer, bool disabled)
+		public IActionResult ApiInstances(string instancename, bool disabled)
 		{
 			if (String.IsNullOrEmpty(instancename))
 			{
@@ -557,30 +552,31 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			bool result = false;
+			OperationResult opRes = new OperationResult();
+
 			try
 			{
 				IInstance iInstance = new Instance(instancename);
 				iInstance.SetDataProvider(_instanceSqlDataProvider);
 				iInstance.Disabled = disabled;
-				result = iInstance.Save().Result;
+				opRes = iInstance.Save();
+				opRes.Message = Strings.SaveInstanceOK;
 			}
-			catch (SqlException exc)
+			catch (Exception exc)
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<bool>("result", opRes.Result);
 				_jsonHelper.AddJsonCouple<string>("message", "030 AdminController.ApiInstances" + exc.Message);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			if (!result)
+			if (!opRes.Result)
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<bool>("result", opRes.Result);
 				_jsonHelper.AddJsonCouple<string>("message", Strings.SaveInstanceKO);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddJsonCouple<bool>("result", true);
-			_jsonHelper.AddJsonCouple<string>("message",Strings.SaveInstanceOK);
+			_jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 		}
 
@@ -591,6 +587,7 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/subscriptions/{subscriptionKey?}")]
 		public IActionResult ApiSubscriptions(string subscriptionKey, string instancekey)
 		{
+			//@@TODO: da rivedere: i parametri devono essere obbligatori secondo me (Michi)
 			bool result = false;
 			try
 			{
