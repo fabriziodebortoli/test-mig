@@ -1,6 +1,3 @@
-export * from './tb.component';
-
-export * from './containers';
 export * from './topbar';
 export * from './toolbar';
 export * from './controls';

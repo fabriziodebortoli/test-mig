@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TbComponent } from './tb.component';
+import { TbComponent } from '@taskbuilder/core';
 
 import { EventDataService, DocumentService, ViewModeType } from '@taskbuilder/core';
 

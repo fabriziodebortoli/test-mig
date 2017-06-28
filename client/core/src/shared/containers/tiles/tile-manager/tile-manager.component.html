@@ -5,11 +5,11 @@
                 <tb-icon [iconType]="tile?.iconType" [icon]="tile?.icon" class="groupIcon"></tb-icon>
                 <span>{{tile?.title}}</span>
             </ng-template>
-            <template kendoTabContent>
+            <ng-template kendoTabContent>
                 <div class='kendoTabContent' [style.height.px]="viewHeight">
                     <ng-content></ng-content>
                 </div>
-            </template>
+            </ng-template>
         </kendo-tabstrip-tab>
     </kendo-tabstrip>
 </div>

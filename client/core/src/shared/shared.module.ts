@@ -6,10 +6,25 @@ import { RouterModule } from '@angular/router';
 
 import { MasonryModule } from 'angular2-masonry';
 
+import { TbIconsModule } from '../icons/icons.module';
+
 import { DialogModule } from '@progress/kendo-angular-dialog';
+import { LayoutModule } from '@progress/kendo-angular-layout';
 
 const KENDO_UI_MODULES = [
-    DialogModule
+    DialogModule,
+    LayoutModule
+];
+
+/**
+ * Components
+ */
+import {
+
+} from './components';
+export * from './components';
+const TB_COMPONENTS = [
+
 ];
 
 /**
@@ -18,28 +33,18 @@ const KENDO_UI_MODULES = [
 import {
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent,
     DockpaneComponent, DockpaneContainerComponent,
-    // TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-    MessageDialogComponent
+    TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
+    MessageDialogComponent,
+    TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent
 } from './containers';
-
-export * from './containers/frame/frame.component';
-export * from './containers/frame/frame-content/frame-content.component';
-export * from './containers/view/view.component';
-export * from './containers/view/view-container/view-container.component';
-export * from './containers/dockpane/dockpane.component';
-export * from './containers/dockpane/dockpane-container/dockpane-container.component';
-// export * from './containers/tiles/tile-manager/tile-manager.component';
-// export * from './containers/tiles/tile-group/tile-group.component';
-// export * from './containers/tiles/tile/tile.component';
-// export * from './containers/tiles/tile-panel/tile-panel.component';
-// export * from './containers/tiles/layout-container/layout-container.component';
-export * from './containers/message-dialog/message-dialog.component';
+export * from './containers';
 
 const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent,
     DockpaneComponent, DockpaneContainerComponent,
-    // TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-    MessageDialogComponent
+    TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
+    MessageDialogComponent,
+    TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent
 ];
 
 const TB_MODULES = [
@@ -49,6 +54,7 @@ const TB_MODULES = [
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
+    TbIconsModule
     // MasonryModule
 ];
 
@@ -66,7 +72,7 @@ const TB_MODULES = [
 
 @NgModule({
     imports: [TB_MODULES, KENDO_UI_MODULES],
-    declarations: [TB_CONTAINERS, /*TB_DIRECTIVES*/],
-    exports: [TB_MODULES, TB_CONTAINERS, /*TB_DIRECTIVES*/]
+    declarations: [TB_CONTAINERS, TB_COMPONENTS, /*TB_DIRECTIVES*/],
+    exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS,  /*TB_DIRECTIVES*/]
 })
 export class TbSharedModule { }

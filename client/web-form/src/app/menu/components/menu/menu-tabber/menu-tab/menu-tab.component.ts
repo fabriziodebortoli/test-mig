@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angular/core';
 
-import { TbComponent } from '../../../../../shared/tb.component';
+import { TbComponent } from '@taskbuilder/core';
 import { MenuTabberComponent } from '../menu-tabber.component';
 
 @Component({
