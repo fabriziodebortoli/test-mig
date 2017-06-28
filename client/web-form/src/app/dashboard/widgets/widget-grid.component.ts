@@ -84,7 +84,6 @@ export class WidgetGridComponent {
 
   gridHeight(): number {
     let h = this.widgetComponent.ContentHeight ? this.widgetComponent.ContentHeight : 120;// 31 = altezza header @@TODO rendere dinamico!
-    console.log(h)
     return h;
   }
 
