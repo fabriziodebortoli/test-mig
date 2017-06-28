@@ -111,7 +111,7 @@ export class WidgetsService {
     );
   }
 
-  refreshContent(wdg: Widget): WidgetData {
+  refreshContent(wdg: Widget): Observable<WidgetData> {
     const data = new WidgetData;
     data.lastExecuted = this.getExecutionTime();
     if (wdg.provider && wdg.provider.type === 'dataservice') {
@@ -128,9 +128,9 @@ export class WidgetsService {
         }
 
         subs.unsubscribe();
-        return data;
+
       });
     }
-    return data;
+    return Observable.of(data);
   }
 }

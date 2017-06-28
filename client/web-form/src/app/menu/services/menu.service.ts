@@ -1,3 +1,5 @@
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
 import { WebSocketService } from '@taskbuilder/core';
 import { ComponentService } from '@taskbuilder/core';
 import { HttpService } from '@taskbuilder/core';
@@ -347,9 +349,9 @@ export class MenuService {
         }
     }
 
-    updateAllFavoritesAndMostUsed() {
-        let sub = this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe(() => {
-            sub.unsubscribe();
+    updateAllFavoritesAndMostUsed(): Observable<Response> {
+        return this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).map((res: Response) => {
+            return res;
         });
     }
 
@@ -478,7 +480,7 @@ export class MenuService {
                 (object.objectName == undefined || (object.objectName != undefined && object.objectName == this.mostUsed[i].objectName))) {
                 this.mostUsed[i].lastModified = now;
 
-                 this.mostUsed = this.mostUsed.sort(this.compareMostUsed);
+                this.mostUsed = this.mostUsed.sort(this.compareMostUsed);
                 return;
             }
         }

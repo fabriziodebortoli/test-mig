@@ -6,11 +6,7 @@ import { CategoryAxis, SeriesLabels } from '@progress/kendo-angular-charts/dist/
 @Component({
   selector: 'tb-widget-chart',
   templateUrl: './widget-chart.component.html',
-  styles: [`
-    .k-chart {
-      height: 100%;
-    }
-  `]
+  styleUrls: ['./widget-chart.component.scss']
 })
 export class WidgetChartComponent implements OnInit, AfterViewInit {
   @Input() widget: Widget;
@@ -51,7 +47,7 @@ export class WidgetChartComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     // pie and donuts, enlarge to fill more space on the bottom
     if (this.widget.layout.chartFormat.type === 'pie' || this.widget.layout.chartFormat.type === 'donut') {
-      this.chart.element.nativeElement.style.height = '120%';
+      this.chart.element.nativeElement.style.height = '100%';
     }
   }
 

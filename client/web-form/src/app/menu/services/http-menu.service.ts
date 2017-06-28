@@ -138,7 +138,7 @@ export class HttpMenuService {
     * 
     * @returns {Observable<boolean>}
     */
-    updateAllFavoritesAndMostUsed(favorites: any, mostUsed: any): Observable<any> {
+    updateAllFavoritesAndMostUsed(favorites: any, mostUsed: any): Observable<Response> {
         let obj = {
             user: this.cookieService.get('_user'), company: this.cookieService.get('_company'),
             favorites: JSON.stringify(favorites), mostUsed: JSON.stringify(mostUsed)
@@ -146,7 +146,7 @@ export class HttpMenuService {
         var urlToRun = this.httpService.getMenuServiceUrl() + 'updateAllFavoritesAndMostUsed/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
-                return res.json;
+                return res;
             });
     }
 
