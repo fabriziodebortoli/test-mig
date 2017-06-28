@@ -32,12 +32,14 @@ export class WidgetComponent implements AfterViewInit {
       (data) => {
         this.widget.data = data;
         this.isLoading = false;
-        subs.unsubscribe();
+        if (subs)
+          subs.unsubscribe();
       },
       (err) => {
         // TODO report error
         this.isLoading = false;
-        subs.unsubscribe();
+        if (subs)
+              subs.unsubscribe();
       }
     );
   }

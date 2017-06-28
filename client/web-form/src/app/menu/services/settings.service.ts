@@ -41,7 +41,7 @@ export class SettingsService {
     }
 
     //---------------------------------------------------------------------------------------------
-    set LastGroupName(val) {
+    set LastApplicationName(val) {
         this._lastApplicationName = val;
         localStorage.setItem('_lastApplicationName', this._lastApplicationName);
     }
@@ -55,7 +55,7 @@ export class SettingsService {
     }
 
     //---------------------------------------------------------------------------------------------
-    set LastApplicationName(val) {
+    set LastGroupName(val) {
         this._lastGroupName = val;
         localStorage.setItem('_lastGroupName', this._lastGroupName);
     }
