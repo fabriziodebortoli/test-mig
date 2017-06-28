@@ -3,9 +3,7 @@ import { title } from './../../../reporting-studio/reporting-studio.model';
 import { EnumsService } from './../../../core/enums.service';
 import { Component, OnInit, OnDestroy, Input, HostListener } from '@angular/core';
 
-import { ViewModeType } from '../../../shared/models/view-mode-type.model';
-
-import { EventDataService } from '@taskbuilder/core';
+import { EventDataService, ViewModeType } from '@taskbuilder/core';
 
 import { EventManagerService } from './../../services/event-manager.service';
 import { SettingsService } from './../../services/settings.service';

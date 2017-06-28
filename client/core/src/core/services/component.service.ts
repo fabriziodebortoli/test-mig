@@ -8,7 +8,7 @@ import { HttpService } from './http.service';
 import { UtilsService } from './utils.service';
 import { WebSocketService } from './websocket.service';
 
-import { ComponentInfo } from '../../shared/models/component.info';
+import { ComponentInfo } from '../../shared/models';
 
 @Injectable()
 export class ComponentService {
@@ -134,7 +134,7 @@ export class ComponentService {
       .catch(reason => {
         console.log(reason);
         this.componentCreationError.emit(reason);
-		//cannot create client component: close server one!
+        //cannot create client component: close server one!
         this.webSocketService.closeServerComponent(this.currentComponentId);
         this.creatingComponent = false;
         this.createNextComponent();
