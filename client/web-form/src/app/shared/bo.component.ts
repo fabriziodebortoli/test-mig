@@ -1,6 +1,6 @@
 import { BOHelperService } from '@taskbuilder/core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DocumentComponent } from './document.component';
+import { DocumentComponent } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
 import { BOService } from '@taskbuilder/core';
 import { ControlTypes } from './../shared/controls/control-types.enum';

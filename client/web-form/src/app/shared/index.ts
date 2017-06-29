@@ -3,7 +3,6 @@ export * from './toolbar';
 export * from './controls';
 
 export * from './page-not-found.component';
-export * from './document.component';
 export * from './bo.component';
 
 export * from './shared.module';

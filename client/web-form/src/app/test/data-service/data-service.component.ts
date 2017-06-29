@@ -3,7 +3,7 @@ import { URLSearchParams, Http, Response } from '@angular/http';
 
 import { environment } from './../../../environments/environment';
 
-import { DocumentComponent } from '../../shared/document.component';
+import { DocumentComponent } from '@taskbuilder/core';
 
 import { ComponentService } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';

@@ -3,7 +3,7 @@ import { Response, URLSearchParams, Http } from '@angular/http';
 import { Observable, Subscription } from 'rxjs';
 
 
-import { DocumentComponent } from '../../document.component';
+import { DocumentComponent } from '@taskbuilder/core';
 
 import { HttpService } from '@taskbuilder/core';
 import { UtilsService } from '@taskbuilder/core';
