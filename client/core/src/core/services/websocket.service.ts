@@ -3,11 +3,12 @@ import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 
-import { MessageDlgArgs, MessageDlgResult } from './../containers/message-dialog/message-dialog.component';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
-import { LoginSessionService } from './login-session.service';
+import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
 import { SocketConnectionStatus } from '../../shared/models';
+
+import { LoginSessionService } from './login-session.service';
 import { HttpService } from './http.service';
 import { UrlService } from './url.service';
 // import { CommandService } from './command.service';
@@ -61,7 +62,7 @@ export class WebSocketService {
         this.logger.debug('wsConnecting... ' + url);
 
         this.connection = new WebSocket(url);
-        this.connection.onmessage = function (e) {
+        this.connection.onmessage = function(e) {
             if (typeof (e.data) === 'string') {
                 try {
                     const obj = JSON.parse(e.data);
@@ -163,7 +164,7 @@ export class WebSocketService {
         const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: obj.itemSource, hotLink: obj.hotLink };
 
         this.safeSend(data);
-	}
+    }
     closeServerComponent(cmpId: string) {
         this.doCommand(cmpId, 'ID_FILE_CLOSE');
     }

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
-import { MessageDlgArgs, MessageDlgResult } from './../containers/message-dialog/message-dialog.component';
+import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
 
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';

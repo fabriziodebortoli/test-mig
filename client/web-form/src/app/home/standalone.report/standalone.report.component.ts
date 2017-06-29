@@ -1,8 +1,7 @@
-import { ComponentService } from '@taskbuilder/core';
-import { HttpService } from '@taskbuilder/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { DynamicCmpComponent } from './../../shared/dynamic-cmp.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { HttpService, ComponentService, DynamicCmpComponent } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-standalone',

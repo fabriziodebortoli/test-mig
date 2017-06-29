@@ -1,13 +1,15 @@
-import { EventDataService } from '@taskbuilder/core';
-import { UtilsService } from '@taskbuilder/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+
+import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
+
+import { UtilsService, EventDataService, ContextMenuItem } from '@taskbuilder/core';
+
 import { MenuService } from './../../../../menu/services/menu.service';
 import { HttpMenuService } from './../../../../menu/services/http-menu.service';
 import { ConnectionInfoDialogComponent } from './../../../../menu/components/menu/connection-info-dialog/connection-info-dialog.component';
 import { ProductInfoDialogComponent } from './../../../../menu/components/menu/product-info-dialog/product-info-dialog.component';
 import { LocalizationService } from './../../../../menu/services/localization.service';
-import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { MenuItem } from './../../../context-menu/menu-item.model';
+
 
 @Component({
   selector: 'tb-topbar-menu-app',
@@ -15,7 +17,7 @@ import { MenuItem } from './../../../context-menu/menu-item.model';
   styleUrls: ['./topbar-menu-app.component.scss']
 })
 export class TopbarMenuAppComponent implements OnDestroy {
-  menuElements: MenuItem[] = new Array<MenuItem>();
+  menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
 
   private show = false;
 
@@ -35,11 +37,11 @@ export class TopbarMenuAppComponent implements OnDestroy {
   ) {
 
     this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe(() => {
-      const item1 = new MenuItem(this.localizationService.localizedElements.ViewProductInfo, 'idViewProductInfoButton', true, false);
-      const item2 = new MenuItem(this.localizationService.localizedElements.ConnectionInfo, 'idConnectionInfoButton', true, false);
-      const item3 = new MenuItem(this.localizationService.localizedElements.GotoProducerSite, 'idGotoProducerSiteButton', true, false);
-      const item4 = new MenuItem(this.localizationService.localizedElements.ClearCachedData, 'idClearCachedDataButton', true, false);
-      const item5 = new MenuItem(this.localizationService.localizedElements.ActivateViaSMS, 'idActivateViaSMSButton', true, false);
+      const item1 = new ContextMenuItem(this.localizationService.localizedElements.ViewProductInfo, 'idViewProductInfoButton', true, false);
+      const item2 = new ContextMenuItem(this.localizationService.localizedElements.ConnectionInfo, 'idConnectionInfoButton', true, false);
+      const item3 = new ContextMenuItem(this.localizationService.localizedElements.GotoProducerSite, 'idGotoProducerSiteButton', true, false);
+      const item4 = new ContextMenuItem(this.localizationService.localizedElements.ClearCachedData, 'idClearCachedDataButton', true, false);
+      const item5 = new ContextMenuItem(this.localizationService.localizedElements.ActivateViaSMS, 'idActivateViaSMSButton', true, false);
       // const item6 = new MenuItem(this.localizationService.localizedElements.ActivateViaInternet, 'idActivateViaInternetButton', true, false);
       this.menuElements.push(item1, item2, item3, item4, item5/*, item6*/);
     });

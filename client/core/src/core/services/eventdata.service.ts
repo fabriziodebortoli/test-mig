@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
-import { MessageDlgArgs, MessageDlgResult } from './../containers/message-dialog/message-dialog.component';
+import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
 
 @Injectable()
 export class EventDataService {

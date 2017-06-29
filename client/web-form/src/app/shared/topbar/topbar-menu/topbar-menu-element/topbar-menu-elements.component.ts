@@ -1,9 +1,9 @@
+import { Component, Input, ViewChild } from '@angular/core';
+
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
-import { MenuItem } from './../../../context-menu/menu-item.model';
-import { Component, Input, ViewChild } from '@angular/core';
-import { EventDataService } from '@taskbuilder/core';
-import { WebSocketService } from '@taskbuilder/core';
+
+import { EventDataService, ContextMenuItem, WebSocketService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-topbar-menu-elements',
@@ -18,10 +18,10 @@ export class TopbarMenuElementsComponent {
   popupAlign2: Align = { horizontal: 'right', vertical: 'top' };
   private show = false;
   private isMouseDown = false;
-  currentItem: MenuItem;
+  currentItem: ContextMenuItem;
 
   @Input() fontIcon = 'more_vert';
-  @Input() menuElements: MenuItem[];
+  @Input() menuElements: ContextMenuItem[];
   @ViewChild('anchor') divFocus: HTMLElement;
 
   constructor(private webSocketService: WebSocketService, private eventDataService: EventDataService) {
@@ -60,12 +60,12 @@ export class TopbarMenuElementsComponent {
     this.isMouseDown = true;
   }
 
-  hasSubItems(item: MenuItem) {
+  hasSubItems(item: ContextMenuItem) {
     const y = item.subItems;
     return y !== null && y.length > 0;
   }
 
-  openSubItems(open: boolean, item: MenuItem) {
+  openSubItems(open: boolean, item: ContextMenuItem) {
     if (!this.hasSubItems(item) || item === null || item === undefined) {
       return;
     }
@@ -73,7 +73,7 @@ export class TopbarMenuElementsComponent {
     this.currentItem = item;
   }
 
-  outView(item: MenuItem) {
+  outView(item: ContextMenuItem) {
     if (item !== null && item !== undefined) {
       item.showMySub = false;
     }

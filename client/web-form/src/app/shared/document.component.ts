@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ViewModeType } from './models/view-mode-type.model';
+import { TbComponent } from '@taskbuilder/core';
 
-import { TbComponent } from './tb.component';
-
-import { DocumentService } from '@taskbuilder/core';
-import { EventDataService } from '@taskbuilder/core';
+import { EventDataService, DocumentService, ViewModeType } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-document',

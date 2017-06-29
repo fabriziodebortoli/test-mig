@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { MenuItem } from './../../../context-menu/menu-item.model';
-
-import { ComponentService, EventDataService } from '@taskbuilder/core';
+import { ContextMenuItem, ComponentService, EventDataService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-topbar-menu-test',
@@ -11,15 +9,15 @@ import { ComponentService, EventDataService } from '@taskbuilder/core';
 })
 export class TopbarMenuTestComponent {
 
-  menuElements: MenuItem[] = new Array<MenuItem>();
+  menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
 
   constructor(private componentService: ComponentService, private eventDataService: EventDataService) {
 
-    const item1 = new MenuItem('Data Service', 'idDataServiceButton', true, false);
-    const item2 = new MenuItem('Reporting Studio', 'idReportingStudioButton', true, false);
-    const item3 = new MenuItem('TB Explorer', 'idTBExplorerButton', true, false);
-    const item4 = new MenuItem('Test Grid Component', 'idTBExplorerButton', true, false);
-    const item5 = new MenuItem('Test Icons', 'idTestIconsButton', true, false);
+    const item1 = new ContextMenuItem('Data Service', 'idDataServiceButton', true, false);
+    const item2 = new ContextMenuItem('Reporting Studio', 'idReportingStudioButton', true, false);
+    const item3 = new ContextMenuItem('TB Explorer', 'idTBExplorerButton', true, false);
+    const item4 = new ContextMenuItem('Test Grid Component', 'idTBExplorerButton', true, false);
+    const item5 = new ContextMenuItem('Test Icons', 'idTestIconsButton', true, false);
     this.menuElements.push(item1, item2, item3, item4, item5);
 
     this.eventDataService.command.subscribe((cmpId: string) => {

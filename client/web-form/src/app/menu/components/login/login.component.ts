@@ -1,10 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { LoginSession } from './../../../shared/models/login-session';
-
-import { HttpService } from '@taskbuilder/core';
-import { LoginSessionService } from '@taskbuilder/core';
+import { HttpService, LoginSessionService, LoginSession } from '@taskbuilder/core';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 

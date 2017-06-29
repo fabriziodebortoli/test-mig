@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ViewModeType } from '../../shared/models/view-mode-type.model';
+import { ViewModeType } from '../../shared/models';
 
 import { Logger } from './logger.service';
 
@@ -41,8 +41,7 @@ export class DocumentService {
         // return viewModeType;
     }
 
-    close()
-    {
-        
+    close() {
+
     }
 }

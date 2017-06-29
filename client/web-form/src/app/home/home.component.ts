@@ -1,11 +1,6 @@
-import { EnumsService } from './../core/enums.service';
-import { SettingsService } from './../menu/services/settings.service';
-import { LocalizationService } from './../menu/services/localization.service';
-import { MessageDialogComponent, MessageDlgArgs } from './../shared/containers/message-dialog/message-dialog.component';
 import { Subscription } from 'rxjs';
-import { ComponentInfo } from './../shared/models/component.info';
 
-import { LayoutService, TabberService, SidenavService } from '@taskbuilder/core';
+import { LayoutService, TabberService, SidenavService, MessageDialogComponent, MessageDlgArgs, ComponentInfo } from '@taskbuilder/core';
 
 import { MenuService } from '../menu/services/menu.service';
 

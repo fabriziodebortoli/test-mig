@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
-import { OperationResult } from '../../shared/models/operation-result.model';
-import { LoginSession } from '../../shared/models/login-session';
+import { OperationResult, LoginSession } from '../../shared/models';
+
 import { HttpService } from './http.service';
 import { WebSocketService } from './websocket.service';
 import { Logger } from './logger.service';
