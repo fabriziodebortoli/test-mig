@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 
 import { CoreGuard } from './core/core.guard';
 
-import { PageNotFoundComponent } from './shared/page-not-found.component';
+import { PageNotFoundComponent } from '@taskbuilder/core';
 import { UnsupportedFactoryComponent } from './unsupported.component';
 import { LoginComponent } from './menu/components/login/login.component';
 import { HomeComponent } from './home/home.component';

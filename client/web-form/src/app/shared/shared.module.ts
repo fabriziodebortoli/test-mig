@@ -21,7 +21,6 @@ import {
     LinearGaugeComponent, ConnectionStatusComponent
 } from './controls/';
 
-import { PageNotFoundComponent } from './page-not-found.component';
 import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
 import { HeaderStripComponent } from './header-strip/header-strip.component';
 import { OpenComponent } from './explorer/open/open.component';
@@ -62,7 +61,6 @@ const KENDO_UI_MODULES = [
 ];
 
 const TB_COMPONENTS = [
-    PageNotFoundComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     UnknownComponent,

@@ -22,11 +22,11 @@ const KENDO_UI_MODULES = [
  * Components
  */
 import {
-    DynamicCmpComponent, ContextMenuComponent, DocumentComponent
+    DynamicCmpComponent, ContextMenuComponent, DocumentComponent, PageNotFoundComponent
 } from './components';
 export * from './components';
 const TB_COMPONENTS = [
-    DynamicCmpComponent, ContextMenuComponent, DocumentComponent
+    DynamicCmpComponent, ContextMenuComponent, DocumentComponent, PageNotFoundComponent
 ];
 
 /**
