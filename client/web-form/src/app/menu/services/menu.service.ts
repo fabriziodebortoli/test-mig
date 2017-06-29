@@ -1,5 +1,6 @@
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Router } from '@angular/router';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 
@@ -33,6 +34,26 @@ export class MenuService {
 
     public showDescription: boolean = false;
 
+    selectedMenuChanged: EventEmitter<any> = new EventEmitter(true);
+    selectedApplicationChanged: EventEmitter<any> = new EventEmitter(true);
+    selectedGroupChanged: EventEmitter<string> = new EventEmitter(true);
+    menuActivated: EventEmitter<any> = new EventEmitter();
+
+    constructor(
+        private httpService: HttpService,
+        private webSocketService: WebSocketService,
+        private httpMenuService: HttpMenuService,
+        private logger: Logger,
+        private utilsService: UtilsService,
+        private imageService: ImageService,
+        private settingsService: SettingsService,
+        private componentService: ComponentService
+    ) {
+        this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
+    }
+
+
+
     get selectedMenu(): any {
         return this._selectedMenu;
     }
@@ -42,7 +63,7 @@ export class MenuService {
         if (menu != undefined) {
             this.settingsService.LastMenuName = menu.name;
         }
-        this.selectedMenuChanged.emit();
+        this.selectedMenuChanged.next(true);
     }
 
     get selectedGroup(): any {
@@ -70,23 +91,6 @@ export class MenuService {
         this.selectedApplicationChanged.emit();
     }
 
-    selectedMenuChanged: EventEmitter<any> = new EventEmitter(true);
-    selectedApplicationChanged: EventEmitter<any> = new EventEmitter(true);
-    selectedGroupChanged: EventEmitter<string> = new EventEmitter(true);
-    menuActivated: EventEmitter<any> = new EventEmitter();
-
-    constructor(
-        private httpService: HttpService,
-        private webSocketService: WebSocketService,
-        private httpMenuService: HttpMenuService,
-        private logger: Logger,
-        private utilsService: UtilsService,
-        private imageService: ImageService,
-        private settingsService: SettingsService,
-        private componentService: ComponentService
-    ) {
-        this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
-    }
 
     //---------------------------------------------------------------------------------------------
     initApplicationAndGroup(applications) {
@@ -117,10 +121,10 @@ export class MenuService {
             var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
             for (var i = 0; i < tempGroupArray.length; i++) {
                 if (tempGroupArray[i].name.toLowerCase() == this.settingsService.LastGroupName.toLowerCase()) {
-                     this.setSelectedGroup(tempGroupArray[i]);
-                    // this.selectedGroup = tempGroupArray[i];
-                    // this.selectedGroup.isSelected = true;
-                    // this.settingsService.LastGroupName = tempGroupArray[i].name;
+                    // this.setSelectedGroup(tempGroupArray[i]);
+                    this.selectedGroup = tempGroupArray[i];
+                    this.selectedGroup.isSelected = true;
+                    this.settingsService.LastGroupName = tempGroupArray[i].name;
                     break;
                 }
             }
@@ -165,10 +169,6 @@ export class MenuService {
         var tempMenuArray = this.utilsService.toArray(this.selectedGroup.Menu);
         if (tempMenuArray[0] != undefined)
             this.setSelectedMenu(tempMenuArray[0]);
-
-        this.setSelectedMenu(undefined);
-        // $location.path("/MenuTemplate");
-        // $route.reload();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -184,9 +184,7 @@ export class MenuService {
 
         this.selectedMenu = menu;
         this.selectedMenu.active = true;
-        menu.visible = true;
-
-        // this.eventData.model.Title.value = "Menu > " + menu.name;
+        this.selectedMenu.visible = true;
     }
 
     //---------------------------------------------------------------------------------------------

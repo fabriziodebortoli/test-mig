@@ -13,7 +13,7 @@ import { MasonryOptions } from "angular2-masonry";
   encapsulation: ViewEncapsulation.None
 })
 
-export class MenuContainerComponent implements OnInit, OnDestroy {
+export class MenuContainerComponent implements AfterViewInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   private selectedGroupChangedSubscription;
   private tiles: any[];
@@ -27,7 +27,9 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
     private localizationService: LocalizationService
   ) {
 
-  this.subscriptions.push(this.menuService.menuActivated.subscribe( ()=>{
+    this.subscriptions.push(this.menuService.menuActivated.subscribe(() => {
+      this.tiles = this.getTiles();
+      this.changeTabWhenMenuChanges();
       this.refreshLayout();
     }));
   }
@@ -42,11 +44,11 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
     transitionDuration: '0.2s'
   };
 
-  ngOnInit() {
+  ngAfterViewInit() {
 
     this.subscriptions.push(this.menuService.selectedMenuChanged.subscribe(() => {
-      this.changeTabWhenMenuChanges();
       this.tiles = this.getTiles();
+      this.changeTabWhenMenuChanges();
     }));
 
     this.subscriptions.push(this.menuService.selectedGroupChanged.subscribe(() => {
@@ -86,7 +88,6 @@ export class MenuContainerComponent implements OnInit, OnDestroy {
       return;
 
     let idx = this.findTabIndexByMenu();
-    // if (idx >= 0 && !this.tabber.tabs[idx].active)
     this.tabber.selectTab(idx);
   }
 

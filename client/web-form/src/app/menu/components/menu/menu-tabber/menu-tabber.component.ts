@@ -15,6 +15,9 @@ export class MenuTabberComponent extends TbComponent {
 
   selectTab(tab: MenuTabComponent) {
 
+    if (!this.tabs)
+      return;
+      
     this.tabs.forEach((t) => {
       t.active = false;
     });
