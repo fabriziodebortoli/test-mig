@@ -1,3 +1,6 @@
+import { SettingsService } from './../menu/services/settings.service';
+import { EnumsService } from './../core/enums.service';
+import { LocalizationService } from './../menu/services/localization.service';
 import { Subscription } from 'rxjs';
 
 import { LayoutService, TabberService, SidenavService, MessageDialogComponent, MessageDlgArgs, ComponentInfo } from '@taskbuilder/core';
