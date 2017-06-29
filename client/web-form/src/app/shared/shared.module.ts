@@ -22,7 +22,7 @@ import {
 } from './controls/';
 
 import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
-import { HeaderStripComponent } from './header-strip/header-strip.component';
+
 import { OpenComponent } from './explorer/open/open.component';
 import { SaveComponent } from './explorer/save/save.component';
 import { GridComponent } from './controls/grid/grid.component';
@@ -67,7 +67,6 @@ const TB_COMPONENTS = [
     CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
     DateInputComponent,
     OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
-    HeaderStripComponent,
     PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent,
     ImageComponent, ColorPickerComponent,
     BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
