@@ -22,7 +22,7 @@ import {
     CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent, UnknownComponent, BodyEditComponent,
     LinearGaugeComponent, ConnectionStatusComponent
 } from './controls/';
-import { DynamicCmpComponent } from './dynamic-cmp.component';
+
 import { PageNotFoundComponent } from './page-not-found.component';
 import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
 import { HeaderStripComponent } from './header-strip/header-strip.component';
@@ -70,7 +70,7 @@ const TB_COMPONENTS = [
     PageNotFoundComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
-    DynamicCmpComponent, UnknownComponent,
+    UnknownComponent,
     CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
     DateInputComponent,
     OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,

@@ -1,8 +1,7 @@
-import { WebSocketService } from '@taskbuilder/core';
-import { ComponentService } from '@taskbuilder/core';
-import { DynamicCmpComponent } from './../../shared/dynamic-cmp.component';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { ComponentService, WebSocketService, DynamicCmpComponent } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-standalone-document',
