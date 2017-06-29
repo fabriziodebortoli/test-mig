@@ -7,3 +7,4 @@ export * from './header-strip/header-strip.component';
 // export * from './explorer/open/open.component';
 // export * from './explorer/save/save.component';
 // export * from './explorer/ExplorerResourcesAccordion';
+// export * from './topbar';
