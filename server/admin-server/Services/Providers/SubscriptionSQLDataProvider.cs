@@ -92,9 +92,7 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@ApplicationLanguage", subscription.ApplicationLanguage);
 						command.Parameters.AddWithValue("@MinDBSizeToWarn", subscription.MinDBSizeToWarn);
 						command.Parameters.AddWithValue("@InstanceKey", subscription.InstanceKey);
-
-						if (existSubscription)
-							command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
+						command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
 
 						command.ExecuteNonQuery();
 					}
