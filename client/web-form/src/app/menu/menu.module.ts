@@ -108,9 +108,8 @@ const KENDO_UI_MODULES = [
     SearchComponent,
     GroupSelectorComponent,
     MenuStepperComponent,
-    MenuContentComponent,
-  ]
-  ,
+    MenuContentComponent
+  ],
   providers: [MENU_SERVICES],
   entryComponents: [
     ProductInfoDialogComponent,

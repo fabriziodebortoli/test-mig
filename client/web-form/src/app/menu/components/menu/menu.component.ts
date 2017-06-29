@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { title } from './../../../reporting-studio/reporting-studio.model';
 import { EnumsService } from './../../../core/enums.service';
-import { Component, OnInit, OnDestroy, Input, HostListener } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener } from '@angular/core';
 
 import { EventDataService, ViewModeType } from '@taskbuilder/core';
 
@@ -18,14 +18,14 @@ import { HttpMenuService } from './../../services/http-menu.service';
   providers: [EventDataService]
 })
 
-export class MenuComponent implements OnInit, OnDestroy {
+export class MenuComponent implements OnDestroy {
 
- @HostListener('window:beforeunload')
+  @HostListener('window:beforeunload')
   onClose() {
-      this.menuService.updateAllFavoritesAndMostUsed();
+    this.menuService.updateAllFavoritesAndMostUsed();
   }
 
-private subscriptions : Subscription[] = [];
+  private subscriptions: Subscription[] = [];
   constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
@@ -35,13 +35,8 @@ private subscriptions : Subscription[] = [];
     private eventData: EventDataService,
     private enumsService: EnumsService
   ) {
-    this.subscriptions.push(this.eventManagerService.preferenceLoaded.subscribe(result => {
-      this.menuService.initApplicationAndGroup(this.menuService.applicationMenu.Application);  //qui bisogna differenziare le app da caricare, potrebbero essere app o environment
-
-    }));
-
     this.eventData.model = {
-      Title: {
+      Title: { 
         value: 'Menu'
       },
       viewModeType: ViewModeType.M
@@ -52,17 +47,8 @@ private subscriptions : Subscription[] = [];
     }));
   }
 
-  ngOnInit() {
-    this.subscriptions.push(this.httpMenuService.getMenuElements().subscribe(result => {
-      this.menuService.onAfterGetMenuElements(result.Root);
-      this.localizationService.loadLocalizedElements(true);
-      this.settingsService.getSettings();
-      this.enumsService.getEnumsTable();
-    }));
-  }
-
   ngOnDestroy() {
-  
-    this.subscriptions.forEach((sub)=> sub.unsubscribe());
+
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

@@ -1,11 +1,9 @@
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { WebSocketService } from '@taskbuilder/core';
-import { ComponentService } from '@taskbuilder/core';
-import { HttpService } from '@taskbuilder/core';
-import { UtilsService } from '@taskbuilder/core';
-import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
+
+import { WebSocketService, ComponentService, HttpService, UtilsService } from '@taskbuilder/core';
 
 import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
@@ -17,6 +15,7 @@ import { Logger } from '@taskbuilder/core';
 @Injectable()
 export class MenuService {
 
+    private isMenuCacheActive: boolean = true;
     private _selectedApplication: any;
     private _selectedGroup: any;
     private _selectedMenu: any;
@@ -102,6 +101,7 @@ export class MenuService {
         if (this.settingsService.LastApplicationName != '' && this.settingsService.LastApplicationName != undefined) {
             for (var i = 0; i < tempAppArray.length; i++) {
                 if (tempAppArray[i].name.toLowerCase() == this.settingsService.LastApplicationName.toLowerCase()) {
+                    this.setSelectedApplication(tempAppArray[i]);
                     this.selectedApplication = tempAppArray[i];
                     this.selectedApplication.isSelected = true;
                     this.settingsService.LastApplicationName = tempAppArray[i].name;
@@ -117,9 +117,10 @@ export class MenuService {
             var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
             for (var i = 0; i < tempGroupArray.length; i++) {
                 if (tempGroupArray[i].name.toLowerCase() == this.settingsService.LastGroupName.toLowerCase()) {
-                    this.selectedGroup = tempGroupArray[i];
-                    this.selectedGroup.isSelected = true;
-                    this.settingsService.LastGroupName = tempGroupArray[i].name;
+                     this.setSelectedGroup(tempGroupArray[i]);
+                    // this.selectedGroup = tempGroupArray[i];
+                    // this.selectedGroup.isSelected = true;
+                    // this.settingsService.LastGroupName = tempGroupArray[i].name;
                     break;
                 }
             }
@@ -132,8 +133,6 @@ export class MenuService {
 
         // $location.path("/MenuTemplate");
         // $route.reload();
-
-        return;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -397,10 +396,34 @@ export class MenuService {
         return 0;
     }
 
+    getMenuElements() {
+
+        let menuItems = localStorage.getItem("_menuElements");
+        if (this.isMenuCacheActive && menuItems != "") {
+            let parsedMenu = JSON.parse(menuItems);
+            this.onAfterGetMenuElements(parsedMenu.Root);
+            return;
+        }
+
+        this.httpMenuService.getMenuElements().subscribe((result) => {
+            this.onAfterGetMenuElements(result.Root);
+            localStorage.setItem("_menuElements", JSON.stringify(result));
+        });
+    }
+
+    invalidateCache() {
+        localStorage.setItem("_menuElements", "");
+        this.httpMenuService.clearCachedData().subscribe(result => {
+            location.reload();
+        });
+    }
+
     //---------------------------------------------------------------------------------------------
     onAfterGetMenuElements(root) {
         this.applicationMenu = root.ApplicationMenu.AppMenu;
         this.environmentMenu = root.EnvironmentMenu.AppMenu;
+
+        this.initApplicationAndGroup(this.applicationMenu.Application);//qui bisogna differenziare le app da caricare, potrebbero essere app o environment
         this.loadFavoritesAndMostUsed();
         this.loadSearchObjects();
     }
