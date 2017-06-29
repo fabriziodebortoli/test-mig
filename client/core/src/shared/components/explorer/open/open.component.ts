@@ -2,15 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Response, URLSearchParams, Http } from '@angular/http';
 import { Observable, Subscription } from 'rxjs';
 
+import { DocumentComponent } from './../../document.component';
+import { UtilsService } from './../../../../core/services/utils.service';
+import { EventDataService } from './../../../../core/services/eventdata.service';
+import { ExplorerService } from './../../../../core/services/explorer.service';
 
-import { DocumentComponent } from '@taskbuilder/core';
-
-import { HttpService } from '@taskbuilder/core';
-import { UtilsService } from '@taskbuilder/core';
 import { ImageService } from '../../../menu/services/image.service';
 import { MenuService } from './../../../menu/services/menu.service';
-import { EventDataService } from '@taskbuilder/core';
-import { ExplorerService } from '@taskbuilder/core';
+
 import { PanelBarExpandMode, PanelBarItemModel } from '@progress/kendo-angular-layout';
 
 @Component({

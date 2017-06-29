@@ -23,8 +23,6 @@ import {
 
 import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
 
-import { OpenComponent } from './explorer/open/open.component';
-import { SaveComponent } from './explorer/save/save.component';
 import { GridComponent } from './controls/grid/grid.component';
 import { PlaceholderComponent } from './controls/placeholder/placeholder.component';
 import { PasswordComponent } from './controls/password/password.component';
@@ -65,8 +63,7 @@ const TB_COMPONENTS = [
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     UnknownComponent,
     CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
-    DateInputComponent,
-    OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
+    DateInputComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
     PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent,
     ImageComponent, ColorPickerComponent,
     BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
@@ -86,8 +83,7 @@ const TB_COMPONENTS = [
         TaskbuilderCoreModule
     ],
     declarations: [TB_COMPONENTS],
-    exports: [TB_COMPONENTS, TaskbuilderCoreModule],
-    // entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
+    exports: [TB_COMPONENTS, TaskbuilderCoreModule]
 
 })
 export class SharedModule {
