@@ -1,5 +1,6 @@
-import { ContextMenuComponent } from './../context-menu/context-menu.component';
 import { Directive, ViewChild, ElementRef, AfterContentInit, ViewContainerRef, ComponentFactoryResolver, AfterViewInit, ComponentRef, Input } from '@angular/core';
+
+import { ContextMenuComponent } from './../components/context-menu/context-menu.component';
 
 @Directive({
   selector: '[tbContextMenu]',

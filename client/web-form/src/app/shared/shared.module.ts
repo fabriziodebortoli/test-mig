@@ -1,5 +1,3 @@
-import { NameDirective } from './directives/name-directive';
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,10 +32,7 @@ import { PasswordComponent } from './controls/password/password.component';
 import { MaskedTextBoxComponent } from './controls/masked-text-box/masked-text-box.component';
 import { NumericTextBoxComponent } from './controls/numeric-text-box/numeric-text-box.component';
 import { DateInputComponent } from './controls/date-input/date-input.component';
-import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { LabelStaticComponent } from './controls/label-static/label-static.component';
-
-import { ContextMenuDirective } from './directives/context-menu.directive';
 
 import { PhoneComponent } from './controls/phone/phone.component';
 import { EmailComponent } from './controls/email/email.component';
@@ -75,15 +70,11 @@ const TB_COMPONENTS = [
     DateInputComponent,
     OpenComponent, SaveComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
     HeaderStripComponent,
-    PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent, ContextMenuComponent,
+    PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent,
     ImageComponent, ColorPickerComponent,
     BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
     PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent,
     TopbarMenuElementsComponent, ConnectionStatusComponent, HotlinkComponent
-];
-
-const TB_DIRECTIVES = [
-    ContextMenuDirective, NameDirective
 ];
 
 @NgModule({
@@ -97,8 +88,8 @@ const TB_DIRECTIVES = [
         KENDO_UI_MODULES,
         TaskbuilderCoreModule
     ],
-    declarations: [TB_COMPONENTS, TB_DIRECTIVES],
-    exports: [TB_COMPONENTS, TB_DIRECTIVES, TaskbuilderCoreModule],
+    declarations: [TB_COMPONENTS],
+    exports: [TB_COMPONENTS, TaskbuilderCoreModule],
     // entryComponents: [OpenComponent, SaveComponent, ContextMenuComponent]
 
 })

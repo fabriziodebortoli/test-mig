@@ -1,19 +1,19 @@
-import { StateButtonComponent } from './../controls/state-button/state-button.component';
-import { Directive,  AfterContentInit, ViewContainerRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+// import { StateButtonComponent } from './../controls/state-button/state-button.component';
+import { Directive, AfterContentInit, ViewContainerRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
 
 
 @Directive({
   selector: '[tbStateButtons]'
 })
 export class StateButtonDirective implements AfterContentInit {
-private stateButtonsRef: ComponentRef<any>;
-  constructor(private vcr: ViewContainerRef, private componentResolver: ComponentFactoryResolver) { 
-      console.log(vcr);
+  private stateButtonsRef: ComponentRef<any>;
+  constructor(private vcr: ViewContainerRef, private componentResolver: ComponentFactoryResolver) {
+    console.log(vcr);
   }
- renderComponent() {
+  renderComponent() {
     // if (this.stateButtonsRef) this.stateButtonsRef.instance.value = this.value;
   }
-ngAfterContentInit() {
+  ngAfterContentInit() {
 
     // this.stateButtonsTarget = (<any>this.vcr)._data.componentView.component.stateButtons;
     // console.log('_data.componentView', this.stateButtonsTarget);

@@ -1,11 +1,12 @@
+import { Component, Input, ViewChild } from '@angular/core';
+
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
-import { ContextMenuDirective } from './../directives/context-menu.directive';
-import { MenuItem } from './menu-item.model';
-import { Component, Input, ViewChild } from '@angular/core';
-import { EventDataService } from '@taskbuilder/core';
-import { WebSocketService } from '@taskbuilder/core';
 
+import { EventDataService } from './../../../core/services/eventdata.service';
+import { WebSocketService } from './../../../core/services/websocket.service';
+import { ContextMenuDirective } from './../../directives/context-menu.directive';
+import { ContextMenuItem } from './../../models/context-menu-item.model';
 
 @Component({
   selector: 'tb-context-menu',
@@ -20,11 +21,11 @@ export class ContextMenuComponent {
   popupAlign2: Align = { horizontal: 'right', vertical: 'top' };
   private show = false;
   private isMouseDown = false;
-  contextMenuBinding: MenuItem[];
-  currentItem: MenuItem;
+  contextMenuBinding: ContextMenuItem[];
+  currentItem: ContextMenuItem;
 
   @Input() fontIcon = 'more_vert';
-  @Input() contextMenu: MenuItem[];
+  @Input() contextMenu: ContextMenuItem[];
   @Input() popupClass = 'content popup';
   @ViewChild('anchor') divFocus: HTMLElement;
 
@@ -37,19 +38,19 @@ export class ContextMenuComponent {
     // });
 
     // SCENARIO 2: RIEMPITO DA HTML
-    this.contextMenu = new Array<MenuItem>();
+    this.contextMenu = new Array<ContextMenuItem>();
 
-    const subItems_bis = new Array<MenuItem>();
-    const item4 = new MenuItem('solo questo disable unchecked', 'Id4', false, false);
+    const subItems_bis = new Array<ContextMenuItem>();
+    const item4 = new ContextMenuItem('solo questo disable unchecked', 'Id4', false, false);
     subItems_bis.push(item4);
 
-    const subItems = new Array<MenuItem>();
-    const item1 = new MenuItem('disabled unchecked', 'Id1', false, false);
-    const item5 = new MenuItem('enabled checked', 'Id5', true, true);
-    const item2 = new MenuItem('has one sub item', 'Id2', true, false, subItems_bis);
+    const subItems = new Array<ContextMenuItem>();
+    const item1 = new ContextMenuItem('disabled unchecked', 'Id1', false, false);
+    const item5 = new ContextMenuItem('enabled checked', 'Id5', true, true);
+    const item2 = new ContextMenuItem('has one sub item', 'Id2', true, false, subItems_bis);
     subItems.push(item1, item5);
 
-    const item3 = new MenuItem('has 2 sub items', 'Id3', true, false, subItems);
+    const item3 = new ContextMenuItem('has 2 sub items', 'Id3', true, false, subItems);
     this.contextMenu.push(item1, item2, item5, item3);
 
   }
@@ -87,12 +88,12 @@ export class ContextMenuComponent {
     this.isMouseDown = true;
   }
 
-  hasSubItems(item: MenuItem) {
+  hasSubItems(item: ContextMenuItem) {
     const y = item.subItems;
     return y !== null && y.length > 0;
   }
 
-  openSubItems(open: boolean, item: MenuItem) {
+  openSubItems(open: boolean, item: ContextMenuItem) {
     if (!this.hasSubItems(item) || item === null || item === undefined) {
       return;
     }
@@ -100,7 +101,7 @@ export class ContextMenuComponent {
     this.currentItem = item;
   }
 
-  outView(item: MenuItem) {
+  outView(item: ContextMenuItem) {
     if (item !== null && item !== undefined) {
       item.showMySub = false;
     }

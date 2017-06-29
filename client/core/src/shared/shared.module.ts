@@ -10,21 +10,23 @@ import { TbIconsModule } from '../icons/icons.module';
 
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { PopupModule } from '@progress/kendo-angular-popup';
 
 const KENDO_UI_MODULES = [
     DialogModule,
-    LayoutModule
+    LayoutModule,
+    PopupModule
 ];
 
 /**
  * Components
  */
 import {
-    DynamicCmpComponent
+    DynamicCmpComponent, ContextMenuComponent
 } from './components';
 export * from './components';
 const TB_COMPONENTS = [
-    DynamicCmpComponent
+    DynamicCmpComponent, ContextMenuComponent
 ];
 
 /**
@@ -62,17 +64,18 @@ const TB_MODULES = [
  * Direttive per style o funzionalità applicate a componenti base
  */
 // import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './directives';
-// import { ContextMenuDirective, LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective } from './directives';
-// export * from './directives';
+import { ContextMenuDirective/*LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective */ } from './directives';
+export * from './directives';
 
-// const TB_DIRECTIVES = [
-//     TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
-//     ContextMenuDirective, LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective
-// ];
+const TB_DIRECTIVES = [
+    // TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
+    // LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective,
+    ContextMenuDirective
+];
 
 @NgModule({
     imports: [TB_MODULES, KENDO_UI_MODULES],
-    declarations: [TB_CONTAINERS, TB_COMPONENTS, /*TB_DIRECTIVES*/],
-    exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS,  /*TB_DIRECTIVES*/]
+    declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_DIRECTIVES],
+    exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_DIRECTIVES]
 })
 export class TbSharedModule { }
