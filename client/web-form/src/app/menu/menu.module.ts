@@ -37,7 +37,7 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 
 import { LoginComponent } from './components/login/login.component';
 import { Logger } from '@taskbuilder/core';
-import { Accordion, AccordionGroup } from '../shared/containers/accordion/accordion.component';
+
 import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
@@ -90,8 +90,6 @@ const KENDO_UI_MODULES = [
     ConnectionInfoDialogComponent,
     GroupSelectorComponent,
     MenuStepperComponent,
-    Accordion,
-    AccordionGroup,
     MenuTabberComponent,
     MenuTabComponent,
     MenuElementComponent,
@@ -111,8 +109,6 @@ const KENDO_UI_MODULES = [
     GroupSelectorComponent,
     MenuStepperComponent,
     MenuContentComponent,
-    Accordion,
-    AccordionGroup
   ]
   ,
   providers: [MENU_SERVICES],
