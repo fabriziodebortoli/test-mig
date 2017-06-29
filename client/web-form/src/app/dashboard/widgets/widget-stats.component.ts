@@ -1,21 +1,20 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Widget } from './widgets.service';
+import { WidgetComponent } from './widget.component';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Widget, WidgetsService } from './widgets.service';
 
 @Component({
   selector: 'tb-widget-stats',
   templateUrl: './widget-stats.component.html',
   styleUrls: ['./widget-stats.component.scss']
 })
-export class WidgetStatsComponent implements OnInit {
+export class WidgetStatsComponent {
   @Input() widget: Widget;
 
-  constructor() {
+  constructor(private widgetComponent: WidgetComponent, private widgetsService: WidgetsService) {
   }
 
-  ngOnInit() {
-  }
-
-  formatMoney(value: number,
+  formatMoney(
+    value: number,
     currencySign: string = '€ ',
     decimalLength: number = 2,
     chunkDelimiter: string = '.',

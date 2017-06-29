@@ -7,20 +7,21 @@ import { Widget, WidgetsService } from './widgets.service';
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.scss']
 })
-export class WidgetComponent implements AfterViewInit {
+export class WidgetComponent implements AfterContentInit {
   @Input() widget: Widget;
   @ViewChild('cardContent') cardContent: ElementRef;
   ContentHeight: number;
   ContentWidth: number;
-
+  subscriptions = [];
   isLoading: boolean = false;
 
   constructor(private widgetsService: WidgetsService, private menuService: MenuService) {
-
+   this.isLoading = true; 
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
+  ngAfterContentInit() {
+    this.onRefreshClicked();
+     setTimeout(() => {
       this.ContentHeight = this.cardContent ? this.cardContent.nativeElement.offsetHeight : 0;
       this.ContentWidth = this.cardContent ? this.cardContent.nativeElement.offsetWidth : 0;
     }, 0);
@@ -28,18 +29,21 @@ export class WidgetComponent implements AfterViewInit {
 
   onRefreshClicked() {
     this.isLoading = true;
+    let thiz = this;
     let subs = this.widgetsService.refreshContent(this.widget).subscribe(
       (data) => {
         this.widget.data = data;
-        this.isLoading = false;
+        setTimeout(function () {
+          thiz.isLoading = false;
+        }, 1);
         if (subs)
           subs.unsubscribe();
       },
       (err) => {
         // TODO report error
-        this.isLoading = false;
+        thiz.isLoading = false;
         if (subs)
-              subs.unsubscribe();
+          subs.unsubscribe();
       }
     );
   }
@@ -48,5 +52,4 @@ export class WidgetComponent implements AfterViewInit {
     let object = { target: this.widget.link, objectType: "Report" };
     this.menuService.runFunction(object);
   }
-
 }

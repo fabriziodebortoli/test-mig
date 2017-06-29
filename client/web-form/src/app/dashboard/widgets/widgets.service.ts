@@ -12,6 +12,7 @@ export class Widget {
   layout: WidgetLayout;
   provider: WidgetProvider;
   data?: WidgetData;
+  
 }
 
 export class WidgetRow {
