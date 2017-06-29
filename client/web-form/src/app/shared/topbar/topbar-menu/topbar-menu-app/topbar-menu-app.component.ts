@@ -94,9 +94,7 @@ export class TopbarMenuAppComponent implements OnDestroy {
   // }
 
   clearCachedData() {
-    this.httpMenuService.clearCachedData().subscribe(result => {
-      location.reload();
-    });
+    this.menuService.invalidateCache();
   }
 
   openProductInfoDialog() {

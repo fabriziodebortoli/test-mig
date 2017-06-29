@@ -112,7 +112,7 @@ const KENDO_UI_MODULES = [
     MenuStepperComponent,
     MenuContentComponent,
     Accordion,
-    AccordionGroup
+    AccordionGroup,
   ]
   ,
   providers: [MENU_SERVICES],

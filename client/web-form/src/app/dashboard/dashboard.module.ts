@@ -35,7 +35,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   imports: [
     CommonModule,
     SharedModule,
-    MenuModule.forRoot(),
+    MenuModule,
     MaterialModule,
     WidgetsModule,
     KENDO_UI_MODULES

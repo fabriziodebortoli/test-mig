@@ -1,11 +1,9 @@
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { WebSocketService } from '@taskbuilder/core';
-import { ComponentService } from '@taskbuilder/core';
-import { HttpService } from '@taskbuilder/core';
-import { UtilsService } from '@taskbuilder/core';
-import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
+
+import { WebSocketService, ComponentService, HttpService, UtilsService } from '@taskbuilder/core';
 
 import { HttpMenuService } from './http-menu.service';
 import { ImageService } from './image.service';
@@ -17,6 +15,7 @@ import { Logger } from '@taskbuilder/core';
 @Injectable()
 export class MenuService {
 
+    private isMenuCacheActive: boolean = true;
     private _selectedApplication: any;
     private _selectedGroup: any;
     private _selectedMenu: any;
@@ -397,12 +396,37 @@ export class MenuService {
         return 0;
     }
 
+    getMenuElements() {
+
+        let menuItems = localStorage.getItem("_menuElements");
+        if (this.isMenuCacheActive && menuItems != "") {
+            let parsedMenu = JSON.parse(menuItems);
+            this.onAfterGetMenuElements(parsedMenu.Root);
+            return;
+        }
+
+        this.httpMenuService.getMenuElements().subscribe((result) => {
+            this.onAfterGetMenuElements(result.Root);
+            localStorage.setItem("_menuElements", JSON.stringify(result));
+        });
+    }
+
+    invalidateCache() {
+        localStorage.setItem("_menuElements", "");
+        this.httpMenuService.clearCachedData().subscribe(result => {
+            location.reload();
+        });
+    }
+
     //---------------------------------------------------------------------------------------------
     onAfterGetMenuElements(root) {
+        let thiz = this;
         this.applicationMenu = root.ApplicationMenu.AppMenu;
         this.environmentMenu = root.EnvironmentMenu.AppMenu;
-        this.loadFavoritesAndMostUsed();
-        this.loadSearchObjects();
+
+        thiz.initApplicationAndGroup(this.applicationMenu.Application);//qui bisogna differenziare le app da caricare, potrebbero essere app o environment
+        thiz.loadFavoritesAndMostUsed();
+        thiz.loadSearchObjects();
     }
 
     //---------------------------------------------------------------------------------------------

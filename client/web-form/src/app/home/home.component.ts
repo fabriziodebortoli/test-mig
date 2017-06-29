@@ -1,3 +1,6 @@
+import { EnumsService } from './../core/enums.service';
+import { SettingsService } from './../menu/services/settings.service';
+import { LocalizationService } from './../menu/services/localization.service';
 import { MessageDialogComponent, MessageDlgArgs } from './../shared/containers/message-dialog/message-dialog.component';
 import { Subscription } from 'rxjs';
 import { ComponentInfo } from './../shared/models/component.info';
@@ -21,7 +24,7 @@ import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstr
   styleUrls: ['./home.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
+export class HomeComponent implements OnDestroy, AfterContentInit {
 
   @ViewChild('sidenav') sidenav;
   subscriptions: Subscription[] = [];
@@ -40,7 +43,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
     private componentService: ComponentService,
     private layoutService: LayoutService,
     private tabberService: TabberService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private localizationService: LocalizationService,
+    private settingsService: SettingsService,
+    private enumsService: EnumsService
 
   ) {
     this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
@@ -64,11 +70,13 @@ export class HomeComponent implements OnInit, OnDestroy, AfterContentInit {
 
       this.messageDialog.open(args);
     }));
+
+    this.menuService.getMenuElements();
+    this.localizationService.loadLocalizedElements(true);
+    this.settingsService.getSettings();
+    this.enumsService.getEnumsTable();
   }
 
-  ngOnInit() {
-
-  }
 
   ngAfterContentInit() {
     setTimeout(() => this.calcViewHeight(), 0);
