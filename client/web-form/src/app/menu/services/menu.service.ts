@@ -101,6 +101,7 @@ export class MenuService {
         if (this.settingsService.LastApplicationName != '' && this.settingsService.LastApplicationName != undefined) {
             for (var i = 0; i < tempAppArray.length; i++) {
                 if (tempAppArray[i].name.toLowerCase() == this.settingsService.LastApplicationName.toLowerCase()) {
+                    this.setSelectedApplication(tempAppArray[i]);
                     this.selectedApplication = tempAppArray[i];
                     this.selectedApplication.isSelected = true;
                     this.settingsService.LastApplicationName = tempAppArray[i].name;
@@ -116,9 +117,10 @@ export class MenuService {
             var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
             for (var i = 0; i < tempGroupArray.length; i++) {
                 if (tempGroupArray[i].name.toLowerCase() == this.settingsService.LastGroupName.toLowerCase()) {
-                    this.selectedGroup = tempGroupArray[i];
-                    this.selectedGroup.isSelected = true;
-                    this.settingsService.LastGroupName = tempGroupArray[i].name;
+                     this.setSelectedGroup(tempGroupArray[i]);
+                    // this.selectedGroup = tempGroupArray[i];
+                    // this.selectedGroup.isSelected = true;
+                    // this.settingsService.LastGroupName = tempGroupArray[i].name;
                     break;
                 }
             }
@@ -131,8 +133,6 @@ export class MenuService {
 
         // $location.path("/MenuTemplate");
         // $route.reload();
-
-        return;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -420,13 +420,12 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     onAfterGetMenuElements(root) {
-        let thiz = this;
         this.applicationMenu = root.ApplicationMenu.AppMenu;
         this.environmentMenu = root.EnvironmentMenu.AppMenu;
 
-        thiz.initApplicationAndGroup(this.applicationMenu.Application);//qui bisogna differenziare le app da caricare, potrebbero essere app o environment
-        thiz.loadFavoritesAndMostUsed();
-        thiz.loadSearchObjects();
+        this.initApplicationAndGroup(this.applicationMenu.Application);//qui bisogna differenziare le app da caricare, potrebbero essere app o environment
+        this.loadFavoritesAndMostUsed();
+        this.loadSearchObjects();
     }
 
     //---------------------------------------------------------------------------------------------
