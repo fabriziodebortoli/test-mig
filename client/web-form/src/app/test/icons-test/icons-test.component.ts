@@ -4,8 +4,7 @@ import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
 import { EventDataService } from '@taskbuilder/core';
 import { ComponentService } from '@taskbuilder/core';
-
-import { DocumentComponent } from "../../shared";
+import { DocumentComponent } from "@taskbuilder/core";
 
 @Component({
   selector: 'tb-icons-test',

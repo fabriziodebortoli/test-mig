@@ -1,7 +1,7 @@
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { DocumentComponent } from '../../shared/document.component';
+import { DocumentComponent } from '@taskbuilder/core';
 
 import { ComponentService, ExplorerService } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
