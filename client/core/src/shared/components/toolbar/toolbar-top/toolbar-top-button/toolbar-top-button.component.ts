@@ -1,6 +1,9 @@
-import { HttpService, EventDataService, TbComponent } from '@taskbuilder/core';
-
 import { Component, Input } from '@angular/core';
+
+import { HttpService } from './../../../../../core/services/http.service';
+import { EventDataService } from './../../../../../core/services/eventdata.service';
+
+import { TbComponent } from "./../../../../../shared";
 
 @Component({
   selector: 'tb-toolbar-top-button',

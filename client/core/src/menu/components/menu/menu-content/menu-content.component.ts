@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
-import { UtilsService } from '@taskbuilder/core';
-import { EventManagerService } from '@taskbuilder/core';
-import { MenuService } from '@taskbuilder/core';
-import { HttpMenuService } from '@taskbuilder/core';
-import { ImageService } from '@taskbuilder/core';
+import { EventManagerService } from './../../../services/event-manager.service';
+import { ImageService } from './../../../services/image.service';
+import { UtilsService } from './../../../../core/services/utils.service';
+import { MenuService } from './../../../services/menu.service';
+import { HttpMenuService } from './../../../services/http-menu.service';
 
 @Component({
   selector: 'tb-menu-content',

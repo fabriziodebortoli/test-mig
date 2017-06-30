@@ -1,10 +1,12 @@
-import { Subscription } from 'rxjs';
-import { UtilsService } from '@taskbuilder/core';
-import { LocalizationService } from '@taskbuilder/core';
-import { MenuService } from '@taskbuilder/core';
-import { SettingsService } from '@taskbuilder/core';
 import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { MasonryOptions } from "angular2-masonry";
+
+import { LocalizationService } from './../../../services/localization.service';
+import { SettingsService } from './../../../services/settings.service';
+import { UtilsService } from './../../../../core/services/utils.service';
+import { MenuService } from './../../../services/menu.service';
 
 @Component({
   selector: 'tb-menu-container',
@@ -117,13 +119,16 @@ export class MenuContainerComponent implements AfterViewInit, OnDestroy {
   }
 
   getTiles() {
-    let array = this.utilsService.toArray(this.menuService.selectedMenu.Menu);
-    let newArray = [];
-    for (let i = 0; i < array.length; i++) {
-      if (this.tileIsVisible(array[i]))
-        newArray.push(array[i]);
+    if (this.menuService.selectedMenu) {
+      let array = this.utilsService.toArray(this.menuService.selectedMenu.Menu);
+      let newArray = [];
+      for (let i = 0; i < array.length; i++) {
+        if (this.tileIsVisible(array[i]))
+          newArray.push(array[i]);
+      }
+      return newArray;
     }
-    return newArray;
+
   }
 
   //---------------------------------------------------------------------------------------------

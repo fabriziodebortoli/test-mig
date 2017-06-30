@@ -5,10 +5,12 @@ import { CommonModule } from '@angular/common';
 
 import { Logger } from './../core/services/logger.service';
 
-import { LoginComponent, ApplicationSelectorComponent, FavoritesComponent, MostUsedComponent, GroupSelectorComponent } from './components';
+import {
+    LoginComponent, ApplicationSelectorComponent, FavoritesComponent, MostUsedComponent, GroupSelectorComponent,
+    MenuContainerComponent, MenuContentComponent, MenuElementComponent, MenuStepperComponent
+} from './components';
 export * from './components';
 
-// import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 // import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
 // import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
 
@@ -19,9 +21,6 @@ export * from './components';
 
 // import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 // import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
-// import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
-// import { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
-// import { MenuContentComponent } from './components/menu/menu-content/menu-content.component';
 import { MenuService } from './services/menu.service';
 import { EventManagerService } from './services/event-manager.service';
 import { SettingsService } from './services/settings.service';
@@ -46,12 +45,17 @@ export * from './services/localization.service';
 export * from './services/settings.service';
 export * from './services/event-manager.service';
 
+import { LayoutModule } from '@progress/kendo-angular-layout';
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
+
 @NgModule({
     imports: [
         // CommonModule,
         // FormsModule,
         // ReactiveFormsModule,
-        TbSharedModule
+        TbSharedModule,
+        LayoutModule,
+        ButtonsModule
     ],
 
     declarations: [
@@ -60,16 +64,16 @@ export * from './services/event-manager.service';
         FavoritesComponent,
         MostUsedComponent,
         GroupSelectorComponent,
+        MenuContainerComponent,
+        MenuContentComponent,
+        MenuElementComponent,
+        MenuStepperComponent,
         // MenuComponent,
-        // MenuContainerComponent,
         // SearchComponent,
         // ProductInfoDialogComponent,
         // ConnectionInfoDialogComponent,
-        // MenuStepperComponent,
         // MenuTabberComponent,
         // MenuTabComponent,
-        // MenuElementComponent,
-        // MenuContentComponent
     ],
     exports: [
         LoginComponent,
@@ -77,13 +81,12 @@ export * from './services/event-manager.service';
         FavoritesComponent,
         MostUsedComponent,
         GroupSelectorComponent,
-
+        MenuContainerComponent,
+        MenuContentComponent,
+        MenuElementComponent,
+        MenuStepperComponent,
         // MenuComponent,
-        // MenuElementComponent,
-        // MenuContainerComponent,
         // SearchComponent,
-        // MenuStepperComponent,
-        // MenuContentComponent
     ],
     providers: [TB_MENU_SERVICES],
     //   entryComponents: [

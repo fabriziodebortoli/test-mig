@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, OnInit, OnDestroy, Input } from '@angu
 import { Subscription } from 'rxjs';
 
 import { LayoutService } from './../../../../core/services/layout.service';
-import { TbComponent } from '../../../';
+import { TbComponent } from '../../../components/tb.component';
 import { TabberComponent } from '../tabber/tabber.component';
 
 @Component({

@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 
-import { EventDataService, ViewModeType } from '@taskbuilder/core';
+import { ViewModeType } from './../../../../shared/models';
+
+import { EventDataService } from './../../../../core/services/eventdata.service';
 
 @Component({
   selector: 'tb-toolbar-top',

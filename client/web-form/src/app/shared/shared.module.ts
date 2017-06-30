@@ -14,7 +14,6 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 
-import { ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent } from './toolbar';
 import {
     CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
     CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent, UnknownComponent, BodyEditComponent,
@@ -60,7 +59,6 @@ const KENDO_UI_MODULES = [
 
 const TB_COMPONENTS = [
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent,
-    ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     UnknownComponent,
     CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
     DateInputComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,

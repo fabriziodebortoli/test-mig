@@ -11,11 +11,13 @@ import { TbIconsModule } from '../icons/icons.module';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PopupModule } from '@progress/kendo-angular-popup';
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
 
 const KENDO_UI_MODULES = [
     DialogModule,
     LayoutModule,
-    PopupModule
+    PopupModule,
+    ButtonsModule
 ];
 
 /**
@@ -23,12 +25,14 @@ const KENDO_UI_MODULES = [
  */
 import {
     DynamicCmpComponent, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
+    ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     // TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
     // OpenComponent, SaveComponent, Accordion
 } from './components';
 export * from './components';
 const TB_COMPONENTS = [
     DynamicCmpComponent, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
+    ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     // TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
     // OpenComponent, SaveComponent, Accordion
 ];
@@ -40,7 +44,7 @@ import {
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent,
     DockpaneComponent, DockpaneContainerComponent,
     TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-    MessageDialogComponent,
+    MessageDialogComponent, TabberComponent, TabComponent,
     TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent
 } from './containers';
 export * from './containers';
@@ -49,7 +53,7 @@ const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent,
     DockpaneComponent, DockpaneContainerComponent,
     TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-    MessageDialogComponent,
+    MessageDialogComponent, TabberComponent, TabComponent,
     TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent
 ];
 
@@ -60,8 +64,8 @@ const TB_MODULES = [
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
-    TbIconsModule
-    // MasonryModule
+    TbIconsModule,
+    MasonryModule
 ];
 
 /**
