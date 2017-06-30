@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { Logger } from './../core/services/logger.service';
 
 import { LoginComponent } from './components/login/login.component';
+import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 export * from './components';
 
 // import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
@@ -16,7 +17,6 @@ export * from './components';
 // import { SearchComponent } from './components/menu/search/search.component';
 // import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 // import { MenuComponent } from './components/menu/menu.component';
-// import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 
 // import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 
@@ -60,8 +60,8 @@ export * from './services/event-manager.service';
 
     declarations: [
         LoginComponent,
+        ApplicationSelectorComponent,
         // MenuComponent,
-        // ApplicationSelectorComponent,
         // MenuContainerComponent,
         // FavoritesComponent,
         // MostUsedComponent,
@@ -77,10 +77,10 @@ export * from './services/event-manager.service';
     ],
     exports: [
         LoginComponent,
+        ApplicationSelectorComponent,
 
         // MenuComponent,
         // MenuElementComponent,
-        // ApplicationSelectorComponent,
         // MenuContainerComponent,
         // FavoritesComponent,
         // MostUsedComponent,

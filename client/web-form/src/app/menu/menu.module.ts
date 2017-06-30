@@ -18,7 +18,6 @@ import { SharedModule } from '../shared/shared.module';
 import { SearchComponent } from './components/menu/search/search.component';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 
@@ -65,7 +64,6 @@ const KENDO_UI_MODULES = [
   declarations:
   [
     MenuComponent,
-    ApplicationSelectorComponent,
     MenuContainerComponent,
     FavoritesComponent,
     MostUsedComponent,
@@ -84,7 +82,6 @@ const KENDO_UI_MODULES = [
     RouterModule,
     MenuComponent,
     MenuElementComponent,
-    ApplicationSelectorComponent,
     MenuContainerComponent,
     FavoritesComponent,
     MostUsedComponent,
