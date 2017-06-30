@@ -31,7 +31,6 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 
-import { LoginComponent } from './components/login/login.component';
 import { Logger } from '@taskbuilder/core';
 
 import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
@@ -65,7 +64,6 @@ const KENDO_UI_MODULES = [
 
   declarations:
   [
-    LoginComponent,
     MenuComponent,
     ApplicationSelectorComponent,
     MenuContainerComponent,
@@ -84,7 +82,6 @@ const KENDO_UI_MODULES = [
   exports:
   [
     RouterModule,
-    LoginComponent,
     MenuComponent,
     MenuElementComponent,
     ApplicationSelectorComponent,

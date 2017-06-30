@@ -9,7 +9,7 @@ import { CoreGuard } from './core/core.guard';
 
 import { PageNotFoundComponent } from '@taskbuilder/core';
 import { UnsupportedFactoryComponent } from './unsupported.component';
-import { LoginComponent } from './menu/components/login/login.component';
+import { LoginComponent } from '@taskbuilder/core';
 import { HomeComponent } from './home/home.component';
 
 import { appRoutes } from './applications/app.routing';

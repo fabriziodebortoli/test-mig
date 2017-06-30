@@ -1,9 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { HttpService, LoginSessionService, LoginSession } from '@taskbuilder/core';
-
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+
+import { LoginSession } from './../../../shared/models/login-session.model';
+
+import { HttpService } from './../../../core/services/http.service';
+import { LoginSessionService } from './../../../core/services/login-session.service';
 
 @Component({
   selector: 'tb-login',

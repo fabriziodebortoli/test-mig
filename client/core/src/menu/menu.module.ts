@@ -1,16 +1,17 @@
+import { TbSharedModule } from './../shared/shared.module';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { Logger } from './../core/services/logger.service';
 
+import { LoginComponent } from './components/login/login.component';
+export * from './components';
+
 // import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
 // import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 // import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
 // import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
-
-// import { MaterialModule } from '@angular/material';
-// import { RouterModule } from '@angular/router';
 
 // import { SearchComponent } from './components/menu/search/search.component';
 // import { MostUsedComponent } from './components/menu/most-used/most-used.component';
@@ -19,7 +20,6 @@ import { Logger } from './../core/services/logger.service';
 
 // import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 
-// import { LoginComponent } from './components/login/login.component';
 
 // import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 // import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
@@ -54,13 +54,12 @@ export * from './services/event-manager.service';
     imports: [
         // CommonModule,
         // FormsModule,
-        // MaterialModule,
-        // ReactiveFormsModule
+        // ReactiveFormsModule,
+        TbSharedModule
     ],
 
-    declarations:
-    [
-        // LoginComponent,
+    declarations: [
+        LoginComponent,
         // MenuComponent,
         // ApplicationSelectorComponent,
         // MenuContainerComponent,
@@ -76,10 +75,9 @@ export * from './services/event-manager.service';
         // MenuElementComponent,
         // MenuContentComponent
     ],
-    exports:
-    [
-        // RouterModule,
-        // LoginComponent,
+    exports: [
+        LoginComponent,
+
         // MenuComponent,
         // MenuElementComponent,
         // ApplicationSelectorComponent,
