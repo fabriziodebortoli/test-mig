@@ -17,10 +17,8 @@ import { ChartsModule } from '@progress/kendo-angular-charts';
 import {
     CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
     CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent, UnknownComponent, BodyEditComponent,
-    LinearGaugeComponent, ConnectionStatusComponent
+    LinearGaugeComponent
 } from './controls/';
-
-import { TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent } from './topbar/index';
 
 import { GridComponent } from './controls/grid/grid.component';
 import { PlaceholderComponent } from './controls/placeholder/placeholder.component';
@@ -39,7 +37,6 @@ import { FileComponent } from './controls/file/file.component';
 import { LinkComponent } from './controls/link/link.component';
 import { ComboSimpleComponent } from './controls/combo-simple/combo-simple.component';
 
-import { TopbarMenuElementsComponent } from './topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
 import { HotlinkComponent } from './controls/hotlink/hotlink.component';
 
 
@@ -58,7 +55,6 @@ const KENDO_UI_MODULES = [
 ];
 
 const TB_COMPONENTS = [
-    TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent,
     UnknownComponent,
     CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
     DateInputComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
@@ -66,7 +62,7 @@ const TB_COMPONENTS = [
     ImageComponent, ColorPickerComponent,
     BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
     PhoneComponent, EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent,
-    TopbarMenuElementsComponent, ConnectionStatusComponent, HotlinkComponent
+    HotlinkComponent
 ];
 
 @NgModule({

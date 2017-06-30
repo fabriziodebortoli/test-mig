@@ -1,5 +1,6 @@
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Router } from '@angular/router';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 
@@ -68,7 +69,7 @@ export class MenuService {
         if (application != undefined) {
             this.settingsService.LastApplicationName = application.name;
         }
-        this.selectedApplicationChanged.emit();
+        this.selectedMenuChanged.next(true);
     }
 
     selectedMenuChanged: EventEmitter<any> = new EventEmitter(true);
@@ -119,9 +120,9 @@ export class MenuService {
             for (var i = 0; i < tempGroupArray.length; i++) {
                 if (tempGroupArray[i].name.toLowerCase() == this.settingsService.LastGroupName.toLowerCase()) {
                     this.setSelectedGroup(tempGroupArray[i]);
-                    // this.selectedGroup = tempGroupArray[i];
-                    // this.selectedGroup.isSelected = true;
-                    // this.settingsService.LastGroupName = tempGroupArray[i].name;
+                    this.selectedGroup = tempGroupArray[i];
+                    this.selectedGroup.isSelected = true;
+                    this.settingsService.LastGroupName = tempGroupArray[i].name;
                     break;
                 }
             }
@@ -185,7 +186,7 @@ export class MenuService {
 
         this.selectedMenu = menu;
         this.selectedMenu.active = true;
-        menu.visible = true;
+        this.selectedMenu.visible = true;
 
         // this.eventData.model.Title.value = "Menu > " + menu.name;
     }

@@ -26,14 +26,14 @@ const KENDO_UI_MODULES = [
 import {
     DynamicCmpComponent, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
-    // TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
+    TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
     // OpenComponent, SaveComponent, Accordion
 } from './components';
 export * from './components';
 const TB_COMPONENTS = [
     DynamicCmpComponent, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
-    // TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
+    TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
     // OpenComponent, SaveComponent, Accordion
 ];
 
@@ -55,6 +55,15 @@ const TB_CONTAINERS = [
     TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
     MessageDialogComponent, TabberComponent, TabComponent,
     TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent
+];
+
+/**
+ */
+import {
+    ConnectionStatusComponent
+} from './controls/';
+const TB_CONTROLS = [
+    ConnectionStatusComponent
 ];
 
 const TB_MODULES = [
@@ -83,7 +92,7 @@ const TB_DIRECTIVES = [
 
 @NgModule({
     imports: [TB_MODULES, KENDO_UI_MODULES],
-    declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_DIRECTIVES],
-    exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_DIRECTIVES]
+    declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
+    exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES]
 })
 export class TbSharedModule { }

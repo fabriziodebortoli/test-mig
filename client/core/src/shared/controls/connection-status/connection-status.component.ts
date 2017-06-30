@@ -1,10 +1,12 @@
-import { WebSocketService } from '@taskbuilder/core';
-import { SocketConnectionStatus } from '@taskbuilder/core/shared/models';
-import { Subscription } from 'rxjs';
-import { LocalizationService } from '@taskbuilder/core';
-import { LoginSessionService } from '@taskbuilder/core';
-import { ControlComponent } from './../control.component';
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+import { SocketConnectionStatus } from "../../models";
+
+import { LocalizationService } from './../../../menu/services/localization.service';
+import { WebSocketService } from './../../../core/services/websocket.service';
+
+import { ControlComponent } from './../control.component';
 
 @Component({
   selector: 'tb-connection-status',

@@ -7,17 +7,13 @@ import { Logger } from './../core/services/logger.service';
 
 import {
     LoginComponent, ApplicationSelectorComponent, FavoritesComponent, MostUsedComponent, GroupSelectorComponent,
-    MenuContainerComponent, MenuContentComponent, MenuElementComponent, MenuStepperComponent
+    MenuContainerComponent, MenuContentComponent, MenuElementComponent, MenuStepperComponent,
+    ConnectionInfoDialogComponent, ProductInfoDialogComponent
 } from './components';
 export * from './components';
 
-// import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
-// import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
-
 // import { SearchComponent } from './components/menu/search/search.component';
 // import { MenuComponent } from './components/menu/menu.component';
-
-
 
 // import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 // import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
@@ -68,10 +64,10 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
         MenuContentComponent,
         MenuElementComponent,
         MenuStepperComponent,
+        ProductInfoDialogComponent,
+        ConnectionInfoDialogComponent,
         // MenuComponent,
         // SearchComponent,
-        // ProductInfoDialogComponent,
-        // ConnectionInfoDialogComponent,
         // MenuTabberComponent,
         // MenuTabComponent,
     ],

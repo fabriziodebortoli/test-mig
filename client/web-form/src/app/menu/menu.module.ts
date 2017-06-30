@@ -1,8 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 
-import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
-import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
-
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -55,8 +52,6 @@ const KENDO_UI_MODULES = [
   [
     MenuComponent,
     SearchComponent,
-    ProductInfoDialogComponent,
-    ConnectionInfoDialogComponent,
     MenuTabberComponent,
     MenuTabComponent,
   ],
@@ -65,10 +60,6 @@ const KENDO_UI_MODULES = [
     RouterModule,
     MenuComponent,
     SearchComponent,
-  ],
-  entryComponents: [
-    ProductInfoDialogComponent,
-    ConnectionInfoDialogComponent
   ]
 })
 export class MenuModule {

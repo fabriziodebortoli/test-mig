@@ -6,11 +6,11 @@ import { EventDataService } from './../../../../../core/services/eventdata.servi
 import { UtilsService } from './../../../../../core/services/utils.service';
 import { ContextMenuItem } from './../../../../models/context-menu-item.model';
 
-// import { MenuService } from './../../../../menu/services/menu.service';
-// import { HttpMenuService } from './../../../../menu/services/http-menu.service';
-// import { ConnectionInfoDialogComponent } from './../../../../menu/components/menu/connection-info-dialog/connection-info-dialog.component';
-// import { ProductInfoDialogComponent } from './../../../../menu/components/menu/product-info-dialog/product-info-dialog.component';
-// import { LocalizationService } from './../../../../menu/services/localization.service';
+import { LocalizationService } from './../../../../../menu/services/localization.service';
+import { MenuService } from './../../../../../menu/services/menu.service';
+import { HttpMenuService } from './../../../../../menu/services/http-menu.service';
+import { ConnectionInfoDialogComponent } from './../../../../../menu/components/menu/connection-info-dialog/connection-info-dialog.component';
+import { ProductInfoDialogComponent } from './../../../../../menu/components/menu/product-info-dialog/product-info-dialog.component';
 
 @Component({
     selector: 'tb-topbar-menu-app',

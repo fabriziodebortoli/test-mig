@@ -1,8 +1,10 @@
-import { UtilsService } from '@taskbuilder/core';
-import { MaterialModule, MdDialog, MdDialogRef } from '@angular/material';
-import { HttpMenuService } from '@taskbuilder/core';
-import { LocalizationService } from '@taskbuilder/core';
 import { Component, OnInit } from '@angular/core';
+
+import { MaterialModule, MdDialog, MdDialogRef } from '@angular/material';
+
+import { LocalizationService } from './../../../services/localization.service';
+import { UtilsService } from './../../../../core/services/utils.service';
+import { HttpMenuService } from './../../../services/http-menu.service';
 
 @Component({
   selector: 'tb-product-info-dialog',
