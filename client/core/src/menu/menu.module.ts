@@ -5,8 +5,7 @@ import { CommonModule } from '@angular/common';
 
 import { Logger } from './../core/services/logger.service';
 
-import { LoginComponent } from './components/login/login.component';
-import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
+import { LoginComponent, ApplicationSelectorComponent, FavoritesComponent, MostUsedComponent } from './components';
 export * from './components';
 
 // import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
@@ -15,10 +14,8 @@ export * from './components';
 // import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
 
 // import { SearchComponent } from './components/menu/search/search.component';
-// import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 // import { MenuComponent } from './components/menu/menu.component';
 
-// import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 
 
 // import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
@@ -61,10 +58,10 @@ export * from './services/event-manager.service';
     declarations: [
         LoginComponent,
         ApplicationSelectorComponent,
+        FavoritesComponent,
+        MostUsedComponent,
         // MenuComponent,
         // MenuContainerComponent,
-        // FavoritesComponent,
-        // MostUsedComponent,
         // SearchComponent,
         // ProductInfoDialogComponent,
         // ConnectionInfoDialogComponent,
@@ -78,12 +75,12 @@ export * from './services/event-manager.service';
     exports: [
         LoginComponent,
         ApplicationSelectorComponent,
+        FavoritesComponent,
+        MostUsedComponent,
 
         // MenuComponent,
         // MenuElementComponent,
         // MenuContainerComponent,
-        // FavoritesComponent,
-        // MostUsedComponent,
         // SearchComponent,
         // GroupSelectorComponent,
         // MenuStepperComponent,

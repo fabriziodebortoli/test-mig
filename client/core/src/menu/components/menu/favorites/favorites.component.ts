@@ -1,11 +1,10 @@
-
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
-import { MenuService } from '@taskbuilder/core';
-import { ImageService } from '@taskbuilder/core';
-import { UtilsService } from '@taskbuilder/core';
-import { LocalizationService } from '@taskbuilder/core';
-import { SettingsService } from '@taskbuilder/core';
+import { SettingsService } from './../../../services/settings.service';
+import { LocalizationService } from './../../../services/localization.service';
+import { UtilsService } from './../../../../core/services/utils.service';
+import { ImageService } from './../../../services/image.service';
+import { MenuService } from './../../../services/menu.service';
 
 @Component({
   selector: 'tb-favorites',

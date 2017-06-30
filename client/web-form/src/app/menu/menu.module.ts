@@ -16,10 +16,7 @@ import { MasonryModule } from 'angular2-masonry';
 import { SharedModule } from '../shared/shared.module';
 
 import { SearchComponent } from './components/menu/search/search.component';
-import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { MenuComponent } from './components/menu/menu.component';
-
-import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 
 import { GridModule } from '@progress/kendo-angular-grid';
 import { InputsModule } from '@progress/kendo-angular-inputs';
@@ -65,8 +62,6 @@ const KENDO_UI_MODULES = [
   [
     MenuComponent,
     MenuContainerComponent,
-    FavoritesComponent,
-    MostUsedComponent,
     SearchComponent,
     ProductInfoDialogComponent,
     ConnectionInfoDialogComponent,
@@ -83,8 +78,6 @@ const KENDO_UI_MODULES = [
     MenuComponent,
     MenuElementComponent,
     MenuContainerComponent,
-    FavoritesComponent,
-    MostUsedComponent,
     SearchComponent,
     GroupSelectorComponent,
     MenuStepperComponent,
