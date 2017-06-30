@@ -1,8 +1,8 @@
-import { UtilsService } from '@taskbuilder/core';
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 
-import { MenuService } from '@taskbuilder/core';
-import { ImageService } from '@taskbuilder/core';
+import { UtilsService } from './../../../../core/services/utils.service';
+import { ImageService } from './../../../services/image.service';
+import { MenuService } from './../../../services/menu.service';
 
 @Component({
     selector: 'tb-group-selector',

@@ -1,5 +1,4 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
 import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 
 import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
@@ -65,7 +64,6 @@ const KENDO_UI_MODULES = [
     SearchComponent,
     ProductInfoDialogComponent,
     ConnectionInfoDialogComponent,
-    GroupSelectorComponent,
     MenuStepperComponent,
     MenuTabberComponent,
     MenuTabComponent,
@@ -79,7 +77,6 @@ const KENDO_UI_MODULES = [
     MenuElementComponent,
     MenuContainerComponent,
     SearchComponent,
-    GroupSelectorComponent,
     MenuStepperComponent,
     MenuContentComponent
   ],

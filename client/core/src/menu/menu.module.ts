@@ -5,10 +5,9 @@ import { CommonModule } from '@angular/common';
 
 import { Logger } from './../core/services/logger.service';
 
-import { LoginComponent, ApplicationSelectorComponent, FavoritesComponent, MostUsedComponent } from './components';
+import { LoginComponent, ApplicationSelectorComponent, FavoritesComponent, MostUsedComponent, GroupSelectorComponent } from './components';
 export * from './components';
 
-// import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
 // import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 // import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
 // import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
@@ -60,12 +59,12 @@ export * from './services/event-manager.service';
         ApplicationSelectorComponent,
         FavoritesComponent,
         MostUsedComponent,
+        GroupSelectorComponent,
         // MenuComponent,
         // MenuContainerComponent,
         // SearchComponent,
         // ProductInfoDialogComponent,
         // ConnectionInfoDialogComponent,
-        // GroupSelectorComponent,
         // MenuStepperComponent,
         // MenuTabberComponent,
         // MenuTabComponent,
@@ -77,12 +76,12 @@ export * from './services/event-manager.service';
         ApplicationSelectorComponent,
         FavoritesComponent,
         MostUsedComponent,
+        GroupSelectorComponent,
 
         // MenuComponent,
         // MenuElementComponent,
         // MenuContainerComponent,
         // SearchComponent,
-        // GroupSelectorComponent,
         // MenuStepperComponent,
         // MenuContentComponent
     ],
