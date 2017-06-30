@@ -15,7 +15,7 @@
 }
 
 .breadcrumb li div::after {
-    content: '\00bb';
+    // content: '\00bb'; // TODO
 }
 
 .breadcrumb li.current {
@@ -93,8 +93,7 @@
 // .active{
 //   background-color: lightgrey;
 // }
-
-.groupIcon{
+.groupIcon {
     display: inline-table;
     font-size: 30px;
     padding-right: 8px;
