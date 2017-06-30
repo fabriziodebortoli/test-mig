@@ -1,13 +1,12 @@
-import { UtilsService } from '@taskbuilder/core';
-import { HttpService } from '@taskbuilder/core';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { Logger } from '@taskbuilder/core';
-
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
+import { HttpService } from './../../core/services/http.service';
+import { Logger } from './../../core/services/logger.service';
+import { UtilsService } from './../../core/services/utils.service';
 
 @Injectable()
 export class HttpMenuService {
@@ -132,7 +131,7 @@ export class HttpMenuService {
                 return res.json();
             });
     }
-    
+
     /**
     * API /favoriteObject
     * 

@@ -1,7 +1,7 @@
 import { UtilsService } from '@taskbuilder/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { MenuService } from './../../../services/menu.service';
-import { HttpMenuService } from './../../../services/http-menu.service';
+import { HttpMenuService } from '@taskbuilder/core';
 import { ImageService } from '@taskbuilder/core';
 import { LocalizationService } from './../../../services/localization.service';
 

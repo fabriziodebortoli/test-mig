@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { HttpMenuService } from './http-menu.service';
+import { HttpMenuService } from '@taskbuilder/core';
 import { ImageService } from '@taskbuilder/core';
 
 import { Logger } from '@taskbuilder/core';

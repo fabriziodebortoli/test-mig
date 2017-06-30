@@ -11,7 +11,7 @@ import { Logger } from './../core/services/logger.service';
 // import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
 // import { EventManagerService } from './services/event-manager.service';
 // import { SettingsService } from './services/settings.service';
-// import { HttpMenuService } from './services/http-menu.service';
+import { HttpMenuService } from './services/http-menu.service';
 import { ImageService } from './services/image.service';
 
 // import { MaterialModule } from '@angular/material';
@@ -37,13 +37,14 @@ import { ImageService } from './services/image.service';
 export const TB_MENU_SERVICES = [
     //   MenuService,
     ImageService,
-    //   HttpMenuService,
+    HttpMenuService,
     //   SettingsService,
     //   LocalizationService,
     //   EventManagerService
 ];
 
 export * from './services/image.service';
+export * from './services/http-menu.service';
 
 @NgModule({
     imports: [

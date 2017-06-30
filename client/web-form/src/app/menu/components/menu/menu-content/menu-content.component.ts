@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { UtilsService } from '@taskbuilder/core';
 import { EventManagerService } from './../../../services/event-manager.service';
 import { MenuService } from './../../../services/menu.service';
-import { HttpMenuService } from './../../../services/http-menu.service';
+import { HttpMenuService } from '@taskbuilder/core';
 import { ImageService } from '@taskbuilder/core';
 
 @Component({

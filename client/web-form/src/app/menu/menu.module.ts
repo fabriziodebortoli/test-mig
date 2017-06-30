@@ -6,7 +6,7 @@ import { ConnectionInfoDialogComponent } from './components/menu/connection-info
 import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
 import { EventManagerService } from './services/event-manager.service';
 import { SettingsService } from './services/settings.service';
-import { HttpMenuService } from './services/http-menu.service';
+// import { HttpMenuService } from '@taskbuilder/core';
 // import { ImageService } from './services/image.service';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -48,7 +48,7 @@ import { MenuContentComponent } from './components/menu/menu-content/menu-conten
 const MENU_SERVICES = [
   MenuService,
   // ImageService,
-  HttpMenuService,
+  // HttpMenuService,
   SettingsService,
   LocalizationService,
   EventManagerService

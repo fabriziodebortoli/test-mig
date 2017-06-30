@@ -9,7 +9,7 @@ import { EventManagerService } from './../../services/event-manager.service';
 import { SettingsService } from './../../services/settings.service';
 import { LocalizationService } from './../../services/localization.service';
 import { MenuService } from './../../services/menu.service';
-import { HttpMenuService } from './../../services/http-menu.service';
+import { HttpMenuService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-menu',
