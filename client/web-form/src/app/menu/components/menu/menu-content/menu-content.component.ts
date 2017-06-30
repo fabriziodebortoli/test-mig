@@ -4,8 +4,7 @@ import { UtilsService } from '@taskbuilder/core';
 import { EventManagerService } from './../../../services/event-manager.service';
 import { MenuService } from './../../../services/menu.service';
 import { HttpMenuService } from './../../../services/http-menu.service';
-import { ImageService } from './../../../services/image.service';
-
+import { ImageService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-menu-content',

@@ -1,6 +1,6 @@
 import { EnumsService } from './../../core/enums.service';
 import { UtilsService, TabberService, SidenavService } from '@taskbuilder/core';
-import { ImageService } from './../../menu/services/image.service';
+import { ImageService } from '@taskbuilder/core';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { MenuService } from './../../menu/services/menu.service';
 import { LocalizationService } from './../../menu/services/localization.service';

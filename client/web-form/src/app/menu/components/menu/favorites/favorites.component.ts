@@ -2,7 +2,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { MenuService } from './../../../services/menu.service';
-import { ImageService } from './../../../services/image.service';
+import { ImageService } from '@taskbuilder/core';
 import { UtilsService } from '@taskbuilder/core';
 import { LocalizationService } from './../../../services/localization.service';
 import { SettingsService } from './../../../services/settings.service';

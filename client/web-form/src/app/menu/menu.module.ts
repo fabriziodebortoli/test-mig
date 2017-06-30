@@ -7,7 +7,7 @@ import { ProductInfoDialogComponent } from './components/menu/product-info-dialo
 import { EventManagerService } from './services/event-manager.service';
 import { SettingsService } from './services/settings.service';
 import { HttpMenuService } from './services/http-menu.service';
-import { ImageService } from './services/image.service';
+// import { ImageService } from './services/image.service';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -47,7 +47,7 @@ import { MenuContentComponent } from './components/menu/menu-content/menu-conten
 //WARNING: put here only GLOBAL services, NOT component level services
 const MENU_SERVICES = [
   MenuService,
-  ImageService,
+  // ImageService,
   HttpMenuService,
   SettingsService,
   LocalizationService,
