@@ -1,7 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 import { UtilsService } from '@taskbuilder/core';
-import { MenuService } from './../../../services/menu.service';
+import { MenuService } from '@taskbuilder/core';
 import { HttpMenuService } from '@taskbuilder/core';
 import { ImageService } from '@taskbuilder/core';
 

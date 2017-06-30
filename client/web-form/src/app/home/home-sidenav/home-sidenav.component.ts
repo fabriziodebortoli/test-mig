@@ -2,8 +2,8 @@ import { EnumsService } from './../../core/enums.service';
 import { UtilsService, TabberService, SidenavService } from '@taskbuilder/core';
 import { ImageService } from '@taskbuilder/core';
 import { HttpMenuService } from '@taskbuilder/core';
-import { MenuService } from './../../menu/services/menu.service';
-import { LocalizationService } from './../../menu/services/localization.service';
+import { MenuService } from '@taskbuilder/core';
+import { LocalizationService } from '@taskbuilder/core';
 import { Component, OnInit } from '@angular/core';
 
 import { environment } from '../../../environments/environment';

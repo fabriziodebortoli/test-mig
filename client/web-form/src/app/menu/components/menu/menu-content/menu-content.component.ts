@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 
 import { UtilsService } from '@taskbuilder/core';
-import { EventManagerService } from './../../../services/event-manager.service';
-import { MenuService } from './../../../services/menu.service';
+import { EventManagerService } from '@taskbuilder/core';
+import { MenuService } from '@taskbuilder/core';
 import { HttpMenuService } from '@taskbuilder/core';
 import { ImageService } from '@taskbuilder/core';
 

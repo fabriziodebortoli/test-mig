@@ -1,6 +1,7 @@
-import { Logger } from '@taskbuilder/core';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, Observer } from 'rxjs/Rx';
+
+import { Logger } from './../../core/services/logger.service';
 
 @Injectable()
 export class EventManagerService {
@@ -9,10 +10,10 @@ export class EventManagerService {
 
     constructor(private logger: Logger) {
         this.logger.debug('EventManagerService instantiated - ' + Math.round(new Date().getTime() / 1000));
-
     }
 
     emitPreferenceLoaded() {
         this.preferenceLoaded.emit();
     }
+
 }

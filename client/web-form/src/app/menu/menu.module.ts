@@ -1,13 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
 import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
-import { MenuService } from './services/menu.service';
+
 import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
 import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
-import { EventManagerService } from './services/event-manager.service';
-import { SettingsService } from './services/settings.service';
-// import { HttpMenuService } from '@taskbuilder/core';
-// import { ImageService } from './services/image.service';
+
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -19,7 +16,6 @@ import { MasonryModule } from 'angular2-masonry';
 import { SharedModule } from '../shared/shared.module';
 
 import { SearchComponent } from './components/menu/search/search.component';
-import { LocalizationService } from './services/localization.service';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
@@ -43,16 +39,6 @@ import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-ta
 import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
 import { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
 import { MenuContentComponent } from './components/menu/menu-content/menu-content.component';
-
-//WARNING: put here only GLOBAL services, NOT component level services
-const MENU_SERVICES = [
-  MenuService,
-  // ImageService,
-  // HttpMenuService,
-  SettingsService,
-  LocalizationService,
-  EventManagerService
-];
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -110,7 +96,6 @@ const KENDO_UI_MODULES = [
     MenuStepperComponent,
     MenuContentComponent
   ],
-  providers: [MENU_SERVICES],
   entryComponents: [
     ProductInfoDialogComponent,
     ConnectionInfoDialogComponent
@@ -119,8 +104,7 @@ const KENDO_UI_MODULES = [
 export class MenuModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: MenuModule,
-      providers: [MENU_SERVICES]
+      ngModule: MenuModule
     };
   }
 

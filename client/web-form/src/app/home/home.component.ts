@@ -1,11 +1,11 @@
-import { SettingsService } from './../menu/services/settings.service';
+import { SettingsService } from '@taskbuilder/core';
 import { EnumsService } from './../core/enums.service';
-import { LocalizationService } from './../menu/services/localization.service';
+import { LocalizationService } from '@taskbuilder/core';
 import { Subscription } from 'rxjs';
 
 import { LayoutService, TabberService, SidenavService, MessageDialogComponent, MessageDlgArgs, ComponentInfo } from '@taskbuilder/core';
 
-import { MenuService } from '../menu/services/menu.service';
+import { MenuService } from '@taskbuilder/core';
 
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 

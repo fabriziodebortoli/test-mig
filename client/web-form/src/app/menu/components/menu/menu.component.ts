@@ -5,10 +5,10 @@ import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener } f
 
 import { EventDataService, ViewModeType } from '@taskbuilder/core';
 
-import { EventManagerService } from './../../services/event-manager.service';
-import { SettingsService } from './../../services/settings.service';
-import { LocalizationService } from './../../services/localization.service';
-import { MenuService } from './../../services/menu.service';
+import { EventManagerService } from '@taskbuilder/core';
+import { SettingsService } from '@taskbuilder/core';
+import { LocalizationService } from '@taskbuilder/core';
+import { MenuService } from '@taskbuilder/core';
 import { HttpMenuService } from '@taskbuilder/core';
 
 @Component({

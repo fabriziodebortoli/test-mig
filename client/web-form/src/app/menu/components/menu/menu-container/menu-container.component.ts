@@ -1,8 +1,8 @@
 import { Subscription } from 'rxjs';
 import { UtilsService } from '@taskbuilder/core';
-import { LocalizationService } from './../../../services/localization.service';
-import { MenuService } from './../../../services/menu.service';
-import { SettingsService } from './../../../services/settings.service';
+import { LocalizationService } from '@taskbuilder/core';
+import { MenuService } from '@taskbuilder/core';
+import { SettingsService } from '@taskbuilder/core';
 import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit } from '@angular/core';
 import { MasonryOptions } from "angular2-masonry";
 

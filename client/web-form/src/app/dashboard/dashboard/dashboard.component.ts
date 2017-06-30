@@ -1,7 +1,7 @@
-import { LocalizationService } from './../../menu/services/localization.service';
-import { SettingsService } from './../../menu/services/settings.service';
+import { LocalizationService } from '@taskbuilder/core';
+import { SettingsService } from '@taskbuilder/core';
 import { ImageService } from '@taskbuilder/core';
-import { MenuService } from './../../menu/services/menu.service';
+import { MenuService } from '@taskbuilder/core';
 import { UtilsService } from '@taskbuilder/core';
 import { Component, OnInit } from '@angular/core';
 

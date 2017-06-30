@@ -1,10 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { HttpMenuService } from '@taskbuilder/core';
-import { ImageService } from '@taskbuilder/core';
-
-import { Logger } from '@taskbuilder/core';
+import { Logger } from './../../core/services/logger.service';
+import { HttpMenuService } from './http-menu.service';
 
 @Injectable()
 export class LocalizationService {

@@ -1,9 +1,9 @@
 import { UtilsService } from '@taskbuilder/core';
 import { Component, Input, OnInit } from '@angular/core';
-import { MenuService } from './../../../services/menu.service';
+import { MenuService } from '@taskbuilder/core';
 import { HttpMenuService } from '@taskbuilder/core';
 import { ImageService } from '@taskbuilder/core';
-import { LocalizationService } from './../../../services/localization.service';
+import { LocalizationService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-menu-stepper',

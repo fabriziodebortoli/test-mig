@@ -1,4 +1,4 @@
-import { MenuService } from './../../menu/services/menu.service';
+import { MenuService } from '@taskbuilder/core';
 import { WidgetComponent } from './widget.component';
 import { Component, Input, ViewEncapsulation, OnInit, AfterViewInit } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';

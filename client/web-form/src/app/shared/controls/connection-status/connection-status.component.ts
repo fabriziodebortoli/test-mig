@@ -1,7 +1,7 @@
 import { WebSocketService } from '@taskbuilder/core';
 import { SocketConnectionStatus } from '@taskbuilder/core/shared/models';
 import { Subscription } from 'rxjs';
-import { LocalizationService } from './../../../menu/services/localization.service';
+import { LocalizationService } from '@taskbuilder/core';
 import { LoginSessionService } from '@taskbuilder/core';
 import { ControlComponent } from './../control.component';
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy } from '@angular/core';

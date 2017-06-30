@@ -4,11 +4,11 @@ import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 
 import { UtilsService, EventDataService, ContextMenuItem } from '@taskbuilder/core';
 
-import { MenuService } from './../../../../menu/services/menu.service';
+import { MenuService } from '@taskbuilder/core';
 import { HttpMenuService } from '@taskbuilder/core';
 import { ConnectionInfoDialogComponent } from './../../../../menu/components/menu/connection-info-dialog/connection-info-dialog.component';
 import { ProductInfoDialogComponent } from './../../../../menu/components/menu/product-info-dialog/product-info-dialog.component';
-import { LocalizationService } from './../../../../menu/services/localization.service';
+import { LocalizationService } from '@taskbuilder/core';
 
 
 @Component({

@@ -1,7 +1,7 @@
 import { UtilsService } from '@taskbuilder/core';
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 
-import { MenuService } from './../../../services/menu.service';
+import { MenuService } from '@taskbuilder/core';
 import { ImageService } from '@taskbuilder/core';
 
 @Component({
