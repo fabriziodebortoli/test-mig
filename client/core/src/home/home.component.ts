@@ -1,14 +1,21 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import {
-  LoginSessionService, ComponentService, ComponentCreatedArgs, LocalizationService, EnumsService, SettingsService,
-  LayoutService, TabberService, SidenavService, MessageDialogComponent, MessageDlgArgs, ComponentInfo, MenuService
-} from '@taskbuilder/core';
-
-import { environment } from './../../environments/environment';
-
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
+
+import { ComponentInfo } from './../shared/models/component-info.model';
+import { MessageDlgArgs } from './../shared/models/message-dialog-args.model';
+
+import { MessageDialogComponent } from './../shared/containers/message-dialog/message-dialog.component';
+import { EnumsService } from './../core/services/enums.service';
+import { TabberService } from './../core/services/tabber.service';
+import { LayoutService } from './../core/services/layout.service';
+import { ComponentService } from './../core/services/component.service';
+import { LoginSessionService } from './../core/services/login-session.service';
+import { SidenavService } from './../core/services/sidenav.service';
+import { SettingsService } from './../menu/services/settings.service';
+import { LocalizationService } from './../menu/services/localization.service';
+import { MenuService } from './../menu/services/menu.service';
 
 @Component({
   selector: 'tb-home',
@@ -25,9 +32,6 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
   @ViewChild('tabberContainer') tabberContainer: ElementRef;
   @ViewChild(MessageDialogComponent) messageDialog: MessageDialogComponent;
   viewHeight: number;
-
-  private appName = environment.appName;
-  private companyName = environment.companyName;
 
   constructor(
     private sidenavService: SidenavService,

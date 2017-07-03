@@ -12,26 +12,20 @@ import { MaterialModule } from '@angular/material';
 import { SharedModule } from './shared/shared.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 
-import { HomeComponent, HomeSidenavComponent } from './home';
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
 import { AppComponent } from './app.component';
 
 import { MomentModule } from 'angular2-moment';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
-import { StandaloneReportComponent } from './home/standalone.report/standalone.report.component';
 
 import { TbCoreModule } from '@taskbuilder/core';
 
 @NgModule({
     declarations: [
         AppComponent,
-        HomeComponent, HomeSidenavComponent,
         UnsupportedFactoryComponent,
         UnsupportedComponent,
-        StandaloneDocumentComponent,
-        StandaloneReportComponent
 
     ],
     imports: [

@@ -1,12 +1,12 @@
-
-import {
-  UtilsService, TabberService, SidenavService, HttpMenuService,
-  EnumsService, ImageService, MenuService, LocalizationService
-} from '@taskbuilder/core';
-
 import { Component, OnInit } from '@angular/core';
 
-import { environment } from '../../../environments/environment';
+import { TabberService } from './../../core/services/tabber.service';
+import { LocalizationService } from './../../menu/services/localization.service';
+import { ImageService } from './../../menu/services/image.service';
+import { UtilsService } from './../../core/services/utils.service';
+import { MenuService } from './../../menu/services/menu.service';
+import { HttpMenuService } from './../../menu/services/http-menu.service';
+import { SidenavService } from './../../core/services/sidenav.service';
 
 @Component({
   selector: 'tb-home-sidenav',
@@ -14,9 +14,6 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./home-sidenav.component.css']
 })
 export class HomeSidenavComponent implements OnInit {
-
-  private appName = environment.appName;
-  private companyName = environment.companyName;
 
   constructor(
     private sidenavService: SidenavService,
@@ -26,13 +23,9 @@ export class HomeSidenavComponent implements OnInit {
     private imageService: ImageService,
     private localizationService: LocalizationService,
     private tabberService: TabberService
-  ) {
+  ) { }
 
-
-  }
-
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   toggleSidenav(menu: boolean = false) {
     this.sidenavService.toggleSidenav();

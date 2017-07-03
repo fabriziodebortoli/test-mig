@@ -1,16 +1,11 @@
-import { StandaloneReportComponent } from './home/standalone.report/standalone.report.component';
 import { ReportingStudioFactoryComponent } from './reporting-studio/reporting-studio.component';
-import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
-import { ProxyRouteComponent } from '@taskbuilder/core';
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { CoreGuard } from '@taskbuilder/core';
-
 import { PageNotFoundComponent } from '@taskbuilder/core';
 import { UnsupportedFactoryComponent } from './unsupported.component';
-import { LoginComponent } from '@taskbuilder/core';
-import { HomeComponent } from './home/home.component';
+import { ProxyRouteComponent, LoginComponent, HomeComponent, StandaloneReportComponent, StandaloneDocumentComponent } from '@taskbuilder/core';
 
 import { appRoutes } from './applications/app.routing';
 

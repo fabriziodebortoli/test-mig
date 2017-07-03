@@ -36,8 +36,15 @@ const TB_MODULES = [
 export * from './shared/models';
 export { SocketConnectionStatus } from './shared';
 
+import { HomeComponent, HomeSidenavComponent, StandaloneReportComponent, StandaloneDocumentComponent } from './home';
+const TB_HOME_COMPONENTS = [HomeComponent, HomeSidenavComponent, StandaloneReportComponent, StandaloneDocumentComponent];
+export * from './home';
+
+import { LayoutModule } from '@progress/kendo-angular-layout';
+
 @NgModule({
-  imports: [CommonModule, TB_MODULES],
-  exports: [TB_MODULES]
+  imports: [CommonModule, TB_MODULES, LayoutModule],
+  declarations: [TB_HOME_COMPONENTS],
+  exports: [TB_MODULES, TB_HOME_COMPONENTS]
 })
 export class TaskbuilderCoreModule { }

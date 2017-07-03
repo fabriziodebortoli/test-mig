@@ -1,24 +1,28 @@
-import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
-import { ComponentService, WebSocketService, DynamicCmpComponent } from '@taskbuilder/core';
+import { ComponentService } from './../../core/services/component.service';
+import { HttpService } from './../../core/services/http.service';
+import { DynamicCmpComponent } from './../../shared/components/dynamic-cmp.component';
 
 @Component({
-  selector: 'tb-standalone-document',
-  templateUrl: './standalone.document.component.html',
-  styleUrls: ['./standalone.document.component.scss']
+  selector: 'tb-standalone',
+  templateUrl: './standalone.report.component.html',
+  styleUrls: ['./standalone.report.component.scss']
 })
-export class StandaloneDocumentComponent implements OnInit {
+export class StandaloneReportComponent implements OnInit {
   namespace: string;
+  params: any;
   @ViewChild(DynamicCmpComponent) dynamicCmp: DynamicCmpComponent;
   subscriptions = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private webSocketService: WebSocketService,
+    private httpService: HttpService,
     private componentService: ComponentService) {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.namespace = params['ns'];
+      this.params = JSON.parse(params['params']);
       //la rundocument mi manderà indietro un ws con le istruzioni per creare un componente
       const subs = componentService.componentInfoAdded.subscribe(info => {
         //quando il framework crea il componentinfo, posso passarlo al mio componente ospite e creare il
@@ -28,8 +32,7 @@ export class StandaloneDocumentComponent implements OnInit {
         subs.unsubscribe();
       });
 
-      //eseguo la rundocument
-      webSocketService.runDocument(this.namespace);
+      this.componentService.createReportComponent(this.namespace, true, this.params);
 
     });
   }
