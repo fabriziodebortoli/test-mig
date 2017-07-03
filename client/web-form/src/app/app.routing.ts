@@ -1,7 +1,7 @@
 import { StandaloneReportComponent } from './home/standalone.report/standalone.report.component';
 import { ReportingStudioFactoryComponent } from './reporting-studio/reporting-studio.component';
 import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
-import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
+import { ProxyRouteComponent } from '@taskbuilder/core';
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 

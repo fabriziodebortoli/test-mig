@@ -17,7 +17,6 @@ import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported
 import { AppComponent } from './app.component';
 
 import { MomentModule } from 'angular2-moment';
-import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
@@ -26,32 +25,31 @@ import { StandaloneReportComponent } from './home/standalone.report/standalone.r
 import { TbCoreModule } from '@taskbuilder/core';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent, HomeSidenavComponent,
-    UnsupportedFactoryComponent,
-    UnsupportedComponent,
-    ProxyRouteComponent,
-    StandaloneDocumentComponent,
-    StandaloneReportComponent
+    declarations: [
+        AppComponent,
+        HomeComponent, HomeSidenavComponent,
+        UnsupportedFactoryComponent,
+        UnsupportedComponent,
+        StandaloneDocumentComponent,
+        StandaloneReportComponent
 
-  ],
-  imports: [
-    FormsModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpModule,
-    MaterialModule,
-    SharedModule,
-    DashboardModule.forRoot(),
-    routing,
-    MomentModule,
-    LayoutModule,
-    TbCoreModule.forRoot()
-  ],
-  bootstrap: [AppComponent],
-  entryComponents: [
-    UnsupportedComponent
-  ]
+    ],
+    imports: [
+        FormsModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpModule,
+        MaterialModule,
+        SharedModule,
+        DashboardModule.forRoot(),
+        routing,
+        MomentModule,
+        LayoutModule,
+        TbCoreModule.forRoot()
+    ],
+    bootstrap: [AppComponent],
+    entryComponents: [
+        UnsupportedComponent
+    ]
 })
 export class AppModule { }

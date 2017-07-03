@@ -10,3 +10,4 @@ export * from './header-strip/header-strip.component';
 // export * from './explorer/ExplorerResourcesAccordion';
 export * from './topbar';
 export * from './toolbar';
+export * from './proxy-route/proxy-route.component';
