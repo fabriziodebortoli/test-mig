@@ -63,6 +63,10 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   // -----------------------------------------------
   createPDF() {
     if (this.rsService.pageNum == 1) {
+      if(this.rsService.totalPages == 1){
+      this.rsService.renderPDF();
+      return;
+    }
       this.rsService.eventNextPage.emit();
       return;
     }
