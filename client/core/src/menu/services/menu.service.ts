@@ -103,7 +103,7 @@ export class MenuService {
         if (this.settingsService.LastApplicationName != '' && this.settingsService.LastApplicationName != undefined) {
             for (var i = 0; i < tempAppArray.length; i++) {
                 if (tempAppArray[i].name.toLowerCase() == this.settingsService.LastApplicationName.toLowerCase()) {
-                    this.setSelectedApplication(tempAppArray[i]);
+                    //this.setSelectedApplication(tempAppArray[i]);
                     this.selectedApplication = tempAppArray[i];
                     this.selectedApplication.isSelected = true;
                     this.settingsService.LastApplicationName = tempAppArray[i].name;
@@ -119,7 +119,7 @@ export class MenuService {
             var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
             for (var i = 0; i < tempGroupArray.length; i++) {
                 if (tempGroupArray[i].name.toLowerCase() == this.settingsService.LastGroupName.toLowerCase()) {
-                    this.setSelectedGroup(tempGroupArray[i]);
+                    // this.setSelectedGroup(tempGroupArray[i]);
                     this.selectedGroup = tempGroupArray[i];
                     this.selectedGroup.isSelected = true;
                     this.settingsService.LastGroupName = tempGroupArray[i].name;
@@ -130,11 +130,25 @@ export class MenuService {
 
         if (this.selectedGroup == undefined) {
             this.setSelectedGroup(tempGroupArray[0]);
+        }
+
+        if (this.selectedGroup == undefined) {
             return;
         }
 
-        // $location.path("/MenuTemplate");
-        // $route.reload();
+        let tempMenuArray = this.utilsService.toArray(this.selectedGroup.Menu);
+
+        let found = false;
+        for (let i = 0; i < tempMenuArray.length; i++) {
+            if (tempMenuArray[i].name.toLowerCase() == this.settingsService.LastMenuName.toLowerCase()) {
+                this.setSelectedMenu(tempMenuArray[i]);
+                return;
+            }
+        }
+
+        if (!found) {
+            this.setSelectedMenu(tempMenuArray[0]);
+        }
     }
 
     //---------------------------------------------------------------------------------------------
