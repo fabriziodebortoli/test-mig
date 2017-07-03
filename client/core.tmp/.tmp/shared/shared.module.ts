@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+<<<<<<< HEAD:client/core.tmp/.tmp/shared/shared.module.ts
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
@@ -27,6 +28,17 @@ const KENDO_UI_MODULES = [
 ];
 
 import { MasonryModule } from 'angular2-masonry';
+=======
+
+import { TaskbuilderCoreModule } from '@taskbuilder/core';
+
+@NgModule({
+    imports: [
+        CommonModule,
+        TaskbuilderCoreModule
+    ],
+    exports: [TaskbuilderCoreModule]
+>>>>>>> SharedModule pulito:client/web-form/src/app/shared/shared.module.ts
 
 const TB_MODULES = [
     ReactiveFormsModule, InputsModule,
