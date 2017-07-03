@@ -3,7 +3,6 @@ import { StateButton } from './state-button/state-button.model';
 import { PlaceholderComponent } from './placeholder/placeholder.component';
 import { GridComponent } from './grid/grid.component';
 import { EmailComponent } from './email/email.component';
-import { DateInputComponent } from './date-input/date-input.component';
 export { ButtonComponent } from './button/button.component';
 export { CheckBoxComponent } from './checkbox/checkbox.component';
 export { ComboComponent } from './combo/combo.component';

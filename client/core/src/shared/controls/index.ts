@@ -15,6 +15,7 @@ export { MaskedTextBoxComponent } from './masked-text-box/masked-text-box.compon
 export * from './section-title/section-title.component';
 export * from './textarea/textarea.component';
 export * from './time-input/time-input.component';
+export * from './date-input/date-input.component';
 
 // export { StateButton } from './state-button/state-button.model';
 // export { PlaceholderComponent } from './placeholder/placeholder.component';
@@ -22,7 +23,6 @@ export * from './time-input/time-input.component';
 // export { PasswordComponent } from './password/password.component';
 // export { GridComponent } from './grid/grid.component';
 // export { EmailComponent } from './email/email.component';
-// export { DateInputComponent } from './date-input/date-input.component';
 // export { ButtonComponent } from './button/button.component';
 // export { CheckBoxComponent } from './checkbox/checkbox.component';
 // export { ComboComponent } from './combo/combo.component';

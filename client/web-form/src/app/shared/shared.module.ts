@@ -22,7 +22,6 @@ import {
 
 import { GridComponent } from './controls/grid/grid.component';
 import { PlaceholderComponent } from './controls/placeholder/placeholder.component';
-import { DateInputComponent } from './controls/date-input/date-input.component';
 
 import { EmailComponent } from './controls/email/email.component';
 import { FileComponent } from './controls/file/file.component';
@@ -48,7 +47,7 @@ const KENDO_UI_MODULES = [
 
 const TB_COMPONENTS = [
     ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
-    DateInputComponent, StateButtonComponent,
+    StateButtonComponent,
     PlaceholderComponent, ImageComponent, ColorPickerComponent,
     BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
     EmailComponent, FileComponent, ComboSimpleComponent,
