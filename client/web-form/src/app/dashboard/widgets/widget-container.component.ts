@@ -11,10 +11,7 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
   widgets: WidgetRow[] = [];
   subscriptions = [];
   constructor(private widgetsService: WidgetsService, public snackBar: MdSnackBar) {
-
-
-
-   }
+  }
 
   getColspan(size: string) {
     switch (size) {
@@ -29,17 +26,6 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.widgetsService.getActiveWidgets().subscribe(
       (w) => {
         this.widgets = w;
-
-        this.widgets.forEach((row) => {
-          row.widgets.forEach((wdg) => {
-            this.subscriptions.push(this.widgetsService.refreshContent(wdg).subscribe(
-              (data) => {
-                wdg.data = data;
-              }
-            ));
-          });
-        });
-
         if (this.widgetsService.isFirstUse) {
           this.snackBar.open('Your dashboard was empty, and has been created with a default layout.', 'Ok');
         }
@@ -53,5 +39,4 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.forEach(subs => subs.unsubscribe());
   }
-
 }

@@ -31,7 +31,7 @@ namespace Microarea.AdminServer.Model
 			t.accountName = accountName;
 			t.token  = Guid.NewGuid().ToString();
 			t.expired = false;
-			t.expirationDate = DateTime.MaxValue;
+			t.expirationDate = DateTime.Now.AddDays(7);// default: dura una settinama
 			t.TokenType = type;
 			return t;
         }
@@ -61,10 +61,24 @@ namespace Microarea.AdminServer.Model
         {
             return this.dataProvider.Load(this);
         }
+
         //---------------------------------------------------------------------
-        public static SecurityToken Empty
+        public bool IsValid
         {
-            get { return new SecurityToken(); }
+            //expired potrebbe essere impostato da fuori a true o se data scadenza passata
+            get {
+                if (String.IsNullOrEmpty(token) || 
+                    String.IsNullOrEmpty(accountName) || 
+                    tokenType == TokenType.Undefined)
+                    return false;
+
+                if (expired) return false;
+
+                if (expirationDate < DateTime.Now)
+                    expired = true;
+                
+                return !expired;
+            }
         }
     }
 }

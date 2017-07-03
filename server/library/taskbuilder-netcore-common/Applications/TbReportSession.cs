@@ -593,6 +593,9 @@ namespace Microarea.Common.Applications
         public bool UseApproximation = true; // enable TaskBuilder Approximation for real
         public bool StripTrailingSpaces = true;
 
+        public string sessionID = Guid.NewGuid().ToString();
+        public string uniqueID = Guid.NewGuid().ToString();
+
         public TbReportSession(UserInfo ui, string ns, string parameters = "")
             : base(ui, ns)
         {

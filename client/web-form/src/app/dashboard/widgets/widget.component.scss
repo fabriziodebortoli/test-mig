@@ -1,3 +1,4 @@
+// 
 :host {
     height: 100%;
     width: 100%;
@@ -22,15 +23,15 @@
     flex-direction: row;
 }
 
-.mat-card-header .mat-card-subtitle:not(:first-child),
-.mat-card>.mat-card-xl-image:first-child {
+.tb-card-header .tb-card-subtitle:not(:first-child),
+.tb-card>.tb-card-xl-image:first-child {
     margin-top: -16px;
 }
 
 .widget-content {
     flex: 1;
     height: 100%;
-    margin-bottom: 45px;
+    margin-bottom: 15px;
 }
 
 .widget-content-area {

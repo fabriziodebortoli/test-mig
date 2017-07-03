@@ -1,17 +1,15 @@
 import { Subscription } from 'rxjs';
 import { title } from './../../../reporting-studio/reporting-studio.model';
 import { EnumsService } from './../../../core/enums.service';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener } from '@angular/core';
 
-import { ViewModeType } from '../../../shared/models/view-mode-type.model';
+import { EventDataService, ViewModeType } from '@taskbuilder/core';
 
-import { EventDataService } from './../../../core/eventdata.service';
-
-import { EventManagerService } from './../../services/event-manager.service';
-import { SettingsService } from './../../services/settings.service';
-import { LocalizationService } from './../../services/localization.service';
-import { MenuService } from './../../services/menu.service';
-import { HttpMenuService } from './../../services/http-menu.service';
+import { EventManagerService } from '@taskbuilder/core';
+import { SettingsService } from '@taskbuilder/core';
+import { LocalizationService } from '@taskbuilder/core';
+import { MenuService } from '@taskbuilder/core';
+import { HttpMenuService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-menu',
@@ -20,9 +18,14 @@ import { HttpMenuService } from './../../services/http-menu.service';
   providers: [EventDataService]
 })
 
-export class MenuComponent implements OnInit, OnDestroy {
+export class MenuComponent implements OnDestroy {
 
-private subscriptions : Subscription[] = [];
+  @HostListener('window:beforeunload')
+  onClose() {
+    this.menuService.updateAllFavoritesAndMostUsed();
+  }
+
+  private subscriptions: Subscription[] = [];
   constructor(
     private httpMenuService: HttpMenuService,
     private menuService: MenuService,
@@ -32,13 +35,8 @@ private subscriptions : Subscription[] = [];
     private eventData: EventDataService,
     private enumsService: EnumsService
   ) {
-    this.subscriptions.push(this.eventManagerService.preferenceLoaded.subscribe(result => {
-      this.menuService.initApplicationAndGroup(this.menuService.applicationMenu.Application);  //qui bisogna differenziare le app da caricare, potrebbero essere app o environment
-
-    }));
-
     this.eventData.model = {
-      Title: {
+      Title: { 
         value: 'Menu'
       },
       viewModeType: ViewModeType.M
@@ -49,16 +47,8 @@ private subscriptions : Subscription[] = [];
     }));
   }
 
-  ngOnInit() {
-    this.subscriptions.push(this.httpMenuService.getMenuElements().subscribe(result => {
-      this.menuService.onAfterGetMenuElements(result.Root);
-      this.localizationService.loadLocalizedElements(true);
-      this.settingsService.getSettings();
-      this.enumsService.getEnumsTable();
-    }));
-  }
-
   ngOnDestroy() {
-    this.subscriptions.forEach((sub)=> sub.unsubscribe());
+
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

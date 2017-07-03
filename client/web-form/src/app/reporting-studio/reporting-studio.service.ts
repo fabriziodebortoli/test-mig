@@ -1,11 +1,11 @@
-import { ComponentService } from './../core/component.service';
-import { Logger } from './../core/logger.service';
+import { ComponentService } from '@taskbuilder/core';
+import { Logger } from '@taskbuilder/core';
 import { environment } from './../../environments/environment';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import { EventDataService } from './../core/eventdata.service';
-import { DocumentService } from './../core/document.service';
+import { EventDataService } from '@taskbuilder/core';
+import { DocumentService } from '@taskbuilder/core';
 import { CommandType, PdfType } from './reporting-studio.model';
 
 import { drawDOM, exportPDF, DrawOptions, Group } from '@progress/kendo-drawing';
@@ -21,10 +21,14 @@ export class ReportingStudioService extends DocumentService {
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
 
-    @Output() eventDownload = new EventEmitter<void>();
+    @Output() eventNextPage = new EventEmitter<void>();
+    @Output() eventReloadPage = new EventEmitter<void>();
+    @Output() eventFirstPage = new EventEmitter<void>();
 
     public savingPdf: boolean = false;
     public totalPages: number;
+    public lastAppendPdfPage: number = 0;
+    public currentPage: number = 0;
     public pdfState: PdfType = PdfType.NOPDF;
     public filePdf = new Group();
     public titleReport: string;
@@ -112,21 +116,34 @@ export class ReportingStudioService extends DocumentService {
                 this.pdfState = PdfType.NOPDF;
             }
             else {
-                this.eventDownload.emit();
+                this.eventNextPage.emit();
             }
         }
     }
+
+    /*public renderPDF() {
+        drawDOM(document.getElementById('rsLayout'))
+            .then((group: Group) => {
+                return exportPDF(group, { multiPage: true });
+         })
+            .then((dataUri) => {
+                saveAs(dataUri, 'export.pdf');
+                this.loopPdfPage();
+            });
+    }*/
 
     public appendPDF() {
         drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
                 this.loopPdfPage(this.titleReport);
+                 //this.eventNextPage.emit();
             })
+            
 
     }
 
-    public renderPDF() {
+     public renderPDF() {
         drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
@@ -134,10 +151,8 @@ export class ReportingStudioService extends DocumentService {
                     multiPage: true
                 });
             })
-            .then((dataUri) => {
-                saveAs(dataUri, this.titleReport + '.pdf');
-            });
-        this.eventDownload.emit();
+            .then((dataUri) => { saveAs(dataUri, this.titleReport + '.pdf'); });
+        this.eventFirstPage.emit();
     }
 
 

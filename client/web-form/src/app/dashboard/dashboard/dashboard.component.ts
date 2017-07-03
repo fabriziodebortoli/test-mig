@@ -1,17 +1,14 @@
-import { LocalizationService } from './../../menu/services/localization.service';
-import { SettingsService } from './../../menu/services/settings.service';
-import { ImageService } from './../../menu/services/image.service';
-import { MenuService } from './../../menu/services/menu.service';
-import { UtilsService } from './../../core/utils.service';
+import { LocalizationService } from '@taskbuilder/core';
+import { SettingsService } from '@taskbuilder/core';
+import { ImageService } from '@taskbuilder/core';
+import { MenuService } from '@taskbuilder/core';
+import { UtilsService } from '@taskbuilder/core';
 import { Component, OnInit } from '@angular/core';
-
-import { EventDataService } from './../../core/eventdata.service';
 
 @Component({
   selector: 'tb-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
-  providers: [EventDataService]
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
 

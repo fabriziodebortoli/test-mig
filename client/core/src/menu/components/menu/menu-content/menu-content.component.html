@@ -1,0 +1,12 @@
+<masonry-brick class="brick" [ngClass]="{'brick--width2': getObjects().length > 10 }">
+    <div class="tb-card">
+        <tb-card *ngIf="tile != undefined">
+            <tb-card-title class="tb-card-title" *ngIf="tile != undefined" [title]="tile.title" [isCollapsible]="false"></tb-card-title>
+            <tb-card-content>
+                <div class="row">
+                    <tb-menu-element [object]="object" *ngFor="let object of getObjects();" class="menu-content col-xs-12" [ngClass]="{'col-md-6': getObjects().length > 10 , 'col-md-12': getObjects().length <= 10}"></tb-menu-element>
+                </div>
+            </tb-card-content>
+        </tb-card>
+    </div>
+</masonry-brick>

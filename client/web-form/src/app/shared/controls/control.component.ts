@@ -1,5 +1,6 @@
-﻿import { TbComponent } from '..';
-import { Component, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+﻿import { Component, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+
+import { TbComponent } from '@taskbuilder/core';
 
 @Component({
     template: ''

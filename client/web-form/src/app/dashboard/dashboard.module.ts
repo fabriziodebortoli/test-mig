@@ -35,7 +35,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   imports: [
     CommonModule,
     SharedModule,
-    MenuModule.forRoot(),
+    MenuModule,
     MaterialModule,
     WidgetsModule,
     KENDO_UI_MODULES
@@ -47,10 +47,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   declarations: [DashboardComponent]
 })
 export class DashboardModule {
-   static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders {
     return {
       ngModule: DashboardModule,
       providers: [WidgetsService]
     };
   }
- }
+}

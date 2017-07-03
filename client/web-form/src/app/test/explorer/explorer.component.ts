@@ -1,11 +1,10 @@
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { DocumentComponent } from '../../shared/document.component';
+import { DocumentComponent } from '@taskbuilder/core';
 
-import { ComponentService } from './../../core/component.service';
-import { ExplorerService } from './../../core/explorer.service';
-import { EventDataService } from './../../core/eventdata.service';
+import { ComponentService, ExplorerService } from '@taskbuilder/core';
+import { EventDataService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-explorer',

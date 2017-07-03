@@ -1,0 +1,47 @@
+<header>
+    <md-toolbar color="primary">
+        <img src="assets/images/logoM4_h40.png" />
+        <span class="fill-remaining-space"></span>
+        <span>Microarea Spa</span>
+    </md-toolbar>
+</header>
+
+<main class="login-content">
+    <div class="login-form tb-card" *ngIf="!working">
+        <tb-card>
+            <tb-card-title title='Log In'></tb-card-title>
+            <tb-card-content>
+                <div class="form-group">
+                    <md-input-container class="form-control">
+                        <input mdInput type="text" [placeholder]="'User'" autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keydown)="keyDownFunction($event)" />
+                    </md-input-container>
+                    <md-input-container class="form-control">
+                        <input mdInput type="password" [placeholder]="'Password'" [(ngModel)]="connectionData.password" (keydown)="keyDownFunction($event)" />
+                    </md-input-container>
+
+                    <md-select class="form-control" placeholder="Company" [(ngModel)]="connectionData.company">
+                        <md-option *ngIf="!companies">Loading...</md-option>
+                        <md-option *ngFor="let company of companies" [value]="company?.name">
+                            {{ company?.name }}
+                        </md-option>
+                    </md-select>
+
+                    <div class="error" *ngFor="let errorMessage of loginSessionService.errorMessages">{{errorMessage.text}}</div>
+
+                    <button class="form-button" md-raised-button color="primary" (click)="login();" [disabled]="companies.length == 0">Login</button>
+                </div>
+
+
+            </tb-card-content>
+        </tb-card>
+    </div>
+
+    <div class="spinner" *ngIf="working">
+        <md-spinner mode="indeterminate" color="primary"></md-spinner>
+    </div>
+
+</main>
+
+<footer>
+    <span>Copyright © 1984-2017 Microarea SpA - Tutti i diritti riservati | <a href="http://www.microarea.it">Microarea.It</a></span>
+</footer>

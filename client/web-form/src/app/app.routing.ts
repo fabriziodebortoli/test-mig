@@ -7,9 +7,9 @@ import { RouterModule } from '@angular/router';
 
 import { CoreGuard } from './core/core.guard';
 
-import { PageNotFoundComponent } from './shared/page-not-found.component';
+import { PageNotFoundComponent } from '@taskbuilder/core';
 import { UnsupportedFactoryComponent } from './unsupported.component';
-import { LoginComponent } from './menu/components/login/login.component';
+import { LoginComponent } from '@taskbuilder/core';
 import { HomeComponent } from './home/home.component';
 
 import { appRoutes } from './applications/app.routing';
@@ -18,8 +18,8 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
-    { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard]},
-    { path: 'rs/:ns', component: StandaloneReportComponent},
+    { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard] },
+    { path: 'rs/:ns', component: StandaloneReportComponent },
     {
         path: 'proxy',
         outlet: 'dynamic',

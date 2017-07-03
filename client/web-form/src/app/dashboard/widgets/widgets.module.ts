@@ -1,5 +1,4 @@
-import { EventDataService } from './../../core/eventdata.service';
-import { DataService } from './../../core/data.service';
+import { DataService } from '@taskbuilder/core';
 import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -55,7 +54,6 @@ const KENDO_UI_MODULES = [
     WidgetStatsComponent,
     WidgetGridComponent,
     WidgetChartComponent
-  ],
-  providers: [EventDataService]
+  ]
 })
 export class WidgetsModule { }

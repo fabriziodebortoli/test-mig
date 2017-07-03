@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Microarea.AdminServer.Model;
+using Microarea.AdminServer.Model.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
-using Microarea.AdminServer.Model;
-using Microarea.AdminServer.Model.Interfaces;
 
 namespace Microarea.AdminServer.Services.Providers
 {
 	//================================================================================
-	public class SubscriptionSQLDataProvider : IDataProvider
-    {
+	public class SubscriptionSQLDataProvider : IDataProvider, ISubscriptionDataProvider
+	{
         string connectionString;
 
 		//---------------------------------------------------------------------
@@ -91,15 +92,14 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@ApplicationLanguage", subscription.ApplicationLanguage);
 						command.Parameters.AddWithValue("@MinDBSizeToWarn", subscription.MinDBSizeToWarn);
 						command.Parameters.AddWithValue("@InstanceKey", subscription.InstanceKey);
-
-						if (existSubscription)
-							command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
+						command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
 
 						command.ExecuteNonQuery();
 					}
 
 					opRes.Result = true;
-                }
+					opRes.Content = subscription;
+				}
             }
             catch (Exception e)
             {
@@ -136,6 +136,52 @@ namespace Microarea.AdminServer.Services.Providers
 			}
 
 			return true;
+		}
+
+		//---------------------------------------------------------------------
+		public List<Subscription> GetSubscriptions(string instanceKey)
+		{
+			List<Subscription> subsList = new List<Subscription>();
+
+			string selectQuery = "SELECT * FROM MP_Subscriptions";
+			if (!string.IsNullOrWhiteSpace(instanceKey))
+				selectQuery += " WHERE InstanceKey = @InstanceKey";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand(selectQuery, connection))
+					{
+						if (!string.IsNullOrWhiteSpace(instanceKey))
+							command.Parameters.AddWithValue("@InstanceKey", instanceKey);
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								Subscription subs = new Subscription();
+								subs.SubscriptionKey = dataReader["SubscriptionKey"] as string;
+								subs.InstanceKey = dataReader["InstanceKey"] as string;
+								subs.Description = dataReader["Description"] as string;
+								subs.PreferredLanguage = dataReader["PreferredLanguage"] as string;
+								subs.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								subs.MinDBSizeToWarn = (int)dataReader["MinDBSizeToWarn"];
+								subsList.Add(subs);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return null;
+			}
+
+			return subsList;
 		}
 	}
 }

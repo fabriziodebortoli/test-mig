@@ -1,19 +1,18 @@
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
-import { WebSocketService } from './../core/websocket.service';
-import { UtilsService } from './../core/utils.service';
+import { WebSocketService } from '@taskbuilder/core';
+import { UtilsService } from '@taskbuilder/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType } from './reporting-studio.model';
-import { DocumentComponent } from '../shared/document.component';
-import { ComponentService } from './../core/component.service';
-import { EventDataService } from './../core/eventdata.service';
+import { DocumentComponent } from '@taskbuilder/core';
+import { ComponentService } from '@taskbuilder/core';
+import { EventDataService } from '@taskbuilder/core';
 import { ReportingStudioService } from './reporting-studio.service';
 
 import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF, } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
-
 
 @Component({
   selector: 'tb-reporting-studio',
@@ -21,13 +20,13 @@ import { saveAs } from '@progress/kendo-file-saver';
   styleUrls: ['./reporting-studio.component.scss'],
   providers: [ReportingStudioService, EventDataService],
 })
+
 export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy {
 
   /*if this component is used standalone, the namespace has to be passed from the outside template,
   otherwise it is passed by the ComponentService creation logic*/
   private subMessage: Subscription;
   private message: any = '';
-
 
   // report template objects
   public reportTemplate: any;
@@ -37,13 +36,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public askDialogTemplate: any;
 
 
-  
+
 
   constructor(
     private rsService: ReportingStudioService,
     eventData: EventDataService,
     private cookieService: CookieService,
-    
+
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData);
@@ -68,11 +67,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
     this.rsService.doSend(JSON.stringify(message));
 
-    
-
-    this.rsService.eventDownload.subscribe(() => this.NextPage());
-
-
+    this.rsService.eventNextPage.subscribe(() => this.NextPage());
+    this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
   }
 
   // -----------------------------------------------
@@ -98,7 +94,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   ngOnDestroy() {
     this.subMessage.unsubscribe();
-   
+
     if (this.args.params.runAtTbLoader) {
       this.tbLoaderWebSocketService.closeServerComponent(this.rsService.mainCmpId);
     }
@@ -145,7 +141,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.DATA:
           this.rsService.showAsk = false;
           this.reportData = k;
-
+          this.rsService.currentPage = k.page.page_number;
           break;
         case CommandType.RUNREPORT:
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
@@ -267,19 +263,23 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-
   public startSavePDF() {
+    //this.rsService.lastAppendPdfPage = 0;
+    //this.rsService.pdfState = PdfType.PREPAREDPDF
+    //this.FirstPage();
     if (this.rsService.pageNum != 1) {
       this.rsService.pdfState = PdfType.PREPAREDPDF
       this.FirstPage();
+
     }
     else {
       this.rsService.pdfState = PdfType.SAVINGPDF;
       this.rsService.loopPdfPage(this.rsService.getTitle());
+      //this.NextPage();
     }
+
   }
 }
-
 
 
 

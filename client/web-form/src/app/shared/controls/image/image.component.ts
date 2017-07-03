@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { HttpService } from './../../../core/http.service';
+import { HttpService } from '@taskbuilder/core';
 
 import { ControlComponent } from './../control.component';
 

@@ -1,0 +1,31 @@
+import { OnDestroy } from '@angular/core';
+import { MdDialog, MdDialogRef } from '@angular/material';
+import { ContextMenuItem } from '../../../../../shared';
+import { UtilsService } from '../../../../services/utils.service';
+import { EventDataService } from '../../../../services/eventdata.service';
+import { ConnectionInfoDialogComponent, ProductInfoDialogComponent } from '../../../../../menu';
+import { MenuService } from '../../../../../menu/services/menu.service';
+import { HttpMenuService } from '../../../../../menu/services/http-menu.service';
+import { LocalizationService } from '../../../../../menu/services/localization.service';
+export declare class TopbarMenuAppComponent implements OnDestroy {
+    dialog: MdDialog;
+    private httpMenuService;
+    private menuService;
+    private utilsService;
+    private localizationService;
+    private eventDataService;
+    menuElements: ContextMenuItem[];
+    private show;
+    viewProductInfo: string;
+    productInfoDialogRef: MdDialogRef<ProductInfoDialogComponent>;
+    connectionInfoDialogRef: MdDialogRef<ConnectionInfoDialogComponent>;
+    data: Array<any>;
+    localizationsLoadedSubscription: any;
+    constructor(dialog: MdDialog, httpMenuService: HttpMenuService, menuService: MenuService, utilsService: UtilsService, localizationService: LocalizationService, eventDataService: EventDataService);
+    ngOnDestroy(): void;
+    activateViaSMS(): void;
+    goToSite(): void;
+    clearCachedData(): void;
+    openProductInfoDialog(): void;
+    openConnectionInfoDialog(): void;
+}

@@ -2,9 +2,9 @@
 import { EnumsService } from './../../../core/enums.service';
 import { ControlComponent } from './../control.component';
 import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
-import { EventDataService } from './../../../core/eventdata.service';
-import { DocumentService } from './../../../core/document.service';
-import { WebSocketService } from './../../../core/websocket.service';
+import { EventDataService } from '@taskbuilder/core';
+import { DocumentService } from '@taskbuilder/core';
+import { WebSocketService } from '@taskbuilder/core';
 
 @Component({
     selector: 'tb-enum-combo',
@@ -18,7 +18,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
 
     private items: Array<any> = [];
     private selectedItem: any;
- private itemSourceSub : Subscription;
+    private itemSourceSub: Subscription;
     @Input() public itemSource: any;
     @Input() width: number;
 
@@ -100,7 +100,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         this.selectedItem = obj;
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.itemSourceSub.unsubscribe();
-     }
+    }
 }

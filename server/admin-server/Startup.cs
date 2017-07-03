@@ -53,9 +53,10 @@ namespace Microarea.AdminServer
             app.UseStaticFiles();
 
             app.UseCors("CorsPolicy");
-
+           
             app.UseMvc(routes =>
-            {
+            { routes.MapRoute("security", "tokens",
+                    defaults: new { controller = "Security", action = "Tokens" });
                 routes.MapRoute("default", "{controller=Admin}/{action=Index}/{id?}");
             });
         }

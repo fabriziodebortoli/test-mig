@@ -11,8 +11,7 @@
             </div>
 
             <div class="topbar-center">
-                <!--<tb-topbar-search></tb-topbar-search>-->
-                <tb-search [maxElements]="20"></tb-search>
+                <tb-search></tb-search>
             </div>
 
             <div class="topbar-menu-content">
@@ -42,7 +41,7 @@
                     </ng-template>
                     <template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
-                            <tb-menu *ngIf="menuService.isMenuActivated"></tb-menu>
+                            <tb-menu></tb-menu>
                         </div>
                     </template>
                 </kendo-tabstrip-tab>

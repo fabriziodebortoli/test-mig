@@ -1,11 +1,10 @@
 import { Http } from '@angular/http';
-import { DataService } from './../../core/data.service';
+import { DataService } from '@taskbuilder/core';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
-import { EventDataService } from './../../core/eventdata.service';
-import { ComponentService } from './../../core/component.service';
-
-import { DocumentComponent } from "../../shared";
+import { EventDataService } from '@taskbuilder/core';
+import { ComponentService } from '@taskbuilder/core';
+import { DocumentComponent } from "@taskbuilder/core";
 
 @Component({
   selector: 'tb-icons-test',

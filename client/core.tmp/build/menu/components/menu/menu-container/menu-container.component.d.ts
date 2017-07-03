@@ -1,0 +1,30 @@
+import { OnInit, OnDestroy } from '@angular/core';
+import { MasonryOptions } from 'angular2-masonry';
+import { UtilsService } from './../../../../core/services/utils.service';
+import { LocalizationService } from './../../../services/localization.service';
+import { MenuService } from './../../../services/menu.service';
+import { SettingsService } from './../../../services/settings.service';
+export declare class MenuContainerComponent implements OnInit, OnDestroy {
+    private menuService;
+    private utilsService;
+    private settingsService;
+    private localizationService;
+    private subscriptions;
+    private selectedGroupChangedSubscription;
+    private tiles;
+    tabber: any;
+    masonryContainer: any;
+    constructor(menuService: MenuService, utilsService: UtilsService, settingsService: SettingsService, localizationService: LocalizationService);
+    refreshLayout(): void;
+    masonryOptions: MasonryOptions;
+    ngOnInit(): void;
+    initTab(): void;
+    isSelected(tab: any): boolean;
+    changeTabWhenMenuChanges(): void;
+    findTabIndexByMenu(): number;
+    ngOnDestroy(): void;
+    changeTabByIndex(event: any): void;
+    getTiles(): any[];
+    ifTileHasObjects(tile: any): boolean;
+    tileIsVisible(tile: any): boolean;
+}

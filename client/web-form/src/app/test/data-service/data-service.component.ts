@@ -3,11 +3,11 @@ import { URLSearchParams, Http, Response } from '@angular/http';
 
 import { environment } from './../../../environments/environment';
 
-import { DocumentComponent } from '../../shared/document.component';
+import { DocumentComponent } from '@taskbuilder/core';
 
-import { ComponentService } from './../../core/component.service';
-import { EventDataService } from './../../core/eventdata.service';
-import { DataService } from './../../core/data.service';
+import { ComponentService } from '@taskbuilder/core';
+import { EventDataService } from '@taskbuilder/core';
+import { DataService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-data-service',
@@ -73,7 +73,7 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
     });
   }
 
- GetParameters() {
+  GetParameters() {
 
     let subs = this.dataService.getParameters(this.nameSpace).subscribe(data => {
       this.responseParameters = data;

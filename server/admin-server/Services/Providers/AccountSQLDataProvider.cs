@@ -8,8 +8,8 @@ using System.Collections.Generic;
 namespace Microarea.AdminServer.Services.Providers
 {
     //================================================================================
-    public class AccountSQLDataProvider : IDataProvider
-    {
+    public class AccountSQLDataProvider : IDataProvider, IAccountDataProvider
+	{
         string connectionString;
 
 		//---------------------------------------------------------------------
@@ -123,7 +123,8 @@ namespace Microarea.AdminServer.Services.Providers
 					}
 
 					opRes.Result = true;
-                }
+					opRes.Content = account;
+				}
             }
             catch (Exception e)
             {
@@ -164,9 +165,13 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public Account[] GetAccounts()
+		public List<Account> GetAccounts(string accountName)
 		{
 			List<Account> accountList = new List<Account>();
+
+			string selectQuery = "SELECT * FROM MP_Accounts";
+			if (!string.IsNullOrWhiteSpace(accountName))
+				selectQuery += " WHERE AccountName = @AccountName";
 
 			try
 			{
@@ -174,8 +179,11 @@ namespace Microarea.AdminServer.Services.Providers
 				{
 					connection.Open();
 
-					using (SqlCommand command = new SqlCommand("SELECT * FROM MP_Accounts", connection))
+					using (SqlCommand command = new SqlCommand(selectQuery, connection))
 					{
+						if (!string.IsNullOrWhiteSpace(accountName))
+							command.Parameters.AddWithValue("@AccountName", accountName);
+
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
@@ -213,7 +221,7 @@ namespace Microarea.AdminServer.Services.Providers
 				return null;
 			}
 
-			return accountList.ToArray();
+			return accountList;
 		}
 
 	}

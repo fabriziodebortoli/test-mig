@@ -3,26 +3,32 @@ using System.Linq;
 
 namespace Microarea.AdminServer.Controllers.Helpers
 {
+
     public class AccountIdentityPack
     {
-		Subscription[] subscriptions;
+        Subscription[] subscriptions;
 
-		public bool Result;
-		public string Message;
-		public Account Account;
-		public Subscription[] Subscriptions { get { return this.subscriptions; } }
+        string detailedMessage = string.Empty;
+        public bool Result;
+        public int MessageCode;
+        public Account Account;
+        public Subscription[] Subscriptions { get { return this.subscriptions; } }
+        public string DetailedMessage { get { return detailedMessage; } set { detailedMessage = value; } }
 
-		public AccountIdentityPack()
-		{
-			this.Result = false;
-			this.Message = "Empty object";
-			this.Account = new Account();
-			this.subscriptions = new Subscription[] { };
-		}
+        public string Message { get { return GwamMessageStrings.GetString(MessageCode); } }
+        //-----------------------------------------------------------------------------	
+        public AccountIdentityPack()
+        {
+            this.Result = false;
+            this.MessageCode = 1;//undefinded
+            this.Account = new Account();
+            this.subscriptions = new Subscription[] { };
+        }
 
-		public void AddSubscription(Subscription subscription)
-		{
-			this.subscriptions.Append<Subscription>(subscription);
-		}
+        //-----------------------------------------------------------------------------	
+        public void AddSubscription(Subscription subscription)
+        {
+            this.subscriptions.Append<Subscription>(subscription);
+        }
     }
 }
