@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, OnInit, AfterContentInit, Input } from '@angular/core';
 
-import { TbComponent } from '@taskbuilder/core';
 import { MenuTabComponent } from './menu-tab/menu-tab.component';
+import { TbComponent } from '../../../../shared/components/tb.component';
 
 @Component({
   selector: 'tb-menu-tabber',
@@ -17,7 +17,7 @@ export class MenuTabberComponent extends TbComponent {
 
     if (!this.tabs)
       return;
-      
+
     this.tabs.forEach((t) => {
       t.active = false;
     });

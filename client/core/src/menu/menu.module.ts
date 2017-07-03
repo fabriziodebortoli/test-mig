@@ -7,15 +7,13 @@ import { Logger } from './../core/services/logger.service';
 
 import {
     LoginComponent, ApplicationSelectorComponent, FavoritesComponent, MostUsedComponent, GroupSelectorComponent,
-    MenuContainerComponent, MenuContentComponent, MenuElementComponent, MenuStepperComponent,
-    ConnectionInfoDialogComponent, ProductInfoDialogComponent, SearchComponent
+    MenuContainerComponent, MenuContentComponent, MenuElementComponent, MenuStepperComponent, MenuComponent,
+    ConnectionInfoDialogComponent, ProductInfoDialogComponent, SearchComponent, MenuTabberComponent, MenuTabComponent
 } from './components';
 export * from './components';
 
 // import { MenuComponent } from './components/menu/menu.component';
 
-// import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
-// import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 import { MenuService } from './services/menu.service';
 import { EventManagerService } from './services/event-manager.service';
 import { SettingsService } from './services/settings.service';
@@ -66,9 +64,9 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
         ProductInfoDialogComponent,
         ConnectionInfoDialogComponent,
         SearchComponent,
-        // MenuComponent,
-        // MenuTabberComponent,
-        // MenuTabComponent,
+        MenuComponent,
+        MenuTabberComponent,
+        MenuTabComponent,
     ],
     exports: [
         LoginComponent,
@@ -81,7 +79,7 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
         MenuElementComponent,
         MenuStepperComponent,
         SearchComponent,
-        // MenuComponent,
+        MenuComponent,
     ],
     providers: [TB_MENU_SERVICES],
     //   entryComponents: [
