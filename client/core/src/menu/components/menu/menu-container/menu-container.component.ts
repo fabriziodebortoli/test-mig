@@ -28,11 +28,19 @@ export class MenuContainerComponent implements AfterViewInit, OnDestroy {
     private settingsService: SettingsService,
     private localizationService: LocalizationService
   ) {
-
-    this.subscriptions.push(this.menuService.menuActivated.subscribe(() => {
+      this.subscriptions.push(this.menuService.menuActivated.subscribe(() => {
       this.tiles = this.getTiles();
       this.changeTabWhenMenuChanges();
       this.refreshLayout();
+    }));
+
+    this.subscriptions.push(this.menuService.selectedMenuChanged.subscribe(() => {
+      this.tiles = this.getTiles();
+      this.changeTabWhenMenuChanges();
+    }));
+
+    this.subscriptions.push(this.menuService.selectedGroupChanged.subscribe(() => {
+      this.initTab();
     }));
   }
 
@@ -48,14 +56,7 @@ export class MenuContainerComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
 
-    this.subscriptions.push(this.menuService.selectedMenuChanged.subscribe(() => {
-      this.tiles = this.getTiles();
-      this.changeTabWhenMenuChanges();
-    }));
 
-    this.subscriptions.push(this.menuService.selectedGroupChanged.subscribe(() => {
-      this.initTab();
-    }));
   }
 
   initTab() {
