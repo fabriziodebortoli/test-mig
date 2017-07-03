@@ -26,8 +26,8 @@ namespace Microarea.Common.Applications
 		
 		//---------------------------------------------------------------------
 		//Proprietà pubbliche
-		public string		ServerConnectionPreferredLanguage	{ get { return serverConnectionPreferredLanguage; }}
-		public string		CurrentUserPreferredLanguage		{ get { return currentUserPreferredLanguage; }}
+		public string		ServerConnectionPreferredLanguage	{ get { return serverConnectionPreferredLanguage; } set  { serverConnectionPreferredLanguage = value; } }
+		public string		CurrentUserPreferredLanguage		{ get { return currentUserPreferredLanguage; } set  { currentUserPreferredLanguage = value; } }
 		
 		//---------------------------------------------------------------------
 		public CurrentCulture(UserInfo userInfo)
@@ -2662,19 +2662,38 @@ namespace Microarea.Common.Applications
 		static public CultureInfo ApplicationLocale { get { return applicationLocale; } }
 
 		//------------------------------------------------------------------------------
-		public FormatStyles(ApplicationFormatStyles applicationFormatStyles) 
+		public FormatStyles(ApplicationFormatStyles applicationFormatStyles, string currentUserPreferredLanguage, string serverConnectionPreferredLanguage) 
             :
             base(StringComparer.OrdinalIgnoreCase)
 		{
 			this.applicationFormatStyles = applicationFormatStyles;
 			
-			CurrentCulture currentCulture = new CurrentCulture(applicationFormatStyles.ReportSession.UserInfo);
-			CNumberToLiteralManager.Culture = currentCulture.GetCulture();
+			if (currentUserPreferredLanguage != null && currentUserPreferredLanguage != string.Empty)
+                CNumberToLiteralManager.Culture = currentUserPreferredLanguage;
+
+            if (serverConnectionPreferredLanguage != null && serverConnectionPreferredLanguage != string.Empty)
+                CNumberToLiteralManager.Culture = serverConnectionPreferredLanguage;
+
             applicationLocale = CultureInfo.CurrentCulture; //CreateSpecificCulture(Thread.CurrentThread.CurrentCulture.Name);  TODO RSWEB
 		}
 
-		//------------------------------------------------------------------------------
-		~FormatStyles()
+        //------------------------------------------------------------------------------
+        public FormatStyles(ApplicationFormatStyles applicationFormatStyles)
+            :
+            base(StringComparer.OrdinalIgnoreCase)
+        {
+            this.applicationFormatStyles = applicationFormatStyles;
+
+            CurrentCulture currentCulture = new CurrentCulture(applicationFormatStyles.ReportSession.UserInfo); //Setto le due variabili
+
+            CNumberToLiteralManager.Culture = currentCulture.GetCulture();
+
+
+            applicationLocale = CultureInfo.CurrentCulture; //CreateSpecificCulture(Thread.CurrentThread.CurrentCulture.Name);  TODO RSWEB
+        }
+
+        //------------------------------------------------------------------------------
+        ~FormatStyles()
 		{
 			foreach (CNumberToLiteralLookUpTableManager NTLManager in CNumberToLiteralManager.numberToLiteral)
 				NTLManager.Clear();
@@ -3013,8 +3032,32 @@ namespace Microarea.Common.Applications
 			return true;
 		}
 
-		//-----------------------------------------------------------------------------
-		private bool IsUnparsingNeeded(INameSpace nameSpace)
+        //------------------------------------------------------------------------------
+        public bool UnparseAll(Unparser unparser)
+        {
+            unparser.WriteTag(Token.RELEASE, false);
+            unparser.Write(RELEASE);
+           
+            unparser.WriteTag(Token.FORMATSTYLES, false);
+            unparser.WriteBlank();
+
+            unparser.WriteBegin();
+
+            foreach (FormatStylesGroup group in this.Values)
+            {
+                foreach (Formatter formatter in group.FormatStyles)
+                    UnparseFormatStyle(unparser, formatter);
+            }
+
+            unparser.WriteEnd();
+            unparser.WriteLine();
+
+            return true;
+        }
+
+
+        //-----------------------------------------------------------------------------
+        private bool IsUnparsingNeeded(INameSpace nameSpace)
 		{
 			foreach (FormatStylesGroup group in this.Values)
 			{
@@ -3727,14 +3770,15 @@ namespace Microarea.Common.Applications
 		private FormatStyles	fs;
 		private bool			loaded = true;
 		private TbSession			reportSession;
-
-		//-----------------------------------------------------------------------------
-		public FormatStyles	Fs		{ get { return fs; }}
+        private BasePathFinder pathFinder;
+        //-----------------------------------------------------------------------------
+        public FormatStyles	Fs		{ get { return fs; }}
 		public bool			Loaded	{ get { return loaded; }}
 		public TbSession		ReportSession	{ get { return reportSession; } set { reportSession = value; }}
+        public BasePathFinder   PathFinder { get { return pathFinder; } set { pathFinder = value; } }
 
-		//------------------------------------------------------------------------------
-		public ApplicationFormatStyles(TbSession session)
+        //------------------------------------------------------------------------------
+        public ApplicationFormatStyles(TbSession session)
 		{
 			// è necessario inizializzare prima una sessione di lavoro.
 			this.reportSession = session;
@@ -3744,8 +3788,14 @@ namespace Microarea.Common.Applications
 			fs = new FormatStyles(this);
 		}
 
-		//------------------------------------------------------------------------------
-		public Formatter GetFormatter(string name, INameSpace context)
+        //------------------------------------------------------------------------------
+        public ApplicationFormatStyles(string currentUserPreferredLanguage, string serverConnectionPreferredLanguage) //Qui passo le stringhe)
+        {
+            fs = new FormatStyles(this, currentUserPreferredLanguage, serverConnectionPreferredLanguage);
+        }
+
+        //------------------------------------------------------------------------------
+        public Formatter GetFormatter(string name, INameSpace context)
 		{
 			return fs.GetFormatter(name, context);
 		}
@@ -3753,7 +3803,7 @@ namespace Microarea.Common.Applications
 		//------------------------------------------------------------------------------
 		public void Load()
 		{
-			if (ReportSession.PathFinder == null)
+			if (ReportSession == null &&  BasePathFinder.BasePathFinderInstance == null)
 				return;
 
 			// considera che tutto sia ok. Se anche solo uno dei file non è caricato
@@ -3761,8 +3811,8 @@ namespace Microarea.Common.Applications
 			loaded = true;
 
 			// carica tutti gli enums che fanno parte della applicazione (controllando che esista)
-			foreach (ApplicationInfo ai in ReportSession.PathFinder.ApplicationInfos)
-				foreach (ModuleInfo mi in ai.Modules)
+			foreach (BaseApplicationInfo ai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+				foreach (BaseModuleInfo mi in ai.Modules)
 				{
 					NameSpace nsOwner = new NameSpace(ai.Name + NameSpace.TokenSeparator + mi.Name, NameSpaceObjectType.Module);
 

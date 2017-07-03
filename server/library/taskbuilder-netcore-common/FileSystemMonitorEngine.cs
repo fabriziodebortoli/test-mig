@@ -4,10 +4,15 @@ using System.Xml;
 using System.IO;
 using System.Resources;
 
+
 using Microarea.Common.NameSolver;
 using Microarea.Common.DiagnosticManager;
 using TaskBuilderNetCore.Interfaces;
 
+using Microarea.Common.Applications;
+using Microarea.Common.CoreTypes;
+
+using Microarea.Common.Lexan;
 
 
 //////////////////////////////////////////////
@@ -35,24 +40,26 @@ namespace Microarea.Common
     /// </summary>
     //=========================================================================
     public class FileSystemMonitor
-	{
-		#region Data Members
-		private static FileSystemMonitorEngine engine = new FileSystemMonitorEngine();
-		#endregion
+    {
+        #region Data Members
+        private static FileSystemMonitorEngine engine = new FileSystemMonitorEngine();
+        #endregion
 
-		#region Properties
+        #region Properties
         public static FileSystemMonitorEngine Engine { get { return engine; } }
         #endregion
 
-		#region Construction and Destruction
+        #region Construction and Destruction
 
-		//-----------------------------------------------------------------------
-		FileSystemMonitor ()
-		{
-		}
+        //-----------------------------------------------------------------------
+        FileSystemMonitor()
+        {
 
-		#endregion
-	}
+
+        }
+
+        #endregion
+    }
 
     /// <summary>
     /// Engine to manage monitoring of file system
@@ -75,11 +82,10 @@ namespace Microarea.Common
 		private string[]			managedExtensions	= null;
 		private DateTime			lastTimeStamp		= System.DateTime.MinValue;
 		private string				lastFileAccess		= string.Empty;
-
+        private TbSession session = null;
         #endregion
 
         #region Properties
-
         //       internal LoginManager		LoginManager	{ get { return loginManager; } } TODO LARA
         internal FileSystemWatcher	Watcher			{ get { return watcher; } }
 
@@ -90,6 +96,7 @@ namespace Microarea.Common
         //-----------------------------------------------------------------------
         public FileSystemMonitorEngine()
 		{
+            
 			diagnostic.Set(DiagnosticType.LogInfo | DiagnosticType.Warning, "FileSystemMonitorEngine Init");
 			managedExtensions = Strings.ManagedExtensions.Split (';');
 
@@ -175,12 +182,441 @@ namespace Microarea.Common
 
 
 
-		#endregion
+        #endregion
 
-		#region File System Management
+ //       #region File System Management
 
-		//-----------------------------------------------------------------------
-		private bool IsAManagedFile (string fileName)
+        #region metodi per la ceazione dei file globali
+        //---------------------------------------------------------------------
+        private XmlDocument CreateClientDocumentObjectsDocument()
+        {
+            XmlDocument clientDocumentObjectsDocument = new XmlDocument();
+            XmlDeclaration xmlDeclaration = clientDocumentObjectsDocument.CreateXmlDeclaration("1.0", "utf-8", "yes");
+            clientDocumentObjectsDocument.AppendChild(xmlDeclaration);
+
+            return clientDocumentObjectsDocument;
+        }
+        //---------------------------------------------------------------------
+        private XmlDocument CreateBehaviourObjectsDocument()
+        {
+            XmlDocument clientDocumentObjectsDocument = new XmlDocument();
+            XmlDeclaration xmlDeclaration = clientDocumentObjectsDocument.CreateXmlDeclaration("1.0", "utf-8", "yes");
+            clientDocumentObjectsDocument.AppendChild(xmlDeclaration);
+
+            return clientDocumentObjectsDocument;
+        }
+        //-----------------------------------------------------------------------
+        public void MakeGlobalApplicationXmlFiles(TbSession session)
+        {
+            XmlDocument clientDocumentObjectsDocument = CreateClientDocumentObjectsDocument();
+            XmlDocument behaviourObjectsDocument = CreateBehaviourObjectsDocument();
+
+            XmlElement root = clientDocumentObjectsDocument.CreateElement(Strings.Applications);
+            clientDocumentObjectsDocument.AppendChild(root);
+
+            XmlElement rootbeav = behaviourObjectsDocument.CreateElement(Strings.Applications);
+            behaviourObjectsDocument.AppendChild(rootbeav);
+
+            foreach (BaseApplicationInfo aApplication in pathFinder.ApplicationInfos)
+            {
+
+                if (aApplication.ApplicationType != ApplicationType.TaskBuilderApplication && aApplication.ApplicationType != ApplicationType.TaskBuilder)
+                    continue;
+                if (aApplication.Modules == null || aApplication.Modules.Count == 0)
+                    continue;
+
+                //clientdoc
+                XmlElement singleAppclient = clientDocumentObjectsDocument.CreateElement(Strings.Application);
+                singleAppclient.SetAttribute(Strings.AppName, aApplication.Name);
+                root.AppendChild(singleAppclient);
+
+                XmlElement modulesclient = clientDocumentObjectsDocument.CreateElement(Strings.Modules);
+                singleAppclient.AppendChild(modulesclient);
+                //Solo standard
+                LoadClientDocumentObjects(aApplication.Modules, clientDocumentObjectsDocument, modulesclient);
+                
+                //BeavDoc
+                XmlElement singleAppbehaviour = behaviourObjectsDocument.CreateElement(Strings.Application);
+                singleAppbehaviour.SetAttribute(Strings.AppName, aApplication.Name);
+                rootbeav.AppendChild(singleAppbehaviour);
+
+                XmlElement modulebehaviour = behaviourObjectsDocument.CreateElement(Strings.Modules);
+                singleAppbehaviour.AppendChild(modulebehaviour);
+
+                LoadBehaviourObjects(aApplication.Modules, behaviourObjectsDocument, modulebehaviour);
+                ////Standard e custom
+                //LoadDocumentsObjects(aApplication.Modules, behaviourObjectsDocument, modules);
+                ////Standard e custom
+                //LoadDataBaseObjects(aApplication.Modules, behaviourObjectsDocument, modules);
+
+            }
+
+            LoadEnums();
+            LoadFonts();
+            LoadFormatters(session);
+
+            //string fullCustomPath = pathFinder.GetCustomApplicationContainerPath(aApplication.Name, ApplicationType.All);
+            //DirectoryInfo appCustomMenuDirInfo = new DirectoryInfo(fullCustomPath);
+            //if (appCustomMenuDirInfo != null && appCustomMenuDirInfo.Exists)
+            //{
+
+            //}
+            SaveXml(clientDocumentObjectsDocument, @"C:\TBexplorer anna\ClientDocumentObjects.xml");
+            SaveXml(behaviourObjectsDocument, @"C:\TBexplorer anna\BehaviourObjects.xml");
+
+        }
+
+
+        //---------------------------------------------------------------------
+        private XmlDocument LoadDataBaseObjects(ICollection aModules, XmlDocument databaseObjectsDocument, XmlElement modules)
+        {
+            string filePath = string.Empty;
+            DatabaseObjectsInfo databaseObjectsInfo;
+
+            foreach (BaseModuleInfo aModule in modules)
+            {
+                if (aModule.Libraries == null || aModule.Libraries.Count == 0)
+                    continue;
+
+                string databaseObjFile = aModule.GetDatabaseObjectsPath();
+
+                //Oggetto che sa parsare DatabaseObjects.xml
+                databaseObjectsInfo = new DatabaseObjectsInfo(databaseObjFile, aModule);
+
+                //se il file non esiste esco
+                if (!File.Exists(databaseObjFile))
+                    continue;
+
+                databaseObjectsInfo.Parse();
+
+                XmlElement module = databaseObjectsDocument.CreateElement("Module");
+                module.SetAttribute(BehaviourObjectsXML.Attribute.Name, aModule.Name);
+                modules.AppendChild(module);
+
+                XmlElement databaseObjects = databaseObjectsDocument.CreateElement(DataBaseObjectsXML.Element.DatabaseObjects);
+                module.AppendChild(databaseObjects);
+
+                XmlElement signature = databaseObjectsDocument.CreateElement(DataBaseObjectsXML.Element.Signature);
+                signature.InnerText = databaseObjectsInfo.Signature;
+                databaseObjects.AppendChild(signature);
+
+                XmlElement release = databaseObjectsDocument.CreateElement(DataBaseObjectsXML.Element.Release);
+                release.InnerText = databaseObjectsInfo.ProcedureInfoArray.ToString();
+                databaseObjects.AppendChild(release);
+
+                XmlElement tables = databaseObjectsDocument.CreateElement(DataBaseObjectsXML.Element.Tables);
+                databaseObjects.AppendChild(tables);
+
+                XmlElement table;
+                XmlElement create;
+
+                foreach (TableInfo atableInfo in databaseObjectsInfo.TableInfoArray)
+                {
+                    table = databaseObjectsDocument.CreateElement(DataBaseObjectsXML.Element.Table);
+                    table.SetAttribute(DataBaseObjectsXML.Attribute.Name, atableInfo.Namespace);
+                    table.SetAttribute(DataBaseObjectsXML.Attribute.Mastertable , Convert.ToString(atableInfo.MasterTable));
+                    tables.AppendChild(table);
+
+                    create = databaseObjectsDocument.CreateElement(DataBaseObjectsXML.Element.Create);
+                    create.SetAttribute(DataBaseObjectsXML.Attribute.Createstep, atableInfo.Createstep.ToString());
+                    create.SetAttribute(DataBaseObjectsXML.Attribute.Release, atableInfo.Release.ToString());
+                    table.AppendChild(create);
+                }
+
+                XmlElement viewel ;
+                XmlElement views = databaseObjectsDocument.CreateElement(DataBaseObjectsXML.Element.Views);
+                databaseObjects.AppendChild(views);
+
+                foreach (ViewInfo view in databaseObjectsInfo.ViewInfoArray)
+                {
+                    viewel = databaseObjectsDocument.CreateElement(DataBaseObjectsXML.Element.View);
+                    viewel.SetAttribute(DataBaseObjectsXML.Attribute.Name, view.Namespace);
+                    views.AppendChild(viewel);
+
+                    create = databaseObjectsDocument.CreateElement(DataBaseObjectsXML.Element.Create);
+                    create.SetAttribute(DataBaseObjectsXML.Attribute.Createstep, view.Createstep.ToString());
+                    create.SetAttribute(DataBaseObjectsXML.Attribute.Release, view.Release.ToString());
+                    viewel.AppendChild(create);
+                }
+
+            }
+
+            return databaseObjectsDocument;
+        }
+        //---------------------------------------------------------------------
+        private XmlDocument LoadDocumentsObjects(ICollection aModules, XmlDocument documentObjectsDocument, XmlElement modules)
+        {
+            string filePath = string.Empty;
+            DocumentsObjectInfo documentsObjectInfo;
+
+            foreach (BaseModuleInfo aModule in modules)
+            {
+                if (aModule.Libraries == null || aModule.Libraries.Count == 0)
+                    continue;
+
+                filePath = aModule.GetDocumentObjectsPath();
+
+                //se il file non esiste esco
+                if (!File.Exists(filePath))
+                    continue;
+
+                // Oggetto che sa parsare BehaviourObjects.xml
+                documentsObjectInfo = new DocumentsObjectInfo(aModule);
+                documentsObjectInfo.Parse(filePath);
+
+                XmlElement module = documentObjectsDocument.CreateElement("Module");
+                module.SetAttribute(BehaviourObjectsXML.Attribute.Name, aModule.Name);
+                modules.AppendChild(module);
+
+                XmlElement documentObjects = documentObjectsDocument.CreateElement(DocumentsObjectsXML.Element.DocumentObjects);
+                module.AppendChild(documentObjects);
+
+                XmlElement documents = documentObjectsDocument.CreateElement(DocumentsObjectsXML.Element.Documents);
+                documentObjects.AppendChild(documents);
+
+                documentsObjectInfo.UnparseDocuments(documents);
+            }
+            return documentObjectsDocument;
+        }
+        //-----------------------------------------------------------------------
+        private XmlDocument LoadBehaviourObjects(ICollection aModules, XmlDocument behaviourObjectsDocument, XmlElement modules)
+        {
+            string filePath = string.Empty;
+            BehaviourObjectsInfo behaviourObjectsInfo;
+
+            foreach (BaseModuleInfo aModule in aModules)
+            {
+                if (aModule.Libraries == null || aModule.Libraries.Count == 0)
+                    continue;
+
+                filePath = aModule.GetBehaviourObjectsPath();
+
+                // Oggetto che sa parsare BehaviourObjects.xml
+                behaviourObjectsInfo = new BehaviourObjectsInfo(filePath, aModule);
+
+                //se il file non esiste esco
+                if (!File.Exists(filePath))
+                    continue;
+
+                behaviourObjectsInfo.Parse();
+
+                XmlElement module = behaviourObjectsDocument.CreateElement("Module");
+                module.SetAttribute(BehaviourObjectsXML.Attribute.Name, aModule.Name);
+                modules.AppendChild(module);
+
+                XmlElement behaviourObjects = behaviourObjectsDocument.CreateElement(BehaviourObjectsXML.Element.BehaviourObjects);
+                module.AppendChild(behaviourObjects);
+
+                XmlElement entities = behaviourObjectsDocument.CreateElement(BehaviourObjectsXML.Element.Entities);
+                behaviourObjects.AppendChild(entities);
+
+                XmlElement entityEl;
+
+                foreach (Entity entity in behaviourObjectsInfo.Entities)
+                {
+                    entityEl = behaviourObjectsDocument.CreateElement(BehaviourObjectsXML.Element.Entity);
+                    entityEl.SetAttribute(BehaviourObjectsXML.Attribute.Namespace, entity.NameSpace);
+                    entityEl.SetAttribute(BehaviourObjectsXML.Attribute.Localize, entity.Localize);
+                    entityEl.SetAttribute(BehaviourObjectsXML.Attribute.Service, entity.Service);
+
+                    entities.AppendChild(entityEl);
+
+
+                }
+            }
+
+            return behaviourObjectsDocument;
+        }
+        //-----------------------------------------------------------------------
+        private XmlDocument LoadClientDocumentObjects(ICollection aModules, XmlDocument clientDocumentObjectsDocument, XmlElement modules)
+        {
+            string filePath = string.Empty;
+            ClientDocumentsObjectInfo clientDocumentsObjectInfo;
+
+            foreach (BaseModuleInfo aModule in aModules)
+            {
+                if (aModule.Libraries == null || aModule.Libraries.Count == 0)
+                    continue;
+
+                filePath = aModule.GetClientDocumentObjectsPath();
+                if (!File.Exists(filePath))
+                    continue;
+
+                XmlElement module = clientDocumentObjectsDocument.CreateElement("Module");
+                module.SetAttribute(ClientDocumentObjectsXML.Attribute.Name, aModule.Name);
+                modules.AppendChild(module);
+
+                XmlElement clientDocument = clientDocumentObjectsDocument.CreateElement(ClientDocumentObjectsXML.Element.ClientDocumentObjects);
+                module.AppendChild(clientDocument);
+
+                XmlElement clientDocumensts = clientDocumentObjectsDocument.CreateElement(ClientDocumentObjectsXML.Element.ClientDocuments);
+                clientDocument.AppendChild(clientDocumensts);
+
+                clientDocumentsObjectInfo = new ClientDocumentsObjectInfo(filePath, aModule);
+                clientDocumentsObjectInfo.Parse();
+
+                XmlElement serverDocument;
+                XmlElement clientDocumentEl;
+
+                if (clientDocumentsObjectInfo.ServerDocuments != null)
+                {
+                    foreach (ServerDocumentInfo serverdoc in clientDocumentsObjectInfo.ServerDocuments)
+                    {
+                        serverDocument = clientDocumentObjectsDocument.CreateElement(ClientDocumentObjectsXML.Element.ServerDocument);
+                        serverDocument.SetAttribute(ClientDocumentObjectsXML.Attribute.Namespace, serverdoc.NameSpace);
+                        clientDocument.AppendChild(serverDocument);
+
+                        foreach (ClientDocumentInfo clientDoc in serverdoc.ClientDocsInfos)
+                        {
+                            clientDocumentEl = clientDocumentObjectsDocument.CreateElement(ClientDocumentObjectsXML.Element.ClientDocument);
+                            clientDocumentEl.SetAttribute(ClientDocumentObjectsXML.Attribute.Namespace, clientDoc.NameSpace);
+                            clientDocumentEl.SetAttribute(ClientDocumentObjectsXML.Attribute.Localize, clientDoc.Title);
+                            serverDocument.AppendChild(clientDocumentEl);
+                        }
+                    }
+                }
+
+                XmlElement clientFormsEl = clientDocumentObjectsDocument.CreateElement(ClientDocumentObjectsXML.Element.ClientForms);
+                clientDocument.AppendChild(clientFormsEl);
+                XmlElement clientFormEl;
+
+                if (clientDocumentsObjectInfo.ClientForms == null)
+                    continue;
+
+                foreach (ClientFormInfo clientForm in clientDocumentsObjectInfo.ClientForms)
+                {
+                    clientFormEl = clientDocumentObjectsDocument.CreateElement(ClientDocumentObjectsXML.Element.ClientForm);
+                    clientFormEl.SetAttribute(ClientDocumentObjectsXML.Attribute.Server, clientForm.Server);
+                    clientFormEl.SetAttribute(ClientDocumentObjectsXML.Attribute.Name, clientForm.Name);
+                    clientFormsEl.AppendChild(clientFormEl);
+                }
+            }
+
+            return clientDocumentObjectsDocument;
+        }
+
+        //-----------------------------------------------------------------------
+        private void   LoadEnums()
+         {
+            Enums Enums = new Enums();
+            //Leggo gli enumerativi
+            Enums.LoadXml(true);
+            SaveEnumsToXml(Enums, true, true);
+        }
+        //-----------------------------------------------------------------------
+        private void LoadFonts()
+        {
+            ApplicationFontStyles applicationFontStyles = new ApplicationFontStyles(pathFinder);
+            //Leggo gli enumerativi
+            applicationFontStyles.Load();
+            // ora scrivo l ini globale aggiungendo app e modulo
+
+            using (Unparser unparser = new Unparser())
+            {
+                //unparser.Open(reportSession.ReportPath);
+                unparser.Open(@"C:\TBexplorer anna\fonts.ini");
+                applicationFontStyles.Fs.UnparseAll(unparser);
+            }
+        }
+
+        //-----------------------------------------------------------------------
+        private void LoadFormatters(TbSession session)
+        {
+            ApplicationFormatStyles applicationFormatStyles = new ApplicationFormatStyles(session);
+            //Leggo gli enumerativi
+            applicationFormatStyles.Load();
+            // ora scrivo l ini globale aggiungendo app e modulo
+
+            using (Unparser unparser = new Unparser())
+            {
+                //unparser.Open(reportSession.ReportPath);
+                unparser.Open(@"C:\TBexplorer anna\formats.ini");
+                applicationFormatStyles.Fs.UnparseAll(unparser);
+
+            }
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool SaveEnumsToXml(Enums enums, bool localizedVersion, bool useLocalizeAttribute)
+        {
+            XmlDocument dom = new XmlDocument();
+                // root node
+                XmlDeclaration declaration = dom.CreateXmlDeclaration("1.0", "utf-8", "yes");
+                dom.RemoveAll();
+
+                dom.AppendChild(declaration);
+                XmlNode enumsNode = dom.CreateElement(EnumsXml.Element.Enums);
+                dom.AppendChild(enumsNode);
+
+                // aggiunge tutti i tag che trova
+                foreach (EnumTag enumTag in enums.Tags)
+                {
+                    XmlElement tagElement = dom.CreateElement(EnumsXml.Element.Tag);
+
+                    AddAttribute(dom, tagElement, EnumsXml.Attribute.Name, localizedVersion && !useLocalizeAttribute ? enumTag.LocalizedName : enumTag.Name);
+                    AddAttribute(dom, tagElement, EnumsXml.Attribute.Value, enumTag.Value.ToString());
+                    if (localizedVersion && useLocalizeAttribute)
+                        AddAttribute(dom, tagElement, EnumsXml.Attribute.Localized, enumTag.LocalizedName);
+
+                    //gli aggiungo l'Attributo Default se è diverso dal primo
+                    if (enumTag.DefaultValue != enumTag.EnumItems[0].Value)
+                    {
+                        AddAttribute(dom, tagElement, EnumsXml.Attribute.DefaultValue, enumTag.DefaultValue.ToString());
+                    }
+
+                    string description = localizedVersion ? enumTag.LocalizedDescription : enumTag.Description;
+                    if (description != null && description.Length > 0)
+                        tagElement.AppendChild(dom.CreateTextNode(description));
+
+                    // aggiunge tutti gli elementi
+                    foreach (EnumItem enumItem in enumTag.EnumItems)
+                    {
+                        DataEnum de = new DataEnum(enumTag.Value, enumItem.Value);
+                        XmlElement itemElement = dom.CreateElement(EnumsXml.Element.Item);
+
+                        AddAttribute(dom, itemElement, EnumsXml.Attribute.Name, enumItem.Name);
+                        AddAttribute(dom, itemElement, EnumsXml.Attribute.Value, enumItem.Value.ToString());
+                        AddAttribute(dom, itemElement, EnumsXml.Attribute.Stored, de.ToString());
+                        if (localizedVersion && useLocalizeAttribute)
+                            AddAttribute(dom, itemElement, EnumsXml.Attribute.Localized, enumItem.LocalizedName);
+
+                        description = localizedVersion ? enumItem.LocalizedDescription : enumItem.Description;
+                        if (description != null && description.Length > 0)
+                            itemElement.AppendChild(dom.CreateTextNode(description));
+
+                        tagElement.AppendChild(itemElement);
+                    }
+                    enumsNode.AppendChild(tagElement);
+                }
+
+            SaveXml(dom, @"C:\TBexplorer anna\enums.xml");
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------
+        internal void AddAttribute(XmlDocument dom, XmlElement element, string attributeName, string data)
+        {
+            XmlAttribute attribute = dom.CreateAttribute(attributeName);
+            attribute.Value = data;
+            element.Attributes.Append(attribute);
+        }
+
+
+        //-----------------------------------------------------------------------
+        public static void SaveXml(XmlDocument doc, string file) //TODOLUCA, questo sistema di salvataggio è da cambiare
+        {
+            using (FileStream fileStream = new FileStream(file, FileMode.OpenOrCreate))
+            {
+                XmlWriterSettings settings = new XmlWriterSettings() { Indent = true };
+                using (XmlWriter writer = XmlWriter.Create(fileStream, settings))
+                {
+                    doc.Save(writer);
+                }
+            }
+        }
+
+        //-----------------------------------------------------------------------
+        private bool IsAManagedFile (string fileName)
 		{
 			// is a directory
 			FileInfo info = new FileInfo (fileName);
@@ -1170,7 +1606,10 @@ namespace Microarea.Common
 
             // content
             internal static string ManagedExtensions = "*.xml;*.config;*.menu;*.txt;*.ini;*.wrm;*.tbf;*.rad";
-
+            public const string Applications    = "Applications";
+            public const string Application     = "Application";
+            public const string AppName         = "AppName";
+            public const string Modules         = "Modules";
             #endregion
 
             #region Construction and Destruction

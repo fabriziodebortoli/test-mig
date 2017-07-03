@@ -196,7 +196,7 @@ namespace Microarea.Common.Applications
                 //Tutto nuovo
                 //Istanzio
                 Enums = new Enums();
-                ApplicationFontStyles = new ApplicationFontStyles(this);
+                ApplicationFontStyles = new ApplicationFontStyles(BasePathFinder.BasePathFinderInstance);
                 ApplicationFormatStyles = new ApplicationFormatStyles(this);
 
                 //Leggo gli enumerativi
@@ -232,12 +232,16 @@ namespace Microarea.Common.Applications
                 {
                     //Me li associo
                     ApplicationFontStyles = fonts;
-                    ApplicationFontStyles.ReportSession = this;
+                    //LARA
+                    //  ApplicationFontStyles.ReportSession = this;
+                    ApplicationFontStyles.PathFinder = BasePathFinder.BasePathFinderInstance;
                 }
                 else
                 {
                     //Me li ricarico
-                    ApplicationFontStyles = new ApplicationFontStyles(this);
+                    //LARA
+                    // ApplicationFontStyles = new ApplicationFontStyles(this);
+                    ApplicationFontStyles = new ApplicationFontStyles(BasePathFinder.BasePathFinderInstance);
                     ApplicationFontStyles.Load();
                     applicationBag[fontName] = ApplicationFontStyles;
                 }

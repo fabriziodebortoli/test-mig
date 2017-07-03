@@ -199,7 +199,16 @@ namespace Microarea.Common.NameSolver
 		/// </summary>
 		//---------------------------------------------------------------------------
 		public IList Libraries { get {	return ModuleConfigInfo.Libraries; } }
+        //---------------------------------------------------------------------
+        public string GetCustomFontsFullFilename()
+        {
+            string moduleObjPath = GetCustomModuleObjectPath();
 
+            if (moduleObjPath == string.Empty)
+                return string.Empty;
+
+            return moduleObjPath + System.IO.Path.DirectorySeparatorChar + NameSolverStrings.FontsIniFile;
+        }
         //---------------------------------------------------------------------
         public IFunctionPrototype GetFunctionPrototipeByNameSpace(string nameSpace)
         {
@@ -615,6 +624,17 @@ namespace Microarea.Common.NameSolver
                 }
                 return allCompaniesCustomPath;
             }
+        }
+
+        //---------------------------------------------------------------------
+        public string GetCustomFormatsFullFilename()
+        {
+            string moduleObjPath = GetCustomModuleObjectPath();
+
+            if (moduleObjPath == string.Empty)
+                return string.Empty;
+
+            return moduleObjPath + System.IO.Path.DirectorySeparatorChar + NameSolverStrings.FormatsIniFile;
         }
 
         //-------------------------------------------------------------------------------
@@ -1386,14 +1406,15 @@ namespace Microarea.Common.NameSolver
 		}
 
 	}
-	# endregion
+    
+    #endregion
 
-	# region BaseApplicationInfo class
-	/// <summary>
-	/// Incapsula in memoria le informazioni relative ad un'applicazione.
-	/// </summary>
-	//=========================================================================
-	public class BaseApplicationInfo : IBaseApplicationInfo
+    #region BaseApplicationInfo class
+    /// <summary>
+    /// Incapsula in memoria le informazioni relative ad un'applicazione.
+    /// </summary>
+    //=========================================================================
+    public class BaseApplicationInfo : IBaseApplicationInfo
 	{
 		#region Data-Member
 		private readonly object instanceLockTicket = new object();

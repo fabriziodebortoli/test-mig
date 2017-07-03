@@ -177,6 +177,44 @@ namespace Microarea.Menu.Controllers
         }
 
         #endregion vecchio codice
+
+        //-----------------------------------------------------------------------
+        private TbSession CreateTbSession(string sAuthT)
+        {
+
+            if (string.IsNullOrEmpty(sAuthT))
+                return null;
+
+            Microsoft.AspNetCore.Http.ISession hsession = null;
+            try
+            {
+                hsession = HttpContext.Session;
+            }
+            catch (Exception)
+            {
+            }
+
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(hsession, sAuthT);
+
+            UserInfo ui = new UserInfo(loginInfo, sAuthT);
+
+            if (ui == null)
+                return null ;
+            TbSession session = new TbSession(ui, string.Empty);
+
+            return session;
+
+        }
+
+        [Route("MakeGlobalFiles/{currentUserPreferredLanguage}/{serverConnectionPreferredLanguage}")]
+        //-----------------------------------------------------------------------
+        public bool MakeGlobalFiles(string currentUserPreferredLanguage, string serverConnectionPreferredLanguage)
+        {
+            TbSession ts = CreateTbSession(currentUserPreferredLanguage);
+            FileSystemMonitor.Engine.MakeGlobalApplicationXmlFiles(ts);
+            return true;
+        }
+
         //[Route("getdata/{namespace}/{selectiontype}")]
         //public IActionResult GetData(string nameSpace, string selectionType)
         [Route("Init/{authenticationToken}")]
