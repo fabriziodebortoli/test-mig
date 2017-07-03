@@ -28,7 +28,6 @@ export * from './link/link.component';
 export * from './bool-edit/bool-edit.component';
 export * from './state-button/state-button.component';
 export * from './file/file.component';
-
-// export { GridComponent } from './grid/grid.component';
+export * from './grid/grid.component';
 // export { BodyEditComponent } from './body-edit/body-edit.component';
 // export { LinearGaugeComponent } from './charts/linear-gauge/linear-gauge.component';

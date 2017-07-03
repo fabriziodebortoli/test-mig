@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
-
 import { Subscription } from 'rxjs';
 
-import { DataService } from '@taskbuilder/core';
+import { DataService } from './../../../core/services/data.service';
 
 @Component({
   selector: 'tb-grid',

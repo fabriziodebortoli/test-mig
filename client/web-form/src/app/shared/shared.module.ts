@@ -19,8 +19,6 @@ import {
     LinearGaugeComponent
 } from './controls/';
 
-import { GridComponent } from './controls/grid/grid.component';
-
 import { HotlinkComponent } from './controls/hotlink/hotlink.component';
 
 
@@ -39,8 +37,6 @@ const KENDO_UI_MODULES = [
 ];
 
 const TB_COMPONENTS = [
-    GridComponent,
-
     BodyEditComponent, LinearGaugeComponent,
 
     HotlinkComponent
