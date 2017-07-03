@@ -5,7 +5,6 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SharedModule } from '../shared/shared.module';
-import { MenuModule } from '../menu/menu.module';
 
 import { GridModule } from '@progress/kendo-angular-grid';
 import { InputsModule } from '@progress/kendo-angular-inputs';
@@ -35,7 +34,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   imports: [
     CommonModule,
     SharedModule,
-    MenuModule,
     MaterialModule,
     WidgetsModule,
     KENDO_UI_MODULES
