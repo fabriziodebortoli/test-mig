@@ -74,7 +74,7 @@ import {
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent, GridComponent,
-    LinearGaugeComponent
+    LinearGaugeComponent, HotlinkComponent, BodyEditComponent
 } from './controls/';
 export * from './controls';
 const TB_CONTROLS = [
@@ -82,7 +82,7 @@ const TB_CONTROLS = [
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent, GridComponent,
-    LinearGaugeComponent
+    LinearGaugeComponent, HotlinkComponent, BodyEditComponent
 ];
 
 const TB_MODULES = [
