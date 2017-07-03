@@ -10,6 +10,7 @@ import { CommandType, PdfType } from './reporting-studio.model';
 
 import { drawDOM, exportPDF, DrawOptions, Group } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
+import { Subscription } from "rxjs/Subscription";
 
 
 @Injectable()
@@ -22,13 +23,10 @@ export class ReportingStudioService extends DocumentService {
     public message: Subject<any> = new Subject<string>();
 
     @Output() eventNextPage = new EventEmitter<void>();
-    @Output() eventReloadPage = new EventEmitter<void>();
     @Output() eventFirstPage = new EventEmitter<void>();
 
     public savingPdf: boolean = false;
     public totalPages: number;
-    public lastAppendPdfPage: number = 0;
-    public currentPage: number = 0;
     public pdfState: PdfType = PdfType.NOPDF;
     public filePdf = new Group();
     public titleReport: string;
@@ -108,42 +106,14 @@ export class ReportingStudioService extends DocumentService {
         this.showAsk = false;
     }
 
-    loopPdfPage(title: string) {
-        this.titleReport = title;
-        if (this.pdfState === PdfType.SAVINGPDF) {
-            if (this.pageNum === this.totalPages) {
-                this.renderPDF();
-                this.pdfState = PdfType.NOPDF;
-            }
-            else {
-                this.eventNextPage.emit();
-            }
-        }
-    }
-
-    /*public renderPDF() {
-        drawDOM(document.getElementById('rsLayout'))
-            .then((group: Group) => {
-                return exportPDF(group, { multiPage: true });
-         })
-            .then((dataUri) => {
-                saveAs(dataUri, 'export.pdf');
-                this.loopPdfPage();
-            });
-    }*/
-
-    public appendPDF() {
-        drawDOM(document.getElementById('rsLayout'))
+    public async appendPDF() {
+        await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
-                this.loopPdfPage(this.titleReport);
-                 //this.eventNextPage.emit();
             })
-            
-
     }
 
-     public renderPDF() {
+    public renderPDF() {
         drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
@@ -151,8 +121,11 @@ export class ReportingStudioService extends DocumentService {
                     multiPage: true
                 });
             })
-            .then((dataUri) => { saveAs(dataUri, this.titleReport + '.pdf'); });
-        this.eventFirstPage.emit();
+            .then((dataUri) => {
+                saveAs(dataUri, this.titleReport + '.pdf');
+                this.pdfState = PdfType.NOPDF;
+            }).then(()=> this.eventFirstPage.emit());
+
     }
 
 

@@ -35,9 +35,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // ask dialog objects
   public askDialogTemplate: any;
 
-
-
-
   constructor(
     private rsService: ReportingStudioService,
     eventData: EventDataService,
@@ -130,6 +127,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
           this.eventData.model.Title.value = k.page.report_title;
+          this.rsService.titleReport = k.page.report_title;
           this.reportTemplate = k;
           this.RunReport();
           break;
@@ -141,7 +139,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.DATA:
           this.rsService.showAsk = false;
           this.reportData = k;
-          this.rsService.currentPage = k.page.page_number;
           break;
         case CommandType.RUNREPORT:
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
@@ -264,22 +261,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   //--------------------------------------------------
   public startSavePDF() {
-    //this.rsService.lastAppendPdfPage = 0;
-    //this.rsService.pdfState = PdfType.PREPAREDPDF
-    //this.FirstPage();
-    if (this.rsService.pageNum != 1) {
-      this.rsService.pdfState = PdfType.PREPAREDPDF
-      this.FirstPage();
-
-    }
-    else {
-      this.rsService.pdfState = PdfType.SAVINGPDF;
-      this.rsService.loopPdfPage(this.rsService.getTitle());
-      //this.NextPage();
-    }
-
+    this.rsService.pdfState = PdfType.SAVINGPDF;
+    this.FirstPage();
   }
 }
+
 
 
 

@@ -27,27 +27,13 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
   // -----------------------------------------------
   ngOnInit() {
-
     this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
-
-    this.rsService.eventReloadPage.subscribe(() => this.RenderLayout());
   }
 
   // -----------------------------------------------
   ngOnDestroy() {
     this.viewHeightSubscription.unsubscribe();
   }
-
-  // -----------------------------------------------
-  /*ngAfterViewChecked() {
-    if (this.rsService.pdfState === PdfType.SAVINGPDF && this.rsService.lastAppendPdfPage < this.rsService.currentPage) {
-      if (this.rsService.currentPage === this.rsService.totalPages) {
-        this.rsService.renderPDF();
-        return;
-      }
-      this.rsService.lastAppendPdfPage = this.rsService.currentPage;
-    }
-  }*/
 
   // -----------------------------------------------
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
@@ -68,34 +54,32 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       else {
         this.UpdateData();
         if (this.rsService.pdfState == PdfType.SAVINGPDF) {
-          this.rsService.appendPDF();
-          /*if (this.rsService.pageNum === this.rsService.totalPages) {
-                this.rsService.eventFirstPage.emit();
-                this.rsService.renderPDF();
-                this.rsService.pdfState = PdfType.NOPDF;
-          }*/
-
-
-        }
-        if (this.rsService.pdfState == PdfType.PREPAREDPDF) {
-          this.rsService.pdfState = PdfType.SAVINGPDF;
-          this.rsService.loopPdfPage(this.rsService.titleReport);
-          //this.rsService.appendPDF();
+          this.createPDF();
         }
       }
     }
-    /* else {
-   this.layoutStyle = {};
-      this.layoutBackStyle = {};
-      this.objects = [];
-      this.templates = [];
-      
-     }*/
+  }
+
+  // -----------------------------------------------
+  createPDF() {
+    if (this.rsService.pageNum == 1) {
+      this.rsService.eventNextPage.emit();
+      return;
+    }
+
+    this.rsService.appendPDF().then(() => {
+      if (this.rsService.pageNum != this.rsService.totalPages) {
+        this.rsService.eventNextPage.emit();
+      }
+      else {
+        this.rsService.renderPDF();
+      }
+    });
+
   }
 
   // -----------------------------------------------
   RenderLayout() {
-
     if (this.reportTemplate === undefined) {
       return;
     }
@@ -146,7 +130,6 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
   // -----------------------------------------------
   UpdateData() {
-
     if (this.reportData === undefined) {
       return;
     }
@@ -229,7 +212,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       }
     }
 
-    if (this.rsService.pdfState == PdfType.SAVINGPDF || this.rsService.pdfState == PdfType.PREPAREDPDF) {
+    if (this.rsService.pdfState == PdfType.SAVINGPDF) {
       this.layoutBackStyle = {
         'overflow': 'hidden'
       }
