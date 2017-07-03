@@ -1,6 +1,8 @@
 import { Component, OnChanges, AfterViewInit, Input } from '@angular/core';
+
+import { EventDataService } from './../../../core/services/eventdata.service';
+
 import { ControlComponent } from './../control.component';
-import { EventDataService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-time-input',

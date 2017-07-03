@@ -25,9 +25,6 @@ import { PlaceholderComponent } from './controls/placeholder/placeholder.compone
 import { DateInputComponent } from './controls/date-input/date-input.component';
 
 import { EmailComponent } from './controls/email/email.component';
-import { TimeInputComponent } from './controls/time-input/time-input.component';
-import { SectionTitleComponent } from './controls/section-title/section-title.component';
-import { TextareaComponent } from './controls/textarea/textarea.component';
 import { FileComponent } from './controls/file/file.component';
 import { LinkComponent } from './controls/link/link.component';
 import { ComboSimpleComponent } from './controls/combo-simple/combo-simple.component';
@@ -51,10 +48,10 @@ const KENDO_UI_MODULES = [
 
 const TB_COMPONENTS = [
     ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
-    DateInputComponent, StateButtonComponent, TimeInputComponent,
+    DateInputComponent, StateButtonComponent,
     PlaceholderComponent, ImageComponent, ColorPickerComponent,
     BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
-    EmailComponent, SectionTitleComponent, TextareaComponent, FileComponent, ComboSimpleComponent,
+    EmailComponent, FileComponent, ComboSimpleComponent,
     HotlinkComponent
 ];
 

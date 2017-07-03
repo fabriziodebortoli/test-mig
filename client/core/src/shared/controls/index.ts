@@ -12,10 +12,11 @@ export { NumericTextBoxComponent } from './numeric-text-box/numeric-text-box.com
 export { MaskedTextBoxComponent } from './masked-text-box/masked-text-box.component';
 
 
-// export { TextareaComponent } from './textarea/textarea.component';
-// export { TimeInputComponent } from './time-input/time-input.component';
+export * from './section-title/section-title.component';
+export * from './textarea/textarea.component';
+export * from './time-input/time-input.component';
+
 // export { StateButton } from './state-button/state-button.model';
-// export { SectionTitleComponent } from './section-title/section-title.component';
 // export { PlaceholderComponent } from './placeholder/placeholder.component';
 // export { PhoneComponent } from './phone/phone.component';
 // export { PasswordComponent } from './password/password.component';

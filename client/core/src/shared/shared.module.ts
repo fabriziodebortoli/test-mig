@@ -13,9 +13,11 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { InputsModule } from '@progress/kendo-angular-inputs';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 
 const KENDO_UI_MODULES = [
     DialogModule,
+    DateInputsModule,
     InputsModule,
     LayoutModule,
     PopupModule,
@@ -63,12 +65,12 @@ const TB_CONTAINERS = [
  */
 import {
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
-    PhoneComponent, PasswordComponent
+    PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent
 } from './controls/';
 export * from './controls';
 const TB_CONTROLS = [
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
-    PhoneComponent, PasswordComponent
+    PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent
 ];
 
 const TB_MODULES = [
