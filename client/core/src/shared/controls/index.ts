@@ -5,6 +5,8 @@ export * from './numeric-text-box/numeric-text-box.component';
 export * from './label-static/label-static.component';
 export * from './text/text.component';
 export * from './unknown/unknown.component';
+export * from './password/password.component';
+export * from './phone/phone.component';
 export * from './control.component';
 export { NumericTextBoxComponent } from './numeric-text-box/numeric-text-box.component';
 export { MaskedTextBoxComponent } from './masked-text-box/masked-text-box.component';
