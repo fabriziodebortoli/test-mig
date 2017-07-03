@@ -6,8 +6,6 @@ import { SectionTitleComponent } from './section-title/section-title.component';
 import { PlaceholderComponent } from './placeholder/placeholder.component';
 import { PhoneComponent } from './phone/phone.component';
 import { PasswordComponent } from './password/password.component';
-import { NumericTextBoxComponent } from './numeric-text-box/numeric-text-box.component';
-import { MaskedTextBoxComponent } from './masked-text-box/masked-text-box.component';
 import { GridComponent } from './grid/grid.component';
 import { EmailComponent } from './email/email.component';
 import { DateInputComponent } from './date-input/date-input.component';

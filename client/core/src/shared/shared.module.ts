@@ -62,11 +62,11 @@ const TB_CONTAINERS = [
 /**
  */
 import {
-    ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent
+    ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent
 } from './controls/';
 export * from './controls';
 const TB_CONTROLS = [
-    ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent
+    ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent
 ];
 
 const TB_MODULES = [

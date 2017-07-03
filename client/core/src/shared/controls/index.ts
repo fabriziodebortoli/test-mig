@@ -1,9 +1,13 @@
 export * from './caption/caption.component';
 export * from './connection-status/connection-status.component';
+export * from './masked-text-box/masked-text-box.component';
+export * from './numeric-text-box/numeric-text-box.component';
 export * from './label-static/label-static.component';
 export * from './text/text.component';
 export * from './unknown/unknown.component';
 export * from './control.component';
+export { NumericTextBoxComponent } from './numeric-text-box/numeric-text-box.component';
+export { MaskedTextBoxComponent } from './masked-text-box/masked-text-box.component';
 
 
 // export { TextareaComponent } from './textarea/textarea.component';
@@ -13,8 +17,6 @@ export * from './control.component';
 // export { PlaceholderComponent } from './placeholder/placeholder.component';
 // export { PhoneComponent } from './phone/phone.component';
 // export { PasswordComponent } from './password/password.component';
-// export { NumericTextBoxComponent } from './numeric-text-box/numeric-text-box.component';
-// export { MaskedTextBoxComponent } from './masked-text-box/masked-text-box.component';
 // export { GridComponent } from './grid/grid.component';
 // export { EmailComponent } from './email/email.component';
 // export { DateInputComponent } from './date-input/date-input.component';
