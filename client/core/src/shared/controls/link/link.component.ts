@@ -1,10 +1,8 @@
-import { ControlComponent } from './../control.component';
-import { EventDataService } from '@taskbuilder/core';
 import { Component, OnInit, Input, OnChanges, AfterViewInit } from '@angular/core';
 
+import { EventDataService } from './../../../core/services/eventdata.service';
 
-
-
+import { ControlComponent } from './../control.component';
 
 @Component({
   selector: 'tb-link',
