@@ -1,5 +1,6 @@
-import { ControlComponent } from './../control.component';
 import { Component, OnInit } from '@angular/core';
+
+import { ControlComponent } from './../control.component';
 
 @Component({
   selector: 'tb-file',

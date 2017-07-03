@@ -15,13 +15,12 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 
 import {
-    StateButtonComponent, BoolEditComponent, BodyEditComponent,
+    BodyEditComponent,
     LinearGaugeComponent
 } from './controls/';
 
 import { GridComponent } from './controls/grid/grid.component';
 
-import { FileComponent } from './controls/file/file.component';
 import { HotlinkComponent } from './controls/hotlink/hotlink.component';
 
 
@@ -41,9 +40,9 @@ const KENDO_UI_MODULES = [
 
 const TB_COMPONENTS = [
     GridComponent,
-    StateButtonComponent,
-    BoolEditComponent, BodyEditComponent, LinearGaugeComponent,
-    FileComponent,
+
+    BodyEditComponent, LinearGaugeComponent,
+
     HotlinkComponent
 ];
 

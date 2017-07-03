@@ -25,10 +25,10 @@ export * from './enum-combo/enum-combo.component';
 export * from './placeholder/placeholder.component';
 export * from './image/image.component';
 export * from './link/link.component';
+export * from './bool-edit/bool-edit.component';
+export * from './state-button/state-button.component';
+export * from './file/file.component';
 
-// export { StateButton } from './state-button/state-button.model';
 // export { GridComponent } from './grid/grid.component';
-// export { StateButtonComponent } from './state-button/state-button.component';
-// export { BoolEditComponent } from './bool-edit/bool-edit.component';
 // export { BodyEditComponent } from './body-edit/body-edit.component';
 // export { LinearGaugeComponent } from './charts/linear-gauge/linear-gauge.component';

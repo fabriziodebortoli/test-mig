@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { HttpService } from '@taskbuilder/core';
-import { EventDataService } from '@taskbuilder/core';
+
+import { EventDataService } from './../../../core/services/eventdata.service';
+
 import { ControlComponent } from './../control.component';
 
 @Component({
@@ -10,33 +11,32 @@ import { ControlComponent } from './../control.component';
 })
 export class BoolEditComponent extends ControlComponent {
 
-  @Input() yesText:string;
-  @Input() noText:string;
+  @Input() yesText: string;
+  @Input() noText: string;
 
   constructor(private eventData: EventDataService) {
     super();
 
     if (
-      this.yesText == null || 
+      this.yesText == null ||
       this.noText == null ||
       this.yesText.length == 0 ||
-      this.noText.length == 0)
-    {
+      this.noText.length == 0) {
       this.yesText = 'YES';
       this.noText = 'NO';
-    }    
+    }
   }
 
   keyPress(event) {
 
-    let firstYes:string = this.yesText[0].toUpperCase();
-    let localizedCodeYes:any = 'Key' + firstYes;
-    let localizedCodeNo:any = 'Key' + this.noText[0].toUpperCase();
+    let firstYes: string = this.yesText[0].toUpperCase();
+    let localizedCodeYes: any = 'Key' + firstYes;
+    let localizedCodeNo: any = 'Key' + this.noText[0].toUpperCase();
 
     if (
       event.code != localizedCodeYes &&
       event.code != localizedCodeNo
-      ) {
+    ) {
       return;
     }
 
@@ -51,5 +51,5 @@ export class BoolEditComponent extends ControlComponent {
 
   onBlur() {
     this.eventData.change.emit(this.cmpId);
-  }  
+  }
 }

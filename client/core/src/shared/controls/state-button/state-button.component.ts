@@ -1,6 +1,6 @@
-import { StateButton } from './state-button.model';
 import { Component, OnInit, Input } from '@angular/core';
 
+import { StateButton } from './../../models/state-button.model';
 
 @Component({
   selector: 'tb-state-button',
@@ -15,6 +15,6 @@ export class StateButtonComponent implements OnInit {
   ngOnInit() {
   }
 
-onClick(){
-}
+  onClick() {
+  }
 }
