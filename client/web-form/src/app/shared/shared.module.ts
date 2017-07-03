@@ -15,8 +15,8 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 
 import {
-    EnumComboComponent, ImageComponent,
-    ButtonComponent, StateButtonComponent, BoolEditComponent, BodyEditComponent,
+    ImageComponent,
+    StateButtonComponent, BoolEditComponent, BodyEditComponent,
     LinearGaugeComponent
 } from './controls/';
 
@@ -43,7 +43,7 @@ const KENDO_UI_MODULES = [
 ];
 
 const TB_COMPONENTS = [
-    EnumComboComponent, ButtonComponent, GridComponent,
+    GridComponent,
     StateButtonComponent,
     PlaceholderComponent, ImageComponent,
     BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,

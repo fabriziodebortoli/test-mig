@@ -20,12 +20,12 @@ export * from './color-picker/color-picker.component';
 export * from './email/email.component';
 export * from './combo/combo.component';
 export * from './combo-simple/combo-simple.component';
+export * from './button/button.component';
+export * from './enum-combo/enum-combo.component';
 
 // export { StateButton } from './state-button/state-button.model';
 // export { PlaceholderComponent } from './placeholder/placeholder.component';
 // export { GridComponent } from './grid/grid.component';
-// export { ButtonComponent } from './button/button.component';
-// export { EnumComboComponent } from './enum-combo/enum-combo.component';
 // export { StateButtonComponent } from './state-button/state-button.component';
 // export { ImageComponent } from './image/image.component';
 // export { BoolEditComponent } from './bool-edit/bool-edit.component';

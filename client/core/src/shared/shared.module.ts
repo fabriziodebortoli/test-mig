@@ -68,13 +68,13 @@ const TB_CONTAINERS = [
 import {
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
-    RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent
+    RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent
 } from './controls/';
 export * from './controls';
 const TB_CONTROLS = [
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
-    RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent
+    RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent
 ];
 
 const TB_MODULES = [

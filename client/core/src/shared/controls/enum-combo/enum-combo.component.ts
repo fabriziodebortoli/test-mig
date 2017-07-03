@@ -1,10 +1,11 @@
-﻿import { Subscription } from 'rxjs';
-import { EnumsService } from './../../../core/enums.service';
+﻿import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+import { EnumsService } from './../../../core/services/enums.service';
+import { EventDataService } from './../../../core/services/eventdata.service';
+import { WebSocketService } from './../../../core/services/websocket.service';
+
 import { ControlComponent } from './../control.component';
-import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
-import { EventDataService } from '@taskbuilder/core';
-import { DocumentService } from '@taskbuilder/core';
-import { WebSocketService } from '@taskbuilder/core';
 
 @Component({
     selector: 'tb-enum-combo',

@@ -1,6 +1,6 @@
-﻿import { ControlComponent } from './../control.component';
-import { Component, Input } from '@angular/core';
+﻿import { Component, Input } from '@angular/core';
 
+import { ControlComponent } from './../control.component';
 
 @Component({
     selector: 'tb-button',
