@@ -30,4 +30,4 @@ export * from './state-button/state-button.component';
 export * from './file/file.component';
 export * from './grid/grid.component';
 // export { BodyEditComponent } from './body-edit/body-edit.component';
-// export { LinearGaugeComponent } from './charts/linear-gauge/linear-gauge.component';
+export * from './charts/linear-gauge/linear-gauge.component';

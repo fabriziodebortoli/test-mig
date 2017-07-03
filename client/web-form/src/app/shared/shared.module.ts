@@ -15,8 +15,7 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 
 import {
-    BodyEditComponent,
-    LinearGaugeComponent
+    BodyEditComponent
 } from './controls/';
 
 import { HotlinkComponent } from './controls/hotlink/hotlink.component';
@@ -37,7 +36,7 @@ const KENDO_UI_MODULES = [
 ];
 
 const TB_COMPONENTS = [
-    BodyEditComponent, LinearGaugeComponent,
+    BodyEditComponent,
 
     HotlinkComponent
 ];

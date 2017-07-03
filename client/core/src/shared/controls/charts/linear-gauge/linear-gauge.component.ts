@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { HttpService } from '@taskbuilder/core';
-import { EventDataService } from '@taskbuilder/core';
+
+import { EventDataService } from './../../../../core/services/eventdata.service';
+
 import { ControlComponent } from './../../control.component';
 
-const DEFAULT_MAX_RANGE:number = 10;
+const DEFAULT_MAX_RANGE: number = 10;
 
 @Component({
   selector: 'tb-linear-gauge',
@@ -12,14 +13,14 @@ const DEFAULT_MAX_RANGE:number = 10;
 })
 export class LinearGaugeComponent extends ControlComponent implements OnInit {
 
-  @Input() maxRange:number;
+  @Input() maxRange: number;
 
-  public bandColor:string;
-  public bandOpacity:number;
+  public bandColor: string;
+  public bandOpacity: number;
   public rulerAxis: any;
 
   ngOnInit() {
-    
+
     if (this.maxRange == undefined) {
       this.maxRange = DEFAULT_MAX_RANGE;
     }
@@ -28,7 +29,7 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
       min: 0,
       max: this.maxRange,
       plotBands: [{
-          from: 0, to: this.maxRange, color: this.bandColor, opacity: this.bandOpacity
+        from: 0, to: this.maxRange, color: this.bandColor, opacity: this.bandOpacity
       }]
     };
   }
@@ -45,5 +46,5 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
 
   onBlur() {
     this.eventData.change.emit(this.cmpId);
-  }  
+  }
 }
