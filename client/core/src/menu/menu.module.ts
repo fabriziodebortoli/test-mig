@@ -8,11 +8,10 @@ import { Logger } from './../core/services/logger.service';
 import {
     LoginComponent, ApplicationSelectorComponent, FavoritesComponent, MostUsedComponent, GroupSelectorComponent,
     MenuContainerComponent, MenuContentComponent, MenuElementComponent, MenuStepperComponent,
-    ConnectionInfoDialogComponent, ProductInfoDialogComponent
+    ConnectionInfoDialogComponent, ProductInfoDialogComponent, SearchComponent
 } from './components';
 export * from './components';
 
-// import { SearchComponent } from './components/menu/search/search.component';
 // import { MenuComponent } from './components/menu/menu.component';
 
 // import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
@@ -66,8 +65,8 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
         MenuStepperComponent,
         ProductInfoDialogComponent,
         ConnectionInfoDialogComponent,
+        SearchComponent,
         // MenuComponent,
-        // SearchComponent,
         // MenuTabberComponent,
         // MenuTabComponent,
     ],
@@ -81,8 +80,8 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
         MenuContentComponent,
         MenuElementComponent,
         MenuStepperComponent,
+        SearchComponent,
         // MenuComponent,
-        // SearchComponent,
     ],
     providers: [TB_MENU_SERVICES],
     //   entryComponents: [

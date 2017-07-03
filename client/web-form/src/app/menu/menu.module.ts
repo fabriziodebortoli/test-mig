@@ -10,7 +10,6 @@ import { MasonryModule } from 'angular2-masonry';
 
 import { SharedModule } from '../shared/shared.module';
 
-import { SearchComponent } from './components/menu/search/search.component';
 import { MenuComponent } from './components/menu/menu.component';
 
 import { GridModule } from '@progress/kendo-angular-grid';
@@ -51,7 +50,6 @@ const KENDO_UI_MODULES = [
   declarations:
   [
     MenuComponent,
-    SearchComponent,
     MenuTabberComponent,
     MenuTabComponent,
   ],
@@ -59,7 +57,6 @@ const KENDO_UI_MODULES = [
   [
     RouterModule,
     MenuComponent,
-    SearchComponent,
   ]
 })
 export class MenuModule {
