@@ -3,8 +3,6 @@ import { URLSearchParams, Http, Response } from '@angular/http';
 
 import { HttpService } from './http.service';
 
-// import { UserDefaultModule } from './../applications/erp/userdefault/userdefault.module';
-
 @Injectable()
 export class EnumsService {
 

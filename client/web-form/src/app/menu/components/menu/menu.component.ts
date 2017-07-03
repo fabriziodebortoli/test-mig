@@ -1,15 +1,9 @@
-import { Subscription } from 'rxjs';
-import { title } from './../../../reporting-studio/reporting-studio.model';
-import { EnumsService } from './../../../core/enums.service';
 import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { EventDataService, ViewModeType } from '@taskbuilder/core';
+import { title } from './../../../reporting-studio/reporting-studio.model';
 
-import { EventManagerService } from '@taskbuilder/core';
-import { SettingsService } from '@taskbuilder/core';
-import { LocalizationService } from '@taskbuilder/core';
-import { MenuService } from '@taskbuilder/core';
-import { HttpMenuService } from '@taskbuilder/core';
+import { EventDataService, ViewModeType, MenuService, HttpMenuService, LocalizationService, EventManagerService, EnumsService, SettingsService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-menu',
@@ -36,7 +30,7 @@ export class MenuComponent implements OnDestroy {
     private enumsService: EnumsService
   ) {
     this.eventData.model = {
-      Title: { 
+      Title: {
         value: 'Menu'
       },
       viewModeType: ViewModeType.M

@@ -1,19 +1,13 @@
-import { SettingsService } from '@taskbuilder/core';
-import { EnumsService } from './../core/enums.service';
-import { LocalizationService } from '@taskbuilder/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { LayoutService, TabberService, SidenavService, MessageDialogComponent, MessageDlgArgs, ComponentInfo } from '@taskbuilder/core';
-
-import { MenuService } from '@taskbuilder/core';
-
-import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
+import {
+  LoginSessionService, ComponentService, ComponentCreatedArgs, LocalizationService, EnumsService, SettingsService,
+  LayoutService, TabberService, SidenavService, MessageDialogComponent, MessageDlgArgs, ComponentInfo, MenuService
+} from '@taskbuilder/core';
 
 import { environment } from './../../environments/environment';
 
-import { ComponentService, ComponentCreatedArgs } from '@taskbuilder/core';
-
-import { LoginSessionService } from '@taskbuilder/core';
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
 
 @Component({

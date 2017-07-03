@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 
-import { EnumsService } from './enums.service';
 
 import { CoreGuard } from './core.guard';
 
@@ -14,8 +13,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 const TB_SERVICES = [
   CookieService,
-  CoreGuard,
-  EnumsService
+  CoreGuard
 ];
 
 @NgModule({

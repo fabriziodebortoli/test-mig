@@ -6,10 +6,9 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core
  * Tutti i servizi condivisi TB (http, websocket, 
  */
 import {
-    Logger, HttpService, UtilsService, InfoService, LayoutService, SidenavService, TabberService, UrlService, LoginSessionService, WebSocketService, BOService, BOHelperService, ComponentService, DocumentService, ExplorerService, DataService, EventDataService
-    // BOService, BOHelperService, ComponentService, DataService, DocumentService, EnumsService, EventDataService,
-    // ExplorerService, HttpService, InfoService, LayoutService, Logger, LoginSessionService, SidenavService,
-    // TabberService, UrlService, UtilsService, WebSocketService
+    BOService, BOHelperService, ComponentService, DocumentService, DataService, EnumsService,
+    EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger,
+    LoginSessionService, SidenavService, TabberService, UrlService, UtilsService, WebSocketService
 } from './services';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -19,7 +18,7 @@ export * from './services/bohelper.service';
 export * from './services/component.service';
 export * from './services/data.service';
 export * from './services/document.service';
-// export * from './services/enums.service';
+export * from './services/enums.service';
 export * from './services/eventdata.service';
 export * from './services/explorer.service';
 export * from './services/http.service';
@@ -34,15 +33,13 @@ export * from './services/utils.service';
 export * from './services/websocket.service';
 
 export const TB_SERVICES = [
-    CookieService,
-    Logger, HttpService, UtilsService, InfoService, LayoutService, SidenavService, TabberService, UrlService, LoginSessionService, WebSocketService, BOService, BOHelperService, ComponentService, DocumentService, ExplorerService, DataService, EventDataService
-    // BOService, BOHelperService, ComponentService, DataService, DocumentService, EnumsService, EventDataService,
-    // ExplorerService, HttpService, InfoService, LayoutService, Logger, LoginSessionService, SidenavService,
-    // TabberService, UrlService, UtilsService, WebSocketService
+    BOService, BOHelperService, ComponentService, DocumentService, DataService, EnumsService,
+    EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger,
+    LoginSessionService, SidenavService, TabberService, UrlService, UtilsService, WebSocketService
 ];
 
 @NgModule({
-    providers: [TB_SERVICES]
+    providers: [CookieService, TB_SERVICES]
 })
 export class TbCoreModule {
     static forRoot(): ModuleWithProviders {

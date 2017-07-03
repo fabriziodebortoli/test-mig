@@ -3,7 +3,7 @@ export * from './bohelper.service';
 export * from './component.service';
 export * from './data.service';
 export * from './document.service';
-// export * from './enums.service';
+export * from './enums.service';
 export * from './eventdata.service';
 export * from './explorer.service';
 export * from './http.service';
