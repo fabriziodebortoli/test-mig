@@ -1,10 +1,11 @@
-import { Subscription } from 'rxjs';
-import { ControlComponent } from './../control.component';
 import { Component, Input, OnChanges, OnInit, AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
-import { EnumsService } from './../../../core/enums.service';
-import { EventDataService } from '@taskbuilder/core';
-import { DocumentService } from '@taskbuilder/core';
-import { WebSocketService } from '@taskbuilder/core';
+import { Subscription } from 'rxjs';
+
+import { EventDataService } from './../../../core/services/eventdata.service';
+import { WebSocketService } from './../../../core/services/websocket.service';
+
+import { ControlComponent } from './../control.component';
+
 
 @Component({
     selector: 'tb-combo',

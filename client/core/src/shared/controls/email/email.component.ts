@@ -1,6 +1,9 @@
-import { ControlComponent } from './../control.component';
 import { Component, Input, OnInit, OnChanges, AfterViewInit } from '@angular/core';
-import { EventDataService } from '@taskbuilder/core';
+
+import { EventDataService } from './../../../core/services/eventdata.service';
+
+import { ControlComponent } from './../control.component';
+
 
 @Component({
   selector: 'tb-email',

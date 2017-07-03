@@ -15,19 +15,16 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 
 import {
-    ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
-    CheckBoxComponent, ButtonComponent, StateButtonComponent, ColorPickerComponent, BoolEditComponent, BodyEditComponent,
+    EnumComboComponent, ImageComponent,
+    ButtonComponent, StateButtonComponent, BoolEditComponent, BodyEditComponent,
     LinearGaugeComponent
 } from './controls/';
 
 import { GridComponent } from './controls/grid/grid.component';
 import { PlaceholderComponent } from './controls/placeholder/placeholder.component';
 
-import { EmailComponent } from './controls/email/email.component';
 import { FileComponent } from './controls/file/file.component';
 import { LinkComponent } from './controls/link/link.component';
-import { ComboSimpleComponent } from './controls/combo-simple/combo-simple.component';
-
 import { HotlinkComponent } from './controls/hotlink/hotlink.component';
 
 
@@ -46,11 +43,11 @@ const KENDO_UI_MODULES = [
 ];
 
 const TB_COMPONENTS = [
-    ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
+    EnumComboComponent, ButtonComponent, GridComponent,
     StateButtonComponent,
-    PlaceholderComponent, ImageComponent, ColorPickerComponent,
+    PlaceholderComponent, ImageComponent,
     BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
-    EmailComponent, FileComponent, ComboSimpleComponent,
+    FileComponent,
     HotlinkComponent
 ];
 

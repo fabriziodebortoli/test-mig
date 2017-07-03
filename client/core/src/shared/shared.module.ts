@@ -14,10 +14,12 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 const KENDO_UI_MODULES = [
     DialogModule,
     DateInputsModule,
+    DropDownsModule,
     InputsModule,
     LayoutModule,
     PopupModule,
@@ -65,12 +67,14 @@ const TB_CONTAINERS = [
  */
 import {
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
-    PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent
+    PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
+    RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent
 } from './controls/';
 export * from './controls';
 const TB_CONTROLS = [
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
-    PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent
+    PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
+    RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent
 ];
 
 const TB_MODULES = [
