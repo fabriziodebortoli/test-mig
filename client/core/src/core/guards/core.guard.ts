@@ -2,10 +2,8 @@ import { Inject, forwardRef } from '@angular/core';
 import { CanActivate, UrlSegment, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { environment } from './../../environments/environment';
-
-import { InfoService } from '@taskbuilder/core';
-import { LoginSessionService } from '@taskbuilder/core';
+import { InfoService } from './../services/info.service';
+import { LoginSessionService } from './../services/login-session.service';
 
 export class CoreGuard implements CanActivate {
 

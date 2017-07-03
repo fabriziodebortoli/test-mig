@@ -38,14 +38,18 @@ export const TB_SERVICES = [
     LoginSessionService, SidenavService, TabberService, UrlService, UtilsService, WebSocketService
 ];
 
+import { CoreGuard } from './guards';
+export * from './guards';
+export const TB_GUARDS = [CoreGuard];
+
 @NgModule({
-    providers: [CookieService, TB_SERVICES]
+    providers: [CookieService, TB_SERVICES, TB_GUARDS]
 })
 export class TbCoreModule {
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: TbCoreModule,
-            providers: [TB_SERVICES]
+            providers: [CookieService, TB_SERVICES, TB_GUARDS]
         };
     }
     constructor( @Optional() @SkipSelf() parentModule: TbCoreModule) {

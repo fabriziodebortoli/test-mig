@@ -5,15 +5,12 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 
 
-import { CoreGuard } from './core.guard';
-
 import 'hammerjs';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 const TB_SERVICES = [
-  CookieService,
-  CoreGuard
+  CookieService
 ];
 
 @NgModule({

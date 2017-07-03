@@ -5,7 +5,7 @@ import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { CoreGuard } from './core/core.guard';
+import { CoreGuard } from '@taskbuilder/core';
 
 import { PageNotFoundComponent } from '@taskbuilder/core';
 import { UnsupportedFactoryComponent } from './unsupported.component';
