@@ -12,9 +12,11 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { InputsModule } from '@progress/kendo-angular-inputs';
 
 const KENDO_UI_MODULES = [
     DialogModule,
+    InputsModule,
     LayoutModule,
     PopupModule,
     ButtonsModule
@@ -60,10 +62,11 @@ const TB_CONTAINERS = [
 /**
  */
 import {
-    ConnectionStatusComponent
+    ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent
 } from './controls/';
+export * from './controls';
 const TB_CONTROLS = [
-    ConnectionStatusComponent
+    ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent
 ];
 
 const TB_MODULES = [

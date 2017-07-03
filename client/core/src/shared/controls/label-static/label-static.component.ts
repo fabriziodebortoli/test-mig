@@ -1,5 +1,6 @@
-import { TextComponent } from './../text/text.component';
 import { Component, OnInit, Input } from '@angular/core';
+
+import { TextComponent } from './../text/text.component';
 import { ControlComponent } from './../control.component';
 
 @Component({

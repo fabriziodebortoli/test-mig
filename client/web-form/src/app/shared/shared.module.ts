@@ -15,8 +15,8 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 
 import {
-    CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
-    CheckBoxComponent, ButtonComponent, StateButtonComponent, TextComponent, ColorPickerComponent, BoolEditComponent, UnknownComponent, BodyEditComponent,
+    ComboComponent, EnumComboComponent, RadioComponent, ImageComponent,
+    CheckBoxComponent, ButtonComponent, StateButtonComponent, ColorPickerComponent, BoolEditComponent, BodyEditComponent,
     LinearGaugeComponent
 } from './controls/';
 
@@ -26,7 +26,6 @@ import { PasswordComponent } from './controls/password/password.component';
 import { MaskedTextBoxComponent } from './controls/masked-text-box/masked-text-box.component';
 import { NumericTextBoxComponent } from './controls/numeric-text-box/numeric-text-box.component';
 import { DateInputComponent } from './controls/date-input/date-input.component';
-import { LabelStaticComponent } from './controls/label-static/label-static.component';
 
 import { PhoneComponent } from './controls/phone/phone.component';
 import { EmailComponent } from './controls/email/email.component';
@@ -55,9 +54,8 @@ const KENDO_UI_MODULES = [
 ];
 
 const TB_COMPONENTS = [
-    UnknownComponent,
-    CaptionComponent, ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
-    DateInputComponent, StateButtonComponent, TextComponent, LabelStaticComponent, TimeInputComponent,
+    ComboComponent, EnumComboComponent, RadioComponent, CheckBoxComponent, ButtonComponent, GridComponent,
+    DateInputComponent, StateButtonComponent, TimeInputComponent,
     PlaceholderComponent, PasswordComponent, MaskedTextBoxComponent, NumericTextBoxComponent,
     ImageComponent, ColorPickerComponent,
     BoolEditComponent, BodyEditComponent, LinkComponent, LinearGaugeComponent,
