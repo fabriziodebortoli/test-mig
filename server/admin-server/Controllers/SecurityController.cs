@@ -75,12 +75,12 @@ namespace Microarea.AdminServer.Controllers
                 IAccount account = new Account(credentials.AccountName);
                 account.SetDataProvider(_accountSqlDataProvider);
                 account.Load();
-                //--------------------------------
+
                 // L'account esiste sul db locale
                 if (account.ExistsOnDB)
                 {
                     AuthorizationInfo authInfo = new AuthorizationInfo(AuthorizationInfo.TypeAppName, _settings.InstanceIdentity.InstanceKey, "ju23ff-KOPP-0911-ila");
-                    // Chiedo al gwam se qualcosa e modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
+                    // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
                     Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks),authInfo);
 
                     // Used as a container for the GWAM response.
