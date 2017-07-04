@@ -530,11 +530,10 @@ namespace Microarea.Common.Generic
             }
             return isMatch && endOfPattern;
         }
-    }
 
-    //---------------------------------------------------------------------
-    // Converte un carattere hex nel valore
-    private static char[] baseHex = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+        //---------------------------------------------------------------------
+        // Converte un carattere hex nel valore
+        private static char[] baseHex = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 		//--------------------------------------------------------------------------------
 		static byte HexDigit(char i)
