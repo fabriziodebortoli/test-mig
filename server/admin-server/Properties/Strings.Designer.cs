@@ -125,7 +125,7 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An unexpected exception occurred..
+        ///   Looks up a localized string similar to An unexpected exception occurred {0}.
         /// </summary>
         public static string ExceptionOccurred {
             get {
@@ -427,6 +427,15 @@ namespace Microarea.AdminServer.Properties {
         public static string UserUpToDate {
             get {
                 return ResourceManager.GetString("UserUpToDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Token is valid.
+        /// </summary>
+        public static string ValidToken {
+            get {
+                return ResourceManager.GetString("ValidToken", resourceCulture);
             }
         }
     }

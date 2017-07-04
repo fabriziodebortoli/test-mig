@@ -139,7 +139,7 @@
     <value>The user is empty</value>
   </data>
   <data name="ExceptionOccurred" xml:space="preserve">
-    <value>An unexpected exception occurred.</value>
+    <value>An unexpected exception occurred {0}</value>
   </data>
   <data name="GwamDislikes" xml:space="preserve">
     <value>GWAM doesn't like this. Why?</value>
@@ -239,5 +239,8 @@
   </data>
   <data name="UserUpToDate" xml:space="preserve">
     <value>User up to date</value>
+  </data>
+  <data name="ValidToken" xml:space="preserve">
+    <value>Token is valid</value>
   </data>
 </root>
