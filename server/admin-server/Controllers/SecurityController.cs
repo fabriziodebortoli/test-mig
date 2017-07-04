@@ -1,5 +1,6 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Controllers.Helpers.Tokens;
+using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Library;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
@@ -29,7 +30,6 @@ namespace Microarea.AdminServer.Controllers
         IJsonHelper _jsonHelper;
         IHttpHelper _httpHelper;
         string GWAMUrl;
-
 
         //-----------------------------------------------------------------------------	
         public SecurityController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper, IHttpHelper httpHelper)
@@ -174,8 +174,36 @@ namespace Microarea.AdminServer.Controllers
             }
         }
 
-        //----------------------------------------------------------------------
-        private IActionResult SetErrorResponse(BootstrapTokenContainer bootstrapTokenContainer, int code, string message, int statuscode = 200)
+		/// <summary>
+		/// Check a token
+		/// </summary>
+		/// <returns>
+		/// OperationResult
+		/// </returns>
+		[HttpPost("api/token")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiCheckToken(string token)
+		{
+			OperationResult opRes = new OperationResult();
+
+			try
+			{
+				opRes = SecurityManager.ValidateToken(token, _settings.SecretsKeys.TokenHashingKey);
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+			catch (Exception e)
+			{
+				opRes.Result = false;
+				opRes.Code = (int)AppReturnCodes.ExceptionOccurred;
+				opRes.Message = string.Format(Strings.ExceptionOccurred, e.Message);
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+		}
+
+		//----------------------------------------------------------------------
+		private IActionResult SetErrorResponse(BootstrapTokenContainer bootstrapTokenContainer, int code, string message, int statuscode = 200)
         {
 			bootstrapTokenContainer.SetResult(false, code, message);
             return SetResponse(bootstrapTokenContainer, statuscode);
@@ -233,8 +261,6 @@ namespace Microarea.AdminServer.Controllers
 
             return iInstance.LoadURLs();
         }
-
-      
 
         //----------------------------------------------------------------------
         private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)
