@@ -265,7 +265,9 @@ namespace Microarea.AdminServer.Controllers
         private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod, AuthorizationInfo authInfo)
         {
             string authHeader = JsonConvert.SerializeObject(authInfo);
-            OperationResult opRes = await _httpHelper.PostDataAsync(this.GWAMUrl + "accounts/" + accMod.AccountName + "/" + accMod.Ticks, new List<KeyValuePair<string, string>>(), authHeader);
+            OperationResult opRes = await _httpHelper.PostDataAsync(
+				this.GWAMUrl + "accounts/" + accMod.AccountName + "/" + accMod.Ticks, 
+				new List<KeyValuePair<string, string>>(), authHeader);
             return (Task<string>)opRes.Content;
         }
 
