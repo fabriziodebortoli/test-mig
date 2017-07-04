@@ -42,7 +42,20 @@ namespace Microarea.AdminServer.Controllers.Helpers
 				case 15:
 					return Strings.ExceptionOccurred;
 				case 16:
-					return Strings.SubscriptionKeyEmpty;
+					return Strings.TicksCannotBeEmpty;
+				case 17:
+					return Strings.UserIsExpired;
+				case 18:
+					return Strings.UserDisabled; 
+				case 19:
+					return Strings.UserLocked; 
+				case 20:
+					return Strings.InstanceKeyEmpty;
+				case 21:
+					return Strings.InvalidToken;
+				case 22:
+					return Strings.SuspectedToken;
+
 				default:
 					return Strings.UnknownError;
 			}

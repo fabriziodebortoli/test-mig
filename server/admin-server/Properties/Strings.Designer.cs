@@ -152,6 +152,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to InstanceKey is empty.
+        /// </summary>
+        public static string InstanceKeyEmpty {
+            get {
+                return ResourceManager.GetString("InstanceKeyEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Instance is not valid for this subscription.
         /// </summary>
         public static string InstanceNotValid {
@@ -184,6 +193,15 @@ namespace Microarea.AdminServer.Properties {
         public static string InvalidCredentials {
             get {
                 return ResourceManager.GetString("InvalidCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Token.
+        /// </summary>
+        public static string InvalidToken {
+            get {
+                return ResourceManager.GetString("InvalidToken", resourceCulture);
             }
         }
         
@@ -323,6 +341,24 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Token might be corrupted.
+        /// </summary>
+        public static string SuspectedToken {
+            get {
+                return ResourceManager.GetString("SuspectedToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ticks cannot be empty.
+        /// </summary>
+        public static string TicksCannotBeEmpty {
+            get {
+                return ResourceManager.GetString("TicksCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Undefined.
         /// </summary>
         public static string Undefined {
@@ -350,11 +386,38 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User is disabled.
+        /// </summary>
+        public static string UserDisabled {
+            get {
+                return ResourceManager.GetString("UserDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User is expired.
+        /// </summary>
+        public static string UserIsExpired {
+            get {
+                return ResourceManager.GetString("UserIsExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User loaded.
         /// </summary>
         public static string UserLoaded {
             get {
                 return ResourceManager.GetString("UserLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User is locked.
+        /// </summary>
+        public static string UserLocked {
+            get {
+                return ResourceManager.GetString("UserLocked", resourceCulture);
             }
         }
         
