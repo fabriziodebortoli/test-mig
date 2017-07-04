@@ -6,7 +6,7 @@ namespace Microarea.AdminServer.Model
 {
     public class SecurityToken : ISecurityToken
     {
-        string accountName = null;
+        string accountName = String.Empty;
         TokenType tokenType = 0;
         string token = Guid.Empty.ToString();
         bool expired = true;
@@ -79,6 +79,11 @@ namespace Microarea.AdminServer.Model
                 
                 return !expired;
             }
+        }
+        //---------------------------------------------------------------------
+        public static SecurityToken Empty
+        {
+            get { return new SecurityToken(); }
         }
     }
 }

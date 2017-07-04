@@ -86,6 +86,7 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public IAdminModel Load()
         {
+            //if(this.dataProvider == null) ????
             return this.dataProvider.Load(this);
         }
 

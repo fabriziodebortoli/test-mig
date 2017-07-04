@@ -2,9 +2,9 @@
 using Microarea.AdminServer.Model;
 using System;
 using System.Collections.Generic;
-using Newtonsoft;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
+using Microarea.AdminServer.Controllers;
 using System.Text;
 
 namespace Microarea.AdminServer.Controllers.Helpers
@@ -17,21 +17,52 @@ namespace Microarea.AdminServer.Controllers.Helpers
 		bool result;
 		int resultCode;
 		DateTime expirationDate;
-		
+        // Durata del token in minuti.
+        int defaultTokenDuration = 5;		
 		public DateTime ExpirationDate { get => expirationDate; set => expirationDate = value; }
 		public bool Result { get => result; set => result = value; }
 		public string Message { get => message; set => message = value; }
 		public int ResultCode { get => resultCode; set => resultCode = value; }
 		public string JwtToken { get => jwtToken; set => jwtToken = value; }
 
-		public BootstrapTokenContainer()
+        public BootstrapTokenContainer()
 		{
 			this.expirationDate = DateTime.MinValue;
 			this.result = false;
 			this.message = String.Empty;
 			this.resultCode = -1;
 		}
-	}
+
+        //--------------------------------------------------------------------------------
+        internal void SetError( int resultcode, string message)
+        {
+            Result = false;
+            ResultCode = resultcode;
+            Message = message;
+        }
+
+        //--------------------------------------------------------------------------------
+        internal void SetSuccess( int resultcode, string message, BootstrapToken t)
+        {
+            Result = true; 
+            ResultCode = resultcode;
+            Message = message;
+            ExpirationDate = DateTime.Now.AddMinutes(defaultTokenDuration);
+            if (t != null) jwtToken = GenerateJWTToken(t);
+        }
+
+        //----------------------------------------------------------------------
+        private string GenerateJWTToken(BootstrapToken bootstrapToken)
+        {
+            JWTToken jwtToken = new JWTToken();
+            JWTTokenHeader jWTTokenHeader = new JWTTokenHeader();
+            jWTTokenHeader.alg = "HS256";
+            jWTTokenHeader.typ = "JWT";
+            jwtToken.header = jWTTokenHeader;
+            jwtToken.payload = bootstrapToken;
+            return jwtToken.GetToken();
+        }
+    }
 
 	//================================================================================
 	public class JWTToken
