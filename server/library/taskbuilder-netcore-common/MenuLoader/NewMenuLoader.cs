@@ -65,8 +65,8 @@ namespace Microarea.Common.MenuLoader
 			XmlDocument doc = null;
 			try
 			{
-				LoginManager.LoginManagerInstance.GetLoginInformation(authenticationToken);
-				MenuLoader menuLoader = new MenuLoader(pf, LoginManager.LoginManagerInstance, true);
+                LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+                MenuLoader menuLoader = new MenuLoader(pf, LoginManager.LoginManagerInstance, true);
 				menuLoader.LoadAllMenus(false, false);
 				doc = menuLoader.ProcessMenu();
 			}
@@ -274,7 +274,7 @@ namespace Microarea.Common.MenuLoader
 				return string.Empty;
 
 			CultureInfo ci = new CultureInfo("en");
-			LoginManager.LoginManagerInstance.GetLoginInformation(token);
+			
 			LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(token);
 			if (session != null && !string.IsNullOrEmpty(session.PreferredLanguage))
 				ci = new CultureInfo(session.PreferredLanguage);
@@ -633,8 +633,6 @@ namespace Microarea.Common.MenuLoader
 
 
 			// la chiamata di questo metodo mi serve per caricare l'informazione EasyBuilderDeveloper
-
-			LoginFacilities.loginManager.GetLoginInformation(authenticationToken);
 			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
 			StringBuilder sb = new StringBuilder();
 			using (StringWriter sw = new StringWriter(sb))
@@ -707,8 +705,6 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------
 		public static string GetJsonProductInfo(string authenticationToken)
 		{
-
-			LoginManager.LoginManagerInstance.GetLoginInformation(authenticationToken);
 			LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
 			StringBuilder sb = new StringBuilder();
 			using (StringWriter sw = new StringWriter(sb))
@@ -791,10 +787,11 @@ namespace Microarea.Common.MenuLoader
 			if (theme == null)
 				return string.Empty;
 
-			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+            LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+            if (loginManagerSession == null)
+                return string.Empty;
 
-
-			StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 			using (StringWriter sw = new StringWriter(sb))
 			{
 				JsonWriter jsonWriter = new JsonTextWriter(sw);

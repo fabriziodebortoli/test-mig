@@ -56,22 +56,21 @@ namespace Microarea.TbLoaderGate
 
 		public static async Task<String> ReadString(WebSocket ws)
 		{
-			ArraySegment<Byte> buffer = new ArraySegment<byte>(new Byte[4096]);
+            ArraySegment<Byte> buffer = new ArraySegment<byte>(new Byte[4096]);
 
 			WebSocketReceiveResult result = null;
-
 			using (var ms = new MemoryStream())
 			{
 				do
 				{
 					result = await ws.ReceiveAsync(buffer, CancellationToken.None);
-					if (result.MessageType != WebSocketMessageType.Text)
-						return "";
-					ms.Write(buffer.Array, buffer.Offset, result.Count);
+                    ms.Write(buffer.Array, buffer.Offset, result.Count);
 				}
-				while (!result.EndOfMessage);
+				while (!result.EndOfMessage && ws.State == WebSocketState.Open);
+                if (result.MessageType != WebSocketMessageType.Text)
+                    return "";
 
-				ms.Seek(0, SeekOrigin.Begin);
+                ms.Seek(0, SeekOrigin.Begin);
 
 				using (var reader = new StreamReader(ms, Encoding.UTF8))
 					return reader.ReadToEnd();
