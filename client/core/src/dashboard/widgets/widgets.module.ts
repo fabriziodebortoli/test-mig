@@ -1,9 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
-import { GridModule } from '@progress/kendo-angular-grid';
-import { ChartsModule } from '@progress/kendo-angular-charts';
 
 import { TbSharedModule } from './../../shared/shared.module';
 
@@ -17,9 +13,7 @@ import { WidgetChartComponent } from './widget-chart.component';
 @NgModule({
   imports: [
     CommonModule,
-    TbSharedModule,
-    GridModule,
-    ChartsModule
+    TbSharedModule
   ],
   declarations: [
     WidgetContainerComponent,

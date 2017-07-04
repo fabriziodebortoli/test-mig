@@ -116,7 +116,7 @@ const TB_DIRECTIVES = [
 @NgModule({
     imports: [TB_MODULES, KENDO_UI_MODULES],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
-    exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
+    exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, KENDO_UI_MODULES],
     entryComponents: [UnsupportedComponent]
 })
 export class TbSharedModule { }
