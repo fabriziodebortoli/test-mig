@@ -1,24 +1,24 @@
-﻿using System;
+﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Controllers.Helpers.Tokens;
+using Microarea.AdminServer.Libraries;
+using Microarea.AdminServer.Library;
+using Microarea.AdminServer.Model;
+using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Properties;
+using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.Providers;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microarea.AdminServer.Controllers.Helpers;
-using Microarea.AdminServer.Library;
-using Microarea.AdminServer.Services;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Options;
-using Microarea.AdminServer.Services.Providers;
-using Microarea.AdminServer.Model.Interfaces;
-using Newtonsoft.Json;
-using Microarea.AdminServer.Model;
-using Microarea.AdminServer.Properties;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Microarea.AdminServer.Controllers
 {
-    //-----------------------------------------------------------------------------	
-    public class SecurityController : Controller
+	//-----------------------------------------------------------------------------	
+	public class SecurityController : Controller
     {
         private IHostingEnvironment _env;
         AppOptions _settings;
@@ -30,7 +30,6 @@ namespace Microarea.AdminServer.Controllers
         IJsonHelper _jsonHelper;
         IHttpHelper _httpHelper;
         string GWAMUrl;
-
 
         //-----------------------------------------------------------------------------	
         public SecurityController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper, IHttpHelper httpHelper)
@@ -98,7 +97,7 @@ namespace Microarea.AdminServer.Controllers
                         // Se non fosse ExistsOnDB vuol dire che il tick corrisponde, non suona bene ma è così, forse dovrebbe tornare un codice da valutare.
                         if (accountIdentityPack.Account.ExistsOnDB)
                         { 
-                            // Salvo l Account in locale.
+                            // Salvo l'Account in locale.
                             account = accountIdentityPack.Account;
                             account.Save(); 
                         }
@@ -112,7 +111,7 @@ namespace Microarea.AdminServer.Controllers
 
                     if (res != LoginReturnCodes.NoError)
                     {
-                        return SetErrorResponse(bootstrapTokenContainer, (int)res, res.ToString());              
+                        return SetErrorResponse(bootstrapTokenContainer, (int)res, Strings.OK);
                     }
                     // Valorizzo il bootstraptoken per la risposta
                     if (!ValorizeBootstrapToken(accountIdentityPack, bootstrapToken))
@@ -176,18 +175,45 @@ namespace Microarea.AdminServer.Controllers
             }
         }
 
+		/// <summary>
+		/// Check a token
+		/// </summary>
+		/// <returns>
+		/// OperationResult
+		/// </returns>
+		[HttpPost("api/token")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiCheckToken(string token)
+		{
+			OperationResult opRes = new OperationResult();
 
-        //----------------------------------------------------------------------
-        private IActionResult SetErrorResponse(BootstrapTokenContainer bootstrapTokenContainer, int code, string message, int statuscode = 200)
+			try
+			{
+				opRes = SecurityManager.ValidateToken(token, _settings.SecretsKeys.TokenHashingKey);
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+			catch (Exception e)
+			{
+				opRes.Result = false;
+				opRes.Code = (int)AppReturnCodes.ExceptionOccurred;
+				opRes.Message = string.Format(Strings.ExceptionOccurred, e.Message);
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+		}
+
+		//----------------------------------------------------------------------
+		private IActionResult SetErrorResponse(BootstrapTokenContainer bootstrapTokenContainer, int code, string message, int statuscode = 200)
         {
-            bootstrapTokenContainer.SetError(code, message);
+			bootstrapTokenContainer.SetResult(false, code, message);
             return SetResponse(bootstrapTokenContainer, statuscode);
         }
 
         //----------------------------------------------------------------------
-        private IActionResult SetSuccessResponse(BootstrapTokenContainer bootstrapTokenContainer,BootstrapToken t, string message)
+        private IActionResult SetSuccessResponse(BootstrapTokenContainer bootstrapTokenContainer, BootstrapToken token, string message)
         {
-            bootstrapTokenContainer.SetSuccess((int)LoginReturnCodes.NoError, message, t);
+            bootstrapTokenContainer.SetResult(true, (int)LoginReturnCodes.NoError, message, token, _settings.SecretsKeys.TokenHashingKey);
             return SetResponse(bootstrapTokenContainer,200);
         }
 
@@ -201,9 +227,17 @@ namespace Microarea.AdminServer.Controllers
         //----------------------------------------------------------------------
         private bool ValorizeBootstrapToken(AccountIdentityPack accountIP, BootstrapToken bootstrapToken)
         {
-            if (accountIP == null || accountIP.Account == null) return false;
+			if (accountIP == null || accountIP.Account == null)
+			{
+				return false;
+			}
+
             UserTokens t = CreateTokens(accountIP.Account);
-            if (t == null) return false;
+
+			if (t == null)
+			{
+				return false;
+			}
 
             bootstrapToken.AccountName = accountIP.Account.AccountName;
             bootstrapToken.UserTokens = t;
