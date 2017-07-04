@@ -41,7 +41,9 @@ namespace Microarea.AdminServer.Services.Providers
 							{
                                 instance.InstanceKey = dataReader["InstanceKey"] as string;
                                 instance.Description = dataReader["Description"] as string;
-								instance.Disabled = (bool)dataReader["Disabled"];
+                                instance.Description = dataReader["Origin"] as string;
+                                instance.Description = dataReader["Tags"] as string;
+                                instance.Disabled = (bool)dataReader["Disabled"];
 								instance.ExistsOnDB = true;
 							}
 						}
@@ -122,8 +124,10 @@ namespace Microarea.AdminServer.Services.Providers
 						command.CommandText = existInstance ? Consts.UpdateInstance : Consts.InsertInstance;
 						command.Parameters.AddWithValue("@Description", instance.Description);
 						command.Parameters.AddWithValue("@Disabled", instance.Disabled);
+                        command.Parameters.AddWithValue("@Origin", instance.Origin);
+                        command.Parameters.AddWithValue("@Tags", instance.Tags);
 
-						if (existInstance)
+                        if (existInstance)
 							command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 
 						command.ExecuteNonQuery();

@@ -79,9 +79,10 @@ namespace Microarea.AdminServer.Controllers
                 // L'account esiste sul db locale
                 if (account.ExistsOnDB)
                 {
+                    //TODO SECURITYKEY CABLATO
                     AuthorizationInfo authInfo = new AuthorizationInfo(AuthorizationInfo.TypeAppName, _settings.InstanceIdentity.InstanceKey, "ju23ff-KOPP-0911-ila");
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks),authInfo);
+                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), authInfo);
 
                     // Used as a container for the GWAM response.
                     AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
@@ -227,8 +228,6 @@ namespace Microarea.AdminServer.Controllers
 
             return iInstance.LoadURLs();
         }
-
-      
 
         //----------------------------------------------------------------------
         private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)

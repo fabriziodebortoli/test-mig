@@ -8,8 +8,8 @@ namespace Microarea.AdminServer
         // Instance
         public const string ExistInstance = "SELECT COUNT(*) FROM MP_Instances ";
         public const string SelectInstance = "SELECT * FROM MP_Instances";
-        public const string InsertInstance = "INSERT INTO MP_Instances (InstanceKey, Description, Customer, Disabled) VALUES (@InstanceKey, @Description, @Customer, @Disabled)";
-        public const string UpdateInstance = "UPDATE MP_Instances SET Description = @Description, Customer = @Customer, Disabled = @Disabled WHERE InstanceKey = @InstanceKey";
+        public const string InsertInstance = "INSERT INTO MP_Instances (InstanceKey, Description, Customer, Disabled, Origin, Tags) VALUES (@InstanceKey, @Description, @Customer, @Disabled, @Origin, @Tags)";
+        public const string UpdateInstance = "UPDATE MP_Instances SET Description = @Description, Customer = @Customer, Disabled = @Disabled, Origin=@Origin, Tags=@Tags WHERE InstanceKey = @InstanceKey";
         public const string DeleteInstance = "DELETE MP_Instances WHERE InstanceKey = @InstanceKey";
 
 		// Referenced tables
