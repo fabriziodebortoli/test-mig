@@ -57,6 +57,7 @@ namespace Microarea.AdminServer.Services.Providers
 								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
                                 account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
 								account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
+								account.Ticks = (long)dataReader["Ticks"];
 								account.ExistsOnDB = true;
                             }
 						}

@@ -84,22 +84,8 @@ export class HotlinkComponent extends ControlComponent {
   onBlur(value) {
     this.showTable = false;
     this.showOptions = false;
-    /*if (this.skipBlurFlag || this.value==='') {
-      this.skipBlurFlag = false;
-      return;
-    }*/
-    /* let subs = this.httpService.getHotlinkData(this.ns, 'direct', this.enableMultiSelection ? '' : this.value, undefined).subscribe((json) => {
-       this.data = json;
-       subs.unsubscribe();
-       this.showTable = true;
-     })*/
   }
-
-  // ---------------------------------------------------------------------------------------
- /* skipBlur() {
-    this.skipBlurFlag = true;
-  }
-*/
+  
   // ---------------------------------------------------------------------------------------
   onOptionsClick() {
 

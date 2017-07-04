@@ -137,9 +137,7 @@ namespace Microarea.AdminServer.Controllers
             _jsonHelper.AddJsonCouple("account", account);
             return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 		}
-
-
-	
+		
         /// <summary>
         /// Insert/update account
         /// </summary>

@@ -46,7 +46,7 @@ namespace Microarea.Common.Applications
         public string TbBaseAddress = "http://localhost:5000/";
 
         public const string TbBaseRoute = "tbloader/api/";
-        public const string TbLoginRoute = "tb/document/login/";
+        public const string TbLoginRoute = "tb/document/initTBLogin/";
         public const string TbRunFunctionRoute = "tb/document/runFunction/";
         public const string TbHotlinkQueryRoute = "tb/document/getHotlinkQuery/";
 
