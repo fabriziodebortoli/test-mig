@@ -12,7 +12,7 @@ export enum ReportObjectType { textrect, fieldrect, table, graphrect, sqrrect, r
 
 export enum LinkType { report, document, url, file, function }
 
-export enum PdfType { NOPDF, PREPAREDPDF, SAVINGPDF }
+export enum PdfType { NOPDF, SAVINGPDF }
 
 export class link {
   obj: ReportObjectType = ReportObjectType.link;
