@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
 
 import { MasonryModule } from 'angular2-masonry';
 
@@ -91,6 +92,7 @@ const TB_MODULES = [
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
+    HttpModule,
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
