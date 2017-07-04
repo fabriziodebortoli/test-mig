@@ -293,11 +293,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  public save(component):void {
-    const options = component.workbookOptions();
 
-    component.save(options);
-  }
 
 
 }
