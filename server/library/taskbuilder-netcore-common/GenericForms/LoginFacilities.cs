@@ -243,7 +243,6 @@ namespace Microarea.Common.GenericForms
 		//------------------------------------------------------------------------------------------------------------------------------
 		public static void SetRememberMe(string authenticationToken, string checkedVal)
 		{
-
 			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
 
 			bool rememberMe = String.Compare(checkedVal, bool.TrueString, true) == 0 ? true : false;
@@ -904,7 +903,6 @@ namespace Microarea.Common.GenericForms
 				}
 
 				LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-				loginManager.GetLoginInformation(authenticationToken);
 				culture = loginManagerSession.ApplicationLanguage;
 				uiCulture = loginManagerSession.PreferredLanguage;
 
