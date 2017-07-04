@@ -20,7 +20,7 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
         component: ProxyRouteComponent,
         children: [
             { path: 'rs', loadChildren: 'app/reporting-studio/reporting-studio.module#ReportingStudioModule' },
-            { path: 'test', loadChildren: 'app/test/test.module#TestModule' },
+            // { path: 'test', loadChildren: 'app/test/test.module#TestModule' },
             { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
             ...appRoutes
         ],
