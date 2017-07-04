@@ -3,8 +3,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { CoreGuard } from '@taskbuilder/core';
-import { PageNotFoundComponent } from '@taskbuilder/core';
-import { UnsupportedFactoryComponent } from './unsupported.component';
+import { PageNotFoundComponent, UnsupportedFactoryComponent } from '@taskbuilder/core';
 import { ProxyRouteComponent, LoginComponent, HomeComponent, StandaloneReportComponent, StandaloneDocumentComponent } from '@taskbuilder/core';
 
 import { appRoutes } from './applications/app.routing';

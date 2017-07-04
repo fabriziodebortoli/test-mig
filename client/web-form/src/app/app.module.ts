@@ -11,7 +11,6 @@ import { MaterialModule } from '@angular/material';
 
 import { SharedModule } from './shared/shared.module';
 
-import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
 import { AppComponent } from './app.component';
 
 import { MomentModule } from 'angular2-moment';
@@ -21,12 +20,7 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { TbCoreModule } from '@taskbuilder/core';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        UnsupportedFactoryComponent,
-        UnsupportedComponent,
-
-    ],
+    declarations: [AppComponent],
     imports: [
         FormsModule,
         BrowserModule,
@@ -39,9 +33,6 @@ import { TbCoreModule } from '@taskbuilder/core';
         LayoutModule,
         TbCoreModule.forRoot()
     ],
-    bootstrap: [AppComponent],
-    entryComponents: [
-        UnsupportedComponent
-    ]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
