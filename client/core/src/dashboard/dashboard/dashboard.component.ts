@@ -1,9 +1,10 @@
-import { LocalizationService } from '@taskbuilder/core';
-import { SettingsService } from '@taskbuilder/core';
-import { ImageService } from '@taskbuilder/core';
-import { MenuService } from '@taskbuilder/core';
-import { UtilsService } from '@taskbuilder/core';
 import { Component, OnInit } from '@angular/core';
+
+import { LocalizationService } from './../../menu/services/localization.service';
+import { SettingsService } from './../../menu/services/settings.service';
+import { UtilsService } from './../../core/services/utils.service';
+import { ImageService } from './../../menu/services/image.service';
+import { MenuService } from './../../menu/services/menu.service';
 
 @Component({
   selector: 'tb-dashboard',

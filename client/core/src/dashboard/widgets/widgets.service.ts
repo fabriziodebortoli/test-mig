@@ -1,8 +1,9 @@
-import { DataService } from '@taskbuilder/core';
-import { environment } from 'environments/environment';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
 import { URLSearchParams, Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+
+import { UrlService } from './../../core/services/url.service';
+import { DataService } from './../../core/services/data.service';
 
 export class Widget {
   title: string;
@@ -12,7 +13,7 @@ export class Widget {
   layout: WidgetLayout;
   provider: WidgetProvider;
   data?: WidgetData;
-  
+
 }
 
 export class WidgetRow {
@@ -82,7 +83,7 @@ export class WidgetsService {
 
   public isFirstUse: boolean = false;
 
-  constructor(private http: Http, private dataService: DataService) {
+  constructor(private http: Http, private dataService: DataService, private urlService: UrlService) {
   }
 
   private pad00(n): string {
@@ -99,7 +100,7 @@ export class WidgetsService {
   }
 
   getActiveWidgets(): Observable<WidgetRow[]> {
-    const url: string = environment.baseUrl + 'widgets-service/getActiveWidgets';
+    const url: string = this.urlService.getBackendUrl() + '/widgets-service/getActiveWidgets';
 
     return this.http.get(url, { withCredentials: true }).map(
       (res: Response) => {

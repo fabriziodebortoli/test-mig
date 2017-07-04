@@ -10,7 +10,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@angular/material';
 
 import { SharedModule } from './shared/shared.module';
-import { DashboardModule } from './dashboard/dashboard.module';
 
 import { UnsupportedFactoryComponent, UnsupportedComponent } from './unsupported.component';
 import { AppComponent } from './app.component';
@@ -35,7 +34,6 @@ import { TbCoreModule } from '@taskbuilder/core';
         HttpModule,
         MaterialModule,
         SharedModule,
-        DashboardModule.forRoot(),
         routing,
         MomentModule,
         LayoutModule,

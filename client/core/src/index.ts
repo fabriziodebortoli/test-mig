@@ -26,11 +26,18 @@ export * from './shared/shared.module';
 import { TbMenuModule } from './menu/menu.module';
 export * from './menu/menu.module';
 
+/**
+ * Modulo Dashboard
+ */
+import { TbDashboardModule } from './dashboard/dashboard.module';
+export * from './dashboard/dashboard.module';
+
 const TB_MODULES = [
   // TbCoreModule,
   TbSharedModule,
   TbIconsModule,
-  TbMenuModule
+  TbMenuModule,
+  TbDashboardModule
 ];
 
 export * from './shared/models';

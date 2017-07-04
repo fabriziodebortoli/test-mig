@@ -28,3 +28,4 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
     },
     { path: '**', component: PageNotFoundComponent },
 ]);
+

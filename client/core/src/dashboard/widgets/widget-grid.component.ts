@@ -1,7 +1,10 @@
-import { MenuService } from '@taskbuilder/core';
-import { WidgetComponent } from './widget.component';
 import { Component, Input, ViewEncapsulation, OnInit, AfterViewInit } from '@angular/core';
+
 import { GridModule } from '@progress/kendo-angular-grid';
+
+import { MenuService } from './../../menu/services/menu.service';
+
+import { WidgetComponent } from './widget.component';
 import { Widget } from './widgets.service';
 
 @Component({
@@ -10,9 +13,9 @@ import { Widget } from './widgets.service';
   styleUrls: ['./widget-grid.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class WidgetGridComponent{
+export class WidgetGridComponent {
   @Input() widget: Widget;
-  
+
   constructor(private widgetComponent: WidgetComponent, private menuService: MenuService) {
   }
 

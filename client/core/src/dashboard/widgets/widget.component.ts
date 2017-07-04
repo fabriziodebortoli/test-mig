@@ -1,5 +1,7 @@
-import { MenuService } from '@taskbuilder/core';
 import { Component, Input, AfterContentInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+
+import { MenuService } from './../../menu/services/menu.service';
+
 import { Widget, WidgetsService } from './widgets.service';
 
 @Component({
