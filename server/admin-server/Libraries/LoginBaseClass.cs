@@ -4,14 +4,13 @@ using Microarea.AdminServer.Model.Interfaces;
 namespace Microarea.AdminServer.Library
 {
     //=========================================================================
-    public class LoginBaseClass
+    public static class LoginBaseClass
     {
-        private IAccount account;
-        private int maxPasswordError = 5;
-        public LoginBaseClass(IAccount account) { this.account = account; }
+       // private IAccount account;
+        private static int maxPasswordError = 5;
 
         //----------------------------------------------------------------------
-        public LoginReturnCodes VerifyCredential(string password)
+        public static LoginReturnCodes VerifyCredential(IAccount account, string password)
         {
             if (account.ExpirationDate < DateTime.Now)
                 return LoginReturnCodes.UserExpired;
@@ -20,12 +19,12 @@ namespace Microarea.AdminServer.Library
 
             if (account.Password != Crypt(password))
             {
-                AddWrongPwdLoginCount();
+                AddWrongPwdLoginCount(account);
                 if (!account.Save().Result) return LoginReturnCodes.ErrorSavingAccount;
                 return LoginReturnCodes.InvalidUserError;
             }
 
-            ClearWrongPwdLoginCount();
+            ClearWrongPwdLoginCount(account);
            
             if (account.MustChangePassword)
                 return LoginReturnCodes.UserMustChangePasswordError;
@@ -41,7 +40,7 @@ namespace Microarea.AdminServer.Library
         }
 
         //----------------------------------------------------------------------
-        public LoginReturnCodes ChangePassword(string oldpassword, string newpassword)
+        public static LoginReturnCodes ChangePassword(IAccount account,string oldpassword, string newpassword)
         {
             if (account.ExpirationDate < DateTime.Now)
                 return LoginReturnCodes.UserExpired;
@@ -57,26 +56,26 @@ namespace Microarea.AdminServer.Library
 
 			if (account.Password != Crypt(oldpassword))
             {
-                AddWrongPwdLoginCount();
+                AddWrongPwdLoginCount(account);
                 return LoginReturnCodes.InvalidUserError;
             }
 
             account.Password = Crypt(newpassword);
             if (!account.Save().Result) return LoginReturnCodes.ErrorSavingAccount;
         
-            ClearWrongPwdLoginCount();
+            ClearWrongPwdLoginCount(account);
        
             return LoginReturnCodes.NoError;
         }
 
         //----------------------------------------------------------------------
-        private void AddWrongPwdLoginCount()
+        private static void AddWrongPwdLoginCount(IAccount account)
         {
             account.Locked = (++account.LoginFailedCount >= maxPasswordError);  
         }
 
         //----------------------------------------------------------------------
-        private void ClearWrongPwdLoginCount()
+        private static void ClearWrongPwdLoginCount(IAccount account)
         {
             account.Locked = false;
             account.LoginFailedCount = 0;
@@ -84,7 +83,7 @@ namespace Microarea.AdminServer.Library
 
         //----------------------------------------------------------------------
         [Obsolete ("TODO-Warning: Crypt Password")]
-        private string Crypt(string password)
+        private static string Crypt(string password)
         {
             return password;//TODO CRYPT
         }
