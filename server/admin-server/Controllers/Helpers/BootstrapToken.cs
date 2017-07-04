@@ -1,68 +1,61 @@
 ﻿using Microarea.AdminServer.Library;
 using Microarea.AdminServer.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.Security.Cryptography;
-using Microarea.AdminServer.Controllers;
 using System.Text;
 
-namespace Microarea.AdminServer.Controllers.Helpers
+namespace Microarea.AdminServer.Controllers.Controllers.Helpers
 {
 	//================================================================================
 	public class BootstrapTokenContainer
 	{
+		const int defaultTokenDurationMinutes = 5;
+
 		string jwtToken;
 		string message;
 		bool result;
 		int resultCode;
 		DateTime expirationDate;
-        // Durata del token in minuti.
-        int defaultTokenDuration = 5;		
+
 		public DateTime ExpirationDate { get => expirationDate; set => expirationDate = value; }
 		public bool Result { get => result; set => result = value; }
 		public string Message { get => message; set => message = value; }
 		public int ResultCode { get => resultCode; set => resultCode = value; }
 		public string JwtToken { get => jwtToken; set => jwtToken = value; }
 
-        public BootstrapTokenContainer()
+		public BootstrapTokenContainer()
 		{
 			this.expirationDate = DateTime.MinValue;
 			this.result = false;
 			this.message = String.Empty;
 			this.resultCode = -1;
+			this.jwtToken = String.Empty;
 		}
 
-        //--------------------------------------------------------------------------------
-        internal void SetError( int resultcode, string message)
-        {
-            Result = false;
-            ResultCode = resultcode;
-            Message = message;
-        }
+		public void SetResult(bool result, int resultCode, string message, BootstrapToken token = null, string secretKey = "")
+		{
+			this.result = result;
+			this.resultCode = resultCode;
+			this.message = message;
 
-        //--------------------------------------------------------------------------------
-        internal void SetSuccess( int resultcode, string message, BootstrapToken t)
-        {
-            Result = true; 
-            ResultCode = resultcode;
-            Message = message;
-            ExpirationDate = DateTime.Now.AddMinutes(defaultTokenDuration);
-            if (t != null) jwtToken = GenerateJWTToken(t);
-        }
+			this.expirationDate = result ? DateTime.Now.AddMinutes(defaultTokenDurationMinutes) : DateTime.MinValue;
+			this.jwtToken = result ? GenerateJWTToken(token, secretKey) : String.Empty;
+		}
 
-        //----------------------------------------------------------------------
-        private string GenerateJWTToken(BootstrapToken bootstrapToken)
-        {
-            JWTToken jwtToken = new JWTToken();
-            JWTTokenHeader jWTTokenHeader = new JWTTokenHeader();
-            jWTTokenHeader.alg = "HS256";
-            jWTTokenHeader.typ = "JWT";
-            jwtToken.header = jWTTokenHeader;
-            jwtToken.payload = bootstrapToken;
-            return jwtToken.GetToken();
-        }
-    }
+		//----------------------------------------------------------------------
+		private string GenerateJWTToken(BootstrapToken bootstrapToken, string secretKey)
+		{
+			JWTToken jwtToken = new JWTToken();
+			JWTTokenHeader jWTTokenHeader = new JWTTokenHeader();
+			jWTTokenHeader.alg = "HS256";
+			jWTTokenHeader.typ = "JWT";
+			jwtToken.header = jWTTokenHeader;
+			jwtToken.payload = bootstrapToken;
+			return jwtToken.GetToken(secretKey);
+		}
+	}
 
 	//================================================================================
 	public class JWTToken
@@ -73,12 +66,12 @@ namespace Microarea.AdminServer.Controllers.Helpers
 		public BootstrapToken payload;
 
 		//--------------------------------------------------------------------------------
-		public string GetToken()
+		public string GetToken(string secretKey)
 		{
 			try
-			{ 
-				this.SignToken("LeonardoDaVinci");
-				return String.Concat(EncodeHeader(), ".", EncodePayload(), ".", this.signature);
+			{
+				this.signature = GetTokenSignature(secretKey, this.header, this.payload);
+				return String.Concat(EncodeHeader(this.header), ".", EncodePayload(this.payload), ".", this.signature);
 			}
 			catch (Exception)
 			{
@@ -87,9 +80,9 @@ namespace Microarea.AdminServer.Controllers.Helpers
 		}
 
 		//--------------------------------------------------------------------------------
-		void SignToken(string secret)
+		public static string GetTokenSignature(string secret, JWTTokenHeader tokenHeader, BootstrapToken payload)
 		{
-			string encodedString = EncodeHeader() + "." + EncodePayload();
+			string encodedString = EncodeHeader(tokenHeader) + "." + EncodePayload(payload);
 			byte[] hashValue;
 
 			using (HMACSHA256 hmac = new HMACSHA256(Encoding.ASCII.GetBytes(secret)))
@@ -97,25 +90,25 @@ namespace Microarea.AdminServer.Controllers.Helpers
 				hashValue = hmac.ComputeHash(Encoding.ASCII.GetBytes(encodedString));
 			}
 
-			this.signature = System.Text.Encoding.UTF8.GetString(hashValue);
+			return Convert.ToBase64String(hashValue);
 		}
 
 		//--------------------------------------------------------------------------------
-		string EncodeHeader()
+		static string EncodeHeader(JWTTokenHeader tokenHeader)
 		{
-			string header = JsonConvert.SerializeObject(this.header);
+			string header = JsonConvert.SerializeObject(tokenHeader);
 			return EncodeToBase64(header);
 		}
 
 		//--------------------------------------------------------------------------------
-		string EncodePayload()
+		static string EncodePayload(BootstrapToken bootstrapToken)
 		{
-			string payload = JsonConvert.SerializeObject(this.payload);
+			string payload = JsonConvert.SerializeObject(bootstrapToken);
 			return EncodeToBase64(payload);
 		}
 
 		//--------------------------------------------------------------------------------
-		string EncodeToBase64(string input)
+		static string EncodeToBase64(string input)
 		{
 			byte[] encodedBytes = System.Text.Encoding.Unicode.GetBytes(input);
 			return Convert.ToBase64String(encodedBytes);
@@ -138,17 +131,19 @@ namespace Microarea.AdminServer.Controllers.Helpers
 
 	//================================================================================
 	public class BootstrapToken
-    {
-        public string AccountName;
-        public bool ProvisioningAdmin;
-        public string PreferredLanguage;
-        public string ApplicationLanguage;
-        public UserTokens UserTokens;
-        public Subscription[] Subscriptions;
-        public List<ServerURL> Urls;
-		
+	{
+		public string AccountName;
+		public bool ProvisioningAdmin;
+		public bool CloudAdmin;
+		public string PreferredLanguage;
+		public string ApplicationLanguage;
+		public UserTokens UserTokens;
+		public Subscription[] Subscriptions;
+		public List<ServerURL> Urls;
+
 		//--------------------------------------------------------------------------------
-		public BootstrapToken() {
+		public BootstrapToken()
+		{
 			this.AccountName = String.Empty;
 			this.ProvisioningAdmin = false;
 			this.PreferredLanguage = String.Empty;
@@ -157,6 +152,5 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			this.Subscriptions = new Subscription[] { };
 			this.Urls = new List<ServerURL>();
 		}
-    }
-    
+	}
 }
