@@ -258,4 +258,7 @@
   <data name="UnknownAuthType" xml:space="preserve">
     <value>Authorization type ({0}) unknown.</value>
   </data>
+  <data name="NoValidInput" xml:space="preserve">
+    <value>No valid input found</value>
+  </data>
 </root>

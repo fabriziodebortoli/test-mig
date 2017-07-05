@@ -278,6 +278,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No valid input found.
+        /// </summary>
+        public static string NoValidInput {
+            get {
+                return ResourceManager.GetString("NoValidInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         public static string OK {
