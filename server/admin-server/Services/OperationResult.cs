@@ -3,7 +3,6 @@
 namespace Microarea.AdminServer.Services
 {
 	//================================================================================
-	//================================================================================
 	public class OperationResult
 	{
 		bool result;
@@ -21,13 +20,22 @@ namespace Microarea.AdminServer.Services
 		{
 			this.result = false;
 			this.message = String.Empty;
+			this.Code = 0;
 		}
 
 		//--------------------------------------------------------------------------------
-		public OperationResult(bool result, string message)
+		public OperationResult(bool result, string message) : this()
 		{
 			this.result = result;
 			this.message = message;
+		}
+
+		//--------------------------------------------------------------------------------
+		public OperationResult(bool result, string message, int code)
+		{
+			this.result = result;
+			this.message = message;
+			this.code = code;
 		}
 	}
 }

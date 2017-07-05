@@ -74,5 +74,42 @@ namespace Microarea.AdminServer.Library
 
 			return opRes;
 		}
+
+		/// <summary>
+		/// Check information in AuthorizationHeader
+		/// </summary>
+		/// <param name="authenticationHeader"></param>
+		/// <returns>OperationResult</returns>
+		//-----------------------------------------------------------------------------	
+		public static OperationResult ValidateAuthorization(string authenticationHeader, string secretKey)
+		{
+			//@@TODO stringhe
+			if (String.IsNullOrEmpty(authenticationHeader))
+				return new OperationResult(false, "Strings.MissingAuthHeader", (int)AppReturnCodes.AuthorizationHeaderMissing);
+
+			AuthorizationInfo authInfo = null;
+
+			try
+			{
+				authInfo = JsonConvert.DeserializeObject<AuthorizationInfo>(authenticationHeader);
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(false, String.Format("Strings.ExceptionMessage", e.Message), (int)AppReturnCodes.AuthorizationHeaderMissing);
+				//StatusCode = 500
+			}
+
+			if (authInfo == null)
+				return new OperationResult(false, "Strings.InvalidAuthHeader", (int)AppReturnCodes.AuthorizationHeaderMissing);
+
+			if (String.IsNullOrEmpty(authInfo.SecurityValue))
+				return new OperationResult(false, "Strings.MissingToken", (int)AppReturnCodes.MissingToken);
+
+			if (authInfo.IsJwtToken)
+				return ValidateToken(authInfo.SecurityValue, secretKey);
+
+			return new OperationResult(false, "string.Format(Strings.UnknownAuthType, authInfo.Type)", (int)AppReturnCodes.Undefined);
+		}
+
 	}
 }
