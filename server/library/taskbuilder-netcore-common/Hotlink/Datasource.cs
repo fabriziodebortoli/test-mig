@@ -424,7 +424,8 @@ namespace Microarea.Common.Hotlink
                 records += '{' +
                            fname +
                            ',' +
-                           f.Title.ToJson("caption", false, true) +
+                           f.Title.ToJson("caption", false, true) +   ","+
+                           f.DataType.ToJson("type", false, false)+
                            '}';
             }
             records += "],\n\"rows\":[";
@@ -474,6 +475,13 @@ namespace Microarea.Common.Hotlink
 
 
                         rows += d.ToJson();
+                    }
+                     else if (string.Compare(f.DataType, "Boolean", true) == 0)
+                    {
+                        string d = (int)o==1? "true":"false";
+
+
+                        rows += d;
                     }
                     else
                         rows += o.ToString();

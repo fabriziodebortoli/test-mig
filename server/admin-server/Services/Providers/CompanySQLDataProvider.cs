@@ -178,8 +178,8 @@ namespace Microarea.AdminServer.Services.Providers
 
 			List<Company> companiesList = new List<Company>();
 
-			string selectQuery = @"SELECT * FROM MP_Companies INNER JOIN MP_CompanyAccounts ON MP_CompanyAccounts.CompanyId = MP_Companies.CompanyId 
-									WHERE MP_CompanyAccounts.AccountName = @AccountName";
+			string selectQuery = @"SELECT* FROM MP_Companies INNER JOIN MP_SubscriptionAccounts ON MP_SubscriptionAccounts.SubscriptionKey = MP_Companies.SubscriptionKey
+									WHERE MP_SubscriptionAccounts.AccountName =  @AccountName";
 
 			if (!string.IsNullOrWhiteSpace(subscriptionKey))
 				selectQuery += " AND MP_Companies.SubscriptionKey = @SubscriptionKey";
