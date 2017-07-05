@@ -119,7 +119,7 @@ namespace Microarea.AdminServer.Controllers
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.ErrorSavingTokens, LoginReturnCodes.ErrorSavingTokens.ToString());
                     }
 
-                    return SetSuccessResponse(bootstrapTokenContainer, bootstrapToken, res.ToString() );
+                    return SetSuccessResponse(bootstrapTokenContainer, bootstrapToken, Strings.OK);
                 }
                 //--------------------------------
                 // Se non esiste, richiedi a gwam.
@@ -156,7 +156,7 @@ namespace Microarea.AdminServer.Controllers
 
                         if (res != LoginReturnCodes.NoError)
                         {
-                            return SetErrorResponse(bootstrapTokenContainer, (int)res, res.ToString());
+                            return SetErrorResponse(bootstrapTokenContainer, (int)res, Strings.OK);
                         }
                     }
                     // Valorizzo il bootstraptoken per la risposta

@@ -1,6 +1,6 @@
 import { AskdialogService } from 'app/reporting-studio/report-objects/askdialog/askdialog.service';
 import { ReportingStudioService } from './../../../reporting-studio.service';
-import { ComboSimpleComponent } from './../../../../shared/controls/combo-simple/combo-simple.component';
+import { ComboSimpleComponent } from '@taskbuilder/core';
 
 import { dropdownlist, dropdownListPair, CommandType } from './../../../reporting-studio.model';
 import { Component, OnInit, Input } from '@angular/core';

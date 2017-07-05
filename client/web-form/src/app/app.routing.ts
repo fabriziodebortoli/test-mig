@@ -1,16 +1,10 @@
-import { StandaloneReportComponent } from './home/standalone.report/standalone.report.component';
 import { ReportingStudioFactoryComponent } from './reporting-studio/reporting-studio.component';
-import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
-import { ProxyRouteComponent } from './proxy-route/proxy-route.component';
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { CoreGuard } from './core/core.guard';
-
-import { PageNotFoundComponent } from '@taskbuilder/core';
-import { UnsupportedFactoryComponent } from './unsupported.component';
-import { LoginComponent } from '@taskbuilder/core';
-import { HomeComponent } from './home/home.component';
+import { CoreGuard } from '@taskbuilder/core';
+import { PageNotFoundComponent, UnsupportedFactoryComponent } from '@taskbuilder/core';
+import { ProxyRouteComponent, LoginComponent, HomeComponent, StandaloneReportComponent, StandaloneDocumentComponent } from '@taskbuilder/core';
 
 import { appRoutes } from './applications/app.routing';
 
@@ -26,10 +20,11 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
         component: ProxyRouteComponent,
         children: [
             { path: 'rs', loadChildren: 'app/reporting-studio/reporting-studio.module#ReportingStudioModule' },
-            { path: 'test', loadChildren: 'app/test/test.module#TestModule' },
+            // { path: 'test', loadChildren: 'app/test/test.module#TestModule' },
             { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
             ...appRoutes
         ],
     },
     { path: '**', component: PageNotFoundComponent },
 ]);
+
