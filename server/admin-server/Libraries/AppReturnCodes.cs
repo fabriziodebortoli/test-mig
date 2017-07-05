@@ -24,6 +24,7 @@
 		InvalidToken,
 		SuspectedToken,
 		MissingToken,
-		GWAMNotResponding
+		GWAMNotResponding,
+		InvalidData
 	}
 }
