@@ -14,7 +14,7 @@ namespace Microarea.AdminServer.Library
 	public class SecurityManager
     {
 		//--------------------------------------------------------------------------------
-		public static OperationResult ValidateToken(string jwtTokenText, string secretKey)
+		public static OperationResult ValidateToken(string jwtTokenText, string secretKey, bool isCloudAdmin = false, bool isProvisioningAdmin = false)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -50,6 +50,30 @@ namespace Microarea.AdminServer.Library
 			decodedString = Encoding.Unicode.GetString(data);
 			BootstrapToken bootstrapToken = JsonConvert.DeserializeObject<BootstrapToken>(decodedString);
 
+			// check roles
+
+			if (isCloudAdmin)
+			{
+				if (!bootstrapToken.CloudAdmin)
+				{
+					opRes.Result = false;
+					opRes.Code = (int)TokenReturnCodes.MissingCloudAdminRole;
+					opRes.Message = Strings.MissingRole;
+					return opRes;
+				}
+			}
+
+			if (isProvisioningAdmin)
+			{
+				if (!bootstrapToken.ProvisioningAdmin)
+				{
+					opRes.Result = false;
+					opRes.Code = (int)TokenReturnCodes.MissingProvisioningAdminRole;
+					opRes.Message = Strings.MissingRole;
+					return opRes;
+				}
+			}
+
 			// computing a signature, to match the one that is coming within the request
 
 			string signatureToCheck = JWTToken.GetTokenSignature(secretKey, jwtHeader, bootstrapToken);
@@ -81,11 +105,11 @@ namespace Microarea.AdminServer.Library
 		/// <param name="authenticationHeader"></param>
 		/// <returns>OperationResult</returns>
 		//-----------------------------------------------------------------------------	
-		public static OperationResult ValidateAuthorization(string authenticationHeader, string secretKey)
+		public static OperationResult ValidateAuthorization(string authenticationHeader, string secretKey, bool isCloudAdmin = false, bool isProvisioningAdmin = false)
 		{
 			//@@TODO stringhe
 			if (String.IsNullOrEmpty(authenticationHeader))
-				return new OperationResult(false, "Strings.MissingAuthHeader", (int)AppReturnCodes.AuthorizationHeaderMissing);
+				return new OperationResult(false, Strings.AuthorizationHeaderMissing, (int)AppReturnCodes.AuthorizationHeaderMissing);
 
 			AuthorizationInfo authInfo = null;
 
@@ -95,20 +119,20 @@ namespace Microarea.AdminServer.Library
 			}
 			catch (Exception e)
 			{
-				return new OperationResult(false, String.Format("Strings.ExceptionMessage", e.Message), (int)AppReturnCodes.AuthorizationHeaderMissing);
+				return new OperationResult(false, String.Format(Strings.ExceptionMessage, e.Message), (int)AppReturnCodes.AuthorizationHeaderMissing);
 				//StatusCode = 500
 			}
 
 			if (authInfo == null)
-				return new OperationResult(false, "Strings.InvalidAuthHeader", (int)AppReturnCodes.AuthorizationHeaderMissing);
+				return new OperationResult(false, Strings.InvalidAuthHeader, (int)AppReturnCodes.AuthorizationHeaderMissing);
 
 			if (String.IsNullOrEmpty(authInfo.SecurityValue))
-				return new OperationResult(false, "Strings.MissingToken", (int)AppReturnCodes.MissingToken);
+				return new OperationResult(false, Strings.MissingToken, (int)AppReturnCodes.MissingToken);
 
 			if (authInfo.IsJwtToken)
-				return ValidateToken(authInfo.SecurityValue, secretKey);
+				return ValidateToken(authInfo.SecurityValue, secretKey, isCloudAdmin, isProvisioningAdmin);
 
-			return new OperationResult(false, "string.Format(Strings.UnknownAuthType, authInfo.Type)", (int)AppReturnCodes.Undefined);
+			return new OperationResult(false, string.Format(Strings.UnknownAuthType, authInfo.Type), (int)AppReturnCodes.Undefined);
 		}
 
 	}

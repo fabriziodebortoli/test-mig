@@ -2,10 +2,15 @@
 
 namespace Microarea.AdminServer.Controllers.Helpers
 {
+	/// <summary>
+	/// QUESTI CODICI DEVONO ESSERE ALLINEATI CON QUELLI DELL'ENUMERATIVO GWAMCodes
+	/// DEFINITO NEL GWAM back-end
+	/// </summary>
 	//================================================================================
 	public class GwamMessageStrings
     {
-        public static string GetString(int code)
+		//-----------------------------------------------------------------------------	
+		public static string GetString(int code)
         {
             switch (code)
             {
@@ -55,6 +60,8 @@ namespace Microarea.AdminServer.Controllers.Helpers
 					return Strings.InvalidToken;
 				case 22:
 					return Strings.SuspectedToken;
+				case 23:
+					return Strings.MissingToken;
 
 				default:
 					return Strings.UnknownError;

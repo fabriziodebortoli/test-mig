@@ -8,7 +8,7 @@ using System.Data.SqlTypes;
 namespace Microarea.AdminServer.Services.Providers
 {
 	//================================================================================
-	public class SubscriptionSQLDataProvider : IDataProvider, ISubscriptionDataProvider
+	public class SubscriptionSQLDataProvider : ISubscriptionDataProvider
 	{
         string connectionString;
 
@@ -183,5 +183,52 @@ namespace Microarea.AdminServer.Services.Providers
 
 			return subsList;
 		}
+
+		//---------------------------------------------------------------------
+		public List<Subscription> GetSubscriptionsByAccount(string accountName, string instanceKey)
+		{
+			List<Subscription> subsList = new List<Subscription>();
+
+			string selectQuery = @"SELECT * FROM MP_Subscriptions INNER JOIN MP_SubscriptionAccounts ON 
+				MP_SubscriptionAccounts.SubscriptionKey = MP_Subscriptions.SubscriptionKey WHERE
+				MP_SubscriptionAccounts.AccountName = @AccountName AND MP_Subscriptions.InstanceKey = @InstanceKey";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand(selectQuery, connection))
+					{
+						command.Parameters.AddWithValue("@AccountName", accountName);
+						command.Parameters.AddWithValue("@InstanceKey", instanceKey);
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								Subscription subs = new Subscription();
+								subs.SubscriptionKey = dataReader["SubscriptionKey"] as string;
+								subs.InstanceKey = dataReader["InstanceKey"] as string;
+								subs.Description = dataReader["Description"] as string;
+								subs.PreferredLanguage = dataReader["PreferredLanguage"] as string;
+								subs.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								subs.MinDBSizeToWarn = (int)dataReader["MinDBSizeToWarn"];
+								subsList.Add(subs);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return null;
+			}
+
+			return subsList;
+		}
+
 	}
 }

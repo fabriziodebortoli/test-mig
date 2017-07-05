@@ -1,4 +1,5 @@
-﻿using Microarea.AdminServer.Services;
+﻿using Microarea.AdminServer.Libraries;
+using Microarea.AdminServer.Services;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -51,8 +52,9 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			}
 			catch (Exception ex)
 			{
+				operationResult.Code = (int)AppReturnCodes.GWAMNotResponding;
 				operationResult.Result = false;
-				operationResult.Message = "An error occurred while executin PostDataAsync, " + ex.Message;
+				operationResult.Message = "An error occurred while executing PostDataAsync, " + ex.Message;
 			}
 
 			return operationResult;
