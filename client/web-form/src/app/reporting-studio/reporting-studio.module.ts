@@ -37,8 +37,8 @@ import { ReportLayoutComponent } from './report-objects/layout/layout.component'
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 const KENDO_UI_MODULES = [
-  GridModule,
-  DialogModule,
+  // GridModule,
+  // DialogModule,
   InputsModule,
   DateInputsModule,
   DropDownsModule,
