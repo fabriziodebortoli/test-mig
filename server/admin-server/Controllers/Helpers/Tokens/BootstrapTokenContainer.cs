@@ -47,7 +47,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 			JWTToken jwtToken = new JWTToken();
 			JWTTokenHeader jWTTokenHeader = new JWTTokenHeader();
 			jWTTokenHeader.alg = "HS256";
-			jWTTokenHeader.typ = "JWT";
+			jWTTokenHeader.typ = AuthorizationInfo.TypeJwtName;
 			jwtToken.header = jWTTokenHeader;
 			jwtToken.payload = bootstrapToken;
 			return jwtToken.GetToken(secretKey);
