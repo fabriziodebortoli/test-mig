@@ -23,6 +23,7 @@
 		InstanceKeyEmpty,
 		InvalidToken,
 		SuspectedToken,
-		MissingToken
+		MissingToken,
+		GWAMNotResponding
 	}
 }

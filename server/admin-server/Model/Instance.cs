@@ -9,7 +9,9 @@ namespace Microarea.AdminServer.Model
     {
         string instanceKey;
         string description = string.Empty;
-		bool disabled = false;
+        string origin = string.Empty;
+        string tags = string.Empty;
+        bool disabled = false;
 		bool existsOnDB = false;
 
 		//---------------------------------------------------------------------
@@ -17,9 +19,11 @@ namespace Microarea.AdminServer.Model
         public string Description { get { return this.description; } set { this.description = value; } }
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
+        public string Origin { get => origin; set => origin = value; }
+        public string Tags { get => tags; set => tags = value; }
 
-		// data provider
-		IDataProvider dataProvider;
+        // data provider
+        IDataProvider dataProvider;
 
 		//---------------------------------------------------------------------
 		public Instance()
