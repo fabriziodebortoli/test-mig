@@ -2,6 +2,7 @@
 using Microarea.AdminServer.Model.Interfaces;
 using System;
 using Microarea.AdminServer.Services;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Library
 {
@@ -42,10 +43,25 @@ namespace Microarea.AdminServer.Library
             authenticationToken.SetDataProvider(tokenSQLDataProvider);
         }
 
-        internal bool IsEmpty()
+		//---------------------------------------------------------------------
+		internal bool IsEmpty()
         {
             throw new NotImplementedException();
         }
-    }
+
+		//---------------------------------------------------------------------
+		public List<SecurityToken> GetTokenList(bool isAdmin, string accountName)
+		{
+			List<SecurityToken> tokenList = new List<SecurityToken>();
+
+			if (isAdmin)
+			{
+				tokenList.Add(SecurityToken.GetToken(TokenType.API, accountName));
+			}
+
+			tokenList.Add(SecurityToken.GetToken(TokenType.Authentication, accountName));
+			return tokenList;
+		}
+	}
 }
 

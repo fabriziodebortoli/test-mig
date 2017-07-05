@@ -50,7 +50,23 @@ namespace Microarea.AdminServer.Library
 			decodedString = Encoding.Unicode.GetString(data);
 			BootstrapToken bootstrapToken = JsonConvert.DeserializeObject<BootstrapToken>(decodedString);
 
-			// check roles
+			// computing a signature, to match the one that is coming within the request
+
+			string signatureToCheck = JWTToken.GetTokenSignature(secretKey, jwtHeader, bootstrapToken);
+
+			// matching the two signatures, so we can detect if the token has been tampered
+
+			bool signatureMatch = String.Compare(signatureToCheck, tokenParts[2], false) == 0;
+
+			if (!signatureMatch)
+			{
+				opRes.Result = false;
+				opRes.Code = (int)TokenReturnCodes.Suspected;
+				opRes.Message = Strings.InvalidToken;
+				return opRes;
+			}
+
+			// token verification passed, so we can assume this token is valid
 
 			if (isCloudAdmin)
 			{
@@ -73,24 +89,6 @@ namespace Microarea.AdminServer.Library
 					return opRes;
 				}
 			}
-
-			// computing a signature, to match the one that is coming within the request
-
-			string signatureToCheck = JWTToken.GetTokenSignature(secretKey, jwtHeader, bootstrapToken);
-
-			// matching the two signatures, so we can detect if the token has been tampered
-
-			bool signatureMatch = String.Compare(signatureToCheck, tokenParts[2], false) == 0;
-
-			if (!signatureMatch)
-			{
-				opRes.Result = false;
-				opRes.Code = (int)TokenReturnCodes.Suspected;
-				opRes.Message = Strings.InvalidToken;
-				return opRes;
-			}
-
-			// token verification passed
 
 			opRes.Result = true;
 			opRes.Code = (int)TokenReturnCodes.Valid;

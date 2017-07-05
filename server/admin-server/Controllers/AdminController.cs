@@ -115,6 +115,11 @@ namespace Microarea.AdminServer.Controllers
 					company.SetDataProvider(_companySqlDataProvider);
 					opRes = company.Save();
 					opRes.Message = Strings.SaveCompanyOK;
+				} else
+				{
+					opRes.Result = false;
+					opRes.Message = Strings.NoValidInput;
+					opRes.Code = (int)AppReturnCodes.InvalidData;
 				}
 			}
 			catch (Exception exc)

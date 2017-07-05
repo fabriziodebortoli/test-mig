@@ -16,7 +16,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 		public bool CloudAdmin;
 		public string PreferredLanguage;
 		public string ApplicationLanguage;
-		public UserTokens UserTokens;
+		public List<SecurityToken> UserTokens;
 		public Subscription[] Subscriptions;
 		public List<ServerURL> Urls;
 
@@ -25,9 +25,10 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 		{
 			this.AccountName = String.Empty;
 			this.ProvisioningAdmin = false;
+			this.CloudAdmin = false;
 			this.PreferredLanguage = String.Empty;
 			this.ApplicationLanguage = String.Empty;
-			this.UserTokens = new UserTokens();
+			this.UserTokens = new List<SecurityToken>();
 			this.Subscriptions = new Subscription[] { };
 			this.Urls = new List<ServerURL>();
 		}

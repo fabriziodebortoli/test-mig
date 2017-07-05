@@ -236,16 +236,11 @@ namespace Microarea.AdminServer.Controllers
 			if (account == null)
 				return false;
 
-            UserTokens t = CreateTokens(account);
-
-			if (t == null)
-			{
-				return false;
-			}
-
             bootstrapToken.AccountName = account.AccountName;
-            bootstrapToken.UserTokens = t;
-            bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
+			bootstrapToken.ProvisioningAdmin = account.ProvisioningAdmin;
+			bootstrapToken.CloudAdmin = account.CloudAdmin;
+			bootstrapToken.UserTokens = CreateTokens(account);
+			bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
             bootstrapToken.PreferredLanguage = account.PreferredLanguage;
             bootstrapToken.Subscriptions = subscriptions;
             bootstrapToken.Urls = GetUrlsForThisInstance(_settings.InstanceIdentity.InstanceKey);
@@ -314,14 +309,20 @@ namespace Microarea.AdminServer.Controllers
 			return (Task<string>)opRes.Content;
 		}
 
-        //----------------------------------------------------------------------
-        private UserTokens CreateTokens(IAccount account)
-        {
-            UserTokens tokens = new UserTokens(account.IsAdmin, account.AccountName);
-            tokens.Setprovider(_tokenSQLDataProvider);
-            if (tokens.Save())
-                return tokens;
-            return null;
+		//----------------------------------------------------------------------
+		private List<SecurityToken> CreateTokens(IAccount account)
+		{
+			List<SecurityToken> tokenList = new List<SecurityToken>();
+
+			UserTokens tokens = new UserTokens(account.IsAdmin, account.AccountName);
+			tokens.Setprovider(_tokenSQLDataProvider);
+
+			if (tokens.Save())
+			{
+				return tokens.GetTokenList(account.IsAdmin, account.AccountName);
+			}
+
+			return tokenList;
         }
     }
 }
