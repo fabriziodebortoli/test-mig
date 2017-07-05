@@ -10,7 +10,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 	//================================================================================
 	public interface IHttpHelper
 	{
-		Task<OperationResult> PostDataAsync(string url, List<KeyValuePair<string, string>> bodyEntries);
+		Task<OperationResult> PostDataAsync(string url, List<KeyValuePair<string, string>> bodyEntries, string authorizationHeader = "");
 	}
 
 	//================================================================================
@@ -25,9 +25,9 @@ namespace Microarea.AdminServer.Controllers.Helpers
 			client.DefaultRequestHeaders.Accept.Clear();
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 		}
-
-		//--------------------------------------------------------------------------------
-		public async Task<OperationResult> PostDataAsync(string url, List<KeyValuePair<string, string>> bodyEntries)
+    
+        //--------------------------------------------------------------------------------
+        public async Task<OperationResult> PostDataAsync(string url, List<KeyValuePair<string, string>> bodyEntries, string authorizationHeader = "")
 		{
 			OperationResult operationResult = new OperationResult();
 
@@ -37,9 +37,14 @@ namespace Microarea.AdminServer.Controllers.Helpers
 				return operationResult;
 			}
 
-			try
-			{
-				var formContent = new FormUrlEncodedContent(bodyEntries);
+            try
+            {
+                if (!string.IsNullOrEmpty(authorizationHeader))
+                {
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", authorizationHeader);
+                }
+            
+                var formContent = new FormUrlEncodedContent(bodyEntries);
 				HttpResponseMessage responseMessage = await client.PostAsync(url, formContent);
 				var responseData = responseMessage.Content.ReadAsStringAsync();
 				operationResult.Content = responseData;
@@ -54,6 +59,3 @@ namespace Microarea.AdminServer.Controllers.Helpers
 		}
 	}
 }
-
-
-

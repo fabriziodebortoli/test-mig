@@ -5,49 +5,47 @@ using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer.Library
 {
+
     public class UserTokens
     {
-		bool isAdmin;
-        SecurityToken apiSecurityToken;
-        SecurityToken authenticationToken;
+        SecurityToken apiSecurityToken = SecurityToken.Empty;
+        SecurityToken authenticationToken = SecurityToken.Empty;
 
         public string ApiSecurityToken { get { return this.apiSecurityToken.Token; } }
         public string AuthenticationToken { get { return this.authenticationToken.Token; } }
 
-		//---------------------------------------------------------------------
-		public UserTokens()
-		{
-			apiSecurityToken = new SecurityToken();
-			authenticationToken = new SecurityToken();
-		}
+        //---------------------------------------------------------------------
+        public UserTokens()
+        {
+            apiSecurityToken = new SecurityToken();
+            authenticationToken = new SecurityToken();
+        }
 
         //---------------------------------------------------------------------
-        public UserTokens(bool isAdmin, string accountName) : this()
+        public UserTokens(bool isAdmin, string accountName)
         {
-			if (isAdmin)
-			{
-				apiSecurityToken = SecurityToken.GetToken(TokenType.API, accountName);
-			}
-
+            if (isAdmin) apiSecurityToken = SecurityToken.GetToken(TokenType.API, accountName);
+           
             authenticationToken = SecurityToken.GetToken(TokenType.Authentication, accountName);
         }
 
         //---------------------------------------------------------------------
-        public bool Save()
+        internal bool Save()
         {
-			if (this.isAdmin)
-			{
-				return apiSecurityToken.Save().Result && authenticationToken.Save().Result;
-			}
-
-			return authenticationToken.Save().Result;
-		}
+            return apiSecurityToken.Save().Result && authenticationToken.Save().Result;
+        }
 
         //---------------------------------------------------------------------
-        public void Setprovider(IDataProvider tokenSQLDataProvider)
+        internal void Setprovider(IDataProvider tokenSQLDataProvider)
         {
             apiSecurityToken.SetDataProvider(tokenSQLDataProvider);
             authenticationToken.SetDataProvider(tokenSQLDataProvider);
         }
+
+        internal bool IsEmpty()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
+

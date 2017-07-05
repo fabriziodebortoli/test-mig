@@ -33,6 +33,7 @@ export class WebSocketService {
     public close: EventEmitter<any> = new EventEmitter();
     public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public buttonsState: EventEmitter<any> = new EventEmitter();
+    public radarQuery: EventEmitter<any> = new EventEmitter();
     public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
 
     constructor(
@@ -79,6 +80,8 @@ export class WebSocketService {
                         case 'MessageDialog': $this.message.emit(obj.args); break;
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
                         case 'ButtonsState': $this.buttonsState.emit(obj.args); break;
+                        case 'RadarQuery': $this.radarQuery.emit(obj.args); break;
+                        
                         default: break;
                     }
 
@@ -178,6 +181,12 @@ export class WebSocketService {
         const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
         this.safeSend(data);
     }
+ 
+    getRadarQuery(cmpId: String) {
+        const data = { cmd: 'getRadarQuery', cmpId: cmpId };
+        this.safeSend(data);
+    }
+    
 
     /* doValueChanged(cmpId: String, id: String, modelData?: any): void {
          const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };

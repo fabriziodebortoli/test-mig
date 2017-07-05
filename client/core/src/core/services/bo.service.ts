@@ -1,6 +1,4 @@
 
-
-
 import { Injectable } from '@angular/core';
 
 
@@ -130,6 +128,9 @@ export class BOService extends DocumentService {
                 this.eventData.buttonsState = result.buttonsState;
             }
         }));
+
+         this.subscriptions.push(this.webSocketService.radarQuery.subscribe(data => {
+         }));
 
     }
     getPatchedData(): any {

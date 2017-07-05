@@ -34,7 +34,7 @@ import { AskTextComponent } from './report-objects/askdialog/ask-text/ask-text.c
 import { AskHotlinkComponent } from './report-objects/askdialog/ask-hotlink/ask-hotlink.component';
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
 
-
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -80,6 +80,7 @@ const KENDO_UI_MODULES = [
     AskHotlinkComponent,
     ReportLayoutComponent
   ],
+  providers: [CookieService],
   entryComponents:
   [
     ReportingStudioComponent

@@ -68,6 +68,5 @@ namespace Microarea.AdminServer.Library
 		UnknownAccountName = 64,
         UserExpired = 65
     }
-
 }
 

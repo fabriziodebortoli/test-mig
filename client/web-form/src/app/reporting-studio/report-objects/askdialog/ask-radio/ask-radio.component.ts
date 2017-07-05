@@ -1,6 +1,6 @@
 import { AskdialogService } from "app/reporting-studio/report-objects/askdialog/askdialog.service";
 import { ReportingStudioService } from './../../../reporting-studio.service';
-import { RadioComponent } from './../../../../shared/controls/radio/radio.component';
+import { RadioComponent } from '@taskbuilder/core';
 import { radio, CommandType } from './../../../reporting-studio.model';
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 

@@ -1,6 +1,6 @@
 import { AskdialogService } from "app/reporting-studio/report-objects/askdialog/askdialog.service";
 import { ReportingStudioService } from './../../../reporting-studio.service';
-import { CheckBoxComponent } from './../../../../shared/controls/checkbox/checkbox.component';
+import { CheckBoxComponent } from '@taskbuilder/core';
 import { check, CommandType } from './../../../reporting-studio.model';
 import { Component, OnInit, Input, DoCheck } from '@angular/core';
 
@@ -40,7 +40,7 @@ export class AskCheckComponent extends CheckBoxComponent implements OnInit, DoCh
           page: this.rsService.askPage
         };*/
         this.adService.askChanged.emit();
-      //this.rsService.doSend(JSON.stringify(message));
+        //this.rsService.doSend(JSON.stringify(message));
       }
     }
   }

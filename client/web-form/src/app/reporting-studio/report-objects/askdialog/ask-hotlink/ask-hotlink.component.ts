@@ -1,5 +1,5 @@
-import { HotlinkComponent } from './../../../../shared/controls/hotlink/hotlink.component';
 import { HttpService } from '@taskbuilder/core';
+import { HotlinkComponent } from '@taskbuilder/core';
 import { Observable } from 'rxjs/Rx';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { hotlink, CommandType } from './../../../reporting-studio.model';

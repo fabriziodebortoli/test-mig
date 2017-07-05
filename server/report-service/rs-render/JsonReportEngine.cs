@@ -146,8 +146,6 @@ namespace Microarea.RSWeb.Render
             return string.Empty;
         }
 
-      
-
         //---------------------------------------------------------------------
         private string PreviousAskDialog(string currentClientDialogName)
         {
@@ -161,7 +159,6 @@ namespace Microarea.RSWeb.Render
         //---------------------------------------------------------------------
         public Message GetResponseFor(Message msg)
         {
-
             switch (msg.commandType)
             {
                 case MessageBuilder.CommandType.ASK:
@@ -228,8 +225,13 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.RERUN:
                     {
                         //reset state machine
-                        //StateMachine.CurrentState = State.;
-                        // sen message INITTEMPLATE
+                        StateMachine.StopReport();
+                        StateMachine.ReportSession.uniqueID = Guid.NewGuid().ToString();
+                        StateMachine.CurrentState = State.ExecuteAsk;
+
+                        GetJsonAskDialog(null, "");
+
+                        msg.commandType = MessageBuilder.CommandType.NONE;
                         break;
                     }
 

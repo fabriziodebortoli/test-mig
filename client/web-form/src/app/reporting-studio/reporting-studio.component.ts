@@ -11,7 +11,7 @@ import { ComponentService } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
 import { ReportingStudioService } from './reporting-studio.service';
 
-import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF, } from '@progress/kendo-drawing';
+import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF, exportImage, exportSVG, } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
 
 @Component({
@@ -34,6 +34,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // ask dialog objects
   public askDialogTemplate: any;
+
+  public grid: boolean = false;
 
   constructor(
     private rsService: ReportingStudioService,
@@ -264,6 +266,36 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.pdfState = PdfType.SAVINGPDF;
     this.FirstPage();
   }
+
+  //--------------------------------------------------
+  exportPNG() {
+    drawDOM(document.getElementById('rsLayout'))
+      .then((group: Group) => {
+        return exportImage(group);
+      })
+      .then((dataUri) => {
+        saveAs(dataUri, this.rsService.titleReport + '.png');
+
+      })
+
+  }
+
+  //--------------------------------------------------
+  exportSVG() {
+    drawDOM(document.getElementById('rsLayout'))
+      .then((group: Group) => {
+        return exportSVG(group);
+      })
+      .then((dataUri) => {
+        saveAs(dataUri, this.rsService.titleReport + '.svg');
+
+      })
+  }
+
+  //--------------------------------------------------
+
+
+
 }
 
 

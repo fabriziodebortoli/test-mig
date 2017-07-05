@@ -5,18 +5,25 @@ import { CommonModule } from '@angular/common';
 
 import { Logger } from './../core/services/logger.service';
 
-import {
-    LoginComponent, ApplicationSelectorComponent, FavoritesComponent, MostUsedComponent, GroupSelectorComponent,
-    MenuContainerComponent, MenuContentComponent, MenuElementComponent, MenuStepperComponent,
-    ConnectionInfoDialogComponent, ProductInfoDialogComponent
-} from './components';
+import { LoginComponent } from './components/login/login.component';
+import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
+import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
+import { FavoritesComponent } from './components/menu/favorites/favorites.component';
+import { SearchComponent } from './components/menu/search/search.component';
+import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
+import { MenuContentComponent } from './components/menu/menu-content/menu-content.component';
+import { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
+import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
+import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
+import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
+import { MostUsedComponent } from './components/menu/most-used/most-used.component';
+import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
 export * from './components';
 
-// import { SearchComponent } from './components/menu/search/search.component';
 // import { MenuComponent } from './components/menu/menu.component';
 
-// import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
-// import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 import { MenuService } from './services/menu.service';
 import { EventManagerService } from './services/event-manager.service';
 import { SettingsService } from './services/settings.service';
@@ -66,10 +73,10 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
         MenuStepperComponent,
         ProductInfoDialogComponent,
         ConnectionInfoDialogComponent,
-        // MenuComponent,
-        // SearchComponent,
-        // MenuTabberComponent,
-        // MenuTabComponent,
+        SearchComponent,
+        MenuComponent,
+        MenuTabberComponent,
+        MenuTabComponent,
     ],
     exports: [
         LoginComponent,
@@ -81,22 +88,22 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
         MenuContentComponent,
         MenuElementComponent,
         MenuStepperComponent,
-        // MenuComponent,
-        // SearchComponent,
+        SearchComponent,
+        MenuComponent,
     ],
     providers: [TB_MENU_SERVICES],
-    //   entryComponents: [
-    //     ProductInfoDialogComponent,
-    //     ConnectionInfoDialogComponent
-    //   ]
+    entryComponents: [
+        ProductInfoDialogComponent,
+        ConnectionInfoDialogComponent
+    ]
 })
 export class TbMenuModule {
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: TbMenuModule,
-            providers: [TB_MENU_SERVICES]
-        };
-    }
+    // static forRoot(): ModuleWithProviders {
+    //     return {
+    //         ngModule: TbMenuModule,
+    //         providers: [TB_MENU_SERVICES]
+    //     };
+    // }
 
     constructor(private logger: Logger) {
         this.logger.debug('TbMenuModule from Core instantiated - ' + Math.round(new Date().getTime() / 1000));
