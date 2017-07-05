@@ -8,6 +8,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { ExcelExportModule } from '@progress/kendo-angular-excel-export';
 
 import { ReportLinkComponent } from './report-objects/layout/link/link.component';
 import { ReportRectComponent } from './report-objects/layout/rect/rect.component';
@@ -37,14 +38,15 @@ import { ReportLayoutComponent } from './report-objects/layout/layout.component'
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 const KENDO_UI_MODULES = [
-  GridModule,
-  DialogModule,
+  // GridModule,
+  // DialogModule,
   InputsModule,
   DateInputsModule,
   DropDownsModule,
   LayoutModule,
   PopupModule,
   ButtonsModule,
+  ExcelExportModule
 
 ];
 
