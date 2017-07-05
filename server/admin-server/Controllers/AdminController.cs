@@ -1,4 +1,5 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Library;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
@@ -13,9 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Controllers
 {
@@ -91,53 +89,6 @@ namespace Microarea.AdminServer.Controllers
             return new ContentResult { Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
         }
 
-        [HttpGet("/api/accounts/{username}/{field?}")]
-        [Produces("application/json")]
-        //-----------------------------------------------------------------------------	
-        public IActionResult ApiAccountsInformations(string username, string field)
-        {
-            if (String.IsNullOrEmpty(username))
-            {
-                _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple<string>("message", Strings.AccountNameCannotBeEmpty);
-                return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-            }
-
-			IAccount account = new Account(username);
-
-			try
-			{
-				account.SetDataProvider(_accountSqlDataProvider);
-				account.Load();
-            }
-            catch (Exception exc)
-            {
-                _jsonHelper.AddJsonCouple<bool>("result", false);
-                _jsonHelper.AddJsonCouple<string>("message", "070 AdminController.ApiAccountsInformations" + exc.Message);
-                return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "text/html" };
-            }
-
-			if (account == null)
-			{
-				// TODO ask to GWAM
-			}
-
-			// here account doesn't even exist in GWAM
-
-			if (account == null)
-			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", Strings.InvalidUser);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-			}
-
-            // user has been found
-
-            _jsonHelper.AddJsonCouple<bool>("result", true);
-            _jsonHelper.AddJsonCouple("account", account);
-            return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-		}
-		
         /// <summary>
         /// Insert/update account
         /// </summary>
@@ -418,6 +369,5 @@ namespace Microarea.AdminServer.Controllers
 			_jsonHelper.AddPlainObject<List<Subscription>>(subscriptionsList);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
-
 	}
 }
