@@ -9,7 +9,8 @@
         "docs:serve": "npm run docs:build -- -s",
         "docs:watch": "npm run docs:build -- -s -w",
         "lint": "tslint --type-check --project tsconfig.json src/**/*.ts",
-        "test": "tsc && karma start"
+        "test": "tsc && karma start",
+        "link-core": "npm link ../core/src"
     },
     "repository": {
         "type": "git",
@@ -67,6 +68,7 @@
     },
     "dependencies": {
         "@angular/material": "^2.0.0-beta.6",
-        "@angular/router": "^4.2.4"
+        "@angular/router": "^4.2.4",
+        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git"
     }
 }

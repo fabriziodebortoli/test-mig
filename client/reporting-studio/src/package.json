@@ -20,6 +20,7 @@
     "typings": "taskbuilder-reporting-studio.d.ts",
     "peerDependencies": {
         "@angular/core": "^4.0.0",
+        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
         "rxjs": "^5.1.0",
         "zone.js": "^0.8.4"
     }
