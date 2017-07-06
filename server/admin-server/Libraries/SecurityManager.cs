@@ -93,7 +93,7 @@ namespace Microarea.AdminServer.Library
 			opRes.Result = true;
 			opRes.Code = (int)TokenReturnCodes.Valid;
 			opRes.Message = Strings.ValidToken;
-
+			opRes.Content = bootstrapToken;
 			return opRes;
 		}
 
@@ -105,7 +105,6 @@ namespace Microarea.AdminServer.Library
 		//-----------------------------------------------------------------------------	
 		public static OperationResult ValidateAuthorization(string authenticationHeader, string secretKey, bool isCloudAdmin = false, bool isProvisioningAdmin = false)
 		{
-			//@@TODO stringhe
 			if (String.IsNullOrEmpty(authenticationHeader))
 				return new OperationResult(false, Strings.AuthorizationHeaderMissing, (int)AppReturnCodes.AuthorizationHeaderMissing);
 
@@ -132,6 +131,5 @@ namespace Microarea.AdminServer.Library
 
 			return new OperationResult(false, string.Format(Strings.UnknownAuthType, authInfo.Type), (int)AppReturnCodes.Undefined);
 		}
-
 	}
 }

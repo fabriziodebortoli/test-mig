@@ -236,7 +236,12 @@ namespace Microarea.AdminServer.Controllers
 			if (account == null)
 				return false;
 
-            bootstrapToken.AccountName = account.AccountName;
+			List<SecurityToken> tokens = bootstrapToken.UserTokens = CreateTokens(account);
+
+			if (tokens == null || tokens.Count == 0)
+				return false;
+
+			bootstrapToken.AccountName = account.AccountName;
 			bootstrapToken.ProvisioningAdmin = account.ProvisioningAdmin;
 			bootstrapToken.CloudAdmin = account.CloudAdmin;
 			bootstrapToken.UserTokens = CreateTokens(account);
@@ -265,7 +270,7 @@ namespace Microarea.AdminServer.Controllers
         //----------------------------------------------------------------------
         private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)
         {
-            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, Strings.EmptySubscriptions);
+            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, Strings.EmptySubscriptions, (int)AppReturnCodes.InvalidData);
 
             foreach (ISubscription s in accountIdentityPack.Subscriptions)
             {
@@ -276,7 +281,7 @@ namespace Microarea.AdminServer.Controllers
                     return result;
                 }
             }
-            return new OperationResult(true, "ok");
+            return new OperationResult(true, "ok", (int)AppReturnCodes.OK);
         }
 
         //----------------------------------------------------------------------
