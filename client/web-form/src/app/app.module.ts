@@ -9,7 +9,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 
 
-import { TbCoreModule } from '@taskbuilder/core';
+import { TbCoreModule, ComponentService } from '@taskbuilder/core';
 import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
 
 @NgModule({
@@ -22,6 +22,7 @@ import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
         ReportingStudioModule,
         TbCoreModule.forRoot()
     ],
+    
     bootstrap: [AppComponent]
 })
 export class AppModule { }

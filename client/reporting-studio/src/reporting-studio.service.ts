@@ -1,3 +1,4 @@
+import { UrlService } from '@taskbuilder/core';
 import { ComponentService } from '@taskbuilder/core';
 import { Logger } from '@taskbuilder/core';
 import { Injectable, EventEmitter, Output } from '@angular/core';
@@ -5,7 +6,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { EventDataService } from '@taskbuilder/core';
 import { DocumentService } from '@taskbuilder/core';
-import { CommandType, PdfType } from './reporting-studio.model';
+import { CommandType, PdfType } from './models';
 
 import { drawDOM, exportPDF, DrawOptions, Group } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';

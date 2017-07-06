@@ -1,6 +1,7 @@
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { graphrect } from './../../../models/graphrect.model';
 import { Component, Input } from '@angular/core';
+import { UrlService } from "@taskbuilder/core";
 
 @Component({
   selector: 'rs-image',
