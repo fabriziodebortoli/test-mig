@@ -1,5 +1,5 @@
 import { UtilsService } from '@taskbuilder/core';
-import { table, column, cell } from './../../../reporting-studio.model';
+import { table, column, cell } from '@taskbuilder/reporting-studio';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({

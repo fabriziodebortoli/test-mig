@@ -1,6 +1,6 @@
 import { LayoutService } from '@taskbuilder/core';
 import { ReportingStudioService } from './../../reporting-studio.service';
-import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, PdfType } from './../../reporting-studio.model';
+import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, PdfType } from '@taskbuilder/reporting-studio';
 import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 
