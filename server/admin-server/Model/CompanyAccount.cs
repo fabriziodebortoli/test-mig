@@ -1,4 +1,5 @@
-﻿using Microarea.AdminServer.Model.Interfaces;
+﻿using System;
+using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer.Model
@@ -43,6 +44,12 @@ namespace Microarea.AdminServer.Model
 		public void SetDataProvider(IDataProvider dataProvider)
 		{
 			this.dataProvider = dataProvider;
+		}
+
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			return this.dataProvider.Query(qi);
 		}
 	}
 }

@@ -57,8 +57,13 @@ namespace Microarea.AdminServer.Model
 		//---------------------------------------------------------------------
 		public List<ServerURL> LoadURLs()
 		{
-
 			return ((IInstanceDataProvider)this.dataProvider).LoadURLs(this.instanceKey);
+		}
+
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			return this.dataProvider.Query(qi);
 		}
 	}
 }
