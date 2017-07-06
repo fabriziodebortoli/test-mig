@@ -236,7 +236,12 @@ namespace Microarea.AdminServer.Controllers
 			if (account == null)
 				return false;
 
-            bootstrapToken.AccountName = account.AccountName;
+			List<SecurityToken> tokens = bootstrapToken.UserTokens = CreateTokens(account);
+
+			if (tokens == null || tokens.Count == 0)
+				return false;
+
+			bootstrapToken.AccountName = account.AccountName;
 			bootstrapToken.ProvisioningAdmin = account.ProvisioningAdmin;
 			bootstrapToken.CloudAdmin = account.CloudAdmin;
 			bootstrapToken.UserTokens = CreateTokens(account);
