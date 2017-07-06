@@ -1,6 +1,6 @@
 import { AskdialogComponent } from './../askdialog.component';
 import { ReportingStudioService } from './../../../reporting-studio.service';
-import { text, CommandType } from './../../../reporting-studio.model';
+import { text, CommandType } from '@taskbuilder/reporting-studio';
 import { Component, OnInit, Input, Type, EventEmitter, Output } from '@angular/core';
 import * as moment from 'moment';
 import { AskdialogService } from "app/reporting-studio/report-objects/askdialog/askdialog.service";

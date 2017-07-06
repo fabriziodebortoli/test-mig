@@ -1,4 +1,4 @@
-import { askGroup } from './../../../reporting-studio.model';
+import { askGroup } from '@taskbuilder/reporting-studio';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({

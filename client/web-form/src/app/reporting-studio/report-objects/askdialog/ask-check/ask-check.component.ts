@@ -1,7 +1,7 @@
 import { AskdialogService } from "app/reporting-studio/report-objects/askdialog/askdialog.service";
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { CheckBoxComponent } from '@taskbuilder/core';
-import { check, CommandType } from './../../../reporting-studio.model';
+import { check, CommandType } from '@taskbuilder/reporting-studio';
 import { Component, OnInit, Input, DoCheck } from '@angular/core';
 
 @Component({

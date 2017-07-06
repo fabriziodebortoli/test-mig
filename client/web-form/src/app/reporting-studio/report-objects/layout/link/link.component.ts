@@ -1,8 +1,8 @@
 import { WebSocketService } from '@taskbuilder/core';
 import { ComponentService } from '@taskbuilder/core';
-import { link } from './../../../reporting-studio.model';
+import { link } from '@taskbuilder/reporting-studio';
 import { Component, Input } from '@angular/core';
-import { LinkType } from './../../../reporting-studio.model';
+import { LinkType } from '@taskbuilder/reporting-studio';
 
 
 @Component({

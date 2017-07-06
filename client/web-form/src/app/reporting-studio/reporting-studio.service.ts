@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { EventDataService } from '@taskbuilder/core';
 import { DocumentService } from '@taskbuilder/core';
-import { CommandType, PdfType } from './reporting-studio.model';
+import { CommandType, PdfType } from '@taskbuilder/reporting-studio';
 
 import { drawDOM, exportPDF, DrawOptions, Group } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
