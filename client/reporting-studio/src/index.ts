@@ -1,3 +1,5 @@
+import { ReportingStudioService } from './reporting-studio.service';
+import { AskdialogService } from './report-objects/askdialog/askdialog.service';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -21,7 +23,10 @@ export class ReportingStudioModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: ReportingStudioModule,
-      // providers: [SampleService]
+       providers: [
+         ReportingStudioService,
+         AskdialogService
+         ]
     };
   }
 }
