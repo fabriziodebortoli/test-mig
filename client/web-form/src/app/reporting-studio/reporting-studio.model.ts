@@ -1,3 +1,4 @@
+// import { ReportObjectType, LinkType, rect, baseobj } from '@taskbuilder/reporting-studio';
 
 export interface Message {
   commandType: CommandType;
