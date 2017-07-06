@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { TbSharedModule } from '@taskbuilder/core';
 
 import { RsTestComponent } from './rs-test.component';
+import { StandaloneReportComponent } from "@taskbuilder/core";
 export * from './rs-test.component';
 
 export * from './models';
@@ -21,12 +22,19 @@ export * from './models';
     RsTestComponent,
     ReportLayoutComponent,
     AskdialogComponent,
-    ReportingStudioComponent
+    ReportingStudioComponent,
+    StandaloneReportComponent
   ],
   exports: [
     RsTestComponent,
     ReportLayoutComponent,
     AskdialogComponent,
+    ReportingStudioComponent,
+    StandaloneReportComponent
+    
+  ],
+  entryComponents:
+  [
     ReportingStudioComponent
   ]
 })
