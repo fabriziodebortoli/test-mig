@@ -1,6 +1,5 @@
 import { ComponentService } from '@taskbuilder/core';
 import { Logger } from '@taskbuilder/core';
-import { environment } from './../../environments/environment';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
