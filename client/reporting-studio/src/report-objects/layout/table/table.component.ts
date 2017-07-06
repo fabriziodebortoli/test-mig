@@ -1,5 +1,8 @@
+import { cell } from './../../../models/cell.model';
+import { column } from './../../../models/column.model';
+import { table } from './../../../models/table.model';
 import { UtilsService } from '@taskbuilder/core';
-import { table, column, cell } from './../../../reporting-studio.model';
+
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({

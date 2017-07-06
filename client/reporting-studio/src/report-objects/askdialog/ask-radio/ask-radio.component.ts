@@ -1,8 +1,9 @@
+import { radio } from './../../../models/radio.model';
+
 import { AskdialogService } from './../askdialog.service';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 
 import { RadioComponent } from '@taskbuilder/core';
-import { radio, CommandType } from './../../../reporting-studio.model';
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
 
@@ -32,18 +33,8 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
       }
       else elem.value = true;
     }
-    if (this.radio.runatserver) {
-      /*let obj = {
-        id: this.radio.id,
-        value: this.radio.value.toString()
-      };
-      let message = {
-        commandType: CommandType.UPDATEASK,
-        message: JSON.stringify(obj),
-        page: this.rsService.askPage
-      };*/
-      this.adService.askChanged.emit();
-      //this.rsService.doSend(JSON.stringify(message));
+    if (this.radio.runatserver) {    
+      this.adService.askChanged.emit();    
     }
   }
 }

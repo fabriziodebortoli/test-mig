@@ -1,4 +1,6 @@
-import { askGroup } from './../../../reporting-studio.model';
+import { askGroup } from './../../../models/ask-group.model';
+
+
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({

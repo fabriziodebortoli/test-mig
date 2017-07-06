@@ -1,3 +1,4 @@
+import { check } from './../../../models/check.model';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { AskdialogService } from './../askdialog.service';
 import { CheckBoxComponent } from '@taskbuilder/core';

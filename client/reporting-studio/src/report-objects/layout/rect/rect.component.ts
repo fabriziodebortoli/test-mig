@@ -1,4 +1,4 @@
-import { sqrrect } from './../../../reporting-studio.model';
+import { sqrrect } from './../../../models/sqrrect.model';
 import { UtilsService } from '@taskbuilder/core';
 import { Component, Input } from '@angular/core';
 

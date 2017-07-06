@@ -42,7 +42,7 @@ export class ReportingStudioService extends DocumentService {
         this.websocket.onclose = evt => { this.onClose(evt) };
         this.websocket.onmessage = evt => { this.onMessage(evt) };
         this.websocket.onerror = evt => { this.onError(evt) };
-        this.rsServer=this.urlServ.getWsUrl()+ 'rs';
+        this.rsServer=this.urlServ.getWsUrl()+ '/rs';
     }
 
     onOpen(evt: any) {

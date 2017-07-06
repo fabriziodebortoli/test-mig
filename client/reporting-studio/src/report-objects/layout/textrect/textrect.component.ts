@@ -1,4 +1,5 @@
-import { textrect } from './../../../reporting-studio.model';
+import { textrect } from './../../../models/textrect.model';
+
 import { UtilsService } from '@taskbuilder/core';
 
 import { Component, Input, ChangeDetectorRef, AfterViewInit } from '@angular/core';

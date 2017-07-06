@@ -1,9 +1,10 @@
+import { AskdialogService } from './../askdialog.service';
+import { text } from './../../../models/text.model';
 import { AskdialogComponent } from './../askdialog.component';
 import { ReportingStudioService } from './../../../reporting-studio.service';
-import { text, CommandType } from './../../../reporting-studio.model';
+
 import { Component, OnInit, Input, Type, EventEmitter, Output } from '@angular/core';
 import * as moment from 'moment';
-import { AskdialogService } from "app/reporting-studio/report-objects/askdialog/askdialog.service";
 
 
 @Component({
