@@ -93,7 +93,7 @@ namespace Microarea.AdminServer.Library
 			opRes.Result = true;
 			opRes.Code = (int)TokenReturnCodes.Valid;
 			opRes.Message = Strings.ValidToken;
-
+			opRes.Content = bootstrapToken;
 			return opRes;
 		}
 
