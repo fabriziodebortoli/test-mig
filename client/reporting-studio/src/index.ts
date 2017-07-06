@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { RsTestComponent } from './rs-test.component';
 export * from './rs-test.component';
 
+export * from './models';
+
 @NgModule({
   imports: [
     CommonModule
