@@ -2,7 +2,6 @@ import { UtilsService } from '@taskbuilder/core';
 import { table, column, cell } from './../../../reporting-studio.model';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 
-declare var $: any;
 @Component({
   selector: 'rs-table',
   templateUrl: './table.component.html',

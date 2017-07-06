@@ -18,7 +18,7 @@
         <tb-view-container>
             <tb-view>
                 <rs-askdialog *ngIf="rsService.showAsk" [ask]="askDialogTemplate"></rs-askdialog>
-                <div id="rsLayout" #rsLayout >
+                <div id="rsLayout" #rsLayout>
                     <rs-layout [reportTemplate]="reportTemplate" [reportData]="reportData"></rs-layout>
                 </div>
             </tb-view>
@@ -29,6 +29,15 @@
         <tb-toolbar-bottom-button caption="Export as PDF" (click)="startSavePDF()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as PNG" (click)="exportPNG()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as SVG" (click)="exportSVG()"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button caption="Export as Excel" (click)="excelExport.save()"></tb-toolbar-bottom-button>
+
+
+        <kendo-excelexport [data]="data" fileName="Prova.xlsx" [filterable]="true" #excelExport>
+            <!--kendo-excelexport-column *ngFor="let col of table.columns" field="{{col.id}}" title="{{col.title.caption}}"> </kendo-excelexport-column-->
+        </kendo-excelexport>
+
+
+
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Radar.png" caption="Radar" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button> -->
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Save.png" caption="Save"></tb-toolbar-bottom-button>-->
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Escape.png" caption="Undo Changes" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>-->

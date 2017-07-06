@@ -35,7 +35,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // ask dialog objects
   public askDialogTemplate: any;
 
-  public grid: boolean = false;
+  //Export excel
+  public data: any[];
 
   constructor(
     private rsService: ReportingStudioService,
@@ -141,6 +142,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.DATA:
           this.rsService.showAsk = false;
           this.reportData = k;
+          this.data = k;
           break;
         case CommandType.RUNREPORT:
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
@@ -293,8 +295,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-
-
+   
 
 }
 

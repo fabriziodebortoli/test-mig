@@ -71,7 +71,7 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Authorization header is missing.
+        ///   Looks up a localized string similar to Authorization Header is missing.
         /// </summary>
         public static string AuthorizationHeaderMissing {
             get {
@@ -121,6 +121,15 @@ namespace Microarea.AdminServer.Properties {
         public static string EmptyUser {
             get {
                 return ResourceManager.GetString("EmptyUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An exception occurred {0}..
+        /// </summary>
+        public static string ExceptionMessage {
+            get {
+                return ResourceManager.GetString("ExceptionMessage", resourceCulture);
             }
         }
         
@@ -188,6 +197,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authorization Header is not valid..
+        /// </summary>
+        public static string InvalidAuthHeader {
+            get {
+                return ResourceManager.GetString("InvalidAuthHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your credentials are not valid.
         /// </summary>
         public static string InvalidCredentials {
@@ -233,11 +251,38 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing authorization for this operation.
+        /// </summary>
+        public static string MissingRole {
+            get {
+                return ResourceManager.GetString("MissingRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Token is missing..
+        /// </summary>
+        public static string MissingToken {
+            get {
+                return ResourceManager.GetString("MissingToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Subscriptions Available.
         /// </summary>
         public static string NoSubscriptionsAvailable {
             get {
                 return ResourceManager.GetString("NoSubscriptionsAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No valid input found.
+        /// </summary>
+        public static string NoValidInput {
+            get {
+                return ResourceManager.GetString("NoValidInput", resourceCulture);
             }
         }
         
@@ -373,6 +418,15 @@ namespace Microarea.AdminServer.Properties {
         public static string UnknownApplicationID {
             get {
                 return ResourceManager.GetString("UnknownApplicationID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authorization type ({0}) unknown..
+        /// </summary>
+        public static string UnknownAuthType {
+            get {
+                return ResourceManager.GetString("UnknownAuthType", resourceCulture);
             }
         }
         

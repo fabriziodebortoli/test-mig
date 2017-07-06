@@ -22,7 +22,8 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 		public int ResultCode { get => resultCode; set => resultCode = value; }
 		public string JwtToken { get => jwtToken; set => jwtToken = value; }
 
-		public BootstrapTokenContainer()
+        //----------------------------------------------------------------------
+        public BootstrapTokenContainer()
 		{
 			this.expirationDate = DateTime.MinValue;
 			this.result = false;
@@ -31,7 +32,8 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 			this.jwtToken = String.Empty;
 		}
 
-		public void SetResult(bool result, int resultCode, string message, BootstrapToken token = null, string secretKey = "")
+        //----------------------------------------------------------------------
+        public void SetResult(bool result, int resultCode, string message, BootstrapToken token = null, string secretKey = "")
 		{
 			this.result = result;
 			this.resultCode = resultCode;
@@ -47,7 +49,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 			JWTToken jwtToken = new JWTToken();
 			JWTTokenHeader jWTTokenHeader = new JWTTokenHeader();
 			jWTTokenHeader.alg = "HS256";
-			jWTTokenHeader.typ = "JWT";
+			jWTTokenHeader.typ = AuthorizationInfo.TypeJwtName;
 			jwtToken.header = jWTTokenHeader;
 			jwtToken.payload = bootstrapToken;
 			return jwtToken.GetToken(secretKey);

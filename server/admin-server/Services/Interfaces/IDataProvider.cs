@@ -35,9 +35,9 @@ namespace Microarea.AdminServer.Services
 	}
 
 	//================================================================================
-	public interface ISubscriptionDataProvider
+	public interface ISubscriptionDataProvider : IDataProvider
 	{
 		List<Subscription> GetSubscriptions(string instanceKey);
+		List<Subscription> GetSubscriptionsByAccount(string accountName, string instanceKey);
 	}
-
 }

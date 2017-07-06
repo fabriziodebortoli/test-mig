@@ -121,7 +121,10 @@
     <value>AccountName cannot be empty</value>
   </data>
   <data name="AuthorizationHeaderMissing" xml:space="preserve">
-    <value>Authorization header is missing</value>
+    <value>Authorization Header is missing</value>
+  </data>
+  <data name="InvalidAuthHeader" xml:space="preserve">
+    <value>Authorization Header is not valid.</value>
   </data>
   <data name="BodyCannotBeEmpty" xml:space="preserve">
     <value>The Body cannot be empty</value>
@@ -165,14 +168,14 @@
   <data name="InvalidToken" xml:space="preserve">
     <value>Invalid Token</value>
   </data>
+  <data name="MissingToken" xml:space="preserve">
+    <value>Token is missing.</value>
+  </data>
   <data name="InvalidUser" xml:space="preserve">
     <value>The user is invalid</value>
   </data>
   <data name="LoginOK" xml:space="preserve">
     <value>Login ok</value>
-  </data>
-  <data name="MissingAppId" xml:space="preserve">
-    <value>AppId is missing</value>
   </data>
   <data name="NoSubscriptionsAvailable" xml:space="preserve">
     <value>No Subscriptions Available</value>
@@ -242,5 +245,20 @@
   </data>
   <data name="ValidToken" xml:space="preserve">
     <value>Token is valid</value>
+  </data>
+  <data name="MissingRole" xml:space="preserve">
+    <value>Missing authorization for this operation</value>
+  </data>
+  <data name="MissingAppId" xml:space="preserve">
+    <value>AppId is missing</value>
+  </data>
+  <data name="ExceptionMessage" xml:space="preserve">
+    <value>An exception occurred {0}.</value>
+  </data>
+  <data name="UnknownAuthType" xml:space="preserve">
+    <value>Authorization type ({0}) unknown.</value>
+  </data>
+  <data name="NoValidInput" xml:space="preserve">
+    <value>No valid input found</value>
   </data>
 </root>

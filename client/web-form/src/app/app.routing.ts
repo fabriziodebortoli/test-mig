@@ -6,6 +6,8 @@ import { CoreGuard } from '@taskbuilder/core';
 import { PageNotFoundComponent, UnsupportedFactoryComponent } from '@taskbuilder/core';
 import { ProxyRouteComponent, LoginComponent, HomeComponent, StandaloneReportComponent, StandaloneDocumentComponent } from '@taskbuilder/core';
 
+import { RsTestComponent } from '@taskbuilder/reporting-studio';
+
 import { appRoutes } from './applications/app.routing';
 
 export const routing: ModuleWithProviders = RouterModule.forRoot([
@@ -25,6 +27,7 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
             ...appRoutes
         ],
     },
+    { path: 'test-rs', component: RsTestComponent },
     { path: '**', component: PageNotFoundComponent },
 ]);
 

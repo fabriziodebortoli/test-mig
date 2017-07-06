@@ -1,3 +1,4 @@
+import { TbSharedModule } from '@taskbuilder/core';
 import { FormsModule } from '@angular/forms';
 
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
@@ -8,6 +9,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { ExcelExportModule } from '@progress/kendo-angular-excel-export';
 
 import { ReportLinkComponent } from './report-objects/layout/link/link.component';
 import { ReportRectComponent } from './report-objects/layout/rect/rect.component';
@@ -17,7 +19,7 @@ import { ReportFieldrectComponent } from './report-objects/layout/fieldrect/fiel
 import { ReportTextrectComponent } from './report-objects/layout/textrect/textrect.component';
 import { AskdialogComponent } from './report-objects/askdialog/askdialog.component';
 
-import { SharedModule } from './../shared/shared.module';
+
 import { RouterModule } from '@angular/router';
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
@@ -37,14 +39,15 @@ import { ReportLayoutComponent } from './report-objects/layout/layout.component'
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 const KENDO_UI_MODULES = [
-  GridModule,
-  DialogModule,
+  //GridModule,
+  //DialogModule,
   InputsModule,
   DateInputsModule,
   DropDownsModule,
   LayoutModule,
   PopupModule,
   ButtonsModule,
+  ExcelExportModule
 
 ];
 
@@ -54,7 +57,7 @@ const KENDO_UI_MODULES = [
   imports: [
     FormsModule,
     CommonModule,
-    SharedModule,
+    TbSharedModule,
     KENDO_UI_MODULES,
     MaterialModule,
     RouterModule.forChild([

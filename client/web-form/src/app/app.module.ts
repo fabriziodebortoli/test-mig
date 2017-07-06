@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 
 
 import { TbCoreModule } from '@taskbuilder/core';
+import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
 
 @NgModule({
     declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { TbCoreModule } from '@taskbuilder/core';
         BrowserAnimationsModule,
         SharedModule,
         routing,
+        ReportingStudioModule,
         TbCoreModule.forRoot()
     ],
     bootstrap: [AppComponent]

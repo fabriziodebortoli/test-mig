@@ -96,10 +96,10 @@ export class HotlinkComponent extends ControlComponent {
   }
 
   // ---------------------------------------------------------------------------------------
- /* skipBlur() {
-    this.skipBlurFlag = true;
-  }
-*/
+  /* skipBlur() {
+     this.skipBlurFlag = true;
+   }
+ */
   // ---------------------------------------------------------------------------------------
   onOptionsClick() {
 
@@ -142,6 +142,11 @@ export class HotlinkComponent extends ControlComponent {
     if (this.multiSelectedValues.length > 0) {
       this.value = this.value.substring(0, this.value.length - 1);
     }
+  }
+
+  // ---------------------------------------------------------------------------------------
+  getValue(dataItem) {
+    return dataItem;
   }
 
   // Styling

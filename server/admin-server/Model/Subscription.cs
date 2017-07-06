@@ -1,6 +1,7 @@
 ﻿using Microarea.AdminServer.Library;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Model
 {
@@ -27,7 +28,7 @@ namespace Microarea.AdminServer.Model
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
 		// data provider
-		IDataProvider dataProvider;
+		ISubscriptionDataProvider dataProvider;
 
 		//---------------------------------------------------------------------
 		public Subscription()
@@ -47,7 +48,7 @@ namespace Microarea.AdminServer.Model
 		//---------------------------------------------------------------------
 		public void SetDataProvider(IDataProvider dataProvider)
 		{
-			this.dataProvider = dataProvider;
+			this.dataProvider = (ISubscriptionDataProvider)dataProvider;
 		}
 
 		//---------------------------------------------------------------------
@@ -61,5 +62,11 @@ namespace Microarea.AdminServer.Model
 		{
 			return this.dataProvider.Load(this);
 		}
+
+		//---------------------------------------------------------------------
+		public List<Subscription> GetSubscriptionsByAccount(string accountName, string instanceKey)
+		{
+			return this.dataProvider.GetSubscriptionsByAccount(accountName, instanceKey);
+		}	
 	}
 }

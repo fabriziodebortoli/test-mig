@@ -75,12 +75,17 @@ namespace Microarea.AdminServer.Controllers
                 account.SetDataProvider(_accountSqlDataProvider);
                 account.Load();
 
-                // L'account esiste sul db locale
-                if (account.ExistsOnDB)
+				ISubscription subsscription = new Subscription();
+				subsscription.SetDataProvider(_subscriptionSQLDataProvider);
+				Subscription[] subsArray = subsscription.GetSubscriptionsByAccount(credentials.AccountName, _settings.InstanceIdentity.InstanceKey).ToArray();
+
+				// L'account esiste sul db locale
+				if (account.ExistsOnDB)
                 {
+                    //TODO SECURITYKEY CABLATO
                     AuthorizationInfo authInfo = new AuthorizationInfo(AuthorizationInfo.TypeAppName, _settings.InstanceIdentity.InstanceKey, "ju23ff-KOPP-0911-ila");
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks),authInfo);
+                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), authInfo);
 
                     // Used as a container for the GWAM response.
                     AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
@@ -93,27 +98,29 @@ namespace Microarea.AdminServer.Controllers
                     // Se sul gwam corrisponde... 
                     if (accountIdentityPack.Result) 
                     {
-                        // Se non fosse ExistsOnDB vuol dire che il tick corrisponde, non suona bene ma è così, forse dovrebbe tornare un codice da valutare.
-                        if (accountIdentityPack.Account.ExistsOnDB)
-                        { 
-                            // Salvo l'Account in locale.
-                            account = accountIdentityPack.Account;
-                            account.Save(); 
-                        }
+						// Se non fosse ExistsOnDB vuol dire che il tick corrisponde, non suona bene ma è così, forse dovrebbe tornare un codice da valutare.
+						if (accountIdentityPack.Account.ExistsOnDB)
+						{
+							// Salvo l'Account in locale.
+							account = accountIdentityPack.Account;
+							account.Save();
+						}
                     }
                     else
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, accountIdentityPack.Message);         
                     }
+
                     // Verifica credenziali su db.
                     LoginReturnCodes res = LoginBaseClass.VerifyCredential(account, credentials.Password);
 
                     if (res != LoginReturnCodes.NoError)
                     {
-                        return SetErrorResponse(bootstrapTokenContainer, (int)res, Strings.OK);
+                        return SetErrorResponse(bootstrapTokenContainer, (int)res, res.ToString());
                     }
+
                     // Valorizzo il bootstraptoken per la risposta
-                    if (!ValorizeBootstrapToken(accountIdentityPack, bootstrapToken))
+                    if (!ValorizeBootstrapToken(account, subsArray, bootstrapToken))
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.ErrorSavingTokens, LoginReturnCodes.ErrorSavingTokens.ToString());
                     }
@@ -159,7 +166,7 @@ namespace Microarea.AdminServer.Controllers
                         }
                     }
                     // Valorizzo il bootstraptoken per la risposta
-                    if (!ValorizeBootstrapToken(accountIdentityPack, bootstrapToken))
+                    if (!ValorizeBootstrapToken(account, subsArray, bootstrapToken))
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.ErrorSavingTokens, LoginReturnCodes.ErrorSavingTokens.ToString());
                     }
@@ -224,25 +231,23 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //----------------------------------------------------------------------
-        private bool ValorizeBootstrapToken(AccountIdentityPack accountIP, BootstrapToken bootstrapToken)
+        private bool ValorizeBootstrapToken(IAccount account, Subscription[] subscriptions, BootstrapToken bootstrapToken)
         {
-			if (accountIP == null || accountIP.Account == null)
-			{
+			if (account == null)
 				return false;
-			}
 
-            UserTokens t = CreateTokens(accountIP.Account);
+			List<SecurityToken> tokens = bootstrapToken.UserTokens = CreateTokens(account);
 
-			if (t == null)
-			{
+			if (tokens == null || tokens.Count == 0)
 				return false;
-			}
 
-            bootstrapToken.AccountName = accountIP.Account.AccountName;
-            bootstrapToken.UserTokens = t;
-            bootstrapToken.ApplicationLanguage = accountIP.Account.ApplicationLanguage;
-            bootstrapToken.PreferredLanguage = accountIP.Account.PreferredLanguage;
-            bootstrapToken.Subscriptions = accountIP.Subscriptions;
+			bootstrapToken.AccountName = account.AccountName;
+			bootstrapToken.ProvisioningAdmin = account.ProvisioningAdmin;
+			bootstrapToken.CloudAdmin = account.CloudAdmin;
+			bootstrapToken.UserTokens = CreateTokens(account);
+			bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
+            bootstrapToken.PreferredLanguage = account.PreferredLanguage;
+            bootstrapToken.Subscriptions = subscriptions;
             bootstrapToken.Urls = GetUrlsForThisInstance(_settings.InstanceIdentity.InstanceKey);
             return true;
         }
@@ -265,7 +270,7 @@ namespace Microarea.AdminServer.Controllers
         //----------------------------------------------------------------------
         private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)
         {
-            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, Strings.EmptySubscriptions);
+            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, Strings.EmptySubscriptions, (int)AppReturnCodes.InvalidData);
 
             foreach (ISubscription s in accountIdentityPack.Subscriptions)
             {
@@ -276,7 +281,7 @@ namespace Microarea.AdminServer.Controllers
                     return result;
                 }
             }
-            return new OperationResult(true, "ok");
+            return new OperationResult(true, "ok", (int)AppReturnCodes.OK);
         }
 
         //----------------------------------------------------------------------
@@ -290,27 +295,39 @@ namespace Microarea.AdminServer.Controllers
             entries.Add(new KeyValuePair<string, string>("instanceKey", _settings.InstanceIdentity.InstanceKey));
 
             OperationResult opRes = await _httpHelper.PostDataAsync(url, entries);
-            return (Task<string>)opRes.Content;
+
+			//@@TODO da togliere (fix exception if opRes.Content an empty object not null and gwam is not responding)
+			return (Task<string>)opRes.Content;
         }
 
         //----------------------------------------------------------------------
         private async Task<Task<string>> VerifyAccountModificationGWAM(AccountModification accMod, AuthorizationInfo authInfo)
         {
             string authHeader = JsonConvert.SerializeObject(authInfo);
-            OperationResult opRes = await _httpHelper.PostDataAsync(
+
+			// call GWAM API
+			OperationResult opRes = await _httpHelper.PostDataAsync(
 				this.GWAMUrl + "accounts/" + accMod.AccountName + "/" + accMod.Ticks, 
 				new List<KeyValuePair<string, string>>(), authHeader);
-            return (Task<string>)opRes.Content;
-        }
 
-        //----------------------------------------------------------------------
-        private UserTokens CreateTokens(IAccount account)
-        {
-            UserTokens tokens = new UserTokens(account.IsAdmin, account.AccountName);
-            tokens.Setprovider(_tokenSQLDataProvider);
-            if (tokens.Save())
-                return tokens;
-            return null;
+			//@@TODO da togliere (fix exception if opRes.Content an empty object not null and gwam is not responding)
+			return (Task<string>)opRes.Content;
+		}
+
+		//----------------------------------------------------------------------
+		private List<SecurityToken> CreateTokens(IAccount account)
+		{
+			List<SecurityToken> tokenList = new List<SecurityToken>();
+
+			UserTokens tokens = new UserTokens(account.IsAdmin, account.AccountName);
+			tokens.Setprovider(_tokenSQLDataProvider);
+
+			if (tokens.Save())
+			{
+				return tokens.GetTokenList(account.IsAdmin, account.AccountName);
+			}
+
+			return tokenList;
         }
     }
 }

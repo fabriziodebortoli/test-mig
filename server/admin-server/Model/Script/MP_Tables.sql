@@ -4,6 +4,8 @@ CREATE TABLE [dbo].[MP_Instances] (
 	[InstanceKey] [varchar] (50) NOT NULL,
 	[Description] [varchar] (255) NULL CONSTRAINT DF_Instances_Description DEFAULT(''),
 	[Disabled] [bit] NULL CONSTRAINT DF_Instances_Disabled DEFAULT(0),
+	[Origin] [varchar] (20) NULL CONSTRAINT DF_Instances_Origin DEFAULT(''),
+	[Tags] [varchar] (255) NULL CONSTRAINT DF_Instances_Tags DEFAULT(''),
 	CONSTRAINT [PK_MP_Instances] PRIMARY KEY NONCLUSTERED 
 	(
 		[InstanceKey]
