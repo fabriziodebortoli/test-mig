@@ -75,17 +75,12 @@ namespace Microarea.AdminServer.Controllers
                 account.SetDataProvider(_accountSqlDataProvider);
                 account.Load();
 
-				ISubscription subsscription = new Subscription();
-				subsscription.SetDataProvider(_subscriptionSQLDataProvider);
-				Subscription[] subsArray = subsscription.GetSubscriptionsByAccount(credentials.AccountName, _settings.InstanceIdentity.InstanceKey).ToArray();
-
 				// L'account esiste sul db locale
 				if (account.ExistsOnDB)
                 {
-                    //TODO SECURITYKEY CABLATO
-                    AuthorizationInfo authInfo = new AuthorizationInfo(AuthorizationInfo.TypeAppName, _settings.InstanceIdentity.InstanceKey, "ju23ff-KOPP-0911-ila");
+                   
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), authInfo);
+                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), GetAuthorizationInfo());
 
                     // Used as a container for the GWAM response.
                     AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
@@ -119,8 +114,9 @@ namespace Microarea.AdminServer.Controllers
                         return SetErrorResponse(bootstrapTokenContainer, (int)res, res.ToString());
                     }
 
+
                     // Valorizzo il bootstraptoken per la risposta
-                    if (!ValorizeBootstrapToken(account, subsArray, bootstrapToken))
+                    if (!ValorizeBootstrapToken(account, bootstrapToken))
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.ErrorSavingTokens, LoginReturnCodes.ErrorSavingTokens.ToString());
                     }
@@ -166,7 +162,7 @@ namespace Microarea.AdminServer.Controllers
                         }
                     }
                     // Valorizzo il bootstraptoken per la risposta
-                    if (!ValorizeBootstrapToken(account, subsArray, bootstrapToken))
+                    if (!ValorizeBootstrapToken(account, bootstrapToken))
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.ErrorSavingTokens, LoginReturnCodes.ErrorSavingTokens.ToString());
                     }
@@ -181,13 +177,92 @@ namespace Microarea.AdminServer.Controllers
             }
         }
 
-		/// <summary>
-		/// Check a token
-		/// </summary>
-		/// <returns>
-		/// OperationResult
-		/// </returns>
-		[HttpPost("api/token")]
+        // <summary>
+        // Provides change password
+        // </summary>
+        //-----------------------------------------------------------------------------	
+        [HttpPost("/api/password")]
+        public async Task<IActionResult> ApiPassword([FromBody] ChangePasswordInfo passwordInfo)
+        {
+            // Used as a response to the front-end.
+            BootstrapToken bootstrapToken = new BootstrapToken();
+            BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
+
+            if (passwordInfo == null || String.IsNullOrEmpty(passwordInfo.AccountName))
+            {
+                return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.AccountNameCannotBeEmpty);
+            }
+            try
+            {
+                IAccount account = new Account(passwordInfo.AccountName);
+                account.SetDataProvider(_accountSqlDataProvider);
+                account.Load();
+                // L'account esiste sul db locale
+                if (account.ExistsOnDB)
+                {
+                    // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
+                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), GetAuthorizationInfo());
+
+                    // Used as a container for the GWAM response.
+                    AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
+                    accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
+
+                    if (accountIdentityPack == null)
+                    {
+                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.UnknownError);
+                    }
+                    // Se sul gwam corrisponde... 
+                    if (accountIdentityPack.Result)
+                    {
+                        // Se non fosse ExistsOnDB vuol dire che il tick corrisponde, non suona bene ma è così, forse dovrebbe tornare un codice da valutare.
+                        if (accountIdentityPack.Account.ExistsOnDB)
+                        {
+                            // Salvo l'Account in locale.
+                            account = accountIdentityPack.Account;
+                            account.Save();
+                        }
+                    }
+                    else
+                    {
+                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, accountIdentityPack.Message);
+                    }
+                    LoginReturnCodes res = LoginBaseClass.ChangePassword(account, passwordInfo);
+
+                    if (res != LoginReturnCodes.NoError)
+                    { 
+                        return SetErrorResponse(bootstrapTokenContainer, (int)res, res.ToString());
+                    }
+
+                    // Valorizzo il bootstraptoken per la risposta
+                    if (!ValorizeBootstrapToken(account, bootstrapToken))
+                    {
+                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.ErrorSavingTokens, LoginReturnCodes.ErrorSavingTokens.ToString());
+                    }
+                    return SetSuccessResponse(bootstrapTokenContainer, bootstrapToken, Strings.OK);
+                }
+            }
+            catch (Exception exc)
+            {
+                return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.GenericLoginFailure, "080 ApiAccounts Exception: " + exc.Message, 500);
+            }
+            // L'utente che sta cercando di cambiare a password non è in locale, ma secondo me è una situzione di eccezione
+            return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.InvalidUserError, LoginReturnCodes.InvalidUserError.ToString());
+        }
+
+        //-----------------------------------------------------------------------------	
+        private AuthorizationInfo GetAuthorizationInfo()
+        { 
+            // TODO SECURITYKEY CABLATO.
+            return new AuthorizationInfo(AuthorizationInfo.TypeAppName, _settings.InstanceIdentity.InstanceKey, "ju23ff-KOPP-0911-ila");
+        }
+
+        /// <summary>
+        /// Check a token
+        /// </summary>
+        /// <returns>
+        /// OperationResult
+        /// </returns>
+        [HttpPost("api/token")]
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiCheckToken(string token)
 		{
@@ -220,7 +295,7 @@ namespace Microarea.AdminServer.Controllers
         private IActionResult SetSuccessResponse(BootstrapTokenContainer bootstrapTokenContainer, BootstrapToken token, string message)
         {
             bootstrapTokenContainer.SetResult(true, (int)LoginReturnCodes.NoError, message, token, _settings.SecretsKeys.TokenHashingKey);
-            return SetResponse(bootstrapTokenContainer,200);
+            return SetResponse(bootstrapTokenContainer, 200);
         }
 
         //----------------------------------------------------------------------
@@ -231,31 +306,40 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //----------------------------------------------------------------------
-        private bool ValorizeBootstrapToken(IAccount account, Subscription[] subscriptions, BootstrapToken bootstrapToken)
+        private bool ValorizeBootstrapToken(IAccount account,  BootstrapToken bootstrapToken)
         {
-			if (account == null)
-				return false;
+            if (account == null)
+                return false;
 
-			List<SecurityToken> tokens = bootstrapToken.UserTokens = CreateTokens(account);
+            List<SecurityToken> tokens = bootstrapToken.UserTokens = CreateTokens(account);
 
-			if (tokens == null || tokens.Count == 0)
-				return false;
+            if (tokens == null || tokens.Count == 0)
+                return false;
 
-			bootstrapToken.AccountName = account.AccountName;
-			bootstrapToken.ProvisioningAdmin = account.ProvisioningAdmin;
-			bootstrapToken.CloudAdmin = account.CloudAdmin;
-			bootstrapToken.UserTokens = CreateTokens(account);
-			bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
+            bootstrapToken.AccountName = account.AccountName;
+            bootstrapToken.ProvisioningAdmin = account.ProvisioningAdmin;
+            bootstrapToken.CloudAdmin = account.CloudAdmin;
+            bootstrapToken.UserTokens = CreateTokens(account);
+            bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
             bootstrapToken.PreferredLanguage = account.PreferredLanguage;
-            bootstrapToken.Subscriptions = subscriptions;
-            bootstrapToken.Urls = GetUrlsForThisInstance(_settings.InstanceIdentity.InstanceKey);
+            bootstrapToken.Subscriptions = GetSubscritions(account.AccountName); ;
+            bootstrapToken.Urls = GetUrlsForThisInstance();
             return true;
         }
 
         //----------------------------------------------------------------------
-        private List<ServerURL> GetUrlsForThisInstance(string instanceKey)
+        private Subscription[] GetSubscritions(string accountName)
         {
-            Instance iInstance = new Instance(instanceKey);
+            ISubscription subsscription = new Subscription();
+            subsscription.SetDataProvider(_subscriptionSQLDataProvider);
+            Subscription[] subsArray = subsscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
+            return subsArray;
+        }
+
+        //----------------------------------------------------------------------
+        private List<ServerURL> GetUrlsForThisInstance()
+        {
+            Instance iInstance = new Instance(_settings.InstanceIdentity.InstanceKey);
             iInstance.SetDataProvider(_instanceSqlDataProvider);
             iInstance.Load();
 
