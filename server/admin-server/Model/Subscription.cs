@@ -67,6 +67,12 @@ namespace Microarea.AdminServer.Model
 		public List<Subscription> GetSubscriptionsByAccount(string accountName, string instanceKey)
 		{
 			return this.dataProvider.GetSubscriptionsByAccount(accountName, instanceKey);
-		}	
+		}
+
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			return this.dataProvider.Query(qi);
+		}
 	}
 }

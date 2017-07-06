@@ -89,7 +89,7 @@ namespace Microarea.AdminServer.Model
             //if(this.dataProvider == null) ????
             return this.dataProvider.Load(this);
         }
-
+		
         //---------------------------------------------------------------------
         public bool IsPasswordExpirated()
 		{
@@ -97,5 +97,11 @@ namespace Microarea.AdminServer.Model
             return passwordExpirationDate < DateTime.Now && 
                 passwordExpirationDate > this.dataProvider.MinDateTimeValue;
         }
-    }
+
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			return this.dataProvider.Query(qi);
+		}
+	}
 }

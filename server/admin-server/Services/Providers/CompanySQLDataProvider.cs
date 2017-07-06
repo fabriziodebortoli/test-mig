@@ -8,7 +8,7 @@ using Microarea.AdminServer.Model.Interfaces;
 namespace Microarea.AdminServer.Services.Providers
 {
 	//================================================================================
-	public class CompanySQLDataProvider : IDataProvider, ICompanyDataProvider
+	public class CompanySQLDataProvider : ICompanyDataProvider
 	{
         string connectionString;
 
@@ -235,6 +235,78 @@ namespace Microarea.AdminServer.Services.Providers
 			}
 
 			return companiesList;
+		}
+
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			OperationResult opRes = new OperationResult();
+
+			List<Company> companiesList = new List<Company>();
+
+			string selectQuery = "SELECT * FROM MP_Companies WHERE ";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand())
+					{
+						command.Connection = connection;
+
+						foreach (QueryField field in qi.Fields)
+						{
+							string paramName = string.Format("@{0}", field.Name);
+							selectQuery += string.Format("{0} = {1} AND ", paramName, field.Name);
+
+							command.Parameters.AddWithValue(paramName, field.Value);
+						}
+
+						selectQuery = selectQuery.Substring(0, selectQuery.Length - 5);
+						command.CommandText = selectQuery;
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								Company company = new Company();
+								company.CompanyId = (int)dataReader["CompanyId"];
+								company.Name = dataReader["Name"] as string;
+								company.Description = dataReader["Description"] as string;
+								company.CompanyDBServer = dataReader["CompanyDBServer"] as string;
+								company.CompanyDBName = dataReader["CompanyDBName"] as string;
+								company.CompanyDBOwner = dataReader["CompanyDBOwner"] as string;
+								company.CompanyDBPassword = dataReader["CompanyDBPassword"] as string;
+								company.Disabled = (bool)dataReader["Disabled"];
+								company.DatabaseCulture = dataReader["DatabaseCulture"] as string;
+								company.IsUnicode = (bool)dataReader["IsUnicode"];
+								company.PreferredLanguage = dataReader["PreferredLanguage"] as string;
+								company.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								company.Provider = dataReader["Provider"] as string;
+								company.SubscriptionKey = dataReader["SubscriptionKey"] as string;
+								company.UseDMS = (bool)dataReader["UseDMS"];
+								company.DMSDBServer = dataReader["DMSDBServer"] as string;
+								company.DMSDBName = dataReader["DMSDBName"] as string;
+								company.DMSDBOwner = dataReader["DMSDBOwner"] as string;
+								company.DMSDBPassword = dataReader["DMSDBPassword"] as string;
+								companiesList.Add(company);
+							}
+						}
+					}
+					opRes.Result = true;
+					opRes.Content = companiesList;
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				opRes.Result = false;
+				return opRes;
+			}
+
+			return opRes;
 		}
 	}
 }
