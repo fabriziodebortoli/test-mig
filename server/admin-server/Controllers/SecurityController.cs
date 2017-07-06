@@ -265,7 +265,7 @@ namespace Microarea.AdminServer.Controllers
         //----------------------------------------------------------------------
         private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)
         {
-            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, Strings.EmptySubscriptions);
+            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, Strings.EmptySubscriptions, (int)AppReturnCodes.InvalidData);
 
             foreach (ISubscription s in accountIdentityPack.Subscriptions)
             {
@@ -276,7 +276,7 @@ namespace Microarea.AdminServer.Controllers
                     return result;
                 }
             }
-            return new OperationResult(true, "ok");
+            return new OperationResult(true, "ok", (int)AppReturnCodes.OK);
         }
 
         //----------------------------------------------------------------------
