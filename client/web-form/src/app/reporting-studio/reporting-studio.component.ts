@@ -5,7 +5,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType } from './reporting-studio.model';
+import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType } from '@taskbuilder/reporting-studio';
 import { DocumentComponent } from '@taskbuilder/core';
 import { ComponentService } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
@@ -295,7 +295,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-   
+
 
 }
 

@@ -2,7 +2,7 @@ import { AskdialogService } from './askdialog.service';
 import { Subscription } from 'rxjs';
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { Component, Input, OnDestroy, ViewEncapsulation, OnChanges, SimpleChange, EventEmitter, Output } from '@angular/core';
-import { TemplateItem, askGroup, text, check, radio, CommandType, askObj, hotlink, AskObjectType } from './../../reporting-studio.model';
+import { TemplateItem, askGroup, text, check, radio, CommandType, askObj, hotlink, AskObjectType } from '@taskbuilder/reporting-studio';
 
 @Component({
   selector: 'rs-askdialog',

@@ -1,0 +1,1 @@
+export enum PdfType { NOPDF, SAVINGPDF }

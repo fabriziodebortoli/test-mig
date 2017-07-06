@@ -2,7 +2,7 @@ import { HttpService } from '@taskbuilder/core';
 import { HotlinkComponent } from '@taskbuilder/core';
 import { Observable } from 'rxjs/Rx';
 import { ReportingStudioService } from './../../../reporting-studio.service';
-import { hotlink, CommandType } from './../../../reporting-studio.model';
+import { hotlink, CommandType } from '@taskbuilder/reporting-studio';
 import { Component, Input, DoCheck, KeyValueDiffers, Output, EventEmitter, ViewChild, ViewEncapsulation, OnInit } from '@angular/core';
 
 @Component({

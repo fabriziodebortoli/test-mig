@@ -1,11 +1,11 @@
-# taskbuilder-reporting-studio
+# @taskbuilder/reporting-studio
 
 ## Installation
 
 To install this library, run:
 
 ```bash
-$ npm install taskbuilder-reporting-studio --save
+$ npm install https://github.com/Microarea/ng-reporting-studio.git --save
 ```
 
 ## Consuming your library
@@ -13,7 +13,7 @@ $ npm install taskbuilder-reporting-studio --save
 Once you have published your library to npm, you can import your library in any Angular application by running:
 
 ```bash
-$ npm install taskbuilder-reporting-studio
+$ npm install https://github.com/Microarea/ng-reporting-studio.git --save
 ```
 
 and then from your Angular `AppModule`:
@@ -25,7 +25,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
 // Import your library
-import { SampleModule } from 'taskbuilder-reporting-studio';
+import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { SampleModule } from 'taskbuilder-reporting-studio';
     BrowserModule,
 
     // Specify your library as an import
-    LibraryModule
+    ReportingStudioModule
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -50,7 +50,7 @@ Once your library is imported, you can use its components, directives and pipes 
 <h1>
   {{title}}
 </h1>
-<sampleComponent></sampleComponent>
+<rs-test-component></rs-test-component>
 ```
 
 ## Development

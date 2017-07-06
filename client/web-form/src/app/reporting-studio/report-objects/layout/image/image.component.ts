@@ -1,4 +1,4 @@
-import { graphrect } from './../../../reporting-studio.model';
+import { graphrect } from '@taskbuilder/reporting-studio';
 import { environment } from './../../../../../environments/environment.prod';
 
 import { Component, Input } from '@angular/core';
