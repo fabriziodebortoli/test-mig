@@ -1,5 +1,6 @@
 ﻿using System;
 using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Controllers.Helpers;
 
 namespace Microarea.AdminServer.Library
 {
@@ -40,7 +41,7 @@ namespace Microarea.AdminServer.Library
         }
 
         //----------------------------------------------------------------------
-        public static LoginReturnCodes ChangePassword(IAccount account,string oldpassword, string newpassword)
+        internal static LoginReturnCodes ChangePassword(IAccount account, ChangePasswordInfo  passwordInfo)
         {
             if (account.ExpirationDate < DateTime.Now)
                 return LoginReturnCodes.UserExpired;
@@ -54,13 +55,13 @@ namespace Microarea.AdminServer.Library
 			if (account.PasswordExpirationDate < DateTime.Now)
 			    return LoginReturnCodes.PasswordExpiredError;
 
-			if (account.Password != Crypt(oldpassword))
+			if (account.Password != Crypt(passwordInfo.Password))
             {
                 AddWrongPwdLoginCount(account);
                 return LoginReturnCodes.InvalidUserError;
             }
 
-            account.Password = Crypt(newpassword);
+            account.Password = Crypt(passwordInfo.NewPassword);
             if (!account.Save().Result) return LoginReturnCodes.ErrorSavingAccount;
         
             ClearWrongPwdLoginCount(account);
