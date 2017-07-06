@@ -9,10 +9,9 @@ using Microarea.AdminServer.Services.Providers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.IO;
 
 namespace Microarea.AdminServer.Controllers
@@ -59,7 +58,36 @@ namespace Microarea.AdminServer.Controllers
             _urlsSQLDataProvider = new ServerURLSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
         }
 
-        [HttpGet]
+		/// <summary>
+		/// From modelName returns the corresponding IDataProvider 
+		/// </summary>
+		/// <param name="modelName"></param>
+		/// <returns></returns>
+		//-----------------------------------------------------------------------------	
+		private IDataProvider GetProviderFromModelName(string modelName)
+		{
+			switch (modelName.ToLowerInvariant())
+			{
+				case "account":
+					return _accountSqlDataProvider;
+
+				case "company":
+					return _companySqlDataProvider;
+
+				case "instance":
+					return _instanceSqlDataProvider;
+
+				case "subscription":
+					return _subscriptionSQLDataProvider;
+
+				default:
+					break;
+			}
+
+			return null;
+		}
+
+		[HttpGet]
         [Route("/")]
 		//-----------------------------------------------------------------------------	
 		public IActionResult Index()
@@ -114,8 +142,9 @@ namespace Microarea.AdminServer.Controllers
 				{
 					company.SetDataProvider(_companySqlDataProvider);
 					opRes = company.Save();
-					opRes.Message = Strings.SaveCompanyOK;
-				} else
+					opRes.Message = Strings.OperationOK;
+				}
+				else
 				{
 					opRes.Result = false;
 					opRes.Message = Strings.NoValidInput;
@@ -132,7 +161,7 @@ namespace Microarea.AdminServer.Controllers
 			if (!opRes.Result)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", opRes.Result);
-				_jsonHelper.AddJsonCouple<string>("message", Strings.SaveCompanyKO);
+				_jsonHelper.AddJsonCouple<string>("message", Strings.OperationKO);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
@@ -227,6 +256,111 @@ namespace Microarea.AdminServer.Controllers
 			}
 
 			_jsonHelper.AddPlainObject<List<Subscription>>(subscriptionsList);
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		[HttpPost("/api/query/{modelName}")]
+		[Produces("application/json")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiQuery(string modelName)
+		{
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey, isProvisioningAdmin: true);
+
+			if (!opRes.Result)
+			{
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (string.IsNullOrWhiteSpace(modelName))
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", Strings.EmptyModelName);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+			}
+
+			try
+			{
+				// read Body content
+				var bodyStream = new StreamReader(HttpContext.Request.Body);
+				string bodyText = bodyStream.ReadToEnd();
+
+				if (string.IsNullOrWhiteSpace(bodyText))
+				{
+					_jsonHelper.AddJsonCouple<bool>("result", false);
+					_jsonHelper.AddJsonCouple<string>("message", Strings.MissingBody);
+					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				}
+
+				// load Body data in QueryInfo object
+				JObject jObject = JObject.Parse(bodyText);
+
+				QueryInfo qi = new QueryInfo();
+
+				foreach (var item in jObject)
+				{
+					string k = item.Key;
+					object val = ((JValue)item.Value).Value;
+					qi.Fields.Add(new QueryField(k, val));
+				}
+
+				if (qi.Fields.Count == 0)
+				{
+					_jsonHelper.AddJsonCouple<bool>("result", true);
+					_jsonHelper.AddJsonCouple<string>("message", Strings.NoQueryParams);
+					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				}
+
+				// I capitalize the first letter otherwise I can't obtain the type of the object
+				string modelNameWithFirstLetterUpperCase = char.ToUpper(modelName[0]) + modelName.Substring(1).ToLowerInvariant();
+				// to get the type I need the namespace of object!
+				string fullName = "Microarea.AdminServer.Model." + modelNameWithFirstLetterUpperCase;
+
+				Type objectType = Type.GetType(fullName);
+				if (objectType == null)
+				{
+					_jsonHelper.AddJsonCouple<bool>("result", false);
+					_jsonHelper.AddJsonCouple<string>("message", string.Format(Strings.UnknownModelName, modelNameWithFirstLetterUpperCase));
+					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				}
+
+				IDataProvider dataProvider = GetProviderFromModelName(modelName);
+				if (dataProvider == null)
+				{
+					_jsonHelper.AddJsonCouple<bool>("result", false);
+					_jsonHelper.AddJsonCouple<string>("message", string.Format(Strings.NoProviderAvailableForModel, modelName));
+					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				}
+
+				IAdminModel model = Activator.CreateInstance(objectType) as IAdminModel;
+				if (model == null)
+				{
+					_jsonHelper.AddJsonCouple<bool>("result", false);
+					_jsonHelper.AddJsonCouple<string>("message", string.Format(Strings.NoModelLoaded, modelName));
+					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				}
+
+				model.SetDataProvider(dataProvider);
+				opRes = model.Query(qi);
+
+				if (opRes.Result)
+				{
+					opRes.Message = Strings.OperationOK;
+					opRes.Code = (int)AppReturnCodes.OK;
+				}
+			}
+			catch (Exception e)
+			{
+				_jsonHelper.AddJsonCouple<bool>("result", false);
+				_jsonHelper.AddJsonCouple<string>("message", "010 AdminController.ApiQuery " + e.Message);
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+			}
+
+			_jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 	}

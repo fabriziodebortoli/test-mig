@@ -1,4 +1,5 @@
-﻿using Microarea.AdminServer.Model;
+﻿using Microarea.AdminServer.Library;
+using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								subscription.ActivationToken = new Library.ActivationToken (dataReader["ActivationToken"] as string);
+								subscription.ActivationToken = new ActivationToken (dataReader["ActivationToken"] as string);
 								subscription.Description = dataReader["Description"] as string;
 								subscription.PreferredLanguage = dataReader["PreferredLanguage"] as string;
 								subscription.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
@@ -230,5 +231,65 @@ namespace Microarea.AdminServer.Services.Providers
 			return subsList;
 		}
 
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			OperationResult opRes = new OperationResult();
+
+			List<Subscription> subscriptionList = new List<Subscription>();
+
+			string selectQuery = "SELECT * FROM MP_Subscriptions WHERE ";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand())
+					{
+						command.Connection = connection;
+
+						foreach (QueryField field in qi.Fields)
+						{
+							string paramName = string.Format("@{0}", field.Name);
+							selectQuery += string.Format("{0} = {1} AND ", paramName, field.Name);
+
+							command.Parameters.AddWithValue(paramName, field.Value);
+						}
+
+						selectQuery = selectQuery.Substring(0, selectQuery.Length - 5);
+						command.CommandText = selectQuery;
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								Subscription sub = new Subscription();
+								sub.SubscriptionKey = dataReader["SubscriptionKey"] as string;
+								sub.Description = dataReader["Description"] as string;
+								sub.ActivationToken = new ActivationToken(dataReader["ActivationToken"] as string);
+								sub.PreferredLanguage = dataReader["PreferredLanguage"] as string;
+								sub.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								sub.MinDBSizeToWarn = (int)dataReader["MinDBSizeToWarn"];
+								sub.InstanceKey = dataReader["InstanceKey"] as string;
+								subscriptionList.Add(sub);
+							}
+						}
+					}
+					opRes.Result = true;
+					opRes.Content = subscriptionList;
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				opRes.Result = false;
+				return opRes;
+			}
+
+			return opRes;
+
+		}
 	}
 }

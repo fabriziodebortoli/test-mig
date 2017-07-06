@@ -1,5 +1,7 @@
-﻿using Microarea.AdminServer.Model.Interfaces;
+﻿using Microarea.AdminServer.Model;
+using Microarea.AdminServer.Model.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 
@@ -136,5 +138,62 @@ namespace Microarea.AdminServer.Services.Providers
 
             return true;
         }
-    }
+
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			OperationResult opRes = new OperationResult();
+
+			List<SecurityToken> tokensList = new List<SecurityToken>();
+
+			string selectQuery = "SELECT * FROM MP_SecurityTokens WHERE ";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand())
+					{
+						command.Connection = connection;
+
+						foreach (QueryField field in qi.Fields)
+						{
+							string paramName = string.Format("@{0}", field.Name);
+							selectQuery += string.Format("{0} = {1} AND ", paramName, field.Name);
+
+							command.Parameters.AddWithValue(paramName, field.Value);
+						}
+
+						selectQuery = selectQuery.Substring(0, selectQuery.Length - 5);
+						command.CommandText = selectQuery;
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								SecurityToken token = new SecurityToken();
+								token.AccountName = dataReader["AccountName"] as string;
+								token.Token = dataReader["Token"] as string;
+								token.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
+								token.Expired = (bool)dataReader["Expired"];
+								tokensList.Add(token);
+							}
+						}
+					}
+					opRes.Result = true;
+					opRes.Content = tokensList;
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				opRes.Result = false;
+				return opRes;
+			}
+
+			return opRes;
+		}
+	}
 }

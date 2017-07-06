@@ -41,5 +41,11 @@ namespace Microarea.AdminServer.Model
 		{
 			this.dataProvider = dataProvider;
 		}
+
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			return this.dataProvider.Query(qi);
+		}
 	}
 }

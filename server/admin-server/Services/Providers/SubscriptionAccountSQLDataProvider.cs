@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Services.Providers
 {
@@ -137,6 +138,61 @@ namespace Microarea.AdminServer.Services.Providers
 			}
 
 			return true;
+		}
+
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			OperationResult opRes = new OperationResult();
+
+			List<SubscriptionAccount> subscriptionsList = new List<SubscriptionAccount>();
+
+			string selectQuery = "SELECT * FROM MP_SubscriptionAccounts WHERE ";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand())
+					{
+						command.Connection = connection;
+
+						foreach (QueryField field in qi.Fields)
+						{
+							string paramName = string.Format("@{0}", field.Name);
+							selectQuery += string.Format("{0} = {1} AND ", paramName, field.Name);
+
+							command.Parameters.AddWithValue(paramName, field.Value);
+						}
+
+						selectQuery = selectQuery.Substring(0, selectQuery.Length - 5);
+						command.CommandText = selectQuery;
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								SubscriptionAccount companyAccount = new SubscriptionAccount();
+								companyAccount.AccountName = dataReader["AccountName"] as string;
+								companyAccount.SubscriptionKey = dataReader["SubscriptionKey"] as string;
+								subscriptionsList.Add(companyAccount);
+							}
+						}
+					}
+					opRes.Result = true;
+					opRes.Content = subscriptionsList;
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				opRes.Result = false;
+				return opRes;
+			}
+
+			return opRes;
 		}
 	}
 }

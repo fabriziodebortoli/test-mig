@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Services.Providers
 {
@@ -129,5 +130,60 @@ namespace Microarea.AdminServer.Services.Providers
 
             return true;
         }
-    }
+
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			OperationResult opRes = new OperationResult();
+
+			List<SubscriptionSlots> slotsList = new List<SubscriptionSlots>();
+
+			string selectQuery = "SELECT * FROM MP_SubscriptionSlots WHERE ";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand())
+					{
+						command.Connection = connection;
+
+						foreach (QueryField field in qi.Fields)
+						{
+							string paramName = string.Format("@{0}", field.Name);
+							selectQuery += string.Format("{0} = {1} AND ", paramName, field.Name);
+
+							command.Parameters.AddWithValue(paramName, field.Value);
+						}
+
+						selectQuery = selectQuery.Substring(0, selectQuery.Length - 5);
+						command.CommandText = selectQuery;
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								SubscriptionSlots slot = new SubscriptionSlots();
+								slot.SubscriptionKey = dataReader["SubscriptionKey"] as string;
+								slot.Value = dataReader["SlotsXml"] as string;
+								slotsList.Add(slot);
+							}
+						}
+					}
+					opRes.Result = true;
+					opRes.Content = slotsList;
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				opRes.Result = false;
+				return opRes;
+			}
+
+			return opRes;
+		}
+	}
 }
