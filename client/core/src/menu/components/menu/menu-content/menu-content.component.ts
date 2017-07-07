@@ -22,10 +22,17 @@ export class MenuContentComponent {
   ) {
   }
 
-  @Input('tile') tile: any;
+  private objects: any;
 
-  getObjects() {
-    return this.utilsService.toArray(this.tile.Object);
+  private _tile: any;
+  @Input()
+  get tile(): any {
+    return this._tile;
+  }
+
+  set tile(tile: any) {
+    this._tile = tile;
+    this.objects = this.utilsService.toArray(this._tile.Object);
   }
 
   getPinnedClass(tile) {

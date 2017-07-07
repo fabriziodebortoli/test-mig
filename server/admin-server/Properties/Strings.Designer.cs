@@ -152,6 +152,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while getting data from GWAM..
+        /// </summary>
+        public static string GWAMCommunicationError {
+            get {
+                return ResourceManager.GetString("GWAMCommunicationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GWAM doesn&apos;t like this. Why?.
         /// </summary>
         public static string GwamDislikes {
