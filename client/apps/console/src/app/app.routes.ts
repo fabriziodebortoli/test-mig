@@ -2,7 +2,6 @@ import { AccountComponent } from "app/components/account/account.component";
 import { AppComponent } from 'app/app.component';
 import { AppHomeComponent } from 'app/components/app-home/app-home.component';
 import { AuthGuardService } from 'app/guards/auth-guard.service';
-import { CompanyAccountComponent } from "app/components/company-account/company-account.component";
 import { CompanyComponent } from "app/components/company/company.component";
 import { EntityListComponent } from "app/components/entity-list/entity-list.component";
 import { LoginComponent } from "app/components/login/login.component";
@@ -41,11 +40,5 @@ export const routes: Routes = [
     // canActivate: [AuthGuardService],
     // canActivateChild: [AuthGuardService],
     component: AccountComponent
-  },
-  { 
-    path: 'company-account', 
-    canActivate: [AuthGuardService],
-    canActivateChild: [AuthGuardService],
-    component: CompanyAccountComponent,
   }
 ];

@@ -4,7 +4,6 @@ import { AppComponent } from './app.component';
 import { AppHomeComponent } from './components/app-home/app-home.component';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { CompanyAccountComponent } from './components/company-account/company-account.component';
 import { CompanyComponent } from './components/company/company.component';
 import { EntityListComponent } from './components/entity-list/entity-list.component';
 import { FormsModule } from '@angular/forms';
@@ -29,7 +28,6 @@ import { DatabaseInfoComponent } from './components/database-info/database-info.
     EntityListComponent,
     CompanyComponent,
     AccountComponent,
-    CompanyAccountComponent,
     DatabaseInfoComponent
   ],
   imports: [
