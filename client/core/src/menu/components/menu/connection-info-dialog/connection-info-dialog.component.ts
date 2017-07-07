@@ -26,6 +26,7 @@ export class ConnectionInfoDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.connectionInfoSub = this.httpMenuService.getConnectionInfo().subscribe(result => {
+      console.log(result);
       this.connectionInfos = result;
       this.showdbsize = this.connectionInfos.showdbsizecontrols == 'Yes';
     });
