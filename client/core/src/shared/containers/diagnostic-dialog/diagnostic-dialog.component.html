@@ -1,0 +1,8 @@
+<kendo-dialog title="Please confirm" *ngIf="opened" (close)="close('cancel')">
+  <p style="margin: 30px; text-align: center;">{{args.text}}</p>
+  <kendo-dialog-actions>
+    <button *ngIf="args.no" kendoButton (click)="close('no')">No</button>
+    <button *ngIf="args.yes" kendoButton (click)="close('yes')" primary="true">Yes</button>
+   
+  </kendo-dialog-actions>
+</kendo-dialog>

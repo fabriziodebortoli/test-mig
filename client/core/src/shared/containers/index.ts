@@ -5,6 +5,7 @@ export * from './frame/frame-content/frame-content.component';
 export * from './dockpane/dockpane.component';
 export * from './dockpane/dockpane-container/dockpane-container.component';
 export * from './message-dialog/message-dialog.component';
+export * from './diagnostic-dialog/diagnostic-dialog.component';
 export * from './tiles/tile/tile.component';
 export * from './tiles/tile-panel/tile-panel.component';
 export * from './tiles/tile-group/tile-group.component';
