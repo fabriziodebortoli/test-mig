@@ -78,7 +78,6 @@ namespace Microarea.AdminServer.Controllers
 				// L'account esiste sul db locale
 				if (account.ExistsOnDB)
                 {
-                   
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
                     Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), GetAuthorizationInfo());
 
