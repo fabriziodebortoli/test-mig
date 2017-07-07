@@ -38,12 +38,13 @@ export class ReportingStudioService extends DocumentService {
         private urlServ: UrlService) {
         super(logger, eventData);
 
+        this.rsServer = this.urlServ.getWsBaseUrl() + '/rs';
         this.websocket = new WebSocket(this.rsServer);
         this.websocket.onopen = evt => { this.onOpen(evt) };
         this.websocket.onclose = evt => { this.onClose(evt) };
         this.websocket.onmessage = evt => { this.onMessage(evt) };
         this.websocket.onerror = evt => { this.onError(evt) };
-        this.rsServer=this.urlServ.getWsUrl()+ '/rs';
+
     }
 
     onOpen(evt: any) {
@@ -126,7 +127,7 @@ export class ReportingStudioService extends DocumentService {
             .then((dataUri) => {
                 saveAs(dataUri, this.titleReport + '.pdf');
                 this.pdfState = PdfType.NOPDF;
-            }).then(()=> this.eventFirstPage.emit());
+            }).then(() => this.eventFirstPage.emit());
 
     }
 

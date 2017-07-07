@@ -25,6 +25,7 @@
 		SuspectedToken,
 		MissingToken,
 		GWAMNotResponding,
-		InvalidData
+		InvalidData,
+		GWAMCommunicationError
 	}
 }
