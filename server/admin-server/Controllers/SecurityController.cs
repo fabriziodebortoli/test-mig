@@ -82,6 +82,12 @@ namespace Microarea.AdminServer.Controllers
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
                     Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), GetAuthorizationInfo());
 
+					// GWAM call could not end correctly: so we check the object
+					if (responseData.Status == TaskStatus.Faulted)
+					{
+						return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+					}
+
                     // Used as a container for the GWAM response.
                     AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
                     accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
@@ -90,6 +96,7 @@ namespace Microarea.AdminServer.Controllers
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error,Strings.UnknownError);
                     }
+
                     // Se sul gwam corrisponde... 
                     if (accountIdentityPack.Result) 
                     {
@@ -114,7 +121,6 @@ namespace Microarea.AdminServer.Controllers
                         return SetErrorResponse(bootstrapTokenContainer, (int)res, res.ToString());
                     }
 
-
                     // Valorizzo il bootstraptoken per la risposta
                     if (!ValorizeBootstrapToken(account, bootstrapToken))
                     {
@@ -123,14 +129,20 @@ namespace Microarea.AdminServer.Controllers
 
                     return SetSuccessResponse(bootstrapTokenContainer, bootstrapToken, Strings.OK);
                 }
-                //--------------------------------
+
                 // Se non esiste, richiedi a gwam.
                 if (!account.ExistsOnDB)
                 {
                     Task<string> responseData = await VerifyUserOnGWAM(credentials);
 
-                    // Used as a container for the GWAM response.
-                    AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
+					// GWAM call could not end correctly: so we check the object
+					if (responseData.Status == TaskStatus.Faulted)
+					{
+						return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+					}
+
+					// Used as a container for the GWAM response.
+					AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
                     accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
 
                     if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
@@ -393,6 +405,11 @@ namespace Microarea.AdminServer.Controllers
 			OperationResult opRes = await _httpHelper.PostDataAsync(
 				this.GWAMUrl + "accounts/" + accMod.AccountName + "/" + accMod.Ticks, 
 				new List<KeyValuePair<string, string>>(), authHeader);
+
+			if (!opRes.Result)
+			{
+				return Task.FromException<string>(new Exception());
+			}
 
 			//@@TODO da togliere (fix exception if opRes.Content an empty object not null and gwam is not responding)
 			return (Task<string>)opRes.Content;
