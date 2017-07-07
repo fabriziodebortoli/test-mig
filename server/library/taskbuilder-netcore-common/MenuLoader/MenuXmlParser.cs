@@ -40,7 +40,6 @@ namespace Microarea.Common.MenuLoader
 		private MenuXmlNode currGroupNode = null;
 		private ObjectsImageInfos imgInfos = null;
 
-        private LoginManager loginManager = null;
 		private ArrayList loadErrorMessages = null;
 		private static readonly string[] supportedImageFilesExtensions = new string[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png" };
         private MenuInfo aMenuInfo = null;
@@ -53,14 +52,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public MenuXmlParser(LoginManager aLoginManager)
-		{
-			loginManager = aLoginManager;
-		}
-
-		//---------------------------------------------------------------------------
 		public MenuXmlParser(MenuXmlParser aMenuXmlParser)
-			: this((aMenuXmlParser != null) ? aMenuXmlParser.LoginManager : null)
 		{
 			if (aMenuXmlParser == null)
 				return;
@@ -79,11 +71,6 @@ namespace Microarea.Common.MenuLoader
 		#endregion
 
 		#region MenuXmlParser public properties
-		
-		//---------------------------------------------------------------------------
-		[XmlIgnore]
-		public LoginManager LoginManager { get { return loginManager; }}
-
 		//---------------------------------------------------------------------------
 		[XmlIgnore]
 		public MenuXmlNode CurrentApplication
@@ -2506,9 +2493,6 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		private bool CheckActivationAttribute(MenuXmlNode aMenuNode, string currentApplicationName)
 		{
-			if (loginManager == null)
-				return true;
-
 			// Ricavo, se esiste, il valore assegnato nel nodo xml all'attributo "activation"
 			string nodeActivation = aMenuNode.GetActivationAttribute();
 
@@ -2540,12 +2524,12 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		private bool CheckActivationExpression(string currentApplicationName, string activationExpression)
 		{
-			if (loginManager == null || activationExpression == null || activationExpression.Trim().Length == 0)
+			if (activationExpression == null || activationExpression.Trim().Length == 0)
 				return true;
 
             try
             {
-                return loginManager.CheckActivationExpression(currentApplicationName, activationExpression);
+                return LoginManager.LoginManagerInstance.CheckActivationExpression(currentApplicationName, activationExpression);
             }
 			catch(Exception e)
             {

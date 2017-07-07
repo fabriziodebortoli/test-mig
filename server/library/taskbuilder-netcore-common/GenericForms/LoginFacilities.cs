@@ -248,7 +248,7 @@ namespace Microarea.Common.GenericForms
 			bool rememberMe = String.Compare(checkedVal, bool.TrueString, true) == 0 ? true : false;
 			LatestUser.Remember = rememberMe;
 			
-			if (loginManager.LoginManagerState == LoginManagerState.Logged)
+			if (loginManagerSession.LoginManagerSessionState == LoginManagerState.Logged)
 				SaveLatestUser(loginManagerSession.UserName, loginManagerSession.Password, loginManagerSession.CompanyName, rememberMe);
 		}
 

@@ -115,9 +115,12 @@ namespace Microarea.Common.WebServicesWrapper
 
         public bool UseUnicode { get; internal set; }
 
+        public LoginManagerState LoginManagerSessionState { get; internal set; }
+
         //----------------------------------------------------------------------------
         public LoginManagerSession()
         {
+            LoginManagerSessionState = LoginManagerState.UnInitialized;
         }
 
         //----------------------------------------------------------------------------
@@ -166,8 +169,7 @@ namespace Microarea.Common.WebServicesWrapper
             }
         }
 
-        LoginManagerState loginManagerState = LoginManagerState.UnInitialized;
-
+      
         private char[] activationExpressionOperators = new char[2] { '&', '|' };
         private char[] activationExpressionKeywords = new char[5] { '!', '&', '|', '(', ')' };
 
@@ -177,8 +179,7 @@ namespace Microarea.Common.WebServicesWrapper
         private int webServicesTimeOut;
         private string[] modules;
 
-        public LoginManagerState LoginManagerState { get => loginManagerState; set => loginManagerState = value; }
-
+      
 
         //-----------------------------------------------------------------------------------------
         public LoginManager()
@@ -259,6 +260,7 @@ namespace Microarea.Common.WebServicesWrapper
             loginManagerSession.ApplicationLanguage = result.applicationLanguage;
             loginManagerSession.ProviderName = result.providerName;
             loginManagerSession.ProviderDescription = result.providerDescription;
+            loginManagerSession.LoginManagerSessionState = LoginManagerState.Logged;
             return loginManagerSession;
 
         }
@@ -496,11 +498,11 @@ namespace Microarea.Common.WebServicesWrapper
         internal int Login(string userName, string company, string password, string askingProcess, bool overwriteLogin, out string authenticationToken, string macIp = null)
         {
             authenticationToken = string.Empty;
-            if (loginManagerState == LoginManagerState.UnInitialized)
-                throw new LoginManagerException(LoginManagerError.UnInitialized);
+            //if (loginManagerState == LoginManagerState.UnInitialized)
+            //    throw new LoginManagerException(LoginManagerError.UnInitialized);
 
-            if (loginManagerState == LoginManagerState.Logged && !overwriteLogin)
-                return (int)LoginReturnCodes.UserAlreadyLoggedError;
+            //if (loginManagerState == LoginManagerState.Logged && !overwriteLogin)
+            //    return (int)LoginReturnCodes.UserAlreadyLoggedError;
 
 
             ////TODO ILARIA MACADDRESS
@@ -523,7 +525,7 @@ namespace Microarea.Common.WebServicesWrapper
             LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
 
             loginManagerSession.CompanyName = company;
-            loginManagerState = LoginManagerState.Logged;
+            loginManagerSession.LoginManagerSessionState = LoginManagerState.Logged;
 
             return (int)LoginReturnCodes.NoError;
         }
