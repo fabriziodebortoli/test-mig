@@ -16,12 +16,17 @@ namespace Microarea.AdminServer.Library
             if (account.ExpirationDate < DateTime.Now)
                 return LoginReturnCodes.UserExpired;
 
-            if (account.Locked) return LoginReturnCodes.LoginLocked;
+            if (account.Locked)
+                return LoginReturnCodes.LoginLocked;
+
+            if (account.Disabled)
+                return LoginReturnCodes.UserNotAllowed;
 
             if (account.Password != Crypt(password))
             {
                 AddWrongPwdLoginCount(account);
-                if (!account.Save().Result) return LoginReturnCodes.ErrorSavingAccount;
+                if (!account.Save().Result)
+                    return LoginReturnCodes.ErrorSavingAccount;
                 return LoginReturnCodes.InvalidUserError;
             }
 
