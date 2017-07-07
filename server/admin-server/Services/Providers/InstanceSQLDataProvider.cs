@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace Microarea.AdminServer.Services.Providers
 {
 	//================================================================================
-	public class InstanceSQLDataProvider : IDataProvider, IInstanceDataProvider
+	public class InstanceSQLDataProvider : IInstanceDataProvider
     {
         string connectionString;
 
@@ -172,6 +172,62 @@ namespace Microarea.AdminServer.Services.Providers
 			}
 
 			return true;
+		}
+
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			OperationResult opRes = new OperationResult();
+
+			List<CompanyAccount> companyAccountList = new List<CompanyAccount>();
+
+			string selectQuery = "SELECT * FROM MP_CompanyAccounts WHERE ";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand())
+					{
+						command.Connection = connection;
+
+						foreach (QueryField field in qi.Fields)
+						{
+							string paramName = string.Format("@{0}", field.Name);
+							selectQuery += string.Format("{0} = {1} AND ", paramName, field.Name);
+
+							command.Parameters.AddWithValue(paramName, field.Value);
+						}
+
+						selectQuery = selectQuery.Substring(0, selectQuery.Length - 5);
+						command.CommandText = selectQuery;
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								CompanyAccount companyAccount = new CompanyAccount();
+								companyAccount.CompanyId = (int)dataReader["CompanyId"];
+								companyAccount.AccountName = dataReader["AccountName"] as string;
+								companyAccount.Admin = (bool)dataReader["Admin"];
+								companyAccountList.Add(companyAccount);
+							}
+						}
+					}
+					opRes.Result = true;
+					opRes.Content = companyAccountList;
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				opRes.Result = false;
+				return opRes;
+			}
+
+			return opRes;
 		}
 	}
 }

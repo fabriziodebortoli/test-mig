@@ -11,25 +11,26 @@ namespace Microarea.AdminServer.Services
         IAdminModel Load(IAdminModel iModel);
         OperationResult Save(IAdminModel iModel);
         bool Delete(IAdminModel iModel);
+		OperationResult Query(QueryInfo qi);
 
-        // database-dependent values
-        DateTime MinDateTimeValue { get; }
+		// database-dependent values
+		DateTime MinDateTimeValue { get; }
     }
 
 	//================================================================================
-	public interface IInstanceDataProvider
+	public interface IInstanceDataProvider : IDataProvider
 	{
 		List<ServerURL> LoadURLs(string instanceKey);
 	}
 
 	//================================================================================
-	public interface IAccountDataProvider
+	public interface IAccountDataProvider : IDataProvider
 	{
 		List<Account> GetAccounts(string accountName);
 	}
 
 	//================================================================================
-	public interface ICompanyDataProvider
+	public interface ICompanyDataProvider : IDataProvider
 	{
 		List<Company> GetCompanies(string accountName, string subscriptionKey);
 	}

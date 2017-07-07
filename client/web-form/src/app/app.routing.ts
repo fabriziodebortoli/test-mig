@@ -1,4 +1,4 @@
-import { ReportingStudioFactoryComponent } from './reporting-studio/reporting-studio.component';
+import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -21,7 +21,7 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
         outlet: 'dynamic',
         component: ProxyRouteComponent,
         children: [
-            { path: 'rs', loadChildren: 'app/reporting-studio/reporting-studio.module#ReportingStudioModule' },
+            { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
             // { path: 'test', loadChildren: 'app/test/test.module#TestModule' },
             { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
             ...appRoutes
