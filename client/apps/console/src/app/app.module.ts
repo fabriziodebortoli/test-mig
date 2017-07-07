@@ -5,18 +5,22 @@ import { AppHomeComponent } from './components/app-home/app-home.component';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { CompanyComponent } from './components/company/company.component';
-import { EntityListComponent } from './components/entity-list/entity-list.component';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { JsonVisualizerPipe } from './json-visualizer.pipe';
 import { LoginComponent } from './components/login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SubscriptionHomeComponent } from './components/subscription-home/subscription-home.component';
+import { SubscriptionHomeComponent } from './components/subscription/subscription-home.component';
 import { routes } from './app.routes';
 import { ConsoleModule } from '@taskbuilder/console';
 import { LoginService } from './services/login.service';
 import { DatabaseInfoComponent } from './components/database-info/database-info.component';
+import { InstanceHomeComponent } from './components/instance/instance-home.component';
+import { BreadcrumbComponent } from './components/shared/breadcrumb.component';
+import { EntityHomeComponent } from './components/entity/entity-home.component';
+import { EntityDetailComponent } from './components/entity/entity-detail.component';
+import { SubscriptionSelectionComponent } from './components/subscription/subscription-selection.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +29,14 @@ import { DatabaseInfoComponent } from './components/database-info/database-info.
     SubscriptionHomeComponent,
     AppHomeComponent,
     LoginComponent,
-    EntityListComponent,
     CompanyComponent,
     AccountComponent,
-    DatabaseInfoComponent
+    DatabaseInfoComponent,
+    InstanceHomeComponent,
+    BreadcrumbComponent,
+    EntityHomeComponent,
+    EntityDetailComponent,
+    SubscriptionSelectionComponent
   ],
   imports: [
     BrowserModule,
