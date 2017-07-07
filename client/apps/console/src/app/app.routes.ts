@@ -8,7 +8,6 @@ import { EntityListComponent } from "app/components/entity-list/entity-list.comp
 import { LoginComponent } from "app/components/login/login.component";
 import { Routes } from '@angular/router';
 import { SubscriptionHomeComponent } from 'app/components/subscription-home/subscription-home.component';
-import { AccountListComponent } from './components/account/account-list/account-list.component';
 
 export const routes: Routes = [
   { path: '', component: AppComponent },
@@ -41,8 +40,7 @@ export const routes: Routes = [
     path: 'account', 
     // canActivate: [AuthGuardService],
     // canActivateChild: [AuthGuardService],
-    component: //AccountListComponent 
-    AccountComponent
+    component: AccountComponent
   },
   { 
     path: 'company-account', 
