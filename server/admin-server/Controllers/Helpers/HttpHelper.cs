@@ -49,6 +49,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
 				HttpResponseMessage responseMessage = await client.PostAsync(url, formContent);
 				var responseData = responseMessage.Content.ReadAsStringAsync();
 				operationResult.Content = responseData;
+				operationResult.Result = true;
 			}
 			catch (Exception ex)
 			{
