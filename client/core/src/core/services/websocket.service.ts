@@ -32,6 +32,7 @@ export class WebSocketService {
     public open: EventEmitter<any> = new EventEmitter();
     public close: EventEmitter<any> = new EventEmitter();
     public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
+    public diagnostic: EventEmitter<DiagnosticData> = new EventEmitter();
     public buttonsState: EventEmitter<any> = new EventEmitter();
     public radarQuery: EventEmitter<any> = new EventEmitter();
     public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
@@ -78,6 +79,7 @@ export class WebSocketService {
                         // when tbloader has connected to gate, I receive this message; then I can
                         // request the list of opened windows
                         case 'MessageDialog': $this.message.emit(obj.args); break;
+                        case 'Diagnostic': $this.diagnostic.emit(obj.args); break;
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
                         case 'ButtonsState': $this.buttonsState.emit(obj.args); break;
                         case 'RadarQuery': $this.radarQuery.emit(obj.args); break;
@@ -224,4 +226,7 @@ export class SocketMessage {
     constructor(public name: string, public content: any) {
 
     }
+}
+export class DiagnosticData{
+
 }
