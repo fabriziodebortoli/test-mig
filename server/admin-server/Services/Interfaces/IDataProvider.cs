@@ -27,12 +27,15 @@ namespace Microarea.AdminServer.Services
 	public interface IAccountDataProvider : IDataProvider
 	{
 		List<Account> GetAccounts(string accountName);
+		List<Account> GetAccountsBySubscription(string subscriptionKey);
+		List<Account> GetAccountsByCompany(string companyName, string subscriptionKey);
 	}
 
 	//================================================================================
 	public interface ICompanyDataProvider : IDataProvider
 	{
 		List<Company> GetCompanies(string accountName, string subscriptionKey);
+		List<Company> GetCompaniesBySubscription(string subscriptionKey);
 	}
 
 	//================================================================================
