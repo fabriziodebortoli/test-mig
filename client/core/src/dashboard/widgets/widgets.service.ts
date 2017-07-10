@@ -6,6 +6,7 @@ import { UrlService } from './../../core/services/url.service';
 import { DataService } from './../../core/services/data.service';
 
 export class Widget {
+  namespace: string;
   title: string;
   link: string;
   linkedNamespace: string;
@@ -14,10 +15,14 @@ export class Widget {
   provider: WidgetProvider;
   data?: WidgetData;
 
+  constructor(ns : string = 'undefined') {
+    this.namespace = ns;
+    this.layout = new WidgetLayout(300,"void", null, null);
+  }
 }
 
 export class WidgetRow {
-  widgets: Widget[];
+  cols: Widget[];
 }
 
 export class WidgetLayout {
@@ -105,6 +110,19 @@ export class WidgetsService {
     return this.http.get(url, { withCredentials: true }).map(
       (res: Response) => {
         this.isFirstUse = res.status === 203;
+        return res.json();
+      },
+      (error) => {
+        return error;
+      }
+    );
+  }
+
+  getWidget(ns: string): Observable<Widget> {
+    const url: string = this.urlService.getBackendUrl() + '/widgets-service/getWidget/' + ns + '/';
+
+    return this.http.get(url, { withCredentials: true }).map(
+      (res: Response) => {
         return res.json();
       },
       (error) => {
