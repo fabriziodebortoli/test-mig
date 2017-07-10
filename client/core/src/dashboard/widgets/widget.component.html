@@ -12,6 +12,9 @@
                 <tb-widget-stats *ngIf="widget.layout.style === 'stats'" [widget]="widget"></tb-widget-stats>
                 <tb-widget-grid *ngIf="widget.layout.style === 'grid'" [widget]="widget"></tb-widget-grid>
                 <tb-widget-chart *ngIf="widget.layout.style === 'chart'" [widget]="widget"></tb-widget-chart>
+                <div *ngIf="widget.layout.style === 'void'">
+                    <p>Widget not found: {{widget.namespace}}</p>
+                </div>
             </div>
         </div>
     </tb-card-content>

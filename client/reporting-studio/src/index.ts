@@ -32,6 +32,8 @@ export * from './rs-test.component';
 export * from './models';
 export * from './report-objects';
 
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -75,21 +77,22 @@ export * from './report-objects';
   ],
 
   providers: [
-       /* ComponentService,
-        WebSocketService,
-        HttpService,
-        UtilsService,
-        Logger,
-        UrlService,
-        CookieService*/
-      ]
+    /* ComponentService,
+     WebSocketService,
+     HttpService,
+     UtilsService,
+     Logger,
+     UrlService,
+     */
+    CookieService
+  ]
 })
 
 export class ReportingStudioModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: ReportingStudioModule,
-      
+
 
     };
   }
