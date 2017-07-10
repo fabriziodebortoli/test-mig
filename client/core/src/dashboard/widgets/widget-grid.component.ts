@@ -41,11 +41,4 @@ export class WidgetGridComponent {
     return h;
   }
 
-  gridHeaderColorClass() {
-    if (this.widget.layout.gridFormat && this.widget.layout.gridFormat.color) {
-      return this.widget.layout.gridFormat.color;
-    } else {
-      return 'blue';
-    }
-  }
 }

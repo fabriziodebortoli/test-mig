@@ -23,9 +23,10 @@ namespace Microarea.AdminServer.Model.Interfaces
         string PreferredLanguage { get; set; }
         string ApplicationLanguage { get; set; }
         bool IsWindowsAuthentication { get; }
-        long Ticks { get; }
+        long Ticks { get; set; }
         bool IsPasswordExpirated();
 		DateTime ExpirationDate { get; set; }
         bool IsAdmin { get; }
+        void ResetPasswordExpirationDate();
     }
 }

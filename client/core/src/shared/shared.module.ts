@@ -103,13 +103,13 @@ const TB_MODULES = [
 /**
  * Direttive per style o funzionalità applicate a componenti base
  */
-// import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './directives';
-import { ContextMenuDirective/*LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective */ } from './directives';
+import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './directives';
+import { ContextMenuDirective, LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective } from './directives';
 export * from './directives';
 
 const TB_DIRECTIVES = [
-    // TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
-    // LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective,
+    TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
+    LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective,
     ContextMenuDirective
 ];
 
