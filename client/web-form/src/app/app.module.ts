@@ -8,9 +8,10 @@ import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 
-
 import { TbCoreModule, ComponentService } from '@taskbuilder/core';
 import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
+
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @NgModule({
     declarations: [AppComponent],
@@ -22,7 +23,7 @@ import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
         ReportingStudioModule,
         TbCoreModule.forRoot()
     ],
-    
+    providers: [CookieService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

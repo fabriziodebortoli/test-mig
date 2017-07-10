@@ -10,6 +10,7 @@ using Microarea.Common.Generic;
 using System.IO;
 using System.Reflection;
 using Microsoft.DotNet.PlatformAbstractions;
+using TaskBuilderNetCore.Interfaces;
 
 namespace widgets_service.Controllers
 {
@@ -60,29 +61,57 @@ namespace widgets_service.Controllers
 			return new string[] { "value1", "value2" };
 		}
 
-		//[HttpGet]
-		////[Route("prova")]
-		//public IEnumerable<string> Prova()
-		//{
-		//	return new string[] { "value1", "value2" };
-		//}
+        // GET widgets-service/getActiveWidgets
+        [Route("getWidget/{namespace}")]
+        public IActionResult GetWidget(string nameSpace)
+        {
+            if (nameSpace.IsNullOrEmpty())
+                return new ContentResult { StatusCode = 500, Content = "Empty file name", ContentType = "application/text" };
 
-		//public static string CurrentPath()
-		//{
-		//	string codeBase = typeof(WidgetsController).FullName;
-		//	//UriBuilder uri = new UriBuilder(codeBase);
-		//	//string path = Uri.UnescapeDataString(uri.Path);
-		//	//return Path.GetDirectoryName(path);
-		//}
+            string errMessage = "";
+            String content = "";
+            try
+            {
+                if (!CheckAuthentication(out errMessage))
+                {
+                    return new ContentResult { StatusCode = 504, Content = errMessage, ContentType = "application/text" };
+                }
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "application/text" };
+            }
 
-		// GET widgets-service/getActiveWidgets
-		[Route("getActiveWidgets")]
+            PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
+            NameSpace ns = new NameSpace(nameSpace, NameSpaceObjectType.File);
+            string widgetFilename = pathFinder.GetFilename(ns, string.Empty) + ".widget.json";
+
+            if (!System.IO.File.Exists(widgetFilename))
+                return new ContentResult { StatusCode = 500, Content = "file non trovato", ContentType = "application/text" };
+
+            try
+            {
+                using (StreamReader sr = System.IO.File.OpenText(widgetFilename))
+                {
+                    content = sr.ReadToEnd();
+                }
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 500, Content = e.Message, ContentType = "application/text" };
+            }
+            return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+        }
+
+        // GET widgets-service/getActiveWidgets
+        [Route("getActiveWidgets")]
 		public IActionResult GetActiveWidgets()
 		{
 
 			string errMessage = "";
 			String content = "";
 			string widgetFileFullName = "";
+            int statusCode = 404;
 			try
 			{
 				if (!CheckAuthentication(out errMessage))
@@ -98,20 +127,23 @@ namespace widgets_service.Controllers
 			{
 				string code = Assembly.GetEntryAssembly().Location;
 				DirectoryInfo di = new DirectoryInfo(code);
-				widgetFileFullName = di.FullName.ToLower().Replace("web-server.dll", "widgets.json");
-				if (!System.IO.File.Exists(widgetFileFullName))
-				{
-					PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
-					widgetFileFullName = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
-				}
-			}
+                PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
+                widgetFileFullName = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
+                if (!System.IO.File.Exists(widgetFileFullName))
+                {
+                    // user configured widgets are missing, create a default one
+                    string defaultWidgetFileFullName = di.FullName.ToLower().Replace("web-server.dll", "widgets.json");
+                    System.IO.File.Copy(defaultWidgetFileFullName, widgetFileFullName);
+                    statusCode = 203; // success with info
+                }
+                else
+                    statusCode = 200; // all was fine
+            }
 			catch (Exception e)
 			{
 
 				return new ContentResult { StatusCode = 501, Content = e.Message, ContentType = "application/text" };
 			}
-			//PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
-			//         string widgetsFilePath = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
 
 			// no configured widgets, is not an error
 			if (!System.IO.File.Exists(widgetFileFullName))
@@ -130,7 +162,7 @@ namespace widgets_service.Controllers
 
 				return new ContentResult { StatusCode = 500, Content = e.Message, ContentType = "application/text" };
 			}
-			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+			return new ContentResult { StatusCode = statusCode, Content = content, ContentType = "application/json" };
 		}
 	}
 }

@@ -35,6 +35,22 @@ CREATE TABLE [dbo].[MP_ServerURLs] (
 END
 GO
 
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_RegisteredApps]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[MP_RegisteredApps] (
+	[AppId] [varchar] (30) NOT NULL,
+	[Name] [varchar] (50) NOT NULL,
+	[Description] [varchar] (100) NULL CONSTRAINT DF_RegisteredApps_Description DEFAULT(''),
+	[URL] [varchar] (255) NULL CONSTRAINT DF_RegisteredApps_URL DEFAULT(''),
+	[SecurityValue] [varchar] (250) NULL CONSTRAINT DF_RegisteredApps_SecurityValue DEFAULT(''),
+	CONSTRAINT [PK_MP_RegisteredApps] PRIMARY KEY NONCLUSTERED 
+	(
+		[AppId]
+	)
+)
+END
+GO
+
 if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_Subscriptions]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
  BEGIN	
 CREATE TABLE [dbo].[MP_Subscriptions] (
@@ -212,6 +228,26 @@ CREATE TABLE [dbo].[MP_SecurityTokens] (
 		[TokenType]
 	),
 	CONSTRAINT [FK_MP_SecurityTokens_Accounts] FOREIGN KEY 
+	(
+		[AccountName]
+	) REFERENCES [dbo].[MP_Accounts] (
+		[AccountName]
+	)
+)
+END
+GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_RecoveryCodes]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[MP_RecoveryCodes] (
+	[AccountName] [varchar] (128) NOT NULL,
+	[Code] [varchar] (10) NOT NULL,
+	[ExpirationDate] [datetime] NULL CONSTRAINT DF_RecoveryCodes_ExpirationDate DEFAULT(getdate()),
+	CONSTRAINT [PK_MP_RecoveryCodes] PRIMARY KEY NONCLUSTERED 
+	(
+		[AccountName]
+	),
+	CONSTRAINT [FK_MP_RecoveryCodes] FOREIGN KEY 
 	(
 		[AccountName]
 	) REFERENCES [dbo].[MP_Accounts] (

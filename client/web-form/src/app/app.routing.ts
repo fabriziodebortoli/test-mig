@@ -8,7 +8,7 @@ import { ProxyRouteComponent, LoginComponent, HomeComponent, StandaloneReportCom
 
 import { RsTestComponent } from '@taskbuilder/reporting-studio';
 
-import { appRoutes } from './applications/app.routing';
+//import { appRoutes } from './applications/app.routing';
 
 export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent, canActivate: [CoreGuard] },
@@ -24,7 +24,7 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
             { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
             // { path: 'test', loadChildren: 'app/test/test.module#TestModule' },
             { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
-            ...appRoutes
+            //...appRoutes
         ],
     },
     { path: 'test-rs', component: RsTestComponent },

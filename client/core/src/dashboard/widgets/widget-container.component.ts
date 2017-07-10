@@ -8,7 +8,7 @@ import { MdSnackBar } from '@angular/material';
   styleUrls: ['./widget-container.component.scss']
 })
 export class WidgetContainerComponent implements OnInit, OnDestroy {
-  widgets: WidgetRow[] = [];
+  rows: WidgetRow[] = [];
   subscriptions = [];
   constructor(private widgetsService: WidgetsService, public snackBar: MdSnackBar) {
   }
@@ -24,14 +24,27 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions.push(this.widgetsService.getActiveWidgets().subscribe(
-      (w) => {
-        this.widgets = w;
+      (userPage) => {
+        this.rows = [];
+        userPage.forEach(pageRow => {
+          this.rows.push({ cols : []});
+          pageRow.cols.forEach(wdgInfo => {
+              var emptyWdg = new Widget(wdgInfo.namespace);
+              var row = this.rows.length - 1;
+              var col = this.rows[row].cols.push(emptyWdg) - 1;
+              this.subscriptions.push(this.widgetsService.getWidget(wdgInfo.namespace).subscribe(
+                (wdg) => {
+                  this.rows[row].cols[col] = wdg;
+                }
+              ));
+          });
+        });
         if (this.widgetsService.isFirstUse) {
           this.snackBar.open('Your dashboard was empty, and has been created with a default layout.', 'Ok');
         }
       },
       (error) => {
-        this.snackBar.open('There was an error retreiving your dashboard:' + error, 'Close');
+        this.snackBar.open('There was an error retrieving your dashboard:' + error, 'Close');
       }
     ));
   }
