@@ -28,6 +28,10 @@ export class UrlService {
     }
 
     getWsUrl() {
+        return this.getWsBaseUrl() + '/tbloader';
+    }
+
+    getWsBaseUrl() {
         if (!this.hostname) {
             this.hostname = window.location.hostname;
         }
@@ -35,7 +39,7 @@ export class UrlService {
         if (this.secure) {
             protocol = 'wss:';
         }
-        return protocol += '//' + this.hostname + ':' + this.port + '/tbloader';
+        return protocol += '//' + this.hostname + ':' + this.port;
     }
 
     setPort(port: number) {

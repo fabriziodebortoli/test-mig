@@ -89,13 +89,26 @@ namespace Microarea.AdminServer.Model
             //if(this.dataProvider == null) ????
             return this.dataProvider.Load(this);
         }
-
+		
         //---------------------------------------------------------------------
         public bool IsPasswordExpirated()
 		{
-			//la data è inferiore ad adesso, ma comunque non è il min value che è il default ( seocndo me cè un erroe di logica, todo)
+			// La data è inferiore ad adesso, ma comunque non è il min value che è il default
             return passwordExpirationDate < DateTime.Now && 
                 passwordExpirationDate > this.dataProvider.MinDateTimeValue;
         }
+
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			return this.dataProvider.Query(qi);
+		}
+
+        //---------------------------------------------------------------------
+        public void ResetPasswordExpirationDate()
+        {
+            passwordExpirationDate = DateTime.Now.AddDays(passwordDuration);
+        }
+        
     }
 }

@@ -40,7 +40,7 @@ namespace Microarea.Common.MenuLoader
 					int nMenuRows = mgmenu.ExistMenu(Int32.Parse(LoginId), Int32.Parse(CompanyId));
 					if (nMenuRows > -1)
 					{
-						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, menuLoader.LoginManager.GetConfigurationHash(), user);
+						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginManager.LoginManagerInstance.GetConfigurationHash(), user);
 						if (pInfo != null && nMenuRows > 0)
 							return null;
 						menuLoader.LoadAllMenus(false, false);
@@ -66,7 +66,7 @@ namespace Microarea.Common.MenuLoader
 			try
 			{
                 LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-                MenuLoader menuLoader = new MenuLoader(pf, LoginManager.LoginManagerInstance, true);
+                MenuLoader menuLoader = new MenuLoader(pf, authenticationToken, true);
 				menuLoader.LoadAllMenus(false, false);
 				doc = menuLoader.ProcessMenu();
 			}
@@ -642,7 +642,7 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.Formatting = Newtonsoft.Json.Formatting.Indented;
 				jsonWriter.WriteStartObject();
 
-				if (LoginFacilities.loginManager.LoginManagerState == LoginManagerState.Logged)
+				if (loginManagerSession.LoginManagerSessionState == LoginManagerState.Logged)
 				{
 					jsonWriter.WritePropertyName("user");
 					jsonWriter.WriteValue(loginManagerSession.UserName);

@@ -98,6 +98,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Model name is empty..
+        /// </summary>
+        public static string EmptyModelName {
+            get {
+                return ResourceManager.GetString("EmptyModelName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Empty Subscriptions.
         /// </summary>
         public static string EmptySubscriptions {
@@ -139,6 +148,15 @@ namespace Microarea.AdminServer.Properties {
         public static string ExceptionOccurred {
             get {
                 return ResourceManager.GetString("ExceptionOccurred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while getting data from GWAM..
+        /// </summary>
+        public static string GWAMCommunicationError {
+            get {
+                return ResourceManager.GetString("GWAMCommunicationError", resourceCulture);
             }
         }
         
@@ -251,6 +269,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Body is missing..
+        /// </summary>
+        public static string MissingBody {
+            get {
+                return ResourceManager.GetString("MissingBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing authorization for this operation.
         /// </summary>
         public static string MissingRole {
@@ -265,6 +292,33 @@ namespace Microarea.AdminServer.Properties {
         public static string MissingToken {
             get {
                 return ResourceManager.GetString("MissingToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to load the model {0}..
+        /// </summary>
+        public static string NoModelLoaded {
+            get {
+                return ResourceManager.GetString("NoModelLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No data provider available for model {0}..
+        /// </summary>
+        public static string NoProviderAvailableForModel {
+            get {
+                return ResourceManager.GetString("NoProviderAvailableForModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No query parameters specified..
+        /// </summary>
+        public static string NoQueryParams {
+            get {
+                return ResourceManager.GetString("NoQueryParams", resourceCulture);
             }
         }
         
@@ -296,83 +350,20 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Request / Body cannot be null.
+        ///   Looks up a localized string similar to Operation ended with errors..
         /// </summary>
-        public static string RequestBodyCannotBeEmpty {
+        public static string OperationKO {
             get {
-                return ResourceManager.GetString("RequestBodyCannotBeEmpty", resourceCulture);
+                return ResourceManager.GetString("OperationKO", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save account operation failed.
+        ///   Looks up a localized string similar to Operation successfully completed..
         /// </summary>
-        public static string SaveAccountKO {
+        public static string OperationOK {
             get {
-                return ResourceManager.GetString("SaveAccountKO", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save account operation successfully completed.
-        /// </summary>
-        public static string SaveAccountOK {
-            get {
-                return ResourceManager.GetString("SaveAccountOK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save company operation failed.
-        /// </summary>
-        public static string SaveCompanyKO {
-            get {
-                return ResourceManager.GetString("SaveCompanyKO", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save company operation successfully completed.
-        /// </summary>
-        public static string SaveCompanyOK {
-            get {
-                return ResourceManager.GetString("SaveCompanyOK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save instance operation failed.
-        /// </summary>
-        public static string SaveInstanceKO {
-            get {
-                return ResourceManager.GetString("SaveInstanceKO", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save instance operation successfully completed.
-        /// </summary>
-        public static string SaveInstanceOK {
-            get {
-                return ResourceManager.GetString("SaveInstanceOK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save subscription operation failed.
-        /// </summary>
-        public static string SaveSubscriptionKO {
-            get {
-                return ResourceManager.GetString("SaveSubscriptionKO", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save subscription operation successfully completed.
-        /// </summary>
-        public static string SaveSubscriptionOK {
-            get {
-                return ResourceManager.GetString("SaveSubscriptionOK", resourceCulture);
+                return ResourceManager.GetString("OperationOK", resourceCulture);
             }
         }
         
@@ -436,6 +427,15 @@ namespace Microarea.AdminServer.Properties {
         public static string UnknownError {
             get {
                 return ResourceManager.GetString("UnknownError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Model name ({0}) unknown..
+        /// </summary>
+        public static string UnknownModelName {
+            get {
+                return ResourceManager.GetString("UnknownModelName", resourceCulture);
             }
         }
         

@@ -14,6 +14,7 @@ namespace Microarea.AdminServer.Controllers.Helpers
     {
         public string AccountName;
         public long Ticks;
+        //-----------------------------------------------------------------------------	
         public AccountModification(string accountName, long ticks)
         {
             this.AccountName = accountName;
@@ -22,4 +23,19 @@ namespace Microarea.AdminServer.Controllers.Helpers
 
     }
 
+    //================================================================================
+    public class ChangePasswordInfo
+    {
+        public string AccountName;
+        public string Password;
+        public string NewPassword;
+        //-----------------------------------------------------------------------------	
+        public ChangePasswordInfo(string accountName, string newpwd, string oldpwd)
+        {
+            NewPassword = newpwd;
+            AccountName = accountName;
+            Password = oldpwd;
+        }
+
+    }
 }

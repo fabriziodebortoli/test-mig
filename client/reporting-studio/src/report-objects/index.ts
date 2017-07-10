@@ -1,0 +1,14 @@
+export { ReportRectComponent } from './layout/rect/rect.component';
+export { ReportLayoutComponent } from './layout/layout.component';
+export { ReportTableComponent } from './layout/table/table.component';
+export { ReportTextrectComponent } from './layout/textrect/textrect.component';
+export { ReportLinkComponent } from './layout/link/link.component';
+export { ReportImageComponent } from './layout/image/image.component';
+export { ReportFieldrectComponent } from './layout/fieldrect/fieldrect.component';
+export { AskdialogComponent } from './askdialog/askdialog.component';
+export { AskTextComponent } from './askdialog/ask-text/ask-text.component';
+export { AskRadioComponent } from './askdialog/ask-radio/ask-radio.component';
+export { AskHotlinkComponent } from './askdialog/ask-hotlink/ask-hotlink.component';
+export { AskGroupComponent } from './askdialog/ask-group/ask-group.component';
+export { AskCheckComponent } from './askdialog/ask-check/ask-check.component';
+export { AskDropdownlistComponent } from './askdialog/ask-dropdownlist/ask-dropdownlist.component';

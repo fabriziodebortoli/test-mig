@@ -1,5 +1,6 @@
 ﻿using System;
 using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Controllers.Helpers;
 
 namespace Microarea.AdminServer.Library
 {
@@ -15,12 +16,17 @@ namespace Microarea.AdminServer.Library
             if (account.ExpirationDate < DateTime.Now)
                 return LoginReturnCodes.UserExpired;
 
-            if (account.Locked) return LoginReturnCodes.LoginLocked;
+            if (account.Locked)
+                return LoginReturnCodes.LoginLocked;
+
+            if (account.Disabled)
+                return LoginReturnCodes.UserNotAllowed;
 
             if (account.Password != Crypt(password))
             {
                 AddWrongPwdLoginCount(account);
-                if (!account.Save().Result) return LoginReturnCodes.ErrorSavingAccount;
+                if (!account.Save().Result)
+                    return LoginReturnCodes.ErrorSavingAccount;
                 return LoginReturnCodes.InvalidUserError;
             }
 
@@ -40,7 +46,7 @@ namespace Microarea.AdminServer.Library
         }
 
         //----------------------------------------------------------------------
-        public static LoginReturnCodes ChangePassword(IAccount account,string oldpassword, string newpassword)
+        internal static LoginReturnCodes ChangePassword(IAccount account, ChangePasswordInfo  passwordInfo)
         {
             if (account.ExpirationDate < DateTime.Now)
                 return LoginReturnCodes.UserExpired;
@@ -50,21 +56,25 @@ namespace Microarea.AdminServer.Library
 
             if (account.CannotChangePassword)
                 return LoginReturnCodes.CannotChangePasswordError;
-			
-			if (account.PasswordExpirationDate < DateTime.Now)
-			    return LoginReturnCodes.PasswordExpiredError;
 
-			if (account.Password != Crypt(oldpassword))
+            if (account.Disabled)
+                return LoginReturnCodes.UserNotAllowed;
+
+            if (account.Password != Crypt(passwordInfo.Password))
             {
                 AddWrongPwdLoginCount(account);
                 return LoginReturnCodes.InvalidUserError;
             }
 
-            account.Password = Crypt(newpassword);
-            if (!account.Save().Result) return LoginReturnCodes.ErrorSavingAccount;
-        
+            account.Password = Crypt(passwordInfo.NewPassword);
+            account.ResetPasswordExpirationDate();
+            account.Ticks = DateTime.Now.Ticks;
+            account.MustChangePassword = false;
             ClearWrongPwdLoginCount(account);
-       
+
+            if (!account.Save().Result)
+                return LoginReturnCodes.ErrorSavingAccount;
+
             return LoginReturnCodes.NoError;
         }
 

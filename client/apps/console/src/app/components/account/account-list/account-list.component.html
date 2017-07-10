@@ -1,9 +1,0 @@
-<button type="btn" (click)="getAccounts()" >Get accounts</button>
-
-<div class="row">
-    <div class="col-xs-12" *ngFor="let account of accountArray">
-        <!--la proprieta [account] si riferisce alla variabile specificata nel file .ts del componente che utilizzo-->
-        <app-account-item [account]=account>
-        </app-account-item>
-    </div>
-</div>

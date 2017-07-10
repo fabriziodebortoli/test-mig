@@ -183,32 +183,11 @@
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="RequestBodyCannotBeEmpty" xml:space="preserve">
-    <value>The Request / Body cannot be null</value>
+  <data name="OperationKO" xml:space="preserve">
+    <value>Operation ended with errors.</value>
   </data>
-  <data name="SaveAccountKO" xml:space="preserve">
-    <value>Save account operation failed</value>
-  </data>
-  <data name="SaveAccountOK" xml:space="preserve">
-    <value>Save account operation successfully completed</value>
-  </data>
-  <data name="SaveCompanyKO" xml:space="preserve">
-    <value>Save company operation failed</value>
-  </data>
-  <data name="SaveCompanyOK" xml:space="preserve">
-    <value>Save company operation successfully completed</value>
-  </data>
-  <data name="SaveInstanceKO" xml:space="preserve">
-    <value>Save instance operation failed</value>
-  </data>
-  <data name="SaveInstanceOK" xml:space="preserve">
-    <value>Save instance operation successfully completed</value>
-  </data>
-  <data name="SaveSubscriptionKO" xml:space="preserve">
-    <value>Save subscription operation failed</value>
-  </data>
-  <data name="SaveSubscriptionOK" xml:space="preserve">
-    <value>Save subscription operation successfully completed</value>
+  <data name="OperationOK" xml:space="preserve">
+    <value>Operation successfully completed.</value>
   </data>
   <data name="SubscriptionKeyEmpty" xml:space="preserve">
     <value>SubscriptionKey is empty</value>
@@ -260,5 +239,26 @@
   </data>
   <data name="NoValidInput" xml:space="preserve">
     <value>No valid input found</value>
+  </data>
+  <data name="EmptyModelName" xml:space="preserve">
+    <value>Model name is empty.</value>
+  </data>
+  <data name="MissingBody" xml:space="preserve">
+    <value>Body is missing.</value>
+  </data>
+  <data name="NoQueryParams" xml:space="preserve">
+    <value>No query parameters specified.</value>
+  </data>
+  <data name="UnknownModelName" xml:space="preserve">
+    <value>Model name ({0}) unknown.</value>
+  </data>
+  <data name="NoProviderAvailableForModel" xml:space="preserve">
+    <value>No data provider available for model {0}.</value>
+  </data>
+  <data name="NoModelLoaded" xml:space="preserve">
+    <value>Unable to load the model {0}.</value>
+  </data>
+  <data name="GWAMCommunicationError" xml:space="preserve">
+    <value>An error occurred while getting data from GWAM.</value>
   </data>
 </root>

@@ -85,5 +85,11 @@ namespace Microarea.AdminServer.Model
         {
             get { return new SecurityToken(); }
         }
-    }
+
+		//---------------------------------------------------------------------
+		public OperationResult Query(QueryInfo qi)
+		{
+			return this.dataProvider.Query(qi);
+		}
+	}
 }
