@@ -46,4 +46,3 @@ export class DiagnosticItemComponent {
     @Input() message: Message;
     @Input() level: number;
 }
-}

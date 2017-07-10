@@ -1,4 +1,4 @@
-﻿import { DiagnosticDlgResult } from './../../shared/models';
+﻿import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
 import { Observable } from 'rxjs/Rx';
 import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';

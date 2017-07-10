@@ -1,4 +1,4 @@
-import { DiagnosticData } from './websocket.service';
+import { DiagnosticData, DiagnosticDlgResult } from './../../shared/models';
 import { Injectable, EventEmitter } from '@angular/core';
 
 import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';

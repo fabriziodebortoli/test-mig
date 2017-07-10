@@ -1,4 +1,4 @@
-import { DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
+import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
 
 import { Injectable } from '@angular/core';
 
@@ -9,7 +9,7 @@ import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
 
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
-import { WebSocketService, DiagnosticData } from './websocket.service';
+import { WebSocketService } from './websocket.service';
 import { BOHelperService } from './bohelper.service';
 
 import { apply, diff } from 'json8-patch';
