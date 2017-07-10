@@ -1,4 +1,5 @@
-﻿import { Observable } from 'rxjs/Rx';
+﻿import { DiagnosticDlgResult } from './../../shared/models';
+import { Observable } from 'rxjs/Rx';
 import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
@@ -145,7 +146,7 @@ export class WebSocketService {
             }
         });
     }
-    safeSend(data: any) : Promise<void> {
+    safeSend(data: any): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const subs = this.checkForOpenConnection().subscribe(valid => {
                 if (subs) {
@@ -217,6 +218,10 @@ export class WebSocketService {
         const data = { cmd: 'doCloseMessageDialog', cmpId: cmpId, result: result };
         this.safeSend(data);
     }
+    doCloseDiagnosticDialog(cmpId: String, result: DiagnosticDlgResult): void {
+        const data = { cmd: 'doCloseDiagnosticDialog', cmpId: cmpId, result: result };
+        this.safeSend(data);
+    }
     setReportResult(cmpId: String, result: any): void {
         const data = { cmd: 'setReportResult', cmpId: cmpId, result: result };
         this.safeSend(data);
@@ -226,7 +231,4 @@ export class SocketMessage {
     constructor(public name: string, public content: any) {
 
     }
-}
-export class DiagnosticData{
-
 }

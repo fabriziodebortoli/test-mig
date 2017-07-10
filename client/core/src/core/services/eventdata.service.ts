@@ -13,7 +13,7 @@ export class EventDataService {
     public openMessageDialog: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public openDiagnosticDialog: EventEmitter<DiagnosticData> = new EventEmitter();
     public closeMessageDialog: EventEmitter<MessageDlgResult> = new EventEmitter();
-    public closeDiagnosticDialog: EventEmitter<boolean> = new EventEmitter();
+    public closeDiagnosticDialog: EventEmitter<DiagnosticDlgResult> = new EventEmitter();
 
     public oldModel: any = {}; // model before user changes (I need it for delta construction)
     public model: any = {}; // current model

@@ -40,7 +40,7 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
                 args => this.openMessageDialog(this.cmpRef.instance.cmpId, args)
             ));
             this.subscriptions.push(this.cmpRef.instance.document.eventData.openDiagnosticDialog.subscribe(
-                data => this.openDiagnosticDialog(data, this.cmpRef.instance.cmpId)
+                data => this.openDiagnosticDialog(this.cmpRef.instance.cmpId, data)
             ));
             //se la eseguo subito, lancia un'eccezione quando esegue l'aggiornamento dei binding, come se fosse in un momento sbagliato
             setTimeout(() => {

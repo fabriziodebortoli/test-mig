@@ -57,7 +57,7 @@ import {
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent,
     DockpaneComponent, DockpaneContainerComponent,
     TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-    MessageDialogComponent, DiagnosticDialogComponent, TabberComponent, TabComponent,
+    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, TabberComponent, TabComponent,
     TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent
 } from './containers';
 export * from './containers';
@@ -66,7 +66,7 @@ const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent,
     DockpaneComponent, DockpaneContainerComponent,
     TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-    MessageDialogComponent, DiagnosticDialogComponent, TabberComponent, TabComponent,
+    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, TabberComponent, TabComponent,
     TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent
 ];
 
