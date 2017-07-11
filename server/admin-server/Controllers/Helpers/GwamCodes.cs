@@ -62,8 +62,11 @@ namespace Microarea.AdminServer.Controllers.Helpers
 					return Strings.SuspectedToken;
 				case 23:
 					return Strings.MissingToken;
+                case 24:
+                    return Strings.WrongRecoveryCode;
 
-				default:
+
+                default:
 					return Strings.UnknownError;
 			}
 
