@@ -214,7 +214,8 @@ export class MenuService {
             this.componentService.createReportComponent(object.target, true);
         }
         else {
-            this.webSocketService.runDocument(object.target, object.args);
+            this.webSocketService.runDocument(object.target, object.args)
+            .catch(()=>{ object.isLoading = false;});
         }
 
         this.addToMostUsed(object);

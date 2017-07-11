@@ -1,9 +1,8 @@
-import { DiagnosticData } from './../../core/services/websocket.service';
+import { DiagnosticData, MessageDlgArgs } from './../models';
 import { Subscription } from 'rxjs';
 import { DiagnosticDialogComponent } from './../containers/diagnostic-dialog/diagnostic-dialog.component';
 import { Component, ViewContainerRef, OnInit, OnDestroy, ComponentRef, Input, ViewChild } from '@angular/core';
 
-import { MessageDlgArgs } from './../models/message-dialog-args.model';
 import { ComponentInfo } from './../models/component-info.model';
 import { ComponentService } from './../../core/services/component.service';
 import { MessageDialogComponent } from './../containers/message-dialog/message-dialog.component';
@@ -40,7 +39,7 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
                 args => this.openMessageDialog(this.cmpRef.instance.cmpId, args)
             ));
             this.subscriptions.push(this.cmpRef.instance.document.eventData.openDiagnosticDialog.subscribe(
-                data => this.openDiagnosticDialog(data, this.cmpRef.instance.cmpId)
+                data => this.openDiagnosticDialog(this.cmpRef.instance.cmpId, data)
             ));
             //se la eseguo subito, lancia un'eccezione quando esegue l'aggiornamento dei binding, come se fosse in un momento sbagliato
             setTimeout(() => {

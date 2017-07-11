@@ -298,5 +298,136 @@ namespace Microarea.AdminServer.Services.Providers
 
 			return opRes;
 		}
+
+		/// <summary>
+		/// load all accounts for a specific subscription
+		/// </summary>
+		/// <param name="subscriptionKey"></param>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		public List<Account> GetAccountsBySubscription(string subscriptionKey)
+		{
+			List<Account> accountList = new List<Account>();
+
+			string selectQuery = @"SELECT * FROM MP_Accounts 
+								INNER JOIN MP_SubscriptionAccounts ON MP_Accounts.AccountName = MP_SubscriptionAccounts.AccountName
+								WHERE dbo.MP_SubscriptionAccounts.SubscriptionKey = @SubscriptionKey";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand(selectQuery, connection))
+					{
+						command.Parameters.AddWithValue("@SubscriptionKey", subscriptionKey);
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								Account account = new Account();
+								account.AccountName = dataReader["AccountName"] as string;
+								account.Password = dataReader["Password"] as string;
+								account.FullName = dataReader["FullName"] as string;
+								account.Notes = dataReader["Notes"] as string;
+								account.Email = dataReader["Email"] as string;
+								account.LoginFailedCount = (int)dataReader["LoginFailedCount"];
+								account.PasswordNeverExpires = (bool)dataReader["PasswordNeverExpires"];
+								account.MustChangePassword = (bool)dataReader["MustChangePassword"];
+								account.CannotChangePassword = (bool)dataReader["CannotChangePassword"];
+								account.PasswordExpirationDate = (DateTime)dataReader["PasswordExpirationDate"];
+								account.PasswordDuration = (int)dataReader["PasswordDuration"];
+								account.Disabled = (bool)dataReader["Disabled"];
+								account.Locked = (bool)dataReader["Locked"];
+								account.CloudAdmin = (bool)dataReader["CloudAdmin"];
+								account.ProvisioningAdmin = (bool)dataReader["ProvisioningAdmin"];
+								account.IsWindowsAuthentication = (bool)dataReader["WindowsAuthentication"];
+								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
+								account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								account.Ticks = (long)dataReader["Ticks"];
+								account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
+								accountList.Add(account);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return null;
+			}
+
+			return accountList;
+		}
+
+		/// <summary>
+		/// load all accounts for a specific company and a specific subscription
+		/// </summary>
+		/// <param name="companyName"></param>
+		/// <param name="subscriptionKey"></param>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		public List<Account> GetAccountsByCompany(string companyName, string subscriptionKey)
+		{
+			List<Account> accountList = new List<Account>();
+
+			string selectQuery = @"SELECT * FROM MP_Accounts 
+								INNER JOIN MP_CompanyAccounts ON MP_Accounts.AccountName = MP_CompanyAccounts.AccountName 
+								INNER JOIN MP_Companies ON MP_CompanyAccounts.CompanyId = MP_Companies.CompanyId
+								WHERE MP_Companies.Name = @CompanyName AND MP_Companies.SubscriptionKey = @SubscriptionKey";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand(selectQuery, connection))
+					{
+						command.Parameters.AddWithValue("@CompanyName", companyName);
+						command.Parameters.AddWithValue("@SubscriptionKey", subscriptionKey);
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								Account account = new Account();
+								account.AccountName = dataReader["AccountName"] as string;
+								account.Password = dataReader["Password"] as string;
+								account.FullName = dataReader["FullName"] as string;
+								account.Notes = dataReader["Notes"] as string;
+								account.Email = dataReader["Email"] as string;
+								account.LoginFailedCount = (int)dataReader["LoginFailedCount"];
+								account.PasswordNeverExpires = (bool)dataReader["PasswordNeverExpires"];
+								account.MustChangePassword = (bool)dataReader["MustChangePassword"];
+								account.CannotChangePassword = (bool)dataReader["CannotChangePassword"];
+								account.PasswordExpirationDate = (DateTime)dataReader["PasswordExpirationDate"];
+								account.PasswordDuration = (int)dataReader["PasswordDuration"];
+								account.Disabled = (bool)dataReader["Disabled"];
+								account.Locked = (bool)dataReader["Locked"];
+								account.CloudAdmin = (bool)dataReader["CloudAdmin"];
+								account.ProvisioningAdmin = (bool)dataReader["ProvisioningAdmin"];
+								account.IsWindowsAuthentication = (bool)dataReader["WindowsAuthentication"];
+								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
+								account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								account.Ticks = (long)dataReader["Ticks"];
+								account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
+								accountList.Add(account);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return null;
+			}
+
+			return accountList;
+		}
 	}
 }

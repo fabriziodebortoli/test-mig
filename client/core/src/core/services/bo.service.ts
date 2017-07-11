@@ -1,3 +1,4 @@
+import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
 
 import { Injectable } from '@angular/core';
 
@@ -91,6 +92,11 @@ export class BOService extends DocumentService {
                 this.eventData.openMessageDialog.emit(args);
             }
         }));
+        this.subscriptions.push(this.webSocketService.diagnostic.subscribe((args: DiagnosticData) => {
+            if (args.cmpId === this.mainCmpId) {
+                this.eventData.openDiagnosticDialog.emit(args);
+            }
+        }));
         this.subscriptions.push(this.eventData.change.subscribe((cmpId: string) => {
             const ret = this.onChange(cmpId);
             if (ret === true) {
@@ -121,6 +127,9 @@ export class BOService extends DocumentService {
             this.webSocketService.doCloseMessageDialog(this.mainCmpId, args);
         }));
 
+        this.subscriptions.push(this.eventData.closeDiagnosticDialog.subscribe((args: DiagnosticDlgResult) => {
+            this.webSocketService.doCloseDiagnosticDialog(this.mainCmpId, args);
+        }));
         this.subscriptions.push(this.webSocketService.buttonsState.subscribe(data => {
             const result: any = data.response;
             const cmpId = this.mainCmpId;
@@ -129,8 +138,8 @@ export class BOService extends DocumentService {
             }
         }));
 
-         this.subscriptions.push(this.webSocketService.radarQuery.subscribe(data => {
-         }));
+        this.subscriptions.push(this.webSocketService.radarQuery.subscribe(data => {
+        }));
 
     }
     getPatchedData(): any {

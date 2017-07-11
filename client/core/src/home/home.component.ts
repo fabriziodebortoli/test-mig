@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
 
 import { ComponentInfo } from './../shared/models/component-info.model';
-import { MessageDlgArgs } from './../shared/models/message-dialog-args.model';
+import { MessageDlgArgs } from './../shared/models';
 
 import { MessageDialogComponent } from './../shared/containers/message-dialog/message-dialog.component';
 import { EnumsService } from './../core/services/enums.service';

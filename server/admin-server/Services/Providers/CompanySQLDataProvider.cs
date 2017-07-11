@@ -308,5 +308,67 @@ namespace Microarea.AdminServer.Services.Providers
 
 			return opRes;
 		}
+
+		/// <summary>
+		/// load all companies for a specific subscription
+		/// </summary>
+		/// <param name="subscriptionKey"></param>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		public List<Company> GetCompaniesBySubscription(string subscriptionKey)
+		{
+			List<Company> companiesList = new List<Company>();
+
+			string selectQuery = "SELECT * FROM MP_Companies WHERE MP_Companies.SubscriptionKey = @SubscriptionKey";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+
+					using (SqlCommand command = new SqlCommand(selectQuery, connection))
+					{
+						command.Parameters.AddWithValue("@SubscriptionKey", subscriptionKey);
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								Company company = new Company();
+								company.CompanyId = (int)dataReader["CompanyId"];
+								company.Name = dataReader["Name"] as string;
+								company.Description = dataReader["Description"] as string;
+								company.SubscriptionKey = dataReader["SubscriptionKey"] as string;
+								company.CompanyDBServer = dataReader["CompanyDBServer"] as string;
+								company.CompanyDBName = dataReader["CompanyDBName"] as string;
+								company.CompanyDBOwner = dataReader["CompanyDBOwner"] as string;
+								company.CompanyDBPassword = dataReader["CompanyDBPassword"] as string;
+								company.UseDMS = (bool)dataReader["UseDMS"];
+								company.DMSDBServer = dataReader["DMSDBServer"] as string;
+								company.DMSDBName = dataReader["DMSDBName"] as string;
+								company.DMSDBOwner = dataReader["DMSDBOwner"] as string;
+								company.DMSDBPassword = dataReader["DMSDBPassword"] as string;
+								company.Disabled = (bool)dataReader["Disabled"];
+								company.IsUnicode = (bool)dataReader["IsUnicode"];
+								company.Disabled = (bool)dataReader["Disabled"];
+								company.DatabaseCulture = dataReader["DatabaseCulture"] as string;
+								company.PreferredLanguage = dataReader["PreferredLanguage"] as string;
+								company.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								company.Provider = dataReader["Provider"] as string;
+								companiesList.Add(company);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return null;
+			}
+
+			return companiesList;
+		}
 	}
 }

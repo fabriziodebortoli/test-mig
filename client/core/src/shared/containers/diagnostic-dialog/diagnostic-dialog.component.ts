@@ -1,8 +1,9 @@
-import { DiagnosticData } from './../../../core/services/websocket.service';
-import { Component, OnInit } from '@angular/core';
+import { Message } from './../../models';
+import { DiagnosticDlgResult } from './../../models';
+import { DiagnosticData } from './../../models';
+import { Component, OnInit, Type, Input } from '@angular/core';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
-import { MessageDlgArgs, MessageDlgResult } from "../../models";
 
 @Component({
     selector: 'tb-diagnostic-dialog',
@@ -12,7 +13,7 @@ import { MessageDlgArgs, MessageDlgResult } from "../../models";
 export class DiagnosticDialogComponent implements OnInit {
 
     opened = false;
-    eventData: EventDataService;
+    eventData: EventDataService; 
     data: DiagnosticData;
     constructor() { }
 
@@ -24,11 +25,24 @@ export class DiagnosticDialogComponent implements OnInit {
         this.data = data;
     }
 
-    close(result: string) {
+    close() {
         this.opened = false;
         if (this.eventData) {
-            this.eventData.closeMessageDialog.emit({});
+            const res = new DiagnosticDlgResult();
+            this.eventData.closeDiagnosticDialog.emit(res);
         }
     }
 
+}
+
+@Component({
+    selector: 'tb-diagnostic-item',
+    templateUrl: './diagnostic-item.component.html',
+    styleUrls: ['./diagnostic-item.component.scss']
+})
+export class DiagnosticItemComponent {
+
+    constructor() { }
+    @Input() message: Message;
+    @Input() level: number;
 }
