@@ -41,12 +41,12 @@ export const TB_MENU_SERVICES = [
     EventManagerService
 ];
 
-export * from './services/menu.service';
-export * from './services/image.service';
-export * from './services/http-menu.service';
-export * from './services/localization.service';
-export * from './services/settings.service';
-export * from './services/event-manager.service';
+export {MenuService} from './services/menu.service';
+export {ImageService} from './services/image.service';
+export {HttpMenuService} from './services/http-menu.service';
+export {LocalizationService} from './services/localization.service';
+export {SettingsService} from './services/settings.service';
+export {EventManagerService} from './services/event-manager.service';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';

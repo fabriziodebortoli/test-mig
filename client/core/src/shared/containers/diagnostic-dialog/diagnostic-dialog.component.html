@@ -1,0 +1,8 @@
+<kendo-dialog title="Messages" *ngIf="opened" (close)="close()">
+  <div *ngFor="let message of data.messages">
+    <tb-diagnostic-item [message]=message level=0></tb-diagnostic-item>
+  </div>
+  <kendo-dialog-actions>
+    <button kendoButton (click)="close()" primary="true">OK</button>
+  </kendo-dialog-actions>
+</kendo-dialog>

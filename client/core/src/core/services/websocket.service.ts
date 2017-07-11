@@ -1,4 +1,5 @@
-﻿import { Observable } from 'rxjs/Rx';
+﻿import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
+import { Observable } from 'rxjs/Rx';
 import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
@@ -32,6 +33,7 @@ export class WebSocketService {
     public open: EventEmitter<any> = new EventEmitter();
     public close: EventEmitter<any> = new EventEmitter();
     public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
+    public diagnostic: EventEmitter<DiagnosticData> = new EventEmitter();
     public buttonsState: EventEmitter<any> = new EventEmitter();
     public radarQuery: EventEmitter<any> = new EventEmitter();
     public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
@@ -63,7 +65,7 @@ export class WebSocketService {
         this.logger.debug('wsConnecting... ' + url);
 
         this.connection = new WebSocket(url);
-        this.connection.onmessage = function(e) {
+        this.connection.onmessage = function (e) {
             if (typeof (e.data) === 'string') {
                 try {
                     const obj = JSON.parse(e.data);
@@ -78,10 +80,11 @@ export class WebSocketService {
                         // when tbloader has connected to gate, I receive this message; then I can
                         // request the list of opened windows
                         case 'MessageDialog': $this.message.emit(obj.args); break;
+                        case 'Diagnostic': $this.diagnostic.emit(obj.args); break;
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
                         case 'ButtonsState': $this.buttonsState.emit(obj.args); break;
                         case 'RadarQuery': $this.radarQuery.emit(obj.args); break;
-                        
+
                         default: break;
                     }
 
@@ -143,24 +146,27 @@ export class WebSocketService {
             }
         });
     }
-    safeSend(data: any) {
-        const subs = this.checkForOpenConnection().subscribe(valid => {
-            if (subs) {
-                subs.unsubscribe();
-            }
-            if (valid) {
-                this.connection.send(JSON.stringify(data));
-            }
-            else {
-                this.logger.info("Cannot use web socket, perhaps it is connecting");
-            }
+    safeSend(data: any): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            const subs = this.checkForOpenConnection().subscribe(valid => {
+                if (subs) {
+                    subs.unsubscribe();
+                }
+                if (valid) {
+                    this.connection.send(JSON.stringify(data));
+                    resolve();
+                }
+                else {
+                    this.logger.info("Cannot use web socket, perhaps it is connecting");
+                    reject();
+                }
+            });
 
         });
-
     }
-    runDocument(ns: String, args: string = ''): void {
+    runDocument(ns: String, args: string = ''): Promise<void> {
         const data = { cmd: 'runDocument', ns: ns, sKeyArgs: args };
-        this.safeSend(data);
+        return this.safeSend(data);
     }
 
     doFillListBox(cmpId: String, obj: any): void {
@@ -181,12 +187,12 @@ export class WebSocketService {
         const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
         this.safeSend(data);
     }
- 
+
     getRadarQuery(cmpId: String) {
         const data = { cmd: 'getRadarQuery', cmpId: cmpId };
         this.safeSend(data);
     }
-    
+
 
     /* doValueChanged(cmpId: String, id: String, modelData?: any): void {
          const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
@@ -210,6 +216,10 @@ export class WebSocketService {
     }
     doCloseMessageDialog(cmpId: String, result: MessageDlgResult): void {
         const data = { cmd: 'doCloseMessageDialog', cmpId: cmpId, result: result };
+        this.safeSend(data);
+    }
+    doCloseDiagnosticDialog(cmpId: String, result: DiagnosticDlgResult): void {
+        const data = { cmd: 'doCloseDiagnosticDialog', cmpId: cmpId, result: result };
         this.safeSend(data);
     }
     setReportResult(cmpId: String, result: any): void {

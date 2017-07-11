@@ -1,7 +1,8 @@
 import { WidgetComponent } from './widget.component';
-import { Widget } from './widgets.service';
+
 import { Component, OnInit, Input, AfterViewInit, ViewChild, AfterContentInit } from '@angular/core';
 import { CategoryAxis, SeriesLabels } from '@progress/kendo-angular-charts/dist/es/common/property-types';
+import { Widget } from "./widgets.service";
 
 @Component({
   selector: 'tb-widget-chart',
