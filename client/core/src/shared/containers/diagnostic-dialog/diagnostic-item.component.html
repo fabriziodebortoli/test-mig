@@ -7,7 +7,7 @@
 </span>
 <span>{{message.text}}</span>
 
-<div *ngIf="message.messages" class="message-block">
+<div *ngIf="message.messages" class="message-block" [style.display]: "collapsed ? 'none' : 'block'">
   <div class="block-title">Level {{level + 1}}:</div>
   <div class="message-block-list">
     <div *ngFor="let message1 of message.messages">
