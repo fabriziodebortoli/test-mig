@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 using Newtonsoft.Json;
 
@@ -9,7 +10,13 @@ using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Models;
 using Microarea.RSWeb.WoormEngine;
-using Microarea.Common.Hotlink;
+using System.Xml;
+
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Microarea.RSWeb.Objects;
+using System.Linq;
 
 namespace Microarea.RSWeb.Render
 {
@@ -245,11 +252,18 @@ namespace Microarea.RSWeb.Render
                         StateMachine.StopReport();
                         break;
                     }
+
+                case MessageBuilder.CommandType.EXPORTEXCEL:
+                    {
+                        msg.page = pageNum.ToString();
+                        msg.message = GetExcelDataPage(pageNum);
+                        break;
+                    }
             }
             return msg;
         }
 
-       
+
 
         //---------------------------------------------------------------------
         //per debug
@@ -262,9 +276,110 @@ namespace Microarea.RSWeb.Render
             return dlg.ToJson();
         }
 
+        //---------------------------------------------------------------------
         public string GetJsonAskDialogs()
         {
             return StateMachine.Report.Engine.ToJsonDialogs();
         }
+
+        //---------------------------------------------------------------------
+        //chiamata per esportare excel
+        public string GetExcelDataPage(int page = 1)
+        {
+            WoormDocument woorm = StateMachine.Woorm;
+            if (StateMachine.Report.EngineType != EngineType.FullExtraction)
+                while (!woorm.RdeReader.IsPageReady(page))
+                {
+                    System.Threading.Tasks.Task.Delay(1000).Wait();
+                };
+            //TODO RSWEB bloccare prima
+            if (page > woorm.RdeReader.TotalPages)
+            {
+                page = woorm.RdeReader.TotalPages;
+            }
+
+            woorm.LoadPage(page);
+
+            string result = Path.GetTempPath();
+
+            string fileName = result+"Report.xlsx";
+            foreach (BaseObj o in woorm.Objects)
+            {
+                if (o is RSWeb.Objects.Table)
+                    using (SpreadsheetDocument document = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))
+                    {
+                        WorkbookPart workbookPart = document.AddWorkbookPart();
+                        workbookPart.Workbook = new Workbook();
+
+                        WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+                        worksheetPart.Worksheet = new Worksheet();
+
+                        //// Adding style
+                        //WorkbookStylesPart stylePart = workbookPart.AddNewPart<WorkbookStylesPart>();
+                        //stylePart.Stylesheet = GenerateStylesheet();
+                        //stylePart.Stylesheet.Save();
+
+                        workbookPart.Workbook.Save();
+
+                        SheetData sheetData = worksheetPart.Worksheet.AppendChild(new SheetData());
+
+                        // Constructing header
+                        Row row = new Row();
+
+
+                        RSWeb.Objects.Table t = o as RSWeb.Objects.Table;
+
+                        foreach (RSWeb.Objects.Column col in t.Columns)
+                        {
+                            //column header
+                            ushort id = col.InternalID;
+                            string strType = col.GetDataType();
+                            string title = col.Title.Text;
+
+                            row.Append(ConstructCell(title, CellValues.String, 2));
+                        }
+                        // Insert the header row to the Sheet Data
+                        sheetData.AppendChild(row);
+
+
+                        // Inserting each row
+                        for (int r = 0; r < t.RowNumber; r++)
+                        {
+                            for (int c = 0; c < t.ColumnNumber; c++)
+                            {
+                                row = new Row();
+                                RSWeb.Objects.Column col2 = t.Columns[c];
+
+                                string v = col2.Cells[r].Value.Text;
+                                // ??? manca il cellValues
+
+                                row.Append(ConstructCell(v, CellValues.String, 1));
+
+                                sheetData.AppendChild(row);
+
+                            }
+                        }
+                        worksheetPart.Worksheet.Save();
+                    }
+            }
+            return woorm.Filename.ToString();
+        }
+
+
+
+
+
+
+        private DocumentFormat.OpenXml.Spreadsheet.Cell ConstructCell(string value, CellValues dataType, uint styleIndex = 0)
+        {
+            return new DocumentFormat.OpenXml.Spreadsheet.Cell()
+            {
+                CellValue = new CellValue(value),
+                DataType = new EnumValue<CellValues>(dataType),
+                StyleIndex = styleIndex
+            };
+        }
+
     }
 }
+

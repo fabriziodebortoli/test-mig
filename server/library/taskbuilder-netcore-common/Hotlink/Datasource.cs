@@ -68,6 +68,7 @@ namespace Microarea.Common.Hotlink
     {
         Auxdata auxData;
         public TbSession Session = null;
+        public string RadarTable = string.Empty;
 
         ReferenceObjectsPrototype XmlDescription = null;
 
@@ -85,6 +86,11 @@ namespace Microarea.Common.Hotlink
             this.Session = session;
         }
 
+        public Datasource(UserInfo ui)
+        {
+            this.Session = new TbSession(ui, "");
+         }
+ 
         public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "code")
         {
             string s = requestQuery["selection_type"];
@@ -207,17 +213,28 @@ namespace Microarea.Common.Hotlink
 
         //---------------------------------------------------------------------
 
+        public async Task<bool> PrepareRadarAsync(IQueryCollection requestQuery)
+        {
+            string query = requestQuery["qry"];
 
+            this.CurrentQuery = new QueryObject("radar", SymTable, Session, null);
+           
+            //------------------------------ 
+            if (!this.CurrentQuery.Define(query))
+                return false;
+
+            return true;
+        }
+
+        //--------------------------------------------------------------------
         static private string TableName(string name)
         {
             int pos = name.IndexOf('.');
             return pos >= 0 ? name.Substring(0, pos) : "";
         }
 
-
         public bool LoadDataFile()
         {
-
             NameSpace ns = new NameSpace(XmlDescription.Datafile, NameSpaceObjectType.DataFile);
             if (!ns.IsValid())
                 return false;
@@ -293,10 +310,7 @@ namespace Microarea.Common.Hotlink
                     SelectionField field = new SelectionField(selName, selValue);
                     fieldList.Fields.Add(field);
                 }
-
-                //----------------------------------------
-
-            }
+             }
             return true;
         }
 
@@ -476,7 +490,7 @@ namespace Microarea.Common.Hotlink
 
                         rows += d.ToJson();
                     }
-                     else if (string.Compare(f.DataType, "Boolean", true) == 0)
+                    else if (string.Compare(f.DataType, "Boolean", true) == 0)
                     {
                         string d = (int)o==1? "true":"false";
 
@@ -550,10 +564,5 @@ namespace Microarea.Common.Hotlink
         }
 
         //---------------------------------------------------------------------
-        public bool GetKendoJson(out string records)
-        {
-            //TODO occorre cambiare la sintassi
-            return GetCompactJson(out records);
-        }
-    }
+     }
 }
