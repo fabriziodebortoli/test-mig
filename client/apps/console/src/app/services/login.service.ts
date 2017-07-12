@@ -5,6 +5,7 @@ import { Credentials } from './../authentication/credentials';
 import { Observable } from "rxjs/Observable";
 import { OperationResult } from './operationResult';
 import { AuthInfo } from "app/authentication/auth-info";
+import { environment } from './../../environments/environment';
 
 @Injectable()
 export class LoginService {
@@ -12,7 +13,8 @@ export class LoginService {
   modelBackEndUrl: string;
   
   constructor(private http: Http) { 
-    this.modelBackEndUrl = "http://localhost:10344/api/tokens";
+
+    this.modelBackEndUrl = environment.adminAPIUrl + "api/tokens";
   }
 
   login(body:Object) {
