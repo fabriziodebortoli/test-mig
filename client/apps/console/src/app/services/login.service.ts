@@ -4,8 +4,9 @@ import 'rxjs/add/operator/map';
 import { Credentials } from './../authentication/credentials';
 import { Observable } from "rxjs/Observable";
 import { OperationResult } from './operationResult';
-import { AuthInfo } from "app/authentication/auth-info";
+import { AuthorizationInfo, AuthorizationProperties } from "app/authentication/auth-info";
 import { environment } from './../../environments/environment';
+import { RoleNames } from './../authentication/auth-helpers';
 
 @Injectable()
 export class LoginService {
@@ -50,23 +51,27 @@ export class LoginService {
 
             let decodedToken: string = atob(tokenParts[1]);
             let parsedToken = JSON.parse(decodedToken);
-            let authInfo: AuthInfo = new AuthInfo(data.JwtToken,
+
+            let authInfo: AuthorizationInfo = new AuthorizationInfo(data.JwtToken,
               parsedToken.AccountName);
+            
             authInfo.SetSubscriptions(parsedToken.Subscriptions);
             authInfo.SetServerUrls(parsedToken.Urls);
             authInfo.SetTokens(parsedToken.UserTokens);
 
             // creating roles array;; waiting for roles object migration
             let roles: Array<string> = new Array<string>();
+
             if (parsedToken.ProvisioningAdmin) {
-              roles.push("ProvisioningAdmin");
+              roles.push(RoleNames.ProvisioningAdmin.toString());
             }
+
             if (parsedToken.CloudAdmin) {
-              roles.push("CloudAdmin");
-            }            
+              roles.push(RoleNames.CloudAdmin.toString());
+            }
+
             authInfo.SetRoles(roles);
-            
-            localStorage.setItem('auth-info', JSON.stringify(authInfo));
+            localStorage.setItem('auth-info', JSON.stringify(authInfo.authorizationProperties));
           }
           catch (exc)
           {

@@ -1,13 +1,12 @@
 import { TokenInfo } from "app/authentication/token-info";
 import { Subscription } from "app/model/subscription";
 import { ServerUrl } from "app/authentication/server-url";
+import { RoleNames } from "app/authentication/auth-helpers";
 
-export class AuthInfo {
+export class AuthorizationProperties{
 
     jwtEncoded: string;
     accountName: string;
-    provisioningAdmin: boolean;
-    cloudAdmin: boolean;
     preferredLanguage: string;
     applicationLanguage: string;
     tokens: Array<TokenInfo>;
@@ -15,15 +14,24 @@ export class AuthInfo {
     serverUrls: Array<ServerUrl>;
     roles: Array<string>;
 
-    constructor(jwt: string, accountName: string) {
-        this.jwtEncoded = jwt;
-        this.accountName = accountName;
-        this.cloudAdmin = false;
-        this.provisioningAdmin = false;
+    constructor() {
+        this.jwtEncoded = "";
+        this.accountName = "";
         this.tokens = new Array<TokenInfo>();
         this.subscriptions = new Array<Subscription>();
         this.serverUrls = new Array<ServerUrl>();
-        this.roles = new Array<string>();
+        this.roles = new Array<string>();        
+    }
+}
+
+export class AuthorizationInfo {
+
+    authorizationProperties: AuthorizationProperties;
+
+    constructor(jwt: string, accountName: string) {
+        this.authorizationProperties = new AuthorizationProperties();
+        this.authorizationProperties.jwtEncoded = jwt;
+        this.authorizationProperties.accountName = accountName;
     }
 
     SetSubscriptions(subscriptions: Array<object>) {
@@ -40,7 +48,7 @@ export class AuthInfo {
                 // @@TODO con Ilaria
                 subscription.activationToken = ''; 
                 
-                this.subscriptions.push(subscription);
+                this.authorizationProperties.subscriptions.push(subscription);
             }
         );
     }
@@ -50,7 +58,7 @@ export class AuthInfo {
         serverUrls.forEach(
             p => {
                 serverUrl = new ServerUrl(p['UrlType'], p['Url'], p['AppName']);
-                this.serverUrls.push(serverUrl);
+                this.authorizationProperties.serverUrls.push(serverUrl);
             }
         );
     }
@@ -60,7 +68,7 @@ export class AuthInfo {
         tokens.forEach(
             p => {
                 token = new TokenInfo(p['Token'], p['ExpirationDate'], p['TokenType'])
-                this.tokens.push(token);
+                this.authorizationProperties.tokens.push(token);
             }
         );
     }
@@ -68,8 +76,18 @@ export class AuthInfo {
     SetRoles(roles: Array<string>) {
         roles.forEach(
             p => {
-                this.roles.push(p);
+                this.authorizationProperties.roles.push(p);
             }
         );
-    }    
+    }
+
+    HasRole(roleName: RoleNames): boolean {
+        if (this.authorizationProperties.roles.length == 0)
+        {
+            return false;
+        }
+
+        let foundElementIndex = this.authorizationProperties.roles.findIndex(p => p == roleName.toString());
+        return foundElementIndex >= 0;
+    }
 }
