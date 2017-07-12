@@ -112,6 +112,27 @@ namespace DataService.Controllers
         }
 
         //---------------------------------------------------------------------
+        [Route("radar")]
+        public IActionResult GetRadar()
+        {
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
+                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+
+            Datasource ds = new Datasource(ui);
+
+            if (!ds.PrepareRadarAsync(HttpContext.Request.Query).Result)
+                return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
+
+            string records;
+            if (!ds.GetCompactJson(out records))
+                return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
+
+            //---------------------
+            return new ContentResult { Content = records, ContentType = "application/json" };
+        }
+
+        //---------------------------------------------------------------------
         public IActionResult Index()
         {
             return View();

@@ -151,6 +151,34 @@ namespace Microarea.RSWeb.Controllers
         }
 
         //---------------------------------------------------------------------
+        [Route("file/{filename}")]
+        public IActionResult GetFile(string filename)
+        {
+            if (filename.IsNullOrEmpty())
+                return new ContentResult { Content = "Empty file name", ContentType = "application/text" };
+
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
+                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+
+            if (!System.IO.File.Exists(filename))
+                return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
+
+            string ext = System.IO.Path.GetExtension(filename);
+
+            try
+            {
+                FileStream f = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+                return new FileStreamResult(f, "application/x-msdownload");
+            }
+            catch (Exception)
+            {
+            }
+            return new ContentResult { Content = "Cannot access file " + filename, ContentType = "application/text" };
+        }
+
+        //---------------------------------------------------------------------
         //for DEBUG
         [Route("template/{namespace}/{page}")]
         public IActionResult GetJsonPageTemplate(string nameSpace, int page)
