@@ -261,4 +261,7 @@
   <data name="GWAMCommunicationError" xml:space="preserve">
     <value>An error occurred while getting data from GWAM.</value>
   </data>
+  <data name="WrongRecoveryCode" xml:space="preserve">
+    <value>Recovery Code is wrong.</value>
+  </data>
 </root>

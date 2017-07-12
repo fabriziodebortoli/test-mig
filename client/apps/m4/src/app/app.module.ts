@@ -1,5 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TaskbuilderCoreModule, TbCoreModule } from '@taskbuilder/core';
 
@@ -8,6 +9,8 @@ import { TestComponent } from './test/test.component';
 
 import 'hammerjs';
 
+import { routing } from './app.routing';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,8 +18,10 @@ import 'hammerjs';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     TaskbuilderCoreModule,
-    TbCoreModule.forRoot()
+    TbCoreModule.forRoot(),
+    routing
   ],
   providers: [],
   bootstrap: [AppComponent]

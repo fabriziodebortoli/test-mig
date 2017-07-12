@@ -1,4 +1,3 @@
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { UrlService } from '@taskbuilder/core';
 import { AskTextComponent } from './report-objects/askdialog/ask-text/ask-text.component';
 import { AskRadioComponent } from './report-objects/askdialog/ask-radio/ask-radio.component';
