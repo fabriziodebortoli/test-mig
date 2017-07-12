@@ -29,7 +29,7 @@
         <tb-toolbar-bottom-button caption="Export as PDF" (click)="startSavePDF()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as PNG" (click)="exportPNG()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as SVG" (click)="exportSVG()"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button caption="Export as Excel" (click)="excelExport.save()"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button caption="Export as Excel" (click)="exportExcel()"></tb-toolbar-bottom-button>
 
 
         <kendo-excelexport [data]="data" fileName="Prova.xlsx" [filterable]="true" #excelExport>
