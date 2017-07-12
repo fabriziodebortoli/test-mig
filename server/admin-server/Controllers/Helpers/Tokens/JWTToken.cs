@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 {
@@ -61,7 +58,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 		//--------------------------------------------------------------------------------
 		static string EncodeToBase64(string input)
 		{
-			byte[] encodedBytes = System.Text.Encoding.Unicode.GetBytes(input);
+			byte[] encodedBytes = Encoding.UTF8.GetBytes(input);
 			return Convert.ToBase64String(encodedBytes);
 		}
 	}

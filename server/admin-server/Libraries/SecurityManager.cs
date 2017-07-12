@@ -40,14 +40,14 @@ namespace Microarea.AdminServer.Library
 
 			string base64Header = tokenParts[0];
 			byte[] data = Convert.FromBase64String(base64Header);
-			string decodedString = Encoding.Unicode.GetString(data);
+			string decodedString = Encoding.UTF8.GetString(data);
 			JWTTokenHeader jwtHeader = JsonConvert.DeserializeObject<JWTTokenHeader>(decodedString);
 
 			// decoding token payload
 
 			string base64Payload = tokenParts[1];
 			data = Convert.FromBase64String(base64Payload);
-			decodedString = Encoding.Unicode.GetString(data);
+			decodedString = Encoding.UTF8.GetString(data);
 			BootstrapToken bootstrapToken = JsonConvert.DeserializeObject<BootstrapToken>(decodedString);
 
 			// computing a signature, to match the one that is coming within the request

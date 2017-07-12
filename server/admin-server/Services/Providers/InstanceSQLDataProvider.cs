@@ -69,19 +69,19 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
+
 					using (SqlCommand command = new SqlCommand(Consts.SelectURlsInstance, connection))
 					{
 						command.Parameters.AddWithValue("@InstanceKey", instanceKey);
+
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
-							ServerURL serverUrl = new ServerURL();
-
 							while (dataReader.Read())
 							{
+								ServerURL serverUrl = new ServerURL();
 								serverUrl.InstanceKey = dataReader["InstanceKey"] as string;
 								serverUrl.URLType = (URLType)dataReader["URLType"];
 								serverUrl.URL = dataReader["URL"] as string;
-
 								serverURLs.Add(serverUrl);
 							}
 						}

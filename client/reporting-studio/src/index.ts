@@ -1,4 +1,3 @@
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { UrlService } from '@taskbuilder/core';
 import { AskTextComponent } from './report-objects/askdialog/ask-text/ask-text.component';
 import { AskRadioComponent } from './report-objects/askdialog/ask-radio/ask-radio.component';
@@ -22,6 +21,9 @@ import { CommonModule } from '@angular/common';
 import { TbSharedModule, ComponentService, WebSocketService, HttpService, UtilsService, Logger } from '@taskbuilder/core';
 import { RsTestComponent } from './rs-test.component';
 import { ExcelModule } from '@progress/kendo-angular-grid'
+import { DialogModule } from '@progress/kendo-angular-dialog';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { ChartsModule } from '@progress/kendo-angular-charts';
 import { RouterModule } from "@angular/router";
 import { TbCoreModule } from "@taskbuilder/core";
 export { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
@@ -32,11 +34,16 @@ export * from './rs-test.component';
 export * from './models';
 export * from './report-objects';
 
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+
 @NgModule({
   imports: [
     CommonModule,
     TbSharedModule,
     ExcelModule,
+    DialogModule,
+    GridModule,
+    ChartsModule,
     RouterModule.forChild([
       { path: 'reportingstudio/:ns/:params', component: ReportingStudioFactoryComponent },
       { path: 'reportingstudio/', component: ReportingStudioFactoryComponent },

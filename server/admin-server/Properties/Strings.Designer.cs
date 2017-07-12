@@ -492,5 +492,14 @@ namespace Microarea.AdminServer.Properties {
                 return ResourceManager.GetString("ValidToken", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recovery Code is wrong..
+        /// </summary>
+        public static string WrongRecoveryCode {
+            get {
+                return ResourceManager.GetString("WrongRecoveryCode", resourceCulture);
+            }
+        }
     }
 }
