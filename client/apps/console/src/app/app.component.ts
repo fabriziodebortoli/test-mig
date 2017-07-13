@@ -23,12 +23,12 @@ export class AppComponent {
     this.modelService = modelService;
   }
 
-  getAccounts() {
-    this.modelService.getAccounts()
-      .subscribe(
-      ar => this.accountArray = ar,
-      error => this.errText);
-  }
+  // getAccounts() {
+  //   this.modelService.getAccounts()
+  //     .subscribe(
+  //     ar => this.accountArray = ar,
+  //     error => this.errText);
+  // }
 
   // getAccountInfo() {
   //   alert(this.username);

@@ -7,7 +7,7 @@
         "start": "ng serve",
         "clean": "rimraf ./node_modules",
         "link-core": "npm link ../core/src",
-        "link-rs": "npm link ../reporting-studio/src",
+        "link-rs": "npm link ../reporting-studio/src && cd ../reporting-studio && npm link ../core/src",
         "postinstall": "npm run link-core && npm run link-rs",
         "lint": "tslint \"src/**/*.ts\"",
         "test": "ng test",
