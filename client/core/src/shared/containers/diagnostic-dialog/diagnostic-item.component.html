@@ -1,5 +1,5 @@
 <span [ngSwitch]="message.type">
-      <span *ngSwitchCase="16">Fatal</span>
+  <span *ngSwitchCase="16">Fatal</span>
 <span *ngSwitchCase="2">Error</span>
 <span *ngSwitchCase="1">Warning</span>
 <span *ngSwitchCase="8">Info</span>
@@ -7,8 +7,9 @@
 </span>
 <span>{{message.text}}</span>
 
-<div *ngIf="message.messages" class="message-block" [style.display]: "collapsed ? 'none' : 'block'">
+<div *ngIf="message.messages" class="message-block" [style.display]= "collapsed ? 'none' : 'block'">
   <div class="block-title">Level {{level + 1}}:</div>
+
   <div class="message-block-list">
     <div *ngFor="let message1 of message.messages">
       <tb-diagnostic-item [message]=message1 [level]=level+1></tb-diagnostic-item>
