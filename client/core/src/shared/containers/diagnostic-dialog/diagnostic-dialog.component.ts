@@ -45,4 +45,5 @@ export class DiagnosticItemComponent {
     constructor() { }
     @Input() message: Message;
     @Input() level: number;
+    collapsed = false;
 }

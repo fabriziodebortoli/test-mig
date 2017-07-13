@@ -155,6 +155,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           break;
         case CommandType.WRONG:
           break;
+        case CommandType.EXPORTEXCEL:
+          break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
       //if (this.args.params.runAtTbLoader) {
@@ -295,7 +297,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-   
+  exportExcel() {
+    let message = {
+      commandType: CommandType.EXPORTEXCEL,
+      message: this.args.nameSpace,
+      page: this.rsService.pageNum
+    };
+
+    this.rsService.doSend(JSON.stringify(message));
+  }
 
 }
 
