@@ -1,3 +1,4 @@
+import { UtilsService } from './../core/services/utils.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -42,7 +43,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
     private menuService: MenuService,
     private localizationService: LocalizationService,
     private settingsService: SettingsService,
-    private enumsService: EnumsService
+    private enumsService: EnumsService,
+    private utilsService: UtilsService
 
   ) {
     this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
@@ -76,6 +78,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
 
   ngAfterContentInit() {
     setTimeout(() => this.calcViewHeight(), 0);
+
+    this.utilsService.detectDPI();
   }
 
   @HostListener('window:resize', ['$event'])

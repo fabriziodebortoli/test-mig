@@ -23,5 +23,8 @@
         "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
         "rxjs": "^5.1.0",
         "zone.js": "^0.8.4"
+    },
+    "dependencies": {
+        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git"
     }
 }
