@@ -1,13 +1,10 @@
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { URLSearchParams, Http, Response } from '@angular/http';
 
-import { environment } from './../../../environments/environment';
-
-import { DocumentComponent } from '@taskbuilder/core';
-
-import { ComponentService } from '@taskbuilder/core';
-import { EventDataService } from '@taskbuilder/core';
-import { DataService } from '@taskbuilder/core';
+import { ComponentService } from './../../core/services/component.service';
+import { DocumentComponent } from './../../shared/components/document.component';
+import { EventDataService } from './../../core/services/eventdata.service';
+import { DataService } from './../../core/services/data.service';
 
 @Component({
   selector: 'tb-data-service',
