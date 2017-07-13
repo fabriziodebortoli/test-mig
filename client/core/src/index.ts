@@ -32,12 +32,19 @@ export * from './menu/menu.module';
 import { TbDashboardModule } from './dashboard/dashboard.module';
 export * from './dashboard/dashboard.module';
 
+/**
+ * Modulo Test
+ */
+import { TbTestModule } from './test/test.module';
+export * from './test/test.module';
+
 const TB_MODULES = [
   // TbCoreModule,
   TbSharedModule,
   TbIconsModule,
   TbMenuModule,
-  TbDashboardModule
+  TbDashboardModule,
+  TbTestModule
 ];
 
 export * from './shared/models';

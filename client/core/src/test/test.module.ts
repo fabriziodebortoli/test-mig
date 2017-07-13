@@ -7,7 +7,7 @@ import { TbSharedModule } from './../shared/shared.module';
 import { CommonModule } from '@angular/common';
 
 import { DataServiceComponent, DataServiceFactoryComponent } from './data-service/data-service.component';
-import { ExplorerComponent, ExplorerFactoryComponent } from './explorer/explorer.component';
+// import { ExplorerComponent, ExplorerFactoryComponent } from './explorer/explorer.component';
 import { GridTestComponent, GridTestFactoryComponent } from './grid-test/grid-test.component';
 // import { IconsTestComponent, IconsTestFactoryComponent } from './icons-test/icons-test.component';
 
@@ -18,7 +18,7 @@ import { GridTestComponent, GridTestFactoryComponent } from './grid-test/grid-te
         TbSharedModule,
         RouterModule.forChild([
             { path: 'dataservice', component: DataServiceFactoryComponent },
-            { path: 'explorer', component: ExplorerFactoryComponent },
+            // { path: 'explorer', component: ExplorerFactoryComponent },
             { path: 'grid', component: GridTestFactoryComponent },
             // { path: 'icons', component: IconsTestFactoryComponent },
         ]),
@@ -26,10 +26,10 @@ import { GridTestComponent, GridTestFactoryComponent } from './grid-test/grid-te
     ],
     declarations: [
         DataServiceComponent, DataServiceFactoryComponent,
-        ExplorerComponent, ExplorerFactoryComponent,
+        // ExplorerComponent, ExplorerFactoryComponent,
         GridTestComponent, GridTestFactoryComponent,
         // IconsTestComponent, IconsTestFactoryComponent
     ],
-    entryComponents: [DataServiceComponent, ExplorerComponent, GridTestComponent/*, IconsTestComponent*/]
+    entryComponents: [DataServiceComponent, GridTestComponent, /*ExplorerComponent/*, IconsTestComponent*/]
 })
-export class TestModule { }
+export class TbTestModule { }
