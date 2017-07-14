@@ -406,7 +406,11 @@ namespace Microarea.AdminServer.Controllers
 
             OperationResult opRes = await _httpHelper.PostDataAsync(url, entries);
 
-			//@@TODO da togliere (fix exception if opRes.Content an empty object not null and gwam is not responding)
+			if (!opRes.Result)
+			{
+				return Task.FromException<string>(new Exception());
+			}
+
 			return (Task<string>)opRes.Content;
         }
 
@@ -417,13 +421,14 @@ namespace Microarea.AdminServer.Controllers
             // call GWAM API
             OperationResult opRes = await _httpHelper.PostDataAsync(
                 this.GWAMUrl + "recoveryCode/" + accountName + "/" + recoveryCode,
-                new List<KeyValuePair<string, string>>(), authHeader);
+                new List<KeyValuePair<string, string>>(), 
+				authHeader);
 
             if (!opRes.Result)
             {
                 return Task.FromException<string>(new Exception());
             }
-            //@@TODO da togliere (fix exception if opRes.Content an empty object not null and gwam is not responding)
+
             return (Task<string>)opRes.Content;
         }
 
@@ -442,7 +447,6 @@ namespace Microarea.AdminServer.Controllers
 				return Task.FromException<string>(new Exception());
 			}
 
-			//@@TODO da togliere (fix exception if opRes.Content an empty object not null and gwam is not responding)
 			return (Task<string>)opRes.Content;
 		}
 

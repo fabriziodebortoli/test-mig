@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  adminAPIUrl: 'http://localhost:5052/api/',
+  adminAPIUrl: 'http://localhost:10344/',
   gwamAPIUrl: 'http://gwam.azurewebsites.net/api/'
 };
