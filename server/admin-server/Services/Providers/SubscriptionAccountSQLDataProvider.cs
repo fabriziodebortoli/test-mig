@@ -88,17 +88,6 @@ namespace Microarea.AdminServer.Services.Providers
 						return opRes;
 					}
 
-					using (SqlCommand command = new SqlCommand())
-					{
-						command.Connection = connection;
-						command.CommandText = Consts.InsertInstanceAccount;
-
-						command.Parameters.AddWithValue("@AccountName", isubscripion.AccountName);
-						command.Parameters.AddWithValue("@SubscriptionKey", isubscripion.SubscriptionKey);
-
-						command.ExecuteNonQuery();
-					}
-
 					opRes.Result = true;
 				}
 			}

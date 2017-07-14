@@ -72,22 +72,6 @@ namespace Microarea.AdminServer
         public const string DeleteAccount = @"DELETE MP_Accounts WHERE AccountName = @AccountName";
         //
 
-        // CompanyAccount
-        public const string ExistCompanyAccount = @"SELECT COUNT(*) FROM MP_CompanyAccounts WHERE AccountName = @AccountName AND CompanyId = @CompanyId";
-        public const string SelectCompanyAccount = @"SELECT * FROM MP_CompanyAccounts WHERE AccountName = @AccountName AND CompanyId = @CompanyId";
-        public const string InsertCompanyAccount = @"INSERT INTO MP_CompanyAccounts (AccountName, CompanyId, Admin) VALUES (@AccountName, @CompanyId, @Admin)";
-        public const string UpdateCompanyAccount = @"UPDATE MP_CompanyAccounts SET Admin = @Admin WHERE @AccountName = @AccountName AND CompanyId = @CompanyId";
-        public const string DeleteCompanyAccount = @"DELETE MP_CompanyAccounts WHERE @AccountName = @AccountName AND CompanyId = @CompanyId";
-        //
-
-        // InstanceAccount
-        public const string ExistInstanceAccount = @"SELECT COUNT(*) FROM MP_InstanceAccounts WHERE AccountName = @AccountName AND InstanceKey = @InstanceKey";
-        public const string SelectInstanceAccountByInstanceKey = @"SELECT * FROM MP_InstanceAccounts WHERE InstanceKey = @InstanceKey";
-        public const string SelectInstanceAccountByAccount = @"SELECT * FROM MP_InstanceAccounts WHERE AccountName = @AccountName";
-        public const string InsertInstanceAccount = @"INSERT INTO MP_InstanceAccounts (AccountName, InstanceKey) VALUES (@AccountName, @InstanceKey)";
-        public const string DeleteInstanceAccount = @"DELETE MP_InstanceAccounts WHERE @AccountName = @AccountName AND InstanceKey = @InstanceKey";
-        //
-
         // SubscriptionAccount
         public const string ExistSubscriptionAccount = @"SELECT COUNT(*) FROM MP_SubscriptionAccounts WHERE AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
         public const string SelectSubscriptionAccountBySubscriptionKey = @"SELECT * FROM MP_SubscriptionAccounts WHERE SubscriptionKey = @SubscriptionKey";
