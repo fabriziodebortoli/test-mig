@@ -43,6 +43,7 @@ namespace Microarea.AdminServer.Services.Providers
                                 instance.Description = dataReader["Description"] as string;
                                 instance.Description = dataReader["Origin"] as string;
                                 instance.Description = dataReader["Tags"] as string;
+                                instance.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
                                 instance.Disabled = (bool)dataReader["Disabled"];
 								instance.ExistsOnDB = true;
 							}
@@ -81,8 +82,9 @@ namespace Microarea.AdminServer.Services.Providers
 								ServerURL serverUrl = new ServerURL();
 								serverUrl.InstanceKey = dataReader["InstanceKey"] as string;
 								serverUrl.URLType = (URLType)dataReader["URLType"];
-								serverUrl.URL = dataReader["URL"] as string;
-								serverURLs.Add(serverUrl);
+                                serverUrl.URL = dataReader["URL"] as string;
+                                serverUrl.ExistsOnDB = true;
+                                serverURLs.Add(serverUrl);
 							}
 						}
 					}
@@ -126,6 +128,7 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@Disabled", instance.Disabled);
                         command.Parameters.AddWithValue("@Origin", instance.Origin);
                         command.Parameters.AddWithValue("@Tags", instance.Tags);
+                        command.Parameters.AddWithValue("@UnderMaintenance", instance.UnderMaintenance);
 
                         if (existInstance)
 							command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
@@ -179,9 +182,9 @@ namespace Microarea.AdminServer.Services.Providers
 		{
 			OperationResult opRes = new OperationResult();
 
-			List<CompanyAccount> companyAccountList = new List<CompanyAccount>();
+			List<IInstance> list = new List<IInstance>();
 
-			string selectQuery = "SELECT * FROM MP_CompanyAccounts WHERE ";
+			string selectQuery = "SELECT * FROM MP_Instances WHERE ";
 
 			try
 			{
@@ -208,16 +211,19 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								CompanyAccount companyAccount = new CompanyAccount();
-								companyAccount.CompanyId = (int)dataReader["CompanyId"];
-								companyAccount.AccountName = dataReader["AccountName"] as string;
-								companyAccount.Admin = (bool)dataReader["Admin"];
-								companyAccountList.Add(companyAccount);
+								IInstance instance = new Instance();
+                                instance.Origin = dataReader["Origin"] as string; 
+                                instance.Tags = dataReader["Tags"] as string;
+                                instance.Description= dataReader["Description"] as string;
+                                instance.Disabled = (bool)dataReader["Disabled"] ;
+                                instance.UnderMaintenance=(bool)dataReader["UnderMaintenance"];
+                                instance.InstanceKey = dataReader["InstanceKey"] as string;
+                                list.Add(instance);
 							}
 						}
 					}
 					opRes.Result = true;
-					opRes.Content = companyAccountList;
+					opRes.Content = list;
 				}
 			}
 			catch (Exception e)

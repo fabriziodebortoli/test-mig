@@ -13,14 +13,16 @@ namespace Microarea.AdminServer.Model
         string tags = string.Empty;
         bool disabled = false;
 		bool existsOnDB = false;
+        bool underMaintenance;
 
-		//---------------------------------------------------------------------
-		public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
+        //---------------------------------------------------------------------
+        public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
         public string Description { get { return this.description; } set { this.description = value; } }
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
         public string Origin { get => origin; set => origin = value; }
         public string Tags { get => tags; set => tags = value; }
+        public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
 
         // data provider
         IDataProvider dataProvider;
