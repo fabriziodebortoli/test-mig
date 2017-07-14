@@ -34,22 +34,22 @@ namespace Microarea.AdminServer
         //
 
         // SubscriptionSlot
-        public const string DeleteSubscriptionSlot = "DELETE MP_SubscriptionsSlot WHERE SubscriptionKey = @SubscriptionKey";
+        public const string DeleteSubscriptionSlot = "DELETE MP_SubscriptionsSlots WHERE SubscriptionKey = @SubscriptionKey";
         //
 
-        // Company
-        public const string ExistCompany = @"SELECT CompanyId FROM MP_Companies WHERE Name = @Name";
-        public const string SelectCompany = @"SELECT * FROM MP_Companies WHERE Name = @Name";
-        public const string InsertCompany = @"INSERT INTO MP_Companies (Name, Description, CompanyDBServer, CompanyDBName, CompanyDBOwner, CompanyDBPassword, Disabled,
-			                                    DatabaseCulture, IsUnicode, PreferredLanguage, ApplicationLanguage, Provider, SubscriptionKey, UseDMS, DMSDBServer, DMSDBName, DMSDBOwner, DMSDBPassword) 
-			                                    VALUES (@Name, @Description, @CompanyDBServer, @CompanyDBName, @CompanyDBOwner, @CompanyDBPassword, @Disabled, @DatabaseCulture, @IsUnicode, 
-												@PreferredLanguage, @ApplicationLanguage, @Provider, @SubscriptionKey, @UseDMS, @DMSDBServer, @DMSDBName, @DMSDBOwner, @DMSDBPassword)";
-        public const string UpdateCompany = @"UPDATE MP_Companies SET Name = @Name, Description = @Description, CompanyDBServer = @CompanyDBServer, CompanyDBName = @CompanyDBName, 
-			                                    CompanyDBOwner = @CompanyDBOwner, CompanyDBPassword = @CompanyDBPassword, Disabled = @Disabled, DatabaseCulture = @DatabaseCulture, IsUnicode = @IsUnicode, 
-			                                    PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage, Provider = @Provider, SubscriptionKey = @SubscriptionKey, 
-												UseDMS = @UseDMS, DMSDBServer = @DMSDBServer, DMSDBName = @DMSDBName, DMSDBOwner = @DMSDBOwner, DMSDBPassword = @DMSDBPassword
-			                                    WHERE CompanyId = @CompanyId";
-        public const string DeleteCompany = @"DELETE MP_Companies WHERE CompanyId = @CompanyId";
+        // SubscriptionDatabases
+        public const string ExistSubscriptionDatabase = @"SELECT COUNT(*) FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
+        public const string SelectSubscriptionDatabase = @"SELECT * FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
+        public const string InsertSubscriptionDatabase = @"INSERT INTO MP_SubscriptionDatabases (SubscriptionKey, Name, Description, DBServer, DBName, DBOwner, DBPassword, Disabled, DatabaseCulture, 
+														IsUnicode, PreferredLanguage, ApplicationLanguage, Provider, UseDMS, DMSDBServer, DMSDBName, DMSDBOwner, DMSDBPassword, Test) 
+														VALUES (@SubscriptionKey, @Name, @Description, @DBServer, @DBName, @DBOwner, @DBPassword, @Disabled, @DatabaseCulture, 
+														@IsUnicode, @PreferredLanguage, @ApplicationLanguage, @Provider, @UseDMS, @DMSDBServer, @DMSDBName, @DMSDBOwner, @DMSDBPassword, @Test)";
+        public const string UpdateSubscriptionDatabase = @"UPDATE MP_SubscriptionDatabases SET Description = @Description, DBServer = @DBServer, DBName = @DBName, DBOwner = @DBOwner, 
+														DBPassword = @DBPassword, Disabled = @Disabled, DatabaseCulture = @DatabaseCulture, IsUnicode = @IsUnicode, 
+														PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage, Provider = @Provider, UseDMS = @UseDMS, 
+														DMSDBServer = @DMSDBServer, DMSDBName = @DMSDBName, DMSDBOwner = @DMSDBOwner, DMSDBPassword = @DMSDBPassword, Test = @Test
+														WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
+        public const string DeleteSubscriptionDatabase = @"DELETE MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
         //
 
         // Account
@@ -72,7 +72,7 @@ namespace Microarea.AdminServer
         public const string DeleteAccount = @"DELETE MP_Accounts WHERE AccountName = @AccountName";
         //
 
-        // SubscriptionAccount
+        // SubscriptionAccounts
         public const string ExistSubscriptionAccount = @"SELECT COUNT(*) FROM MP_SubscriptionAccounts WHERE AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
         public const string SelectSubscriptionAccountBySubscriptionKey = @"SELECT * FROM MP_SubscriptionAccounts WHERE SubscriptionKey = @SubscriptionKey";
         public const string SelectSubscriptionAccountByAccount = @"SELECT * FROM MP_SubscriptionAccounts WHERE AccountName = @AccountName";
@@ -80,14 +80,14 @@ namespace Microarea.AdminServer
         public const string DeleteSubscriptionAccount = @"DELETE MP_SubscriptionAccounts WHERE @AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
         //
 
-        // securitytoken
+        // SecurityToken
         public const string ExistSecurityToken = "SELECT COUNT(*) FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
         public const string SelectSecurityToken = "SELECT * FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
         public const string InsertSecurityToken = "INSERT INTO MP_SecurityTokens (AccountName, TokenType, Token, ExpirationDate, Expired) VALUES (@AccountName, @TokenType, @Token, @ExpirationDate, @Expired)";
         public const string UpdateSecurityToken = "UPDATE MP_SecurityTokens SET Token=@Token, ExpirationDate=@ExpirationDate, Expired=@Expired WHERE AccountName=@AccountName AND TokenType=@TokenType";
         public const string DeleteSecurityToken = "DELETE MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
 
-        // roles
+        // Roles
         public const string ExistRole = "SELECT COUNT(*) FROM MP_Roles WHERE RoleId=@RoleId";
         public const string SelectRole = "SELECT * FROM MP_Roles WHERE RoleId=@RoleId";
         public const string InsertRole = "INSERT INTO MP_Roles (RoleName, Description, Disabled) VALUES (@RoleName, @Description, @Disabled)";
