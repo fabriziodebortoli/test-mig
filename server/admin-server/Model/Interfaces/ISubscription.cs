@@ -15,6 +15,6 @@ namespace Microarea.AdminServer.Model.Interfaces
 		string InstanceKey { get; set; }
         bool UnderMaintenance { get; set; }
 
-        List<Subscription> GetSubscriptionsByAccount(string accountName, string instanceKey);
+        List<ISubscription> GetSubscriptionsByAccount(string accountName, string instanceKey);
 	}
 }

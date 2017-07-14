@@ -354,11 +354,11 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //----------------------------------------------------------------------
-        private Subscription[] GetSubscritions(string accountName)
+        private ISubscription[] GetSubscritions(string accountName)
         {
-            ISubscription subsscription = new Subscription();
-            subsscription.SetDataProvider(_subscriptionSQLDataProvider);
-            Subscription[] subsArray = subsscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
+            ISubscription subscription = new Subscription();
+            subscription.SetDataProvider(_subscriptionSQLDataProvider);
+            ISubscription[] subsArray = subscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
             return subsArray;
         }
 

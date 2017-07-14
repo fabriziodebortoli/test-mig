@@ -18,7 +18,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 		public string PreferredLanguage;
 		public string ApplicationLanguage;
 		public List<SecurityToken> UserTokens;
-		public Subscription[] Subscriptions;
+		public ISubscription[] Subscriptions;
 		public List<IServerURL> Urls;
 
 		//--------------------------------------------------------------------------------

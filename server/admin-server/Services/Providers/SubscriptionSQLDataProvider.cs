@@ -29,7 +29,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 			try
 			{
-				subscription = (Subscription)iModel;
+				subscription = (ISubscription)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
@@ -142,9 +142,9 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public List<Subscription> GetSubscriptions(string instanceKey)
+		public List<ISubscription> GetSubscriptions(string instanceKey)
 		{
-			List<Subscription> subsList = new List<Subscription>();
+			List<ISubscription> subsList = new List<ISubscription>();
 
 			string selectQuery = "SELECT * FROM MP_Subscriptions";
 			if (!string.IsNullOrWhiteSpace(instanceKey))
@@ -165,7 +165,7 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								Subscription subs = new Subscription();
+                                ISubscription subs = new Subscription();
 								subs.SubscriptionKey = dataReader["SubscriptionKey"] as string;
 								subs.InstanceKey = dataReader["InstanceKey"] as string;
 								subs.Description = dataReader["Description"] as string;
@@ -189,9 +189,9 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public List<Subscription> GetSubscriptionsByAccount(string accountName, string instanceKey)
+		public List<ISubscription> GetSubscriptionsByAccount(string accountName, string instanceKey)
 		{
-			List<Subscription> subsList = new List<Subscription>();
+			List<ISubscription> subsList = new List<ISubscription>();
 
 			string selectQuery = @"SELECT * FROM MP_Subscriptions INNER JOIN MP_SubscriptionAccounts ON 
 				MP_SubscriptionAccounts.SubscriptionKey = MP_Subscriptions.SubscriptionKey WHERE
@@ -212,7 +212,7 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								Subscription subs = new Subscription();
+                                ISubscription subs = new Subscription();
 								subs.SubscriptionKey = dataReader["SubscriptionKey"] as string;
 								subs.InstanceKey = dataReader["InstanceKey"] as string;
 								subs.Description = dataReader["Description"] as string;
