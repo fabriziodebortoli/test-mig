@@ -169,9 +169,9 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public List<Account> GetAccounts(string accountName)
+		public List<IAccount> GetAccounts(string accountName)
 		{
-			List<Account> accountList = new List<Account>();
+			List<IAccount> accountList = new List<IAccount>();
 
 			string selectQuery = "SELECT * FROM MP_Accounts";
 			if (!string.IsNullOrWhiteSpace(accountName))
@@ -192,7 +192,7 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								Account account = new Account();
+                                IAccount account = new Account();
 								account.AccountName = dataReader["AccountName"] as string;
 								account.Password = dataReader["Password"] as string;
                                 account.FullName = dataReader["FullName"] as string;
@@ -233,7 +233,7 @@ namespace Microarea.AdminServer.Services.Providers
 		{
 			OperationResult opRes = new OperationResult();
 
-			List<Account> accountList = new List<Account>();
+			List<IAccount> accountList = new List<IAccount>();
 
 			string selectQuery = "SELECT * FROM MP_Accounts WHERE ";
 
@@ -262,7 +262,7 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								Account account = new Account();
+                                IAccount account = new Account();
 								account.AccountName = dataReader["AccountName"] as string;
 								account.Password = dataReader["Password"] as string;
 								account.FullName = dataReader["FullName"] as string;
@@ -309,9 +309,9 @@ namespace Microarea.AdminServer.Services.Providers
 		/// <param name="subscriptionKey"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		public List<Account> GetAccountsBySubscription(string subscriptionKey)
+		public List<IAccount> GetAccountsBySubscription(string subscriptionKey)
 		{
-			List<Account> accountList = new List<Account>();
+			List<IAccount> accountList = new List<IAccount>();
 
 			string selectQuery = @"SELECT * FROM MP_Accounts 
 								INNER JOIN MP_SubscriptionAccounts ON MP_Accounts.AccountName = MP_SubscriptionAccounts.AccountName
@@ -331,7 +331,7 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								Account account = new Account();
+                                IAccount account = new Account();
 								account.AccountName = dataReader["AccountName"] as string;
 								account.Password = dataReader["Password"] as string;
 								account.FullName = dataReader["FullName"] as string;

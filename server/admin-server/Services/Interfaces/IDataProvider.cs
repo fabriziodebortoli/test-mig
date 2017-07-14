@@ -26,8 +26,8 @@ namespace Microarea.AdminServer.Services
 	//================================================================================
 	public interface IAccountDataProvider : IDataProvider
 	{
-		List<Account> GetAccounts(string accountName);
-		List<Account> GetAccountsBySubscription(string subscriptionKey);
+		List<IAccount> GetAccounts(string accountName);
+		List<IAccount> GetAccountsBySubscription(string subscriptionKey);
 	}
 
 	//================================================================================
