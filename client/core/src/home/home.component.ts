@@ -96,7 +96,6 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
   }
 
   closeTab(info: ComponentInfo) {
-    console.log("close", info)
     event.stopImmediatePropagation();
     info.document.close();
   }

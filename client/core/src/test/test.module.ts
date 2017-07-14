@@ -30,7 +30,7 @@ import { RadarTestComponent, RadarTestFactoryComponent } from './radar-test/rada
         DataServiceComponent, DataServiceFactoryComponent,
         ExplorerComponent, ExplorerFactoryComponent,
         GridTestComponent, GridTestFactoryComponent,
-        IconsTestComponent, IconsTestFactoryComponent
+        IconsTestComponent, IconsTestFactoryComponent,
         RadarTestComponent, RadarTestFactoryComponent
     ],
     entryComponents: [DataServiceComponent, GridTestComponent, ExplorerComponent, IconsTestComponent, RadarTestComponent]
