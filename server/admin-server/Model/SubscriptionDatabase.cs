@@ -5,16 +5,15 @@ using Microarea.AdminServer.Services;
 namespace Microarea.AdminServer.Model
 {
     //================================================================================
-    public class Company : ICompany
+    public class SubscriptionDatabase : ISubscriptionDatabase
     {
-        int companyId = -1;
-        string name = string.Empty;
+		string subscriptionKey = string.Empty;
+		string name = string.Empty;
 		string description = string.Empty;
-		string subscriptionKey;
-		string companyDBServer = string.Empty;
-		string companyDBName = string.Empty;
-		string companyDBOwner = string.Empty;
-		string companyDBPassword = string.Empty;
+		string dbServer = string.Empty;
+		string dbName = string.Empty;
+		string dbOwner = string.Empty;
+		string dbPassword = string.Empty;
 		bool useDMS = false;
 		string dmsDBServer = string.Empty;
 		string dmsDBName = string.Empty;
@@ -26,17 +25,17 @@ namespace Microarea.AdminServer.Model
 		string preferredLanguage = string.Empty;
 		string applicationLanguage = string.Empty;
 		string provider = string.Empty;
+		bool test = false;
 		bool existsOnDB = false;
 
 		//---------------------------------------------------------------------
-		public int CompanyId { get { return this.companyId; } set { this.companyId = value; } }
+		public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
 		public string Name { get { return this.name; } set { this.name = value; } }
 		public string Description { get { return this.description; } set { this.description = value; } }
-		public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
-		public string CompanyDBServer { get { return this.companyDBServer; } set { this.companyDBServer = value; } }
-		public string CompanyDBName { get { return this.companyDBName; } set { this.companyDBName = value; } }
-		public string CompanyDBOwner { get { return this.companyDBOwner; } set { this.companyDBOwner = value; } }
-		public string CompanyDBPassword { get { return this.companyDBPassword; } set { this.companyDBPassword = value; } }
+		public string DBServer { get { return this.dbServer; } set { this.dbServer = value; } }
+		public string DBName { get { return this.dbName; } set { this.dbName = value; } }
+		public string DBOwner { get { return this.dbOwner; } set { this.dbOwner = value; } }
+		public string DBPassword { get { return this.dbPassword; } set { this.dbPassword = value; } }
 		public bool UseDMS { get { return this.useDMS; } set { this.useDMS = value; } }
 		public string DMSDBServer { get { return this.dmsDBServer; } set { this.dmsDBServer = value; } }
 		public string DMSDBName { get { return this.dmsDBName; } set { this.dmsDBName = value; } }
@@ -48,18 +47,19 @@ namespace Microarea.AdminServer.Model
 		public string PreferredLanguage { get { return this.preferredLanguage; } set { this.preferredLanguage = value; } }
 		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
 		public string Provider { get { return this.provider; } set { this.provider = value; } }
+		public bool Test { get { return this.test; } set { this.test = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
 		// data provider
 		IDataProvider dataProvider;
 
 		//---------------------------------------------------------------------
-		public Company()
+		public SubscriptionDatabase()
 		{
 		}
 
 		//---------------------------------------------------------------------
-		public Company(string companyName)
+		public SubscriptionDatabase(string companyName)
 		{
 			this.name = companyName;
 		}

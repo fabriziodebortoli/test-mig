@@ -1,16 +1,15 @@
 ﻿namespace Microarea.AdminServer.Model.Interfaces
 {
      //================================================================================
-    interface ICompany : IAdminModel
+    interface ISubscriptionDatabase : IAdminModel
 	{
-        int CompanyId { get; }
-		string Name { get; }
-		string Description { get; set; }
 		string SubscriptionKey { get; set; }
-		string CompanyDBServer { get; set; }
-		string CompanyDBName { get; set; }
-		string CompanyDBOwner { get; set; }
-		string CompanyDBPassword { get; set; }
+		string Name { get; set; }
+		string Description { get; set; }
+		string DBServer { get; set; }
+		string DBName { get; set; }
+		string DBOwner { get; set; }
+		string DBPassword { get; set; }
 		bool UseDMS { get; }
 		string DMSDBServer { get; set; }
 		string DMSDBName { get; set; }
@@ -22,5 +21,6 @@
 		string PreferredLanguage { get; }
 		string ApplicationLanguage { get; }
 		string Provider { get; }
+		bool Test { get; }
 	}
 }
