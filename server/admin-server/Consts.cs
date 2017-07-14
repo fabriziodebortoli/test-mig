@@ -6,8 +6,8 @@ namespace Microarea.AdminServer
     public class Consts
     {
         // Instance
-        public const string ExistInstance = "SELECT COUNT(*) FROM MP_Instances ";
-        public const string SelectInstance = "SELECT * FROM MP_Instances";
+        public const string ExistInstance = "SELECT COUNT(*) FROM MP_Instances WHERE InstanceKey = @InstanceKey ";
+        public const string SelectInstance = "SELECT * FROM MP_Instances WHERE InstanceKey = @InstanceKey";
         public const string InsertInstance = "INSERT INTO MP_Instances (InstanceKey, Description, Customer, Disabled, Origin, Tags, UnderMaintenance) VALUES (@InstanceKey, @Description, @Customer, @Disabled, @Origin, @Tags, @UnderMaintenance)";
         public const string UpdateInstance = "UPDATE MP_Instances SET Description = @Description, Customer = @Customer, Disabled = @Disabled, Origin=@Origin, Tags=@Tags, UnderMaintenance=@UnderMaintenance WHERE InstanceKey = @InstanceKey";
         public const string DeleteInstance = "DELETE MP_Instances WHERE InstanceKey = @InstanceKey";

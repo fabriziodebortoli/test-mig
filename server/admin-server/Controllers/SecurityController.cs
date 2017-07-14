@@ -363,7 +363,7 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //----------------------------------------------------------------------
-        private List<ServerURL> GetUrlsForThisInstance()
+        private List<IServerURL> GetUrlsForThisInstance()
         {
             Instance iInstance = new Instance(_settings.InstanceIdentity.InstanceKey);
             iInstance.SetDataProvider(_instanceSqlDataProvider);
@@ -371,7 +371,7 @@ namespace Microarea.AdminServer.Controllers
 
             if (!iInstance.ExistsOnDB)
             {
-                return new List<ServerURL>();
+                return new List<IServerURL>();
             }
 
             return iInstance.LoadURLs();

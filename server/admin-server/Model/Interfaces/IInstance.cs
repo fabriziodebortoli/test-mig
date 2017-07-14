@@ -1,7 +1,7 @@
 ﻿namespace Microarea.AdminServer.Model.Interfaces
 {
 	//================================================================================
-	interface IInstance : IAdminModel
+	public interface IInstance : IAdminModel
 	{
         string InstanceKey { get; set; }
         string Description { get; set; }
