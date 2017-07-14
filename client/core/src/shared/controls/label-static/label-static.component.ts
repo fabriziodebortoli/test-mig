@@ -10,7 +10,6 @@ import { ControlComponent } from './../control.component';
 })
 export class LabelStaticComponent extends TextComponent implements OnInit {
   @Input() caption = '';
-  @Input() width: number;
   ngOnInit() {
   }
 

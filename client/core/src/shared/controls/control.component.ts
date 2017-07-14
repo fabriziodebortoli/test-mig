@@ -8,6 +8,10 @@ import { TbComponent } from "../components";
 export class ControlComponent extends TbComponent {
     private _model: any;
 
+    private _width: number;
+    private _height: number;
+
+
     @Input()
     public caption: string;
     @Input()
@@ -18,6 +22,27 @@ export class ControlComponent extends TbComponent {
     public value: any;
 
     @Output('blur') blur: EventEmitter<any> = new EventEmitter();
+
+
+    get width(): number {
+        return this._width;
+    }
+
+    @Input()
+    set width(width: number) {
+        this._width = width;
+    }
+
+
+    get height(): number {
+        return this._height;
+    }
+
+    @Input()
+    set height(height: number) {
+        this._height = height;
+    }
+
 
     get model(): any {
         return this._model;
