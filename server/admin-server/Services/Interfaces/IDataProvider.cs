@@ -28,7 +28,6 @@ namespace Microarea.AdminServer.Services
 	{
 		List<Account> GetAccounts(string accountName);
 		List<Account> GetAccountsBySubscription(string subscriptionKey);
-		List<Account> GetAccountsByCompany(string companyName, string subscriptionKey);
 	}
 
 	//================================================================================
