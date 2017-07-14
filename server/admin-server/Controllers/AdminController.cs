@@ -23,7 +23,7 @@ namespace Microarea.AdminServer.Controllers
         private IHostingEnvironment _env;
 
         IDataProvider _accountSqlDataProvider;
-        IDataProvider _companySqlDataProvider;
+        IDataProvider _subscriptionDatabaseSqlDataProvider;
         IDataProvider _instanceSqlDataProvider;
         IDataProvider _subscriptionSQLDataProvider;
         IDataProvider _tokenSQLDataProvider;
@@ -51,7 +51,7 @@ namespace Microarea.AdminServer.Controllers
 		private void SqlProviderFactory()
         {
             _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _companySqlDataProvider = new CompanySQLDataProvider(_settings.DatabaseInfo.ConnectionString);
+            _subscriptionDatabaseSqlDataProvider = new SubscriptionDatabaseSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
 			_instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _subscriptionSQLDataProvider = new SubscriptionSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _tokenSQLDataProvider =  new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
@@ -71,8 +71,8 @@ namespace Microarea.AdminServer.Controllers
 				case "account":
 					return _accountSqlDataProvider;
 
-				case "company":
-					return _companySqlDataProvider;
+				case "subscriptiondatabase":
+					return _subscriptionDatabaseSqlDataProvider;
 
 				case "instance":
 					return _instanceSqlDataProvider;
@@ -118,11 +118,11 @@ namespace Microarea.AdminServer.Controllers
         }
 
 		/// <summary>
-		/// Insert/update company
+		/// Insert/update subscription database
 		/// </summary>
 		//-----------------------------------------------------------------------------	
-		[HttpPost("/api/companies")]
-		public IActionResult ApiCompanies([FromBody] Company company)
+		[HttpPost("/api/databases")]
+		public IActionResult ApiDatabases([FromBody] SubscriptionDatabase subDatabase)
 		{
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 
@@ -138,10 +138,10 @@ namespace Microarea.AdminServer.Controllers
 
 			try
 			{
-				if (company != null)
+				if (subDatabase != null)
 				{
-					company.SetDataProvider(_companySqlDataProvider);
-					opRes = company.Save();
+					subDatabase.SetDataProvider(_subscriptionDatabaseSqlDataProvider);
+					opRes = subDatabase.Save();
 					opRes.Message = Strings.OperationOK;
 				}
 				else
@@ -154,7 +154,7 @@ namespace Microarea.AdminServer.Controllers
 			catch (Exception exc)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", opRes.Result);
-				_jsonHelper.AddJsonCouple<string>("message", "040 AdminController.ApiCompanies" + exc.Message);
+				_jsonHelper.AddJsonCouple<string>("message", "040 AdminController.ApiDatabases" + exc.Message);
 				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
@@ -169,12 +169,12 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
-		[HttpGet("/api/companies/{accountName}/{subscriptionKey?}")]
+		[HttpGet("/api/databases/{subscriptionKey}/{name?}")]
 		[Produces("application/json")]
 		//-----------------------------------------------------------------------------	
-		public IActionResult ApiGetCompaniesByAccount(string accountName, string subscriptionKey)
+		public IActionResult ApiGetDatabasesBySubscription(string subscriptionKey, string name)
 		{
-			if (string.IsNullOrWhiteSpace(accountName))
+			if (string.IsNullOrWhiteSpace(subscriptionKey))
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", Strings.AccountNameCannotBeEmpty);
@@ -183,11 +183,8 @@ namespace Microarea.AdminServer.Controllers
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 			
-			// CloudAdmin role required if SubscriptionKey is empty
-			bool cloudAdminRequired = string.IsNullOrWhiteSpace(subscriptionKey);
-
 			// check AuthorizationHeader first
-			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey, isCloudAdmin: cloudAdminRequired, isProvisioningAdmin: true);
+			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey, isCloudAdmin: false, isProvisioningAdmin: true);
 
 			if (!opRes.Result)
 			{
@@ -195,16 +192,16 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			List<Company> companiesList = null;
+			List<SubscriptionDatabase> companiesList = null;
 
 			try
 			{
-				companiesList = ((CompanySQLDataProvider)_companySqlDataProvider).GetCompanies(accountName, subscriptionKey);
+				companiesList = ((SubscriptionDatabaseSQLDataProvider)_subscriptionDatabaseSqlDataProvider).GetDatabasesBySubscription(subscriptionKey, name);
 			}
 			catch (Exception exc)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "010 AdminController.ApiGetCompaniesByAccount" + exc.Message);
+				_jsonHelper.AddJsonCouple<string>("message", "010 AdminController.ApiGetDatabasesBySubscription" + exc.Message);
 				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
@@ -215,7 +212,7 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddPlainObject<List<Company>>(companiesList);
+			_jsonHelper.AddPlainObject<List<SubscriptionDatabase>>(companiesList);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
