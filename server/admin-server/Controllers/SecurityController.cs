@@ -304,15 +304,11 @@ namespace Microarea.AdminServer.Controllers
             BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
             try
             {
-
                 Task<string> responseData = await CheckRecoveryCode(accountName, recoveryCode, GetAuthorizationInfo());
-
             }
             catch { }
             return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, LoginReturnCodes.Error.ToString());
-
         }
-
 
         //----------------------------------------------------------------------
         private IActionResult SetErrorResponse(BootstrapTokenContainer bootstrapTokenContainer, int code, string message, int statuscode = 200)
@@ -422,7 +418,6 @@ namespace Microarea.AdminServer.Controllers
         private async Task<Task<string>> CheckRecoveryCode(string accountName, string recoveryCode, AuthorizationInfo authInfo)
         {
             string authHeader = JsonConvert.SerializeObject(authInfo);
-
             // call GWAM API
             OperationResult opRes = await _httpHelper.PostDataAsync(
                 this.GWAMUrl + "recoveryCode/" + accountName + "/" + recoveryCode,

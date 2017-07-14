@@ -66,3 +66,18 @@ INSERT [dbo].[MP_CompanyAccounts] ([AccountName], [CompanyId], [Admin]) VALUES (
 
 INSERT [dbo].[MP_CompanyAccounts] ([AccountName], [CompanyId], [Admin]) VALUES (N'lbruni@m4.com', 6, 0)
 INSERT [dbo].[MP_CompanyAccounts] ([AccountName], [CompanyId], [Admin]) VALUES (N'fricceri@m4.com', 6, 0)
+
+-- ruoli
+SET IDENTITY_INSERT [dbo].[MP_Roles] ON 
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (1, N'CloudAdmin', N'Cloud Admin con accesso completo su cloud', 0)
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (2, N'ProvisioningAdmin', N'Provisioning Admin per gestione istanze', 0)
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (3, N'AccountManager', N'Account Manager per gestione account', 0)
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (4, N'DbManager', N'Db Manager per aggiornamento database', 1)
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (5, N'TestDatabaseUser', N'User per database di test della suscription', 0)
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (6, N'NextInstanceUser', N'User per accedere a istanze di release successive per test', 0)
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (7, N'PreviousInstanceUser', N'User per accedere a istanze di release precedenti per storico', 0)
+
+SET IDENTITY_INSERT [dbo].[MP_Roles] OFF
+
+INSERT [dbo].[MP_SubscriptionAccountRoles] ([RoleId], [AccountName], [SubscriptionKey]) VALUES (1, N'imanzoni@m4.com', N'M4')
+

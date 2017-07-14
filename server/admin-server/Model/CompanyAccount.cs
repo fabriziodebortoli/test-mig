@@ -7,11 +7,10 @@ namespace Microarea.AdminServer.Model
     //================================================================================
     public class CompanyAccount : ICompanyAccount
 	{
-        public string accountName;
-		public int companyId;
-        public bool admin;
-
-		bool existsOnDB;
+        string accountName;
+		int companyId;
+        bool admin;
+        bool existsOnDB;
 
 		// data provider
 		IDataProvider dataProvider;

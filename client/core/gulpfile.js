@@ -83,20 +83,10 @@ gulp.task('rollup:fesm', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See https://github.com/rollup/rollup/wiki/JavaScript-API#external
             external: [
-                '@angular/animation',
-                '@angular/core',
-                '@angular/common',
-                '@angular/http',
-                '@angular/material',
-                '@angular/router',
-                'angular2-cookie/services/cookies.service',
-                'json8-patch',
-                'rxjs',
-                'rxjs/Rx',
-                'rxjs/add/operator/toPromise',
-                'rxjs/BehaviorSubject',
-                'rxjs/Subject',
-                '@progress/kendo-angular-layout'
+                '@angular/animation', '@angular/core', '@angular/common', '@angular/http', '@angular/material', '@angular/router', '@angular/forms',
+                'angular2-cookie/services/cookies.service', 'angular2-masonry/index', 'json8-patch',
+                'rxjs', 'rxjs/Rx', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject', 'hammerjs',
+                '@progress/kendo-angular-layout', '@progress/kendo-angular-dialog', '@progress/kendo-angular-popup', '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid', '@progress/kendo-angular-charts'
             ],
 
             // Format of generated bundle
@@ -128,20 +118,10 @@ gulp.task('rollup:umd', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See https://github.com/rollup/rollup/wiki/JavaScript-API#external
             external: [
-                '@angular/animation',
-                '@angular/core',
-                '@angular/common',
-                '@angular/http',
-                '@angular/material',
-                '@angular/router',
-                'angular2-cookie/services/cookies.service',
-                'json8-patch',
-                'rxjs',
-                'rxjs/Rx',
-                'rxjs/add/operator/toPromise',
-                'rxjs/BehaviorSubject',
-                'rxjs/Subject',
-                '@progress/kendo-angular-layout'
+                '@angular/animation', '@angular/core', '@angular/common', '@angular/http', '@angular/material', '@angular/router', '@angular/forms',
+                'angular2-cookie/services/cookies.service', 'angular2-masonry/index', 'json8-patch',
+                'rxjs', 'rxjs/Rx', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject', 'hammerjs',
+                '@progress/kendo-angular-layout', '@progress/kendo-angular-dialog', '@progress/kendo-angular-popup', '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid', '@progress/kendo-angular-charts'
             ],
 
             // Format of generated bundle
