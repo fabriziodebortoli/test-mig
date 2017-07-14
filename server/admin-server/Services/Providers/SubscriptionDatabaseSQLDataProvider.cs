@@ -8,8 +8,8 @@ using Microarea.AdminServer.Model.Interfaces;
 namespace Microarea.AdminServer.Services.Providers
 {
 	//================================================================================
-	public class SubscriptionDatabaseSQLDataProvider : ICompanyDataProvider
-	{
+	public class SubscriptionDatabaseSQLDataProvider : ISubscriptionDatabaseDataProvider
+    {
         string connectionString;
 
 		//---------------------------------------------------------------------
@@ -44,10 +44,10 @@ namespace Microarea.AdminServer.Services.Providers
 								subDatabase.SubscriptionKey = dataReader["SubscriptionKey"] as string;
 								subDatabase.Name = dataReader["Name"] as string;
 								subDatabase.Description = dataReader["Description"] as string;
-								subDatabase.DBServer = dataReader["CompanyDBServer"] as string;
-								subDatabase.DBName = dataReader["CompanyDBName"] as string;
-								subDatabase.DBOwner = dataReader["CompanyDBOwner"] as string;
-								subDatabase.DBPassword = dataReader["CompanyDBPassword"] as string;
+								subDatabase.DBServer = dataReader["DBServer"] as string;
+								subDatabase.DBName = dataReader["DBName"] as string;
+								subDatabase.DBOwner = dataReader["DBOwner"] as string;
+								subDatabase.DBPassword = dataReader["DBPassword"] as string;
 								subDatabase.DatabaseCulture = dataReader["DatabaseCulture"] as string;
 								subDatabase.Disabled = (bool)dataReader["Disabled"];
 								subDatabase.IsUnicode = (bool)dataReader["IsUnicode"];

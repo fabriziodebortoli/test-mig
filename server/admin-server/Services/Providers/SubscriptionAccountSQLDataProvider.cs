@@ -163,10 +163,10 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-                                ISubscriptionAccount companyAccount = new SubscriptionAccount();
-								companyAccount.AccountName = dataReader["AccountName"] as string;
-								companyAccount.SubscriptionKey = dataReader["SubscriptionKey"] as string;
-								subscriptionsList.Add(companyAccount);
+                                ISubscriptionAccount subscriptionAccount = new SubscriptionAccount();
+                                subscriptionAccount.AccountName = dataReader["AccountName"] as string;
+                                subscriptionAccount.SubscriptionKey = dataReader["SubscriptionKey"] as string;
+								subscriptionsList.Add(subscriptionAccount);
 							}
 						}
 					}

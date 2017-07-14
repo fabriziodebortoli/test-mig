@@ -59,9 +59,9 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-		public SubscriptionDatabase(string companyName)
+		public SubscriptionDatabase(string SubscriptionDBName)
 		{
-			this.name = companyName;
+			this.name = SubscriptionDBName;
 		}
 
 		//---------------------------------------------------------------------
