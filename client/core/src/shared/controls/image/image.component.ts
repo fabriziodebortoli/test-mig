@@ -11,8 +11,6 @@ import { ControlComponent } from './../control.component';
 })
 export class ImageComponent extends ControlComponent {
 
-  @Input() width: number;
-  @Input() height: number;
   @Input() title: string = '';
 
   constructor(private httpService: HttpService) {

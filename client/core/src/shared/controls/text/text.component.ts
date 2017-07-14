@@ -15,8 +15,6 @@ export class TextComponent extends ControlComponent /*implements AfterContentIni
   @Input('readonly') readonly: boolean = false;
   @Input() public hotLink: any = undefined;
 
-  @Input() width: number;
-
   @ViewChild("contextMenu", { read: ViewContainerRef }) contextMenu: ViewContainerRef;
   // private contextMenuRef;
 

@@ -13,12 +13,13 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   @Input() formatter: string;
   @Input() disabled: boolean;
   @Input() decimals: number;
-  @Input() width: number;
+  @Input() public hotLink: any = undefined;
+  
   private errorMessage: string;
   private constraint: RegExp = new RegExp('\\d');
-  public selectedValue: number;
   private showError = '';
-  @Input() public hotLink: any = undefined;
+  public selectedValue: number;
+  
 
 
 

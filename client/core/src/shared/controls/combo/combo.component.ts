@@ -20,7 +20,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     private itemSourceSub: Subscription;
     @Input() public itemSource: any = undefined;
     @Input() public hotLink: any = undefined;
-    @Input() width: number;
+
 
     constructor(
         private webSocketService: WebSocketService,

@@ -83,7 +83,6 @@ namespace Microarea.AdminServer.Services.Providers
 
                         command.Parameters.AddWithValue("@Description", subscription.Description);
                         command.Parameters.AddWithValue("@ActivationToken", subscription.ActivationToken.ToString());
-                        command.Parameters.AddWithValue("@InstanceKey", subscription.InstanceKey);
 
                         if (existSubscription)
                             command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
