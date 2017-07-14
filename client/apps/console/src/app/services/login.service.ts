@@ -7,18 +7,19 @@ import { OperationResult } from './operationResult';
 import { AuthorizationInfo, AuthorizationProperties } from "app/authentication/auth-info";
 import { environment } from './../../environments/environment';
 import { RoleNames } from './../authentication/auth-helpers';
+import { Router } from "@angular/router";
 
 @Injectable()
 export class LoginService {
 
   modelBackEndUrl: string;
   
-  constructor(private http: Http) { 
+  constructor(private http: Http,  private router: Router) { 
 
     this.modelBackEndUrl = environment.adminAPIUrl + "api/tokens";
   }
 
-  login(body:Object) {
+  login(body:Object, returnUrl: string) {
 
     let bodyString  = JSON.stringify(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -72,6 +73,17 @@ export class LoginService {
 
             authInfo.SetRoles(roles);
             localStorage.setItem('auth-info', JSON.stringify(authInfo.authorizationProperties));
+
+            if (authInfo.HasRole(RoleNames.ProvisioningAdmin))
+            {
+              this.router.navigateByUrl(returnUrl);
+            }
+
+            // user has no roles to navigate the requested url
+            // sending him back to home component
+
+            alert(RoleNames.ProvisioningAdmin.toString() + ' role missing');
+            this.router.navigateByUrl('/');
           }
           catch (exc)
           {

@@ -1,5 +1,6 @@
 import { ModelService } from './services/model.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -7,34 +8,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  title = 'Admin Server';
-  username: string;
-  resText: string;
-  errText: string;
+  constructor(private router: Router) {
 
-  accountArray: Account[];
-
-  // service
-  modelService: ModelService;
-
-  constructor(modelService: ModelService) {
-    this.modelService = modelService;
   }
 
-  // getAccounts() {
-  //   this.modelService.getAccounts()
-  //     .subscribe(
-  //     ar => this.accountArray = ar,
-  //     error => this.errText);
-  // }
-
-  // getAccountInfo() {
-  //   alert(this.username);
-  //   this.accountService.GetAccount(this.username)
-  //         .subscribe(
-  //           str => this.resText = str,
-  //           error => this.errText);
-  // }
+  ngOnInit() {
+    this.router.navigateByUrl('/appHome');
+  }  
 }

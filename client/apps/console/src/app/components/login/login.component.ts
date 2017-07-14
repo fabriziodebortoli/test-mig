@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Credentials } from './../../authentication/credentials';
 import { LoginService } from './../../services/login.service';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,12 @@ import { NgForm } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   credentials: Credentials;
+  returnUrl: string;
 
-  constructor(private loginService: LoginService) { 
+  constructor(
+      private route: ActivatedRoute,
+      private router: Router,
+      private loginService: LoginService) { 
     this.credentials = new Credentials();
   }
 
@@ -21,9 +26,10 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.loginService.login(this.credentials);
+    this.loginService.login(this.credentials, this.returnUrl);
   }
 
   ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 }
