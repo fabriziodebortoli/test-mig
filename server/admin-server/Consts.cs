@@ -8,8 +8,8 @@ namespace Microarea.AdminServer
         // Instance
         public const string ExistInstance = "SELECT COUNT(*) FROM MP_Instances ";
         public const string SelectInstance = "SELECT * FROM MP_Instances";
-        public const string InsertInstance = "INSERT INTO MP_Instances (InstanceKey, Description, Customer, Disabled, Origin, Tags) VALUES (@InstanceKey, @Description, @Customer, @Disabled, @Origin, @Tags)";
-        public const string UpdateInstance = "UPDATE MP_Instances SET Description = @Description, Customer = @Customer, Disabled = @Disabled, Origin=@Origin, Tags=@Tags WHERE InstanceKey = @InstanceKey";
+        public const string InsertInstance = "INSERT INTO MP_Instances (InstanceKey, Description, Customer, Disabled, Origin, Tags, UnderMaintenance) VALUES (@InstanceKey, @Description, @Customer, @Disabled, @Origin, @Tags, @UnderMaintenance)";
+        public const string UpdateInstance = "UPDATE MP_Instances SET Description = @Description, Customer = @Customer, Disabled = @Disabled, Origin=@Origin, Tags=@Tags, UnderMaintenance=@UnderMaintenance WHERE InstanceKey = @InstanceKey";
         public const string DeleteInstance = "DELETE MP_Instances WHERE InstanceKey = @InstanceKey";
 
 		// Referenced tables
@@ -26,10 +26,10 @@ namespace Microarea.AdminServer
         // Subscription
         public const string ExistSubscription = @"SELECT COUNT(*) FROM MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
         public const string SelectSubscription = @"SELECT * FROM MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
-        public const string InsertSubscription = @"INSERT INTO MP_Subscriptions (SubscriptionKey, Description, ActivationToken, PreferredLanguage, ApplicationLanguage, MinDBSizeToWarn, InstanceKey) 
-											 	VALUES (@SubscriptionKey, @Description, @ActivationToken, @PreferredLanguage, @ApplicationLanguage, @MinDBSizeToWarn, @InstanceKey)";
+        public const string InsertSubscription = @"INSERT INTO MP_Subscriptions (SubscriptionKey, Description, ActivationToken, PreferredLanguage, ApplicationLanguage, MinDBSizeToWarn, InstanceKey, UnderMaintenance) 
+											 	VALUES (@SubscriptionKey, @Description, @ActivationToken, @PreferredLanguage, @ApplicationLanguage, @MinDBSizeToWarn, @InstanceKey, @UnderMaintenance)";
         public const string UpdateSubscription = @"UPDATE MP_Subscriptions SET Description = @Description, ActivationToken = @ActivationToken, PreferredLanguage = @PreferredLanguage, 
-												ApplicationLanguage = @ApplicationLanguage, MinDBSizeToWarn = @MinDBSizeToWarn, InstanceKey = @InstanceKey WHERE SubscriptionKey = @SubscriptionKey";
+												ApplicationLanguage = @ApplicationLanguage, MinDBSizeToWarn = @MinDBSizeToWarn, InstanceKey = @InstanceKey, UnderMaintenance=@UnderMaintenance WHERE SubscriptionKey = @SubscriptionKey";
         public const string DeleteSubscription = @"DELETE MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
         //
 
