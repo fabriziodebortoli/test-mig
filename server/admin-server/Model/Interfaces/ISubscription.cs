@@ -4,10 +4,10 @@ using System.Collections.Generic;
 namespace Microarea.AdminServer.Model.Interfaces
 {
 	//================================================================================
-	interface ISubscription : IAdminModel
+	public interface ISubscription : IAdminModel
 	{
 		string SubscriptionKey { get; }
-		string Description { get; }
+		string Description { get; set; }
 		ActivationToken ActivationToken { get; set; }
 		string PreferredLanguage { get; set; }
 		string ApplicationLanguage { get; set; }

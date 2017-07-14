@@ -256,3 +256,50 @@ CREATE TABLE [dbo].[MP_RecoveryCodes] (
 )
 END
 GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_Roles]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[MP_Roles] (
+	[RoleId] [int] IDENTITY (1, 1) NOT NULL ,
+	[RoleName] [varchar] (50) NOT NULL,
+	[Description] [varchar] (100) NULL CONSTRAINT DF_Roles_Description DEFAULT(''),
+	[Disabled] [bit] NULL CONSTRAINT DF_Roles_Disabled DEFAULT (0),
+	CONSTRAINT [PK_MP_Roles] PRIMARY KEY NONCLUSTERED 
+	(
+		[RoleId]
+	)
+)
+END
+GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[MP_SubscriptionAccountRoles]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[MP_SubscriptionAccountRoles] (
+	[RoleId] [int] NOT NULL,
+	[AccountName] [varchar] (128) NOT NULL,
+	[SubscriptionKey] [varchar] (50) NOT NULL,
+	CONSTRAINT [PK_MP_SubscriptionAccountRoles] PRIMARY KEY NONCLUSTERED 
+	(
+		[RoleId],[AccountName],[SubscriptionKey]
+	),
+	CONSTRAINT [FK_MP_SubscriptionAccountRoles_Accounts] FOREIGN KEY 
+	(
+		[AccountName]
+	) REFERENCES [dbo].[MP_Accounts] (
+		[AccountName]
+	),
+	CONSTRAINT [FK_MP_SubscriptionAccountRoles_Roles] FOREIGN KEY 
+	(
+		[RoleId]
+	) REFERENCES [dbo].[MP_Roles] (
+		[RoleId]
+	),
+	CONSTRAINT [FK_MP_SubscriptionAccountRoles_Subscriptions] FOREIGN KEY 
+	(
+		[SubscriptionKey]
+	) REFERENCES [dbo].[MP_Subscriptions] (
+		[SubscriptionKey]
+	)
+)
+END
+GO

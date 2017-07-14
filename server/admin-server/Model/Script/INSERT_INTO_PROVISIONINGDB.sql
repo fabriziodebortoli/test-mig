@@ -11,7 +11,7 @@ INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationTo
 INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [PreferredLanguage], [ApplicationLanguage], [MinDBSizeToWarn], [InstanceKey]) VALUES (N'M4-MDC', N'subscription MDC', N'', N'', N'', 2044723, N'I-M4')
 INSERT [dbo].[MP_Subscriptions] ([SubscriptionKey], [Description], [ActivationToken], [PreferredLanguage], [ApplicationLanguage], [MinDBSizeToWarn], [InstanceKey]) VALUES (N'M4-MANUF', N'subscription Manufacturing', N'', N'', N'', 2044723, N'I-M4')
 -- accounts
-INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], [PasswordDuration], [Disabled], [Locked], [CloudAdmin], [ProvisioningAdmin], [WindowsAuthentication], [PreferredLanguage], [ApplicationLanguage], [Ticks], [ExpirationDate]) VALUES (N'mdelbene@m4.com', N'delbene', N'Michela Delbene', N'ufficio amministrativo', N'mdelbene@m4.com', 0, 0, 0, 0, CAST(N'1753-01-01 00:00:00.000' AS DateTime), 0, 0, 0, 0, 0, 0, N'', N'', 999999999, CAST(N'2027-06-23 14:52:56.727' AS DateTime))
+INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], [PasswordDuration], [Disabled], [Locked], [CloudAdmin], [ProvisioningAdmin], [WindowsAuthentication], [PreferredLanguage], [ApplicationLanguage], [Ticks], [ExpirationDate]) VALUES (N'mdelbene@m4.com', N'delbene', N'Michela Delbene', N'ufficio amministrativo', N'mdelbene@m4.com', 0, 0, 0, 0, CAST(N'1753-01-01 00:00:00.000' AS DateTime), 0, 0, 0, 1, 1, 0, N'', N'', 999999999, CAST(N'2027-06-23 14:52:56.727' AS DateTime))
 INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], [PasswordDuration], [Disabled], [Locked], [CloudAdmin], [ProvisioningAdmin], [WindowsAuthentication], [PreferredLanguage], [ApplicationLanguage], [Ticks], [ExpirationDate]) VALUES (N'imanzoni@m4.com', N'manzoni', N'Ilaria Manzoni', N'ufficio risorse umane', N'imanzoni@m4.com', 1, 0, 0, 0, CAST(N'2017-06-26 08:50:04.607' AS DateTime), 90, 0, 0, 1, 1, 0, N'', N'', 999999999, CAST(N'2024-06-23 14:52:56.727' AS DateTime))
 INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], [PasswordDuration], [Disabled], [Locked], [CloudAdmin], [ProvisioningAdmin], [WindowsAuthentication], [PreferredLanguage], [ApplicationLanguage], [Ticks], [ExpirationDate]) VALUES (N'fricceri@m4.com', N'ricceri', N'Francesco Ricceri', N'', N'fricceri@m4.com', 0, 0, 0, 0, CAST(N'2024-06-23 14:52:56.727' AS DateTime), 90, 0, 0, 0, 1, 0, N'', N'', 999999999, CAST(N'2024-06-23 14:52:56.727' AS DateTime))
 INSERT [dbo].[MP_Accounts] ([AccountName], [Password], [FullName], [Notes], [Email], [LoginFailedCount], [PasswordNeverExpires], [MustChangePassword], [CannotChangePassword], [PasswordExpirationDate], [PasswordDuration], [Disabled], [Locked], [CloudAdmin], [ProvisioningAdmin], [WindowsAuthentication], [PreferredLanguage], [ApplicationLanguage], [Ticks], [ExpirationDate]) VALUES (N'abauzone@m4.com', N'bauzone', N'Anna Bauzone', N'', N'abauzone@m4.com', 0, 0, 0, 0, CAST(N'1753-01-01 00:00:00.000' AS DateTime), 0, 0, 0, 0, 1, 0, N'', N'', 0, CAST(N'2027-06-26 15:04:57.713' AS DateTime))
@@ -66,3 +66,18 @@ INSERT [dbo].[MP_CompanyAccounts] ([AccountName], [CompanyId], [Admin]) VALUES (
 
 INSERT [dbo].[MP_CompanyAccounts] ([AccountName], [CompanyId], [Admin]) VALUES (N'lbruni@m4.com', 6, 0)
 INSERT [dbo].[MP_CompanyAccounts] ([AccountName], [CompanyId], [Admin]) VALUES (N'fricceri@m4.com', 6, 0)
+
+-- ruoli
+SET IDENTITY_INSERT [dbo].[MP_Roles] ON 
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (1, N'CloudAdmin', N'Cloud Admin con accesso completo su cloud', 0)
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (2, N'ProvisioningAdmin', N'Provisioning Admin per gestione istanze', 0)
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (3, N'AccountManager', N'Account Manager per gestione account', 0)
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (4, N'DbManager', N'Db Manager per aggiornamento database', 1)
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (5, N'TestDatabaseUser', N'User per database di test della suscription', 0)
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (6, N'NextInstanceUser', N'User per accedere a istanze di release successive per test', 0)
+INSERT [dbo].[MP_Roles] ([RoleId], [RoleName], [Description], [Disabled]) VALUES (7, N'PreviousInstanceUser', N'User per accedere a istanze di release precedenti per storico', 0)
+
+SET IDENTITY_INSERT [dbo].[MP_Roles] OFF
+
+INSERT [dbo].[MP_SubscriptionAccountRoles] ([RoleId], [AccountName], [SubscriptionKey]) VALUES (1, N'imanzoni@m4.com', N'M4')
+

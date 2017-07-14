@@ -6,9 +6,8 @@ namespace Microarea.AdminServer.Model
     //================================================================================
     public class SubscriptionAccount : ISubscriptionAccount
 	{
-        public string accountName;
-		public string subscriptionKey;
-
+        string accountName;
+		string subscriptionKey;
 		bool existsOnDB = false;
 
 		// data provider
