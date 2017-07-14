@@ -354,16 +354,16 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //----------------------------------------------------------------------
-        private Subscription[] GetSubscritions(string accountName)
+        private ISubscription[] GetSubscritions(string accountName)
         {
-            ISubscription subsscription = new Subscription();
-            subsscription.SetDataProvider(_subscriptionSQLDataProvider);
-            Subscription[] subsArray = subsscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
+            ISubscription subscription = new Subscription();
+            subscription.SetDataProvider(_subscriptionSQLDataProvider);
+            ISubscription[] subsArray = subscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
             return subsArray;
         }
 
         //----------------------------------------------------------------------
-        private List<ServerURL> GetUrlsForThisInstance()
+        private List<IServerURL> GetUrlsForThisInstance()
         {
             Instance iInstance = new Instance(_settings.InstanceIdentity.InstanceKey);
             iInstance.SetDataProvider(_instanceSqlDataProvider);
@@ -371,7 +371,7 @@ namespace Microarea.AdminServer.Controllers
 
             if (!iInstance.ExistsOnDB)
             {
-                return new List<ServerURL>();
+                return new List<IServerURL>();
             }
 
             return iInstance.LoadURLs();

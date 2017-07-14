@@ -235,7 +235,7 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			List<Subscription> subscriptionsList = null;
+			List<ISubscription> subscriptionsList = null;
 
 			try
 			{
@@ -255,7 +255,7 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddPlainObject<List<Subscription>>(subscriptionsList);
+			_jsonHelper.AddPlainObject<List<ISubscription>>(subscriptionsList);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 

@@ -1,3 +1,3 @@
 <div *ngIf="!rect.hidden" [ngStyle]="applyStyle()">
-  <div [ngStyle]="applyValueStyle()">{{rect.value}}</div>
+  <div  [innerHtml]="rect.value" [ngStyle]="applyValueStyle()"></div>
 </div>

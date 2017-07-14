@@ -1,5 +1,6 @@
 ﻿using Microarea.AdminServer.Library;
 using Microarea.AdminServer.Model;
+using Microarea.AdminServer.Model.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,8 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 		public string PreferredLanguage;
 		public string ApplicationLanguage;
 		public List<SecurityToken> UserTokens;
-		public Subscription[] Subscriptions;
-		public List<ServerURL> Urls;
+		public ISubscription[] Subscriptions;
+		public List<IServerURL> Urls;
 
 		//--------------------------------------------------------------------------------
 		public BootstrapToken()
@@ -30,7 +31,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 			this.ApplicationLanguage = String.Empty;
 			this.UserTokens = new List<SecurityToken>();
 			this.Subscriptions = new Subscription[] { };
-			this.Urls = new List<ServerURL>();
+			this.Urls = new List<IServerURL>();
 		}
 	}
 }
