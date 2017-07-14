@@ -100,5 +100,20 @@ namespace Microarea.AdminServer
         public const string UpdateSecurityToken = "UPDATE MP_SecurityTokens SET Token=@Token, ExpirationDate=@ExpirationDate, Expired=@Expired WHERE AccountName=@AccountName AND TokenType=@TokenType";
         public const string DeleteSecurityToken = "DELETE MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
 
+        // roles
+        public const string ExistRole = "SELECT COUNT(*) FROM MP_Roles WHERE RoleId=@RoleId";
+        public const string SelectRole = "SELECT * FROM MP_Roles WHERE RoleId=@RoleId";
+        public const string InsertRole = "INSERT INTO MP_Roles (RoleName, Description, Disabled) VALUES (@RoleName, @Description, @Disabled)";
+        public const string UpdateRole = "UPDATE MP_Roles SET RoleName=@RoleName, Description=@Description, Disabled=@Disabled WHERE RoleId=@RoleId";
+        public const string DeleteRole = "DELETE MP_Roles WHERE RoleId=@RoleId";
+
+        // SubscriptionAccountRole
+        public const string ExistSubscriptionAccountRole = "SELECT COUNT(*) FROM MP_SubscriptionAccountRoles WHERE RoleId=@RoleId AND AccountName=@AccountName AND SubscriptionKey=@SubscriptionKey";
+        public const string SelectSubscriptionAccountRole = "SELECT * FROM MP_SubscriptionAccountRolesWHERE RoleId=@RoleId AND AccountName=@AccountName AND SubscriptionKey=@SubscriptionKey";
+        public const string InsertSubscriptionAccountRole = "INSERT INTO MP_SubscriptionAccountRoles (RoleId, AccountName, SubscriptionKey) VALUES (@RoleId, @AccountName, @SubscriptionKey)";
+        // la query di update essendo tutte chiavi non so se si fa.
+        public const string UpdateSubscriptionAccountRole = "UPDATE MP_SubscriptionAccountRoles SET RoleName=@RoleName WHERE RoleId=@RoleId AND AccountName=@AccountName AND SubscriptionKey=@SubscriptionKey";
+        public const string DeleteSubscriptionAccountRole = "DELETE MP_SubscriptionAccountRoles WHERE RoleId=@RoleId AND AccountName=@AccountName AND SubscriptionKey=@SubscriptionKey";
+
     }
 }

@@ -25,7 +25,7 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
-			Subscription subscription;
+			ISubscription subscription;
 
 			try
 			{
@@ -64,12 +64,12 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public OperationResult Save(IAdminModel iModel)
         {
-			Subscription subscription;
+			ISubscription subscription;
 			OperationResult opRes = new OperationResult();
 
             try
             {
-				subscription = (Subscription)iModel;
+				subscription = (ISubscription)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
@@ -115,11 +115,11 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public bool Delete(IAdminModel iModel)
 		{
-			Subscription subscription;
+            ISubscription subscription;
 
 			try
 			{
-				subscription = (Subscription)iModel;
+				subscription = (ISubscription)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
