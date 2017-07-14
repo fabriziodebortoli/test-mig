@@ -27,6 +27,9 @@ namespace Microarea.AdminServer.Model.Interfaces
         bool IsPasswordExpirated();
 		DateTime ExpirationDate { get; set; }
         bool IsAdmin { get; }
-        void ResetPasswordExpirationDate();
+		string ParentAccount { get; set; }
+		bool Confirmed { get; set; }
+
+		void ResetPasswordExpirationDate();
     }
 }
