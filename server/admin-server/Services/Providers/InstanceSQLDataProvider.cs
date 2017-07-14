@@ -24,25 +24,26 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
-			Instance instance;
+			IInstance instance;
             
 			try
 			{
-				instance = (Instance)iModel;
+				instance = (IInstance)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
 					using (SqlCommand command = new SqlCommand(Consts.SelectInstance, connection))
 					{
-					
-						using (SqlDataReader dataReader = command.ExecuteReader())
+                        command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
+
+                        using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
 							{
-                                instance.InstanceKey = dataReader["InstanceKey"] as string;
                                 instance.Description = dataReader["Description"] as string;
                                 instance.Description = dataReader["Origin"] as string;
                                 instance.Description = dataReader["Tags"] as string;
+                                instance.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
                                 instance.Disabled = (bool)dataReader["Disabled"];
 								instance.ExistsOnDB = true;
 							}
@@ -60,11 +61,10 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public List<ServerURL> LoadURLs(string instanceKey)
+		public List<IServerURL> LoadURLs(string instanceKey)
 		{
-			List<ServerURL> serverURLs = new List<ServerURL>();
-
-			try
+			List<IServerURL> serverURLs = new List<IServerURL>();
+            try
 			{
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
@@ -78,11 +78,12 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								ServerURL serverUrl = new ServerURL();
+                                IServerURL serverUrl = new ServerURL();
 								serverUrl.InstanceKey = dataReader["InstanceKey"] as string;
 								serverUrl.URLType = (URLType)dataReader["URLType"];
-								serverUrl.URL = dataReader["URL"] as string;
-								serverURLs.Add(serverUrl);
+                                serverUrl.URL = dataReader["URL"] as string;
+                                serverUrl.ExistsOnDB = true;
+                                serverURLs.Add(serverUrl);
 							}
 						}
 					}
@@ -91,7 +92,7 @@ namespace Microarea.AdminServer.Services.Providers
 			catch (Exception e)
 			{
 				Console.WriteLine(e.Message);
-				return new List<ServerURL>();
+				return new List<IServerURL>();
 			}
 
 			return serverURLs;
@@ -102,7 +103,6 @@ namespace Microarea.AdminServer.Services.Providers
         {
 			Instance instance;
 			OperationResult opRes = new OperationResult();
-
             try
             {
 				instance = (Instance)iModel;
@@ -126,10 +126,9 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@Disabled", instance.Disabled);
                         command.Parameters.AddWithValue("@Origin", instance.Origin);
                         command.Parameters.AddWithValue("@Tags", instance.Tags);
-
-                        if (existInstance)
-							command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
-
+                        command.Parameters.AddWithValue("@UnderMaintenance", instance.UnderMaintenance);
+                        command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
+                     
 						command.ExecuteNonQuery();
 					}
 
@@ -139,11 +138,10 @@ namespace Microarea.AdminServer.Services.Providers
             }
             catch (Exception e)
             {
-				opRes.Result = false;
-				opRes.Message = String.Concat("An error occurred while saving Instance ", e.Message);
-				return opRes;
+                opRes.Result = false;
+                opRes.Message = String.Concat("An error occurred while saving Instance; ", e.Message);
+                return opRes;
             }
-
             return opRes;
         }
 
@@ -151,7 +149,6 @@ namespace Microarea.AdminServer.Services.Providers
 		public bool Delete(IAdminModel iModel)
 		{
 			Instance instance;
-
 			try
 			{
 				instance = (Instance)iModel;
@@ -174,15 +171,58 @@ namespace Microarea.AdminServer.Services.Providers
 			return true;
 		}
 
-		//---------------------------------------------------------------------
-		public OperationResult Query(QueryInfo qi)
+        //---------------------------------------------------------------------
+        public List<IInstance> GetInstances(string instanceKey)
+        {
+            List<IInstance> instanceList = new List<IInstance>();
+
+            string selectQuery = "SELECT * FROM MP_Instances";
+            if (!string.IsNullOrWhiteSpace(instanceKey))
+                selectQuery += " WHERE InstanceKey = @InstanceKey";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(this.connectionString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(selectQuery, connection))
+                    {
+                        if (!string.IsNullOrWhiteSpace(instanceKey))
+                            command.Parameters.AddWithValue("@InstanceKey", instanceKey);
+
+                        using (SqlDataReader dataReader = command.ExecuteReader())
+                        {
+                            while (dataReader.Read())
+                            {
+                                IInstance instance = new Instance();
+                                instance.InstanceKey = dataReader["InstanceKey"] as string;
+                                instance.Origin = dataReader["Origin"] as string;
+                                instance.Tags = dataReader["Tags"] as string;
+                                instance.Description = dataReader["Description"] as string;
+                                instance.Disabled = (bool)dataReader["Disabled"];
+                                instance.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
+                                instance.InstanceKey = dataReader["InstanceKey"] as string;
+                                instanceList.Add(instance);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+
+            return instanceList;
+        }
+
+        //---------------------------------------------------------------------
+        public OperationResult Query(QueryInfo qi)
 		{
 			OperationResult opRes = new OperationResult();
-
-			List<CompanyAccount> companyAccountList = new List<CompanyAccount>();
-
-			string selectQuery = "SELECT * FROM MP_CompanyAccounts WHERE ";
-
+			List<IInstance> list = new List<IInstance>();
+			string selectQuery = "SELECT * FROM MP_Instances WHERE ";
 			try
 			{
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
@@ -208,16 +248,19 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								CompanyAccount companyAccount = new CompanyAccount();
-								companyAccount.CompanyId = (int)dataReader["CompanyId"];
-								companyAccount.AccountName = dataReader["AccountName"] as string;
-								companyAccount.Admin = (bool)dataReader["Admin"];
-								companyAccountList.Add(companyAccount);
+								IInstance instance = new Instance();
+                                instance.Origin = dataReader["Origin"] as string; 
+                                instance.Tags = dataReader["Tags"] as string;
+                                instance.Description= dataReader["Description"] as string;
+                                instance.Disabled = (bool)dataReader["Disabled"] ;
+                                instance.UnderMaintenance=(bool)dataReader["UnderMaintenance"];
+                                instance.InstanceKey = dataReader["InstanceKey"] as string;
+                                list.Add(instance);
 							}
 						}
 					}
 					opRes.Result = true;
-					opRes.Content = companyAccountList;
+					opRes.Content = list;
 				}
 			}
 			catch (Exception e)

@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BreadcrumbComponent implements OnInit {
 
-  constructor() { }
+  currentPath: string;
+
+  constructor() { 
+    this.currentPath = "Home";
+  }
 
   ngOnInit() {
   }

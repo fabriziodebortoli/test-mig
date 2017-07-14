@@ -28,6 +28,8 @@ namespace Microarea.AdminServer.Model
         string preferredLanguage = string.Empty;
         bool isWindowsAuthentication = false;
         DateTime expirationDate = DateTime.Now.AddDays(3);// todo per ora scadenza 3 giorni per esempio
+		string parentAccount = string.Empty;
+		bool confirmed = false;
 		bool existsOnDB = false;
         long ticks;
 
@@ -53,9 +55,11 @@ namespace Microarea.AdminServer.Model
         public DateTime ExpirationDate { get { return this.expirationDate; } set { this.expirationDate = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
         public long Ticks { get { return this.ticks; } set { this.ticks = value; } }
-        public bool IsAdmin { get { return this.provisioningAdmin || this.CloudAdmin; } }
-        // data provider
-        IDataProvider dataProvider;
+        public bool IsAdmin { get { return this.provisioningAdmin || this.cloudAdmin; } }
+		public string ParentAccount { get { return this.parentAccount; } set { this.parentAccount = value; } }
+		public bool Confirmed { get { return this.confirmed; } set { this.confirmed = value; } }
+		// data provider
+		IDataProvider dataProvider;
 
         //---------------------------------------------------------------------
         public Account()
@@ -86,7 +90,6 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public IAdminModel Load()
         {
-            //if(this.dataProvider == null) ????
             return this.dataProvider.Load(this);
         }
 		
@@ -109,6 +112,5 @@ namespace Microarea.AdminServer.Model
         {
             passwordExpirationDate = DateTime.Now.AddDays(passwordDuration);
         }
-        
     }
 }

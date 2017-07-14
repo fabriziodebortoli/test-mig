@@ -8,14 +8,15 @@ namespace Microarea.AdminServer.Model
 	//================================================================================
 	public class Subscription : ISubscription
 	{
-		string subscriptionKey;
+		string subscriptionKey = string.Empty;
 		string description = string.Empty;
-        ActivationToken activationtoken;
+        ActivationToken activationtoken = new ActivationToken(string.Empty);
 		string preferredLanguage = string.Empty;
 		string applicationLanguage = string.Empty;
-		string instanceKey;
+		string instanceKey = string.Empty;
 		int minDBSizeToWarn;
-		bool existsOnDB;
+        bool underMaintenance;
+        bool existsOnDB;
 
 		//---------------------------------------------------------------------
 		public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
@@ -26,17 +27,14 @@ namespace Microarea.AdminServer.Model
 		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
 		public int MinDBSizeToWarn { get { return this.minDBSizeToWarn; } set { this.minDBSizeToWarn = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
+        public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
 
-		// data provider
-		ISubscriptionDataProvider dataProvider;
+        // data provider
+        ISubscriptionDataProvider dataProvider;
 
 		//---------------------------------------------------------------------
 		public Subscription()
 		{
-			subscriptionKey = string.Empty;
-			description = string.Empty;
-			activationtoken = new ActivationToken(string.Empty);
-			instanceKey = string.Empty;
 		}
 
 		//---------------------------------------------------------------------
@@ -64,7 +62,7 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-		public List<Subscription> GetSubscriptionsByAccount(string accountName, string instanceKey)
+		public List<ISubscription> GetSubscriptionsByAccount(string accountName, string instanceKey)
 		{
 			return this.dataProvider.GetSubscriptionsByAccount(accountName, instanceKey);
 		}
