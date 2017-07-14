@@ -26,11 +26,11 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
-			SubscriptionAccount iSubscription;
+			ISubscriptionAccount iSubscription;
 
 			try
 			{
-				iSubscription = (SubscriptionAccount)iModel;
+				iSubscription = (ISubscriptionAccount)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
@@ -62,12 +62,12 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public OperationResult Save(IAdminModel iModel)
 		{
-			SubscriptionAccount isubscripion;
+            ISubscriptionAccount isubscripion;
 			OperationResult opRes = new OperationResult();
 
 			try
 			{
-				isubscripion = (SubscriptionAccount)iModel;
+				isubscripion = (ISubscriptionAccount)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
@@ -104,11 +104,11 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public bool Delete(IAdminModel iModel)
 		{
-			SubscriptionAccount isubscription;
+            ISubscriptionAccount isubscription;
 
 			try
 			{
-				isubscription = (SubscriptionAccount)iModel;
+				isubscription = (ISubscriptionAccount)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
@@ -134,7 +134,7 @@ namespace Microarea.AdminServer.Services.Providers
 		{
 			OperationResult opRes = new OperationResult();
 
-			List<SubscriptionAccount> subscriptionsList = new List<SubscriptionAccount>();
+			List<ISubscriptionAccount> subscriptionsList = new List<ISubscriptionAccount>();
 
 			string selectQuery = "SELECT * FROM MP_SubscriptionAccounts WHERE ";
 
@@ -163,7 +163,7 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								SubscriptionAccount companyAccount = new SubscriptionAccount();
+                                ISubscriptionAccount companyAccount = new SubscriptionAccount();
 								companyAccount.AccountName = dataReader["AccountName"] as string;
 								companyAccount.SubscriptionKey = dataReader["SubscriptionKey"] as string;
 								subscriptionsList.Add(companyAccount);
