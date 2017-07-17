@@ -12,9 +12,15 @@ import { URLSearchParams } from '@angular/http';
 })
 export class RadarComponent {
 
-    radarData: any;
+    public radarData: any[] = [];
 
-    constructor(private dataService: DataService, private logger: Logger) { }
+    public columns: string[] = [
+        "CompanyName", "ContactName", "ContactTitle"
+    ];
+
+    constructor(private dataService: DataService, private logger: Logger) {
+        //this.radarData = [{ "Id": "ALFKI", "CompanyName": "Alfreds Futterkiste", "ContactName": "Maria Anders", "ContactTitle": "Sales Representative", "City": "Berlin" }, { "Id": "ANATR", "CompanyName": "Ana Trujillo Emparedados y helados", "ContactName": "Ana Trujillo", "ContactTitle": "Owner", "City": "México D.F." }];
+    }
 
     getData(query: string) {
 

@@ -1,2 +1,10 @@
 <p>RadarComponent</p>
-<div class="testResult">{{radarData|json}}
+
+
+<kendo-grid [data]="radarData">
+    <ng-template ngFor [ngForOf]="columns" let-column>
+        <kendo-grid-column field="{{column}}">
+            <ng-template kendoGridHeaderTemplate let-dataItem> {{dataItem.field}} </ng-template>
+        </kendo-grid-column>
+    </ng-template>
+</kendo-grid>
