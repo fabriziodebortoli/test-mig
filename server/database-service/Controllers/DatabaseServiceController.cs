@@ -19,22 +19,22 @@ namespace Microarea.DatabaseService.Controllers
 			this.jsonHelper = jsonHelper;
 		}
 
-		[HttpGet]
-		[Route("/")]
-		//-----------------------------------------------------------------------------	
-		public IActionResult Index()
-		{
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-		}
+		//[HttpGet]
+		//[Route("/")]
+		////-----------------------------------------------------------------------------	
+		//public IActionResult Index()
+		//{
+		//	return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+		//}
 
-		[HttpGet]
-		[Route("api")]
-		//-----------------------------------------------------------------------------	
-		public IActionResult ApiHome()
-		{
-			jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea DatabaseService API");
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-		}
+		//[HttpGet]
+		//[Route("api")]
+		////-----------------------------------------------------------------------------	
+		//public IActionResult ApiHome()
+		//{
+		//	jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea DatabaseService API");
+		//	return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+		//}
 
 		[Route("create-database")]
 		//---------------------------------------------------------------------
