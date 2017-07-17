@@ -25,10 +25,11 @@ export class DiagnosticDialogComponent implements OnInit {
         this.data = data;
     }
 
-    close() {
+    close(ok:boolean) {
         this.opened = false;
         if (this.eventData) {
             const res = new DiagnosticDlgResult();
+            res.ok = ok;
             this.eventData.closeDiagnosticDialog.emit(res);
         }
     }
@@ -44,6 +45,9 @@ export class DiagnosticItemComponent {
 
     constructor() { }
     @Input() message: Message;
-    @Input() level: number;
+    @Input() level: number = 0;
     collapsed = false;
+    toggle(){
+        this.collapsed = !this.collapsed;
+    }
 }

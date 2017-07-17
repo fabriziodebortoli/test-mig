@@ -24,6 +24,6 @@ export class Message {
     text: string;
 }
 export class DiagnosticDlgResult {
-
+    ok = false;
 }
 export enum DiagnosticType { FatalError = 16, Error = 2, Warning = 1, Info = 8, Banner = 32 }

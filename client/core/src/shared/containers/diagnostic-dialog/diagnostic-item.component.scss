@@ -8,5 +8,11 @@
 }
 .block-title
 {
-    font-weight: bold
+    font-weight: bold;
+    display: inline-block;
+}
+.toggler
+{
+    display: inline-block;
+    cursor: pointer;
 }
