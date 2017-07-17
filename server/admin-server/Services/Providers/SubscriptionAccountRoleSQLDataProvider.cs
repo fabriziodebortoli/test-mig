@@ -110,11 +110,17 @@ namespace Microarea.AdminServer.Services.Providers
                         command.Parameters.AddWithValue("@AccountName", sar.AccountName);
                         existSar = (int)command.ExecuteScalar() > 0;
                     }
+                    if (existSar)
+                    {
+                        opRes.Result = false;
+                        opRes.Message = "SubscriptionAccountRole already exists.";
+                        return opRes;
+                    }
 
                     using (SqlCommand command = new SqlCommand())
                     {
                         command.Connection = connection;
-                        command.CommandText = existSar ? Consts.UpdateSubscriptionAccountRole : Consts.InsertSubscriptionAccountRole;
+                        command.CommandText = Consts.InsertSubscriptionAccountRole;
                         
                         command.Parameters.AddWithValue("@RoleId", sar.RoleId);
                         command.Parameters.AddWithValue("@SubscriptionKey", sar.SubscriptionKey);
