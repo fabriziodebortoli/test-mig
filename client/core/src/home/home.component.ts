@@ -44,8 +44,6 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
     private localizationService: LocalizationService,
     private settingsService: SettingsService,
     private enumsService: EnumsService,
-    private utilsService: UtilsService
-
   ) {
     this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
 
@@ -79,7 +77,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
   ngAfterContentInit() {
     setTimeout(() => this.calcViewHeight(), 0);
 
-    this.utilsService.detectDPI();
+    this.layoutService.detectDPI();
   }
 
   @HostListener('window:resize', ['$event'])

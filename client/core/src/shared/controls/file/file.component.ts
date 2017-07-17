@@ -8,9 +8,6 @@ import { ControlComponent } from './../control.component';
   styleUrls: ['./file.component.scss']
 })
 export class FileComponent extends ControlComponent {
-
-  constructor() { super(); }
-
   ngOnInit() {
   }
 

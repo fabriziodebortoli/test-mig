@@ -1,8 +1,8 @@
 import { check } from './../../../models/check.model';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { AskdialogService } from './../askdialog.service';
+import { LayoutService } from '@taskbuilder/core';
 import { CheckBoxComponent } from '@taskbuilder/core';
-
 import { Component, OnInit, Input, DoCheck } from '@angular/core';
 
 @Component({
@@ -13,8 +13,11 @@ import { Component, OnInit, Input, DoCheck } from '@angular/core';
 export class AskCheckComponent extends CheckBoxComponent implements OnInit, DoCheck {
 
   @Input() check: check;
-  constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
-    super();
+  constructor(
+    private rsService: ReportingStudioService,
+    private adService: AskdialogService,
+    protected layoutService: LayoutService) {
+    super(layoutService);
   }
 
   private oldValue: boolean;

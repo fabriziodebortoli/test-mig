@@ -1,3 +1,4 @@
+import { LayoutService } from './../../../core/services/layout.service';
 import { Component, OnInit, Input, OnChanges, AfterViewInit } from '@angular/core';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
@@ -17,8 +18,11 @@ private constraint: RegExp;
 
 private errorMessage: string;
 private showError = '';
-constructor(private eventData: EventDataService) {
-    super();
+constructor(
+  private eventData: EventDataService,
+   protected layoutService: LayoutService
+  ) {
+    super(layoutService);
 
    }
 
