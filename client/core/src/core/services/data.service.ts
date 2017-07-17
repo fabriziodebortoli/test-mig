@@ -39,4 +39,10 @@ export class DataService extends DocumentService {
     return this.http.get(url, { withCredentials: true }).map((res: Response) => res.json());
   }
 
+  getRadarData(nameSpace: string, params: any) {
+    let url: string = this.urlService.getBackendUrl() + '/data-service/radar/' + nameSpace;
+
+    return this.http.get(url, { withCredentials: true }).map((res: Response) => res.json());
+  }
+
 }
