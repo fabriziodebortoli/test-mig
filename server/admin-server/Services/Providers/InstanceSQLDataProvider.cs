@@ -201,7 +201,6 @@ namespace Microarea.AdminServer.Services.Providers
                                 instance.Description = dataReader["Description"] as string;
                                 instance.Disabled = (bool)dataReader["Disabled"];
                                 instance.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
-                                instance.InstanceKey = dataReader["InstanceKey"] as string;
                                 instanceList.Add(instance);
                             }
                         }

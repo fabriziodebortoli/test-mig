@@ -1,13 +1,12 @@
-export class Company {
+export class SubscriptionDatabase {
 
-    companyId: number;
+    subscriptionKey: string;
     name: string;
     description: string;
-	subscriptionKey: string;
-    companyDBServer: string;
-    companyDBName: string;
-    companyDBOwner: string;
-    companyDBPassword: string;
+    dbServer: string;
+    dbName: string;
+    dbOwner: string;
+    dbPassword: string;
 	useDMS: boolean;
     dmsDBServer: string;
     dmsDBName: string;
@@ -18,7 +17,8 @@ export class Company {
 	isUnicode: boolean;
 	preferredLanguage: string;
 	applicationLanguage: string;
-	provider: string;
+    provider: string;
+    test: boolean;
 
     constructor() {
     }
