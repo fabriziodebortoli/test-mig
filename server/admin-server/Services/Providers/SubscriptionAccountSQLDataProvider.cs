@@ -62,12 +62,12 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public OperationResult Save(IAdminModel iModel)
 		{
-            ISubscriptionAccount isubscripion;
+            ISubscriptionAccount isubscription;
 			OperationResult opRes = new OperationResult();
 
 			try
 			{
-				isubscripion = (ISubscriptionAccount)iModel;
+                isubscription = (ISubscriptionAccount)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
@@ -76,8 +76,8 @@ namespace Microarea.AdminServer.Services.Providers
 
 					using (SqlCommand command = new SqlCommand(Consts.ExistSubscriptionAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountName", isubscripion.AccountName);
-						command.Parameters.AddWithValue("@SubscriptionKey", isubscripion.SubscriptionKey);
+						command.Parameters.AddWithValue("@AccountName", isubscription.AccountName);
+						command.Parameters.AddWithValue("@SubscriptionKey", isubscription.SubscriptionKey);
 						existSubscription = (int)command.ExecuteScalar() > 0;
 					}
 
@@ -88,7 +88,18 @@ namespace Microarea.AdminServer.Services.Providers
 						return opRes;
 					}
 
-					opRes.Result = true;
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.Connection = connection;
+                        command.CommandText = Consts.InsertSubscriptionAccount;
+
+                        command.Parameters.AddWithValue("@AccountName", isubscription.AccountName);
+                        command.Parameters.AddWithValue("@SubscriptionKey", isubscription.SubscriptionKey);
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    opRes.Result = true;
 				}
 			}
 			catch (Exception e)

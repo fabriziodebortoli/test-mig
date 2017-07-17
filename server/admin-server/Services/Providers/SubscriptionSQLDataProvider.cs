@@ -144,9 +144,9 @@ namespace Microarea.AdminServer.Services.Providers
 		{
 			List<ISubscription> subsList = new List<ISubscription>();
 
-			string selectQuery = "SELECT MP_Subscriptions.SubscriptionKey, MP_Subscriptions.Description, MP_Subscriptions.PreferredLanguage, MP_Subscriptions.ApplicationLanguage, MP_Subscriptions.MinDBSizeToWarn, MP_Subscriptions.UnderMaintenance FROM MP_Subscriptions, MP_SubscriptionInstances";
-			if (!string.IsNullOrWhiteSpace(instanceKey))
-				selectQuery += " WHERE MP_SubscriptionInstances.InstanceKey = @InstanceKey AND MP_Subscriptions.SubscriptionKey = MP_SubscriptionInstances.SubscriptionKey ";
+			string selectQuery = @"SELECT * FROM MP_Subscriptions 
+								INNER JOIN MP_SubscriptionInstances ON MP_SubscriptionInstances.SubscriptionKey = MP_Subscriptions.SubscriptionKey
+								WHERE MP_SubscriptionInstances.Instancekey =  @InstanceKey";
 
 			try
 			{
@@ -156,8 +156,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					using (SqlCommand command = new SqlCommand(selectQuery, connection))
 					{
-						if (!string.IsNullOrWhiteSpace(instanceKey))
-							command.Parameters.AddWithValue("@InstanceKey", instanceKey);
+						command.Parameters.AddWithValue("@InstanceKey", instanceKey);
 
 						using (SqlDataReader dataReader = command.ExecuteReader())
 						{
@@ -190,14 +189,12 @@ namespace Microarea.AdminServer.Services.Providers
 		{
 			List<ISubscription> subsList = new List<ISubscription>();
 
-			string selectQuery = @"SELECT MP_Subscriptions.SubscriptionKey, MP_Subscriptions.Description, MP_Subscriptions.PreferredLanguage, MP_Subscriptions.ApplicationLanguage, MP_Subscriptions.MinDBSizeToWarn, MP_Subscriptions.UnderMaintenance 
-                 FROM MP_Subscriptions 
-                INNER JOIN MP_SubscriptionAccounts ON 
-				MP_SubscriptionAccounts.SubscriptionKey = MP_Subscriptions.SubscriptionKey 
-                INNER JOIN MP_SubscriptionInstances ON 
-				MP_Subscriptions.SubscriptionKey = MP_SubscriptionInstances.SubscriptionKey 
-                WHERE
-				MP_SubscriptionAccounts.AccountName = @AccountName AND MP_SubscriptionInstances.InstanceKey = @InstanceKey";
+			string selectQuery = @"SELECT MP_Subscriptions.SubscriptionKey, MP_Subscriptions.Description, MP_Subscriptions.PreferredLanguage, 
+								MP_Subscriptions.ApplicationLanguage, MP_Subscriptions.MinDBSizeToWarn, MP_Subscriptions.UnderMaintenance 
+								FROM MP_Subscriptions 
+								INNER JOIN MP_SubscriptionAccounts ON MP_SubscriptionAccounts.SubscriptionKey = MP_Subscriptions.SubscriptionKey 
+								INNER JOIN MP_SubscriptionInstances ON MP_Subscriptions.SubscriptionKey = MP_SubscriptionInstances.SubscriptionKey 
+								WHERE MP_SubscriptionAccounts.AccountName = @AccountName AND MP_SubscriptionInstances.InstanceKey = @InstanceKey";
 
 			try
 			{
