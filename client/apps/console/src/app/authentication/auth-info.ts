@@ -40,11 +40,11 @@ export class AuthorizationInfo {
             p => {
                 subscription = new Subscription();
                 subscription.subscriptionKey = p['SubscriptionKey'];
-                subscription.applicationLanguage = p['ApplicationLanguage'];
                 subscription.description = p['Description'];
-                subscription.instanceKey = p['InstanceKey'];
                 subscription.minDBSizeToWarn = p['MinDBSizeToWarn'];
                 subscription.preferredLanguage = p['PreferredLanguage'];
+                subscription.applicationLanguage = p['ApplicationLanguage'];
+                subscription.underMaintenance = p['UnderMaintenance'];
                 // @@TODO con Ilaria
                 subscription.activationToken = ''; 
                 

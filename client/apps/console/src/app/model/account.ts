@@ -14,10 +14,13 @@ export class Account {
     disabled:boolean;
     locked:boolean;
     provisioningAdmin: boolean;
+    cloudAdmin: boolean;
     applicationLanguage: string;
     preferredLanguage: string;
     isWindowsAuthentication: boolean;
     expirationDate: Date;
+    parentAccount: string;
+    confirmed: boolean;
     
     constructor(){
     }
