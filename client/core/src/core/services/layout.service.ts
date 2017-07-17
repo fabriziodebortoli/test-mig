@@ -48,9 +48,6 @@ export class LayoutService {
 
       let offsetHeight = dpiElement.offsetHeight;
       let offsetWidth = dpiElement.offsetWidth;
-
-      console.log("width: " + offsetWidth + " height: " + offsetHeight)
-
       this.setHeightFactor(offsetHeight / 72);
       this.setWidthFactor(offsetWidth / 72);
       //pixels * dpioffset / 72  = points
