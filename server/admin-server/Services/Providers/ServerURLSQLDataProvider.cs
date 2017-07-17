@@ -24,11 +24,11 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
-			ServerURL serverUrl;
+			IServerURL serverUrl;
 
 			try
 			{
-				serverUrl = (ServerURL)iModel;
+				serverUrl = (IServerURL)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
@@ -60,12 +60,12 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public OperationResult Save(IAdminModel iModel)
 		{
-			ServerURL serverUrl;
+            IServerURL serverUrl;
 			OperationResult opRes = new OperationResult();
 
 			try
 			{
-				serverUrl = (ServerURL)iModel;
+				serverUrl = (IServerURL)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
@@ -107,11 +107,11 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public bool Delete(IAdminModel iModel)
 		{
-			ServerURL serverUrl;
+            IServerURL serverUrl;
 
 			try
 			{
-				serverUrl = (ServerURL)iModel;
+				serverUrl = (IServerURL)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
@@ -137,7 +137,7 @@ namespace Microarea.AdminServer.Services.Providers
 		{
 			OperationResult opRes = new OperationResult();
 
-			List<ServerURL> urlList = new List<ServerURL>();
+			List<IServerURL> urlList = new List<IServerURL>();
 
 			string selectQuery = "SELECT * FROM MP_ServerURLs WHERE ";
 
@@ -166,7 +166,7 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								ServerURL url = new ServerURL();
+                                IServerURL url = new ServerURL();
 								url.InstanceKey = dataReader["InstanceKey"] as string;
 								url.URLType = (URLType)dataReader["URLType"];
 								url.URL = dataReader["URL"] as string;

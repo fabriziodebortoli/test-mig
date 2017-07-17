@@ -24,23 +24,23 @@ namespace Microarea.AdminServer.Services.Providers
         //---------------------------------------------------------------------
         public IAdminModel Load(IAdminModel iModel)
         {
-            Subscription subscription;
+            SubscriptionSlots subscriptionslot;
 
             try
             {
-                subscription = (Subscription)iModel;
+                subscriptionslot = (SubscriptionSlots)iModel;
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(Consts.SelectSubscription, connection))
                     {
-                        command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
+                        command.Parameters.AddWithValue("@SubscriptionKey", subscriptionslot.SubscriptionKey);
                         using (SqlDataReader dataReader = command.ExecuteReader())
                         {
                             while (dataReader.Read())
                             {
-                                subscription.ActivationToken = new Library.ActivationToken(dataReader["ActivationToken"] as string);
-								subscription.ExistsOnDB = true;
+                                subscriptionslot.Value =dataReader["SlotsXml"] as string;
+                                subscriptionslot.ExistsOnDB = true;
 							}
                         }
                     }
@@ -52,18 +52,18 @@ namespace Microarea.AdminServer.Services.Providers
                 return null;
             }
 
-            return subscription;
+            return subscriptionslot;
         }
 
         //---------------------------------------------------------------------
         public OperationResult Save(IAdminModel iModel)
         {
-            Subscription subscription;
+            SubscriptionSlots subscriptionSlot;
 			OperationResult opRes = new OperationResult();
 
             try
             {
-                subscription = (Subscription)iModel;
+                subscriptionSlot = (SubscriptionSlots)iModel;
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
@@ -72,7 +72,7 @@ namespace Microarea.AdminServer.Services.Providers
 
                     using (SqlCommand command = new SqlCommand(Consts.ExistSubscription, connection))
                     {
-                        command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
+                        command.Parameters.AddWithValue("@SubscriptionKey", subscriptionSlot.SubscriptionKey);
                         existSubscription = (int)command.ExecuteScalar() > 0;
                     }
 
@@ -81,12 +81,8 @@ namespace Microarea.AdminServer.Services.Providers
                         command.Connection = connection;
                         command.CommandText = existSubscription ? Consts.UpdateSubscription : Consts.InsertSubscription;
 
-                        command.Parameters.AddWithValue("@Description", subscription.Description);
-                        command.Parameters.AddWithValue("@ActivationToken", subscription.ActivationToken.ToString());
-                        command.Parameters.AddWithValue("@InstanceKey", subscription.InstanceKey);
-
-                        if (existSubscription)
-                            command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
+                        command.Parameters.AddWithValue("@SlotsXml", subscriptionSlot.Value);
+                        command.Parameters.AddWithValue("@SubscriptionKey", subscriptionSlot.SubscriptionKey);
 
                         command.ExecuteNonQuery();
                     }

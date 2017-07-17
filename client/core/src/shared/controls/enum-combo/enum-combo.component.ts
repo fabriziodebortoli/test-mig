@@ -21,7 +21,6 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
     private selectedItem: any;
     private itemSourceSub: Subscription;
     @Input() public itemSource: any;
-    @Input() width: number;
 
     constructor(
         private webSocketService: WebSocketService,

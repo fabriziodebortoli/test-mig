@@ -304,15 +304,11 @@ namespace Microarea.AdminServer.Controllers
             BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
             try
             {
-
                 Task<string> responseData = await CheckRecoveryCode(accountName, recoveryCode, GetAuthorizationInfo());
-
             }
             catch { }
             return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, LoginReturnCodes.Error.ToString());
-
         }
-
 
         //----------------------------------------------------------------------
         private IActionResult SetErrorResponse(BootstrapTokenContainer bootstrapTokenContainer, int code, string message, int statuscode = 200)
@@ -358,16 +354,16 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //----------------------------------------------------------------------
-        private Subscription[] GetSubscritions(string accountName)
+        private ISubscription[] GetSubscritions(string accountName)
         {
-            ISubscription subsscription = new Subscription();
-            subsscription.SetDataProvider(_subscriptionSQLDataProvider);
-            Subscription[] subsArray = subsscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
+            ISubscription subscription = new Subscription();
+            subscription.SetDataProvider(_subscriptionSQLDataProvider);
+            ISubscription[] subsArray = subscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
             return subsArray;
         }
 
         //----------------------------------------------------------------------
-        private List<ServerURL> GetUrlsForThisInstance()
+        private List<IServerURL> GetUrlsForThisInstance()
         {
             Instance iInstance = new Instance(_settings.InstanceIdentity.InstanceKey);
             iInstance.SetDataProvider(_instanceSqlDataProvider);
@@ -375,7 +371,7 @@ namespace Microarea.AdminServer.Controllers
 
             if (!iInstance.ExistsOnDB)
             {
-                return new List<ServerURL>();
+                return new List<IServerURL>();
             }
 
             return iInstance.LoadURLs();
@@ -422,7 +418,6 @@ namespace Microarea.AdminServer.Controllers
         private async Task<Task<string>> CheckRecoveryCode(string accountName, string recoveryCode, AuthorizationInfo authInfo)
         {
             string authHeader = JsonConvert.SerializeObject(authInfo);
-
             // call GWAM API
             OperationResult opRes = await _httpHelper.PostDataAsync(
                 this.GWAMUrl + "recoveryCode/" + accountName + "/" + recoveryCode,

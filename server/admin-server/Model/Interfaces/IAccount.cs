@@ -5,7 +5,7 @@ namespace Microarea.AdminServer.Model.Interfaces
     //================================================================================
     public interface IAccount : IAdminModel
     {
-        string AccountName { get; }
+        string AccountName { get; set; }
 		string Password { get; set; }
         bool CloudAdmin{ get; set; }
         string FullName { get; set; }
@@ -22,11 +22,14 @@ namespace Microarea.AdminServer.Model.Interfaces
         bool Locked { get; set; }
         string PreferredLanguage { get; set; }
         string ApplicationLanguage { get; set; }
-        bool IsWindowsAuthentication { get; }
+        bool IsWindowsAuthentication { get; set; }
         long Ticks { get; set; }
         bool IsPasswordExpirated();
 		DateTime ExpirationDate { get; set; }
         bool IsAdmin { get; }
-        void ResetPasswordExpirationDate();
+		string ParentAccount { get; set; }
+		bool Confirmed { get; set; }
+
+		void ResetPasswordExpirationDate();
     }
 }

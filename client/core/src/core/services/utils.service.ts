@@ -7,6 +7,8 @@ export class UtilsService {
 
   offsetHeight: number;
   offsetWidth: number;
+  widthFactor: number;
+  heightFactor: number;
   constructor(private logger: Logger) {
     this.logger.debug('UtilsService instantiated - ' + Math.round(new Date().getTime() / 1000));
   }
@@ -119,7 +121,14 @@ export class UtilsService {
       
       this.offsetHeight = dpiElement.offsetHeight;
       this.offsetWidth = dpiElement.offsetWidth;
+
       console.log("width: " + this.offsetWidth + " height: " + this.offsetHeight)
+
+      this.widthFactor = this.offsetWidth / 72;
+      this.heightFactor = this.offsetHeight / 72;
+      //pixels * dpioffset / 72  = points
+
+
     }
 
   }

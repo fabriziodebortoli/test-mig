@@ -25,11 +25,11 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public IAdminModel Load(IAdminModel iModel)
 		{
-			Subscription subscription;
+			ISubscription subscription;
 
 			try
 			{
-				subscription = (Subscription)iModel;
+				subscription = (ISubscription)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
@@ -45,7 +45,7 @@ namespace Microarea.AdminServer.Services.Providers
 								subscription.PreferredLanguage = dataReader["PreferredLanguage"] as string;
 								subscription.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
 								subscription.MinDBSizeToWarn = (int)dataReader["MinDBSizeToWarn"];
-								subscription.InstanceKey = dataReader["InstanceKey"] as string;
+                                subscription.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
 								subscription.ExistsOnDB = true;
 							}
 						}
@@ -64,12 +64,12 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public OperationResult Save(IAdminModel iModel)
         {
-			Subscription subscription;
+			ISubscription subscription;
 			OperationResult opRes = new OperationResult();
 
             try
             {
-				subscription = (Subscription)iModel;
+				subscription = (ISubscription)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
@@ -92,8 +92,8 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@PreferredLanguage", subscription.PreferredLanguage);
 						command.Parameters.AddWithValue("@ApplicationLanguage", subscription.ApplicationLanguage);
 						command.Parameters.AddWithValue("@MinDBSizeToWarn", subscription.MinDBSizeToWarn);
-						command.Parameters.AddWithValue("@InstanceKey", subscription.InstanceKey);
-						command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
+                        command.Parameters.AddWithValue("@UnderMaintenance", subscription.UnderMaintenance);
+                        command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
 
 						command.ExecuteNonQuery();
 					}
@@ -115,11 +115,11 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public bool Delete(IAdminModel iModel)
 		{
-			Subscription subscription;
+            ISubscription subscription;
 
 			try
 			{
-				subscription = (Subscription)iModel;
+				subscription = (ISubscription)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
@@ -140,13 +140,13 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public List<Subscription> GetSubscriptions(string instanceKey)
+		public List<ISubscription> GetSubscriptions(string instanceKey)
 		{
-			List<Subscription> subsList = new List<Subscription>();
+			List<ISubscription> subsList = new List<ISubscription>();
 
-			string selectQuery = "SELECT * FROM MP_Subscriptions";
+			string selectQuery = "SELECT MP_Subscriptions.SubscriptionKey, MP_Subscriptions.Description, MP_Subscriptions.PreferredLanguage, MP_Subscriptions.ApplicationLanguage, MP_Subscriptions.MinDBSizeToWarn, MP_Subscriptions.UnderMaintenance FROM MP_Subscriptions, MP_SubscriptionInstances";
 			if (!string.IsNullOrWhiteSpace(instanceKey))
-				selectQuery += " WHERE InstanceKey = @InstanceKey";
+				selectQuery += " WHERE MP_SubscriptionInstances.InstanceKey = @InstanceKey AND MP_Subscriptions.SubscriptionKey = MP_SubscriptionInstances.SubscriptionKey ";
 
 			try
 			{
@@ -163,13 +163,13 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								Subscription subs = new Subscription();
+                                ISubscription subs = new Subscription();
 								subs.SubscriptionKey = dataReader["SubscriptionKey"] as string;
-								subs.InstanceKey = dataReader["InstanceKey"] as string;
 								subs.Description = dataReader["Description"] as string;
 								subs.PreferredLanguage = dataReader["PreferredLanguage"] as string;
 								subs.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
 								subs.MinDBSizeToWarn = (int)dataReader["MinDBSizeToWarn"];
+                                subs.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
 								subsList.Add(subs);
 							}
 						}
@@ -186,13 +186,18 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
 		//---------------------------------------------------------------------
-		public List<Subscription> GetSubscriptionsByAccount(string accountName, string instanceKey)
+		public List<ISubscription> GetSubscriptionsByAccount(string accountName, string instanceKey)
 		{
-			List<Subscription> subsList = new List<Subscription>();
+			List<ISubscription> subsList = new List<ISubscription>();
 
-			string selectQuery = @"SELECT * FROM MP_Subscriptions INNER JOIN MP_SubscriptionAccounts ON 
-				MP_SubscriptionAccounts.SubscriptionKey = MP_Subscriptions.SubscriptionKey WHERE
-				MP_SubscriptionAccounts.AccountName = @AccountName AND MP_Subscriptions.InstanceKey = @InstanceKey";
+			string selectQuery = @"SELECT MP_Subscriptions.SubscriptionKey, MP_Subscriptions.Description, MP_Subscriptions.PreferredLanguage, MP_Subscriptions.ApplicationLanguage, MP_Subscriptions.MinDBSizeToWarn, MP_Subscriptions.UnderMaintenance 
+                 FROM MP_Subscriptions 
+                INNER JOIN MP_SubscriptionAccounts ON 
+				MP_SubscriptionAccounts.SubscriptionKey = MP_Subscriptions.SubscriptionKey 
+                INNER JOIN MP_SubscriptionInstances ON 
+				MP_Subscriptions.SubscriptionKey = MP_SubscriptionInstances.SubscriptionKey 
+                WHERE
+				MP_SubscriptionAccounts.AccountName = @AccountName AND MP_SubscriptionInstances.InstanceKey = @InstanceKey";
 
 			try
 			{
@@ -203,20 +208,19 @@ namespace Microarea.AdminServer.Services.Providers
 					using (SqlCommand command = new SqlCommand(selectQuery, connection))
 					{
 						command.Parameters.AddWithValue("@AccountName", accountName);
-						command.Parameters.AddWithValue("@InstanceKey", instanceKey);
-
-						using (SqlDataReader dataReader = command.ExecuteReader())
+                        command.Parameters.AddWithValue("@InstanceKey", instanceKey);
+                        using (SqlDataReader dataReader = command.ExecuteReader())
 						{
 							while (dataReader.Read())
 							{
-								Subscription subs = new Subscription();
+                                ISubscription subs = new Subscription();
 								subs.SubscriptionKey = dataReader["SubscriptionKey"] as string;
-								subs.InstanceKey = dataReader["InstanceKey"] as string;
 								subs.Description = dataReader["Description"] as string;
 								subs.PreferredLanguage = dataReader["PreferredLanguage"] as string;
 								subs.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
 								subs.MinDBSizeToWarn = (int)dataReader["MinDBSizeToWarn"];
-								subsList.Add(subs);
+                                subs.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
+                                subsList.Add(subs);
 							}
 						}
 					}
@@ -236,7 +240,7 @@ namespace Microarea.AdminServer.Services.Providers
 		{
 			OperationResult opRes = new OperationResult();
 
-			List<Subscription> subscriptionList = new List<Subscription>();
+			List<ISubscription> subscriptionList = new List<ISubscription>();
 
 			string selectQuery = "SELECT * FROM MP_Subscriptions WHERE ";
 
@@ -265,15 +269,15 @@ namespace Microarea.AdminServer.Services.Providers
 						{
 							while (dataReader.Read())
 							{
-								Subscription sub = new Subscription();
+                                ISubscription sub = new Subscription();
 								sub.SubscriptionKey = dataReader["SubscriptionKey"] as string;
 								sub.Description = dataReader["Description"] as string;
 								sub.ActivationToken = new ActivationToken(dataReader["ActivationToken"] as string);
 								sub.PreferredLanguage = dataReader["PreferredLanguage"] as string;
 								sub.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
 								sub.MinDBSizeToWarn = (int)dataReader["MinDBSizeToWarn"];
-								sub.InstanceKey = dataReader["InstanceKey"] as string;
-								subscriptionList.Add(sub);
+                                sub.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
+                                subscriptionList.Add(sub);
 							}
 						}
 					}

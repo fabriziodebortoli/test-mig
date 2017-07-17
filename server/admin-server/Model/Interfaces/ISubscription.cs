@@ -4,16 +4,16 @@ using System.Collections.Generic;
 namespace Microarea.AdminServer.Model.Interfaces
 {
 	//================================================================================
-	interface ISubscription : IAdminModel
+	public interface ISubscription : IAdminModel
 	{
-		string SubscriptionKey { get; }
-		string Description { get; }
+		string SubscriptionKey { get; set; }
+		string Description { get; set; }
 		ActivationToken ActivationToken { get; set; }
 		string PreferredLanguage { get; set; }
 		string ApplicationLanguage { get; set; }
 		int MinDBSizeToWarn { get; set; }
-		string InstanceKey { get; set; }
+        bool UnderMaintenance { get; set; }
 
-		List<Subscription> GetSubscriptionsByAccount(string accountName, string instanceKey);
+        List<ISubscription> GetSubscriptionsByAccount(string accountName, string instanceKey);
 	}
 }

@@ -20,28 +20,26 @@ namespace Microarea.AdminServer.Services
 	//================================================================================
 	public interface IInstanceDataProvider : IDataProvider
 	{
-		List<ServerURL> LoadURLs(string instanceKey);
+		List<IServerURL> LoadURLs(string instanceKey);
 	}
 
 	//================================================================================
 	public interface IAccountDataProvider : IDataProvider
 	{
-		List<Account> GetAccounts(string accountName);
-		List<Account> GetAccountsBySubscription(string subscriptionKey);
-		List<Account> GetAccountsByCompany(string companyName, string subscriptionKey);
+		List<IAccount> GetAccounts(string accountName);
+		List<IAccount> GetAccountsBySubscription(string subscriptionKey);
 	}
 
 	//================================================================================
-	public interface ICompanyDataProvider : IDataProvider
+	public interface ISubscriptionDatabaseDataProvider : IDataProvider
 	{
-		List<Company> GetCompanies(string accountName, string subscriptionKey);
-		List<Company> GetCompaniesBySubscription(string subscriptionKey);
+		List<SubscriptionDatabase> GetDatabasesBySubscription(string subscriptionKey, string name);
 	}
 
 	//================================================================================
 	public interface ISubscriptionDataProvider : IDataProvider
 	{
-		List<Subscription> GetSubscriptions(string instanceKey);
-		List<Subscription> GetSubscriptionsByAccount(string accountName, string instanceKey);
+		List<ISubscription> GetSubscriptions(string instanceKey);
+		List<ISubscription> GetSubscriptionsByAccount(string accountName, string instanceKey);
 	}
 }

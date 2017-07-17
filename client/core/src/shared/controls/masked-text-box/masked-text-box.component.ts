@@ -11,5 +11,4 @@ export class MaskedTextBoxComponent extends ControlComponent  {
  @Input() forCmpID: string;
  @Input() disabled: boolean;
  @Input() mask: string;
- @Input() width: number;
 }
