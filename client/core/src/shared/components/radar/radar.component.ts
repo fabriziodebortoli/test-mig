@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { Logger } from './../../../core/services/logger.service';
 import { DataService } from './../../../core/services/data.service';
 
+import { URLSearchParams } from '@angular/http';
+
 @Component({
     selector: 'tb-radar',
     templateUrl: './radar.component.html',
@@ -12,22 +14,15 @@ export class RadarComponent {
 
     radarData: any;
 
-    metadata: any = {
-
-    }
-
     constructor(private dataService: DataService, private logger: Logger) { }
 
-    go() {
-        this.logger.info("GO");
-        this.getData();
-    }
+    getData(query: string) {
 
-    getData() {
-        this.logger.debug('radar', {
-            metadata: this.metadata
-        })
-        this.dataService.getRadarData('test', {}).subscribe((data) => {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('query', query);
+
+        this.logger.debug('radar', params);
+        this.dataService.getRadarData(params).subscribe((data) => {
             this.radarData = data;
         });
     }

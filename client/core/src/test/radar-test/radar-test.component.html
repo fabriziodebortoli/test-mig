@@ -2,12 +2,14 @@
     <tb-toolbar-top></tb-toolbar-top>
     <tb-frame-content class="scroll">
 
-        <div class="row">
+        <div class="container">
 
-            <div class="col-xs-12">
-                <button kendoButton (click)="open()">GO</button>
-                <tb-radar #radar></tb-radar>
-            </div>
+            <p>Query:</p>
+            <input [(ngModel)]="query" required>
+            <hr>
+            <button kendoButton (click)="open()">GO</button>
+            <hr>
+            <tb-radar #radar></tb-radar>
 
         </div>
     </tb-frame-content>

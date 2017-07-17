@@ -18,7 +18,9 @@ import { RadarComponent } from './../../shared/components/radar/radar.component'
 })
 export class RadarTestComponent extends DocumentComponent implements OnInit {
 
-  @ViewChild("radar", { read: ViewContainerRef }) radar: RadarComponent;
+  private query: string;
+
+  @ViewChild('radar') radar: RadarComponent;
 
   constructor(public eventData: EventDataService, private dataService: DataService, private http: Http, private testService: TestService) {
     super(testService, eventData);
@@ -26,10 +28,12 @@ export class RadarTestComponent extends DocumentComponent implements OnInit {
 
   ngOnInit() {
     this.eventData.model = { 'Title': { 'value': 'Radar Test Page' } };
+
+    this.query = 'select * from belincheneso';
   }
 
   open() {
-    this.radar.go();
+    this.radar.getData(this.query);
   }
 
 }
