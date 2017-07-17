@@ -11,7 +11,7 @@ import { DocumentComponent } from './document.component';
 
 @Component({
     selector: 'tb-dynamic-cmp',
-    template: '<div #cmpContainer></div><tb-message-dialog></tb-message-dialog><tb-diagnostic-dialog></tb-diagnostic-dialog>'
+    template: '<div #cmpContainer></div><tb-message-dialog></tb-message-dialog><tb-diagnostic-dialog></tb-diagnostic-dialog><tb-dynamic-dialog></tb-dynamic-dialog>'
 })
 export class DynamicCmpComponent implements OnInit, OnDestroy {
     cmpRef: ComponentRef<DocumentComponent>;
