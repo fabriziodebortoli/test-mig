@@ -1,3 +1,4 @@
+import { LayoutService } from './../../../core/services/layout.service';
 import { Component, OnChanges, AfterViewInit, Input } from '@angular/core';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
@@ -14,8 +15,10 @@ export class TimeInputComponent extends ControlComponent implements OnChanges, A
   @Input() forCmpID: string;
   @Input() formatter: string;
 
-  constructor(private eventData: EventDataService) {
-    super();
+  constructor(
+    private eventData: EventDataService, 
+    protected layoutService: LayoutService) {
+    super(layoutService);
   }
 
   public onChange(val: any) {

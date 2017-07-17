@@ -109,6 +109,7 @@ export class WidgetsService {
 
     return this.http.get(url, { withCredentials: true }).map(
       (res: Response) => {
+           
         this.isFirstUse = res.status === 203;
         return res.json();
       },
@@ -133,9 +134,11 @@ export class WidgetsService {
 
   refreshContent(wdg: Widget): Observable<WidgetData> {
     const data = new WidgetData;
+    
     data.lastExecuted = this.getExecutionTime();
     if (wdg.provider && wdg.provider.type === 'dataservice') {
       let subs = this.dataService.getData(wdg.provider.namespace, wdg.provider.selection, wdg.provider.params).subscribe((dsData: any) => {
+     
         if (wdg.provider.maxRows) {
           data.grid.rows = dsData.rows.slice(0, wdg.provider.maxRows);
         } else {

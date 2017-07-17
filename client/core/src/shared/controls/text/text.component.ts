@@ -1,3 +1,4 @@
+import { LayoutService } from './../../../core/services/layout.service';
 import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnChanges, AfterContentInit, Output, EventEmitter } from '@angular/core';
 
 // import { ContextMenuComponent } from './../context-menu/context-menu.component';
@@ -18,8 +19,13 @@ export class TextComponent extends ControlComponent /*implements AfterContentIni
   @ViewChild("contextMenu", { read: ViewContainerRef }) contextMenu: ViewContainerRef;
   // private contextMenuRef;
 
-  constructor(private eventData: EventDataService, private vcr: ViewContainerRef, private componentResolver: ComponentFactoryResolver) {
-    super();
+  constructor(
+    private eventData: EventDataService,
+     private vcr: ViewContainerRef, 
+     private componentResolver: ComponentFactoryResolver,
+    protected layoutService: LayoutService
+  ) {
+    super(layoutService);
   }
 
   onBlur() {

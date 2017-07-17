@@ -1,3 +1,4 @@
+import { LayoutService } from './../../../core/services/layout.service';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -10,8 +11,8 @@ import { ControlComponent } from './../control.component';
 })
 export class BodyEditComponent extends ControlComponent {
   @Input() columns: Array<any>;
-  constructor() {
-    super();
+  constructor(protected layoutService: LayoutService) {
+    super(layoutService);
 
   }
 

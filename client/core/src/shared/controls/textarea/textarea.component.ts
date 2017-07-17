@@ -8,9 +8,6 @@ import { Component, Input } from '@angular/core';
 })
 export class TextareaComponent extends ControlComponent {
   @Input('readonly') readonly = false;
-      constructor() {
-      super();
-  }
 
   getCorrectHeight() {
    return isNaN(this.height) ?  this.height.toString() :  this.height +  'px';;
