@@ -34,7 +34,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.SelectSubscriptionAccountBySubscriptionKey, connection))
+					using (SqlCommand command = new SqlCommand(Queries.SelectSubscriptionAccountBySubscriptionKey, connection))
 					{
 						command.Parameters.AddWithValue("@AccountName", iSubscription.AccountName);
 						
@@ -74,7 +74,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					bool existSubscription = false;
 
-					using (SqlCommand command = new SqlCommand(Consts.ExistSubscriptionAccount, connection))
+					using (SqlCommand command = new SqlCommand(Queries.ExistSubscriptionAccount, connection))
 					{
 						command.Parameters.AddWithValue("@AccountName", isubscription.AccountName);
 						command.Parameters.AddWithValue("@SubscriptionKey", isubscription.SubscriptionKey);
@@ -91,7 +91,7 @@ namespace Microarea.AdminServer.Services.Providers
                     using (SqlCommand command = new SqlCommand())
                     {
                         command.Connection = connection;
-                        command.CommandText = Consts.InsertSubscriptionAccount;
+                        command.CommandText = Queries.InsertSubscriptionAccount;
 
                         command.Parameters.AddWithValue("@AccountName", isubscription.AccountName);
                         command.Parameters.AddWithValue("@SubscriptionKey", isubscription.SubscriptionKey);
@@ -123,7 +123,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.DeleteSubscriptionAccount, connection))
+					using (SqlCommand command = new SqlCommand(Queries.DeleteSubscriptionAccount, connection))
 					{
 						command.Parameters.AddWithValue("@AccountName", isubscription.AccountName);
 						command.Parameters.AddWithValue("@SubscriptionKey", isubscription.SubscriptionKey);

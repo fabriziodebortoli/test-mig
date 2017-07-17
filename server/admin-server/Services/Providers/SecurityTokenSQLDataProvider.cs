@@ -30,7 +30,7 @@ namespace Microarea.AdminServer.Services.Providers
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Consts.SelectSecurityToken, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.SelectSecurityToken, connection))
                     {
                         command.Parameters.AddWithValue("@AccountName", token.AccountName);
                         command.Parameters.AddWithValue("@TokenType", token.TokenType);
@@ -78,7 +78,7 @@ namespace Microarea.AdminServer.Services.Providers
 
                     bool existSecurityToken = false;
 
-                    using (SqlCommand command = new SqlCommand(Consts.ExistSecurityToken, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.ExistSecurityToken, connection))
                     {
                         command.Parameters.AddWithValue("@AccountName", token.AccountName);
                         command.Parameters.AddWithValue("@TokenType", token.TokenType);
@@ -88,7 +88,7 @@ namespace Microarea.AdminServer.Services.Providers
                     using (SqlCommand command = new SqlCommand())
                     {
                         command.Connection = connection;
-                        command.CommandText = existSecurityToken ? Consts.UpdateSecurityToken : Consts.InsertSecurityToken;
+                        command.CommandText = existSecurityToken ? Queries.UpdateSecurityToken : Queries.InsertSecurityToken;
 
                         command.Parameters.AddWithValue("@AccountName", token.AccountName);
                         command.Parameters.AddWithValue("@TokenType", token.TokenType);
@@ -122,7 +122,7 @@ namespace Microarea.AdminServer.Services.Providers
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Consts.DeleteSecurityToken, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.DeleteSecurityToken, connection))
                     {
                         command.Parameters.AddWithValue("@AccountName", token.AccountName);
                         command.Parameters.AddWithValue("@TokenType", token.TokenType);

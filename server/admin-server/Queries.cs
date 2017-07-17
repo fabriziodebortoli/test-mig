@@ -3,7 +3,7 @@ namespace Microarea.AdminServer
 {
     // Istruzioni SQL per la gestione delle strutture dati del model
     //=========================================================================
-    public class Consts
+    public class Queries
     {
         // Instance
         public const string ExistInstance = @"SELECT COUNT(*) FROM MP_Instances WHERE InstanceKey = @InstanceKey ";

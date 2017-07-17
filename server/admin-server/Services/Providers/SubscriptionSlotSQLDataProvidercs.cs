@@ -32,7 +32,7 @@ namespace Microarea.AdminServer.Services.Providers
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Consts.SelectSubscription, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.SelectSubscription, connection))
                     {
                         command.Parameters.AddWithValue("@SubscriptionKey", subscriptionslot.SubscriptionKey);
                         using (SqlDataReader dataReader = command.ExecuteReader())
@@ -70,7 +70,7 @@ namespace Microarea.AdminServer.Services.Providers
 
                     bool existSubscription = false;
 
-                    using (SqlCommand command = new SqlCommand(Consts.ExistSubscription, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.ExistSubscription, connection))
                     {
                         command.Parameters.AddWithValue("@SubscriptionKey", subscriptionSlot.SubscriptionKey);
                         existSubscription = (int)command.ExecuteScalar() > 0;
@@ -79,7 +79,7 @@ namespace Microarea.AdminServer.Services.Providers
                     using (SqlCommand command = new SqlCommand())
                     {
                         command.Connection = connection;
-                        command.CommandText = existSubscription ? Consts.UpdateSubscription : Consts.InsertSubscription;
+                        command.CommandText = existSubscription ? Queries.UpdateSubscription : Queries.InsertSubscription;
 
                         command.Parameters.AddWithValue("@SlotsXml", subscriptionSlot.Value);
                         command.Parameters.AddWithValue("@SubscriptionKey", subscriptionSlot.SubscriptionKey);
@@ -111,7 +111,7 @@ namespace Microarea.AdminServer.Services.Providers
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Consts.DeleteSubscriptionSlot, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.DeleteSubscriptionSlot, connection))
                     {
                         command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
                         command.ExecuteNonQuery();

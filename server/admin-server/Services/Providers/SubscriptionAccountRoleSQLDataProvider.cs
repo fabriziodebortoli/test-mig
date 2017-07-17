@@ -30,7 +30,7 @@ namespace Microarea.AdminServer.Services.Providers
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Consts.DeleteSubscriptionAccountRole, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.DeleteSubscriptionAccountRole, connection))
                     {
                         command.Parameters.AddWithValue("@RoleId", role.RoleId);
                         command.Parameters.AddWithValue("@SubscriptionKey", role.SubscriptionKey);
@@ -59,7 +59,7 @@ namespace Microarea.AdminServer.Services.Providers
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Consts.SelectSubscriptionAccountRole, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.SelectSubscriptionAccountRole, connection))
                     {
                         command.Parameters.AddWithValue("@RoleId", sar.RoleId);
                         command.Parameters.AddWithValue("@SubscriptionKey", sar.SubscriptionKey);
@@ -103,7 +103,7 @@ namespace Microarea.AdminServer.Services.Providers
                     connection.Open();
                     bool existSar= false;
 
-                    using (SqlCommand command = new SqlCommand(Consts.ExistSubscriptionAccountRole, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.ExistSubscriptionAccountRole, connection))
                     {
                         command.Parameters.AddWithValue("@RoleId", sar.RoleId);
                         command.Parameters.AddWithValue("@SubscriptionKey", sar.SubscriptionKey);
@@ -120,7 +120,7 @@ namespace Microarea.AdminServer.Services.Providers
                     using (SqlCommand command = new SqlCommand())
                     {
                         command.Connection = connection;
-                        command.CommandText = Consts.InsertSubscriptionAccountRole;
+                        command.CommandText = Queries.InsertSubscriptionAccountRole;
                         
                         command.Parameters.AddWithValue("@RoleId", sar.RoleId);
                         command.Parameters.AddWithValue("@SubscriptionKey", sar.SubscriptionKey);

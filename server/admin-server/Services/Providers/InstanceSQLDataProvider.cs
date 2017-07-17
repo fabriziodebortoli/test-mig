@@ -32,7 +32,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.SelectInstance, connection))
+					using (SqlCommand command = new SqlCommand(Queries.SelectInstance, connection))
 					{
                         command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 
@@ -70,7 +70,7 @@ namespace Microarea.AdminServer.Services.Providers
 				{
 					connection.Open();
 
-					using (SqlCommand command = new SqlCommand(Consts.SelectURlsInstance, connection))
+					using (SqlCommand command = new SqlCommand(Queries.SelectURlsInstance, connection))
 					{
 						command.Parameters.AddWithValue("@InstanceKey", instanceKey);
 
@@ -112,7 +112,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					bool existInstance = false;
 
-					using (SqlCommand command = new SqlCommand(Consts.ExistInstance, connection))
+					using (SqlCommand command = new SqlCommand(Queries.ExistInstance, connection))
 					{
 						command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 						existInstance = (int)command.ExecuteScalar() > 0;
@@ -121,7 +121,7 @@ namespace Microarea.AdminServer.Services.Providers
 					using (SqlCommand command = new SqlCommand())
 					{
 						command.Connection = connection;
-						command.CommandText = existInstance ? Consts.UpdateInstance : Consts.InsertInstance;
+						command.CommandText = existInstance ? Queries.UpdateInstance : Queries.InsertInstance;
 						command.Parameters.AddWithValue("@Description", instance.Description);
 						command.Parameters.AddWithValue("@Disabled", instance.Disabled);
                         command.Parameters.AddWithValue("@Origin", instance.Origin);
@@ -155,7 +155,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.DeleteInstance, connection))
+					using (SqlCommand command = new SqlCommand(Queries.DeleteInstance, connection))
 					{
 						command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 						command.ExecuteNonQuery();
