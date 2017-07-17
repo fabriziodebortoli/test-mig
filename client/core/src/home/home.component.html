@@ -26,11 +26,11 @@
                     <ng-template kendoTabTitle>
                         <md-icon>home</md-icon>
                     </ng-template>
-                    <template kendoTabContent>
+                    <ng-template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
                             <tb-dashboard></tb-dashboard>
                         </div>
-                    </template>
+                    </ng-template>
                 </kendo-tabstrip-tab>
 
                 <kendo-tabstrip-tab>
@@ -40,24 +40,24 @@
                             <span>Menu</span>
                         </div>
                     </ng-template>
-                    <template kendoTabContent>
+                    <ng-template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
                             <tb-menu></tb-menu>
                         </div>
-                    </template>
+                    </ng-template>
                 </kendo-tabstrip-tab>
 
                 <kendo-tabstrip-tab *ngFor="let info of componentService.components">
-                    <template kendoTabTitle>
+                    <ng-template kendoTabTitle>
                         <span>{{info.document?.getTitle()}}</span>
             
                         <md-icon (click)="closeTab(info)" title="Close" class='close'>close</md-icon>
-                    </template>
-                    <template kendoTabContent>
+                    </ng-template>
+                    <ng-template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
                             <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
                         </div>
-                    </template>
+                    </ng-template>
                 </kendo-tabstrip-tab>
 
             </kendo-tabstrip>

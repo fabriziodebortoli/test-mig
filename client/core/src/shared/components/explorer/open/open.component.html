@@ -2,11 +2,11 @@
     <div class="panelbar-wrapper">
         <kendo-panelbar>
             <kendo-panelbar-item *ngFor="let application of applications" (click)=selecteApplication(application.path) [title]="application.name">
-                <template kendoPanelBarContent>
+                <ng-template kendoPanelBarContent>
              <div *ngFor="let folder of folders" class="appTitle" (click)=selecteFolder(folder.path)>
         <div class="panel">{{folder.name}}</div>
     </div>
-                 </template>
+                 </ng-template>
 
             </kendo-panelbar-item>
         </kendo-panelbar>
@@ -15,11 +15,11 @@
 
 <kendo-panelbar>
     <kendo-panelbar-item *ngFor="let application of applications" (click)=selecteApplication(application.path) [title]="application.name">
-        <template kendoPanelBarContent>
+        <ng-template kendoPanelBarContent>
              <div *ngFor="let folder of folders" class="appTitle" (click)=selecteFolder(folder.path)>
         <div class="panel">{{folder.name}}</div>
     </div>
-                 </template>
+                 </ng-template>
 //  <div (click)=selecteFolder(folder.path)>{{folder.name}}</div>
     </kendo-panelbar-item>
 </kendo-panelbar>-->
