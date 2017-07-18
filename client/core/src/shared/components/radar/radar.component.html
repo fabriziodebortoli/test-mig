@@ -1,10 +1,17 @@
-<p>RadarComponent</p>
+<div class="radar-container" [@shrinkOut]="state">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <p>Query:</p>
+        <input ngModel name="query" id="query" required>
+        <hr>
+        <button kendoButton (click)="getData()">GO</button>
+    </form>
+    <hr>
 
-
-<kendo-grid [data]="radarData">
-    <ng-template ngFor [ngForOf]="columns" let-column>
-        <kendo-grid-column field="{{column}}">
-            <ng-template kendoGridHeaderTemplate let-dataItem> {{dataItem.field}} </ng-template>
-        </kendo-grid-column>
-    </ng-template>
-</kendo-grid>
+    <kendo-grid [data]="radarData">
+        <ng-template ngFor [ngForOf]="columns" let-column>
+            <kendo-grid-column field="{{column}}">
+                <ng-template kendoGridHeaderTemplate let-dataItem> {{dataItem.field}} </ng-template>
+            </kendo-grid-column>
+        </ng-template>
+    </kendo-grid>
+</div>
