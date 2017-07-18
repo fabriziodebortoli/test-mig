@@ -64,7 +64,7 @@ export class MenuContainerComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    let tempMenuArray = this.utilsService.toArray(this.menuService.selectedGroup.Menu);
+    let tempMenuArray = this.menuService.selectedGroup.Menu;
 
     let found = false;
     for (let i = 0; i < tempMenuArray.length; i++) {
@@ -112,7 +112,7 @@ export class MenuContainerComponent implements AfterViewInit, OnDestroy {
     if (index < 0 || this.menuService.selectedGroup == undefined)
       return;
 
-    let tempMenuArray = this.utilsService.toArray(this.menuService.selectedGroup.Menu);
+    let tempMenuArray = this.menuService.selectedGroup.Menu;
     let tab = tempMenuArray[index];
     if (tab != undefined) {
       this.menuService.setSelectedMenu(tab);
@@ -121,7 +121,7 @@ export class MenuContainerComponent implements AfterViewInit, OnDestroy {
 
   getTiles() {
     if (this.menuService.selectedMenu) {
-      let array = this.utilsService.toArray(this.menuService.selectedMenu.Menu);
+      let array = this.menuService.selectedMenu.Menu;
       let newArray = [];
       for (let i = 0; i < array.length; i++) {
         if (this.tileIsVisible(array[i]))
@@ -136,9 +136,8 @@ export class MenuContainerComponent implements AfterViewInit, OnDestroy {
   ifTileHasObjects(tile) {
     if (tile == undefined || tile.Object == undefined)
       return false;
-    var array = this.utilsService.toArray(tile.Object);
-
-    return array.length > 0;
+  
+    return tile.Object.length > 0;
   }
 
   tileIsVisible(tile) {

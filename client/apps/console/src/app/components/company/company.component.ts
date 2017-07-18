@@ -1,7 +1,7 @@
 import { ModelService } from './../../services/model.service';
 import { OperationResult } from './../../services/operationResult';
 import { Component, OnInit } from '@angular/core';
-import { Company } from '../../model/company';
+import { SubscriptionDatabase } from '../../model/subscriptionDatabase';
 import { Observable } from 'rxjs/Rx';
 
 @Component({
@@ -12,12 +12,12 @@ import { Observable } from 'rxjs/Rx';
 
 export class CompanyComponent implements OnInit {
 
-  model: Company;
+  model: SubscriptionDatabase;
   editing: boolean = false;
   useDMS: boolean = false;
 
   constructor(private modelService: ModelService) {
-    this.model = new Company();
+    this.model = new SubscriptionDatabase();
   }
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class CompanyComponent implements OnInit {
     let subs = companyOperation.subscribe(
       companyResult => 
       {
-        this.model = new Company();
+        this.model = new SubscriptionDatabase();
         alert(companyResult.Message);
         subs.unsubscribe();
       },

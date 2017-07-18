@@ -1,3 +1,4 @@
+import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Component, Input, ViewChild, OnChanges, AfterViewInit } from '@angular/core';
 import { ControlComponent } from './../control.component';
@@ -19,8 +20,10 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
   selectedDate: Date;
   dateFormat = 'dd MMM yyyy';
 
-  constructor(private eventData: EventDataService) {
-    super();
+  constructor(
+    private eventData: EventDataService,
+    protected layoutService: LayoutService) {
+    super(layoutService);
   }
 
   public onChange(val: any) {

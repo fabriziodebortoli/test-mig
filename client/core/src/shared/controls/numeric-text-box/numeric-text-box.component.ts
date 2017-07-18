@@ -1,3 +1,4 @@
+import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Component, Input, OnChanges, AfterViewInit } from '@angular/core';
 
@@ -38,8 +39,11 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
     style: 'percent'
   };
 
-  constructor(private eventData: EventDataService) {
-    super();
+  constructor(
+    private eventData: EventDataService,
+     protected layoutService: LayoutService 
+    ) {
+    super(layoutService);
   }
 
   getDecimalsOptions(): number {

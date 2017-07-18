@@ -56,6 +56,7 @@ export class LoginService {
             let authInfo: AuthorizationInfo = new AuthorizationInfo(data.JwtToken,
               parsedToken.AccountName);
             
+            authInfo.SetInstances(parsedToken.Instances);
             authInfo.SetSubscriptions(parsedToken.Subscriptions);
             authInfo.SetServerUrls(parsedToken.Urls);
             authInfo.SetTokens(parsedToken.UserTokens);
@@ -77,12 +78,13 @@ export class LoginService {
             if (authInfo.HasRole(RoleNames.ProvisioningAdmin))
             {
               this.router.navigateByUrl(returnUrl);
+              return;
             }
 
             // user has no roles to navigate the requested url
             // sending him back to home component
 
-            alert(RoleNames.ProvisioningAdmin.toString() + ' role missing');
+            alert(RoleNames[RoleNames.ProvisioningAdmin] + ' role missing');
             this.router.navigateByUrl('/');
           }
           catch (exc)

@@ -2,6 +2,8 @@ import { dropdownListPair } from './../../../models/dropdown-list-pair.model';
 import { dropdownlist } from './../../../models/dropdownlist.model';
 import { AskdialogService } from './../askdialog.service';
 
+import { LayoutService } from '@taskbuilder/core';
+
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { ComboSimpleComponent } from '@taskbuilder/core';
 
@@ -17,8 +19,12 @@ export class AskDropdownlistComponent extends ComboSimpleComponent {
 
   @Input() dropdownlist: dropdownlist;
 
-  constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
-    super();
+  constructor(
+    private rsService: ReportingStudioService,
+     private adService: AskdialogService,
+    protected layoutService: LayoutService
+  ) {
+    super(layoutService);
   }
 
 

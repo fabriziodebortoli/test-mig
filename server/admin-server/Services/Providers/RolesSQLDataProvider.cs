@@ -31,7 +31,7 @@ namespace Microarea.AdminServer.Services.Providers
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Consts.SelectRole, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.SelectRole, connection))
                     {
                         command.Parameters.AddWithValue("@RoleId", role.RoleId);
                         using (SqlDataReader dataReader = command.ExecuteReader())
@@ -67,7 +67,7 @@ namespace Microarea.AdminServer.Services.Providers
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Consts.DeleteRole, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.DeleteRole, connection))
                     {
                         command.Parameters.AddWithValue("@RoleId", role.RoleId);
                         command.ExecuteNonQuery();
@@ -156,7 +156,7 @@ namespace Microarea.AdminServer.Services.Providers
 
                     bool existRole= false;
 
-                    using (SqlCommand command = new SqlCommand(Consts.ExistRole, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.ExistRole, connection))
                     {
                         command.Parameters.AddWithValue("@RoleId", role.RoleId);
                         existRole = (int)command.ExecuteScalar() > 0;
@@ -165,7 +165,7 @@ namespace Microarea.AdminServer.Services.Providers
                     using (SqlCommand command = new SqlCommand())
                     {
                         command.Connection = connection;
-                        command.CommandText = existRole ? Consts.UpdateRole : Consts.InsertRole;
+                        command.CommandText = existRole ? Queries.UpdateRole : Queries.InsertRole;
 
                         command.Parameters.AddWithValue("@Description", role.Description);
                         command.Parameters.AddWithValue("@RoleName", role.RoleName);

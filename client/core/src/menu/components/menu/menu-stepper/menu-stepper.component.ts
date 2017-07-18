@@ -38,6 +38,6 @@ export class MenuStepperComponent implements OnInit {
       return;
 
     this.menu = menu;
-    this.applications = this.utilsService.toArray(menu.Application);
+    this.applications = menu.Application;
   }
 }

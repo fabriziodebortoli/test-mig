@@ -34,7 +34,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.SelectSubscriptionAccountBySubscriptionKey, connection))
+					using (SqlCommand command = new SqlCommand(Queries.SelectSubscriptionAccountBySubscriptionKey, connection))
 					{
 						command.Parameters.AddWithValue("@AccountName", iSubscription.AccountName);
 						
@@ -62,22 +62,22 @@ namespace Microarea.AdminServer.Services.Providers
 		//---------------------------------------------------------------------
 		public OperationResult Save(IAdminModel iModel)
 		{
-            ISubscriptionAccount isubscripion;
+            ISubscriptionAccount isubscription;
 			OperationResult opRes = new OperationResult();
 
 			try
 			{
-				isubscripion = (ISubscriptionAccount)iModel;
+                isubscription = (ISubscriptionAccount)iModel;
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
 
 					bool existSubscription = false;
 
-					using (SqlCommand command = new SqlCommand(Consts.ExistSubscriptionAccount, connection))
+					using (SqlCommand command = new SqlCommand(Queries.ExistSubscriptionAccount, connection))
 					{
-						command.Parameters.AddWithValue("@AccountName", isubscripion.AccountName);
-						command.Parameters.AddWithValue("@SubscriptionKey", isubscripion.SubscriptionKey);
+						command.Parameters.AddWithValue("@AccountName", isubscription.AccountName);
+						command.Parameters.AddWithValue("@SubscriptionKey", isubscription.SubscriptionKey);
 						existSubscription = (int)command.ExecuteScalar() > 0;
 					}
 
@@ -88,7 +88,18 @@ namespace Microarea.AdminServer.Services.Providers
 						return opRes;
 					}
 
-					opRes.Result = true;
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.Connection = connection;
+                        command.CommandText = Queries.InsertSubscriptionAccount;
+
+                        command.Parameters.AddWithValue("@AccountName", isubscription.AccountName);
+                        command.Parameters.AddWithValue("@SubscriptionKey", isubscription.SubscriptionKey);
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    opRes.Result = true;
 				}
 			}
 			catch (Exception e)
@@ -112,7 +123,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.DeleteSubscriptionAccount, connection))
+					using (SqlCommand command = new SqlCommand(Queries.DeleteSubscriptionAccount, connection))
 					{
 						command.Parameters.AddWithValue("@AccountName", isubscription.AccountName);
 						command.Parameters.AddWithValue("@SubscriptionKey", isubscription.SubscriptionKey);

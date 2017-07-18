@@ -32,7 +32,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.SelectServerURL, connection))
+					using (SqlCommand command = new SqlCommand(Queries.SelectServerURL, connection))
 					{
 						command.Parameters.AddWithValue("@InstanceKey", serverUrl.InstanceKey);
 						command.Parameters.AddWithValue("@URLType", serverUrl.URLType);
@@ -72,7 +72,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					bool existUrl = false;
 
-					using (SqlCommand command = new SqlCommand(Consts.ExistServerURL, connection))
+					using (SqlCommand command = new SqlCommand(Queries.ExistServerURL, connection))
 					{
 						command.Parameters.AddWithValue("@InstanceKey", serverUrl.InstanceKey);
 						command.Parameters.AddWithValue("@URLType", serverUrl.URLType);
@@ -82,7 +82,7 @@ namespace Microarea.AdminServer.Services.Providers
 					using (SqlCommand command = new SqlCommand())
 					{
 						command.Connection = connection;
-						command.CommandText = existUrl ? Consts.UpdateServerURL : Consts.InsertServerURL;
+						command.CommandText = existUrl ? Queries.UpdateServerURL : Queries.InsertServerURL;
 
 						command.Parameters.AddWithValue("@InstanceKey", serverUrl.InstanceKey);
 						command.Parameters.AddWithValue("@URLType", serverUrl.URLType);
@@ -115,7 +115,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.DeleteServerURL, connection))
+					using (SqlCommand command = new SqlCommand(Queries.DeleteServerURL, connection))
 					{
 						command.Parameters.AddWithValue("@InstanceKey", serverUrl.InstanceKey);
 						command.Parameters.AddWithValue("@URLType", serverUrl.URLType);

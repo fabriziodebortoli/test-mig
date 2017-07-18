@@ -97,57 +97,54 @@ export class MenuService {
         if (queryStringLastApplicationName != '')
             this.settingsService.LastApplicationName = queryStringLastApplicationName;
 
-        var tempAppArray = this.utilsService.toArray(applications);
-        this.ifMoreAppsExist = tempAppArray.length > 1;
+        this.ifMoreAppsExist = applications.length > 1;
 
         if (this.settingsService.LastApplicationName != '' && this.settingsService.LastApplicationName != undefined) {
-            for (var i = 0; i < tempAppArray.length; i++) {
-                if (tempAppArray[i].name.toLowerCase() == this.settingsService.LastApplicationName.toLowerCase()) {
+            for (var i = 0; i < applications.length; i++) {
+                if (applications[i].name.toLowerCase() == this.settingsService.LastApplicationName.toLowerCase()) {
                     //this.setSelectedApplication(tempAppArray[i]);
-                    this.selectedApplication = tempAppArray[i];
+                    this.selectedApplication = applications[i];
                     this.selectedApplication.isSelected = true;
-                    this.settingsService.LastApplicationName = tempAppArray[i].name;
+                    this.settingsService.LastApplicationName = applications[i].name;
                     break;
                 }
             }
         }
 
         if (this.selectedApplication == undefined)
-            this.setSelectedApplication(tempAppArray[0]);
+            this.setSelectedApplication(applications[0]);
 
         if (this.settingsService.LastGroupName != '' && this.settingsService.LastGroupName != undefined) {
-            var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
-            for (var i = 0; i < tempGroupArray.length; i++) {
-                if (tempGroupArray[i].name.toLowerCase() == this.settingsService.LastGroupName.toLowerCase()) {
-                    // this.setSelectedGroup(tempGroupArray[i]);
-                    this.selectedGroup = tempGroupArray[i];
+
+            for (var i = 0; i < this.selectedApplication.Group.length; i++) {
+                if (this.selectedApplication.Group[i].name.toLowerCase() == this.settingsService.LastGroupName.toLowerCase()) {
+
+                    this.selectedGroup = this.selectedApplication.Group[i];
                     this.selectedGroup.isSelected = true;
-                    this.settingsService.LastGroupName = tempGroupArray[i].name;
+                    this.settingsService.LastGroupName = this.selectedApplication.Group[i].name;
                     break;
                 }
             }
         }
 
         if (this.selectedGroup == undefined) {
-            this.setSelectedGroup(tempGroupArray[0]);
+            this.setSelectedGroup(this.selectedApplication.Group[0]);
         }
 
         if (this.selectedGroup == undefined) {
             return;
         }
 
-        let tempMenuArray = this.utilsService.toArray(this.selectedGroup.Menu);
-
         let found = false;
-        for (let i = 0; i < tempMenuArray.length; i++) {
-            if (tempMenuArray[i].name.toLowerCase() == this.settingsService.LastMenuName.toLowerCase()) {
-                this.setSelectedMenu(tempMenuArray[i]);
+        for (let i = 0; i < this.selectedGroup.Menu.length; i++) {
+            if (this.selectedGroup.Menu[i].name.toLowerCase() == this.settingsService.LastMenuName.toLowerCase()) {
+                this.setSelectedMenu(this.selectedGroup.Menu[i]);
                 return;
             }
         }
 
         if (!found) {
-            this.setSelectedMenu(tempMenuArray[0]);
+            this.setSelectedMenu(this.selectedGroup.Menu[0]);
         }
     }
 
@@ -162,9 +159,8 @@ export class MenuService {
         this.selectedApplication = application;
         this.selectedApplication.isSelected = true;
 
-        var tempGroupArray = this.utilsService.toArray(this.selectedApplication.Group);
-        if (tempGroupArray[0] != undefined)
-            this.setSelectedGroup(tempGroupArray[0]);
+        if (this.selectedApplication.Group[0] != undefined)
+            this.setSelectedGroup(this.selectedApplication.Group[0]);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -178,9 +174,8 @@ export class MenuService {
         this.selectedGroup = group;
         this.selectedGroup.isSelected = true;
 
-        var tempMenuArray = this.utilsService.toArray(this.selectedGroup.Menu);
-        if (tempMenuArray[0] != undefined)
-            this.setSelectedMenu(tempMenuArray[0]);
+        if (this.selectedGroup.Menu[0] != undefined)
+            this.setSelectedMenu(this.selectedGroup.Menu[0]);
 
         this.setSelectedMenu(undefined);
         // $location.path("/MenuTemplate");
@@ -215,7 +210,7 @@ export class MenuService {
         }
         else {
             this.webSocketService.runDocument(object.target, object.args)
-            .catch(()=>{ object.isLoading = false;});
+                .catch(() => { object.isLoading = false; });
         }
 
         this.addToMostUsed(object);
@@ -256,11 +251,9 @@ export class MenuService {
     //---------------------------------------------------------------------------------------------
     findSearchesInApplication(application) {
 
-        var tempApplicationArray = this.utilsService.toArray(application);
-        for (var a = 0; a < tempApplicationArray.length; a++) {
-            var allGroupsArray = this.utilsService.toArray(tempApplicationArray[a].Group);
-            for (var d = 0; d < allGroupsArray.length; d++) {
-                this.getSearchesObjectsFromMenu(allGroupsArray[d], tempApplicationArray[a].title, allGroupsArray[d].title, undefined, undefined);
+        for (var a = 0; a < application.length; a++) {
+            for (var d = 0; d < application[a].Group.length; d++) {
+                this.getSearchesObjectsFromMenu(application[a].Group[d], application[a].title, application[a].Group[d].title, undefined, undefined);
             }
         }
     }
@@ -268,36 +261,35 @@ export class MenuService {
     //---------------------------------------------------------------------------------------------
     getSearchesObjectsFromMenu(menu, applicationTitle, groupTitle, menuTitle, tileTitle) {
 
-        var allSubObjects = this.utilsService.toArray(menu.Object);
-        if (allSubObjects != undefined) {
 
-            for (var i = 0; i < allSubObjects.length; i++) {
+        if (menu.Object != undefined) {
 
-                var temp = allSubObjects[i];
+            for (var i = 0; i < menu.Object.length; i++) {
+
+                var temp = menu.Object[i];
                 if (this.containsSameSearch(this.searchSources, temp)) {
                     continue;
                 }
 
                 if (tileTitle != undefined)
-                    allSubObjects[i].tile = tileTitle;
+                    menu.Object[i].tile = tileTitle;
                 if (menuTitle != undefined)
-                    allSubObjects[i].menu = menuTitle;
+                    menu.Object[i].menu = menuTitle;
 
-                allSubObjects[i].groupTitle = groupTitle;
-                allSubObjects[i].applicationTitle = applicationTitle;
+                menu.Object[i].groupTitle = groupTitle;
+                menu.Object[i].applicationTitle = applicationTitle;
 
-                allSubObjects[i].itemTooltip = this.getSearchItemTooltip(allSubObjects[i]);
-                this.searchSources.push(allSubObjects[i]);
+                menu.Object[i].itemTooltip = this.getSearchItemTooltip(menu.Object[i]);
+                this.searchSources.push(menu.Object[i]);
             }
         }
 
-        var allSubMenus = this.utilsService.toArray(menu.Menu);
-        if (allSubMenus != undefined) {
+        if (menu.Menu != undefined) {
 
             //cerca gli object dentro il menu
-            for (var j = 0; j < allSubMenus.length; j++) {
+            for (var j = 0; j < menu.Menu.length; j++) {
 
-                this.getSearchesObjectsFromMenu(allSubMenus[j], applicationTitle, groupTitle, menu.title, allSubMenus[j].title);
+                this.getSearchesObjectsFromMenu(menu.Menu[j], applicationTitle, groupTitle, menu.title, menu.Menu[j].title);
             }
         }
     };
@@ -441,6 +433,7 @@ export class MenuService {
         this.applicationMenu = root.ApplicationMenu.AppMenu;
         this.environmentMenu = root.EnvironmentMenu.AppMenu;
 
+        //TODOLUCA
         this.initApplicationAndGroup(this.applicationMenu.Application);//qui bisogna differenziare le app da caricare, potrebbero essere app o environment
         this.loadFavoritesAndMostUsed();
         this.loadSearchObjects();
@@ -464,11 +457,9 @@ export class MenuService {
     //---------------------------------------------------------------------------------------------
     findFavoritesAndMostUsedInApplication(application) {
 
-        var tempMenuArray = this.utilsService.toArray(application);
-        for (var a = 0; a < tempMenuArray.length; a++) {
-            var allGroupsArray = this.utilsService.toArray(tempMenuArray[a].Group);
-            for (var d = 0; d < allGroupsArray.length; d++) {
-                this.getFavoritesAndMostUsedObjectsFromMenu(allGroupsArray[d]);
+        for (var a = 0; a < application.length; a++) {
+            for (var d = 0; d < application[a].Group.length; d++) {
+                this.getFavoritesAndMostUsedObjectsFromMenu(application[a].Group[d]);
             }
         }
     }
@@ -476,27 +467,32 @@ export class MenuService {
     //---------------------------------------------------------------------------------------------
     getFavoritesAndMostUsedObjectsFromMenu(menu) {
 
-        var allSubObjects = this.utilsService.toArray(menu.Object);
-        for (var i = 0; i < allSubObjects.length; i++) {
 
-            if (allSubObjects[i].isFavorite) {
-                allSubObjects[i].position = parseInt(allSubObjects[i].position);
-                this.favoritesCount++;
-                this.favorites.push(allSubObjects[i]);
+        if (menu.Object != undefined) {
+
+            for (var i = 0; i < menu.Object.length; i++) {
+
+                if (menu.Object[i].isFavorite) {
+                    menu.Object[i].position = parseInt(menu.Object[i].position);
+                    this.favoritesCount++;
+                    this.favorites.push(menu.Object[i]);
+                }
+
+                if (menu.Object[i].isMostUsed) {
+                    menu.Object[i].lastModified = parseInt(menu.Object[i].lastModified);
+                    this.mostUsed.push(menu.Object[i]);
+                    this.mostUsedCount++;
+                }
             }
 
-            if (allSubObjects[i].isMostUsed) {
-                allSubObjects[i].lastModified = parseInt(allSubObjects[i].lastModified);
-                this.mostUsed.push(allSubObjects[i]);
-                this.mostUsedCount++;
-            }
         }
-
-        var allSubMenus = this.utilsService.toArray(menu.Menu);
         //cerca gli object dentro il menu
-        for (var j = 0; j < allSubMenus.length; j++) {
 
-            this.getFavoritesAndMostUsedObjectsFromMenu(allSubMenus[j]);
+        if (menu.Menu != undefined) {
+            for (var j = 0; j < menu.Menu.length; j++) {
+                this.getFavoritesAndMostUsedObjectsFromMenu(menu.Menu[j]);
+            }
+
         }
     };
 

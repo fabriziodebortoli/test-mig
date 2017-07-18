@@ -33,7 +33,7 @@ namespace Microarea.AdminServer.Services.Providers
 				{
 					connection.Open();
                    
-                    using (SqlCommand command = new SqlCommand(Consts.SelectAccount, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.SelectAccount, connection))
 					{
 						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						using (SqlDataReader dataReader = command.ExecuteReader())
@@ -91,7 +91,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					bool existAccount = false;
 
-					using (SqlCommand command = new SqlCommand(Consts.ExistAccount, connection))
+					using (SqlCommand command = new SqlCommand(Queries.ExistAccount, connection))
 					{
 						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						existAccount = (int)command.ExecuteScalar() > 0;
@@ -100,7 +100,7 @@ namespace Microarea.AdminServer.Services.Providers
 					using (SqlCommand command = new SqlCommand())
 					{
 						command.Connection = connection;
-						command.CommandText = existAccount ? Consts.UpdateAccount : Consts.InsertAccount;
+						command.CommandText = existAccount ? Queries.UpdateAccount : Queries.InsertAccount;
 
 						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						command.Parameters.AddWithValue("@FullName", account.FullName);
@@ -152,7 +152,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.DeleteAccount, connection))
+					using (SqlCommand command = new SqlCommand(Queries.DeleteAccount, connection))
 					{
 						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						command.ExecuteNonQuery();

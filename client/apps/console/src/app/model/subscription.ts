@@ -6,7 +6,7 @@ export class Subscription {
     preferredLanguage: string;
     applicationLanguage: string;
     minDBSizeToWarn: number;
-    instanceKey: string;
+    underMaintenance: boolean;
 
     constructor() {
     }

@@ -1,4 +1,4 @@
-import { Company } from './../../model/company';
+import { SubscriptionDatabase } from './../../model/subscriptionDatabase';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -9,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class DatabaseInfoComponent implements OnInit {
 
-  @Input() companyModel: Company;
+  @Input() companyModel: SubscriptionDatabase;
   @Input() isDMS: boolean;
 
   constructor() { }

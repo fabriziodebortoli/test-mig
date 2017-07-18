@@ -744,7 +744,7 @@ namespace Microarea.Common.Generic
 
         public static string ToJson(this double d, string name = null, bool bracket = false)
         {
-            return d.ToString("F").ToJson(name, bracket, false, false);
+            return d.ToString("F", System.Globalization.CultureInfo.InvariantCulture).ToJson(name, bracket, false, false);
         }
 
         public static string ToJson(this DateTime d, string name = null, bool bracket = false)

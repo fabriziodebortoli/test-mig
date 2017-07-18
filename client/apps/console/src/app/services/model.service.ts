@@ -1,4 +1,4 @@
-import { Company } from './../model/company';
+import { SubscriptionDatabase } from './../model/subscriptionDatabase';
 import { Account } from '../model/account';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';

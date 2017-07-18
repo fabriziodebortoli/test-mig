@@ -1,3 +1,4 @@
+import { LayoutService } from './../../../core/services/layout.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 
@@ -26,8 +27,10 @@ export class HotlinkComponent extends ControlComponent {
   selectionColumn: string = '';
   multiSelectedValues: any[] = [];
 
-  constructor(private httpService: HttpService) {
-    super();
+  constructor(private httpService: HttpService, 
+    protected layoutService: LayoutService
+  ) {
+    super(layoutService);
   }
 
   // ---------------------------------------------------------------------------------------

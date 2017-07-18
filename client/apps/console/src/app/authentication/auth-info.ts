@@ -1,3 +1,4 @@
+import { Instance } from 'app/model/instance';
 import { TokenInfo } from "app/authentication/token-info";
 import { Subscription } from "app/model/subscription";
 import { ServerUrl } from "app/authentication/server-url";
@@ -10,6 +11,7 @@ export class AuthorizationProperties{
     preferredLanguage: string;
     applicationLanguage: string;
     tokens: Array<TokenInfo>;
+    instances: Array<Instance>;
     subscriptions: Array<Subscription>;
     serverUrls: Array<ServerUrl>;
     roles: Array<string>;
@@ -18,6 +20,7 @@ export class AuthorizationProperties{
         this.jwtEncoded = "";
         this.accountName = "";
         this.tokens = new Array<TokenInfo>();
+        this.instances = new Array<Instance>();
         this.subscriptions = new Array<Subscription>();
         this.serverUrls = new Array<ServerUrl>();
         this.roles = new Array<string>();        
@@ -34,17 +37,33 @@ export class AuthorizationInfo {
         this.authorizationProperties.accountName = accountName;
     }
 
+    SetInstances(instances: Array<object>) {
+        let instance: Instance;
+        instances.forEach(
+            p => {
+                instance = new Instance();
+                instance.instanceKey =  p['InstanceKey'];
+                instance.description = p['Description'];
+                instance.disabled = p['Disabled'];
+                instance.origin = p['Origin'];
+                instance.tags = p['Tags'];
+                instance.underMaintenance = p['UnderMaintenance'];
+                this.authorizationProperties.instances.push(instance);
+            }
+        );
+    }
+
     SetSubscriptions(subscriptions: Array<object>) {
         let subscription: Subscription;
         subscriptions.forEach(
             p => {
                 subscription = new Subscription();
                 subscription.subscriptionKey = p['SubscriptionKey'];
-                subscription.applicationLanguage = p['ApplicationLanguage'];
                 subscription.description = p['Description'];
-                subscription.instanceKey = p['InstanceKey'];
                 subscription.minDBSizeToWarn = p['MinDBSizeToWarn'];
                 subscription.preferredLanguage = p['PreferredLanguage'];
+                subscription.applicationLanguage = p['ApplicationLanguage'];
+                subscription.underMaintenance = p['UnderMaintenance'];
                 // @@TODO con Ilaria
                 subscription.activationToken = ''; 
                 

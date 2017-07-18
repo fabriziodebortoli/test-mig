@@ -9,8 +9,5 @@ import { ControlComponent } from '../control.component';
 })
 export class UnknownComponent extends ControlComponent {
 
-  constructor() {
-    super();
-  }
 
 }

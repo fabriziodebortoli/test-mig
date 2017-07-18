@@ -32,7 +32,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.SelectInstance, connection))
+					using (SqlCommand command = new SqlCommand(Queries.SelectInstance, connection))
 					{
                         command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 
@@ -70,7 +70,7 @@ namespace Microarea.AdminServer.Services.Providers
 				{
 					connection.Open();
 
-					using (SqlCommand command = new SqlCommand(Consts.SelectURlsInstance, connection))
+					using (SqlCommand command = new SqlCommand(Queries.SelectURlsInstance, connection))
 					{
 						command.Parameters.AddWithValue("@InstanceKey", instanceKey);
 
@@ -112,7 +112,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					bool existInstance = false;
 
-					using (SqlCommand command = new SqlCommand(Consts.ExistInstance, connection))
+					using (SqlCommand command = new SqlCommand(Queries.ExistInstance, connection))
 					{
 						command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 						existInstance = (int)command.ExecuteScalar() > 0;
@@ -121,7 +121,7 @@ namespace Microarea.AdminServer.Services.Providers
 					using (SqlCommand command = new SqlCommand())
 					{
 						command.Connection = connection;
-						command.CommandText = existInstance ? Consts.UpdateInstance : Consts.InsertInstance;
+						command.CommandText = existInstance ? Queries.UpdateInstance : Queries.InsertInstance;
 						command.Parameters.AddWithValue("@Description", instance.Description);
 						command.Parameters.AddWithValue("@Disabled", instance.Disabled);
                         command.Parameters.AddWithValue("@Origin", instance.Origin);
@@ -155,7 +155,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.DeleteInstance, connection))
+					using (SqlCommand command = new SqlCommand(Queries.DeleteInstance, connection))
 					{
 						command.Parameters.AddWithValue("@InstanceKey", instance.InstanceKey);
 						command.ExecuteNonQuery();
@@ -171,14 +171,113 @@ namespace Microarea.AdminServer.Services.Providers
 			return true;
 		}
 
-        //---------------------------------------------------------------------
-        public List<IInstance> GetInstances(string instanceKey)
+		/// <summary>
+		/// Ritorna una lista con tutte le istanze di una specifica subscription
+		/// </summary>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		public List<IInstance> GetInstancesBySubscription(string subscriptionKey)
+		{
+			List<IInstance> instanceList = new List<IInstance>();
+
+			string selectQuery = @"SELECT * FROM dbo.MP_Instances INNER JOIN
+								MP_SubscriptionInstances ON MP_Instances.InstanceKey = MP_SubscriptionInstances.InstanceKey
+								WHERE MP_SubscriptionInstances.SubscriptionKey = @SubscriptionKey";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+					using (SqlCommand command = new SqlCommand(selectQuery, connection))
+					{
+						command.Parameters.AddWithValue("@SubscriptionKey", subscriptionKey);
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								Instance instance = new Instance();
+								instance.InstanceKey = dataReader["InstanceKey"] as string;
+								instance.Origin = dataReader["Origin"] as string;
+								instance.Tags = dataReader["Tags"] as string;
+								instance.Description = dataReader["Description"] as string;
+								instance.Disabled = (bool)dataReader["Disabled"];
+								instance.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
+								instanceList.Add(instance);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return null;
+			}
+
+			return instanceList;
+		}
+
+		/// <summary>
+		/// Ritorna una lista con tutte le istanze di uno specifico account
+		/// </summary>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		public List<IInstance> GetInstancesByAccount(string accountName)
+		{
+			List<IInstance> instanceList = new List<IInstance>();
+
+			string selectQuery = @"SELECT DISTINCT MP_Instances.* FROM MP_Instances 
+								INNER JOIN MP_SubscriptionInstances ON MP_Instances.InstanceKey = MP_SubscriptionInstances.InstanceKey 
+								INNER JOIN MP_SubscriptionAccounts ON MP_SubscriptionAccounts.SubscriptionKey = MP_SubscriptionInstances.SubscriptionKey
+								WHERE MP_SubscriptionAccounts.AccountName = @AccountName";
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(this.connectionString))
+				{
+					connection.Open();
+					using (SqlCommand command = new SqlCommand(selectQuery, connection))
+					{
+						command.Parameters.AddWithValue("@AccountName", accountName);
+
+						using (SqlDataReader dataReader = command.ExecuteReader())
+						{
+							while (dataReader.Read())
+							{
+								Instance instance = new Instance();
+								instance.InstanceKey = dataReader["InstanceKey"] as string;
+								instance.Origin = dataReader["Origin"] as string;
+								instance.Tags = dataReader["Tags"] as string;
+								instance.Description = dataReader["Description"] as string;
+								instance.Disabled = (bool)dataReader["Disabled"];
+								instance.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
+								instanceList.Add(instance);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return null;
+			}
+
+			return instanceList;
+		}
+
+		/// <summary>
+		/// Ritorna una lista con tutte le istanze
+		/// </summary>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		public List<IInstance> GetInstances()
         {
             List<IInstance> instanceList = new List<IInstance>();
 
             string selectQuery = "SELECT * FROM MP_Instances";
-            if (!string.IsNullOrWhiteSpace(instanceKey))
-                selectQuery += " WHERE InstanceKey = @InstanceKey";
 
             try
             {
@@ -187,9 +286,6 @@ namespace Microarea.AdminServer.Services.Providers
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(selectQuery, connection))
                     {
-                        if (!string.IsNullOrWhiteSpace(instanceKey))
-                            command.Parameters.AddWithValue("@InstanceKey", instanceKey);
-
                         using (SqlDataReader dataReader = command.ExecuteReader())
                         {
                             while (dataReader.Read())
@@ -201,7 +297,6 @@ namespace Microarea.AdminServer.Services.Providers
                                 instance.Description = dataReader["Description"] as string;
                                 instance.Disabled = (bool)dataReader["Disabled"];
                                 instance.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
-                                instance.InstanceKey = dataReader["InstanceKey"] as string;
                                 instanceList.Add(instance);
                             }
                         }

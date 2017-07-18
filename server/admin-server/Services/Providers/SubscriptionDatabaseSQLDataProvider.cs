@@ -32,7 +32,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.SelectSubscriptionDatabase, connection))
+					using (SqlCommand command = new SqlCommand(Queries.SelectSubscriptionDatabase, connection))
 					{
 						command.Parameters.AddWithValue("@SubscriptionKey", subDatabase.SubscriptionKey);
 						command.Parameters.AddWithValue("@Name", subDatabase.Name);
@@ -90,7 +90,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 					bool existsDb = false;
 
-					using (SqlCommand command = new SqlCommand(Consts.ExistSubscriptionDatabase, connection))
+					using (SqlCommand command = new SqlCommand(Queries.ExistSubscriptionDatabase, connection))
 					{
 						command.Parameters.AddWithValue("@SubscriptionKey", subDatabase.SubscriptionKey);
 						command.Parameters.AddWithValue("@Name", subDatabase.Name);
@@ -100,7 +100,7 @@ namespace Microarea.AdminServer.Services.Providers
 					using (SqlCommand command = new SqlCommand())
 					{
 						command.Connection = connection;
-						command.CommandText = existsDb ? Consts.UpdateSubscriptionDatabase : Consts.InsertSubscriptionDatabase;
+						command.CommandText = existsDb ? Queries.UpdateSubscriptionDatabase : Queries.InsertSubscriptionDatabase;
 
 						command.Parameters.AddWithValue("@SubscriptionKey", subDatabase.SubscriptionKey);
 						command.Parameters.AddWithValue("@Name", subDatabase.Name);
@@ -116,7 +116,6 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@PreferredLanguage", subDatabase.PreferredLanguage);
 						command.Parameters.AddWithValue("@ApplicationLanguage", subDatabase.ApplicationLanguage);
 						command.Parameters.AddWithValue("@Provider", subDatabase.Provider);
-						command.Parameters.AddWithValue("@SubscriptionKey", subDatabase.SubscriptionKey);
 						command.Parameters.AddWithValue("@UseDMS", subDatabase.UseDMS);
 						command.Parameters.AddWithValue("@DMSDBServer", subDatabase.DMSDBServer);
 						command.Parameters.AddWithValue("@DMSDBName", subDatabase.DMSDBName);
@@ -152,7 +151,7 @@ namespace Microarea.AdminServer.Services.Providers
 				using (SqlConnection connection = new SqlConnection(this.connectionString))
 				{
 					connection.Open();
-					using (SqlCommand command = new SqlCommand(Consts.DeleteSubscriptionDatabase, connection))
+					using (SqlCommand command = new SqlCommand(Queries.DeleteSubscriptionDatabase, connection))
 					{
 						command.Parameters.AddWithValue("@SubscriptionKey", subDatabase.SubscriptionKey);
 						command.Parameters.AddWithValue("@Name", subDatabase.Name);
@@ -184,7 +183,7 @@ namespace Microarea.AdminServer.Services.Providers
 
 			List<SubscriptionDatabase> databasesList = new List<SubscriptionDatabase>();
 
-			string selectQuery = @"SELECT* FROM MP_SubscriptionDatabases INNER JOIN MP_SubscriptionAccounts WHERE SubscriptionKey =  @SubscriptionKey";
+			string selectQuery = @"SELECT* FROM MP_SubscriptionDatabases WHERE SubscriptionKey =  @SubscriptionKey";
 
 			if (!string.IsNullOrWhiteSpace(name))
 				selectQuery += " AND Name = @Name";

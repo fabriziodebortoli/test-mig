@@ -63,6 +63,24 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
+		public List<IInstance> GetInstances()
+		{
+			return ((IInstanceDataProvider)this.dataProvider).GetInstances();
+		}
+
+		//---------------------------------------------------------------------
+		public List<IInstance> GetInstancesBySubscription(string subscriptionKey)
+		{
+			return ((IInstanceDataProvider)this.dataProvider).GetInstancesBySubscription(subscriptionKey);
+		}
+
+		//---------------------------------------------------------------------
+		public List<IInstance> GetInstancesByAccount(string accountName)
+		{
+			return ((IInstanceDataProvider)this.dataProvider).GetInstancesByAccount(accountName);
+		}
+
+		//---------------------------------------------------------------------
 		public OperationResult Query(QueryInfo qi)
 		{
 			return this.dataProvider.Query(qi);
