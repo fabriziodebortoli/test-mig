@@ -154,7 +154,7 @@ namespace Microarea.Common.MenuLoader
 		{
 			//TODOLUCA
 			//string allJson = JsonConvert.SerializeXmlNode(documMenu, Newtonsoft.Json.Formatting.None);
-			string allJson = Newtonsoft.Json.JsonConvert.SerializeObject(documMenu);
+			string allJson = Newtonsoft.Json.JsonConvert.SerializeXmlNode(documMenu, Formatting.None);
 			return Jsonizer(allJson);
 		}
 

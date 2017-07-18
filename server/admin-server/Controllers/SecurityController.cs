@@ -337,9 +337,9 @@ namespace Microarea.AdminServer.Controllers
             if (account == null)
                 return false;
 
-            List<SecurityToken> tokens = bootstrapToken.UserTokens = CreateTokens(account);
+            ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account);
 
-            if (tokens == null || tokens.Count == 0)
+			if (tokens == null || tokens.Length == 0)
                 return false;
 
             bootstrapToken.AccountName = account.AccountName;
@@ -348,22 +348,33 @@ namespace Microarea.AdminServer.Controllers
             bootstrapToken.UserTokens = CreateTokens(account);
             bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
             bootstrapToken.PreferredLanguage = account.PreferredLanguage;
-            bootstrapToken.Subscriptions = GetSubscritions(account.AccountName); ;
+
+			bootstrapToken.Instances = GetInstances(account.AccountName);
+			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
             bootstrapToken.Urls = GetUrlsForThisInstance();
             return true;
         }
 
         //----------------------------------------------------------------------
-        private ISubscription[] GetSubscritions(string accountName)
+        private ISubscription[] GetSubscriptions(string accountName)
         {
-            ISubscription subscription = new Subscription();
+            Subscription subscription = new Subscription();
             subscription.SetDataProvider(_subscriptionSQLDataProvider);
-            ISubscription[] subsArray = subscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
-            return subsArray;
-        }
+			ISubscription[] subsArray = subscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
+			return subsArray;
+		}
 
-        //----------------------------------------------------------------------
-        private List<IServerURL> GetUrlsForThisInstance()
+		//----------------------------------------------------------------------
+		private IInstance[] GetInstances(string accountName)
+		{
+			Instance iInstance = new Instance();
+			iInstance.SetDataProvider(_instanceSqlDataProvider);
+			IInstance[] instanceArray = iInstance.GetInstancesByAccount(accountName).ToArray();
+			return instanceArray;
+		}
+
+		//----------------------------------------------------------------------
+		private IServerURL[] GetUrlsForThisInstance()
         {
             Instance iInstance = new Instance(_settings.InstanceIdentity.InstanceKey);
             iInstance.SetDataProvider(_instanceSqlDataProvider);
@@ -371,10 +382,10 @@ namespace Microarea.AdminServer.Controllers
 
             if (!iInstance.ExistsOnDB)
             {
-                return new List<IServerURL>();
+                return new IServerURL[] { };
             }
 
-            return iInstance.LoadURLs();
+			return iInstance.LoadURLs().ToArray();
         }
 
         //----------------------------------------------------------------------
@@ -451,7 +462,7 @@ namespace Microarea.AdminServer.Controllers
 		}
 
 		//----------------------------------------------------------------------
-		private List<SecurityToken> CreateTokens(IAccount account)
+		private SecurityToken[] CreateTokens(IAccount account)
 		{
 			List<SecurityToken> tokenList = new List<SecurityToken>();
 
@@ -460,10 +471,10 @@ namespace Microarea.AdminServer.Controllers
 
 			if (tokens.Save())
 			{
-				return tokens.GetTokenList(account.IsAdmin, account.AccountName);
+				return tokens.GetTokenList(account.IsAdmin, account.AccountName).ToArray();
 			}
 
-			return tokenList;
+			return tokenList.ToArray();
         }
     }
 }

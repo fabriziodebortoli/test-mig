@@ -65,44 +65,66 @@ namespace Microarea.Common.MenuLoader
 			return newDoc;
 		}
 
-		//---------------------------------------------------------------------
-		private static void AddNeededAttributes(XmlDocument appMenu)
-		{
-			XmlNodeList objectsNodes = appMenu.SelectNodes("//Object");
-			foreach (XmlNode current in objectsNodes)
-			{
-				XmlAttribute attribFav = current.Attributes["isFavorite"];
-				if (attribFav != null)
-					continue;
+        //---------------------------------------------------------------------
+        private static void AddNeededAttributes(XmlDocument appMenu)
+        {
+            XmlNodeList objectsNodes = appMenu.SelectNodes("//Object");
+            foreach (XmlNode current in objectsNodes)
+            {
+                XmlAttribute attribFav = current.Attributes["isFavorite"];
+                if (attribFav != null)
+                    continue;
 
-				//se non c'è lo creo e lo aggiungo
-				attribFav = appMenu.CreateAttribute("isFavorite");
-				attribFav.Value = "false";
-				current.Attributes.Append(attribFav);
+                //se non c'è lo creo e lo aggiungo
+                attribFav = appMenu.CreateAttribute("isFavorite");
+                attribFav.Value = "false";
+                current.Attributes.Append(attribFav);
 
-				XmlAttribute isMostUsedAttr = current.Attributes["isMostUsed"];
-				if (isMostUsedAttr != null)
-					continue;
+                XmlAttribute isMostUsedAttr = current.Attributes["isMostUsed"];
+                if (isMostUsedAttr != null)
+                    continue;
 
-				//se non c'è lo creo e lo aggiungo
-				isMostUsedAttr = appMenu.CreateAttribute("isMostUsed");
-				isMostUsedAttr.Value = "false";
-				current.Attributes.Append(isMostUsedAttr);
-			}
+                //se non c'è lo creo e lo aggiungo
+                isMostUsedAttr = appMenu.CreateAttribute("isMostUsed");
+                isMostUsedAttr.Value = "false";
+                current.Attributes.Append(isMostUsedAttr);
+            }
 
-			XmlNodeList groups = appMenu.SelectNodes("//Group");
-			foreach (XmlNode current in groups)
-			{
-				XmlAttribute attrib = current.Attributes["isOpen"];
-				if (attrib != null)
-					continue;
+            XmlNodeList groups = appMenu.SelectNodes("//Group");
+            foreach (XmlNode current in groups)
+            {
+                XmlAttribute attrib = current.Attributes["isOpen"];
+                if (attrib != null)
+                    continue;
 
-				//se non c'è lo creo e lo aggiungo
-				attrib = appMenu.CreateAttribute("isOpen");
-				attrib.Value = "false";
-				current.Attributes.Append(attrib);
-			}
-		}
+                //se non c'è lo creo e lo aggiungo
+                attrib = appMenu.CreateAttribute("isOpen");
+                attrib.Value = "false";
+                current.Attributes.Append(attrib);
+            }
+
+
+            //a tutti questi elementi, devo aggiungere l'attributo "json:Array = 'true' es <Item json:Array='true'> in modo che venga serializzati corretti
+            //Application   //Group //Menu  //Menu  //Object
+            XmlAttribute jsonNS = appMenu.CreateAttribute("xmlns", "json", "http://www.w3.org/2000/xmlns/");
+            jsonNS.Value = "http://james.newtonking.com/projects/json";
+            appMenu.DocumentElement.SetAttributeNode(jsonNS);
+
+            XmlNodeList nodes = appMenu.SelectNodes("//Application | //Group | //Menu/Menu | //Object ");
+            foreach (XmlNode current in nodes)
+            {
+                AddJsonArrayAttributeToNode(appMenu, current);
+            }
+        }
+
+        //---------------------------------------------------------------------
+        private static void AddJsonArrayAttributeToNode(XmlDocument appMenu, XmlNode node)
+        {
+            
+            XmlAttribute newAttr = appMenu.CreateAttribute("json", "Array", "http://james.newtonking.com/projects/json");
+            newAttr.Value = "true";
+            node.Attributes.Append(newAttr);
+        }
 
 		//---------------------------------------------------------------------
 		private static void AdaptImageFilePath(XmlNode appMenu)

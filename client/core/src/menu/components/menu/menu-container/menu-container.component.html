@@ -3,7 +3,7 @@
     <tb-frame-content>
         <div class="menu-page">
             <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)" [height]="31">
-                <kendo-tabstrip-tab [title]="menuTab?.title" *ngFor="let menuTab of utilsService.toArray(menuService?.selectedGroup?.Menu)">
+                <kendo-tabstrip-tab [title]="menuTab?.title" *ngFor="let menuTab of menuService?.selectedGroup?.Menu">
                     <ng-template kendoTabContent>
                         <div class="wrap">
                             <tb-header-strip [title]="menuService?.selectedMenu?.title">
