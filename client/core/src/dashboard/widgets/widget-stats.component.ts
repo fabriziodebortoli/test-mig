@@ -1,5 +1,5 @@
 import { WidgetComponent } from './widget.component';
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, AfterContentInit } from '@angular/core';
 import { Widget, WidgetsService } from './widgets.service';
 
 @Component({
@@ -7,10 +7,15 @@ import { Widget, WidgetsService } from './widgets.service';
   templateUrl: './widget-stats.component.html',
   styleUrls: ['./widget-stats.component.scss']
 })
-export class WidgetStatsComponent {
+export class WidgetStatsComponent implements AfterContentInit {
   @Input() widget: Widget;
 
+  private statClass: string;
   constructor(private widgetComponent: WidgetComponent, private widgetsService: WidgetsService) {
+  }
+
+  ngAfterContentInit() {
+    this.statClass = this.statsIconColorClass();
   }
 
   formatMoney(
