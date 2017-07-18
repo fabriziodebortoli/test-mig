@@ -1,9 +1,8 @@
 <div [ngSwitch]="message.type">
-    <span *ngSwitchCase="16">F </span>
-    <span *ngSwitchCase="2">E </span>
-    <span *ngSwitchCase="1">W </span>
-    <span *ngSwitchCase="8">I </span>
-    <span *ngSwitchCase="32">  </span>
+    <m4-icon *ngSwitchCase="16" icon="tb-cancel" class="icon-error"></m4-icon>
+    <m4-icon *ngSwitchCase="2" icon="tb-cancel" class="icon-error"></m4-icon>
+    <m4-icon *ngSwitchCase="1" icon="tb-warning" class="icon-warning"></m4-icon>
+    <m4-icon *ngSwitchCase="8" icon="tb-info" class="icon-info"></m4-icon>
     <span>{{message.text}}</span>
 </div>
 
