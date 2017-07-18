@@ -407,13 +407,13 @@ export class MenuService {
 
     getMenuElements() {
 
-        // let menuItems = localStorage.getItem("_menuElements");
+        let menuItems = localStorage.getItem("_menuElements");
 
-        // if (this.isMenuCacheActive && menuItems) {
-        //     let parsedMenu = JSON.parse(menuItems);
-        //     this.onAfterGetMenuElements(parsedMenu.Root);
-        //     return;
-        // }
+        if (this.isMenuCacheActive && menuItems) {
+            let parsedMenu = JSON.parse(menuItems);
+            this.onAfterGetMenuElements(parsedMenu.Root);
+            return;
+        }
 
         this.httpMenuService.getMenuElements().subscribe((result) => {
             this.onAfterGetMenuElements(result.Root);
