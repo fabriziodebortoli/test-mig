@@ -138,7 +138,8 @@ export class BOService extends DocumentService {
             }
         }));
 
-        this.subscriptions.push(this.webSocketService.radarQuery.subscribe(data => {
+        this.subscriptions.push(this.webSocketService.radarInfos.subscribe(data => {
+            console.log(data);
         }));
 
     }
