@@ -348,27 +348,27 @@ namespace Microarea.AdminServer.Controllers
             bootstrapToken.UserTokens = CreateTokens(account);
             bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
             bootstrapToken.PreferredLanguage = account.PreferredLanguage;
-			bootstrapToken.Instances = GetInstances();
+
+			bootstrapToken.Instances = GetInstances(account.AccountName);
 			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
             bootstrapToken.Urls = GetUrlsForThisInstance();
             return true;
         }
 
         //----------------------------------------------------------------------
-        private ISubscription[] GetSubscriptions(string accountName)
+        private List<ISubscription> GetSubscriptions(string accountName)
         {
             ISubscription subscription = new Subscription();
             subscription.SetDataProvider(_subscriptionSQLDataProvider);
-            ISubscription[] subsArray = subscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
-            return subsArray;
+            return subscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey);
         }
 
 		//----------------------------------------------------------------------
-		private List<IInstance> GetInstances()
+		private List<IInstance> GetInstances(string accountName)
 		{
 			Instance iInstance = new Instance();
 			iInstance.SetDataProvider(_instanceSqlDataProvider);
-			return iInstance.GetInstances();
+			return iInstance.GetInstancesByAccount(accountName);
 		}
 
 		//----------------------------------------------------------------------

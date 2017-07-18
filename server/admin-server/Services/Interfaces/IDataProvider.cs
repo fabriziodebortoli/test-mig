@@ -22,6 +22,8 @@ namespace Microarea.AdminServer.Services
 	{
 		List<IServerURL> LoadURLs(string instanceKey);
 		List<IInstance> GetInstances();
+		List<IInstance> GetInstancesBySubscription(string subscriptionKey);
+		List<IInstance> GetInstancesByAccount(string accountName);
 	}
 
 	//================================================================================

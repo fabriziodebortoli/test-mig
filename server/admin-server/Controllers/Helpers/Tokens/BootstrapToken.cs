@@ -14,7 +14,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 		public string PreferredLanguage;
 		public string ApplicationLanguage;
 		public List<SecurityToken> UserTokens;
-		public ISubscription[] Subscriptions;
+		public List<ISubscription> Subscriptions;
 		public List<IInstance> Instances;
 		public List<IServerURL> Urls;
 
@@ -28,7 +28,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 			this.ApplicationLanguage = String.Empty;
 			this.UserTokens = new List<SecurityToken>();
 			this.Instances = new List<IInstance>();
-			this.Subscriptions = new Subscription[] { };
+			this.Subscriptions = new List<ISubscription>();
 			this.Urls = new List<IServerURL>();
 		}
 	}
