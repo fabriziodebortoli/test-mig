@@ -1,7 +1,6 @@
 ﻿using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using System;
-using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 {
@@ -13,10 +12,12 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 		public bool CloudAdmin;
 		public string PreferredLanguage;
 		public string ApplicationLanguage;
-		public List<SecurityToken> UserTokens;
+
+		// use arrays instead of list because you can't use JsonConvert.DeserializeObject with interface
+		public ISecurityToken[] UserTokens;
 		public ISubscription[] Subscriptions;
-		public List<IInstance> Instances;
-		public List<IServerURL> Urls;
+		public IInstance[] Instances;
+		public IServerURL[] Urls;
 
 		//--------------------------------------------------------------------------------
 		public BootstrapToken()
@@ -26,10 +27,10 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 			this.CloudAdmin = false;
 			this.PreferredLanguage = String.Empty;
 			this.ApplicationLanguage = String.Empty;
-			this.UserTokens = new List<SecurityToken>();
-			this.Instances = new List<IInstance>();
+			this.UserTokens = new SecurityToken[] { };
+			this.Instances = new Instance[] { };
 			this.Subscriptions = new Subscription[] { };
-			this.Urls = new List<IServerURL>();
+			this.Urls = new ServerURL[] { }; 
 		}
 	}
 }
