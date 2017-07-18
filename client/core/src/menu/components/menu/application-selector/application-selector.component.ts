@@ -20,7 +20,7 @@ export class ApplicationSelectorComponent {
     ) {
     }
 
-    selecteApplication(application) {
+    selectApplication(application) {
         this.menuService.setSelectedApplication(application)
     }
 

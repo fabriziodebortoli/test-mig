@@ -45,6 +45,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
     private settingsService: SettingsService,
     private enumsService: EnumsService,
   ) {
+
+
     this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
 
     this.subscriptions.push(componentService.componentInfoCreated.subscribe(arg => {
@@ -71,6 +73,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
     this.localizationService.loadLocalizedElements(true);
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
+
   }
 
 

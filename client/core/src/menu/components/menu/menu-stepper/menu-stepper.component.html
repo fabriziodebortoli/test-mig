@@ -6,14 +6,14 @@
        
     </md-menu>
     <md-menu #groups="mdMenu" x-position="after" y-position="below">
-        <button md-menu-item *ngFor="let group of utilsService.toArray(menuService?.selectedApplication?.Group)" (click)=menuService.setSelectedGroup(group) class="applicationItem" [ngClass]="group?.title == menuService?.selectedGroup?.title ? 'active' : ''">
+        <button md-menu-item *ngFor="let group of menuService?.selectedApplication?.Group" (click)=menuService.setSelectedGroup(group) class="applicationItem" [ngClass]="group?.title == menuService?.selectedGroup?.title ? 'active' : ''">
         <tb-icon [iconType]="'M4'" [icon]="group?.icon" class="groupIcon" *ngIf="group?.icon != undefined"></tb-icon>            
         <img [src]="imageService.getStaticImage(group)" *ngIf="group?.icon == undefined" />
          {{group?.title}}
      </button>
     </md-menu>
     <md-menu #menus="mdMenu" x-position="after" y-position="below">
-        <button md-menu-item *ngFor="let menuTab of utilsService.toArray(menuService.selectedGroup?.Menu)" (click)=menuService.setSelectedMenu(menuTab) class="applicationItem" [ngClass]="menuTab?.title == menuService?.selectedMenu?.title ? 'active' : ''">
+        <button md-menu-item *ngFor="let menuTab of menuService.selectedGroup?.Menu" (click)=menuService.setSelectedMenu(menuTab) class="applicationItem" [ngClass]="menuTab?.title == menuService?.selectedMenu?.title ? 'active' : ''">
      {{menuTab?.title}}
      </button>
     </md-menu>

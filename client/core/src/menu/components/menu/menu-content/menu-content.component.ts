@@ -32,7 +32,7 @@ export class MenuContentComponent {
 
   set tile(tile: any) {
     this._tile = tile;
-    this.objects = this.utilsService.toArray(this._tile.Object);
+    this.objects = this._tile.Object;
   }
 
   getPinnedClass(tile) {
