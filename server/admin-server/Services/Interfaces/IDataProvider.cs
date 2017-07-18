@@ -21,6 +21,7 @@ namespace Microarea.AdminServer.Services
 	public interface IInstanceDataProvider : IDataProvider
 	{
 		List<IServerURL> LoadURLs(string instanceKey);
+		List<IInstance> GetInstances();
 	}
 
 	//================================================================================

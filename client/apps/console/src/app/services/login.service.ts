@@ -56,6 +56,7 @@ export class LoginService {
             let authInfo: AuthorizationInfo = new AuthorizationInfo(data.JwtToken,
               parsedToken.AccountName);
             
+            authInfo.SetInstances(parsedToken.Instances);
             authInfo.SetSubscriptions(parsedToken.Subscriptions);
             authInfo.SetServerUrls(parsedToken.Urls);
             authInfo.SetTokens(parsedToken.UserTokens);

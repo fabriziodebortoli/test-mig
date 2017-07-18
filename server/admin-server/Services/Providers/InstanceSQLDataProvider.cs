@@ -172,13 +172,11 @@ namespace Microarea.AdminServer.Services.Providers
 		}
 
         //---------------------------------------------------------------------
-        public List<IInstance> GetInstances(string instanceKey)
+        public List<IInstance> GetInstances()
         {
             List<IInstance> instanceList = new List<IInstance>();
 
             string selectQuery = "SELECT * FROM MP_Instances";
-            if (!string.IsNullOrWhiteSpace(instanceKey))
-                selectQuery += " WHERE InstanceKey = @InstanceKey";
 
             try
             {
@@ -187,9 +185,6 @@ namespace Microarea.AdminServer.Services.Providers
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(selectQuery, connection))
                     {
-                        if (!string.IsNullOrWhiteSpace(instanceKey))
-                            command.Parameters.AddWithValue("@InstanceKey", instanceKey);
-
                         using (SqlDataReader dataReader = command.ExecuteReader())
                         {
                             while (dataReader.Read())

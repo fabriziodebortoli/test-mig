@@ -1,4 +1,4 @@
-export class name {
+export class Instance {
 
     instanceKey: string;
     description: string;
