@@ -63,6 +63,12 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
+		public List<IInstance> GetInstances()
+		{
+			return ((IInstanceDataProvider)this.dataProvider).GetInstances();
+		}
+
+		//---------------------------------------------------------------------
 		public OperationResult Query(QueryInfo qi)
 		{
 			return this.dataProvider.Query(qi);
