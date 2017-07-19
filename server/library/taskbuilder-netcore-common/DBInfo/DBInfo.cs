@@ -138,7 +138,7 @@ namespace Microarea.Common.DBData
                 case "DataEnum":
                     {
                         DataEnum de = (DataEnum)value;
-                        return ((int)de).ToString();    
+                        return ((uint)de).ToString();    
                     }
                 case "String":
                     {
