@@ -890,6 +890,11 @@ namespace Microarea.Common.CoreTypes
 
             string stype = field != null ? field.WoormType.ToLower() : to.GetType().Name.ToLower();
             stype.RemovePrefix("system.");
+            int posTag = stype.IndexOf('[');
+            if (posTag > -1)
+            {
+                stype = stype.Left(posTag);
+            }
 
             switch (stype)
 			{
@@ -914,6 +919,8 @@ namespace Microarea.Common.CoreTypes
 				case "single"	: return CastFloat(from);
                 case "byte"		: return CastByte(from);
                 case "text"     : return CastString(from);
+
+                default: return CastString(from);
             }
 
             throw (new ObjectHelperException(CoreTypeStrings.IllegalType));
