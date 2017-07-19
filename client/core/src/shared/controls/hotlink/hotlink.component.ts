@@ -1,5 +1,5 @@
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 
 import { HttpService } from './../../../core/services/http.service';
@@ -27,7 +27,7 @@ export class HotlinkComponent extends ControlComponent {
   selectionColumn: string = '';
   multiSelectedValues: any[] = [];
 
-  constructor(private httpService: HttpService, 
+  constructor(private httpService: HttpService,
     protected layoutService: LayoutService
   ) {
     super(layoutService);
@@ -75,6 +75,7 @@ export class HotlinkComponent extends ControlComponent {
     }
     let k = this.data.rows[value.index];
     this.value = k[this.selectionColumn];
+    this.model.value = this.value;
   }
 
   // ---------------------------------------------------------------------------------------
@@ -145,6 +146,7 @@ export class HotlinkComponent extends ControlComponent {
     if (this.multiSelectedValues.length > 0) {
       this.value = this.value.substring(0, this.value.length - 1);
     }
+    this.model.value = this.value;
   }
 
   // ---------------------------------------------------------------------------------------

@@ -22,7 +22,7 @@ export class AuthGuardService implements CanActivate {
         authorizationInfo.authorizationProperties = authorizationProperties;
 
         if (!authorizationInfo.HasRole(RoleNames.ProvisioningAdmin)) {
-          alert(RoleNames.ProvisioningAdmin.toString() + ' role missing');
+          alert(RoleNames[RoleNames.ProvisioningAdmin] + ' role missing');
           return false;
         }
 
