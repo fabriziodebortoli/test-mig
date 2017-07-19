@@ -42,8 +42,8 @@ namespace Microarea.AdminServer.Services.Providers
 							{
 								subscription.ActivationToken = new ActivationToken (dataReader["ActivationToken"] as string);
 								subscription.Description = dataReader["Description"] as string;
-								subscription.PreferredLanguage = dataReader["PreferredLanguage"] as string;
-								subscription.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								subscription.Language = dataReader["RegionalSettings"] as string;
+								subscription.RegionalSettings = dataReader["Language"] as string;
 								subscription.MinDBSizeToWarn = (int)dataReader["MinDBSizeToWarn"];
                                 subscription.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
 								subscription.ExistsOnDB = true;
@@ -89,8 +89,8 @@ namespace Microarea.AdminServer.Services.Providers
 						
 						command.Parameters.AddWithValue("@Description", subscription.Description);
 						command.Parameters.AddWithValue("@ActivationToken", subscription.ActivationToken.ToString());
-						command.Parameters.AddWithValue("@PreferredLanguage", subscription.PreferredLanguage);
-						command.Parameters.AddWithValue("@ApplicationLanguage", subscription.ApplicationLanguage);
+						command.Parameters.AddWithValue("@RegionalSettings", subscription.Language);
+						command.Parameters.AddWithValue("@Language", subscription.RegionalSettings);
 						command.Parameters.AddWithValue("@MinDBSizeToWarn", subscription.MinDBSizeToWarn);
                         command.Parameters.AddWithValue("@UnderMaintenance", subscription.UnderMaintenance);
                         command.Parameters.AddWithValue("@SubscriptionKey", subscription.SubscriptionKey);
@@ -165,8 +165,8 @@ namespace Microarea.AdminServer.Services.Providers
                                 ISubscription subs = new Subscription();
 								subs.SubscriptionKey = dataReader["SubscriptionKey"] as string;
 								subs.Description = dataReader["Description"] as string;
-								subs.PreferredLanguage = dataReader["PreferredLanguage"] as string;
-								subs.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								subs.Language = dataReader["RegionalSettings"] as string;
+								subs.RegionalSettings = dataReader["Language"] as string;
 								subs.MinDBSizeToWarn = (int)dataReader["MinDBSizeToWarn"];
                                 subs.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
 								subsList.Add(subs);
@@ -189,8 +189,8 @@ namespace Microarea.AdminServer.Services.Providers
 		{
 			List<ISubscription> subsList = new List<ISubscription>();
 
-			string selectQuery = @"SELECT MP_Subscriptions.SubscriptionKey, MP_Subscriptions.Description, MP_Subscriptions.PreferredLanguage, 
-								MP_Subscriptions.ApplicationLanguage, MP_Subscriptions.MinDBSizeToWarn, MP_Subscriptions.UnderMaintenance 
+			string selectQuery = @"SELECT MP_Subscriptions.SubscriptionKey, MP_Subscriptions.Description, MP_Subscriptions.RegionalSettings, 
+								MP_Subscriptions.Language, MP_Subscriptions.MinDBSizeToWarn, MP_Subscriptions.UnderMaintenance 
 								FROM MP_Subscriptions 
 								INNER JOIN MP_SubscriptionAccounts ON MP_SubscriptionAccounts.SubscriptionKey = MP_Subscriptions.SubscriptionKey 
 								INNER JOIN MP_SubscriptionInstances ON MP_Subscriptions.SubscriptionKey = MP_SubscriptionInstances.SubscriptionKey 
@@ -213,8 +213,8 @@ namespace Microarea.AdminServer.Services.Providers
                                 ISubscription subs = new Subscription();
 								subs.SubscriptionKey = dataReader["SubscriptionKey"] as string;
 								subs.Description = dataReader["Description"] as string;
-								subs.PreferredLanguage = dataReader["PreferredLanguage"] as string;
-								subs.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								subs.Language = dataReader["RegionalSettings"] as string;
+								subs.RegionalSettings = dataReader["Language"] as string;
 								subs.MinDBSizeToWarn = (int)dataReader["MinDBSizeToWarn"];
                                 subs.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
                                 subsList.Add(subs);
@@ -270,8 +270,8 @@ namespace Microarea.AdminServer.Services.Providers
 								sub.SubscriptionKey = dataReader["SubscriptionKey"] as string;
 								sub.Description = dataReader["Description"] as string;
 								sub.ActivationToken = new ActivationToken(dataReader["ActivationToken"] as string);
-								sub.PreferredLanguage = dataReader["PreferredLanguage"] as string;
-								sub.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								sub.Language = dataReader["RegionalSettings"] as string;
+								sub.RegionalSettings = dataReader["Language"] as string;
 								sub.MinDBSizeToWarn = (int)dataReader["MinDBSizeToWarn"];
                                 sub.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
                                 subscriptionList.Add(sub);

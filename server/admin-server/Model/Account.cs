@@ -12,11 +12,9 @@ namespace Microarea.AdminServer.Model
         string accountName;
         string fullName = string.Empty;
 		string password = string.Empty;
-        bool cloudAdmin = false;
         int loginFailedCount = 0;
         string notes = string.Empty;
 		string email = string.Empty;
-		bool provisioningAdmin;
 		bool passwordNeverExpires = false;
 		bool mustChangePassword = false;
 		bool cannotChangePassword = false;
@@ -24,8 +22,8 @@ namespace Microarea.AdminServer.Model
 		int passwordDuration;
 		bool disabled = false;
 		bool locked = false;
-		string applicationLanguage = string.Empty;
-        string preferredLanguage = string.Empty;
+		string regionalSettings = string.Empty;
+        string language = string.Empty;
         bool isWindowsAuthentication = false;
         DateTime expirationDate = DateTime.Now.AddDays(3);// todo per ora scadenza 3 giorni per esempio
 		string parentAccount = string.Empty;
@@ -37,11 +35,9 @@ namespace Microarea.AdminServer.Model
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
 		public string FullName { get { return this.fullName; } set { this.fullName = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
-        public bool CloudAdmin { get { return this.cloudAdmin; } set { this.cloudAdmin = value; } }
         public int LoginFailedCount { get { return this.loginFailedCount; } set { this.loginFailedCount = value; } }
         public string Notes { get { return this.notes; } set { this.notes = value; } }
 		public string Email { get { return this.email; } set { this.email = value; } }
-		public bool ProvisioningAdmin { get { return this.provisioningAdmin; } set { this.provisioningAdmin = value; } }
 		public bool PasswordNeverExpires { get { return this.passwordNeverExpires; } set { this.passwordNeverExpires = value; } }
 		public bool MustChangePassword { get { return this.mustChangePassword; } set { this.mustChangePassword = value; } }
 		public bool CannotChangePassword { get { return this.cannotChangePassword; } set { this.cannotChangePassword = value; } }
@@ -49,13 +45,12 @@ namespace Microarea.AdminServer.Model
 		public int PasswordDuration { get { return this.passwordDuration; } set { this.passwordDuration = value; } }
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
 		public bool Locked { get { return this.locked; } set { this.locked = value; } }
-		public string PreferredLanguage { get { return this.preferredLanguage; } set { this.preferredLanguage = value; } }
-		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
+		public string Language { get { return this.language; } set { this.language = value; } }
+		public string RegionalSettings { get { return this.regionalSettings; } set { this.regionalSettings = value; } }
         public bool IsWindowsAuthentication { get { return this.isWindowsAuthentication; } set { this.isWindowsAuthentication = value; } }
         public DateTime ExpirationDate { get { return this.expirationDate; } set { this.expirationDate = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
         public long Ticks { get { return this.ticks; } set { this.ticks = value; } }
-        public bool IsAdmin { get { return this.provisioningAdmin || this.cloudAdmin; } }
 		public string ParentAccount { get { return this.parentAccount; } set { this.parentAccount = value; } }
 		public bool Confirmed { get { return this.confirmed; } set { this.confirmed = value; } }
 		// data provider
