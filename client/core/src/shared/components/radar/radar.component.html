@@ -1,8 +1,6 @@
 <div class="radar-container" [@shrinkOut]="state">
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-        <p>Query:</p>
-        <input ngModel name="query" id="query" required>
-        <hr>
+        <input ngModel name="query" id="query" required placeholder="Query">
         <button kendoButton (click)="getData()">GO</button>
     </form>
     <hr>
