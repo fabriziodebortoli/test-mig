@@ -15,8 +15,8 @@ export class Account {
     locked:boolean;
     provisioningAdmin: boolean;
     cloudAdmin: boolean;
-    applicationLanguage: string;
-    preferredLanguage: string;
+    regionalSettings: string;
+    language: string;
     isWindowsAuthentication: boolean;
     expirationDate: Date;
     parentAccount: string;

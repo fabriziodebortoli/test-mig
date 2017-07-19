@@ -61,29 +61,34 @@ export class LoginService {
             authInfo.SetServerUrls(parsedToken.Urls);
             authInfo.SetTokens(parsedToken.UserTokens);
 
-            // creating roles array;; waiting for roles object migration
-            let roles: Array<string> = new Array<string>();
+            //@@TODO: attrezzare il back-end per passare anche l'AppId e il SecurityValue dell'istanza corrente
+            // da utilizzare per generare un AuthenticationHeader valido per il GWAM
+            authInfo.SetSecurityValues('I-M4', 'ju23ff-KOPP-0911-ila');
 
+            //@@TODO gestione ruoli: nel token deve essere passato anche un array di ruoli
+            // che andremo a copiare dentro il ns oggetto locale authInfo nel localstorage
+            let roles: Array<string> = new Array<string>();
             if (parsedToken.ProvisioningAdmin) {
               roles.push(RoleNames.ProvisioningAdmin.toString());
             }
-
             if (parsedToken.CloudAdmin) {
               roles.push(RoleNames.CloudAdmin.toString());
             }
-
             authInfo.SetRoles(roles);
+
+            // save in localstorage all the information about authorization
+
             localStorage.setItem('auth-info', JSON.stringify(authInfo.authorizationProperties));
+
+            this.router.navigateByUrl(returnUrl);
 
             if (authInfo.HasRole(RoleNames.ProvisioningAdmin))
             {
-              this.router.navigateByUrl(returnUrl);
+               this.router.navigateByUrl(returnUrl);
               return;
             }
 
-            // user has no roles to navigate the requested url
-            // sending him back to home component
-
+            // user has no roles to navigate the requested url sending him back to home component
             alert(RoleNames[RoleNames.ProvisioningAdmin] + ' role missing');
             this.router.navigateByUrl('/');
           }
@@ -99,6 +104,4 @@ export class LoginService {
         error => alert(error)
       );
   }
-  
-
 }

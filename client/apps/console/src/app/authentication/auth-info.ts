@@ -8,8 +8,10 @@ export class AuthorizationProperties{
 
     jwtEncoded: string;
     accountName: string;
-    preferredLanguage: string;
-    applicationLanguage: string;
+    language: string;
+    regionalSettings: string;
+    appId: string;
+    appSecurityValue: string;
     tokens: Array<TokenInfo>;
     instances: Array<Instance>;
     subscriptions: Array<Subscription>;
@@ -19,6 +21,8 @@ export class AuthorizationProperties{
     constructor() {
         this.jwtEncoded = "";
         this.accountName = "";
+        this.appId = '';
+        this.appSecurityValue = '';
         this.tokens = new Array<TokenInfo>();
         this.instances = new Array<Instance>();
         this.subscriptions = new Array<Subscription>();
@@ -35,6 +39,11 @@ export class AuthorizationInfo {
         this.authorizationProperties = new AuthorizationProperties();
         this.authorizationProperties.jwtEncoded = jwt;
         this.authorizationProperties.accountName = accountName;
+    }
+
+    SetSecurityValues(appId: string, securityValue: string) {
+        this.authorizationProperties.appId = appId;
+        this.authorizationProperties.appSecurityValue = securityValue;
     }
 
     SetInstances(instances: Array<object>) {
@@ -61,8 +70,8 @@ export class AuthorizationInfo {
                 subscription.subscriptionKey = p['SubscriptionKey'];
                 subscription.description = p['Description'];
                 subscription.minDBSizeToWarn = p['MinDBSizeToWarn'];
-                subscription.preferredLanguage = p['PreferredLanguage'];
-                subscription.applicationLanguage = p['ApplicationLanguage'];
+                subscription.language = p['language'];
+                subscription.regionalSettings = p['RegionalSettings'];
                 subscription.underMaintenance = p['UnderMaintenance'];
                 // @@TODO con Ilaria
                 subscription.activationToken = ''; 
@@ -101,6 +110,10 @@ export class AuthorizationInfo {
     }
 
     HasRole(roleName: RoleNames): boolean {
+        //@@TODO gestione ruoli: togliere queste due righe quando completa
+        if (this.authorizationProperties.roles.length == 0)
+            return true;
+
         if (this.authorizationProperties.roles.length == 0)
         {
             return false;
