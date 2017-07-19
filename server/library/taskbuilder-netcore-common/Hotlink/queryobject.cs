@@ -287,17 +287,24 @@ namespace Microarea.Common.Hotlink
 
                     if (!symbolTable.Contains(name))
                     {
-                        string aType = "String";
-                        if (parser.Parsed(Token.TYPE))
+                       string aType = "String";
+                       ushort tag = 0;
+                       string woormType = "";
+                       if (parser.Parsed(Token.TYPE))
                         {
-                            ushort tag = 0;
-                            string woormType = "";
                             string baseType = "";
 
                             if (!DataTypeParser.Parse(parser, this.session.Enums, out aType, out woormType, out tag, out baseType))
                                 return false;
                         }
                         field = new SymField(aType, name);
+
+                        if (tag > 0 && woormType == "Enum")
+                        {
+                            woormType += '[' + tag.ToString() + ']';
+                            field.WoormType = woormType;
+                        }
+
                         symbolTable.Add(field);
                     }
 

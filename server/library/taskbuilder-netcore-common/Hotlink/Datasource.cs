@@ -440,7 +440,7 @@ namespace Microarea.Common.Hotlink
                            fname +
                            ',' +
                            f.Title.ToJson("caption", false, true) +   ","+
-                           f.DataType.ToJson("type", false, false)+
+                           f.WoormType.ToJson("type", false, false) +
                            '}';
             }
             records += "],\n\"rows\":[";
