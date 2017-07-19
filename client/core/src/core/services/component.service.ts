@@ -13,15 +13,18 @@ import { ComponentInfo } from '../../shared/models';
 @Injectable()
 export class ComponentService {
   components: Array<ComponentInfo> = [];
-  componentsToCreate = new Array<any>();
-  currentComponentId: string; //id del componente in fase di creazione
+  componentsToCreate = new Array<ComponentInfo>();
+  currentComponent: ComponentInfo; //componente in fase di creazione
   creatingComponent = false;//semaforo
   subscriptions = [];
+
   componentInfoCreated = new EventEmitter<ComponentCreatedArgs>();
   componentInfoAdded = new EventEmitter<ComponentInfo>();
   componentInfoRemoved = new EventEmitter<ComponentInfo>();
   componentCreationError: EventEmitter<string> = new EventEmitter();
+
   activateComponent = false;
+
   constructor(
     private router: Router,
     private webSocketService: WebSocketService,
@@ -71,14 +74,13 @@ export class ComponentService {
       return;
     }
     if (this.componentsToCreate.length === 0) {
-      this.currentComponentId = undefined;
+      this.currentComponent = undefined;
       return;
     }
     this.creatingComponent = true;
-    const cmp = this.componentsToCreate.pop();
-    this.currentComponentId = cmp.id;
-    let url = cmp.app.toLowerCase() + '/' + cmp.mod.toLowerCase() + '/' + cmp.name;
-    const args = this.argsToString(cmp.args);
+    this.currentComponent = this.componentsToCreate.pop();
+    let url = this.currentComponent.app.toLowerCase() + '/' + this.currentComponent.mod.toLowerCase() + '/' + this.currentComponent.name;
+    const args = this.argsToString(this.currentComponent.args);
     if (args !== undefined) {
       url += '/' + args;
     }
@@ -135,17 +137,18 @@ export class ComponentService {
         console.log(reason);
         this.componentCreationError.emit(reason);
         //cannot create client component: close server one!
-        this.webSocketService.closeServerComponent(this.currentComponentId);
+        this.webSocketService.closeServerComponent(this.currentComponent.id);
         this.creatingComponent = false;
         this.createNextComponent();
       });
   }
   createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver, args: any = {}) {
-    const info = new ComponentInfo();
-    info.id = this.currentComponentId ? this.currentComponentId : this.utils.generateGUID();
-    info.factory = resolver.resolveComponentFactory(component);
-    info.args = args;
-    this.addComponent(info);
+    if (!this.currentComponent.id) {
+      this.currentComponent.id = this.utils.generateGUID();
+    }
+    this.currentComponent.factory = resolver.resolveComponentFactory(component);
+    this.currentComponent.args = args;
+    this.addComponent(this.currentComponent);
   }
 
   onComponentCreated(info: ComponentInfo) {
