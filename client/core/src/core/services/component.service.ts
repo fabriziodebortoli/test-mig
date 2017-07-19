@@ -15,7 +15,6 @@ export class ComponentService {
   components: Array<ComponentInfo> = [];
   componentsToCreate = new Array<ComponentInfo>();
   currentComponent: ComponentInfo; //componente in fase di creazione
-  creatingComponent = false;//semaforo
   subscriptions = [];
 
   componentInfoCreated = new EventEmitter<ComponentCreatedArgs>();
@@ -70,14 +69,12 @@ export class ComponentService {
   per sfruttare lo stesso router outlet
   */
   createNextComponent() {
-    if (this.creatingComponent) {
+    if (this.currentComponent) {
       return;
     }
     if (this.componentsToCreate.length === 0) {
-      this.currentComponent = undefined;
       return;
     }
-    this.creatingComponent = true;
     this.currentComponent = this.componentsToCreate.pop();
     let url = this.currentComponent.app.toLowerCase() + '/' + this.currentComponent.mod.toLowerCase() + '/' + this.currentComponent.name;
     const args = this.argsToString(this.currentComponent.args);
@@ -127,7 +124,7 @@ export class ComponentService {
       .then(
       success => {
         this.router.navigate([{ outlets: { dynamic: null }, skipLocationChange: false, replaceUrl: false }]).then(success1 => {
-          this.creatingComponent = false;
+          this.currentComponent = undefined;
           this.createNextComponent();
         });
 
@@ -138,7 +135,7 @@ export class ComponentService {
         this.componentCreationError.emit(reason);
         //cannot create client component: close server one!
         this.webSocketService.closeServerComponent(this.currentComponent.id);
-        this.creatingComponent = false;
+        this.currentComponent = undefined;
         this.createNextComponent();
       });
   }
