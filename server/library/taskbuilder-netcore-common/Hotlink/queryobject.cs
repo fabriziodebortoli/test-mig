@@ -301,7 +301,7 @@ namespace Microarea.Common.Hotlink
 
                         if (tag > 0 && woormType == "Enum")
                         {
-                            woormType += '[' + tag.ToString() + ']';
+                        //    woormType += '[' + tag.ToString() + ']';
                             field.WoormType = woormType;
                         }
 
