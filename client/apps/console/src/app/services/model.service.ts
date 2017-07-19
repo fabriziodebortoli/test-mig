@@ -1,3 +1,4 @@
+import { AuthorizationProperties } from './../authentication/auth-info';
 import { SubscriptionDatabase } from './../model/subscriptionDatabase';
 import { Account } from '../model/account';
 import { environment } from './../../environments/environment';
@@ -15,25 +16,50 @@ export class ModelService {
     this.http = http;
   }
 
+  // returns the complete AuthorizationHeader with token read from localStorage
+  //--------------------------------------------------------------------------------------------------------
+  createAuthorizationHeader(authorizationType: string): string {
+    let authorizationStored = localStorage.getItem('auth-info');
+
+    if (authorizationStored !== null) {
+      let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
+
+      let authorizationHeader: string;
+
+      if (authorizationType.toLowerCase() === 'jwt') {
+        authorizationHeader = '{ "Type": "Jwt", "SecurityValue": "' + authorizationProperties.jwtEncoded + '"}';
+      }
+
+      if (authorizationType.toLowerCase() === 'app') {
+        authorizationHeader = '{ "Type": "App", ' + 
+                              '"AppId": "' + authorizationProperties.appId + 
+                              '", "SecurityValue": "' + authorizationProperties.appSecurityValue + '"}';
+      }
+      
+      return authorizationHeader;
+    }
+
+    return '';
+  }
+
   //--------------------------------------------------------------------------------------------------------
   addAccount(body: Object): Observable<OperationResult> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    let authorizationHeader = this.createAuthorizationHeader('app');
 
-    return this.http.put(environment.gwamAPIUrl + 'accounts', body, options)
+    if (authorizationHeader !== '') {
+      let bodyString = JSON.stringify(body);
+      let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+      let options = new RequestOptions({ headers: headers });
+
+      return this.http.put(environment.gwamAPIUrl + 'accounts', bodyString, options)
         .map((res: Response) => {
-        console.log(res.json());
-        return res.json();
-      })
-      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
-    
-    /*return this.http.post(environment.adminAPIUrl + 'accounts', body, options)
-      .map((res: Response) => {
-        console.log(res.json());
-        return res.json();
-      })
-      .catch((error: any) => Observable.throw(error.json().error || 'server error'));*/
-    //.catch((error:OperationResult)=>Observable.throw(error.Message)); // prova
+          console.log(res.json());
+          return res.json();
+        })
+        .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    }
+
+    return Observable.throw('AuthorizationHeader is missing!');
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -60,5 +86,26 @@ export class ModelService {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  addSubscription(body: Object): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader !== '') {
+      let bodyString = JSON.stringify(body);
+      let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+      let options = new RequestOptions({ headers: headers });
+
+      return this.http.post(environment.gwamAPIUrl + 'subscriptions', body, options)
+        .map((res: Response) => {
+          console.log(res.json());
+          return res.json();
+        })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    }
+
+    return Observable.throw('AuthorizationHeader is missing!');
   }
 }

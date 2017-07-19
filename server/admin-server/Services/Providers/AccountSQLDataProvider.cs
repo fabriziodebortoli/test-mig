@@ -52,11 +52,9 @@ namespace Microarea.AdminServer.Services.Providers
 								account.PasswordDuration = (int)dataReader["PasswordDuration"];
                                 account.Disabled = (bool)dataReader["Disabled"];
 								account.Locked = (bool)dataReader["Locked"];
-								account.CloudAdmin = (bool)dataReader["CloudAdmin"];
-								account.ProvisioningAdmin = (bool)dataReader["ProvisioningAdmin"];
 								account.IsWindowsAuthentication = (bool)dataReader["WindowsAuthentication"];
-								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
-                                account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								account.Language = dataReader["RegionalSettings"] as string;
+                                account.RegionalSettings = dataReader["Language"] as string;
 								account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
 								account.Ticks = (long)dataReader["Ticks"];
 								account.ParentAccount = dataReader["ParentAccount"] as string;
@@ -105,7 +103,6 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@AccountName", account.AccountName);
 						command.Parameters.AddWithValue("@FullName", account.FullName);
 						command.Parameters.AddWithValue("@Password", account.Password);
-                        command.Parameters.AddWithValue("@CloudAdmin", account.CloudAdmin);
                         command.Parameters.AddWithValue("@Notes", account.Notes);
 						command.Parameters.AddWithValue("@Email", account.Email);
 						command.Parameters.AddWithValue("@LoginFailedCount", account.LoginFailedCount);
@@ -116,10 +113,9 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@PasswordDuration", account.PasswordDuration);
 						command.Parameters.AddWithValue("@Disabled", account.Disabled);
 						command.Parameters.AddWithValue("@Locked", account.Locked);
-						command.Parameters.AddWithValue("@ProvisioningAdmin", account.ProvisioningAdmin);
 						command.Parameters.AddWithValue("@WindowsAuthentication", account.IsWindowsAuthentication);
-						command.Parameters.AddWithValue("@PreferredLanguage", account.PreferredLanguage);
-						command.Parameters.AddWithValue("@ApplicationLanguage", account.ApplicationLanguage);
+						command.Parameters.AddWithValue("@RegionalSettings", account.Language);
+						command.Parameters.AddWithValue("@Language", account.RegionalSettings);
                         command.Parameters.AddWithValue("@Ticks", account.Ticks);
                         command.Parameters.AddWithValue("@ExpirationDate", account.ExpirationDate);
 
@@ -206,11 +202,9 @@ namespace Microarea.AdminServer.Services.Providers
 								account.PasswordDuration = (int)dataReader["PasswordDuration"];
 								account.Disabled = (bool)dataReader["Disabled"];
 								account.Locked = (bool)dataReader["Locked"];
-								account.CloudAdmin = (bool)dataReader["CloudAdmin"];
-								account.ProvisioningAdmin = (bool)dataReader["ProvisioningAdmin"];
 								account.IsWindowsAuthentication = (bool)dataReader["WindowsAuthentication"];
-								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
-								account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								account.Language = dataReader["RegionalSettings"] as string;
+								account.RegionalSettings = dataReader["Language"] as string;
                                 account.Ticks = (long)dataReader["Ticks"];
                                 account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
 								accountList.Add(account);
@@ -276,11 +270,9 @@ namespace Microarea.AdminServer.Services.Providers
 								account.PasswordDuration = (int)dataReader["PasswordDuration"];
 								account.Disabled = (bool)dataReader["Disabled"];
 								account.Locked = (bool)dataReader["Locked"];
-								account.CloudAdmin = (bool)dataReader["CloudAdmin"];
-								account.ProvisioningAdmin = (bool)dataReader["ProvisioningAdmin"];
 								account.IsWindowsAuthentication = (bool)dataReader["WindowsAuthentication"];
-								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
-								account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								account.Language = dataReader["RegionalSettings"] as string;
+								account.RegionalSettings = dataReader["Language"] as string;
 								account.Ticks = (long)dataReader["Ticks"];
 								account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
 								account.ParentAccount = dataReader["ParentAccount"] as string;
@@ -345,11 +337,9 @@ namespace Microarea.AdminServer.Services.Providers
 								account.PasswordDuration = (int)dataReader["PasswordDuration"];
 								account.Disabled = (bool)dataReader["Disabled"];
 								account.Locked = (bool)dataReader["Locked"];
-								account.CloudAdmin = (bool)dataReader["CloudAdmin"];
-								account.ProvisioningAdmin = (bool)dataReader["ProvisioningAdmin"];
 								account.IsWindowsAuthentication = (bool)dataReader["WindowsAuthentication"];
-								account.PreferredLanguage = dataReader["PreferredLanguage"] as string;
-								account.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								account.Language = dataReader["RegionalSettings"] as string;
+								account.RegionalSettings = dataReader["Language"] as string;
 								account.Ticks = (long)dataReader["Ticks"];
 								account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
 								account.ParentAccount = dataReader["ParentAccount"] as string;

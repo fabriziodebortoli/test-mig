@@ -15,8 +15,8 @@ export class SubscriptionDatabase {
     disabled: boolean;
     databaseCulture: string;
 	isUnicode: boolean;
-	preferredLanguage: string;
-	applicationLanguage: string;
+	language: string;
+	regionalSettings: string;
     provider: string;
     test: boolean;
 
