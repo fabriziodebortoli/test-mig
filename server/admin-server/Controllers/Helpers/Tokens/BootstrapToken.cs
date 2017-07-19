@@ -8,25 +8,23 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 	public class BootstrapToken
 	{
 		public string AccountName;
-		public bool ProvisioningAdmin;
-		public bool CloudAdmin;
-		public string PreferredLanguage;
-		public string ApplicationLanguage;
+		public string Language;
+		public string RegionalSettings;
 
 		// use arrays instead of list because you can't use JsonConvert.DeserializeObject with interface
 		public ISecurityToken[] UserTokens;
 		public ISubscription[] Subscriptions;
 		public IInstance[] Instances;
 		public IServerURL[] Urls;
+        public IRoles[] Roles;
 
-		//--------------------------------------------------------------------------------
-		public BootstrapToken()
+        //--------------------------------------------------------------------------------
+        public BootstrapToken()
 		{
 			this.AccountName = String.Empty;
-			this.ProvisioningAdmin = false;
-			this.CloudAdmin = false;
-			this.PreferredLanguage = String.Empty;
-			this.ApplicationLanguage = String.Empty;
+            this.Roles = new Roles[] { };
+			this.Language = String.Empty;
+			this.RegionalSettings = String.Empty;
 			this.UserTokens = new SecurityToken[] { };
 			this.Instances = new Instance[] { };
 			this.Subscriptions = new Subscription[] { };
