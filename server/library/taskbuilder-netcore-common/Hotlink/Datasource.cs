@@ -16,6 +16,7 @@ using Microarea.Common.CoreTypes;
 using System.IO;
 using System.Xml;
 using Microarea.Common.StringLoader;
+using System.Diagnostics;
 
 namespace Microarea.Common.Hotlink
 {
@@ -381,7 +382,8 @@ namespace Microarea.Common.Hotlink
 
             ArrayList columns = new ArrayList();
             CurrentQuery.EnumColumns(columns);
-
+            CurrentQuery.Close();
+ 
             //emit json record header (localized title column, column name, datatype column
             list = "{\"columns\":[";
             bool first = true;
@@ -393,14 +395,13 @@ namespace Microarea.Common.Hotlink
                     list += ',';
 
                 list += '{' +
-                             f.Name.Replace('.', '_').ToJson("id") +
-                             ',' +
-                             f.Title.ToJson("caption", false, true) +
+                             f.Name.Replace('.', '_').ToJson("id") +  ',' +
+                             f.Title.ToJson("caption", false, true) + ',' +
+                             f.DataType.ToJson("type", false, true) +
                          '}';
             }
             list += "]}";
 
-            CurrentQuery.Close();
             return true;
         }
 
@@ -452,6 +453,11 @@ namespace Microarea.Common.Hotlink
                 foreach (SymField f in columns)
                 {
                     object o = f.Data;
+                    if (o == null)
+                    {
+                        Debug.Fail("Empty value for " + f.Name);
+                        continue;
+                    }
 
                     if (first)
                     {
@@ -462,43 +468,8 @@ namespace Microarea.Common.Hotlink
                     {
                         rows += ',';
                     }
-
-                    rows += '\"' + f.Name.Replace('.', '_') + "\":";
-
-                    if (
-                            string.Compare(f.DataType, "date", true) == 0 ||
-                            string.Compare(f.DataType, "datetime", true) == 0
-                       )
-                    {
-                        DateTime dat = (DateTime)o;
-                        string s = dat.ToString("yyyy-MM-dd");
-
-                        rows += s.ToJson(null, false, true);
-                    }
-                    else if (string.Compare(f.DataType, "string", true) == 0)
-                    {
-                        string s = o.ToString();
-
-                        //if (string.Compare(f.WoormType, "double", true)
-
-                        rows += s.ToJson(null, false, true);
-                    }
-                    else if (string.Compare(f.DataType, "double", true) == 0)
-                    {
-                        double d = (double)o;
-
-
-                        rows += d.ToJson();
-                    }
-                    else if (string.Compare(f.DataType, "Boolean", true) == 0)
-                    {
-                        string d = (int)o==1? "true":"false";
-
-
-                        rows += d;
-                    }
-                    else
-                        rows += o.ToString();
+                 
+                    rows += o.ToJson(f.Name.Replace('.', '_'));
                 }
                 rows += "},\n";
             }

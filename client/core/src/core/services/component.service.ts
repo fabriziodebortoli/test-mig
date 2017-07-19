@@ -29,7 +29,7 @@ export class ComponentService {
     private logger: Logger,
     private utils: UtilsService) {
     this.subscriptions.push(this.webSocketService.windowOpen.subscribe(data => {
-      this.componentsToCreate.push(...data.components);
+      this.componentsToCreate.push(data.component);
       this.createNextComponent();
 
     }));
