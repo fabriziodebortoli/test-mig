@@ -13,7 +13,5 @@ namespace Microarea.AdminServer.Model.Interfaces
 		string ApplicationLanguage { get; set; }
 		int MinDBSizeToWarn { get; set; }
         bool UnderMaintenance { get; set; }
-
-        List<ISubscription> GetSubscriptionsByAccount(string accountName, string instanceKey);
 	}
 }

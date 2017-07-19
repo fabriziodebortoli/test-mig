@@ -4,7 +4,7 @@ using System;
 namespace Microarea.AdminServer.Model.Interfaces
 {
     //================================================================================
-    interface ISecurityToken : IAdminModel
+    public interface ISecurityToken : IAdminModel
     {
         string AccountName { get; set; }
         TokenType TokenType { get; set; }

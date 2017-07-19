@@ -35,7 +35,7 @@ export class WebSocketService {
     public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public diagnostic: EventEmitter<DiagnosticData> = new EventEmitter();
     public buttonsState: EventEmitter<any> = new EventEmitter();
-    public radarQuery: EventEmitter<any> = new EventEmitter();
+    public radarInfos: EventEmitter<any> = new EventEmitter();
     public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
 
     constructor(
@@ -83,7 +83,7 @@ export class WebSocketService {
                         case 'Diagnostic': $this.diagnostic.emit(obj.args); break;
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
                         case 'ButtonsState': $this.buttonsState.emit(obj.args); break;
-                        case 'RadarQuery': $this.radarQuery.emit(obj.args); break;
+                        case 'RadarInfos': $this.radarInfos.emit(obj.args); break;
 
                         default: break;
                     }
@@ -188,8 +188,8 @@ export class WebSocketService {
         this.safeSend(data);
     }
 
-    getRadarQuery(cmpId: String) {
-        const data = { cmd: 'getRadarQuery', cmpId: cmpId };
+    getRadarInfos(cmpId: String) {
+        const data = { cmd: 'getRadarInfos', cmpId: cmpId };
         this.safeSend(data);
     }
 
