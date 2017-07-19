@@ -25,10 +25,10 @@ namespace Microarea.AdminServer
         // Subscription
         public const string ExistSubscription = @"SELECT COUNT(*) FROM MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
         public const string SelectSubscription = @"SELECT * FROM MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
-        public const string InsertSubscription = @"INSERT INTO MP_Subscriptions (SubscriptionKey, Description, ActivationToken, PreferredLanguage, ApplicationLanguage, MinDBSizeToWarn, UnderMaintenance) 
-											 	VALUES (@SubscriptionKey, @Description, @ActivationToken, @PreferredLanguage, @ApplicationLanguage, @MinDBSizeToWarn, @UnderMaintenance)";
-        public const string UpdateSubscription = @"UPDATE MP_Subscriptions SET Description = @Description, ActivationToken = @ActivationToken, PreferredLanguage = @PreferredLanguage, 
-												ApplicationLanguage = @ApplicationLanguage, MinDBSizeToWarn = @MinDBSizeToWarn, UnderMaintenance=@UnderMaintenance WHERE SubscriptionKey = @SubscriptionKey";
+        public const string InsertSubscription = @"INSERT INTO MP_Subscriptions (SubscriptionKey, Description, ActivationToken, Language, RegionalSettings, MinDBSizeToWarn, UnderMaintenance) 
+											 	VALUES (@SubscriptionKey, @Description, @ActivationToken, @Language, @RegionalSettings, @MinDBSizeToWarn, @UnderMaintenance)";
+        public const string UpdateSubscription = @"UPDATE MP_Subscriptions SET Description = @Description, ActivationToken = @ActivationToken, Language = @Language, 
+												RegionalSettings = @RegionalSettings, MinDBSizeToWarn = @MinDBSizeToWarn, UnderMaintenance=@UnderMaintenance WHERE SubscriptionKey = @SubscriptionKey";
         public const string DeleteSubscription = @"DELETE MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
 
         // SubscriptionSlot
@@ -38,12 +38,12 @@ namespace Microarea.AdminServer
         public const string ExistSubscriptionDatabase = @"SELECT COUNT(*) FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
         public const string SelectSubscriptionDatabase = @"SELECT * FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
         public const string InsertSubscriptionDatabase = @"INSERT INTO MP_SubscriptionDatabases (SubscriptionKey, Name, Description, DBServer, DBName, DBOwner, DBPassword, Disabled, DatabaseCulture, 
-														IsUnicode, PreferredLanguage, ApplicationLanguage, Provider, UseDMS, DMSDBServer, DMSDBName, DMSDBOwner, DMSDBPassword, Test) 
+														IsUnicode, Language, RegionalSettings, Provider, UseDMS, DMSDBServer, DMSDBName, DMSDBOwner, DMSDBPassword, Test) 
 														VALUES (@SubscriptionKey, @Name, @Description, @DBServer, @DBName, @DBOwner, @DBPassword, @Disabled, @DatabaseCulture, 
-														@IsUnicode, @PreferredLanguage, @ApplicationLanguage, @Provider, @UseDMS, @DMSDBServer, @DMSDBName, @DMSDBOwner, @DMSDBPassword, @Test)";
+														@IsUnicode, @Language, @RegionalSettings, @Provider, @UseDMS, @DMSDBServer, @DMSDBName, @DMSDBOwner, @DMSDBPassword, @Test)";
         public const string UpdateSubscriptionDatabase = @"UPDATE MP_SubscriptionDatabases SET Description = @Description, DBServer = @DBServer, DBName = @DBName, DBOwner = @DBOwner, 
 														DBPassword = @DBPassword, Disabled = @Disabled, DatabaseCulture = @DatabaseCulture, IsUnicode = @IsUnicode, 
-														PreferredLanguage = @PreferredLanguage, ApplicationLanguage = @ApplicationLanguage, Provider = @Provider, UseDMS = @UseDMS, 
+														Language = @Language, RegionalSettings = @RegionalSettings, Provider = @Provider, UseDMS = @UseDMS, 
 														DMSDBServer = @DMSDBServer, DMSDBName = @DMSDBName, DMSDBOwner = @DMSDBOwner, DMSDBPassword = @DMSDBPassword, Test = @Test
 														WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
         public const string DeleteSubscriptionDatabase = @"DELETE MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
@@ -52,18 +52,18 @@ namespace Microarea.AdminServer
         public const string ExistAccount = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
         public const string SelectAccount = @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
 
-        public const string InsertAccount = @"INSERT INTO MP_Accounts (AccountName, FullName, Password, CloudAdmin, Notes, Email, LoginFailedCount, PasswordNeverExpires, MustChangePassword, 
-											CannotChangePassword, PasswordExpirationDate, PasswordDuration, Disabled, Locked, ProvisioningAdmin, WindowsAuthentication, PreferredLanguage, 
-											ApplicationLanguage, Ticks, ExpirationDate, ParentAccount, Confirmed) 
-		                                    VALUES (@AccountName, @FullName, @Password, @CloudAdmin, @Notes, @Email, @LoginFailedCount, @PasswordNeverExpires, @MustChangePassword, 
-											@CannotChangePassword, @PasswordExpirationDate, @PasswordDuration, @Disabled, @Locked, @ProvisioningAdmin, @WindowsAuthentication, @PreferredLanguage, 
-											@ApplicationLanguage, @Ticks, @ExpirationDate, @ParentAccount, @Confirmed)";
+        public const string InsertAccount = @"INSERT INTO MP_Accounts (AccountName, FullName, Password, Notes, Email, LoginFailedCount, PasswordNeverExpires, MustChangePassword, 
+											CannotChangePassword, PasswordExpirationDate, PasswordDuration, Disabled, Locked, WindowsAuthentication, Language, 
+											RegionalSettings, Ticks, ExpirationDate, ParentAccount, Confirmed) 
+		                                    VALUES (@AccountName, @FullName, @Password, @Notes, @Email, @LoginFailedCount, @PasswordNeverExpires, @MustChangePassword, 
+											@CannotChangePassword, @PasswordExpirationDate, @PasswordDuration, @Disabled, @Locked, @WindowsAuthentication, @Language, 
+											@RegionalSettings, @Ticks, @ExpirationDate, @ParentAccount, @Confirmed)";
 
         public const string UpdateAccount = @"UPDATE MP_Accounts SET FullName = @FullName, Password = @Password, Notes = @Notes, Email = @Email, LoginFailedCount = @LoginFailedCount,
 			                                PasswordNeverExpires = @PasswordNeverExpires, MustChangePassword = @MustChangePassword, CannotChangePassword = @CannotChangePassword, 
 			                                PasswordExpirationDate = @PasswordExpirationDate, PasswordDuration = @PasswordDuration, Disabled = @Disabled, Locked = @Locked, 
-											ProvisioningAdmin = @ProvisioningAdmin, CloudAdmin = @CloudAdmin, WindowsAuthentication = @WindowsAuthentication, PreferredLanguage = @PreferredLanguage, 
-											ApplicationLanguage = @ApplicationLanguage, Ticks = @Ticks, ExpirationDate = @ExpirationDate, ParentAccount = @ParentAccount, Confirmed = @Confirmed
+											 WindowsAuthentication = @WindowsAuthentication, Language = @Language, 
+											RegionalSettings = @RegionalSettings, Ticks = @Ticks, ExpirationDate = @ExpirationDate, ParentAccount = @ParentAccount, Confirmed = @Confirmed
 			                                WHERE AccountName = @AccountName";
         public const string DeleteAccount = @"DELETE MP_Accounts WHERE AccountName = @AccountName";
 

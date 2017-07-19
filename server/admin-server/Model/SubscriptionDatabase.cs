@@ -22,8 +22,8 @@ namespace Microarea.AdminServer.Model
 		bool disabled = false;
         string databaseCulture = string.Empty;
 		bool isUnicode = false;
-		string preferredLanguage = string.Empty;
-		string applicationLanguage = string.Empty;
+		string language = string.Empty;
+		string regionalSettings = string.Empty;
 		string provider = string.Empty;
 		bool test = false;
 		bool existsOnDB = false;
@@ -44,8 +44,8 @@ namespace Microarea.AdminServer.Model
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
 		public string DatabaseCulture { get { return this.databaseCulture; } set { this.databaseCulture = value; } }
 		public bool IsUnicode { get { return this.isUnicode; } set { this.isUnicode = value; } }
-		public string PreferredLanguage { get { return this.preferredLanguage; } set { this.preferredLanguage = value; } }
-		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
+		public string Language { get { return this.language; } set { this.language = value; } }
+		public string RegionalSettings { get { return this.regionalSettings; } set { this.regionalSettings = value; } }
 		public string Provider { get { return this.provider; } set { this.provider = value; } }
 		public bool Test { get { return this.test; } set { this.test = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
