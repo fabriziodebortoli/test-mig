@@ -7,9 +7,9 @@ import { Component, OnInit, Type, Input, ViewChild, ViewContainerRef, ComponentR
 @Component({
     selector: 'tb-dynamic-dialog',
     templateUrl: './dynamic-dialog.component.html',
-    styleUrls: ['./dynamic-dialog.component.scss']
+    styleUrls: ['./dynamic-dialog.component.scss'] 
 })
-export class DynamicDialogComponent  {
+export class DynamicDialogComponent { 
     cmpRef: ComponentRef<DocumentComponent>;
 
     opened = false;
@@ -17,8 +17,6 @@ export class DynamicDialogComponent  {
     document: DocumentService; 
     eventData: EventDataService;
     cmpContainer: ViewContainerRef;
-
-    // @ViewChild('cmpContainer', { read: ViewContainerRef }) cmpContainer: ViewContainerRef;
 
     @ViewChild('cmpContainer', { read: ViewContainerRef }) set content(content: ViewContainerRef) {
         this.cmpContainer = content;
@@ -38,17 +36,6 @@ export class DynamicDialogComponent  {
 
     constructor() { }
 
-    ngAfterViewChecked() {
-        if (this.cmpContainer) {
-            const me = this;
-            me.cmpRef = me.cmpContainer.createComponent(me.componentInfo.factory);
-            me.cmpRef.instance.cmpId = me.componentInfo.id; //assegno l'id al componente
-
-            //documento ed eventi sono condivisi col componente master
-            me.cmpRef.instance.document = me.document;
-            me.cmpRef.instance.eventData = me.eventData;
-        }
-    }
     open(componentInfo: ComponentInfo, document: DocumentService, eventData: EventDataService) {
         this.componentInfo = componentInfo;
         this.document = document;
