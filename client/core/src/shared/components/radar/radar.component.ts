@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { Logger } from './../../../core/services/logger.service';
 import { DataService } from './../../../core/services/data.service';
@@ -32,7 +32,8 @@ export const sampleProducts = [
             state('closed', style({ height: 0, overflow: 'hidden' })),
             transition('opened <=> closed', animate('250ms ease-in-out')),
         ])
-    ]
+    ],
+    encapsulation: ViewEncapsulation.None
 })
 export class RadarComponent {
 
