@@ -75,14 +75,14 @@ namespace Microarea.Common.Hotlink
 
         public SymbolTable SymTable = new SymbolTable();
         public SymField selection_type = new SymField("string", "selection_type");
-        public SymField like_value = new SymField("string", "like_value");
+        public SymField filter_value = new SymField("string", "filter_value");
 
         public QueryObject CurrentQuery = null;
 
         public Datasource(TbSession session)
         {
             SymTable.Add(selection_type);
-            SymTable.Add(like_value);
+            SymTable.Add(filter_value);
 
             this.Session = session;
         }
@@ -92,7 +92,7 @@ namespace Microarea.Common.Hotlink
             this.Session = new TbSession(ui, "");
          }
  
-        public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "code")
+        public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "Code")
         {
             string s = requestQuery["selection_type"];
             if (s.IsNullOrEmpty() && selectionType.IsNullOrEmpty())
@@ -100,8 +100,8 @@ namespace Microarea.Common.Hotlink
 
             selection_type.Data = (s.IsNullOrEmpty() ? selectionType : s).ToLower();
 
-            s = requestQuery["like_value"];
-            like_value.Data = s != null ? s : "%";
+            s = requestQuery["filter_value"];
+            filter_value.Data = s != null ? s : "%";
 
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
@@ -150,7 +150,7 @@ namespace Microarea.Common.Hotlink
         public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "Code", string likeValue = "")
         {
             selection_type.Data = selectionType;
-            like_value.Data = likeValue + '%';
+            filter_value.Data = likeValue + '%';
 
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
