@@ -9,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class DatabaseInfoComponent implements OnInit {
 
-  @Input() companyModel: SubscriptionDatabase;
+  @Input() subDBModel: SubscriptionDatabase;
   @Input() isDMS: boolean;
 
   constructor() { }

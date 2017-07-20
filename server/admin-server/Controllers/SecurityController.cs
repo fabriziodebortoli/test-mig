@@ -336,9 +336,10 @@ namespace Microarea.AdminServer.Controllers
         {
             if (account == null)
                 return false;
-            bool isadmin = true;//todo ilaria
-            ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account, isadmin);
 
+			bool isadmin = true;//todo ilaria
+
+			ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account, isadmin);
 			if (tokens == null || tokens.Length == 0)
                 return false;
 
@@ -352,7 +353,11 @@ namespace Microarea.AdminServer.Controllers
 			bootstrapToken.Instances = GetInstances(account.AccountName);
 			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
             bootstrapToken.Urls = GetUrlsForThisInstance();
-            return true;
+
+			AuthorizationInfo ai = GetAuthorizationInfo();
+			bootstrapToken.AppSecurity = new AppSecurityInfo(ai.AppId, ai.SecurityValue);
+
+			return true;
         }
 
         //----------------------------------------------------------------------
