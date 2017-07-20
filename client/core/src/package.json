@@ -52,5 +52,8 @@
         "angular2-cookie": "^1.2.6",
         "angular2-masonry": "^0.4.0",
         "json8-patch": "^0.4.0"
+    },
+    "devDependencies": {
+        "@angular/animations": "^4.3.0"
     }
 }

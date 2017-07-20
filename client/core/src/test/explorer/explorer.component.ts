@@ -1,21 +1,23 @@
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { DocumentComponent } from '@taskbuilder/core';
+import { TestService } from './../test.service';
 
-import { ComponentService, ExplorerService } from '@taskbuilder/core';
-import { EventDataService } from '@taskbuilder/core';
+import { DocumentComponent } from './../../shared/components/document.component';
+import { ComponentService } from './../../core/services/component.service';
+import { EventDataService } from './../../core/services/eventdata.service';
+import { ExplorerService } from './../../core/services/explorer.service';
 
 @Component({
   selector: 'tb-explorer',
   templateUrl: './explorer.component.html',
   styleUrls: ['./explorer.component.scss'],
-  providers: [ExplorerService, EventDataService]
+  providers: [ExplorerService, EventDataService, TestService]
 })
 export class ExplorerComponent extends DocumentComponent implements OnInit {
 
-  constructor(public eventData: EventDataService, private explorerService: ExplorerService, private http: Http) {
-    super(explorerService, eventData);
+  constructor(public eventData: EventDataService, private explorerService: ExplorerService, private http: Http, private testService: TestService) {
+    super(testService, eventData);
   }
 
   ngOnInit() {
