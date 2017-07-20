@@ -717,15 +717,16 @@ namespace Microarea.Common.CoreTypes
 			if (d is short)		return (short)d;
             if (d is long)      return (int)(long)d;
             if (d is byte)      return (byte)d;
-			if (d is decimal)	return Decimal.ToInt32((decimal)d);
+			if (d is double)	return (int)(double)d;
+            if (d is decimal) return Decimal.ToInt32((decimal)d);
             if (d is string)
             {
-                int l;
-                if (int.TryParse(d as string, out l))
-                    return l;
+                int i;
+                if (int.TryParse(d as string, out i))
+                    return i;
             }
-			if (d is DataEnum)	return (int)(DataEnum)d;
-
+			if (d is DataEnum)	
+                                return (int)(uint)(DataEnum)d;
 
 			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastInt");
 			return 0;
@@ -738,9 +739,10 @@ namespace Microarea.Common.CoreTypes
 			if (d is short)		return (short)d;
 			if (d is int)		return (int)d;
 			if (d is DateTime)	return DateTimeFunctions.GiulianDate((DateTime)d);
-			if (d is DataEnum)	return (uint)((DataEnum) d);
+			if (d is DataEnum)	return (long)(uint)((DataEnum) d);
 			if (d is byte)		return (byte)d;
-			if (d is decimal)	return Decimal.ToInt64((decimal)d);
+            if (d is double)    return (long)(double)d;
+            if (d is decimal)	return Decimal.ToInt64((decimal)d);
             if (d is string)
             {
                 long l;
@@ -888,6 +890,11 @@ namespace Microarea.Common.CoreTypes
 
             string stype = field != null ? field.WoormType.ToLower() : to.GetType().Name.ToLower();
             stype.RemovePrefix("system.");
+            int posTag = stype.IndexOf('[');
+            if (posTag > -1)
+            {
+                stype = stype.Left(posTag);
+            }
 
             switch (stype)
 			{
@@ -912,6 +919,8 @@ namespace Microarea.Common.CoreTypes
 				case "single"	: return CastFloat(from);
                 case "byte"		: return CastByte(from);
                 case "text"     : return CastString(from);
+
+                default: return CastString(from);
             }
 
             throw (new ObjectHelperException(CoreTypeStrings.IllegalType));

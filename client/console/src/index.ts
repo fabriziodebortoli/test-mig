@@ -1,4 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule, MdSidenavContainer, MdSidenavModule, MdToolbarModule, MdButtonModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { SampleComponent } from './sample.component';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
@@ -9,9 +11,6 @@ import { AdminSidenavComponent } from './components/admin-sidenav/admin-sidenav.
 // import { SamplePipe } from './sample.pipe';
 // import { SampleService } from './sample.service';
 
-import { MaterialModule, MdSidenavContainer, MdSidenavModule, MdToolbarModule, MdButtonModule } from '@angular/material';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 export * from './sample.component';
 // export * from './sample.directive';
 // export * from './sample.pipe';
@@ -19,12 +18,12 @@ export * from './sample.component';
 
 @NgModule({
   imports: [
+    BrowserAnimationsModule,
     MaterialModule,
     MdSidenavModule,
     CommonModule,
     MdButtonModule,
-    MdToolbarModule,
-    BrowserAnimationsModule
+    MdToolbarModule
   ],
   declarations: [
     SampleComponent,

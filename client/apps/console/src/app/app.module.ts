@@ -21,6 +21,7 @@ import { BreadcrumbComponent } from './components/shared/breadcrumb.component';
 import { EntityHomeComponent } from './components/entity/entity-home.component';
 import { EntityDetailComponent } from './components/entity/entity-detail.component';
 import { SubscriptionSelectionComponent } from './components/subscription/subscription-selection.component';
+//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { SubscriptionSelectionComponent } from './components/subscription/subscr
     RouterModule.forRoot(routes),
     HttpModule,
     ConsoleModule
+    //BrowserAnimationsModule
   ],
   providers: [AuthGuardService, LoginService, ModelService],
   bootstrap: [AppComponent]

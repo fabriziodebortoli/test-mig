@@ -18,8 +18,8 @@
         bool Disabled { get; }
         string DatabaseCulture { get; }
         bool IsUnicode { get; }
-		string PreferredLanguage { get; }
-		string ApplicationLanguage { get; }
+		string Language { get; }
+		string RegionalSettings { get; }
 		string Provider { get; }
 		bool Test { get; }
 	}

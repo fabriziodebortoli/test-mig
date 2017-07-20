@@ -336,18 +336,18 @@ namespace Microarea.AdminServer.Controllers
         {
             if (account == null)
                 return false;
-
-            ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account);
+            bool isadmin = true;//todo ilaria
+            ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account, isadmin);
 
 			if (tokens == null || tokens.Length == 0)
                 return false;
 
             bootstrapToken.AccountName = account.AccountName;
-            bootstrapToken.ProvisioningAdmin = account.ProvisioningAdmin;
-            bootstrapToken.CloudAdmin = account.CloudAdmin;
-            bootstrapToken.UserTokens = CreateTokens(account);
-            bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
-            bootstrapToken.PreferredLanguage = account.PreferredLanguage;
+            //bootstrapToken.ProvisioningAdmin = true; //todo ruoli ilaria account.ProvisioningAdmin;
+            //bootstrapToken.CloudAdmin = true; //todo ruoli ilaria account.CloudAdmin;
+            bootstrapToken.UserTokens = tokens;
+            bootstrapToken.RegionalSettings = account.RegionalSettings;
+            bootstrapToken.Language = account.Language;
 
 			bootstrapToken.Instances = GetInstances(account.AccountName);
 			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
@@ -462,16 +462,16 @@ namespace Microarea.AdminServer.Controllers
 		}
 
 		//----------------------------------------------------------------------
-		private SecurityToken[] CreateTokens(IAccount account)
+		private SecurityToken[] CreateTokens(IAccount account, bool isAdmin)
 		{
 			List<SecurityToken> tokenList = new List<SecurityToken>();
 
-			UserTokens tokens = new UserTokens(account.IsAdmin, account.AccountName);
+			UserTokens tokens = new UserTokens(isAdmin, account.AccountName);
 			tokens.Setprovider(_tokenSQLDataProvider);
 
 			if (tokens.Save())
 			{
-				return tokens.GetTokenList(account.IsAdmin, account.AccountName).ToArray();
+				return tokens.GetTokenList(isAdmin, account.AccountName).ToArray();
 			}
 
 			return tokenList.ToArray();

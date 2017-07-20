@@ -231,18 +231,18 @@ namespace Microarea.Common.CoreTypes
 			if (dataEnum == null)
 				return 0;
 
-			uint ui = dataEnum.tag * (uint)65536 + dataEnum.item;
+			uint ui = ((uint)dataEnum.tag << 16) + dataEnum.item;
 			return ui;
 		}
 
 		//---------------------------------------------------------------------
-		public static explicit operator int(DataEnum dataEnum)
-		{
-			if (dataEnum == null)
-				return 0;
+		//public static explicit operator int(DataEnum dataEnum)
+		//{
+		//	if (dataEnum == null)
+		//		return 0;
 
-			return ((int)dataEnum.tag << 16 | dataEnum.item);
-		}
+		//	return ((int)dataEnum.tag << 16 | dataEnum.item);
+		//}
 
 		//---------------------------------------------------------------------
 		public override bool Equals(object obj) 
@@ -284,7 +284,7 @@ namespace Microarea.Common.CoreTypes
 		//---------------------------------------------------------------------
 		public override string ToString(int minLen, int maxLen)
 		{
-			return ((int)this).ToString();
+			return ((uint)this).ToString();
 		}
 
 		//---------------------------------------------------------------------
@@ -292,8 +292,6 @@ namespace Microarea.Common.CoreTypes
 		{
 			get { return CoreTypes.DataType.Enum; }
 		}
-
-     
 
         //---------------------------------------------------------------------
         public override bool IsEmpty()
@@ -397,6 +395,5 @@ namespace Microarea.Common.CoreTypes
 
 			return ((uint)this).CompareTo((uint)dataEnum);
 		}
-       
     }
 }

@@ -1,3 +1,4 @@
+import { DynamicDialogComponent } from './../containers/dynamic-dialog/dynamic-dialog.component';
 import { DiagnosticData, MessageDlgArgs } from './../models';
 import { Subscription } from 'rxjs';
 import { DiagnosticDialogComponent } from './../containers/diagnostic-dialog/diagnostic-dialog.component';
@@ -19,7 +20,8 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
     @ViewChild('cmpContainer', { read: ViewContainerRef }) cmpContainer: ViewContainerRef;
     @ViewChild(MessageDialogComponent) messageDialog: MessageDialogComponent;
     @ViewChild(DiagnosticDialogComponent) diagnosticDialog: DiagnosticDialogComponent;
-    subscriptions = [];
+    @ViewChild(DynamicDialogComponent) dynamicDialog: DynamicDialogComponent;
+   subscriptions = [];
 
     constructor(private componentService: ComponentService) {
     }
@@ -36,10 +38,13 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
 
             this.cmpRef.instance.args = this.componentInfo.args;
             this.subscriptions.push(this.cmpRef.instance.document.eventData.openMessageDialog.subscribe(
-                args => this.openMessageDialog(this.cmpRef.instance.cmpId, args)
+                args => this.openMessageDialog(args)
             ));
             this.subscriptions.push(this.cmpRef.instance.document.eventData.openDiagnosticDialog.subscribe(
-                data => this.openDiagnosticDialog(this.cmpRef.instance.cmpId, data)
+                data => this.openDiagnosticDialog(data)
+            ));
+            this.subscriptions.push(this.cmpRef.instance.document.eventData.openDynamicDialog.subscribe(
+                data => this.openDynamicDialog(data)
             ));
             //se la eseguo subito, lancia un'eccezione quando esegue l'aggiornamento dei binding, come se fosse in un momento sbagliato
             setTimeout(() => {
@@ -57,10 +62,13 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
         this.subscriptions.forEach(subs => subs.unsubscribe());
     }
 
-    public openMessageDialog(mainCmpId: string, args: MessageDlgArgs) {
+    public openMessageDialog(args: MessageDlgArgs) {
         this.messageDialog.open(args, this.cmpRef.instance.document.eventData);
     }
-    public openDiagnosticDialog(mainCmpId: string, data: DiagnosticData) {
+    public openDiagnosticDialog(data: DiagnosticData) {
         this.diagnosticDialog.open(data, this.cmpRef.instance.document.eventData);
+    }
+    public openDynamicDialog(componentInfo:ComponentInfo) {
+        this.dynamicDialog.open(componentInfo, this.cmpRef.instance.document, this.cmpRef.instance.eventData);
     }
 }

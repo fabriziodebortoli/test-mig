@@ -11,8 +11,8 @@ namespace Microarea.AdminServer.Model
 		string subscriptionKey = string.Empty;
 		string description = string.Empty;
         ActivationToken activationtoken = new ActivationToken(string.Empty);
-		string preferredLanguage = string.Empty;
-		string applicationLanguage = string.Empty;
+		string language = string.Empty;
+		string regionalSettings = string.Empty;
 		int minDBSizeToWarn;
         bool underMaintenance;
         bool existsOnDB;
@@ -21,8 +21,8 @@ namespace Microarea.AdminServer.Model
 		public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
 		public string Description { get { return this.description; } set { this.description = value; } }
         public ActivationToken ActivationToken { get { return this.activationtoken; } set { this.activationtoken = value; } }
-		public string PreferredLanguage { get { return this.preferredLanguage; } set { this.preferredLanguage = value; } }
-		public string ApplicationLanguage { get { return this.applicationLanguage; } set { this.applicationLanguage = value; } }
+		public string Language { get { return this.language; } set { this.language = value; } }
+		public string RegionalSettings { get { return this.regionalSettings; } set { this.regionalSettings = value; } }
 		public int MinDBSizeToWarn { get { return this.minDBSizeToWarn; } set { this.minDBSizeToWarn = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
         public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }

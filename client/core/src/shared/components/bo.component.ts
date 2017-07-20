@@ -47,3 +47,22 @@ export abstract class BOComponent extends DocumentComponent implements OnInit, A
   }
 
 }
+
+@Component({
+  selector: 'tb-bo-slave',
+  template: '',
+  styles: []
+})
+export abstract class BOSlaveComponent extends DocumentComponent implements OnInit, OnDestroy {
+
+  constructor() {
+    super(null, null);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+  }
+  ngOnDestroy() {
+  }
+
+}

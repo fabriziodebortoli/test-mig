@@ -66,11 +66,11 @@ namespace Microarea.AdminServer.Library
 				return opRes;
 			}
 
-			// token verification passed, so we can assume this token is valid
+            // token verification passed, so we can assume this token is valid
 
-			if (isCloudAdmin)
+            if(true)//(isCloudAdmin) Todo ilaria ruoli
 			{
-				if (!bootstrapToken.CloudAdmin)
+			//	if (!bootstrapToken.CloudAdmin)
 				{
 					opRes.Result = false;
 					opRes.Code = (int)TokenReturnCodes.MissingCloudAdminRole;
@@ -78,10 +78,9 @@ namespace Microarea.AdminServer.Library
 					return opRes;
 				}
 			}
-
-			if (isProvisioningAdmin)
+            if (true)//(isProvisioningAdmin) Todo ilaria ruoli
 			{
-				if (!bootstrapToken.ProvisioningAdmin)
+				//if (!bootstrapToken.ProvisioningAdmin)
 				{
 					opRes.Result = false;
 					opRes.Code = (int)TokenReturnCodes.MissingProvisioningAdminRole;

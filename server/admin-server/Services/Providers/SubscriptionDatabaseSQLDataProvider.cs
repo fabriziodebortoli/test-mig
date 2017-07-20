@@ -51,8 +51,8 @@ namespace Microarea.AdminServer.Services.Providers
 								subDatabase.DatabaseCulture = dataReader["DatabaseCulture"] as string;
 								subDatabase.Disabled = (bool)dataReader["Disabled"];
 								subDatabase.IsUnicode = (bool)dataReader["IsUnicode"];
-								subDatabase.PreferredLanguage = dataReader["PreferredLanguage"] as string;
-								subDatabase.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								subDatabase.Language = dataReader["RegionalSettings"] as string;
+								subDatabase.RegionalSettings = dataReader["Language"] as string;
 								subDatabase.Provider = dataReader["Provider"] as string;
 								subDatabase.UseDMS = (bool)dataReader["UseDMS"];
 								subDatabase.DMSDBServer = dataReader["DMSDBServer"] as string;
@@ -113,8 +113,8 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@DatabaseCulture", subDatabase.DatabaseCulture);
 						command.Parameters.AddWithValue("@Disabled", subDatabase.Disabled);
 						command.Parameters.AddWithValue("@IsUnicode", subDatabase.IsUnicode);
-						command.Parameters.AddWithValue("@PreferredLanguage", subDatabase.PreferredLanguage);
-						command.Parameters.AddWithValue("@ApplicationLanguage", subDatabase.ApplicationLanguage);
+						command.Parameters.AddWithValue("@RegionalSettings", subDatabase.Language);
+						command.Parameters.AddWithValue("@Language", subDatabase.RegionalSettings);
 						command.Parameters.AddWithValue("@Provider", subDatabase.Provider);
 						command.Parameters.AddWithValue("@UseDMS", subDatabase.UseDMS);
 						command.Parameters.AddWithValue("@DMSDBServer", subDatabase.DMSDBServer);
@@ -222,8 +222,8 @@ namespace Microarea.AdminServer.Services.Providers
 								subDatabase.IsUnicode = (bool)dataReader["IsUnicode"];
 								subDatabase.Disabled = (bool)dataReader["Disabled"];
 								subDatabase.DatabaseCulture = dataReader["DatabaseCulture"] as string;
-								subDatabase.PreferredLanguage = dataReader["PreferredLanguage"] as string;
-								subDatabase.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								subDatabase.Language = dataReader["RegionalSettings"] as string;
+								subDatabase.RegionalSettings = dataReader["Language"] as string;
 								subDatabase.Provider = dataReader["Provider"] as string;
 								subDatabase.Test = (bool)dataReader["Test"];
 								databasesList.Add(subDatabase);
@@ -286,8 +286,8 @@ namespace Microarea.AdminServer.Services.Providers
 								subDatabase.Disabled = (bool)dataReader["Disabled"];
 								subDatabase.DatabaseCulture = dataReader["DatabaseCulture"] as string;
 								subDatabase.IsUnicode = (bool)dataReader["IsUnicode"];
-								subDatabase.PreferredLanguage = dataReader["PreferredLanguage"] as string;
-								subDatabase.ApplicationLanguage = dataReader["ApplicationLanguage"] as string;
+								subDatabase.Language = dataReader["RegionalSettings"] as string;
+								subDatabase.RegionalSettings = dataReader["Language"] as string;
 								subDatabase.Provider = dataReader["Provider"] as string;
 								subDatabase.UseDMS = (bool)dataReader["UseDMS"];
 								subDatabase.DMSDBServer = dataReader["DMSDBServer"] as string;
