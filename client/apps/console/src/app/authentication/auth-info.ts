@@ -4,14 +4,13 @@ import { Subscription } from "app/model/subscription";
 import { ServerUrl } from "app/authentication/server-url";
 import { RoleNames } from "app/authentication/auth-helpers";
 
+//--------------------------------------------------------------------------------------------------------
 export class AuthorizationProperties{
-
     jwtEncoded: string;
     accountName: string;
     language: string;
     regionalSettings: string;
-    appId: string;
-    appSecurityValue: string;
+    AppSecurityInfo: AppSecurityInfo;
     tokens: Array<TokenInfo>;
     instances: Array<Instance>;
     subscriptions: Array<Subscription>;
@@ -21,8 +20,7 @@ export class AuthorizationProperties{
     constructor() {
         this.jwtEncoded = "";
         this.accountName = "";
-        this.appId = '';
-        this.appSecurityValue = '';
+        this.AppSecurityInfo = new AppSecurityInfo();
         this.tokens = new Array<TokenInfo>();
         this.instances = new Array<Instance>();
         this.subscriptions = new Array<Subscription>();
@@ -31,8 +29,19 @@ export class AuthorizationProperties{
     }
 }
 
-export class AuthorizationInfo {
+//--------------------------------------------------------------------------------------------------------
+export class AppSecurityInfo {
+    AppId: string;
+    SecurityValue: string;
 
+    constructor() {
+        this.AppId = '';
+        this.SecurityValue = '';
+    }
+}
+
+//--------------------------------------------------------------------------------------------------------
+export class AuthorizationInfo {
     authorizationProperties: AuthorizationProperties;
 
     constructor(jwt: string, accountName: string) {
@@ -41,9 +50,9 @@ export class AuthorizationInfo {
         this.authorizationProperties.accountName = accountName;
     }
 
-    SetSecurityValues(appId: string, securityValue: string) {
-        this.authorizationProperties.appId = appId;
-        this.authorizationProperties.appSecurityValue = securityValue;
+    SetSecurityValues(asi: AppSecurityInfo) {
+        this.authorizationProperties.AppSecurityInfo.AppId = asi.AppId; 
+        this.authorizationProperties.AppSecurityInfo.SecurityValue = asi.SecurityValue; 
     }
 
     SetInstances(instances: Array<object>) {
