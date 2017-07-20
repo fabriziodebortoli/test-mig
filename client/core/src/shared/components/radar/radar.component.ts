@@ -42,7 +42,7 @@ export class RadarComponent {
         console.log('submitted', form.value);
     }
 
-    getData() {
+    init(radarInfos) {
 
         let params: URLSearchParams = new URLSearchParams();
         params.set('query', this.query);

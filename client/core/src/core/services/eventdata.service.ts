@@ -10,6 +10,8 @@ export class EventDataService {
     public change: EventEmitter<string> = new EventEmitter();
     public openDropdown: EventEmitter<any> = new EventEmitter();
 
+    public radarInfos: EventEmitter<MessageDlgArgs> = new EventEmitter();
+
     public openMessageDialog: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public openDiagnosticDialog: EventEmitter<DiagnosticData> = new EventEmitter();
     public closeMessageDialog: EventEmitter<MessageDlgResult> = new EventEmitter();
