@@ -22,7 +22,7 @@ import { animate, transition, trigger, state, style, keyframes, group } from "@a
 export class RadarComponent {
 
     public radarData: any[] = [];
-    private state: string = 'closed';
+    public state: string = 'closed';
     private query: string;
 
     public columns: string[] = [
@@ -42,10 +42,12 @@ export class RadarComponent {
         console.log('submitted', form.value);
     }
 
-    init(radarInfos) {
+    init(radarInfo) {
+        this.toggle();
+        if (this.state === 'closed') return;
 
         let params: URLSearchParams = new URLSearchParams();
-        params.set('query', this.query);
+        params.set('query', radarInfo.query);
 
         this.logger.debug('radar', params);
         this.dataService.getRadarData(params).subscribe((data) => {

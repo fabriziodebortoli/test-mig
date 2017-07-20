@@ -19,15 +19,14 @@ export abstract class BOComponent extends DocumentComponent implements OnInit, A
   subscriptions: Subscription[] = [];
 
   @ViewChild("radar", { read: ViewContainerRef }) radarRef: ViewContainerRef;// Radar template reference
-  private radarObj;//: RadarComponent; // Radar obj reference
+  private radarObj//: RadarComponent; // Radar obj reference
 
   controlTypeModel = ControlTypes;
   constructor(public bo: BOService, eventData: EventDataService, private componentResolver: ComponentFactoryResolver) {
     super(bo, eventData);
 
-    this.subscriptions.push(eventData.radarInfos.subscribe(radarInfos => {
-      console.log('radarInfos', radarInfos);
-      this.radarObj.init(radarInfos)
+    this.subscriptions.push(eventData.radarInfos.subscribe((radarInfos: string) => {
+      this.radarObj._component.init(radarInfos);
     }));
   }
 
