@@ -18,9 +18,8 @@ export abstract class BOComponent extends DocumentComponent implements OnInit, A
 
   subscriptions: Subscription[] = [];
 
-  @ViewChild("radar", { read: ViewContainerRef }) target: ViewContainerRef;
-  private radarRef; // Radar template reference
-  private radarObj: RadarComponent; // Radar obj reference
+  @ViewChild("radar", { read: ViewContainerRef }) radarRef: ViewContainerRef;// Radar template reference
+  private radarObj;//: RadarComponent; // Radar obj reference
 
   controlTypeModel = ControlTypes;
   constructor(public bo: BOService, eventData: EventDataService, private componentResolver: ComponentFactoryResolver) {

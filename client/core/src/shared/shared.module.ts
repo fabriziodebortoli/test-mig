@@ -115,6 +115,6 @@ const TB_DIRECTIVES = [
     imports: [TB_MODULES, KENDO_UI_MODULES],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
     exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES/*, KENDO_UI_MODULES*/],
-    entryComponents: [UnsupportedComponent]
+    entryComponents: [UnsupportedComponent, RadarComponent]
 })
 export class TbSharedModule { }
