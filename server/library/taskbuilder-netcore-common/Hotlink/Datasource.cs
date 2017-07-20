@@ -214,12 +214,12 @@ namespace Microarea.Common.Hotlink
 
         //---------------------------------------------------------------------
 
-        public async Task<bool> PrepareRadarAsync(IQueryCollection requestQuery)
+        public async Task<bool> PrepareRadarAsync(HttpRequest request)
         {
-            string query = requestQuery["qry"];
+            string query =  request.Form["query"];
+            string columnInfos = request.Form["columnInfos"];
 
             this.CurrentQuery = new QueryObject("radar", SymTable, Session, null);
-           
             //------------------------------ 
             if (!this.CurrentQuery.Define(query))
                 return false;

@@ -36,4 +36,27 @@ namespace Microarea.AdminServer.Controllers.Helpers
             SecurityValue = securityValue;
         }
     }
+
+	/// <summary>
+	/// Contiene le informazioni della AppId e SecurityValue da passare nel BootstrapToken
+	/// per eventuali chiamate dall'admin al GWAM per i check di sicurezza
+	/// </summary>
+	//================================================================================
+	public class AppSecurityInfo
+	{
+		public string AppId { get; set; }
+		public string SecurityValue { get; set; }
+
+		//-----------------------------------------------------------------------------	
+		public AppSecurityInfo()
+		{
+		}
+
+		//-----------------------------------------------------------------------------	
+		public AppSecurityInfo(string appId, string securityValue)
+		{
+			AppId = appId;
+			SecurityValue = securityValue;
+		}
+	}
 }

@@ -1,66 +1,41 @@
+import { WebSocketService } from './../../../core/services/websocket.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { DocumentComponent } from './../../components/document.component';
 import { DocumentService } from './../../../core/services/document.service';
 import { ComponentInfo } from './../../models/component-info.model';
-import { Component, OnInit, Type, Input, ViewChild, ViewContainerRef, ComponentRef, OnDestroy  } from '@angular/core';
+import { Component, OnInit, Type, Input, ViewChild, ViewContainerRef, ComponentRef, OnDestroy } from '@angular/core';
 
 @Component({
     selector: 'tb-dynamic-dialog',
     templateUrl: './dynamic-dialog.component.html',
     styleUrls: ['./dynamic-dialog.component.scss']
 })
-export class DynamicDialogComponent  {
-    cmpRef: ComponentRef<DocumentComponent>;
+export class DynamicDialogComponent implements OnDestroy {
 
     opened = false;
     componentInfo: ComponentInfo;
-    document: DocumentService; 
-    eventData: EventDataService;
-    cmpContainer: ViewContainerRef;
+    subscriptions = [];
 
-    // @ViewChild('cmpContainer', { read: ViewContainerRef }) cmpContainer: ViewContainerRef;
+    constructor(private webSocketService: WebSocketService) {
 
-    @ViewChild('cmpContainer', { read: ViewContainerRef }) set content(content: ViewContainerRef) {
-        this.cmpContainer = content;
-        if (this.cmpContainer) {
-            const me = this;
-             setTimeout(function () {
-                 //TODO fare nella ngAfterViewChecked, ma bisogna updradare angular
-                 me.cmpRef = me.cmpContainer.createComponent(me.componentInfo.factory);
-                 me.cmpRef.instance.cmpId = me.componentInfo.id; //assegno l'id al componente
- 
-                 //documento ed eventi sono condivisi col componente master
-                 me.cmpRef.instance.document = me.document;
-                 me.cmpRef.instance.eventData = me.eventData;
-             }, 1);
-        }
+
     }
 
-    constructor() { }
-
-    ngAfterViewChecked() {
-        if (this.cmpContainer) {
-            const me = this;
-            me.cmpRef = me.cmpContainer.createComponent(me.componentInfo.factory);
-            me.cmpRef.instance.cmpId = me.componentInfo.id; //assegno l'id al componente
-
-            //documento ed eventi sono condivisi col componente master
-            me.cmpRef.instance.document = me.document;
-            me.cmpRef.instance.eventData = me.eventData;
-        }
-    }
-    open(componentInfo: ComponentInfo, document: DocumentService, eventData: EventDataService) {
+    open(componentInfo: ComponentInfo) {
         this.componentInfo = componentInfo;
-        this.document = document;
-        this.eventData = eventData;
-
         this.opened = true;
+
+        this.subscriptions.push(this.webSocketService.windowClose.subscribe(data => {
+            if (this.componentInfo && data && data.id && data.id === this.componentInfo.id) {
+                this.opened = false;
+                this.componentInfo = null;
+                this.subscriptions.forEach(subs => subs.unsubscribe());
+            }
+        }));
     }
 
     close() {
-        this.opened = false;
-        this.cmpRef = null;
-        this.componentInfo = null;
+        this.webSocketService.doClose(this.componentInfo.id);
     }
-
+    
 }

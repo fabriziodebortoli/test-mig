@@ -1,4 +1,5 @@
 import { ComponentFactory } from '@angular/core';
+import { EventDataService } from './../../core/services/eventdata.service';
 
 import { DocumentService } from '../../core/services/document.service';
 
@@ -11,5 +12,6 @@ export class ComponentInfo {
     mod=''; //nome modulo server
     modal = false;//indica se si tratta di una finestra modale
     document: DocumentService = null;
+    eventData: EventDataService = null;
     args: any = {};
 }
