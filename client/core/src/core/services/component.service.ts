@@ -146,7 +146,19 @@ export class ComponentService {
     }
     this.currentComponent.factory = resolver.resolveComponentFactory(component);
     this.currentComponent.args = args;
-    this.addComponent(this.currentComponent);
+    if (this.currentComponent.modal) {
+    this.components.some(cmp =>{
+      if (cmp.id == this.currentComponent.parentId){
+        cmp.document.eventData.openDynamicDialog.emit(this.currentComponent);
+        return true;
+      }
+      return false;
+    });
+    }
+    else {
+      this.addComponent(this.currentComponent);
+    }
+
   }
 
   onComponentCreated(info: ComponentInfo) {

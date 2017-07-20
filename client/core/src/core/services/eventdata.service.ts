@@ -1,3 +1,4 @@
+import { ComponentInfo } from './../../shared/models/component-info.model';
 import { DiagnosticData, DiagnosticDlgResult } from './../../shared/models';
 import { Injectable, EventEmitter } from '@angular/core';
 
@@ -10,8 +11,11 @@ export class EventDataService {
     public change: EventEmitter<string> = new EventEmitter();
     public openDropdown: EventEmitter<any> = new EventEmitter();
 
+    public radarInfos: EventEmitter<MessageDlgArgs> = new EventEmitter();
+
     public openMessageDialog: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public openDiagnosticDialog: EventEmitter<DiagnosticData> = new EventEmitter();
+    public openDynamicDialog: EventEmitter<ComponentInfo> = new EventEmitter();
     public closeMessageDialog: EventEmitter<MessageDlgResult> = new EventEmitter();
     public closeDiagnosticDialog: EventEmitter<DiagnosticDlgResult> = new EventEmitter();
 

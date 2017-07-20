@@ -139,7 +139,10 @@ export class BOService extends DocumentService {
         }));
 
         this.subscriptions.push(this.webSocketService.radarInfos.subscribe(data => {
-            console.log(data);
+            const cmpId = this.mainCmpId;
+            if (data.id === cmpId) {
+                this.eventData.radarInfos.emit(data);
+            }
         }));
 
     }

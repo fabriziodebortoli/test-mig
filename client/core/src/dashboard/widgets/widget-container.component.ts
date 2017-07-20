@@ -27,8 +27,9 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
       (userPage) => {
         this.rows = [];
         userPage.forEach(pageRow => {
-          this.rows.push({ cols : []});
-          pageRow.cols.forEach(wdgInfo => {
+          this.rows.push({ cols: [] });
+          if (pageRow.cols) {
+            pageRow.cols.forEach(wdgInfo => {
               var emptyWdg = new Widget(wdgInfo.namespace);
               var row = this.rows.length - 1;
               var col = this.rows[row].cols.push(emptyWdg) - 1;
@@ -37,7 +38,8 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
                   this.rows[row].cols[col] = wdg;
                 }
               ));
-          });
+            });
+          }
         });
         if (this.widgetsService.isFirstUse) {
           this.snackBar.open('Your dashboard was empty, and has been created with a default layout.', 'Ok');
