@@ -57,7 +57,7 @@ export class RadarComponent {
 
         let params: URLSearchParams = new URLSearchParams();
         params.set('query', radarInfo.query);
-        params.set('columnInfos', JSON.stringify(radarInfo.columnInfos);
+        params.set('columnInfos', JSON.stringify(radarInfo.columnInfos));
 
         this.logger.info('radar', params);
         this.dataService.getRadarData(params).subscribe((data) => {
