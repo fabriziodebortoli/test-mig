@@ -51,15 +51,15 @@ export class RadarComponent {
     }
 
     init(radarInfo) {
-        this.logger.info('radarInfo', radarInfo);
-
         this.toggle(); if (this.state === 'closed') return;
+
+        this.radarColumns = radarInfo.columnInfos.map(c => c.columnName);
 
         let params: URLSearchParams = new URLSearchParams();
         params.set('query', radarInfo.query);
-        params.set('columnInfos', radarInfo.columnInfos);
+        params.set('columnInfos', JSON.stringify(radarInfo.columnInfos);
 
-        this.logger.debug('radar', params);
+        this.logger.info('radar', params);
         this.dataService.getRadarData(params).subscribe((data) => {
             console.log(data)
 
