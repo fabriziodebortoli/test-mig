@@ -38,16 +38,14 @@ import {
     ProxyRouteComponent, DynamicCmpComponent, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
-    UnsupportedComponent, UnsupportedFactoryComponent
-    // OpenComponent, SaveComponent, Accordion
+    UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, Accordion, RadarComponent
 } from './components';
 export * from './components';
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
-    UnsupportedComponent, UnsupportedFactoryComponent
-    // OpenComponent, SaveComponent, Accordion
+    UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, Accordion, RadarComponent
 ];
 
 /**
@@ -117,6 +115,6 @@ const TB_DIRECTIVES = [
     imports: [TB_MODULES, KENDO_UI_MODULES],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
     exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES/*, KENDO_UI_MODULES*/],
-    entryComponents: [UnsupportedComponent]
+    entryComponents: [UnsupportedComponent, RadarComponent]
 })
 export class TbSharedModule { }

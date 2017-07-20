@@ -7,8 +7,8 @@ import { UtilsService } from './../../../../core/services/utils.service';
 import { EventDataService } from './../../../../core/services/eventdata.service';
 import { ExplorerService } from './../../../../core/services/explorer.service';
 
-import { ImageService } from '../../../menu/services/image.service';
-import { MenuService } from './../../../menu/services/menu.service';
+import { MenuService } from './../../../../menu/services/menu.service';
+import { ImageService } from './../../../../menu/services/image.service';
 
 import { PanelBarExpandMode, PanelBarItemModel } from '@progress/kendo-angular-layout';
 
@@ -18,8 +18,6 @@ import { PanelBarExpandMode, PanelBarItemModel } from '@progress/kendo-angular-l
   styleUrls: ['./open.component.css'],
   providers: [ExplorerService, EventDataService]
 })
-
-
 export class OpenComponent extends DocumentComponent implements OnInit {
 
   public applications: any;
@@ -51,7 +49,6 @@ export class OpenComponent extends DocumentComponent implements OnInit {
     this.applicationsSubscription = this.getApplications().subscribe(result => {
       this.applications = result.Applications.Application;
     });
-
 
   }
 
