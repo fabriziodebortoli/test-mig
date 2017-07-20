@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { Logger } from './../../../core/services/logger.service';
 import { DataService } from './../../../core/services/data.service';
@@ -6,6 +6,21 @@ import { DataService } from './../../../core/services/data.service';
 import { URLSearchParams } from '@angular/http';
 import { NgForm } from "@angular/forms";
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
+
+export const sampleProducts = [
+    { "ProductID": 1, "ProductName": "Chai", "QuantityPerUnit": "10 boxes x 20 bags", },
+    { "ProductID": 2, "ProductName": "Chang", "QuantityPerUnit": "24 - 12 oz bottles", },
+    { "ProductID": 3, "ProductName": "Aniseed Syrup", "QuantityPerUnit": "12 - 550 ml bottles", },
+    { "ProductID": 1, "ProductName": "Chai", "QuantityPerUnit": "10 boxes x 20 bags", },
+    { "ProductID": 2, "ProductName": "Chang", "QuantityPerUnit": "24 - 12 oz bottles", },
+    { "ProductID": 3, "ProductName": "Aniseed Syrup", "QuantityPerUnit": "12 - 550 ml bottles", },
+    { "ProductID": 1, "ProductName": "Chai", "QuantityPerUnit": "10 boxes x 20 bags", },
+    { "ProductID": 2, "ProductName": "Chang", "QuantityPerUnit": "24 - 12 oz bottles", },
+    { "ProductID": 3, "ProductName": "Aniseed Syrup", "QuantityPerUnit": "12 - 550 ml bottles", },
+    { "ProductID": 1, "ProductName": "Chai", "QuantityPerUnit": "10 boxes x 20 bags", },
+    { "ProductID": 2, "ProductName": "Chang", "QuantityPerUnit": "24 - 12 oz bottles", },
+    { "ProductID": 3, "ProductName": "Aniseed Syrup", "QuantityPerUnit": "12 - 550 ml bottles", }
+];
 
 @Component({
     selector: 'tb-radar',
@@ -17,38 +32,38 @@ import { animate, transition, trigger, state, style, keyframes, group } from "@a
             state('closed', style({ height: 0, overflow: 'hidden' })),
             transition('opened <=> closed', animate('250ms ease-in-out')),
         ])
-    ]
+    ],
+    encapsulation: ViewEncapsulation.None
 })
 export class RadarComponent {
 
-    public radarData: any[] = [];
-    private state: string = 'closed';
-    private query: string;
+    public state: string = 'closed';
 
-    public columns: string[] = [
-        "CompanyName", "ContactName", "ContactTitle"
+    public radarData: any[] = sampleProducts;
+
+    public radarColumns: string[] = [
+        "ProductID", "ProductName", "QuantityPerUnit"
     ];
 
-    constructor(private dataService: DataService, private logger: Logger) {
-        this.query = 'select * from belincheneso';
-        //this.radarData = [{ "Id": "ALFKI", "CompanyName": "Alfreds Futterkiste", "ContactName": "Maria Anders", "ContactTitle": "Sales Representative", "City": "Berlin" }, { "Id": "ANATR", "CompanyName": "Ana Trujillo Emparedados y helados", "ContactName": "Ana Trujillo", "ContactTitle": "Owner", "City": "México D.F." }];
-    }
+    constructor(private dataService: DataService, private logger: Logger) { }
 
     toggle() {
         this.state = this.state === 'opened' ? 'closed' : 'opened';
     }
 
-    onSubmit(form: NgForm) {
-        console.log('submitted', form.value);
-    }
+    init(radarInfo) {
+        this.toggle(); if (this.state === 'closed') return;
 
-    init(radarInfos) {
+        this.radarColumns = radarInfo.columnInfos.map(c => c.columnName);
 
         let params: URLSearchParams = new URLSearchParams();
-        params.set('query', this.query);
+        params.set('query', radarInfo.query);
+        params.set('columnInfos', JSON.stringify(radarInfo.columnInfos));
 
-        this.logger.debug('radar', params);
+        this.logger.info('radar', params);
         this.dataService.getRadarData(params).subscribe((data) => {
+            console.log(data)
+
             this.radarData = data;
         });
     }
