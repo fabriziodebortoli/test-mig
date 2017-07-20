@@ -132,7 +132,7 @@ namespace Microarea.AdminServer.Controllers
                 // Se non esiste, richiedi a gwam.
                 if (!account.ExistsOnDB)
                 {
-                    Task<string> responseData = await VerifyUserOnGWAM(credentials);
+                    Task<string> responseData = await VerifyUserOnGWAM(credentials, GetAuthorizationInfo());
 
 					// GWAM call could not end correctly: so we check the object
 					if (responseData.Status == TaskStatus.Faulted)
@@ -332,7 +332,7 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //----------------------------------------------------------------------
-        private bool ValorizeBootstrapToken(IAccount account,  BootstrapToken bootstrapToken)
+        private bool ValorizeBootstrapToken(IAccount account, BootstrapToken bootstrapToken)
         {
             if (account == null)
                 return false;
@@ -406,16 +406,18 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //----------------------------------------------------------------------
-        private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials)
+        private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials, AuthorizationInfo authInfo)
         {
-            string url = _settings.ExternalUrls.GWAMUrl + "accounts";
+			string authHeader = JsonConvert.SerializeObject(authInfo);
+
+			string url = _settings.ExternalUrls.GWAMUrl + "accounts";
 
             List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
             entries.Add(new KeyValuePair<string, string>("accountName", credentials.AccountName));
             entries.Add(new KeyValuePair<string, string>("password", credentials.Password));
             entries.Add(new KeyValuePair<string, string>("instanceKey", _settings.InstanceIdentity.InstanceKey));
 
-            OperationResult opRes = await _httpHelper.PostDataAsync(url, entries);
+            OperationResult opRes = await _httpHelper.PostDataAsync(url, entries, authHeader);
 
 			if (!opRes.Result)
 			{
