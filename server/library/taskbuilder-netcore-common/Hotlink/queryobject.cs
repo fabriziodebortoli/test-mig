@@ -12,12 +12,19 @@ using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using static Microarea.Common.Lexan.Parser;
 using Microarea.Common.ExpressionManager;
+using System.Collections.Generic;
 
 namespace Microarea.Common.Hotlink
 {
     public enum Direction { IN, OUT, REF, COL, EXPAND, INCLUDE };
 
-	public class QueryObject : object, IDisposable
+    public class ColumnType
+    {
+        public string columnName { get; set; }
+        public string dataType { get; set; }
+    }
+
+    public class QueryObject : object, IDisposable
 	{
 
 		#region Protected Data Member
@@ -133,13 +140,40 @@ namespace Microarea.Common.Hotlink
 			return false;
 		}
 
-        public bool Define(string sql)
+        public bool Define(string sql, List<ColumnType> columns = null)
         {
             sql = "QUERY _q" + " BEGIN { " + sql + " } END";
             Parser parser = new Parser(SourceType.FromString);
             if (!parser.Open(sql))
                 return false;
-            return Parse(ref parser);
+
+            bool ok = Parse(ref parser);
+            if (!ok)
+                return false;
+
+            if (columns != null)
+            {
+                foreach (ColumnType ct in columns)
+                {
+                    SymField field = null;
+                    if (!symbolTable.Contains(ct.columnName))
+                    {
+                        field = new SymField(ct.dataType, ct.columnName);
+                        symbolTable.Add(field);
+                    }
+                    else field = symbolTable.Find(ct.columnName) as SymField;
+                    Debug.Assert(field != null);
+                    if (field == null)
+                        return false;
+
+                    object o = field.Data;
+                    if (o == null)
+                        return false;
+
+                    AddLink(ct.columnName, Direction.COL, o, field.Len, null, null);
+                }
+            }
+            return ok;
          }
 
         //------------------------------------------------------------------------------

@@ -550,7 +550,8 @@ namespace Microarea.Common.CoreTypes
 				case "Bool"	: 
                 case "Boolean": to = CastBool(from); return;
                 case "Int64": to = CastLong(from); return;
-				case "Guid"		: to = CastGuid (from);		return;
+                case "Uuid": 
+                case "Guid"		: to = CastGuid (from);		return;
 				case "DataArray": 
 				case "Array":	
 								to = CastDataArray (from);	return;
@@ -628,7 +629,8 @@ namespace Microarea.Common.CoreTypes
 		public static Guid CastGuid(object d)
 		{
 			if (d is Guid)		return (Guid)d;
-			if (d is string)	return new Guid((string)d);
+			if (d is string)	
+                return new Guid((string)d);
 
 			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastGuid");
 			return Guid.Empty;
@@ -914,7 +916,8 @@ namespace Microarea.Common.CoreTypes
  				case "datetime"	: return CastDateTime(from);
 				case "dataenum"	: return CastDataEnum(from);
                 case "enum"     : return CastDataEnum(from);
-				case "guid"		: return CastGuid(from);
+                case "uuid": 
+                case "guid"		: return CastGuid(from);
 				case "decimal"	: return CastDecimal(from);
 				case "single"	: return CastFloat(from);
                 case "byte"		: return CastByte(from);

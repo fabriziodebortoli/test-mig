@@ -17,6 +17,7 @@ using System.IO;
 using System.Xml;
 using Microarea.Common.StringLoader;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace Microarea.Common.Hotlink
 {
@@ -219,9 +220,13 @@ namespace Microarea.Common.Hotlink
             string query =  request.Form["query"];
             string columnInfos = request.Form["columnInfos"];
 
-            this.CurrentQuery = new QueryObject("radar", SymTable, Session, null);
+            List<ColumnType> columns = columnInfos.IsNullOrEmpty() ? null
+                                            : JsonConvert.DeserializeObject<List<ColumnType>>(columnInfos);
+
             //------------------------------ 
-            if (!this.CurrentQuery.Define(query))
+            this.CurrentQuery = new QueryObject("radar", SymTable, Session, null);
+
+            if (!this.CurrentQuery.Define(query, columns))
                 return false;
 
             return true;
@@ -410,7 +415,7 @@ namespace Microarea.Common.Hotlink
         {
             records = string.Empty;
 
-            if (XmlDescription.IsDatafile)
+            if (XmlDescription != null && XmlDescription.IsDatafile)
             {
                 return GetDataFileJson(out records);
             }
@@ -422,10 +427,12 @@ namespace Microarea.Common.Hotlink
             CurrentQuery.EnumColumns(columns);
 
             //emit json record header (localized title column, column name, datatype column
-            records = "{" +
-                   XmlDescription.DbFieldName.Replace('.', '_').ToJson("key");
+            records = "{";
 
-            records += ", \"columns\":[";
+            if (XmlDescription != null)
+                records += XmlDescription.DbFieldName.Replace('.', '_').ToJson("key") + ',';
+
+            records += "\"columns\":[";
             bool first = true;
             foreach (SymField f in columns)
             {
