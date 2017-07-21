@@ -70,6 +70,10 @@ export class RadarComponent {
     protected selectionChange(event: SelectionEvent) {
         console.log('index', event.index)
         console.log('selected', event.selected)
+
+        if (event.selected) {
+            console.log('rowSelected:', this.radarData[event.index]);
+        }
     }
 
     private load(): void {
