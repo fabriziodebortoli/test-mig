@@ -3,14 +3,14 @@ import { EventDataService } from './../../../core/services/eventdata.service';
 import { DocumentComponent } from './../../components/document.component';
 import { DocumentService } from './../../../core/services/document.service';
 import { ComponentInfo } from './../../models/component-info.model';
-import { Component, OnInit, Type, Input, ViewChild, ViewContainerRef, ComponentRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Type, Input, ViewChild, ViewContainerRef, ComponentRef } from '@angular/core';
 
 @Component({
     selector: 'tb-dynamic-dialog',
     templateUrl: './dynamic-dialog.component.html',
     styleUrls: ['./dynamic-dialog.component.scss']
 })
-export class DynamicDialogComponent implements OnDestroy {
+export class DynamicDialogComponent  {
 
     opened = false;
     componentInfo: ComponentInfo;
@@ -38,7 +38,5 @@ export class DynamicDialogComponent implements OnDestroy {
         this.webSocketService.doClose(this.componentInfo.id);
     }
 
-    ngOnDestroy(): void {
-        throw new Error("Method not implemented.");
-    }
+
 }

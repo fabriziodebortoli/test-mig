@@ -37,11 +37,12 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
             //per i componenti slave, documento ed eventi sono condivisi col componente master
             if (!this.cmpRef.instance.document)
                 this.cmpRef.instance.document = this.componentInfo.document;
+            else
+                this.cmpRef.instance.document.init(this.componentInfo.id); //assegno l'id al servizio (uguale a quello del componente)
+
              if (!this.cmpRef.instance.eventData)
                 this.cmpRef.instance.eventData = this.componentInfo.eventData;
            
-            this.cmpRef.instance.document.init(this.componentInfo.id); //assegno l'id al servizio (uguale a quello del componente)
-
             this.cmpRef.instance.args = this.componentInfo.args;
             this.subscriptions.push(this.cmpRef.instance.document.eventData.openMessageDialog.subscribe(
                 args => this.openMessageDialog(args)
