@@ -118,6 +118,8 @@ namespace Microarea.AdminServer.Services.Providers
 						command.Parameters.AddWithValue("@Language", account.RegionalSettings);
                         command.Parameters.AddWithValue("@Ticks", account.Ticks);
                         command.Parameters.AddWithValue("@ExpirationDate", account.ExpirationDate);
+						command.Parameters.AddWithValue("@ParentAccount", account.ParentAccount);
+						command.Parameters.AddWithValue("@Confirmed", account.Confirmed);
 
 						command.ExecuteNonQuery();
 					}

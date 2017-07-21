@@ -64,7 +64,7 @@ export class RadarComponent {
         this.dataService.getRadarData(params).subscribe((data) => {
             console.log(data)
 
-            this.radarData = data;
+            this.radarData = data.rows;
         });
     }
 
