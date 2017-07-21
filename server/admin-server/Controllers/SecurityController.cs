@@ -460,10 +460,13 @@ namespace Microarea.AdminServer.Controllers
         {
             string authHeader = JsonConvert.SerializeObject(authInfo);
 
+			string url = String.Format(
+				"{0}accounts/{1}/{2}/{3}", 
+				this.GWAMUrl, accMod.AccountName, accMod.InstanceKey, accMod.Ticks);
+
 			// call GWAM API
 			OperationResult opRes = await _httpHelper.PostDataAsync(
-				this.GWAMUrl + "accounts/" + accMod.AccountName + "/" + accMod.InstanceKey + "/" + accMod.Ticks, 
-				new List<KeyValuePair<string, string>>(), authHeader);
+				url, new List<KeyValuePair<string, string>>(), authHeader);
 
 			if (!opRes.Result)
 			{
