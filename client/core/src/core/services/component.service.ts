@@ -141,19 +141,20 @@ export class ComponentService {
   }
   createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver, args: any = {}) {
     if (!this.currentComponent) {
-     this. currentComponent = new ComponentInfo(); 
+      this.currentComponent = new ComponentInfo();
       this.currentComponent.id = this.utils.generateGUID();
     }
     this.currentComponent.factory = resolver.resolveComponentFactory(component);
     this.currentComponent.args = args;
     if (this.currentComponent.modal) {
-    this.components.some(cmp =>{
-      if (cmp.id == this.currentComponent.parentId){
-        cmp.document.eventData.openDynamicDialog.emit(this.currentComponent);
-        return true;
-      }
-      return false;
-    });
+      this.components.some(cmp => {
+        if (cmp.id == this.currentComponent.parentId) {
+          this.activateComponent = false;
+          cmp.document.eventData.openDynamicDialog.emit(this.currentComponent);
+          return true;
+        }
+        return false;
+      });
     }
     else {
       this.addComponent(this.currentComponent);

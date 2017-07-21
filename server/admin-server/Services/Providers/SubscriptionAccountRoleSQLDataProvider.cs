@@ -22,18 +22,18 @@ namespace Microarea.AdminServer.Services.Providers
         //---------------------------------------------------------------------
         public bool Delete(IAdminModel iModel)
         {
-            ISubscriptionAccountRole role;
+            IAccountRoles role;
 
             try
             {
-                role = (ISubscriptionAccountRole)iModel;
+                role = (IAccountRoles)iModel;
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(Queries.DeleteSubscriptionAccountRole, connection))
                     {
                         command.Parameters.AddWithValue("@RoleId", role.RoleId);
-                        command.Parameters.AddWithValue("@SubscriptionKey", role.SubscriptionKey);
+                        command.Parameters.AddWithValue("@EntityKey", role.EntityKey);
                         command.Parameters.AddWithValue("@AccountName", role.AccountName);
                         command.ExecuteNonQuery();
                     }
@@ -51,18 +51,18 @@ namespace Microarea.AdminServer.Services.Providers
         //---------------------------------------------------------------------
         public IAdminModel Load(IAdminModel iModel)
         {
-            ISubscriptionAccountRole sar;
+            IAccountRoles sar;
 
             try
             {
-                sar = (ISubscriptionAccountRole)iModel;
+                sar = (IAccountRoles)iModel;
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(Queries.SelectSubscriptionAccountRole, connection))
                     {
                         command.Parameters.AddWithValue("@RoleId", sar.RoleId);
-                        command.Parameters.AddWithValue("@SubscriptionKey", sar.SubscriptionKey);
+                        command.Parameters.AddWithValue("@EntityKey", sar.EntityKey);
                         command.Parameters.AddWithValue("@AccountName", sar.AccountName);
                         using (SqlDataReader dataReader = command.ExecuteReader())
                         {
@@ -92,12 +92,12 @@ namespace Microarea.AdminServer.Services.Providers
         //---------------------------------------------------------------------
         public OperationResult Save(IAdminModel iModel)
         {
-            ISubscriptionAccountRole sar;
+            IAccountRoles sar;
             OperationResult opRes = new OperationResult();
 
             try
             {
-                sar = (ISubscriptionAccountRole)iModel;
+                sar = (IAccountRoles)iModel;
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
@@ -106,7 +106,7 @@ namespace Microarea.AdminServer.Services.Providers
                     using (SqlCommand command = new SqlCommand(Queries.ExistSubscriptionAccountRole, connection))
                     {
                         command.Parameters.AddWithValue("@RoleId", sar.RoleId);
-                        command.Parameters.AddWithValue("@SubscriptionKey", sar.SubscriptionKey);
+                        command.Parameters.AddWithValue("@EntityKey", sar.EntityKey);
                         command.Parameters.AddWithValue("@AccountName", sar.AccountName);
                         existSar = (int)command.ExecuteScalar() > 0;
                     }
@@ -123,7 +123,7 @@ namespace Microarea.AdminServer.Services.Providers
                         command.CommandText = Queries.InsertSubscriptionAccountRole;
                         
                         command.Parameters.AddWithValue("@RoleId", sar.RoleId);
-                        command.Parameters.AddWithValue("@SubscriptionKey", sar.SubscriptionKey);
+                        command.Parameters.AddWithValue("@EntityKey", sar.EntityKey);
                         command.Parameters.AddWithValue("@AccountName", sar.AccountName);
                         command.ExecuteNonQuery();
                     }

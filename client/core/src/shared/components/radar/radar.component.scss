@@ -22,8 +22,7 @@ tb-radar {
     font-size: 13px;
 }
 
-.radar-grid .k-grid th,
-.k-grid td {
+.radar-grid.k-grid td {
     padding: 2px 5px;
     font-size: 12px;
     white-space: nowrap;
@@ -41,4 +40,10 @@ tb-radar {
     border-width: 1px 0 0;
     border-color: #e3e3e3;
     font-size: 12px;
+}
+
+.radar-grid.k-grid tr.k-state-selected,
+.radar-grid.k-grid td.k-state-selected {
+    color: #fff;
+    background-color: #0277bd;
 }

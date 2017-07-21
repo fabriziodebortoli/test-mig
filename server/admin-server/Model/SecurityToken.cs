@@ -4,6 +4,7 @@ using System;
 
 namespace Microarea.AdminServer.Model
 {
+    //=========================================================================
     public class SecurityToken : ISecurityToken
     {
         string accountName = String.Empty;

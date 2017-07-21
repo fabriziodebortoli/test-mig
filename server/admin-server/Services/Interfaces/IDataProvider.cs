@@ -15,6 +15,7 @@ namespace Microarea.AdminServer.Services
 
 		// database-dependent values
 		DateTime MinDateTimeValue { get; }
+
     }
 
 	//================================================================================
@@ -45,4 +46,5 @@ namespace Microarea.AdminServer.Services
 		List<ISubscription> GetSubscriptions(string instanceKey);
 		List<ISubscription> GetSubscriptionsByAccount(string accountName, string instanceKey);
 	}
+
 }
