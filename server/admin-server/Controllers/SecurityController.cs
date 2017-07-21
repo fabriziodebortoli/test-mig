@@ -87,30 +87,23 @@ namespace Microarea.AdminServer.Controllers
 						return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
 					}
 
-                    // Used as a container for the GWAM response.
-                    AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
-                    accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
+					OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
 
-                    if (accountIdentityPack == null)
-                    {
-                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error,Strings.UnknownError);
-                    }
+					if (!opGWAMRes.Result)
+					{
+						return SetErrorResponse(bootstrapTokenContainer, (int)opGWAMRes.Code, Strings.GwamDislikes + opGWAMRes.Message);
+					}
 
-                    // Se sul gwam corrisponde... 
-                    if (accountIdentityPack.Result) 
-                    {
-						// Se non fosse ExistsOnDB vuol dire che il tick corrisponde, non suona bene ma è così, forse dovrebbe tornare un codice da valutare.
-						if (accountIdentityPack.Account.ExistsOnDB)
-						{
-							// Salvo l'Account in locale.
-							account = accountIdentityPack.Account;
-							account.Save();
-						}
-                    }
-                    else
-                    {
-                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, accountIdentityPack.Message);         
-                    }
+					bool accountIsUpdated = opGWAMRes.Code == 6;
+
+					if (!accountIsUpdated)
+					{
+						AccountIdentityPack accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(opGWAMRes.Content.ToString());
+						account = accountIdentityPack.Account;
+						account.SetDataProvider(_accountSqlDataProvider);
+						// @@TODO: it would be better to log if Save couldn't execute correctly
+						account.Save();
+					}
 
                     // Verifica credenziali su db.
                     LoginReturnCodes res = LoginBaseClass.VerifyCredential(account, credentials.Password);
