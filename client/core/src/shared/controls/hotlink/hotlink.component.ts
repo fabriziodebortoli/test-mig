@@ -1,5 +1,6 @@
+import { EnumsService } from './../../../core/services/enums.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, Type } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 
 import { HttpService } from './../../../core/services/http.service';
@@ -19,7 +20,7 @@ export class HotlinkComponent extends ControlComponent {
   public isReport: boolean = false;
   public data: any;
   public selectionTypes: any[] = [];
-  public selectionType: string = 'code';
+  public selectionType: string = 'Code';
   // private skipBlurFlag: boolean = false;
 
   showTable: boolean = false;
@@ -28,7 +29,8 @@ export class HotlinkComponent extends ControlComponent {
   multiSelectedValues: any[] = [];
 
   constructor(private httpService: HttpService,
-    protected layoutService: LayoutService
+    protected layoutService: LayoutService,
+    protected enumService: EnumsService
   ) {
     super(layoutService);
   }
@@ -150,7 +152,16 @@ export class HotlinkComponent extends ControlComponent {
   }
 
   // ---------------------------------------------------------------------------------------
-  getValue(dataItem) {
+  getValue(dataItem: string, column) {
+    if (column.type === 'Enum') {
+      let res = this.enumService.getEnumsItem(dataItem);
+      if (res)
+        return res.name;
+      return dataItem;
+    }
+    else if (column.Type === 'Boolean') {
+      return dataItem? 'Yes': 'No';
+    }
     return dataItem;
   }
 

@@ -1,12 +1,10 @@
 <div class="radar-container" [@shrinkOut]="state">
-    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-        <input ngModel name="query" id="query" required placeholder="Query">
-        <button kendoButton (click)="getData()">GO</button>
-    </form>
-    <hr>
+    <h5>Radar
+        <m4-icon class="radar-close" icon="tb-closewindows" (click)="toggle()"></m4-icon>
+    </h5>
 
-    <kendo-grid [data]="radarData">
-        <ng-template ngFor [ngForOf]="columns" let-column>
+    <kendo-grid [data]="radarData" [sortable]="true" [pageable]="true" class="radar-grid" [scrollable]="true" [height]="200">
+        <ng-template ngFor [ngForOf]="radarColumns" let-column>
             <kendo-grid-column field="{{column}}">
                 <ng-template kendoGridHeaderTemplate let-dataItem> {{dataItem.field}} </ng-template>
             </kendo-grid-column>

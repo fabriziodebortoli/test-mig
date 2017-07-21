@@ -709,6 +709,11 @@ namespace Microarea.Common.Generic
             return s;
         }
 
+        public static string ToJson(this Guid g, string name = null, bool bracket = false)
+        {
+            return g.ToString().ToJson(name, bracket, false, true);
+        }
+
         public static string ToJson(this bool b, string name = null, bool bracket = false)
         {
             return b.ToString().ToLower().ToJson(name, bracket, false, false);
@@ -905,6 +910,11 @@ namespace Microarea.Common.Generic
                 {
                     ulong i = (ulong)o;
                     return i.ToJson(name, bracket);
+                }
+                if (o is Guid)
+                {
+                    Guid g = (Guid)o;
+                    return g.ToJson(name, bracket);
                 }
             }
             catch (Exception ex)

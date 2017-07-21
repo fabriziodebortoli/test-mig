@@ -121,7 +121,7 @@ namespace DataService.Controllers
 
             Datasource ds = new Datasource(ui);
 
-            if (!ds.PrepareRadarAsync(HttpContext.Request.Query).Result)
+            if (!ds.PrepareRadarAsync(HttpContext.Request).Result)
                 return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
 
             string records;

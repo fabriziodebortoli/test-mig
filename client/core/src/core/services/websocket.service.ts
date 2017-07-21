@@ -182,7 +182,10 @@ export class WebSocketService {
         const data = { cmd: 'doCommand', cmpId: cmpId, id: id, model: modelData };
         this.safeSend(data);
     }
-
+    doClose(cmpId: String, modelData?: any): void {
+        const data = { cmd: 'doClose', cmpId: cmpId, model: modelData };
+        this.safeSend(data);
+    }
     doValueChanged(cmpId: String, id: String, modelData?: any): void {
         const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
         this.safeSend(data);

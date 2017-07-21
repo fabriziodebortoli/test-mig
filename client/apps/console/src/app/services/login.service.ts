@@ -60,10 +60,7 @@ export class LoginService {
             authInfo.SetSubscriptions(parsedToken.Subscriptions);
             authInfo.SetServerUrls(parsedToken.Urls);
             authInfo.SetTokens(parsedToken.UserTokens);
-
-            //@@TODO: attrezzare il back-end per passare anche l'AppId e il SecurityValue dell'istanza corrente
-            // da utilizzare per generare un AuthenticationHeader valido per il GWAM
-            authInfo.SetSecurityValues('I-M4', 'ju23ff-KOPP-0911-ila');
+            authInfo.SetSecurityValues(parsedToken.AppSecurity);
 
             //@@TODO gestione ruoli: nel token deve essere passato anche un array di ruoli
             // che andremo a copiare dentro il ns oggetto locale authInfo nel localstorage

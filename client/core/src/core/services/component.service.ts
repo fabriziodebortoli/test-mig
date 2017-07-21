@@ -140,7 +140,8 @@ export class ComponentService {
       });
   }
   createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver, args: any = {}) {
-    if (!this.currentComponent.id) {
+    if (!this.currentComponent) {
+     this. currentComponent = new ComponentInfo(); 
       this.currentComponent.id = this.utils.generateGUID();
     }
     this.currentComponent.factory = resolver.resolveComponentFactory(component);
