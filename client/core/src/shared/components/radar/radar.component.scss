@@ -24,12 +24,21 @@ tb-radar {
 
 .radar-grid .k-grid th,
 .k-grid td {
+    padding: 2px 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.radar-grid .k-grid-header .k-header>.k-link {
     padding: 5px;
+    font-weight: bold;
 }
 
 .radar-grid .k-grid-pager {
     padding: 0px;
     border-width: 1px 0 0;
     border-color: #e3e3e3;
-    font-size: 13px;
+    font-size: 12px;
 }
