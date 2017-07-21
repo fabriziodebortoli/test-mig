@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent, SelectionEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
 
 import { Logger } from './../../../core/services/logger.service';
@@ -65,6 +65,11 @@ export class RadarComponent {
     protected sortChange(sort: SortDescriptor[]): void {
         this.sort = sort;
         this.load();
+    }
+
+    protected selectionChange(event: SelectionEvent) {
+        console.log('index', event.index)
+        console.log('selected', event.selected)
     }
 
     private load(): void {
