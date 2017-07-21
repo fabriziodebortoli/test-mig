@@ -43,5 +43,20 @@ namespace Microarea.AdminServer.Model
         {
             return this.dataProvider.Query(qi);
         }
+
+       
+    }
+
+    //================================================================================
+    public static class RolesStrings
+    {
+        public static string CloudAdmin = "CloudAdmin";
+        public static string ProvisioningAdmin = "ProvisioningAdmin";
+        public static string AccountManager = "AccountManager";
+        public static string DbManager = "DbManager";
+        public static string TestDatabaseUser = "TestDatabaseUser";
+        public static string NextInstanceUser = "NextInstanceUser";
+        public static string PreviousInstanceUser = "PreviousInstanceUser";
+        public static string WebSiteAdmin = "WebSiteAdmin";
     }
 }

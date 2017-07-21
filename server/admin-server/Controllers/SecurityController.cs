@@ -27,6 +27,7 @@ namespace Microarea.AdminServer.Controllers
         IDataProvider _urlsSQLDataProvider;
         IDataProvider _instanceSqlDataProvider;
         IDataProvider _subscriptionSQLDataProvider;
+        IDataProvider _roleSQLDataProvider;
         IJsonHelper _jsonHelper;
         IHttpHelper _httpHelper;
         string GWAMUrl;
@@ -336,24 +337,23 @@ namespace Microarea.AdminServer.Controllers
         {
             if (account == null)
                 return false;
-            bool isadmin = true;//todo ilaria
-            ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account, isadmin);
+            ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account);
 
 			if (tokens == null || tokens.Length == 0)
                 return false;
 
             bootstrapToken.AccountName = account.AccountName;
-            //bootstrapToken.ProvisioningAdmin = true; //todo ruoli ilaria account.ProvisioningAdmin;
-            //bootstrapToken.CloudAdmin = true; //todo ruoli ilaria account.CloudAdmin;
             bootstrapToken.UserTokens = tokens;
             bootstrapToken.RegionalSettings = account.RegionalSettings;
             bootstrapToken.Language = account.Language;
-
-			bootstrapToken.Instances = GetInstances(account.AccountName);
+            //bootstrapToken.Roles = GetRoles(account.AccountName);
+            bootstrapToken.Instances = GetInstances(account.AccountName);
 			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
             bootstrapToken.Urls = GetUrlsForThisInstance();
             return true;
         }
+
+      
 
         //----------------------------------------------------------------------
         private ISubscription[] GetSubscriptions(string accountName)
@@ -462,16 +462,16 @@ namespace Microarea.AdminServer.Controllers
 		}
 
 		//----------------------------------------------------------------------
-		private SecurityToken[] CreateTokens(IAccount account, bool isAdmin)
+		private SecurityToken[] CreateTokens(IAccount account)
 		{
 			List<SecurityToken> tokenList = new List<SecurityToken>();
 
-			UserTokens tokens = new UserTokens(isAdmin, account.AccountName);
+			UserTokens tokens = new UserTokens(account.IsAdmin(), account.AccountName);
 			tokens.Setprovider(_tokenSQLDataProvider);
 
 			if (tokens.Save())
 			{
-				return tokens.GetTokenList(isAdmin, account.AccountName).ToArray();
+				return tokens.GetTokenList(account.IsAdmin(), account.AccountName).ToArray();
 			}
 
 			return tokenList.ToArray();

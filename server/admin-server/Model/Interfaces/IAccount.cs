@@ -28,5 +28,6 @@ namespace Microarea.AdminServer.Model.Interfaces
 		bool Confirmed { get; set; }
 
 		void ResetPasswordExpirationDate();
+        bool IsAdmin();
     }
 }

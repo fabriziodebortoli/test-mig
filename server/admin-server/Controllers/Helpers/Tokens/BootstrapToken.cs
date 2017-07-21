@@ -16,19 +16,20 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 		public ISubscription[] Subscriptions;
 		public IInstance[] Instances;
 		public IServerURL[] Urls;
-        public IRoles[] Roles;
+        public IRoles[] Roles;// valutare se avere solo array di stringhe?
 
         //--------------------------------------------------------------------------------
         public BootstrapToken()
 		{
 			this.AccountName = String.Empty;
-            this.Roles = new Roles[] { };
 			this.Language = String.Empty;
 			this.RegionalSettings = String.Empty;
 			this.UserTokens = new SecurityToken[] { };
 			this.Instances = new Instance[] { };
 			this.Subscriptions = new Subscription[] { };
-			this.Urls = new ServerURL[] { }; 
+			this.Urls = new ServerURL[] { };
+            this.Roles = new Roles[] { };
 		}
-	}
+    
+    }
 }

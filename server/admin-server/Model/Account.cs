@@ -107,5 +107,12 @@ namespace Microarea.AdminServer.Model
         {
             passwordExpirationDate = DateTime.Now.AddDays(passwordDuration);
         }
+
+        //---------------------------------------------------------------------
+        public bool IsAdmin()
+        {
+            return true; //todo ilaria ruoli
+        }
+
     }
 }

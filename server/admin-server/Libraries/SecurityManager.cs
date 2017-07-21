@@ -68,7 +68,7 @@ namespace Microarea.AdminServer.Library
 
             // token verification passed, so we can assume this token is valid
 
-            if(true)//(isCloudAdmin) Todo ilaria ruoli
+            if(isCloudAdmin) 
 			{
 			//	if (!bootstrapToken.CloudAdmin)
 				{
@@ -78,18 +78,11 @@ namespace Microarea.AdminServer.Library
 					return opRes;
 				}
 			}
-            if (true)//(isProvisioningAdmin) Todo ilaria ruoli
-			{
-				//if (!bootstrapToken.ProvisioningAdmin)
-				{
-					opRes.Result = false;
-					opRes.Code = (int)TokenReturnCodes.MissingProvisioningAdminRole;
-					opRes.Message = Strings.MissingRole;
-					return opRes;
-				}
-			}
+            if (isProvisioningAdmin)
+            { //todo serve specificare su quale entity
+            }
 
-			opRes.Result = true;
+            opRes.Result = true;
 			opRes.Code = (int)TokenReturnCodes.Valid;
 			opRes.Message = Strings.ValidToken;
 			opRes.Content = bootstrapToken;
