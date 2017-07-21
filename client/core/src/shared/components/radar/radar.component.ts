@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
 
 import { Logger } from './../../../core/services/logger.service';
 import { DataService } from './../../../core/services/data.service';
@@ -27,7 +28,7 @@ export class RadarComponent {
     public state: string = 'closed';
     private pageSize: number = 7;
     private skip: number = 0;
-
+    private sort: SortDescriptor[] = [];
     private gridView: GridDataResult;
     public radarData: any[];
     public radarColumns: string[] = [];
@@ -52,18 +53,23 @@ export class RadarComponent {
             console.log(data)
 
             this.radarData = data.rows;
-            this.loadItems();
+            this.load();
         });
     }
 
     protected pageChange(event: PageChangeEvent): void {
         this.skip = event.skip;
-        this.loadItems();
+        this.load();
     }
 
-    private loadItems(): void {
+    protected sortChange(sort: SortDescriptor[]): void {
+        this.sort = sort;
+        this.load();
+    }
+
+    private load(): void {
         this.gridView = {
-            data: this.radarData.slice(this.skip, this.skip + this.pageSize),
+            data: orderBy(this.radarData.slice(this.skip, this.skip + this.pageSize), this.sort),
             total: this.radarData.length
         };
     }
