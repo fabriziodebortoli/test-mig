@@ -10,6 +10,8 @@ namespace Microarea.AdminServer.Model
         string roleName;
         int roleId;
         string description;
+        int parentRoleId;
+        string level;
         bool disabled;
         bool existsOnDB;
         IDataProvider dataProvider;
@@ -19,6 +21,8 @@ namespace Microarea.AdminServer.Model
         public string Description { get => description; set => description = value; }
         public bool Disabled { get => disabled; set => disabled = value; }
         public bool ExistsOnDB { get => existsOnDB; set => existsOnDB = value; }
+        public int ParentRoleId { get => parentRoleId; set => parentRoleId = value; }
+        public string Level { get => level; set => level = value; }
 
         //---------------------------------------------------------------------
         public void SetDataProvider(IDataProvider dataProvider)

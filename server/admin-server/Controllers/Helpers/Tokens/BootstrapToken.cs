@@ -13,9 +13,10 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 
 		// the nested object needs a property to deserialize it
 		public AppSecurityInfo AppSecurity { get; set; }
+        public bool IsCloudAdmin { get;  set; }
 
-		// use arrays instead of list because you can't use JsonConvert.DeserializeObject with interface
-		public ISecurityToken[] UserTokens;
+        // use arrays instead of list because you can't use JsonConvert.DeserializeObject with interface
+        public ISecurityToken[] UserTokens;
 		public ISubscription[] Subscriptions;
 		public IInstance[] Instances;
 		public IServerURL[] Urls;
@@ -28,7 +29,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 			this.Language = String.Empty;
 			this.RegionalSettings = String.Empty;
 			this.AppSecurity = new AppSecurityInfo();
-
+            this.IsCloudAdmin = false;
 			this.UserTokens = new SecurityToken[] { };
 			this.Instances = new Instance[] { };
 			this.Subscriptions = new Subscription[] { };

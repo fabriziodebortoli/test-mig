@@ -350,7 +350,7 @@ namespace Microarea.AdminServer.Controllers
             bootstrapToken.Instances = GetInstances(account.AccountName);
 			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
             bootstrapToken.Urls = GetUrlsForThisInstance();
-
+            bootstrapToken.IsCloudAdmin = account.IsAdmin();
 			AuthorizationInfo ai = GetAuthorizationInfo();
 			bootstrapToken.AppSecurity = new AppSecurityInfo(ai.AppId, ai.SecurityValue);
 

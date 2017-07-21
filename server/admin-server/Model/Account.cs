@@ -112,19 +112,19 @@ namespace Microarea.AdminServer.Model
         }
 
         //---------------------------------------------------------------------
-        public List<IRole> GetRoles(string entityKey = null)
+        public List<IAccountRoles> GetRoles(string entityKey = null)
         {
             string query = String.IsNullOrEmpty(entityKey) ?
                     String.Format(
-                        "SELECT * FROM mp_roles WHERE AccountName = '{0}' ",
+                        "SELECT * FROM mp_accountroles WHERE AccountName = '{0}' ",
                         accountName)
                         :
                     String.Format(
-                        "SELECT * FROM mp_roles WHERE AccountName = '{0}'  AND entityKey = '{1}'",
+                        "SELECT * FROM mp_accountroles WHERE AccountName = '{0}'  AND entityKey = '{1}'",
                         accountName,
                         entityKey);
-            BurgerData burgerData = new BurgerData(((AccountSQLDataProvider)dataProvider).connectionString);
-           return   burgerData.GetList<Role, IRole>(///todo sbag per far compilareliato
+           BurgerData burgerData = new BurgerData(((AccountSQLDataProvider)dataProvider).connectionString);
+           return   burgerData.GetList<AccountRoles, IAccountRoles>(//todo manca ancora fetch dell'oggetto!!
                 query,
                ModelTables.Roles);
 
@@ -133,18 +133,12 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public bool IsAdmin()
         {
-            List<IRole>  list = GetRoles();
-            foreach (AccountRole ar in list)
-                if (ar.name == RolesStrings.CloudAdmin) return true;
+            List<IAccountRoles>  list = GetRoles();
+            foreach (AccountRoles ar in list)
+                if (ar.EntityKey == RolesStrings.CloudAdmin) return true;
             return false;
 
         }
 
-        //================================================================================
-        public class AccountRole {
-            public string name;
-            public string entitikey;
-
-        }
     }
 }

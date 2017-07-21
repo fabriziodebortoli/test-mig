@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 namespace Microarea.AdminServer.Model.Interfaces
 {
     //================================================================================
-    public interface ISubscriptionAccountRole : IAdminModel
+    public interface IAccountRoles : IAdminModel
     {
         string AccountName { get; set; }
         int RoleId { get; set; }
-        string SubscriptionKey { get; set; }
+        string EntityKey { get; set; }
 
     }
 }
