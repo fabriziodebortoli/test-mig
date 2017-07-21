@@ -80,7 +80,8 @@ namespace Microarea.AdminServer.Controllers
 				if (account.ExistsOnDB)
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), GetAuthorizationInfo());
+                    Task<string> responseData = await VerifyAccountModificationGWAM(
+						new AccountModification(account.AccountName, _settings.InstanceIdentity.InstanceKey, account.Ticks), GetAuthorizationInfo());
 
 					// GWAM call could not end correctly: so we check the object
 					if (responseData.Status == TaskStatus.Faulted)
@@ -217,7 +218,8 @@ namespace Microarea.AdminServer.Controllers
                 if (account.ExistsOnDB)
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), GetAuthorizationInfo());
+                    Task<string> responseData = await VerifyAccountModificationGWAM(
+						new AccountModification(account.AccountName, _settings.InstanceIdentity.InstanceKey, account.Ticks), GetAuthorizationInfo());
 
                     // Used as a container for the GWAM response.
                     AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
@@ -460,7 +462,7 @@ namespace Microarea.AdminServer.Controllers
 
 			// call GWAM API
 			OperationResult opRes = await _httpHelper.PostDataAsync(
-				this.GWAMUrl + "accounts/" + accMod.AccountName + "/" + accMod.Ticks, 
+				this.GWAMUrl + "accounts/" + accMod.AccountName + "/" + accMod.InstanceKey + "/" + accMod.Ticks, 
 				new List<KeyValuePair<string, string>>(), authHeader);
 
 			if (!opRes.Result)
