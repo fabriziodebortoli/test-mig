@@ -141,11 +141,17 @@ namespace Microarea.AdminServer.Controllers
 						return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
 					}
 
-					// Used as a container for the GWAM response.
-					AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
-                    accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
+					OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
 
-                    if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
+					if (!opGWAMRes.Result)
+					{
+						return SetErrorResponse(bootstrapTokenContainer, (int)opGWAMRes.Code, Strings.GwamDislikes + opGWAMRes.Message);
+					}
+
+					// @@TODO: optimization?
+					AccountIdentityPack accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(opGWAMRes.Content.ToString());
+
+					if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.UnknownAccountName, Strings.GwamDislikes + accountIdentityPack.Message);
                     }
@@ -156,14 +162,19 @@ namespace Microarea.AdminServer.Controllers
                         // Salvo anche l'associazione con le  subscription e  tutti gli URLs.
                         account = accountIdentityPack.Account;
                         account.SetDataProvider(_accountSqlDataProvider);
-                        account.Save();
+                        OperationResult result = account.Save();
 
-                        OperationResult subOpRes = SaveSubscriptions(accountIdentityPack);
+						if (!result.Result)
+						{
+							return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
+						}
+
+						result = SaveSubscriptions(accountIdentityPack);
 
                         // Fallisce a salvare le subscription associate e  interrompo la login, corretto?
-                        if (!subOpRes.Result)
+                        if (!result.Result)
                         {
-                            return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, subOpRes.Message);
+                            return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
                         }
                         // Verifica credenziali.
                         LoginReturnCodes res = LoginBaseClass.VerifyCredential(account, credentials.Password);
