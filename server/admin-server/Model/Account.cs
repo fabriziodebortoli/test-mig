@@ -2,6 +2,9 @@
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Library;
+using Microarea.AdminServer.Services.BurgerData;
+using Microarea.AdminServer.Services.Providers;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Model
 {
@@ -109,10 +112,39 @@ namespace Microarea.AdminServer.Model
         }
 
         //---------------------------------------------------------------------
-        public bool IsAdmin()
+        public List<IRole> GetRoles(string entityKey = null)
         {
-            return true; //todo ilaria ruoli
+            string query = String.IsNullOrEmpty(entityKey) ?
+                    String.Format(
+                        "SELECT * FROM mp_roles WHERE AccountName = '{0}' ",
+                        accountName)
+                        :
+                    String.Format(
+                        "SELECT * FROM mp_roles WHERE AccountName = '{0}'  AND entityKey = '{1}'",
+                        accountName,
+                        entityKey);
+            BurgerData burgerData = new BurgerData(((AccountSQLDataProvider)dataProvider).connectionString);
+           return   burgerData.GetList<Role, IRole>(///todo sbag per far compilareliato
+                query,
+               ModelTables.Roles);
+
         }
 
+        //---------------------------------------------------------------------
+        public bool IsAdmin()
+        {
+            List<IRole>  list = GetRoles();
+            foreach (AccountRole ar in list)
+                if (ar.name == RolesStrings.CloudAdmin) return true;
+            return false;
+
+        }
+
+        //================================================================================
+        public class AccountRole {
+            public string name;
+            public string entitikey;
+
+        }
     }
 }

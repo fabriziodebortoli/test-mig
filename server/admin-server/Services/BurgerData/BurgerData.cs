@@ -148,7 +148,9 @@ namespace Microarea.AdminServer.Services.BurgerData
 			{
 				case ModelTables.Accounts:
 					return "MP_Accounts";
-				default:
+                case ModelTables.Roles:
+                    return "MP_Roles";
+                default:
 					return String.Empty;
 			}
 		}
@@ -688,6 +690,6 @@ namespace Microarea.AdminServer.Services.BurgerData
 	{
 		None,
 		Accounts,
-		Subscriptions
+		Subscriptions, Roles
 	}
 }

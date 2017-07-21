@@ -5,7 +5,7 @@ using System;
 namespace Microarea.AdminServer.Model
 {
     //================================================================================
-    public class Roles : IRoles
+    public class Role : IRole
     {
         string roleName;
         int roleId;

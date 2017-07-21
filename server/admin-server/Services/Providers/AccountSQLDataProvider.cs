@@ -10,7 +10,7 @@ namespace Microarea.AdminServer.Services.Providers
     //================================================================================
     public class AccountSQLDataProvider : IAccountDataProvider
 	{
-        string connectionString;
+       public  string connectionString;
 
 		//---------------------------------------------------------------------
 		public AccountSQLDataProvider(string connString)

@@ -339,7 +339,6 @@ namespace Microarea.AdminServer.Controllers
                 return false;
             ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account);
 
-			ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account, isadmin);
 			if (tokens == null || tokens.Length == 0)
                 return false;
 
