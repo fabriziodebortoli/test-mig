@@ -1,26 +1,13 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
+import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+
 import { Logger } from './../../../core/services/logger.service';
 import { DataService } from './../../../core/services/data.service';
 
 import { URLSearchParams } from '@angular/http';
 import { NgForm } from "@angular/forms";
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
-
-export const sampleProducts = [
-    { "ProductID": 1, "ProductName": "Chai", "QuantityPerUnit": "10 boxes x 20 bags", },
-    { "ProductID": 2, "ProductName": "Chang", "QuantityPerUnit": "24 - 12 oz bottles", },
-    { "ProductID": 3, "ProductName": "Aniseed Syrup", "QuantityPerUnit": "12 - 550 ml bottles", },
-    { "ProductID": 1, "ProductName": "Chai", "QuantityPerUnit": "10 boxes x 20 bags", },
-    { "ProductID": 2, "ProductName": "Chang", "QuantityPerUnit": "24 - 12 oz bottles", },
-    { "ProductID": 3, "ProductName": "Aniseed Syrup", "QuantityPerUnit": "12 - 550 ml bottles", },
-    { "ProductID": 1, "ProductName": "Chai", "QuantityPerUnit": "10 boxes x 20 bags", },
-    { "ProductID": 2, "ProductName": "Chang", "QuantityPerUnit": "24 - 12 oz bottles", },
-    { "ProductID": 3, "ProductName": "Aniseed Syrup", "QuantityPerUnit": "12 - 550 ml bottles", },
-    { "ProductID": 1, "ProductName": "Chai", "QuantityPerUnit": "10 boxes x 20 bags", },
-    { "ProductID": 2, "ProductName": "Chang", "QuantityPerUnit": "24 - 12 oz bottles", },
-    { "ProductID": 3, "ProductName": "Aniseed Syrup", "QuantityPerUnit": "12 - 550 ml bottles", }
-];
 
 @Component({
     selector: 'tb-radar',
@@ -38,12 +25,12 @@ export const sampleProducts = [
 export class RadarComponent {
 
     public state: string = 'closed';
+    private pageSize: number = 7;
+    private skip: number = 0;
 
-    public radarData: any[] = sampleProducts;
-
-    public radarColumns: string[] = [
-        "ProductID", "ProductName", "QuantityPerUnit"
-    ];
+    private gridView: GridDataResult;
+    public radarData: any[];
+    public radarColumns: string[] = [];
 
     constructor(private dataService: DataService, private logger: Logger) { }
 
@@ -65,7 +52,20 @@ export class RadarComponent {
             console.log(data)
 
             this.radarData = data.rows;
+            this.loadItems();
         });
+    }
+
+    protected pageChange(event: PageChangeEvent): void {
+        this.skip = event.skip;
+        this.loadItems();
+    }
+
+    private loadItems(): void {
+        this.gridView = {
+            data: this.radarData.slice(this.skip, this.skip + this.pageSize),
+            total: this.radarData.length
+        };
     }
 
 }
