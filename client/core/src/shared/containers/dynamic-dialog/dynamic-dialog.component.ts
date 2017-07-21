@@ -37,5 +37,8 @@ export class DynamicDialogComponent implements OnDestroy {
     close() {
         this.webSocketService.doClose(this.componentInfo.id);
     }
-    
+
+    ngOnDestroy(): void {
+        throw new Error("Method not implemented.");
+    }
 }
