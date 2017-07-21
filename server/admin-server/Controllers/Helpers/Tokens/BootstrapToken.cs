@@ -20,7 +20,7 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 		public ISubscription[] Subscriptions;
 		public IInstance[] Instances;
 		public IServerURL[] Urls;
-     
+        public IAccountRoles[] Roles;
 
         //--------------------------------------------------------------------------------
         public BootstrapToken()
@@ -34,7 +34,8 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 			this.Instances = new Instance[] { };
 			this.Subscriptions = new Subscription[] { };
 			this.Urls = new ServerURL[] { };
-		}
+            this.Roles = new AccountRoles[] { };
+        }
     
     }
 }

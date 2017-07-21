@@ -112,7 +112,7 @@ namespace Microarea.AdminServer.Model
         }
 
         //---------------------------------------------------------------------
-        public List<IAccountRoles> GetRoles(string entityKey = null)
+        public IAccountRoles[] GetRoles(string entityKey = null)
         {
             string query = String.IsNullOrEmpty(entityKey) ?
                     String.Format(
@@ -124,16 +124,17 @@ namespace Microarea.AdminServer.Model
                         accountName,
                         entityKey);
            BurgerData burgerData = new BurgerData(((AccountSQLDataProvider)dataProvider).connectionString);
-           return   burgerData.GetList<AccountRoles, IAccountRoles>(//todo manca ancora fetch dell'oggetto!!
+           List<IAccountRoles> l =  burgerData.GetList<AccountRoles, IAccountRoles>(//todo manca ancora fetch dell'oggetto!!
                 query,
                ModelTables.Roles);
+            return l.ToArray();
 
         }
 
         //---------------------------------------------------------------------
         public bool IsAdmin()
         {
-            List<IAccountRoles>  list = GetRoles();
+           IAccountRoles[] list = GetRoles();
             foreach (AccountRoles ar in list)
                 if (ar.EntityKey == RolesStrings.CloudAdmin) return true;
             return false;
