@@ -267,4 +267,7 @@
   <data name="UnknownAccount" xml:space="preserve">
     <value>Unknown account</value>
   </data>
+  <data name="NoInstancesAvailable" xml:space="preserve">
+    <value>No Instances Available</value>
+  </data>
 </root>
