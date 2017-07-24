@@ -158,7 +158,14 @@ namespace Microarea.Common.Hotlink
                     SymField field = null;
                     if (!symbolTable.Contains(ct.columnName))
                     {
-                        field = new SymField(ct.dataType, ct.columnName);
+                        string t = ct.dataType;
+                        int idx = t.IndexOf('[');
+                        if (idx > -1)
+                        {
+                            t = t.Left(idx);
+                        }
+
+                        field = new SymField(t, ct.columnName);
                         symbolTable.Add(field);
                     }
                     else field = symbolTable.Find(ct.columnName) as SymField;
