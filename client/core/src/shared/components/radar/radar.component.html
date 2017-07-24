@@ -3,10 +3,12 @@
         <m4-icon class="radar-close" icon="tb-closewindows" (click)="toggle()"></m4-icon>
     </h5>
 
-    <kendo-grid [data]="gridView" [pageSize]="pageSize" [skip]="skip" [pageable]="true" [height]="206" (pageChange)="pageChange($event)" [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)" class="radar-grid" [selectable]="true" (selectionChange)="selectionChange($event)">
+    <!--todoluca, localizzare nomi colonne se già non localizzate-->
+    <kendo-grid [data]="gridView" [pageSize]="pageSize" [skip]="skip" [pageable]="true" [height]="206" (pageChange)="pageChange($event)"
+        [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)" class="radar-grid" [selectable]="true" (selectionChange)="selectionChange($event)">
         <ng-template ngFor [ngForOf]="radarColumns" let-column>
-            <kendo-grid-column field="{{column}}">
-                <ng-template kendoGridHeaderTemplate let-dataItem> {{dataItem.field}} </ng-template>
+            <kendo-grid-column field="{{column}}" title="{{column}}" width="120">
+                <ng-template kendoGridHeaderTemplate let-dataItem> {{dataItem.field}} </ng-template> <!--(dblclick)="onRowDoubleClick($event, rowIndex)"-->
             </kendo-grid-column>
         </ng-template>
     </kendo-grid>

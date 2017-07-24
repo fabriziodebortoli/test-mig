@@ -191,6 +191,11 @@ export class WebSocketService {
         this.safeSend(data);
     }
 
+    browseRecord(cmpId: String, tbGuid: string): void {
+        const data = { cmd: 'browseRecord', cmpId: cmpId, tbGuid: tbGuid };
+        this.safeSend(data);
+    }
+
     getRadarInfos(cmpId: String) {
         const data = { cmd: 'getRadarInfos', cmpId: cmpId };
         this.safeSend(data);
