@@ -1,3 +1,5 @@
+import { EnumsService } from './../../../core/services/enums.service';
+import { EventDataService } from './../../../core/services/eventdata.service';
 import { Component, ViewEncapsulation } from '@angular/core';
 
 import { GridDataResult, PageChangeEvent, SelectionEvent } from '@progress/kendo-angular-grid';
@@ -31,9 +33,15 @@ export class RadarComponent {
     private sort: SortDescriptor[] = [];
     private gridView: GridDataResult;
     public radarData: any[];
-    public radarColumns: string[] = [];
+    public columnInfos: any[] = [];
 
-    constructor(private dataService: DataService, private logger: Logger) { }
+    constructor(
+        private dataService: DataService,
+        private logger: Logger,
+        private eventData: EventDataService,
+        private enumsService: EnumsService) {
+
+    }
 
     toggle() {
         this.state = this.state === 'opened' ? 'closed' : 'opened';
@@ -41,8 +49,9 @@ export class RadarComponent {
 
     init(radarInfo) {
         this.toggle(); if (this.state === 'closed') return;
+        /*dataType*/
 
-        this.radarColumns = radarInfo.columnInfos.map(c => c.columnName);
+        this.columnInfos = radarInfo.columnInfos
 
         let params: URLSearchParams = new URLSearchParams();
         params.set('query', radarInfo.query);
@@ -50,8 +59,6 @@ export class RadarComponent {
 
         this.logger.info('radar', params);
         this.dataService.getRadarData(params).subscribe((data) => {
-            console.log(data)
-
             this.radarData = data.rows;
             this.load();
         });
@@ -68,11 +75,16 @@ export class RadarComponent {
     }
 
     protected selectionChange(event: SelectionEvent) {
-        console.log('index', event.index)
-        console.log('selected', event.selected)
-
         if (event.selected) {
             console.log('rowSelected:', this.radarData[event.index]);
+            this.onRadarRecordSelected(this.radarData[event.index]);
+        }
+    }
+
+    protected onRowDoubleClick(event: SelectionEvent) {
+        if (event.selected) {
+            console.log('rowDoubleClick:', this.radarData[event.index]);
+            this.onRadarRecordSelected(this.radarData[event.index]);
         }
     }
 
@@ -83,4 +95,15 @@ export class RadarComponent {
         };
     }
 
+    onRadarRecordSelected(row: any) {
+        let tbGuid = row["TBGuid"];
+        this.eventData.radarRecordSelected.emit(tbGuid);
+    }
+
+    //TODOLUCA....caching...non chiamare tutte le volte la tabella di enumerativi
+    getEnumValue(dataItem: any, column: any): string {
+        let value = dataItem[column.columnName];
+        let tag = column.enumTag;
+        return this.enumsService.getItemFromTagAndValue(tag, value).name;
+    }
 }

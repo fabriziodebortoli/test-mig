@@ -66,10 +66,13 @@ namespace Microarea.AdminServer.Controllers.Helpers
                     return Strings.WrongRecoveryCode;
 				case 25:
 					return Strings.UnknownAccount;
-                default:
+				case 26:
+					return Strings.NoInstancesAvailable;
+				case 27:
+					return Strings.UnknownModelName;
+				default:
 					return Strings.UnknownError;
 			}
-
 		}
     }
 }

@@ -296,6 +296,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Instances Available.
+        /// </summary>
+        public static string NoInstancesAvailable {
+            get {
+                return ResourceManager.GetString("NoInstancesAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to load the model {0}..
         /// </summary>
         public static string NoModelLoaded {
