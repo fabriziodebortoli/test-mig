@@ -107,6 +107,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parameters are empty..
+        /// </summary>
+        public static string EmptyParameters {
+            get {
+                return ResourceManager.GetString("EmptyParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Empty Subscriptions.
         /// </summary>
         public static string EmptySubscriptions {
