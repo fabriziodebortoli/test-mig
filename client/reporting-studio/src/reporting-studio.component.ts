@@ -5,13 +5,13 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType } from './models';
+import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType, SvgType, PngType } from './models';
 import { DocumentComponent } from '@taskbuilder/core';
 import { ComponentService } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
 import { ReportingStudioService } from './reporting-studio.service';
 
-import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF, exportImage, exportSVG, } from '@progress/kendo-drawing';
+import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF} from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
 
 @Component({
@@ -37,6 +37,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   //Export excel
   public data: any[];
+
+  public curPageNum: number;
 
   constructor(
     private rsService: ReportingStudioService,
@@ -69,6 +71,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     this.rsService.eventNextPage.subscribe(() => this.NextPage());
     this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
+    this.rsService.eventCurrentPage.subscribe(() => this.CurrentPage());
   }
 
   // -----------------------------------------------
@@ -143,6 +146,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.rsService.showAsk = false;
           this.reportData = k;
           this.data = k;
+          this.curPageNum = k.page.page_number;
           break;
         case CommandType.RUNREPORT:
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
@@ -156,6 +160,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.WRONG:
           break;
         case CommandType.EXPORTEXCEL:
+          this.rsService.getExcelData(this.args.nameSpace);
           break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
@@ -265,35 +270,33 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
+  CurrentPage() {
+    let message = {
+      commandType: CommandType.TEMPLATE,
+      message: this.args.nameSpace,
+      page: this.curPageNum
+    };
+
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
   //--------------------------------------------------
   public startSavePDF() {
-    this.rsService.pdfState = PdfType.SAVINGPDF;
+    this.rsService.pdfState = PdfType.PDF;
     this.FirstPage();
   }
 
   //--------------------------------------------------
-  exportPNG() {
-    drawDOM(document.getElementById('rsLayout'))
-      .then((group: Group) => {
-        return exportImage(group);
-      })
-      .then((dataUri) => {
-        saveAs(dataUri, this.rsService.titleReport + '.png');
-
-      })
-
+  public startSaveSVG() {
+    this.rsService.svgState = SvgType.SVG;
+    this.CurrentPage();
   }
 
   //--------------------------------------------------
-  exportSVG() {
-    drawDOM(document.getElementById('rsLayout'))
-      .then((group: Group) => {
-        return exportSVG(group);
-      })
-      .then((dataUri) => {
-        saveAs(dataUri, this.rsService.titleReport + '.svg');
-
-      })
+  public startSavePNG() {
+    this.rsService.pngState = PngType.PNG;
+    this.CurrentPage();
   }
 
   //--------------------------------------------------
@@ -306,10 +309,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     this.rsService.doSend(JSON.stringify(message));
   }
-
 }
-
-
 
 
 @Component({
