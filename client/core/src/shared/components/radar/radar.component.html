@@ -6,9 +6,25 @@
     <!--todoluca, localizzare nomi colonne se già non localizzate-->
     <kendo-grid [data]="gridView" [pageSize]="pageSize" [skip]="skip" [pageable]="true" [height]="206" (pageChange)="pageChange($event)"
         [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)" class="radar-grid" [selectable]="true" (selectionChange)="selectionChange($event)">
-        <ng-template ngFor [ngForOf]="radarColumns" let-column>
-            <kendo-grid-column field="{{column}}" title="{{column}}" width="120">
-                <ng-template kendoGridHeaderTemplate let-dataItem> {{dataItem.field}} </ng-template> <!--(dblclick)="onRowDoubleClick($event, rowIndex)"-->
+        <ng-template ngFor [ngForOf]="columnInfos" let-column>
+            <kendo-grid-column [ngSwitch]="column.dataType" field="{{column.columnName}}" title="{{column.columnName}}" width="120">
+
+                <ng-template *ngSwitchCase="'String'" kendoGridCellTemplate let-dataItem>
+                    {{dataItem[column.columnName]}}
+                </ng-template>
+
+                <ng-template *ngSwitchCase="'Bool'" kendoGridCellTemplate let-dataItem>
+                    <input type="checkbox" [checked]="dataItem[column.columnName]" disabled/>
+                </ng-template>
+
+                <ng-template *ngSwitchCase="'Date'" kendoGridCellTemplate let-dataItem>
+                    {{dataItem[column.columnName]}}
+                </ng-template>
+
+                <ng-template *ngSwitchCase="'Enum'" kendoGridCellTemplate let-dataItem>
+                    {{getEnumValue(dataItem, column)}}
+                </ng-template>
+
             </kendo-grid-column>
         </ng-template>
     </kendo-grid>

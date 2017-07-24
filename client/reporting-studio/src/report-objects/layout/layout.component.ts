@@ -1,6 +1,6 @@
 import { LayoutService } from '@taskbuilder/core';
 import { ReportingStudioService } from './../../reporting-studio.service';
-import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, PdfType } from './../../models';
+import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, PdfType, SvgType, PngType } from './../../models';
 import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 
@@ -53,8 +53,14 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       }
       else {
         this.UpdateData();
-        if (this.rsService.pdfState == PdfType.SAVINGPDF) {
+        if (this.rsService.pdfState == PdfType.PDF) {
           this.createPDF();
+        }
+        if(this.rsService.svgState == SvgType.SVG){
+          this.rsService.exportSVG();
+        }
+        if(this.rsService.pngState == PngType.PNG){
+          this.rsService.exportPNG();
         }
       }
     }
@@ -207,7 +213,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       'margin': '5px auto',
       'position': 'relative',
     }
-    if (this.rsService.pdfState == PdfType.NOPDF) {
+    if (this.rsService.pdfState == PdfType.NOPDF || this.rsService.svgState == SvgType.NOSVG || this.rsService.pngState == PngType.NOPNG) {
       this.layoutBackStyle = {
         'width': '100%',
         'height': this.viewHeight - 65 + 'px',
@@ -216,7 +222,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       }
     }
 
-    if (this.rsService.pdfState == PdfType.SAVINGPDF) {
+    if (this.rsService.pdfState == PdfType.PDF || this.rsService.svgState == SvgType.SVG || this.rsService.pngState == PngType.PNG) {
       this.layoutBackStyle = {
         'overflow': 'hidden'
       }
