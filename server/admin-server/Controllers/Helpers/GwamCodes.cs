@@ -68,6 +68,8 @@ namespace Microarea.AdminServer.Controllers.Helpers
 					return Strings.UnknownAccount;
 				case 26:
 					return Strings.NoInstancesAvailable;
+				case 27:
+					return Strings.UnknownModelName;
 				default:
 					return Strings.UnknownError;
 			}
