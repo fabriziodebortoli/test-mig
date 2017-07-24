@@ -23,11 +23,11 @@ namespace Microarea.AdminServer.Services.Providers
         //---------------------------------------------------------------------
         public IAdminModel Load(IAdminModel iModel)
         {
-            IRoles role;
+            IRole role;
 
             try
             {
-                role = (IRoles)iModel;
+                role = (IRole)iModel;
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
@@ -59,11 +59,11 @@ namespace Microarea.AdminServer.Services.Providers
         //---------------------------------------------------------------------
         public bool Delete(IAdminModel iModel)
         {
-            IRoles role;
+            IRole role;
 
             try
             {
-                role = (IRoles)iModel;
+                role = (IRole)iModel;
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
@@ -89,7 +89,7 @@ namespace Microarea.AdminServer.Services.Providers
 
             OperationResult opRes = new OperationResult();
 
-            List<IRoles> list = new List<IRoles>();
+            List<IRole> list = new List<IRole>();
 
             string selectQuery = "SELECT * FROM MP_Roles WHERE ";
 
@@ -118,7 +118,7 @@ namespace Microarea.AdminServer.Services.Providers
                         {
                             while (dataReader.Read())
                             {
-                                IRoles role = new Roles();
+                                IRole role = new Role();
                                 role.RoleName= dataReader["RoleName"] as string;
                                 role.Description = dataReader["Description"] as string;
                                 role.Disabled = (bool)dataReader["Disabled"];
@@ -144,12 +144,12 @@ namespace Microarea.AdminServer.Services.Providers
         //---------------------------------------------------------------------
         public OperationResult Save(IAdminModel iModel)
         {
-            IRoles role;
+            IRole role;
             OperationResult opRes = new OperationResult();
 
             try
             {
-                role = (IRoles)iModel;
+                role = (IRole)iModel;
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();

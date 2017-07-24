@@ -264,4 +264,13 @@
   <data name="WrongRecoveryCode" xml:space="preserve">
     <value>Recovery Code is wrong.</value>
   </data>
+  <data name="UnknownAccount" xml:space="preserve">
+    <value>Unknown account</value>
+  </data>
+  <data name="NoInstancesAvailable" xml:space="preserve">
+    <value>No Instances Available</value>
+  </data>
+  <data name="EmptyParameters" xml:space="preserve">
+    <value>Parameters are empty.</value>
+  </data>
 </root>

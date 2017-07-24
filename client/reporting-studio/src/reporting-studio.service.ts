@@ -6,15 +6,18 @@ import { Subject } from 'rxjs/Subject';
 
 import { EventDataService } from '@taskbuilder/core';
 import { DocumentService } from '@taskbuilder/core';
-import { CommandType, PdfType } from './models';
+import { CommandType, PdfType, SvgType, PngType } from './models';
 
-import { drawDOM, exportPDF, DrawOptions, Group } from '@progress/kendo-drawing';
+import { drawDOM, exportPDF, DrawOptions, Group, exportImage, exportSVG } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
 import { Subscription } from "rxjs/Subscription";
+import { Observable } from 'rxjs/Rx';
+
 
 
 @Injectable()
 export class ReportingStudioService extends DocumentService {
+    [x: string]: any;
     public pageNum: number = 1;
     public running: boolean = false;
     public showAsk = false;
@@ -24,10 +27,13 @@ export class ReportingStudioService extends DocumentService {
 
     @Output() eventNextPage = new EventEmitter<void>();
     @Output() eventFirstPage = new EventEmitter<void>();
+    @Output() eventCurrentPage = new EventEmitter<void>();
 
     public savingPdf: boolean = false;
     public totalPages: number;
     public pdfState: PdfType = PdfType.NOPDF;
+    public svgState: SvgType = SvgType.NOSVG;
+    public pngState: PngType = PngType.NOPNG;
     public filePdf = new Group();
     public titleReport: string;
 
@@ -69,6 +75,7 @@ export class ReportingStudioService extends DocumentService {
         }, 100);
     }
 
+    //--------------------------------------------------
     doSendSync(message): boolean {
         this.waitForConnection(() => {
             this.websocket.send(message);
@@ -78,6 +85,7 @@ export class ReportingStudioService extends DocumentService {
         return false;
     }
 
+    //--------------------------------------------------
     waitForConnection(callback, interval) {
         if (this.websocket.readyState === 1) {
             callback();
@@ -89,14 +97,17 @@ export class ReportingStudioService extends DocumentService {
         }
     };
 
+    //--------------------------------------------------
     writeToScreen(message) {
         console.log(message);
     }
 
+    //--------------------------------------------------
     closeConnection() {
         this.websocket.close();
     }
 
+    //--------------------------------------------------
     close() {
         super.close();
         this.cmpService.removeComponentById(this.mainCmpId);
@@ -104,11 +115,13 @@ export class ReportingStudioService extends DocumentService {
 
     }
 
+    //--------------------------------------------------
     reset() {
         this.pageNum = 1;
         this.showAsk = false;
     }
 
+    //--------------------------------------------------
     public async appendPDF() {
         await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
@@ -116,6 +129,7 @@ export class ReportingStudioService extends DocumentService {
             })
     }
 
+    //--------------------------------------------------
     public renderPDF() {
         drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
@@ -128,8 +142,39 @@ export class ReportingStudioService extends DocumentService {
                 saveAs(dataUri, this.titleReport + '.pdf');
                 this.pdfState = PdfType.NOPDF;
             }).then(() => this.eventFirstPage.emit());
+    }
+
+    //--------------------------------------------------
+    public async exportPNG() {
+        await drawDOM(document.getElementById('rsLayout'))
+            .then((group: Group) => {
+                return exportImage(group);
+            })
+            .then((dataUri) => {
+                saveAs(dataUri, this.titleReport + '.png');
+                this.pngState = PngType.NOPNG;
+            }).then(() => this.eventCurrentPage.emit());
 
     }
 
+    //--------------------------------------------------
+    public async exportSVG() {
+        await drawDOM(document.getElementById('rsLayout'))
+            .then((group: Group) => {
+                return exportSVG(group);
+            })
+            .then((dataUri) => {
+                saveAs(dataUri, this.titleReport + '.svg');
+                this.svgState = SvgType.NOSVG;
+            }).then(() => this.eventCurrentPage.emit());
+    }
 
+    //--------------------------------------------------
+    getExcelData(namespace: string): Observable<any> {
+        return this.http.get(this.getDataServiceUrl() + 'file/')
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
 }

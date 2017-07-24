@@ -1,4 +1,9 @@
+import { EnumsService } from './../../../core/services/enums.service';
+import { EventDataService } from './../../../core/services/eventdata.service';
 import { Component, ViewEncapsulation } from '@angular/core';
+
+import { GridDataResult, PageChangeEvent, SelectionEvent } from '@progress/kendo-angular-grid';
+import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
 
 import { Logger } from './../../../core/services/logger.service';
 import { DataService } from './../../../core/services/data.service';
@@ -6,21 +11,6 @@ import { DataService } from './../../../core/services/data.service';
 import { URLSearchParams } from '@angular/http';
 import { NgForm } from "@angular/forms";
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
-
-export const sampleProducts = [
-    { "ProductID": 1, "ProductName": "Chai", "QuantityPerUnit": "10 boxes x 20 bags", },
-    { "ProductID": 2, "ProductName": "Chang", "QuantityPerUnit": "24 - 12 oz bottles", },
-    { "ProductID": 3, "ProductName": "Aniseed Syrup", "QuantityPerUnit": "12 - 550 ml bottles", },
-    { "ProductID": 1, "ProductName": "Chai", "QuantityPerUnit": "10 boxes x 20 bags", },
-    { "ProductID": 2, "ProductName": "Chang", "QuantityPerUnit": "24 - 12 oz bottles", },
-    { "ProductID": 3, "ProductName": "Aniseed Syrup", "QuantityPerUnit": "12 - 550 ml bottles", },
-    { "ProductID": 1, "ProductName": "Chai", "QuantityPerUnit": "10 boxes x 20 bags", },
-    { "ProductID": 2, "ProductName": "Chang", "QuantityPerUnit": "24 - 12 oz bottles", },
-    { "ProductID": 3, "ProductName": "Aniseed Syrup", "QuantityPerUnit": "12 - 550 ml bottles", },
-    { "ProductID": 1, "ProductName": "Chai", "QuantityPerUnit": "10 boxes x 20 bags", },
-    { "ProductID": 2, "ProductName": "Chang", "QuantityPerUnit": "24 - 12 oz bottles", },
-    { "ProductID": 3, "ProductName": "Aniseed Syrup", "QuantityPerUnit": "12 - 550 ml bottles", }
-];
 
 @Component({
     selector: 'tb-radar',
@@ -38,14 +28,20 @@ export const sampleProducts = [
 export class RadarComponent {
 
     public state: string = 'closed';
+    private pageSize: number = 7;
+    private skip: number = 0;
+    private sort: SortDescriptor[] = [];
+    private gridView: GridDataResult;
+    public radarData: any[];
+    public columnInfos: any[] = [];
 
-    public radarData: any[] = sampleProducts;
+    constructor(
+        private dataService: DataService,
+        private logger: Logger,
+        private eventData: EventDataService,
+        private enumsService: EnumsService) {
 
-    public radarColumns: string[] = [
-        "ProductID", "ProductName", "QuantityPerUnit"
-    ];
-
-    constructor(private dataService: DataService, private logger: Logger) { }
+    }
 
     toggle() {
         this.state = this.state === 'opened' ? 'closed' : 'opened';
@@ -53,8 +49,9 @@ export class RadarComponent {
 
     init(radarInfo) {
         this.toggle(); if (this.state === 'closed') return;
+        /*dataType*/
 
-        this.radarColumns = radarInfo.columnInfos.map(c => c.columnName);
+        this.columnInfos = radarInfo.columnInfos
 
         let params: URLSearchParams = new URLSearchParams();
         params.set('query', radarInfo.query);
@@ -62,10 +59,51 @@ export class RadarComponent {
 
         this.logger.info('radar', params);
         this.dataService.getRadarData(params).subscribe((data) => {
-            console.log(data)
-
-            this.radarData = data;
+            this.radarData = data.rows;
+            this.load();
         });
     }
 
+    protected pageChange(event: PageChangeEvent): void {
+        this.skip = event.skip;
+        this.load();
+    }
+
+    protected sortChange(sort: SortDescriptor[]): void {
+        this.sort = sort;
+        this.load();
+    }
+
+    protected selectionChange(event: SelectionEvent) {
+        if (event.selected) {
+            console.log('rowSelected:', this.radarData[event.index]);
+            this.onRadarRecordSelected(this.radarData[event.index]);
+        }
+    }
+
+    protected onRowDoubleClick(event: SelectionEvent) {
+        if (event.selected) {
+            console.log('rowDoubleClick:', this.radarData[event.index]);
+            this.onRadarRecordSelected(this.radarData[event.index]);
+        }
+    }
+
+    private load(): void {
+        this.gridView = {
+            data: orderBy(this.radarData.slice(this.skip, this.skip + this.pageSize), this.sort),
+            total: this.radarData.length
+        };
+    }
+
+    onRadarRecordSelected(row: any) {
+        let tbGuid = row["TBGuid"];
+        this.eventData.radarRecordSelected.emit(tbGuid);
+    }
+
+    //TODOLUCA....caching...non chiamare tutte le volte la tabella di enumerativi
+    getEnumValue(dataItem: any, column: any): string {
+        let value = dataItem[column.columnName];
+        let tag = column.enumTag;
+        return this.enumsService.getItemFromTagAndValue(tag, value).name;
+    }
 }

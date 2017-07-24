@@ -13,14 +13,15 @@ namespace Microarea.AdminServer.Controllers.Helpers
     public class AccountModification
     {
         public string AccountName;
+		public string InstanceKey;
         public long Ticks;
         //-----------------------------------------------------------------------------	
-        public AccountModification(string accountName, long ticks)
+        public AccountModification(string accountName, string instanceKey, long ticks)
         {
             this.AccountName = accountName;
+			this.InstanceKey = instanceKey;
             this.Ticks = ticks;
         }
-
     }
 
     //================================================================================

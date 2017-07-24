@@ -508,7 +508,7 @@ namespace Microarea.Common.CoreTypes
 				case "Int32":		d = (object)((int)0);			break;
 				case "Int16":		d = (object)((short)0);			break;
 				case "Int64":		d = (object)((long)0);			break;
-				case "Guid":		d = (object)(new Guid(""));		break;
+				case "Guid":		d = (object)(new Guid());		break;
 				case "DataArray":	
 //				case "Array":	
 					((DataArray) d).Clear();		break;

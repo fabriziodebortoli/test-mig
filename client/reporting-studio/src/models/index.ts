@@ -20,7 +20,7 @@ export { label } from './label.model';
 export { LinkType } from './link-type.model';
 export { link } from './link.model';
 export { Message } from './message.model';
-export { PdfType } from './pdf-type.model';
+export { PdfType, SvgType, PngType} from './export-type.model';
 export { radio } from './radio.model';
 export { rect } from './rect.model';
 export { repeater } from './repeater.model';

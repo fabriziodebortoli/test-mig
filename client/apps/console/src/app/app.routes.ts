@@ -31,5 +31,11 @@ export const routes: Routes = [
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
     component: AccountComponent
+  },
+  { 
+    path: 'logout', 
+    canActivate: [AuthGuardService],
+    canActivateChild: [AuthGuardService],
+    component: AppHomeComponent
   }
 ];

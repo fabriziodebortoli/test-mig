@@ -9,6 +9,19 @@ export class AuthGuardService implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+
+    if (state.url == '/logout') {
+      if (localStorage.length == 0) {
+        alert('You are already not logged!');
+        return;
+      }
+
+      localStorage.removeItem('auth-info');
+      this.router.navigateByUrl('/appHome');
+      alert('You are now logged out');
+      return;
+    }
+
     try {
       let authorizationStored = localStorage.getItem('auth-info');
 
@@ -18,7 +31,7 @@ export class AuthGuardService implements CanActivate {
         let authorizationInfo: AuthorizationInfo = new AuthorizationInfo(
           authorizationProperties.jwtEncoded,
           authorizationProperties.accountName);
-      
+
         authorizationInfo.authorizationProperties = authorizationProperties;
 
         if (!authorizationInfo.HasRole(RoleNames.ProvisioningAdmin)) {
@@ -29,18 +42,17 @@ export class AuthGuardService implements CanActivate {
         return true;
       }
     }
-    catch (exc)
-    {
+    catch (exc) {
       alert('An exception occurred ' + exc);
-      return false;      
+      return false;
     }
 
     // not logged in so redirect to login page with the return url and return false
-    this.router.navigate(['/loginComponent'], { queryParams : { returnUrl : state.url }});
+    this.router.navigate(['/loginComponent'], { queryParams: { returnUrl: state.url } });
     return false;
   }
 
   canActivateChild() {
     return false;
-  }  
+  }
 }

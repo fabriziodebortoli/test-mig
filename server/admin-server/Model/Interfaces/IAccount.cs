@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Model.Interfaces
 {
@@ -28,5 +29,7 @@ namespace Microarea.AdminServer.Model.Interfaces
 		bool Confirmed { get; set; }
 
 		void ResetPasswordExpirationDate();
+        bool IsAdmin();
+        IAccountRoles[] GetRoles(string entityKey=null);
     }
 }

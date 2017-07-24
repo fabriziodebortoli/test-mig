@@ -2,11 +2,15 @@
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Library;
+using Microarea.AdminServer.Services.BurgerData;
+using Microarea.AdminServer.Services.Providers;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Microarea.AdminServer.Model
 {
     //================================================================================
-    public class Account : IAccount
+    public class Account : IAccount, IModelObject
     {
 		// model attributes
         string accountName;
@@ -61,8 +65,42 @@ namespace Microarea.AdminServer.Model
         {
 		}
 
-		//---------------------------------------------------------------------
-		public Account(string accountName)
+        //--------------------------------------------------------------------------------
+        public IModelObject Fetch(IDataReader dataReader)
+        {
+            Account account = new Account();
+            account.AccountName = dataReader["AccountName"] as string;
+            account.FullName = dataReader["FullName"] as string;
+            account.Notes = dataReader["Notes"] as string;
+            account.Email = dataReader["Email"] as string;
+            account.Password = dataReader["Password"] as string;
+            account.LoginFailedCount = (int)dataReader["LoginFailedCount"];
+            account.PasswordNeverExpires = (bool)dataReader["PasswordNeverExpires"];
+            account.MustChangePassword = (bool)dataReader["MustChangePassword"];
+            account.CannotChangePassword = (bool)dataReader["CannotChangePassword"];
+            account.PasswordExpirationDate = (DateTime)dataReader["PasswordExpirationDate"];
+            account.PasswordDuration = (int)dataReader["PasswordDuration"];
+            account.IsWindowsAuthentication = (bool)dataReader["WindowsAuthentication"];
+            account.Disabled = (bool)dataReader["Disabled"];
+            account.Locked = (bool)dataReader["Locked"];
+            account.Language = dataReader["Language"] as string;
+            account.RegionalSettings = dataReader["RegionalSettings"] as string;
+            account.Ticks = (long)dataReader["Ticks"];
+            account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
+            account.ParentAccount = dataReader["ParentAccount"] as string;
+            account.Confirmed = (bool)dataReader["Confirmed"];
+            account.existsOnDB = true;
+            return account;
+        }
+
+        //--------------------------------------------------------------------------------
+        public string GetKey()
+        {
+            return String.Concat(" ( Account = '", this.accountName, "' ) ");
+        }
+
+        //---------------------------------------------------------------------
+        public Account(string accountName)
         {
             this.accountName = accountName;
         }
@@ -107,5 +145,36 @@ namespace Microarea.AdminServer.Model
         {
             passwordExpirationDate = DateTime.Now.AddDays(passwordDuration);
         }
+
+        //---------------------------------------------------------------------
+        public IAccountRoles[] GetRoles(string entityKey = null)
+        {
+            string query = String.IsNullOrEmpty(entityKey) ?
+                    String.Format(
+                        "SELECT * FROM mp_accountroles WHERE AccountName = '{0}' ",
+                        accountName)
+                        :
+                    String.Format(
+                        "SELECT * FROM mp_accountroles WHERE AccountName = '{0}'  AND entityKey = '{1}'",
+                        accountName,
+                        entityKey);
+           BurgerData burgerData = new BurgerData(((AccountSQLDataProvider)dataProvider).connectionString);
+           List<IAccountRoles> l =  burgerData.GetList<AccountRoles, IAccountRoles>(//todo manca ancora fetch dell'oggetto!!
+                query,
+               ModelTables.Roles);
+            return l.ToArray();
+
+        }
+
+        //---------------------------------------------------------------------
+        public bool IsAdmin()
+        {
+           IAccountRoles[] list = GetRoles();
+            foreach (AccountRoles ar in list)
+                if (ar.EntityKey == RolesStrings.CloudAdmin) return true;
+            return false;
+
+        }
+
     }
 }

@@ -142,7 +142,7 @@ namespace Microarea.AdminServer.Controllers
 
 			// check AuthorizationHeader first
 
-			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey, isProvisioningAdmin: true);
+			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey/*, isProvisioningAdmin: true*/);
 
 			if (!opRes.Result)
 			{
@@ -205,7 +205,7 @@ namespace Microarea.AdminServer.Controllers
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 			
 			// check AuthorizationHeader first
-			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey, isCloudAdmin: false, isProvisioningAdmin: true);
+			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey, isCloudAdmin: false/*, isProvisioningAdmin: true*/);
 
 			if (!opRes.Result)
 			{
@@ -257,7 +257,7 @@ namespace Microarea.AdminServer.Controllers
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 
 			// check AuthorizationHeader first
-			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey, isCloudAdmin: true, isProvisioningAdmin: true);
+			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey, isCloudAdmin: true/*, isProvisioningAdmin: true*/);
 
 			if (!opRes.Result)
 			{
@@ -298,7 +298,7 @@ namespace Microarea.AdminServer.Controllers
 
 			// check AuthorizationHeader first
 
-			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey, isProvisioningAdmin: true);
+			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey/*, isProvisioningAdmin: true*/);
 
 			if (!opRes.Result)
 			{
