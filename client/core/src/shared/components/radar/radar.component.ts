@@ -1,3 +1,4 @@
+import { EventDataService } from './../../../core/services/eventdata.service';
 import { Component, ViewEncapsulation } from '@angular/core';
 
 import { GridDataResult, PageChangeEvent, SelectionEvent } from '@progress/kendo-angular-grid';
@@ -33,7 +34,7 @@ export class RadarComponent {
     public radarData: any[];
     public radarColumns: string[] = [];
 
-    constructor(private dataService: DataService, private logger: Logger) { }
+    constructor(private dataService: DataService, private logger: Logger, private eventData: EventDataService) { }
 
     toggle() {
         this.state = this.state === 'opened' ? 'closed' : 'opened';
@@ -68,11 +69,16 @@ export class RadarComponent {
     }
 
     protected selectionChange(event: SelectionEvent) {
-        console.log('index', event.index)
-        console.log('selected', event.selected)
-
         if (event.selected) {
             console.log('rowSelected:', this.radarData[event.index]);
+            this.onRadarRecordSelected(this.radarData[event.index]);
+        }
+    }
+
+    protected onRowDoubleClick(event: SelectionEvent) {
+        if (event.selected) {
+            console.log('rowDoubleClick:', this.radarData[event.index]);
+            this.onRadarRecordSelected(this.radarData[event.index]);
         }
     }
 
@@ -83,4 +89,8 @@ export class RadarComponent {
         };
     }
 
+    onRadarRecordSelected(row: any) {
+        let tbGuid = row["TBGuid"];
+        this.eventData.radarRecordSelected.emit(tbGuid);
+    }
 }

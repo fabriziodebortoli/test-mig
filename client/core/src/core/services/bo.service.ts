@@ -97,6 +97,11 @@ export class BOService extends DocumentService {
                 this.eventData.openDiagnosticDialog.emit(args);
             }
         }));
+
+        this.subscriptions.push(this.eventData.radarRecordSelected.subscribe((tbGuid: string) => {
+            this.webSocketService.browseRecord(this.mainCmpId, tbGuid);
+        }));
+
         this.subscriptions.push(this.eventData.change.subscribe((cmpId: string) => {
             const ret = this.onChange(cmpId);
             if (ret === true) {
@@ -144,7 +149,6 @@ export class BOService extends DocumentService {
                 this.eventData.radarInfos.emit(data.response.radarInfo);
             }
         }));
-
     }
     getPatchedData(): any {
         const patch = diff(this.eventData.oldModel, this.eventData.model);

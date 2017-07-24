@@ -12,6 +12,7 @@ export class EventDataService {
     public openDropdown: EventEmitter<any> = new EventEmitter();
 
     public radarInfos: EventEmitter<MessageDlgArgs> = new EventEmitter();
+    public radarRecordSelected: EventEmitter<any> = new EventEmitter();
 
     public openMessageDialog: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public openDiagnosticDialog: EventEmitter<DiagnosticData> = new EventEmitter();
