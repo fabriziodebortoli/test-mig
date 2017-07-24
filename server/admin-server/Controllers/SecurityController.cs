@@ -27,6 +27,7 @@ namespace Microarea.AdminServer.Controllers
         IDataProvider _urlsSQLDataProvider;
         IDataProvider _instanceSqlDataProvider;
         IDataProvider _subscriptionSQLDataProvider;
+        IDataProvider _roleSQLDataProvider;
         IJsonHelper _jsonHelper;
         IHttpHelper _httpHelper;
         string GWAMUrl;
@@ -79,7 +80,8 @@ namespace Microarea.AdminServer.Controllers
 				if (account.ExistsOnDB)
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), GetAuthorizationInfo());
+                    Task<string> responseData = await VerifyAccountModificationGWAM(
+						new AccountModification(account.AccountName, _settings.InstanceIdentity.InstanceKey, account.Ticks), GetAuthorizationInfo());
 
 					// GWAM call could not end correctly: so we check the object
 					if (responseData.Status == TaskStatus.Faulted)
@@ -87,30 +89,23 @@ namespace Microarea.AdminServer.Controllers
 						return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
 					}
 
-                    // Used as a container for the GWAM response.
-                    AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
-                    accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
+					OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
 
-                    if (accountIdentityPack == null)
-                    {
-                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error,Strings.UnknownError);
-                    }
+					if (!opGWAMRes.Result)
+					{
+						return SetErrorResponse(bootstrapTokenContainer, (int)opGWAMRes.Code, Strings.GwamDislikes + opGWAMRes.Message);
+					}
 
-                    // Se sul gwam corrisponde... 
-                    if (accountIdentityPack.Result) 
-                    {
-						// Se non fosse ExistsOnDB vuol dire che il tick corrisponde, non suona bene ma è così, forse dovrebbe tornare un codice da valutare.
-						if (accountIdentityPack.Account.ExistsOnDB)
-						{
-							// Salvo l'Account in locale.
-							account = accountIdentityPack.Account;
-							account.Save();
-						}
-                    }
-                    else
-                    {
-                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, accountIdentityPack.Message);         
-                    }
+					bool accountIsUpdated = opGWAMRes.Code == 6;
+
+					if (!accountIsUpdated)
+					{
+						AccountIdentityPack accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(opGWAMRes.Content.ToString());
+						account = accountIdentityPack.Account;
+						account.SetDataProvider(_accountSqlDataProvider);
+						// @@TODO: it would be better to log if Save couldn't execute correctly
+						account.Save();
+					}
 
                     // Verifica credenziali su db.
                     LoginReturnCodes res = LoginBaseClass.VerifyCredential(account, credentials.Password);
@@ -140,11 +135,17 @@ namespace Microarea.AdminServer.Controllers
 						return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
 					}
 
-					// Used as a container for the GWAM response.
-					AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
-                    accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
+					OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
 
-                    if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
+					if (!opGWAMRes.Result)
+					{
+						return SetErrorResponse(bootstrapTokenContainer, (int)opGWAMRes.Code, Strings.GwamDislikes + opGWAMRes.Message);
+					}
+
+					// @@TODO: optimization?
+					AccountIdentityPack accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(opGWAMRes.Content.ToString());
+
+					if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.UnknownAccountName, Strings.GwamDislikes + accountIdentityPack.Message);
                     }
@@ -155,14 +156,19 @@ namespace Microarea.AdminServer.Controllers
                         // Salvo anche l'associazione con le  subscription e  tutti gli URLs.
                         account = accountIdentityPack.Account;
                         account.SetDataProvider(_accountSqlDataProvider);
-                        account.Save();
+                        OperationResult result = account.Save();
 
-                        OperationResult subOpRes = SaveSubscriptions(accountIdentityPack);
+						if (!result.Result)
+						{
+							return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
+						}
+
+						result = SaveSubscriptions(accountIdentityPack);
 
                         // Fallisce a salvare le subscription associate e  interrompo la login, corretto?
-                        if (!subOpRes.Result)
+                        if (!result.Result)
                         {
-                            return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, subOpRes.Message);
+                            return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
                         }
                         // Verifica credenziali.
                         LoginReturnCodes res = LoginBaseClass.VerifyCredential(account, credentials.Password);
@@ -212,7 +218,8 @@ namespace Microarea.AdminServer.Controllers
                 if (account.ExistsOnDB)
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), GetAuthorizationInfo());
+                    Task<string> responseData = await VerifyAccountModificationGWAM(
+						new AccountModification(account.AccountName, _settings.InstanceIdentity.InstanceKey, account.Ticks), GetAuthorizationInfo());
 
                     // Used as a container for the GWAM response.
                     AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
@@ -336,29 +343,27 @@ namespace Microarea.AdminServer.Controllers
         {
             if (account == null)
                 return false;
+            ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account);
 
-			bool isadmin = true;//todo ilaria
-
-			ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account, isadmin);
 			if (tokens == null || tokens.Length == 0)
                 return false;
 
             bootstrapToken.AccountName = account.AccountName;
-            //bootstrapToken.ProvisioningAdmin = true; //todo ruoli ilaria account.ProvisioningAdmin;
-            //bootstrapToken.CloudAdmin = true; //todo ruoli ilaria account.CloudAdmin;
             bootstrapToken.UserTokens = tokens;
             bootstrapToken.RegionalSettings = account.RegionalSettings;
             bootstrapToken.Language = account.Language;
-
-			bootstrapToken.Instances = GetInstances(account.AccountName);
+            bootstrapToken.Instances = GetInstances(account.AccountName);
 			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
             bootstrapToken.Urls = GetUrlsForThisInstance();
-
-			AuthorizationInfo ai = GetAuthorizationInfo();
+            bootstrapToken.IsCloudAdmin = account.IsAdmin();
+            bootstrapToken.Roles = account.GetRoles();
+            AuthorizationInfo ai = GetAuthorizationInfo();
 			bootstrapToken.AppSecurity = new AppSecurityInfo(ai.AppId, ai.SecurityValue);
 
 			return true;
         }
+
+      
 
         //----------------------------------------------------------------------
         private ISubscription[] GetSubscriptions(string accountName)
@@ -455,10 +460,13 @@ namespace Microarea.AdminServer.Controllers
         {
             string authHeader = JsonConvert.SerializeObject(authInfo);
 
+			string url = String.Format(
+				"{0}accounts/{1}/{2}/{3}", 
+				this.GWAMUrl, accMod.AccountName, accMod.InstanceKey, accMod.Ticks);
+
 			// call GWAM API
 			OperationResult opRes = await _httpHelper.PostDataAsync(
-				this.GWAMUrl + "accounts/" + accMod.AccountName + "/" + accMod.Ticks, 
-				new List<KeyValuePair<string, string>>(), authHeader);
+				url, new List<KeyValuePair<string, string>>(), authHeader);
 
 			if (!opRes.Result)
 			{
@@ -469,16 +477,16 @@ namespace Microarea.AdminServer.Controllers
 		}
 
 		//----------------------------------------------------------------------
-		private SecurityToken[] CreateTokens(IAccount account, bool isAdmin)
+		private SecurityToken[] CreateTokens(IAccount account)
 		{
 			List<SecurityToken> tokenList = new List<SecurityToken>();
 
-			UserTokens tokens = new UserTokens(isAdmin, account.AccountName);
+			UserTokens tokens = new UserTokens(account.IsAdmin(), account.AccountName);
 			tokens.Setprovider(_tokenSQLDataProvider);
 
 			if (tokens.Save())
 			{
-				return tokens.GetTokenList(isAdmin, account.AccountName).ToArray();
+				return tokens.GetTokenList(account.IsAdmin(), account.AccountName).ToArray();
 			}
 
 			return tokenList.ToArray();

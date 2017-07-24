@@ -2,6 +2,9 @@
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Library;
+using Microarea.AdminServer.Services.BurgerData;
+using Microarea.AdminServer.Services.Providers;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Model
 {
@@ -107,5 +110,36 @@ namespace Microarea.AdminServer.Model
         {
             passwordExpirationDate = DateTime.Now.AddDays(passwordDuration);
         }
+
+        //---------------------------------------------------------------------
+        public IAccountRoles[] GetRoles(string entityKey = null)
+        {
+            string query = String.IsNullOrEmpty(entityKey) ?
+                    String.Format(
+                        "SELECT * FROM mp_accountroles WHERE AccountName = '{0}' ",
+                        accountName)
+                        :
+                    String.Format(
+                        "SELECT * FROM mp_accountroles WHERE AccountName = '{0}'  AND entityKey = '{1}'",
+                        accountName,
+                        entityKey);
+           BurgerData burgerData = new BurgerData(((AccountSQLDataProvider)dataProvider).connectionString);
+           List<IAccountRoles> l =  burgerData.GetList<AccountRoles, IAccountRoles>(//todo manca ancora fetch dell'oggetto!!
+                query,
+               ModelTables.Roles);
+            return l.ToArray();
+
+        }
+
+        //---------------------------------------------------------------------
+        public bool IsAdmin()
+        {
+           IAccountRoles[] list = GetRoles();
+            foreach (AccountRoles ar in list)
+                if (ar.EntityKey == RolesStrings.CloudAdmin) return true;
+            return false;
+
+        }
+
     }
 }

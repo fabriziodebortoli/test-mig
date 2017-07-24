@@ -8,18 +8,18 @@ using Microarea.AdminServer.Services;
 namespace Microarea.AdminServer.Model
 {
     //================================================================================
-    public class SubscriptionAccountRole : ISubscriptionAccountRole
+    public class AccountRoles : IAccountRoles
     {
         string accountName;
         int roleId;
-        string subscriptionKey;
+        string entityKey;
         bool existsOnDB;
         IDataProvider dataProvider;
 
         public bool ExistsOnDB { get => existsOnDB; set => existsOnDB = value; }
         public string AccountName { get => accountName; set => accountName = value; }
         public int RoleId { get => roleId; set => roleId = value; }
-        public string SubscriptionKey { get => subscriptionKey; set => subscriptionKey = value; }
+        public string EntityKey { get => entityKey; set => entityKey = value; }
 
         //---------------------------------------------------------------------
         public void SetDataProvider(IDataProvider dataProvider)
