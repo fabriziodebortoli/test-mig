@@ -1,4 +1,7 @@
+import { ModelService } from '../../services/model.service';
+import { Account } from '../../model/account';
 import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-accounts-home',
@@ -7,11 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountsHomeComponent implements OnInit {
 
-  accounts: Array<string> = new Array<string>('fra','steve','bill');
+  //accounts: Array<Account> = new Array<Account>();
+  accounts: Account[];
 
-  constructor() { }
+  constructor(private modelService: ModelService) { 
+
+  }
 
   ngOnInit() {
+    this.modelService.getAccounts({ parentAccount: 'fricceri@m4.com'})
+      .subscribe(
+        accounts => {
+          this.accounts = accounts['Content'];
+        },
+        err => {
+          alert(err);
+        }
+      )
   }
 
 }

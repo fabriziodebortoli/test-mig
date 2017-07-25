@@ -3,28 +3,15 @@
   <div class="row bottom-xs">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="email" placeholder="Email" value="" [(ngModel)]="model.accountName" required>
+        <input type="email" placeholder="Email" value="" [(ngModel)]="model.AccountName" required>
       </div>
       <div class="box">
-        <input type="password" placeholder="Password" value="" [(ngModel)]="model.password" required>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
-        <label><input type="checkbox" name="cboxPwNeverExpires" value="" [(ngModel)]="model.passwordNeverExpires">Password never expires</label>
-      </div>
-    </div>
-  </div>
-  <br>
-  <div class="row">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
-        <input type="text" placeholder="Full Name" value="" [(ngModel)]="model.fullName">
+        <input type="password" placeholder="Password" value="" [(ngModel)]="model.Password" required>
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <label><input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.provisioningAdmin">Provisioning Administrator</label>
+        <label><input type="checkbox" name="cboxPwNeverExpires" value="" [(ngModel)]="model.PasswordNeverExpires">Password never expires</label>
       </div>
     </div>
   </div>
@@ -32,20 +19,12 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <label><input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.disabled">Disabled</label>
+        <input type="text" placeholder="Full Name" value="" [(ngModel)]="model.FullName">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <label><input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.locked">Locked</label>
-      </div>
-    </div>
-  </div>
-  <br>
-  <div class="row">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
-        <textarea rows="5" cols="36" placeholder="Notes" maxlength="500" [(ngModel)]="model.notes"></textarea>
+        <label><input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.ProvisioningAdmin">Provisioning Administrator</label>
       </div>
     </div>
   </div>
@@ -53,12 +32,33 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Language" value="" [(ngModel)]="model.language">
+        <label><input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.Disabled">Disabled</label>
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Regional Settings" value="" [(ngModel)]="model.regionalSettings">
+        <label><input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.Locked">Locked</label>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <textarea rows="5" cols="36" placeholder="Notes" maxlength="500" [(ngModel)]="model.Notes"></textarea>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="text" placeholder="Language" value="" [(ngModel)]="model.Language">
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="text" placeholder="Regional Settings" value="" [(ngModel)]="model.RegionalSettings">
       </div>
     </div>
   </div>

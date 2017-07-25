@@ -25,7 +25,7 @@ export class AccountComponent implements OnInit {
   }
 
   submitAccount() {
-    if (this.model.accountName == undefined || this.model.password == undefined)
+    if (this.model.AccountName == undefined || this.model.Password == undefined)
     {
       alert('Mandatory fields are empty! Check email/password!');
       return;
@@ -39,7 +39,7 @@ export class AccountComponent implements OnInit {
 
     if (authorizationStored !== null) {
       let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);    
-      this.model.parentAccount = authorizationProperties.accountName;
+      this.model.ParentAccount = authorizationProperties.accountName;
     }
 
     if (!this.editing){
