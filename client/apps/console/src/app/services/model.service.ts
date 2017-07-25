@@ -31,11 +31,11 @@ export class ModelService {
       }
 
       if (authorizationType.toLowerCase() === 'app') {
-        authorizationHeader = '{ "Type": "App", ' + 
-                              '"AppId": "' + authorizationProperties.AppSecurityInfo.AppId + 
-                              '", "SecurityValue": "' + authorizationProperties.AppSecurityInfo.SecurityValue + '"}';
+        authorizationHeader = '{ "Type": "App", ' +
+          '"AppId": "' + authorizationProperties.AppSecurityInfo.AppId +
+          '", "SecurityValue": "' + authorizationProperties.AppSecurityInfo.SecurityValue + '"}';
       }
-      
+
       return authorizationHeader;
     }
 
@@ -77,15 +77,22 @@ export class ModelService {
 
   //--------------------------------------------------------------------------------------------------------
   addCompany(body: Object): Observable<OperationResult> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
 
-    return this.http.post(environment.adminAPIUrl + 'companies', body, options)
-      .map((res: Response) => {
-        console.log(res.json());
-        return res.json();
-      })
-      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    if (authorizationHeader !== '') {
+      let bodyString = JSON.stringify(body);
+      let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+      let options = new RequestOptions({ headers: headers });
+
+      return this.http.post(environment.adminAPIUrl + 'databases', bodyString, options)
+        .map((res: Response) => {
+          console.log(res.json());
+          return res.json();
+        })
+        .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    }
+
+    return Observable.throw('AuthorizationHeader is missing!');
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -103,7 +110,7 @@ export class ModelService {
           console.log(res.json());
           return res.json();
         })
-      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+        .catch((error: any) => Observable.throw(error.json().error || 'server error'));
     }
 
     return Observable.throw('AuthorizationHeader is missing!');
