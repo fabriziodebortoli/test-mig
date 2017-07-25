@@ -4,7 +4,7 @@ import { Account } from '../model/account';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
-import 'rxjs/add/operator/map';
+import 'rxjs/Rx';
 import { Observable } from "rxjs/Observable";
 import { OperationResult } from './operationResult';
 
