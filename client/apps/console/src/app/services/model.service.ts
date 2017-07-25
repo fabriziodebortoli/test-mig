@@ -31,7 +31,6 @@ export class ModelService {
       }
 
       if (authorizationType.toLowerCase() === 'app') {
-                              '"AppId": "' + authorizationProperties.AppSecurityInfo.AppId + 
         authorizationHeader = '{ "Type": "App", ' +
           '"AppId": "' + authorizationProperties.AppSecurityInfo.AppId +
           '", "SecurityValue": "' + authorizationProperties.AppSecurityInfo.SecurityValue + '"}';
