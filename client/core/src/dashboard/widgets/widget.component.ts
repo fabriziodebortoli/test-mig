@@ -15,10 +15,8 @@ export class WidgetComponent implements AfterContentInit {
   ContentHeight: number;
   ContentWidth: number;
   subscriptions = [];
-  isLoading: boolean = false;
 
   constructor(private widgetsService: WidgetsService, private menuService: MenuService) {
-   this.isLoading = true; 
   }
 
   ngAfterContentInit() {
@@ -30,24 +28,7 @@ export class WidgetComponent implements AfterContentInit {
   }
 
   onRefreshClicked() {
-    this.isLoading = true;
-    let thiz = this;
-    let subs = this.widgetsService.refreshContent(this.widget).subscribe(
-      (data) => {
-        this.widget.data = data;
-        setTimeout(function () {
-          thiz.isLoading = false;
-        }, 1);
-        if (subs)
-          subs.unsubscribe();
-      },
-      (err) => {
-        // TODO report error
-        thiz.isLoading = false;
-        if (subs)
-          subs.unsubscribe();
-      }
-    );
+     this.widgetsService.refreshContent(this.widget);
   }
 
   executeLink() {
