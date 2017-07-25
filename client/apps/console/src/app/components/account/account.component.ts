@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { NgForm }    from '@angular/forms';
 import { Account } from './../../model/account';
+import { AuthorizationProperties } from "app/authentication/auth-info";
 
 @Component({
   selector: 'app-account',
@@ -31,6 +32,15 @@ export class AccountComponent implements OnInit {
     }
 
     let accountOperation:Observable<OperationResult>;
+
+    // read parent account information
+
+    let authorizationStored = localStorage.getItem('auth-info');
+
+    if (authorizationStored !== null) {
+      let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);    
+      this.model.parentAccount = authorizationProperties.accountName;
+    }
 
     if (!this.editing){
       accountOperation = this.modelService.addAccount(this.model)
