@@ -63,11 +63,18 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  getAccounts(): Observable<Account[]> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+  getAccounts(body): Observable<Account[]> {
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(environment.adminAPIUrl + 'accounts', options)
+    return this.http.post(environment.gwamAPIUrl + 'query/accounts', bodyString, options)
       .map((res: Response) => {
         console.log(res.json());
         return res.json();
