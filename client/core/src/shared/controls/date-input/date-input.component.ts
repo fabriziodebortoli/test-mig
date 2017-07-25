@@ -30,12 +30,6 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
     this.onUpdateNgModel(val);
   }
 
-  getDisabled() {
-    if (this.model) {
-      return !(this.model.enable ? this.model.enable : this.model.enabled);
-    }
-    return true;
-  }
 
   onBlur() {
     this.eventData.change.emit(this.cmpId);
