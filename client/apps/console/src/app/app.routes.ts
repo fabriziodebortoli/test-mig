@@ -1,3 +1,4 @@
+import {InstanceHomeComponent} from './components/instance/instance-home.component';
 import { AccountComponent } from "app/components/account/account.component";
 import { AppComponent } from 'app/app.component';
 import { AppHomeComponent } from 'app/components/app-home/app-home.component';
@@ -6,6 +7,8 @@ import { CompanyComponent } from "app/components/company/company.component";
 import { LoginComponent } from "app/components/login/login.component";
 import { Routes } from '@angular/router';
 import { SubscriptionHomeComponent } from 'app/components/subscription/subscription-home.component';
+import { AccountsHomeComponent } from "app/components/accounts-home/accounts-home.component";
+import { DatabasesHomeComponent } from "app/components/databases-home/databases-home.component";
 
 export const routes: Routes = [
   { path: '', component: AppComponent },
@@ -15,23 +18,35 @@ export const routes: Routes = [
     component: AppHomeComponent 
   },
   { 
+    path: 'instancesHome',
+    component: InstanceHomeComponent,
+    canActivate: [AuthGuardService],
+    canActivateChild: [AuthGuardService]    
+  },
+  { 
     path: 'subscriptionHome', 
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
-    component: SubscriptionHomeComponent,
+    component: SubscriptionHomeComponent
   },
   { 
-    path: 'company', 
+    path: 'accountsHome', 
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
-    component: CompanyComponent,
+    component: AccountsHomeComponent
+  },
+  { 
+    path: 'databasesHome', 
+    canActivate: [AuthGuardService],
+    canActivateChild: [AuthGuardService],
+    component: DatabasesHomeComponent,
   },
   { 
     path: 'account', 
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
-    component: AccountComponent
-  },
+    component: AccountComponent,
+  },  
   { 
     path: 'logout', 
     canActivate: [AuthGuardService],
