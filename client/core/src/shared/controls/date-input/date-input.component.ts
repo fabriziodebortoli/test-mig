@@ -16,6 +16,7 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
   @Input() forCmpID: string;
   @Input() formatter: string;
   @Input() readonly = false;
+  @Input() isReport = false;
 
   selectedDate: Date;
   dateFormat = 'dd MMM yyyy';
