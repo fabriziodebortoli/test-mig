@@ -1,11 +1,12 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule, MdSidenavContainer, MdSidenavModule, MdToolbarModule, MdButtonModule } from '@angular/material';
+import { MaterialModule, MdSidenavContainer, MdSidenavModule, MdToolbarModule, MdButtonModule, MdListModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { SampleComponent } from './sample.component';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
 import { AdminSidenavContainerComponent } from './components/admin-sidenav-container/admin-sidenav-container.component';
 import { AdminSidenavComponent } from './components/admin-sidenav/admin-sidenav.component';
+import { AdminListComponent } from "./components/admin-list/admin-list.component";
 
 // import { SampleDirective } from './sample.directive';
 // import { SamplePipe } from './sample.pipe';
@@ -23,13 +24,15 @@ export * from './sample.component';
     MdSidenavModule,
     CommonModule,
     MdButtonModule,
-    MdToolbarModule
+    MdToolbarModule,
+    MdListModule
   ],
   declarations: [
     SampleComponent,
     AdminToolbarComponent,
     AdminSidenavContainerComponent,
-    AdminSidenavComponent
+    AdminSidenavComponent,
+    AdminListComponent
     // SampleDirective,
     // SamplePipe
   ],
@@ -37,7 +40,8 @@ export * from './sample.component';
     SampleComponent,
     AdminToolbarComponent,
     AdminSidenavContainerComponent,
-    AdminSidenavComponent
+    AdminSidenavComponent,
+    AdminListComponent
     // SampleDirective,
     // SamplePipe
   ]
