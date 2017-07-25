@@ -24,7 +24,7 @@ export const routes: Routes = [
     canActivateChild: [AuthGuardService]    
   },
   { 
-    path: 'subscriptionHome', 
+    path: 'subscriptionsHome', 
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
     component: SubscriptionHomeComponent
