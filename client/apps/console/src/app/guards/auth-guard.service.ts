@@ -34,6 +34,13 @@ export class AuthGuardService implements CanActivate {
 
         authorizationInfo.authorizationProperties = authorizationProperties;
 
+        if (state.url == '/instancesHome') {
+          if (!authorizationInfo.HasRole(RoleNames.CloudAdmin)) {
+            alert(RoleNames[RoleNames.CloudAdmin] + ' role missing');
+            return false;
+          }
+        }
+
         if (!authorizationInfo.HasRole(RoleNames.ProvisioningAdmin)) {
           alert(RoleNames[RoleNames.ProvisioningAdmin] + ' role missing');
           return false;

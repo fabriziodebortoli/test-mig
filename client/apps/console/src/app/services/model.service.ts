@@ -53,7 +53,6 @@ export class ModelService {
 
       return this.http.put(environment.gwamAPIUrl + 'accounts', bodyString, options)
         .map((res: Response) => {
-          console.log(res.json());
           return res.json();
         })
         .catch((error: any) => Observable.throw(error.json().error || 'server error'));
@@ -76,7 +75,6 @@ export class ModelService {
 
     return this.http.post(environment.gwamAPIUrl + 'query/accounts', bodyString, options)
       .map((res: Response) => {
-        console.log(res.json());
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
@@ -86,20 +84,20 @@ export class ModelService {
   addCompany(body: Object): Observable<OperationResult> {
     let authorizationHeader = this.createAuthorizationHeader('jwt');
 
-    if (authorizationHeader !== '') {
-      let bodyString = JSON.stringify(body);
-      let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
-      let options = new RequestOptions({ headers: headers });
-
-      return this.http.post(environment.adminAPIUrl + 'databases', bodyString, options)
-        .map((res: Response) => {
-          console.log(res.json());
-          return res.json();
-        })
-        .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
     }
 
-    return Observable.throw('AuthorizationHeader is missing!');
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.adminAPIUrl + 'databases', bodyString, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -107,19 +105,38 @@ export class ModelService {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
 
-    if (authorizationHeader !== '') {
-      let bodyString = JSON.stringify(body);
-      let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
-      let options = new RequestOptions({ headers: headers });
-
-      return this.http.post(environment.gwamAPIUrl + 'subscriptions', body, options)
-        .map((res: Response) => {
-          console.log(res.json());
-          return res.json();
-        })
-        .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
     }
 
-    return Observable.throw('AuthorizationHeader is missing!');
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.gwamAPIUrl + 'subscriptions', body, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  addInstance(body: Object): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.gwamAPIUrl + 'instances', body, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
   }
 }

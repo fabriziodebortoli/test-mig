@@ -1,0 +1,42 @@
+<div class="container" fxLayout="column" style="padding:10px">
+  <h2 class="componentTitle">Instance</h2>
+  <div class="row bottom-xs">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="text" placeholder="Instance key" value="" [(ngModel)]="model.InstanceKey">
+      </div>
+      <div class="box">
+        <input type="text" placeholder="Description" value="" [(ngModel)]="model.Description">
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <label><input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.Disabled">Disabled</label>
+      </div>
+      <div class="box">
+        <label><input type="checkbox" name="cboxUnderMaintenance" value="" [(ngModel)]="model.UnderMaintenance">Under Maintenance</label>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="text" placeholder="Origin" value="" [(ngModel)]="model.Origin">
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <input type="text" placeholder="Tags" value="" [(ngModel)]="model.Tags">
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row end-xs center-sm center-lg">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="box">
+        <button type="button" class="btn btn-primary" (click)="submitInstance()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
