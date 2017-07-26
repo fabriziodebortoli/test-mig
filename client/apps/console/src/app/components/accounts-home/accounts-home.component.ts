@@ -10,13 +10,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountsHomeComponent implements OnInit {
 
-  //accounts: Array<Account> = new Array<Account>();
   accounts: Account[];
-  //columnNames: Array<string> = new Array<string>('AccountName', 'FullName');
 
-  constructor(private modelService: ModelService) { 
-
-  }
+  constructor(private modelService: ModelService) {}
 
   ngOnInit() {
     this.modelService.getAccounts({ parentAccount: 'fricceri@m4.com'})
