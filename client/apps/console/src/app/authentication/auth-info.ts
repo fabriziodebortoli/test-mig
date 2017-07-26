@@ -60,12 +60,12 @@ export class AuthorizationInfo {
         instances.forEach(
             p => {
                 instance = new Instance();
-                instance.instanceKey =  p['InstanceKey'];
-                instance.description = p['Description'];
-                instance.disabled = p['Disabled'];
-                instance.origin = p['Origin'];
-                instance.tags = p['Tags'];
-                instance.underMaintenance = p['UnderMaintenance'];
+                instance.InstanceKey =  p['InstanceKey'];
+                instance.Description = p['Description'];
+                instance.Disabled = p['Disabled'];
+                instance.Origin = p['Origin'];
+                instance.Tags = p['Tags'];
+                instance.UnderMaintenance = p['UnderMaintenance'];
                 this.authorizationProperties.instances.push(instance);
             }
         );
