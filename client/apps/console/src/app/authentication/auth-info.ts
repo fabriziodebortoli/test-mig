@@ -76,14 +76,14 @@ export class AuthorizationInfo {
         subscriptions.forEach(
             p => {
                 subscription = new Subscription();
-                subscription.subscriptionKey = p['SubscriptionKey'];
-                subscription.description = p['Description'];
-                subscription.minDBSizeToWarn = p['MinDBSizeToWarn'];
-                subscription.language = p['language'];
-                subscription.regionalSettings = p['RegionalSettings'];
-                subscription.underMaintenance = p['UnderMaintenance'];
+                subscription.SubscriptionKey = p['SubscriptionKey'];
+                subscription.Description = p['Description'];
+                subscription.MinDBSizeToWarn = p['MinDBSizeToWarn'];
+                subscription.Language = p['language'];
+                subscription.RegionalSettings = p['RegionalSettings'];
+                subscription.UnderMaintenance = p['UnderMaintenance'];
                 // @@TODO con Ilaria
-                subscription.activationToken = ''; 
+                subscription.ActivationToken = ''; 
                 
                 this.authorizationProperties.subscriptions.push(subscription);
             }
