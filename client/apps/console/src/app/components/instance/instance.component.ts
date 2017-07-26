@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Instance } from '../../model/instance';
 
 @Component({
-  selector: 'app-instance-home',
+  selector: 'app-instance',
   templateUrl: './instance.component.html',
   styleUrls: ['./instance.component.css']
 })
