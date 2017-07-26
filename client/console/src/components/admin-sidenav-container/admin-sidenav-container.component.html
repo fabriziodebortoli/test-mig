@@ -1,11 +1,11 @@
 <md-sidenav-container fullscreen>
 
-  <md-sidenav #start mode="side">
+  <md-sidenav #start mode="side" class="mat-elevation-z5">
     <h4>Sections</h4>
     <ng-content select=".routesSection"></ng-content>
   </md-sidenav>
 
-  <md-toolbar color="primary">
+  <md-toolbar color="primary" class="mat-elevation-z5">
     <md-icon (click)="start.toggle()" style="cursor:pointer">menu</md-icon>
     <span style="margin-left:20px">M4Cloud Admin</span>
     <span class="demo-fill-remaining"></span>
