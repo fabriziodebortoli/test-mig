@@ -53,7 +53,6 @@ export class ModelService {
 
       return this.http.put(environment.gwamAPIUrl + 'accounts', bodyString, options)
         .map((res: Response) => {
-          console.log(res.json());
           return res.json();
         })
         .catch((error: any) => Observable.throw(error.json().error || 'server error'));
@@ -76,7 +75,6 @@ export class ModelService {
 
     return this.http.post(environment.gwamAPIUrl + 'query/accounts', bodyString, options)
       .map((res: Response) => {
-        console.log(res.json());
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
@@ -96,7 +94,6 @@ export class ModelService {
 
     return this.http.post(environment.adminAPIUrl + 'databases', bodyString, options)
       .map((res: Response) => {
-        console.log(res.json());
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
@@ -118,7 +115,6 @@ export class ModelService {
 
     return this.http.post(environment.gwamAPIUrl + 'subscriptions', body, options)
       .map((res: Response) => {
-        console.log(res.json());
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
@@ -139,7 +135,6 @@ export class ModelService {
 
     return this.http.post(environment.gwamAPIUrl + 'instances', body, options)
       .map((res: Response) => {
-        console.log(res.json());
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
