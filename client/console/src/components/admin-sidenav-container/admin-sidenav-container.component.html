@@ -10,14 +10,12 @@
     <span style="margin-left:20px">M4Cloud Admin</span>
     <span class="demo-fill-remaining"></span>
   </md-toolbar>
-
-  <div class="demo-sidenav-content">
-    <div class="outer-outlet">
-      <ng-content select=".breadCrumbSection"></ng-content>
-      <div style="padding: 10px">
-        <ng-content select=".outletSection"></ng-content>
-      </div>
+  
+  <div class="outer-outlet">
+    <ng-content select=".breadCrumbSection"></ng-content>
+    <div style="padding: 10px">
+      <ng-content select=".outletSection"></ng-content>
     </div>
   </div>
-
+  
 </md-sidenav-container>
