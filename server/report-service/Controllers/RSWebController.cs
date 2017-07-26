@@ -154,17 +154,16 @@ namespace Microarea.RSWeb.Controllers
         [Route("file/{filename}")]
         public IActionResult GetFile(string filename)
         {
+            string result = Path.GetTempPath();
+            filename = result + filename;
+
             if (filename.IsNullOrEmpty())
                 return new ContentResult { Content = "Empty file name", ContentType = "application/text" };
-
-            UserInfo ui = GetLoginInformation();
-            if (ui == null)
-                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
             if (!System.IO.File.Exists(filename))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
 
-            string ext = System.IO.Path.GetExtension(filename);
+            //string ext = System.IO.Path.GetExtension(filename);
 
             try
             {
@@ -177,6 +176,7 @@ namespace Microarea.RSWeb.Controllers
             }
             return new ContentResult { Content = "Cannot access file " + filename, ContentType = "application/text" };
         }
+
 
         //---------------------------------------------------------------------
         //for DEBUG

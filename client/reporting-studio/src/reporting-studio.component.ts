@@ -160,7 +160,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.WRONG:
           break;
         case CommandType.EXPORTEXCEL:
-          this.rsService.getExcelData(this.args.nameSpace);
+          this.rsService.getExcelData(k+".xlsx");
           break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)

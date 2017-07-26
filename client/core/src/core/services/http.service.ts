@@ -128,6 +128,11 @@ export class HttpService {
         return url;
     }
 
+    getReportServiceUrl() {
+        let url = this.urlService.getBackendUrl() + '/rs/';
+        return url;
+    }
+
     protected handleError(error: any): ErrorObservable {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message

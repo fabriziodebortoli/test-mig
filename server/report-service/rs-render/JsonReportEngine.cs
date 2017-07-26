@@ -297,7 +297,8 @@ namespace Microarea.RSWeb.Render
             }
 
             string result = Path.GetTempPath();
-            string fileName = result + woorm.Properties.Title + ".xlsx";
+            string fileName = result + woorm.Properties.Title.Remove(' ', 0, 0) + ".xlsx";
+
 
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))
             {
@@ -325,7 +326,7 @@ namespace Microarea.RSWeb.Render
                         if (o is Objects.Table)
                         {
                             Objects.Table t = o as Objects.Table;
-                            
+
                             if (page == 1)
                             {
                                 List<DocumentFormat.OpenXml.Spreadsheet.Column> columList = new List<DocumentFormat.OpenXml.Spreadsheet.Column>();
@@ -388,11 +389,11 @@ namespace Microarea.RSWeb.Render
                             worksheetPart.Worksheet.Save();
                             page++;
                         }
-                        
+
                     }
                 }
             }
-            return fileName;
+            return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
         }
 
         private DocumentFormat.OpenXml.Spreadsheet.Cell ConstructCell(string value, CellValues dataType, uint styleIndex = 0)
