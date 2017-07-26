@@ -6,11 +6,11 @@ import { Instance } from '../../model/instance';
 
 @Component({
   selector: 'app-instance-home',
-  templateUrl: './instance-home.component.html',
-  styleUrls: ['./instance-home.component.css']
+  templateUrl: './instance.component.html',
+  styleUrls: ['./instance.component.css']
 })
 
-export class InstanceHomeComponent implements OnInit {
+export class InstanceComponent implements OnInit {
 
   model: Instance;
   editing: boolean = false;

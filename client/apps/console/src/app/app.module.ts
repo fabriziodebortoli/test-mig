@@ -16,7 +16,7 @@ import { routes } from './app.routes';
 import { ConsoleModule } from '@taskbuilder/console';
 import { LoginService } from './services/login.service';
 import { DatabaseInfoComponent } from './components/database-info/database-info.component';
-import { InstanceHomeComponent } from './components/instance/instance-home.component';
+import { InstanceComponent } from './components/instance/instance.component';
 import { BreadcrumbComponent } from './components/shared/breadcrumb.component';
 import { EntityHomeComponent } from './components/entity/entity-home.component';
 import { EntityDetailComponent } from './components/entity/entity-detail.component';
@@ -35,7 +35,7 @@ import { DatabasesHomeComponent } from './components/databases-home/databases-ho
     CompanyComponent,
     AccountComponent,
     DatabaseInfoComponent,
-    InstanceHomeComponent,
+    InstanceComponent,
     BreadcrumbComponent,
     EntityHomeComponent,
     EntityDetailComponent,

@@ -1,4 +1,4 @@
-import {InstanceHomeComponent} from './components/instance/instance-home.component';
+import {InstanceComponent} from './components/instance/instance.component';
 import { AccountComponent } from "app/components/account/account.component";
 import { AppComponent } from 'app/app.component';
 import { AppHomeComponent } from 'app/components/app-home/app-home.component';
@@ -18,8 +18,8 @@ export const routes: Routes = [
     component: AppHomeComponent 
   },
   { 
-    path: 'instancesHome',
-    component: InstanceHomeComponent,
+    path: 'instance',
+    component: InstanceComponent,
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService]    
   },
