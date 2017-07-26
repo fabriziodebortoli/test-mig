@@ -12,7 +12,7 @@ export class AccountsHomeComponent implements OnInit {
 
   //accounts: Array<Account> = new Array<Account>();
   accounts: Account[];
-  columnNames: Array<string> = new Array<string>('AccountName', 'FullName');
+  //columnNames: Array<string> = new Array<string>('AccountName', 'FullName');
 
   constructor(private modelService: ModelService) { 
 
