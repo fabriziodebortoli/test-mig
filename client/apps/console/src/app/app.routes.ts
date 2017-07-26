@@ -18,7 +18,7 @@ export const routes: Routes = [
     component: AppHomeComponent 
   },
   { 
-    path: 'instance',
+    path: 'instancesHome',
     component: InstanceComponent,
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService]    
