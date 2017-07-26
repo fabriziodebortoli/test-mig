@@ -21,7 +21,8 @@ export class TopbarMenuTestComponent {
         const item4 = new ContextMenuItem('Test Grid Component', 'idTBExplorerButton', true, false);
         const item5 = new ContextMenuItem('Test Icons', 'idTestIconsButton', true, false);
         const item6 = new ContextMenuItem('Test Radar', 'idTestRadar', true, false);
-        this.menuElements.push(item1, item2, item3, item4, item5, item6);
+        const item7 = new ContextMenuItem('Test Tree', 'idTestTree', true, false);
+        this.menuElements.push(item1, item2, item3, item4, item5, item6, item7);
 
         this.eventDataService.command.subscribe((cmpId: string) => {
             switch (cmpId) {
@@ -37,6 +38,8 @@ export class TopbarMenuTestComponent {
                     return this.openTestIcons();
                 case 'idTestRadar':
                     return this.openTestRadar();
+                     case 'idTestTree':
+                    return this.openTestTree();
                 default:
                     break;
             }
@@ -64,5 +67,8 @@ export class TopbarMenuTestComponent {
 
     openTestRadar() {
         this.componentService.createComponentFromUrl('test/radar', true);
+    }
+    openTestTree(){
+        this.componentService.createComponentFromUrl('test/tree', true);
     }
 }

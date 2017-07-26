@@ -23,8 +23,8 @@ export class SubscriptionHomeComponent implements OnInit {
   }
 
   submitSubscription() {
-    if (this.model.subscriptionKey == undefined) {
-      alert('Mandatory fields are empty! Check email/password!');
+    if (this.model.SubscriptionKey == undefined) {
+      alert('Mandatory fields are empty! Check subscription key!');
       return;
     }
 

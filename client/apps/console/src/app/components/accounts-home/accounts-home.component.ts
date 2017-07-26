@@ -1,6 +1,8 @@
+import { Router } from '@angular/router';
 import { ModelService } from '../../services/model.service';
 import { Account } from '../../model/account';
 import { Component, OnInit } from '@angular/core';
+import { AuthorizationProperties } from "app/authentication/auth-info";
 
 
 @Component({
@@ -10,15 +12,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountsHomeComponent implements OnInit {
 
-  //accounts: Array<Account> = new Array<Account>();
   accounts: Account[];
 
-  constructor(private modelService: ModelService) { 
-
-  }
+  constructor(private modelService: ModelService, private router: Router) {}
 
   ngOnInit() {
-    this.modelService.getAccounts({ parentAccount: 'fricceri@m4.com'})
+
+    let authorizationStored = localStorage.getItem('auth-info');
+
+    if (authorizationStored === null) {
+      alert('User must be logged in.');
+      return;
+    }
+
+    let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
+
+    this.modelService.getAccounts({ parentAccount: authorizationProperties.accountName })
       .subscribe(
         accounts => {
           this.accounts = accounts['Content'];
@@ -29,4 +38,8 @@ export class AccountsHomeComponent implements OnInit {
       )
   }
 
+  openAccount(item:object){
+    // route to edit account
+    this.router.navigate(['/account'], { queryParams: { accountNameToEdit: item['AccountName'] } });
+  }
 }
