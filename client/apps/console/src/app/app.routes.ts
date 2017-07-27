@@ -7,12 +7,18 @@ import { CompanyComponent } from "app/components/company/company.component";
 import { LoginComponent } from "app/components/login/login.component";
 import { Routes } from '@angular/router';
 import { SubscriptionHomeComponent } from 'app/components/subscription/subscription-home.component';
-import { AccountsHomeComponent } from "app/components/accounts-home/accounts-home.component";
+import { AccountsHomeComponent } from "app/components/account/accounts-home.component";
 import { DatabasesHomeComponent } from "app/components/databases-home/databases-home.component";
 
 export const routes: Routes = [
-  { path: '', component: AppComponent },
-  { path: 'loginComponent', component: LoginComponent },
+  { 
+    path: '', 
+    component: AppComponent 
+  },
+  { 
+    path: 'loginComponent', 
+    component: LoginComponent 
+  },
   { 
     path: 'appHome',
     component: AppHomeComponent 
