@@ -18,10 +18,12 @@ export class AccountComponent implements OnInit {
   model:Account;
   editing:boolean = false;
 
+  //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) { 
     this.model = new Account();
   }
 
+  //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
     if (this.route.snapshot.queryParams['accountNameToEdit'] !== undefined){
       this.editing = true;
@@ -44,8 +46,8 @@ export class AccountComponent implements OnInit {
     }
   }
 
+  //--------------------------------------------------------------------------------------------------------
   submitAccount() {
-
     if (this.model.AccountName == undefined || this.model.Password == undefined)
     {
       alert('Mandatory fields are empty! Check email/password!');
@@ -63,18 +65,18 @@ export class AccountComponent implements OnInit {
       this.model.ParentAccount = authorizationProperties.accountName;
     }
 
-    if (!this.editing){
-      accountOperation = this.modelService.addAccount(this.model)
-    } else {
-      accountOperation = this.modelService.addAccount(this.model)
-    }
+    // now I save the account
+
+    accountOperation = this.modelService.saveAccount(this.model)
 
     let subs = accountOperation.subscribe(
       accountResult => 
       {
         this.model = new Account();
-        if (this.editing) this.editing = !this.editing;
+        if (this.editing) 
+          this.editing = !this.editing;
         subs.unsubscribe();
+        // after save I return to parent page
         this.router. navigateByUrl('/accountsHome');
       },
       err => 

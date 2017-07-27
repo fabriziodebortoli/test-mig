@@ -43,7 +43,7 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  addAccount(body: Object): Observable<OperationResult> {
+  saveAccount(body: Object): Observable<OperationResult> {
     let authorizationHeader = this.createAuthorizationHeader('app');
 
     if (authorizationHeader !== '') {
