@@ -1,4 +1,5 @@
-import {InstanceComponent} from './components/instance/instance.component';
+import { InstanceHomeComponent } from './components/instance/instance-home.component';
+import { InstanceComponent } from './components/instance/instance.component';
 import { AccountComponent } from "app/components/account/account.component";
 import { AppComponent } from 'app/app.component';
 import { AppHomeComponent } from 'app/components/app-home/app-home.component';
@@ -25,9 +26,9 @@ export const routes: Routes = [
   },
   { 
     path: 'instancesHome',
-    component: InstanceComponent,
     canActivate: [AuthGuardService],
-    canActivateChild: [AuthGuardService]    
+    canActivateChild: [AuthGuardService],
+    component: InstanceHomeComponent
   },
   { 
     path: 'subscriptionsHome', 
@@ -45,13 +46,19 @@ export const routes: Routes = [
     path: 'databasesHome', 
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
-    component: DatabasesHomeComponent,
+    component: DatabasesHomeComponent
   },
   { 
     path: 'account', 
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
-    component: AccountComponent,
+    component: AccountComponent
+  },  
+  { 
+    path: 'instance', 
+    canActivate: [AuthGuardService],
+    canActivateChild: [AuthGuardService],
+    component: InstanceComponent
   },  
   { 
     path: 'logout', 

@@ -23,6 +23,7 @@ import { EntityDetailComponent } from './components/entity/entity-detail.compone
 import { SubscriptionSelectionComponent } from './components/subscription/subscription-selection.component';
 import { AccountsHomeComponent } from './components/account/accounts-home.component';
 import { DatabasesHomeComponent } from './components/databases-home/databases-home.component';
+import { InstanceHomeComponent } from './components/instance/instance-home.component';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -41,7 +42,8 @@ import { DatabasesHomeComponent } from './components/databases-home/databases-ho
     EntityDetailComponent,
     SubscriptionSelectionComponent,
     AccountsHomeComponent,
-    DatabasesHomeComponent
+    DatabasesHomeComponent,
+    InstanceHomeComponent
   ],
   imports: [
     BrowserModule,

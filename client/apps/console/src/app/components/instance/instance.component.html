@@ -3,7 +3,7 @@
   <div class="row bottom-xs">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Instance key" value="" [(ngModel)]="model.InstanceKey">
+        <input type="text" placeholder="Instance key" value="" [(ngModel)]="model.InstanceKey" [readonly]=editing required>
       </div>
       <div class="box">
         <input type="text" placeholder="Description" value="" [(ngModel)]="model.Description">
