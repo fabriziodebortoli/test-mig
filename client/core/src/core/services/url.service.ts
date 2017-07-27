@@ -1,3 +1,5 @@
+import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 
 import { Logger } from './logger.service';
@@ -8,10 +10,33 @@ export class UrlService {
     private hostname: string;
     private port: number = 5000;
     private secure: boolean = false;
+    private baseUrl: string = "";
+    private wsBaseUrl: string = "";
+    constructor(private logger: Logger, private http: Http) {
 
-    constructor(private logger: Logger) { }
+        // this.getConfiguration()
+        //     .then((res)=>{
+
+        //         let js = res.json();
+        //         console.log(js);
+        //         this.baseUrl = js.baseUrl;
+        //         this.wsBaseUrl = js.wsBaseUrl;
+        //     }
+
+
+        //     )
+        //     .catch()
+
+    }
+
+    async getConfiguration(): Promise<any> {
+        return await this.http.get('config.json').toPromise();
+    }
 
     getBackendUrl() {
+        if (this.baseUrl)
+            return this.baseUrl;
+
         if (!this.hostname) {
             this.hostname = window.location.hostname;
         }
@@ -32,6 +57,8 @@ export class UrlService {
     }
 
     getWsBaseUrl() {
+        if (this.wsBaseUrl)
+            return this.wsBaseUrl;
         if (!this.hostname) {
             this.hostname = window.location.hostname;
         }
