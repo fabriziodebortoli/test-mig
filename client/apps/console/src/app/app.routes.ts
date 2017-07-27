@@ -10,6 +10,7 @@ import { Routes } from '@angular/router';
 import { SubscriptionHomeComponent } from 'app/components/subscription/subscription-home.component';
 import { AccountsHomeComponent } from "app/components/account/accounts-home.component";
 import { DatabasesHomeComponent } from "app/components/databases-home/databases-home.component";
+import { SubscriptionComponent } from 'app/components/subscription/subscription.component';
 
 export const routes: Routes = [
   { 
@@ -59,6 +60,12 @@ export const routes: Routes = [
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
     component: InstanceComponent
+  },  
+  { 
+    path: 'subscription', 
+    canActivate: [AuthGuardService],
+    canActivateChild: [AuthGuardService],
+    component: SubscriptionComponent
   },  
   { 
     path: 'logout', 
