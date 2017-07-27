@@ -17,16 +17,14 @@ import { DocumentComponent } from './document.component';
  */
 @Component({
     selector: 'tb-dynamic-cmp-tree',
-    template: '<ng-content></ng-content>',
-    providers:[EventDataService] 
+    template: '<ng-content></ng-content>'
 })
-export class DynamicCmpComponentTree
-{
+export class DynamicCmpComponentTree {
 
 }
 @Component({
     selector: 'tb-dynamic-cmp',
-    template: '<div #cmpContainer></div><tb-message-dialog></tb-message-dialog><tb-diagnostic-dialog></tb-diagnostic-dialog><tb-dynamic-dialog></tb-dynamic-dialog>' 
+    template: '<div #cmpContainer></div><tb-message-dialog></tb-message-dialog><tb-diagnostic-dialog></tb-diagnostic-dialog><tb-dynamic-dialog></tb-dynamic-dialog>'
 })
 export class DynamicCmpComponent implements OnInit, OnDestroy {
     cmpRef: ComponentRef<DocumentComponent>;
@@ -35,7 +33,7 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
     @ViewChild(MessageDialogComponent) messageDialog: MessageDialogComponent;
     @ViewChild(DiagnosticDialogComponent) diagnosticDialog: DiagnosticDialogComponent;
     @ViewChild(DynamicDialogComponent) dynamicDialog: DynamicDialogComponent;
-   subscriptions = [];
+    subscriptions = [];
 
     constructor(private componentService: ComponentService) {
     }
@@ -47,7 +45,8 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
         if (this.componentInfo) {
             this.cmpRef = this.cmpContainer.createComponent(this.componentInfo.factory);
             this.cmpRef.instance.cmpId = this.componentInfo.id; //assegno l'id al componente
-
+            if (this.cmpRef.instance.ciService)
+                this.cmpRef.instance.ciService.componentInfo = this.componentInfo;
             //per i componenti slave, documento ed eventi sono condivisi col componente master
             if (!this.cmpRef.instance.document)
                 this.cmpRef.instance.document = this.componentInfo.document;
@@ -86,9 +85,8 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
     public openDiagnosticDialog(data: DiagnosticData) {
         this.diagnosticDialog.open(data, this.cmpRef.instance.document.eventData);
     }
-    public openDynamicDialog(componentInfo:ComponentInfo) {
+    public openDynamicDialog(componentInfo: ComponentInfo) {
         componentInfo.document = this.cmpRef.instance.document;
-        componentInfo.eventData = this.cmpRef.instance.eventData;
         this.dynamicDialog.open(componentInfo);
     }
 }

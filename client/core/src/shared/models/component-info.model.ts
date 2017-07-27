@@ -14,3 +14,7 @@ export class ComponentInfo {
     document: DocumentService = null;
     args: any = {};
 }
+export class ComponentInfoService
+{
+    public componentInfo: ComponentInfo;
+}
