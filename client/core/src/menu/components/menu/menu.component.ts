@@ -19,14 +19,13 @@ import { ViewModeType } from './../../../shared/models/view-mode-type.model';
 
 export class MenuComponent implements OnDestroy {
 
-  @HostListener('window:beforeunload')
-  onClose() {
+  @HostListener('window:beforeunload', ['$event'])
+  onClose($event) {
     this.menuService.updateAllFavoritesAndMostUsed();
   }
 
   private subscriptions: Subscription[] = [];
   constructor(
-    private httpMenuService: HttpMenuService,
     private menuService: MenuService,
     private localizationService: LocalizationService,
     private settingsService: SettingsService,
@@ -43,6 +42,10 @@ export class MenuComponent implements OnDestroy {
 
     this.subscriptions.push(this.menuService.selectedGroupChanged.subscribe((title) => {
       this.eventData.model.Title.value = title + ' Menu';
+    }));
+
+    this.subscriptions.push(this.eventManagerService.loggingOff.subscribe((res) => {
+      this.menuService.updateAllFavoritesAndMostUsed();
     }));
   }
 

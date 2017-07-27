@@ -20,7 +20,7 @@ export class FavoritesComponent implements OnInit {
     private imageService: ImageService,
     private utilsService: UtilsService,
     private localizationService: LocalizationService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) { }
 
   ngOnInit() {
