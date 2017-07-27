@@ -155,21 +155,49 @@ namespace Microarea.RSWeb.Controllers
         public IActionResult GetFile(string filename)
         {
             string result = Path.GetTempPath();
-            filename = result + filename;
+            string filename2 = result + filename;
 
-            if (filename.IsNullOrEmpty())
+            if (filename2.IsNullOrEmpty())
                 return new ContentResult { Content = "Empty file name", ContentType = "application/text" };
 
-            if (!System.IO.File.Exists(filename))
+            //UserInfo ui = GetLoginInformation();
+            //if (ui == null)
+            //    return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+
+            if (!System.IO.File.Exists(filename2))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
 
             //string ext = System.IO.Path.GetExtension(filename);
 
             try
             {
-                FileStream f = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+                FileStream f = System.IO.File.Open(filename2, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-                return new FileStreamResult(f, "application/x-msdownload");
+
+                //Response.Headers.Add("content-disposition", "attachment; filename=" + filename);
+  
+                //return new FileStreamResult(f, "application/vnd.ms-excel");
+                //{
+                //    FileDownloadName = @"C:\a.xlsx"
+                //};
+
+
+                //Response.Headers.Add("content-disposition", "attachment; filename=" + filename);
+                //byte[] arr = System.IO.File.ReadAllBytes(filename);
+                //Response.Body.WriteAsync(arr, 0, arr.Length);
+
+                //return new ContentResult { Content = "ok " + filename, ContentType = "application/text" };
+
+
+                //FileStream f = System.IO.File.Open(filename2, FileMode.Open, FileAccess.Read, FileShare.Read);
+                //return new FileStreamResult(f, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+                Response.ContentType = "application/vnd.ms-excel";
+
+                Response.Headers.Add("content-disposition", "attachment; filename=myfile.xls");
+                return new FileStreamResult(f, "application/vnd.ms-excel");
+                
+
             }
             catch (Exception)
             {
