@@ -1,3 +1,4 @@
+import { EventDataService } from './../../core/services/eventdata.service';
 import { DynamicDialogComponent } from './../containers/dynamic-dialog/dynamic-dialog.component';
 import { DiagnosticData, MessageDlgArgs } from './../models';
 import { Subscription } from 'rxjs';
@@ -10,9 +11,22 @@ import { MessageDialogComponent } from './../containers/message-dialog/message-d
 
 import { DocumentComponent } from './document.component';
 
+/**ATTENZIONE! Questo componente serve per condividere una stesa istanza di EventDataService
+ * fra più dynamic component appartenenti allo stesso contesto
+ * (caso di view e slave view, oppure finestre di dialogo, che condividono lo stesso documento)
+ */
+@Component({
+    selector: 'tb-dynamic-cmp-tree',
+    template: '<ng-content></ng-content>',
+    providers:[EventDataService] 
+})
+export class DynamicCmpComponentTree
+{
+
+}
 @Component({
     selector: 'tb-dynamic-cmp',
-    template: '<div #cmpContainer></div><tb-message-dialog></tb-message-dialog><tb-diagnostic-dialog></tb-diagnostic-dialog><tb-dynamic-dialog></tb-dynamic-dialog>'
+    template: '<div #cmpContainer></div><tb-message-dialog></tb-message-dialog><tb-diagnostic-dialog></tb-diagnostic-dialog><tb-dynamic-dialog></tb-dynamic-dialog>' 
 })
 export class DynamicCmpComponent implements OnInit, OnDestroy {
     cmpRef: ComponentRef<DocumentComponent>;
@@ -40,9 +54,6 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
             else
                 this.cmpRef.instance.document.init(this.componentInfo.id); //assegno l'id al servizio (uguale a quello del componente)
 
-             if (!this.cmpRef.instance.eventData)
-                this.cmpRef.instance.eventData = this.componentInfo.eventData;
-           
             this.cmpRef.instance.args = this.componentInfo.args;
             this.subscriptions.push(this.cmpRef.instance.document.eventData.openMessageDialog.subscribe(
                 args => this.openMessageDialog(args)
