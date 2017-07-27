@@ -177,7 +177,14 @@ export class ReportingStudioService extends DocumentService {
     getExcelData(filename: string) {
         var s = this.httpServ.getReportServiceUrl() + 'file/' + filename;
         this.http.get(s, { withCredentials: true })
-            .subscribe();
+              .subscribe(res => console.log(res));
+        //    .subscribe(result => {
+        //           var mediaType = 'application/vnd.ms-excel';
+        //           let blob: Blob = result.blob();
+        //             window['saveAs'](blob, 'sample.xls');
+        //         });
+
+
 
     }
 }
