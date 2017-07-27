@@ -8,6 +8,8 @@
     <md-icon (click)="start.toggle()" style="cursor:pointer">menu</md-icon>
     <span style="margin-left:20px">{{appTitle}}</span>
     <span class="spacer"></span>
+    <span *ngIf="userAccountName!=''">{{ userAccountName }}</span>&nbsp;
+    <span *ngIf="userAccountName==''"><a>Login</a></span>
     <md-icon class="example-icon">person</md-icon>
   </md-toolbar>
   

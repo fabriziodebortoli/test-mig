@@ -7,12 +7,12 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class AdminSidenavContainerComponent implements OnInit {
 
-    @Input() appTitle:string = '';
+    @Input() appTitle:string;
+    @Input() userAccountName:string;
 
     constructor() { }
 
     ngOnInit() {
-      console.log(this.appTitle);
     }
 
 }
