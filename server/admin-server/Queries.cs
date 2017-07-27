@@ -88,11 +88,11 @@ namespace Microarea.AdminServer
         public const string UpdateRole = @"UPDATE MP_Roles SET RoleName=@RoleName, Description=@Description, Disabled=@Disabled WHERE RoleId=@RoleId";
         public const string DeleteRole = @"DELETE MP_Roles WHERE RoleId=@RoleId";
 
-        // SubscriptionAccountRole
-        public const string ExistSubscriptionAccountRole = @"SELECT COUNT(*) FROM MP_SubscriptionAccountRoles WHERE RoleId=@RoleId AND AccountName=@AccountName AND SubscriptionKey=@SubscriptionKey";
-        public const string SelectSubscriptionAccountRole = @"SELECT * FROM MP_SubscriptionAccountRolesWHERE RoleId=@RoleId AND AccountName=@AccountName AND SubscriptionKey=@SubscriptionKey";
-        public const string InsertSubscriptionAccountRole = @"INSERT INTO MP_SubscriptionAccountRoles (RoleId, AccountName, SubscriptionKey) VALUES (@RoleId, @AccountName, @SubscriptionKey)";
-        public const string DeleteSubscriptionAccountRole = @"DELETE MP_SubscriptionAccountRoles WHERE RoleId=@RoleId AND AccountName=@AccountName AND SubscriptionKey=@SubscriptionKey";
+        // AccountRole
+        public const string ExistAccountRoles = @"SELECT COUNT(*) FROM MP_AccountRoles WHERE RoleId=@RoleId AND AccountName=@AccountName AND EntityKey=@EntityKey";
+        public const string SelectAccountRoles = @"SELECT * FROM MP_AccountRolesWHERE RoleId=@RoleId AND AccountName=@AccountName AND EntityKey=@EntityKey";
+        public const string InsertAccountRoles = @"INSERT INTO MP_AccountRoles (RoleId, AccountName, EntityKey) VALUES (@RoleId, @AccountName, @EntityKey)";
+        public const string DeleteAccountRoles = @"DELETE MP_AccountRoles WHERE RoleId=@RoleId AND AccountName=@AccountName AND EntityKey=@EntityKey";
 
     }
 }

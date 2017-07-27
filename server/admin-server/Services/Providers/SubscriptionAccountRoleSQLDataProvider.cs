@@ -30,7 +30,7 @@ namespace Microarea.AdminServer.Services.Providers
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Queries.DeleteSubscriptionAccountRole, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.DeleteAccountRoles, connection))
                     {
                         command.Parameters.AddWithValue("@RoleId", role.RoleId);
                         command.Parameters.AddWithValue("@EntityKey", role.EntityKey);
@@ -59,7 +59,7 @@ namespace Microarea.AdminServer.Services.Providers
                 using (SqlConnection connection = new SqlConnection(this.connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = new SqlCommand(Queries.SelectSubscriptionAccountRole, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.SelectAccountRoles, connection))
                     {
                         command.Parameters.AddWithValue("@RoleId", sar.RoleId);
                         command.Parameters.AddWithValue("@EntityKey", sar.EntityKey);
@@ -103,7 +103,7 @@ namespace Microarea.AdminServer.Services.Providers
                     connection.Open();
                     bool existSar= false;
 
-                    using (SqlCommand command = new SqlCommand(Queries.ExistSubscriptionAccountRole, connection))
+                    using (SqlCommand command = new SqlCommand(Queries.ExistAccountRoles, connection))
                     {
                         command.Parameters.AddWithValue("@RoleId", sar.RoleId);
                         command.Parameters.AddWithValue("@EntityKey", sar.EntityKey);
@@ -120,7 +120,7 @@ namespace Microarea.AdminServer.Services.Providers
                     using (SqlCommand command = new SqlCommand())
                     {
                         command.Connection = connection;
-                        command.CommandText = Queries.InsertSubscriptionAccountRole;
+                        command.CommandText = Queries.InsertAccountRoles;
                         
                         command.Parameters.AddWithValue("@RoleId", sar.RoleId);
                         command.Parameters.AddWithValue("@EntityKey", sar.EntityKey);

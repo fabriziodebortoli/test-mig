@@ -59,7 +59,6 @@ namespace Microarea.AdminServer.Services.Providers
 								account.Ticks = (long)dataReader["Ticks"];
 								account.ParentAccount = dataReader["ParentAccount"] as string;
 								account.Confirmed = (bool)dataReader["Confirmed"];
-								account.ExistsOnDB = true;
                             }
 						}
 					}
@@ -70,8 +69,8 @@ namespace Microarea.AdminServer.Services.Providers
 				Console.WriteLine(e.Message);
 				return null;
 			}
-
-			return account;
+            // todo deletare
+            return null;// account;
 		}
 
 		//---------------------------------------------------------------------

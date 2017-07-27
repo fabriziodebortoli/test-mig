@@ -1,9 +1,7 @@
 ﻿using System;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
-using Microarea.AdminServer.Library;
 using Microarea.AdminServer.Services.BurgerData;
-using Microarea.AdminServer.Services.Providers;
 using System.Collections.Generic;
 using System.Data;
 
@@ -32,8 +30,8 @@ namespace Microarea.AdminServer.Model
         DateTime expirationDate = DateTime.Now.AddDays(3);// todo per ora scadenza 3 giorni per esempio
 		string parentAccount = string.Empty;
 		bool confirmed = false;
-		bool existsOnDB = false;
         long ticks;
+        BurgerData burgerdata;
 
         //---------------------------------------------------------------------
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
@@ -53,12 +51,9 @@ namespace Microarea.AdminServer.Model
 		public string RegionalSettings { get { return this.regionalSettings; } set { this.regionalSettings = value; } }
         public bool IsWindowsAuthentication { get { return this.isWindowsAuthentication; } set { this.isWindowsAuthentication = value; } }
         public DateTime ExpirationDate { get { return this.expirationDate; } set { this.expirationDate = value; } }
-		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
         public long Ticks { get { return this.ticks; } set { this.ticks = value; } }
 		public string ParentAccount { get { return this.parentAccount; } set { this.parentAccount = value; } }
 		public bool Confirmed { get { return this.confirmed; } set { this.confirmed = value; } }
-		// data provider
-		IDataProvider dataProvider;
 
         //---------------------------------------------------------------------
         public Account()
@@ -89,10 +84,43 @@ namespace Microarea.AdminServer.Model
             account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
             account.ParentAccount = dataReader["ParentAccount"] as string;
             account.Confirmed = (bool)dataReader["Confirmed"];
-            account.existsOnDB = true;
             return account;
         }
 
+        //---------------------------------------------------------------------
+        public OperationResult Save(BurgerData burgerData)
+        {
+            OperationResult opRes = new OperationResult();
+
+            List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+            burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.AccountName));
+
+            burgerDataParameters.Add(new BurgerDataParameter("@FullName", this.FullName));
+            burgerDataParameters.Add(new BurgerDataParameter("@Password", this.Password));
+            burgerDataParameters.Add(new BurgerDataParameter("@Notes", this.Notes));
+            burgerDataParameters.Add(new BurgerDataParameter("@Email", this.Email));
+            burgerDataParameters.Add(new BurgerDataParameter("@LoginFailedCount", this.LoginFailedCount));
+            burgerDataParameters.Add(new BurgerDataParameter("@PasswordNeverExpires", this.PasswordNeverExpires));
+            burgerDataParameters.Add(new BurgerDataParameter("@MustChangePassword", this.MustChangePassword));
+            burgerDataParameters.Add(new BurgerDataParameter("@CannotChangePassword", this.CannotChangePassword));
+            burgerDataParameters.Add(new BurgerDataParameter("@PasswordExpirationDate", this.PasswordExpirationDate));
+            burgerDataParameters.Add(new BurgerDataParameter("@PasswordDuration", this.PasswordDuration));
+            burgerDataParameters.Add(new BurgerDataParameter("@Disabled", this.Disabled));
+            burgerDataParameters.Add(new BurgerDataParameter("@Locked", this.Locked));
+            burgerDataParameters.Add(new BurgerDataParameter("@WindowsAuthentication", this.IsWindowsAuthentication));
+            burgerDataParameters.Add(new BurgerDataParameter("@Language", this.Language));
+            burgerDataParameters.Add(new BurgerDataParameter("@RegionalSettings", this.RegionalSettings));
+            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", this.Ticks));
+            burgerDataParameters.Add(new BurgerDataParameter("@ExpirationDate", this.ExpirationDate));
+            burgerDataParameters.Add(new BurgerDataParameter("@ParentAccount", this.ParentAccount));
+            burgerDataParameters.Add(new BurgerDataParameter("@Confirmed", this.Confirmed));
+
+            BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@AccountName", this.accountName);
+
+            opRes.Result = burgerData.Save(ModelTables.Accounts, keyColumnParameter, burgerDataParameters);
+            opRes.Content = this;
+            return opRes;
+        }
         //--------------------------------------------------------------------------------
         public string GetKey()
         {
@@ -104,41 +132,15 @@ namespace Microarea.AdminServer.Model
         {
             this.accountName = accountName;
         }
-
-        //---------------------------------------------------------------------
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            this.dataProvider = dataProvider;
-
-            // setting database-dependent values
-            this.passwordExpirationDate = this.dataProvider.MinDateTimeValue;//default value
-        }
-
-        //---------------------------------------------------------------------
-        public OperationResult Save()
-		{
-            return this.dataProvider.Save(this);
-		}
-
-        //---------------------------------------------------------------------
-        public IAdminModel Load()
-        {
-            return this.dataProvider.Load(this);
-        }
+        
 		
         //---------------------------------------------------------------------
         public bool IsPasswordExpirated()
 		{
-			// La data è inferiore ad adesso, ma comunque non è il min value che è il default
-            return passwordExpirationDate < DateTime.Now && 
-                passwordExpirationDate > this.dataProvider.MinDateTimeValue;
+            // La data è inferiore ad adesso, ma comunque non è il min value che è il default
+            return passwordExpirationDate < DateTime.Now &&
+                passwordExpirationDate > BurgerData.MinDateTimeValue;
         }
-
-		//---------------------------------------------------------------------
-		public OperationResult Query(QueryInfo qi)
-		{
-			return this.dataProvider.Query(qi);
-		}
 
         //---------------------------------------------------------------------
         public void ResetPasswordExpirationDate()
@@ -147,7 +149,7 @@ namespace Microarea.AdminServer.Model
         }
 
         //---------------------------------------------------------------------
-        public IAccountRoles[] GetRoles(string entityKey = null)
+        public IAccountRoles[] GetRoles(BurgerData burgerData, string entityKey = null)
         {
             string query = String.IsNullOrEmpty(entityKey) ?
                     String.Format(
@@ -158,8 +160,8 @@ namespace Microarea.AdminServer.Model
                         "SELECT * FROM mp_accountroles WHERE AccountName = '{0}'  AND entityKey = '{1}'",
                         accountName,
                         entityKey);
-           BurgerData burgerData = new BurgerData(((AccountSQLDataProvider)dataProvider).connectionString);
-           List<IAccountRoles> l =  burgerData.GetList<AccountRoles, IAccountRoles>(//todo manca ancora fetch dell'oggetto!!
+          
+           List<IAccountRoles> l =  burgerData.GetList<AccountRoles, IAccountRoles>(
                 query,
                ModelTables.Roles);
             return l.ToArray();
@@ -167,9 +169,9 @@ namespace Microarea.AdminServer.Model
         }
 
         //---------------------------------------------------------------------
-        public bool IsAdmin()
+        public bool IsCloudAdmin(BurgerData burgerData)
         {
-           IAccountRoles[] list = GetRoles();
+           IAccountRoles[] list = GetRoles( burgerData);
             foreach (AccountRoles ar in list)
                 if (ar.EntityKey == RolesStrings.CloudAdmin) return true;
             return false;
