@@ -1,4 +1,6 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { EventManagerService } from './../../menu/services/event-manager.service';
+import { MenuService } from './../../menu/services/menu.service';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
@@ -22,7 +24,10 @@ export class LoginSessionService {
         private socket: WebSocketService,
         private cookieService: CookieService,
         private logger: Logger,
-        private router: Router) {
+        private router: Router,
+        private eventManagerService: EventManagerService, 
+        private menuService:MenuService
+    ) {
 
         this.checkIfLogged();
 
@@ -112,12 +117,15 @@ export class LoginSessionService {
     }
 
     logout(): void {
+        this.eventManagerService.emitloggingOff();
+        this.menuService.updateAllFavoritesAndMostUsed().subscribe();
         const subscription = this.httpService.logoff().subscribe(
             loggedOut => {
                 this.logger.debug('logout returns: ' + loggedOut);
                 this.setConnected(!loggedOut);
                 this.httpService.closeTBConnection();
-                // this.socket.wsClose(); lo chiude il server facendo logoff
+                
+                 // this.socket.wsClose(); lo chiude il server facendo logoff
                 this.cookieService.remove('authtoken');
                 subscription.unsubscribe();
             },

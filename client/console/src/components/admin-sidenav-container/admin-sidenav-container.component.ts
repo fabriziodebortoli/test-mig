@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'admin-sidenav-container',
@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminSidenavContainerComponent implements OnInit {
 
-    title:string = 'M4 Cloud Provisioning';
+    @Input() appTitle:string;
+    @Input() userAccountName:string;
 
     constructor() { }
 
