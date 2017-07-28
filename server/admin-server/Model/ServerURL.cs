@@ -2,6 +2,8 @@
 using System.Data;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.BurgerData;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Model
 {
@@ -28,9 +30,24 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-		public OperationResult Save()
+		public OperationResult Save(BurgerData burgerData)
 		{
-			return new OperationResult();
+			OperationResult opRes = new OperationResult();
+
+			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+			burgerDataParameters.Add(new BurgerDataParameter("@InstanceKey", this.instanceKey));
+			burgerDataParameters.Add(new BurgerDataParameter("@URLType", (int)this.urlType));
+			burgerDataParameters.Add(new BurgerDataParameter("@URL", this.url));
+
+			BurgerDataParameter instanceKeyColumnParameter = new BurgerDataParameter("@InstanceKey", this.instanceKey);
+			BurgerDataParameter urlTypeColumnParameter = new BurgerDataParameter("@URLType", this.urlType);
+			BurgerDataParameter[] columnParameters = new BurgerDataParameter[] {
+				instanceKeyColumnParameter,
+				urlTypeColumnParameter
+			};
+
+			opRes.Result = burgerData.Save(ModelTables.Instances, columnParameters, burgerDataParameters);
+			return opRes;
 		}
 
 		//---------------------------------------------------------------------
