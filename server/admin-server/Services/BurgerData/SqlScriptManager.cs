@@ -61,17 +61,17 @@ namespace Microarea.AdminServer.Services.BurgerData
                 case ModelTables.Accounts:
                     return Queries.ExistAccount;
 
-                case ModelTables.Subscriptions:
+				case ModelTables.AccountRoles:
+					return Queries.ExistAccountRoles;
+
+				case ModelTables.Instances:
+					return Queries.ExistInstance;
+
+				case ModelTables.Roles:
+					return Queries.ExistRole;
+
+				case ModelTables.Subscriptions:
                     return Queries.ExistSubscription;
-
-                case ModelTables.Roles:
-                    return Queries.ExistRole;
-
-                case ModelTables.AccountRoles:
-                    return Queries.ExistAccountRoles;
-
-                case ModelTables.Instances:
-                    return Queries.ExistInstance;
 
                 case ModelTables.SubscriptionAccounts:
                     return Queries.ExistSubscriptionAccount;
