@@ -1,3 +1,4 @@
+import { CommandEventArgs } from './../../shared/models/eventargs.model';
 import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
 
 import { Injectable } from '@angular/core';
@@ -64,10 +65,10 @@ export class BOService extends DocumentService {
                 this.serverSideCommandMap = data.map;
             }
         }));
-        this.subscriptions.push(this.eventData.command.subscribe((cmpId: string) => {
-            const ret = this.onCommand(cmpId);
+        this.subscriptions.push(this.eventData.command.subscribe((args: CommandEventArgs) => {
+            const ret = this.onCommand(args.commandId);
             if (ret === true) {
-                this.doCommand(cmpId);
+                this.doCommand(args.componentId, args.commandId);
                 return;
             }
             if (ret === false) {
@@ -77,7 +78,7 @@ export class BOService extends DocumentService {
             if (ret.subscribe) {
                 const subs = ret.subscribe(goOn => {
                     if (goOn) {
-                        this.doCommand(cmpId);
+                        this.doCommand(args.componentId, args.commandId);
                     }
                     if (subs) {
                         subs.unsubscribe();
@@ -188,9 +189,12 @@ export class BOService extends DocumentService {
         }
         container.push(name);
     }
-    doCommand(id: string) {
+    doCommand(componentId: string, id: string) {
         const patch = this.getPatchedData();
-        this.webSocketService.doCommand(this.mainCmpId, id, patch);
+        this.webSocketService.doCommand(
+            componentId ? componentId : this.mainCmpId, 
+            id, 
+            patch);
         if (patch.length > 0) {
             // client data has been sent to server, so reset oldModel
             this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));

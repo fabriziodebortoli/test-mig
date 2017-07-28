@@ -1,3 +1,4 @@
+import { ComponentInfoService } from './../../../../models/component-info.model';
 import { Component, OnInit, Input } from '@angular/core';
 
 import { EventDataService } from './../../../../../core/services/eventdata.service';
@@ -14,12 +15,12 @@ export class ToolbarBottomButtonComponent implements OnInit {
 
   @Input() disabled: boolean = false;
 
-  constructor(private eventData: EventDataService) { }
+  constructor(private eventData: EventDataService, private ciService: ComponentInfoService) { }
 
   ngOnInit() {
   }
 
-  onCommand() {
-    this.eventData.command.emit(this.cmpId);
+  onCommand() { 
+    this.eventData.raiseCommand(this.ciService.componentInfo.id, this.cmpId);
   }
 }
