@@ -1,65 +1,71 @@
 ﻿using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.BurgerData;
+using System.Collections.Generic;
+using System;
+using System.Data;
 
 namespace Microarea.AdminServer.Model
 {
 	//================================================================================
-	public class Role : IRole
+	public class Role : IRole, IModelObject
     {
         string roleName;
-        int roleId;
         string description;
-        int parentRoleId;
-        string level;
+        string parentRoleName;
         bool disabled;
-        bool existsOnDB;
-        IDataProvider dataProvider;
 
         public string RoleName { get => roleName; set => roleName = value; }
-        public int RoleId { get => roleId; set => roleId = value; }
         public string Description { get => description; set => description = value; }
-        public bool Disabled { get => disabled; set => disabled = value; }
-        public bool ExistsOnDB { get => existsOnDB; set => existsOnDB = value; }
-        public int ParentRoleId { get => parentRoleId; set => parentRoleId = value; }
-        public string Level { get => level; set => level = value; }
+		public string ParentRoleName { get => parentRoleName; set => parentRoleName = value; }
+		public bool Disabled { get => disabled; set => disabled = value; }
 
-        //---------------------------------------------------------------------
-        public void SetDataProvider(IDataProvider dataProvider)
+		//---------------------------------------------------------------------
+		public IModelObject Fetch(IDataReader reader)
+		{
+			Role role = new Role();
+			role.roleName = reader["RoleName"] as string;
+			role.description = reader["Description"] as string;
+			role.parentRoleName = reader["ParentRoleName"] as string;
+			role.disabled = (bool)reader["Disabled"];
+			return role;
+		}
+
+		//---------------------------------------------------------------------
+		public string GetKey()
+		{
+			throw new NotImplementedException();
+		}
+
+		//---------------------------------------------------------------------
+		public OperationResult Save(BurgerData burgerData)
         {
-            this.dataProvider = dataProvider;
-        }
+			OperationResult opRes = new OperationResult();
 
-        //---------------------------------------------------------------------
-        public OperationResult Save()
-        {
-            return this.dataProvider.Save(this);
-        }
+			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+			burgerDataParameters.Add(new BurgerDataParameter("@RoleName", this.roleName));
+			burgerDataParameters.Add(new BurgerDataParameter("@Description", this.description));
+			burgerDataParameters.Add(new BurgerDataParameter("@ParentRoleName", this.parentRoleName));
+			burgerDataParameters.Add(new BurgerDataParameter("@Disabled", this.disabled));
 
-        //---------------------------------------------------------------------
-        public IAdminModel Load()
-        {
-            return this.dataProvider.Load(this);
-        }
+			BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@RoleName", this.roleName);
 
-        //---------------------------------------------------------------------
-        public OperationResult Query(QueryInfo qi)
-        {
-            return this.dataProvider.Query(qi);
-        }
-
-       
+			opRes.Result = burgerData.Save(ModelTables.Instances, keyColumnParameter, burgerDataParameters);
+			return opRes;
+		}
     }
 
     //================================================================================
     public static class RolesStrings
     {
-        public static string CloudAdmin = "CloudAdmin";
-        public static string ProvisioningAdmin = "ProvisioningAdmin";
-        public static string AccountManager = "AccountManager";
-        public static string DbManager = "DbManager";
-        public static string TestDatabaseUser = "TestDatabaseUser";
-        public static string NextInstanceUser = "NextInstanceUser";
-        public static string PreviousInstanceUser = "PreviousInstanceUser";
-        public static string WebSiteAdmin = "WebSiteAdmin";
-    }
+        public static string Admin = "Admin";
+		public static string All = "*";
+	}
+
+	//================================================================================
+	public static class RoleLevelsStrings
+	{
+		public static string Instance = "Instance";
+		public static string Subscription = "Subscription";
+	}
 }

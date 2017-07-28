@@ -28,9 +28,6 @@ namespace Microarea.AdminServer.Model.Interfaces
 		DateTime ExpirationDate { get; set; }
 		string ParentAccount { get; set; }
 		bool Confirmed { get; set; }
-
 		void ResetPasswordExpirationDate();
-        bool IsCloudAdmin(BurgerData burgerData);
-        IAccountRoles[] GetRoles(BurgerData burgerData , string entityKey=null);
     }
 }
