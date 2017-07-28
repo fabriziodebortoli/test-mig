@@ -23,10 +23,8 @@ namespace Microarea.AdminServer.Controllers
         AppOptions _settings;
         private IHostingEnvironment _env;
 
-        IDataProvider _accountSqlDataProvider;
         IDataProvider _subscriptionDatabaseSqlDataProvider;
         IDataProvider _instanceSqlDataProvider;
-        IDataProvider _subscriptionSQLDataProvider;
         IDataProvider _tokenSQLDataProvider;
         IDataProvider _urlsSQLDataProvider;
 
@@ -54,7 +52,6 @@ namespace Microarea.AdminServer.Controllers
 		//-----------------------------------------------------------------------------	
 		private void SqlProviderFactory()
         {
-            _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _subscriptionDatabaseSqlDataProvider = new SubscriptionDatabaseSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
 			_instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _tokenSQLDataProvider =  new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
@@ -71,18 +68,10 @@ namespace Microarea.AdminServer.Controllers
 		{
 			switch (modelName.ToLowerInvariant())
 			{
-				case "account":
-					return _accountSqlDataProvider;
-
 				case "subscriptiondatabase":
 					return _subscriptionDatabaseSqlDataProvider;
-
 				case "instance":
 					return _instanceSqlDataProvider;
-
-				case "subscription":
-					return _subscriptionSQLDataProvider;
-
 				default:
 					break;
 			}
