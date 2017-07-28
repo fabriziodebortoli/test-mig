@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Microarea.AdminServer.Model.Interfaces
 {
     //================================================================================
-    public interface IAccountRoles : IAdminModel
+    public interface IAccountRoles
     {
         string AccountName { get; set; }
         int RoleId { get; set; }
