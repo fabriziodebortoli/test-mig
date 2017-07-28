@@ -1,11 +1,10 @@
 ﻿using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
-using System;
 
 namespace Microarea.AdminServer.Model
 {
-    //================================================================================
-    public class Role : IRole
+	//================================================================================
+	public class Role : IRole
     {
         string roleName;
         int roleId;

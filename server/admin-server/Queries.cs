@@ -12,8 +12,15 @@ namespace Microarea.AdminServer
         public const string UpdateInstance = @"UPDATE MP_Instances SET Description = @Description, Disabled = @Disabled, Origin=@Origin, Tags=@Tags, UnderMaintenance=@UnderMaintenance WHERE InstanceKey = @InstanceKey";
         public const string DeleteInstance = @"DELETE MP_Instances WHERE InstanceKey = @InstanceKey";
 
-        // Referenced table MP_ServerURLs
-        public const string SelectURlsInstance = @"SELECT * FROM MP_ServerURLs WHERE InstanceKey = @InstanceKey";
+		// Instance (BurgerData)
+		public const string SelectInstanceForAccount = @"SELECT * FROM MP_Instances WHERE InstanceKey IN
+														(SELECT DISTINCT InstanceKey FROM MP_Subscriptions sub 
+															JOIN MP_SubscriptionAccounts subAcc ON sub.SubscriptionKey = subAcc.SubscriptionKey
+															JOIN MP_SubscriptionInstances subIns ON subAcc.SubscriptionKey = subIns.SubscriptionKey
+															WHERE subAcc.AccountName = '{0}')";
+
+		// Referenced table MP_ServerURLs
+		public const string SelectURlsInstance = @"SELECT * FROM MP_ServerURLs WHERE InstanceKey = {0}";
 
 		// ServerURL
 		public const string ExistServerURL = @"SELECT COUNT(*) FROM MP_ServerURLs WHERE InstanceKey = @InstanceKey AND URLType = @URLType";
@@ -31,8 +38,15 @@ namespace Microarea.AdminServer
 												RegionalSettings = @RegionalSettings, MinDBSizeToWarn = @MinDBSizeToWarn, UnderMaintenance=@UnderMaintenance WHERE SubscriptionKey = @SubscriptionKey";
         public const string DeleteSubscription = @"DELETE MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
 
-        // SubscriptionSlot
-        public const string DeleteSubscriptionSlot = @"DELETE MP_SubscriptionsSlots WHERE SubscriptionKey = @SubscriptionKey";
+		// Subscription (BurgerData)
+		public const string SelectSubscriptionsByAccount = "SELECT * FROM MP_Subscriptions sub JOIN MP_SubscriptionAccounts subacc ON sub.SubscriptionKey = subacc.SubscriptionKey WHERE subacc.AccountName = '{0}'";
+		public const string SelectSubscriptionsByAccountInstance = @"SELECT * FROM MP_Subscriptions sub 
+																		JOIN MP_SubscriptionAccounts subacc ON sub.SubscriptionKey = subacc.SubscriptionKey 
+																		JOIN MP_SubscriptionInstances subins ON subacc.SubscriptionKey = subins.SubscriptionKey
+																		WHERE subacc.AccountName = '{0}'";
+
+		// SubscriptionSlot
+		public const string DeleteSubscriptionSlot = @"DELETE MP_SubscriptionsSlots WHERE SubscriptionKey = @SubscriptionKey";
 
         // SubscriptionDatabases
         public const string ExistSubscriptionDatabase = @"SELECT COUNT(*) FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";

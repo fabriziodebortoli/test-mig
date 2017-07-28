@@ -1,27 +1,25 @@
 ﻿using System;
+using System.Data;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.BurgerData;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Model
 {
 	//================================================================================
-	public class ServerURL : IServerURL
+	public class ServerURL : IServerURL, IModelObject
 	{
 		string instanceKey;
 		URLType urlType = URLType.API;
 		bool existsOnDB;
 		string url;
-		string appName;
 
 		//---------------------------------------------------------------------
 		public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
 		public URLType URLType { get { return this.urlType; } set { this.urlType = value; } }
 		public string URL { get { return this.url; } set { this.url = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
-		public string AppName { get { return this.appName; } set { this.appName = value; } }
-
-		// data provider
-		IDataProvider dataProvider;
 
 		//---------------------------------------------------------------------
 		public ServerURL()
@@ -29,31 +27,59 @@ namespace Microarea.AdminServer.Model
 			this.instanceKey = String.Empty;
 			this.urlType = new URLType();
 			this.url = String.Empty;
-			this.appName = String.Empty;
 		}
 
 		//---------------------------------------------------------------------
-		public IAdminModel Load()
+		public OperationResult Save(BurgerData burgerData)
 		{
-			return this.dataProvider.Load(this);
+			OperationResult opRes = new OperationResult();
+
+			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+			burgerDataParameters.Add(new BurgerDataParameter("@InstanceKey", this.instanceKey));
+			burgerDataParameters.Add(new BurgerDataParameter("@URLType", (int)this.urlType));
+			burgerDataParameters.Add(new BurgerDataParameter("@URL", this.url));
+
+			BurgerDataParameter instanceKeyColumnParameter = new BurgerDataParameter("@InstanceKey", this.instanceKey);
+			BurgerDataParameter urlTypeColumnParameter = new BurgerDataParameter("@URLType", this.urlType);
+			BurgerDataParameter[] columnParameters = new BurgerDataParameter[] {
+				instanceKeyColumnParameter,
+				urlTypeColumnParameter
+			};
+
+			opRes.Result = burgerData.Save(ModelTables.ServerURLs, columnParameters, burgerDataParameters);
+			return opRes;
 		}
 
 		//---------------------------------------------------------------------
-		public OperationResult Save()
+		public IModelObject Fetch(IDataReader reader)
 		{
-			return this.dataProvider.Save(this);
+			ServerURL serverUrl = new ServerURL();
+			serverUrl.instanceKey = reader["InstanceKey"] as string;
+			serverUrl.urlType = this.GetURLType((int)reader["UrlType"]);
+			serverUrl.url = reader["URL"] as string;
+			return serverUrl;
 		}
 
 		//---------------------------------------------------------------------
-		public void SetDataProvider(IDataProvider dataProvider)
+		private URLType GetURLType(int val)
 		{
-			this.dataProvider = dataProvider;
+			switch (val)
+			{
+				case 0:
+					return URLType.API;
+				case 1:
+					return URLType.APP;
+				case 2:
+					return URLType.TBLOADER;
+				default:
+					return URLType.APP;
+			}
 		}
 
 		//---------------------------------------------------------------------
-		public OperationResult Query(QueryInfo qi)
+		public string GetKey()
 		{
-			return this.dataProvider.Query(qi);
+			throw new NotImplementedException();
 		}
 	}
 }

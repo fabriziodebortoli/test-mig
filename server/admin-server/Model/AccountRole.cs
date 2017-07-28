@@ -1,59 +1,56 @@
 ﻿using Microarea.AdminServer.Model.Interfaces;
+using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.BurgerData;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microarea.AdminServer.Services;
 using System.Data;
 
 namespace Microarea.AdminServer.Model
 {
-    //================================================================================
-    public class AccountRoles : IAccountRoles, IModelObject
+	//================================================================================
+	public class AccountRoles : IAccountRoles, IModelObject
     {
-        string accountName;
-        int roleId;
+		string roleName;
+		string accountName;
         string entityKey;
-        bool existsOnDB;
-        IDataProvider dataProvider;
+		string level;
 
-        public bool ExistsOnDB { get => existsOnDB; set => existsOnDB = value; }
-        public string AccountName { get => accountName; set => accountName = value; }
-        public int RoleId { get => roleId; set => roleId = value; }
+		public string RoleName { get => roleName; set => roleName = value; }
+		public string AccountName { get => accountName; set => accountName = value; }
         public string EntityKey { get => entityKey; set => entityKey = value; }
+		public string Level { get => level; set => level = value; }
 
-        //---------------------------------------------------------------------
-        public void SetDataProvider(IDataProvider dataProvider)
+		//---------------------------------------------------------------------
+		public OperationResult Save(BurgerData burgerData)
         {
-            this.dataProvider = dataProvider;
-        }
+			OperationResult opRes = new OperationResult();
 
-        //---------------------------------------------------------------------
-        public OperationResult Save()
-        {
-            return this.dataProvider.Save(this);
-        }
+			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+			burgerDataParameters.Add(new BurgerDataParameter("@RoleName", this.roleName));
+			burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.accountName));
+			burgerDataParameters.Add(new BurgerDataParameter("@EntityKey", this.entityKey));
+			burgerDataParameters.Add(new BurgerDataParameter("@Level", this.level));
 
-        //---------------------------------------------------------------------
-        public IAdminModel Load()
-        {
-            return this.dataProvider.Load(this);
-        }
+			BurgerDataParameter roleNameKeyColumnParameter = new BurgerDataParameter("@RoleName", this.roleName);
+			BurgerDataParameter accountNameKeyColumnParameter = new BurgerDataParameter("@AccountName", this.accountName);
+			BurgerDataParameter entityKeyColumnParameter = new BurgerDataParameter("@EntityKey", this.entityKey);
+			BurgerDataParameter[] keyParameters = new BurgerDataParameter[] {
+				roleNameKeyColumnParameter,
+				accountNameKeyColumnParameter,
+				entityKeyColumnParameter
+			};
 
-        //---------------------------------------------------------------------
-        public OperationResult Query(QueryInfo qi)
-        {
-            return this.dataProvider.Query(qi);
-        }
+			opRes.Result = burgerData.Save(ModelTables.AccountRoles, keyParameters, burgerDataParameters);
+			return opRes;
+		}
+
         //--------------------------------------------------------------------------------
         public IModelObject Fetch(IDataReader dataReader)
         {
             AccountRoles account = new AccountRoles();
-            account.AccountName = dataReader["AccountName"] as string;
-       
+			account.RoleName = dataReader["RoleName"] as string;
+			account.AccountName = dataReader["AccountName"] as string;
             account.EntityKey= dataReader["EntityKey"] as string;
-            account.RoleId = (int)dataReader["RoleId"];
-            account.existsOnDB = true;
             return account;
         }
 
