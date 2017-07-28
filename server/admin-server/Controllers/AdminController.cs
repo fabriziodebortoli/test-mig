@@ -24,9 +24,7 @@ namespace Microarea.AdminServer.Controllers
         private IHostingEnvironment _env;
 
         IDataProvider _subscriptionDatabaseSqlDataProvider;
-        IDataProvider _instanceSqlDataProvider;
         IDataProvider _tokenSQLDataProvider;
-        IDataProvider _urlsSQLDataProvider;
 
 		BurgerData burgerData;
 
@@ -53,9 +51,7 @@ namespace Microarea.AdminServer.Controllers
 		private void SqlProviderFactory()
         {
             _subscriptionDatabaseSqlDataProvider = new SubscriptionDatabaseSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-			_instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _tokenSQLDataProvider =  new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _urlsSQLDataProvider = new ServerURLSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
         }
 
 		/// <summary>
@@ -70,8 +66,6 @@ namespace Microarea.AdminServer.Controllers
 			{
 				case "subscriptiondatabase":
 					return _subscriptionDatabaseSqlDataProvider;
-				case "instance":
-					return _instanceSqlDataProvider;
 				default:
 					break;
 			}

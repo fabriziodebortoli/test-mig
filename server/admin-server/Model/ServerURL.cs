@@ -1,27 +1,23 @@
 ﻿using System;
+using System.Data;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer.Model
 {
 	//================================================================================
-	public class ServerURL : IServerURL
+	public class ServerURL : IServerURL, IModelObject
 	{
 		string instanceKey;
 		URLType urlType = URLType.API;
 		bool existsOnDB;
 		string url;
-		string appName;
 
 		//---------------------------------------------------------------------
 		public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
 		public URLType URLType { get { return this.urlType; } set { this.urlType = value; } }
 		public string URL { get { return this.url; } set { this.url = value; } }
 		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
-		public string AppName { get { return this.appName; } set { this.appName = value; } }
-
-		// data provider
-		IDataProvider dataProvider;
 
 		//---------------------------------------------------------------------
 		public ServerURL()
@@ -29,31 +25,44 @@ namespace Microarea.AdminServer.Model
 			this.instanceKey = String.Empty;
 			this.urlType = new URLType();
 			this.url = String.Empty;
-			this.appName = String.Empty;
-		}
-
-		//---------------------------------------------------------------------
-		public IAdminModel Load()
-		{
-			return this.dataProvider.Load(this);
 		}
 
 		//---------------------------------------------------------------------
 		public OperationResult Save()
 		{
-			return this.dataProvider.Save(this);
+			return new OperationResult();
 		}
 
 		//---------------------------------------------------------------------
-		public void SetDataProvider(IDataProvider dataProvider)
+		public IModelObject Fetch(IDataReader reader)
 		{
-			this.dataProvider = dataProvider;
+			ServerURL serverUrl = new ServerURL();
+			serverUrl.instanceKey = reader["InstanceKey"] as string;
+			serverUrl.urlType = this.GetURLType((int)reader["UrlType"]);
+			serverUrl.url = reader["URL"] as string;
+			return serverUrl;
 		}
 
 		//---------------------------------------------------------------------
-		public OperationResult Query(QueryInfo qi)
+		private URLType GetURLType(int val)
 		{
-			return this.dataProvider.Query(qi);
+			switch (val)
+			{
+				case 0:
+					return URLType.API;
+				case 1:
+					return URLType.APP;
+				case 2:
+					return URLType.TBLOADER;
+				default:
+					return URLType.APP;
+			}
+		}
+
+		//---------------------------------------------------------------------
+		public string GetKey()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
