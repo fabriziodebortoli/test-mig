@@ -19,6 +19,18 @@ namespace Microarea.RSWeb.Objects
 {
     internal enum ElementColor { LABEL, VALUE, BACKGROUND, BORDER, MAX };
 
+    public enum EnumChartType
+    {
+        None,
+
+        Bar, BarStacked, BarStacked100,
+        Column, ColumnStacked, ColumnStacked100,
+        Line, VerticalLine,
+        Area, VerticalArea, AreaStacked, AreaStacked100,
+
+        Wrong
+    }
+
     /// <summary>
     /// Summary description for TableCell.
     /// </summary>
@@ -2293,7 +2305,7 @@ namespace Microarea.RSWeb.Objects
 		{
 			Variable variable =  Table.Document.SymbolTable.FindById(InternalID);
 			if (variable != null)
-				return variable.DataType;
+				return variable.WoormType;
 			
 			return string.Empty; 
 		}
@@ -2370,7 +2382,7 @@ namespace Microarea.RSWeb.Objects
 		public int CurrentRow = 0; // riga dove viene valorizzata la cella quando leggo da RDE
         public int ViewCurrentRow = -1; // riga corrente in fase di renderizzazione (per attributi dinamici)
  
-       public int ChartType = 0;
+        public EnumChartType ChartType = 0;
         public int Layer = 0;   //only design mode
 
 		Table Default = null;
@@ -2510,8 +2522,13 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         override public string ToJsonTemplate(bool bracket)
         {
-            string name = "table";
+            if (ChartType > 0)
+            {
+                return ToJsonChartTemplate(bracket);
+            }
 
+            string name = "table";
+ 
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
                 s = '\"' + name + "\":";
@@ -2561,6 +2578,11 @@ namespace Microarea.RSWeb.Objects
 
         override public string ToJsonData(bool bracket)
         {
+            if (ChartType > 0)
+            {
+                return ToJsonChartData(bracket);
+            }
+
             string name = "table";
 
             string s = string.Empty;
@@ -2744,6 +2766,7 @@ namespace Microarea.RSWeb.Objects
         }
 
         //---------------------------------------------------------------------
+ 
         public string ToJsonTotals(bool template)
         {
             if (!this.ExistsTotals())
@@ -2768,60 +2791,233 @@ namespace Microarea.RSWeb.Objects
                         continue;
                 }
 
-                
-                    TotalCell total = column.TotalCell;
+                TotalCell total = column.TotalCell;
 
-                    bool last = (col == this.ColumnNumber - 1);
+                bool last = (col == this.ColumnNumber - 1);
 
-                    int nextVisibleColumn = this.NextVisibleColumn(col);
+                int nextVisibleColumn = this.NextVisibleColumn(col);
 
-                    bool nextColumnHasTotal =
-                            (
-                                (col < lastColumn) &&
-                                (nextVisibleColumn >= 0) &&
-                                this.HasTotal(nextVisibleColumn)
-                            );
+                bool nextColumnHasTotal =
+                        (
+                            (col < lastColumn) &&
+                            (nextVisibleColumn >= 0) &&
+                            this.HasTotal(nextVisibleColumn)
+                        );
 
-                    BorderPen pen = total.TotalPen;
-                    Borders borders;
-                    if (column.ShowTotal)
+                BorderPen pen = total.TotalPen;
+                Borders borders;
+                if (column.ShowTotal)
+                {
+                    borders = new Borders
+                                    (
+                                        false,
+                                        first,
+                                        this.Borders.Total.Bottom,
+                                        this.Borders.Total.Right
+                                    );
+                }
+                else
+                {   // serve per scrivere il bordo del successivo totale
+                    borders = new Borders
+                                    (
+                                        false,
+                                        false,
+                                        false,
+                                        !last && nextColumnHasTotal && this.Borders.Total.Left
+                                    );
+                    //disegno il bordo sx del prossimo totale con il suo Pen e non con quello della cella corrente
+                    //(allinemento con comportamento di woorm c++)
+                    if (col + 1 <= lastColumn)
                     {
-                        borders = new Borders
-                                        (
-                                            false,
-                                            first,
-                                            this.Borders.Total.Bottom,
-                                            this.Borders.Total.Right
-                                        );
+                        Column nextColumn = this.Columns[col + 1];
+                        pen = nextColumn.TotalCell.TotalPen;
                     }
-                    else
-                    {   // serve per scrivere il bordo del successivo totale
-                        borders = new Borders
-                                        (
-                                            false,
-                                            false,
-                                            false,
-                                            !last && nextColumnHasTotal && this.Borders.Total.Left
-                                        );
-                        //disegno il bordo sx del prossimo totale con il suo Pen e non con quello della cella corrente
-                        //(allinemento con comportamento di woorm c++)
-                        if (col + 1 <= lastColumn)
-                        {
-                            Column nextColumn = this.Columns[col + 1];
-                            pen = nextColumn.TotalCell.TotalPen;
-                        }
-                    }
+                }
 
-                    if (first) first = false; else r += ',';
+                if (first) first = false; else r += ',';
                        
-                    r += template ? 
-                            column.TotalCell.ToJsonTemplate(borders, pen)
-                            :
-                            column.TotalCell.ToJsonData(borders, pen);
-                
+                r += template ? 
+                        column.TotalCell.ToJsonTemplate(borders, pen)
+                        :
+                        column.TotalCell.ToJsonData(borders, pen);
             }
             r += ']';
             return r;
+        }
+
+        //---------------------------------------------------------------------------
+        public string ToJsonChartTemplate(bool bracket)
+        {
+            string name = "chart";
+            bool stacked = false;
+            bool percent = false;
+            int gap = -1;
+            double spacing = -1.0;
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' +
+                base.ToJsonTemplate(false) + ',' +
+                ((int)ChartType).ToJson("chartType");
+            //column, bar, [stack]="true", [stack]="{ group: 'a', type: '100%' }
+
+            s += ',' + this.Title.Text.ToJson("title", false, true);
+
+            //s += 
+                    //',' + stacked.ToJson("stacked") +
+                    //',' + percent.ToJson("percent") +
+                    //',' + gap.ToJson("gap") +
+                    //',' + spacing.ToJson("spacing");
+
+            string position = "bottom";
+            string orientation = "horizontal";
+            s += ",\"legend\":{" + position.ToJson("position", false, true) + ',' + orientation.ToJson("orientation", false, true) + '}';
+
+
+            int numSeries = 0;
+            int lastColumn = this.LastVisibleColumn();
+            for (int c = 0; c <= lastColumn; c++)
+            {
+                Column column = this.Columns[c];
+                if (column.IsHidden || column.HideExpr != null)
+                    continue;
+
+                string t = column.GetDataType();
+                if (!t.CompareNoCase(new string[] { "Double", "Money", "Quantity", "Percent"}))
+                {
+                    continue;
+                }
+                numSeries++;
+            }
+
+            s += ',' + numSeries.ToJson("numSeries");
+            s += '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+        public string ToJsonChartColumnData(Column column)
+        {
+            string serie = "{\"data\":[";
+            bool first = true;
+            for (int row = 0; row < this.RowNumber; row++)
+            {
+                Cell cell = column.Cells[row];
+                object v = cell.Value.RDEData;
+                if (v == null) continue;
+
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    serie += ',';
+                }
+
+                serie += v.ToJson();
+            }
+            serie += "]," + column.Title.Text.ToJson("name", false, true) ;
+
+            //Color bkgColor = column.GetCellColor(0)[(int)ElementColor.BACKGROUND];
+            //if (bkgColor != Color.White)
+                //serie += "," + bkgColor.ToJson("color");
+
+            //double opacity = 0.5;
+            //if (opacity != 0)
+                //serie += "," + opacity.ToJson("opacity");
+
+            return serie + '}';
+        }
+
+        public string ToJsonChartCategoryData(Column column)
+        {
+            string categories = "\"categories\":[";
+            bool first = true;
+            for (int row = 0; row < this.RowNumber; row++)
+            {
+                Cell cell = column.Cells[row];
+                object v = cell.Value.RDEData;
+                if (v == null) continue;
+
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    categories += ',';
+                }
+
+                categories += v.ToJson();
+            }
+            categories += ']';
+
+            string category_axis = "\"category_axis\":{" + column.Title.Text.ToJson("title", false, true) + ',' + categories + '}';
+
+            return category_axis;
+        }
+
+        public string ToJsonChartData(bool bracket)
+        {
+            string name = "chart";
+
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
+
+            s += '{' + base.ToJsonData(false) + ',';
+
+            //---------------------------
+            int idxColCat = -1;
+            string series = "\"series\":[";
+            bool firstCol = true;
+            int lastColumn = this.LastVisibleColumn();
+            for (int c = 0; c <= lastColumn; c++)
+            {
+                Column column = this.Columns[c];
+                if (column.IsHidden || column.HideExpr != null)
+                    continue;
+                //if (column.DynamicIsHidden)
+                //    continue;
+
+                if (idxColCat == -1 && column.GetDataType() == "String")
+                {
+                    idxColCat = c;
+                    continue;
+                }
+                string t = column.GetDataType();
+                if (!t.CompareNoCase(new string[] { "Double", "Money", "Quantity", "Percent" }))
+                {
+                    continue;
+                }
+
+                if (firstCol)
+                {
+                    firstCol = false;
+                }
+                else
+                {
+                    series += ','; 
+                }
+
+                series += ToJsonChartColumnData(column);
+            }
+            series += ']';
+ 
+            if (idxColCat > -1)
+                s += ToJsonChartCategoryData(this.Columns[idxColCat]) + ',';
+
+            s += series + '}';
+
+           if (bracket)
+                s = '{' + s + '}';
+
+            return s;
         }
 
         //---------------------------------------------------------------------------
@@ -3155,8 +3351,10 @@ namespace Microarea.RSWeb.Objects
                     case Token.CHART:	
                         {
                             lex.SkipToken();
-                            if (!lex.ParseInt(out ChartType))
+                            int ct;
+                            if (!lex.ParseInt(out ct))
                                 return false;
+                            ChartType = (EnumChartType)ct;
                             break;
                         }
 
@@ -4630,7 +4828,7 @@ namespace Microarea.RSWeb.Objects
             {
                 unparser.WriteTag(Token.CHART, false);
                 unparser.WriteBlank();
-                unparser.Write(ChartType);
+                unparser.Write((int)ChartType);
             }
 
 			WriteHidden(unparser);

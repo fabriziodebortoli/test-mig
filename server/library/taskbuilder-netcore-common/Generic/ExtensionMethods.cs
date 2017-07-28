@@ -48,11 +48,21 @@ namespace Microarea.Common.Generic
 			return string.Compare(str1, str2, StringComparison.OrdinalIgnoreCase) == 0;
 		}
 
-		//--------------------------------------------------------------------------------
-		/// <summary>
-		/// Effettua una Replace no case
-		/// </summary>
-		public static string ReplaceNoCase(this string inputString, string stringToReplace, string replaceString)
+        public static bool CompareNoCase(this string str1, string[] str2)
+        {
+            foreach (string s in str2)
+            {
+                if (string.Compare(str1, s, StringComparison.OrdinalIgnoreCase) == 0)
+                    return true;
+            }
+            return false;
+        }
+
+        //--------------------------------------------------------------------------------
+        /// <summary>
+        /// Effettua una Replace no case
+        /// </summary>
+        public static string ReplaceNoCase(this string inputString, string stringToReplace, string replaceString)
 		{
 			return Regex.Replace(
 				inputString,
@@ -915,6 +925,12 @@ namespace Microarea.Common.Generic
                 {
                     Guid g = (Guid)o;
                     return g.ToJson(name, bracket);
+                }
+                if (o is Enum)
+                {
+                    //Enum e = (Enum)o;
+                    int i = (int)o;
+                    return i.ToJson(name, bracket);
                 }
             }
             catch (Exception ex)
