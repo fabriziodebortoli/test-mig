@@ -161,11 +161,8 @@ namespace Microarea.AdminServer.Model
                         accountName,
                         entityKey);
           
-           List<IAccountRoles> l =  burgerData.GetList<AccountRoles, IAccountRoles>(
-                query,
-               ModelTables.Roles);
-            return l.ToArray();
-
+           List<IAccountRoles> l =  burgerData.GetList<AccountRoles, IAccountRoles>(query, ModelTables.AccountRoles);
+           return l.ToArray();
         }
 
         //---------------------------------------------------------------------
