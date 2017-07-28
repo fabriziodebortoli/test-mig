@@ -23,11 +23,7 @@ namespace Microarea.AdminServer.Controllers
     {
         private IHostingEnvironment _env;
         AppOptions _settings;
-        IDataProvider _accountSqlDataProvider;
         IDataProvider _tokenSQLDataProvider;
-        IDataProvider _urlsSQLDataProvider;
-        IDataProvider _instanceSqlDataProvider;
-        IDataProvider _subscriptionSQLDataProvider;
         IJsonHelper _jsonHelper;
         IHttpHelper _httpHelper;
         string GWAMUrl;
@@ -49,11 +45,7 @@ namespace Microarea.AdminServer.Controllers
         //-----------------------------------------------------------------------------	
         private void SqlProviderFactory()
         {
-            _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _subscriptionSQLDataProvider = new SubscriptionSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _tokenSQLDataProvider = new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _urlsSQLDataProvider = new ServerURLSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
         }
 
         // <summary>
@@ -214,10 +206,14 @@ namespace Microarea.AdminServer.Controllers
             }
             try
             {
-                IAccount account =  burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
-          {
-                    new WhereCondition("AccountName", passwordInfo.AccountName, QueryComparingOperators.IsEqual, false)
-          });
+                IAccount account =  burgerData.GetObject<Account, IAccount>(
+					String.Empty, 
+					ModelTables.Accounts, 
+					SqlLogicOperators.AND, 
+					new WhereCondition[]{
+						new WhereCondition("AccountName", passwordInfo.AccountName, QueryComparingOperators.IsEqual, false)
+					});
+
                 // L'account esiste sul db locale
                 if (account != null)
                 {
@@ -358,7 +354,7 @@ namespace Microarea.AdminServer.Controllers
             bootstrapToken.Language = account.Language;
             bootstrapToken.Instances = GetInstances(account.AccountName);
 			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
-            bootstrapToken.Urls = GetUrlsForThisInstance();
+            bootstrapToken.Urls = GetUrlsForInstance(_settings.InstanceIdentity.InstanceKey, this.burgerData);
             bootstrapToken.IsCloudAdmin = account.IsCloudAdmin(burgerData);
             bootstrapToken.Roles = account.GetRoles(burgerData);
             AuthorizationInfo ai = GetAuthorizationInfo();
@@ -367,56 +363,62 @@ namespace Microarea.AdminServer.Controllers
 			return true;
         }
 
-      
-
         //----------------------------------------------------------------------
         private ISubscription[] GetSubscriptions(string accountName)
         {
-            Subscription subscription = new Subscription();
-            subscription.SetDataProvider(_subscriptionSQLDataProvider);
-			ISubscription[] subsArray = subscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
-			return subsArray;
+			List<ISubscription> listSubscriptions = this.burgerData.GetList<Subscription, ISubscription>(
+				String.Format(Queries.SelectSubscriptionsByAccount, accountName),
+				ModelTables.Subscriptions);
+
+			// @@TODO: optimization: remove ToArray()
+			return listSubscriptions.ToArray();
 		}
 
 		//----------------------------------------------------------------------
 		private IInstance[] GetInstances(string accountName)
 		{
-			Instance iInstance = new Instance();
-			iInstance.SetDataProvider(_instanceSqlDataProvider);
-			IInstance[] instanceArray = iInstance.GetInstancesByAccount(accountName).ToArray();
-			return instanceArray;
+			List<IInstance> instancesList = this.burgerData.GetList<Instance, IInstance>(
+				String.Format(Queries.SelectInstanceForAccount, accountName), 
+				ModelTables.Instances);
+
+			return instancesList.ToArray();
 		}
 
 		//----------------------------------------------------------------------
-		private IServerURL[] GetUrlsForThisInstance()
+		private static IServerURL[] GetUrlsForInstance(string instanceKey, BurgerData burgy)
         {
-            Instance iInstance = new Instance(_settings.InstanceIdentity.InstanceKey);
-            iInstance.SetDataProvider(_instanceSqlDataProvider);
-            iInstance.Load();
+			List<IServerURL> serverUrls = burgy.GetList<ServerURL, IServerURL>(
+				String.Format(Queries.SelectURlsInstance, instanceKey),
+				ModelTables.ServerURLs);
 
-            if (!iInstance.ExistsOnDB)
-            {
-                return new IServerURL[] { };
-            }
-
-			return iInstance.LoadURLs().ToArray();
-        }
+			return serverUrls.ToArray();
+		}
 
         //----------------------------------------------------------------------
         private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)
         {
-            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, Strings.EmptySubscriptions, (int)AppReturnCodes.InvalidData);
+            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null)
+			{
+				return new OperationResult(false, Strings.EmptySubscriptions, (int)AppReturnCodes.InvalidData);
+			}
 
-            foreach (ISubscription s in accountIdentityPack.Subscriptions)
+			OperationResult result = new OperationResult();
+
+			foreach (Subscription s in accountIdentityPack.Subscriptions)
             {
-                s.SetDataProvider(_subscriptionSQLDataProvider);
-                OperationResult result = s.Save();
+				result = s.Save(this.burgerData);
+
                 if (!result.Result)
                 {
                     return result;
                 }
             }
-            return new OperationResult(true, "ok", (int)AppReturnCodes.OK);
+
+			result.Result = true;
+			result.Code = (int)AppReturnCodes.OK;
+			result.Message = AppReturnCodes.OK.ToString();
+
+			return result;
         }
 
         //----------------------------------------------------------------------

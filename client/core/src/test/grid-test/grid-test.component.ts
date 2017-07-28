@@ -17,7 +17,7 @@ import { EventDataService } from './../../core/services/eventdata.service';
 export class GridTestComponent extends DocumentComponent implements OnInit {
 
   constructor(public eventData: EventDataService, private dataService: DataService, private http: Http, private testService: TestService) {
-    super(testService, eventData);
+    super(testService, eventData, null);
   }
 
   ngOnInit() {

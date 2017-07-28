@@ -28,8 +28,11 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
   private responseParameters: any;
   private responseColumns: any;
 
-  constructor(public eventData: EventDataService, private dataService: DataService, private http: Http, private testService: TestService) {
-    super(testService, eventData);
+  constructor(public eventData: EventDataService, 
+    private dataService: DataService, 
+    private http: Http, 
+    private testService: TestService) {
+    super(testService, eventData, null);
   }
 
   ngOnInit() {

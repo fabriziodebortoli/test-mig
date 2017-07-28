@@ -1,6 +1,6 @@
 import { LayoutService } from '@taskbuilder/core';
 import { ReportingStudioService } from './../../reporting-studio.service';
-import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, PdfType, SvgType, PngType } from './../../models';
+import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, repeater, PdfType, SvgType, PngType } from './../../models';
 import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 
@@ -127,10 +127,18 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       else if (element.sqrrect !== undefined) {
         obj = new sqrrect(element.sqrrect);
       }
-      /* else if (element.repeater !== undefined) {
+      else if (element.repeater !== undefined) {
          obj = new repeater(element.repeater);
-       }*/
-      objects.push(obj);
+       }
+       else if (element.chart !== undefined) {
+         //TODO
+         //obj = new chart(element.chart);
+         continue;
+       }
+       else //skip unknown objects         
+         continue;
+
+     objects.push(obj);
     }
 
     this.templates.push(new TemplateItem(this.reportTemplate.page.layout.name, this.reportTemplate, objects));

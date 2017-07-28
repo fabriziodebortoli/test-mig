@@ -1,3 +1,4 @@
+import { ComponentInfoService } from './../models/component-info.model';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
 import { ComponentService } from './../../core/services/component.service';
@@ -17,8 +18,8 @@ import { BOService } from './../../core/services/bo.service';
 })
 export class UnsupportedComponent extends DocumentComponent implements OnInit {
 
-  constructor(boService: BOService, eventData: EventDataService) {
-    super(boService, eventData);
+  constructor(boService: BOService, eventData: EventDataService, ciService: ComponentInfoService) {
+    super(boService, eventData, ciService);
   }
 
   ngOnInit() {
