@@ -51,7 +51,6 @@ namespace Microarea.AdminServer.Controllers
         {
             _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _subscriptionSQLDataProvider = new SubscriptionSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _tokenSQLDataProvider = new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _urlsSQLDataProvider = new ServerURLSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
         }
@@ -214,10 +213,14 @@ namespace Microarea.AdminServer.Controllers
             }
             try
             {
-                IAccount account =  burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
-          {
-                    new WhereCondition("AccountName", passwordInfo.AccountName, QueryComparingOperators.IsEqual, false)
-          });
+                IAccount account =  burgerData.GetObject<Account, IAccount>(
+					String.Empty, 
+					ModelTables.Accounts, 
+					SqlLogicOperators.AND, 
+					new WhereCondition[]{
+						new WhereCondition("AccountName", passwordInfo.AccountName, QueryComparingOperators.IsEqual, false)
+					});
+
                 // L'account esiste sul db locale
                 if (account != null)
                 {
@@ -367,15 +370,15 @@ namespace Microarea.AdminServer.Controllers
 			return true;
         }
 
-      
-
         //----------------------------------------------------------------------
         private ISubscription[] GetSubscriptions(string accountName)
         {
-            Subscription subscription = new Subscription();
-            subscription.SetDataProvider(_subscriptionSQLDataProvider);
-			ISubscription[] subsArray = subscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
-			return subsArray;
+			List<ISubscription> listSubscriptions = this.burgerData.GetList<Subscription, ISubscription>(
+				String.Format(Queries.SelectSubscriptionsByAccount, accountName),
+				ModelTables.Subscriptions);
+
+			// @@TODO: optimization: remove ToArray()
+			return listSubscriptions.ToArray();
 		}
 
 		//----------------------------------------------------------------------
@@ -405,18 +408,28 @@ namespace Microarea.AdminServer.Controllers
         //----------------------------------------------------------------------
         private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)
         {
-            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, Strings.EmptySubscriptions, (int)AppReturnCodes.InvalidData);
+            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null)
+			{
+				return new OperationResult(false, Strings.EmptySubscriptions, (int)AppReturnCodes.InvalidData);
+			}
 
-            foreach (ISubscription s in accountIdentityPack.Subscriptions)
+			OperationResult result = new OperationResult();
+
+			foreach (Subscription s in accountIdentityPack.Subscriptions)
             {
-                s.SetDataProvider(_subscriptionSQLDataProvider);
-                OperationResult result = s.Save();
+				result = s.Save(this.burgerData);
+
                 if (!result.Result)
                 {
                     return result;
                 }
             }
-            return new OperationResult(true, "ok", (int)AppReturnCodes.OK);
+
+			result.Result = true;
+			result.Code = (int)AppReturnCodes.OK;
+			result.Message = AppReturnCodes.OK.ToString();
+
+			return result;
         }
 
         //----------------------------------------------------------------------

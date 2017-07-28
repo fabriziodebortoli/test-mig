@@ -5,6 +5,7 @@ using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.BurgerData;
 using Microarea.AdminServer.Services.Providers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,8 @@ namespace Microarea.AdminServer.Controllers
         IDataProvider _tokenSQLDataProvider;
         IDataProvider _urlsSQLDataProvider;
 
+		BurgerData burgerData;
+
         IJsonHelper _jsonHelper;
 		IHttpHelper _httpHelper;
 
@@ -45,6 +48,7 @@ namespace Microarea.AdminServer.Controllers
 
 			_jsonHelper = jsonHelper;
 			_httpHelper = httpHelper;
+			this.burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
 		}
 
 		//-----------------------------------------------------------------------------	
@@ -53,7 +57,6 @@ namespace Microarea.AdminServer.Controllers
             _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _subscriptionDatabaseSqlDataProvider = new SubscriptionDatabaseSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
 			_instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _subscriptionSQLDataProvider = new SubscriptionSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _tokenSQLDataProvider =  new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _urlsSQLDataProvider = new ServerURLSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
         }
@@ -265,11 +268,13 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			List<ISubscription> subscriptionsList = null;
+			List<ISubscription> subscriptionsList = new List<ISubscription>();
 
 			try
 			{
-				subscriptionsList = ((SubscriptionSQLDataProvider)_subscriptionSQLDataProvider).GetSubscriptions(instanceKey);
+				subscriptionsList = this.burgerData.GetList<Subscription, ISubscription>(
+					String.Format(Queries.SelectSubscriptionAccountBySubscriptionKey, instanceKey),
+					ModelTables.Subscriptions);
 			}
 			catch (Exception exc)
 			{
