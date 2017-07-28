@@ -298,8 +298,7 @@ namespace Microarea.RSWeb.Render
 
             string result = Path.GetTempPath();
             string fileName = result + woorm.Properties.Title.Remove(' ', 0, 0) + ".xlsx";
-
-
+            
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))
             {
                 //crea il documento Excel
