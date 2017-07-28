@@ -31,7 +31,6 @@ namespace Microarea.AdminServer.Model
 		string parentAccount = string.Empty;
 		bool confirmed = false;
         long ticks;
-        BurgerData burgerdata;
 
         //---------------------------------------------------------------------
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
