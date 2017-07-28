@@ -31,8 +31,15 @@ namespace Microarea.AdminServer
 												RegionalSettings = @RegionalSettings, MinDBSizeToWarn = @MinDBSizeToWarn, UnderMaintenance=@UnderMaintenance WHERE SubscriptionKey = @SubscriptionKey";
         public const string DeleteSubscription = @"DELETE MP_Subscriptions WHERE SubscriptionKey = @SubscriptionKey";
 
-        // SubscriptionSlot
-        public const string DeleteSubscriptionSlot = @"DELETE MP_SubscriptionsSlots WHERE SubscriptionKey = @SubscriptionKey";
+		// Subscription (BurgerData)
+		public const string SelectSubscriptionsByAccount = "SELECT * FROM MP_Subscriptions sub JOIN MP_SubscriptionAccounts subacc ON sub.SubscriptionKey = subacc.SubscriptionKey WHERE subacc.AccountName = '{0}'";
+		public const string SelectSubscriptionsByAccountInstance = @"SELECT * FROM MP_Subscriptions sub 
+																		JOIN MP_SubscriptionAccounts subacc ON sub.SubscriptionKey = subacc.SubscriptionKey 
+																		JOIN MP_SubscriptionInstances subins ON subacc.SubscriptionKey = subins.SubscriptionKey
+																		WHERE subacc.AccountName = '{0}'";
+
+		// SubscriptionSlot
+		public const string DeleteSubscriptionSlot = @"DELETE MP_SubscriptionsSlots WHERE SubscriptionKey = @SubscriptionKey";
 
         // SubscriptionDatabases
         public const string ExistSubscriptionDatabase = @"SELECT COUNT(*) FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
