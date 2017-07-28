@@ -21,7 +21,7 @@ export class RadarTestComponent extends DocumentComponent implements OnInit {
   @ViewChild('radar') radar: RadarComponent;
 
   constructor(public eventData: EventDataService, private dataService: DataService, private http: Http, private testService: TestService) {
-    super(testService, eventData);
+    super(testService, eventData, null);
   }
 
   ngOnInit() {

@@ -47,7 +47,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
-    super(rsService, eventData);
+    super(rsService, eventData, null);
   }
 
   // -----------------------------------------------

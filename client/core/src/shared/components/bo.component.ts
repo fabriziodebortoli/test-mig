@@ -26,8 +26,8 @@ export abstract class BOComponent extends DocumentComponent implements OnInit, A
   constructor(public bo: BOService,
     eventData: EventDataService,
     private componentResolver: ComponentFactoryResolver,
-    private ciService: ComponentInfoService) {
-    super(bo, eventData);
+    ciService: ComponentInfoService) {
+    super(bo, eventData, ciService);
 
     this.subscriptions.push(eventData.radarInfos.subscribe((radarInfos: string) => {
       this.radarObj._component.init(radarInfos);
@@ -57,8 +57,8 @@ export abstract class BOComponent extends DocumentComponent implements OnInit, A
 })
 export abstract class BOSlaveComponent extends DocumentComponent implements OnInit, OnDestroy {
 
-  constructor(private ciService: ComponentInfoService) {
-    super(null, null);
+  constructor(ciService: ComponentInfoService) {
+    super(null, null, ciService);
   }
 
   ngOnInit() {
