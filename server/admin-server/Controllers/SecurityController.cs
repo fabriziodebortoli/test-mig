@@ -27,7 +27,6 @@ namespace Microarea.AdminServer.Controllers
         IDataProvider _tokenSQLDataProvider;
         IDataProvider _urlsSQLDataProvider;
         IDataProvider _instanceSqlDataProvider;
-        IDataProvider _subscriptionSQLDataProvider;
         IJsonHelper _jsonHelper;
         IHttpHelper _httpHelper;
         string GWAMUrl;
