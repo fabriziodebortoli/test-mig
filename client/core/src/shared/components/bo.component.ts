@@ -57,8 +57,8 @@ export abstract class BOComponent extends DocumentComponent implements OnInit, A
 })
 export abstract class BOSlaveComponent extends DocumentComponent implements OnInit, OnDestroy {
 
-  constructor(ciService: ComponentInfoService) {
-    super(null, null, ciService);
+  constructor(eventData: EventDataService, ciService: ComponentInfoService) {
+    super(null, eventData, ciService);
   }
 
   ngOnInit() {
