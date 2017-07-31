@@ -45,7 +45,6 @@ namespace Microarea.AdminServer.Services.Providers
                                 instance.Description = dataReader["Tags"] as string;
                                 instance.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
                                 instance.Disabled = (bool)dataReader["Disabled"];
-								instance.ExistsOnDB = true;
 							}
 						}
 					}
@@ -57,7 +56,7 @@ namespace Microarea.AdminServer.Services.Providers
 				return null;
 			}
 
-			return instance;
+            return null;//instance;todo eliminare
 		}
 
 		//---------------------------------------------------------------------

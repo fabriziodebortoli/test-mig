@@ -828,6 +828,7 @@ namespace Microarea.AdminServer.Services.BurgerData
             AccountRoles,
             RegisteredApps,
             Instances,
-            RecoveryCode
-        }
+            RecoveryCode,
+        ServerUrls
+    }
     }

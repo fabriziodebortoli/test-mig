@@ -23,10 +23,8 @@ namespace Microarea.AdminServer.Controllers
     {
         private IHostingEnvironment _env;
         AppOptions _settings;
-        IDataProvider _accountSqlDataProvider;
         IDataProvider _tokenSQLDataProvider;
         IDataProvider _urlsSQLDataProvider;
-        IDataProvider _instanceSqlDataProvider;
         IDataProvider _subscriptionSQLDataProvider;
         IJsonHelper _jsonHelper;
         IHttpHelper _httpHelper;
@@ -49,8 +47,6 @@ namespace Microarea.AdminServer.Controllers
         //-----------------------------------------------------------------------------	
         private void SqlProviderFactory()
         {
-            _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _subscriptionSQLDataProvider = new SubscriptionSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _tokenSQLDataProvider = new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
             _urlsSQLDataProvider = new ServerURLSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
@@ -381,25 +377,71 @@ namespace Microarea.AdminServer.Controllers
 		//----------------------------------------------------------------------
 		private IInstance[] GetInstances(string accountName)
 		{
-			Instance iInstance = new Instance();
-			iInstance.SetDataProvider(_instanceSqlDataProvider);
-			IInstance[] instanceArray = iInstance.GetInstancesByAccount(accountName).ToArray();
-			return instanceArray;
+            string query = String.IsNullOrEmpty(accountName) ?
+                        
+                            "SELECT * FROM MP_Instances"
+                            
+                            :
+                        String.Format(
+                            "SELECT * FROM MP_Instances WHERE AccountName = '{0}'",
+                            accountName
+                            );
+ 
+            try
+            {
+                BurgerData burgerData  = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+   List<IInstance>  l = burgerData.GetList<Instance, IInstance>(
+                query,
+               ModelTables.Instances);
+
+                return l.ToArray();
+            }
+            catch { }
+            return new IInstance[] { };
 		}
 
 		//----------------------------------------------------------------------
 		private IServerURL[] GetUrlsForThisInstance()
         {
-            Instance iInstance = new Instance(_settings.InstanceIdentity.InstanceKey);
-            iInstance.SetDataProvider(_instanceSqlDataProvider);
-            iInstance.Load();
+            IInstance iInstance = null ;
+            try
+            {
+                burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+                iInstance = burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[]
+         {
+                    new WhereCondition("InstanceKey", _settings.InstanceIdentity.InstanceKey, QueryComparingOperators.IsEqual, false)
+         });
+            }
+            catch { }
 
-            if (!iInstance.ExistsOnDB)
+            if (iInstance == null)
             {
                 return new IServerURL[] { };
             }
 
-			return iInstance.LoadURLs().ToArray();
+                return LoadURLs();
+        }
+
+        //----------------------------------------------------------------------
+        private IServerURL[] LoadURLs()
+        {
+            string query =
+                       String.Format(
+                           "SELECT * FROM MP_ServerUrls WHERE InstanceKey = '{0}'",
+                           _settings.InstanceIdentity.InstanceKey
+                           );
+
+            try
+            {
+                BurgerData burgerData = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+                List<IServerURL> l = burgerData.GetList<ServerURL, IServerURL>(
+                             query,
+                            ModelTables.ServerUrls);
+
+                return l.ToArray();
+            }
+            catch { }
+            return null;
         }
 
         //----------------------------------------------------------------------
