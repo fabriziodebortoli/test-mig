@@ -53,7 +53,7 @@ namespace Microarea.AdminServer.Model
 
 			BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@SubscriptionKey", this.subscriptionKey);
 
-			opRes.Result = burgerData.Save(ModelTables.Accounts, keyColumnParameter, burgerDataParameters);
+			opRes.Result = burgerData.Save(ModelTables.Subscriptions, keyColumnParameter, burgerDataParameters);
 			opRes.Content = this;
 			return opRes;
 		}

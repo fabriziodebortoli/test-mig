@@ -104,9 +104,11 @@ namespace Microarea.AdminServer
 
         // AccountRole
         public const string ExistAccountRoles = @"SELECT COUNT(*) FROM MP_AccountRoles WHERE RoleId=@RoleId AND AccountName=@AccountName AND EntityKey=@EntityKey";
-        public const string SelectAccountRoles = @"SELECT * FROM MP_AccountRolesWHERE RoleId=@RoleId AND AccountName=@AccountName AND EntityKey=@EntityKey";
+        public const string SelectAccountRoles = @"SELECT * FROM MP_AccountRoles WHERE AccountName=@AccountName AND EntityKey=@EntityKey";
         public const string InsertAccountRoles = @"INSERT INTO MP_AccountRoles (RoleId, AccountName, EntityKey) VALUES (@RoleId, @AccountName, @EntityKey)";
         public const string DeleteAccountRoles = @"DELETE MP_AccountRoles WHERE RoleId=@RoleId AND AccountName=@AccountName AND EntityKey=@EntityKey";
 
-    }
+		// AccountRole (BurgerData)
+		public const string SelectRolesByAccountName = @"SELECT * FROM MP_AccountRoles WHERE AccountName = '{0}'";
+	}
 }

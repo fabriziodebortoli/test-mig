@@ -1,3 +1,4 @@
+import { CommandEventArgs } from './../../../../models/eventargs.model';
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
@@ -49,8 +50,8 @@ export class TopbarMenuAppComponent implements OnDestroy {
 
 
 
-        this.eventDataService.command.subscribe((cmpId: string) => {
-            switch (cmpId) {
+        this.eventDataService.command.subscribe((args: CommandEventArgs) => {
+            switch (args.commandId) {
                 case 'idViewProductInfoButton':
                     return this.openProductInfoDialog();
                 case 'idConnectionInfoButton':

@@ -46,7 +46,7 @@ namespace Microarea.AdminServer.Model
 				urlTypeColumnParameter
 			};
 
-			opRes.Result = burgerData.Save(ModelTables.Instances, columnParameters, burgerDataParameters);
+			opRes.Result = burgerData.Save(ModelTables.ServerURLs, columnParameters, burgerDataParameters);
 			return opRes;
 		}
 

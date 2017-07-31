@@ -282,13 +282,13 @@ namespace Microarea.AdminServer.Controllers
         /// </returns>
         [HttpPost("api/token")]
 		//-----------------------------------------------------------------------------	
-		public IActionResult ApiCheckToken(string token)
+		public IActionResult ApiCheckToken(string token, string roleName, string entityKey, string level)
 		{
 			OperationResult opRes = new OperationResult();
 
 			try
 			{
-				opRes = SecurityManager.ValidateToken(token, _settings.SecretsKeys.TokenHashingKey);
+				opRes = SecurityManager.ValidateToken(token, _settings.SecretsKeys.TokenHashingKey, roleName, entityKey, level);
 				_jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
@@ -355,16 +355,24 @@ namespace Microarea.AdminServer.Controllers
             bootstrapToken.Instances = GetInstances(account.AccountName);
 			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
             bootstrapToken.Urls = GetUrlsForInstance(_settings.InstanceIdentity.InstanceKey, this.burgerData);
-            bootstrapToken.IsCloudAdmin = account.IsCloudAdmin(burgerData);
-            bootstrapToken.Roles = account.GetRoles(burgerData);
+			bootstrapToken.Roles = GetRoles(account.AccountName);
+
             AuthorizationInfo ai = GetAuthorizationInfo();
 			bootstrapToken.AppSecurity = new AppSecurityInfo(ai.AppId, ai.SecurityValue);
 
 			return true;
         }
 
-        //----------------------------------------------------------------------
-        private ISubscription[] GetSubscriptions(string accountName)
+		//----------------------------------------------------------------------
+		private IAccountRoles[] GetRoles(string accountName)
+		{
+			return this.burgerData.GetList<AccountRoles, IAccountRoles>(
+				String.Format(Queries.SelectRolesByAccountName, accountName),
+				ModelTables.AccountRoles).ToArray();
+		}
+
+		//----------------------------------------------------------------------
+		private ISubscription[] GetSubscriptions(string accountName)
         {
 			List<ISubscription> listSubscriptions = this.burgerData.GetList<Subscription, ISubscription>(
 				String.Format(Queries.SelectSubscriptionsByAccount, accountName),
@@ -487,13 +495,18 @@ namespace Microarea.AdminServer.Controllers
 		{
 			List<SecurityToken> tokenList = new List<SecurityToken>();
 
-			UserTokens tokens = new UserTokens(account.IsCloudAdmin(burgerData), account.AccountName);
-			tokens.Setprovider(_tokenSQLDataProvider);
+			/* @@TODOROLES: 
+			 * create app token,
+			 * scan all istances/subscriptions to see if you are at least admin, then generate one security token
+			 */
 
-			if (tokens.Save())
-			{
-				return tokens.GetTokenList(account.IsCloudAdmin(burgerData), account.AccountName).ToArray();
-			}
+			//UserTokens tokens = new UserTokens(account.IsCloudAdmin(burgerData), account.AccountName);
+			//tokens.Setprovider(_tokenSQLDataProvider);
+
+			//if (tokens.Save())
+			//{
+			//	return tokens.GetTokenList(account.IsCloudAdmin(burgerData), account.AccountName).ToArray();
+			//}
 
 			return tokenList.ToArray();
         }

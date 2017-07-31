@@ -1,3 +1,4 @@
+import { CommandEventArgs } from './../../models/eventargs.model';
 import { Component, Input, ViewChild } from '@angular/core';
 
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
@@ -61,7 +62,8 @@ export class ContextMenuComponent {
   public doCommand(menuItem: any) {
     if (!menuItem) { console.log('NOT doCommand for ContextMenu!'); return; }
     if (this.hasSubItems(menuItem)) { return; }
-    this.eventDataService.command.emit(menuItem.id);
+  
+    this.eventDataService.raiseCommand('', menuItem.id);
     console.log('doCommand OK!');
     this.onToggle();
   }

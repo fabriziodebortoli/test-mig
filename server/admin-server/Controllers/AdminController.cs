@@ -128,7 +128,8 @@ namespace Microarea.AdminServer.Controllers
 
 			// check AuthorizationHeader first
 
-			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey/*, isProvisioningAdmin: true*/);
+			OperationResult opRes = SecurityManager.ValidateAuthorization(
+				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subDatabase.SubscriptionKey, RoleLevelsStrings.Subscription);
 
 			if (!opRes.Result)
 			{
@@ -191,7 +192,9 @@ namespace Microarea.AdminServer.Controllers
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 			
 			// check AuthorizationHeader first
-			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey, isCloudAdmin: false/*, isProvisioningAdmin: true*/);
+
+			OperationResult opRes = SecurityManager.ValidateAuthorization(
+				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
 
 			if (!opRes.Result)
 			{
@@ -242,8 +245,9 @@ namespace Microarea.AdminServer.Controllers
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 
-			// check AuthorizationHeader first
-			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey, isCloudAdmin: true/*, isProvisioningAdmin: true*/);
+			// check AuthorizationHeader first			
+			OperationResult opRes = SecurityManager.ValidateAuthorization(
+				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, instanceKey, RoleLevelsStrings.Instance);
 
 			if (!opRes.Result)
 			{
@@ -286,7 +290,10 @@ namespace Microarea.AdminServer.Controllers
 
 			// check AuthorizationHeader first
 
-			OperationResult opRes = SecurityManager.ValidateAuthorization(authHeader, _settings.SecretsKeys.TokenHashingKey/*, isProvisioningAdmin: true*/);
+			// for now, we set the highest rights for this API
+
+			OperationResult opRes = SecurityManager.ValidateAuthorization(
+				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, RolesStrings.All, RoleLevelsStrings.Instance);
 
 			if (!opRes.Result)
 			{

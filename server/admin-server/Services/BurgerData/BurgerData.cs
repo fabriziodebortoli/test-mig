@@ -9,7 +9,6 @@ using System.Text;
 
 namespace Microarea.AdminServer.Services.BurgerData
 {
- 
         //================================================================================
         public class BurgerDataParameter
         {

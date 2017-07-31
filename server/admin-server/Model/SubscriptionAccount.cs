@@ -1,22 +1,21 @@
-﻿using Microarea.AdminServer.Model.Interfaces;
+﻿using System;
+using System.Data;
+using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.BurgerData;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Model
 {
     //================================================================================
-    public class SubscriptionAccount : ISubscriptionAccount
+    public class SubscriptionAccount : ISubscriptionAccount, IModelObject
 	{
         string accountName;
 		string subscriptionKey;
-		bool existsOnDB = false;
-
-		// data provider
-		IDataProvider dataProvider;
 
 		//---------------------------------------------------------------------
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
         public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
-		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
 		//---------------------------------------------------------------------
 		public SubscriptionAccount()
@@ -24,27 +23,37 @@ namespace Microarea.AdminServer.Model
 		}
 
 		//---------------------------------------------------------------------
-		public IAdminModel Load()
+		public OperationResult Save(BurgerData burgerData)
 		{
-			return this.dataProvider.Load(this);
+			OperationResult opRes = new OperationResult();
+
+			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+			burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.accountName));
+			burgerDataParameters.Add(new BurgerDataParameter("@SubscriptionKey", this.subscriptionKey));
+
+			BurgerDataParameter accountKeyColumnParameter = new BurgerDataParameter("@AccountName", this.accountName);
+			BurgerDataParameter subscriptionKeyColumnParameter = new BurgerDataParameter("@SubscriptionKey", this.subscriptionKey);
+			BurgerDataParameter[] keyColumns = new BurgerDataParameter[] {
+				accountKeyColumnParameter,
+				subscriptionKeyColumnParameter
+			};
+
+			opRes.Result = burgerData.Save(ModelTables.SubscriptionAccounts, keyColumns, burgerDataParameters);
+			opRes.Content = this;
+			return opRes;
 		}
 
-		//---------------------------------------------------------------------
-		public OperationResult Save()
+		public IModelObject Fetch(IDataReader reader)
 		{
-			return this.dataProvider.Save(this);
+			SubscriptionAccount subAccount = new SubscriptionAccount();
+			subAccount.accountName = reader["AccountName"] as string;
+			subAccount.subscriptionKey = reader["SubscriptionKey"] as string;
+			return subAccount;
 		}
 
-		//---------------------------------------------------------------------
-		public void SetDataProvider(IDataProvider dataProvider)
+		public string GetKey()
 		{
-			this.dataProvider = dataProvider;
-		}
-
-		//---------------------------------------------------------------------
-		public OperationResult Query(QueryInfo qi)
-		{
-			return this.dataProvider.Query(qi);
+			throw new NotImplementedException();
 		}
 	}
 }
