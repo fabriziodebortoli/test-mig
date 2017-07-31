@@ -17,22 +17,7 @@ namespace Microarea.AdminServer.Services
 		DateTime MinDateTimeValue { get; }
 
     }
-
-	//================================================================================
-	public interface IInstanceDataProvider : IDataProvider
-	{
-		List<IServerURL> LoadURLs(string instanceKey);
-		List<IInstance> GetInstances();
-		List<IInstance> GetInstancesBySubscription(string subscriptionKey);
-		List<IInstance> GetInstancesByAccount(string accountName);
-	}
-
-	//================================================================================
-	public interface IAccountDataProvider : IDataProvider
-	{
-		List<IAccount> GetAccounts(string accountName);
-		List<IAccount> GetAccountsBySubscription(string subscriptionKey);
-	}
+    
 
 	//================================================================================
 	public interface ISubscriptionDatabaseDataProvider : IDataProvider
@@ -40,11 +25,5 @@ namespace Microarea.AdminServer.Services
 		List<SubscriptionDatabase> GetDatabasesBySubscription(string subscriptionKey, string name);
 	}
 
-	//================================================================================
-	public interface ISubscriptionDataProvider : IDataProvider
-	{
-		List<ISubscription> GetSubscriptions(string instanceKey);
-		List<ISubscription> GetSubscriptionsByAccount(string accountName, string instanceKey);
-	}
 
 }
