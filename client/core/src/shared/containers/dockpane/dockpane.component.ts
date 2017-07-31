@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-import { Component, NgModule, trigger, transition, style, animate, state, OnInit, Input } from '@angular/core';
-=======
-import { Component, NgModule, trigger, transition, style, animate, state} from '@angular/core';
->>>>>>> 0c7e17dea94e08b0a2c5a3cd4f602608a98203d2
+
+import { Component, NgModule, trigger, transition, style, animate, state, Input } from '@angular/core';
 
 @Component({
   selector: 'tb-dockpane',
@@ -23,15 +20,8 @@ import { Component, NgModule, trigger, transition, style, animate, state} from '
 })
 
 
-<<<<<<< HEAD
-export class DockpaneComponent implements OnInit {
- @Input() title:string;
-=======
 export class DockpaneComponent {
-
->>>>>>> 0c7e17dea94e08b0a2c5a3cd4f602608a98203d2
-
- 
+ @Input() title:string;
   menuState:string = 'out';
  
   toggleMenu() {
