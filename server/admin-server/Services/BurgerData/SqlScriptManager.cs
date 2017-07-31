@@ -21,7 +21,9 @@ namespace Microarea.AdminServer.Services.BurgerData
                     return "MP_RecoveryCodes";
                 case ModelTables.ServerURLs:
                     return "MP_ServerURL";
-                default:
+				case ModelTables.SecurityTokens:
+					return "MP_SecurityTokens";
+				default:
                     return String.Empty;
             }
         }
@@ -78,7 +80,10 @@ namespace Microarea.AdminServer.Services.BurgerData
                 case ModelTables.SubscriptionAccounts:
                     return Queries.ExistSubscriptionAccount;
 
-                default:
+				case ModelTables.SecurityTokens:
+					return Queries.ExistSecurityToken;
+
+				default:
                     return String.Empty;
             }
         }
@@ -109,7 +114,10 @@ namespace Microarea.AdminServer.Services.BurgerData
                 case ModelTables.SubscriptionAccounts:
                     return String.Empty;
 
-                default:
+				case ModelTables.SecurityTokens:
+					return Queries.UpdateSecurityToken;
+
+				default:
                     return String.Empty;
             }
         }
@@ -140,30 +148,11 @@ namespace Microarea.AdminServer.Services.BurgerData
                 case ModelTables.SubscriptionAccounts:
                     return Queries.InsertSubscriptionAccount;
 
-                default:
-                    return String.Empty;
-            }
-        }
+				case ModelTables.SecurityTokens:
+					return Queries.InsertSecurityToken;
 
-        //--------------------------------------------------------------------------------
-        public static ModelTables GetModelTable(string modelName)
-        {
-            switch (modelName.ToUpperInvariant())
-            {
-                case "ACCOUNTS":
-                    return ModelTables.Accounts;
-                case "SUBSCRIPTIONS":
-                    return ModelTables.Subscriptions;
-                case "ROLES":
-                    return ModelTables.Roles;
-                case "REGISTEREDAPPS":
-                    return ModelTables.RegisteredApps;
-                case "RECOVERYCODES":
-                    return ModelTables.RecoveryCode;
-                case "INSTANCES":
-                    return ModelTables.Instances;
-                default:
-                    return ModelTables.None;
+				default:
+                    return String.Empty;
             }
         }
     }
