@@ -13,6 +13,8 @@ namespace Microarea.AdminServer.Services.BurgerData
                     return "MP_Accounts";
                 case ModelTables.AccountRoles:
                     return "MP_AccountRoles";
+                case ModelTables.Roles:
+                    return "MP_Roles";
                 case ModelTables.RegisteredApps:
                     return "MP_RegisteredApps";
                 case ModelTables.Instances:
@@ -23,7 +25,9 @@ namespace Microarea.AdminServer.Services.BurgerData
                     return "MP_ServerURL";
 				case ModelTables.SecurityTokens:
 					return "MP_SecurityTokens";
-				default:
+                case ModelTables.Subscriptions:
+                    return "MP_Subscriptions";
+                default:
                     return String.Empty;
             }
         }

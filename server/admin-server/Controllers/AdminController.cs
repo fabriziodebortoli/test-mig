@@ -257,7 +257,7 @@ namespace Microarea.AdminServer.Controllers
 		}
         [HttpPost("/api/query/{modelName}")]
         [Produces("application/json")]
-       
+
         //-----------------------------------------------------------------------------	
         private OperationResult Query(ModelTables modelTable, string bodyText)
         {
@@ -271,22 +271,25 @@ namespace Microarea.AdminServer.Controllers
             }
 
             OperationResult opRes = new OperationResult();
+            opRes.Result = true;
             switch (modelTable)
             {
                 case ModelTables.Accounts:
-                    opRes.Result = true;
                     opRes.Content = this.burgerData.GetList<Account, IAccount>(selectScript.ToString(), modelTable);
                     break;
                 case ModelTables.Subscriptions:
+                    opRes.Content = this.burgerData.GetList<Subscription, ISubscription>(selectScript.ToString(), modelTable);
                     break;
                 case ModelTables.Roles:
+                    opRes.Content = this.burgerData.GetList<Role, IRole>(selectScript.ToString(), modelTable);
                     break;
                 case ModelTables.AccountRoles:
-                    break;
-                case ModelTables.RegisteredApps:
+                    opRes.Content = this.burgerData.GetList<AccountRoles, IAccountRoles>(selectScript.ToString(), modelTable);
                     break;
                 case ModelTables.Instances:
+                    opRes.Content = this.burgerData.GetList<Instance, IInstance>(selectScript.ToString(), modelTable);
                     break;
+              
                 case ModelTables.None:
                 default:
                     opRes.Result = false;
@@ -296,7 +299,6 @@ namespace Microarea.AdminServer.Controllers
             }
             return opRes;
         }
-
 
 
         [HttpPost("/api/query/{modelName}")]
