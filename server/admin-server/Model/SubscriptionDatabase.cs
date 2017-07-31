@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Data;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.BurgerData;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Model
 {
@@ -26,7 +29,6 @@ namespace Microarea.AdminServer.Model
 		string regionalSettings = string.Empty;
 		string provider = string.Empty;
 		bool test = false;
-		bool existsOnDB = false;
 
 		//---------------------------------------------------------------------
 		public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
@@ -48,10 +50,7 @@ namespace Microarea.AdminServer.Model
 		public string RegionalSettings { get { return this.regionalSettings; } set { this.regionalSettings = value; } }
 		public string Provider { get { return this.provider; } set { this.provider = value; } }
 		public bool Test { get { return this.test; } set { this.test = value; } }
-		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
 
-		// data provider
-		IDataProvider dataProvider;
 
 		//---------------------------------------------------------------------
 		public SubscriptionDatabase()
@@ -64,28 +63,76 @@ namespace Microarea.AdminServer.Model
 			this.name = SubscriptionDBName;
 		}
 
-		//---------------------------------------------------------------------
-		public void SetDataProvider(IDataProvider dataProvider)
-		{
-			this.dataProvider = dataProvider;
-		}
 
-		//---------------------------------------------------------------------
-		public OperationResult Save()
-		{
-			return this.dataProvider.Save(this);
-		}
+        //---------------------------------------------------------------------
+        public OperationResult Save(BurgerData burgerData)
+        {
+            OperationResult opRes = new OperationResult();
 
-		//---------------------------------------------------------------------
-		public IAdminModel Load()
-		{
-			return this.dataProvider.Load(this);
-		}
+            List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+           
+            burgerDataParameters.Add(new BurgerDataParameter("@Description", this.Description));
+            burgerDataParameters.Add(new BurgerDataParameter("@DBServer", this.DBServer));
+            burgerDataParameters.Add(new BurgerDataParameter("@DBName", this.DBName));
+            burgerDataParameters.Add(new BurgerDataParameter("@DBOwner", this.DBOwner));
+            burgerDataParameters.Add(new BurgerDataParameter("@DBPassword", this.DBPassword));
+            burgerDataParameters.Add(new BurgerDataParameter("@DatabaseCulture", this.DatabaseCulture));
+            burgerDataParameters.Add(new BurgerDataParameter("@Disabled", this.Disabled));
+            burgerDataParameters.Add(new BurgerDataParameter("@IsUnicode", this.IsUnicode));
+            burgerDataParameters.Add(new BurgerDataParameter("@Provider", this.Provider));
+            burgerDataParameters.Add(new BurgerDataParameter("@UseDMS", this.UseDMS));
+            burgerDataParameters.Add(new BurgerDataParameter("@DMSDBServer", this.DMSDBServer));
+            burgerDataParameters.Add(new BurgerDataParameter("@DMSDBName", this.DMSDBName));
+            burgerDataParameters.Add(new BurgerDataParameter("@DMSDBOwner", this.DMSDBOwner));
+            burgerDataParameters.Add(new BurgerDataParameter("@DMSDBPassword", this.DMSDBPassword));
+            burgerDataParameters.Add(new BurgerDataParameter("@Test", this.Test));
+            burgerDataParameters.Add(new BurgerDataParameter("@Language", this.Language));
+            burgerDataParameters.Add(new BurgerDataParameter("@RegionalSettings", this.RegionalSettings));
 
-		//---------------------------------------------------------------------
-		public OperationResult Query(QueryInfo qi)
-		{
-			return this.dataProvider.Query(qi);
-		}
-	}
+            BurgerDataParameter keyColumnParameter1 = new BurgerDataParameter("@SubscriptionKey", this.SubscriptionKey);
+            BurgerDataParameter keyColumnParameter2 = new BurgerDataParameter("@Name", this.Name);
+
+            BurgerDataParameter[] keyParameters = new BurgerDataParameter[] {
+               keyColumnParameter1,keyColumnParameter2
+            };
+
+            opRes.Result = burgerData.Save(ModelTables.SubscriptionAccounts, keyParameters, burgerDataParameters);
+            opRes.Content = this;
+            return opRes;
+        }
+      
+
+        //--------------------------------------------------------------------------------
+        public IModelObject Fetch(IDataReader dataReader)
+        {
+            SubscriptionDatabase subscriptionDatabase = new SubscriptionDatabase();
+            subscriptionDatabase.SubscriptionKey = dataReader["SubscriptionKey"] as string;
+            subscriptionDatabase.Name = dataReader["Name"] as string;
+            subscriptionDatabase.Description = dataReader["Description"] as string;
+            subscriptionDatabase.DBServer = dataReader["DBServer"] as string;
+            subscriptionDatabase.DBName = dataReader["DBName"] as string;
+            subscriptionDatabase.DBOwner = dataReader["DBOwner"] as string;
+            subscriptionDatabase.DBPassword = dataReader["DBPassword"] as string;
+            subscriptionDatabase.DatabaseCulture = dataReader["DatabaseCulture"] as string;
+            subscriptionDatabase.Disabled = (bool)dataReader["Disabled"];
+            subscriptionDatabase.IsUnicode = (bool)dataReader["IsUnicode"];
+            subscriptionDatabase.Language = dataReader["RegionalSettings"] as string;
+            subscriptionDatabase.RegionalSettings = dataReader["Language"] as string;
+            subscriptionDatabase.Provider = dataReader["Provider"] as string;
+            subscriptionDatabase.UseDMS = (bool)dataReader["UseDMS"];
+            subscriptionDatabase.DMSDBServer = dataReader["DMSDBServer"] as string;
+            subscriptionDatabase.DMSDBName = dataReader["DMSDBName"] as string;
+            subscriptionDatabase.DMSDBOwner = dataReader["DMSDBOwner"] as string;
+            subscriptionDatabase.DMSDBPassword = dataReader["DMSDBPassword"] as string;
+            subscriptionDatabase.Test = (bool)dataReader["Test"];
+       
+            return subscriptionDatabase;
+        }
+
+        //---------------------------------------------------------------------
+        public string GetKey()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
