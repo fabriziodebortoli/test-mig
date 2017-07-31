@@ -283,12 +283,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  public startSavePDF() {
-    this.rsService.pdfState = PdfType.PDF;
-    this.FirstPage();
-  }
-
-  //--------------------------------------------------
   public startSaveSVG() {
     this.rsService.svgState = SvgType.SVG;
     this.CurrentPage();
@@ -298,6 +292,21 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public startSavePNG() {
     this.rsService.pngState = PngType.PNG;
     this.CurrentPage();
+  }
+
+  //--------------------------------------------------
+  setExportFile(type: string) {
+    if (type == this.rsService.pdf)
+      this.rsService.exportpdf = true;
+    if (type == this.rsService.excel)
+      this.rsService.exportexcel = true;
+    this.rsService.exportfile = true
+  }
+
+  //--------------------------------------------------
+  public startSavePDF() {
+    this.rsService.pdfState = PdfType.PDF;
+    this.FirstPage();
   }
 
   //--------------------------------------------------
