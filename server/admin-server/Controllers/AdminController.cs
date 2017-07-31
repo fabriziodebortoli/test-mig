@@ -255,8 +255,51 @@ namespace Microarea.AdminServer.Controllers
 			_jsonHelper.AddPlainObject<List<ISubscription>>(subscriptionsList);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
+        [HttpPost("/api/query/{modelName}")]
+        [Produces("application/json")]
+       
+        //-----------------------------------------------------------------------------	
+        private OperationResult Query(ModelTables modelTable, string bodyText)
+        {
+            // load Body data in QueryInfo object
+            JObject jObject = JObject.Parse(bodyText);
+            SelectScript selectScript = new SelectScript(SqlScriptManager.GetTableName(modelTable));
 
-		[HttpPost("/api/query/{modelName}")]
+            foreach (var item in jObject)
+            {
+                selectScript.AddWhereParameter(item.Key, item.Value, QueryComparingOperators.IsEqual, false);
+            }
+
+            OperationResult opRes = new OperationResult();
+            switch (modelTable)
+            {
+                case ModelTables.Accounts:
+                    opRes.Result = true;
+                    opRes.Content = this.burgerData.GetList<Account, IAccount>(selectScript.ToString(), modelTable);
+                    break;
+                case ModelTables.Subscriptions:
+                    break;
+                case ModelTables.Roles:
+                    break;
+                case ModelTables.AccountRoles:
+                    break;
+                case ModelTables.RegisteredApps:
+                    break;
+                case ModelTables.Instances:
+                    break;
+                case ModelTables.None:
+                default:
+                    opRes.Result = false;
+                    opRes.Code = (int)AppReturnCodes.UnknownModelName;
+                    opRes.Message = Strings.UnknownModelName;
+                    break;
+            }
+            return opRes;
+        }
+
+
+
+        [HttpPost("/api/query/{modelName}")]
 		[Produces("application/json")]
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiQuery(string modelName)
@@ -282,79 +325,39 @@ namespace Microarea.AdminServer.Controllers
 				_jsonHelper.AddJsonCouple<string>("message", Strings.EmptyModelName);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
+            ModelTables modelTable = SqlScriptManager.GetModelTable(modelName);
 
-			try
-			{
-				// read Body content
-				var bodyStream = new StreamReader(HttpContext.Request.Body);
-				string bodyText = bodyStream.ReadToEnd();
+            if (modelTable == ModelTables.None)
+            {
+                opRes.Result = false;
+                opRes.Message = Strings.UnknownModelName;
+                _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+            }
+            try
+            {
+                // read Body content
+                var bodyStream = new StreamReader(HttpContext.Request.Body);
+                string bodyText = bodyStream.ReadToEnd();
 
-				if (string.IsNullOrWhiteSpace(bodyText))
-				{
-					_jsonHelper.AddJsonCouple<bool>("result", false);
-					_jsonHelper.AddJsonCouple<string>("message", Strings.MissingBody);
-					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-				}
+                if (string.IsNullOrWhiteSpace(bodyText))
+                {
+                    opRes.Result = false;
+                    opRes.Message = Strings.MissingBody;
+                    _jsonHelper.AddPlainObject<OperationResult>(opRes);
+                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+                }
 
-				// load Body data in QueryInfo object
-				JObject jObject = JObject.Parse(bodyText);
+                Query(modelTable, bodyText);
 
-				QueryInfo qi = new QueryInfo();
-
-				foreach (var item in jObject)
-				{
-					string k = item.Key;
-					object val = ((JValue)item.Value).Value;
-					qi.Fields.Add(new QueryField(k, val));
-				}
-
-				if (qi.Fields.Count == 0)
-				{
-					_jsonHelper.AddJsonCouple<bool>("result", true);
-					_jsonHelper.AddJsonCouple<string>("message", Strings.NoQueryParams);
-					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-				}
-
-				// I capitalize the first letter otherwise I can't obtain the type of the object
-				string modelNameWithFirstLetterUpperCase = char.ToUpper(modelName[0]) + modelName.Substring(1).ToLowerInvariant();
-				// to get the type I need the namespace of object!
-				string fullName = "Microarea.AdminServer.Model." + modelNameWithFirstLetterUpperCase;
-
-				Type objectType = Type.GetType(fullName);
-				if (objectType == null)
-				{
-					_jsonHelper.AddJsonCouple<bool>("result", false);
-					_jsonHelper.AddJsonCouple<string>("message", string.Format(Strings.UnknownModelName, modelNameWithFirstLetterUpperCase));
-					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-				}
-
-                //TODO ELIMINATI I PROVIDER
-    //            IDataProvider dataProvider = null; // GetProviderFromModelName(modelName);
-				//if (dataProvider == null)
-				//{
-				//	_jsonHelper.AddJsonCouple<bool>("result", false);
-				//	_jsonHelper.AddJsonCouple<string>("message", string.Format(Strings.NoProviderAvailableForModel, modelName));
-				//	return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-				//}
-
-				//IAdminModel model = Activator.CreateInstance(objectType) as IAdminModel;
-				//if (model == null)
-				//{
-				//	_jsonHelper.AddJsonCouple<bool>("result", false);
-				//	_jsonHelper.AddJsonCouple<string>("message", string.Format(Strings.NoModelLoaded, modelName));
-				//	return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-				//}
-
-				//model.SetDataProvider(dataProvider);
-				//opRes = model.Query(qi);
-
-				//if (opRes.Result)
-				//{
-				//	opRes.Message = Strings.OperationOK;
-				//	opRes.Code = (int)AppReturnCodes.OK;
-				//}
-			}
-			catch (Exception e)
+                if (opRes.Result)
+                {
+                    opRes.Message = Strings.OperationOK;
+                    opRes.Code = (int)AppReturnCodes.OK;
+                }
+            }
+          
+            catch (Exception e)
 			{
 				_jsonHelper.AddJsonCouple<bool>("result", false);
 				_jsonHelper.AddJsonCouple<string>("message", "010 AdminController.ApiQuery " + e.Message);

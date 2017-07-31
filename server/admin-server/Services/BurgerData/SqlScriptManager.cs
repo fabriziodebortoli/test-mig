@@ -156,6 +156,26 @@ namespace Microarea.AdminServer.Services.BurgerData
             }
         }
 
-       
+        //--------------------------------------------------------------------------------
+        public static ModelTables GetModelTable(string modelName)
+        {
+            switch (modelName.ToUpperInvariant())
+            {
+                case "ACCOUNTS":
+                    return ModelTables.Accounts;
+                case "SUBSCRIPTIONS":
+                    return ModelTables.Subscriptions;
+                case "ROLES":
+                    return ModelTables.Roles;
+                case "REGISTEREDAPPS":
+                    return ModelTables.RegisteredApps;
+                case "RECOVERYCODES":
+                    return ModelTables.RecoveryCode;
+                case "INSTANCES":
+                    return ModelTables.Instances;
+                default:
+                    return ModelTables.None;
+            }
+        }
     }
 }
