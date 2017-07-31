@@ -19,6 +19,8 @@ namespace Microarea.AdminServer.Services.BurgerData
                     return "MP_Instances";
                 case ModelTables.RecoveryCode:
                     return "MP_RecoveryCodes";
+                case ModelTables.ServerURLs:
+                    return "MP_ServerURL";
                 default:
                     return String.Empty;
             }
