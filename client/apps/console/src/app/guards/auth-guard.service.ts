@@ -1,7 +1,9 @@
+import {OperationResult} from '../services/operationResult';
 import { CanActivate, CanActivateChild, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AuthorizationInfo, AuthorizationProperties } from "app/authentication/auth-info";
-import { RoleNames } from "app/authentication/auth-helpers";
+import { RoleNames, RoleLevels } from "app/authentication/auth-helpers";
+import { UrlGuard } from "app/authentication/url-guard";
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
@@ -34,17 +36,12 @@ export class AuthGuardService implements CanActivate {
 
         authorizationInfo.authorizationProperties = authorizationProperties;
 
-        if (state.url == '/instancesHome') {
-          if (!authorizationInfo.HasRole(RoleNames.CloudAdmin)) {
-            alert(RoleNames[RoleNames.CloudAdmin] + ' role missing');
-            return false;
-          }
-        }
+        let opRes: OperationResult = UrlGuard.CanNavigate(state.url, authorizationInfo);
 
-        if (!authorizationInfo.HasRole(RoleNames.ProvisioningAdmin)) {
-          alert(RoleNames[RoleNames.ProvisioningAdmin] + ' role missing');
+        if (!opRes.Result) {
+          alert(opRes.Message);
           return false;
-        }
+        }        
 
         return true;
       }

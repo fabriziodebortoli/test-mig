@@ -32,3 +32,4 @@ export * from './grid/grid.component';
 export * from './body-edit/body-edit.component';
 export * from './hotlink/hotlink.component';
 export * from './charts/linear-gauge/linear-gauge.component';
+export * from './treeview/tree-view.component';

@@ -27,10 +27,13 @@
     </tb-frame-content>
     <tb-toolbar-bottom>
 
-        <tb-toolbar-bottom-button caption="Export as PDF" (click)="startSavePDF()"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button caption="Export as PDF" (click)="setExportFile(rsService.pdf)"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as PNG" (click)="startSavePNG()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as SVG" (click)="startSaveSVG()"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button caption="Export as Excel" (click)="exportExcel()"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button caption="Export as Excel" (click)="setExportFile(rsService.excel)"></tb-toolbar-bottom-button>
+
+        <rs-exportdialog></rs-exportdialog>
+        
 
 
         <kendo-excelexport [data]="data" fileName="Prova.xlsx" [filterable]="true" #excelExport>

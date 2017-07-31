@@ -51,7 +51,8 @@ namespace Microarea.AdminServer.Model
 			account.RoleName = dataReader["RoleName"] as string;
 			account.AccountName = dataReader["AccountName"] as string;
             account.EntityKey= dataReader["EntityKey"] as string;
-            return account;
+			account.Level = dataReader["Level"] as string;
+			return account;
         }
 
         //--------------------------------------------------------------------------------
