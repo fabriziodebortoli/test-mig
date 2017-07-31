@@ -162,7 +162,6 @@ export class BOService extends DocumentService {
         });
         this.registerModelField('', 'Title');
         super.init(cmpId);
-        this.webSocketService.getDocumentData(this.mainCmpId, this.modelStructure);
         this.webSocketService.checkMessageDialog(this.mainCmpId);
     }
     dispose() {
@@ -178,6 +177,26 @@ export class BOService extends DocumentService {
     isServerSideCommand(idCommand: string) {
         return this.serverSideCommandMap.includes(idCommand);
     }
+    public appendToModelStructure(modelStructure: any) {
+        //aggiorna i campi usati dal modello client
+        for (let owner in modelStructure) {
+            if (!owner) {
+                owner = 'global';
+            }
+            let container = this.modelStructure[owner];
+            if (!container) {
+                container = modelStructure[owner];
+                this.modelStructure[owner] = container;
+            }
+            else {
+                container.push(...modelStructure[owner]);
+            }
+        }
+        //quindi richiede il modello al server, inviandogli nel contempo
+        //i campi utilizzati; il server ne terrà traccia ed invierà solo quelli
+        this.webSocketService.getDocumentData(this.mainCmpId, this.modelStructure);
+        
+    }
     registerModelField(owner: string, name: string) {
         if (!owner) {
             owner = 'global';
@@ -192,8 +211,8 @@ export class BOService extends DocumentService {
     doCommand(componentId: string, id: string) {
         const patch = this.getPatchedData();
         this.webSocketService.doCommand(
-            componentId ? componentId : this.mainCmpId, 
-            id, 
+            componentId ? componentId : this.mainCmpId,
+            id,
             patch);
         if (patch.length > 0) {
             // client data has been sent to server, so reset oldModel
