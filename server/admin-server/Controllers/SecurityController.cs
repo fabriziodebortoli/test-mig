@@ -337,9 +337,12 @@ namespace Microarea.AdminServer.Controllers
         {
             if (account == null)
                 return false;
-            ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account);
 
-			if (tokens == null || tokens.Length == 0)
+            ISecurityToken[] tokens = CreateTokens(account);
+
+			// we have always two tokens!
+
+			if (tokens.Length < 2)
                 return false;
 
             bootstrapToken.AccountName = account.AccountName;
@@ -534,23 +537,30 @@ namespace Microarea.AdminServer.Controllers
 			return (Task<string>)opRes.Content;
 		}
 
+		/// <summary>
+		/// We create two tokens: one for API and one for Application (M4)
+		/// </summary>
 		//----------------------------------------------------------------------
 		private SecurityToken[] CreateTokens(IAccount account)
 		{
 			List<SecurityToken> tokenList = new List<SecurityToken>();
 
-			/* @@TODOROLES: 
-			 * create app token,
-			 * scan all istances/subscriptions to see if you are at least admin, then generate one security token
-			 */
+			// API token generation
 
-			//UserTokens tokens = new UserTokens(account.IsCloudAdmin(burgerData), account.AccountName);
-			//tokens.Setprovider(_tokenSQLDataProvider);
+			SecurityToken apiToken = SecurityToken.GetToken(TokenType.API, account.AccountName);
+			OperationResult opRes = apiToken.Save(this.burgerData);
+			if (!opRes.Result)
+				return tokenList.ToArray();
 
-			//if (tokens.Save())
-			//{
-			//	return tokens.GetTokenList(account.IsCloudAdmin(burgerData), account.AccountName).ToArray();
-			//}
+			tokenList.Add(apiToken);
+
+			// APP token generation
+
+			SecurityToken appToken = SecurityToken.GetToken(TokenType.Authentication, account.AccountName);
+			opRes = appToken.Save(this.burgerData);
+
+			if (opRes.Result)
+				tokenList.Add(appToken);
 
 			return tokenList.ToArray();
         }
