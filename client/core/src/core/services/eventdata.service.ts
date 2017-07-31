@@ -1,3 +1,4 @@
+import { CommandEventArgs } from './../../shared/models/eventargs.model';
 import { ComponentInfo } from './../../shared/models/component-info.model';
 import { DiagnosticData, DiagnosticDlgResult } from './../../shared/models';
 import { Injectable, EventEmitter } from '@angular/core';
@@ -7,7 +8,7 @@ import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
 @Injectable()
 export class EventDataService {
 
-    public command: EventEmitter<string> = new EventEmitter();
+    public command: EventEmitter<CommandEventArgs> = new EventEmitter();
     public change: EventEmitter<string> = new EventEmitter();
     public openDropdown: EventEmitter<any> = new EventEmitter();
 
@@ -30,5 +31,11 @@ export class EventDataService {
         console.log('EventDataService created');
     }
 
+    public raiseCommand(componentId: string, commandId: string) {
+        const evt = new CommandEventArgs();
+        evt.commandId = commandId;
+        evt.componentId = componentId;
+        this.command.emit(evt);
+    }
 }
 

@@ -1,3 +1,4 @@
+import { CommandEventArgs } from './../../../../models/eventargs.model';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { EventDataService } from './../../../../../core/services/eventdata.service';
@@ -24,8 +25,8 @@ export class TopbarMenuTestComponent {
         const item7 = new ContextMenuItem('Test Tree', 'idTestTree', true, false);
         this.menuElements.push(item1, item2, item3, item4, item5, item6, item7);
 
-        this.eventDataService.command.subscribe((cmpId: string) => {
-            switch (cmpId) {
+        this.eventDataService.command.subscribe((args: CommandEventArgs) => {
+            switch (args.commandId) {
                 case 'idDataServiceButton':
                     return this.openDataService();
                 case 'idReportingStudioButton':

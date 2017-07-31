@@ -14,7 +14,7 @@ namespace Microarea.AdminServer.Library
 	public class SecurityManager
     {
 		//--------------------------------------------------------------------------------
-		public static OperationResult ValidateToken(string jwtTokenText, string secretKey, bool isCloudAdmin = false/*, bool isProvisioningAdmin = false*/)
+		public static OperationResult ValidateToken(string jwtTokenText, string secretKey, string roleName, string entityKey, string level)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -66,18 +66,33 @@ namespace Microarea.AdminServer.Library
 				return opRes;
 			}
 
-            // token verification passed, so we can assume this token is valid
+			// token verification passed, so we can assume this token is valid
 
-            if(isCloudAdmin) 
+			bool roleHasBeenFound = false;
+
+			foreach (IAccountRoles iAccountRole in bootstrapToken.Roles)
 			{
-				if (!bootstrapToken.IsCloudAdmin)
+				if (String.Compare(iAccountRole.RoleName, roleName, StringComparison.CurrentCultureIgnoreCase) == 0)
 				{
-					opRes.Result = false;
-					opRes.Code = (int)TokenReturnCodes.MissingCloudAdminRole;
-					opRes.Message = Strings.MissingRole;
-					return opRes;
+					if (String.Compare(iAccountRole.EntityKey, entityKey, StringComparison.CurrentCultureIgnoreCase) == 0)
+					{
+						if (String.Compare(iAccountRole.Level, level, StringComparison.CurrentCultureIgnoreCase) == 0)
+						{
+							roleHasBeenFound = true;
+							break;
+						}
+					}
 				}
 			}
+
+			if (!roleHasBeenFound)
+			{
+				opRes.Result = false;
+				opRes.Code = (int)TokenReturnCodes.MissingRole;
+				opRes.Message = Strings.MissingRole;
+				return opRes;
+			}
+
             opRes.Result = true;
 			opRes.Code = (int)TokenReturnCodes.Valid;
 			opRes.Message = Strings.ValidToken;
@@ -91,7 +106,7 @@ namespace Microarea.AdminServer.Library
 		/// <param name="authenticationHeader"></param>
 		/// <returns>OperationResult</returns>
 		//-----------------------------------------------------------------------------	
-		public static OperationResult ValidateAuthorization(string authenticationHeader, string secretKey, bool isCloudAdmin = false/*, bool isProvisioningAdmin = false*/)
+		public static OperationResult ValidateAuthorization(string authenticationHeader, string secretKey, string roleName, string entityKey, string level)
 		{
 			if (String.IsNullOrEmpty(authenticationHeader))
 				return new OperationResult(false, Strings.AuthorizationHeaderMissing, (int)AppReturnCodes.AuthorizationHeaderMissing);
@@ -115,7 +130,7 @@ namespace Microarea.AdminServer.Library
 				return new OperationResult(false, Strings.MissingToken, (int)AppReturnCodes.MissingToken);
 
 			if (authInfo.IsJwtToken)
-				return ValidateToken(authInfo.SecurityValue, secretKey, isCloudAdmin/*, isProvisioningAdmin*/);
+				return ValidateToken(authInfo.SecurityValue, secretKey, roleName, entityKey, level);
 
 			return new OperationResult(false, string.Format(Strings.UnknownAuthType, authInfo.Type), (int)AppReturnCodes.Undefined);
 		}

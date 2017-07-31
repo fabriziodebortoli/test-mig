@@ -1,3 +1,4 @@
+import { ComponentInfoService } from './../../../shared/models/component-info.model';
 import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -14,7 +15,7 @@ import { ViewModeType } from './../../../shared/models/view-mode-type.model';
   selector: 'tb-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
-  providers: [EventDataService]
+  providers: [EventDataService, ComponentInfoService]
 })
 
 export class MenuComponent implements OnDestroy {

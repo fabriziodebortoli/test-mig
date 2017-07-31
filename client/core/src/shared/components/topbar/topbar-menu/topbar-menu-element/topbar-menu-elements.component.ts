@@ -35,7 +35,7 @@ export class TopbarMenuElementsComponent {
     public doCommand(menuItem: any) {
         if (!menuItem) { console.log('NOT doCommand for menuElements!'); return; }
         if (this.hasSubItems(menuItem)) { return; }
-        this.eventDataService.command.emit(menuItem.id);
+        this.eventDataService.raiseCommand('', menuItem.id);
         console.log('doCommand OK!');
         this.onToggle();
     }

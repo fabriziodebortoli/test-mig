@@ -13,7 +13,7 @@ import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 })
 export class TreeTestComponent extends DocumentComponent implements OnInit {
   constructor(public eventData: EventDataService, private testService: TestService) {
-    super(testService, eventData);
+    super(testService, eventData, null);
   }
 
  ngOnInit(){

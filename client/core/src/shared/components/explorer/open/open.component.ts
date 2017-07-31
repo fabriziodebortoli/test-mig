@@ -36,8 +36,8 @@ export class OpenComponent extends DocumentComponent implements OnInit {
     private imageService: ImageService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private http: Http) {
-    super(explorerService, eventData);
+    private http: Http,) {
+    super(explorerService, eventData, null);
   }
 
   ngOnDestroy() {

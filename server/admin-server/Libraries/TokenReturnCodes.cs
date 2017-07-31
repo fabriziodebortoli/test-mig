@@ -7,7 +7,6 @@
 		Valid,
 		Invalid,
 		Suspected,
-		MissingCloudAdminRole,
-		MissingProvisioningAdminRole
+		MissingRole
 	}
 }

@@ -9,7 +9,6 @@ using System.Text;
 
 namespace Microarea.AdminServer.Services.BurgerData
 {
- 
         //================================================================================
         public class BurgerDataParameter
         {
@@ -829,6 +828,6 @@ namespace Microarea.AdminServer.Services.BurgerData
             RegisteredApps,
             Instances,
             RecoveryCode,
-        ServerUrls
-    }
+			ServerURLs
+        }
     }

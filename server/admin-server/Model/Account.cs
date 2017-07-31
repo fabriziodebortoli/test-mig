@@ -31,7 +31,6 @@ namespace Microarea.AdminServer.Model
 		string parentAccount = string.Empty;
 		bool confirmed = false;
         long ticks;
-        BurgerData burgerdata;
 
         //---------------------------------------------------------------------
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
@@ -147,36 +146,5 @@ namespace Microarea.AdminServer.Model
         {
             passwordExpirationDate = DateTime.Now.AddDays(passwordDuration);
         }
-
-        //---------------------------------------------------------------------
-        public IAccountRoles[] GetRoles(BurgerData burgerData, string entityKey = null)
-        {
-            string query = String.IsNullOrEmpty(entityKey) ?
-                    String.Format(
-                        "SELECT * FROM mp_accountroles WHERE AccountName = '{0}' ",
-                        accountName)
-                        :
-                    String.Format(
-                        "SELECT * FROM mp_accountroles WHERE AccountName = '{0}'  AND entityKey = '{1}'",
-                        accountName,
-                        entityKey);
-          
-           List<IAccountRoles> l =  burgerData.GetList<AccountRoles, IAccountRoles>(
-                query,
-               ModelTables.Roles);
-            return l.ToArray();
-
-        }
-
-        //---------------------------------------------------------------------
-        public bool IsCloudAdmin(BurgerData burgerData)
-        {
-           IAccountRoles[] list = GetRoles( burgerData);
-            foreach (AccountRoles ar in list)
-                if (ar.EntityKey == RolesStrings.CloudAdmin) return true;
-            return false;
-
-        }
-
     }
 }
