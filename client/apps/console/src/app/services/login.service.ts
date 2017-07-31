@@ -6,13 +6,18 @@ import { Observable } from "rxjs/Observable";
 import { OperationResult } from './operationResult';
 import { AuthorizationInfo, AuthorizationProperties } from "app/authentication/auth-info";
 import { environment } from './../../environments/environment';
-import { RoleNames } from './../authentication/auth-helpers';
+import { RoleNames, RoleLevels } from './../authentication/auth-helpers';
 import { Router } from "@angular/router";
+import { Subject } from "rxjs/Subject";
 
 @Injectable()
 export class LoginService {
 
   modelBackEndUrl: string;
+
+  // Observable string sources
+  private loginCompleted = new Subject<string>();
+  private logOffCompleted = new Subject<string>();
   
   constructor(private http: Http,  private router: Router) { 
 
@@ -61,33 +66,37 @@ export class LoginService {
             authInfo.SetServerUrls(parsedToken.Urls);
             authInfo.SetTokens(parsedToken.UserTokens);
             authInfo.SetSecurityValues(parsedToken.AppSecurity);
-
-            //@@TODO gestione ruoli: nel token deve essere passato anche un array di ruoli
-            // che andremo a copiare dentro il ns oggetto locale authInfo nel localstorage
-            let roles: Array<string> = new Array<string>();
-            if (parsedToken.ProvisioningAdmin) {
-              roles.push(RoleNames.ProvisioningAdmin.toString());
-            }
-            if (parsedToken.CloudAdmin) {
-              roles.push(RoleNames.CloudAdmin.toString());
-            }
-            authInfo.SetRoles(roles);
-
+            authInfo.SetRoles(parsedToken.Roles);
+            
             // save in localstorage all the information about authorization
 
             localStorage.setItem('auth-info', JSON.stringify(authInfo.authorizationProperties));
 
-            this.router.navigateByUrl(returnUrl);
-
-            if (authInfo.HasRole(RoleNames.ProvisioningAdmin))
-            {
-               this.router.navigateByUrl(returnUrl);
-              return;
+            // checking cloud-admin only urls
+            
+            if (returnUrl == '/instancesHome') {
+              if (!authInfo.VerifyRole(RoleNames.Admin, RoleLevels.Instance, "*")) {
+                // user has no roles to navigate the requested url sending him back to home component
+                alert(RoleNames.Admin + ' role missing');
+                this.router.navigateByUrl('/');
+                return false;
+              } else {
+                this.router.navigateByUrl(returnUrl);
+                return true;
+              }
             }
+            
+            // checking provisioning-admin only urls
 
-            // user has no roles to navigate the requested url sending him back to home component
-            alert(RoleNames[RoleNames.ProvisioningAdmin] + ' role missing');
-            this.router.navigateByUrl('/');
+            if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
+              // user has no roles to navigate the requested url sending him back to home component
+              alert(RoleNames.Admin + ' role missing');
+              this.router.navigateByUrl('/');
+              return false;
+            }            
+            
+            // user is permitted to navigate requestes urls
+            this.router.navigateByUrl(returnUrl);
           }
           catch (exc)
           {

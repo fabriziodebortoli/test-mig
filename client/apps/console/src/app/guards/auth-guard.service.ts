@@ -1,7 +1,7 @@
 import { CanActivate, CanActivateChild, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AuthorizationInfo, AuthorizationProperties } from "app/authentication/auth-info";
-import { RoleNames } from "app/authentication/auth-helpers";
+import { RoleNames, RoleLevels } from "app/authentication/auth-helpers";
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
@@ -35,16 +35,22 @@ export class AuthGuardService implements CanActivate {
         authorizationInfo.authorizationProperties = authorizationProperties;
 
         if (state.url == '/instancesHome') {
-          if (!authorizationInfo.HasRole(RoleNames.CloudAdmin)) {
-            alert(RoleNames[RoleNames.CloudAdmin] + ' role missing');
+          if (!authorizationInfo.VerifyRole(RoleNames.Admin, RoleLevels.Instance, "*")) {
+            // user has no roles to navigate the requested url sending him back to home component
+            alert(RoleNames.Admin + ' role missing');
+            this.router.navigateByUrl('/');
             return false;
+          } else {
+            return true;
           }
-        }
+        }        
 
-        if (!authorizationInfo.HasRole(RoleNames.ProvisioningAdmin)) {
-          alert(RoleNames[RoleNames.ProvisioningAdmin] + ' role missing');
+        if (!authorizationInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
+          // user has no roles to navigate the requested url sending him back to home component
+          alert(RoleNames.Admin + ' role missing');
+          this.router.navigateByUrl('/');
           return false;
-        }
+        } 
 
         return true;
       }
