@@ -66,7 +66,6 @@ namespace Microarea.AdminServer.Controllers
 					new WhereCondition("AccountName", credentials.AccountName, QueryComparingOperators.IsEqual, false)
 				});
 
-
                 // L'account esiste sul db locale
                 if (account!= null)
                 {
