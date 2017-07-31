@@ -7,7 +7,6 @@ using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
-using Microarea.AdminServer.Services.Providers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -23,7 +22,6 @@ namespace Microarea.AdminServer.Controllers
     {
         private IHostingEnvironment _env;
         AppOptions _settings;
-        IDataProvider _tokenSQLDataProvider;
         IJsonHelper _jsonHelper;
         IHttpHelper _httpHelper;
         string GWAMUrl;
@@ -35,18 +33,14 @@ namespace Microarea.AdminServer.Controllers
             _env = env;
             _settings = settings.Value;
             _jsonHelper = jsonHelper;
-            SqlProviderFactory();
+          
             this.GWAMUrl = _settings.ExternalUrls.GWAMUrl;
             _httpHelper = httpHelper;
             burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
 
         }
 
-        //-----------------------------------------------------------------------------	
-        private void SqlProviderFactory()
-        {
-            _tokenSQLDataProvider = new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-        }
+       
 
         // <summary>
         // Provides login token
@@ -148,7 +142,7 @@ namespace Microarea.AdminServer.Controllers
                     else
                     {
                         // User has been found.
-                        // Salvataggio sul provider locale.
+                        // Salvataggio in locale.
                         // Salvo anche l'associazione con le  subscription e  tutti gli URLs.
                         account = accountIdentityPack.Account;
                         OperationResult result = ((Account)account).Save(burgerData);
@@ -444,7 +438,7 @@ namespace Microarea.AdminServer.Controllers
                 BurgerData burgerData = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
                 List<IServerURL> l = burgerData.GetList<ServerURL, IServerURL>(
                              query,
-                            ModelTables.ServerUrls);
+                            ModelTables.ServerURLs);
 
                 return l.ToArray();
             }
