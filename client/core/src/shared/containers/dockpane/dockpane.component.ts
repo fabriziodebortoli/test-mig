@@ -1,4 +1,4 @@
-import { Component, NgModule, trigger, transition, style, animate, state, OnInit } from '@angular/core';
+import { Component, NgModule, trigger, transition, style, animate, state} from '@angular/core';
 
 @Component({
   selector: 'tb-dockpane',
@@ -19,7 +19,7 @@ import { Component, NgModule, trigger, transition, style, animate, state, OnInit
 })
 
 
-export class DockpaneComponent implements OnInit {
+export class DockpaneComponent {
 
 
  
