@@ -1,7 +1,7 @@
 ﻿namespace Microarea.AdminServer.Model.Interfaces
 {
      //================================================================================
-    interface ISubscriptionDatabase : IAdminModel
+    public interface ISubscriptionDatabase : IModelObject
 	{
 		string SubscriptionKey { get; set; }
 		string Name { get; set; }

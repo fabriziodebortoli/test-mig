@@ -443,7 +443,7 @@ namespace Microarea.AdminServer.Controllers
                 return l.ToArray();
             }
             catch { }
-            return IServerURL[];
+            return new IServerURL[] { };
         }
 
         //----------------------------------------------------------------------

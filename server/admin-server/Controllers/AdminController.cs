@@ -23,7 +23,6 @@ namespace Microarea.AdminServer.Controllers
         AppOptions _settings;
         private IHostingEnvironment _env;
 
-        IDataProvider _subscriptionDatabaseSqlDataProvider;
         IDataProvider _tokenSQLDataProvider;
 
 		BurgerData burgerData;
@@ -50,28 +49,10 @@ namespace Microarea.AdminServer.Controllers
 		//-----------------------------------------------------------------------------	
 		private void SqlProviderFactory()
         {
-            _subscriptionDatabaseSqlDataProvider = new SubscriptionDatabaseSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
+           
             _tokenSQLDataProvider =  new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
         }
 
-		/// <summary>
-		/// From modelName returns the corresponding IDataProvider 
-		/// </summary>
-		/// <param name="modelName"></param>
-		/// <returns></returns>
-		//-----------------------------------------------------------------------------	
-		private IDataProvider GetProviderFromModelName(string modelName)
-		{
-			switch (modelName.ToLowerInvariant())
-			{
-				case "subscriptiondatabase":
-					return _subscriptionDatabaseSqlDataProvider;
-				default:
-					break;
-			}
-
-			return null;
-		}
 
 		[HttpGet]
         [Route("/")]
@@ -141,8 +122,8 @@ namespace Microarea.AdminServer.Controllers
 			{
 				if (subDatabase != null)
 				{
-					subDatabase.SetDataProvider(_subscriptionDatabaseSqlDataProvider);
-					opRes = subDatabase.Save();
+					
+					opRes = subDatabase.Save(burgerData);
 					opRes.Message = Strings.OperationOK;
 				}
 				else
@@ -206,7 +187,7 @@ namespace Microarea.AdminServer.Controllers
 
 			try
 			{
-				databasesList = ((SubscriptionDatabaseSQLDataProvider)_subscriptionDatabaseSqlDataProvider).GetDatabasesBySubscription(subscriptionKey, dbName);
+				databasesList = GetDatabasesBySubscription(subscriptionKey, dbName);
 			}
 			catch (Exception exc)
 			{
@@ -226,13 +207,19 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
-		/// <summary>
-		/// Returns all subscriptions of a specific Instance
-		/// </summary>
-		/// <param name="instanceKey"></param>
-		/// <returns></returns>
-		//-----------------------------------------------------------------------------	
-		[HttpGet("/api/subscriptions/{instanceKey}")]
+        //-----------------------------------------------------------------------------	
+        private List<SubscriptionDatabase> GetDatabasesBySubscription(string subscriptionKey, string dbName)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Returns all subscriptions of a specific Instance
+        /// </summary>
+        /// <param name="instanceKey"></param>
+        /// <returns></returns>
+        //-----------------------------------------------------------------------------	
+        [HttpGet("/api/subscriptions/{instanceKey}")]
 		[Produces("application/json")]
 		public IActionResult ApiGetSubscriptionsByInstance(string instanceKey)
 		{
@@ -353,30 +340,31 @@ namespace Microarea.AdminServer.Controllers
 					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 				}
 
-				IDataProvider dataProvider = GetProviderFromModelName(modelName);
-				if (dataProvider == null)
-				{
-					_jsonHelper.AddJsonCouple<bool>("result", false);
-					_jsonHelper.AddJsonCouple<string>("message", string.Format(Strings.NoProviderAvailableForModel, modelName));
-					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-				}
+                //TODO ELIMINATI I PROVIDER
+    //            IDataProvider dataProvider = null; // GetProviderFromModelName(modelName);
+				//if (dataProvider == null)
+				//{
+				//	_jsonHelper.AddJsonCouple<bool>("result", false);
+				//	_jsonHelper.AddJsonCouple<string>("message", string.Format(Strings.NoProviderAvailableForModel, modelName));
+				//	return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				//}
 
-				IAdminModel model = Activator.CreateInstance(objectType) as IAdminModel;
-				if (model == null)
-				{
-					_jsonHelper.AddJsonCouple<bool>("result", false);
-					_jsonHelper.AddJsonCouple<string>("message", string.Format(Strings.NoModelLoaded, modelName));
-					return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-				}
+				//IAdminModel model = Activator.CreateInstance(objectType) as IAdminModel;
+				//if (model == null)
+				//{
+				//	_jsonHelper.AddJsonCouple<bool>("result", false);
+				//	_jsonHelper.AddJsonCouple<string>("message", string.Format(Strings.NoModelLoaded, modelName));
+				//	return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				//}
 
-				model.SetDataProvider(dataProvider);
-				opRes = model.Query(qi);
+				//model.SetDataProvider(dataProvider);
+				//opRes = model.Query(qi);
 
-				if (opRes.Result)
-				{
-					opRes.Message = Strings.OperationOK;
-					opRes.Code = (int)AppReturnCodes.OK;
-				}
+				//if (opRes.Result)
+				//{
+				//	opRes.Message = Strings.OperationOK;
+				//	opRes.Code = (int)AppReturnCodes.OK;
+				//}
 			}
 			catch (Exception e)
 			{
