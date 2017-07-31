@@ -1,0 +1,24 @@
+<div *ngIf=rsService.exportfile>
+    <kendo-dialog title="Export {{this.rsService.pdf}}" *ngIf=rsService.exportpdf (close)= "close()">
+        <md-radio-button>All Pages</md-radio-button>
+        <md-radio-button>Range Pages</md-radio-button>
+
+        <kendo-dialog-actions>
+            <button kendoButton>Export PDF</button>
+        </kendo-dialog-actions>
+
+    </kendo-dialog>
+</div>
+
+
+<div *ngIf=rsService.exportfile>
+    <kendo-dialog title="Export {{this.rsService.excel}}" *ngIf=rsService.exportexcel (close)= "close()">
+        <md-radio-button>All Pages</md-radio-button>
+        <md-radio-button>Range Pages</md-radio-button>
+
+        <kendo-dialog-actions>
+            <button kendoButton>Export Excel</button>
+        </kendo-dialog-actions>
+
+    </kendo-dialog>
+</div>

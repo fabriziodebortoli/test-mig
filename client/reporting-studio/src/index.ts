@@ -29,6 +29,7 @@ import { TbCoreModule } from "@taskbuilder/core";
 export { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
 export { ReportingStudioService } from './reporting-studio.service';
 export { AskdialogService } from './report-objects/askdialog/askdialog.service';
+import { ExportdialogComponent } from './report-objects/exportdialog/exportdialog.component';
 
 export * from './rs-test.component';
 export * from './models';
@@ -53,6 +54,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     RsTestComponent,
     ReportLayoutComponent,
     AskdialogComponent,
+    ExportdialogComponent,
     ReportingStudioFactoryComponent,
     ReportingStudioComponent,
     ReportFieldrectComponent,
@@ -73,6 +75,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     RsTestComponent,
     ReportLayoutComponent,
     AskdialogComponent,
+    ExportdialogComponent,
     ReportingStudioFactoryComponent,
     ReportingStudioComponent,
   ],
