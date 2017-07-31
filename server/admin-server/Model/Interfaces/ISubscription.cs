@@ -1,10 +1,9 @@
 ﻿using Microarea.AdminServer.Library;
-using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Model.Interfaces
 {
 	//================================================================================
-	public interface ISubscription : IAdminModel
+	public interface ISubscription
 	{
 		string SubscriptionKey { get; set; }
 		string Description { get; set; }

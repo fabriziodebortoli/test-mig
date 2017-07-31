@@ -1,18 +1,19 @@
 <tb-frame>
+    <iframe id="iframe" style="display:none;"></iframe>
     <tb-toolbar-top>
 
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Find.png" caption="Search"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.First.png" caption="First" (click)="FirstPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Prev.png" caption="Previous Page" (click)="PrevPage()"
+        <tb-toolbar-top-button icon="tb-find" caption="Search"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="tb-first" caption="First" (click)="FirstPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="tb-prev" caption="Previous Page" (click)="PrevPage()"
             *ngIf="rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Next.png" caption="Next Page" (click)="NextPage()"
+        <tb-toolbar-top-button icon="tb-next" caption="Next Page" (click)="NextPage()"
             *ngIf="rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.Last.png" caption="Last" (click)="LastPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.StartReport.png" caption="Run Report" (click)="RunReport()"
+        <tb-toolbar-top-button icon="tb-last" caption="Last" (click)="LastPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="tb-startreport" caption="Run Report" (click)="RunReport()"
             *ngIf="!rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.StopReport.png" caption="Stop Report" (click)="StopReport()"
+        <tb-toolbar-top-button icon="tb-stopreport" caption="Stop Report" (click)="StopReport()"
             *ngIf="rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="Framework.TbFrameworkImages.Images.25x25.ReRun.png" caption="ReRun" (click)="ReRunReport()"></tb-toolbar-top-button>
+        <!--tb-toolbar-top-button icon=" " caption="ReRun" (click)="ReRunReport()"></tb-toolbar-top-button-->
     </tb-toolbar-top>
     <tb-frame-content>
         <tb-view-container>
@@ -47,3 +48,4 @@
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Print.png" caption="Print" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>-->
     </tb-toolbar-bottom>
 </tb-frame>
+

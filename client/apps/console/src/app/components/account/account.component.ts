@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { ModelService } from './../../services/model.service';
 import { OperationResult } from './../../services/operationResult';
 import { Component, OnInit } from '@angular/core';
@@ -17,13 +18,35 @@ export class AccountComponent implements OnInit {
   model:Account;
   editing:boolean = false;
 
-  constructor(private modelService: ModelService) { 
+  //--------------------------------------------------------------------------------------------------------
+  constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) { 
     this.model = new Account();
   }
 
+  //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
+    if (this.route.snapshot.queryParams['accountNameToEdit'] !== undefined){
+      this.editing = true;
+      let accountName:string = this.route.snapshot.queryParams['accountNameToEdit'];
+      this.modelService.getAccounts({ AccountName: accountName })
+        .subscribe(
+          res => {
+            let accounts:Account[] = res['Content'];
+
+            if (accounts.length == 0) {
+              return;
+            }
+            
+            this.model = accounts[0];
+          },
+          err => {
+            alert(err);
+          }
+        )
+    }
   }
 
+  //--------------------------------------------------------------------------------------------------------
   submitAccount() {
     if (this.model.AccountName == undefined || this.model.Password == undefined)
     {
@@ -42,19 +65,19 @@ export class AccountComponent implements OnInit {
       this.model.ParentAccount = authorizationProperties.accountName;
     }
 
-    if (!this.editing){
-      accountOperation = this.modelService.addAccount(this.model)
-    } else {
-      //accountOperation = this.modelService.updateAccount(this.model)
-    }
+    // now I save the account
+
+    accountOperation = this.modelService.saveAccount(this.model)
 
     let subs = accountOperation.subscribe(
       accountResult => 
       {
         this.model = new Account();
-        if (this.editing) this.editing = !this.editing;
-        alert(accountResult.Message);
+        if (this.editing) 
+          this.editing = !this.editing;
         subs.unsubscribe();
+        // after save I return to parent page
+        this.router. navigateByUrl('/accountsHome');
       },
       err => 
       { 

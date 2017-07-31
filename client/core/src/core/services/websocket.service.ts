@@ -12,7 +12,6 @@ import { SocketConnectionStatus } from '../../shared/models';
 import { LoginSessionService } from './login-session.service';
 import { HttpService } from './http.service';
 import { UrlService } from './url.service';
-// import { CommandService } from './command.service';
 
 import { Logger } from './logger.service';
 

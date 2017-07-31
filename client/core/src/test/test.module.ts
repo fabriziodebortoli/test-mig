@@ -11,6 +11,7 @@ import { ExplorerComponent, ExplorerFactoryComponent } from './explorer/explorer
 import { GridTestComponent, GridTestFactoryComponent } from './grid-test/grid-test.component';
 import { IconsTestComponent, IconsTestFactoryComponent } from './icons-test/icons-test.component';
 import { RadarTestComponent, RadarTestFactoryComponent } from './radar-test/radar-test.component';
+import { TreeTestComponent, TreeTestFactoryComponent } from "./tree-test/tree-test.component";
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { RadarTestComponent, RadarTestFactoryComponent } from './radar-test/rada
             { path: 'grid', component: GridTestFactoryComponent },
             { path: 'icons', component: IconsTestFactoryComponent },
             { path: 'radar', component: RadarTestFactoryComponent },
+            { path: 'tree', component: TreeTestFactoryComponent },
         ]),
         // IconsModule
     ],
@@ -31,8 +33,9 @@ import { RadarTestComponent, RadarTestFactoryComponent } from './radar-test/rada
         ExplorerComponent, ExplorerFactoryComponent,
         GridTestComponent, GridTestFactoryComponent,
         IconsTestComponent, IconsTestFactoryComponent,
-        RadarTestComponent, RadarTestFactoryComponent
+        RadarTestComponent, RadarTestFactoryComponent,
+        TreeTestComponent, TreeTestFactoryComponent
     ],
-    entryComponents: [DataServiceComponent, GridTestComponent, ExplorerComponent, IconsTestComponent, RadarTestComponent]
+    entryComponents: [DataServiceComponent, GridTestComponent, ExplorerComponent, IconsTestComponent, RadarTestComponent,TreeTestComponent]
 })
 export class TbTestModule { }

@@ -1,3 +1,4 @@
+import { EventDataService } from './../../core/services/eventdata.service';
 import { DynamicDialogComponent } from './../containers/dynamic-dialog/dynamic-dialog.component';
 import { DiagnosticData, MessageDlgArgs } from './../models';
 import { Subscription } from 'rxjs';
@@ -10,6 +11,17 @@ import { MessageDialogComponent } from './../containers/message-dialog/message-d
 
 import { DocumentComponent } from './document.component';
 
+/**ATTENZIONE! Questo componente serve per condividere una stesa istanza di EventDataService
+ * fra più dynamic component appartenenti allo stesso contesto
+ * (caso di view e slave view, oppure finestre di dialogo, che condividono lo stesso documento)
+ */
+@Component({
+    selector: 'tb-dynamic-cmp-tree',
+    template: '<ng-content></ng-content>'
+})
+export class DynamicCmpComponentTree {
+
+}
 @Component({
     selector: 'tb-dynamic-cmp',
     template: '<div #cmpContainer></div><tb-message-dialog></tb-message-dialog><tb-diagnostic-dialog></tb-diagnostic-dialog><tb-dynamic-dialog></tb-dynamic-dialog>'
@@ -21,7 +33,7 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
     @ViewChild(MessageDialogComponent) messageDialog: MessageDialogComponent;
     @ViewChild(DiagnosticDialogComponent) diagnosticDialog: DiagnosticDialogComponent;
     @ViewChild(DynamicDialogComponent) dynamicDialog: DynamicDialogComponent;
-   subscriptions = [];
+    subscriptions = [];
 
     constructor(private componentService: ComponentService) {
     }
@@ -33,16 +45,14 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
         if (this.componentInfo) {
             this.cmpRef = this.cmpContainer.createComponent(this.componentInfo.factory);
             this.cmpRef.instance.cmpId = this.componentInfo.id; //assegno l'id al componente
-
+            if (this.cmpRef.instance.ciService)
+                this.cmpRef.instance.ciService.componentInfo = this.componentInfo;
             //per i componenti slave, documento ed eventi sono condivisi col componente master
             if (!this.cmpRef.instance.document)
                 this.cmpRef.instance.document = this.componentInfo.document;
             else
                 this.cmpRef.instance.document.init(this.componentInfo.id); //assegno l'id al servizio (uguale a quello del componente)
 
-             if (!this.cmpRef.instance.eventData)
-                this.cmpRef.instance.eventData = this.componentInfo.eventData;
-           
             this.cmpRef.instance.args = this.componentInfo.args;
             this.subscriptions.push(this.cmpRef.instance.document.eventData.openMessageDialog.subscribe(
                 args => this.openMessageDialog(args)
@@ -75,9 +85,8 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
     public openDiagnosticDialog(data: DiagnosticData) {
         this.diagnosticDialog.open(data, this.cmpRef.instance.document.eventData);
     }
-    public openDynamicDialog(componentInfo:ComponentInfo) {
+    public openDynamicDialog(componentInfo: ComponentInfo) {
         componentInfo.document = this.cmpRef.instance.document;
-        componentInfo.eventData = this.cmpRef.instance.eventData;
         this.dynamicDialog.open(componentInfo);
     }
 }

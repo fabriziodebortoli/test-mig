@@ -1,4 +1,5 @@
-import { UrlService } from '@taskbuilder/core';
+import { Http } from '@angular/http';
+import { UrlService, HttpService } from '@taskbuilder/core';
 import { ComponentService } from '@taskbuilder/core';
 import { Logger } from '@taskbuilder/core';
 import { Injectable, EventEmitter, Output } from '@angular/core';
@@ -37,11 +38,14 @@ export class ReportingStudioService extends DocumentService {
     public filePdf = new Group();
     public titleReport: string;
 
+
     constructor(
         logger: Logger,
         eventData: EventDataService,
         private cmpService: ComponentService,
-        private urlServ: UrlService) {
+        private urlServ: UrlService,
+        private httpServ: HttpService,
+        protected http: Http) {
         super(logger, eventData);
 
         this.rsServer = this.urlServ.getWsBaseUrl() + '/rs';
@@ -168,13 +172,6 @@ export class ReportingStudioService extends DocumentService {
                 this.svgState = SvgType.NOSVG;
             }).then(() => this.eventCurrentPage.emit());
     }
-
-    //--------------------------------------------------
-    getExcelData(namespace: string): Observable<any> {
-        return this.http.get(this.getDataServiceUrl() + 'file/')
-            .map((res: Response) => {
-                return res.json();
-            })
-            .catch(this.handleError);
-    }
+    
 }
+

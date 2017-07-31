@@ -12,6 +12,9 @@ export class ComponentInfo {
     mod=''; //nome modulo server
     modal = false;//indica se si tratta di una finestra modale
     document: DocumentService = null;
-    eventData: EventDataService = null;
     args: any = {};
+}
+export class ComponentInfoService
+{
+    public componentInfo: ComponentInfo;
 }

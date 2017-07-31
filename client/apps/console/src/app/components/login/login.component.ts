@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Credentials } from './../../authentication/credentials';
 import { LoginService } from './../../services/login.service';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
 
   constructor(
       private route: ActivatedRoute,
-      private router: Router,
       private loginService: LoginService) { 
     this.credentials = new Credentials();
   }

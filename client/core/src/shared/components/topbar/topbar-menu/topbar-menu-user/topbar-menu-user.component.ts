@@ -1,3 +1,4 @@
+import { CommandEventArgs } from './../../../../models/eventargs.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -22,8 +23,8 @@ export class TopbarMenuUserComponent implements OnDestroy {
         this.menuElements.push(item1, item2, item3, item4);
 
 
-        this.commandSubscription = this.eventDataService.command.subscribe((cmpId: string) => {
-            switch (cmpId) {
+        this.commandSubscription = this.eventDataService.command.subscribe((args: CommandEventArgs) => {
+            switch (args.commandId) {
                 case 'idSignOutButton':
                     return this.logout();
                 default:

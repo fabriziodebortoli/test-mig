@@ -1,6 +1,8 @@
 ﻿using System;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.AdminServer.Services.BurgerData;
+using Microarea.AdminServer.Model;
 
 namespace Microarea.AdminServer.Library
 {
@@ -11,7 +13,7 @@ namespace Microarea.AdminServer.Library
         private static int maxPasswordError = 5;
 
         //----------------------------------------------------------------------
-        public static LoginReturnCodes VerifyCredential(IAccount account, string password)
+        public static LoginReturnCodes VerifyCredential(Account account, string password, BurgerData burgerdata)
         {
             if (account.ExpirationDate < DateTime.Now)
                 return LoginReturnCodes.UserExpired;
@@ -25,7 +27,7 @@ namespace Microarea.AdminServer.Library
             if (account.Password != Crypt(password))
             {
                 AddWrongPwdLoginCount(account);
-                if (!account.Save().Result)
+                if (!account.Save(burgerdata).Result)
                     return LoginReturnCodes.ErrorSavingAccount;
                 return LoginReturnCodes.InvalidUserError;
             }
@@ -46,7 +48,7 @@ namespace Microarea.AdminServer.Library
         }
 
         //----------------------------------------------------------------------
-        internal static LoginReturnCodes ChangePassword(IAccount account, ChangePasswordInfo  passwordInfo)
+        internal static LoginReturnCodes ChangePassword(Account account, ChangePasswordInfo  passwordInfo, BurgerData burgerdata)
         {
             if (account.ExpirationDate < DateTime.Now)
                 return LoginReturnCodes.UserExpired;
@@ -72,7 +74,7 @@ namespace Microarea.AdminServer.Library
             account.MustChangePassword = false;
             ClearWrongPwdLoginCount(account);
 
-            if (!account.Save().Result)
+            if (!account.Save(burgerdata).Result)
                 return LoginReturnCodes.ErrorSavingAccount;
 
             return LoginReturnCodes.NoError;

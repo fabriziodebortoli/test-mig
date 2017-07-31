@@ -1,5 +1,5 @@
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
-import { WebSocketService } from '@taskbuilder/core';
+import { WebSocketService, HttpService } from '@taskbuilder/core';
 import { UtilsService } from '@taskbuilder/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef } from '@angular/core';
@@ -11,7 +11,7 @@ import { ComponentService } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
 import { ReportingStudioService } from './reporting-studio.service';
 
-import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF} from '@progress/kendo-drawing';
+import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
 
 @Component({
@@ -44,10 +44,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     private rsService: ReportingStudioService,
     eventData: EventDataService,
     private cookieService: CookieService,
+    private httpServ: HttpService,
 
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
-    super(rsService, eventData);
+    super(rsService, eventData, null);
   }
 
   // -----------------------------------------------
@@ -160,7 +161,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.WRONG:
           break;
         case CommandType.EXPORTEXCEL:
-          this.rsService.getExcelData(this.args.nameSpace);
+          this.getExcelData(k + ".xlsx");
           break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
@@ -308,6 +309,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
 
     this.rsService.doSend(JSON.stringify(message));
+  }
+
+  //--------------------------------------------------
+  getExcelData(filename: string) {
+    var iframeHTML = document.getElementById('iframe') as HTMLFrameElement;
+    var s = this.httpServ.getReportServiceUrl() + 'file/' + filename;
+    iframeHTML.src = s;
   }
 }
 

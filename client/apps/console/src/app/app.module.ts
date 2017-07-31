@@ -21,8 +21,10 @@ import { BreadcrumbComponent } from './components/shared/breadcrumb.component';
 import { EntityHomeComponent } from './components/entity/entity-home.component';
 import { EntityDetailComponent } from './components/entity/entity-detail.component';
 import { SubscriptionSelectionComponent } from './components/subscription/subscription-selection.component';
-import { AccountsHomeComponent } from './components/accounts-home/accounts-home.component';
+import { AccountsHomeComponent } from './components/account/accounts-home.component';
 import { DatabasesHomeComponent } from './components/databases-home/databases-home.component';
+import { InstanceHomeComponent } from './components/instance/instance-home.component';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -41,7 +43,9 @@ import { DatabasesHomeComponent } from './components/databases-home/databases-ho
     EntityDetailComponent,
     SubscriptionSelectionComponent,
     AccountsHomeComponent,
-    DatabasesHomeComponent
+    DatabasesHomeComponent,
+    InstanceHomeComponent,
+    SubscriptionComponent
   ],
   imports: [
     BrowserModule,

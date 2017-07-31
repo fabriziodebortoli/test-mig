@@ -1,11 +1,14 @@
 ﻿using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.BurgerData;
+using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Microarea.AdminServer.Model
 {
 	//================================================================================
-	public class Instance : IInstance
+	public class Instance : IInstance, IModelObject
     {
         string instanceKey;
         string description = string.Empty;
@@ -24,66 +27,53 @@ namespace Microarea.AdminServer.Model
         public string Tags { get => tags; set => tags = value; }
         public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
 
-        // data provider
-        IDataProvider dataProvider;
-
 		//---------------------------------------------------------------------
 		public Instance()
 		{
+			this.description = String.Empty;
 		}
 
 		//---------------------------------------------------------------------
-		public Instance(string instanceKey)
+		public Instance(string instanceKey) : this()
 		{
 			this.instanceKey = instanceKey;
 		}
 
 		//---------------------------------------------------------------------
-		public void SetDataProvider(IDataProvider dataProvider)
+		public OperationResult Save(BurgerData burgerData)
 		{
-			this.dataProvider = dataProvider;
+			OperationResult opRes = new OperationResult();
+
+			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
+			burgerDataParameters.Add(new BurgerDataParameter("@InstanceKey", this.instanceKey));
+			burgerDataParameters.Add(new BurgerDataParameter("@Description", this.description));
+			burgerDataParameters.Add(new BurgerDataParameter("@Disabled", this.disabled));
+			burgerDataParameters.Add(new BurgerDataParameter("@Origin", this.origin));
+			burgerDataParameters.Add(new BurgerDataParameter("@Tags", this.tags));
+			burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.underMaintenance));
+			BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@InstanceKey", this.instanceKey);
+
+			opRes.Result = burgerData.Save(ModelTables.Instances, keyColumnParameter, burgerDataParameters);
+			return opRes;
 		}
 
 		//---------------------------------------------------------------------
-		public OperationResult Save()
+		public IModelObject Fetch(IDataReader reader)
 		{
-			return this.dataProvider.Save(this);
+			Instance instance = new Instance();
+			instance.instanceKey = reader["InstanceKey"] as string;
+			instance.description = reader["Description"] as string;
+			instance.disabled = (bool)reader["Disabled"];
+			instance.origin = reader["Origin"] as string;
+			instance.tags = reader["Tags"] as string;
+			instance.underMaintenance = (bool)reader["UnderMaintenance"];
+			return instance;
 		}
 
 		//---------------------------------------------------------------------
-		public IAdminModel Load()
+		public string GetKey()
 		{
-			return this.dataProvider.Load(this);
-		}
-
-		//---------------------------------------------------------------------
-		public List<IServerURL> LoadURLs()
-		{
-			return ((IInstanceDataProvider)this.dataProvider).LoadURLs(this.instanceKey);
-		}
-
-		//---------------------------------------------------------------------
-		public List<IInstance> GetInstances()
-		{
-			return ((IInstanceDataProvider)this.dataProvider).GetInstances();
-		}
-
-		//---------------------------------------------------------------------
-		public List<IInstance> GetInstancesBySubscription(string subscriptionKey)
-		{
-			return ((IInstanceDataProvider)this.dataProvider).GetInstancesBySubscription(subscriptionKey);
-		}
-
-		//---------------------------------------------------------------------
-		public List<IInstance> GetInstancesByAccount(string accountName)
-		{
-			return ((IInstanceDataProvider)this.dataProvider).GetInstancesByAccount(accountName);
-		}
-
-		//---------------------------------------------------------------------
-		public OperationResult Query(QueryInfo qi)
-		{
-			return this.dataProvider.Query(qi);
+			return String.Concat(" ( InstanceKey = '", this.InstanceKey, "' ) ");
 		}
 	}
 }

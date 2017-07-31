@@ -1,3 +1,4 @@
+import { CommandEventArgs } from './../../../../models/eventargs.model';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { EventDataService } from './../../../../../core/services/eventdata.service';
@@ -21,10 +22,11 @@ export class TopbarMenuTestComponent {
         const item4 = new ContextMenuItem('Test Grid Component', 'idTBExplorerButton', true, false);
         const item5 = new ContextMenuItem('Test Icons', 'idTestIconsButton', true, false);
         const item6 = new ContextMenuItem('Test Radar', 'idTestRadar', true, false);
-        this.menuElements.push(item1, item2, item3, item4, item5, item6);
+        const item7 = new ContextMenuItem('Test Tree', 'idTestTree', true, false);
+        this.menuElements.push(item1, item2, item3, item4, item5, item6, item7);
 
-        this.eventDataService.command.subscribe((cmpId: string) => {
-            switch (cmpId) {
+        this.eventDataService.command.subscribe((args: CommandEventArgs) => {
+            switch (args.commandId) {
                 case 'idDataServiceButton':
                     return this.openDataService();
                 case 'idReportingStudioButton':
@@ -37,6 +39,8 @@ export class TopbarMenuTestComponent {
                     return this.openTestIcons();
                 case 'idTestRadar':
                     return this.openTestRadar();
+                     case 'idTestTree':
+                    return this.openTestTree();
                 default:
                     break;
             }
@@ -64,5 +68,8 @@ export class TopbarMenuTestComponent {
 
     openTestRadar() {
         this.componentService.createComponentFromUrl('test/radar', true);
+    }
+    openTestTree(){
+        this.componentService.createComponentFromUrl('test/tree', true);
     }
 }

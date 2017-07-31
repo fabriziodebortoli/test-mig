@@ -1,4 +1,4 @@
-<div id="dpi">a</div> 
+<div id="dpi">a</div>
 <md-sidenav-container>
     <tb-message-dialog></tb-message-dialog>
     <md-sidenav mode="over" #sidenav>
@@ -50,12 +50,14 @@
                 <kendo-tabstrip-tab *ngFor="let info of componentService.components">
                     <ng-template kendoTabTitle>
                         <span>{{info.document?.getTitle()}}</span>
-            
+
                         <md-icon (click)="closeTab(info)" title="Close" class='close'>close</md-icon>
                     </ng-template>
                     <ng-template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
-                            <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
+                            <tb-dynamic-cmp-tree>
+                                <tb-dynamic-cmp [componentInfo]='info'></tb-dynamic-cmp>
+                            </tb-dynamic-cmp-tree>
                         </div>
                     </ng-template>
                 </kendo-tabstrip-tab>

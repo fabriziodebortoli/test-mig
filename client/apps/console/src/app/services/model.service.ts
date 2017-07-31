@@ -43,7 +43,7 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  addAccount(body: Object): Observable<OperationResult> {
+  saveAccount(body: Object): Observable<OperationResult> {
     let authorizationHeader = this.createAuthorizationHeader('app');
 
     if (authorizationHeader !== '') {
@@ -97,11 +97,10 @@ export class ModelService {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
-
   }
 
   //--------------------------------------------------------------------------------------------------------
-  addSubscription(body: Object): Observable<OperationResult> {
+  saveSubscription(body: Object): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
 
@@ -121,7 +120,33 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  addInstance(body: Object): Observable<OperationResult> {
+  getSubscriptions(body: Object = ''): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    // if body is not empty I add the instancekey
+
+    let urlSubscriptionSegment: string = 'subscriptions';
+    if (body !== '') {
+     urlSubscriptionSegment += "/" + body;
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(environment.gwamAPIUrl + urlSubscriptionSegment, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  saveInstance(body: Object): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
 
@@ -134,6 +159,32 @@ export class ModelService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(environment.gwamAPIUrl + 'instances', body, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  getInstances(body: Object = ''): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    // if body is not empty I add the instancekey
+
+    let urlInstanceSegment: string = 'instances';
+    if (body !== '') {
+     urlInstanceSegment += "/" + body;
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(environment.gwamAPIUrl + urlInstanceSegment, options)
       .map((res: Response) => {
         return res.json();
       })

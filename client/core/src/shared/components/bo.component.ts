@@ -1,3 +1,4 @@
+import { ComponentInfoService } from './../models/component-info.model';
 import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterContentInit } from '@angular/core';
 
 import { ControlTypes } from "../models/control-types.enum";
@@ -22,8 +23,11 @@ export abstract class BOComponent extends DocumentComponent implements OnInit, A
   private radarObj//: RadarComponent; // Radar obj reference
 
   controlTypeModel = ControlTypes;
-  constructor(public bo: BOService, eventData: EventDataService, private componentResolver: ComponentFactoryResolver) {
-    super(bo, eventData);
+  constructor(public bo: BOService,
+    eventData: EventDataService,
+    private componentResolver: ComponentFactoryResolver,
+    ciService: ComponentInfoService) {
+    super(bo, eventData, ciService);
 
     this.subscriptions.push(eventData.radarInfos.subscribe((radarInfos: string) => {
       this.radarObj._component.init(radarInfos);
@@ -53,8 +57,8 @@ export abstract class BOComponent extends DocumentComponent implements OnInit, A
 })
 export abstract class BOSlaveComponent extends DocumentComponent implements OnInit, OnDestroy {
 
-  constructor() {
-    super(null, null);
+  constructor(eventData: EventDataService, ciService: ComponentInfoService) {
+    super(null, eventData, ciService);
   }
 
   ngOnInit() {

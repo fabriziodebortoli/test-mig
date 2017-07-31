@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'app/model/subscription';
 import { ModelService } from './../../services/model.service';
 import { Component, OnInit } from '@angular/core';
-import { OperationResult } from '../../services/operationResult';
+import { Router } from '@angular/router';
+import { AuthorizationProperties } from 'app/authentication/auth-info';
 
 @Component({
   selector: 'app-subscription-home',
@@ -12,42 +12,39 @@ import { OperationResult } from '../../services/operationResult';
 
 export class SubscriptionHomeComponent implements OnInit {
 
-  model: Subscription;
-  editing: boolean = false;
+  subscriptions: Subscription[];
 
-  constructor(private modelService: ModelService) {
-    this.model = new Subscription();
+  //--------------------------------------------------------------------------------------------------------
+  constructor(private modelService: ModelService, private router: Router) {
   }
 
+  //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
-  }
+    let authorizationStored = localStorage.getItem('auth-info');
 
-  submitSubscription() {
-    if (this.model.SubscriptionKey == undefined) {
-      alert('Mandatory fields are empty! Check subscription key!');
+    if (authorizationStored == undefined) {
+      alert('User must be logged in.');
       return;
     }
 
-    let subscriptionOperation: Observable<OperationResult>;
+    let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
 
-    if (!this.editing) {
-      subscriptionOperation = this.modelService.addSubscription(this.model)
-    } else {
-      //subscriptionOperation = this.modelService.updateSubscription(this.model)
-    }
+    // ask to GWAM the list of subscriptions
 
-    let subs = subscriptionOperation.subscribe(
-      subscriptionResult => {
-        this.model = new Subscription();
-        if (this.editing) this.editing = !this.editing;
-        alert(subscriptionResult.Message);
-        subs.unsubscribe();
+    this.modelService.getSubscriptions()
+      .subscribe(
+      subscriptions => {
+        this.subscriptions = subscriptions['Content'];
       },
       err => {
-        console.log(err);
         alert(err);
-        subs.unsubscribe();
       }
-    )
+      )
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  openSubscription(item: object) {
+    // route to edit subscription
+    this.router.navigate(['/subscription'], { queryParams: { subscriptionToEdit: item['SubscriptionKey'] } });
   }
 }

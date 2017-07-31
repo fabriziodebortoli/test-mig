@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microarea.AdminServer.Services.BurgerData;
+using System;
 using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Model.Interfaces
 {
     //================================================================================
-    public interface IAccount : IAdminModel
+    public interface IAccount
     {
         string AccountName { get; set; }
 		string Password { get; set; }
@@ -27,9 +28,6 @@ namespace Microarea.AdminServer.Model.Interfaces
 		DateTime ExpirationDate { get; set; }
 		string ParentAccount { get; set; }
 		bool Confirmed { get; set; }
-
 		void ResetPasswordExpirationDate();
-        bool IsAdmin();
-        IAccountRoles[] GetRoles(string entityKey=null);
     }
 }
