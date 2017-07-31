@@ -45,9 +45,6 @@ namespace Microarea.AdminServer
 																		JOIN MP_SubscriptionInstances subins ON subacc.SubscriptionKey = subins.SubscriptionKey
 																		WHERE subacc.AccountName = '{0}'";
 
-		// SubscriptionSlot
-		public const string DeleteSubscriptionSlot = @"DELETE MP_SubscriptionsSlots WHERE SubscriptionKey = @SubscriptionKey";
-
         // SubscriptionDatabases
         public const string ExistSubscriptionDatabase = @"SELECT COUNT(*) FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
         public const string SelectSubscriptionDatabase = @"SELECT * FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";

@@ -1,23 +1,20 @@
-﻿using Microarea.AdminServer.Library;
+﻿using System;
+using System.Data;
+
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 
 namespace Microarea.AdminServer.Model
 {
     //================================================================================
-    public class SubscriptionSlots : IAdminModel
+    public class SubscriptionSlots : IModelObject
     {
         string subscriptionKey;
         string value = string.Empty;
-		bool existsOnDB = false;
 
         //---------------------------------------------------------------------
         public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
         public string Value { get { return this.value; } set { this.value = value; } }
-		public bool ExistsOnDB { get { return this.existsOnDB; } set { this.existsOnDB = value; } }
-
-		// data provider
-		IDataProvider dataProvider;
 
         //---------------------------------------------------------------------
         public SubscriptionSlots()
@@ -31,27 +28,22 @@ namespace Microarea.AdminServer.Model
         }
 
         //---------------------------------------------------------------------
-        public void SetDataProvider(IDataProvider dataProvider)
-        {
-            this.dataProvider = dataProvider;
-        }
-
-        //---------------------------------------------------------------------
         public OperationResult Save()
         {
-            return this.dataProvider.Save(this);
+            throw new NotImplementedException();
+        }
+
+
+        //---------------------------------------------------------------------
+        public IModelObject Fetch(IDataReader reader)
+        {
+            throw new NotImplementedException();
         }
 
         //---------------------------------------------------------------------
-        public IAdminModel Load()
+        public string GetKey()
         {
-            return this.dataProvider.Load(this);
+            throw new NotImplementedException();
         }
-
-		//---------------------------------------------------------------------
-		public OperationResult Query(QueryInfo qi)
-		{
-			return this.dataProvider.Query(qi);
-		}
-	}
+    }
 }
