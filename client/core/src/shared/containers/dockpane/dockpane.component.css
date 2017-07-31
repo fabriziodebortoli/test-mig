@@ -8,8 +8,8 @@
     padding: 0;
     width: 30px;
     height: 30px;
-    font-size: 0;
-    text-indent: -9999px;
+    font-size: 12px;
+    /*text-indent: -9999px;*/
     cursor: pointer;
     outline: none;
     background: none;
@@ -25,7 +25,7 @@
     left: 18px;
     right: 18px;
     height: 8px;
-    background: #ffffff;
+    /*background: #ffffff;*/
     color: #ffffff;
 }
 
@@ -39,8 +39,8 @@
     padding: 0;
     width: 30px;
     height: 30px;
-    font-size: 0;
-    text-indent: -9999px;
+    font-size: 12px;
+    /*text-indent: -9999px;*/
     cursor: pointer;
     outline: none;
     background: #166287;
@@ -55,7 +55,7 @@
     left: 18px;
     right: 18px;
     height: 8px;
-    background: #ffffff;
+    color: #ffffff;
 }
 
 .pippo {
@@ -65,7 +65,7 @@
     top: 0;
     right: 0;
     bottom: 0;
-    width: 20%;
+    width: 50%;
     min-width: 250px;
     z-index: 9999;
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
