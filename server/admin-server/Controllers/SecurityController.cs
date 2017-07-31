@@ -62,10 +62,9 @@ namespace Microarea.AdminServer.Controllers
             {
                 burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
                 IAccount account = burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
-          {
-                    new WhereCondition("AccountName", credentials.AccountName, QueryComparingOperators.IsEqual, false)
-          });
-
+				{
+					new WhereCondition("AccountName", credentials.AccountName, QueryComparingOperators.IsEqual, false)
+				});
 
                 // L'account esiste sul db locale
                 if (account!= null)

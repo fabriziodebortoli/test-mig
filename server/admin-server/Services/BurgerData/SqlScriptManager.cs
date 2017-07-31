@@ -94,17 +94,17 @@ namespace Microarea.AdminServer.Services.BurgerData
                 case ModelTables.Accounts:
                     return Queries.UpdateAccount;
 
-                case ModelTables.Subscriptions:
+				case ModelTables.AccountRoles:
+					return Queries.UpdateAccountRoles;
+
+				case ModelTables.Instances:
+					return Queries.UpdateInstance;
+
+				case ModelTables.Roles:
+					return Queries.UpdateRole;
+
+				case ModelTables.Subscriptions:
                     return Queries.UpdateSubscription;
-
-                case ModelTables.Roles:
-                    return Queries.UpdateRole;
-
-                case ModelTables.AccountRoles:
-                    return String.Empty;
-
-                case ModelTables.Instances:
-                    return Queries.UpdateInstance;
 
                 case ModelTables.SubscriptionAccounts:
                     return String.Empty;
@@ -125,17 +125,17 @@ namespace Microarea.AdminServer.Services.BurgerData
                 case ModelTables.Accounts:
                     return Queries.InsertAccount;
 
-                case ModelTables.Subscriptions:
+				case ModelTables.AccountRoles:
+					return Queries.InsertAccountRoles;
+
+				case ModelTables.Instances:
+					return Queries.InsertInstance;
+
+				case ModelTables.Roles:
+					return Queries.InsertRole;
+
+				case ModelTables.Subscriptions:
                     return Queries.InsertSubscription;
-
-                case ModelTables.Roles:
-                    return Queries.InsertRole;
-
-                case ModelTables.AccountRoles:
-                    return Queries.InsertAccountRoles;
-
-                case ModelTables.Instances:
-                    return Queries.InsertInstance;
 
                 case ModelTables.SubscriptionAccounts:
                     return Queries.InsertSubscriptionAccount;
@@ -152,16 +152,22 @@ namespace Microarea.AdminServer.Services.BurgerData
             {
                 case "ACCOUNTS":
                     return ModelTables.Accounts;
+
                 case "SUBSCRIPTIONS":
                     return ModelTables.Subscriptions;
+
                 case "ROLES":
                     return ModelTables.Roles;
+
                 case "REGISTEREDAPPS":
                     return ModelTables.RegisteredApps;
+
                 case "RECOVERYCODES":
                     return ModelTables.RecoveryCode;
+
                 case "INSTANCES":
                     return ModelTables.Instances;
+
                 default:
                     return ModelTables.None;
             }

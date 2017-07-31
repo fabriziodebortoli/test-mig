@@ -85,8 +85,8 @@ namespace Microarea.AdminServer
         public const string InsertSubscriptionAccount = @"INSERT INTO MP_SubscriptionAccounts (AccountName, SubscriptionKey) VALUES (@AccountName, @SubscriptionKey)";
         public const string DeleteSubscriptionAccount = @"DELETE MP_SubscriptionAccounts WHERE @AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
 
-        // SecurityToken
-        public const string ExistSecurityToken = @"SELECT COUNT(*) FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
+		// SecurityToken
+		public const string ExistSecurityToken = @"SELECT COUNT(*) FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
         public const string SelectSecurityToken = @"SELECT * FROM MP_SecurityTokens WHERE AccountName = @AccountName AND TokenType=@TokenType";
         public const string InsertSecurityToken = @"INSERT INTO MP_SecurityTokens (AccountName, TokenType, Token, ExpirationDate, Expired) VALUES (@AccountName, @TokenType, @Token, @ExpirationDate, @Expired)";
         public const string UpdateSecurityToken = @"UPDATE MP_SecurityTokens SET Token=@Token, ExpirationDate=@ExpirationDate, Expired=@Expired WHERE AccountName=@AccountName AND TokenType=@TokenType";
@@ -104,6 +104,7 @@ namespace Microarea.AdminServer
         public const string SelectAccountRoles = @"SELECT * FROM MP_AccountRoles WHERE AccountName=@AccountName AND EntityKey=@EntityKey";
         public const string InsertAccountRoles = @"INSERT INTO MP_AccountRoles (RoleId, AccountName, EntityKey) VALUES (@RoleId, @AccountName, @EntityKey)";
         public const string DeleteAccountRoles = @"DELETE MP_AccountRoles WHERE RoleId=@RoleId AND AccountName=@AccountName AND EntityKey=@EntityKey";
+		public const string UpdateAccountRoles = @"UPDATE MP_AccountRoles SET Level = @Level WHERE RoleId = @RoleId AND AccountName = @AccountName AND EntityKey = @EntityKey";
 
 		// AccountRole (BurgerData)
 		public const string SelectRolesByAccountName = @"SELECT * FROM MP_AccountRoles WHERE AccountName = '{0}'";
