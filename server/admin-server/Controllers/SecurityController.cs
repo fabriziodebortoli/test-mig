@@ -348,7 +348,7 @@ namespace Microarea.AdminServer.Controllers
             bootstrapToken.Language = account.Language;
             bootstrapToken.Instances = GetInstances(account.AccountName);
 			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
-            bootstrapToken.Urls = GetUrlsForInstance(_settings.InstanceIdentity.InstanceKey, this.burgerData);
+            bootstrapToken.Urls = GetUrlsForThisInstance();
 			bootstrapToken.Roles = GetRoles(account.AccountName);
 
             AuthorizationInfo ai = GetAuthorizationInfo();
