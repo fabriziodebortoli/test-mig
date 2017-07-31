@@ -9,6 +9,7 @@ import { environment } from './../../environments/environment';
 import { RoleNames, RoleLevels } from './../authentication/auth-helpers';
 import { Router } from "@angular/router";
 import { Subject } from "rxjs/Subject";
+import { UrlGuard } from "app/authentication/url-guard";
 
 @Injectable()
 export class LoginService {
@@ -73,27 +74,30 @@ export class LoginService {
             localStorage.setItem('auth-info', JSON.stringify(authInfo.authorizationProperties));
 
             // checking cloud-admin only urls
-            
+
+            let opRes: OperationResult;
+
             if (returnUrl == '/instancesHome') {
-              if (!authInfo.VerifyRole(RoleNames.Admin, RoleLevels.Instance, "*")) {
-                // user has no roles to navigate the requested url sending him back to home component
-                alert(RoleNames.Admin + ' role missing');
-                this.router.navigateByUrl('/');
-                return false;
-              } else {
+              opRes = UrlGuard.CanNavigateURL(returnUrl, authInfo);
+              if (opRes.Result){
                 this.router.navigateByUrl(returnUrl);
                 return true;
+              } else {
+                alert(opRes.Message);
+                this.router.navigateByUrl('/');
+                return false;
               }
             }
             
             // checking provisioning-admin only urls
 
-            if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
-              // user has no roles to navigate the requested url sending him back to home component
-              alert(RoleNames.Admin + ' role missing');
+            opRes = UrlGuard.CanNavigateLevel(RoleLevels.Subscription, authInfo);
+
+            if (!opRes.Result) {
+              alert(opRes.Message);
               this.router.navigateByUrl('/');
               return false;
-            }            
+            }
             
             // user is permitted to navigate requestes urls
             this.router.navigateByUrl(returnUrl);

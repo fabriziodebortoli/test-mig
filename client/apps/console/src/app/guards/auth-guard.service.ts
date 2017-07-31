@@ -1,7 +1,9 @@
+import {OperationResult} from '../services/operationResult';
 import { CanActivate, CanActivateChild, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AuthorizationInfo, AuthorizationProperties } from "app/authentication/auth-info";
 import { RoleNames, RoleLevels } from "app/authentication/auth-helpers";
+import { UrlGuard } from "app/authentication/url-guard";
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
@@ -34,23 +36,27 @@ export class AuthGuardService implements CanActivate {
 
         authorizationInfo.authorizationProperties = authorizationProperties;
 
+        let opRes: OperationResult;
+
         if (state.url == '/instancesHome') {
-          if (!authorizationInfo.VerifyRole(RoleNames.Admin, RoleLevels.Instance, "*")) {
-            // user has no roles to navigate the requested url sending him back to home component
-            alert(RoleNames.Admin + ' role missing');
+          opRes = UrlGuard.CanNavigateURL(state.url, authorizationInfo);
+          if (opRes.Result){
+            return true;
+          } else {
+            alert(opRes.Message);
             this.router.navigateByUrl('/');
             return false;
-          } else {
-            return true;
           }
-        }        
+        }
 
-        if (!authorizationInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
-          // user has no roles to navigate the requested url sending him back to home component
-          alert(RoleNames.Admin + ' role missing');
-          this.router.navigateByUrl('/');
+        // checking generic "provisioning" level
+
+        opRes = UrlGuard.CanNavigateLevel(RoleLevels.Subscription, authorizationInfo);
+
+        if (!opRes.Result) {
+          alert(opRes.Message);
           return false;
-        } 
+        }        
 
         return true;
       }
