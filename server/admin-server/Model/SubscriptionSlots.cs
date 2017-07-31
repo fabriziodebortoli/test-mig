@@ -3,6 +3,7 @@ using System.Data;
 
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.BurgerData;
 
 namespace Microarea.AdminServer.Model
 {
@@ -28,7 +29,7 @@ namespace Microarea.AdminServer.Model
         }
 
         //---------------------------------------------------------------------
-        public OperationResult Save()
+        public OperationResult Save(BurgerData burgerData)
         {
             throw new NotImplementedException();
         }
