@@ -19,7 +19,7 @@ import { Component, NgModule, trigger, transition, style, animate, state, OnInit
 })
 
 
-export class DockpaneComponent implements OnInit {
+export class DockpaneComponent {
 
 
  
