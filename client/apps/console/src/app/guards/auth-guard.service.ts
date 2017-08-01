@@ -12,18 +12,6 @@ export class AuthGuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-    if (state.url == '/logout') {
-      if (localStorage.length == 0) {
-        alert('You are already not logged!');
-        return;
-      }
-
-      localStorage.removeItem('auth-info');
-      this.router.navigateByUrl('/appHome');
-      alert('You are now logged out');
-      return;
-    }
-
     try {
       let authorizationStored = localStorage.getItem('auth-info');
 

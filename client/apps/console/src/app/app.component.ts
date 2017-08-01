@@ -1,6 +1,9 @@
+import { LoginService } from './services/login.service';
 import { ModelService } from './services/model.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
+import { Subject } from "rxjs/Subject";
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
   selector: 'app-root',
@@ -8,11 +11,26 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
-  constructor(private router: Router) {}
+  subscription: Subscription;
+  userAccountName: string;
+
+  constructor(private router: Router, private loginService: LoginService) {
+    this.subscription = this.loginService.getMessage().subscribe(message => {
+      this.userAccountName = message;
+    });
+  }
 
   ngOnInit() {
     this.router.navigateByUrl('/appHome');
-  }  
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  logout() {
+    this.loginService.logout();
+  }
 }

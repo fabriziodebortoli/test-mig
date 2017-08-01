@@ -378,31 +378,14 @@ namespace Microarea.AdminServer.Controllers
 			return listSubscriptions.ToArray();
 		}
 
-		//----------------------------------------------------------------------
-		private IInstance[] GetInstances(string accountName)
-		{
-            string query = String.IsNullOrEmpty(accountName) ?
-                        
-                            "SELECT * FROM MP_Instances"
-                            
-                            :
-                        String.Format(
-                            "SELECT * FROM MP_Instances WHERE AccountName = '{0}'",
-                            accountName
-                            );
- 
-            try
-            {
-                BurgerData burgerData  = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
-   List<IInstance>  l = burgerData.GetList<Instance, IInstance>(
-                query,
-               ModelTables.Instances);
-
-                return l.ToArray();
-            }
-            catch { }
-            return new IInstance[] { };
-		}
+        //----------------------------------------------------------------------
+        private IInstance[] GetInstances(string accountName)
+        {
+            // getting instances for this account
+            string querySelectInstancesForAccount = String.Format(Queries.SelectInstanceForAccount, accountName);
+            List<IInstance> instancesList = this.burgerData.GetList<Instance, IInstance>(querySelectInstancesForAccount, ModelTables.Instances);
+            return instancesList != null ? instancesList.ToArray() : new Instance[] { };
+        }
 
 		//----------------------------------------------------------------------
 		private IServerURL[] GetUrlsForThisInstance()
