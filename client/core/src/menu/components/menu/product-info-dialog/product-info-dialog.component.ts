@@ -1,3 +1,4 @@
+import { InfoService } from './../../../../core/services/info.service';
 import { Component, OnInit } from '@angular/core';
 
 import { MaterialModule, MdDialog, MdDialogRef } from '@angular/material';
@@ -14,10 +15,10 @@ import { HttpMenuService } from './../../../services/http-menu.service';
 
 export class ProductInfoDialogComponent implements OnInit {
 
-private productInfos: any;
+  private productInfos: any;
   constructor(
     public dialogRef: MdDialogRef<ProductInfoDialogComponent>,
-    private httpMenuService: HttpMenuService,
+    private infoService: InfoService,
     private utilsService: UtilsService,
     private localizationService: LocalizationService
   ) {
@@ -25,9 +26,11 @@ private productInfos: any;
   }
 
   ngOnInit() {
-   let sub = this.httpMenuService.getProductInfo().subscribe(result=> { 
-     this.productInfos = result.ProductInfos; sub.unsubscribe()
-     });
+    let sub = this.infoService.getProductInfo().subscribe(result => {
+      this.productInfos = result;
+      if (sub)
+        sub.unsubscribe()
+    });
   }
 }
 
