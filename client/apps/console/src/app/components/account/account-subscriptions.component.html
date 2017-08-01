@@ -1,5 +1,5 @@
 <div>
-  <h4>Subscription List for {{ accountName }}</h4>
+  <h4>Subscriptions</h4>
 </div>
-<admin-checkbox-list [items]="accountRoles" [columnName]="'EntityKey'"></admin-checkbox-list>
+<admin-list [items]="subscriptions" [columnNames]="columnNames"></admin-list>
 
