@@ -7,6 +7,7 @@ import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.
 import { AdminSidenavContainerComponent } from './components/admin-sidenav-container/admin-sidenav-container.component';
 import { AdminSidenavComponent } from './components/admin-sidenav/admin-sidenav.component';
 import { AdminListComponent } from "./components/admin-list/admin-list.component";
+import { AdminCheckBoxComponent } from "./components/admin-checkbox/admin-checkbox.component";
 
 // import { SampleDirective } from './sample.directive';
 // import { SamplePipe } from './sample.pipe';
@@ -32,7 +33,8 @@ export * from './sample.component';
     AdminToolbarComponent,
     AdminSidenavContainerComponent,
     AdminSidenavComponent,
-    AdminListComponent
+    AdminListComponent,
+    AdminCheckBoxComponent
     // SampleDirective,
     // SamplePipe
   ],
@@ -41,7 +43,8 @@ export * from './sample.component';
     AdminToolbarComponent,
     AdminSidenavContainerComponent,
     AdminSidenavComponent,
-    AdminListComponent
+    AdminListComponent,
+    AdminCheckBoxComponent
     // SampleDirective,
     // SamplePipe
   ]
