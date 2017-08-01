@@ -17,7 +17,8 @@ import { DocumentComponent } from './document.component';
  */
 @Component({
     selector: 'tb-dynamic-cmp-tree',
-    template: '<ng-content></ng-content>'
+    template: '<ng-content></ng-content>',
+    providers:[EventDataService] 
 })
 export class DynamicCmpComponentTree {
 

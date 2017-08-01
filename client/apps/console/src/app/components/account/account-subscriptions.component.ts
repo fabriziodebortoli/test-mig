@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {AccountRole} from 'app/model/accountRole';
+import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from "app/model/subscription";
 
 @Component({
@@ -8,17 +9,15 @@ import { Subscription } from "app/model/subscription";
 })
 export class AccountSubscriptionsComponent implements OnInit {
 
-  subscriptionList: Array<Subscription>;
+  @Input() accountName: string;
+  @Input() accountRoles: Array<AccountRole>;
 
   constructor() { 
-    this.subscriptionList = new Array<Subscription>();
-    let s:Subscription = new Subscription();
-    s.SubscriptionKey = "USS-001";
-    s.Description = "New subscription";
-    this.subscriptionList.push(s);
+    this.accountRoles = new Array<AccountRole>();
   }
 
   ngOnInit() {
+    // load subscriptions for accountName
   }
 
 }

@@ -1,3 +1,5 @@
+import {AccountRole} from './../../model/accountRole';
+import {AuthorizationInfo} from '../../authentication/auth-info';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModelService } from './../../services/model.service';
 import { OperationResult } from './../../services/operationResult';
@@ -17,14 +19,18 @@ export class AccountComponent implements OnInit {
 
   model:Account;
   editing:boolean = false;
+  loggedAccountName:string;
+  accountRoles:Array<AccountRole>;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) { 
     this.model = new Account();
+    this.accountRoles = new Array<AccountRole>();
   }
 
   //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
+
     if (this.route.snapshot.queryParams['accountNameToEdit'] !== undefined){
       this.editing = true;
       let accountName:string = this.route.snapshot.queryParams['accountNameToEdit'];
@@ -43,7 +49,38 @@ export class AccountComponent implements OnInit {
             alert(err);
           }
         )
+    } 
+
+    let authorizationStored = localStorage.getItem('auth-info');
+
+    if (authorizationStored !== null) {
+      let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
+
+      let authorizationInfo: AuthorizationInfo = new AuthorizationInfo(
+        authorizationProperties.jwtEncoded,
+        authorizationProperties.accountName);
+
+      authorizationInfo.authorizationProperties = authorizationProperties;
+
+      this.loggedAccountName = authorizationInfo.authorizationProperties.accountName;
     }
+
+    if (this.loggedAccountName == '') {
+      return;
+    }
+
+    this.modelService.query('accountroles', { AccountName: this.loggedAccountName, Level: "subscription", RoleName: "Admin" })
+      .subscribe(
+        res => {
+          this.accountRoles = res['Content'];
+          if (this.accountRoles.length == 0) {
+            return;
+          }
+        },
+        err => {
+          alert(err);
+        }
+      )
   }
 
   //--------------------------------------------------------------------------------------------------------
