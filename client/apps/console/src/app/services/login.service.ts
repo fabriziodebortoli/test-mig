@@ -15,6 +15,9 @@ import { UrlGuard } from "app/authentication/url-guard";
 export class LoginService {
 
   modelBackEndUrl: string;
+  
+  // auxiliary members
+  accountName: string;
 
   // Observable string sources
   private loginCompleted = new Subject<string>();
@@ -24,6 +27,14 @@ export class LoginService {
 
     this.modelBackEndUrl = environment.adminAPIUrl + "api/tokens";
   }
+
+  sendMessage(message:string) {
+    this.loginCompleted.next(message);
+  }
+
+  getMessage(): Observable<any> {
+    return this.loginCompleted.asObservable();
+  }  
 
   login(body:Object, returnUrl: string) {
 
@@ -35,7 +46,7 @@ export class LoginService {
       .map(res => res.json())
       .subscribe(
         // We're assuming the response will be an object
-        // with the JWT on an jwttoken key
+        // with the JWT token on an jwttoken key
       data =>
       {
         if (data.Result)
@@ -70,18 +81,19 @@ export class LoginService {
             authInfo.SetRoles(parsedToken.Roles);
             
             // save in localstorage all the information about authorization
-
             localStorage.setItem('auth-info', JSON.stringify(authInfo.authorizationProperties));
+            
+            // sending message to subscribers to notify login
+            this.sendMessage(authInfo.authorizationProperties.accountName);
 
             // checking cloud-admin only urls
-
             let opRes: OperationResult = UrlGuard.CanNavigate(returnUrl, authInfo);
 
             if (!opRes.Result) {
               alert(opRes.Message);
               this.router.navigateByUrl('/');
               return;
-            }        
+            }
 
             this.router.navigateByUrl(returnUrl);
           }
@@ -96,5 +108,19 @@ export class LoginService {
       },
         error => alert(error)
       );
+  }
+
+  logout() {
+    
+    if (localStorage.length == 0) {
+      return;
+    }
+
+    localStorage.removeItem('auth-info');
+
+    // sending message to subscribers to notify login
+    this.sendMessage("");
+    
+    this.router.navigateByUrl('/appHome');
   }
 }
