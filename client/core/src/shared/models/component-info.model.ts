@@ -17,4 +17,8 @@ export class ComponentInfo {
 export class ComponentInfoService
 {
     public componentInfo: ComponentInfo;
+
+    public getComponentId(){
+        return this.componentInfo ? this.componentInfo.id : '';
+    }
 }
