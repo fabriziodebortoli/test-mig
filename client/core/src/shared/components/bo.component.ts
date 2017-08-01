@@ -18,7 +18,8 @@ import { Subscription } from "rxjs/Subscription";
 export abstract class BOCommonComponent extends DocumentComponent implements OnInit, OnDestroy {
   translations = [];
   subscriptions: Subscription[] = [];
-
+  culture = 'it-IT';
+  version = '1';
   constructor(document: BOService,
     eventData: EventDataService,
     ciService: ComponentInfoService) {
@@ -27,13 +28,13 @@ export abstract class BOCommonComponent extends DocumentComponent implements OnI
     this.subscriptions.push(document.windowStrings.subscribe((args: any) => {
       if (me.cmpId === args.id) {
         me.translations = args.strings;
-        let jItem = { translations: me.translations };
-        localStorage.setItem(this.getRoutingUrl(this.ciService.componentInfo), JSON.stringify(jItem));
+        let jItem = { translations: me.translations, version:this.version };
+        localStorage.setItem(this.getDictionaryID(this.ciService.componentInfo), JSON.stringify(jItem));
       }
     }));
   }
-  getRoutingUrl(ci: ComponentInfo) {
-    return ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name;
+  getDictionaryID(ci: ComponentInfo) {
+    return ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name + '/' + this.culture;
   }
   l(baseText: string) {
     let target = baseText;
@@ -47,14 +48,24 @@ export abstract class BOCommonComponent extends DocumentComponent implements OnI
     return target;
   }
   ngOnInit() {
-    let item = localStorage.getItem(this.getRoutingUrl(this.ciService.componentInfo));
+    let item = localStorage.getItem(this.getDictionaryID(this.ciService.componentInfo));
+    let found = false;
     if (item) {
-      let jItem = JSON.parse(item);
-      this.translations = jItem.translations;
+      try {
+        let jItem = JSON.parse(item);
+
+        if (jItem.version === this.version) {
+          this.translations = jItem.translations;
+          found = true;
+        }
+      }
+      catch (ex) {
+        console.log(ex);
+      }
     }
-    else {
+    if (!found) {
       let s = this.document as BOService;
-      s.getWindowStrings(this.cmpId);
+      s.getWindowStrings(this.cmpId, this.culture);
     }
     super.ngOnInit();
   }

@@ -223,8 +223,8 @@ export class WebSocketService {
         this.safeSend(data);
 
     }
-    getWindowStrings(cmpId: String) {
-        const data = { cmd: 'getWindowStrings', cmpId: cmpId };
+    getWindowStrings(cmpId: String, culture: string) {
+        const data = { cmd: 'getWindowStrings', cmpId: cmpId, culture: culture };
         this.safeSend(data);
 
     }

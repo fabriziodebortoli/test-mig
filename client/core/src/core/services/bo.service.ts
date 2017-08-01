@@ -202,8 +202,8 @@ export class BOService extends DocumentService {
         this.webSocketService.getDocumentData(this.mainCmpId, this.modelStructure);
 
     }
-    getWindowStrings(cmpId: string) {
-        this.webSocketService.getWindowStrings(cmpId);
+    getWindowStrings(cmpId: string, culture: string) {
+        this.webSocketService.getWindowStrings(cmpId, culture);
     }
     registerModelField(owner: string, name: string) {
         if (!owner) {
