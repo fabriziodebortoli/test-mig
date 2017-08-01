@@ -66,9 +66,14 @@ export class WebSocketService {
         this.connection = new WebSocket(url);
         this.connection.onmessage = function (e) {
             if (typeof (e.data) === 'string') {
+                let obj = null;
                 try {
-                    const obj = JSON.parse(e.data);
-
+                    obj = JSON.parse(e.data);
+                } catch (ex) {
+                    $this.logger.error('Invalid json string:\n' + e.data);
+                    return;
+                }
+                try {
                     switch (obj.cmd) {
                         case 'ModelData': $this.modelData.emit(obj.args); break;
                         case 'WindowOpen': $this.windowOpen.emit(obj.args); break;
@@ -87,10 +92,11 @@ export class WebSocketService {
 
                         default: break;
                     }
-
-                } catch (e) {
-                    $this.logger.error('Invalid json string:\n' + e.data);
+                } catch (ex) {
+                    $this.logger.error(ex);
+                    return;
                 }
+
             }
         };
         this.connection.onerror = (arg) => {

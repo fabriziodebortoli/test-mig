@@ -1,4 +1,4 @@
-import { ComponentInfoService } from './../models/component-info.model';
+import { ComponentInfoService, ComponentInfo } from './../models/component-info.model';
 import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterContentInit } from '@angular/core';
 
 import { ControlTypes } from "../models/control-types.enum";
@@ -27,8 +27,13 @@ export abstract class BOCommonComponent extends DocumentComponent implements OnI
     this.subscriptions.push(document.windowStrings.subscribe((args: any) => {
       if (me.cmpId === args.id) {
         me.translations = args.strings;
+        let jItem = { translations: me.translations };
+        localStorage.setItem(this.getRoutingUrl(this.ciService.componentInfo), JSON.stringify(jItem));
       }
     }));
+  }
+  getRoutingUrl(ci: ComponentInfo) {
+    return ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name;
   }
   l(baseText: string) {
     let target = baseText;
@@ -42,8 +47,15 @@ export abstract class BOCommonComponent extends DocumentComponent implements OnI
     return target;
   }
   ngOnInit() {
-    let s = this.document as BOService;
-    s.getWindowStrings(this.cmpId);
+    let item = localStorage.getItem(this.getRoutingUrl(this.ciService.componentInfo));
+    if (item) {
+      let jItem = JSON.parse(item);
+      this.translations = jItem.translations;
+    }
+    else {
+      let s = this.document as BOService;
+      s.getWindowStrings(this.cmpId);
+    }
     super.ngOnInit();
   }
   ngOnDestroy() {
