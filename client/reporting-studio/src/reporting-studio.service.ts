@@ -33,7 +33,7 @@ export class ReportingStudioService extends DocumentService {
 
     public savingPdf: boolean = false;
     public totalPages: number;
-    public firstPagePdf: number;
+    public firstPageExport: number;
     public lastPagePdf: number;
     public pdfState: PdfType = PdfType.NOPDF;
     public svgState: SvgType = SvgType.NOSVG;
@@ -42,7 +42,8 @@ export class ReportingStudioService extends DocumentService {
     public titleReport: string;
 
 
-    @Output() rsStartPdf = new EventEmitter<void>();
+    @Output() rsExportPdf = new EventEmitter<void>();
+    @Output() rsExportExcel = new EventEmitter<void>(); 
     public exportfile = false;
     public exportpdf = false;
     public exportexcel = false;
@@ -134,13 +135,19 @@ export class ReportingStudioService extends DocumentService {
     reset() {
         this.pageNum = 1;
         this.showAsk = false;
+        
     }
 
     //------EXPORT PDF-----------------------------------
-    public initiaziedPdf (from: any, to: any){
-        this.firstPagePdf = from;
+    public initiaziedExport (from: any, to: any){
+        this.firstPageExport = from;
         this.lastPagePdf = to;
-        this.rsStartPdf.emit();
+         if(this.exportpdf)
+            this.rsExportPdf.emit();
+         if(this.exportexcel)
+            this.rsExportExcel.emit();
+        this.exportpdf = false;
+        this.exportexcel = false;
     }
 
     public async appendPDF() {
@@ -161,7 +168,10 @@ export class ReportingStudioService extends DocumentService {
             .then((dataUri) => {
                 saveAs(dataUri, this.titleReport + '.pdf');
                 this.pdfState = PdfType.NOPDF;
-            }).then(() => this.eventFirstPage.emit());
+            }).then(() => {
+                this.eventFirstPage.emit();
+                this.reset();
+            });
     }
 
     //--------------------------------------------------
