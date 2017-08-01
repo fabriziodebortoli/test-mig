@@ -120,7 +120,7 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  getSubscriptions(body: Object = ''): Observable<OperationResult> {
+  getSubscriptions(body: string = ''): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
 
@@ -166,7 +166,7 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  getInstances(body: Object = ''): Observable<OperationResult> {
+  getInstances(body: string = ''): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
 
