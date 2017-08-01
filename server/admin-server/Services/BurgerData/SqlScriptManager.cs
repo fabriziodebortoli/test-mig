@@ -22,7 +22,7 @@ namespace Microarea.AdminServer.Services.BurgerData
                 case ModelTables.RecoveryCode:
                     return "MP_RecoveryCodes";
                 case ModelTables.ServerURLs:
-                    return "MP_ServerURL";
+                    return "MP_ServerURLs";
 				case ModelTables.SecurityTokens:
 					return "MP_SecurityTokens";
                 case ModelTables.Subscriptions:
