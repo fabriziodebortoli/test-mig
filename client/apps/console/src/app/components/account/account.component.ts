@@ -1,3 +1,4 @@
+import {AccountRole} from './../../model/accountRole';
 import {AuthorizationInfo} from '../../authentication/auth-info';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModelService } from './../../services/model.service';
@@ -19,10 +20,12 @@ export class AccountComponent implements OnInit {
   model:Account;
   editing:boolean = false;
   loggedAccountName:string;
+  accountRoles:Array<AccountRole>;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) { 
     this.model = new Account();
+    this.accountRoles = new Array<AccountRole>();
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -66,23 +69,18 @@ export class AccountComponent implements OnInit {
       return;
     }
 
-    this.modelService.getSubscriptions(this.loggedAccountName)
+    this.modelService.query('accountroles', { AccountName: this.loggedAccountName, Level: "subscription", RoleName: "Admin" })
       .subscribe(
         res => {
-          let accounts:Account[] = res['Content'];
-
-          if (accounts.length == 0) {
+          this.accountRoles = res['Content'];
+          if (this.accountRoles.length == 0) {
             return;
           }
-          
-          this.model = accounts[0];
         },
         err => {
           alert(err);
         }
       )
-    
-
   }
 
   //--------------------------------------------------------------------------------------------------------
