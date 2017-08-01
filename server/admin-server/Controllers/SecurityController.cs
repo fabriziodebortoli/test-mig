@@ -362,6 +362,7 @@ namespace Microarea.AdminServer.Controllers
 		//----------------------------------------------------------------------
 		private IAccountRoles[] GetRoles(string accountName)
 		{
+			// only enabled roles are loaded
 			return this.burgerData.GetList<AccountRoles, IAccountRoles>(
 				String.Format(Queries.SelectRolesByAccountName, accountName),
 				ModelTables.AccountRoles).ToArray();
