@@ -1,3 +1,4 @@
+import {AuthorizationInfo} from '../../authentication/auth-info';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModelService } from './../../services/model.service';
 import { OperationResult } from './../../services/operationResult';
@@ -17,6 +18,7 @@ export class AccountComponent implements OnInit {
 
   model:Account;
   editing:boolean = false;
+  loggedAccountName:string;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) { 
@@ -25,6 +27,7 @@ export class AccountComponent implements OnInit {
 
   //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
+
     if (this.route.snapshot.queryParams['accountNameToEdit'] !== undefined){
       this.editing = true;
       let accountName:string = this.route.snapshot.queryParams['accountNameToEdit'];
@@ -43,7 +46,43 @@ export class AccountComponent implements OnInit {
             alert(err);
           }
         )
+    } 
+
+    let authorizationStored = localStorage.getItem('auth-info');
+
+    if (authorizationStored !== null) {
+      let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
+
+      let authorizationInfo: AuthorizationInfo = new AuthorizationInfo(
+        authorizationProperties.jwtEncoded,
+        authorizationProperties.accountName);
+
+      authorizationInfo.authorizationProperties = authorizationProperties;
+
+      this.loggedAccountName = authorizationInfo.authorizationProperties.accountName;
     }
+
+    if (this.loggedAccountName == '') {
+      return;
+    }
+
+    this.modelService.getSubscriptions({ AccountName: this.loggedAccountName })
+      .subscribe(
+        res => {
+          let accounts:Account[] = res['Content'];
+
+          if (accounts.length == 0) {
+            return;
+          }
+          
+          this.model = accounts[0];
+        },
+        err => {
+          alert(err);
+        }
+      )
+    
+
   }
 
   //--------------------------------------------------------------------------------------------------------

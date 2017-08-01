@@ -4,7 +4,6 @@ import { Account } from '../../model/account';
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationProperties } from "app/authentication/auth-info";
 
-
 @Component({
   selector: 'app-accounts-home',
   templateUrl: './accounts-home.component.html',

@@ -4,8 +4,8 @@ input, textarea, label {
     margin-bottom: 3px;
 }
 
-input[type="text"], input[type="password"], textarea {
+input[type="text"], input[type="password"], input[type="email"], textarea {
     width: 300px;
 }
 
-button { width:120px;height:30px;margin-right:14px; margin-left:110px}
+button { width:120px;height:30px;margin-right:14px; margin-left:110px }
