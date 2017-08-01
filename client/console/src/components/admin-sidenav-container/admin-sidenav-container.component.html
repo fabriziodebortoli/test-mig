@@ -3,7 +3,6 @@
     <h4>Sections</h4>
     <ng-content select=".routesSection"></ng-content>
   </md-sidenav>
-
   <md-toolbar color="primary">
     <md-icon (click)="start.toggle()" style="cursor:pointer">menu</md-icon>
     <span style="margin-left:20px">{{appTitle}}</span>
@@ -12,12 +11,10 @@
     <span *ngIf="userAccountName==''"><a>Login</a></span>
     <md-icon class="example-icon">person</md-icon>
   </md-toolbar>
-  
   <div class="outer-outlet">
     <ng-content select=".breadCrumbSection"></ng-content>
     <div class="routerContainer">
       <ng-content select=".outletSection"></ng-content>
     </div>
   </div>
-  
 </md-sidenav-container>
