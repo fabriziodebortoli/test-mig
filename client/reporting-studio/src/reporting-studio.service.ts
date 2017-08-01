@@ -136,14 +136,13 @@ export class ReportingStudioService extends DocumentService {
         this.showAsk = false;
     }
 
-
-    public initiaziedPdf (from: number, to: number){
+    //------EXPORT PDF-----------------------------------
+    public initiaziedPdf (from: any, to: any){
         this.firstPagePdf = from;
         this.lastPagePdf = to;
         this.rsStartPdf.emit();
     }
 
-    //--------------------------------------------------
     public async appendPDF() {
         await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
@@ -151,7 +150,6 @@ export class ReportingStudioService extends DocumentService {
             })
     }
 
-    //--------------------------------------------------
     public renderPDF() {
         drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {

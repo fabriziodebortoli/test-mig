@@ -21,6 +21,6 @@ export class ToolbarBottomButtonComponent implements OnInit {
   }
 
   onCommand() { 
-    this.eventData.raiseCommand(this.ciService.componentInfo.id, this.cmpId);
+    (this.ciService.getComponentId(), this.cmpId);
   }
 }

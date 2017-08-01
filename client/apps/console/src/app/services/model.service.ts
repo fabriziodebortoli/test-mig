@@ -120,7 +120,7 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  getSubscriptions(body: Object = ''): Observable<OperationResult> {
+  getSubscriptions(body: string = ''): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
 
@@ -166,7 +166,7 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  getInstances(body: Object = ''): Observable<OperationResult> {
+  getInstances(body: string = ''): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
 
@@ -189,5 +189,28 @@ export class ModelService {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  query(modelName: string, body: Object): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    if (modelName === '') {
+      return Observable.throw('The model name to query is missing!');
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.gwamAPIUrl + 'query/' + modelName, body, options)
+    .map((res : Response) => {
+      return res.json();
+    })
+    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
   }
 }

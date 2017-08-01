@@ -11,8 +11,6 @@ import { Component, Output, EventEmitter } from '@angular/core';
 export class ExportdialogComponent  {
     subscriptions: Subscription[] = [];
 
-    
-
     constructor(private rsService: ReportingStudioService) { };
 
     ngOnDestroy() {
@@ -26,8 +24,14 @@ export class ExportdialogComponent  {
         this.ngOnDestroy();
     }
 
-    startPDF(from: number, to: number){
+    startPDF(){
+        var from = (<HTMLInputElement>document.getElementById('fromPage')).value;
+        var to = (<HTMLInputElement>document.getElementById('toPage')).value;
         this.rsService.initiaziedPdf(from, to);
+
+        this.rsService.exportfile = false;
+        this.rsService.exportpdf = false;
+        
     }
 
 }

@@ -1,26 +1,24 @@
-<div *ngIf=rsService.exportfile>
-    <kendo-dialog title="Export {{rsService.pdf}}" *ngIf=rsService.exportpdf (close)= "close()">
-        <md-radio-button onclick="document.getElementById('fromPage').disabled = true; document.getElementById('toPage').disabled = true;" checked="checked">All Pages </md-radio-button>
+
+    <kendo-dialog title="Export {{rsService.pdf}}" *ngIf=rsService.exportpdf (close)="close()">
+        <md-radio-button onclick="document.getElementById('fromPage').disabled = true; document.getElementById('toPage').disabled = true;"
+            checked="checked">All Pages </md-radio-button>
         <md-radio-button onclick="document.getElementById('fromPage').disabled = false; document.getElementById('toPage').disabled = false;">Range Pages</md-radio-button>
 
         <br><br>
 
         <label>From page </label>
-        <input type="number" name="fromPage" id="fromPage" value="1" min="1" max="{{rsService.totalPages}}" disabled>
+        <input type="number" name="fromPage" id="fromPage" value="{{rsService.pageNum}}" min="1" max="{{rsService.totalPages}}" disabled>
         <br><br>
         <label>To page </label>
         <input type="number" name="ToPage" id="toPage" value="{{rsService.totalPages}}" min="1" max="{{rsService.totalPages}}" disabled>
 
         <kendo-dialog-actions>
-            <button kendoButton click="startPDF(document.getElementById('fromPage').value, document.getElementById('toPage').value)">Export PDF</button>
+            <button kendoButton (click)="startPDF(1, 5)">Export PDF</button>
         </kendo-dialog-actions>
-
+        
     </kendo-dialog>
-</div>
 
-
-<div *ngIf=rsService.exportfile>
-    <kendo-dialog title="Export {{rsService.excel}}" *ngIf=rsService.exportexcel (close)= "close()">
+    <kendo-dialog title="Export {{rsService.excel}}" *ngIf=rsService.exportexcel (close)="close()">
         <md-radio-button>All Pages</md-radio-button>
 
 
@@ -32,7 +30,6 @@
         </kendo-dialog-actions>
 
     </kendo-dialog>
-</div>
 
 
 

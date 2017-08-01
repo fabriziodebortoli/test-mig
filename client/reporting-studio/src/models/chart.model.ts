@@ -9,9 +9,9 @@ export class chart extends baseobj {
     numSeries: number;
     title: string;
     legend: legend;
-    category_title: string;
+    category_title: string = "";
     categories: any[] = [];
-    series: series[]=[];
+    series: series[] = [];
     value: any;
     constructor(jsonObj: any) {
         super(jsonObj.baseobj);
@@ -28,16 +28,16 @@ export class legend {
     position: string;
 
     constructor(jsonObj) {
-        this.orientation = jsonObj.oreintation;
-        this.position = jsonObj.position;
+        this.orientation = jsonObj.oreintation ? jsonObj.oreintation : 'horizontal';
+        this.position = jsonObj.position ? jsonObj.position : 'bottom';
     }
 }
 
-export class series{
-    name:string;
-    data:any[]=[];
-    constructor(jsonObj:any){
-        this.name=jsonObj.name;
-        this.data=jsonObj.data;
+export class series {
+    name: string;
+    data: any[] = [];
+    constructor(jsonObj: any) {
+        this.name = jsonObj.name;
+        this.data = jsonObj.data;
     }
 }
