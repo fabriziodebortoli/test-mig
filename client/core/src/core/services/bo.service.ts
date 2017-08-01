@@ -1,7 +1,7 @@
 import { CommandEventArgs } from './../../shared/models/eventargs.model';
 import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
 
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 
 import { Observable } from 'rxjs/Rx';
@@ -22,6 +22,7 @@ export class BOService extends DocumentService {
     modelStructure = {};
     subscriptions = [];
     boClients = new Array<BOClient>();
+    public windowStrings: EventEmitter<any> = new EventEmitter();
     constructor(
         private webSocketService: WebSocketService,
         public boHelperService: BOHelperService,
@@ -150,6 +151,10 @@ export class BOService extends DocumentService {
                 this.eventData.radarInfos.emit(data.response.radarInfo);
             }
         }));
+
+        this.subscriptions.push(this.webSocketService.windowStrings.subscribe((args: any) => {
+            this.windowStrings.emit(args);
+        }));
     }
     getPatchedData(): any {
         const patch = diff(this.eventData.oldModel, this.eventData.model);
@@ -195,7 +200,10 @@ export class BOService extends DocumentService {
         //quindi richiede il modello al server, inviandogli nel contempo
         //i campi utilizzati; il server ne terrà traccia ed invierà solo quelli
         this.webSocketService.getDocumentData(this.mainCmpId, this.modelStructure);
-        
+
+    }
+    getWindowStrings(cmpId: string) {
+        this.webSocketService.getWindowStrings(cmpId);
     }
     registerModelField(owner: string, name: string) {
         if (!owner) {

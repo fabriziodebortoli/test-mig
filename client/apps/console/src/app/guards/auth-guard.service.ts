@@ -36,22 +36,7 @@ export class AuthGuardService implements CanActivate {
 
         authorizationInfo.authorizationProperties = authorizationProperties;
 
-        let opRes: OperationResult;
-
-        if (state.url == '/instancesHome') {
-          opRes = UrlGuard.CanNavigateURL(state.url, authorizationInfo);
-          if (opRes.Result){
-            return true;
-          } else {
-            alert(opRes.Message);
-            this.router.navigateByUrl('/');
-            return false;
-          }
-        }
-
-        // checking generic "provisioning" level
-
-        opRes = UrlGuard.CanNavigateLevel(RoleLevels.Subscription, authorizationInfo);
+        let opRes: OperationResult = UrlGuard.CanNavigate(state.url, authorizationInfo);
 
         if (!opRes.Result) {
           alert(opRes.Message);

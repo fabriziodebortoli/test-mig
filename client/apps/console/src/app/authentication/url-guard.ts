@@ -4,11 +4,13 @@ import {AuthorizationInfo} from './auth-info';
 
 export class UrlGuard {
 
-    public static CanNavigateURL(url:string, authInfo: AuthorizationInfo): OperationResult {
+    public static CanNavigate(url:string, authInfo: AuthorizationInfo): OperationResult {
 
         let opRes:OperationResult = new OperationResult();
 
-        // instances home
+        // checking permission by specific component-url
+
+        // checking instances
 
         if (url == '/instancesHome') {
             if (!authInfo.VerifyRole(RoleNames.Admin, RoleLevels.Instance, "*")) {
@@ -22,13 +24,30 @@ export class UrlGuard {
             }
         }
 
-        // generic subscription operations
+        // checking subscriptions
+
+        if (url.startsWith('/subscription?subscriptionToEdit=')) {
+
+            let subKey:string = url.substr(url.lastIndexOf("=")+1);
+
+            if (!authInfo.VerifyRole(RoleNames.Admin, RoleLevels.Subscription, subKey)) {
+                opRes.Message = 'You do not have rights to edit ' + subKey;
+                opRes.Result = false;
+                return opRes;
+            }
+            else {
+                opRes.Result = true;
+                return opRes;
+            }
+        }        
 
         if (url == '') {
             opRes.Message = 'No check-url strategy has been implemented fot this url ' + url;
             opRes.Result = false;
             return opRes;            
         }
+
+        // checking permission by specific level
 
         if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
             opRes.Message = RoleLevels.Subscription + ' level missing';

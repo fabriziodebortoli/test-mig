@@ -1,3 +1,4 @@
+import { ReportChartComponent } from './layout/chart/chart.component';
 export { ReportRectComponent } from './layout/rect/rect.component';
 export { ReportLayoutComponent } from './layout/layout.component';
 export { ReportTableComponent } from './layout/table/table.component';

@@ -75,31 +75,14 @@ export class LoginService {
 
             // checking cloud-admin only urls
 
-            let opRes: OperationResult;
-
-            if (returnUrl == '/instancesHome') {
-              opRes = UrlGuard.CanNavigateURL(returnUrl, authInfo);
-              if (opRes.Result){
-                this.router.navigateByUrl(returnUrl);
-                return true;
-              } else {
-                alert(opRes.Message);
-                this.router.navigateByUrl('/');
-                return false;
-              }
-            }
-            
-            // checking provisioning-admin only urls
-
-            opRes = UrlGuard.CanNavigateLevel(RoleLevels.Subscription, authInfo);
+            let opRes: OperationResult = UrlGuard.CanNavigate(returnUrl, authInfo);
 
             if (!opRes.Result) {
               alert(opRes.Message);
               this.router.navigateByUrl('/');
-              return false;
-            }
-            
-            // user is permitted to navigate requestes urls
+              return;
+            }        
+
             this.router.navigateByUrl(returnUrl);
           }
           catch (exc)
