@@ -11,7 +11,7 @@ export class InfoService {
     productInfo: any;
     constructor(private httpService: HttpService) {
     }
-    getProductInfo: Observable<any>()       {
+    public getProductInfo(): Observable<any> {
         return Observable.create(observer => {
             if (this.productInfo) {
                 observer.next(this.productInfo);
@@ -21,11 +21,11 @@ export class InfoService {
                 let sub = this.httpService.getProductInfo().subscribe(result => {
                     this.productInfo = result.ProductInfos;
                     if (sub)
-                        sub.unsubscribe()
+                        sub.unsubscribe();
                     observer.next(this.productInfo);
                     observer.complete();
                 });
             }
-        }
+        });
     }
 }
