@@ -27,9 +27,9 @@
     </tb-frame-content>
     <tb-toolbar-bottom>
 
-        <tb-toolbar-bottom-button caption="Export as PDF" (click)="setExportFile(rsService.pdf)"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as PNG" (click)="startSavePNG()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as SVG" (click)="startSaveSVG()"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button caption="Export as PDF" (click)="setExportFile(rsService.pdf)"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as Excel" (click)="setExportFile(rsService.excel)"></tb-toolbar-bottom-button>
 
         <rs-exportdialog></rs-exportdialog>
@@ -39,8 +39,6 @@
         <kendo-excelexport [data]="data" fileName="Prova.xlsx" [filterable]="true" #excelExport>
             <!--kendo-excelexport-column *ngFor="let col of table.columns" field="{{col.id}}" title="{{col.title.caption}}"> </kendo-excelexport-column-->
         </kendo-excelexport>
-
-
 
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Radar.png" caption="Radar" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button> -->
         <!--<tb-toolbar-bottom-button icon="Framework.TbFrameworkImages.Images.25x25.Save.png" caption="Save"></tb-toolbar-bottom-button>-->
