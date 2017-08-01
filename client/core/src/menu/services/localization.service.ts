@@ -18,12 +18,12 @@ export class LocalizationService {
     }
 
     //---------------------------------------------------------------------------------------------
-    loadLocalizedElements(needLoginThread) {
+    loadLocalizedElements() {
 
         if (this.localizedElements != undefined)
             return this.localizedElements;
 
-        let subs = this.httpMenuService.loadLocalizedElements(needLoginThread).subscribe(result => {
+        let subs = this.httpMenuService.loadLocalizedElements().subscribe(result => {
             this.localizedElements = result.LocalizedElements;
             this.localizationsLoaded.emit();
             subs.unsubscribe();

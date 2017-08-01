@@ -30,6 +30,6 @@ export class ToolbarTopButtonComponent extends TbComponent {
     //this.imgUrl = this.httpService.getDocumentBaseUrl() + 'getImage/?src=';
   } 
   onCommand() {
-   this.eventData.raiseCommand(this.ciService.componentInfo.id, this.cmpId);
+   (this.ciService.getComponentId(), this.cmpId);
   }
 }
