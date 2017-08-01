@@ -66,7 +66,7 @@ export class AccountComponent implements OnInit {
       return;
     }
 
-    this.modelService.getSubscriptions({ AccountName: this.loggedAccountName })
+    this.modelService.getSubscriptions(this.loggedAccountName)
       .subscribe(
         res => {
           let accounts:Account[] = res['Content'];
