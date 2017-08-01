@@ -167,7 +167,7 @@ export class HttpMenuService {
      * 
      * @returns {Observable<any>} loadLocalizedElements
      */
-    loadLocalizedElements(needLoginThread): Observable<any> {
+    loadLocalizedElements(): Observable<any> {
         let obj = { token: this.cookieService.get('authtoken') }
         return this.postData(this.httpService.getMenuServiceUrl() + 'getLocalizedElements/', obj)
             .map((res: Response) => {
@@ -175,20 +175,6 @@ export class HttpMenuService {
             });
     };
 
-
-
-    /**
- * API /getProductInfo
- * 
- * @returns {Observable<any>} getProductInfo
- */
-    getProductInfo(): Observable<any> {
-        let obj = { token: this.cookieService.get('authtoken') }
-        return this.postData(this.httpService.getMenuServiceUrl() + 'getProductInfo/', obj)
-            .map((res: Response) => {
-                return res.json();
-            });
-    }
 
     /**
   * API /activateViaSMS

@@ -20,6 +20,6 @@ export class ButtonComponent extends ControlComponent {
         super(layoutService)
     }
     onCommand() {
-        this.eventData.raiseCommand(this.ciService.componentInfo.id, this.cmpId);
+        this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);
     }
 }

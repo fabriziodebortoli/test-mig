@@ -70,8 +70,8 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
   // -----------------------------------------------
   createPDF() {
-    if (this.rsService.pageNum == 1) {
-      if (this.rsService.totalPages == 1) {
+    if (this.rsService.pageNum == this.rsService.firstPagePdf) {
+      if (this.rsService.lastPagePdf == this.rsService.firstPagePdf) {
         this.rsService.renderPDF();
         return;
       }
@@ -80,7 +80,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     this.rsService.appendPDF().then(() => {
-      if (this.rsService.pageNum != this.rsService.totalPages) {
+      if (this.rsService.pageNum != this.rsService.lastPagePdf) {
         this.rsService.eventNextPage.emit();
       }
       else {
