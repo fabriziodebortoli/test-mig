@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from "app/model/subscription";
 
 @Component({
@@ -8,17 +8,15 @@ import { Subscription } from "app/model/subscription";
 })
 export class AccountSubscriptionsComponent implements OnInit {
 
+  @Input() accountName: string;
   subscriptionList: Array<Subscription>;
 
   constructor() { 
     this.subscriptionList = new Array<Subscription>();
-    let s:Subscription = new Subscription();
-    s.SubscriptionKey = "USS-001";
-    s.Description = "New subscription";
-    this.subscriptionList.push(s);
   }
 
   ngOnInit() {
+    // load subscriptions for accountName
   }
 
 }
