@@ -1,10 +1,10 @@
 <md-sidenav-container fullscreen>
-  <md-sidenav #start mode="side" class="mat-elevation-z5">
+  <md-sidenav #start mode="side">
     <h4>Sections</h4>
     <ng-content select=".routesSection"></ng-content>
   </md-sidenav>
 
-  <md-toolbar color="primary" class="mat-elevation-z5">
+  <md-toolbar color="primary">
     <md-icon (click)="start.toggle()" style="cursor:pointer">menu</md-icon>
     <span style="margin-left:20px">{{appTitle}}</span>
     <span class="spacer"></span>

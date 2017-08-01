@@ -15,9 +15,43 @@ import { Subscription } from "rxjs/Subscription";
   template: '',
   styles: []
 })
-export abstract class BOComponent extends DocumentComponent implements OnInit, AfterContentInit, OnDestroy {
-
+export abstract class BOCommonComponent extends DocumentComponent implements OnInit, OnDestroy {
+  translations = [];
   subscriptions: Subscription[] = [];
+
+  constructor(document: BOService,
+    eventData: EventDataService,
+    ciService: ComponentInfoService) {
+    super(document, eventData, ciService);
+    let me = this;
+    this.subscriptions.push(document.windowStrings.subscribe((args: any) => {
+      if (me.cmpId === args.id) {
+        me.translations = args.strings;
+      }
+    }));
+  }
+  l(baseText: string) {
+    let target = baseText;
+    this.translations.some(t => {
+      if (t.base == baseText) {
+        target = t.target;
+        return true;
+      }
+      return false;
+    });
+    return target;
+  }
+  ngOnInit() {
+    let s = this.document as BOService;
+    s.getWindowStrings(this.cmpId);
+    super.ngOnInit();
+  }
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+}
+export abstract class BOComponent extends BOCommonComponent implements OnInit, AfterContentInit, OnDestroy {
+
 
   @ViewChild("radar", { read: ViewContainerRef }) radarRef: ViewContainerRef;// Radar template reference
   private radarObj//: RadarComponent; // Radar obj reference
@@ -45,7 +79,7 @@ export abstract class BOComponent extends DocumentComponent implements OnInit, A
 
   ngOnDestroy() {
     this.bo.dispose();
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    super.ngOnDestroy();
   }
 
 }
@@ -55,7 +89,7 @@ export abstract class BOComponent extends DocumentComponent implements OnInit, A
   template: '',
   styles: []
 })
-export abstract class BOSlaveComponent extends DocumentComponent implements OnInit, OnDestroy {
+export abstract class BOSlaveComponent extends BOCommonComponent implements OnInit, OnDestroy {
 
   constructor(eventData: EventDataService, ciService: ComponentInfoService) {
     super(null, eventData, ciService);
@@ -65,6 +99,8 @@ export abstract class BOSlaveComponent extends DocumentComponent implements OnIn
     super.ngOnInit();
   }
   ngOnDestroy() {
+
+    super.ngOnDestroy();
   }
 
 }

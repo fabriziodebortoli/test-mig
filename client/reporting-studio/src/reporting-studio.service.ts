@@ -22,6 +22,7 @@ export class ReportingStudioService extends DocumentService {
     public pageNum: number = 1;
     public running: boolean = false;
     public showAsk = false;
+    
     private rsServer: string = ''
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
@@ -37,6 +38,12 @@ export class ReportingStudioService extends DocumentService {
     public pngState: PngType = PngType.NOPNG;
     public filePdf = new Group();
     public titleReport: string;
+
+    public exportfile = false;
+    public exportpdf = false;
+    public exportexcel = false;
+    public pdf: string = "PDF";
+    public excel: string = "Excel";
 
 
     constructor(
