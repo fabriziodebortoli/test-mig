@@ -13,12 +13,20 @@ namespace Microarea.AdminServer.Services.BurgerData
                     return "MP_Accounts";
                 case ModelTables.AccountRoles:
                     return "MP_AccountRoles";
+                case ModelTables.Roles:
+                    return "MP_Roles";
                 case ModelTables.RegisteredApps:
                     return "MP_RegisteredApps";
                 case ModelTables.Instances:
                     return "MP_Instances";
                 case ModelTables.RecoveryCode:
                     return "MP_RecoveryCodes";
+                case ModelTables.ServerURLs:
+                    return "MP_ServerURL";
+				case ModelTables.SecurityTokens:
+					return "MP_SecurityTokens";
+                case ModelTables.Subscriptions:
+                    return "MP_Subscriptions";
                 default:
                     return String.Empty;
             }
@@ -76,7 +84,10 @@ namespace Microarea.AdminServer.Services.BurgerData
                 case ModelTables.SubscriptionAccounts:
                     return Queries.ExistSubscriptionAccount;
 
-                default:
+				case ModelTables.SecurityTokens:
+					return Queries.ExistSecurityToken;
+
+				default:
                     return String.Empty;
             }
         }
@@ -92,22 +103,25 @@ namespace Microarea.AdminServer.Services.BurgerData
                 case ModelTables.Accounts:
                     return Queries.UpdateAccount;
 
-                case ModelTables.Subscriptions:
+				case ModelTables.AccountRoles:
+					return Queries.UpdateAccountRoles;
+
+				case ModelTables.Instances:
+					return Queries.UpdateInstance;
+
+				case ModelTables.Roles:
+					return Queries.UpdateRole;
+
+				case ModelTables.Subscriptions:
                     return Queries.UpdateSubscription;
-
-                case ModelTables.Roles:
-                    return Queries.UpdateRole;
-
-                case ModelTables.AccountRoles:
-                    return String.Empty;
-
-                case ModelTables.Instances:
-                    return Queries.UpdateInstance;
 
                 case ModelTables.SubscriptionAccounts:
                     return String.Empty;
 
-                default:
+				case ModelTables.SecurityTokens:
+					return Queries.UpdateSecurityToken;
+
+				default:
                     return String.Empty;
             }
         }
@@ -123,22 +137,25 @@ namespace Microarea.AdminServer.Services.BurgerData
                 case ModelTables.Accounts:
                     return Queries.InsertAccount;
 
-                case ModelTables.Subscriptions:
+				case ModelTables.AccountRoles:
+					return Queries.InsertAccountRoles;
+
+				case ModelTables.Instances:
+					return Queries.InsertInstance;
+
+				case ModelTables.Roles:
+					return Queries.InsertRole;
+
+				case ModelTables.Subscriptions:
                     return Queries.InsertSubscription;
-
-                case ModelTables.Roles:
-                    return Queries.InsertRole;
-
-                case ModelTables.AccountRoles:
-                    return Queries.InsertAccountRoles;
-
-                case ModelTables.Instances:
-                    return Queries.InsertInstance;
 
                 case ModelTables.SubscriptionAccounts:
                     return Queries.InsertSubscriptionAccount;
 
-                default:
+				case ModelTables.SecurityTokens:
+					return Queries.InsertSecurityToken;
+
+				default:
                     return String.Empty;
             }
         }

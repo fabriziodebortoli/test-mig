@@ -1,3 +1,5 @@
+import { chart, series } from './../../models/chart.model';
+
 import { LayoutService } from '@taskbuilder/core';
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, repeater, PdfType, SvgType, PngType } from './../../models';
@@ -56,10 +58,10 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         if (this.rsService.pdfState == PdfType.PDF) {
           this.createPDF();
         }
-        if(this.rsService.svgState == SvgType.SVG){
+        if (this.rsService.svgState == SvgType.SVG) {
           this.rsService.exportSVG();
         }
-        if(this.rsService.pngState == PngType.PNG){
+        if (this.rsService.pngState == PngType.PNG) {
           this.rsService.exportPNG();
         }
       }
@@ -68,8 +70,8 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
   // -----------------------------------------------
   createPDF() {
-    if (this.rsService.pageNum == 1) {
-      if(this.rsService.totalPages == 1){
+    if (this.rsService.pageNum == this.rsService.firstPagePdf) {
+      if(this.rsService.lastPagePdf == this.rsService.firstPagePdf){
       this.rsService.renderPDF();
       return;
     }
@@ -78,7 +80,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     this.rsService.appendPDF().then(() => {
-      if (this.rsService.pageNum != this.rsService.totalPages) {
+      if (this.rsService.pageNum != this.rsService.lastPagePdf) {
         this.rsService.eventNextPage.emit();
       }
       else {
@@ -128,17 +130,15 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         obj = new sqrrect(element.sqrrect);
       }
       else if (element.repeater !== undefined) {
-         obj = new repeater(element.repeater);
-       }
-       else if (element.chart !== undefined) {
-         //TODO
-         //obj = new chart(element.chart);
-         continue;
-       }
-       else //skip unknown objects         
-         continue;
+        obj = new repeater(element.repeater);
+      }
+      else if (element.chart !== undefined) {
+        obj = new chart(element.chart);
+      }
+      else //skip unknown objects         
+        continue;
 
-     objects.push(obj);
+      objects.push(obj);
     }
 
     this.templates.push(new TemplateItem(this.reportTemplate.page.layout.name, this.reportTemplate, objects));
@@ -203,6 +203,15 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
             }
           }
           obj.value = value;
+        }
+        else if (element.chart !== undefined) {
+          id = element.chart.baseobj.id;
+          let obj = this.FindObj(id);
+          element.chart.series.forEach(element => {
+            obj.series.push(new series(element));
+          });
+          obj.category_title = element.chart.category_axis.title;
+          obj.categories = element.chart.category_axis.categories;
         }
       } catch (a) {
         let k = a;

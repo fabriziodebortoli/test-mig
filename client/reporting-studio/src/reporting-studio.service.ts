@@ -22,6 +22,7 @@ export class ReportingStudioService extends DocumentService {
     public pageNum: number = 1;
     public running: boolean = false;
     public showAsk = false;
+    
     private rsServer: string = ''
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
@@ -32,11 +33,22 @@ export class ReportingStudioService extends DocumentService {
 
     public savingPdf: boolean = false;
     public totalPages: number;
+    public firstPagePdf: number;
+    public lastPagePdf: number;
     public pdfState: PdfType = PdfType.NOPDF;
     public svgState: SvgType = SvgType.NOSVG;
     public pngState: PngType = PngType.NOPNG;
     public filePdf = new Group();
     public titleReport: string;
+
+
+    @Output() rsStartPdf = new EventEmitter<void>();
+    public exportfile = false;
+    public exportpdf = false;
+    public exportexcel = false;
+    public pdf: string = "PDF";
+    public excel: string = "Excel";
+
 
 
     constructor(
@@ -116,13 +128,19 @@ export class ReportingStudioService extends DocumentService {
         super.close();
         this.cmpService.removeComponentById(this.mainCmpId);
         this.closeConnection();
-
     }
 
     //--------------------------------------------------
     reset() {
         this.pageNum = 1;
         this.showAsk = false;
+    }
+
+
+    public initiaziedPdf (from: number, to: number){
+        this.firstPagePdf = from;
+        this.lastPagePdf = to;
+        this.rsStartPdf.emit();
     }
 
     //--------------------------------------------------

@@ -7,7 +7,6 @@ using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
-using Microarea.AdminServer.Services.Providers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -23,7 +22,6 @@ namespace Microarea.AdminServer.Controllers
     {
         private IHostingEnvironment _env;
         AppOptions _settings;
-        IDataProvider _tokenSQLDataProvider;
         IJsonHelper _jsonHelper;
         IHttpHelper _httpHelper;
         string GWAMUrl;
@@ -35,18 +33,14 @@ namespace Microarea.AdminServer.Controllers
             _env = env;
             _settings = settings.Value;
             _jsonHelper = jsonHelper;
-            SqlProviderFactory();
+          
             this.GWAMUrl = _settings.ExternalUrls.GWAMUrl;
             _httpHelper = httpHelper;
             burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
 
         }
 
-        //-----------------------------------------------------------------------------	
-        private void SqlProviderFactory()
-        {
-            _tokenSQLDataProvider = new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-        }
+       
 
         // <summary>
         // Provides login token
@@ -68,10 +62,9 @@ namespace Microarea.AdminServer.Controllers
             {
                 burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
                 IAccount account = burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
-          {
-                    new WhereCondition("AccountName", credentials.AccountName, QueryComparingOperators.IsEqual, false)
-          });
-
+				{
+					new WhereCondition("AccountName", credentials.AccountName, QueryComparingOperators.IsEqual, false)
+				});
 
                 // L'account esiste sul db locale
                 if (account!= null)
@@ -148,7 +141,7 @@ namespace Microarea.AdminServer.Controllers
                     else
                     {
                         // User has been found.
-                        // Salvataggio sul provider locale.
+                        // Salvataggio in locale.
                         // Salvo anche l'associazione con le  subscription e  tutti gli URLs.
                         account = accountIdentityPack.Account;
                         OperationResult result = ((Account)account).Save(burgerData);
@@ -343,9 +336,12 @@ namespace Microarea.AdminServer.Controllers
         {
             if (account == null)
                 return false;
-            ISecurityToken[] tokens = bootstrapToken.UserTokens = CreateTokens(account);
 
-			if (tokens == null || tokens.Length == 0)
+            ISecurityToken[] tokens = CreateTokens(account);
+
+			// we have always two tokens!
+
+			if (tokens.Length < 2)
                 return false;
 
             bootstrapToken.AccountName = account.AccountName;
@@ -354,7 +350,7 @@ namespace Microarea.AdminServer.Controllers
             bootstrapToken.Language = account.Language;
             bootstrapToken.Instances = GetInstances(account.AccountName);
 			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
-            bootstrapToken.Urls = GetUrlsForInstance(_settings.InstanceIdentity.InstanceKey, this.burgerData);
+            bootstrapToken.Urls = GetUrlsForThisInstance();
 			bootstrapToken.Roles = GetRoles(account.AccountName);
 
             AuthorizationInfo ai = GetAuthorizationInfo();
@@ -385,22 +381,72 @@ namespace Microarea.AdminServer.Controllers
 		//----------------------------------------------------------------------
 		private IInstance[] GetInstances(string accountName)
 		{
-			List<IInstance> instancesList = this.burgerData.GetList<Instance, IInstance>(
-				String.Format(Queries.SelectInstanceForAccount, accountName), 
-				ModelTables.Instances);
+            string query = String.IsNullOrEmpty(accountName) ?
+                        
+                            "SELECT * FROM MP_Instances"
+                            
+                            :
+                        String.Format(
+                            "SELECT * FROM MP_Instances WHERE AccountName = '{0}'",
+                            accountName
+                            );
+ 
+            try
+            {
+                BurgerData burgerData  = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+   List<IInstance>  l = burgerData.GetList<Instance, IInstance>(
+                query,
+               ModelTables.Instances);
 
-			return instancesList.ToArray();
+                return l.ToArray();
+            }
+            catch { }
+            return new IInstance[] { };
 		}
 
 		//----------------------------------------------------------------------
-		private static IServerURL[] GetUrlsForInstance(string instanceKey, BurgerData burgy)
+		private IServerURL[] GetUrlsForThisInstance()
         {
-			List<IServerURL> serverUrls = burgy.GetList<ServerURL, IServerURL>(
-				String.Format(Queries.SelectURlsInstance, instanceKey),
-				ModelTables.ServerURLs);
+            IInstance iInstance = null ;
+            try
+            {
+                burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+                iInstance = burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[]
+         {
+                    new WhereCondition("InstanceKey", _settings.InstanceIdentity.InstanceKey, QueryComparingOperators.IsEqual, false)
+         });
+            }
+            catch { }
 
-			return serverUrls.ToArray();
-		}
+            if (iInstance == null)
+            {
+                return new IServerURL[] { };
+            }
+
+                return LoadURLs();
+        }
+
+        //----------------------------------------------------------------------
+        private IServerURL[] LoadURLs()
+        {
+            string query =
+                       String.Format(
+                           "SELECT * FROM MP_ServerUrls WHERE InstanceKey = '{0}'",
+                           _settings.InstanceIdentity.InstanceKey
+                           );
+
+            try
+            {
+                BurgerData burgerData = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+                List<IServerURL> l = burgerData.GetList<ServerURL, IServerURL>(
+                             query,
+                            ModelTables.ServerURLs);
+
+                return l.ToArray();
+            }
+            catch { }
+            return new IServerURL[] { };
+        }
 
         //----------------------------------------------------------------------
         private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)
@@ -490,23 +536,30 @@ namespace Microarea.AdminServer.Controllers
 			return (Task<string>)opRes.Content;
 		}
 
+		/// <summary>
+		/// We create two tokens: one for API and one for Application (M4)
+		/// </summary>
 		//----------------------------------------------------------------------
 		private SecurityToken[] CreateTokens(IAccount account)
 		{
 			List<SecurityToken> tokenList = new List<SecurityToken>();
 
-			/* @@TODOROLES: 
-			 * create app token,
-			 * scan all istances/subscriptions to see if you are at least admin, then generate one security token
-			 */
+			// API token generation
 
-			//UserTokens tokens = new UserTokens(account.IsCloudAdmin(burgerData), account.AccountName);
-			//tokens.Setprovider(_tokenSQLDataProvider);
+			SecurityToken apiToken = SecurityToken.GetToken(TokenType.API, account.AccountName);
+			OperationResult opRes = apiToken.Save(this.burgerData);
+			if (!opRes.Result)
+				return tokenList.ToArray();
 
-			//if (tokens.Save())
-			//{
-			//	return tokens.GetTokenList(account.IsCloudAdmin(burgerData), account.AccountName).ToArray();
-			//}
+			tokenList.Add(apiToken);
+
+			// APP token generation
+
+			SecurityToken appToken = SecurityToken.GetToken(TokenType.Authentication, account.AccountName);
+			opRes = appToken.Save(this.burgerData);
+
+			if (opRes.Result)
+				tokenList.Add(appToken);
 
 			return tokenList.ToArray();
         }

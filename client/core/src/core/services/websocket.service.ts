@@ -36,7 +36,7 @@ export class WebSocketService {
     public buttonsState: EventEmitter<any> = new EventEmitter();
     public radarInfos: EventEmitter<any> = new EventEmitter();
     public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
-
+    public windowStrings: EventEmitter<any> = new EventEmitter();
     constructor(
         private httpService: HttpService,
         private urlService: UrlService,
@@ -72,6 +72,7 @@ export class WebSocketService {
                     switch (obj.cmd) {
                         case 'ModelData': $this.modelData.emit(obj.args); break;
                         case 'WindowOpen': $this.windowOpen.emit(obj.args); break;
+                        case 'WindowStrings': $this.windowStrings.emit(obj.args); break;
                         case 'ActivationData': $this.activationData.emit(obj.args); break;
                         case 'WindowClose': $this.windowClose.emit(obj.args); break;
                         case 'ItemSource': $this.itemSource.emit(obj.args); break;
@@ -216,7 +217,11 @@ export class WebSocketService {
         this.safeSend(data);
 
     }
+    getWindowStrings(cmpId: String) {
+        const data = { cmd: 'getWindowStrings', cmpId: cmpId };
+        this.safeSend(data);
 
+    }
     checkMessageDialog(cmpId: String) {
         const data = { cmd: 'checkMessageDialog', cmpId: cmpId };
         this.safeSend(data);

@@ -70,6 +70,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
     this.rsService.doSend(JSON.stringify(message));
 
+    this.rsService.rsStartPdf.subscribe(() => this.startSavePDF());
     this.rsService.eventNextPage.subscribe(() => this.NextPage());
     this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
     this.rsService.eventCurrentPage.subscribe(() => this.CurrentPage());
@@ -282,10 +283,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
-  //--------------------------------------------------
-  public startSavePDF() {
-    this.rsService.pdfState = PdfType.PDF;
-    this.FirstPage();
+  // -----------------------------------------------
+  PageNumber(i: number) {
+    let message = {
+      commandType: CommandType.TEMPLATE,
+      message: this.args.nameSpace,
+      page: i
+    };
+
+    this.rsService.doSend(JSON.stringify(message));
   }
 
   //--------------------------------------------------
@@ -298,6 +304,21 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public startSavePNG() {
     this.rsService.pngState = PngType.PNG;
     this.CurrentPage();
+  }
+
+  //--------------------------------------------------
+  setExportFile(type: string) {
+    if (type == this.rsService.pdf)
+      this.rsService.exportpdf = true;
+    if (type == this.rsService.excel)
+      this.rsService.exportexcel = true;
+    this.rsService.exportfile = true
+  }
+
+  //--------------------------------------------------
+  public startSavePDF() {
+    this.rsService.pdfState = PdfType.PDF;
+    this.PageNumber(this.rsService.firstPagePdf);
   }
 
   //--------------------------------------------------

@@ -3,6 +3,7 @@ import { TokenInfo } from "app/authentication/token-info";
 import { Subscription } from "app/model/subscription";
 import { ServerUrl } from "app/authentication/server-url";
 import { RoleNames } from "app/authentication/auth-helpers";
+import { AccountRole } from "app/authentication/account-role";
 
 //--------------------------------------------------------------------------------------------------------
 export class AuthorizationProperties{
@@ -15,7 +16,7 @@ export class AuthorizationProperties{
     instances: Array<Instance>;
     subscriptions: Array<Subscription>;
     serverUrls: Array<ServerUrl>;
-    roles: Array<string>;
+    roles: Array<AccountRole>;
 
     constructor() {
         this.jwtEncoded = "";
@@ -25,7 +26,7 @@ export class AuthorizationProperties{
         this.instances = new Array<Instance>();
         this.subscriptions = new Array<Subscription>();
         this.serverUrls = new Array<ServerUrl>();
-        this.roles = new Array<string>();        
+        this.roles = new Array<AccountRole>();        
     }
 }
 
@@ -110,7 +111,7 @@ export class AuthorizationInfo {
         );
     }
     
-    SetRoles(roles: Array<string>) {
+    SetRoles(roles: Array<AccountRole>) {
         roles.forEach(
             p => {
                 this.authorizationProperties.roles.push(p);
@@ -118,17 +119,45 @@ export class AuthorizationInfo {
         );
     }
 
-    HasRole(roleName: RoleNames): boolean {
-        //@@TODO gestione ruoli: togliere queste due righe quando completa
+    HasRoleName(roleName: string): boolean {
+        
         if (this.authorizationProperties.roles.length == 0)
-            return true;
+        {
+            return false;
+        }
+
+        let foundElementIndex = this.authorizationProperties.roles.findIndex(p => p.RoleName.toUpperCase() == roleName.toUpperCase());
+        return foundElementIndex >= 0;
+    }
+
+    VerifyRole(roleName:string, level: string, entityKey:string): boolean {
+        
+        if (this.authorizationProperties.roles.length == 0)
+        {
+            return false;
+        }
+
+        let foundElementIndex = this.authorizationProperties.roles.findIndex(
+            (p => p.RoleName.toUpperCase() == roleName.toUpperCase()) &&
+            (p => p.Level.toUpperCase() == level.toUpperCase()) &&
+            (p => p.EntityKey.toUpperCase() == entityKey.toUpperCase())
+        );
+
+        return foundElementIndex >= 0;
+    }
+
+    VerifyRoleLevel(roleName:string, level: string): boolean {
 
         if (this.authorizationProperties.roles.length == 0)
         {
             return false;
         }
 
-        let foundElementIndex = this.authorizationProperties.roles.findIndex(p => p == roleName.toString());
+        let foundElementIndex = this.authorizationProperties.roles.findIndex(
+            (p => p.RoleName.toUpperCase() == roleName.toUpperCase()) &&
+            (p => p.Level.toUpperCase() == level.toUpperCase())
+        );
+
         return foundElementIndex >= 0;
     }
 }

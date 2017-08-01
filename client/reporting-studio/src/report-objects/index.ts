@@ -1,3 +1,4 @@
+import { ReportChartComponent } from './layout/chart/chart.component';
 export { ReportRectComponent } from './layout/rect/rect.component';
 export { ReportLayoutComponent } from './layout/layout.component';
 export { ReportTableComponent } from './layout/table/table.component';
@@ -12,3 +13,4 @@ export { AskHotlinkComponent } from './askdialog/ask-hotlink/ask-hotlink.compone
 export { AskGroupComponent } from './askdialog/ask-group/ask-group.component';
 export { AskCheckComponent } from './askdialog/ask-check/ask-check.component';
 export { AskDropdownlistComponent } from './askdialog/ask-dropdownlist/ask-dropdownlist.component';
+import { ExportdialogComponent } from './exportdialog/exportdialog.component';

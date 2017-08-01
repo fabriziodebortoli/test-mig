@@ -26,6 +26,7 @@
 		MissingToken,
 		GWAMNotResponding,
 		InvalidData,
-		GWAMCommunicationError
-	}
+		GWAMCommunicationError,
+        UnknownModelName
+    }
 }
