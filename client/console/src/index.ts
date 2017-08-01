@@ -8,6 +8,7 @@ import { AdminSidenavContainerComponent } from './components/admin-sidenav-conta
 import { AdminSidenavComponent } from './components/admin-sidenav/admin-sidenav.component';
 import { AdminListComponent } from "./components/admin-list/admin-list.component";
 import { AdminCheckBoxComponent } from "./components/admin-checkbox/admin-checkbox.component";
+import { AdminCheckBoxListComponent } from "./components/admin-checkbox-list/admin-checkbox-list.component";
 
 // import { SampleDirective } from './sample.directive';
 // import { SamplePipe } from './sample.pipe';
@@ -34,7 +35,8 @@ export * from './sample.component';
     AdminSidenavContainerComponent,
     AdminSidenavComponent,
     AdminListComponent,
-    AdminCheckBoxComponent
+    AdminCheckBoxComponent,
+    AdminCheckBoxListComponent
     // SampleDirective,
     // SamplePipe
   ],
@@ -44,7 +46,8 @@ export * from './sample.component';
     AdminSidenavContainerComponent,
     AdminSidenavComponent,
     AdminListComponent,
-    AdminCheckBoxComponent
+    AdminCheckBoxComponent,
+    AdminCheckBoxListComponent
     // SampleDirective,
     // SamplePipe
   ]
