@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { TbIconsModule } from '@taskbuilder/icons';
+import { TbCoreModule, TaskbuilderCoreModule } from '@taskbuilder/core';
 
 import { AppComponent } from './app.component';
 
@@ -10,7 +11,10 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    TaskbuilderCoreModule,
+    TbCoreModule.forRoot(),
+    TbIconsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
