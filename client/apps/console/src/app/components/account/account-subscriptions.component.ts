@@ -42,7 +42,11 @@ export class AccountSubscriptionsComponent {
 
     let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
 
-    this.modelService.query("accountroles", { AccountName : authorizationProperties.accountName, Level : RoleLevels.Subscription, RoleName : RoleNames.Admin })
+    this.modelService.query("accountroles", 
+      { 
+        MatchingFields: { AccountName : authorizationProperties.accountName, Level : RoleLevels.Subscription, RoleName : RoleNames.Admin },
+        LikeFields: { EntityKey : this.searchString }
+      })
       .subscribe(res => { this.subscriptionsResult = res['Content']; });
   }
 }

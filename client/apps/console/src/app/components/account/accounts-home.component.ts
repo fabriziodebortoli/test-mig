@@ -26,7 +26,7 @@ export class AccountsHomeComponent implements OnInit {
 
     let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
 
-    this.modelService.getAccounts({ parentAccount: authorizationProperties.accountName })
+    this.modelService.getAccounts({ MatchingFields: { parentAccount: authorizationProperties.accountName } })
       .subscribe(
         accounts => {
           this.accounts = accounts['Content'];
