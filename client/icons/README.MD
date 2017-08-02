@@ -41,17 +41,13 @@ import { TbIconsModule } from '@taskbuilder/icons';
 export class AppModule { }
 ```
 
-E' inoltre necessario includere il file *styles.css* in *index.html*:
+E' inoltre necessario includere il file *m4.css* in *.angular-cli.json*:
 
-```html
-<!doctype html>
-<html>
-
-<head>
+```json
+"styles": [
+    "../node_modules/@taskbuilder/icons/m4.css",
     ...
-    <link href="../node_modules/@taskbuilder/icons/styles.css" rel="stylesheet">
-    ...
-</head>
+],
 ```
 
 Una volta importata la libreria, puoi usare le icone nel modo seguente:
