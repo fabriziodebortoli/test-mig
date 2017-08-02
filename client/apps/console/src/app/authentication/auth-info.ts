@@ -3,7 +3,7 @@ import { TokenInfo } from "app/authentication/token-info";
 import { Subscription } from "app/model/subscription";
 import { ServerUrl } from "app/authentication/server-url";
 import { RoleNames } from "app/authentication/auth-helpers";
-import { AccountRole } from "app/authentication/account-role";
+import { AccountRole } from "app/model/accountrole";
 
 //--------------------------------------------------------------------------------------------------------
 export class AuthorizationProperties{

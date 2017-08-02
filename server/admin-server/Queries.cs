@@ -110,8 +110,9 @@ namespace Microarea.AdminServer
         public const string UpdateAccountRoles = @"UPDATE MP_AccountRoles SET Level = @Level WHERE RoleId = @RoleId AND AccountName = @AccountName AND EntityKey = @EntityKey";
         public const string DeleteAccountRole = @"DELETE MP_AccountRoles WHERE RoleName = @RoleName AND AccountName = @AccountName AND EntityKey = @EntityKey";
         // AccountRole (BurgerData)
-        public const string SelectRolesByAccountName = @"SELECT * FROM MP_AccountRoles WHERE AccountName = '{0}'";
-
+        public const string SelectRolesByAccountName = @"SELECT * FROM MP_AccountRoles acc INNER JOIN 
+															MP_Roles rol on acc.RoleName = rol.RoleName 
+															WHERE AccountName = '{0}' AND rol.Disabled = 0";
 
         // RegisteredApp
         public const string SelectAppById = @"SELECT * FROM MP_RegisteredApps WHERE AppId = @AppId";

@@ -1,3 +1,5 @@
+import {SubscriptionAccount} from '../../model/subscriptionAccount';
+import {RoleNames, RoleLevels} from '../../authentication/auth-helpers';
 import {AuthorizationInfo} from '../../authentication/auth-info';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModelService } from './../../services/model.service';
@@ -19,54 +21,24 @@ export class AccountComponent implements OnInit {
   model:Account;
   editing:boolean = false;
   loggedAccountName:string;
+  subscriptionsAccount:Array<SubscriptionAccount>;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) { 
     this.model = new Account();
+    this.subscriptionsAccount = new Array<SubscriptionAccount>();
   }
 
   //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
 
-    if (this.route.snapshot.queryParams['accountNameToEdit'] !== undefined){
-      this.editing = true;
-      let accountName:string = this.route.snapshot.queryParams['accountNameToEdit'];
-      this.modelService.getAccounts({ AccountName: accountName })
-        .subscribe(
-          res => {
-            let accounts:Account[] = res['Content'];
-
-            if (accounts.length == 0) {
-              return;
-            }
-            
-            this.model = accounts[0];
-          },
-          err => {
-            alert(err);
-          }
-        )
-    } 
-
-    let authorizationStored = localStorage.getItem('auth-info');
-
-    if (authorizationStored !== null) {
-      let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
-
-      let authorizationInfo: AuthorizationInfo = new AuthorizationInfo(
-        authorizationProperties.jwtEncoded,
-        authorizationProperties.accountName);
-
-      authorizationInfo.authorizationProperties = authorizationProperties;
-
-      this.loggedAccountName = authorizationInfo.authorizationProperties.accountName;
-    }
-
-    if (this.loggedAccountName == '') {
+    if (this.route.snapshot.queryParams['accountNameToEdit'] === undefined) {
       return;
     }
-
-    this.modelService.getSubscriptions(this.loggedAccountName)
+    
+    this.editing = true;
+    let accountName:string = this.route.snapshot.queryParams['accountNameToEdit'];
+    this.modelService.getAccounts({ AccountName: accountName })
       .subscribe(
         res => {
           let accounts:Account[] = res['Content'];
@@ -75,14 +47,31 @@ export class AccountComponent implements OnInit {
             return;
           }
           
+          // setting the account model
           this.model = accounts[0];
+
+          if (this.model.AccountName == '')
+            return;
+
+          // reading account roles
+          this.modelService.query('subscriptionaccounts', { AccountName: this.model.AccountName })
+            .subscribe(
+              res => {
+                this.subscriptionsAccount = res['Content'];
+                if (this.subscriptionsAccount.length == 0) {
+                  return;
+                }
+              },
+              err => {
+                alert(err);
+              }
+            )          
         },
         err => {
           alert(err);
         }
       )
     
-
   }
 
   //--------------------------------------------------------------------------------------------------------

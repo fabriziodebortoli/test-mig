@@ -1,4 +1,4 @@
-import { ComponentInfoService } from './../models/component-info.model';
+import { ComponentInfoService, ComponentInfo } from './../models/component-info.model';
 import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterContentInit } from '@angular/core';
 
 import { ControlTypes } from "../models/control-types.enum";
@@ -18,7 +18,8 @@ import { Subscription } from "rxjs/Subscription";
 export abstract class BOCommonComponent extends DocumentComponent implements OnInit, OnDestroy {
   translations = [];
   subscriptions: Subscription[] = [];
-
+  culture = 'it-IT';
+  version = '1';
   constructor(document: BOService,
     eventData: EventDataService,
     ciService: ComponentInfoService) {
@@ -27,8 +28,13 @@ export abstract class BOCommonComponent extends DocumentComponent implements OnI
     this.subscriptions.push(document.windowStrings.subscribe((args: any) => {
       if (me.cmpId === args.id) {
         me.translations = args.strings;
+        let jItem = { translations: me.translations, version:this.version };
+        localStorage.setItem(this.getDictionaryID(this.ciService.componentInfo), JSON.stringify(jItem));
       }
     }));
+  }
+  getDictionaryID(ci: ComponentInfo) {
+    return ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name + '/' + this.culture;
   }
   l(baseText: string) {
     let target = baseText;
@@ -42,8 +48,25 @@ export abstract class BOCommonComponent extends DocumentComponent implements OnI
     return target;
   }
   ngOnInit() {
-    let s = this.document as BOService;
-    s.getWindowStrings(this.cmpId);
+    let item = localStorage.getItem(this.getDictionaryID(this.ciService.componentInfo));
+    let found = false;
+    if (item) {
+      try {
+        let jItem = JSON.parse(item);
+
+        if (jItem.version === this.version) {
+          this.translations = jItem.translations;
+          found = true;
+        }
+      }
+      catch (ex) {
+        console.log(ex);
+      }
+    }
+    if (!found) {
+      let s = this.document as BOService;
+      s.getWindowStrings(this.cmpId, this.culture);
+    }
     super.ngOnInit();
   }
   ngOnDestroy() {
