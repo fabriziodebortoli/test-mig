@@ -152,6 +152,13 @@ gulp.task('copy:fonts', function() {
 });
 
 /**
+ * Copia la cartella docs nella /dist
+ */
+gulp.task('copy:docs', function() {
+    gulp.src(`${srcFolder}/docs/*`).pipe(gulp.dest(`${distFolder}/docs/`));
+});
+
+/**
  * 7. Copy all the files from /build to /dist, except .js files. We ignore all .js from /build
  *    because with don't need individual modules anymore, just the Flat ES module generated
  *    on step 5.
@@ -200,6 +207,7 @@ gulp.task('compile', function() {
         'rollup:fesm',
         'rollup:umd',
         'copy:fonts',
+        'copy:docs',
         'copy:build',
         'copy:manifest',
         'copy:readme',
