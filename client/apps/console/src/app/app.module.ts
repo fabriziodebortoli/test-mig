@@ -47,7 +47,7 @@ import { AccountSubscriptionsComponent } from './components/account/account-subs
     DatabasesHomeComponent,
     InstanceHomeComponent,
     SubscriptionComponent,
-    AccountSubscriptionsComponent
+    AccountSubscriptionsComponent,
   ],
   imports: [
     BrowserModule,

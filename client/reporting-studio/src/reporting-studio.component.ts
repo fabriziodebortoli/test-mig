@@ -163,6 +163,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.WRONG:
           break;
         case CommandType.EXPORTEXCEL:
+          if(k == "Errore"){
+            window.alert("Errore: non ci sono dati da esportare in Excel");
+            break;
+          }
           this.getExcelData(k + ".xlsx");
           break;
       }
@@ -321,7 +325,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public startSavePDF() {
     this.rsService.pdfState = PdfType.PDF;
     this.PageNumber();
-    //this.FirstPage();
   }
 
   //--------------------------------------------------
@@ -329,7 +332,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.EXPORTEXCEL,
       message: this.args.nameSpace,
-      page: this.rsService.firstPageExport
+      page: this.rsService.firstPageExport +","+ this.rsService.lastPageExport 
     };
 
     this.rsService.doSend(JSON.stringify(message));

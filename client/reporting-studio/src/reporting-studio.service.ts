@@ -22,7 +22,7 @@ export class ReportingStudioService extends DocumentService {
     public pageNum: number = 1;
     public running: boolean = false;
     public showAsk = false;
-    
+
     private rsServer: string = ''
     websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
@@ -34,7 +34,7 @@ export class ReportingStudioService extends DocumentService {
     public savingPdf: boolean = false;
     public totalPages: number;
     public firstPageExport: number;
-    public lastPagePdf: number;
+    public lastPageExport: number;
     public pdfState: PdfType = PdfType.NOPDF;
     public svgState: SvgType = SvgType.NOSVG;
     public pngState: PngType = PngType.NOPNG;
@@ -43,14 +43,12 @@ export class ReportingStudioService extends DocumentService {
 
 
     @Output() rsExportPdf = new EventEmitter<void>();
-    @Output() rsExportExcel = new EventEmitter<void>(); 
+    @Output() rsExportExcel = new EventEmitter<void>();
     public exportfile = false;
     public exportpdf = false;
     public exportexcel = false;
     public pdf: string = "PDF";
     public excel: string = "Excel";
-
-
 
     constructor(
         logger: Logger,
@@ -98,7 +96,6 @@ export class ReportingStudioService extends DocumentService {
             this.websocket.send(message);
             return true;
         }, 100);
-
         return false;
     }
 
@@ -135,16 +132,16 @@ export class ReportingStudioService extends DocumentService {
     reset() {
         this.pageNum = 1;
         this.showAsk = false;
-        
+
     }
 
     //------EXPORT PDF-----------------------------------
-    public initiaziedExport (from: any, to: any){
+    public initiaziedExport(from: number, to: number) {
         this.firstPageExport = from;
-        this.lastPagePdf = to;
-         if(this.exportpdf)
+        this.lastPageExport = to;
+        if (this.exportpdf)
             this.rsExportPdf.emit();
-         if(this.exportexcel)
+        if (this.exportexcel)
             this.rsExportExcel.emit();
         this.exportpdf = false;
         this.exportexcel = false;
@@ -198,6 +195,6 @@ export class ReportingStudioService extends DocumentService {
                 this.svgState = SvgType.NOSVG;
             }).then(() => this.eventCurrentPage.emit());
     }
-    
+
 }
 

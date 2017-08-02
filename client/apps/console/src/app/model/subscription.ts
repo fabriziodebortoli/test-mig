@@ -1,4 +1,4 @@
-export class Subscription {
+export class AppSubscription {
     
     SubscriptionKey: string;
     Description: string;

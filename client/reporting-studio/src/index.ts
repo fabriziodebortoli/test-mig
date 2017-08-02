@@ -26,6 +26,7 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { InputsModule } from '@progress/kendo-angular-inputs';
 import { RouterModule } from "@angular/router";
 import { TbCoreModule } from "@taskbuilder/core";
 export { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
@@ -48,6 +49,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     GridModule,
     ChartsModule,
     ButtonsModule,
+    InputsModule,
     RouterModule.forChild([
       { path: 'reportingstudio/:ns/:params', component: ReportingStudioFactoryComponent },
       { path: 'reportingstudio/', component: ReportingStudioFactoryComponent },
