@@ -1,22 +1,20 @@
-# taskbuilder-icons
+# Icon Font Library for TaskbuilderWeb App
 
-## Installation
+Libreria che replica le immagini di Mago Desktop in Icon Font in modo da migliorare la velocità di caricamento delle pagine, la scalabilità e le capacità di personalizzazione.
 
-To install this library, run:
+Un icon font è composto da un set predefinito di icone ‘mappate’ ognuna con un carattere. Essendo vettoriale, permette di ridimensionare o cambiare il colore di un'icona semplicemente via CSS.
 
-```bash
-$ npm install taskbuilder-icons --save
-```
+## Installazione
 
-## Consuming your library
-
-Once you have published your library to npm, you can import your library in any Angular application by running:
+Per installare questa libreria:
 
 ```bash
-$ npm install taskbuilder-icons
+$ npm install https://github.com/Microarea/ng-icons.git --save
 ```
 
-and then from your Angular `AppModule`:
+## Utilizzo
+
+Dopo aver installato la libreria, puoi importarla nella tua applicazione Angular all'interno di AppModule:
 
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
@@ -24,8 +22,8 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-// Import your library
-import { SampleModule } from 'taskbuilder-icons';
+import { TaskbuilderCoreModule, TbCoreModule } from '@taskbuilder/core';
+import { TbIconsModule } from '@taskbuilder/icons';
 
 @NgModule({
   declarations: [
@@ -33,9 +31,9 @@ import { SampleModule } from 'taskbuilder-icons';
   ],
   imports: [
     BrowserModule,
-
-    // Specify your library as an import
-    LibraryModule
+    TaskbuilderCoreModule,
+    TbCoreModule.forRoot(),
+    TbIconsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -43,30 +41,27 @@ import { SampleModule } from 'taskbuilder-icons';
 export class AppModule { }
 ```
 
-Once your library is imported, you can use its components, directives and pipes in your Angular application:
+E' inoltre necessario includere il file *styles.css* in *index.html*:
+
+```html
+<!doctype html>
+<html>
+
+<head>
+    ...
+    <link href="../node_modules/@taskbuilder/icons/styles.css" rel="stylesheet">
+    ...
+</head>
+```
+
+Una volta importata la libreria, puoi usare le icone nel modo seguente:
 
 ```xml
 <!-- You can now use your library component in app.component.html -->
-<h1>
-  {{title}}
-</h1>
-<sampleComponent></sampleComponent>
+<tb-icon icon="tb-master"></tb-icon>
+<tb-icon icon="erp-cash"></tb-icon>
+<tb-icon icon="erp-costaccounting"></tb-icon>
+<tb-icon icon="erp-summary"></tb-icon>
 ```
 
-## Development
-
-To generate all `*.js`, `*.d.ts` and `*.metadata.json` files:
-
-```bash
-$ npm run build
-```
-
-To lint all `*.ts` files:
-
-```bash
-$ npm run lint
-```
-
-## License
-
-MIT © [Fabrizio De Bortoli](mailto:fabrizio.debortoli@microarea.it)
+L'elenco completo delle icone finora incluse nella libreria lo trovi a questa [pagina](http://microarea.github.io/)
