@@ -1,22 +1,20 @@
-    <kendo-dialog title="Export Report" (close)="close()">
-        <md-radio-button onclick="document.getElementById('fromPage').disabled = true; document.getElementById('toPage').disabled = true;"
-            checked="checked">All Pages </md-radio-button>
-        <md-radio-button onclick="document.getElementById('fromPage').disabled = false; document.getElementById('toPage').disabled = false;">Range Pages</md-radio-button>
+<kendo-dialog title="Export Report" (close)="close()">
+    <md-radio-button checked="checked" (click)="setAllPages()">All Pages </md-radio-button>
+    <md-radio-button (click)="setRangePages()">Range Pages</md-radio-button>
 
-        <br><br>
+    <br><br>
 
-        <label>From page </label>
-        <input type="number" name="fromPage" id="fromPage" value="1" min="1" max="{{rsService.totalPages}}" disabled>
-        <br><br>
-        <label>To page </label>
-        <input type="number" name="ToPage" id="toPage" value="{{rsService.totalPages}}" min="1" max="{{rsService.totalPages}}" disabled>
+    <label>From page </label>
+    <kendo-numerictextbox [(ngModel)]="from" [decimals]="0" [format]="'n0'" [min]="1" [max]="rsService.totalPages" [disabled]="inputDisable"></kendo-numerictextbox>
 
-        <kendo-dialog-actions>
-            <button kendoButton *ngIf=rsService.exportpdf (click)="startExport()">Export PDF</button>
-            <button kendoButton *ngIf=rsService.exportexcel (click)="startExport()">Export Excel</button>
+    <br><br>
 
-        </kendo-dialog-actions>
-        
-    </kendo-dialog>
+    <label>To page </label>
+    <kendo-numerictextbox [(ngModel)]="to" [decimals]="0" [format]="'n0'" [min]="1" [max]="rsService.totalPages" [disabled]="inputDisable"></kendo-numerictextbox>
 
+    <kendo-dialog-actions>
+        <button kendoButton *ngIf="rsService.exportpdf" (click)="startExport()">Export PDF</button>
+        <button kendoButton *ngIf="rsService.exportexcel" (click)="startExport()">Export Excel</button>
+    </kendo-dialog-actions>
 
+</kendo-dialog>

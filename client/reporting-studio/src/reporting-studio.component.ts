@@ -321,7 +321,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public startSavePDF() {
     this.rsService.pdfState = PdfType.PDF;
     this.PageNumber();
-    //this.FirstPage();
   }
 
   //--------------------------------------------------
