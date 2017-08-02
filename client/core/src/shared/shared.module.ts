@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +19,9 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { ChartsModule } from '@progress/kendo-angular-charts';
+import { TreeModule } from 'angular-tree-component';
+
+
 
 const KENDO_UI_MODULES = [
     GridModule,
@@ -112,7 +116,7 @@ const TB_DIRECTIVES = [
 ];
 
 @NgModule({
-    imports: [TB_MODULES, KENDO_UI_MODULES],
+    imports: [TB_MODULES, KENDO_UI_MODULES, TreeModule ],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
     exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES/*, KENDO_UI_MODULES*/],
     entryComponents: [UnsupportedComponent, RadarComponent]

@@ -12,13 +12,49 @@ import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 
 })
 export class TreeTestComponent extends DocumentComponent implements OnInit {
+
+  model:any;
+  private nodes = [];
   constructor(public eventData: EventDataService, private testService: TestService) {
     super(testService, eventData, null);
   }
 
  ngOnInit(){
     this.eventData.model = { 'Title': { 'value': 'Tree Test' } };
+     for (let i = 1; i <= 3; i++) {
+      let node = {
+        id: i,
+        value: 'Bath ' + i,
+        icon: 'fa fa-bath',
+        children: []
+      };
+
+
+      for (let y = 1; y <= 3; y++) {
+        let child = {
+          id: i + '' + y,
+          icon: 'fa fa-shower',
+          value: node.value + ' Shower ' + y,
+        };
+        node.children.push(child);
+
+      }
+      this.nodes.push(node);
+    }
+
+    this.nodes = [{
+      id: 0,
+      value: 'Bathroom',
+      icon: 'fa fa-trophy',
+      children: this.nodes
+    }];
+
+    this.model={
+      value: this.nodes
+    }
   }
+ 
+
 }
 
 
