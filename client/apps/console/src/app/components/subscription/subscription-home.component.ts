@@ -1,4 +1,4 @@
-import { Subscription } from 'app/model/subscription';
+import { AppSubscription } from 'app/model/subscription';
 import { ModelService } from './../../services/model.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { AuthorizationProperties } from 'app/authentication/auth-info';
 
 export class SubscriptionHomeComponent implements OnInit {
 
-  subscriptions: Subscription[];
+  subscriptions: AppSubscription[];
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router) {

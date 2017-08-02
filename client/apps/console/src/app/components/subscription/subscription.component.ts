@@ -1,6 +1,6 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from '../../model/subscription';
+import { AppSubscription } from '../../model/subscription';
 import { ModelService } from '../../services/model.service';
 import { Observable } from 'rxjs/Observable';
 import { OperationResult } from '../../services/operationResult';
@@ -13,12 +13,12 @@ import { OperationResult } from '../../services/operationResult';
 
 export class SubscriptionComponent implements OnInit {
 
-  model: Subscription;
+  model: AppSubscription;
   editing: boolean = false;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
-    this.model = new Subscription();
+    this.model = new AppSubscription();
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ export class SubscriptionComponent implements OnInit {
       this.modelService.getSubscriptions(subscriptionKey)
         .subscribe(
         res => {
-          let subscriptions: Subscription[] = res['Content'];
+          let subscriptions: AppSubscription[] = res['Content'];
 
           if (subscriptions.length == 0) {
             return;
@@ -57,7 +57,7 @@ export class SubscriptionComponent implements OnInit {
 
     let subs = subscriptionOperation.subscribe(
       subscriptionResult => {
-        this.model = new Subscription();
+        this.model = new AppSubscription();
         if (this.editing) 
           this.editing = !this.editing;
         subs.unsubscribe();
