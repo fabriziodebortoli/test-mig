@@ -279,7 +279,13 @@ namespace Microarea.AdminServer.Services.BurgerData
             public void AddWhereParameter(string name, object val, QueryComparingOperators comparingOperator, bool isNumber)
             {
                 string mask = isNumber ? "{0}{1}" : "{0}'{1}'";
-                whereParameters.Add(new ParamCouple(name, String.Format(mask,
+
+				if (comparingOperator == QueryComparingOperators.Like)
+				{
+					mask = "{0}'%{1}%'";
+				}
+
+				whereParameters.Add(new ParamCouple(name, String.Format(mask,
                     SqlScriptManager.GetOperatorText(comparingOperator), val)));
             }
 
