@@ -1,6 +1,6 @@
 @import '~@taskbuilder/console/styles/indigo-pink.css';
 
-body { margin:0; font-family:Roboto,"Helvetica Neue",sans-serif;}
+body { margin:0; font-family:Roboto,"Helvetica Neue",sans-serif; }
 
 md-sidenav {
     padding:10px;
