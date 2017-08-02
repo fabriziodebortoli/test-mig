@@ -82,6 +82,7 @@ export class RadarComponent {
     }
 
     protected edit(event: SelectionEvent) {
+        this.logger.debug('editClick')
         if (event.selected) {
             console.log('rowDoubleClick:', this.radarData[event.index]);
             this.onRadarRecordSelected(this.radarData[event.index]);
