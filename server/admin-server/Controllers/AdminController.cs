@@ -255,9 +255,9 @@ namespace Microarea.AdminServer.Controllers
 			_jsonHelper.AddPlainObject<List<ISubscription>>(subscriptionsList);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
+
         [HttpPost("/api/query/{modelName}")]
         [Produces("application/json")]
-
         //-----------------------------------------------------------------------------	
         private OperationResult Query(ModelTables modelTable, string bodyText)
         {
