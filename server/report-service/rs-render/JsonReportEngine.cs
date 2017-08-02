@@ -282,7 +282,7 @@ namespace Microarea.RSWeb.Render
 
         //---------------------------------------------------------------------
         //chiamata per esportare excel
-        public string GetExcelDataPage(int page = 1)
+        public string GetExcelDataPage(int page)
         {
             WoormDocument woorm = StateMachine.Woorm;
             if (StateMachine.Report.EngineType != EngineType.FullExtraction)

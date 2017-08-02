@@ -8,10 +8,8 @@ import { Component, Output, EventEmitter } from '@angular/core';
     styleUrls: ['./exportdialog.component.scss'],
 })
 
-export class ExportdialogComponent  {
+export class ExportdialogComponent {
     subscriptions: Subscription[] = [];
-
-    
 
     constructor(private rsService: ReportingStudioService) { };
 
@@ -26,8 +24,14 @@ export class ExportdialogComponent  {
         this.ngOnDestroy();
     }
 
-    startPDF(from: number, to: number){
-        this.rsService.initiaziedPdf(from, to);
+    startExport() {
+        var from = (<HTMLInputElement>document.getElementById('fromPage')).value;
+        var to = (<HTMLInputElement>document.getElementById('toPage')).value;
+        this.rsService.initiaziedExport(from, to);
+        
+        this.rsService.exportfile = false;
+        // this.rsService.exportpdf = false;
+        // this.rsService.exportexcel = false;
     }
 
 }
