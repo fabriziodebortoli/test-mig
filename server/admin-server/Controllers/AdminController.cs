@@ -258,62 +258,43 @@ namespace Microarea.AdminServer.Controllers
 
         [HttpPost("/api/query/{modelName}")]
         [Produces("application/json")]
-        //-----------------------------------------------------------------------------	
-        private OperationResult Query(ModelTables modelTable, string bodyText)
-        {
-            // load Body data in QueryInfo object
-            JObject jObject = JObject.Parse(bodyText);
-            SelectScript selectScript = new SelectScript(SqlScriptManager.GetTableName(modelTable));
-
-            foreach (var item in jObject)
-            {
-                selectScript.AddWhereParameter(item.Key, item.Value, QueryComparingOperators.IsEqual, false);
-            }
-
-            OperationResult opRes = new OperationResult();
-            opRes.Result = true;
-            switch (modelTable)
-            {
-                case ModelTables.Accounts:
-                    opRes.Content = this.burgerData.GetList<Account, IAccount>(selectScript.ToString(), modelTable);
-                    break;
-                case ModelTables.Subscriptions:
-                    opRes.Content = this.burgerData.GetList<Subscription, ISubscription>(selectScript.ToString(), modelTable);
-                    break;
-                case ModelTables.Roles:
-                    opRes.Content = this.burgerData.GetList<Role, IRole>(selectScript.ToString(), modelTable);
-                    break;
-                case ModelTables.AccountRoles:
-                    opRes.Content = this.burgerData.GetList<AccountRoles, IAccountRoles>(selectScript.ToString(), modelTable);
-                    break;
-                case ModelTables.Instances:
-                    opRes.Content = this.burgerData.GetList<Instance, IInstance>(selectScript.ToString(), modelTable);
-                    break;
-              
-                case ModelTables.None:
-                default:
-                    opRes.Result = false;
-                    opRes.Code = (int)AppReturnCodes.UnknownModelName;
-                    opRes.Message = Strings.UnknownModelName;
-                    break;
-            }
-            return opRes;
-        }
-
-
-        [HttpPost("/api/query/{modelName}")]
-		[Produces("application/json")]
 		//-----------------------------------------------------------------------------	
-		public IActionResult ApiQuery(string modelName)
+		public IActionResult ApiQuery(string modelName, [FromBody] APIQueryData apiQueryData)
 		{
-			string authHeader = HttpContext.Request.Headers["Authorization"];
+			OperationResult opRes = new OperationResult();
+
+			if (string.IsNullOrWhiteSpace(modelName))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.EmptyModelName;
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (apiQueryData == null ||
+				(apiQueryData.MatchingFields.Count == 0 && apiQueryData.LikeFields.Count == 0))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.MissingBody;
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			ModelTables modelTable = SqlScriptManager.GetModelTable(modelName);
+
+			if (modelTable == ModelTables.None)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.UnknownModelName;
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
 
 			// check AuthorizationHeader first
+			string authHeader = HttpContext.Request.Headers["Authorization"];
 
-			// for now, we set the highest rights for this API
-
-			OperationResult opRes = SecurityManager.ValidateAuthorization(
-				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, RolesStrings.All, RoleLevelsStrings.Instance);
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, _settings.InstanceIdentity.InstanceKey, RoleLevelsStrings.Instance);
 
 			if (!opRes.Result)
 			{
@@ -321,53 +302,78 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (string.IsNullOrWhiteSpace(modelName))
+			try
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", Strings.EmptyModelName);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				opRes = Query(modelTable, apiQueryData);
+
+				if (opRes.Result)
+				{
+					opRes.Message = Strings.OperationOK;
+					opRes.Code = (int)AppReturnCodes.OK;
+				}
 			}
-            ModelTables modelTable = SqlScriptManager.GetModelTable(modelName);
-
-            if (modelTable == ModelTables.None)
-            {
-                opRes.Result = false;
-                opRes.Message = Strings.UnknownModelName;
-                _jsonHelper.AddPlainObject<OperationResult>(opRes);
-                return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-            }
-            try
-            {
-                // read Body content
-                var bodyStream = new StreamReader(HttpContext.Request.Body);
-                string bodyText = bodyStream.ReadToEnd();
-
-                if (string.IsNullOrWhiteSpace(bodyText))
-                {
-                    opRes.Result = false;
-                    opRes.Message = Strings.MissingBody;
-                    _jsonHelper.AddPlainObject<OperationResult>(opRes);
-                    return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-                }
-
-                Query(modelTable, bodyText);
-
-                if (opRes.Result)
-                {
-                    opRes.Message = Strings.OperationOK;
-                    opRes.Code = (int)AppReturnCodes.OK;
-                }
-            }
-          
-            catch (Exception e)
+			catch (Exception e)
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "010 AdminController.ApiQuery " + e.Message);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				opRes.Result = false;
+				opRes.Message = "012 AdminController.ApiQuery" + e.Message;
+				opRes.Code = (int)AppReturnCodes.ExceptionOccurred;
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			_jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		//-----------------------------------------------------------------------------	
+		private OperationResult Query(ModelTables modelTable, APIQueryData apiQueryData)
+		{
+			// load Body data in QueryInfo object
+
+			SelectScript selectScript = new SelectScript(SqlScriptManager.GetTableName(modelTable));
+
+			foreach (KeyValuePair<string, string> kvp in apiQueryData.MatchingFields)
+			{
+				selectScript.AddWhereParameter(kvp.Key, kvp.Value, QueryComparingOperators.IsEqual, false);
+			}
+
+			foreach (KeyValuePair<string, string> kvp in apiQueryData.LikeFields)
+			{
+				selectScript.AddWhereParameter(kvp.Key, kvp.Value, QueryComparingOperators.Like, false);
+			}
+
+			OperationResult opRes = new OperationResult();
+			opRes.Result = true;
+
+			switch (modelTable)
+			{
+				case ModelTables.Accounts:
+					opRes.Content = this.burgerData.GetList<Account, IAccount>(selectScript.ToString(), modelTable);
+					break;
+				case ModelTables.Subscriptions:
+					opRes.Content = this.burgerData.GetList<Subscription, ISubscription>(selectScript.ToString(), modelTable);
+					break;
+				case ModelTables.Roles:
+					opRes.Content = this.burgerData.GetList<Role, IRole>(selectScript.ToString(), modelTable);
+					break;
+				case ModelTables.AccountRoles:
+					opRes.Content = this.burgerData.GetList<AccountRoles, IAccountRoles>(selectScript.ToString(), modelTable);
+					break;
+				case ModelTables.Instances:
+					opRes.Content = this.burgerData.GetList<Instance, IInstance>(selectScript.ToString(), modelTable);
+					break;
+				case ModelTables.SubscriptionAccounts:
+					opRes.Content = this.burgerData.GetList<SubscriptionAccount, ISubscriptionAccount>(selectScript.ToString(), modelTable);
+					break;
+				case ModelTables.None:
+				default:
+					opRes.Result = false;
+					opRes.Code = (int)AppReturnCodes.UnknownModelName;
+					opRes.Message = Strings.UnknownModelName;
+					break;
+			}
+
+			return opRes;
 		}
 	}
 }
