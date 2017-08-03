@@ -67,6 +67,26 @@ export class AccountSubscriptionsComponent {
         alert('Oops, something went wrong with your request: ' + err);
       }
     );
-    
+  }
+
+  deleteAssociation(item: AccountRole) {
+
+    if(!confirm('Delete association between the subscription ' + item.EntityKey + ' and this account (' + this.editAccountName + ')?')) {
+      return;
+    }
+
+    let subs: string[] = [item.EntityKey];
+
+    alert('todo');
+    return;
+
+    // this.modelService.addAccountSubscriptionAssociation(this.editAccountName, subs).subscribe(
+    //   res => {
+    //     alert('Association regularly saved.');
+    //   },
+    //   err => {
+    //     alert('Oops, something went wrong with your request: ' + err);
+    //   }
+    // );    
   }
 }

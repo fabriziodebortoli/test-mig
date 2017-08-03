@@ -51,7 +51,7 @@ namespace Microarea.AdminServer
 
         // SubscriptionDatabases
         public const string ExistSubscriptionDatabase = @"SELECT COUNT(*) FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
-        public const string SelectSubscriptionDatabase = @"SELECT * FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
+		public const string SelectSubscriptionDatabase = @"SELECT * FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
         public const string InsertSubscriptionDatabase = @"INSERT INTO MP_SubscriptionDatabases (SubscriptionKey, Name, Description, DBServer, DBName, DBOwner, DBPassword, Disabled, DatabaseCulture, 
 														IsUnicode, Language, RegionalSettings, Provider, UseDMS, DMSDBServer, DMSDBName, DMSDBOwner, DMSDBPassword, Test) 
 														VALUES (@SubscriptionKey, @Name, @Description, @DBServer, @DBName, @DBOwner, @DBPassword, @Disabled, @DatabaseCulture, 
@@ -63,8 +63,12 @@ namespace Microarea.AdminServer
 														WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
         public const string DeleteSubscriptionDatabase = @"DELETE MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
 
-        // Account
-        public const string ExistAccount = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
+		// SubscriptionDatabases (BurgerData)
+		public const string SelectDatabasesBySubscription = @"SELECT * FROM MP_SubscriptionDatabases WHERE SubscriptionKey = '{0}'";
+		public const string SelectDatabaseBySubscriptionAndName = @"SELECT * FROM MP_SubscriptionDatabases WHERE SubscriptionKey = '{0}' AND Name = '{1}'";
+
+		// Account
+		public const string ExistAccount = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
         public const string SelectAccount = @"SELECT * FROM MP_Accounts WHERE AccountName = @AccountName";
 
         public const string InsertAccount = @"INSERT INTO MP_Accounts (AccountName, FullName, Password, Notes, Email, LoginFailedCount, PasswordNeverExpires, MustChangePassword, 

@@ -1,8 +1,11 @@
 <h3 *ngIf="items == undefined || items.length == 0">You didn't insert any data yet.</h3>
 <md-list>
-  <md-list-item *ngFor="let item of items" (click)="goEditMode(item)">
-    <div *ngFor="let columnName of columnNames" style="margin-right:20px">
+  <md-list-item *ngFor="let item of items" (click)="goEditMode(item)" style="width:100%">
+    <div *ngFor="let columnName of columnNames; let last = last;" style="margin-right:20px;">
       {{ item[columnName] }}
+    </div>
+    <div *ngIf="rowCommand != undefined && rowCommand != ''" style="display:block;width:100%">
+      <md-icon style="float:right" (click)="fireRowCommand(item)">{{ rowCommandIcon }}</md-icon>
     </div>
   </md-list-item>
 </md-list>

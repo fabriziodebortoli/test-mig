@@ -13,15 +13,16 @@ import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 })
 export class TreeTestComponent extends DocumentComponent implements OnInit {
 
-  model:any;
+  model: any;
   private nodes = [];
   constructor(public eventData: EventDataService, private testService: TestService) {
     super(testService, eventData, null);
   }
 
- ngOnInit(){
+  ngOnInit() {
     this.eventData.model = { 'Title': { 'value': 'Tree Test' } };
-     for (let i = 1; i <= 3; i++) {
+
+    for (let i = 1; i <= 3; i++) {
       let node = {
         id: i,
         value: 'Bath ' + i,
@@ -35,6 +36,7 @@ export class TreeTestComponent extends DocumentComponent implements OnInit {
           id: i + '' + y,
           icon: 'fa fa-shower',
           value: node.value + ' Shower ' + y,
+          hasChildren: true,
         };
         node.children.push(child);
 
@@ -45,15 +47,18 @@ export class TreeTestComponent extends DocumentComponent implements OnInit {
     this.nodes = [{
       id: 0,
       value: 'Bathroom',
+      isRoot: true,
       icon: 'fa fa-trophy',
       children: this.nodes
     }];
 
-    this.model={
+    this.model = {
       value: this.nodes
     }
+
+
   }
- 
+
 
 }
 

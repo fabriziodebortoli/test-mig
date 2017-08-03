@@ -96,7 +96,7 @@ namespace Microarea.AdminServer.Model
                keyColumnParameter1,keyColumnParameter2
             };
 
-            opRes.Result = burgerData.Save(ModelTables.SubscriptionAccounts, keyParameters, burgerDataParameters);
+            opRes.Result = burgerData.Save(ModelTables.SubscriptionDatabases, keyParameters, burgerDataParameters);
             opRes.Content = this;
             return opRes;
         }
@@ -106,6 +106,7 @@ namespace Microarea.AdminServer.Model
         public IModelObject Fetch(IDataReader dataReader)
         {
             SubscriptionDatabase subscriptionDatabase = new SubscriptionDatabase();
+
             subscriptionDatabase.SubscriptionKey = dataReader["SubscriptionKey"] as string;
             subscriptionDatabase.Name = dataReader["Name"] as string;
             subscriptionDatabase.Description = dataReader["Description"] as string;

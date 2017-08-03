@@ -4,6 +4,7 @@ import { AppSubscription } from '../../model/subscription';
 import { ModelService } from '../../services/model.service';
 import { Observable } from 'rxjs/Observable';
 import { OperationResult } from '../../services/operationResult';
+import { SubscriptionDatabase } from '../../model/subscriptionDatabase';
 
 @Component({
   selector: 'app-subscription',
@@ -15,6 +16,7 @@ export class SubscriptionComponent implements OnInit {
 
   model: AppSubscription;
   editing: boolean = false;
+  databases: SubscriptionDatabase[];
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
@@ -36,6 +38,16 @@ export class SubscriptionComponent implements OnInit {
           }
 
           this.model = subscriptions[0];
+
+          this.modelService.getDatabasesBySubscription(subscriptionKey)
+            .subscribe(
+            res => {
+              this.databases = res['Content'];
+            },
+            err => {
+              alert(err);
+            }
+            )
         },
         err => {
           alert(err);
@@ -58,10 +70,10 @@ export class SubscriptionComponent implements OnInit {
     let subs = subscriptionOperation.subscribe(
       subscriptionResult => {
         this.model = new AppSubscription();
-        if (this.editing) 
+        if (this.editing)
           this.editing = !this.editing;
         subs.unsubscribe();
-         // after save I return to parent page
+        // after save I return to parent page
         this.router.navigateByUrl('/subscriptionsHome');
       },
       err => {
