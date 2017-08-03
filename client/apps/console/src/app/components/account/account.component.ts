@@ -38,7 +38,7 @@ export class AccountComponent implements OnInit {
     
     this.editing = true;
     let accountName:string = this.route.snapshot.queryParams['accountNameToEdit'];
-    this.modelService.getAccounts({ AccountName: accountName })
+    this.modelService.getAccounts({ MatchingFields: { AccountName: accountName } })
       .subscribe(
         res => {
           let accounts:Account[] = res['Content'];
@@ -54,7 +54,7 @@ export class AccountComponent implements OnInit {
             return;
 
           // reading account roles
-          this.modelService.query('subscriptionaccounts', { AccountName: this.model.AccountName })
+          this.modelService.query('subscriptionaccounts', { MatchingFields : { AccountName: this.model.AccountName } })
             .subscribe(
               res => {
                 this.subscriptionsAccount = res['Content'];

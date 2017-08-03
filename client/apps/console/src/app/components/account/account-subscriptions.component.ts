@@ -18,12 +18,12 @@ import { AuthorizationProperties } from "app/authentication/auth-info";
 export class AccountSubscriptionsComponent {
 
   @Input() subscriptions: Array<SubscriptionAccount>;
+  @Input() editAccountName: string;
   subscriptionsResult: Array<AccountRole>;
   columnNames:string[] = ['SubscriptionKey'];
   columnNamesAccountRoles:string[] = ['EntityKey'];
 
   searchString: string;
-
   
   constructor(private modelService: ModelService) { 
     this.subscriptions = new Array<SubscriptionAccount>();
@@ -38,11 +38,35 @@ export class AccountSubscriptionsComponent {
       return;
     }
 
-    //@@TODO: put this code under a centralized interface to AuthorizationInfo on localStorage
+    //@@TODO: better to put parentAccount as a Component Property!
+    //        put this code under a centralized interface to AuthorizationInfo on localStorage
 
     let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
 
-    this.modelService.query("accountroles", { AccountName : authorizationProperties.accountName, Level : RoleLevels.Subscription, RoleName : RoleNames.Admin })
+    this.modelService.query("accountroles", 
+      { 
+        MatchingFields: { AccountName : authorizationProperties.accountName, Level : RoleLevels.Subscription, RoleName : RoleNames.Admin },
+        LikeFields: { EntityKey : this.searchString }
+      })
       .subscribe(res => { this.subscriptionsResult = res['Content']; });
+  }
+
+  associateSubscription(item: AccountRole) {
+
+    if(!confirm('This command will associate the subscription ' + item.EntityKey + ' to this account (' + this.editAccountName + '). Confirm?')) {
+      return;
+    }
+
+    let subs: string[] = [item.EntityKey];
+
+    this.modelService.addAccountSubscriptionAssociation(this.editAccountName, subs).subscribe(
+      res => {
+        alert('Association regularly saved.');
+      },
+      err => {
+        alert('Oops, something went wrong with your request: ' + err);
+      }
+    );
+    
   }
 }

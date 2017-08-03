@@ -213,4 +213,22 @@ export class ModelService {
     })
     .catch((error: any) => Observable.throw(error.json().error || 'server error'));
   }
+
+  //--------------------------------------------------------------------------------------------------------
+  addAccountSubscriptionAssociation(accountName:string, subscriptionList:string[]): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(environment.gwamAPIUrl + 'accountSubscriptions/' + accountName, subscriptionList, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }   
 }
