@@ -20,7 +20,7 @@ export class LoginService {
   //--------------------------------------------------------------------------------
   constructor(private http: Http,  private router: Router) { 
 
-    this.modelBackEndUrl = environment.adminAPIUrl + "api/tokens";
+    this.modelBackEndUrl = environment.adminAPIUrl + "tokens";
   }
 
   //--------------------------------------------------------------------------------
