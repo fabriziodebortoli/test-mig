@@ -7,7 +7,7 @@ import { HttpModule } from '@angular/http';
 
 import { MasonryModule } from 'angular2-masonry';
 
-import { TbIconsModule } from '../icons/icons.module';
+import { TbIconsModule } from '@taskbuilder/icons';
 
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
