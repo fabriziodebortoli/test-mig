@@ -50,15 +50,6 @@ Once library is imported, you can use its components, directives and pipes in yo
 <h1>
   {{title}}
 </h1>
-<m4-icon icon="erp-document"></m4-icon>
-<tb-icon iconType="M4" icon="erp-document"></tb-icon>
-
-```
-
-Add @import to style.scss
-
-```scss
-@import '../node_modules/@taskbuilder/core/icons/m4.css';
 ```
 
 ## Development

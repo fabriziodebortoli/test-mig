@@ -341,6 +341,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No databases available..
+        /// </summary>
+        public static string NoSubscriptionDatabasesAvailable {
+            get {
+                return ResourceManager.GetString("NoSubscriptionDatabasesAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Subscriptions Available.
         /// </summary>
         public static string NoSubscriptionsAvailable {
