@@ -9,6 +9,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 
 import { TbCoreModule, ComponentService } from '@taskbuilder/core';
+import { TbIconsModule } from '@taskbuilder/icons';
 import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -21,6 +22,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
         SharedModule,
         routing,
         ReportingStudioModule,
+        TbIconsModule,
         TbCoreModule.forRoot()
     ],
     providers: [CookieService],
