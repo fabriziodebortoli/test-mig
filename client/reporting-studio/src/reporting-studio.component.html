@@ -9,7 +9,7 @@
         <tb-toolbar-top-button icon="tb-last" caption="Last" (click)="LastPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-startreport" caption="Run Report" (click)="RunReport()" *ngIf="!rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-stopreport" caption="Stop Report" (click)="StopReport()" *ngIf="rsService.running"></tb-toolbar-top-button>
-        <!--tb-toolbar-top-button icon=" " caption="ReRun" (click)="ReRunReport()"></tb-toolbar-top-button-->
+        <tb-toolbar-top-button icon="tb-rerun" caption="ReRun" (click)="ReRunReport()"></tb-toolbar-top-button>
     </tb-toolbar-top>
     <tb-frame-content>
         <tb-view-container>
