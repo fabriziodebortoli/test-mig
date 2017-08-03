@@ -27,6 +27,7 @@
 		GWAMNotResponding,
 		InvalidData,
 		GWAMCommunicationError,
-        UnknownModelName
-    }
+        UnknownModelName,
+		NoSubscriptionDatabasesAvailable
+	}
 }
