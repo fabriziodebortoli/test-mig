@@ -79,25 +79,29 @@ namespace Microarea.AdminServer.Controllers
 		[HttpPost("/api/databases")]
 		public IActionResult ApiDatabases([FromBody] SubscriptionDatabase subDatabase)
 		{
+			OperationResult opRes = new OperationResult();
+
 			if (String.IsNullOrEmpty(subDatabase.SubscriptionKey))
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", Strings.SubscriptionKeyEmpty);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				opRes.Result = false;
+				opRes.Message = Strings.SubscriptionKeyEmpty;
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			if (String.IsNullOrEmpty(subDatabase.Name))
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "Database name empty");
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				opRes.Result = false;
+				opRes.Message = "Database name empty";
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 
 			// check AuthorizationHeader first
 
-			OperationResult opRes = SecurityManager.ValidateAuthorization(
+			opRes = SecurityManager.ValidateAuthorization(
 				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subDatabase.SubscriptionKey, RoleLevelsStrings.Subscription);
 
 			if (!opRes.Result)
@@ -110,7 +114,6 @@ namespace Microarea.AdminServer.Controllers
 			{
 				if (subDatabase != null)
 				{
-					
 					opRes = subDatabase.Save(burgerData);
 					opRes.Message = Strings.OperationOK;
 				}
@@ -123,16 +126,15 @@ namespace Microarea.AdminServer.Controllers
 			}
 			catch (Exception exc)
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", opRes.Result);
-				_jsonHelper.AddJsonCouple<string>("message", "040 AdminController.ApiDatabases" + exc.Message);
-				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				opRes.Result = false;
+				opRes.Message = "040 AdminController.ApiDatabases" + exc.Message;
+				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			if (!opRes.Result)
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", opRes.Result);
-				_jsonHelper.AddJsonCouple<string>("message", Strings.OperationKO);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				opRes.Message = Strings.OperationKO;
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			_jsonHelper.AddPlainObject<OperationResult>(opRes);
@@ -141,7 +143,7 @@ namespace Microarea.AdminServer.Controllers
 
 		/// <summary>
 		/// Returns the databases list of a subscriptionKey
-		/// You can also specify a database name
+		/// You can also specify a database name (it is the second pk segment)
 		/// </summary>
 		/// <param name="subscriptionKey"></param>
 		/// <param name="dbName"></param>
@@ -151,18 +153,21 @@ namespace Microarea.AdminServer.Controllers
 		[Produces("application/json")]
 		public IActionResult ApiGetDatabasesBySubscription(string subscriptionKey, string dbName)
 		{
+			OperationResult opRes = new OperationResult();
+
 			if (string.IsNullOrWhiteSpace(subscriptionKey))
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", Strings.SubscriptionKeyEmpty);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				opRes.Result = false;
+				opRes.Message = Strings.SubscriptionKeyEmpty;
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 			
 			// check AuthorizationHeader first
 
-			OperationResult opRes = SecurityManager.ValidateAuthorization(
+			opRes = SecurityManager.ValidateAuthorization(
 				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
 
 			if (!opRes.Result)
@@ -171,35 +176,36 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			List<SubscriptionDatabase> databasesList = null;
+			List<ISubscriptionDatabase> databasesList = new List<ISubscriptionDatabase>();
 
 			try
 			{
-				databasesList = GetDatabasesBySubscription(subscriptionKey, dbName);
+				databasesList = string.IsNullOrWhiteSpace(dbName) ?
+					this.burgerData.GetList<SubscriptionDatabase, ISubscriptionDatabase>(string.Format(Queries.SelectDatabasesBySubscription, subscriptionKey), ModelTables.SubscriptionDatabases) :
+					this.burgerData.GetList<SubscriptionDatabase, ISubscriptionDatabase>(string.Format(Queries.SelectDatabaseBySubscriptionAndName, subscriptionKey, dbName), ModelTables.SubscriptionDatabases);
 			}
 			catch (Exception exc)
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "010 AdminController.ApiGetDatabasesBySubscription" + exc.Message);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				opRes.Result = false;
+				opRes.Message = "010 AdminController.ApiGetDatabasesBySubscription" + exc.Message;
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			if (databasesList == null)
+			if (databasesList.Count == 0)
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", Strings.InvalidAccountName);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				opRes.Result = true;
+				opRes.Code = (int)AppReturnCodes.NoSubscriptionDatabasesAvailable;
+				opRes.Message = Strings.NoSubscriptionDatabasesAvailable;
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddPlainObject<List<SubscriptionDatabase>>(databasesList);
+			opRes.Result = true;
+			opRes.Content = databasesList;
+			_jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
-
-        //-----------------------------------------------------------------------------	
-        private List<SubscriptionDatabase> GetDatabasesBySubscription(string subscriptionKey, string dbName)
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Returns all subscriptions of a specific Instance
