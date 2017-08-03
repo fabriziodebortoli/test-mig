@@ -4,7 +4,6 @@ import { Account } from '../../model/account';
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationProperties } from "app/authentication/auth-info";
 
-
 @Component({
   selector: 'app-accounts-home',
   templateUrl: './accounts-home.component.html',
@@ -27,7 +26,7 @@ export class AccountsHomeComponent implements OnInit {
 
     let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
 
-    this.modelService.getAccounts({ parentAccount: authorizationProperties.accountName })
+    this.modelService.getAccounts({ MatchingFields: { parentAccount: authorizationProperties.accountName } })
       .subscribe(
         accounts => {
           this.accounts = accounts['Content'];

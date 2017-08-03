@@ -70,7 +70,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
     this.rsService.doSend(JSON.stringify(message));
 
-    this.rsService.rsStartPdf.subscribe(() => this.startSavePDF());
+    this.rsService.rsExportPdf.subscribe(() => this.startSavePDF());
+    this.rsService.rsExportExcel.subscribe(() => this.startSaveExcel());
     this.rsService.eventNextPage.subscribe(() => this.NextPage());
     this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
     this.rsService.eventCurrentPage.subscribe(() => this.CurrentPage());
@@ -162,6 +163,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.WRONG:
           break;
         case CommandType.EXPORTEXCEL:
+          if(k == "Errore"){
+            window.alert("Errore: non ci sono dati da esportare in Excel");
+            break;
+          }
           this.getExcelData(k + ".xlsx");
           break;
       }
@@ -284,13 +289,14 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  PageNumber(i: number) {
+  PageNumber() {
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
-      page: i
+      page: this.rsService.firstPageExport
     };
 
+    this.rsService.pageNum = message.page;
     this.rsService.doSend(JSON.stringify(message));
   }
 
@@ -318,15 +324,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   //--------------------------------------------------
   public startSavePDF() {
     this.rsService.pdfState = PdfType.PDF;
-    this.PageNumber(this.rsService.firstPagePdf);
+    this.PageNumber();
   }
 
   //--------------------------------------------------
-  exportExcel() {
+  public startSaveExcel() {
     let message = {
       commandType: CommandType.EXPORTEXCEL,
       message: this.args.nameSpace,
-      page: this.rsService.pageNum
+      page: this.rsService.firstPageExport +","+ this.rsService.lastPageExport 
     };
 
     this.rsService.doSend(JSON.stringify(message));

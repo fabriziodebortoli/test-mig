@@ -1,9 +1,9 @@
 import { Instance } from 'app/model/instance';
 import { TokenInfo } from "app/authentication/token-info";
-import { Subscription } from "app/model/subscription";
+import { AppSubscription } from "app/model/subscription";
 import { ServerUrl } from "app/authentication/server-url";
 import { RoleNames } from "app/authentication/auth-helpers";
-import { AccountRole } from "app/authentication/account-role";
+import { AccountRole } from "app/model/accountrole";
 
 //--------------------------------------------------------------------------------------------------------
 export class AuthorizationProperties{
@@ -14,7 +14,7 @@ export class AuthorizationProperties{
     AppSecurityInfo: AppSecurityInfo;
     tokens: Array<TokenInfo>;
     instances: Array<Instance>;
-    subscriptions: Array<Subscription>;
+    subscriptions: Array<AppSubscription>;
     serverUrls: Array<ServerUrl>;
     roles: Array<AccountRole>;
 
@@ -24,7 +24,7 @@ export class AuthorizationProperties{
         this.AppSecurityInfo = new AppSecurityInfo();
         this.tokens = new Array<TokenInfo>();
         this.instances = new Array<Instance>();
-        this.subscriptions = new Array<Subscription>();
+        this.subscriptions = new Array<AppSubscription>();
         this.serverUrls = new Array<ServerUrl>();
         this.roles = new Array<AccountRole>();        
     }
@@ -73,10 +73,10 @@ export class AuthorizationInfo {
     }
 
     SetSubscriptions(subscriptions: Array<object>) {
-        let subscription: Subscription;
+        let subscription: AppSubscription;
         subscriptions.forEach(
             p => {
-                subscription = new Subscription();
+                subscription = new AppSubscription();
                 subscription.SubscriptionKey = p['SubscriptionKey'];
                 subscription.Description = p['Description'];
                 subscription.MinDBSizeToWarn = p['MinDBSizeToWarn'];

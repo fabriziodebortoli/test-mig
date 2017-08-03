@@ -20,7 +20,7 @@ export class ToolbarBottomButtonComponent implements OnInit {
   ngOnInit() {
   }
 
-  onCommand() { 
-    this.eventData.raiseCommand(this.ciService.componentInfo.id, this.cmpId);
+  onCommand() {
+    this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);
   }
 }

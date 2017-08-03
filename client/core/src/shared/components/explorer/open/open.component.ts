@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Response, URLSearchParams, Http } from '@angular/http';
 import { Observable, Subscription } from 'rxjs';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 import { DocumentComponent } from './../../document.component';
 import { UtilsService } from './../../../../core/services/utils.service';
@@ -36,7 +37,7 @@ export class OpenComponent extends DocumentComponent implements OnInit {
     private imageService: ImageService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private http: Http,) {
+    private http: Http, ) {
     super(explorerService, eventData, null);
   }
 
@@ -60,7 +61,7 @@ export class OpenComponent extends DocumentComponent implements OnInit {
     }).catch(this.handleError);
   }
 
-  protected handleError(error: any) {
+  protected handleError(error: any): ErrorObservable {
     // In a real world app, we might use a remote logging infrastructure
     // We'd also dig deeper into the error to get a better message
     let errMsg = (error.message) ? error.message :

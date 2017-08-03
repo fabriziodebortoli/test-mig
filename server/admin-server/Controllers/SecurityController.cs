@@ -362,6 +362,7 @@ namespace Microarea.AdminServer.Controllers
 		//----------------------------------------------------------------------
 		private IAccountRoles[] GetRoles(string accountName)
 		{
+			// only enabled roles are loaded
 			return this.burgerData.GetList<AccountRoles, IAccountRoles>(
 				String.Format(Queries.SelectRolesByAccountName, accountName),
 				ModelTables.AccountRoles).ToArray();
@@ -378,31 +379,14 @@ namespace Microarea.AdminServer.Controllers
 			return listSubscriptions.ToArray();
 		}
 
-		//----------------------------------------------------------------------
-		private IInstance[] GetInstances(string accountName)
-		{
-            string query = String.IsNullOrEmpty(accountName) ?
-                        
-                            "SELECT * FROM MP_Instances"
-                            
-                            :
-                        String.Format(
-                            "SELECT * FROM MP_Instances WHERE AccountName = '{0}'",
-                            accountName
-                            );
- 
-            try
-            {
-                BurgerData burgerData  = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
-   List<IInstance>  l = burgerData.GetList<Instance, IInstance>(
-                query,
-               ModelTables.Instances);
-
-                return l.ToArray();
-            }
-            catch { }
-            return new IInstance[] { };
-		}
+        //----------------------------------------------------------------------
+        private IInstance[] GetInstances(string accountName)
+        {
+            // getting instances for this account
+            string querySelectInstancesForAccount = String.Format(Queries.SelectInstanceForAccount, accountName);
+            List<IInstance> instancesList = this.burgerData.GetList<Instance, IInstance>(querySelectInstancesForAccount, ModelTables.Instances);
+            return instancesList != null ? instancesList.ToArray() : new Instance[] { };
+        }
 
 		//----------------------------------------------------------------------
 		private IServerURL[] GetUrlsForThisInstance()
@@ -429,18 +413,14 @@ namespace Microarea.AdminServer.Controllers
         //----------------------------------------------------------------------
         private IServerURL[] LoadURLs()
         {
-            string query =
-                       String.Format(
-                           "SELECT * FROM MP_ServerUrls WHERE InstanceKey = '{0}'",
-                           _settings.InstanceIdentity.InstanceKey
-                           );
-
             try
             {
                 BurgerData burgerData = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
-                List<IServerURL> l = burgerData.GetList<ServerURL, IServerURL>(
-                             query,
-                            ModelTables.ServerURLs);
+                List<IServerURL> l = burgerData.GetList<ServerURL, IServerURL>(String.Empty, ModelTables.ServerURLs, SqlLogicOperators.AND, new WhereCondition[]
+         {
+                    new WhereCondition("InstanceKey", _settings.InstanceIdentity.InstanceKey, QueryComparingOperators.IsEqual, false)
+         });
+            
 
                 return l.ToArray();
             }

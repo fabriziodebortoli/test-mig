@@ -1,6 +1,7 @@
-import {OperationResult} from '../services/operationResult';
-import { CanActivate, CanActivateChild, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { CanActivate, CanActivateChild, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { LoginService } from '../services/login.service';
+import { OperationResult } from '../services/operationResult';
 import { AuthorizationInfo, AuthorizationProperties } from "app/authentication/auth-info";
 import { RoleNames, RoleLevels } from "app/authentication/auth-helpers";
 import { UrlGuard } from "app/authentication/url-guard";
@@ -8,21 +9,9 @@ import { UrlGuard } from "app/authentication/url-guard";
 @Injectable()
 export class AuthGuardService implements CanActivate {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private loginService: LoginService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-
-    if (state.url == '/logout') {
-      if (localStorage.length == 0) {
-        alert('You are already not logged!');
-        return;
-      }
-
-      localStorage.removeItem('auth-info');
-      this.router.navigateByUrl('/appHome');
-      alert('You are now logged out');
-      return;
-    }
 
     try {
       let authorizationStored = localStorage.getItem('auth-info');
@@ -41,8 +30,11 @@ export class AuthGuardService implements CanActivate {
         if (!opRes.Result) {
           alert(opRes.Message);
           return false;
-        }        
+        }
 
+        // we ask the loginService to send a message to the appComponent to refresh accountName in the toolbar
+        this.loginService.sendMessage(authorizationInfo.authorizationProperties.accountName);
+        
         return true;
       }
     }

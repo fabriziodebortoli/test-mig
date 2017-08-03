@@ -1,0 +1,17 @@
+<div class="accSubComp">
+  <h4>Subscriptions</h4>
+  Search <input type="text" [(ngModel)]="searchString"><button (click)="doSearchSubscriptions()">go</button>
+
+  <p style="margin-top: 30px" *ngIf="subscriptionsResult !== undefined && subscriptionsResult.length > 0">Found subscriptions</p>
+  <admin-list 
+    *ngIf="subscriptionsResult !== undefined && subscriptionsResult.length > 0" 
+    [items]="subscriptionsResult" 
+    [columnNames]="columnNamesAccountRoles"
+    (onSelectedItem)="associateSubscription($event)"></admin-list>
+  
+  <p style="margin-top: 30px">Linked to this account</p>
+  <admin-list 
+    [items]="subscriptions" 
+    [columnNames]="columnNames"></admin-list>
+</div>
+

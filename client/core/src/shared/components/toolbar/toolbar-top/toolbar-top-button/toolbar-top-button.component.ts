@@ -23,13 +23,13 @@ export class ToolbarTopButtonComponent extends TbComponent {
 
   constructor(
     private eventData: EventDataService,
-    private httpService: HttpService, 
+    private httpService: HttpService,
     private ciService: ComponentInfoService
   ) {
     super();
     //this.imgUrl = this.httpService.getDocumentBaseUrl() + 'getImage/?src=';
-  } 
+  }
   onCommand() {
-   this.eventData.raiseCommand(this.ciService.componentInfo.id, this.cmpId);
+    this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);
   }
 }

@@ -3,7 +3,7 @@
   <div class="row bottom-xs">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="email" placeholder="Email" value="" [(ngModel)]="model.AccountName" [readonly]=editing  required>
+        <input type="email" placeholder="Email" value="" [(ngModel)]="model.AccountName" [readonly]=editing required>
       </div>
       <div class="box">
         <input type="password" placeholder="Password" value="" [(ngModel)]="model.Password" required>
@@ -62,12 +62,17 @@
       </div>
     </div>
   </div>
-  <br>
+  <div class="row">
+    <div class="box" style="width:60%">
+      <br>
+      <app-account-subscriptions [editAccountName]="model.AccountName" [subscriptions]="subscriptionsAccount"></app-account-subscriptions>
+    </div>
+  </div>  
   <div class="row end-xs center-sm center-lg">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <button type="button" class="btn btn-primary" (click)="submitAccount()">Save</button>
+        <button type="button" style="margin-top:40px;" class="btn btn-primary" (click)="submitAccount()">Save</button>
       </div>
     </div>
-  </div>
+  </div>  
 </div>

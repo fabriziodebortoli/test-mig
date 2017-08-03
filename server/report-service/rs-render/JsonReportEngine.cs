@@ -253,8 +253,13 @@ namespace Microarea.RSWeb.Render
 
                 case MessageBuilder.CommandType.EXPORTEXCEL:
                     {
-                        msg.page = pageNum.ToString();
-                        msg.message = GetExcelDataPage(pageNum);
+                        string[] split = msg.page.Split(',');
+                        string firstPage = split[0];
+                        string lastPage = split[1];
+                        int first, last = 0;
+                        Int32.TryParse(firstPage, out first);
+                        Int32.TryParse(lastPage, out last);
+                        msg.message = GetExcelDataPage(first, last);
                         break;
                     }
             }
@@ -282,20 +287,15 @@ namespace Microarea.RSWeb.Render
 
         //---------------------------------------------------------------------
         //chiamata per esportare excel
-        public string GetExcelDataPage(int page = 1)
+        public string GetExcelDataPage(int firstPage, int lastPage)
         {
+            int currentPage = firstPage;
             WoormDocument woorm = StateMachine.Woorm;
             if (StateMachine.Report.EngineType != EngineType.FullExtraction)
-                while (!woorm.RdeReader.IsPageReady(page))
+                while (!woorm.RdeReader.IsPageReady(firstPage))
                 {
                     System.Threading.Tasks.Task.Delay(1000).Wait();
                 };
-            //TODO RSWEB bloccare prima
-            if (page > woorm.RdeReader.TotalPages)
-            {
-                page = woorm.RdeReader.TotalPages;
-            }
-
             string result = Path.GetTempPath();
             string fileName = result + woorm.Properties.Title.Remove(' ', 0, 0) + ".xlsx";
             
@@ -316,9 +316,9 @@ namespace Microarea.RSWeb.Render
 
                 SheetData sheetData = new SheetData();
 
-                for (int i = 1; i <= woorm.RdeReader.TotalPages; i++)
+                for (int i = firstPage; i <= lastPage; i++)
                 {
-                    woorm.LoadPage(page);
+                    woorm.LoadPage(currentPage);
 
                     foreach (BaseObj o in woorm.Objects)
                     {
@@ -326,7 +326,7 @@ namespace Microarea.RSWeb.Render
                         {
                             Objects.Table t = o as Objects.Table;
 
-                            if (page == 1)
+                            if (currentPage == firstPage)
                             {
                                 List<DocumentFormat.OpenXml.Spreadsheet.Column> columList = new List<DocumentFormat.OpenXml.Spreadsheet.Column>();
                                 List<DocumentFormat.OpenXml.Spreadsheet.Cell> cells = new List<DocumentFormat.OpenXml.Spreadsheet.Cell>();
@@ -386,13 +386,17 @@ namespace Microarea.RSWeb.Render
                                 sheetData.AppendChild(row);
                             }
                             worksheetPart.Worksheet.Save();
-                            page++;
-                        }
+                            //currentPage++;
 
+                            if (currentPage == lastPage)
+                                return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
+                        }
+                        else continue;
                     }
+                    currentPage++;
                 }
             }
-            return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
+            return "Errore".ToJson();
         }
 
         private DocumentFormat.OpenXml.Spreadsheet.Cell ConstructCell(string value, CellValues dataType, uint styleIndex = 0)

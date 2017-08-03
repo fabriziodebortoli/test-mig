@@ -1,6 +1,7 @@
 import { Subscription } from 'rxjs/Subscription';
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { Component, Output, EventEmitter } from '@angular/core';
+import { formatNumber } from '@telerik/kendo-intl';
 
 @Component({
     selector: 'rs-exportdialog',
@@ -8,12 +9,15 @@ import { Component, Output, EventEmitter } from '@angular/core';
     styleUrls: ['./exportdialog.component.scss'],
 })
 
-export class ExportdialogComponent  {
+export class ExportdialogComponent {
     subscriptions: Subscription[] = [];
-
-    
-
-    constructor(private rsService: ReportingStudioService) { };
+    private from: number;
+    private to: number;
+    private inputDisable: boolean = true;
+    constructor(private rsService: ReportingStudioService) {
+        this.from = 1;
+        this.to = this.rsService.totalPages;
+    };
 
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -26,8 +30,19 @@ export class ExportdialogComponent  {
         this.ngOnDestroy();
     }
 
-    startPDF(from: number, to: number){
-        this.rsService.initiaziedPdf(from, to);
+    startExport() {
+        this.rsService.initiaziedExport(this.from, this.to);
+        this.rsService.exportfile = false;
+    }
+
+    setAllPages(){
+        this.from = 1;
+        this.to = this.rsService.totalPages;
+        this.inputDisable = true;
+    }
+
+    setRangePages(){
+        this.inputDisable = false;
     }
 
 }
