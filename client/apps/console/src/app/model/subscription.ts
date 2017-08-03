@@ -1,12 +1,12 @@
-export class Subscription {
+export class AppSubscription {
     
-    subscriptionKey: string;
-    description: string;
-    activationToken: string;
-    preferredLanguage: string;
-    applicationLanguage: string;
-    minDBSizeToWarn: number;
-    instanceKey: string;
+    SubscriptionKey: string;
+    Description: string;
+    ActivationToken: string;
+    Language: string;
+    RegionalSettings: string;
+    MinDBSizeToWarn: number;
+    UnderMaintenance: boolean;
 
     constructor() {
     }

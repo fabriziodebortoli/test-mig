@@ -1,0 +1,20 @@
+<kendo-dialog title="Export Report" (close)="close()">
+    <md-radio-button checked="checked" (click)="setAllPages()">All Pages </md-radio-button>
+    <md-radio-button (click)="setRangePages()">Range Pages</md-radio-button>
+
+    <br><br>
+
+    <label>From page </label>
+    <kendo-numerictextbox [(ngModel)]="from" [decimals]="0" [format]="'n0'" [min]="1" [max]="rsService.totalPages" [disabled]="inputDisable"></kendo-numerictextbox>
+
+    <br><br>
+
+    <label>To page </label>
+    <kendo-numerictextbox [(ngModel)]="to" [decimals]="0" [format]="'n0'" [min]="1" [max]="rsService.totalPages" [disabled]="inputDisable"></kendo-numerictextbox>
+
+    <kendo-dialog-actions>
+        <button kendoButton *ngIf="rsService.exportpdf" (click)="startExport()">Export PDF</button>
+        <button kendoButton *ngIf="rsService.exportexcel" (click)="startExport()">Export Excel</button>
+    </kendo-dialog-actions>
+
+</kendo-dialog>

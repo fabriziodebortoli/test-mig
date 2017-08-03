@@ -136,9 +136,9 @@ export class MenuContainerComponent implements AfterViewInit, OnDestroy {
   ifTileHasObjects(tile) {
     if (tile == undefined || tile.Object == undefined)
       return false;
+  
     var array = this.utilsService.toArray(tile.Object);
-
-    return array.length > 0;
+    return array.length > 0
   }
 
   tileIsVisible(tile) {

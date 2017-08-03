@@ -1,10 +1,9 @@
-﻿using Microarea.AdminServer.Library;
-using System;
+﻿using System;
 
 namespace Microarea.AdminServer.Model.Interfaces
 {
     //================================================================================
-    interface ISecurityToken : IAdminModel
+    public interface ISecurityToken
     {
         string AccountName { get; set; }
         TokenType TokenType { get; set; }

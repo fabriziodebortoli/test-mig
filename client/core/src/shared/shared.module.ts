@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +19,9 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { ChartsModule } from '@progress/kendo-angular-charts';
+import { TreeModule } from 'angular-tree-component';
+
+
 
 const KENDO_UI_MODULES = [
     GridModule,
@@ -35,19 +39,17 @@ const KENDO_UI_MODULES = [
  * Components
  */
 import {
-    ProxyRouteComponent, DynamicCmpComponent, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
+    ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
-    UnsupportedComponent, UnsupportedFactoryComponent
-    // OpenComponent, SaveComponent, Accordion
+    UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, Accordion, RadarComponent
 } from './components';
 export * from './components';
 const TB_COMPONENTS = [
-    ProxyRouteComponent, DynamicCmpComponent, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
+    ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
-    UnsupportedComponent, UnsupportedFactoryComponent
-    // OpenComponent, SaveComponent, Accordion
+    UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, Accordion, RadarComponent
 ];
 
 /**
@@ -57,7 +59,7 @@ import {
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent,
     DockpaneComponent, DockpaneContainerComponent,
     TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, TabberComponent, TabComponent,
+    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, DynamicDialogComponent, TabberComponent, TabComponent,
     TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent
 } from './containers';
 export * from './containers';
@@ -66,7 +68,7 @@ const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent,
     DockpaneComponent, DockpaneContainerComponent,
     TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, TabberComponent, TabComponent,
+    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, DynamicDialogComponent, TabberComponent, TabComponent,
     TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent
 ];
 
@@ -77,7 +79,7 @@ import {
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent, GridComponent,
-    LinearGaugeComponent, HotlinkComponent, BodyEditComponent
+    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, TreeViewComponent
 } from './controls/';
 export * from './controls';
 const TB_CONTROLS = [
@@ -85,7 +87,7 @@ const TB_CONTROLS = [
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent, GridComponent,
-    LinearGaugeComponent, HotlinkComponent, BodyEditComponent
+    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, TreeViewComponent
 ];
 
 const TB_MODULES = [
@@ -114,9 +116,9 @@ const TB_DIRECTIVES = [
 ];
 
 @NgModule({
-    imports: [TB_MODULES, KENDO_UI_MODULES],
+    imports: [TB_MODULES, KENDO_UI_MODULES, TreeModule ],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
     exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES/*, KENDO_UI_MODULES*/],
-    entryComponents: [UnsupportedComponent]
+    entryComponents: [UnsupportedComponent, RadarComponent]
 })
 export class TbSharedModule { }

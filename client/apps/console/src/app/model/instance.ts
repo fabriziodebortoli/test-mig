@@ -1,8 +1,11 @@
-export class name {
+export class Instance {
 
-    instanceKey: string;
-    description: string;
-    disabled: boolean;
+    InstanceKey: string;
+    Description: string;
+    Disabled: boolean;
+    Origin: string;
+    Tags: string;
+    UnderMaintenance: boolean;
 
     constructor() {
     }

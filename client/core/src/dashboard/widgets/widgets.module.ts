@@ -9,6 +9,7 @@ import { WidgetsService } from './widgets.service';
 import { WidgetStatsComponent } from './widget-stats.component';
 import { WidgetGridComponent } from './widget-grid.component';
 import { WidgetChartComponent } from './widget-chart.component';
+import { WidgetClockComponent } from "./widget-clock.component";
 
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
@@ -19,6 +20,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { ChartsModule } from '@progress/kendo-angular-charts';
+
 
 const KENDO_UI_MODULES = [
   GridModule,
@@ -44,14 +46,16 @@ const KENDO_UI_MODULES = [
     WidgetComponent,
     WidgetStatsComponent,
     WidgetGridComponent,
-    WidgetChartComponent
+    WidgetChartComponent,
+    WidgetClockComponent
   ],
   exports: [
     WidgetContainerComponent,
     WidgetComponent,
     WidgetStatsComponent,
     WidgetGridComponent,
-    WidgetChartComponent
+    WidgetChartComponent,
+    WidgetClockComponent
   ]
 })
 export class WidgetsModule { }

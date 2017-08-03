@@ -16,11 +16,18 @@ import { routes } from './app.routes';
 import { ConsoleModule } from '@taskbuilder/console';
 import { LoginService } from './services/login.service';
 import { DatabaseInfoComponent } from './components/database-info/database-info.component';
-import { InstanceHomeComponent } from './components/instance/instance-home.component';
+import { InstanceComponent } from './components/instance/instance.component';
 import { BreadcrumbComponent } from './components/shared/breadcrumb.component';
 import { EntityHomeComponent } from './components/entity/entity-home.component';
 import { EntityDetailComponent } from './components/entity/entity-detail.component';
 import { SubscriptionSelectionComponent } from './components/subscription/subscription-selection.component';
+import { AccountsHomeComponent } from './components/account/accounts-home.component';
+import { DatabasesHomeComponent } from './components/databases-home/databases-home.component';
+import { InstanceHomeComponent } from './components/instance/instance-home.component';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
+import { AccountSubscriptionsComponent } from './components/account/account-subscriptions.component';
+import { SubscriptionDatabasesComponent } from './components/subscription/subscription-databases.component';
+//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -32,11 +39,17 @@ import { SubscriptionSelectionComponent } from './components/subscription/subscr
     CompanyComponent,
     AccountComponent,
     DatabaseInfoComponent,
-    InstanceHomeComponent,
+    InstanceComponent,
     BreadcrumbComponent,
     EntityHomeComponent,
     EntityDetailComponent,
-    SubscriptionSelectionComponent
+    SubscriptionSelectionComponent,
+    AccountsHomeComponent,
+    DatabasesHomeComponent,
+    InstanceHomeComponent,
+    SubscriptionComponent,
+    AccountSubscriptionsComponent,
+    SubscriptionDatabasesComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +57,7 @@ import { SubscriptionSelectionComponent } from './components/subscription/subscr
     RouterModule.forRoot(routes),
     HttpModule,
     ConsoleModule
+    //BrowserAnimationsModule
   ],
   providers: [AuthGuardService, LoginService, ModelService],
   bootstrap: [AppComponent]

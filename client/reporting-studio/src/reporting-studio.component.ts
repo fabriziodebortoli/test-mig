@@ -1,17 +1,17 @@
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
-import { WebSocketService } from '@taskbuilder/core';
+import { WebSocketService, HttpService } from '@taskbuilder/core';
 import { UtilsService } from '@taskbuilder/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType } from './models';
+import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType, SvgType, PngType } from './models';
 import { DocumentComponent } from '@taskbuilder/core';
 import { ComponentService } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
 import { ReportingStudioService } from './reporting-studio.service';
 
-import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF, exportImage, exportSVG, } from '@progress/kendo-drawing';
+import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
 
 @Component({
@@ -38,14 +38,17 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   //Export excel
   public data: any[];
 
+  public curPageNum: number;
+
   constructor(
     private rsService: ReportingStudioService,
     eventData: EventDataService,
     private cookieService: CookieService,
+    private httpServ: HttpService,
 
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
-    super(rsService, eventData);
+    super(rsService, eventData, null);
   }
 
   // -----------------------------------------------
@@ -67,8 +70,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
     this.rsService.doSend(JSON.stringify(message));
 
+    this.rsService.rsExportPdf.subscribe(() => this.startSavePDF());
+    this.rsService.rsExportExcel.subscribe(() => this.startSaveExcel());
     this.rsService.eventNextPage.subscribe(() => this.NextPage());
     this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
+    this.rsService.eventCurrentPage.subscribe(() => this.CurrentPage());
   }
 
   // -----------------------------------------------
@@ -143,6 +149,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.rsService.showAsk = false;
           this.reportData = k;
           this.data = k;
+          this.curPageNum = k.page.page_number;
           break;
         case CommandType.RUNREPORT:
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
@@ -156,6 +163,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.WRONG:
           break;
         case CommandType.EXPORTEXCEL:
+          if(k == "Errore"){
+            window.alert("Errore: non ci sono dati da esportare in Excel");
+            break;
+          }
+          this.getExcelData(k + ".xlsx");
           break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
@@ -265,51 +277,74 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
-  //--------------------------------------------------
-  public startSavePDF() {
-    this.rsService.pdfState = PdfType.SAVINGPDF;
-    this.FirstPage();
-  }
-
-  //--------------------------------------------------
-  exportPNG() {
-    drawDOM(document.getElementById('rsLayout'))
-      .then((group: Group) => {
-        return exportImage(group);
-      })
-      .then((dataUri) => {
-        saveAs(dataUri, this.rsService.titleReport + '.png');
-
-      })
-
-  }
-
-  //--------------------------------------------------
-  exportSVG() {
-    drawDOM(document.getElementById('rsLayout'))
-      .then((group: Group) => {
-        return exportSVG(group);
-      })
-      .then((dataUri) => {
-        saveAs(dataUri, this.rsService.titleReport + '.svg');
-
-      })
-  }
-
-  //--------------------------------------------------
-  exportExcel() {
+  // -----------------------------------------------
+  CurrentPage() {
     let message = {
-      commandType: CommandType.EXPORTEXCEL,
+      commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
-      page: this.rsService.pageNum
+      page: this.curPageNum
     };
 
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
+  PageNumber() {
+    let message = {
+      commandType: CommandType.TEMPLATE,
+      message: this.args.nameSpace,
+      page: this.rsService.firstPageExport
+    };
+
+    this.rsService.pageNum = message.page;
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  //--------------------------------------------------
+  public startSaveSVG() {
+    this.rsService.svgState = SvgType.SVG;
+    this.CurrentPage();
+  }
+
+  //--------------------------------------------------
+  public startSavePNG() {
+    this.rsService.pngState = PngType.PNG;
+    this.CurrentPage();
+  }
+
+  //--------------------------------------------------
+  setExportFile(type: string) {
+    if (type == this.rsService.pdf)
+      this.rsService.exportpdf = true;
+    if (type == this.rsService.excel)
+      this.rsService.exportexcel = true;
+    this.rsService.exportfile = true
+  }
+
+  //--------------------------------------------------
+  public startSavePDF() {
+    this.rsService.pdfState = PdfType.PDF;
+    this.PageNumber();
+  }
+
+  //--------------------------------------------------
+  public startSaveExcel() {
+    let message = {
+      commandType: CommandType.EXPORTEXCEL,
+      message: this.args.nameSpace,
+      page: this.rsService.firstPageExport +","+ this.rsService.lastPageExport 
+    };
+
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  //--------------------------------------------------
+  getExcelData(filename: string) {
+    var iframeHTML = document.getElementById('iframe') as HTMLFrameElement;
+    var s = this.httpServ.getReportServiceUrl() + 'file/' + filename;
+    iframeHTML.src = s;
+  }
 }
-
-
 
 
 @Component({

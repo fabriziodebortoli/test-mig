@@ -107,6 +107,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parameters are empty..
+        /// </summary>
+        public static string EmptyParameters {
+            get {
+                return ResourceManager.GetString("EmptyParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Empty Subscriptions.
         /// </summary>
         public static string EmptySubscriptions {
@@ -296,6 +305,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Instances Available.
+        /// </summary>
+        public static string NoInstancesAvailable {
+            get {
+                return ResourceManager.GetString("NoInstancesAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to load the model {0}..
         /// </summary>
         public static string NoModelLoaded {
@@ -400,6 +418,15 @@ namespace Microarea.AdminServer.Properties {
         public static string Undefined {
             get {
                 return ResourceManager.GetString("Undefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown account.
+        /// </summary>
+        public static string UnknownAccount {
+            get {
+                return ResourceManager.GetString("UnknownAccount", resourceCulture);
             }
         }
         

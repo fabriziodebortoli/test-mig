@@ -1,3 +1,4 @@
+import { ReportChartComponent } from './report-objects/layout/chart/chart.component';
 import { UrlService } from '@taskbuilder/core';
 import { AskTextComponent } from './report-objects/askdialog/ask-text/ask-text.component';
 import { AskRadioComponent } from './report-objects/askdialog/ask-radio/ask-radio.component';
@@ -24,11 +25,14 @@ import { ExcelModule } from '@progress/kendo-angular-grid'
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { ChartsModule } from '@progress/kendo-angular-charts';
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { InputsModule } from '@progress/kendo-angular-inputs';
 import { RouterModule } from "@angular/router";
 import { TbCoreModule } from "@taskbuilder/core";
 export { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
 export { ReportingStudioService } from './reporting-studio.service';
 export { AskdialogService } from './report-objects/askdialog/askdialog.service';
+import { ExportdialogComponent } from './report-objects/exportdialog/exportdialog.component';
 
 export * from './rs-test.component';
 export * from './models';
@@ -44,6 +48,8 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     DialogModule,
     GridModule,
     ChartsModule,
+    ButtonsModule,
+    InputsModule,
     RouterModule.forChild([
       { path: 'reportingstudio/:ns/:params', component: ReportingStudioFactoryComponent },
       { path: 'reportingstudio/', component: ReportingStudioFactoryComponent },
@@ -53,8 +59,10 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     RsTestComponent,
     ReportLayoutComponent,
     AskdialogComponent,
+    ExportdialogComponent,
     ReportingStudioFactoryComponent,
     ReportingStudioComponent,
+    ReportChartComponent,
     ReportFieldrectComponent,
     ReportTableComponent,
     ReportTextrectComponent,
@@ -73,6 +81,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     RsTestComponent,
     ReportLayoutComponent,
     AskdialogComponent,
+    ExportdialogComponent,
     ReportingStudioFactoryComponent,
     ReportingStudioComponent,
   ],

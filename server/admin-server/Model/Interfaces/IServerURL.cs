@@ -3,11 +3,10 @@
 	public enum URLType { API, APP, TBLOADER }
 
 	//================================================================================
-	public interface IServerURL : IAdminModel
+	public interface IServerURL
 	{
-		string InstanceKey { get; }
-		URLType URLType { get; }
-		string AppName { get; set; }
+		string InstanceKey { get; set; }
+		URLType URLType { get; set; }
 		string URL { get; set; }
 	}
 }

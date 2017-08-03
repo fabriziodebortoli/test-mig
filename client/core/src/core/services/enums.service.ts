@@ -36,6 +36,28 @@ export class EnumsService {
         return undefined;
 
     }
+
+    getItemFromTagAndValue(tag: string, storedValue: string) {
+
+        if (this.enumsTable == undefined)
+            return;
+
+        for (let index = 0; index < this.enumsTable.tags.length; index++) {
+
+            let currentTag = this.enumsTable.tags[index];
+            if (currentTag != undefined && currentTag.value == tag) {
+
+                for (let j = 0; j < currentTag.items.length; j++) {
+                    if (currentTag.items[j].stored == storedValue)
+                        return currentTag.items[j];
+                }
+
+            }
+        }
+        return undefined;
+    }
+
+
     getItemsFromTag(tag: string) {
 
         if (this.enumsTable == undefined)

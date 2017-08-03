@@ -1,3 +1,5 @@
+import { CommandEventArgs } from './../../shared/models/eventargs.model';
+import { ComponentInfo } from './../../shared/models/component-info.model';
 import { DiagnosticData, DiagnosticDlgResult } from './../../shared/models';
 import { Injectable, EventEmitter } from '@angular/core';
 
@@ -6,12 +8,16 @@ import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
 @Injectable()
 export class EventDataService {
 
-    public command: EventEmitter<string> = new EventEmitter();
+    public command: EventEmitter<CommandEventArgs> = new EventEmitter();
     public change: EventEmitter<string> = new EventEmitter();
     public openDropdown: EventEmitter<any> = new EventEmitter();
 
+    public radarInfos: EventEmitter<MessageDlgArgs> = new EventEmitter();
+    public radarRecordSelected: EventEmitter<any> = new EventEmitter();
+
     public openMessageDialog: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public openDiagnosticDialog: EventEmitter<DiagnosticData> = new EventEmitter();
+    public openDynamicDialog: EventEmitter<ComponentInfo> = new EventEmitter();
     public closeMessageDialog: EventEmitter<MessageDlgResult> = new EventEmitter();
     public closeDiagnosticDialog: EventEmitter<DiagnosticDlgResult> = new EventEmitter();
 
@@ -19,11 +25,17 @@ export class EventDataService {
     public model: any = {}; // current model
 
     public activation: any = {}; // contains activation data
-    public buttonsState: any = {}; // contains activation data
+    public buttonsState: any = {}; 
 
     constructor() {
         console.log('EventDataService created');
     }
 
+    public raiseCommand(componentId: string, commandId: string) {
+        const evt = new CommandEventArgs();
+        evt.commandId = commandId;
+        evt.componentId = componentId;
+        this.command.emit(evt);
+    }
 }
 

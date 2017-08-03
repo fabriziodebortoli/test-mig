@@ -10,13 +10,11 @@ using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Models;
 using Microarea.RSWeb.WoormEngine;
-using System.Xml;
 
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microarea.RSWeb.Objects;
-using System.Linq;
 
 namespace Microarea.RSWeb.Render
 {
@@ -255,8 +253,13 @@ namespace Microarea.RSWeb.Render
 
                 case MessageBuilder.CommandType.EXPORTEXCEL:
                     {
-                        msg.page = pageNum.ToString();
-                        msg.message = GetExcelDataPage(pageNum);
+                        string[] split = msg.page.Split(',');
+                        string firstPage = split[0];
+                        string lastPage = split[1];
+                        int first, last = 0;
+                        Int32.TryParse(firstPage, out first);
+                        Int32.TryParse(lastPage, out last);
+                        msg.message = GetExcelDataPage(first, last);
                         break;
                     }
             }
@@ -284,91 +287,117 @@ namespace Microarea.RSWeb.Render
 
         //---------------------------------------------------------------------
         //chiamata per esportare excel
-        public string GetExcelDataPage(int page = 1)
+        public string GetExcelDataPage(int firstPage, int lastPage)
         {
+            int currentPage = firstPage;
             WoormDocument woorm = StateMachine.Woorm;
             if (StateMachine.Report.EngineType != EngineType.FullExtraction)
-                while (!woorm.RdeReader.IsPageReady(page))
+                while (!woorm.RdeReader.IsPageReady(firstPage))
                 {
                     System.Threading.Tasks.Task.Delay(1000).Wait();
                 };
-            //TODO RSWEB bloccare prima
-            if (page > woorm.RdeReader.TotalPages)
-            {
-                page = woorm.RdeReader.TotalPages;
-            }
-
-            woorm.LoadPage(page);
-
             string result = Path.GetTempPath();
-
-            string fileName = result+"Report.xlsx";
-            foreach (BaseObj o in woorm.Objects)
+            string fileName = result + woorm.Properties.Title.Remove(' ', 0, 0) + ".xlsx";
+            
+            using (SpreadsheetDocument document = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))
             {
-                if (o is RSWeb.Objects.Table)
-                    using (SpreadsheetDocument document = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))
+                //crea il documento Excel
+                WorkbookPart workbookPart = document.AddWorkbookPart();
+                workbookPart.Workbook = new Workbook();
+
+                //crea il foglio 
+                WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+                worksheetPart.Worksheet = new Worksheet();
+
+                // Adding style
+                WorkbookStylesPart stylePart = workbookPart.AddNewPart<WorkbookStylesPart>();
+                stylePart.Stylesheet = GenerateStylesheet();
+                stylePart.Stylesheet.Save();
+
+                SheetData sheetData = new SheetData();
+
+                for (int i = firstPage; i <= lastPage; i++)
+                {
+                    woorm.LoadPage(currentPage);
+
+                    foreach (BaseObj o in woorm.Objects)
                     {
-                        WorkbookPart workbookPart = document.AddWorkbookPart();
-                        workbookPart.Workbook = new Workbook();
-
-                        WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
-                        worksheetPart.Worksheet = new Worksheet();
-
-                        //// Adding style
-                        //WorkbookStylesPart stylePart = workbookPart.AddNewPart<WorkbookStylesPart>();
-                        //stylePart.Stylesheet = GenerateStylesheet();
-                        //stylePart.Stylesheet.Save();
-
-                        workbookPart.Workbook.Save();
-
-                        SheetData sheetData = worksheetPart.Worksheet.AppendChild(new SheetData());
-
-                        // Constructing header
-                        Row row = new Row();
-
-
-                        RSWeb.Objects.Table t = o as RSWeb.Objects.Table;
-
-                        foreach (RSWeb.Objects.Column col in t.Columns)
+                        if (o is Objects.Table)
                         {
-                            //column header
-                            ushort id = col.InternalID;
-                            string strType = col.GetDataType();
-                            string title = col.Title.Text;
+                            Objects.Table t = o as Objects.Table;
 
-                            row.Append(ConstructCell(title, CellValues.String, 2));
-                        }
-                        // Insert the header row to the Sheet Data
-                        sheetData.AppendChild(row);
-
-
-                        // Inserting each row
-                        for (int r = 0; r < t.RowNumber; r++)
-                        {
-                            for (int c = 0; c < t.ColumnNumber; c++)
+                            if (currentPage == firstPage)
                             {
-                                row = new Row();
-                                RSWeb.Objects.Column col2 = t.Columns[c];
+                                List<DocumentFormat.OpenXml.Spreadsheet.Column> columList = new List<DocumentFormat.OpenXml.Spreadsheet.Column>();
+                                List<DocumentFormat.OpenXml.Spreadsheet.Cell> cells = new List<DocumentFormat.OpenXml.Spreadsheet.Cell>();
 
-                                string v = col2.Cells[r].Value.Text;
-                                // ??? manca il cellValues
+                                // Setting up columns
+                                Columns columns = new Columns();
+                                Row row = new Row();
+                                uint minCol = 0;
+                                uint maxCol = 0;
 
-                                row.Append(ConstructCell(v, CellValues.String, 1));
+                                foreach (Objects.Column col in t.Columns)
+                                {
+                                    minCol++;
+                                    maxCol++;
+                                    columList.Add(new DocumentFormat.OpenXml.Spreadsheet.Column
+                                    {
+                                        Min = minCol,
+                                        Max = maxCol,
+                                        Width = ConvertPixelToMm(col.ColumnCellsRect.Width),
+                                        CustomWidth = true
+                                    });
 
+                                    // Constructing header
+                                    ushort id = col.InternalID;
+                                    string title = col.Title.Text;
+                                    cells.Add(ConstructCell(title, CellValues.String, 2));
+                                }
+                                columns.Append(columList);
+                                worksheetPart.Worksheet.AppendChild(columns);
+
+                                Sheets sheets = workbookPart.Workbook.AppendChild(new Sheets());
+                                Sheet sheet = new Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = woorm.Properties.Title };
+                                sheets.Append(sheet);
+
+                                workbookPart.Workbook.Save();
+
+                                sheetData = worksheetPart.Worksheet.AppendChild(new SheetData());
+
+                                // Insert the header row to the Sheet Data 
+                                row.Append(cells);
                                 sheetData.AppendChild(row);
-
                             }
+
+                            // Inserting each row
+                            for (int r = 0; r < t.RowNumber; r++)
+                            {
+                                Row row = new Row();
+
+                                List<DocumentFormat.OpenXml.Spreadsheet.Cell> dataCells = new List<DocumentFormat.OpenXml.Spreadsheet.Cell>();
+                                for (int c = 0; c < t.ColumnNumber; c++)
+                                {
+                                    Objects.Column colData = t.Columns[c];
+                                    string v = colData.Cells[r].Value.FormattedData;
+                                    dataCells.Add(ConstructCell(v, CellValues.String, 1));
+                                }
+                                row.Append(dataCells);
+                                sheetData.AppendChild(row);
+                            }
+                            worksheetPart.Worksheet.Save();
+                            //currentPage++;
+
+                            if (currentPage == lastPage)
+                                return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
                         }
-                        worksheetPart.Worksheet.Save();
+                        else continue;
                     }
+                    currentPage++;
+                }
             }
-            return woorm.Filename.ToString();
+            return "Errore".ToJson();
         }
-
-
-
-
-
 
         private DocumentFormat.OpenXml.Spreadsheet.Cell ConstructCell(string value, CellValues dataType, uint styleIndex = 0)
         {
@@ -379,6 +408,61 @@ namespace Microarea.RSWeb.Render
                 StyleIndex = styleIndex
             };
         }
+
+        private Stylesheet GenerateStylesheet()
+        {
+            Stylesheet styleSheet = null;
+
+            Fonts fonts = new Fonts(
+                new Font( // Index 0 - default
+                    new FontSize() { Val = 10 }
+
+                ),
+                new Font( // Index 1 - header
+                    new FontSize() { Val = 10 },
+                    new Bold(),
+                    new Color() { Rgb = "FFFFFF" }
+
+                ));
+
+            Fills fills = new Fills(
+                    new Fill(new PatternFill() { PatternType = PatternValues.None }), // Index 0 - default
+                    new Fill(new PatternFill() { PatternType = PatternValues.Gray125 }), // Index 1 - default
+                    new Fill(new PatternFill(new ForegroundColor { Rgb = new HexBinaryValue() { Value = "66666666" } })
+                    { PatternType = PatternValues.Solid }) // Index 2 - header
+                );
+
+            DocumentFormat.OpenXml.Spreadsheet.Borders borders = new DocumentFormat.OpenXml.Spreadsheet.Borders(
+                    new Border(), // index 0 default
+                    new Border( // index 1 black border
+                        new LeftBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
+                        new RightBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
+                        new TopBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
+                        new BottomBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
+                        new DiagonalBorder())
+                );
+
+            CellFormats cellFormats = new CellFormats(
+                    new CellFormat(), // default
+                    new CellFormat { FontId = 0, FillId = 0, BorderId = 1, ApplyBorder = true }, // body
+                    new CellFormat { FontId = 1, FillId = 2, BorderId = 1, ApplyFill = true } // header
+                );
+
+            styleSheet = new Stylesheet(fonts, fills, borders, cellFormats);
+
+            return styleSheet;
+        }
+
+        private int ConvertPixelToMm(int pixel)
+        {
+            using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero))
+            {
+                int dpiX = (int)graphics.DpiX;
+                int mm = pixel * (int)25.4 / dpiX;
+                return mm;
+            }
+        }
+
 
     }
 }

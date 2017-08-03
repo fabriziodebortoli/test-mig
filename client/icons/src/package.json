@@ -1,0 +1,32 @@
+{
+    "name": "@taskbuilder/icons",
+    "version": "0.1.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Microarea/Taskbuilder.git"
+    },
+    "author": {
+        "name": "Fabrizio De Bortoli",
+        "email": "fabrizio.debortoli@microarea.it"
+    },
+    "keywords": [
+        "angular"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Microarea/Taskbuilder.git/issues"
+    },
+    "main": "taskbuilder-icons.umd.js",
+    "module": "taskbuilder-icons.js",
+    "jsnext:main": "taskbuilder-icons.js",
+    "typings": "taskbuilder-icons.d.ts",
+    "peerDependencies": {
+        "@angular/core": "^4.0.0",
+        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
+        "rxjs": "^5.1.0",
+        "zone.js": "^0.8.4"
+    },
+    "devDependencies": {
+        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git"
+    }
+}

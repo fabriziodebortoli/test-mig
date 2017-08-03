@@ -3,6 +3,7 @@ import { radio } from './../../../models/radio.model';
 import { AskdialogService } from './../askdialog.service';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 
+import { LayoutService } from '@taskbuilder/core';
 import { RadioComponent } from '@taskbuilder/core';
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
@@ -17,8 +18,12 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
 
   @Input() radio: radio;
   @Input() otherRadios: radio[];
-  constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
-    super()
+  constructor(
+    private rsService: ReportingStudioService,
+    private adService: AskdialogService,
+    protected layoutService: LayoutService
+  ) {
+    super(layoutService)
   }
 
   ngOnInit() {
@@ -33,8 +38,8 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
       }
       else elem.value = true;
     }
-    if (this.radio.runatserver) {    
-      this.adService.askChanged.emit();    
+    if (this.radio.runatserver) {
+      this.adService.askChanged.emit();
     }
   }
 }

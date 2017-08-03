@@ -1,6 +1,6 @@
 .message-block
 {
-    margin-left:15px
+    margin-left:15px;
 }
 .message-block-list
 {
@@ -8,5 +8,29 @@
 }
 .block-title
 {
-    font-weight: bold
+    font-weight: bold;
+    display: inline-block;
+}
+.toggler
+{
+    display: inline-block;
+    cursor: pointer;
+    font-size: large;
+}
+
+.icon-error
+{
+    color: red;
+    font-size: large;
+}
+.icon-warning
+{
+    color: orange;
+    font-size: large;
+}
+
+.icon-info
+{
+    color: green;
+    font-size: large;
 }

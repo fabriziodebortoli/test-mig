@@ -1,6 +1,7 @@
+import { CommandEventArgs } from './../../shared/models/eventargs.model';
 import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
 
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 
 import { Observable } from 'rxjs/Rx';
@@ -21,6 +22,7 @@ export class BOService extends DocumentService {
     modelStructure = {};
     subscriptions = [];
     boClients = new Array<BOClient>();
+    public windowStrings: EventEmitter<any> = new EventEmitter();
     constructor(
         private webSocketService: WebSocketService,
         public boHelperService: BOHelperService,
@@ -64,10 +66,10 @@ export class BOService extends DocumentService {
                 this.serverSideCommandMap = data.map;
             }
         }));
-        this.subscriptions.push(this.eventData.command.subscribe((cmpId: string) => {
-            const ret = this.onCommand(cmpId);
+        this.subscriptions.push(this.eventData.command.subscribe((args: CommandEventArgs) => {
+            const ret = this.onCommand(args.commandId);
             if (ret === true) {
-                this.doCommand(cmpId);
+                this.doCommand(args.componentId, args.commandId);
                 return;
             }
             if (ret === false) {
@@ -77,7 +79,7 @@ export class BOService extends DocumentService {
             if (ret.subscribe) {
                 const subs = ret.subscribe(goOn => {
                     if (goOn) {
-                        this.doCommand(cmpId);
+                        this.doCommand(args.componentId, args.commandId);
                     }
                     if (subs) {
                         subs.unsubscribe();
@@ -97,6 +99,11 @@ export class BOService extends DocumentService {
                 this.eventData.openDiagnosticDialog.emit(args);
             }
         }));
+
+        this.subscriptions.push(this.eventData.radarRecordSelected.subscribe((tbGuid: string) => {
+            this.webSocketService.browseRecord(this.mainCmpId, tbGuid);
+        }));
+
         this.subscriptions.push(this.eventData.change.subscribe((cmpId: string) => {
             const ret = this.onChange(cmpId);
             if (ret === true) {
@@ -138,9 +145,16 @@ export class BOService extends DocumentService {
             }
         }));
 
-        this.subscriptions.push(this.webSocketService.radarQuery.subscribe(data => {
+        this.subscriptions.push(this.webSocketService.radarInfos.subscribe(data => {
+            const cmpId = this.mainCmpId;
+            if (data.response.id === cmpId) {
+                this.eventData.radarInfos.emit(data.response.radarInfo);
+            }
         }));
 
+        this.subscriptions.push(this.webSocketService.windowStrings.subscribe((args: any) => {
+            this.windowStrings.emit(args);
+        }));
     }
     getPatchedData(): any {
         const patch = diff(this.eventData.oldModel, this.eventData.model);
@@ -153,7 +167,6 @@ export class BOService extends DocumentService {
         });
         this.registerModelField('', 'Title');
         super.init(cmpId);
-        this.webSocketService.getDocumentData(this.mainCmpId, this.modelStructure);
         this.webSocketService.checkMessageDialog(this.mainCmpId);
     }
     dispose() {
@@ -169,6 +182,29 @@ export class BOService extends DocumentService {
     isServerSideCommand(idCommand: string) {
         return this.serverSideCommandMap.includes(idCommand);
     }
+    public appendToModelStructure(modelStructure: any) {
+        //aggiorna i campi usati dal modello client
+        for (let owner in modelStructure) {
+            if (!owner) {
+                owner = 'global';
+            }
+            let container = this.modelStructure[owner];
+            if (!container) {
+                container = modelStructure[owner];
+                this.modelStructure[owner] = container;
+            }
+            else {
+                container.push(...modelStructure[owner]);
+            }
+        }
+        //quindi richiede il modello al server, inviandogli nel contempo
+        //i campi utilizzati; il server ne terrà traccia ed invierà solo quelli
+        this.webSocketService.getDocumentData(this.mainCmpId, this.modelStructure);
+
+    }
+    getWindowStrings(cmpId: string, culture: string) {
+        this.webSocketService.getWindowStrings(cmpId, culture);
+    }
     registerModelField(owner: string, name: string) {
         if (!owner) {
             owner = 'global';
@@ -180,9 +216,12 @@ export class BOService extends DocumentService {
         }
         container.push(name);
     }
-    doCommand(id: string) {
+    doCommand(componentId: string, id: string) {
         const patch = this.getPatchedData();
-        this.webSocketService.doCommand(this.mainCmpId, id, patch);
+        this.webSocketService.doCommand(
+            componentId ? componentId : this.mainCmpId,
+            id,
+            patch);
         if (patch.length > 0) {
             // client data has been sent to server, so reset oldModel
             this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));

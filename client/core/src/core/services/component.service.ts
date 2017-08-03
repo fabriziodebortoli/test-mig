@@ -13,15 +13,17 @@ import { ComponentInfo } from '../../shared/models';
 @Injectable()
 export class ComponentService {
   components: Array<ComponentInfo> = [];
-  componentsToCreate = new Array<any>();
-  currentComponentId: string; //id del componente in fase di creazione
-  creatingComponent = false;//semaforo
+  componentsToCreate = new Array<ComponentInfo>();
+  currentComponent: ComponentInfo; //componente in fase di creazione
   subscriptions = [];
+
   componentInfoCreated = new EventEmitter<ComponentCreatedArgs>();
   componentInfoAdded = new EventEmitter<ComponentInfo>();
   componentInfoRemoved = new EventEmitter<ComponentInfo>();
   componentCreationError: EventEmitter<string> = new EventEmitter();
+
   activateComponent = false;
+
   constructor(
     private router: Router,
     private webSocketService: WebSocketService,
@@ -29,7 +31,7 @@ export class ComponentService {
     private logger: Logger,
     private utils: UtilsService) {
     this.subscriptions.push(this.webSocketService.windowOpen.subscribe(data => {
-      this.componentsToCreate.push(...data.components);
+      this.componentsToCreate.push(data.component);
       this.createNextComponent();
 
     }));
@@ -67,18 +69,15 @@ export class ComponentService {
   per sfruttare lo stesso router outlet
   */
   createNextComponent() {
-    if (this.creatingComponent) {
+    if (this.currentComponent) {
       return;
     }
     if (this.componentsToCreate.length === 0) {
-      this.currentComponentId = undefined;
       return;
     }
-    this.creatingComponent = true;
-    const cmp = this.componentsToCreate.pop();
-    this.currentComponentId = cmp.id;
-    let url = cmp.app.toLowerCase() + '/' + cmp.mod.toLowerCase() + '/' + cmp.name;
-    const args = this.argsToString(cmp.args);
+    this.currentComponent = this.componentsToCreate.pop();
+    let url = this.currentComponent.app.toLowerCase() + '/' + this.currentComponent.mod.toLowerCase() + '/' + this.currentComponent.name;
+    const args = this.argsToString(this.currentComponent.args);
     if (args !== undefined) {
       url += '/' + args;
     }
@@ -125,7 +124,7 @@ export class ComponentService {
       .then(
       success => {
         this.router.navigate([{ outlets: { dynamic: null }, skipLocationChange: false, replaceUrl: false }]).then(success1 => {
-          this.creatingComponent = false;
+          this.currentComponent = undefined;
           this.createNextComponent();
         });
 
@@ -135,17 +134,32 @@ export class ComponentService {
         console.log(reason);
         this.componentCreationError.emit(reason);
         //cannot create client component: close server one!
-        this.webSocketService.closeServerComponent(this.currentComponentId);
-        this.creatingComponent = false;
+        this.webSocketService.closeServerComponent(this.currentComponent.id);
+        this.currentComponent = undefined;
         this.createNextComponent();
       });
   }
   createComponent<T>(component: Type<T>, resolver: ComponentFactoryResolver, args: any = {}) {
-    const info = new ComponentInfo();
-    info.id = this.currentComponentId ? this.currentComponentId : this.utils.generateGUID();
-    info.factory = resolver.resolveComponentFactory(component);
-    info.args = args;
-    this.addComponent(info);
+    if (!this.currentComponent) {
+      this.currentComponent = new ComponentInfo();
+      this.currentComponent.id = this.utils.generateGUID();
+    }
+    this.currentComponent.factory = resolver.resolveComponentFactory(component);
+    this.currentComponent.args = args;
+    if (this.currentComponent.modal) {
+      this.components.some(cmp => {
+        if (cmp.id == this.currentComponent.parentId) {
+          this.activateComponent = false;
+          cmp.document.eventData.openDynamicDialog.emit(this.currentComponent);
+          return true;
+        }
+        return false;
+      });
+    }
+    else {
+      this.addComponent(this.currentComponent);
+    }
+
   }
 
   onComponentCreated(info: ComponentInfo) {

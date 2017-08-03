@@ -1,9 +1,10 @@
-import { Company } from './../model/company';
+import { AuthorizationProperties } from './../authentication/auth-info';
+import { SubscriptionDatabase } from './../model/subscriptionDatabase';
 import { Account } from '../model/account';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
-import 'rxjs/add/operator/map';
+import 'rxjs/Rx';
 import { Observable } from "rxjs/Observable";
 import { OperationResult } from './operationResult';
 
@@ -15,35 +16,65 @@ export class ModelService {
     this.http = http;
   }
 
+  // returns the complete AuthorizationHeader with token read from localStorage
   //--------------------------------------------------------------------------------------------------------
-  addAccount(body: Object): Observable<OperationResult> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+  createAuthorizationHeader(authorizationType: string): string {
+    let authorizationStored = localStorage.getItem('auth-info');
 
-    return this.http.put(environment.gwamAPIUrl + 'accounts', body, options)
-        .map((res: Response) => {
-        console.log(res.json());
-        return res.json();
-      })
-      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
-    
-    /*return this.http.post(environment.adminAPIUrl + 'accounts', body, options)
-      .map((res: Response) => {
-        console.log(res.json());
-        return res.json();
-      })
-      .catch((error: any) => Observable.throw(error.json().error || 'server error'));*/
-    //.catch((error:OperationResult)=>Observable.throw(error.Message)); // prova
+    if (authorizationStored !== null) {
+      let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
+
+      let authorizationHeader: string;
+
+      if (authorizationType.toLowerCase() === 'jwt') {
+        authorizationHeader = '{ "Type": "Jwt", "SecurityValue": "' + authorizationProperties.jwtEncoded + '"}';
+      }
+
+      if (authorizationType.toLowerCase() === 'app') {
+        authorizationHeader = '{ "Type": "App", ' +
+          '"AppId": "' + authorizationProperties.AppSecurityInfo.AppId +
+          '", "SecurityValue": "' + authorizationProperties.AppSecurityInfo.SecurityValue + '"}';
+      }
+
+      return authorizationHeader;
+    }
+
+    return '';
   }
 
   //--------------------------------------------------------------------------------------------------------
-  getAccounts(): Observable<Account[]> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+  saveAccount(body: Object): Observable<OperationResult> {
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader !== '') {
+      let bodyString = JSON.stringify(body);
+      let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+      let options = new RequestOptions({ headers: headers });
+
+      return this.http.put(environment.gwamAPIUrl + 'accounts', bodyString, options)
+        .map((res: Response) => {
+          return res.json();
+        })
+        .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    }
+
+    return Observable.throw('AuthorizationHeader is missing!');
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  getAccounts(body): Observable<Account[]> {
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(environment.adminAPIUrl + 'accounts', options)
+    return this.http.post(environment.gwamAPIUrl + 'query/accounts', bodyString, options)
       .map((res: Response) => {
-        console.log(res.json());
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
@@ -51,14 +82,153 @@ export class ModelService {
 
   //--------------------------------------------------------------------------------------------------------
   addCompany(body: Object): Observable<OperationResult> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(environment.adminAPIUrl + 'companies', body, options)
+    return this.http.post(environment.adminAPIUrl + 'databases', bodyString, options)
       .map((res: Response) => {
-        console.log(res.json());
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
   }
+
+  //--------------------------------------------------------------------------------------------------------
+  saveSubscription(body: Object): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.gwamAPIUrl + 'subscriptions', body, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  getSubscriptions(body: string = ''): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    // if body is not empty I add the instancekey
+
+    let urlSubscriptionSegment: string = 'subscriptions';
+    if (body !== '') {
+     urlSubscriptionSegment += "/" + body;
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(environment.gwamAPIUrl + urlSubscriptionSegment, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  saveInstance(body: Object): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.gwamAPIUrl + 'instances', body, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  getInstances(body: string = ''): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    // if body is not empty I add the instancekey
+
+    let urlInstanceSegment: string = 'instances';
+    if (body !== '') {
+     urlInstanceSegment += "/" + body;
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(environment.gwamAPIUrl + urlInstanceSegment, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  query(modelName: string, body: Object): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    if (modelName === '') {
+      return Observable.throw('The model name to query is missing!');
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.gwamAPIUrl + 'query/' + modelName, body, options)
+    .map((res : Response) => {
+      return res.json();
+    })
+    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  addAccountSubscriptionAssociation(accountName:string, subscriptionList:string[]): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(environment.gwamAPIUrl + 'accountSubscriptions/' + accountName, subscriptionList, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }   
 }

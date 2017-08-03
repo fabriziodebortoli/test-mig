@@ -1,6 +1,8 @@
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { URLSearchParams, Http, Response } from '@angular/http';
 
+import { TestService } from './../test.service';
+
 import { ComponentService } from './../../core/services/component.service';
 import { DocumentComponent } from './../../shared/components/document.component';
 import { EventDataService } from './../../core/services/eventdata.service';
@@ -10,7 +12,7 @@ import { DataService } from './../../core/services/data.service';
   selector: 'tb-data-service',
   templateUrl: './data-service.component.html',
   styleUrls: ['./data-service.component.css'],
-  providers: [DataService, EventDataService]
+  providers: [DataService, EventDataService, TestService]
 })
 export class DataServiceComponent extends DocumentComponent implements OnInit {
 
@@ -26,8 +28,11 @@ export class DataServiceComponent extends DocumentComponent implements OnInit {
   private responseParameters: any;
   private responseColumns: any;
 
-  constructor(public eventData: EventDataService, private dataService: DataService, private http: Http) {
-    super(dataService, eventData);
+  constructor(public eventData: EventDataService, 
+    private dataService: DataService, 
+    private http: Http, 
+    private testService: TestService) {
+    super(testService, eventData, null);
   }
 
   ngOnInit() {

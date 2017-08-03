@@ -1,3 +1,4 @@
+import { LayoutService } from './../../../core/services/layout.service';
 import { Component, Input, OnInit, OnChanges, AfterViewInit } from '@angular/core';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
@@ -17,8 +18,10 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
     private showError = '';
     private constraint: RegExp;
 
- constructor(private eventData: EventDataService) {
-    super();
+ constructor(
+   private eventData: EventDataService, 
+  protected layoutService: LayoutService) {
+    super(layoutService);
 
    }
 

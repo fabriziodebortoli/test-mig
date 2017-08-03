@@ -14,10 +14,11 @@ export class Widget {
   layout: WidgetLayout;
   provider: WidgetProvider;
   data?: WidgetData;
+  isLoading: boolean = true;
 
-  constructor(ns : string = 'undefined') {
+  constructor(ns: string = 'undefined') {
     this.namespace = ns;
-    this.layout = new WidgetLayout(300,"void", null, null);
+    this.layout = new WidgetLayout(300, "void", null, null);
   }
 }
 
@@ -87,8 +88,10 @@ export class ChartFormat {
 export class WidgetsService {
 
   public isFirstUse: boolean = false;
-
+  private clock: Observable<Date>;
+ 
   constructor(private http: Http, private dataService: DataService, private urlService: UrlService) {
+     this.clock = Observable.interval(1000).map(tick => new Date()).share();
   }
 
   private pad00(n): string {
@@ -109,6 +112,7 @@ export class WidgetsService {
 
     return this.http.get(url, { withCredentials: true }).map(
       (res: Response) => {
+
         this.isFirstUse = res.status === 203;
         return res.json();
       },
@@ -131,26 +135,32 @@ export class WidgetsService {
     );
   }
 
-  refreshContent(wdg: Widget): Observable<WidgetData> {
-    const data = new WidgetData;
-    data.lastExecuted = this.getExecutionTime();
-    if (wdg.provider && wdg.provider.type === 'dataservice') {
+  refreshContent(wdg: Widget) {
+
+    try {
+      wdg.isLoading = true;
+      wdg.data = new WidgetData;
+
+      if (wdg.provider == undefined || wdg.provider.type !== 'dataservice') {
+        return;
+      }
+
       let subs = this.dataService.getData(wdg.provider.namespace, wdg.provider.selection, wdg.provider.params).subscribe((dsData: any) => {
-        if (wdg.provider.maxRows) {
-          data.grid.rows = dsData.rows.slice(0, wdg.provider.maxRows);
-        } else {
-          data.grid.rows = dsData.rows;
-        }
-        if (wdg.layout.gridFormat && wdg.layout.gridFormat.columns) {
-          data.grid.columns = wdg.layout.gridFormat.columns;
-        } else {
-          data.grid.columns = dsData.columns;
-        }
 
+        wdg.data.grid.rows = wdg.provider.maxRows ? dsData.rows.slice(0, wdg.provider.maxRows) : dsData.rows;
+        wdg.data.grid.columns = (wdg.layout.gridFormat && wdg.layout.gridFormat.columns) ? wdg.layout.gridFormat.columns : dsData.columns;
+        //wdg.isLoading = false;
         subs.unsubscribe();
-
       });
+
     }
-    return Observable.of(data);
+    finally {
+      wdg.data.lastExecuted = this.getExecutionTime();
+      wdg.isLoading = false;
+    }
+  }
+
+  getClock(): Observable<Date> {
+    return this.clock;
   }
 }

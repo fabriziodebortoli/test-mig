@@ -8,6 +8,7 @@ import { EventDataService } from './eventdata.service';
 
 @Injectable()
 export class DocumentService {
+    
     mainCmpId: string;
     constructor(protected logger: Logger, public eventData: EventDataService) {
     }
@@ -44,4 +45,6 @@ export class DocumentService {
     close() {
 
     }
+
+   
 }

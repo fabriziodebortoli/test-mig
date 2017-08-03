@@ -1,10 +1,6 @@
-﻿using Microarea.AdminServer.Library;
-using Microarea.AdminServer.Model;
-using Newtonsoft.Json;
+﻿using Microarea.AdminServer.Model;
+using Microarea.AdminServer.Model.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 {
@@ -12,25 +8,31 @@ namespace Microarea.AdminServer.Controllers.Helpers.Tokens
 	public class BootstrapToken
 	{
 		public string AccountName;
-		public bool ProvisioningAdmin;
-		public bool CloudAdmin;
-		public string PreferredLanguage;
-		public string ApplicationLanguage;
-		public List<SecurityToken> UserTokens;
-		public Subscription[] Subscriptions;
-		public List<ServerURL> Urls;
+		public string Language;
+		public string RegionalSettings;
 
-		//--------------------------------------------------------------------------------
-		public BootstrapToken()
+		// the nested object needs a property to deserialize it
+		public AppSecurityInfo AppSecurity { get; set; }
+        // use arrays instead of list because you can't use JsonConvert.DeserializeObject with interface
+        public ISecurityToken[] UserTokens;
+		public ISubscription[] Subscriptions;
+		public IInstance[] Instances;
+		public IServerURL[] Urls;
+        public IAccountRoles[] Roles;
+
+        //--------------------------------------------------------------------------------
+        public BootstrapToken()
 		{
 			this.AccountName = String.Empty;
-			this.ProvisioningAdmin = false;
-			this.CloudAdmin = false;
-			this.PreferredLanguage = String.Empty;
-			this.ApplicationLanguage = String.Empty;
-			this.UserTokens = new List<SecurityToken>();
+			this.Language = String.Empty;
+			this.RegionalSettings = String.Empty;
+			this.AppSecurity = new AppSecurityInfo();
+			this.UserTokens = new SecurityToken[] { };
+			this.Instances = new Instance[] { };
 			this.Subscriptions = new Subscription[] { };
-			this.Urls = new List<ServerURL>();
-		}
-	}
+			this.Urls = new ServerURL[] { };
+            this.Roles = new AccountRoles[] { };
+        }
+    
+    }
 }

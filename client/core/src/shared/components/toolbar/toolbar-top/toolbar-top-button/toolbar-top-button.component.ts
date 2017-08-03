@@ -1,3 +1,4 @@
+import { ComponentInfoService } from './../../../../models/component-info.model';
 import { Component, Input } from '@angular/core';
 
 import { HttpService } from './../../../../../core/services/http.service';
@@ -22,12 +23,13 @@ export class ToolbarTopButtonComponent extends TbComponent {
 
   constructor(
     private eventData: EventDataService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private ciService: ComponentInfoService
   ) {
     super();
     //this.imgUrl = this.httpService.getDocumentBaseUrl() + 'getImage/?src=';
   }
   onCommand() {
-    this.eventData.command.emit(this.cmpId);
+    this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);
   }
 }

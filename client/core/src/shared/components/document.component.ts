@@ -1,3 +1,4 @@
+import { ComponentInfoService } from './../models/component-info.model';
 import { Component, OnInit } from '@angular/core';
 
 import { EventDataService } from './../../core/services/eventdata.service';
@@ -16,9 +17,12 @@ export class DocumentComponent extends TbComponent implements OnInit {
     viewModeType: ViewModeType;
     title: string;
     args: any;//used tu pass initialization arguments to the component
-
-    constructor(public document: DocumentService, public eventData: EventDataService) {
+   
+    constructor(public document: DocumentService,
+        public eventData: EventDataService,
+        public ciService: ComponentInfoService) {
         super();
+
     }
 
     ngOnInit() {
@@ -26,4 +30,5 @@ export class DocumentComponent extends TbComponent implements OnInit {
         this.title = this.document.getTitle();
     }
 
+   
 }

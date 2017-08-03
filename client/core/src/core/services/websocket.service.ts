@@ -12,7 +12,6 @@ import { SocketConnectionStatus } from '../../shared/models';
 import { LoginSessionService } from './login-session.service';
 import { HttpService } from './http.service';
 import { UrlService } from './url.service';
-// import { CommandService } from './command.service';
 
 import { Logger } from './logger.service';
 
@@ -35,9 +34,9 @@ export class WebSocketService {
     public message: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public diagnostic: EventEmitter<DiagnosticData> = new EventEmitter();
     public buttonsState: EventEmitter<any> = new EventEmitter();
-    public radarQuery: EventEmitter<any> = new EventEmitter();
+    public radarInfos: EventEmitter<any> = new EventEmitter();
     public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
-
+    public windowStrings: EventEmitter<any> = new EventEmitter();
     constructor(
         private httpService: HttpService,
         private urlService: UrlService,
@@ -67,12 +66,18 @@ export class WebSocketService {
         this.connection = new WebSocket(url);
         this.connection.onmessage = function (e) {
             if (typeof (e.data) === 'string') {
+                let obj = null;
                 try {
-                    const obj = JSON.parse(e.data);
-
+                    obj = JSON.parse(e.data);
+                } catch (ex) {
+                    $this.logger.error('Invalid json string:\n' + e.data);
+                    return;
+                }
+                try {
                     switch (obj.cmd) {
                         case 'ModelData': $this.modelData.emit(obj.args); break;
                         case 'WindowOpen': $this.windowOpen.emit(obj.args); break;
+                        case 'WindowStrings': $this.windowStrings.emit(obj.args); break;
                         case 'ActivationData': $this.activationData.emit(obj.args); break;
                         case 'WindowClose': $this.windowClose.emit(obj.args); break;
                         case 'ItemSource': $this.itemSource.emit(obj.args); break;
@@ -83,14 +88,15 @@ export class WebSocketService {
                         case 'Diagnostic': $this.diagnostic.emit(obj.args); break;
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
                         case 'ButtonsState': $this.buttonsState.emit(obj.args); break;
-                        case 'RadarQuery': $this.radarQuery.emit(obj.args); break;
+                        case 'RadarInfos': $this.radarInfos.emit(obj.args); break;
 
                         default: break;
                     }
-
-                } catch (e) {
-                    $this.logger.error('Invalid json string:\n' + e.data);
+                } catch (ex) {
+                    $this.logger.error(ex);
+                    return;
                 }
+
             }
         };
         this.connection.onerror = (arg) => {
@@ -182,14 +188,22 @@ export class WebSocketService {
         const data = { cmd: 'doCommand', cmpId: cmpId, id: id, model: modelData };
         this.safeSend(data);
     }
-
+    doClose(cmpId: String, modelData?: any): void {
+        const data = { cmd: 'doClose', cmpId: cmpId, model: modelData };
+        this.safeSend(data);
+    }
     doValueChanged(cmpId: String, id: String, modelData?: any): void {
         const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
         this.safeSend(data);
     }
 
-    getRadarQuery(cmpId: String) {
-        const data = { cmd: 'getRadarQuery', cmpId: cmpId };
+    browseRecord(cmpId: String, tbGuid: string): void {
+        const data = { cmd: 'browseRecord', cmpId: cmpId, tbGuid: tbGuid };
+        this.safeSend(data);
+    }
+
+    getRadarInfos(cmpId: String) {
+        const data = { cmd: 'getRadarInfos', cmpId: cmpId };
         this.safeSend(data);
     }
 
@@ -209,7 +223,11 @@ export class WebSocketService {
         this.safeSend(data);
 
     }
+    getWindowStrings(cmpId: String, culture: string) {
+        const data = { cmd: 'getWindowStrings', cmpId: cmpId, culture: culture };
+        this.safeSend(data);
 
+    }
     checkMessageDialog(cmpId: String) {
         const data = { cmd: 'checkMessageDialog', cmpId: cmpId };
         this.safeSend(data);

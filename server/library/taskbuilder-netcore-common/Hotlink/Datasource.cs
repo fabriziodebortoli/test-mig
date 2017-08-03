@@ -16,6 +16,8 @@ using Microarea.Common.CoreTypes;
 using System.IO;
 using System.Xml;
 using Microarea.Common.StringLoader;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace Microarea.Common.Hotlink
 {
@@ -74,14 +76,14 @@ namespace Microarea.Common.Hotlink
 
         public SymbolTable SymTable = new SymbolTable();
         public SymField selection_type = new SymField("string", "selection_type");
-        public SymField like_value = new SymField("string", "like_value");
+        public SymField filter_value = new SymField("string", "filter_value");
 
         public QueryObject CurrentQuery = null;
 
         public Datasource(TbSession session)
         {
             SymTable.Add(selection_type);
-            SymTable.Add(like_value);
+            SymTable.Add(filter_value);
 
             this.Session = session;
         }
@@ -91,7 +93,7 @@ namespace Microarea.Common.Hotlink
             this.Session = new TbSession(ui, "");
          }
  
-        public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "code")
+        public bool PrepareQuery(IQueryCollection requestQuery, string selectionType = "Code")
         {
             string s = requestQuery["selection_type"];
             if (s.IsNullOrEmpty() && selectionType.IsNullOrEmpty())
@@ -99,8 +101,8 @@ namespace Microarea.Common.Hotlink
 
             selection_type.Data = (s.IsNullOrEmpty() ? selectionType : s).ToLower();
 
-            s = requestQuery["like_value"];
-            like_value.Data = s != null ? s : "%";
+            s = requestQuery["filter_value"];
+            filter_value.Data = s != null ? s : "%";
 
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
@@ -149,7 +151,7 @@ namespace Microarea.Common.Hotlink
         public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "Code", string likeValue = "")
         {
             selection_type.Data = selectionType;
-            like_value.Data = likeValue + '%';
+            filter_value.Data = likeValue + '%';
 
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
@@ -213,14 +215,18 @@ namespace Microarea.Common.Hotlink
 
         //---------------------------------------------------------------------
 
-        public async Task<bool> PrepareRadarAsync(IQueryCollection requestQuery)
+        public async Task<bool> PrepareRadarAsync(HttpRequest request)
         {
-            string query = requestQuery["qry"];
+            string query =  request.Form["query"];
+            string columnInfos = request.Form["columnInfos"];
 
-            this.CurrentQuery = new QueryObject("radar", SymTable, Session, null);
-           
+            List<ColumnType> columns = columnInfos.IsNullOrEmpty() ? null
+                                            : JsonConvert.DeserializeObject<List<ColumnType>>(columnInfos);
+
             //------------------------------ 
-            if (!this.CurrentQuery.Define(query))
+            this.CurrentQuery = new QueryObject("radar", SymTable, Session, null);
+
+            if (!this.CurrentQuery.Define(query, columns))
                 return false;
 
             return true;
@@ -381,7 +387,8 @@ namespace Microarea.Common.Hotlink
 
             ArrayList columns = new ArrayList();
             CurrentQuery.EnumColumns(columns);
-
+            CurrentQuery.Close();
+ 
             //emit json record header (localized title column, column name, datatype column
             list = "{\"columns\":[";
             bool first = true;
@@ -393,14 +400,13 @@ namespace Microarea.Common.Hotlink
                     list += ',';
 
                 list += '{' +
-                             f.Name.Replace('.', '_').ToJson("id") +
-                             ',' +
-                             f.Title.ToJson("caption", false, true) +
+                             f.Name.Replace('.', '_').ToJson("id") +  ',' +
+                             f.Title.ToJson("caption", false, true) + ',' +
+                             f.DataType.ToJson("type", false, true) +
                          '}';
             }
             list += "]}";
 
-            CurrentQuery.Close();
             return true;
         }
 
@@ -409,7 +415,7 @@ namespace Microarea.Common.Hotlink
         {
             records = string.Empty;
 
-            if (XmlDescription.IsDatafile)
+            if (XmlDescription != null && XmlDescription.IsDatafile)
             {
                 return GetDataFileJson(out records);
             }
@@ -421,10 +427,12 @@ namespace Microarea.Common.Hotlink
             CurrentQuery.EnumColumns(columns);
 
             //emit json record header (localized title column, column name, datatype column
-            records = "{" +
-                   XmlDescription.DbFieldName.Replace('.', '_').ToJson("key");
+            records = "{";
 
-            records += ", \"columns\":[";
+            if (XmlDescription != null)
+                records += XmlDescription.DbFieldName.Replace('.', '_').ToJson("key") + ',';
+
+            records += "\"columns\":[";
             bool first = true;
             foreach (SymField f in columns)
             {
@@ -439,7 +447,7 @@ namespace Microarea.Common.Hotlink
                            fname +
                            ',' +
                            f.Title.ToJson("caption", false, true) +   ","+
-                           f.DataType.ToJson("type", false, false)+
+                           f.WoormType.ToJson("type", false, false) +
                            '}';
             }
             records += "],\n\"rows\":[";
@@ -452,6 +460,11 @@ namespace Microarea.Common.Hotlink
                 foreach (SymField f in columns)
                 {
                     object o = f.Data;
+                    if (o == null)
+                    {
+                        Debug.Fail("Empty value for " + f.Name);
+                        continue;
+                    }
 
                     if (first)
                     {
@@ -462,43 +475,8 @@ namespace Microarea.Common.Hotlink
                     {
                         rows += ',';
                     }
-
-                    rows += '\"' + f.Name.Replace('.', '_') + "\":";
-
-                    if (
-                            string.Compare(f.DataType, "date", true) == 0 ||
-                            string.Compare(f.DataType, "datetime", true) == 0
-                       )
-                    {
-                        DateTime dat = (DateTime)o;
-                        string s = dat.ToString("yyyy-MM-dd");
-
-                        rows += s.ToJson(null, false, true);
-                    }
-                    else if (string.Compare(f.DataType, "string", true) == 0)
-                    {
-                        string s = o.ToString();
-
-                        //if (string.Compare(f.WoormType, "double", true)
-
-                        rows += s.ToJson(null, false, true);
-                    }
-                    else if (string.Compare(f.DataType, "double", true) == 0)
-                    {
-                        double d = (double)o;
-
-
-                        rows += d.ToJson();
-                    }
-                    else if (string.Compare(f.DataType, "Boolean", true) == 0)
-                    {
-                        string d = (int)o==1? "true":"false";
-
-
-                        rows += d;
-                    }
-                    else
-                        rows += o.ToString();
+                 
+                    rows += o.ToJson(f.Name.Replace('.', '_'));
                 }
                 rows += "},\n";
             }

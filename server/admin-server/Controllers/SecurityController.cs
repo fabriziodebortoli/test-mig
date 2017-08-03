@@ -6,7 +6,7 @@ using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
-using Microarea.AdminServer.Services.Providers;
+using Microarea.AdminServer.Services.BurgerData;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -22,14 +22,10 @@ namespace Microarea.AdminServer.Controllers
     {
         private IHostingEnvironment _env;
         AppOptions _settings;
-        IDataProvider _accountSqlDataProvider;
-        IDataProvider _tokenSQLDataProvider;
-        IDataProvider _urlsSQLDataProvider;
-        IDataProvider _instanceSqlDataProvider;
-        IDataProvider _subscriptionSQLDataProvider;
         IJsonHelper _jsonHelper;
         IHttpHelper _httpHelper;
         string GWAMUrl;
+        BurgerData burgerData;
 
         //-----------------------------------------------------------------------------	
         public SecurityController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper, IHttpHelper httpHelper)
@@ -37,21 +33,14 @@ namespace Microarea.AdminServer.Controllers
             _env = env;
             _settings = settings.Value;
             _jsonHelper = jsonHelper;
-            SqlProviderFactory();
+          
             this.GWAMUrl = _settings.ExternalUrls.GWAMUrl;
-            _jsonHelper = jsonHelper;
             _httpHelper = httpHelper;
+            burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+
         }
 
-        //-----------------------------------------------------------------------------	
-        private void SqlProviderFactory()
-        {
-            _accountSqlDataProvider = new AccountSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _instanceSqlDataProvider = new InstanceSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _subscriptionSQLDataProvider = new SubscriptionSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _tokenSQLDataProvider = new SecurityTokenSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-            _urlsSQLDataProvider = new ServerURLSQLDataProvider(_settings.DatabaseInfo.ConnectionString);
-        }
+       
 
         // <summary>
         // Provides login token
@@ -71,15 +60,18 @@ namespace Microarea.AdminServer.Controllers
 
             try
             {
-                IAccount account = new Account(credentials.AccountName);
-                account.SetDataProvider(_accountSqlDataProvider);
-                account.Load();
+                burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+                IAccount account = burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
+				{
+					new WhereCondition("AccountName", credentials.AccountName, QueryComparingOperators.IsEqual, false)
+				});
 
-				// L'account esiste sul db locale
-				if (account.ExistsOnDB)
+                // L'account esiste sul db locale
+                if (account!= null)
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), GetAuthorizationInfo());
+                    Task<string> responseData = await VerifyAccountModificationGWAM(
+						new AccountModification(account.AccountName, _settings.InstanceIdentity.InstanceKey, account.Ticks), GetAuthorizationInfo());
 
 					// GWAM call could not end correctly: so we check the object
 					if (responseData.Status == TaskStatus.Faulted)
@@ -87,33 +79,25 @@ namespace Microarea.AdminServer.Controllers
 						return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
 					}
 
-                    // Used as a container for the GWAM response.
-                    AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
-                    accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
+					OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
 
-                    if (accountIdentityPack == null)
-                    {
-                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error,Strings.UnknownError);
-                    }
+					if (!opGWAMRes.Result)
+					{
+						return SetErrorResponse(bootstrapTokenContainer, (int)opGWAMRes.Code, Strings.GwamDislikes + opGWAMRes.Message);
+					}
 
-                    // Se sul gwam corrisponde... 
-                    if (accountIdentityPack.Result) 
-                    {
-						// Se non fosse ExistsOnDB vuol dire che il tick corrisponde, non suona bene ma è così, forse dovrebbe tornare un codice da valutare.
-						if (accountIdentityPack.Account.ExistsOnDB)
-						{
-							// Salvo l'Account in locale.
-							account = accountIdentityPack.Account;
-							account.Save();
-						}
-                    }
-                    else
-                    {
-                        return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, accountIdentityPack.Message);         
-                    }
+					bool accountIsUpdated = opGWAMRes.Code == 6;
+
+					if (!accountIsUpdated)
+					{
+						AccountIdentityPack accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(opGWAMRes.Content.ToString());
+						account = accountIdentityPack.Account;
+						// @@TODO: it would be better to log if Save couldn't execute correctly
+						((Account)account).Save(burgerData);
+					}
 
                     // Verifica credenziali su db.
-                    LoginReturnCodes res = LoginBaseClass.VerifyCredential(account, credentials.Password);
+                    LoginReturnCodes res = LoginBaseClass.VerifyCredential(((Account)account), credentials.Password, burgerData);
 
                     if (res != LoginReturnCodes.NoError)
                     {
@@ -130,9 +114,9 @@ namespace Microarea.AdminServer.Controllers
                 }
 
                 // Se non esiste, richiedi a gwam.
-                if (!account.ExistsOnDB)
+                if (account == null)
                 {
-                    Task<string> responseData = await VerifyUserOnGWAM(credentials);
+                    Task<string> responseData = await VerifyUserOnGWAM(credentials, GetAuthorizationInfo());
 
 					// GWAM call could not end correctly: so we check the object
 					if (responseData.Status == TaskStatus.Faulted)
@@ -140,32 +124,42 @@ namespace Microarea.AdminServer.Controllers
 						return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
 					}
 
-					// Used as a container for the GWAM response.
-					AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
-                    accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(responseData.Result);
+					OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
 
-                    if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
+					if (!opGWAMRes.Result)
+					{
+						return SetErrorResponse(bootstrapTokenContainer, (int)opGWAMRes.Code, Strings.GwamDislikes + opGWAMRes.Message);
+					}
+
+					// @@TODO: optimization?
+					AccountIdentityPack accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(opGWAMRes.Content.ToString());
+
+					if (accountIdentityPack == null || !accountIdentityPack.Result) // it doesn't exist on GWAM
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.UnknownAccountName, Strings.GwamDislikes + accountIdentityPack.Message);
                     }
                     else
                     {
                         // User has been found.
-                        // Salvataggio sul provider locale.
+                        // Salvataggio in locale.
                         // Salvo anche l'associazione con le  subscription e  tutti gli URLs.
                         account = accountIdentityPack.Account;
-                        account.SetDataProvider(_accountSqlDataProvider);
-                        account.Save();
+                        OperationResult result = ((Account)account).Save(burgerData);
 
-                        OperationResult subOpRes = SaveSubscriptions(accountIdentityPack);
+						if (!result.Result)
+						{
+							return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
+						}
+
+						result = SaveSubscriptions(accountIdentityPack);
 
                         // Fallisce a salvare le subscription associate e  interrompo la login, corretto?
-                        if (!subOpRes.Result)
+                        if (!result.Result)
                         {
-                            return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, subOpRes.Message);
+                            return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
                         }
                         // Verifica credenziali.
-                        LoginReturnCodes res = LoginBaseClass.VerifyCredential(account, credentials.Password);
+                        LoginReturnCodes res = LoginBaseClass.VerifyCredential(((Account)account), credentials.Password, burgerData);
 
                         if (res != LoginReturnCodes.NoError)
                         {
@@ -205,14 +199,20 @@ namespace Microarea.AdminServer.Controllers
             }
             try
             {
-                IAccount account = new Account(passwordInfo.AccountName);
-                account.SetDataProvider(_accountSqlDataProvider);
-                account.Load();
+                IAccount account =  burgerData.GetObject<Account, IAccount>(
+					String.Empty, 
+					ModelTables.Accounts, 
+					SqlLogicOperators.AND, 
+					new WhereCondition[]{
+						new WhereCondition("AccountName", passwordInfo.AccountName, QueryComparingOperators.IsEqual, false)
+					});
+
                 // L'account esiste sul db locale
-                if (account.ExistsOnDB)
+                if (account != null)
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
-                    Task<string> responseData = await VerifyAccountModificationGWAM(new AccountModification(account.AccountName, account.Ticks), GetAuthorizationInfo());
+                    Task<string> responseData = await VerifyAccountModificationGWAM(
+						new AccountModification(account.AccountName, _settings.InstanceIdentity.InstanceKey, account.Ticks), GetAuthorizationInfo());
 
                     // Used as a container for the GWAM response.
                     AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
@@ -226,18 +226,18 @@ namespace Microarea.AdminServer.Controllers
                     if (accountIdentityPack.Result)
                     {
                         // Se non fosse ExistsOnDB vuol dire che il tick corrisponde, non suona bene ma è così, forse dovrebbe tornare un codice da valutare.
-                        if (accountIdentityPack.Account.ExistsOnDB)
+                        if (accountIdentityPack.Account != null)
                         {
                             // Salvo l'Account in locale.
                             account = accountIdentityPack.Account;
-                            account.Save();
+                            ((Account)account).Save(burgerData);
                         }
                     }
                     else
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, accountIdentityPack.Message);
                     }
-                    LoginReturnCodes res = LoginBaseClass.ChangePassword(account, passwordInfo);
+                    LoginReturnCodes res = LoginBaseClass.ChangePassword(((Account)account), passwordInfo, burgerData);
 
                     if (res != LoginReturnCodes.NoError)
                     { 
@@ -275,13 +275,13 @@ namespace Microarea.AdminServer.Controllers
         /// </returns>
         [HttpPost("api/token")]
 		//-----------------------------------------------------------------------------	
-		public IActionResult ApiCheckToken(string token)
+		public IActionResult ApiCheckToken(string token, string roleName, string entityKey, string level)
 		{
 			OperationResult opRes = new OperationResult();
 
 			try
 			{
-				opRes = SecurityManager.ValidateToken(token, _settings.SecretsKeys.TokenHashingKey);
+				opRes = SecurityManager.ValidateToken(token, _settings.SecretsKeys.TokenHashingKey, roleName, entityKey, level);
 				_jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
@@ -332,79 +332,142 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //----------------------------------------------------------------------
-        private bool ValorizeBootstrapToken(IAccount account,  BootstrapToken bootstrapToken)
+        private bool ValorizeBootstrapToken(IAccount account, BootstrapToken bootstrapToken)
         {
             if (account == null)
                 return false;
 
-            List<SecurityToken> tokens = bootstrapToken.UserTokens = CreateTokens(account);
+            ISecurityToken[] tokens = CreateTokens(account);
 
-            if (tokens == null || tokens.Count == 0)
+			// we have always two tokens!
+
+			if (tokens.Length < 2)
                 return false;
 
             bootstrapToken.AccountName = account.AccountName;
-            bootstrapToken.ProvisioningAdmin = account.ProvisioningAdmin;
-            bootstrapToken.CloudAdmin = account.CloudAdmin;
-            bootstrapToken.UserTokens = CreateTokens(account);
-            bootstrapToken.ApplicationLanguage = account.ApplicationLanguage;
-            bootstrapToken.PreferredLanguage = account.PreferredLanguage;
-            bootstrapToken.Subscriptions = GetSubscritions(account.AccountName); ;
+            bootstrapToken.UserTokens = tokens;
+            bootstrapToken.RegionalSettings = account.RegionalSettings;
+            bootstrapToken.Language = account.Language;
+            bootstrapToken.Instances = GetInstances(account.AccountName);
+			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
             bootstrapToken.Urls = GetUrlsForThisInstance();
-            return true;
+			bootstrapToken.Roles = GetRoles(account.AccountName);
+
+            AuthorizationInfo ai = GetAuthorizationInfo();
+			bootstrapToken.AppSecurity = new AppSecurityInfo(ai.AppId, ai.SecurityValue);
+
+			return true;
         }
 
-        //----------------------------------------------------------------------
-        private Subscription[] GetSubscritions(string accountName)
+		//----------------------------------------------------------------------
+		private IAccountRoles[] GetRoles(string accountName)
+		{
+			// only enabled roles are loaded
+			return this.burgerData.GetList<AccountRoles, IAccountRoles>(
+				String.Format(Queries.SelectRolesByAccountName, accountName),
+				ModelTables.AccountRoles).ToArray();
+		}
+
+		//----------------------------------------------------------------------
+		private ISubscription[] GetSubscriptions(string accountName)
         {
-            ISubscription subsscription = new Subscription();
-            subsscription.SetDataProvider(_subscriptionSQLDataProvider);
-            Subscription[] subsArray = subsscription.GetSubscriptionsByAccount(accountName, _settings.InstanceIdentity.InstanceKey).ToArray();
-            return subsArray;
+			List<ISubscription> listSubscriptions = this.burgerData.GetList<Subscription, ISubscription>(
+				String.Format(Queries.SelectSubscriptionsByAccount, accountName),
+				ModelTables.Subscriptions);
+
+			// @@TODO: optimization: remove ToArray()
+			return listSubscriptions.ToArray();
+		}
+
+        //----------------------------------------------------------------------
+        private IInstance[] GetInstances(string accountName)
+        {
+            // getting instances for this account
+            string querySelectInstancesForAccount = String.Format(Queries.SelectInstanceForAccount, accountName);
+            List<IInstance> instancesList = this.burgerData.GetList<Instance, IInstance>(querySelectInstancesForAccount, ModelTables.Instances);
+            return instancesList != null ? instancesList.ToArray() : new Instance[] { };
         }
 
-        //----------------------------------------------------------------------
-        private List<ServerURL> GetUrlsForThisInstance()
+		//----------------------------------------------------------------------
+		private IServerURL[] GetUrlsForThisInstance()
         {
-            Instance iInstance = new Instance(_settings.InstanceIdentity.InstanceKey);
-            iInstance.SetDataProvider(_instanceSqlDataProvider);
-            iInstance.Load();
-
-            if (!iInstance.ExistsOnDB)
+            IInstance iInstance = null ;
+            try
             {
-                return new List<ServerURL>();
+                burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+                iInstance = burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[]
+         {
+                    new WhereCondition("InstanceKey", _settings.InstanceIdentity.InstanceKey, QueryComparingOperators.IsEqual, false)
+         });
+            }
+            catch { }
+
+            if (iInstance == null)
+            {
+                return new IServerURL[] { };
             }
 
-            return iInstance.LoadURLs();
+                return LoadURLs();
+        }
+
+        //----------------------------------------------------------------------
+        private IServerURL[] LoadURLs()
+        {
+            try
+            {
+                BurgerData burgerData = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+                List<IServerURL> l = burgerData.GetList<ServerURL, IServerURL>(String.Empty, ModelTables.ServerURLs, SqlLogicOperators.AND, new WhereCondition[]
+         {
+                    new WhereCondition("InstanceKey", _settings.InstanceIdentity.InstanceKey, QueryComparingOperators.IsEqual, false)
+         });
+            
+
+                return l.ToArray();
+            }
+            catch { }
+            return new IServerURL[] { };
         }
 
         //----------------------------------------------------------------------
         private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)
         {
-            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null) return new OperationResult(false, Strings.EmptySubscriptions, (int)AppReturnCodes.InvalidData);
+            if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null)
+			{
+				return new OperationResult(false, Strings.EmptySubscriptions, (int)AppReturnCodes.InvalidData);
+			}
 
-            foreach (ISubscription s in accountIdentityPack.Subscriptions)
+			OperationResult result = new OperationResult();
+
+			foreach (Subscription s in accountIdentityPack.Subscriptions)
             {
-                s.SetDataProvider(_subscriptionSQLDataProvider);
-                OperationResult result = s.Save();
+				result = s.Save(this.burgerData);
+
                 if (!result.Result)
                 {
                     return result;
                 }
             }
-            return new OperationResult(true, "ok", (int)AppReturnCodes.OK);
+
+			result.Result = true;
+			result.Code = (int)AppReturnCodes.OK;
+			result.Message = AppReturnCodes.OK.ToString();
+
+			return result;
         }
 
         //----------------------------------------------------------------------
-        private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials)
+        private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials, AuthorizationInfo authInfo)
         {
-            string url = _settings.ExternalUrls.GWAMUrl + "accounts";
+			string authHeader = JsonConvert.SerializeObject(authInfo);
+
+			string url = _settings.ExternalUrls.GWAMUrl + "accounts";
 
             List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
             entries.Add(new KeyValuePair<string, string>("accountName", credentials.AccountName));
             entries.Add(new KeyValuePair<string, string>("password", credentials.Password));
             entries.Add(new KeyValuePair<string, string>("instanceKey", _settings.InstanceIdentity.InstanceKey));
 
-            OperationResult opRes = await _httpHelper.PostDataAsync(url, entries);
+            OperationResult opRes = await _httpHelper.PostDataAsync(url, entries, authHeader);
 
 			if (!opRes.Result)
 			{
@@ -437,10 +500,13 @@ namespace Microarea.AdminServer.Controllers
         {
             string authHeader = JsonConvert.SerializeObject(authInfo);
 
+			string url = String.Format(
+				"{0}accounts/{1}/{2}/{3}", 
+				this.GWAMUrl, accMod.AccountName, accMod.InstanceKey, accMod.Ticks);
+
 			// call GWAM API
 			OperationResult opRes = await _httpHelper.PostDataAsync(
-				this.GWAMUrl + "accounts/" + accMod.AccountName + "/" + accMod.Ticks, 
-				new List<KeyValuePair<string, string>>(), authHeader);
+				url, new List<KeyValuePair<string, string>>(), authHeader);
 
 			if (!opRes.Result)
 			{
@@ -450,20 +516,32 @@ namespace Microarea.AdminServer.Controllers
 			return (Task<string>)opRes.Content;
 		}
 
+		/// <summary>
+		/// We create two tokens: one for API and one for Application (M4)
+		/// </summary>
 		//----------------------------------------------------------------------
-		private List<SecurityToken> CreateTokens(IAccount account)
+		private SecurityToken[] CreateTokens(IAccount account)
 		{
 			List<SecurityToken> tokenList = new List<SecurityToken>();
 
-			UserTokens tokens = new UserTokens(account.IsAdmin, account.AccountName);
-			tokens.Setprovider(_tokenSQLDataProvider);
+			// API token generation
 
-			if (tokens.Save())
-			{
-				return tokens.GetTokenList(account.IsAdmin, account.AccountName);
-			}
+			SecurityToken apiToken = SecurityToken.GetToken(TokenType.API, account.AccountName);
+			OperationResult opRes = apiToken.Save(this.burgerData);
+			if (!opRes.Result)
+				return tokenList.ToArray();
 
-			return tokenList;
+			tokenList.Add(apiToken);
+
+			// APP token generation
+
+			SecurityToken appToken = SecurityToken.GetToken(TokenType.Authentication, account.AccountName);
+			opRes = appToken.Save(this.burgerData);
+
+			if (opRes.Result)
+				tokenList.Add(appToken);
+
+			return tokenList.ToArray();
         }
     }
 }

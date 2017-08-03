@@ -1,9 +1,10 @@
+import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Component, Input, ViewChild, OnChanges, AfterViewInit } from '@angular/core';
 import { ControlComponent } from './../control.component';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 // import * as moment from 'moment';
-// import { formatDate } from '@telerik/kendo-intl';
+import { formatDate } from '@telerik/kendo-intl';
 
 @Component({
   selector: 'tb-date-input',
@@ -16,16 +17,20 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
   @Input() formatter: string;
   @Input() readonly = false;
 
+
   selectedDate: Date;
   dateFormat = 'dd MMM yyyy';
 
-  constructor(private eventData: EventDataService) {
-    super();
+  constructor(
+    private eventData: EventDataService,
+    protected layoutService: LayoutService) {
+    super(layoutService);
   }
 
   public onChange(val: any) {
     this.onUpdateNgModel(val);
   }
+
 
   onBlur() {
     this.eventData.change.emit(this.cmpId);
@@ -43,7 +48,9 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
     }
 
     this.selectedDate = newDate;
-    // this.model.value = formatDate(this.selectedDate, 'y-MM-ddTHH:mm:ss');
+    if (this.model.constructor.name ==='text') {
+      this.model.value = formatDate(this.selectedDate, 'y-MM-ddTHH:mm:ss');
+    }
   }
 
   ngAfterViewInit(): void {

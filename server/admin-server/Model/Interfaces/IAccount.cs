@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Microarea.AdminServer.Services.BurgerData;
+using System;
+using System.Collections.Generic;
 
 namespace Microarea.AdminServer.Model.Interfaces
 {
     //================================================================================
-    public interface IAccount : IAdminModel
+    public interface IAccount
     {
-        string AccountName { get; }
+        string AccountName { get; set; }
 		string Password { get; set; }
-        bool CloudAdmin{ get; set; }
         string FullName { get; set; }
         string Notes { get; set; }
         string Email { get; set; }
-        bool ProvisioningAdmin { get; set; }
 		int LoginFailedCount { get; set; }
 		bool PasswordNeverExpires { get; set; }
         bool MustChangePassword { get; set; }
@@ -20,13 +20,14 @@ namespace Microarea.AdminServer.Model.Interfaces
 		int PasswordDuration { get; set; }
 		bool Disabled { get; set; }
         bool Locked { get; set; }
-        string PreferredLanguage { get; set; }
-        string ApplicationLanguage { get; set; }
-        bool IsWindowsAuthentication { get; }
+        string Language { get; set; }
+        string RegionalSettings { get; set; }
+        bool IsWindowsAuthentication { get; set; }
         long Ticks { get; set; }
         bool IsPasswordExpirated();
 		DateTime ExpirationDate { get; set; }
-        bool IsAdmin { get; }
-        void ResetPasswordExpirationDate();
+		string ParentAccount { get; set; }
+		bool Confirmed { get; set; }
+		void ResetPasswordExpirationDate();
     }
 }

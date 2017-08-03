@@ -6,3 +6,4 @@ export * from './state-button.model';
 export * from './view-mode-type.model';
 export * from './websocket-connection.enum';
 export * from './message-dialog.model'; 
+export * from './eventargs.model'; 

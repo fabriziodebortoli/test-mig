@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
 
-import { ComponentInfo } from './../shared/models/component-info.model';
+import { ComponentInfo, ComponentInfoService } from './../shared/models/component-info.model';
 import { MessageDlgArgs } from './../shared/models';
 
 import { MessageDialogComponent } from './../shared/containers/message-dialog/message-dialog.component';
@@ -22,7 +22,8 @@ import { MenuService } from './../menu/services/menu.service';
   selector: 'tb-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers:[ComponentInfoService]
 })
 export class HomeComponent implements OnDestroy, AfterContentInit {
 
@@ -44,9 +45,9 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
     private localizationService: LocalizationService,
     private settingsService: SettingsService,
     private enumsService: EnumsService,
-    private utilsService: UtilsService
-
   ) {
+
+
     this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
 
     this.subscriptions.push(componentService.componentInfoCreated.subscribe(arg => {
@@ -70,16 +71,17 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
     }));
 
     this.menuService.getMenuElements();
-    this.localizationService.loadLocalizedElements(true);
+    this.localizationService.loadLocalizedElements();
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
+
   }
 
 
   ngAfterContentInit() {
     setTimeout(() => this.calcViewHeight(), 0);
 
-    this.utilsService.detectDPI();
+    this.layoutService.detectDPI();
   }
 
   @HostListener('window:resize', ['$event'])

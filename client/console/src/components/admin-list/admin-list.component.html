@@ -1,0 +1,8 @@
+<h3 *ngIf="items == undefined || items.length == 0">You didn't insert any data yet.</h3>
+<md-list>
+  <md-list-item *ngFor="let item of items" (click)="goEditMode(item)">
+    <div *ngFor="let columnName of columnNames" style="margin-right:20px">
+      {{ item[columnName] }}
+    </div>
+  </md-list-item>
+</md-list>

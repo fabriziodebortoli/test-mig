@@ -1,31 +1,48 @@
+import { Instance } from 'app/model/instance';
 import { TokenInfo } from "app/authentication/token-info";
-import { Subscription } from "app/model/subscription";
+import { AppSubscription } from "app/model/subscription";
 import { ServerUrl } from "app/authentication/server-url";
 import { RoleNames } from "app/authentication/auth-helpers";
+import { AccountRole } from "app/model/accountrole";
 
+//--------------------------------------------------------------------------------------------------------
 export class AuthorizationProperties{
-
     jwtEncoded: string;
     accountName: string;
-    preferredLanguage: string;
-    applicationLanguage: string;
+    language: string;
+    regionalSettings: string;
+    AppSecurityInfo: AppSecurityInfo;
     tokens: Array<TokenInfo>;
-    subscriptions: Array<Subscription>;
+    instances: Array<Instance>;
+    subscriptions: Array<AppSubscription>;
     serverUrls: Array<ServerUrl>;
-    roles: Array<string>;
+    roles: Array<AccountRole>;
 
     constructor() {
         this.jwtEncoded = "";
         this.accountName = "";
+        this.AppSecurityInfo = new AppSecurityInfo();
         this.tokens = new Array<TokenInfo>();
-        this.subscriptions = new Array<Subscription>();
+        this.instances = new Array<Instance>();
+        this.subscriptions = new Array<AppSubscription>();
         this.serverUrls = new Array<ServerUrl>();
-        this.roles = new Array<string>();        
+        this.roles = new Array<AccountRole>();        
     }
 }
 
-export class AuthorizationInfo {
+//--------------------------------------------------------------------------------------------------------
+export class AppSecurityInfo {
+    AppId: string;
+    SecurityValue: string;
 
+    constructor() {
+        this.AppId = '';
+        this.SecurityValue = '';
+    }
+}
+
+//--------------------------------------------------------------------------------------------------------
+export class AuthorizationInfo {
     authorizationProperties: AuthorizationProperties;
 
     constructor(jwt: string, accountName: string) {
@@ -34,19 +51,40 @@ export class AuthorizationInfo {
         this.authorizationProperties.accountName = accountName;
     }
 
+    SetSecurityValues(asi: AppSecurityInfo) {
+        this.authorizationProperties.AppSecurityInfo.AppId = asi.AppId; 
+        this.authorizationProperties.AppSecurityInfo.SecurityValue = asi.SecurityValue; 
+    }
+
+    SetInstances(instances: Array<object>) {
+        let instance: Instance;
+        instances.forEach(
+            p => {
+                instance = new Instance();
+                instance.InstanceKey =  p['InstanceKey'];
+                instance.Description = p['Description'];
+                instance.Disabled = p['Disabled'];
+                instance.Origin = p['Origin'];
+                instance.Tags = p['Tags'];
+                instance.UnderMaintenance = p['UnderMaintenance'];
+                this.authorizationProperties.instances.push(instance);
+            }
+        );
+    }
+
     SetSubscriptions(subscriptions: Array<object>) {
-        let subscription: Subscription;
+        let subscription: AppSubscription;
         subscriptions.forEach(
             p => {
-                subscription = new Subscription();
-                subscription.subscriptionKey = p['SubscriptionKey'];
-                subscription.applicationLanguage = p['ApplicationLanguage'];
-                subscription.description = p['Description'];
-                subscription.instanceKey = p['InstanceKey'];
-                subscription.minDBSizeToWarn = p['MinDBSizeToWarn'];
-                subscription.preferredLanguage = p['PreferredLanguage'];
+                subscription = new AppSubscription();
+                subscription.SubscriptionKey = p['SubscriptionKey'];
+                subscription.Description = p['Description'];
+                subscription.MinDBSizeToWarn = p['MinDBSizeToWarn'];
+                subscription.Language = p['language'];
+                subscription.RegionalSettings = p['RegionalSettings'];
+                subscription.UnderMaintenance = p['UnderMaintenance'];
                 // @@TODO con Ilaria
-                subscription.activationToken = ''; 
+                subscription.ActivationToken = ''; 
                 
                 this.authorizationProperties.subscriptions.push(subscription);
             }
@@ -73,7 +111,7 @@ export class AuthorizationInfo {
         );
     }
     
-    SetRoles(roles: Array<string>) {
+    SetRoles(roles: Array<AccountRole>) {
         roles.forEach(
             p => {
                 this.authorizationProperties.roles.push(p);
@@ -81,13 +119,45 @@ export class AuthorizationInfo {
         );
     }
 
-    HasRole(roleName: RoleNames): boolean {
+    HasRoleName(roleName: string): boolean {
+        
         if (this.authorizationProperties.roles.length == 0)
         {
             return false;
         }
 
-        let foundElementIndex = this.authorizationProperties.roles.findIndex(p => p == roleName.toString());
+        let foundElementIndex = this.authorizationProperties.roles.findIndex(p => p.RoleName.toUpperCase() == roleName.toUpperCase());
+        return foundElementIndex >= 0;
+    }
+
+    VerifyRole(roleName:string, level: string, entityKey:string): boolean {
+        
+        if (this.authorizationProperties.roles.length == 0)
+        {
+            return false;
+        }
+
+        let foundElementIndex = this.authorizationProperties.roles.findIndex(
+            (p => p.RoleName.toUpperCase() == roleName.toUpperCase()) &&
+            (p => p.Level.toUpperCase() == level.toUpperCase()) &&
+            (p => p.EntityKey.toUpperCase() == entityKey.toUpperCase())
+        );
+
+        return foundElementIndex >= 0;
+    }
+
+    VerifyRoleLevel(roleName:string, level: string): boolean {
+
+        if (this.authorizationProperties.roles.length == 0)
+        {
+            return false;
+        }
+
+        let foundElementIndex = this.authorizationProperties.roles.findIndex(
+            (p => p.RoleName.toUpperCase() == roleName.toUpperCase()) &&
+            (p => p.Level.toUpperCase() == level.toUpperCase())
+        );
+
         return foundElementIndex >= 0;
     }
 }

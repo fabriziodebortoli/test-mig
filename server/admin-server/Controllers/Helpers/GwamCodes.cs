@@ -64,12 +64,18 @@ namespace Microarea.AdminServer.Controllers.Helpers
 					return Strings.MissingToken;
                 case 24:
                     return Strings.WrongRecoveryCode;
-
+				case 25:
+					return Strings.UnknownAccount;
+				case 26:
+					return Strings.NoInstancesAvailable;
+				case 27:
+					return Strings.EmptyParameters;
+                case 28:
+                    return Strings.UnknownModelName;
 
                 default:
 					return Strings.UnknownError;
 			}
-
 		}
     }
 }

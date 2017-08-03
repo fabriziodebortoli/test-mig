@@ -48,11 +48,21 @@ namespace Microarea.Common.Generic
 			return string.Compare(str1, str2, StringComparison.OrdinalIgnoreCase) == 0;
 		}
 
-		//--------------------------------------------------------------------------------
-		/// <summary>
-		/// Effettua una Replace no case
-		/// </summary>
-		public static string ReplaceNoCase(this string inputString, string stringToReplace, string replaceString)
+        public static bool CompareNoCase(this string str1, string[] str2)
+        {
+            foreach (string s in str2)
+            {
+                if (string.Compare(str1, s, StringComparison.OrdinalIgnoreCase) == 0)
+                    return true;
+            }
+            return false;
+        }
+
+        //--------------------------------------------------------------------------------
+        /// <summary>
+        /// Effettua una Replace no case
+        /// </summary>
+        public static string ReplaceNoCase(this string inputString, string stringToReplace, string replaceString)
 		{
 			return Regex.Replace(
 				inputString,
@@ -709,6 +719,11 @@ namespace Microarea.Common.Generic
             return s;
         }
 
+        public static string ToJson(this Guid g, string name = null, bool bracket = false)
+        {
+            return g.ToString().ToJson(name, bracket, false, true);
+        }
+
         public static string ToJson(this bool b, string name = null, bool bracket = false)
         {
             return b.ToString().ToLower().ToJson(name, bracket, false, false);
@@ -718,6 +733,10 @@ namespace Microarea.Common.Generic
             return c.ToString().ToJson(name, bracket, escape);
         }
         public static string ToJson(this int n, string name = null, bool bracket = false)
+        {
+            return n.ToString().ToJson(name, bracket, false, false);
+        }
+        public static string ToJson(this uint n, string name = null, bool bracket = false)
         {
             return n.ToString().ToJson(name, bracket, false, false);
         }
@@ -737,6 +756,10 @@ namespace Microarea.Common.Generic
         {
             return n.ToString().ToJson(name, bracket, false, false);
         }
+        public static string ToJson(this ulong n, string name = null, bool bracket = false)
+        {
+            return n.ToString().ToJson(name, bracket, false, false);
+        }
         public static string ToJson(this byte n, string name = null, bool bracket = false)
         {
             return n.ToString().ToJson(name, bracket, false, false);
@@ -744,7 +767,7 @@ namespace Microarea.Common.Generic
 
         public static string ToJson(this double d, string name = null, bool bracket = false)
         {
-            return d.ToString("F").ToJson(name, bracket, false, false);
+            return d.ToString("F", System.Globalization.CultureInfo.InvariantCulture).ToJson(name, bracket, false, false);
         }
 
         public static string ToJson(this DateTime d, string name = null, bool bracket = false)
@@ -840,57 +863,82 @@ namespace Microarea.Common.Generic
 
         public static string ToJson(this object o, string name = null, bool bracket = false)
         {
-            if (o is string)
+            try
             {
-                string s = o as string;
-                return s.ToJson(name, bracket, true);
+                if (o is string)
+                {
+                    string s = o as string;
+                    return s.ToJson(name, bracket, true);
+                }
+                if (o is double)
+                {
+                    double d = (double)o;
+                    return d.ToJson(name, bracket);
+                }
+                if (o is DateTime)
+                {
+                    DateTime dt = (DateTime)o;
+                    return dt.ToJson(name, bracket);
+                }
+                if (o is int || o is Int32)
+                {
+                    int i = (int)o;
+                    return i.ToJson(name, bracket);
+                }
+                if (o is Boolean)
+                {
+                    Boolean b = (Boolean)o;
+                    return b.ToJson(name, bracket);
+                }
+                if (o is DataEnum)
+                {
+                    DataEnum de = (DataEnum)o;
+                    uint ui = (uint)de;
+                    return ui.ToJson(name, bracket);
+                }
+                if (o is uint || o is UInt32)
+                {
+                    uint i = (uint)o;
+                    return i.ToJson(name, bracket);
+                }
+                if (o is ushort || o is UInt16)
+                {
+                    ushort i = (ushort)o;
+                    return i.ToJson(name, bracket);
+                }
+                if (o is long || o is Int64)
+                {
+                    long i = (long)o;
+                    return i.ToJson(name, bracket);
+                }
+                if (o is short || o is Int16)
+                {
+                    long i = (short)o;
+                    return i.ToJson(name, bracket);
+                }
+                if (o is ulong || o is UInt64)
+                {
+                    ulong i = (ulong)o;
+                    return i.ToJson(name, bracket);
+                }
+                if (o is Guid)
+                {
+                    Guid g = (Guid)o;
+                    return g.ToJson(name, bracket);
+                }
+                if (o is Enum)
+                {
+                    //Enum e = (Enum)o;
+                    int i = (int)o;
+                    return i.ToJson(name, bracket);
+                }
             }
-            if (o is double)
+            catch (Exception ex)
             {
-                double d = (double)o;
-                return d.ToJson(name, bracket);
-            }
-            if (o is DateTime)
-            {
-                DateTime dt = (DateTime)o;
-                return dt.ToJson(name, bracket);
-            }
-            if (o is int || o is Int32)
-            {
-                int i = (int)o;
-                return i.ToJson(name, bracket);
-            }
-            if (o is Boolean)
-            {
-                Boolean b = (Boolean)o;
-                return b.ToJson(name, bracket);
-            }
-            if (o is DataEnum)
-            {
-                DataEnum de = (DataEnum)o;
-                return de.ToJson(name, bracket);
-            }
-            if (o is uint)
-            {
-                uint i = (uint)o;
-                return i.ToJson(name, bracket);
-            }
-            if (o is ushort)
-            {
-                ushort i = (ushort)o;
-                return i.ToJson(name, bracket);
-            }
-            if (o is long)
-            {
-                long i = (uint)o;
-                return i.ToJson(name, bracket);
-            }
-            if (o is short || o is Int16)
-            {
-                long i = (short)o;
-                return i.ToJson(name, bracket);
+                Debug.Fail(ex.Message);
             }
             Debug.Fail("ToJson(object..." + o.GetType().ToString());
+
             return o.ToString().ToJson(name, bracket, true);
         }
     }

@@ -78,7 +78,7 @@ namespace Microarea.RSWeb.Controllers
                 sb.Append(entry);
             }
             string xmlResult = sb.ToString();
- 
+
             return new ContentResult { Content = xmlResult, ContentType = "application/xml" };
         }
 
@@ -113,11 +113,11 @@ namespace Microarea.RSWeb.Controllers
         }
 
         //---------------------------------------------------------------------
-        [Route("image/{namespace}")] 
+        [Route("image/{namespace}")]
         public IActionResult GetImage(string nameSpace)
         {
             if (nameSpace.IsNullOrEmpty())
-                return new ContentResult { Content = "Empty file name", ContentType = "application/text" }; 
+                return new ContentResult { Content = "Empty file name", ContentType = "application/text" };
 
             UserInfo ui = GetLoginInformation();
             if (ui == null)
@@ -154,29 +154,35 @@ namespace Microarea.RSWeb.Controllers
         [Route("file/{filename}")]
         public IActionResult GetFile(string filename)
         {
-            if (filename.IsNullOrEmpty())
+            string path = Path.GetTempPath();
+            string pathComplete = path + filename;
+
+            if (pathComplete.IsNullOrEmpty())
                 return new ContentResult { Content = "Empty file name", ContentType = "application/text" };
 
             UserInfo ui = GetLoginInformation();
             if (ui == null)
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
-            if (!System.IO.File.Exists(filename))
+            if (!System.IO.File.Exists(pathComplete))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
-
-            string ext = System.IO.Path.GetExtension(filename);
 
             try
             {
-                FileStream f = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+                FileStream f = System.IO.File.Open(pathComplete, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-                return new FileStreamResult(f, "application/x-msdownload");
+                Response.ContentType = "application/vnd.ms-excel";
+                Response.Headers.Add("content-disposition", "attachment; filename="+filename);
+
+                return new FileStreamResult(f, "application/vnd.ms-excel");
+
             }
             catch (Exception)
             {
             }
             return new ContentResult { Content = "Cannot access file " + filename, ContentType = "application/text" };
         }
+
 
         //---------------------------------------------------------------------
         //for DEBUG
@@ -199,7 +205,7 @@ namespace Microarea.RSWeb.Controllers
 
         //---------------------------------------------------------------------
         //for DEBUG
-        [Route("data/{namespace}/{page}")] 
+        [Route("data/{namespace}/{page}")]
         public IActionResult GetJsonPageData(string nameSpace, int page)
         {
             UserInfo ui = GetLoginInformation();

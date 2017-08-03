@@ -1,3 +1,4 @@
+import { LayoutService } from './../../../core/services/layout.service';
 import { Component, Input } from '@angular/core';
 
 import { HttpService } from './../../../core/services/http.service';
@@ -11,12 +12,11 @@ import { ControlComponent } from './../control.component';
 })
 export class ImageComponent extends ControlComponent {
 
-  @Input() width: number;
-  @Input() height: number;
   @Input() title: string = '';
 
-  constructor(private httpService: HttpService) {
-    super();
+  constructor(private httpService: HttpService,
+  protected layoutService: LayoutService) {
+    super(layoutService);
   }
 
   getStyles() {

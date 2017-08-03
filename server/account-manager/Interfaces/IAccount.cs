@@ -17,6 +17,5 @@ namespace Microarea.AccountManager.Interfaces
         string PreferredLanguage { get; set; }
         string ApplicationLanguage { get; set; }
         bool IsWindowsAuthentication { get; set; }
-        bool IsProvisioningAdmin { get; set; }
     }
 }

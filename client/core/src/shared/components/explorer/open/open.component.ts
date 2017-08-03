@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Response, URLSearchParams, Http } from '@angular/http';
 import { Observable, Subscription } from 'rxjs';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 import { DocumentComponent } from './../../document.component';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { EventDataService } from './../../../../core/services/eventdata.service';
 import { ExplorerService } from './../../../../core/services/explorer.service';
 
-import { ImageService } from '../../../menu/services/image.service';
-import { MenuService } from './../../../menu/services/menu.service';
+import { MenuService } from './../../../../menu/services/menu.service';
+import { ImageService } from './../../../../menu/services/image.service';
 
 import { PanelBarExpandMode, PanelBarItemModel } from '@progress/kendo-angular-layout';
 
@@ -18,8 +19,6 @@ import { PanelBarExpandMode, PanelBarItemModel } from '@progress/kendo-angular-l
   styleUrls: ['./open.component.css'],
   providers: [ExplorerService, EventDataService]
 })
-
-
 export class OpenComponent extends DocumentComponent implements OnInit {
 
   public applications: any;
@@ -38,8 +37,8 @@ export class OpenComponent extends DocumentComponent implements OnInit {
     private imageService: ImageService,
     private menuService: MenuService,
     private utilsService: UtilsService,
-    private http: Http) {
-    super(explorerService, eventData);
+    private http: Http, ) {
+    super(explorerService, eventData, null);
   }
 
   ngOnDestroy() {
@@ -52,7 +51,6 @@ export class OpenComponent extends DocumentComponent implements OnInit {
       this.applications = result.Applications.Application;
     });
 
-
   }
 
   getApplications() {
@@ -63,7 +61,7 @@ export class OpenComponent extends DocumentComponent implements OnInit {
     }).catch(this.handleError);
   }
 
-  protected handleError(error: any) {
+  protected handleError(error: any): ErrorObservable {
     // In a real world app, we might use a remote logging infrastructure
     // We'd also dig deeper into the error to get a better message
     let errMsg = (error.message) ? error.message :

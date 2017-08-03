@@ -5,8 +5,7 @@ import { Logger } from './logger.service';
 @Injectable()
 export class UtilsService {
 
-  offsetHeight: number;
-  offsetWidth: number;
+
   constructor(private logger: Logger) {
     this.logger.debug('UtilsService instantiated - ' + Math.round(new Date().getTime() / 1000));
   }
@@ -113,14 +112,5 @@ export class UtilsService {
     } : null;
   }
 
-  detectDPI() {
-    let dpiElement = document.getElementById("dpi");
-    if (dpiElement) {
-      
-      this.offsetHeight = dpiElement.offsetHeight;
-      this.offsetWidth = dpiElement.offsetWidth;
-      console.log("width: " + this.offsetWidth + " height: " + this.offsetHeight)
-    }
-
-  }
+  
 }

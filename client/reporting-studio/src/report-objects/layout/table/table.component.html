@@ -10,8 +10,8 @@
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex">
                 <div [ngStyle]="getSingleCellStyle(dataItem[columnIndex], rowIndex, col)">
-                    <div *ngIf="!dataItem[columnIndex][col.id].link">
-                        {{getValue(dataItem, col.id, columnIndex)}}
+                    <div *ngIf="!dataItem[columnIndex][col.id].link" [innerHtml]="getValue(dataItem, col.id, columnIndex)">
+                   
                     </div>
                     <rs-link *ngIf="dataItem[columnIndex][col.id].link" [link]="dataItem[columnIndex][col.id].link">
                         {{getValue(dataItem, col.id, columnIndex)}}

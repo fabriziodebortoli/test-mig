@@ -102,7 +102,18 @@ export class HttpService {
         return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers });
         //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
     }
-
+    /**
+   * API /getProductInfo
+   * 
+   * @returns {Observable<any>} getProductInfo
+   */
+    getProductInfo(): Observable<any> {
+        let obj = { token: this.cookieService.get('authtoken') }
+        return this.postData(this.getDocumentBaseUrl() + 'getProductInfo/', obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
     getBaseUrl() {
         return this.urlService.getApiUrl();
     }
@@ -125,6 +136,11 @@ export class HttpService {
     }
     getDataServiceUrl() {
         let url = this.urlService.getBackendUrl() + '/data-service/';
+        return url;
+    }
+
+    getReportServiceUrl() {
+        let url = this.urlService.getBackendUrl() + '/rs/';
         return url;
     }
 
