@@ -273,4 +273,7 @@
   <data name="EmptyParameters" xml:space="preserve">
     <value>Parameters are empty.</value>
   </data>
+  <data name="NoSubscriptionDatabasesAvailable" xml:space="preserve">
+    <value>No databases available.</value>
+  </data>
 </root>
