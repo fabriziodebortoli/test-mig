@@ -1,1 +1,18 @@
-<ng-content></ng-content>
+<div class="tile-manager2">
+    <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)" tabPosition="right">
+        <kendo-tabstrip-tab *ngFor="let tile of getTiles();let i = index" [selected]="i == 0">
+            <ng-template kendoTabTitle>
+                <div (click)="toggleMenu(tile)">
+                    <tb-icon [iconType]="tile?.iconType" [icon]="tile?.icon" class="groupIcon"></tb-icon>
+                    <span>{{tile?.title}}</span>
+                </div>
+            </ng-template>
+            <ng-template kendoTabContent>
+                <div class='kendoTabContent' [style.width.px]="width">
+                    <!-- [@isVisibleChanged]="menuState" -->
+                    <ng-content></ng-content>
+                </div>
+            </ng-template>
+        </kendo-tabstrip-tab>
+    </kendo-tabstrip>
+</div>

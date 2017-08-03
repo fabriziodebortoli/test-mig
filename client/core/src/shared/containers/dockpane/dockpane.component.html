@@ -1,6 +1,9 @@
-<button (click)="toggleMenu()" class="hamburger2"><md-icon>settings</md-icon></button>
+<!-- <button (click)="toggleMenu()" class="hamburger2"><md-icon>settings</md-icon></button>
 <div [@slideInOut]="menuState" class="pippo">
     <button (click)="toggleMenu()" class="hamburger"><md-icon>settings</md-icon>
 </button>
+    <ng-content></ng-content>
+</div> -->
+<div class="tile-group" *ngIf="active">
     <ng-content></ng-content>
 </div>
