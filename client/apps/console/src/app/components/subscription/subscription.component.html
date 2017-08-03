@@ -29,6 +29,13 @@
     </div>
   </div>
   <br>
+   <div class="row">
+    <div class="box" style="width:60%">
+      <br>
+       <h4 class="componentTitle">Databases</h4>
+       <admin-list [items]=databases [columnNames]="['Name','Description', 'Test']"></admin-list>
+    </div>
+  </div>  
   <div class="row end-xs center-sm center-lg">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
@@ -36,6 +43,4 @@
       </div>
     </div>
   </div>
-
-  <app-subscription-databases></app-subscription-databases>
 </div>
