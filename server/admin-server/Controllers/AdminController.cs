@@ -9,7 +9,6 @@ using Microarea.AdminServer.Services.BurgerData;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +23,7 @@ namespace Microarea.AdminServer.Controllers
 
 		BurgerData burgerData;
 
-        IJsonHelper _jsonHelper;
+        IJsonHelper jsonHelper;
 		IHttpHelper _httpHelper;
 
 		string GWAMUrl;
@@ -34,7 +33,7 @@ namespace Microarea.AdminServer.Controllers
         {
             _env = env;
             _settings = settings.Value;
-            _jsonHelper = jsonHelper;
+            this.jsonHelper = jsonHelper;
 			_httpHelper = httpHelper;
 
 			this.GWAMUrl = _settings.ExternalUrls.GWAMUrl;
@@ -68,8 +67,8 @@ namespace Microarea.AdminServer.Controllers
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiHome()
         {
-            _jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea Admin-Server API");
-            return new ContentResult { Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+            jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea Admin-Server API");
+            return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
         }
 
 		/// <summary>
@@ -85,16 +84,16 @@ namespace Microarea.AdminServer.Controllers
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.SubscriptionKeyEmpty;
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			if (String.IsNullOrEmpty(subDatabase.Name))
 			{
 				opRes.Result = false;
 				opRes.Message = "Database name empty";
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -106,8 +105,8 @@ namespace Microarea.AdminServer.Controllers
 
 			if (!opRes.Result)
 			{
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			try
@@ -128,17 +127,17 @@ namespace Microarea.AdminServer.Controllers
 			{
 				opRes.Result = false;
 				opRes.Message = "040 AdminController.ApiDatabases" + exc.Message;
-				return new ContentResult { StatusCode = 500, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			if (!opRes.Result)
 			{
 				opRes.Message = Strings.OperationKO;
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddPlainObject<OperationResult>(opRes);
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
 		/// <summary>
@@ -159,8 +158,8 @@ namespace Microarea.AdminServer.Controllers
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.SubscriptionKeyEmpty;
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 501, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -172,8 +171,8 @@ namespace Microarea.AdminServer.Controllers
 
 			if (!opRes.Result)
 			{
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			List<ISubscriptionDatabase> databasesList = new List<ISubscriptionDatabase>();
@@ -188,8 +187,8 @@ namespace Microarea.AdminServer.Controllers
 			{
 				opRes.Result = false;
 				opRes.Message = "010 AdminController.ApiGetDatabasesBySubscription" + exc.Message;
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 501, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			if (databasesList.Count == 0)
@@ -197,14 +196,14 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = true;
 				opRes.Code = (int)AppReturnCodes.NoSubscriptionDatabasesAvailable;
 				opRes.Message = Strings.NoSubscriptionDatabasesAvailable;
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			opRes.Result = true;
 			opRes.Content = databasesList;
-			_jsonHelper.AddPlainObject<OperationResult>(opRes);
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
         /// <summary>
@@ -219,9 +218,9 @@ namespace Microarea.AdminServer.Controllers
 		{
 			if (string.IsNullOrWhiteSpace(instanceKey))
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", Strings.InstanceKeyEmpty);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				jsonHelper.AddJsonCouple<bool>("result", false);
+				jsonHelper.AddJsonCouple<string>("message", Strings.InstanceKeyEmpty);
+				return new ContentResult { StatusCode = 501, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -232,8 +231,8 @@ namespace Microarea.AdminServer.Controllers
 
 			if (!opRes.Result)
 			{
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			List<ISubscription> subscriptionsList = new List<ISubscription>();
@@ -246,20 +245,20 @@ namespace Microarea.AdminServer.Controllers
 			}
 			catch (Exception exc)
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", "010 AdminCOntroller.ApiGetSubscriptions" + exc.Message);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				jsonHelper.AddJsonCouple<bool>("result", false);
+				jsonHelper.AddJsonCouple<string>("message", "010 AdminCOntroller.ApiGetSubscriptions" + exc.Message);
+				return new ContentResult { StatusCode = 501, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
 			if (subscriptionsList == null)
 			{
-				_jsonHelper.AddJsonCouple<bool>("result", false);
-				_jsonHelper.AddJsonCouple<string>("message", Strings.InvalidUser);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+				jsonHelper.AddJsonCouple<bool>("result", false);
+				jsonHelper.AddJsonCouple<string>("message", Strings.InvalidUser);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddPlainObject<List<ISubscription>>(subscriptionsList);
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			jsonHelper.AddPlainObject<List<ISubscription>>(subscriptionsList);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
         [HttpPost("/api/query/{modelName}")]
@@ -273,8 +272,8 @@ namespace Microarea.AdminServer.Controllers
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.EmptyModelName;
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			if (apiQueryData == null ||
@@ -282,8 +281,8 @@ namespace Microarea.AdminServer.Controllers
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.MissingBody;
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			ModelTables modelTable = SqlScriptManager.GetModelTable(modelName);
@@ -292,8 +291,8 @@ namespace Microarea.AdminServer.Controllers
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.UnknownModelName;
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			// check AuthorizationHeader first
@@ -304,8 +303,8 @@ namespace Microarea.AdminServer.Controllers
 
 			if (!opRes.Result)
 			{
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			try
@@ -323,12 +322,12 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Result = false;
 				opRes.Message = "012 AdminController.ApiQuery" + e.Message;
 				opRes.Code = (int)AppReturnCodes.ExceptionOccurred;
-				_jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 501, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 501, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			_jsonHelper.AddPlainObject<OperationResult>(opRes);
-			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
 		//-----------------------------------------------------------------------------	
@@ -381,5 +380,94 @@ namespace Microarea.AdminServer.Controllers
 
 			return opRes;
 		}
+
+		[HttpDelete("/api/query/{modelName}")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiQueryDelete(string modelName, [FromBody] APIQueryData apiQueryData)
+		{
+			OperationResult opRes = new OperationResult();
+
+			if (string.IsNullOrWhiteSpace(modelName))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.EmptyModelName;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (apiQueryData == null ||
+				(apiQueryData.MatchingFields.Count == 0 && apiQueryData.LikeFields.Count == 0))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.MissingBody;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			ModelTables modelTable = SqlScriptManager.GetModelTable(modelName);
+
+			if (modelTable == ModelTables.None)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.UnknownModelName;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// checking authorization
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, _settings.InstanceIdentity.InstanceKey, RoleLevelsStrings.Instance);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			bool queryResult;
+
+			try
+			{
+				DeleteScript deleteScript = new DeleteScript(SqlScriptManager.GetTableName(modelTable));
+				deleteScript.LogicOperatorForAllParameters = SqlLogicOperators.AND;
+
+				foreach (KeyValuePair<string, string> kvp in apiQueryData.MatchingFields)
+				{
+					deleteScript.Add(kvp.Key, kvp.Value, QueryComparingOperators.IsEqual, false);
+				}
+
+				queryResult = this.burgerData.ExecuteNoResultsQuery(deleteScript.ToString());
+			}
+			catch (Exception e)
+			{
+				opRes.Result = false;
+				opRes.Message = String.Format(Strings.ExceptionMessage, e.Message);
+				opRes.Code = (int)AppReturnCodes.ExceptionOccurred;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (!queryResult)
+			{
+				opRes.Result = false;
+				opRes.Message = String.Format(Strings.OperationKO, "BurgerData delete query failed.");
+				opRes.Code = (int)AppReturnCodes.InternalError;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// query executed without exception
+
+			opRes.Result = true;
+			opRes.Message = Strings.OperationOK;
+			opRes.Code = (int)AppReturnCodes.OK;
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
 	}
 }
