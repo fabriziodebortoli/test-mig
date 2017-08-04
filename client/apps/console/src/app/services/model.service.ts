@@ -196,6 +196,29 @@ export class ModelService {
   }
 
   //--------------------------------------------------------------------------------------------------------
+  queryDelete(modelName: string, body: Object): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('app');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    if (modelName === '') {
+      return Observable.throw('The model name to query is missing!');
+    }
+
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers, body: body });
+
+    return this.http.delete(environment.gwamAPIUrl + 'query/' + modelName, options)
+    .map((res : Response) => {
+      return res.json();
+    })
+    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }  
+
+  //--------------------------------------------------------------------------------------------------------
   addAccountSubscriptionAssociation(accountName:string, subscriptionList:string[]): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');

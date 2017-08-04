@@ -25,11 +25,13 @@ export class AccountSubscriptionsComponent {
 
   searchString: string;
   
+  //--------------------------------------------------------------------------------
   constructor(private modelService: ModelService) { 
     this.subscriptions = new Array<SubscriptionAccount>();
     this.subscriptionsResult = new Array<AccountRole>();
   }
 
+  //--------------------------------------------------------------------------------
   doSearchSubscriptions() {
 
     let authorizationStored = localStorage.getItem('auth-info');
@@ -51,6 +53,7 @@ export class AccountSubscriptionsComponent {
       .subscribe(res => { this.subscriptionsResult = res['Content']; });
   }
 
+  //--------------------------------------------------------------------------------
   associateSubscription(item: AccountRole) {
 
     if(!confirm('This command will associate the subscription ' + item.EntityKey + ' to this account (' + this.editAccountName + '). Confirm?')) {
@@ -62,6 +65,10 @@ export class AccountSubscriptionsComponent {
     this.modelService.addAccountSubscriptionAssociation(this.editAccountName, subs).subscribe(
       res => {
         alert('Association regularly saved.');
+        let subAcc:SubscriptionAccount = new SubscriptionAccount();
+        subAcc.accountName = this.editAccountName;
+        subAcc.subscriptionKey = item.EntityKey;
+        this.subscriptions.push(subAcc);
       },
       err => {
         alert('Oops, something went wrong with your request: ' + err);
@@ -69,24 +76,30 @@ export class AccountSubscriptionsComponent {
     );
   }
 
-  deleteAssociation(item: AccountRole) {
+  //--------------------------------------------------------------------------------
+  deleteAssociation(item: SubscriptionAccount) {
 
-    if(!confirm('Delete association between the subscription ' + item.EntityKey + ' and this account (' + this.editAccountName + ')?')) {
+    if (!confirm('Delete association between the subscription ' + item.subscriptionKey + ' and this account (' + this.editAccountName + ')?')) {
       return;
     }
 
-    let subs: string[] = [item.EntityKey];
+    let subs: string[] = [item.subscriptionKey];
 
-    alert('todo');
-    return;
-
-    // this.modelService.addAccountSubscriptionAssociation(this.editAccountName, subs).subscribe(
-    //   res => {
-    //     alert('Association regularly saved.');
-    //   },
-    //   err => {
-    //     alert('Oops, something went wrong with your request: ' + err);
-    //   }
-    // );    
+    this.modelService.queryDelete(
+        'subscriptionaccounts', 
+        { MatchingFields : { AccountName : this.editAccountName , SubscriptionKey : item.subscriptionKey } } )
+      .subscribe(
+        res => {
+          alert('Association has been deleted.');
+          let index:number = this.subscriptions.findIndex(
+            p => p.accountName == this.editAccountName && p.subscriptionKey == item.subscriptionKey);
+          if (index > -1) {
+            this.subscriptions.splice(index, 1);
+          }
+        },
+        err => {
+          alert('Oops, something went wrong with your request: ' + err);
+        }
+      );
   }
 }
