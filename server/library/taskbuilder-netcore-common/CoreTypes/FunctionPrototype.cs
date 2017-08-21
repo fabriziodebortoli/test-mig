@@ -991,7 +991,7 @@ namespace Microarea.Common.CoreTypes
 			Add(Token.MAKEUPPERLIMIT, "String", new string[] { "String" });
 			Add(Token.MIN, "Object", new string[] { "Object" });   //array
 			Add(Token.MIN, "Object", new string[] { "Object", "Object" });
-			Add(Token.MOD, "Int32", new string[] { "Int32", "Int32" });
+			Add(Token.MOD, "Double", new string[] { "Double", "Double" });
 			Add(Token.MONTH, "Int32", new string[] { "DateTime" });
 			Add(Token.MONTH_DAYS, "Int32", new string[] { "Int32", "Int32" });
 			Add(Token.MONTH_NAME, "String", new string[] { "Int32" });

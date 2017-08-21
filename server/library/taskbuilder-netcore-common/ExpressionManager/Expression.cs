@@ -2513,8 +2513,8 @@ namespace Microarea.Common.ExpressionManager
 					Value p2 = (Value) paramStack.Pop();
 					double d1 = CastDouble(p1);
 					double d2 = CastDouble(p2);
-					int i = (int) Math.IEEERemainder(d1, d2);
-					return new Value(i);
+					double dbl = Math.IEEERemainder(d1, d2);
+					return new Value(dbl);
 				}
 				case Token.RAND:
 				{
