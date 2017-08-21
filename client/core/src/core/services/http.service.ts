@@ -114,6 +114,13 @@ export class HttpService {
                 return res.json();
             });
     }
+    getDictionaries(): Observable<any> {
+        let obj = { token: this.cookieService.get('authtoken') }
+        return this.postData(this.getDocumentBaseUrl() + 'getDictionaries/', obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
     getBaseUrl() {
         return this.urlService.getApiUrl();
     }

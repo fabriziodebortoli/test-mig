@@ -42,14 +42,14 @@ import {
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
-    UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, Accordion, RadarComponent
+    UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, Accordion, RadarComponent, CultureSelectorComponent
 } from './components';
 export * from './components';
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
-    UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, Accordion, RadarComponent
+    UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, Accordion, RadarComponent, CultureSelectorComponent
 ];
 
 /**

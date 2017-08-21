@@ -18,13 +18,14 @@ import { Subscription } from "rxjs/Subscription";
 export abstract class BOCommonComponent extends DocumentComponent implements OnInit, OnDestroy {
   translations = [];
   subscriptions: Subscription[] = [];
-  culture = 'it-IT';
+  culture = '';
   installationVersion = '';
   constructor(document: BOService,
     eventData: EventDataService,
     ciService: ComponentInfoService) {
     super(document, eventData, ciService);
 
+    this.culture = this.ciService.globalInfoService.culture.value;
     let me = this;
     this.subscriptions.push(document.windowStrings.subscribe((args: any) => {
       if (me.cmpId === args.id) {
