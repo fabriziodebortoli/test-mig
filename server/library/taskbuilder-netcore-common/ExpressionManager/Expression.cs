@@ -651,7 +651,7 @@ namespace Microarea.Common.ExpressionManager
 				case "Int16":
 				switch (t2)
 				{
-					case "Int16":	return "Int32";
+					case "Int16":	return "Int16";
 					case "Int32":
 					case "Int64":	return "Int32"; 
 					default:		return null;
@@ -669,7 +669,9 @@ namespace Microarea.Common.ExpressionManager
 				case "Int64":
 				switch (t2)
 				{
-					case "Int64":	return "Int32"; 
+                    case "Int16":
+                    case "Int32":
+                    case "Int64":	return "Int32"; 
 					default:		return null;
 				}
 				default : return null;
