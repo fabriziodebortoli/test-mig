@@ -151,8 +151,8 @@ namespace Microarea.RSWeb.Controllers
         }
 
         //---------------------------------------------------------------------
-        [Route("file/{filename}")]
-        public IActionResult GetFile(string filename)
+        [Route("excel/{filename}")]
+        public IActionResult GetExcel(string filename)
         {
             string path = Path.GetTempPath();
             string pathComplete = path + filename;
@@ -175,6 +175,39 @@ namespace Microarea.RSWeb.Controllers
                 Response.Headers.Add("content-disposition", "attachment; filename="+filename);
 
                 return new FileStreamResult(f, "application/vnd.ms-excel");
+
+            }
+            catch (Exception)
+            {
+            }
+            return new ContentResult { Content = "Cannot access file " + filename, ContentType = "application/text" };
+        }
+
+        //---------------------------------------------------------------------
+        [Route("docx/{filename}")]
+        public IActionResult GetDocx(string filename)
+        {
+            string path = Path.GetTempPath();
+            string pathComplete = path + filename;
+
+            if (pathComplete.IsNullOrEmpty())
+                return new ContentResult { Content = "Empty file name", ContentType = "application/text" };
+
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
+                return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
+
+            if (!System.IO.File.Exists(pathComplete))
+                return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
+
+            try
+            {
+                FileStream f = System.IO.File.Open(pathComplete, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                Response.Headers.Add("content-disposition", "attachment; filename=" + filename);
+
+                return new FileStreamResult(f, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 
             }
             catch (Exception)
