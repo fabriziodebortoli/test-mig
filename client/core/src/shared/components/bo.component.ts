@@ -19,16 +19,17 @@ export abstract class BOCommonComponent extends DocumentComponent implements OnI
   translations = [];
   subscriptions: Subscription[] = [];
   culture = 'it-IT';
-  version = '1';
+  installationVersion = '';
   constructor(document: BOService,
     eventData: EventDataService,
     ciService: ComponentInfoService) {
     super(document, eventData, ciService);
+
     let me = this;
     this.subscriptions.push(document.windowStrings.subscribe((args: any) => {
       if (me.cmpId === args.id) {
         me.translations = args.strings;
-        let jItem = { translations: me.translations, version:this.version };
+        let jItem = { translations: me.translations, installationVersion: this.installationVersion };
         localStorage.setItem(this.getDictionaryID(this.ciService.componentInfo), JSON.stringify(jItem));
       }
     }));
@@ -48,13 +49,23 @@ export abstract class BOCommonComponent extends DocumentComponent implements OnI
     return target;
   }
   ngOnInit() {
+    let sub = this.ciService.globalInfoService.getProductInfo().subscribe((productInfo: any) => {
+      this.installationVersion = productInfo.installationVersion;
+      if (sub)
+        sub.unsubscribe();
+      this.readTranslations();
+    });
+
+    super.ngOnInit();
+  }
+  private readTranslations() {
     let item = localStorage.getItem(this.getDictionaryID(this.ciService.componentInfo));
     let found = false;
     if (item) {
       try {
         let jItem = JSON.parse(item);
 
-        if (jItem.version === this.version) {
+        if (jItem.installationVersion === this.installationVersion) {
           this.translations = jItem.translations;
           found = true;
         }
@@ -67,7 +78,6 @@ export abstract class BOCommonComponent extends DocumentComponent implements OnI
       let s = this.document as BOService;
       s.getWindowStrings(this.cmpId, this.culture);
     }
-    super.ngOnInit();
   }
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());

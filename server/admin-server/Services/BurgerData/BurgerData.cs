@@ -738,7 +738,6 @@ namespace Microarea.AdminServer.Services.BurgerData
         }
 
         //================================================================================
-
         public enum DataProvider
         {
             SqlClient,
@@ -829,7 +828,8 @@ namespace Microarea.AdminServer.Services.BurgerData
             Accounts,
             Subscriptions,
             SubscriptionAccounts,
-            Roles,
+			SubscriptionDatabases,
+			Roles,
             AccountRoles,
             RegisteredApps,
             Instances,
