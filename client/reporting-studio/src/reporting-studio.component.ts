@@ -72,6 +72,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     this.rsService.rsExportPdf.subscribe(() => this.startSavePDF());
     this.rsService.rsExportExcel.subscribe(() => this.startSaveExcel());
+    this.rsService.rsExportDocx.subscribe(() => this.startSaveDocx());
     this.rsService.eventNextPage.subscribe(() => this.NextPage());
     this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
     this.rsService.eventCurrentPage.subscribe(() => this.CurrentPage());
@@ -168,6 +169,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
             break;
           }
           this.getExcelData(k + ".xlsx");
+          break;
+        case CommandType.EXPORTDOCX:
+          this.getDocxData(k + ".docx");
           break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
@@ -318,6 +322,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       this.rsService.exportpdf = true;
     if (type == this.rsService.excel)
       this.rsService.exportexcel = true;
+    if(type == this.rsService.docx)
+      this.rsService.exportdocx = true;
     this.rsService.exportfile = true
   }
 
@@ -339,9 +345,27 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
+  public startSaveDocx() {
+    let message = {
+      commandType: CommandType.EXPORTDOCX,
+      message: this.args.nameSpace,
+      page: this.curPageNum
+    };
+
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  //--------------------------------------------------
   getExcelData(filename: string) {
     var iframeHTML = document.getElementById('iframe') as HTMLFrameElement;
-    var s = this.httpServ.getReportServiceUrl() + 'file/' + filename;
+    var s = this.httpServ.getReportServiceUrl() + 'excel/' + filename;
+    iframeHTML.src = s;
+  }
+
+  //--------------------------------------------------
+  getDocxData(filename: string) {
+    var iframeHTML = document.getElementById('iframe') as HTMLFrameElement;
+    var s = this.httpServ.getReportServiceUrl() + 'docx/' + filename;
     iframeHTML.src = s;
   }
 }

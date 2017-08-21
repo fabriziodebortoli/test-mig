@@ -13,7 +13,8 @@ using Microarea.RSWeb.WoormEngine;
 
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
+using spreadsheet = DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microarea.RSWeb.Objects;
 
 namespace Microarea.RSWeb.Render
@@ -262,6 +263,18 @@ namespace Microarea.RSWeb.Render
                         msg.message = GetExcelDataPage(first, last);
                         break;
                     }
+                case MessageBuilder.CommandType.EXPORTDOCX:
+                    {
+                        //string[] split = msg.page.Split(',');
+                        //string firstPage = split[0];
+                        //string lastPage = split[1];
+                        //int first, last = 0;
+                        //Int32.TryParse(firstPage, out first);
+                        //Int32.TryParse(lastPage, out last);
+                        msg.page = pageNum.ToString();
+                        msg.message = GetDocxDataPage(pageNum);
+                        break;
+                    }
             }
             return msg;
         }
@@ -303,18 +316,18 @@ namespace Microarea.RSWeb.Render
             {
                 //crea il documento Excel
                 WorkbookPart workbookPart = document.AddWorkbookPart();
-                workbookPart.Workbook = new Workbook();
+                workbookPart.Workbook = new spreadsheet.Workbook();
 
                 //crea il foglio 
                 WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
-                worksheetPart.Worksheet = new Worksheet();
+                worksheetPart.Worksheet = new spreadsheet.Worksheet();
 
                 // Adding style
                 WorkbookStylesPart stylePart = workbookPart.AddNewPart<WorkbookStylesPart>();
                 stylePart.Stylesheet = GenerateStylesheet();
                 stylePart.Stylesheet.Save();
 
-                SheetData sheetData = new SheetData();
+                spreadsheet.SheetData sheetData = new spreadsheet.SheetData();
 
                 for (int i = firstPage; i <= lastPage; i++)
                 {
@@ -328,12 +341,12 @@ namespace Microarea.RSWeb.Render
 
                             if (currentPage == firstPage)
                             {
-                                List<DocumentFormat.OpenXml.Spreadsheet.Column> columList = new List<DocumentFormat.OpenXml.Spreadsheet.Column>();
-                                List<DocumentFormat.OpenXml.Spreadsheet.Cell> cells = new List<DocumentFormat.OpenXml.Spreadsheet.Cell>();
+                                List<spreadsheet.Column> columList = new List<spreadsheet.Column>();
+                                List<spreadsheet.Cell> cells = new List<spreadsheet.Cell>();
 
                                 // Setting up columns
-                                Columns columns = new Columns();
-                                Row row = new Row();
+                                spreadsheet.Columns columns = new spreadsheet.Columns();
+                                spreadsheet.Row row = new spreadsheet.Row();
                                 uint minCol = 0;
                                 uint maxCol = 0;
 
@@ -341,7 +354,7 @@ namespace Microarea.RSWeb.Render
                                 {
                                     minCol++;
                                     maxCol++;
-                                    columList.Add(new DocumentFormat.OpenXml.Spreadsheet.Column
+                                    columList.Add(new spreadsheet.Column
                                     {
                                         Min = minCol,
                                         Max = maxCol,
@@ -352,18 +365,18 @@ namespace Microarea.RSWeb.Render
                                     // Constructing header
                                     ushort id = col.InternalID;
                                     string title = col.Title.Text;
-                                    cells.Add(ConstructCell(title, CellValues.String, 2));
+                                    cells.Add(ConstructCell(title, spreadsheet.CellValues.String, 2));
                                 }
                                 columns.Append(columList);
                                 worksheetPart.Worksheet.AppendChild(columns);
 
-                                Sheets sheets = workbookPart.Workbook.AppendChild(new Sheets());
-                                Sheet sheet = new Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = woorm.Properties.Title };
+                                spreadsheet.Sheets sheets = workbookPart.Workbook.AppendChild(new spreadsheet.Sheets());
+                                spreadsheet.Sheet sheet = new spreadsheet.Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = woorm.Properties.Title };
                                 sheets.Append(sheet);
 
                                 workbookPart.Workbook.Save();
 
-                                sheetData = worksheetPart.Worksheet.AppendChild(new SheetData());
+                                sheetData = worksheetPart.Worksheet.AppendChild(new spreadsheet.SheetData());
 
                                 // Insert the header row to the Sheet Data 
                                 row.Append(cells);
@@ -373,14 +386,14 @@ namespace Microarea.RSWeb.Render
                             // Inserting each row
                             for (int r = 0; r < t.RowNumber; r++)
                             {
-                                Row row = new Row();
+                                spreadsheet.Row row = new spreadsheet.Row();
 
-                                List<DocumentFormat.OpenXml.Spreadsheet.Cell> dataCells = new List<DocumentFormat.OpenXml.Spreadsheet.Cell>();
+                                List<spreadsheet.Cell> dataCells = new List<spreadsheet.Cell>();
                                 for (int c = 0; c < t.ColumnNumber; c++)
                                 {
                                     Objects.Column colData = t.Columns[c];
                                     string v = colData.Cells[r].Value.FormattedData;
-                                    dataCells.Add(ConstructCell(v, CellValues.String, 1));
+                                    dataCells.Add(ConstructCell(v, spreadsheet.CellValues.String, 1));
                                 }
                                 row.Append(dataCells);
                                 sheetData.AppendChild(row);
@@ -399,56 +412,56 @@ namespace Microarea.RSWeb.Render
             return "Errore".ToJson();
         }
 
-        private DocumentFormat.OpenXml.Spreadsheet.Cell ConstructCell(string value, CellValues dataType, uint styleIndex = 0)
+        private spreadsheet.Cell ConstructCell(string value, spreadsheet.CellValues dataType, uint styleIndex = 0)
         {
             return new DocumentFormat.OpenXml.Spreadsheet.Cell()
             {
-                CellValue = new CellValue(value),
-                DataType = new EnumValue<CellValues>(dataType),
+                CellValue = new spreadsheet.CellValue(value),
+                DataType = new EnumValue<spreadsheet.CellValues>(dataType),
                 StyleIndex = styleIndex
             };
         }
 
-        private Stylesheet GenerateStylesheet()
+        private spreadsheet.Stylesheet GenerateStylesheet()
         {
-            Stylesheet styleSheet = null;
+            spreadsheet.Stylesheet styleSheet = null;
 
-            Fonts fonts = new Fonts(
-                new Font( // Index 0 - default
-                    new FontSize() { Val = 10 }
+            spreadsheet.Fonts fonts = new spreadsheet.Fonts(
+                new spreadsheet.Font( // Index 0 - default
+                    new spreadsheet.FontSize() { Val = 10 }
 
                 ),
-                new Font( // Index 1 - header
-                    new FontSize() { Val = 10 },
-                    new Bold(),
-                    new Color() { Rgb = "FFFFFF" }
+                new spreadsheet.Font( // Index 1 - header
+                    new spreadsheet.FontSize() { Val = 10 },
+                    new spreadsheet.Bold(),
+                    new spreadsheet.Color() { Rgb = "FFFFFF" }
 
                 ));
 
-            Fills fills = new Fills(
-                    new Fill(new PatternFill() { PatternType = PatternValues.None }), // Index 0 - default
-                    new Fill(new PatternFill() { PatternType = PatternValues.Gray125 }), // Index 1 - default
-                    new Fill(new PatternFill(new ForegroundColor { Rgb = new HexBinaryValue() { Value = "66666666" } })
-                    { PatternType = PatternValues.Solid }) // Index 2 - header
+            spreadsheet.Fills fills = new spreadsheet.Fills(
+                    new spreadsheet.Fill(new spreadsheet.PatternFill() { PatternType = spreadsheet.PatternValues.None }), // Index 0 - default
+                    new spreadsheet.Fill(new spreadsheet.PatternFill() { PatternType = spreadsheet.PatternValues.Gray125 }), // Index 1 - default
+                    new spreadsheet.Fill(new spreadsheet.PatternFill(new spreadsheet.ForegroundColor { Rgb = new HexBinaryValue() { Value = "66666666" } })
+                    { PatternType = spreadsheet.PatternValues.Solid }) // Index 2 - header
                 );
 
-            DocumentFormat.OpenXml.Spreadsheet.Borders borders = new DocumentFormat.OpenXml.Spreadsheet.Borders(
-                    new Border(), // index 0 default
-                    new Border( // index 1 black border
-                        new LeftBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
-                        new RightBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
-                        new TopBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
-                        new BottomBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
-                        new DiagonalBorder())
+            spreadsheet.Borders borders = new spreadsheet.Borders(
+                    new spreadsheet.Border(), // index 0 default
+                    new spreadsheet.Border( // index 1 black border
+                        new spreadsheet.LeftBorder(new spreadsheet.Color() { Auto = true }) { Style = spreadsheet.BorderStyleValues.Thin },
+                        new spreadsheet.RightBorder(new spreadsheet.Color() { Auto = true }) { Style = spreadsheet.BorderStyleValues.Thin },
+                        new spreadsheet.TopBorder(new spreadsheet.Color() { Auto = true }) { Style = spreadsheet.BorderStyleValues.Thin },
+                        new spreadsheet.BottomBorder(new spreadsheet.Color() { Auto = true }) { Style = spreadsheet.BorderStyleValues.Thin },
+                        new spreadsheet.DiagonalBorder())
                 );
 
-            CellFormats cellFormats = new CellFormats(
-                    new CellFormat(), // default
-                    new CellFormat { FontId = 0, FillId = 0, BorderId = 1, ApplyBorder = true }, // body
-                    new CellFormat { FontId = 1, FillId = 2, BorderId = 1, ApplyFill = true } // header
+            spreadsheet.CellFormats cellFormats = new spreadsheet.CellFormats(
+                    new spreadsheet.CellFormat(), // default
+                    new spreadsheet.CellFormat { FontId = 0, FillId = 0, BorderId = 1, ApplyBorder = true }, // body
+                    new spreadsheet.CellFormat { FontId = 1, FillId = 2, BorderId = 1, ApplyFill = true } // header
                 );
 
-            styleSheet = new Stylesheet(fonts, fills, borders, cellFormats);
+            styleSheet = new spreadsheet.Stylesheet(fonts, fills, borders, cellFormats);
 
             return styleSheet;
         }
@@ -461,6 +474,57 @@ namespace Microarea.RSWeb.Render
                 int mm = pixel * (int)25.4 / dpiX;
                 return mm;
             }
+        }
+
+
+        public string GetDocxDataPage(int pageNum)
+        {
+            WoormDocument woorm = StateMachine.Woorm;
+            if (StateMachine.Report.EngineType != EngineType.FullExtraction)
+                while (!woorm.RdeReader.IsPageReady(pageNum))
+                {
+                    System.Threading.Tasks.Task.Delay(1000).Wait();
+                };
+            string result = Path.GetTempPath();
+            string documentFileName = result + woorm.Properties.Title.Remove(' ', 0, 0) + ".docx";
+
+            // Create a Wordprocessing document
+            using (WordprocessingDocument myDoc = WordprocessingDocument.Create(documentFileName, WordprocessingDocumentType.Document))
+            {
+                woorm.LoadPage(pageNum);
+
+                // Add a new main document part
+                MainDocumentPart mainPart = myDoc.AddMainDocumentPart();
+
+                //Create Document tree for simple document
+                mainPart.Document = new Document();
+
+                //Create Body (this element contains other elements that we want to include 
+                Body body = new Body();
+
+                //Create paragraph 
+                Paragraph paragraph = new Paragraph();
+                Run run_paragraph = new Run();
+                
+                //foreach (BaseObj o in woorm.Objects)
+                //{
+                    
+                    
+                //}
+
+                    // we want to put that text into the output document 
+                    Text text_paragraph = new Text("Hello World!");
+
+                //Append elements appropriately. 
+                run_paragraph.Append(text_paragraph);
+                paragraph.Append(run_paragraph);
+                body.Append(paragraph);
+                mainPart.Document.Append(body);
+
+                // Save changes to the main document part. 
+                mainPart.Document.Save();
+            }
+            return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
         }
 
 
