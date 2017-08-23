@@ -27,18 +27,17 @@ namespace Microarea.RSWeb.Objects
     //------
     {
         None,
-
         Bar, BarStacked, BarStacked100,
         Column, ColumnStacked, ColumnStacked100,
         Area, AreaStacked, AreaStacked100,
         Line, 
         Pie, Donut, DonutNested,
         Funnel, Pyramid,
-        //Per ora mancano versioni 3D nei Kendo UI
+        Wrong,
         //mancano nei BCGP
-        VerticalLine, VerticalArea, 
-        Wrong
-    }
+        VerticalLine, VerticalArea
+        //nei Kendo UI mancano versioni 3D di bar,column,area
+   }
 
     /// <summary>
     /// Summary description for TableCell.

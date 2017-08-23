@@ -12,6 +12,10 @@ export enum ChartType
     Line, 
     Pie, Donut, DonutNested,
     Funnel, Pyramid,
-    VerticalLine, VerticalArea, 
-    Wrong
+    Wrong,
+    //mancano nei BCGP
+    VerticalLine, VerticalArea
+    //unsupported
+    //variazioni 3D  di bar,column,area  
+    //
 }
