@@ -115,8 +115,8 @@ export class HttpService {
             });
     }
     getDictionaries(): Observable<any> {
-        let obj = { token: this.cookieService.get('authtoken') }
-        return this.postData(this.getDocumentBaseUrl() + 'getDictionaries/', obj)
+        let obj = { }
+        return this.postData(this.getDataServiceUrl() + 'getinstalleddictionaries', obj)
             .map((res: Response) => {
                 return res.json();
             });

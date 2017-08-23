@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 
 using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
+using static Microarea.Common.Generic.InstallationInfo;
 
 namespace Microarea.Common.Generic
 {
@@ -244,7 +245,8 @@ namespace Microarea.Common.Generic
 		//---------------------------------------------------------------------
 		public static CultureInfo[] GetInstalledDictionaries()
 		{
-			return InternalGetInstalledDictionaries(/*AppDomain.CurrentDomain.BaseDirectory todo rsweb*/ "");
+			string path = BasePathFinder.BasePathFinderInstance.GetStandardDictionaryPath("framework", "tbloader");//Functions.GetAssemblyPath(Assembly.GetEntryAssembly());
+			return InternalGetInstalledDictionaries(path);
 		}
 
         //----------------------------------------------------------------------------
