@@ -505,22 +505,80 @@ namespace Microarea.RSWeb.Render
                 //Create paragraph 
                 Paragraph paragraph = new Paragraph();
                 Run run_paragraph = new Run();
+
+                Text text_paragraph = new Text();
+                RunProperties rPr = new RunProperties();
+         
                 
-                //foreach (BaseObj o in woorm.Objects)
-                //{
-                    
-                    
-                //}
 
-                    // we want to put that text into the output document 
-                    Text text_paragraph = new Text("Hello World!");
+                ParagraphProperties paragraphProperties = new ParagraphProperties();
+                ParagraphBorders paragraphBorders = new ParagraphBorders();
 
-                //Append elements appropriately. 
-                run_paragraph.Append(text_paragraph);
-                paragraph.Append(run_paragraph);
-                body.Append(paragraph);
+               
+                List<Paragraph> paragraphList = new List<Paragraph>();
+                List<Text> textList = new List<Text>();
+            
+                foreach (BaseObj o in woorm.Objects)
+                {
+                  
+                    if (o is FieldRect)
+                    {
+                        paragraph = new Paragraph();
+                        run_paragraph = new Run();
+                        paragraphBorders = new ParagraphBorders();
+                        
+                        FieldRect fr = o as FieldRect;
+                        if (fr.InternalID > 0x7FF0) continue;
+                        
+                        string value = fr.Value.FormattedData;
+          
+                        // we want to put that text into the output document 
+                        text_paragraph = new Text(value);
+                        //textList.Add(text_paragraph);
+                        
+                        //Append elements appropriately. 
+                        run_paragraph.Append(text_paragraph);
+                        
+                        if(fr.Borders.Top)
+                        {
+                            TopBorder topborder = new TopBorder() { Val = BorderValues.Single, Color = fr.DynamicBkgColor.ToString(), Space = (UInt32Value)1U};
+                            paragraphBorders.Append(topborder);
+                        }
+                        if (fr.Borders.Left)
+                        {
+                            LeftBorder leftborder = new LeftBorder() { Val = BorderValues.Single, Color = fr.DynamicBkgColor.ToString(), Space = (UInt32Value)1U };
+                            paragraphBorders.Append(leftborder);
+                        }
+                        if (fr.Borders.Bottom)
+                        {
+                            BottomBorder bottomborder = new BottomBorder() { Val = BorderValues.Single, Color = fr.DynamicBkgColor.ToString(), Space = (UInt32Value)1U };
+                            paragraphBorders.Append(bottomborder);
+                        }
+                        if (fr.Borders.Right)
+                        {
+                            RightBorder rightborder = new RightBorder() { Val = BorderValues.Single, Color = fr.DynamicBkgColor.ToString(), Space = (UInt32Value)1U };
+                            paragraphBorders.Append(rightborder);
+                        }
+
+                        paragraphProperties.Append(paragraphBorders);
+
+                    }
+                    paragraphList.Add(paragraph);
+                    paragraph.Append(run_paragraph);
+
+                 
+
+                }
+                //paragraphProperties.Append(paragraphBorders);
+
+                paragraph.Append(paragraphProperties);
+                
+                
+
+                //body.Append(paragraph);
+                body.Append(paragraphList);
                 mainPart.Document.Append(body);
-
+                
                 // Save changes to the main document part. 
                 mainPart.Document.Save();
             }
