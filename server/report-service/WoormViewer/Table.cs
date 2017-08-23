@@ -20,14 +20,23 @@ namespace Microarea.RSWeb.Objects
     internal enum ElementColor { LABEL, VALUE, BACKGROUND, BORDER, MAX };
 
     public enum EnumChartType
+    //ATTENZIONE: tenere allineato in: 
+    //c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\TABLE.H - EnumChartType
+    //c:\development\standard\web\server\report-service\woormviewer\table.cs - EnumChartType
+    //c:\development\Standard\web\client\reporting-studio\src\models\chart-type.model.ts - ChartType
+    //------
     {
         None,
 
         Bar, BarStacked, BarStacked100,
         Column, ColumnStacked, ColumnStacked100,
-        Line, VerticalLine,
-        Area, VerticalArea, AreaStacked, AreaStacked100,
-
+        Area, AreaStacked, AreaStacked100,
+        Line, 
+        Pie, Donut, DonutNested,
+        Funnel, Pyramid,
+        //Per ora mancano versioni 3D nei Kendo UI
+        //mancano nei BCGP
+        VerticalLine, VerticalArea, 
         Wrong
     }
 
@@ -2382,7 +2391,7 @@ namespace Microarea.RSWeb.Objects
 		public int CurrentRow = 0; // riga dove viene valorizzata la cella quando leggo da RDE
         public int ViewCurrentRow = -1; // riga corrente in fase di renderizzazione (per attributi dinamici)
  
-        public EnumChartType ChartType = 0;
+        public EnumChartType ChartType = EnumChartType.None;
         public int Layer = 0;   //only design mode
 
 		Table Default = null;
@@ -2846,6 +2855,14 @@ namespace Microarea.RSWeb.Objects
         }
 
         //---------------------------------------------------------------------------
+        private bool IsChartSingleSerie()
+        {
+            return ChartType == EnumChartType.Pie ||
+                    ChartType == EnumChartType.Donut || 
+                    ChartType == EnumChartType.Funnel || 
+                    ChartType == EnumChartType.Pyramid ;
+        }
+        //---------------------------------------------------------------------------
         public string ToJsonChartTemplate(bool bracket)
         {
             string name = "chart";
@@ -2875,23 +2892,28 @@ namespace Microarea.RSWeb.Objects
             string orientation = "horizontal";
             s += ",\"legend\":{" + position.ToJson("position", false, true) + ',' + orientation.ToJson("orientation", false, true) + '}';
 
-
             int numSeries = 0;
-            int lastColumn = this.LastVisibleColumn();
-            for (int c = 0; c <= lastColumn; c++)
+            if (IsChartSingleSerie())
             {
-                Column column = this.Columns[c];
-                if (column.IsHidden || column.HideExpr != null)
-                    continue;
-
-                string t = column.GetDataType();
-                if (!t.CompareNoCase(new string[] { "Double", "Money", "Quantity", "Percent"}))
-                {
-                    continue;
-                }
-                numSeries++;
+                numSeries = 1;
             }
+            else
+            {
+                int lastColumn = this.LastVisibleColumn();
+                for (int c = 0; c <= lastColumn; c++)
+                {
+                    Column column = this.Columns[c];
+                    if (column.IsHidden || column.HideExpr != null)
+                        continue;
 
+                    string t = column.GetDataType();
+                    if (!t.CompareNoCase(new string[] { "Double", "Money", "Quantity", "Percent" }))
+                    {
+                        continue;
+                    }
+                    numSeries++;
+                }
+            }
             s += ',' + numSeries.ToJson("numSeries");
             s += '}';
 
@@ -3002,9 +3024,15 @@ namespace Microarea.RSWeb.Objects
                 }
                 else
                 {
+                    if (IsChartSingleSerie())
+                    {
+                        if (idxColCat < 0) continue; 
+                        else break;
+                    }
+   
                     series += ','; 
                 }
-
+               
                 series += ToJsonChartColumnData(column);
             }
             series += ']';
