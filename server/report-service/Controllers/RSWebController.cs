@@ -129,6 +129,11 @@ namespace Microarea.RSWeb.Controllers
                 PathFinder pathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
 
                 NameSpace ns = new NameSpace(nameSpace, NameSpaceObjectType.Image);
+                if (!ns.IsValid())
+                    ns = new NameSpace(nameSpace, NameSpaceObjectType.File);
+                if (!ns.IsValid())
+                    new ContentResult { Content = "Wrong namespace " + nameSpace, ContentType = "application/text" };
+
                 filename = pathFinder.GetFilename(ns, string.Empty);
                 if (filename == string.Empty)
                     return new ContentResult { Content = "Empty file name " + nameSpace, ContentType = "application/text" };

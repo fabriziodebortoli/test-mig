@@ -54,6 +54,16 @@ export class ReportChartComponent implements AfterViewInit {
         return 'area';
       case ChartType.VerticalArea:
         return 'verticalArea';
+     case ChartType.Pie:
+        return 'pie';
+     case ChartType.Donut:
+        return 'donut';
+    case ChartType.DonutNested:
+        return 'donut';
+    case ChartType.Funnel:
+        return 'funnel';
+  case ChartType.Pyramid:
+        return 'funnel';
 
     }
   }

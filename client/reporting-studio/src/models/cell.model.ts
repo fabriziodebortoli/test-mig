@@ -14,6 +14,7 @@ export class cell {
     font: font;
     tooltip: string = '';
     value: string = '';
+    src: string;
     link: link = undefined;
     constructor(jsonObj: any, id: string) {
         this.id = id;
