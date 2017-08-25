@@ -72,8 +72,11 @@ namespace Microarea.AdminServer.Controllers.Helpers
 					return Strings.EmptyParameters;
                 case 28:
                     return Strings.UnknownModelName;
-
-                default:
+				case 29:
+					return Strings.MissingRole;
+				case 30:
+					return Strings.ValidToken;
+				default:
 					return Strings.UnknownError;
 			}
 		}

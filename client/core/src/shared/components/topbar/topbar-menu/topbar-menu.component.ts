@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, Inject, forwardRef } from '@angular/core';
 
-import { LoginSessionService } from './../../../../core/services/login-session.service';
 
 @Component({
   selector: 'tb-topbar-menu',
@@ -8,11 +7,7 @@ import { LoginSessionService } from './../../../../core/services/login-session.s
   styleUrls: ['./topbar-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class TopbarMenuComponent implements OnInit {
-
-  constructor(private loginSession: LoginSessionService) { }
-
-  ngOnInit() {
+export class TopbarMenuComponent{
+  constructor() {
   }
-
 }

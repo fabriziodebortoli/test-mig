@@ -651,7 +651,7 @@ namespace Microarea.Common.ExpressionManager
 				case "Int16":
 				switch (t2)
 				{
-					case "Int16":	return "Int32";
+					case "Int16":	return "Int16";
 					case "Int32":
 					case "Int64":	return "Int32"; 
 					default:		return null;
@@ -669,7 +669,9 @@ namespace Microarea.Common.ExpressionManager
 				case "Int64":
 				switch (t2)
 				{
-					case "Int64":	return "Int32"; 
+                    case "Int16":
+                    case "Int32":
+                    case "Int64":	return "Int32"; 
 					default:		return null;
 				}
 				default : return null;
@@ -2513,8 +2515,8 @@ namespace Microarea.Common.ExpressionManager
 					Value p2 = (Value) paramStack.Pop();
 					double d1 = CastDouble(p1);
 					double d2 = CastDouble(p2);
-					int i = (int) Math.IEEERemainder(d1, d2);
-					return new Value(i);
+					double dbl = Math.IEEERemainder(d1, d2);
+					return new Value(dbl);
 				}
 				case Token.RAND:
 				{

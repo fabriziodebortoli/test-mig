@@ -13,3 +13,4 @@ export * from './radar/radar.component';
 export * from './topbar';
 export * from './toolbar';
 export * from './proxy-route/proxy-route.component';
+export * from './culture-selector/culture-selector.component';

@@ -57,7 +57,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         this.UpdateData();
         if (this.rsService.pdfState == PdfType.PDF) {
           this.createPDF();
-         }
+        }
         if (this.rsService.svgState == SvgType.SVG) {
           this.rsService.exportSVG();
         }
@@ -69,9 +69,13 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   // -----------------------------------------------
-  createPDF() {
+  async createPDF() {
     if (this.rsService.pageNum == this.rsService.firstPageExport) {
-      this.rsService.eventNextPage.emit();
+      await this.rsService.eventNextPage.emit();
+      if (this.rsService.lastPageExport == this.rsService.firstPageExport) {
+        this.rsService.renderPDF();
+        return;
+      }
       return;
     }
 

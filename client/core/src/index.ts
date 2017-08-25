@@ -9,12 +9,6 @@ export * from './core/core.module';
 // export * from './core';
 
 /**
- * Modulo Icon Font
- */
-import { TbIconsModule } from './icons/icons.module';
-export * from './icons/icons.module';
-
-/**
  * Modulo Shared
  */
 import { TbSharedModule } from './shared/shared.module';
@@ -41,7 +35,6 @@ export * from './test/test.module';
 const TB_MODULES = [
   // TbCoreModule,
   TbSharedModule,
-  TbIconsModule,
   TbMenuModule,
   TbDashboardModule,
   TbTestModule

@@ -156,6 +156,8 @@ gulp.task('copy:fonts', function() {
  */
 gulp.task('copy:docs', function() {
     gulp.src(`${srcFolder}/docs/*`).pipe(gulp.dest(`${distFolder}/docs/`));
+    gulp.src(`${srcFolder}/m4.css`).pipe(gulp.dest(`${distFolder}/docs/`));
+    gulp.src(`${srcFolder}/fonts/*`).pipe(gulp.dest(`${distFolder}/docs/fonts/`));
 });
 
 /**

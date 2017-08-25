@@ -1,6 +1,6 @@
 {
     "name": "@taskbuilder/core",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "repository": {
         "type": "git",
         "url": "https://github.com/Microarea/Taskbuilder.git"
@@ -49,6 +49,7 @@
         "@progress/kendo-drawing": "^1.1.0",
         "@progress/kendo-popup-common": "^1.0.0",
         "@progress/kendo-theme-default": "^2.37.4",
+        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "angular-tree-component": "^3.8.0",
         "angular2-cookie": "^1.2.6",
         "angular2-masonry": "^0.4.0",
