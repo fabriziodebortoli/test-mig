@@ -114,6 +114,13 @@ export class HttpService {
                 return res.json();
             });
     }
+    getDictionaries(): Observable<any> {
+        let obj = { }
+        return this.postData(this.getDataServiceUrl() + 'getinstalleddictionaries', obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
     getBaseUrl() {
         return this.urlService.getApiUrl();
     }

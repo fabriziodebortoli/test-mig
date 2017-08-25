@@ -1,7 +1,7 @@
 import { cell } from './../../../models/cell.model';
 import { column } from './../../../models/column.model';
 import { table } from './../../../models/table.model';
-import { UtilsService } from '@taskbuilder/core';
+import { UtilsService, UrlService } from '@taskbuilder/core';
 
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 
@@ -14,8 +14,8 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 export class ReportTableComponent {
 
   @Input() table: table;
-
-  constructor(private utils: UtilsService) { }
+  src: string
+  constructor(private utils: UtilsService, private urlServ: UrlService) { }
 
   // -----------------------------------------------------
   getValue(dataItem: any, colId: any, colIndex: number): any {
@@ -81,6 +81,7 @@ export class ReportTableComponent {
       'text-align': column.title.text_align,
       'vertical-align': column.title.vertical_align
     };
+
     return obj;
   }
 
@@ -123,6 +124,20 @@ export class ReportTableComponent {
       'text-decoration': specStyle.font === undefined ? (defStyle.font.underline ? 'underline' : 'none') : (specStyle.font.underline ? 'underline' : 'none'),
       'padding': '0px'
     };
+
+    if (column.value_is_image) {
+      //this.image.src = 'http://www.jqueryscript.net/images/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg';
+      dataItem[column.id].src = this.urlServ.getBackendUrl() + '/rs/image/' + dataItem[column.id].value;
+    }
+    return obj;
+  }
+
+  // -----------------------------------------------------
+  getImageStyle() {
+    let obj = {
+      'max-width': ' 100%',
+      'max-height': '100%'
+    }
     return obj;
   }
 

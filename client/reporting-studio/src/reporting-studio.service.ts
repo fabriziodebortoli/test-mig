@@ -44,11 +44,15 @@ export class ReportingStudioService extends DocumentService {
 
     @Output() rsExportPdf = new EventEmitter<void>();
     @Output() rsExportExcel = new EventEmitter<void>();
+    @Output() rsExportDocx = new EventEmitter<void>();
+
     public exportfile = false;
     public exportpdf = false;
     public exportexcel = false;
+    public exportdocx = false;
     public pdf: string = "PDF";
     public excel: string = "Excel";
+    public docx: string = "Docx";
 
     constructor(
         logger: Logger,
@@ -143,8 +147,11 @@ export class ReportingStudioService extends DocumentService {
             this.rsExportPdf.emit();
         if (this.exportexcel)
             this.rsExportExcel.emit();
-        this.exportpdf = false;
+        if(this.exportdocx)
+            this.rsExportDocx.emit();
+        this.exportPDF =  false;
         this.exportexcel = false;
+        this.exportdocx = false;
     }
 
     public async appendPDF() {

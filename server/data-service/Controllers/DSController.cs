@@ -4,13 +4,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microarea.DataService.Models;
 using Microarea.Common.Applications;
 using Microarea.Common.Hotlink;
+using System.Globalization;
 
 namespace DataService.Controllers
 {
     [Route("data-service")]
     public class DSController : Controller
     {
-        UserInfo GetLoginInformation()
+		//---------------------------------------------------------------------
+
+		[Route("getinstalleddictionaries")]
+		public IActionResult GetInstalledDictionaries()
+		{
+			CultureInfo[] cultures = Microarea.Common.Generic.InstallationData.GetInstalledDictionaries();
+			Dictionaries dic = new Dictionaries();
+			foreach (var ci in cultures)
+				dic.dictionaries.Add(new Dictionary(ci.Name, ci.NativeName));
+			return new JsonResult(dic);
+		}
+		UserInfo GetLoginInformation()
         {
             string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
             if (string.IsNullOrEmpty(sAuthT))
