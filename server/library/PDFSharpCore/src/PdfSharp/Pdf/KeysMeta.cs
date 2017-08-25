@@ -198,7 +198,7 @@ namespace PdfSharp.Pdf
             foreach (FieldInfo field in fields)
             {
                 /*object[] */
-                IEnumerable<Attribute> attributes = field.GetCustomAttributes(typeof(KeyInfoAttribute), false);
+                IEnumerable<Attribute> attributes = field.GetCustomAttributes(typeof(KeyInfoAttribute), false) as IEnumerable<Attribute>;
                 foreach (Attribute a in attributes)
                 {
                     if (a is KeyInfoAttribute)

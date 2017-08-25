@@ -17,7 +17,7 @@ namespace Microarea.RSWeb.WoormViewer
 		{
 			foreach (PropertyInfo pi in GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 			{
-                List<Attribute> attrs = (List<Attribute>)pi.GetCustomAttributes(typeof(WoormSerializableAttribute), true);
+                List<Attribute> attrs = (List<Attribute>)pi.GetCustomAttributes(/*typeof(WoormSerializableAttribute), true*/);
 				if (attrs.Count != 1)
 					continue;
 
@@ -34,7 +34,7 @@ namespace Microarea.RSWeb.WoormViewer
 
 			foreach (FieldInfo fi in GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 			{
-                List<Attribute> attrs = (List<Attribute>)fi.GetCustomAttributes(typeof(WoormSerializableAttribute), true);
+                List<Attribute> attrs = (List<Attribute>)fi.GetCustomAttributes(/*typeof(WoormSerializableAttribute), true*/);
 				if (attrs.Count != 1)
 					continue;
 
@@ -55,7 +55,7 @@ namespace Microarea.RSWeb.WoormViewer
 		{
 			foreach (PropertyInfo pi in GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 			{
-				List<Attribute> attrs = (List<Attribute>)pi.GetCustomAttributes(typeof(WoormSerializableAttribute), true);
+				List<Attribute> attrs = (List<Attribute>)pi.GetCustomAttributes(/*typeof(WoormSerializableAttribute), true*/);
 				if (attrs.Count != 1)
 					continue;
 
@@ -69,7 +69,7 @@ namespace Microarea.RSWeb.WoormViewer
 
 			foreach (FieldInfo fi in GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
 			{
-                List<Attribute> attrs = (List<Attribute>)fi.GetCustomAttributes(typeof(WoormSerializableAttribute), true);
+                List<Attribute> attrs = (List<Attribute>)fi.GetCustomAttributes(/*typeof(WoormSerializableAttribute), true*/);
 				if (attrs.Count != 1)
 					continue;
 

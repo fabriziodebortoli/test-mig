@@ -1,3 +1,4 @@
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Observable } from 'rxjs';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Injectable } from '@angular/core';
@@ -11,13 +12,13 @@ export class InfoService {
     productInfo: any;
     dictionaries: any;
     culture = { enabled: true, value: '' };
-    cultureId = '__current_culture__';
+    cultureId = '_culture';
 
-    constructor(private httpService: HttpService) {
-        this.culture.value = localStorage.getItem(this.cultureId);
+    constructor(private httpService: HttpService, private cookieService: CookieService) {
+        this.culture.value = cookieService.get(this.cultureId);
     }
     saveCulture() {
-        localStorage.setItem(this.cultureId, this.culture.value);
+        this.cookieService.put(this.cultureId, this.culture.value);
 
     }
     public getProductInfo(): Observable<any> {
