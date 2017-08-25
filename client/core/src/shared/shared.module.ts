@@ -1,3 +1,4 @@
+import { TestComponentGrid } from './controls/test.component';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -79,7 +80,7 @@ import {
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent, GridComponent,
-    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, TreeViewComponent
+    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent
 } from './controls/';
 export * from './controls';
 const TB_CONTROLS = [
@@ -87,7 +88,7 @@ const TB_CONTROLS = [
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent, GridComponent,
-    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, TreeViewComponent
+    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent
 ];
 
 const TB_MODULES = [
@@ -116,7 +117,7 @@ const TB_DIRECTIVES = [
 ];
 
 @NgModule({
-    imports: [TB_MODULES, KENDO_UI_MODULES, TreeModule ],
+    imports: [TB_MODULES, KENDO_UI_MODULES, TreeModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
     exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES/*, KENDO_UI_MODULES*/],
     entryComponents: [UnsupportedComponent, RadarComponent]
