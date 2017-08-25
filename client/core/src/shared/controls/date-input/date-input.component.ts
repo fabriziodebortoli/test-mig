@@ -1,3 +1,4 @@
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Component, Input, ViewChild, OnChanges, AfterViewInit } from '@angular/core';
@@ -23,8 +24,9 @@ export class DateInputComponent extends ControlComponent implements OnChanges, A
 
   constructor(
     private eventData: EventDataService,
-    protected layoutService: LayoutService) {
-    super(layoutService);
+    layoutService: LayoutService,
+    tbComponentService:TbComponentService) {
+    super(layoutService, tbComponentService);
   }
 
   public onChange(val: any) {

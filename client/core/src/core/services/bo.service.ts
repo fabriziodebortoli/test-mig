@@ -1,3 +1,5 @@
+import { InfoService } from './info.service';
+import { Logger } from './logger.service';
 import { CommandEventArgs } from './../../shared/models/eventargs.model';
 import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
 
@@ -11,7 +13,6 @@ import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
 import { WebSocketService } from './websocket.service';
-import { BOHelperService } from './bohelper.service';
 
 import { apply, diff } from 'json8-patch';
 
@@ -25,9 +26,10 @@ export class BOService extends DocumentService {
     public windowStrings: EventEmitter<any> = new EventEmitter();
     constructor(
         private webSocketService: WebSocketService,
-        public boHelperService: BOHelperService,
-        eventData: EventDataService) {
-        super(boHelperService.logger, eventData);
+        eventData: EventDataService,
+        logger: Logger, 
+        infoService: InfoService) {
+        super(logger, eventData, infoService);
 
         this.subscriptions.push(this.webSocketService.modelData.subscribe(data => {
             const models: Array<any> = data.models;

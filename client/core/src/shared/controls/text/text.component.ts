@@ -1,3 +1,4 @@
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnChanges, AfterContentInit, Output, EventEmitter } from '@angular/core';
 
@@ -21,11 +22,12 @@ export class TextComponent extends ControlComponent /*implements AfterContentIni
 
   constructor(
     private eventData: EventDataService,
-     private vcr: ViewContainerRef, 
-     private componentResolver: ComponentFactoryResolver,
-    protected layoutService: LayoutService
+    private vcr: ViewContainerRef,
+    private componentResolver: ComponentFactoryResolver,
+    layoutService: LayoutService,
+    tbComponentService: TbComponentService
   ) {
-    super(layoutService);
+    super(layoutService, tbComponentService);
   }
 
   onBlur() {

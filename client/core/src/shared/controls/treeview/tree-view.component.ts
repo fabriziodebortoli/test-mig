@@ -1,3 +1,4 @@
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { ControlComponent } from './../control.component';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
@@ -27,8 +28,8 @@ export class TreeViewComponent extends ControlComponent implements OnInit {
 
 
 
-  constructor(protected layoutService: LayoutService) {
-    super(layoutService);
+  constructor(layoutService: LayoutService, tbComponentService:TbComponentService) {
+    super(layoutService, tbComponentService);
   }
 
   ngOnInit() {

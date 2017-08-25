@@ -1,3 +1,4 @@
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Component, OnInit, Input, ViewEncapsulation, Type } from '@angular/core';
@@ -29,10 +30,11 @@ export class HotlinkComponent extends ControlComponent {
   multiSelectedValues: any[] = [];
 
   constructor(private httpService: HttpService,
-    protected layoutService: LayoutService,
-    protected enumService: EnumsService
+    layoutService: LayoutService,
+    protected enumService: EnumsService, 
+    tbComponentService:TbComponentService
   ) {
-    super(layoutService);
+    super(layoutService, tbComponentService);
   }
 
   // ---------------------------------------------------------------------------------------
