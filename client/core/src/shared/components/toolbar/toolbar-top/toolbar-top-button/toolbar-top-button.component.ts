@@ -1,3 +1,4 @@
+import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
 import { ComponentInfoService } from './../../../../models/component-info.model';
 import { Component, Input } from '@angular/core';
 
@@ -24,9 +25,10 @@ export class ToolbarTopButtonComponent extends TbComponent {
   constructor(
     private eventData: EventDataService,
     private httpService: HttpService,
-    private ciService: ComponentInfoService
+    private ciService: ComponentInfoService,
+    tbComponentService: TbComponentService
   ) {
-    super();
+    super(tbComponentService);
     //this.imgUrl = this.httpService.getDocumentBaseUrl() + 'getImage/?src=';
   }
   onCommand() {

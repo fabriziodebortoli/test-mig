@@ -1,3 +1,4 @@
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Component, Input } from '@angular/core';
 
@@ -15,8 +16,9 @@ export class ImageComponent extends ControlComponent {
   @Input() title: string = '';
 
   constructor(private httpService: HttpService,
-  protected layoutService: LayoutService) {
-    super(layoutService);
+    layoutService: LayoutService,
+    tbComponentService: TbComponentService) {
+    super(layoutService, tbComponentService);
   }
 
   getStyles() {

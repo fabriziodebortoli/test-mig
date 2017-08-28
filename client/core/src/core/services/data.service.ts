@@ -1,3 +1,4 @@
+import { InfoService } from './info.service';
 import { Injectable } from '@angular/core';
 import { URLSearchParams, Http, Response, RequestOptions, RequestOptionsArgs } from '@angular/http';
 
@@ -11,8 +12,12 @@ import { Logger } from './logger.service';
 @Injectable()
 export class DataService extends DocumentService {
 
-  constructor(logger: Logger, eventData: EventDataService, private http: Http, private urlService: UrlService) {
-    super(logger, eventData);
+  constructor(logger: Logger,
+    eventData: EventDataService,
+    private http: Http,
+    private urlService: UrlService,
+    infoService: InfoService) {
+    super(logger, eventData, infoService);
   }
 
   getData(nameSpace: string, selectionType: string, params: URLSearchParams): Observable<Response> {

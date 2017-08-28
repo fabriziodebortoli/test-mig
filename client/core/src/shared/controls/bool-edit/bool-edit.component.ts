@@ -1,3 +1,4 @@
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Component, Input } from '@angular/core';
 
@@ -15,8 +16,8 @@ export class BoolEditComponent extends ControlComponent {
   @Input() yesText: string;
   @Input() noText: string;
 
-  constructor(private eventData: EventDataService,protected layoutService: LayoutService) {
-    super(layoutService);
+  constructor(private eventData: EventDataService, layoutService: LayoutService, tbComponentService:TbComponentService) {
+    super(layoutService, tbComponentService);
 
     if (
       this.yesText == null ||

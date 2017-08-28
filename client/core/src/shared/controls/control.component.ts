@@ -1,4 +1,5 @@
-﻿import { Subscription } from 'rxjs';
+﻿import { TbComponentService } from './../../core/services/tbcomponent.service';
+import { Subscription } from 'rxjs';
 import { LayoutService } from './../../core/services/layout.service';
 import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy, AfterContentInit } from '@angular/core';
 
@@ -27,8 +28,8 @@ export class ControlComponent extends TbComponent implements OnDestroy {
 
     subscriptions: Subscription[] = [];
 
-    constructor(protected layoutService: LayoutService) {
-        super();
+    constructor(private layoutService: LayoutService, tbComponentService:TbComponentService) {
+        super(tbComponentService);
         this.subscriptions.push(this.layoutService.getWidthFactor().subscribe(wf => { this.widthFactor = wf; }));
         this.subscriptions.push(this.layoutService.getHeightFactor().subscribe(hf => { this.heightFactor = hf }));
     }

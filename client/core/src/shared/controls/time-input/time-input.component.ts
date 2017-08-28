@@ -1,3 +1,4 @@
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Component, OnChanges, AfterViewInit, Input } from '@angular/core';
 
@@ -16,9 +17,10 @@ export class TimeInputComponent extends ControlComponent implements OnChanges, A
   @Input() formatter: string;
 
   constructor(
-    private eventData: EventDataService, 
-    protected layoutService: LayoutService) {
-    super(layoutService);
+    private eventData: EventDataService,
+    layoutService: LayoutService,
+    tbComponentService: TbComponentService) {
+    super(layoutService, tbComponentService);
   }
 
   public onChange(val: any) {
@@ -31,7 +33,7 @@ export class TimeInputComponent extends ControlComponent implements OnChanges, A
     }
     this.selectedTime = newTime;
     let r = new Date(this.selectedTime);
-    this.model.value = 60 * ( 60 * r.getHours() + r.getMinutes() ) + r.getSeconds();
+    this.model.value = 60 * (60 * r.getHours() + r.getMinutes()) + r.getSeconds();
   }
 
   ngAfterViewInit(): void {

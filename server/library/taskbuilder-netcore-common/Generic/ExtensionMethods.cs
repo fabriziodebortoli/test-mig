@@ -825,7 +825,7 @@ namespace Microarea.Common.Generic
 
         public static string ToHtml(this Color color)
         {
-            return ColorTranslator.ToHtml(color);
+            return '#' + color.Name.Right(6);
         }
 
         public static string ToJson(this Color color, string name = null, bool bracket = false)

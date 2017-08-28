@@ -5,8 +5,7 @@ import { Logger } from '@taskbuilder/core';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import { EventDataService } from '@taskbuilder/core';
-import { DocumentService } from '@taskbuilder/core';
+import { EventDataService, InfoService, DocumentService } from '@taskbuilder/core';
 import { CommandType, PdfType, SvgType, PngType } from './models';
 
 import { drawDOM, exportPDF, DrawOptions, Group, exportImage, exportSVG } from '@progress/kendo-drawing';
@@ -60,8 +59,9 @@ export class ReportingStudioService extends DocumentService {
         private cmpService: ComponentService,
         private urlServ: UrlService,
         private httpServ: HttpService,
-        protected http: Http) {
-        super(logger, eventData);
+        protected http: Http,
+        infoService: InfoService) {
+        super(logger, eventData, infoService);
 
         this.rsServer = this.urlServ.getWsBaseUrl() + '/rs';
         this.websocket = new WebSocket(this.rsServer);
@@ -147,9 +147,9 @@ export class ReportingStudioService extends DocumentService {
             this.rsExportPdf.emit();
         if (this.exportexcel)
             this.rsExportExcel.emit();
-        if(this.exportdocx)
+        if (this.exportdocx)
             this.rsExportDocx.emit();
-        this.exportPDF =  false;
+        this.exportPDF = false;
         this.exportexcel = false;
         this.exportdocx = false;
     }

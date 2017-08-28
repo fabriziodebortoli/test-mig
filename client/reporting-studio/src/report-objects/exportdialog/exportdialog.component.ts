@@ -27,6 +27,7 @@ export class ExportdialogComponent {
         this.rsService.exportfile = false;
         this.rsService.exportexcel = false;
         this.rsService.exportpdf = false;
+        this.rsService.exportdocx = false;
         this.ngOnDestroy();
     }
 
