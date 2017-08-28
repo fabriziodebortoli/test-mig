@@ -229,14 +229,24 @@ namespace Microarea.Common.Generic
 			if (cultures == null)
 			{
 				cultures = new List<CultureInfo>();
-				cultures.Add(new CultureInfo(string.Empty));	//lingua nativa
-
-				foreach (string folder in Directory.GetDirectories(path))
-				{
-					string culture = Path.GetFileName(folder);
-					try { cultures.Add(new CultureInfo(culture)); }
-					catch { }
-				}
+				cultures.Add(new CultureInfo(string.Empty));    //lingua nativa
+ 				try
+                {
+					if (Directory.Exists(path))
+					{
+						foreach (string folder in Directory.GetDirectories(path))
+						{
+							string culture = Path.GetFileName(folder);
+							try { cultures.Add(new CultureInfo(culture)); }
+							catch { }
+						}
+					}
+				} 
+                catch(Exception ex)
+                {
+                 //qui non dovrebbe passare
+                }
+                
 			}
 
 			return cultures.ToArray();

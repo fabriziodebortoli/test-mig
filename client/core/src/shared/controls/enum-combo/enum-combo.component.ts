@@ -1,4 +1,5 @@
-﻿import { LayoutService } from './../../../core/services/layout.service';
+﻿import { TbComponentService } from './../../../core/services/tbcomponent.service';
+import { LayoutService } from './../../../core/services/layout.service';
 import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -27,9 +28,10 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         private webSocketService: WebSocketService,
         private eventDataService: EventDataService,
         private enumsService: EnumsService,
-        protected layoutService: LayoutService
+        layoutService: LayoutService, 
+        tbComponentService:TbComponentService
     ) {
-        super(layoutService);
+        super(layoutService, tbComponentService);
 
         this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
             this.items = result.itemSource;

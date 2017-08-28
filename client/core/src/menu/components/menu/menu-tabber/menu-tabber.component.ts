@@ -1,14 +1,13 @@
 import { Component, Output, EventEmitter, OnInit, AfterContentInit, Input } from '@angular/core';
 
 import { MenuTabComponent } from './menu-tab/menu-tab.component';
-import { TbComponent } from '../../../../shared/components/tb.component';
 
 @Component({
   selector: 'tb-menu-tabber',
   templateUrl: './menu-tabber.component.html',
   styleUrls: ['./menu-tabber.component.scss']
 })
-export class MenuTabberComponent extends TbComponent {
+export class MenuTabberComponent {
 
   tabs: MenuTabComponent[] = [];
   @Output() selectedTab: EventEmitter<any> = new EventEmitter(true);
