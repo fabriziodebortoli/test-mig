@@ -71,13 +71,21 @@ namespace Microarea.AdminServer.Controllers
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
                     Task<string> responseData = await VerifyAccountModificationGWAM(
-						new AccountModification(account.AccountName, _settings.InstanceIdentity.InstanceKey, account.Ticks), GetAuthorizationInfo());
+						new AccountModification(account.AccountName, _settings.InstanceIdentity.InstanceKey, account.Ticks), GetAuthorizationInfo(_settings.InstanceIdentity.InstanceKey));
 
-					// GWAM call could not end correctly: so we check the object
-					if (responseData.Status == TaskStatus.Faulted)
-					{
-						return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
-					}
+                    //in questo putno se la connessione col gwam fallisce potrebbe esssre che in versione onpremise sia comuqnue possibile continuare.
+                    //attualmente metto l'impostazione neisettings, poi valuteremo come reperire l'informaione in modo migliore.
+
+                  
+                    // GWAM call could not end correctly: so we check the object
+                    if (responseData.Status == TaskStatus.Faulted)
+                    {
+                        //if (false) //Instance.IsOnPremises())
+                        //    return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                        //imposto il flag pending per capire quanto tempo passa fuori copertura
+                        if (!VerifyPendingFlag())
+                            return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                    }
 
 					OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
 
@@ -116,15 +124,19 @@ namespace Microarea.AdminServer.Controllers
                 // Se non esiste, richiedi a gwam.
                 if (account == null)
                 {
-                    Task<string> responseData = await VerifyUserOnGWAM(credentials, GetAuthorizationInfo());
+                    Task<string> responseData = await VerifyUserOnGWAM(credentials, GetAuthorizationInfo(_settings.InstanceIdentity.InstanceKey));
 
 					// GWAM call could not end correctly: so we check the object
 					if (responseData.Status == TaskStatus.Faulted)
-					{
-						return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
-					}
+                    {
+                        //if (false) //Instance.IsOnPremises())
+                        //    return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                        //imposto il flag pending per capire quanto tempo passa fuori copertura
+                        if (!VerifyPendingFlag())
+                            return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                    }
 
-					OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
+                    OperationResult opGWAMRes = JsonConvert.DeserializeObject<OperationResult>(responseData.Result);
 
 					if (!opGWAMRes.Result)
 					{
@@ -182,6 +194,21 @@ namespace Microarea.AdminServer.Controllers
             }
         }
 
+        //-----------------------------------------------------------------------------	
+        private bool SetPendingFlag()
+        {
+            return true;
+          //salvataggio sul db del flag
+        }
+
+        //-----------------------------------------------------------------------------	
+        private bool VerifyPendingFlag()
+        {
+            //if devo settare il flag
+            //verifica del flag se pending e se ancora valido
+            return SetPendingFlag();
+        }
+
         // <summary>
         // Provides change password
         // </summary>
@@ -212,7 +239,18 @@ namespace Microarea.AdminServer.Controllers
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
                     Task<string> responseData = await VerifyAccountModificationGWAM(
-						new AccountModification(account.AccountName, _settings.InstanceIdentity.InstanceKey, account.Ticks), GetAuthorizationInfo());
+						new AccountModification(account.AccountName, _settings.InstanceIdentity.InstanceKey, account.Ticks), GetAuthorizationInfo(_settings.InstanceIdentity.InstanceKey));
+
+
+                    // GWAM call could not end correctly: so we check the object
+                    if (responseData.Status == TaskStatus.Faulted)
+                    {
+                        //if (false) //Instance.IsOnPremises())
+                        //    return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                        //imposto il flag pending per capire quanto tempo passa fuori copertura
+                        if (!VerifyPendingFlag())
+                            return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                    }
 
                     // Used as a container for the GWAM response.
                     AccountIdentityPack accountIdentityPack = new AccountIdentityPack();
@@ -261,10 +299,17 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //-----------------------------------------------------------------------------	
-        private AuthorizationInfo GetAuthorizationInfo()
+        private AuthorizationInfo GetAuthorizationInfo(string instanceKey)
+        {
+            return new AuthorizationInfo(AuthorizationInfo.TypeAppName, instanceKey, GetInstanceSecurityValue(instanceKey));
+        }
+
+        //-----------------------------------------------------------------------------	
+        private string GetInstanceSecurityValue(string instancekey)
         { 
-            // TODO SECURITYKEY CABLATO.
-            return new AuthorizationInfo(AuthorizationInfo.TypeAppName, _settings.InstanceIdentity.InstanceKey, "ju23ff-KOPP-0911-ila");
+            // TODO SECURITYKEY CABLATO
+            //todo ilaria reperire dal database
+            return "ju23ff-KOPP-0911-ila";
         }
 
         /// <summary>
@@ -304,7 +349,16 @@ namespace Microarea.AdminServer.Controllers
             BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
             try
             {
-                Task<string> responseData = await CheckRecoveryCode(accountName, recoveryCode, GetAuthorizationInfo());
+                Task<string> responseData = await CheckRecoveryCode(accountName, recoveryCode, GetAuthorizationInfo(_settings.InstanceIdentity.InstanceKey));
+                // GWAM call could not end correctly: so we check the object
+                if (responseData.Status == TaskStatus.Faulted)
+                {
+                    //if (false) //Instance.IsOnPremises())
+                    //    return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                    //imposto il flag pending per capire quanto tempo passa fuori copertura
+                    if (!VerifyPendingFlag())
+                        return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                }
             }
             catch { }
             return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, LoginReturnCodes.Error.ToString());
@@ -353,7 +407,7 @@ namespace Microarea.AdminServer.Controllers
             bootstrapToken.Urls = GetUrlsForThisInstance();
 			bootstrapToken.Roles = GetRoles(account.AccountName);
 
-            AuthorizationInfo ai = GetAuthorizationInfo();
+            AuthorizationInfo ai = GetAuthorizationInfo(_settings.InstanceIdentity.InstanceKey);
 			bootstrapToken.AppSecurity = new AppSecurityInfo(ai.AppId, ai.SecurityValue);
 
 			return true;
@@ -481,7 +535,7 @@ namespace Microarea.AdminServer.Controllers
         private async Task<Task<string>> CheckRecoveryCode(string accountName, string recoveryCode, AuthorizationInfo authInfo)
         {
             string authHeader = JsonConvert.SerializeObject(authInfo);
-            // call GWAM API
+            // call GWAM API // todo onpremises ilaria
             OperationResult opRes = await _httpHelper.PostDataAsync(
                 this.GWAMUrl + "recoveryCode/" + accountName + "/" + recoveryCode,
                 new List<KeyValuePair<string, string>>(), 
@@ -504,8 +558,8 @@ namespace Microarea.AdminServer.Controllers
 				"{0}accounts/{1}/{2}/{3}", 
 				this.GWAMUrl, accMod.AccountName, accMod.InstanceKey, accMod.Ticks);
 
-			// call GWAM API
-			OperationResult opRes = await _httpHelper.PostDataAsync(
+            // call GWAM API 
+            OperationResult opRes = await _httpHelper.PostDataAsync(
 				url, new List<KeyValuePair<string, string>>(), authHeader);
 
 			if (!opRes.Result)

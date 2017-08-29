@@ -16,10 +16,8 @@ import { Subscription } from "rxjs/Subscription";
   styles: []
 })
 export abstract class BOCommonComponent extends DocumentComponent implements OnInit, OnDestroy {
-  translations = [];
   subscriptions: Subscription[] = [];
-  culture = '';
-  installationVersion = '';
+
   constructor(document: BOService,
     eventData: EventDataService,
     ciService: ComponentInfoService) {
@@ -31,54 +29,20 @@ export abstract class BOCommonComponent extends DocumentComponent implements OnI
       if (me.cmpId === args.id) {
         me.translations = args.strings;
         let jItem = { translations: me.translations, installationVersion: this.installationVersion };
-        localStorage.setItem(this.getDictionaryID(this.ciService.componentInfo), JSON.stringify(jItem));
+        localStorage.setItem(this.dictionaryId, JSON.stringify(jItem));
       }
     }));
   }
-  getDictionaryID(ci: ComponentInfo) {
-    return ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name + '/' + this.culture;
-  }
-  l(baseText: string) {
-    let target = baseText;
-    this.translations.some(t => {
-      if (t.base == baseText) {
-        target = t.target;
-        return true;
-      }
-      return false;
-    });
-    return target;
+
+
+  readTranslationsFromServer() {
+    let s = this.document as BOService;
+    s.getWindowStrings(this.cmpId, this.culture);
   }
   ngOnInit() {
-    let sub = this.ciService.globalInfoService.getProductInfo().subscribe((productInfo: any) => {
-      this.installationVersion = productInfo.installationVersion;
-      if (sub)
-        sub.unsubscribe();
-      this.readTranslations();
-    });
-
+    const ci = this.ciService.componentInfo;
+    this.dictionaryId = ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name + '/' + this.culture;
     super.ngOnInit();
-  }
-  private readTranslations() {
-    let item = localStorage.getItem(this.getDictionaryID(this.ciService.componentInfo));
-    let found = false;
-    if (item) {
-      try {
-        let jItem = JSON.parse(item);
-
-        if (jItem.installationVersion === this.installationVersion) {
-          this.translations = jItem.translations;
-          found = true;
-        }
-      }
-      catch (ex) {
-        console.log(ex);
-      }
-    }
-    if (!found) {
-      let s = this.document as BOService;
-      s.getWindowStrings(this.cmpId, this.culture);
-    }
   }
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());

@@ -1,3 +1,4 @@
+import { InfoService } from './../core/services/info.service';
 import { ComponentService } from './../core/services/component.service';
 import { EventDataService } from './../core/services/eventdata.service';
 
@@ -9,8 +10,10 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class TestService extends DocumentService {
 
-    constructor(public logger: Logger, eventData: EventDataService, private componentService: ComponentService) {
-        super(logger, eventData);
+    constructor(public logger: Logger, eventData: EventDataService, 
+        private componentService: ComponentService, 
+        infoService: InfoService) {
+        super(logger, eventData, infoService);
     }
 
     close() {
