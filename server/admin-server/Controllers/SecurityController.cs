@@ -46,8 +46,8 @@ namespace Microarea.AdminServer.Controllers
         // Provides login token
         // </summary>
         //-----------------------------------------------------------------------------	
-        [HttpPost("/api/tokens")]
-        public async Task<IActionResult> ApiTokens([FromBody] Credentials credentials)
+        [HttpPost("/api/tokens/{instanceKey}")]
+        public async Task<IActionResult> ApiTokens(string instanceKey, [FromBody] Credentials credentials)
         {
             // Used as a response to the front-end.
             BootstrapToken bootstrapToken = new BootstrapToken();
@@ -71,7 +71,7 @@ namespace Microarea.AdminServer.Controllers
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
                     Task<string> responseData = await VerifyAccountModificationGWAM(
-						new AccountModification(account.AccountName, _settings.InstanceIdentity.InstanceKey, account.Ticks), GetAuthorizationInfo(_settings.InstanceIdentity.InstanceKey));
+						new AccountModification(account.AccountName, instanceKey, account.Ticks), GetAuthorizationInfo(instanceKey));
 
                     //in questo putno se la connessione col gwam fallisce potrebbe esssre che in versione onpremise sia comuqnue possibile continuare.
                     //attualmente metto l'impostazione neisettings, poi valuteremo come reperire l'informaione in modo migliore.
@@ -113,7 +113,7 @@ namespace Microarea.AdminServer.Controllers
                     }
 
                     // Valorizzo il bootstraptoken per la risposta
-                    if (!ValorizeBootstrapToken(account, bootstrapToken))
+                    if (!ValorizeBootstrapToken(account, bootstrapToken, instanceKey))
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.ErrorSavingTokens, LoginReturnCodes.ErrorSavingTokens.ToString());
                     }
@@ -124,7 +124,7 @@ namespace Microarea.AdminServer.Controllers
                 // Se non esiste, richiedi a gwam.
                 if (account == null)
                 {
-                    Task<string> responseData = await VerifyUserOnGWAM(credentials, GetAuthorizationInfo(_settings.InstanceIdentity.InstanceKey));
+                    Task<string> responseData = await VerifyUserOnGWAM(credentials, GetAuthorizationInfo(instanceKey), instanceKey);
 
 					// GWAM call could not end correctly: so we check the object
 					if (responseData.Status == TaskStatus.Faulted)
@@ -179,7 +179,7 @@ namespace Microarea.AdminServer.Controllers
                         }
                     }
                     // Valorizzo il bootstraptoken per la risposta
-                    if (!ValorizeBootstrapToken(account, bootstrapToken))
+                    if (!ValorizeBootstrapToken(account, bootstrapToken, instanceKey))
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.ErrorSavingTokens, LoginReturnCodes.ErrorSavingTokens.ToString());
                     }
@@ -213,8 +213,8 @@ namespace Microarea.AdminServer.Controllers
         // Provides change password
         // </summary>
         //-----------------------------------------------------------------------------	
-        [HttpPost("/api/password")]
-        public async Task<IActionResult> ApiPassword([FromBody] ChangePasswordInfo passwordInfo)
+        [HttpPost("/api/password/{instanceKey}")]
+        public async Task<IActionResult> ApiPassword(string instanceKey,[FromBody] ChangePasswordInfo passwordInfo)
         {
             // Used as a response to the front-end.
             BootstrapToken bootstrapToken = new BootstrapToken();
@@ -239,7 +239,7 @@ namespace Microarea.AdminServer.Controllers
                 {
                     // Chiedo al gwam se qualcosa è modificato facendo un check sui tick, se qualcosa modificato devo aggiornare.
                     Task<string> responseData = await VerifyAccountModificationGWAM(
-						new AccountModification(account.AccountName, _settings.InstanceIdentity.InstanceKey, account.Ticks), GetAuthorizationInfo(_settings.InstanceIdentity.InstanceKey));
+						new AccountModification(account.AccountName, instanceKey, account.Ticks), GetAuthorizationInfo(instanceKey));
 
 
                     // GWAM call could not end correctly: so we check the object
@@ -283,7 +283,7 @@ namespace Microarea.AdminServer.Controllers
                     }
 
                     // Valorizzo il bootstraptoken per la risposta
-                    if (!ValorizeBootstrapToken(account, bootstrapToken))
+                    if (!ValorizeBootstrapToken(account, bootstrapToken, instanceKey))
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.ErrorSavingTokens, LoginReturnCodes.ErrorSavingTokens.ToString());
                     }
@@ -306,10 +306,18 @@ namespace Microarea.AdminServer.Controllers
 
         //-----------------------------------------------------------------------------	
         private string GetInstanceSecurityValue(string instancekey)
-        { 
-            // TODO SECURITYKEY CABLATO
-            //todo ilaria reperire dal database
-            return "ju23ff-KOPP-0911-ila";
+        {
+            IRegisteredApp app = new RegisteredApp();
+
+            app = burgerData.GetObject<RegisteredApp, IRegisteredApp>(
+                String.Empty, ModelTables.RegisteredApps, SqlLogicOperators.AND, new WhereCondition[] {
+                        new WhereCondition("AppId", instancekey, QueryComparingOperators.IsEqual, false)
+                });
+
+            if (app == null) 
+                return string.Empty;
+
+            return ((RegisteredApp)app).SecurityValue; // "ju23ff-KOPP-0911-ila";
         }
 
         /// <summary>
@@ -342,14 +350,14 @@ namespace Microarea.AdminServer.Controllers
 
         [HttpPost("api/recoveryCode")]
         //-----------------------------------------------------------------------------	
-        public async Task<IActionResult> ApiCheckRecoveryCode(string accountName, string recoveryCode)
+        public async Task<IActionResult> ApiCheckRecoveryCode(string accountName, string recoveryCode, string instanceKey)
         {
             // Used as a response to the front-end.
             BootstrapToken bootstrapToken = new BootstrapToken();
             BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
             try
             {
-                Task<string> responseData = await CheckRecoveryCode(accountName, recoveryCode, GetAuthorizationInfo(_settings.InstanceIdentity.InstanceKey));
+                Task<string> responseData = await CheckRecoveryCode(accountName, recoveryCode, GetAuthorizationInfo(instanceKey));
                 // GWAM call could not end correctly: so we check the object
                 if (responseData.Status == TaskStatus.Faulted)
                 {
@@ -386,7 +394,7 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //----------------------------------------------------------------------
-        private bool ValorizeBootstrapToken(IAccount account, BootstrapToken bootstrapToken)
+        private bool ValorizeBootstrapToken(IAccount account, BootstrapToken bootstrapToken, string instanceKey)
         {
             if (account == null)
                 return false;
@@ -404,10 +412,10 @@ namespace Microarea.AdminServer.Controllers
             bootstrapToken.Language = account.Language;
             bootstrapToken.Instances = GetInstances(account.AccountName);
 			bootstrapToken.Subscriptions = GetSubscriptions(account.AccountName); 
-            bootstrapToken.Urls = GetUrlsForThisInstance();
+            bootstrapToken.Urls = GetUrlsForThisInstance(instanceKey);
 			bootstrapToken.Roles = GetRoles(account.AccountName);
 
-            AuthorizationInfo ai = GetAuthorizationInfo(_settings.InstanceIdentity.InstanceKey);
+            AuthorizationInfo ai = GetAuthorizationInfo(instanceKey);
 			bootstrapToken.AppSecurity = new AppSecurityInfo(ai.AppId, ai.SecurityValue);
 
 			return true;
@@ -443,7 +451,7 @@ namespace Microarea.AdminServer.Controllers
         }
 
 		//----------------------------------------------------------------------
-		private IServerURL[] GetUrlsForThisInstance()
+		private IServerURL[] GetUrlsForThisInstance(string instanceKey)
         {
             IInstance iInstance = null ;
             try
@@ -451,7 +459,7 @@ namespace Microarea.AdminServer.Controllers
                 burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
                 iInstance = burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[]
          {
-                    new WhereCondition("InstanceKey", _settings.InstanceIdentity.InstanceKey, QueryComparingOperators.IsEqual, false)
+                    new WhereCondition("InstanceKey", instanceKey, QueryComparingOperators.IsEqual, false)
          });
             }
             catch { }
@@ -461,18 +469,18 @@ namespace Microarea.AdminServer.Controllers
                 return new IServerURL[] { };
             }
 
-                return LoadURLs();
+                return LoadURLs(instanceKey);
         }
 
         //----------------------------------------------------------------------
-        private IServerURL[] LoadURLs()
+        private IServerURL[] LoadURLs(string instanceKey)
         {
             try
             {
                 BurgerData burgerData = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
                 List<IServerURL> l = burgerData.GetList<ServerURL, IServerURL>(String.Empty, ModelTables.ServerURLs, SqlLogicOperators.AND, new WhereCondition[]
          {
-                    new WhereCondition("InstanceKey", _settings.InstanceIdentity.InstanceKey, QueryComparingOperators.IsEqual, false)
+                    new WhereCondition("InstanceKey", instanceKey, QueryComparingOperators.IsEqual, false)
          });
             
 
@@ -510,7 +518,7 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //----------------------------------------------------------------------
-        private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials, AuthorizationInfo authInfo)
+        private async Task<Task<string>> VerifyUserOnGWAM(Credentials credentials, AuthorizationInfo authInfo, string instanceKey)
         {
 			string authHeader = JsonConvert.SerializeObject(authInfo);
 
@@ -519,7 +527,7 @@ namespace Microarea.AdminServer.Controllers
             List<KeyValuePair<string, string>> entries = new List<KeyValuePair<string, string>>();
             entries.Add(new KeyValuePair<string, string>("accountName", credentials.AccountName));
             entries.Add(new KeyValuePair<string, string>("password", credentials.Password));
-            entries.Add(new KeyValuePair<string, string>("instanceKey", _settings.InstanceIdentity.InstanceKey));
+            entries.Add(new KeyValuePair<string, string>("instanceKey", instanceKey));
 
             OperationResult opRes = await _httpHelper.PostDataAsync(url, entries, authHeader);
 

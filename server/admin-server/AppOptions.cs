@@ -10,7 +10,6 @@ namespace Microarea.AdminServer
     {
         public DatabaseInfo DatabaseInfo { get; set; }
 		public ExternalUrls ExternalUrls { get; set; }
-		public InstanceIdentity InstanceIdentity { get; set; }
 		public SecretsKeys SecretsKeys { get; set; }
 	}
 
@@ -25,12 +24,6 @@ namespace Microarea.AdminServer
     {
         public string GWAMUrl { get; set; }
     }
-
-	//================================================================================
-	public class InstanceIdentity
-	{
-		public string InstanceKey { get; set; }
-	}
 
 	//================================================================================
 	public class SecretsKeys
