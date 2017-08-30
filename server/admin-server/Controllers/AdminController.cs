@@ -261,10 +261,10 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
-        [HttpPost("/api/query/{modelName}")]
+        [HttpPost("/api/query/{modelName}/{instanceKey}")]
         [Produces("application/json")]
 		//-----------------------------------------------------------------------------	
-		public IActionResult ApiQuery(string modelName, [FromBody] APIQueryData apiQueryData)
+		public IActionResult ApiQuery(string modelName, string instanceKey, [FromBody] APIQueryData apiQueryData)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -299,7 +299,7 @@ namespace Microarea.AdminServer.Controllers
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 
 			opRes = SecurityManager.ValidateAuthorization(
-				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, _settings.InstanceIdentity.InstanceKey, RoleLevelsStrings.Instance);
+				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, instanceKey, RoleLevelsStrings.Instance);
 
 			if (!opRes.Result)
 			{
@@ -381,9 +381,9 @@ namespace Microarea.AdminServer.Controllers
 			return opRes;
 		}
 
-		[HttpDelete("/api/query/{modelName}")]
+		[HttpDelete("/api/query/{modelName}/{instanceKey}")]
 		//-----------------------------------------------------------------------------	
-		public IActionResult ApiQueryDelete(string modelName, [FromBody] APIQueryData apiQueryData)
+		public IActionResult ApiQueryDelete(string modelName, string instanceKey,[FromBody] APIQueryData apiQueryData)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -419,7 +419,7 @@ namespace Microarea.AdminServer.Controllers
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 
 			opRes = SecurityManager.ValidateAuthorization(
-				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, _settings.InstanceIdentity.InstanceKey, RoleLevelsStrings.Instance);
+				authHeader, _settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, instanceKey, RoleLevelsStrings.Instance);
 
 			if (!opRes.Result)
 			{

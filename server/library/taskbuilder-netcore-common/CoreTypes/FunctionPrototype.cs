@@ -985,7 +985,8 @@ namespace Microarea.Common.CoreTypes
 			Add(Token.LOWER, "String", new string[] { "String" });
 			Add(Token.LOWER, "String", new string[] { "String", "Boolean" });
 			Add(Token.LTRIM, "String", new string[] { "String" });
-			Add(Token.MAX, "Object", new string[] { "Object", });   //array
+            Add(Token.LTRIM, "String", new string[] { "String", "String" });
+            Add(Token.MAX, "Object", new string[] { "Object", });   //array
 			Add(Token.MAX, "Object", new string[] { "Object", "Object" });
 			Add(Token.MAKELOWERLIMIT, "String", new string[] { "String" });
 			Add(Token.MAKEUPPERLIMIT, "String", new string[] { "String" });
@@ -995,10 +996,13 @@ namespace Microarea.Common.CoreTypes
 			Add(Token.MONTH, "Int32", new string[] { "DateTime" });
 			Add(Token.MONTH_DAYS, "Int32", new string[] { "Int32", "Int32" });
 			Add(Token.MONTH_NAME, "String", new string[] { "Int32" });
-			Add(Token.RAND, "Double", new string[0]);
+            Add(Token.PADLEFT, "String", new string[] { "String", "Int32", "String" });
+            Add(Token.PADRIGHT, "String", new string[] { "String", "Int32", "String" });
+            Add(Token.RAND, "Double", new string[0]);
 			Add(Token.REMOVENEWLINE, "String", new string[] { "String" });
 			Add(Token.REPLACE, "String", new string[] { "String", "String", "String" });
-			Add(Token.REVERSEFIND, "Int32", new string[] { "String", "String" });
+            Add(Token.REPLICATE, "String", new string[] { "String", "Int32" });
+            Add(Token.REVERSEFIND, "Int32", new string[] { "String", "String" });
 			Add(Token.REVERSEFIND, "Int32", new string[] { "String", "String", "Int32" });
             Add(Token.REVERSEFIND, "Int32", new string[] { "String", "String", "Int32", "Int32" });
             Add(Token.RGB, "Int32", new string[] { "Int32", "Int32", "Int32" });
@@ -1006,7 +1010,8 @@ namespace Microarea.Common.CoreTypes
 			Add(Token.ROUND, "Double", new string[] { "Double" });
 			Add(Token.ROUND, "Double", new string[] { "Double", "Int32" });
 			Add(Token.RTRIM, "String", new string[] { "String" });
-			Add(Token.SAVETEXT, "Boolean", new string[] { "String", "String" });
+            Add(Token.RTRIM, "String", new string[] { "String", "String" });
+            Add(Token.SAVETEXT, "Boolean", new string[] { "String", "String" });
 			Add(Token.SAVETEXT, "Boolean", new string[] { "String", "String", "Int32" });
 			Add(Token.SETCULTURE, "String", new string[] { "String" });
 			Add(Token.SETSETTING, "Object", new string[] { "String", "String", "String", "Object" });
@@ -1022,7 +1027,8 @@ namespace Microarea.Common.CoreTypes
 			Add(Token.TIME, "DateTime", new string[0]);
 			Add(Token.TIME, "DateTime", new string[] { "Int32", "Int32", "Int32" });
 			Add(Token.TRIM, "String", new string[] { "String" });
-			Add(Token.TYPED_BARCODE, "String", new string[] { "String", "Int32" });
+            Add(Token.TRIM, "String", new string[] { "String", "String" });
+            Add(Token.TYPED_BARCODE, "String", new string[] { "String", "Int32" });
 			Add(Token.TYPED_BARCODE, "String", new string[] { "String", "Int32", "Int32" });
 			Add(Token.TYPED_BARCODE, "String", new string[] { "String", "Int32", "Int32", "String" });
 			Add(Token.GETBARCODE_ID, "Int32", new string[] { "Int64" });

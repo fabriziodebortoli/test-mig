@@ -267,9 +267,10 @@ namespace Microarea.Common.Lexan
 			keywords.Add("Dialogs"				,Token.DIALOGS);
 			keywords.Add("Dynamic"				,Token.DYNAMIC);
 			keywords.Add("Display"				,Token.DISPLAY);
+            keywords.Add("DisplayChart"         ,Token.DISPLAY_CHART);
 			keywords.Add("DisplayFreeFields"	,Token.DISPLAY_FREE_FIELDS);
 			keywords.Add("DisplayTableRow"		,Token.DISPLAY_TABLE_ROW);
-			keywords.Add("Distinct"				,Token.DISTINCT);
+            keywords.Add("Distinct"				,Token.DISTINCT);
             keywords.Add("Do"                   ,Token.DO);
             keywords.Add("DropShadow"           ,Token.DROPSHADOW);
 			keywords.Add("Double"				,Token.DOUBLE_PRECISION);
@@ -478,7 +479,9 @@ namespace Microarea.Common.Lexan
             keywords.Add("Outer"                ,Token.OUTER);
             //keywords.Add("OwnerId"              ,Token.OWNER_ID);
 			keywords.Add("Padded"				,Token.PADDED);
-			keywords.Add("PageInfo"				,Token.PAGE_INFO);
+            keywords.Add("PadLeft"              , Token.PADLEFT);
+            keywords.Add("PadRight"             , Token.PADRIGHT);
+            keywords.Add("PageInfo"				,Token.PAGE_INFO);
 			keywords.Add("PageLayout"			,Token.PAGE_LAYOUT);
 			keywords.Add("Path"					,Token.PATH);
 			keywords.Add("Pen"					,Token.PEN);
@@ -506,7 +509,8 @@ namespace Microarea.Common.Lexan
             //keywords.Add("Rem"                  ,Token.REM);
             keywords.Add("RemoveNewLine"        ,Token.REMOVENEWLINE);
 			keywords.Add("Replace"				,Token.REPLACE);
-			keywords.Add("Report"				,Token.REPORT);
+            keywords.Add("Replicate"            ,Token.REPLICATE);
+            keywords.Add("Report"				,Token.REPORT);
 			keywords.Add("ReportProducer"		,Token.REPORTPRODUCER);
 			keywords.Add("Reports"				,Token.REPORTS);
 			keywords.Add("Reset"				,Token.RESET);
@@ -826,7 +830,8 @@ namespace Microarea.Common.Lexan
 		DIALOGS,
 		DYNAMIC,
 		DISPLAY,
-		DISPLAY_FREE_FIELDS,
+        DISPLAY_CHART,
+        DISPLAY_FREE_FIELDS,
 		DISPLAY_TABLE_ROW,
 		DISTINCT,
 		DROPSHADOW,
@@ -1040,7 +1045,9 @@ namespace Microarea.Common.Lexan
         //OWNER_ID,
 
 		PADDED,
-		PAGE_INFO,
+        PADLEFT,
+        PADRIGHT,
+        PAGE_INFO,
 		PAGE_LAYOUT,
 
 		PAGE_HSPLITTER,
@@ -1073,7 +1080,8 @@ namespace Microarea.Common.Lexan
 		REINIT,
 		RELEASE,
 		REPLACE,
-		REPORT,
+        REPLICATE,
+        REPORT,
 		REPORTPRODUCER,
 		REPORTS,
 		RESET,

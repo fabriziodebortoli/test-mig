@@ -2500,7 +2500,7 @@ namespace Microarea.Common.ExpressionManager
 					s = s.Replace(CastString(p2), CastString(p3));
 					return new Value(s);
 				}
-				case Token.REMOVENEWLINE:
+                 case Token.REMOVENEWLINE:
 				{
 					Value p1 = (Value) paramStack.Pop();
 					string s = CastString(p1);
@@ -2552,7 +2552,54 @@ namespace Microarea.Common.ExpressionManager
 					int i = CastDouble(p1) >= 0.0 ? +1 : -1;
 					return new Value(i);
 				}
-				case Token.SPACE:
+                case Token.REPLICATE:   
+                    {
+                        Value p1 = (Value)paramStack.Pop();
+                        Value p2 = (Value)paramStack.Pop();
+                        
+                        string s = CastString(p1);
+                        int count = CastInt(p2);
+
+                        s = s.Replicate(count);
+
+                        return new Value(s);
+                    }
+                case Token.PADLEFT:  
+                    {
+                        Value p1 = (Value)paramStack.Pop();
+                        Value p2 = (Value)paramStack.Pop();
+                        Value p3 = (Value)paramStack.Pop();
+
+                        string s = CastString(p1);
+                        int count = CastInt(p2);
+                        string pad = CastString(p3);
+
+                        if (pad.Length > 0)
+                            s.PadLeft(count, pad[0]);
+                        else
+                            s.PadLeft(count);
+
+                        return new Value(s);
+                    }
+                case Token.PADRIGHT:   
+                    {
+                        Value p1 = (Value)paramStack.Pop();
+                        Value p2 = (Value)paramStack.Pop();
+                        Value p3 = (Value)paramStack.Pop();
+
+                        string s = CastString(p1);
+                        int count = CastInt(p2);
+                        string pad = CastString(p3);
+
+                        if (pad.Length > 0)
+                            s.PadRight(count, pad[0]);
+                        else
+                            s.PadRight(count);
+
+                        return new Value(s);
+                    }
+
+                case Token.SPACE:
 				{
 					Value p1 = (Value) paramStack.Pop();
 					int count = CastInt(p1);
@@ -2563,21 +2610,43 @@ namespace Microarea.Common.ExpressionManager
 				{
 					Value p1 = (Value) paramStack.Pop();
 					string s = CastString(p1);
-					return new Value(s.TrimStart());
+
+                    if (function.Parameters.Count == 2)
+                    {
+                        Value p2 = (Value)paramStack.Pop(); 
+                        char[] a = CastString(p2).ToCharArray();
+
+                        return new Value(s.TrimStart(a));
+                    }
+                    return new Value(s.TrimStart());
 				}
 				case Token.RTRIM:
 				{
 					Value p1 = (Value) paramStack.Pop();
-					string s1 = CastString(p1);
-					string s2 = s1.TrimEnd();
-					return new Value(s2);
+					string s = CastString(p1);
+
+                    if (function.Parameters.Count == 2)
+                    {
+                        Value p2 = (Value)paramStack.Pop();
+                        char[] a = CastString(p2).ToCharArray();
+
+                        return new Value(s.TrimEnd(a));
+                    }
+					return new Value(s.TrimEnd());
 				}
 				case Token.TRIM:
 				{
 					Value p1 = (Value) paramStack.Pop();
-					string s1 = CastString(p1);
-					string s2 = s1.Trim();
-					return new Value(s2);
+					string s = CastString(p1);
+
+                    if (function.Parameters.Count == 2)
+                    {
+                        Value p2 = (Value)paramStack.Pop();
+                        char[] a = CastString(p2).ToCharArray();
+
+                        return new Value(s.Trim(a));
+                    }
+                    return new Value(s.Trim());
 				}
 				case Token.UPPER:
 				{
