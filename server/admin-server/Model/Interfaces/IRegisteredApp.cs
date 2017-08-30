@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Model.Interfaces
 {
-    public class IRegisteredApp
+    public interface IRegisteredApp
     {
         string AppId { get; set; }
         string Name { get; set; }
