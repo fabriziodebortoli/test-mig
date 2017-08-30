@@ -72,8 +72,8 @@ export class ReportChartComponent implements AfterViewInit {
         return 'funnel';
       case ChartType.Scatter:
         return 'scatter';
-      case ChartType.PolarLine:
-        return 'polarLine';
+      // case ChartType.PolarLine:
+      //   return 'polarLine';
       case ChartType.Bubble:
         return 'bubble';
 
