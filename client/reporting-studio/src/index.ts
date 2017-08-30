@@ -1,4 +1,6 @@
+import { ReportChartPieComponent } from './report-objects/layout/chart/chart-pie/chart-pie.component';
 import { ReportChartComponent } from './report-objects/layout/chart/chart.component';
+import { ReportChartStandardComponent } from './report-objects/layout/chart/chart-std/chart-std.component';
 import { UrlService } from '@taskbuilder/core';
 import { AskTextComponent } from './report-objects/askdialog/ask-text/ask-text.component';
 import { AskRadioComponent } from './report-objects/askdialog/ask-radio/ask-radio.component';
@@ -63,6 +65,8 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     ReportingStudioFactoryComponent,
     ReportingStudioComponent,
     ReportChartComponent,
+    ReportChartPieComponent,
+    ReportChartStandardComponent,
     ReportFieldrectComponent,
     ReportTableComponent,
     ReportTextrectComponent,

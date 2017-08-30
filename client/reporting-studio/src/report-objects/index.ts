@@ -1,4 +1,6 @@
 export { ReportChartComponent } from './layout/chart/chart.component';
+export { ReportChartStandardComponent } from './layout/chart/chart-std/chart-std.component';
+export { ReportChartPieComponent } from './layout/chart/chart-pie/chart-pie.component';
 export { ReportRectComponent } from './layout/rect/rect.component';
 export { ReportLayoutComponent } from './layout/layout.component';
 export { ReportTableComponent } from './layout/table/table.component';
