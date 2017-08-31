@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { AppHomeComponent } from './components/app-home/app-home.component';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { CompanyComponent } from './components/company/company.component';
+
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { JsonVisualizerPipe } from './json-visualizer.pipe';
@@ -36,7 +36,6 @@ import { SubscriptionDatabasesComponent } from './components/subscription/subscr
     SubscriptionHomeComponent,
     AppHomeComponent,
     LoginComponent,
-    CompanyComponent,
     AccountComponent,
     DatabaseInfoComponent,
     InstanceComponent,
