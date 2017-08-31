@@ -92,6 +92,6 @@ export class SubscriptionComponent implements OnInit {
   //--------------------------------------------------------------------------------------------------------
   openDatabase(item: object) {
     // route to edit database, I add in the existing query string the database name
-    this.router.navigate(['/databasesHome'], { queryParams: { databaseToEdit: item['Name'] }, queryParamsHandling: "merge" });
+    this.router.navigate(['/database'], { queryParams: { databaseToEdit: item['Name'] }, queryParamsHandling: "merge" });
   }
 }

@@ -44,7 +44,7 @@ export const routes: Routes = [
     component: AccountsHomeComponent
   },
   { 
-    path: 'databasesHome', 
+    path: 'database', 
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
     component: SubscriptionDatabasesComponent
