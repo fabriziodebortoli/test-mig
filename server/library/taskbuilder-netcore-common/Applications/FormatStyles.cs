@@ -3329,28 +3329,32 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		private void UnparseDateData(Unparser unparser, Formatter formatter)
 		{
-			DateFormatter dateFmt = formatter as DateFormatter;
-		
-			if (dateFmt.PaddedLen > 0)
-				UnparseFmtAlign(unparser, dateFmt.GetDefaultAlign(), formatter);
+            DateTimeFormatter dateFmt = formatter as DateTimeFormatter;
 
-			UnparseFmtOrder(unparser, formatter);
-			UnparseFmtWeekDay(unparser, formatter);
-			UnparseFmtDayFmt(unparser, formatter);
-			UnparseFmtMonthFmt(unparser, formatter);
-			UnparseFmtYearFmt(unparser, formatter);
-			UnparseFmtFirstSep(unparser, formatter);
-			UnparseFmtSecondSep(unparser, formatter);
+            if (dateFmt != null)
+            {
+                if (dateFmt.PaddedLen > 0)
+                    UnparseFmtAlign(unparser, dateFmt.GetDefaultAlign(), formatter);
 
-			UnparseDateTimeFmt(unparser, formatter);
-		}
+                UnparseFmtOrder(unparser, formatter);
+                UnparseFmtWeekDay(unparser, formatter);
+                UnparseFmtDayFmt(unparser, formatter);
+                UnparseFmtMonthFmt(unparser, formatter);
+                UnparseFmtYearFmt(unparser, formatter);
+                UnparseFmtFirstSep(unparser, formatter);
+                UnparseFmtSecondSep(unparser, formatter);
+                UnparseDateTimeFmt(unparser, formatter);
+                return;
+            }
+
+        }
 
 		//-----------------------------------------------------------------------------
 		private void UnparseDateTimeFmt(Unparser unparser, Formatter formatter)
 		{
-			DateFormatter dateFmt = formatter as DateFormatter;
+			DateTimeFormatter dateFmt = formatter as DateTimeFormatter;
 
-			if (!dateFmt.IsFullDateTimeFormat())
+			if (dateFmt == null)
 				return;
 
 			unparser.WriteBlank();
@@ -3371,14 +3375,24 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		private void UnparseFmtTimeAMPM(Unparser unparser, Formatter formatter)
 		{
-			string timeSeparator =  formatter is DateFormatter
-				? ((DateFormatter) formatter).TimeSeparator
-				: ((ElapsedTimeFormatter) formatter).TimeSeparator;
 
-			//if (timeSeparator.CompareNoCase(FormatStyles.ApplicationLocale.DateTimeFormat.TimeSeparator))           TODO resweb
-			//	return;
+            //string timeSeparator =  formatter is DateFormatter
+            //	? ((DateFormatter) formatter).TimeSeparator
+            //	: ((ElapsedTimeFormatter) formatter).TimeSeparator;
 
-			unparser.WriteBlank();
+            //if (timeSeparator.CompareNoCase(FormatStyles.ApplicationLocale.DateTimeFormat.TimeSeparator))           TODO resweb
+            //	return;
+            string timeSeparator = ".";
+
+            DateTimeFormatter dtfm = formatter as DateTimeFormatter;
+            if (dtfm != null)
+            {
+                timeSeparator = dtfm.TimeSeparator;
+
+            }
+         
+
+            unparser.WriteBlank();
 			unparser.WriteTag(Token.SEPARATOR, false);
 			unparser.WriteString(timeSeparator, false);
 		}
@@ -3386,20 +3400,28 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		private void UnparseFmtTimeSep(Unparser unparser, Formatter formatter)
 		{
-			DateFormatter dateFmt = formatter as DateFormatter;
+            DateTimeFormatter dateFmt = formatter as DateTimeFormatter;
 
-			if (!dateFmt.IsTimeAMPMFormat()) return;
+            if (dateFmt != null)
+            {
 
-			unparser.WriteBlank();
-			unparser.WriteTag(Token.POSTFIX, false);
-			unparser.WriteString(dateFmt.TimeAM, false);
-			unparser.WriteString(dateFmt.TimePM, false);
-		}
+              //  if (!dateFmt.IsTimeAMPMFormat()) return;
+
+                unparser.WriteBlank();
+                unparser.WriteTag(Token.POSTFIX, false);
+                unparser.WriteString(dateFmt.TimeAM, false);
+                unparser.WriteString(dateFmt.TimePM, false);
+                return;
+            }
+
+         
+
+        }
 
 		//-----------------------------------------------------------------------------
 		private void UnparseFmtSecondSep(Unparser unparser, Formatter formatter)
 		{
-			DateFormatter dateFmt = formatter as DateFormatter;
+            DateTimeFormatter dateFmt = formatter as DateTimeFormatter;
 
 			if (dateFmt.SecondSeparator.CompareNoCase(FormatStyleLocale.DateSeparator))
 				return;
@@ -3413,7 +3435,7 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		private void UnparseFmtFirstSep(Unparser unparser, Formatter formatter)
 		{
-			DateFormatter dateFmt = formatter as DateFormatter;
+            DateTimeFormatter dateFmt = formatter as DateTimeFormatter;
 
 			if (dateFmt.FirstSeparator.CompareNoCase(FormatStyleLocale.DateSeparator))
 				return;
@@ -3427,7 +3449,7 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		private void UnparseFmtYearFmt(Unparser unparser, Formatter formatter)
 		{
-			DateFormatter dateFmt = formatter as DateFormatter;
+            DateTimeFormatter dateFmt = formatter as DateTimeFormatter;
 
 			if (dateFmt.YearFormat == FormatStyleLocale.ShortDateYearFormat)
 				return;
@@ -3440,7 +3462,7 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		private void UnparseFmtMonthFmt(Unparser unparser, Formatter formatter)
 		{
-			DateFormatter dateFmt = formatter as DateFormatter;
+            DateTimeFormatter dateFmt = formatter as DateTimeFormatter;
 
 			if (dateFmt.MonthFormat == FormatStyleLocale.ShortDateMonthFormat) 
 				return;
@@ -3453,7 +3475,7 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		private void UnparseFmtDayFmt(Unparser unparser, Formatter formatter)
 		{
-			DateFormatter dateFmt = formatter as DateFormatter;
+            DateTimeFormatter dateFmt = formatter as DateTimeFormatter;
 
 			if (dateFmt.DayFormat == FormatStyleLocale.ShortDateDayFormat) 
 				return;
@@ -3466,7 +3488,7 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		private void UnparseFmtWeekDay(Unparser unparser, Formatter formatter)
 		{
-			DateFormatter dateFmt = formatter as DateFormatter;
+            DateTimeFormatter dateFmt = formatter as DateTimeFormatter;
 		
 			if (dateFmt.WeekdayFormat == DateTimeFormatter.WeekdayTag.NOWEEKDAY)
 				return;
@@ -3479,7 +3501,7 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		private void UnparseFmtOrder(Unparser unparser, Formatter formatter)
 		{
-			DateFormatter dateFmt = formatter as DateFormatter;
+            DateTimeFormatter dateFmt = formatter as DateTimeFormatter;
 
 			if (dateFmt.FormatType == FormatStyleLocale.ShortDateFormat) 
 				return;

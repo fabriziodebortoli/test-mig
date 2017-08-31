@@ -206,6 +206,39 @@ namespace Microarea.Menu.Controllers
 
         }
 
+        
+        [Route("LoadGlobalFormattersFiles")]
+        //-----------------------------------------------------------------------
+        public string LoadGlobalFormattersFiles()
+        {
+            return FileSystemMonitor.Engine.LoadGlobalFormattersFiles();
+
+        }
+
+        [Route("LoadGlobalEnumsXmlFiles")]
+        //-----------------------------------------------------------------------
+        public string LoadGlobalEnumsXmlFiles()
+        {
+            return FileSystemMonitor.Engine.LoadGlobalEnumsXmlFiles();
+
+        }
+
+        [Route("LoadGlobalDocumentObjectsXmlFiles")]
+        //-----------------------------------------------------------------------
+        public string LoadGlobalDocumentObjectsXmlFiles()
+        {
+            return FileSystemMonitor.Engine.LoadGlobalDocumentObjectsXmlFiles();
+             
+        }
+
+        [Route("LoadGlobalXmlFiles")]
+        //-----------------------------------------------------------------------
+        public string LoadGlobalXmlFiles()
+        {
+            return FileSystemMonitor.Engine.LoadGlobalXmlFiles();
+
+        }
+
         [Route("MakeGlobalFiles/{currentUserPreferredLanguage}/{serverConnectionPreferredLanguage}")]
         //-----------------------------------------------------------------------
         public bool MakeGlobalFiles(string currentUserPreferredLanguage, string serverConnectionPreferredLanguage)

@@ -129,6 +129,7 @@ namespace TaskBuilderNetCore.Interfaces
             public const string Namespace = "namespace";
             public const string BaseType = "basetype";
             public const string ClassType = "classType";
+            public const string SourceInfo = "sourceInfo";
             public const string Value = "value";
             public const string Optional = "optional";
             public const string Row = "row";
@@ -1297,7 +1298,7 @@ namespace TaskBuilderNetCore.Interfaces
             public const string Localize    = "localize";
             public const string Namespace   = "namespace";
             public const string Server      = "server";
-            public const string Name        = "names";
+            public const string Name        = "name";
         }
     }
 
