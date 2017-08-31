@@ -9,7 +9,6 @@ import { LoginComponent } from "app/components/login/login.component";
 import { Routes } from '@angular/router';
 import { SubscriptionHomeComponent } from 'app/components/subscription/subscription-home.component';
 import { AccountsHomeComponent } from "app/components/account/accounts-home.component";
-import { DatabasesHomeComponent } from "app/components/databases-home/databases-home.component";
 import { SubscriptionComponent } from 'app/components/subscription/subscription.component';
 
 export const routes: Routes = [
