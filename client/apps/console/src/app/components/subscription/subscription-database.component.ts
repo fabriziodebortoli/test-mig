@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
 import { OperationResult } from '../../services/operationResult';
 
 @Component({
-  selector: 'app-subscription-databases',
-  templateUrl: './subscription-databases.component.html',
-  styleUrls: ['./subscription-databases.component.css']
+  selector: 'app-subscription-database',
+  templateUrl: './subscription-database.component.html',
+  styleUrls: ['./subscription-database.component.css']
 })
 
 export class SubscriptionDatabaseComponent implements OnInit {
