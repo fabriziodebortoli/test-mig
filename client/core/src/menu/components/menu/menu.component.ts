@@ -1,7 +1,7 @@
-import { ComponentInfoService } from './../../../shared/models/component-info.model';
 import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 
+import { ComponentInfoService } from './../../../core/services/component-info.service';
 import { HttpMenuService } from './../../services/http-menu.service';
 import { MenuService } from './../../services/menu.service';
 import { LocalizationService } from './../../services/localization.service';
