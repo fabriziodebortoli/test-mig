@@ -11,7 +11,7 @@ import { OperationResult } from '../../services/operationResult';
   styleUrls: ['./subscription-databases.component.css']
 })
 
-export class SubscriptionDatabasesComponent implements OnInit {
+export class SubscriptionDatabaseComponent implements OnInit {
 
    model: SubscriptionDatabase;
    editing: boolean = false;

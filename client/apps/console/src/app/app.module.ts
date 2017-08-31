@@ -25,7 +25,7 @@ import { AccountsHomeComponent } from './components/account/accounts-home.compon
 import { InstanceHomeComponent } from './components/instance/instance-home.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { AccountSubscriptionsComponent } from './components/account/account-subscriptions.component';
-import { SubscriptionDatabasesComponent } from './components/subscription/subscription-databases.component';
+import { SubscriptionDatabaseComponent } from './components/subscription/subscription-databases.component';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -46,7 +46,7 @@ import { SubscriptionDatabasesComponent } from './components/subscription/subscr
     InstanceHomeComponent,
     SubscriptionComponent,
     AccountSubscriptionsComponent,
-    SubscriptionDatabasesComponent
+    SubscriptionDatabaseComponent
   ],
   imports: [
     BrowserModule,
