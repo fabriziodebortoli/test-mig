@@ -1,3 +1,4 @@
+import { TbComponentService } from './services/tbcomponent.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import 'hammerjs';
@@ -11,7 +12,6 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
  */
 import { BOService } from './services/bo.service';
 import { BOClient } from './services/bo.service';
-import { BOHelperService } from './services/bohelper.service';
 import { ComponentService } from './services/component.service';
 import { DataService } from './services/data.service';
 import { DocumentService } from './services/document.service';
@@ -29,9 +29,9 @@ import { UrlService } from './services/url.service';
 import { UtilsService } from './services/utils.service';
 import { WebSocketService } from './services/websocket.service';
 
+export { TbComponentService } from './services/tbcomponent.service';
 export { BOService } from './services/bo.service';
 export { BOClient } from './services/bo.service';
-export { BOHelperService } from './services/bohelper.service';
 export { ComponentService } from './services/component.service';
 export { DataService } from './services/data.service';
 export { DocumentService } from './services/document.service';
@@ -50,7 +50,7 @@ export { UtilsService } from './services/utils.service';
 export { WebSocketService } from './services/websocket.service';
 
 export const TB_SERVICES = [
-    BOService, BOHelperService, ComponentService, DocumentService, DataService, EnumsService,
+    TbComponentService, BOService, ComponentService, DocumentService, DataService, EnumsService,
     EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger,
     LoginSessionService, SidenavService, TabberService, UrlService, UtilsService, WebSocketService
 ];

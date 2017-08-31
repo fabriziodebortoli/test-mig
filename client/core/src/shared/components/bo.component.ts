@@ -16,57 +16,32 @@ import { Subscription } from "rxjs/Subscription";
   styles: []
 })
 export abstract class BOCommonComponent extends DocumentComponent implements OnInit, OnDestroy {
-  translations = [];
   subscriptions: Subscription[] = [];
-  culture = 'it-IT';
-  version = '1';
+
   constructor(document: BOService,
     eventData: EventDataService,
     ciService: ComponentInfoService) {
     super(document, eventData, ciService);
+
+    this.culture = this.ciService.globalInfoService.culture.value;
     let me = this;
     this.subscriptions.push(document.windowStrings.subscribe((args: any) => {
       if (me.cmpId === args.id) {
         me.translations = args.strings;
-        let jItem = { translations: me.translations, version:this.version };
-        localStorage.setItem(this.getDictionaryID(this.ciService.componentInfo), JSON.stringify(jItem));
+        let jItem = { translations: me.translations, installationVersion: this.installationVersion };
+        localStorage.setItem(this.dictionaryId, JSON.stringify(jItem));
       }
     }));
   }
-  getDictionaryID(ci: ComponentInfo) {
-    return ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name + '/' + this.culture;
-  }
-  l(baseText: string) {
-    let target = baseText;
-    this.translations.some(t => {
-      if (t.base == baseText) {
-        target = t.target;
-        return true;
-      }
-      return false;
-    });
-    return target;
+
+
+  readTranslationsFromServer() {
+    let s = this.document as BOService;
+    s.getWindowStrings(this.cmpId, this.culture);
   }
   ngOnInit() {
-    let item = localStorage.getItem(this.getDictionaryID(this.ciService.componentInfo));
-    let found = false;
-    if (item) {
-      try {
-        let jItem = JSON.parse(item);
-
-        if (jItem.version === this.version) {
-          this.translations = jItem.translations;
-          found = true;
-        }
-      }
-      catch (ex) {
-        console.log(ex);
-      }
-    }
-    if (!found) {
-      let s = this.document as BOService;
-      s.getWindowStrings(this.cmpId, this.culture);
-    }
+    const ci = this.ciService.componentInfo;
+    this.dictionaryId = ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name + '/' + this.culture;
     super.ngOnInit();
   }
   ngOnDestroy() {

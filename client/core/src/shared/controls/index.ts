@@ -30,6 +30,7 @@ export * from './state-button/state-button.component';
 export * from './file/file.component';
 export * from './grid/grid.component';
 export * from './body-edit/body-edit.component';
+export * from './body-edit-column/body-edit-column.component';
 export * from './hotlink/hotlink.component';
 export * from './charts/linear-gauge/linear-gauge.component';
 export * from './treeview/tree-view.component';

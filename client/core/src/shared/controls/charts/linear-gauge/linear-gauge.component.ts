@@ -1,3 +1,4 @@
+import { TbComponentService } from './../../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../../core/services/layout.service';
 import { Component, Input, OnInit } from '@angular/core';
 
@@ -35,8 +36,8 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
     };
   }
 
-  constructor(private eventData: EventDataService, protected layoutService: LayoutService) {
-    super(layoutService);
+  constructor(private eventData: EventDataService, layoutService: LayoutService, tbComponentService:TbComponentService) {
+    super(layoutService, tbComponentService);
     this.setDefault();
   }
 

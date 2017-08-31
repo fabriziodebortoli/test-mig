@@ -21,13 +21,14 @@ export class DocumentComponent extends TbComponent implements OnInit {
     constructor(public document: DocumentService,
         public eventData: EventDataService,
         public ciService: ComponentInfoService) {
-        super();
+        super(document);
 
     }
 
     ngOnInit() {
         this.viewModeType = this.document.getViewModeType();
         this.title = this.document.getTitle();
+        super.ngOnInit(); 
     }
 
    

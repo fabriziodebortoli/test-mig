@@ -1,6 +1,8 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { TbComponentService } from './../../../core/services/tbcomponent.service';
+import { LayoutService } from './../../../core/services/layout.service';
+import { ControlComponent } from '../control.component';
+import { Component, Input } from '@angular/core';
 
-import { ControlComponent } from './../control.component';
 
 @Component({
     selector: 'tb-radio',
@@ -10,4 +12,11 @@ import { ControlComponent } from './../control.component';
 
 export class RadioComponent extends ControlComponent {
     @Input() name: string;
+
+    constructor(
+        layoutService:LayoutService,
+        tbComponentService: TbComponentService
+    ) {
+        super(layoutService, tbComponentService)
+    }
 }

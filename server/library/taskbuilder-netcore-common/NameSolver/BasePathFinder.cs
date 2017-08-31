@@ -1551,8 +1551,9 @@ namespace Microarea.Common.NameSolver
 			return Path.Combine(GetStandardApplicationPath(NameSolverStrings.Framework), xmlExt);
 		}
 
+
 		/// <summary>
-		/// Restituisce Standard\Contenitore\Applicazione\Modulo\Dictionary
+		/// Restituisce Standard\Contenitore\Applicazione\Modulo\Dictionary\cultura\dictionary.bin
 		/// </summary>
 		/// <param name="appName">nome dell'applicazione</param>
 		/// <param name="moduleName">nome del modulo</param>
@@ -1564,11 +1565,28 @@ namespace Microarea.Common.NameSolver
 			if (modulePath == string.Empty)
 				return string.Empty;
 
-			string path = Path.Combine(modulePath, NameSolverStrings.Dictionary);
+			string path = GetStandardDictionaryPath(appName, moduleName);
+			if (string.IsNullOrEmpty(path))
+				return "";
 			path = Path.Combine(path, culture);
 			return Path.Combine(path, NameSolverStrings.StandardDictionaryFile);
 		}
+		/// <summary>
+		/// Restituisce Standard\Contenitore\Applicazione\Modulo\Dictionary
+		/// </summary>
+		/// <param name="appName">nome dell'applicazione</param>
+		/// <param name="moduleName">nome del modulo</param>
+		/// <returns>il percorso richiesto</returns>
+		//---------------------------------------------------------------------
+		public string GetStandardDictionaryPath(string appName, string moduleName)
+		{
+			string modulePath = GetApplicationModulePath(appName, moduleName);
+			if (modulePath == string.Empty)
+				return string.Empty;
 
+			return Path.Combine(modulePath, NameSolverStrings.Dictionary);
+			
+		}
 		/// <summary>
 		/// ritorna il path fino al livello della directory DatabaseScript
 		/// </summary>

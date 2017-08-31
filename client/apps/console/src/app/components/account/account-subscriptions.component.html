@@ -12,6 +12,8 @@
   <p style="margin-top: 30px">Linked to this account</p>
   <admin-list 
     [items]="subscriptions" 
-    [columnNames]="columnNames"></admin-list>
+    [columnNames]="columnNames"
+    [rowCommand]="'delete'"
+    (onFireRowCommand)="deleteAssociation($event)"></admin-list>
 </div>
 

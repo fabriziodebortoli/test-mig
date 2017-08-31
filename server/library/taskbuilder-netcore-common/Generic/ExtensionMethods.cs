@@ -356,11 +356,19 @@ namespace Microarea.Common.Generic
             return prefix1 + s;
         }
 
-        /// <summary>
-        /// WildcardMatch
-        /// </summary>
-            //-------------------------------------------------------------------------
-        public static string WildcardToRegex(this string pattern)
+        public static string Replicate(this string rep, int count)
+        {
+	        string s = string.Empty;
+	        for (int i = 0; i < count; i++)
+		        s += rep;
+            return s;
+        }
+
+    /// <summary>
+    /// WildcardMatch
+    /// </summary>
+    //-------------------------------------------------------------------------
+    public static string WildcardToRegex(this string pattern)
         {             
             string result= Regex.Escape(pattern).
                 Replace(@"\*", ".+?").
@@ -825,7 +833,7 @@ namespace Microarea.Common.Generic
 
         public static string ToHtml(this Color color)
         {
-            return ColorTranslator.ToHtml(color);
+            return '#' + color.Name.Right(6);
         }
 
         public static string ToJson(this Color color, string name = null, bool bracket = false)

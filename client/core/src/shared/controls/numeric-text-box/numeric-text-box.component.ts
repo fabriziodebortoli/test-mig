@@ -1,3 +1,4 @@
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Component, Input, OnChanges, AfterViewInit } from '@angular/core';
@@ -15,12 +16,12 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   @Input() disabled: boolean;
   @Input() decimals: number;
   @Input() public hotLink: any = undefined;
-  
+
   private errorMessage: string;
   private constraint: RegExp = new RegExp('\\d');
   private showError = '';
   public selectedValue: number;
-  
+
 
 
 
@@ -41,9 +42,10 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
 
   constructor(
     private eventData: EventDataService,
-     protected layoutService: LayoutService 
-    ) {
-    super(layoutService);
+    layoutService: LayoutService,
+    tbComponentService: TbComponentService
+  ) {
+    super(layoutService, tbComponentService);
   }
 
   getDecimalsOptions(): number {

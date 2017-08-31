@@ -137,7 +137,7 @@ namespace PdfSharp.Drawing
 
 #if GDI
         XColor(KnownColor knownColor)
-            : this(System.Drawing.Color.FromKnownColor(knownColor))
+            : this(System.Drawing.Color.FromName(knownColor.ToString()))
         { }
 #endif
 

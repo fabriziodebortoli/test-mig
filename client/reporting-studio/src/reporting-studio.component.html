@@ -9,7 +9,7 @@
         <tb-toolbar-top-button icon="tb-last" caption="Last" (click)="LastPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-startreport" caption="Run Report" (click)="RunReport()" *ngIf="!rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-stopreport" caption="Stop Report" (click)="StopReport()" *ngIf="rsService.running"></tb-toolbar-top-button>
-        <!--tb-toolbar-top-button icon=" " caption="ReRun" (click)="ReRunReport()"></tb-toolbar-top-button-->
+        <tb-toolbar-top-button icon="tb-rerun" caption="ReRun" (click)="ReRunReport()"></tb-toolbar-top-button>
     </tb-toolbar-top>
     <tb-frame-content>
         <tb-view-container>
@@ -27,6 +27,7 @@
         <tb-toolbar-bottom-button caption="Export as SVG" (click)="startSaveSVG()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as PDF" (click)="setExportFile(rsService.pdf)"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as Excel" (click)="setExportFile(rsService.excel)"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button caption="Export as DocX" (click)="setExportFile(rsService.docx)"></tb-toolbar-bottom-button>
 
         <rs-exportdialog *ngIf="rsService.exportfile"> </rs-exportdialog>
 

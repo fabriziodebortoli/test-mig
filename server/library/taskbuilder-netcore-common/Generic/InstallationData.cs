@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 
 using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
+using static Microarea.Common.Generic.InstallationInfo;
 
 namespace Microarea.Common.Generic
 {
@@ -228,14 +229,24 @@ namespace Microarea.Common.Generic
 			if (cultures == null)
 			{
 				cultures = new List<CultureInfo>();
-				cultures.Add(new CultureInfo(string.Empty));	//lingua nativa
-
-				foreach (string folder in Directory.GetDirectories(path))
-				{
-					string culture = Path.GetFileName(folder);
-					try { cultures.Add(new CultureInfo(culture)); }
-					catch { }
-				}
+				cultures.Add(new CultureInfo(string.Empty));    //lingua nativa
+ 				try
+                {
+					if (Directory.Exists(path))
+					{
+						foreach (string folder in Directory.GetDirectories(path))
+						{
+							string culture = Path.GetFileName(folder);
+							try { cultures.Add(new CultureInfo(culture)); }
+							catch { }
+						}
+					}
+				} 
+                catch(Exception ex)
+                {
+                 //qui non dovrebbe passare
+                }
+                
 			}
 
 			return cultures.ToArray();
@@ -244,7 +255,8 @@ namespace Microarea.Common.Generic
 		//---------------------------------------------------------------------
 		public static CultureInfo[] GetInstalledDictionaries()
 		{
-			return InternalGetInstalledDictionaries(/*AppDomain.CurrentDomain.BaseDirectory todo rsweb*/ "");
+			string path = BasePathFinder.BasePathFinderInstance.GetStandardDictionaryPath("framework", "tbloader");//Functions.GetAssemblyPath(Assembly.GetEntryAssembly());
+			return InternalGetInstalledDictionaries(path);
 		}
 
         //----------------------------------------------------------------------------

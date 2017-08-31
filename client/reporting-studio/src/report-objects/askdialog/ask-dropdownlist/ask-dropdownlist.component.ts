@@ -5,7 +5,7 @@ import { AskdialogService } from './../askdialog.service';
 import { LayoutService } from '@taskbuilder/core';
 
 import { ReportingStudioService } from './../../../reporting-studio.service';
-import { ComboSimpleComponent } from '@taskbuilder/core';
+import { ComboSimpleComponent, TbComponentService } from '@taskbuilder/core';
 
 
 import { Component, OnInit, Input } from '@angular/core';
@@ -21,10 +21,11 @@ export class AskDropdownlistComponent extends ComboSimpleComponent {
 
   constructor(
     private rsService: ReportingStudioService,
-     private adService: AskdialogService,
-    protected layoutService: LayoutService
+    private adService: AskdialogService,
+    layoutService: LayoutService,
+    tbComponentService: TbComponentService
   ) {
-    super(layoutService);
+    super(layoutService, tbComponentService);
   }
 
 

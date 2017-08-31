@@ -52,16 +52,22 @@ export class RadarComponent {
         /*dataType*/
 
         this.columnInfos = radarInfo.columnInfos
+        console.log("radarInfo.columnInfos", radarInfo.columnInfos)
+        // this.columnInfos = radarInfo.columnInfos.slice(0, 10);
 
         let params: URLSearchParams = new URLSearchParams();
         params.set('query', radarInfo.query);
-        params.set('columnInfos', JSON.stringify(radarInfo.columnInfos));
+        params.set('columnInfos', JSON.stringify(this.columnInfos));
 
         this.logger.info('radar', params);
         this.dataService.getRadarData(params).subscribe((data) => {
             this.radarData = data.rows;
             this.load();
         });
+    }
+
+    public editHandler({ sender, rowIndex, dataItem }) {
+        this.logger.info('dataItem', dataItem);
     }
 
     protected pageChange(event: PageChangeEvent): void {

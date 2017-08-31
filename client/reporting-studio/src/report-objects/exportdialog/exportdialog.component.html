@@ -15,6 +15,7 @@
     <kendo-dialog-actions>
         <button kendoButton *ngIf="rsService.exportpdf" (click)="startExport()">Export PDF</button>
         <button kendoButton *ngIf="rsService.exportexcel" (click)="startExport()">Export Excel</button>
+        <button kendoButton *ngIf="rsService.exportdocx" (click)="startExport()">Export Docx</button>
     </kendo-dialog-actions>
 
 </kendo-dialog>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E608C668-B4A9-422E-B0FD-3DACC3065317}"
 EndProject
@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web-server", "web-server\we
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tbloader-gate", "tbloader-gate\tbloader-gate.csproj", "{B2373B0A-B692-494A-B291-521C9B0DF4F3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDFSharpCore", "library\PDFSharpCore\PDFSharpCore.csproj", "{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "menu-service", "menu-service\menu-service.csproj", "{E33B70BB-1E54-4B58-A76F-D0288C52A329}"
 EndProject
@@ -40,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "admin-server", "admin-serve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "report-service", "report-service\report-service.csproj", "{A095F89E-E7C9-4EC0-BA14-7E7EFB9F99E0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDFSharpCore", "library\PDFSharpCore\PDFSharpCore.csproj", "{14A255AF-F8EC-475B-ABB7-EC617822C4DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,10 +54,6 @@ Global
 		{B2373B0A-B692-494A-B291-521C9B0DF4F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2373B0A-B692-494A-B291-521C9B0DF4F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2373B0A-B692-494A-B291-521C9B0DF4F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D000BE77-6AFC-41F5-AAAE-144AF66AD63B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E33B70BB-1E54-4B58-A76F-D0288C52A329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E33B70BB-1E54-4B58-A76F-D0288C52A329}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E33B70BB-1E54-4B58-A76F-D0288C52A329}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -106,14 +102,21 @@ Global
 		{A095F89E-E7C9-4EC0-BA14-7E7EFB9F99E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A095F89E-E7C9-4EC0-BA14-7E7EFB9F99E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A095F89E-E7C9-4EC0-BA14-7E7EFB9F99E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14A255AF-F8EC-475B-ABB7-EC617822C4DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14A255AF-F8EC-475B-ABB7-EC617822C4DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14A255AF-F8EC-475B-ABB7-EC617822C4DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14A255AF-F8EC-475B-ABB7-EC617822C4DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D000BE77-6AFC-41F5-AAAE-144AF66AD63B} = {D519BEB7-3A17-40C8-AB1C-7E737B413C99}
 		{97589AEC-B103-4568-A0DA-4847FF657DB9} = {D519BEB7-3A17-40C8-AB1C-7E737B413C99}
 		{61E4E7CF-AB43-4470-A5B1-60AE75D5F107} = {D519BEB7-3A17-40C8-AB1C-7E737B413C99}
 		{5177ACB0-0398-4A58-9E0F-69A218296860} = {D519BEB7-3A17-40C8-AB1C-7E737B413C99}
+		{14A255AF-F8EC-475B-ABB7-EC617822C4DC} = {D519BEB7-3A17-40C8-AB1C-7E737B413C99}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5AE03BF8-94C7-4590-8067-FFC6E7A7E48F}
 	EndGlobalSection
 EndGlobal

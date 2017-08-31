@@ -971,6 +971,9 @@ namespace Microarea.Common.ExpressionManager
                 case Token.IsLeapYear:
                 
                 case Token.WILDCARD_MATCH:
+                case Token.REPLICATE:
+                case Token.PADLEFT:
+                case Token.PADRIGHT:
 
                 case Token.SendBalloon:
                 case Token.FormatTbLink:

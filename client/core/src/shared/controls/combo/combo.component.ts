@@ -1,3 +1,4 @@
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Component, Input, OnChanges, OnInit, AfterViewInit, DoCheck, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -26,9 +27,10 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     constructor(
         private webSocketService: WebSocketService,
         private eventDataService: EventDataService,
-        protected layoutService: LayoutService
+        layoutService: LayoutService, 
+        tbComponentService:TbComponentService
     ) {
-        super(layoutService);
+        super(layoutService, tbComponentService);
 
         this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
             this.items = result.itemSource;

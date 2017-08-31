@@ -1,6 +1,5 @@
 import { hotlink } from './../../../models/hotlink.model';
-import { HttpService, LayoutService } from '@taskbuilder/core';
-import { HotlinkComponent, EnumsService } from '@taskbuilder/core';
+import { HttpService, LayoutService, TbComponentService, HotlinkComponent, EnumsService } from '@taskbuilder/core';
 import { Observable } from 'rxjs/Rx';
 
 import { Component, Input, DoCheck, KeyValueDiffers, Output, EventEmitter, ViewChild, ViewEncapsulation, OnInit } from '@angular/core';
@@ -16,10 +15,11 @@ export class AskHotlinkComponent extends HotlinkComponent implements OnInit {
 
   @Input() hotlink: hotlink;
   constructor(http: HttpService,
-    protected layoutService: LayoutService,
-    protected enumService: EnumsService
+    layoutService: LayoutService,
+    protected enumService: EnumsService,
+    tbComponentService: TbComponentService
   ) {
-    super(http, layoutService, enumService);
+    super(http, layoutService, enumService, tbComponentService);
   }
 
   ngOnInit() {
