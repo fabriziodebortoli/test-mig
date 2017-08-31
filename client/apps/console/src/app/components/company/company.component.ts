@@ -29,14 +29,14 @@ export class CompanyComponent implements OnInit {
   }
 
   submitCompany() {
-    if (this.model.name == undefined) {
+    if (this.model.Name == undefined) {
       alert('Company name is mandatory!');
       return;
     }
 
     // da togliere quando valorizzeremo la SubscriptionKey con quella corrente
-    if (this.model.subscriptionKey == undefined)
-      this.model.subscriptionKey = '1';
+    if (this.model.SubscriptionKey == undefined)
+      this.model.SubscriptionKey = '1';
 
     let companyOperation: Observable<OperationResult>;
     if (!this.editing)

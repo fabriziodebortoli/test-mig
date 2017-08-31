@@ -11,11 +11,13 @@ export enum ChartType
     Area, AreaStacked, AreaStacked100,
     Line, 
     Pie, Donut, DonutNested,
-    Funnel, Pyramid,
+    Funnel,
+    RangeBar, RangeColumn,
+    Bubble, Scatter,
     Wrong,
     //mancano nei BCGP
-    VerticalLine, VerticalArea
-    //unsupported
-    //variazioni 3D  di bar,column,area  
-    //
+    VerticalLine, VerticalArea,
+    //mancano nei Kendo UI
+    Pyramid
+    //versioni 3D di bar,column,area
 }
