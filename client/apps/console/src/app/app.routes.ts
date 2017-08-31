@@ -1,3 +1,4 @@
+import { SubscriptionDatabasesComponent } from './components/subscription/subscription-databases.component';
 import { InstanceHomeComponent } from './components/instance/instance-home.component';
 import { InstanceComponent } from './components/instance/instance.component';
 import { AccountComponent } from "app/components/account/account.component";
@@ -47,7 +48,7 @@ export const routes: Routes = [
     path: 'databasesHome', 
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
-    component: DatabasesHomeComponent
+    component: SubscriptionDatabasesComponent//DatabasesHomeComponent
   },
   { 
     path: 'account', 

@@ -255,6 +255,45 @@ export class ModelService {
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
   }
 
+  //--------------------------------------------------------------------------------------------------------
+  getDatabase(subscriptionKey: string, name: string) : Observable<OperationResult> {
+    
+      let authorizationHeader = this.createAuthorizationHeader('jwt');
+  
+      if (authorizationHeader === '') {
+        return Observable.throw('AuthorizationHeader is missing!');
+      }
+  
+      let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+      let options = new RequestOptions({ headers: headers });
+  
+      return this.http.get(environment.adminAPIUrl + 'databases/' + subscriptionKey + '/' + name, options)
+        .map((res: Response) => {
+          return res.json();
+        })
+        .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  saveDatabase(body: Object): Observable<OperationResult> {
+
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(environment.adminAPIUrl + 'databases', body, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
+      
   // @@TODO da togliere
   //--------------------------------------------------------------------------------------------------------
   addCompany(body: Object): Observable<OperationResult> {
