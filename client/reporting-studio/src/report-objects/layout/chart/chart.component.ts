@@ -12,7 +12,7 @@ export class ReportChartComponent implements AfterViewInit {
 
   @Input() chart: chart;
 
-  constructor(public cdRef: ChangeDetectorRef) {
+  constructor(private cdRef: ChangeDetectorRef) {
   }
 
   ngAfterViewInit() {

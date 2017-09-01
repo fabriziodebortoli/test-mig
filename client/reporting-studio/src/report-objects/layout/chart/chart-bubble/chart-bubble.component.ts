@@ -9,7 +9,7 @@ import { ChartType } from "./../../../../models/chart-type.model";
 
 /**
  * This component includes chart types:
- *  bubble, scatter
+ *  bubble, scatter, scatterLine, PolarLine
  */
 
 export class ReportChartBubbleComponent implements AfterViewInit {
