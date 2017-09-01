@@ -17,6 +17,7 @@ namespace Microarea.AdminServer.Model
         bool disabled = false;
 		bool existsOnDB = false;
         bool underMaintenance;
+        DateTime pendingDate;
 
         //---------------------------------------------------------------------
         public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
@@ -26,9 +27,10 @@ namespace Microarea.AdminServer.Model
         public string Origin { get => origin; set => origin = value; }
         public string Tags { get => tags; set => tags = value; }
         public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
+        public DateTime PendingDate { get => pendingDate; set => pendingDate = value; }
 
-		//---------------------------------------------------------------------
-		public Instance()
+        //---------------------------------------------------------------------
+        public Instance()
 		{
 			this.description = String.Empty;
 		}
@@ -51,6 +53,7 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@Origin", this.origin));
             burgerDataParameters.Add(new BurgerDataParameter("@Tags", this.tags));
             burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.underMaintenance));
+            burgerDataParameters.Add(new BurgerDataParameter("@PendingDate", this.pendingDate));
             BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@InstanceKey", this.instanceKey);
 
             opRes.Result = burgerData.Save(ModelTables.Instances, keyColumnParameter, burgerDataParameters);
@@ -67,6 +70,7 @@ namespace Microarea.AdminServer.Model
             instance.origin = reader["Origin"] as string;
             instance.tags = reader["Tags"] as string;
             instance.underMaintenance = (bool)reader["UnderMaintenance"];
+            instance.pendingDate = (DateTime)reader["PendingDate"];
             return instance;
         }
 

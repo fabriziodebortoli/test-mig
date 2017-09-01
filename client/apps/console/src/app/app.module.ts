@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { AppHomeComponent } from './components/app-home/app-home.component';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { CompanyComponent } from './components/company/company.component';
+
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { JsonVisualizerPipe } from './json-visualizer.pipe';
@@ -22,11 +22,10 @@ import { EntityHomeComponent } from './components/entity/entity-home.component';
 import { EntityDetailComponent } from './components/entity/entity-detail.component';
 import { SubscriptionSelectionComponent } from './components/subscription/subscription-selection.component';
 import { AccountsHomeComponent } from './components/account/accounts-home.component';
-import { DatabasesHomeComponent } from './components/databases-home/databases-home.component';
 import { InstanceHomeComponent } from './components/instance/instance-home.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { AccountSubscriptionsComponent } from './components/account/account-subscriptions.component';
-import { SubscriptionDatabasesComponent } from './components/subscription/subscription-databases.component';
+import { SubscriptionDatabaseComponent } from './components/subscription/subscription-database.component';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -36,7 +35,6 @@ import { SubscriptionDatabasesComponent } from './components/subscription/subscr
     SubscriptionHomeComponent,
     AppHomeComponent,
     LoginComponent,
-    CompanyComponent,
     AccountComponent,
     DatabaseInfoComponent,
     InstanceComponent,
@@ -45,11 +43,10 @@ import { SubscriptionDatabasesComponent } from './components/subscription/subscr
     EntityDetailComponent,
     SubscriptionSelectionComponent,
     AccountsHomeComponent,
-    DatabasesHomeComponent,
     InstanceHomeComponent,
     SubscriptionComponent,
     AccountSubscriptionsComponent,
-    SubscriptionDatabasesComponent
+    SubscriptionDatabaseComponent
   ],
   imports: [
     BrowserModule,

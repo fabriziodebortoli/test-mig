@@ -25,36 +25,43 @@ export class SubscriptionComponent implements OnInit {
 
   //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
-    if (this.route.snapshot.queryParams['subscriptionToEdit'] !== undefined) {
-      this.editing = true;
-      let subscriptionKey: string = this.route.snapshot.queryParams['subscriptionToEdit'];
-      this.modelService.getSubscriptions(subscriptionKey)
-        .subscribe(
-        res => {
-          let subscriptions: AppSubscription[] = res['Content'];
 
-          if (subscriptions.length == 0) {
-            return;
+    let subscriptionKey: string = this.route.snapshot.queryParams['subscriptionToEdit'];
+
+    if (subscriptionKey === undefined) 
+      return;
+    
+    this.editing = true;
+
+    // first I load the subscription 
+
+    this.modelService.getSubscriptions(subscriptionKey)
+      .subscribe(
+      res => {
+        let subscriptions: AppSubscription[] = res['Content'];
+
+        if (subscriptions.length == 0)
+          return;
+
+        this.model = subscriptions[0];
+
+        // then I load the databases of selected subscription
+
+        this.modelService.getDatabasesBySubscription(subscriptionKey)
+          .subscribe(
+          res => {
+            this.databases = res['Content'];
+          },
+          err => {
+            alert(err);
           }
-
-          this.model = subscriptions[0];
-
-          this.modelService.getDatabasesBySubscription(subscriptionKey)
-            .subscribe(
-            res => {
-              this.databases = res['Content'];
-            },
-            err => {
-              alert(err);
-            }
-            )
-        },
-        err => {
-          alert(err);
-        }
-        )
+          )
+      },
+      err => {
+        alert(err);
+      }
+      )
     }
-  }
 
   //--------------------------------------------------------------------------------------------------------
   submitSubscription() {
@@ -63,9 +70,7 @@ export class SubscriptionComponent implements OnInit {
       return;
     }
 
-    let subscriptionOperation: Observable<OperationResult>;
-
-    subscriptionOperation = this.modelService.saveSubscription(this.model)
+    let subscriptionOperation: Observable<OperationResult> = this.modelService.saveSubscription(this.model);
 
     let subs = subscriptionOperation.subscribe(
       subscriptionResult => {
@@ -82,5 +87,11 @@ export class SubscriptionComponent implements OnInit {
         subs.unsubscribe();
       }
     )
+  }
+
+  //--------------------------------------------------------------------------------------------------------
+  openDatabase(item: object) {
+    // route to edit database, I add in the existing query string the database name
+    this.router.navigate(['/database'], { queryParams: { databaseToEdit: item['Name'] }, queryParamsHandling: "merge" });
   }
 }

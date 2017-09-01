@@ -12,9 +12,6 @@
         <div>
             <a [routerLink]="['/accountsHome']">Accounts</a>
         </div>
-        <div>
-            <a [routerLink]="['/databasesHome']">Databases</a>
-        </div>
         <div *ngIf="userAccountName != undefined && userAccountName != ''" class="logOutBtn">
             <a (click)="logout()" style="cursor:pointer">Logout</a>
         </div>

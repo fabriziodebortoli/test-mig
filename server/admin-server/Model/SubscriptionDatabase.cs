@@ -70,8 +70,10 @@ namespace Microarea.AdminServer.Model
             OperationResult opRes = new OperationResult();
 
             List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
-           
-            burgerDataParameters.Add(new BurgerDataParameter("@Description", this.Description));
+
+			burgerDataParameters.Add(new BurgerDataParameter("@SubscriptionKey", this.SubscriptionKey));
+			burgerDataParameters.Add(new BurgerDataParameter("@Name", this.Name));
+			burgerDataParameters.Add(new BurgerDataParameter("@Description", this.Description));
             burgerDataParameters.Add(new BurgerDataParameter("@DBServer", this.DBServer));
             burgerDataParameters.Add(new BurgerDataParameter("@DBName", this.DBName));
             burgerDataParameters.Add(new BurgerDataParameter("@DBOwner", this.DBOwner));

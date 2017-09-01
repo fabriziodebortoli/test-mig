@@ -1,20 +1,16 @@
 <div class="container" fxLayout="column" style="padding:10px">
-  <h2 class="componentTitle">Company</h2>
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Name" value="" [(ngModel)]="model.name">
+        <input type="text" placeholder="Database Name" value="" [(ngModel)]="model.Name">
       </div>
       <div class="box">
-        <input type="text" placeholder="Subscription" value="" [(ngModel)]="model.subscriptionKey">
-      </div>
-      <div class="box">
-        <label><input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.disabled">Disabled</label>
+        <label><input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.Disabled">Disabled</label>
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-      <textarea rows="5" cols="36" placeholder="Description" maxlength="255" [(ngModel)]="model.description"></textarea>
+      <textarea rows="5" cols="36" placeholder="Description" maxlength="255" [(ngModel)]="model.Description"></textarea>
       </div>
     </div>
   </div>
@@ -22,12 +18,12 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Provider" value="" [(ngModel)]="model.provider">
+        <input type="text" placeholder="Provider" value="" [(ngModel)]="model.Provider">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <label><input type="checkbox" name="cboxIsUnicode" value="" [(ngModel)]="model.isUnicode">Use Unicode</label>
+        <label><input type="checkbox" name="cboxIsUnicode" value="" [(ngModel)]="model.IsUnicode">Use Unicode</label>
       </div>
     </div>
   </div>
@@ -38,7 +34,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <label><input type="checkbox" name="cboxUseDMS" value="" (change)="onUseDMSChange($event)" [(ngModel)]="model.useDMS">Use DMS</label>
+        <label><input type="checkbox" name="cboxUseDMS" value="" (change)="onUseDMSChange($event)" [(ngModel)]="model.UseDMS">Use DMS</label>
       </div>
     </div>
   </div>
@@ -49,12 +45,12 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Language" value="" [(ngModel)]="model.language">
+        <input type="text" placeholder="Language" value="" [(ngModel)]="model.Language">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <input type="text" placeholder="Regional Settings" value="" [(ngModel)]="model.regionalSettings">
+        <input type="text" placeholder="Regional Settings" value="" [(ngModel)]="model.RegionalSettings">
       </div>
     </div>
   </div>
@@ -62,7 +58,7 @@
   <div class="row end-xs center-sm center-lg">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
-        <button type="button" class="btn btn-primary" (click)=" submitCompany()">Save</button>
+        <button type="button" class="btn btn-primary" (click)="submitDatabase()">Save</button>
       </div>
     </div>
   </div>

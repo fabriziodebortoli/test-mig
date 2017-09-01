@@ -32,12 +32,16 @@ namespace Microarea.RSWeb.Objects
         Area, AreaStacked, AreaStacked100,
         Line, 
         Pie, Donut, DonutNested,
-        Funnel, Pyramid,
+        Funnel,
+        RangeBar, RangeColumn,
+        Bubble, Scatter,
         Wrong,
         //mancano nei BCGP
-        VerticalLine, VerticalArea
-        //nei Kendo UI mancano versioni 3D di bar,column,area
-   }
+        VerticalLine, VerticalArea,
+        //mancano nei Kendo UI
+        Pyramid
+        //versioni 3D di bar,column,area
+    }
 
     /// <summary>
     /// Summary description for TableCell.
@@ -2859,7 +2863,18 @@ namespace Microarea.RSWeb.Objects
             return ChartType == EnumChartType.Pie ||
                     ChartType == EnumChartType.Donut || 
                     ChartType == EnumChartType.Funnel || 
-                    ChartType == EnumChartType.Pyramid ;
+                    ChartType == EnumChartType.Line ||
+                    ChartType == EnumChartType.Bubble ||
+                    ChartType == EnumChartType.Scatter;
+        }
+        private bool IsChartMergedSerie()
+        {
+            return ChartType == EnumChartType.Pie ||
+                    ChartType == EnumChartType.Donut ||
+                    ChartType == EnumChartType.RangeColumn ||
+                    ChartType == EnumChartType.RangeBar ||
+                    ChartType == EnumChartType.Bubble ||
+                    ChartType == EnumChartType.Scatter;
         }
         //---------------------------------------------------------------------------
         public string ToJsonChartTemplate(bool bracket)
@@ -2874,9 +2889,10 @@ namespace Microarea.RSWeb.Objects
             if (!name.IsNullOrEmpty())
                 s = '\"' + name + "\":";
 
+            int ct = (int)(ChartType == EnumChartType.Pyramid ? EnumChartType.Funnel : ChartType);
             s += '{' +
                 base.ToJsonTemplate(false) + ',' +
-                ((int)ChartType).ToJson("chartType");
+                ct.ToJson("chartType");
             //column, bar, [stack]="true", [stack]="{ group: 'a', type: '100%' }
 
             s += ',' + this.Title.Text.ToJson("title", false, true);
