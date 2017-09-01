@@ -6,10 +6,16 @@ import { Component, ChangeDetectorRef, AfterViewInit, Input } from '@angular/cor
     templateUrl: './chart-pie.component.html',
     styles: []
   })
+
+  
+/**
+ * This component includes chart types:
+ *  Pie, Donut, Funnel
+ */
   export class ReportChartPieComponent extends ReportChartComponent implements AfterViewInit {
 
     @Input() chart:chart
-    
+
     constructor (cdRef: ChangeDetectorRef){
         super(cdRef);
     }

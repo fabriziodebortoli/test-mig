@@ -7,6 +7,7 @@
   </rs-chart-bar>
 </div> -->
 <div [ngStyle]="applyStyle()" [ngSwitch]="chart.type">
+
   <rs-chart-bar [chart]="chart" *ngSwitchCase="1">
   </rs-chart-bar>
   <rs-chart-bar [chart]="chart" *ngSwitchCase="2">
@@ -19,4 +20,31 @@
   </rs-chart-bar>
   <rs-chart-bar [chart]="chart" *ngSwitchCase="6">
   </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="7">
+  </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="8">
+  </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="9">
+  </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="10">
+  </rs-chart-bar>
+
+  <rs-chart-pie [chart]="chart" *ngSwitchCase="11">
+  </rs-chart-pie>
+  <rs-chart-pie [chart]="chart" *ngSwitchCase="12">
+  </rs-chart-pie>
+  <rs-chart-pie [chart]="chart" *ngSwitchCase="13">
+  </rs-chart-pie>
+  <rs-chart-pie [chart]="chart" *ngSwitchCase="14">
+  </rs-chart-pie>
+
+  <rs-chart-range-bar [chart]="chart" *ngSwitchCase="15">
+  </rs-chart-range-bar>
+  <rs-chart-range-bar [chart]="chart" *ngSwitchCase="16">
+  </rs-chart-range-bar>
+
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="17">
+  </rs-chart-bubble>
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="18">
+  </rs-chart-bubble>
 </div>

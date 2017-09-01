@@ -9,7 +9,7 @@ import { ChartType } from "./../../../../models/chart-type.model";
 
 /**
  * This component includes chart types:
- *  Bar, BarStacked, BarStacked100, Column, ColumnStacked, ColumnStacked100
+ *  Bar, BarStacked, BarStacked100, Column, ColumnStacked, ColumnStacked100, Line
  */
 
 export class ReportChartBarComponent implements AfterViewInit {
@@ -25,9 +25,11 @@ export class ReportChartBarComponent implements AfterViewInit {
 
     getStack() {
         switch (this.chart.type) {
+            case ChartType.AreaStacked:
             case ChartType.BarStacked:
             case ChartType.ColumnStacked:
                 return true;
+            case ChartType.AreaStacked100:
             case ChartType.BarStacked100:
             case ChartType.ColumnStacked100:
                 return {
@@ -44,11 +46,16 @@ export class ReportChartBarComponent implements AfterViewInit {
             case ChartType.BarStacked:
             case ChartType.BarStacked100:
                 return 'bar';
-
             case ChartType.Column:
             case ChartType.ColumnStacked:
             case ChartType.ColumnStacked100:
                 return 'column';
+            case ChartType.Area:
+            case ChartType.AreaStacked:
+            case ChartType.AreaStacked100:
+                return 'area';
+            case ChartType.Line:
+                return 'line';
         }
     }
 }
