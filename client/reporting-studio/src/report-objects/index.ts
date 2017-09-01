@@ -1,8 +1,8 @@
 export { ReportChartComponent } from './layout/chart/chart.component';
 export { ReportChartBarComponent } from './layout/chart/chart-bar/chart-bar.component';
 export { ReportChartPieComponent } from './layout/chart/chart-pie/chart-pie.component';
-export { ReportChartRangeBarComponent } from "report-objects/layout/chart/chart-range-bar/chart-range-bar.component";
-export { ReportChartBubbleComponent } from "report-objects/layout/chart/chart-bubble/chart-bubble.component";
+export { ReportChartRangeBarComponent } from "./layout/chart/chart-range-bar/chart-range-bar.component";
+export { ReportChartBubbleComponent } from "./layout/chart/chart-bubble/chart-bubble.component";
 export { ReportRectComponent } from './layout/rect/rect.component';
 export { ReportLayoutComponent } from './layout/layout.component';
 export { ReportTableComponent } from './layout/table/table.component';

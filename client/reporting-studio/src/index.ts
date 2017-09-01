@@ -2,7 +2,7 @@
 import { ReportChartPieComponent } from './report-objects/layout/chart/chart-pie/chart-pie.component';
 import { ReportChartComponent } from './report-objects/layout/chart/chart.component';
 import { ReportChartBarComponent } from './report-objects/layout/chart/chart-bar/chart-bar.component';
-import {ReportChartRangeBarComponent} from './report-objects/layout/chart/chart-range-bar/chart-range-bar.component';
+import { ReportChartRangeBarComponent } from './report-objects/layout/chart/chart-range-bar/chart-range-bar.component';
 import { ReportChartBubbleComponent } from './report-objects/layout/chart/chart-bubble/chart-bubble.component';
 import { UrlService } from '@taskbuilder/core';
 import { AskTextComponent } from './report-objects/askdialog/ask-text/ask-text.component';
