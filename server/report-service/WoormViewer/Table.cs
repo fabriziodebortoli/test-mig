@@ -29,20 +29,20 @@ namespace Microarea.RSWeb.Objects
         None,
         Bar, BarStacked, BarStacked100,
         Column, ColumnStacked, ColumnStacked100,
-        Area, AreaStacked, AreaStacked100,
-        Line, 
-        Funnel, Pie, Donut, 
-        DonutNested,
+        Area, AreaStacked, AreaStacked100, Line,
+
+        Funnel, Pie, Donut, DonutNested,
         RangeBar, RangeColumn,
-        Bubble, 
-        Scatter, ScatterLine,
-        PolarLine,
+
+        Bubble, Scatter, ScatterLine, PolarLine, PolarArea, PolarScatter,
+        RadarLine, RadarArea,
+
         Wrong,
         //mancano nei BCGP
         VerticalLine, VerticalArea,
-        //mancano nei Kendo UI
+        //unsupported nei Kendo UI
         Pyramid
-        //versioni 3D di bar,column,area
+        //versioni 3D di bar,column,area  
     }
 
     /// <summary>

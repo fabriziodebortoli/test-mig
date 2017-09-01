@@ -1,9 +1,9 @@
-
 import { ReportChartPieComponent } from './report-objects/layout/chart/chart-pie/chart-pie.component';
 import { ReportChartComponent } from './report-objects/layout/chart/chart.component';
 import { ReportChartBarComponent } from './report-objects/layout/chart/chart-bar/chart-bar.component';
 import { ReportChartRangeBarComponent } from './report-objects/layout/chart/chart-range-bar/chart-range-bar.component';
 import { ReportChartBubbleComponent } from './report-objects/layout/chart/chart-bubble/chart-bubble.component';
+import { ReportChartRadarComponent } from './report-objects/layout/chart/chart-radar/chart-radar.component';
 import { UrlService } from '@taskbuilder/core';
 import { AskTextComponent } from './report-objects/askdialog/ask-text/ask-text.component';
 import { AskRadioComponent } from './report-objects/askdialog/ask-radio/ask-radio.component';
@@ -72,6 +72,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     ReportChartBarComponent,
     ReportChartRangeBarComponent,
     ReportChartBubbleComponent,
+    ReportChartRadarComponent,
     ReportFieldrectComponent,
     ReportTableComponent,
     ReportTextrectComponent,

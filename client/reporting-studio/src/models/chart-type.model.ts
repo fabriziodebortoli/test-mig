@@ -1,6 +1,6 @@
 export enum ChartType 
 //ATTENZIONE: tenere allineato in: 
-//c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\TABLE.H - EnumChartType
+//c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\chart.H - EnumChartType
 //c:\development\standard\web\server\report-service\woormviewer\table.cs - EnumChartType
 //c:\development\Standard\web\client\reporting-studio\src\models\chart-type.model.ts - ChartType
 //------
@@ -13,7 +13,9 @@ export enum ChartType
     Funnel, Pie, Donut,DonutNested, 
     RangeBar, RangeColumn,
 
-    Bubble, Scatter, ScatterLine, PolarLine,
+    Bubble, Scatter, ScatterLine, PolarLine, PolarArea, PolarScatter,
+    RadarLine, RadarArea,
+
     Wrong,
     //mancano nei BCGP
     VerticalLine, VerticalArea,
