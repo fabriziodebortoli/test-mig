@@ -14,7 +14,7 @@ export enum ChartType
     DonutNested, 
     RangeBar, RangeColumn,
     Bubble, 
-    Scatter, 
+    Scatter, ScatterLine,
     PolarLine,
     Wrong,
     //mancano nei BCGP

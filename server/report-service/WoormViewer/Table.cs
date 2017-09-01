@@ -34,7 +34,9 @@ namespace Microarea.RSWeb.Objects
         Funnel, Pie, Donut, 
         DonutNested,
         RangeBar, RangeColumn,
-        Bubble, Scatter, PolarLine,
+        Bubble, 
+        Scatter, ScatterLine,
+        PolarLine,
         Wrong,
         //mancano nei BCGP
         VerticalLine, VerticalArea,
