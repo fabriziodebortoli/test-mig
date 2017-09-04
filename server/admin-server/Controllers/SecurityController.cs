@@ -81,7 +81,7 @@ namespace Microarea.AdminServer.Controllers
                       if(! IsOnPremisesInstance(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                         //imposto il flag pending per capire quanto tempo passa fuori copertura
-                        if (!VerifyPendingFlag())
+                        if (!VerifyPendingFlag(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                     }
 
@@ -130,7 +130,7 @@ namespace Microarea.AdminServer.Controllers
                         if (!IsOnPremisesInstance(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                         //imposto il flag pending per capire quanto tempo passa fuori copertura
-                        if (!VerifyPendingFlag())
+                        if (!VerifyPendingFlag(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                     }
 
@@ -193,18 +193,20 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //-----------------------------------------------------------------------------	
-        private bool SetPendingFlag()
+        private void SetPendingFlag(string instanceKey)
         {
-            return true;
-          //salvataggio sul db del flag
+            // Imposto la nuova data massima di disconnessione, deve arrivare da gwam.
+            IInstance i = GetInstance(instanceKey);
+            i.PendingDate = DateTime.Now.AddMonths(1);//todo deve arrivare dal gwam
+            (i as Instance).Save(burgerData);
         }
 
         //-----------------------------------------------------------------------------	
-        private bool VerifyPendingFlag()
+        private bool VerifyPendingFlag(string instanceKey) 
         {
-            //if devo settare il flag
-            //verifica del flag se pending e se ancora valido
-            return SetPendingFlag();
+            // Verifico che la data attuale sia inferiore alla massima data prevista per la disconnessione.
+            DateTime dt = GetInstancePendingDate(instanceKey);
+            return DateTime.Now < dt;
         }
 
         // <summary>
@@ -246,7 +248,7 @@ namespace Microarea.AdminServer.Controllers
                         if (!IsOnPremisesInstance(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                         //imposto il flag pending per capire quanto tempo passa fuori copertura
-                        if (!VerifyPendingFlag())
+                        if (!VerifyPendingFlag(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                     }
 
@@ -315,22 +317,39 @@ namespace Microarea.AdminServer.Controllers
             if (app == null) 
                 return string.Empty;
 
-            return app.SecurityValue; // "ju23ff-KOPP-0911-ila";
+            return app.SecurityValue; 
         }
 
         //-----------------------------------------------------------------------------	
         private string GetInstanceOrigin(string instancekey)
         {
-            IInstance instance = new Instance();
-
-            instance = burgerData.GetObject<Instance, IInstance>(
-                String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[] {
-                        new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false) });
-
+            IInstance instance = GetInstance(instancekey);
             if (instance == null)
                 return string.Empty;
 
             return instance.Origin; 
+        }
+
+        //-----------------------------------------------------------------------------	
+        private DateTime GetInstancePendingDate(string instancekey)
+        {
+            IInstance instance = GetInstance(instancekey);
+            if (instance == null)
+                return DateTime.MinValue;
+
+            return instance.PendingDate;
+        }
+
+        //-----------------------------------------------------------------------------	
+        private IInstance GetInstance(string instancekey)
+        {
+            try
+            {
+                return burgerData.GetObject<Instance, IInstance>(
+                    String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[] {
+                        new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false) });
+            }
+            catch { return null;}
         }
 
         /// <summary>
@@ -377,7 +396,7 @@ namespace Microarea.AdminServer.Controllers
                     if(! IsOnPremisesInstance(instanceKey))
                         return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                     //imposto il flag pending per capire quanto tempo passa fuori copertura
-                    if (!VerifyPendingFlag())
+                    if (!VerifyPendingFlag(instanceKey))
                         return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                 }
             }
@@ -388,7 +407,7 @@ namespace Microarea.AdminServer.Controllers
         //----------------------------------------------------------------------
         private bool IsOnPremisesInstance(string instanceKey)
         {
-          return  String.CompareOrdinal(GetInstanceOrigin(instanceKey), "ONPREMISES") == 0;
+          return  String.Compare(GetInstanceOrigin(instanceKey), "ONPREMISES", StringComparison.InvariantCultureIgnoreCase) == 0;
         }
 
         //----------------------------------------------------------------------
@@ -469,26 +488,16 @@ namespace Microarea.AdminServer.Controllers
             return instancesList != null ? instancesList.ToArray() : new Instance[] { };
         }
 
-		//----------------------------------------------------------------------
-		private IServerURL[] GetUrlsForThisInstance(string instanceKey)
+        //----------------------------------------------------------------------
+        private IServerURL[] GetUrlsForThisInstance(string instanceKey)
         {
-            IInstance iInstance = null ;
-            try
-            {
-                burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
-                iInstance = burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[]
-         {
-                    new WhereCondition("InstanceKey", instanceKey, QueryComparingOperators.IsEqual, false)
-         });
-            }
-            catch { }
+            IInstance instance = GetInstance(instanceKey);
 
-            if (iInstance == null)
+            if (instance == null)
             {
                 return new IServerURL[] { };
             }
-
-                return LoadURLs(instanceKey);
+            return LoadURLs(instanceKey);
         }
 
         //----------------------------------------------------------------------

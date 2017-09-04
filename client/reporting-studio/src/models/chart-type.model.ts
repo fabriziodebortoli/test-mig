@@ -1,6 +1,6 @@
 export enum ChartType 
 //ATTENZIONE: tenere allineato in: 
-//c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\TABLE.H - EnumChartType
+//c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\chart.H - EnumChartType
 //c:\development\standard\web\server\report-service\woormviewer\table.cs - EnumChartType
 //c:\development\Standard\web\client\reporting-studio\src\models\chart-type.model.ts - ChartType
 //------
@@ -8,16 +8,18 @@ export enum ChartType
     None,
     Bar, BarStacked, BarStacked100,
     Column, ColumnStacked, ColumnStacked100,
-    Area, AreaStacked, AreaStacked100,
-    Line, 
-    Pie, Donut, DonutNested,
-    Funnel,
+    Area, AreaStacked, AreaStacked100,Line, 
+
+    Funnel, Pie, Donut,DonutNested, 
     RangeBar, RangeColumn,
-    Bubble, Scatter,
+
+    Bubble, Scatter, ScatterLine, PolarLine, PolarArea, PolarScatter,
+    RadarLine, RadarArea,
+
     Wrong,
     //mancano nei BCGP
     VerticalLine, VerticalArea,
-    //mancano nei Kendo UI
+    //unsupported nei Kendo UI
     Pyramid
-    //versioni 3D di bar,column,area
+    //versioni 3D di bar,column,area  
 }

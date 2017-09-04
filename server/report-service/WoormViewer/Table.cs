@@ -29,18 +29,20 @@ namespace Microarea.RSWeb.Objects
         None,
         Bar, BarStacked, BarStacked100,
         Column, ColumnStacked, ColumnStacked100,
-        Area, AreaStacked, AreaStacked100,
-        Line, 
-        Pie, Donut, DonutNested,
-        Funnel,
+        Area, AreaStacked, AreaStacked100, Line,
+
+        Funnel, Pie, Donut, DonutNested,
         RangeBar, RangeColumn,
-        Bubble, Scatter,
+
+        Bubble, Scatter, ScatterLine, PolarLine, PolarArea, PolarScatter,
+        RadarLine, RadarArea,
+
         Wrong,
         //mancano nei BCGP
         VerticalLine, VerticalArea,
-        //mancano nei Kendo UI
+        //unsupported nei Kendo UI
         Pyramid
-        //versioni 3D di bar,column,area
+        //versioni 3D di bar,column,area  
     }
 
     /// <summary>
@@ -2862,15 +2864,14 @@ namespace Microarea.RSWeb.Objects
         {
             return ChartType == EnumChartType.Pie ||
                     ChartType == EnumChartType.Donut || 
-                    ChartType == EnumChartType.Funnel || 
-                    ChartType == EnumChartType.Line ||
-                    ChartType == EnumChartType.Bubble ||
-                    ChartType == EnumChartType.Scatter;
+                    ChartType == EnumChartType.Funnel  
+                    ;
         }
         private bool IsChartMergedSerie()
         {
             return ChartType == EnumChartType.Pie ||
                     ChartType == EnumChartType.Donut ||
+                    ChartType == EnumChartType.DonutNested ||
                     ChartType == EnumChartType.RangeColumn ||
                     ChartType == EnumChartType.RangeBar ||
                     ChartType == EnumChartType.Bubble ||

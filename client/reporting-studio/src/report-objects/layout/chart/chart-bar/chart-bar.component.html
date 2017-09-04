@@ -1,0 +1,13 @@
+<kendo-chart>
+    <kendo-chart-title [text]="chart?.title"></kendo-chart-title>
+    <kendo-chart-legend *ngIf="chart.legend" [position]="chart.legend.position" [orientation]="chart.legend.orientation"></kendo-chart-legend>
+    <kendo-chart-category-axis>
+        <kendo-chart-category-axis-item [categories]="chart.categories" [name]="chart.category_title">
+            <kendo-chart-category-axis-item-title [title]="chart.category_title"></kendo-chart-category-axis-item-title>
+        </kendo-chart-category-axis-item>
+    </kendo-chart-category-axis>
+    <kendo-chart-series>
+        <kendo-chart-series-item *ngFor="let item of chart.series" [type]="getType()" [stack]="getStack()" [name]="item.name" [data]="item.data">
+        </kendo-chart-series-item>
+    </kendo-chart-series>
+</kendo-chart>
