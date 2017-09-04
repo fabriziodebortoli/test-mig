@@ -1,5 +1,4 @@
 import { chart } from './../../../../models/chart.model';
-import { ReportChartComponent } from './../chart.component';
 import { Component, ChangeDetectorRef, AfterViewInit, Input } from '@angular/core';
 @Component({
     selector: 'rs-chart-pie',
@@ -12,12 +11,12 @@ import { Component, ChangeDetectorRef, AfterViewInit, Input } from '@angular/cor
  * This component includes chart types:
  *  Pie, Donut, Funnel
  */
-  export class ReportChartPieComponent extends ReportChartComponent implements AfterViewInit {
+  export class ReportChartPieComponent implements AfterViewInit {
 
     @Input() chart:chart
 
-    constructor (cdRef: ChangeDetectorRef){
-        super(cdRef);
+    constructor (private cdRef: ChangeDetectorRef){
+
     }
 
     ngAfterViewInit() {
