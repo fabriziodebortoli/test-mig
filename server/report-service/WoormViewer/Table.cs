@@ -32,10 +32,15 @@ namespace Microarea.RSWeb.Objects
         Area, AreaStacked, AreaStacked100, Line,
 
         Funnel, Pie, Donut, DonutNested,
+
         RangeBar, RangeColumn,
 
-        Bubble, Scatter, ScatterLine, PolarLine, PolarArea, PolarScatter,
-        RadarLine, RadarArea,
+        Bubble, 
+
+        Scatter, ScatterLine, 
+
+        PolarLine, PolarArea, PolarScatter,
+        RadarLine, RadarArea, RadarScatter,
 
         Wrong,
         //mancano nei BCGP
