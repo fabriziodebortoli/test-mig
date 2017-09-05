@@ -414,11 +414,11 @@ namespace Microarea.AdminServer.Controllers
 		/// <returns></returns>
 		[HttpPost("api/listInstances")]
 		//-----------------------------------------------------------------------------	
-		public ActionResult ApiListInstances(string accountName, string password)
+		public ActionResult ApiListInstances([FromBody]Credentials credentials)
 		{
 			OperationResult opRes = new OperationResult();
 
-			if (String.IsNullOrEmpty(accountName) || String.IsNullOrEmpty(password)) {
+			if (String.IsNullOrEmpty(credentials.AccountName) || String.IsNullOrEmpty(credentials.Password)) {
 				opRes.Result = false;
 				opRes.Code = (int)AppReturnCodes.EmptyCredentials;
 				opRes.Message = Strings.EmptyCredentials;
@@ -428,8 +428,8 @@ namespace Microarea.AdminServer.Controllers
 
 			IAccount account = burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
 				{
-					new WhereCondition("AccountName", accountName, QueryComparingOperators.IsEqual, false),
-					new WhereCondition("Password", password, QueryComparingOperators.IsEqual, false),
+					new WhereCondition("AccountName", credentials.AccountName, QueryComparingOperators.IsEqual, false),
+					new WhereCondition("Password", credentials.Password, QueryComparingOperators.IsEqual, false),
 					new WhereCondition("Disabled", false, QueryComparingOperators.IsEqual, false),
 					new WhereCondition("Locked", false, QueryComparingOperators.IsEqual, false)
 				});
@@ -442,7 +442,7 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			IInstance[] instancesArray = this.GetInstances(accountName);
+			IInstance[] instancesArray = this.GetInstances(credentials.AccountName);
 
 			opRes.Result = true;
 			opRes.Code = (int)AppReturnCodes.OK;
