@@ -8,13 +8,22 @@ export class UrlGuard {
 
         let opRes:OperationResult = new OperationResult();
 
+        if (url == '') {
+            opRes.Message = 'No check-url strategy has been implemented fot this url ' + url;
+            opRes.Result = false;
+            return opRes;            
+        }        
+
         // checking permission by specific component-url
 
         // checking instances
 
-        if (url == '/instancesHome') {
-            if (!authInfo.VerifyRole(RoleNames.Admin, RoleLevels.Instance, "*")) {
-                opRes.Message = RoleNames.Admin + ' role missing';
+        if (url.startsWith('/instance?instanceToEdit=')) {
+
+            let instanceKey:string = url.substr(url.lastIndexOf("=")+1);
+
+            if (!authInfo.VerifyRole(RoleNames.Admin, RoleLevels.Instance, instanceKey)) {
+                opRes.Message = 'You do not have rights to edit ' + instanceKey;
                 opRes.Result = false;
                 return opRes;
             }
@@ -22,7 +31,7 @@ export class UrlGuard {
                 opRes.Result = true;
                 return opRes;
             }
-        }
+        }         
 
         // checking subscriptions
 
@@ -39,25 +48,49 @@ export class UrlGuard {
                 opRes.Result = true;
                 return opRes;
             }
-        }        
-
-        if (url == '') {
-            opRes.Message = 'No check-url strategy has been implemented fot this url ' + url;
-            opRes.Result = false;
-            return opRes;            
         }
 
-        // checking permission by specific level
+        // checking instances
 
-        if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
-            opRes.Message = RoleLevels.Subscription + ' level missing';
-            opRes.Result = false;
-            return opRes;
+        if (url == '/instancesHome') {
+            if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Instance)) {
+                opRes.Message = RoleLevels.Instance + ' level missing';
+                opRes.Result = false;
+                return opRes;
+            }
+            else {
+                opRes.Result = true;
+                return opRes;
+            }
         }
-        else {
-            opRes.Result = true;
-            return opRes;
+
+        if (url == '/subscriptionsHome') {
+            if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
+                opRes.Message = RoleLevels.Subscription + ' level missing';
+                opRes.Result = false;
+                return opRes;
+            }
+            else {
+                opRes.Result = true;
+                return opRes;
+            }
         }
+
+        if (url == '/accountsHome' || url.startsWith('/account')) {
+            if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
+                opRes.Message = RoleLevels.Subscription + ' level missing';
+                opRes.Result = false;
+                return opRes;
+            }
+            else {
+                opRes.Result = true;
+                return opRes;
+            }
+        }
+
+        opRes.Message = 'Unknown Url';
+        opRes.Result = false;
+        return opRes;        
     }
 
     public static CanNavigateLevel(requiredLevel:string, authInfo: AuthorizationInfo): OperationResult {

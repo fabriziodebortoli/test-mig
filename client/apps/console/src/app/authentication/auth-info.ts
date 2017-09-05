@@ -140,7 +140,7 @@ export class AuthorizationInfo {
         let foundElementIndex = this.authorizationProperties.roles.findIndex(
             (p => p.RoleName.toUpperCase() == roleName.toUpperCase()) &&
             (p => p.Level.toUpperCase() == level.toUpperCase()) &&
-            (p => p.EntityKey.toUpperCase() == entityKey.toUpperCase())
+            (p => (p.EntityKey.toUpperCase() == entityKey.toUpperCase() || p.EntityKey.toUpperCase() === '*'))
         );
 
         return foundElementIndex >= 0;
