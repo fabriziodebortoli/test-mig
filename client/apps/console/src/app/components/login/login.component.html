@@ -12,23 +12,26 @@
             <div class="row start-xs">
                 <h2 style="color:#666666; margin-left:22px;">Login</h2>
             </div>            
-            <div class="box">
+            <div class="box" *ngIf="instancesList.length == 0">
                 <input type="text" class="ctrlInput" placeholder="Your Account Name" value="" [(ngModel)]="credentials.accountName" required>
             </div>
-            <div class="box">            
+            <div class="box" *ngIf="instancesList.length == 0">
                 <input type="password" placeholder="Password" value="" [(ngModel)]="credentials.password" required>
             </div>
-            <div class="box" class="end-xs" style="margin-top:40px;"> 
+            <div *ngIf="instancesList.length == 0" class="box" class="end-xs" style="margin-top:40px;"> 
                 <button color="primary" (click)="preLogin()">Login</button>
             </div>
-            <div *ngIf="instancesList.length > 0" class="box" class="end-xs" style="margin-top:40px;"> 
+            <div *ngIf="instancesList.length > 0" style="margin:20px 0 10px 0;">
+                <label>Please select an instance</label>
+            </div>
+            <div *ngIf="instancesList.length > 0" class="box"> 
                 <select [(ngModel)]="selectedInstanceKey">
                     <option *ngFor="let instance of instancesList" value="{{instance.InstanceKey}}">
                         {{ instance.Description }}
                     </option>
                 </select>
             </div>
-            <div class="box" class="end-xs" style="margin-top:40px;"> 
+            <div *ngIf="instancesList.length > 0" class="box" class="end-xs" style="margin-top:40px;"> 
                 <button color="primary" (click)="submitLogin()">OK</button>
             </div>            
         </div>
