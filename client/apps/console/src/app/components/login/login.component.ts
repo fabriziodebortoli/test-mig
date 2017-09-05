@@ -13,19 +13,40 @@ export class LoginComponent implements OnInit {
 
   credentials: Credentials;
   returnUrl: string;
+  instancesList: Array<string>;
+  selectedInstanceKey: string;
 
   constructor(
       private route: ActivatedRoute,
       private loginService: LoginService) { 
     this.credentials = new Credentials();
+    this.instancesList = new Array<string>();
+    this.selectedInstanceKey = '';
   }
 
-  submitLogin() {
+  preLogin() {
     if (this.credentials.accountName == '' || this.credentials.password == '') {
       return;
     }
 
-    this.loginService.login(this.credentials, this.returnUrl);
+    this.loginService.getInstances(this.credentials)
+      .subscribe(
+        instances => {
+          this.instancesList = instances['Content'];
+        },
+        err => {
+          alert(err);
+        }
+    )
+  }
+
+  submitLogin() {
+
+    if (this.credentials.accountName == '' || this.credentials.password == '') {
+      return;
+    }
+
+    this.loginService.login(this.credentials, this.returnUrl, this.selectedInstanceKey);
   }
 
   ngOnInit() {

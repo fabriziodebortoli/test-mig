@@ -19,8 +19,18 @@
                 <input type="password" placeholder="Password" value="" [(ngModel)]="credentials.password" required>
             </div>
             <div class="box" class="end-xs" style="margin-top:40px;"> 
-                <button color="primary" (click)="submitLogin()">Login</button>
+                <button color="primary" (click)="preLogin()">Login</button>
             </div>
+            <div *ngIf="instancesList.length > 0" class="box" class="end-xs" style="margin-top:40px;"> 
+                <select [(ngModel)]="selectedInstanceKey">
+                    <option *ngFor="let instance of instancesList" value="{{instance.InstanceKey}}">
+                        {{ instance.Description }}
+                    </option>
+                </select>
+            </div>
+            <div class="box" class="end-xs" style="margin-top:40px;"> 
+                <button color="primary" (click)="submitLogin()">OK</button>
+            </div>            
         </div>
     </div>
 </div>
