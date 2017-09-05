@@ -1,11 +1,52 @@
-<kendo-grid-column field="{{columnName}}" title="{{title}}" [width]="width" [ngSwitch]="columnType" >
-    <ng-template *ngSwitchCase="'tb-text'" kendoGridCellTemplate let-dataItem  >
-        <!-- <tb-text cmpId="{{cmpId}}" [model]="dataItem[columnName]"  [width]="width"></tb-text> -->
-        <kendo-maskedtextbox [mask]="mask" [ngModel]="dataItem[columnName]?.value" required="required" (blur)="onBlur()" [disabled]="!(dataItem[columnName]?.enabled)" (ngModelChange)="dataItem[columnName].value=$event" [style.width.px]="width"></kendo-maskedtextbox>
+<kendo-grid-column field="{{columnName}}" title="{{title}}" [width]="width" [ngSwitch]="columnType">
+    <!-- <ng-template *ngSwitchCase="'tb-text'" kendoGridCellTemplate let-dataItem>
+        <tb-text cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-text>
     </ng-template>
 
-    <ng-template *ngSwitchDefault kendoGridCellTemplate let-dataItem  >
+    <ng-template *ngSwitchCase="'tb-checkbox'" kendoGridCellTemplate let-dataItem>
+        <tb-checkbox cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-checkbox>
+    </ng-template>
+
+    <ng-template *ngSwitchCase="'tb-enum-combo'" kendoGridCellTemplate let-dataItem>
+        <tb-enum-combo cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-enum-combo>
+    </ng-template>
+
+    <ng-template *ngSwitchCase="'tb-combo'" kendoGridCellTemplate let-dataItem>
+        <tb-combo cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-combo>
+    </ng-template>
+
+    <ng-template *ngSwitchCase="'tb-phone'" kendoGridCellTemplate let-dataItem>
+        <tb-phone cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-phone>
+    </ng-template>
+
+    <ng-template *ngSwitchCase="'tb-bool-edit'" kendoGridCellTemplate let-dataItem>
+        <tb-bool-edit cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-bool-edit>
+    </ng-template>
+
+    <ng-template *ngSwitchCase="'tb-button'" kendoGridCellTemplate let-dataItem>
+        <tb-button cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-button>
+    </ng-template>
+
+    <ng-template *ngSwitchCase="'tb-date-input'" kendoGridCellTemplate let-dataItem>
+        <tb-date-input cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-date-input>
+    </ng-template>
+
+    <ng-template *ngSwitchCase="'tb-email'" kendoGridCellTemplate let-dataItem>
+        <tb-email cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-email>
+    </ng-template>
+
+    <ng-template *ngSwitchCase="'tb-masked-text-box'" kendoGridCellTemplate let-dataItem>
+        <tb-masked-text-box cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-masked-text-box>
+    </ng-template>
+
+    <ng-template *ngSwitchCase="'tb-numeric-text-box'" kendoGridCellTemplate let-dataItem>
+        <tb-numeric-text-box cmpId="{{cmpId}}" [model]="dataItem[columnName]" class="column"></tb-numeric-text-box>
+    </ng-template> -->
+    <ng-template *ngSwitchCase="'tb-enum-combo'" kendoGridCellTemplate let-dataItem>
+            <div>{{getValue(dataItem[columnName]?.value)}}</div>
+    </ng-template>
+
+    <ng-template *ngSwitchDefault kendoGridCellTemplate let-dataItem>
         <div>{{dataItem[columnName]?.value}}</div>
     </ng-template>
-   
 </kendo-grid-column>
