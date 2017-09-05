@@ -156,7 +156,7 @@ namespace Microarea.RSWeb.WoormEngine
 			{
 				aField.OwnerRule = this;
 
-				if (lex.Parsed(Token.WHERE) && !(whereExpression.Compile(lex, CheckResultType.Match, "Boolean")))
+				if (lex.Matched(Token.WHERE) && !(whereExpression.Compile(lex, CheckResultType.Match, "Boolean")))
 					return false;
 
 				if (!lex.Error) lex.ParseSep();
@@ -316,9 +316,9 @@ namespace Microarea.RSWeb.WoormEngine
 					if (rfThen == null) 
 						return false;
 
-					parseSep = !lex.Parsed(Token.SEP);
+					parseSep = !lex.Matched(Token.SEP);
 
-					if (lex.Parsed(Token.ELSE))
+					if (lex.Matched(Token.ELSE))
 					{
 						elseExpression.StopTokens = new StopTokens(new Token[] {Token.WHERE});
 						Field rfElse =  elseExpression.Parse(lex);
@@ -333,12 +333,12 @@ namespace Microarea.RSWeb.WoormEngine
 							return false;
 						}
 
-						parseSep = !lex.Parsed(Token.SEP);
+						parseSep = !lex.Matched(Token.SEP);
 					}
 
 					rfThen.OwnerRule = this;
 
-					if (!lex.Error && lex.Parsed(Token.WHERE))
+					if (!lex.Error && lex.Matched(Token.WHERE))
 					{
 						if (!(whereExpression.Compile(lex, CheckResultType.Match, "Boolean")))
 							return false;
@@ -754,7 +754,7 @@ namespace Microarea.RSWeb.WoormEngine
 				if (lex.LookAhead() == Token.COMMA)
 					tempName += Language.GetTokenString(Token.COMMA);
 					
-			} while (lex.Parsed(Token.COMMA));
+			} while (lex.Matched(Token.COMMA));
 
 			if (lex.Error)	return false;
 
@@ -889,7 +889,7 @@ namespace Microarea.RSWeb.WoormEngine
 				if (!lex.ParseID(out dataTableName))
 					return false;
 
-				if (lex.Parsed(Token.ALIAS) && !lex.ParseID(out aliasTableName))
+				if (lex.Matched(Token.ALIAS) && !lex.ParseID(out aliasTableName))
 					return false;
 
                 numTables++;
@@ -902,7 +902,7 @@ namespace Microarea.RSWeb.WoormEngine
 				}
 				FromTables.Add(tableNames);
 
-                if (lex.Parsed(Token.ON))
+                if (lex.Matched(Token.ON))
                 {
                     WhereClause onClause = new WhereClause(Engine.Report.ReportSession, Engine.RepSymTable.Fields, this);
                     if (!onClause.Compile(lex, CheckResultType.Match, "Boolean"))
@@ -911,7 +911,7 @@ namespace Microarea.RSWeb.WoormEngine
                         return false;
                 }
 
-               comma = lex.Parsed(Token.COMMA);
+               comma = lex.Matched(Token.COMMA);
                 if (!comma && (lex.LookAhead(Token.LEFT) || lex.LookAhead(Token.RIGHT) || lex.LookAhead(Token.INNER) || lex.LookAhead(Token.FULL) || lex.LookAhead(Token.CROSS)))
                 {
                     //TODO gestione OUTER JOIN - simula parsing sintattico per il TbLocalizer
@@ -936,18 +936,18 @@ namespace Microarea.RSWeb.WoormEngine
 
 			constraint = SelectMode.ALL;
 
-			if (lex.Parsed(Token.NOT) && lex.ParseTag(Token.NULL))
+			if (lex.Matched(Token.NOT) && lex.ParseTag(Token.NULL))
 				constraint = SelectMode.NOT_NULL;
 			else
-				if (!lex.Error && lex.Parsed(Token.NULL))
+				if (!lex.Error && lex.Matched(Token.NULL))
 				constraint = SelectMode.NULL;
 			else
 				if (lex.Error) return false;
 
             List<string> forbiddenIdents = new List<string>();
 
-            distinct = lex.Parsed(Token.DISTINCT);
-            if (lex.Parsed(Token.TOP))
+            distinct = lex.Matched(Token.DISTINCT);
+            if (lex.Matched(Token.TOP))
             {
                 if (!lex.ParseInt(out top))
                     return false;
@@ -959,7 +959,7 @@ namespace Microarea.RSWeb.WoormEngine
 				do
 				{
 					bool nativeColumnExpr = false;
-					if (lex.Parsed(Token.BRACEOPEN))
+					if (lex.Matched(Token.BRACEOPEN))
 					{
 						nativeColumnExpr = true;
 
@@ -1013,7 +1013,7 @@ namespace Microarea.RSWeb.WoormEngine
 
                     forbiddenIdents.Add(publicName);
 				}
-				while (lex.Parsed(Token.COMMA));
+				while (lex.Matched(Token.COMMA));
 			}
 			finally
 			{
@@ -1037,13 +1037,13 @@ namespace Microarea.RSWeb.WoormEngine
              *  ;
 			*/
             whereClause.ForbiddenIdents = forbiddenIdents;
-			if (lex.Parsed(Token.WHERE) && !(whereClause.Compile(lex, CheckResultType.Match, "Boolean")))
+			if (lex.Matched(Token.WHERE) && !(whereClause.Compile(lex, CheckResultType.Match, "Boolean")))
 				return false;
             
 			if (lex.Error)	
 				return false;
 
-			if 	(lex.Parsed(Token.GROUP))
+			if 	(lex.Matched(Token.GROUP))
 			{
 				if	(
 						!lex.ParseTag(Token.BY)	||
@@ -1063,7 +1063,7 @@ namespace Microarea.RSWeb.WoormEngine
                         groupByDynamic = groupBy;
                     }
                 }
-				if (lex.Parsed(Token.HAVING)) 
+				if (lex.Matched(Token.HAVING)) 
 				{
                     havingClause.ForbiddenIdents = forbiddenIdents;
 					if (!havingClause.Compile(lex, CheckResultType.Match, "Boolean"))
@@ -1072,7 +1072,7 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 			if (lex.Error) return false;
 
-			if 	(lex.Parsed(Token.ORDER))
+			if 	(lex.Matched(Token.ORDER))
 			{
 				if	(
 						!lex.ParseTag(Token.BY)	||
@@ -1095,7 +1095,7 @@ namespace Microarea.RSWeb.WoormEngine
                 }
 			}
 
-            if (lex.Parsed(Token.WHEN))
+            if (lex.Matched(Token.WHEN))
             {
                 whenExpr.StopTokens = new StopTokens(new Token[] { Token.SEP });
                 if (!whenExpr.Compile(lex, CheckResultType.Match, "Boolean"))
@@ -1718,7 +1718,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 				//TODO check type e new istance
 
-				if (lex.Parsed(Token.WHEN))
+				if (lex.Matched(Token.WHEN))
 				{
 					whenExpr.StopTokens = new StopTokens(new Token[] { Token.SEP });
 					if (!whenExpr.Compile(lex, CheckResultType.Match, "Boolean"))

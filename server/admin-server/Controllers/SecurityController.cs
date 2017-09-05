@@ -404,8 +404,56 @@ namespace Microarea.AdminServer.Controllers
             return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, LoginReturnCodes.Error.ToString());
         }
 
-        //----------------------------------------------------------------------
-        private bool IsOnPremisesInstance(string instanceKey)
+		/// <summary>
+		/// This API returns the list of all instances belonging to an account
+		/// Used primarily by the login process in order to pre-select the instance
+		/// where user want to connect
+		/// </summary>
+		/// <param name="accountName"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
+		[HttpPost("api/listInstances")]
+		//-----------------------------------------------------------------------------	
+		public ActionResult ApiListInstances(string accountName, string password)
+		{
+			OperationResult opRes = new OperationResult();
+
+			if (String.IsNullOrEmpty(accountName) || String.IsNullOrEmpty(password)) {
+				opRes.Result = false;
+				opRes.Code = (int)AppReturnCodes.EmptyCredentials;
+				opRes.Message = Strings.EmptyCredentials;
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			IAccount account = burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
+				{
+					new WhereCondition("AccountName", accountName, QueryComparingOperators.IsEqual, false),
+					new WhereCondition("Password", password, QueryComparingOperators.IsEqual, false),
+					new WhereCondition("Disabled", false, QueryComparingOperators.IsEqual, false),
+					new WhereCondition("Locked", false, QueryComparingOperators.IsEqual, false)
+				});
+
+			if (account == null) {
+				opRes.Result = false;
+				opRes.Code = (int)AppReturnCodes.InvalidCredentials;
+				opRes.Message = Strings.InvalidCredentials;
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			IInstance[] instancesArray = this.GetInstances(accountName);
+
+			opRes.Result = true;
+			opRes.Code = (int)AppReturnCodes.OK;
+			opRes.Message = Strings.OperationOK;
+			opRes.Content = instancesArray;
+			_jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		//----------------------------------------------------------------------
+		private bool IsOnPremisesInstance(string instanceKey)
         {
           return  String.Compare(GetInstanceOrigin(instanceKey), "ONPREMISES", StringComparison.InvariantCultureIgnoreCase) == 0;
         }
