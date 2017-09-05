@@ -51,6 +51,7 @@ namespace Microarea.RSWeb.Objects
         //versioni 3D di bar,column,area  
     }
 
+    [Flags]
     enum EnumChartStyle
     //ATTENZIONE: tenere allineato in: 
     //c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\Chart.h - EnumChartType
@@ -59,7 +60,7 @@ namespace Microarea.RSWeb.Objects
     //------
     {
         None,
-        LineSmooth   /*spline*/
+        LineSmooth = 1   /*spline*/
     };
 
     class Series 
@@ -98,7 +99,7 @@ namespace Microarea.RSWeb.Objects
 
     class ChartLegend
     {
-        public AlignType Align = 0;
+        //public AlignType Align = 0;
         public bool Hidden = false;
 
         public ChartLegend() { }
@@ -130,6 +131,41 @@ namespace Microarea.RSWeb.Objects
                 ChartType != EnumChartType.PolarLine &&
                 ChartType != EnumChartType.PolarArea &&
                 ChartType != EnumChartType.PolarScatter &&
+                ChartType != EnumChartType.Bubble;
+        }
+
+        bool IsChartFamilyBar()
+        {
+            return
+                ChartType == EnumChartType.Bar &&
+                ChartType != EnumChartType.BarStacked &&
+                ChartType != EnumChartType.BarStacked100 &&
+                ChartType != EnumChartType.Column &&
+                ChartType != EnumChartType.ColumnStacked &&
+                ChartType != EnumChartType.ColumnStacked100 &&
+                ChartType != EnumChartType.Area &&
+                ChartType != EnumChartType.AreaStacked &&
+                ChartType != EnumChartType.AreaStacked100 &&
+                ChartType != EnumChartType.Line;
+        }
+
+        bool IsChartFamilyPie()
+        {
+            return
+                ChartType == EnumChartType.Pie &&
+                ChartType != EnumChartType.Funnel &&
+                ChartType != EnumChartType.Donut;
+        }
+
+        bool IsChartFamilyRange()
+        {
+            return
+                ChartType != EnumChartType.RangeBar &&
+                ChartType != EnumChartType.RangeColumn &&
+
+                ChartType != EnumChartType.RadarArea &&
+                ChartType != EnumChartType.RadarLine &&
+
                 ChartType != EnumChartType.Bubble;
         }
 
@@ -286,9 +322,9 @@ namespace Microarea.RSWeb.Objects
             if (!ok)
                 return false;
 
-            ok = lex.ParseAlign(out Legend.Align);
-            if (!ok)
-                return false;
+            //ok = lex.ParseAlign(out Legend.Align);
+            //if (!ok)
+            //    return false;
 
             return lex.ParseEnd();
         }
@@ -361,40 +397,171 @@ namespace Microarea.RSWeb.Objects
         {
         }
  
-          //------------------------------------------------------------------------------
-        override public string ToJsonTemplate(bool bracket)
+        //------------------------------------------------------------------------------
+        public override string ToJsonTemplate(bool bracket)
+        {
+            string name = "chart";
+            string s = '\"' + name + "\":";
+
+             s += '{' +
+                base.ToJsonTemplate(false) + ',' +
+                ChartType.ToJson("chartType");
+ 
+            s += ',' + this.Title.ToJson("title", false, true);
+
+            if (!Legend.Hidden)
+            {
+                string position = "bottom";
+                string orientation = "horizontal";
+
+                s += ",\"legend\":{" + position.ToJson("position", false, true) + ',' +
+                     orientation.ToJson("orientation", false, true) + '}';
+            }
+
+            s += '}';
+
+            if (bracket)
+                s = '{' + s + '}';
+
+            return s;
+        }
+        
+        //---------------------------------------------------------------------
+        string ToJsonData(Series series)
+        {
+            string s = "{\"data\":[";
+/*            
+            bool first = true;
+            for (int row = 0; row < this.RowNumber; row++)
+            {
+                Cell cell = column.Cells[row];
+                object v = cell.Value.RDEData;
+                if (v == null) continue;
+
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    serie += ',';
+                }
+
+                serie += v.ToJson();
+            }
+*/
+            s += "]," + series.Title.ToJson("name", false, true);
+
+            if (series.Colored)
+                s += ',' + series.Color.ToJson("color");
+
+            if (series.SeriesType != EnumChartType.None)
+                s += ',' + series.SeriesType.ToJson("type");
+
+            if (series.Group != 0)
+                s += ',' + series.Group.ToJson("group");
+
+            if (series.Style != 0)
+            {
+                if ((series.Style & EnumChartStyle.LineSmooth) != 0)
+                    s += ',' + true.ToJson("lineSmooth");
+            }
+
+            return s + '}';
+        }
+
+        string ToJsonData(Categories cat)
+        {
+       
+            string categories = "\"categories\":[";
+/*
+            bool first = true;
+            for (int row = 0; row < this.RowNumber; row++)
+            {
+                Cell cell = column.Cells[row];
+                object v = cell.Value.RDEData;
+                if (v == null) continue;
+
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    categories += ',';
+                }
+
+                categories += v.ToJson();
+            }
+*/
+            categories += ']';
+
+            string category_axis = "\"category_axis\":{" +
+                 cat.Title.ToJson("title", false, true) + ',' +
+                 categories + '}';
+
+            return category_axis;
+        }
+
+        string ToJsonDataFamilyBar()
+        {
+            string series = "\"series\":[";
+            bool first = true;
+
+            for (int ser = 0; ser < this.Categories[0].Series.Count; ser++)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    series += ',';
+                }
+
+                series += ToJsonData(this.Categories[0].Series[ser]);
+            }
+            series += ']';
+
+            if (HasCategories())
+                series += ','  + ToJsonData(this.Categories[0]) ;
+            return series;
+        }
+
+        string ToJsonDataFamilyPie()
+        {
+            return "";
+        }
+        //---------------------------------------------------------------------
+        public override string ToJsonData(bool bracket)
         {
             string name = "chart";
 
-            string s = '\"' + name + "\":";
+            string s = string.Empty;
+            if (!name.IsNullOrEmpty())
+                s = '\"' + name + "\":";
 
-            s += '{' +
-                base.ToJsonTemplate(false) + ',' +
+            s += '{' + base.ToJsonData(false) + ',';
 
-  
-              '}';
+            //---------------------------
+            if (IsChartFamilyBar())
+            {
+                s += ToJsonDataFamilyBar();
+            }
+            else if (IsChartFamilyPie())
+            {
+                s += ToJsonDataFamilyPie();
+            }
+            //TODO CHART 
+            //else if (IsChartFamily...())
 
-            if (bracket)
-                s = '{' + s + '}';
-
-            return s;
-        }
-
-        override public string ToJsonData(bool bracket)
-        {
-            string name = "repeater";
-
-            string s = '\"' + name + "\":";
-
-            s += '{' +
-                base.ToJsonData(false) +
-              '}';
+            //---------------------------
+            s += '}';
 
             if (bracket)
                 s = '{' + s + '}';
 
             return s;
         }
-
     }
 }
