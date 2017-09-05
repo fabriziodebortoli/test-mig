@@ -866,10 +866,10 @@ namespace Microarea.RSWeb.WoormEngine
         //---------------------------------------------------------------------------
         private bool ParseHotlink(Parser lex, AskEntry askEntry)
         {
-            if (!lex.Parsed(Token.HOTLINK))
+            if (!lex.Matched(Token.HOTLINK))
                 return true;
 
-            lex.Parsed(Token.ASSIGN);
+            lex.Matched(Token.ASSIGN);
 
             askEntry.Hotlink = new Hotlink(this.Session);
 
@@ -888,7 +888,7 @@ namespace Microarea.RSWeb.WoormEngine
             // accetta anche la sintassi senza parentesi purchè non ci siano parametri
             if (lex.LookAhead() != Token.SEP)
             {
-                if (!lex.Parsed(Token.ROUNDOPEN) && !lex.Parsed(Token.SQUAREOPEN))
+                if (!lex.Matched(Token.ROUNDOPEN) && !lex.Matched(Token.SQUAREOPEN))
                     return false;
 
                 while (lex.LookAhead() != Token.ROUNDCLOSE && lex.LookAhead() != Token.SQUARECLOSE)
@@ -916,11 +916,11 @@ namespace Microarea.RSWeb.WoormEngine
                         return false;
                 }
 
-                if (lex.Parsed(Token.ROUNDCLOSE) ? false : !lex.Parsed(Token.SQUARECLOSE))
+                if (lex.Matched(Token.ROUNDCLOSE) ? false : !lex.Matched(Token.SQUARECLOSE))
                     return false;
             }
 
-            askEntry.MultiSelections = lex.Parsed(Token.MULTI_SELECTIONS);
+            askEntry.MultiSelections = lex.Matched(Token.MULTI_SELECTIONS);
 
             // cerca il prototipo con quel numero di parametri.
             askEntry.Hotlink.Prototype = Session.Hotlinks.GetPrototype(name);
@@ -1007,7 +1007,7 @@ namespace Microarea.RSWeb.WoormEngine
                 // informo il field di far parte di una AskDialog
                 askEntry.Field.Ask = true;
 
-                if (lex.Parsed(Token.HIDDEN))
+                if (lex.Matched(Token.HIDDEN))
                 {
                     SetEntrySize(-1);
                     askEntry.StaticHidden = true;
@@ -1018,7 +1018,7 @@ namespace Microarea.RSWeb.WoormEngine
                     if (askEntry.Field.DataType == "Boolean")
                     {
                         controlStyle = AskStyle.CHECK_BOX_BOOL_STYLE;
-                        if (lex.Parsed(Token.STYLE))
+                        if (lex.Matched(Token.STYLE))
                         {
                             if (
                                 !lex.ParseTag(Token.ASSIGN) ||
@@ -1044,7 +1044,7 @@ namespace Microarea.RSWeb.WoormEngine
                     }
                     else
                     {
-                        if (lex.Parsed(Token.STYLE))
+                        if (lex.Matched(Token.STYLE))
                         {
                             if (
                                 !lex.ParseTag(Token.ASSIGN) ||
@@ -1081,7 +1081,7 @@ namespace Microarea.RSWeb.WoormEngine
                         )
                         return false;
 
-                    if (lex.Parsed(Token.ROUNDOPEN))
+                    if (lex.Matched(Token.ROUNDOPEN))
                     {
                         Expression captionExpr = new Expression(Session, report.SymTable.Fields);
                         captionExpr.StopTokens = new StopTokens(new Token[] { Token.ROUNDCLOSE });
@@ -1107,14 +1107,14 @@ namespace Microarea.RSWeb.WoormEngine
                     {
                         SetEntrySize(askEntry.Field.Len, askEntry.Field.NumDec);
 
-                        if (lex.Parsed(Token.LOWER_LIMIT)) askEntry.Field.SetLowerLimit();
-                        else if (lex.Parsed(Token.UPPER_LIMIT)) askEntry.Field.SetUpperLimit();
+                        if (lex.Matched(Token.LOWER_LIMIT)) askEntry.Field.SetLowerLimit();
+                        else if (lex.Matched(Token.UPPER_LIMIT)) askEntry.Field.SetUpperLimit();
                     }
 
-                    if (lex.Parsed(Token.READ_ONLY))
+                    if (lex.Matched(Token.READ_ONLY))
                     {
                         // = facoltativo per compatibilità con versioni precedenti
-                        lex.Parsed(Token.ASSIGN);
+                        lex.Matched(Token.ASSIGN);
 
                         Expression readOnlyExpr = new Expression(Session, report.SymTable.Fields);
                         readOnlyExpr.StopTokens = new StopTokens(new Token[] { Token.HOTLINK, Token.WHEN, Token.DYNAMIC });
@@ -1125,8 +1125,8 @@ namespace Microarea.RSWeb.WoormEngine
                     // se c'è il token DYNAMIC allora deve esserci il token WHEN
                     // DYNAMIC serve solo al woorm C++ per gestire la scomparsa dinamica dei controls
                     // in questo la scomparsa è sempre dinamica
-                    bool requireWhen = lex.Parsed(Token.DYNAMIC);
-                    if (lex.Parsed(Token.WHEN))
+                    bool requireWhen = lex.Matched(Token.DYNAMIC);
+                    if (lex.Matched(Token.WHEN))
                     {
                         Expression WhenExpr = new Expression(Session, report.SymTable.Fields);
                         WhenExpr.StopTokens = new StopTokens(new Token[] { Token.HOTLINK });
@@ -1143,7 +1143,7 @@ namespace Microarea.RSWeb.WoormEngine
                 if (!lex.ParseSep())
                     return false;
             }
-            while (!lex.Parsed(Token.END) && !lex.Error);
+            while (!lex.Matched(Token.END) && !lex.Error);
 
             return !lex.Error;
         }
@@ -1162,15 +1162,15 @@ namespace Microarea.RSWeb.WoormEngine
                 if (lex.LookAhead() == Token.TEXTSTRING && !lex.ParseString(out groupTitle))
                     return false;
 
-                bool groupVisible = !lex.Parsed(Token.HIDDEN);
+                bool groupVisible = !lex.Matched(Token.HIDDEN);
                 if (lex.Error)
                     return false;
 
                 // se c'è il token DYNAMIC allora deve esserci il token WHEN
                 // DYNAMIC serve solo al woorm C++ per gestire la scomparsa dinamica dei controls
                 // in questo la scomparsa è sempre dinamica
-                bool requireWhen = lex.Parsed(Token.DYNAMIC);
-                if (lex.Parsed(Token.WHEN))
+                bool requireWhen = lex.Matched(Token.DYNAMIC);
+                if (lex.Matched(Token.WHEN))
                 {
                     Expression WhenExpr = new Expression(Session, report.SymTable.Fields);
                     WhenExpr.StopTokens = new StopTokens(new Token[] { Token.SEP });
@@ -1228,7 +1228,7 @@ namespace Microarea.RSWeb.WoormEngine
         {
             // determina se la dialog è chiamata su esecuzione di codice oppure nella
             // sequenza iniziale di chiamate delle dialogs allo start-up del report
-            if (lex.Parsed(Token.ON))
+            if (lex.Matched(Token.ON))
             {
                 if (!lex.ParseTag(Token.ASK))
                     return false;
@@ -1245,7 +1245,7 @@ namespace Microarea.RSWeb.WoormEngine
                 return false;
 
             // eventuale help
-            if (lex.Parsed(Token.HELP))
+            if (lex.Matched(Token.HELP))
             {
                 if (!lex.ParseTag(Token.ASSIGN))
                     return false;
@@ -1277,7 +1277,7 @@ namespace Microarea.RSWeb.WoormEngine
         //---------------------------------------------------------------------------
         public bool ParseBefore(Parser lex)
         {
-            if (lex.Parsed(Token.BEFORE))
+            if (lex.Matched(Token.BEFORE))
             {
                 BeforeActions = new Block(Report.Engine, null, null, true);
                 BeforeActions.Parse(lex);
@@ -1288,7 +1288,7 @@ namespace Microarea.RSWeb.WoormEngine
         //---------------------------------------------------------------------------
         public bool ParseAfter(Parser lex)
         {
-            if (lex.Parsed(Token.AFTER))
+            if (lex.Matched(Token.AFTER))
             {
                 AfterActions = new Block(Report.Engine, null, null, true);
                 AfterActions.Parse(lex);
@@ -1299,7 +1299,7 @@ namespace Microarea.RSWeb.WoormEngine
         //---------------------------------------------------------------------------
         public bool ParseOn(Parser lex)
         {
-            if (lex.Parsed(Token.ON))
+            if (lex.Matched(Token.ON))
             {
                 OnExpr = new Expression(Session, report.SymTable.Fields);
                 OnExpr.StopTokens = new StopTokens(new Token[] { Token.ABORT });
@@ -1324,7 +1324,7 @@ namespace Microarea.RSWeb.WoormEngine
         public bool ParseWhen(Parser lex)
         {
             // eventuale espressione di WHEN che abilita il run della dialog
-            if (lex.Parsed(Token.WHEN))
+            if (lex.Matched(Token.WHEN))
             {
                 WhenExpr = new Expression(Session, report.SymTable.Fields);
                 WhenExpr.StopTokens = new StopTokens((new Token[] { Token.CONTROLS }));

@@ -226,7 +226,7 @@ namespace Microarea.RSWeb.Objects
 		{
 			lex.SkipToken();
 			IsHidden = true;
-			if (lex.Parsed(Token.WHEN))
+			if (lex.Matched(Token.WHEN))
 			{
 				HideExpr = new WoormViewerExpression(Document);
 				HideExpr.StopTokens = new StopTokens(stopTokens);
@@ -251,7 +251,7 @@ namespace Microarea.RSWeb.Objects
 				}
 			}
 
-			lex.Parsed(Token.SEP);
+			lex.Matched(Token.SEP);
 			return true;
 		}
 
@@ -259,7 +259,7 @@ namespace Microarea.RSWeb.Objects
 		protected bool ParseTooltip(WoormParser lex, Token[] stopTokens)
 		{
 			lex.SkipToken();
-			lex.Parsed(Token.ASSIGN);
+			lex.Matched(Token.ASSIGN);
 
             TooltipExpr = new WoormViewerExpression(Document);
 			TooltipExpr.StopTokens = new StopTokens(stopTokens);
@@ -270,7 +270,7 @@ namespace Microarea.RSWeb.Objects
 				return false;
 			}
 
-			lex.Parsed(Token.SEP);
+			lex.Matched(Token.SEP);
 			return true;
 		}
 
@@ -779,7 +779,7 @@ namespace Microarea.RSWeb.Objects
 			if (!lex.ParseTag(token))
 				return false;
 
-			if (lex.Parsed(Token.ASSIGN))
+			if (lex.Matched(Token.ASSIGN))
 			{
                 expr = new WoormViewerExpression(Document);
 				expr.StopTokens = new StopTokens(new Token[] { Token.SEP });
@@ -1241,7 +1241,7 @@ namespace Microarea.RSWeb.Objects
                     if (!ok)
                         break;
 
-                    if (lex.Parsed(Token.COMMA))
+                    if (lex.Matched(Token.COMMA))
                         ok = lex.ParseAlias(out AnchorRightColumnID);
 
                     break;
@@ -1696,7 +1696,7 @@ namespace Microarea.RSWeb.Objects
 					if (!ok)
 						break;
 
-					if (lex.Parsed(Token.COMMA))
+					if (lex.Matched(Token.COMMA))
                         ok = lex.ParseAlias(out AnchorRightColumnID);
 					
 					break;
@@ -2048,11 +2048,11 @@ namespace Microarea.RSWeb.Objects
             if (!ok)
                 return false;
 
-			if (lex.Parsed(Token.PROPORTIONAL))
+			if (lex.Matched(Token.PROPORTIONAL))
 			{
                 ShowProportional = true;
 			}
-            else if (lex.Parsed(Token.NATIVE))
+            else if (lex.Matched(Token.NATIVE))
             {
                 ShowNativeImageSize = true;
             }
@@ -2624,7 +2624,7 @@ namespace Microarea.RSWeb.Objects
 			if (!ok) return false;
 			if (lex.LookAhead(Token.ASSIGN))
 			{
-				lex.Parsed(Token.ASSIGN);
+				lex.Matched(Token.ASSIGN);
                 LabelTextExpr = new WoormViewerExpression(Document);
 				LabelTextExpr.StopTokens = new StopTokens(new Token[] { Token.SEP });
 				LabelTextExpr.ForceSkipTypeChecking = Document.ForLocalizer;
@@ -2652,11 +2652,11 @@ namespace Microarea.RSWeb.Objects
 			
 			lex.SkipToken();
 
-			if (lex.Parsed(Token.PROPORTIONAL) )
+			if (lex.Matched(Token.PROPORTIONAL) )
 			{
 				ShowProportional = true;
 			}
-            else if (lex.Parsed(Token.NATIVE))
+            else if (lex.Matched(Token.NATIVE))
             {
                 ShowNativeImageSize = true;
             }
@@ -2751,7 +2751,7 @@ namespace Microarea.RSWeb.Objects
                     if (!ok)
                         break;
 
-                    if (lex.Parsed(Token.COMMA))
+                    if (lex.Matched(Token.COMMA))
                         ok = lex.ParseAlias(out AnchorRightColumnID);
 
                     break;
@@ -2766,7 +2766,7 @@ namespace Microarea.RSWeb.Objects
                         i = 0;
 
 					Email = (EmailParameter) i;
-	                if (ok && lex.Parsed(Token.COMMA))
+	                if (ok && lex.Matched(Token.COMMA))
                     {
                         ok = lex.ParseBool(out AppendMailPart);
                     }
@@ -2830,9 +2830,9 @@ namespace Microarea.RSWeb.Objects
 				lex.ParseAlias(out InternalID);
 
 			FormatStyleName = DefaultFormat.None; ;
-			if (ok && lex.Parsed(Token.FORMATSTYLE))
+			if (ok && lex.Matched(Token.FORMATSTYLE))
 			{
-				if (lex.Parsed(Token.ASSIGN))
+				if (lex.Matched(Token.ASSIGN))
 				{
                     FormatStyleExpr = new WoormViewerExpression(Document);
 					FormatStyleExpr.ForceSkipTypeChecking = Document.ForLocalizer;

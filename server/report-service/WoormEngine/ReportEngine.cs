@@ -802,7 +802,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		private bool ParseQueryRule(Parser lex)
 		{
-			if (lex.Parsed(Token.RULES))
+			if (lex.Matched(Token.RULES))
 				do
 				{
 					switch (lex.LookAhead())
@@ -853,7 +853,7 @@ namespace Microarea.RSWeb.WoormEngine
 						}
 					}
 				}
-				while (!lex.Parsed(Token.END) && !lex.Error);
+				while (!lex.Matched(Token.END) && !lex.Error);
 
 			return !lex.Error;
 		}
@@ -903,8 +903,8 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			if	(
 				!ParseQueryRule(lex)                                ||
-				(lex.Parsed(Token.GROUP) && !ParseGroupBy(lex))     ||
-				(lex.Parsed(Token.HAVING) && !ParseHaving(lex))		||
+				(lex.Matched(Token.GROUP) && !ParseGroupBy(lex))     ||
+				(lex.Matched(Token.HAVING) && !ParseHaving(lex))		||
 				lex.Error
 				)
 				return false;
@@ -1273,11 +1273,11 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		private bool ParseAskingRules(Parser lex)
 		{
-			if (!lex.Parsed(Token.DIALOGS))
+			if (!lex.Matched(Token.DIALOGS))
 				return true;
 			
 			lex.ParseBegin();
-			while (lex.Parsed(Token.DIALOG))
+			while (lex.Matched(Token.DIALOG))
 			{
 				AskDialog askDialog = new AskDialog(Report);
 				if (!askDialog.Parse(lex))
@@ -1304,7 +1304,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		private bool ParseStdActions(Parser lex)
 		{
-			if (lex.Parsed(Token.FORMFEED))
+			if (lex.Matched(Token.FORMFEED))
 			{                             
 				if (!lex.ParseTag(Token.COLON) || !lex.ParseTag(Token.DO)) return false;
 			
@@ -1318,7 +1318,7 @@ namespace Microarea.RSWeb.WoormEngine
 				OnFormFeedAction  = false;
 			}
 
-			if  (lex.Parsed(Token.REPORT))
+			if  (lex.Matched(Token.REPORT))
 			{
 				if (!lex.ParseTag(Token.COLON) || !lex.ParseTag(Token.DO)) return false;
 			
@@ -1329,13 +1329,13 @@ namespace Microarea.RSWeb.WoormEngine
 					return false;
 			}
 
-			while (lex.Parsed(Token.TABLE))
+			while (lex.Matched(Token.TABLE))
 			{
 				DisplayAction	= false;
 				OnTableAction	= true;
 		        
 				// match display table name
-				// if no name Parsed must exist only and only one display table
+				// if no name Matched must exist only and only one display table
 				DisplayTable displayTable = ParseDisplayTable(lex);
 			    
 				if (displayTable == null) return false;
@@ -1383,7 +1383,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		private bool ParseEvents(Parser lex)
 		{
-			if (lex.Parsed(Token.EVENTS))
+			if (lex.Matched(Token.EVENTS))
 			{
 				if 	(
 					ParseStdActions(lex) &&
@@ -1539,7 +1539,7 @@ namespace Microarea.RSWeb.WoormEngine
 			OnFormFeedAction	= false;
 			OnTableAction		= false;
 
-			if (!lex.Parsed(Token.PROCEDURES))
+			if (!lex.Matched(Token.PROCEDURES))
 				return true;			
 
 			if (!lex.ParseBegin())
@@ -1564,14 +1564,14 @@ namespace Microarea.RSWeb.WoormEngine
 			OnFormFeedAction	= false;	//TODO servono ?
 			OnTableAction		= false;
 
-			if (!lex.Parsed(Token.QUERIES))
+			if (!lex.Matched(Token.QUERIES))
 				return true;			
 
 			if (!lex.ParseBegin())
 				return false;
 
 			string	name = "";
-			while (lex.Parsed(Token.QUERY))
+			while (lex.Matched(Token.QUERY))
 			{
 				if (!lex.ParseID(out name)) 
                     return false;
@@ -1700,7 +1700,7 @@ namespace Microarea.RSWeb.WoormEngine
 			{
                 AddSpecialFields();
 
-				while(!lex.Parsed(Token.END) && !lex.Error)
+				while(!lex.Matched(Token.END) && !lex.Error)
 				{
 					if (!ParseFieldInfo(lex)) 
 						return false;
@@ -1776,7 +1776,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 			PublicName = name;
 
-			if (lex.Parsed(Token.TABLES) && !ParseDisplayTablesInfo(lex))
+			if (lex.Matched(Token.TABLES) && !ParseDisplayTablesInfo(lex))
 				return false;
 
 			if (!ParseFields(lex))

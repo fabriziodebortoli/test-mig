@@ -202,7 +202,7 @@ namespace Microarea.RSWeb.WoormEngine
 				)
 				{
                 
-                    if (lex.Parsed(Token.PAGE_LAYOUT))
+                    if (lex.Matched(Token.PAGE_LAYOUT))
                     {
                         lex.ParseString(out layoutTable);
                     }

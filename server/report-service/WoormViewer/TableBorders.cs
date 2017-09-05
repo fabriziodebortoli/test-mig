@@ -186,7 +186,7 @@ namespace Microarea.RSWeb.WoormViewer
 					case Token.YE_RSE   : 
 										  lex.SkipToken(); 
 										  RowSeparator			= true;     
-										  DynamicRowSeparator = lex.Parsed(Token.DYNAMIC);
+										  DynamicRowSeparator = lex.Matched(Token.DYNAMIC);
 
 										  if (lex.LookAhead(Token.PEN))
 										  {
