@@ -421,7 +421,7 @@ namespace Microarea.RSWeb.WoormViewer
 				noWeb = true;
 				lex.SkipToken();
 			}
-			if (lex.Parsed(Token.INVALID))
+			if (lex.Matched(Token.INVALID))
 			{
 				lex.SetError(WoormViewerStrings.InvalidReport);
 				return false;
@@ -433,7 +433,7 @@ namespace Microarea.RSWeb.WoormViewer
 				)
 				return false;
 
-			if (lex.Parsed(Token.COMMA) && ! lex.ParseInt (out reportModifyRelease))
+			if (lex.Matched(Token.COMMA) && ! lex.ParseInt (out reportModifyRelease))
 				return false;
 
 			if (reportRelease < LowestCompatibleRelease || reportRelease > ActualRelease)
@@ -892,7 +892,7 @@ namespace Microarea.RSWeb.WoormViewer
 					return false;
 				}
 
-                bool invertOrientation = lex.Parsed(Token.INVERT_ORIENTATION);
+                bool invertOrientation = lex.Matched(Token.INVERT_ORIENTATION);
 
                 Lex.ParseBegin();
 			
@@ -1060,7 +1060,7 @@ namespace Microarea.RSWeb.WoormViewer
 		//------------------------------------------------------------------------------
 		private bool ParseOptions(WoormParser Lex) 
 		{
-			Lex.Parsed(Token.ONLY_GRAPH);
+			Lex.Matched(Token.ONLY_GRAPH);
 			return options.Parse(Lex);
 		}
 

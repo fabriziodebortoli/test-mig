@@ -267,7 +267,13 @@ namespace Microarea.Common.Lexan
 			keywords.Add("Dialogs"				,Token.DIALOGS);
 			keywords.Add("Dynamic"				,Token.DYNAMIC);
 			keywords.Add("Display"				,Token.DISPLAY);
+
             keywords.Add("DisplayChart"         ,Token.DISPLAY_CHART);
+            keywords.Add("ChartCategories"      ,Token.CHART_CATEGORIES);
+            keywords.Add("ChartSeries"          ,Token.CHART_SERIES);
+            keywords.Add("ChartLegend"          ,Token.CHART_LEGEND);
+            keywords.Add("ChartAxis"            ,Token.CHART_AXIS);
+ 
 			keywords.Add("DisplayFreeFields"	,Token.DISPLAY_FREE_FIELDS);
 			keywords.Add("DisplayTableRow"		,Token.DISPLAY_TABLE_ROW);
             keywords.Add("Distinct"				,Token.DISTINCT);
@@ -830,7 +836,13 @@ namespace Microarea.Common.Lexan
 		DIALOGS,
 		DYNAMIC,
 		DISPLAY,
+
         DISPLAY_CHART,
+        CHART_CATEGORIES,
+        CHART_SERIES,
+        CHART_LEGEND,
+        CHART_AXIS,
+
         DISPLAY_FREE_FIELDS,
 		DISPLAY_TABLE_ROW,
 		DISTINCT,

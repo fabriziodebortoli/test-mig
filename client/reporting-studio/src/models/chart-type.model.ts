@@ -20,12 +20,13 @@ export enum ChartType
     Scatter, ScatterLine, 
 
     PolarLine, PolarArea, PolarScatter,
-    RadarLine, RadarArea, RadarScatter,
+    RadarLine, RadarArea, 
 
     Wrong,
-    //mancano nei BCGP
-    VerticalLine, VerticalArea,
-    //unsupported nei Kendo UI
-    Pyramid
+
+    //solo Kendo UI
+    VerticalLine, VerticalArea, RadarColumn,
+    //solo BCGP
+    Pyramid, RadarScatter
     //versioni 3D di bar,column,area  
 }

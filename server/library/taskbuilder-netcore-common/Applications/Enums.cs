@@ -1236,12 +1236,12 @@ namespace Microarea.Common.Applications
 			}
 	 
 			// la sintassi di INSERT (vedi enterprise) non è più supportata
-			if (lex.Parsed(Token.INSERT)) 
+			if (lex.Matched(Token.INSERT)) 
 			{
 				lex.SetError(ApplicationsStrings.InsertUnsupported);
 				return false;
 			}
-			if (lex.Parsed(Token.ASSIGN))
+			if (lex.Matched(Token.ASSIGN))
 			{
 				int dummy = 0;
 				if (!lex.ParseInt(out dummy))
@@ -1261,19 +1261,19 @@ namespace Microarea.Common.Applications
 				tagValue = nextTagValue++;
 		
 			// adesso sono considerati tutti readonly (non c'è più l'interfaccia per la modifica)
-			lex.Parsed(Token.READ_ONLY);
+			lex.Matched(Token.READ_ONLY);
 			
 			if (!lex.ParseOpen())
 				return false;
 
 			// Loop on All Items
-			while (!lex.Parsed(Token.ROUNDCLOSE) && !lex.Error)
+			while (!lex.Matched(Token.ROUNDCLOSE) && !lex.Error)
 			{
 				if (!lex.ParseString (out itemName))
 					return false;
 				
 				int dummy = 0;
-				if (lex.Parsed(Token.ASSIGN))
+				if (lex.Matched(Token.ASSIGN))
 				{
 					if (!lex.ParseInt(out dummy))
 						return false;
@@ -1286,7 +1286,7 @@ namespace Microarea.Common.Applications
 					itemValue = nextItemValue++;
 
 				// Try to see if this value is also default
-				if (lex.Parsed(Token.DEFAULT))
+				if (lex.Matched(Token.DEFAULT))
 				{                                                      
 					if (isDefault)
 					{
@@ -1838,11 +1838,11 @@ namespace Microarea.Common.Applications
 			// Start to Parse TYPEDEF (ENUMS) definition
 			lex.SkipToken();
 		
-			bool bSingle = !lex.Parsed(Token.BEGIN);	
+			bool bSingle = !lex.Matched(Token.BEGIN);	
 			while(!lex.Error)
 			{
 				// to accept empty Begin .. End blocks
-				if (lex.Parsed(Token.END))
+				if (lex.Matched(Token.END))
 				{
 					if (bSingle)
 					{

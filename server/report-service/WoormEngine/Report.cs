@@ -378,12 +378,12 @@ namespace Microarea.RSWeb.WoormEngine
 
 				// no syntax check here: simply if you find the Title property, just store it!
 				// (syntax check will be performed by WoormDocument object)
-				if (lex.Parsed(Token.PROPERTIES))
+				if (lex.Matched(Token.PROPERTIES))
 				{
 					lex.ParseBegin();
 					if (lex.SkipToToken(new Token[] { Token.END, Token.TITLE}, false, false))
 					{
-						if (lex.Parsed(Token.TITLE))
+						if (lex.Matched(Token.TITLE))
 							lex.ParseString(out ReportTitle);
 					}
 				}
@@ -414,11 +414,11 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		private bool ParseAndBuild(Parser lex)
 		{
-			if (lex.Parsed(Token.REPORT))
+			if (lex.Matched(Token.REPORT))
 			{
 				while (lex.LookAhead() != Token.PROPERTIES && lex.LookAhead() != Token.EOF)
 				{
-					if (lex.Parsed(Token.HELP))
+					if (lex.Matched(Token.HELP))
 					{
 						if (!lex.ParseString(out helpFileName))
 							return false;
