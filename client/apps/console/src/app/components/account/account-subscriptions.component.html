@@ -7,6 +7,7 @@
     *ngIf="subscriptionsResult !== undefined && subscriptionsResult.length > 0" 
     [items]="subscriptionsResult" 
     [columnNames]="columnNamesAccountRoles"
+    [readingData]=readingData
     (onSelectedItem)="associateSubscription($event)"></admin-list>
   
   <p style="margin-top: 30px">Linked to this account</p>
@@ -14,6 +15,7 @@
     [items]="subscriptions" 
     [columnNames]="columnNames"
     [rowCommand]="'delete'"
+    [readingData]=readingDataLinked
     (onFireRowCommand)="deleteAssociation($event)"></admin-list>
 </div>
 

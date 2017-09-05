@@ -24,6 +24,8 @@ export class AccountSubscriptionsComponent {
   columnNamesAccountRoles:string[] = ['EntityKey'];
 
   searchString: string;
+  readingData: boolean;
+  readingDataLinked: boolean;
   
   //--------------------------------------------------------------------------------
   constructor(private modelService: ModelService) { 
@@ -44,13 +46,21 @@ export class AccountSubscriptionsComponent {
     //        put this code under a centralized interface to AuthorizationInfo on localStorage
 
     let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
+    this.readingData = true;
 
     this.modelService.query("accountroles", 
       { 
         MatchingFields: { AccountName : authorizationProperties.accountName, Level : RoleLevels.Subscription, RoleName : RoleNames.Admin },
         LikeFields: { EntityKey : this.searchString }
       })
-      .subscribe(res => { this.subscriptionsResult = res['Content']; });
+      .subscribe(res => { 
+        this.subscriptionsResult = res['Content']; 
+        this.readingData = false;
+      },
+    err => {
+      alert('An error occurred while searching subscriptions');
+      this.readingData = false;
+    });
   }
 
   //--------------------------------------------------------------------------------
@@ -61,6 +71,7 @@ export class AccountSubscriptionsComponent {
     }
 
     let subs: string[] = [item.EntityKey];
+    this.readingData = true;
 
     this.modelService.addAccountSubscriptionAssociation(this.editAccountName, subs).subscribe(
       res => {
@@ -69,9 +80,11 @@ export class AccountSubscriptionsComponent {
         subAcc.accountName = this.editAccountName;
         subAcc.subscriptionKey = item.EntityKey;
         this.subscriptions.push(subAcc);
+        this.readingData = false;
       },
       err => {
         alert('Oops, something went wrong with your request: ' + err);
+        this.readingData = false;
       }
     );
   }
@@ -84,6 +97,7 @@ export class AccountSubscriptionsComponent {
     }
 
     let subs: string[] = [item.subscriptionKey];
+    this.readingData = true;
 
     this.modelService.queryDelete(
         'subscriptionaccounts', 
@@ -96,9 +110,11 @@ export class AccountSubscriptionsComponent {
           if (index > -1) {
             this.subscriptions.splice(index, 1);
           }
+          this.readingData = false;
         },
         err => {
           alert('Oops, something went wrong with your request: ' + err);
+          this.readingData = false;
         }
       );
   }
