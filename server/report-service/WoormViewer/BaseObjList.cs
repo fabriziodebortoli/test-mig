@@ -65,8 +65,22 @@ namespace Microarea.RSWeb.WoormViewer
 			return this.Find((item) => item.InternalID == id);
 		}
 
-		//------------------------------------------------------------------------------
-		internal bool UpdateObject(object woormObject)
+        // ---------------------------------------------------------------------------------
+        public Column FindColumn(ushort id)
+        {
+            foreach (BaseObj obj in this)
+            {
+                if (!(obj is Table)) continue;
+                Table t = obj as Table;
+                int pos = t.ColumnIndexFromID(id);
+                if (pos == -1) continue;
+                return t.Columns[pos];
+            }
+            return null;
+        }
+
+         //------------------------------------------------------------------------------
+        internal bool UpdateObject(object woormObject)
 		{
 			BaseObj objToRemove = FindBaseObj(((BaseObj)woormObject).InternalID);
 			BaseObj objToAdd = woormObject as BaseObj;

@@ -812,9 +812,17 @@ namespace Microarea.RSWeb.WoormEngine
 			ownDisplayTable.MultiLineFieldsNum--;
 			substrings = null;
 		}
+        //----------------------------------------------------------------------------
+        public bool WriteArray(ReportEngine repEngine)
+        {
+            string Name = (repEngine.Session.XmlReport && this.tagXml.Length > 0) ? this.tagXml : this.Name;
 
-		//----------------------------------------------------------------------------
-		public bool Write(ReportEngine repEngine)
+            bool ok = repEngine.OutChannel.WriteArray(Name, Id, data, WoormType, Valid);
+            return ok;
+        }
+
+        //----------------------------------------------------------------------------
+        public bool Write(ReportEngine repEngine)
 		{
             string Name = (repEngine.Session.XmlReport && this.tagXml.Length > 0) ? this.tagXml : this.Name;
 

@@ -26,7 +26,7 @@ using Microarea.RSWeb.Objects;
 namespace Microarea.RSWeb.WoormViewer
 {
     public enum PageType { First, Last, Prev, Next, Current, Unknown }
-	public enum CellType { Cell, SubTotal, Total, LowerInput, UpperInput}
+	public enum CellType { Cell, SubTotal, Total, LowerInput, UpperInput, Array}
 
 	/// <summary>
 	/// Descrizione di riepilogo per reader.
@@ -939,8 +939,12 @@ namespace Microarea.RSWeb.WoormViewer
                     {
                         baseObject = new Repeater(this); break;
                     }
+                    case Token.CHART:
+                    {
+                        baseObject = new Chart(this); break;
+                    }
 
-					case Token.RNDRECT  : // mantiene la compatibilita' con il passato
+                    case Token.RNDRECT  : // mantiene la compatibilita' con il passato
 					case Token.SQRRECT  : baseObject = new SqrRect      (this); break;
 					case Token.METAFILE : baseObject = new GraphRect    (this); break;
 					case Token.BITMAP   : baseObject = new GraphRect    (this); break;
