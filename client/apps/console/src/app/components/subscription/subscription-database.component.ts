@@ -73,8 +73,7 @@ export class SubscriptionDatabaseComponent implements OnInit {
         subs.unsubscribe();
         
         // after save I return to parent page
-        // this.router.navigateByUrl('/subscription'); // I have to set the queryparams!
-        this.router.navigateByUrl('/subscription', { queryParams: { subscriptionToEdit: subscriptionKey } });
+        this.router.navigate(['/subscription'], { queryParams: { subscriptionToEdit: subscriptionKey } });
       },
       err => {
         console.log(err);
