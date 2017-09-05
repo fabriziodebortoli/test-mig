@@ -2036,7 +2036,7 @@ namespace Microarea.RSWeb.WoormEngine
 	}
 
     /// <summary>
-    /// MessageBoxAction
+    /// Quit,Brak,Continue
     /// </summary>
     //============================================================================
     public class QuitBreakContinueAction : ActionObj
@@ -2334,11 +2334,76 @@ namespace Microarea.RSWeb.WoormEngine
 		}
     }
 
-	/// <summary>
-	/// ReportActions
-	/// </summary>
-	//============================================================================
-	public class ReportEventActions : EventActions
+    /// <summary>
+    /// MessageBoxAction
+    /// </summary>
+    //============================================================================
+    public class DisplayChartAction : ActionObj
+    {
+
+        private string ChartName;
+
+        //---------------------------------------------------------------------------
+        public DisplayChartAction(ReportEngine engine, RepSymTable symTable)
+            : base(engine, symTable)
+        {
+        }
+
+        // Gestione approssimata della MessageBox perchè siamo in ambiente disconnesso 
+        // e non deve essere il motore a fare la MessageBox ma il client. Non è possibile 
+        // però sospendere il motore in attesa di una risposta del client e quindi o 
+        // interrompo e avviso il client tramite rde oppure faccio dare solo un messaggio
+        // che non interrompe (sempre dal client).
+        //---------------------------------------------------------------------------
+        public override bool Exec()
+        {
+            ActionState = ActionStates.STATE_NORMAL;
+
+            //TODO CHART filtrare array bindati al chart name
+
+            foreach (Field f in this.GetSymTable().Fields)
+            {
+                if (f.WoormType != "Array" && f.WoormType != "DataArray")
+                    continue;
+
+                //DataArray ar = f.Data as DataArray;
+                f.WriteArray(this.engine);
+            }
+
+            return true;
+        }
+
+        //---------------------------------------------------------------------------
+        public bool Parse(Parser lex)
+        {
+            if (!lex.ParseTag(Token.DISPLAY_CHART))
+            {
+                return false;
+            }
+            if (!lex.ParseID(out ChartName))
+            {
+                return false;
+            }
+
+            return lex.ParseSep();
+        }
+
+        //---------------------------------------------------------------------------
+        public override bool Unparse(Unparser unparser)
+        {
+            unparser.WriteTag(Token.DISPLAY_CHART, false);
+            unparser.WriteID(ChartName);
+            unparser.WriteSep(true);
+
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// ReportActions
+    /// </summary>
+    //============================================================================
+    public class ReportEventActions : EventActions
 	{
 		private	Block	alwaysBlock;
 		private	Block	finalizeBlock;

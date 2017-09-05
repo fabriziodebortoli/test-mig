@@ -105,9 +105,9 @@ namespace Microarea.Common.CoreTypes
 		protected ushort	id = 0;
 		protected bool		isColumn2 = false;
         public ushort       EnumTag = 0;    // used by Enums
-        protected string    woormType = string.Empty;	
-        
-		//-----------------------------------------------------------------------------
+        protected string    woormType = string.Empty;
+        public string       BaseDataType = string.Empty;
+                                       //-----------------------------------------------------------------------------
         public string       WoormType   { 
             get {
                 if (woormType == string.Empty)

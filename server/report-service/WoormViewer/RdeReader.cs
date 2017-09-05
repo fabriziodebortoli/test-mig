@@ -412,6 +412,22 @@ namespace Microarea.RSWeb.WoormViewer
         {
             switch (cellType)
             {
+                case CellType.Array:
+                    {
+                        Variable f = SymbolTable.FindById(id);
+                        if (f == null)
+                            break;
+
+                        string baseType = f.WoormType;
+                        string fromType = f.BaseDataType;
+                        if (string.IsNullOrEmpty(fromType))
+                            break;
+                        DataArray ar = DataArray.XmlConvertToDataArray(val, baseType);
+                        if (ar == null)
+                            break;
+                        f.Data = ar;
+                        break;
+                    }
                 case CellType.Cell:
                     {
                         Cell cell = col.Cells[t.CurrentRow];

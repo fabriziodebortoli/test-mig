@@ -1021,6 +1021,22 @@ namespace Microarea.RSWeb.Objects
            return s;
         }
 
+        //------------------------------------------------------------------------------
+        public DataArray GetColumnData()
+        {
+            DataArray ar = new DataArray();
+
+            for (int row = 0; row < this.Cells.Count; row++)
+            {
+                Cell cell = Cells[row];
+                object v = cell.Value.RDEData;
+                if (v == null) continue;
+
+                ar.Add(v);
+            }
+            return ar;
+        }
+
         //-------------------------------------------------------------------------------
         public int TemplateWidth
         {
