@@ -198,7 +198,7 @@ namespace Microarea.AdminServer.Controllers
             // Imposto la nuova data massima di disconnessione, deve arrivare da gwam.
             IInstance i = GetInstance(instanceKey);
             i.PendingDate = DateTime.Now.AddMonths(1);//todo deve arrivare dal gwam
-            (i as Instance).Save(burgerData);
+            (i as Instance)?.Save(burgerData);
         }
 
         //-----------------------------------------------------------------------------	
