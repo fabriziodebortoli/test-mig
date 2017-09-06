@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Xml;
 using System.Net;
+using System.Linq;
 
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
@@ -11,6 +12,7 @@ using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
 
 using Microarea.Common;
+using System.Diagnostics;
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -249,6 +251,7 @@ namespace Microarea.RSWeb.WoormViewer
                                     reader.MoveToAttribute(RdeWriterTokens.Attribute.Type);
                                     string dataType = reader.Value;
                                     string woormType = dataType;
+                                    string baseType = string.Empty;
 
                                     // backwards compatibility: attribute could not exist in persisted reports
                                     if (reader.MoveToAttribute(RdeWriterTokens.Attribute.WoormType))
@@ -256,21 +259,21 @@ namespace Microarea.RSWeb.WoormViewer
                                         woormType = reader.Value;
                                         WoormTypesAliasTable.Add(id, reader.Value);
                                     }
+                                    if (reader.MoveToAttribute(RdeWriterTokens.Attribute.BaseType))
+                                    {
+                                        baseType = reader.Value;
+                                    }
+
                                     reader.MoveToAttribute(RdeWriterTokens.Attribute.Name);
                                     string name = reader.Value;
 
                                     reader.MoveToAttribute(RdeWriterTokens.Attribute.Value);
-
                                     object data = null;
-
                                     if (dataType == "DataArray")
                                     {
                                         string arrayValue = reader.Value;
-                                        data = DataArray.JsonToDataObj(SoapTypes.FromSoapString(arrayValue), typeof(DataArray));
-
-                                        if (reader.MoveToAttribute(RdeWriterTokens.Attribute.BaseType))
-                                            woormType = reader.Value;
-                                    }
+                                        data = SoapTypes.FromSoapDataArray(arrayValue, baseType);
+                                     }
                                     else
                                         data = SoapTypes.From(reader.Value, dataType);
 
@@ -280,6 +283,7 @@ namespace Microarea.RSWeb.WoormViewer
 
                                     Variable v = new Variable(name, data, ushort.Parse(id));
                                     v.WoormType = woormType;
+                                    v.BaseType = baseType;
 
                                     if (strIsColumn != null && strIsColumn == "true")
                                         v.IsColumn2 = true;
@@ -353,8 +357,35 @@ namespace Microarea.RSWeb.WoormViewer
         }
 
         //------------------------------------------------------------------------------
-        public void SetElement(XmlReader reader, CellType cellType)
+        public void SetArray(XmlReader reader)
         {
+            reader.MoveToAttribute(RdeWriterTokens.Attribute.ID);
+            ushort id = XmlConvert.ToUInt16(reader.Value);
+
+            string val = string.Empty;
+            if (reader.MoveToAttribute(RdeWriterTokens.Attribute.Value))
+                val = WebUtility.HtmlDecode(reader.Value);
+
+            Variable f = SymbolTable.FindById(id);
+            if (f == null)
+                return;
+
+            string baseType = f.BaseType;
+            if (string.IsNullOrEmpty(baseType))
+                return;
+            DataArray ar = DataArray.ConvertFromString(val, baseType);
+            if (ar == null)
+                return;
+            f.Data = ar;
+
+            //DEBUG
+            ar.Elements.ToArray().ToList().ForEach(e => Debug.Write(e+" "));
+           
+        }
+
+        //------------------------------------------------------------------------------
+        public void SetElement(XmlReader reader, CellType cellType)
+{
             reader.MoveToAttribute(RdeWriterTokens.Attribute.ID);
             ushort id = XmlConvert.ToUInt16(reader.Value);
 
@@ -412,23 +443,7 @@ namespace Microarea.RSWeb.WoormViewer
         {
             switch (cellType)
             {
-                case CellType.Array:
-                    {
-                        Variable f = SymbolTable.FindById(id);
-                        if (f == null)
-                            break;
-
-                        string baseType = f.WoormType;
-                        string fromType = f.BaseDataType;
-                        if (string.IsNullOrEmpty(fromType))
-                            break;
-                        DataArray ar = DataArray.XmlConvertToDataArray(val, baseType);
-                        if (ar == null)
-                            break;
-                        f.Data = ar;
-                        break;
-                    }
-                case CellType.Cell:
+                 case CellType.Cell:
                     {
                         Cell cell = col.Cells[t.CurrentRow];
 
@@ -669,6 +684,8 @@ namespace Microarea.RSWeb.WoormViewer
                                 case RdeWriterTokens.Element.Message: Message(reader); break;
 
                                 case RdeWriterTokens.Element.Report: ApplyLayout(reader); break;
+
+                                case RdeWriterTokens.Element.Array: SetArray(reader); break;
                             }
 
                             //riporta il reader al nodo element.

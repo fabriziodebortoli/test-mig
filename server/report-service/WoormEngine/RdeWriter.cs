@@ -364,7 +364,7 @@ namespace Microarea.RSWeb.WoormEngine
                 DataArray ar = o as DataArray;
                 if (ar == null)
                     return false;
-                string s = ar.XmlConvertToString();
+                string s = ar.ToString();
 
                 Attribute(RdeWriterTokens.Attribute.Value, s);
 

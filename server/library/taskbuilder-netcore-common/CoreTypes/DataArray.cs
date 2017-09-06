@@ -3,6 +3,10 @@ using System.Collections;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+
 using TaskBuilderNetCore.Interfaces.Model;
 
 namespace Microarea.Common.CoreTypes
@@ -330,7 +334,7 @@ namespace Microarea.Common.CoreTypes
 
 		// Compatibile al formato Soap (vedi la classe System.Xml.XmlConvert)
 		//---------------------------------------------------------------------
-		override public string ToString()
+		 public string ToString2()
 		{ 
 			StringBuilder sbDataArray = new StringBuilder();
             sbDataArray.Append('[');
@@ -343,9 +347,48 @@ namespace Microarea.Common.CoreTypes
             return sbDataArray.ToString();
 		}
 
+        override public string ToString()
+        {
+            //string s = string.Join(',', elements.ToArray()) ;
+            StringBuilder sbAr = new StringBuilder();
+            bool first = true;
+            bool escape = BaseType == "String";
+
+            foreach (object o in Elements)
+            {
+                if (first) first = false; else sbAr.Append(',');
+                string s = SoapTypes.To(o);
+                if (escape) s = s.Replace(",", "\\x2C");
+                sbAr.Append(s);
+            }
+            
+            return sbAr.ToString();
+        }
+
+        //---------------------------------------------------------------------
+        public static DataArray ConvertFromString(string from, string baseType)
+        {
+            if (string.IsNullOrEmpty(from))
+            {
+                return new DataArray(baseType);
+            }
+           
+            DataArray values = new DataArray(baseType);
+
+            string[] ar = from.Split(',');
+            bool escape = baseType == "String";
+
+            foreach (string s in ar)
+            {
+                values.Elements.Add(SoapTypes.From(escape ? s.Replace("\\x2C", ",") : s, baseType));
+            }
+
+            return values;
+        }
+
         // Compatibile al formato Soap (vedi la classe System.Xml.XmlConvert)
         //---------------------------------------------------------------------
-        public string XmlConvertToString()
+        public string XmlConvertToString1()
         {
             StringBuilder sbDataArray = new StringBuilder();
             for (int i = 0; i < Count; i++)
@@ -358,8 +401,13 @@ namespace Microarea.Common.CoreTypes
         }
 
         //---------------------------------------------------------------------
-        public static DataArray XmlConvertToDataArray(string from)
+        public static DataArray XmlConvertToDataArray1(string from)
         {
+            if (string.IsNullOrEmpty(from))
+            {
+                return new DataArray();
+            }
+
             XmlDocument dom = new XmlDocument();
             dom.LoadXml(from);
 
@@ -382,8 +430,15 @@ namespace Microarea.Common.CoreTypes
         }
 
         //---------------------------------------------------------------------
-        public static DataArray XmlConvertToDataArray(string from, string baseType)
+        public static DataArray XmlConvertToDataArray2(string from, string baseType)
 		{
+            if (string.IsNullOrEmpty(from))
+            {
+                return new DataArray(baseType);
+            }
+            if (string.IsNullOrEmpty(baseType))
+                return DataArray.XmlConvertToDataArray1(from);
+
             XmlDocument dom = new XmlDocument();
             dom.LoadXml(from);
 
