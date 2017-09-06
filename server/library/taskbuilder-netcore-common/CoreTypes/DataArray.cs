@@ -330,30 +330,63 @@ namespace Microarea.Common.CoreTypes
 
 		// Compatibile al formato Soap (vedi la classe System.Xml.XmlConvert)
 		//---------------------------------------------------------------------
-		public string XmlConvertToString()
+		override public string ToString()
 		{ 
 			StringBuilder sbDataArray = new StringBuilder();
-			for (int i = 0; i < Count; i++)
+            sbDataArray.Append('[');
+            for (int i = 0; i < Count; i++)
 			{
-				sbDataArray.AppendFormat("<{0}>", baseType );
-				sbDataArray.Append(SoapTypes.To(elements[i]));
-				sbDataArray.AppendFormat("</{0}>", baseType);
+                if (i > 0) sbDataArray.Append(',');
+                sbDataArray.Append(SoapTypes.To(elements[i]));
 			}
-			return sbDataArray.ToString();
+            sbDataArray.Append(']');
+            return sbDataArray.ToString();
 		}
 
-		// Compatibile al formato Soap (vedi la classe System.Xml.XmlConvert)
-		//---------------------------------------------------------------------
-		public static DataArray XmlConvertToDataArray(string from)
-		{
-			return new DataArray();
-		}
+        // Compatibile al formato Soap (vedi la classe System.Xml.XmlConvert)
+        //---------------------------------------------------------------------
+        public string XmlConvertToString()
+        {
+            StringBuilder sbDataArray = new StringBuilder();
+            for (int i = 0; i < Count; i++)
+            {
+                sbDataArray.AppendFormat("<{0}>", baseType);
+                sbDataArray.Append(SoapTypes.To(elements[i]));
+                sbDataArray.AppendFormat("</{0}>", baseType);
+            }
+            return sbDataArray.ToString();
+        }
 
-		//---------------------------------------------------------------------
-		public static DataArray XmlConvertToDataArray(string from, string baseType)
+        //---------------------------------------------------------------------
+        public static DataArray XmlConvertToDataArray(string from)
+        {
+            XmlDocument dom = new XmlDocument();
+            dom.LoadXml(from);
+
+            DataArray values = new DataArray();
+            bool first = true;
+
+            foreach (XmlNode node in dom.FirstChild.ChildNodes)
+            {
+                //values.Elements.Add(SoapTypes.From(node.FirstChild.Value, baseType));
+                if (first) 
+                    values.BaseType = node.Name; 
+                else first = false;
+
+                object o = SoapTypes.From(node.Value, node.Name);
+
+                values.Elements.Add(o);
+            }
+
+            return values;
+        }
+
+        //---------------------------------------------------------------------
+        public static DataArray XmlConvertToDataArray(string from, string baseType)
 		{
-			XmlDocument dom = new XmlDocument();
-			dom.LoadXml(from);
+            XmlDocument dom = new XmlDocument();
+            dom.LoadXml(from);
+
 			DataArray values = new DataArray(baseType);
 			
 			foreach (XmlNode arrayElementNode in dom.FirstChild.ChildNodes)

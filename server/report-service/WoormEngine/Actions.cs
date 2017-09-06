@@ -605,8 +605,16 @@ namespace Microarea.RSWeb.WoormEngine
 
                     break;
                 }
+                case Token.DISPLAY_CHART:
+                {
+                    DisplayChartAction actionObj = new DisplayChartAction(engine, GetSymTable());
+                    if (actionObj.Parse(lex))
+                        return actionObj;
 
-				default :
+                    break;
+                }
+
+                default:
 				{
                     DeclareAction actionObj = new DeclareAction(engine, GetSymTable(), this);
                     if (actionObj.Parse(lex))

@@ -37,8 +37,9 @@ namespace Microarea.Common.CoreTypes
 		public static Guid		FromSoapGuid	(string s)	{ return XmlConvert.ToGuid(s); }
 		public static DateTime FromSoapDateTime(string s) { return XmlConvert.ToDateTime(s, XmlDateTimeSerializationMode.Unspecified); }
 		public static DataEnum	FromSoapDataEnum(string s)	{ return DataEnum.XmlConvertToDataEnum(s); }
-		public static DataArray	FromSoapDataArray(string s)	{ return DataArray.XmlConvertToDataArray(s); }
-		public static TimeSpan	FromSoapTimeSpan(string s)	{ return XmlConvert.ToTimeSpan(s); }
+        public static DataArray FromSoapDataArray(string s) { return DataArray.XmlConvertToDataArray(s); }
+		public static DataArray	FromSoapDataArray(string s, string baseType)	{ return DataArray.XmlConvertToDataArray(s, baseType); }
+        public static TimeSpan	FromSoapTimeSpan(string s)	{ return XmlConvert.ToTimeSpan(s); }
 
 		//-----------------------------------------------------------------------------
 		public static string To(object data)
