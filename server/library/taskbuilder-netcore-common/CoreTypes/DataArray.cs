@@ -11,116 +11,116 @@ using TaskBuilderNetCore.Interfaces.Model;
 
 namespace Microarea.Common.CoreTypes
 {
-	/// <summary>
-	/// Descrizione di riepilogo per DataArray.
-	/// </summary>
-	//=========================================================================
-	[DataContract]
-	[KnownType(typeof(DataObj))]
-	[KnownType(typeof(DataEnum))]
-	[Serializable]
-	public class DataArray : DataObj
-	{
-		private const string baseTypeTag = "BaseType";
-		private const string elementsTag = "Elements";
-		private const string attachedArraysTag = "AttachedArrays";
-		private const string sortDescendingTag = "SortDescending";
+    /// <summary>
+    /// Descrizione di riepilogo per DataArray.
+    /// </summary>
+    //=========================================================================
+    [DataContract]
+    [KnownType(typeof(DataObj))]
+    [KnownType(typeof(DataEnum))]
+    [Serializable]
+    public class DataArray : DataObj
+    {
+        private const string baseTypeTag = "BaseType";
+        private const string elementsTag = "Elements";
+        private const string attachedArraysTag = "AttachedArrays";
+        private const string sortDescendingTag = "SortDescending";
 
-		private ArrayList elements;
-		private string baseType;
-		private bool sortDescending;
-		private ArrayList attachedArrays;
+        private List<object> elements;
+        private string baseType;
+        private bool sortDescending;
+        private List<DataArray> attachedArrays;
 
-		//---------------------------------------------------------------------
-		protected override object GetValue()
-		{
-			return null;
-		}
-		
-		protected override void SetValue(object value)
-		{
-		}
+        //---------------------------------------------------------------------
+        protected override object GetValue()
+        {
+            return null;
+        }
+
+        protected override void SetValue(object value)
+        {
+        }
 
 
-		//---------------------------------------------------------------------
-		public  int Count { get { return elements.Count; } }
+        //---------------------------------------------------------------------
+        public int Count { get { return elements.Count; } }
 
-		//---------------------------------------------------------------------
-		[DataMember]
-		public  string BaseType
-		{
-			get { return baseType; }
-			set
-			{
-				OnPropertyChanging("BaseType");
+        //---------------------------------------------------------------------
+        [DataMember]
+        public string BaseType
+        {
+            get { return baseType; }
+            set
+            {
+                OnPropertyChanging("BaseType");
 
-				if (IsValueLocked)
-					return;
+                if (IsValueLocked)
+                    return;
 
-				baseType = value;
+                baseType = value;
 
-				IsModified = true;
-				IsDirty = true;
+                IsModified = true;
+                IsDirty = true;
 
-				OnPropertyChanged("BaseType");
-			}
-		}
-		//---------------------------------------------------------------------
-		[DataMember]
-		public ArrayList Elements
-		{
-			get
-			{
-				return elements;
-			}
-			set
-			{
-				OnPropertyChanging("Elements");
+                OnPropertyChanged("BaseType");
+            }
+        }
+        //---------------------------------------------------------------------
+        [DataMember]
+        public List<object> Elements
+        {
+            get
+            {
+                return elements;
+            }
+            set
+            {
+                OnPropertyChanging("Elements");
 
-				if (IsValueLocked)
-					return;
+                if (IsValueLocked)
+                    return;
 
-				elements = value;
+                elements = value;
 
-				IsModified = true;
-				IsDirty = true;
+                IsModified = true;
+                IsDirty = true;
 
-				OnPropertyChanged("Elements");
-			}
-		}
+                OnPropertyChanged("Elements");
+            }
+        }
 
-		//---------------------------------------------------------------------
-		public override IDataType DataType { get { return CoreTypes.DataType.Array; } }
+        //---------------------------------------------------------------------
+        public override IDataType DataType { get { return CoreTypes.DataType.Array; } }
 
-		//---------------------------------------------------------------------
-		public DataArray()
-		{
-			this.baseType = string.Empty;
-			elements = new ArrayList();
-			attachedArrays = new ArrayList();
-			// inizializzato a false dal runtime
-			//sortDescending = false;
-		}
-		
-		//---------------------------------------------------------------------
-		public DataArray(string	baseType)
-		{
-			this.baseType = baseType;
-			elements = new ArrayList();
-			attachedArrays = new ArrayList();
-			// inizializzato a false dal runtime
-			//sortDescending = false;
-		}
+        //---------------------------------------------------------------------
+        public DataArray()
+        {
+            this.baseType = string.Empty;
+            elements = new List<object>();
+            attachedArrays = new List<DataArray>();
+            // inizializzato a false dal runtime
+            //sortDescending = false;
+        }
 
-		//---------------------------------------------------------------------
-		public void Assign(DataArray dataArray)
-		{
-			if (dataArray == null)
-				return;
+        //---------------------------------------------------------------------
+        public DataArray(string baseType)
+        {
+            this.baseType = baseType;
+            elements = new List<object>();
+            attachedArrays = new List<DataArray>();
+            // inizializzato a false dal runtime
+            //sortDescending = false;
+        }
 
-			this.baseType = dataArray.baseType;
-			this.elements = dataArray.elements.Clone() as ArrayList;
-		}
+        //---------------------------------------------------------------------
+        public void Assign(DataArray dataArray)
+        {
+            if (dataArray == null)
+                return;
+
+            this.baseType = dataArray.baseType;
+            this.elements = new List<object>(dataArray.elements);
+        }
 
         //---------------------------------------------------------------------
         public bool Copy(DataArray dataArray)
@@ -143,81 +143,83 @@ namespace Microarea.Common.CoreTypes
             return true;
         }
 
-		//---------------------------------------------------------------------
-		public override void Clear()
-		{
-			Clear(true);
-		}
+        //---------------------------------------------------------------------
+        public override void Clear()
+        {
+            Clear(true);
+        }
 
-		//---------------------------------------------------------------------
-		public override void Clear(bool valid) 
-		{ 
-			if (IsValueLocked)
-				return;
+        //---------------------------------------------------------------------
+        public override void Clear(bool valid)
+        {
+            if (IsValueLocked)
+                return;
 
-			base.Clear(valid);
+            base.Clear(valid);
 
-			elements.Clear();
-		}
+            elements.Clear();
+        }
 
-		//---------------------------------------------------------------------
-		public bool Attach(DataArray ar)
-		{
-			if (ar == null)
-				return false;
+        //---------------------------------------------------------------------
+        public bool Attach(DataArray ar)
+        {
+            if (ar == null)
+                return false;
 
-			if (ar == this) 
-				return false; //previene ricorsione
+            if (ar == this)
+                return false; //previene ricorsione
 
-			if (ar.attachedArrays.Count > 0)
-				foreach (DataArray a in ar.attachedArrays)
-				{
-					if (a == this)
-						return false;	//previene ricorsione
-				}
+            if (ar.attachedArrays.Count > 0)
+                foreach (DataArray a in ar.attachedArrays)
+                {
+                    if (a == this)
+                        return false;   //previene ricorsione
+                }
+            int prevCount = attachedArrays.Count;
+            attachedArrays.Add(ar);
 
-			return attachedArrays.Add(ar) >= 0;
-		}
+            return attachedArrays.Count > prevCount;
+        }
 
-		//---------------------------------------------------------------------
-		public void Detach()
-		{
-			attachedArrays.Clear();
-		}
+        //---------------------------------------------------------------------
+        public void Detach()
+        {
+            attachedArrays.Clear();
+        }
 
-		//---------------------------------------------------------------------
-		public override int GetHashCode()
-		{
-			return elements.GetHashCode();
-		}
+        //---------------------------------------------------------------------
+        public override int GetHashCode()
+        {
+            return elements.GetHashCode();
+        }
 
-		//---------------------------------------------------------------------
-		public static bool operator !=(DataArray e1, DataArray e2)
-		{
-			return !(e1 == e2);
-		}
+        //---------------------------------------------------------------------
+        public static bool operator !=(DataArray e1, DataArray e2)
+        {
+            return !(e1 == e2);
+        }
 
-		//---------------------------------------------------------------------
-		public static bool operator ==(DataArray e1, DataArray e2)
-		{
-			if (Object.ReferenceEquals(e1, e2))
-				return true;
+        //---------------------------------------------------------------------
+        public static bool operator ==(DataArray e1, DataArray e2)
+        {
+            if (Object.ReferenceEquals(e1, e2))
+                return true;
 
-			if (Object.ReferenceEquals(null, e1) || Object.ReferenceEquals(null, e2))
-				return false;
+            if (Object.ReferenceEquals(null, e1) || Object.ReferenceEquals(null, e2))
+                return false;
 
-			return e1.Equals(e2);
-		}
+            return e1.Equals(e2);
+        }
 
-		//---------------------------------------------------------------------
-		public override object Clone()
-		{
-			DataArray a = new DataArray(baseType);
+        //---------------------------------------------------------------------
+        public override object Clone()
+        {
+            DataArray a = new DataArray(baseType);
 
-			a.Assign(this);
+            a.Assign(this);
 
-			return a;
-		}
+            return a;
+        }
 
         //---------------------------------------------------------------------
         public int Add(object obj)
@@ -228,7 +230,9 @@ namespace Microarea.Common.CoreTypes
                 throw (new ObjectHelperException(CoreTypeStrings.IncompatibleType));
                 //return -1;
             }
-            return  this.Elements.Add(obj);
+            this.Elements.Add(obj);
+
+            return this.Elements.Count - 1;
         }
 
         //---------------------------------------------------------------------
@@ -267,9 +271,9 @@ namespace Microarea.Common.CoreTypes
             return obj;
         }
 
-		//---------------------------------------------------------------------
-		public void SetAtGrow(int index, object obj)
-		{
+        //---------------------------------------------------------------------
+        public void SetAtGrow(int index, object obj)
+        {
             if (!ObjectHelper.Compatible(obj, this.BaseType))
             {
                 System.Diagnostics.Debug.Fail("Array - add element with wrong data type");
@@ -277,21 +281,21 @@ namespace Microarea.Common.CoreTypes
                 //return;
             }
 
-			if (index >= this.Count) 
-			{
-				for (int j = this.Count; j <= index; j++)
-					this.Elements.Add(ObjectHelper.CreateObject(this.BaseType));
-			}
+            if (index >= this.Count)
+            {
+                for (int j = this.Count; j <= index; j++)
+                    this.Elements.Add(ObjectHelper.CreateObject(this.BaseType));
+            }
 
-			object elem = this.Elements[index];
+            object elem = this.Elements[index];
 
-			ObjectHelper.Assign(ref elem, obj);	
+            ObjectHelper.Assign(ref elem, obj);
 
-			this.Elements[index] = elem;
-		}
+            this.Elements[index] = elem;
+        }
 
         //---------------------------------------------------------------------
-        public object GetAt(int index) 
+        public object GetAt(int index)
         {
             if (index >= this.Count)
             {
@@ -299,54 +303,42 @@ namespace Microarea.Common.CoreTypes
             }
 
             return this.Elements[index];
-         }
+        }
 
-		//---------------------------------------------------------------------
-		public int Find(object obj, int startIndex = 0)
-		{
-			if (obj == null || elements.Count == 0)
-				return -1;
+        //---------------------------------------------------------------------
+        public int Find(object obj, int startIndex = 0)
+        {
+            if (obj == null || elements.Count == 0)
+                return -1;
 
-			if (startIndex < 0 || startIndex > (elements.Count - 1))
-				throw new ArgumentOutOfRangeException("startIndex");
+            if (startIndex < 0 || startIndex > (elements.Count - 1))
+                throw new ArgumentOutOfRangeException("startIndex");
 
-			Object valBaseType = ObjectHelper.CreateObject(this.BaseType);
-			ObjectHelper.Assign(ref valBaseType, obj);
-			return (this.elements.IndexOf(valBaseType, startIndex));
-		}
+            Object valBaseType = ObjectHelper.CreateObject(this.BaseType);
+            ObjectHelper.Assign(ref valBaseType, obj);
+            return (this.elements.IndexOf(valBaseType, startIndex));
+        }
 
-		//---------------------------------------------------------------------
-		public bool Sort(bool descending = false, int start = 0, int end = -1) 
-		{ 
-			bool ok = true;
-			if (attachedArrays.Count == 0 && start == 0 && (end == -1 || end == (this.elements.Count - 1)))
-			{
-				this.elements.Sort();	
-				if (descending)
-					this.elements.Reverse();
-			}
-			else
-			{
-				ok = QuickSort(descending, start, end);
-			}
-			return ok;
-		}
+        //---------------------------------------------------------------------
+        public bool Sort(bool descending = false, int start = 0, int end = -1)
+        {
+            bool ok = true;
+            if (attachedArrays.Count == 0 && start == 0 && (end == -1 || end == (this.elements.Count - 1)))
+            {
+                this.elements.Sort();
+                if (descending)
+                    this.elements.Reverse();
+            }
+            else
+            {
+                ok = QuickSort(descending, start, end);
+            }
+            return ok;
+        }
 
-		// Compatibile al formato Soap (vedi la classe System.Xml.XmlConvert)
-		//---------------------------------------------------------------------
-		 public string ToString2()
-		{ 
-			StringBuilder sbDataArray = new StringBuilder();
-            sbDataArray.Append('[');
-            for (int i = 0; i < Count; i++)
-			{
-                if (i > 0) sbDataArray.Append(',');
-                sbDataArray.Append(SoapTypes.To(elements[i]));
-			}
-            sbDataArray.Append(']');
-            return sbDataArray.ToString();
-		}
-
+        // Compatibile al formato Soap (vedi la classe System.Xml.XmlConvert)
+        //---------------------------------------------------------------------
+        
         override public string ToString()
         {
             //string s = string.Join(',', elements.ToArray()) ;
@@ -361,7 +353,7 @@ namespace Microarea.Common.CoreTypes
                 if (escape) s = s.Replace(",", "\\x2C");
                 sbAr.Append(s);
             }
-            
+
             return sbAr.ToString();
         }
 
@@ -372,7 +364,7 @@ namespace Microarea.Common.CoreTypes
             {
                 return new DataArray(baseType);
             }
-           
+
             DataArray values = new DataArray(baseType);
 
             string[] ar = from.Split(',');
@@ -386,284 +378,221 @@ namespace Microarea.Common.CoreTypes
             return values;
         }
 
-        // Compatibile al formato Soap (vedi la classe System.Xml.XmlConvert)
         //---------------------------------------------------------------------
-        public string XmlConvertToString1()
+        // Intero algoritmo QuickSort per poter ordinare parallelamente anche eventuali array collegati
+        // ----
+
+        // Sposta di posizione i puntatori all'interno dell' Array stesso e degli array collegati
+        private void Swap(int index1, int index2)
         {
-            StringBuilder sbDataArray = new StringBuilder();
-            for (int i = 0; i < Count; i++)
-            {
-                sbDataArray.AppendFormat("<{0}>", baseType);
-                sbDataArray.Append(SoapTypes.To(elements[i]));
-                sbDataArray.AppendFormat("</{0}>", baseType);
-            }
-            return sbDataArray.ToString();
+            object pTemp = this.Elements[index1];
+            this.Elements[index1] = this.Elements[index2];
+            this.Elements[index2] = pTemp;
+
+            if (attachedArrays.Count > 0)
+                foreach (DataArray a in attachedArrays)
+                {
+                    a.Swap(index1, index2); //eventuale ricorsione
+                }
         }
 
         //---------------------------------------------------------------------
-        public static DataArray XmlConvertToDataArray1(string from)
+        private int QSPartitionIt(int left, int right, object pPivot)
         {
-            if (string.IsNullOrEmpty(from))
+            int LeftPtr = left - 1;
+            int RightPtr = right;
+
+            for (; ; )
             {
-                return new DataArray();
+                //Cerco all'interno dell'array il massimo elemento
+                while (((IComparable)(this.Elements[++LeftPtr])).CompareTo(pPivot) == -1) ;
+
+                //Cerco all'interno dell'array il minimo elemento
+                while (RightPtr > 0 && ((IComparable)(this.Elements[--RightPtr])).CompareTo(pPivot) == 1) ;
+
+                if (LeftPtr >= RightPtr)
+                    break;
+                else
+                    Swap(LeftPtr, RightPtr);
             }
+            Swap(LeftPtr, right);
 
-            XmlDocument dom = new XmlDocument();
-            dom.LoadXml(from);
-
-            DataArray values = new DataArray();
-            bool first = true;
-
-            foreach (XmlNode node in dom.FirstChild.ChildNodes)
-            {
-                //values.Elements.Add(SoapTypes.From(node.FirstChild.Value, baseType));
-                if (first) 
-                    values.BaseType = node.Name; 
-                else first = false;
-
-                object o = SoapTypes.From(node.Value, node.Name);
-
-                values.Elements.Add(o);
-            }
-
-            return values;
+            return LeftPtr;
         }
 
         //---------------------------------------------------------------------
-        public static DataArray XmlConvertToDataArray2(string from, string baseType)
-		{
-            if (string.IsNullOrEmpty(from))
+        // L'algoritmo di quicksort, separa una array in due segmenti di array, e applica 
+        //	ricorsivamente l'ordinamento sui due segmenti.
+        private void QuickSort(int left, int right)
+        {
+            // Se la dimensione dell'array e' <= 1, allora vuol dire che l'array e'ordinato
+            if ((right - left) <= 0)
+                return;
+            else
             {
-                return new DataArray(baseType);
+                // Il pivot e' l'elemento che si trova in fondo all'array o 
+                // al segmento di array
+                object pPivot = this.Elements[right];
+
+                int Partition = QSPartitionIt(left, right, pPivot);
+
+                // applico l'algoritmo di ordinamento ai due segmenti di array
+                QuickSort(left, Partition - 1);
+                QuickSort(Partition + 1, right);
             }
-            if (string.IsNullOrEmpty(baseType))
-                return DataArray.XmlConvertToDataArray1(from);
+        }
 
-            XmlDocument dom = new XmlDocument();
-            dom.LoadXml(from);
+        //---------------------------------------------------------------------
+        public bool QuickSort(bool descending, int start = 0, int end = -1)
+        {
+            if (attachedArrays.Count > 0)
+                foreach (DataArray a in attachedArrays)
+                {
+                    if (a.Count != this.Count)
+                        return false;   //eventuale ricorsione
+                }
 
-			DataArray values = new DataArray(baseType);
-			
-			foreach (XmlNode arrayElementNode in dom.FirstChild.ChildNodes)
-			{
-				values.Elements.Add(SoapTypes.From(arrayElementNode.FirstChild.Value, baseType));
-			}
-			
-			return values;
-		}
-
-		//---------------------------------------------------------------------
-		// Sposta di posizione i puntatori all'interno dell' Array
-		private void Swap (int index1, int index2)
-		{
-			object pTemp = this.Elements[index1];
-			this.Elements[index1] = this.Elements[index2];
-			this.Elements[index2] = pTemp;
-
-			if (attachedArrays.Count > 0)
-				foreach (DataArray a in attachedArrays)
-				{
-					a.Swap(index1, index2);	//eventuale ricorsione
-				}
-		}
-
-		//---------------------------------------------------------------------
-		private int QSPartitionIt (int left,	int right, object pPivot)
-		{
-			int LeftPtr		= left - 1;
-			int RightPtr	= right;
-	
-			for (;;)
-			{
-				//Cerco all'interno dell'array il massimo elemento
-				while (((IComparable)(this.Elements[++LeftPtr])).CompareTo(pPivot) == -1);
-
-				//Cerco all'interno dell'array il minimo elemento
-				while (RightPtr > 0 && ((IComparable)(this.Elements[--RightPtr])).CompareTo(pPivot) == 1);
-
-				if (LeftPtr >= RightPtr)
-					break;
-				else
-					Swap (LeftPtr, RightPtr);
-			}
-			Swap (LeftPtr, right);
-	
-			return LeftPtr;
-		}
-
-		//---------------------------------------------------------------------
-		// L'algoritmo di quicksort, separa una array in due segmenti di array, e applica 
-		//	ricorsivamente l'ordinamento sui due segmenti.
-		private void QuickSort (int left, int right)
-		{
-			// Se la dimensione dell'array e' <= 1, allora vuol dire che l'array e'ordinato
-			if ((right - left) <= 0)
-				return;
-			else
-			{
-				// Il pivot e' l'elemento che si trova in fondo all'array o 
-				// al segmento di array
-				object pPivot = this.Elements[right];  
-
-				int Partition = QSPartitionIt (left, right, pPivot);
-		
-				// applico l'algoritmo di ordinamento ai due segmenti di array
-				QuickSort (left, Partition-1);
-				QuickSort (Partition+1, right);
-			}
-		}
-
-		//---------------------------------------------------------------------
-		public bool QuickSort (bool descending, int start = 0, int end = -1)
-		{
-			if (attachedArrays.Count > 0)
-				foreach (DataArray a in attachedArrays)
-				{
-					if (a.Count != this.Count)
-						return false;	//eventuale ricorsione
-				}
-
-			sortDescending = descending;
+            sortDescending = descending;
             if (end == -1)
                 end = this.Elements.Count - 1;
 
-            QuickSort (start, end);
-			return true;
-		}
+            QuickSort(start, end);
+            return true;
+        }
 
-		#region IComparable Members
+        #region IComparable Members
 
-		//---------------------------------------------------------------------
-		//solo per uniformità con gli altri tipi di dato
-		public override int CompareTo(object obj)
-		{
-			if (Object.ReferenceEquals(obj ,null))
-				return 1;
+        //---------------------------------------------------------------------
+        //solo per uniformità con gli altri tipi di dato
+        public override int CompareTo(object obj)
+        {
+            if (Object.ReferenceEquals(obj, null))
+                return 1;
 
-			DataArray dataArray = obj as DataArray;
-			if (Object.ReferenceEquals(dataArray, null))
-				throw new ArgumentException(CoreTypeStrings.InvalidArgType);
+            DataArray dataArray = obj as DataArray;
+            if (Object.ReferenceEquals(dataArray, null))
+                throw new ArgumentException(CoreTypeStrings.InvalidArgType);
 
-			return this.elements.Count.CompareTo(dataArray.elements.Count);
-		}
+            return this.elements.Count.CompareTo(dataArray.elements.Count);
+        }
 
-		#endregion
+        #endregion
 
-		public override string ToString(int minLen, int maxLen)
-		{
-			throw new NotImplementedException();
-		}
+        public override string ToString(int minLen, int maxLen)
+        {
+            throw new NotImplementedException();
+        }
 
-		//---------------------------------------------------------------------
-		public override bool IsEmpty()
-		{
-			return (elements == null || elements.Count == 0);
-		}
+        //---------------------------------------------------------------------
+        public override bool IsEmpty()
+        {
+            return (elements == null || elements.Count == 0);
+        }
 
-		//---------------------------------------------------------------------
-		public override string GetXmlType(bool soapType)
-		{
-			System.Diagnostics.Debug.Assert(false);
-			return string.Empty;
-		}
+        //---------------------------------------------------------------------
+        public override string GetXmlType(bool soapType)
+        {
+            System.Diagnostics.Debug.Assert(false);
+            return string.Empty;
+        }
 
-		//---------------------------------------------------------------------
-		public override string GetXmlType()
-		{
-			return GetXmlType(true);
-		}
+        //---------------------------------------------------------------------
+        public override string GetXmlType()
+        {
+            return GetXmlType(true);
+        }
 
-		//---------------------------------------------------------------------
-		public override string FormatDataForXml(bool soapType)
-		{
-			throw new NotImplementedException();
-		}
+        //---------------------------------------------------------------------
+        public override string FormatDataForXml(bool soapType)
+        {
+            throw new NotImplementedException();
+        }
 
-		//---------------------------------------------------------------------
-		public override void AssignFromXmlString(string xmlFragment)
-		{
-			throw new NotImplementedException();
-		}
+        //---------------------------------------------------------------------
+        public override void AssignFromXmlString(string xmlFragment)
+        {
+            throw new NotImplementedException();
+        }
 
-		//---------------------------------------------------------------------
-		public override string FormatDataForXml()
-		{
-			throw new NotImplementedException();
-		}
+        //---------------------------------------------------------------------
+        public override string FormatDataForXml()
+        {
+            throw new NotImplementedException();
+        }
 
-		//---------------------------------------------------------------------
-		public override bool IsEqual(IDataObj dataObj)
-		{
-			throw new NotImplementedException();
-		}
+        //---------------------------------------------------------------------
+        public override bool IsEqual(IDataObj dataObj)
+        {
+            throw new NotImplementedException();
+        }
 
-		//---------------------------------------------------------------------
-		public override bool IsLessThan(IDataObj dataObj)
-		{
-			throw new NotImplementedException();
-		}
+        //---------------------------------------------------------------------
+        public override bool IsLessThan(IDataObj dataObj)
+        {
+            throw new NotImplementedException();
+        }
 
-		//---------------------------------------------------------------------
-		public override bool IsLessEqualThan(IDataObj dataObj)
-		{
-			throw new NotImplementedException();
-		}
+        //---------------------------------------------------------------------
+        public override bool IsLessEqualThan(IDataObj dataObj)
+        {
+            throw new NotImplementedException();
+        }
 
-		//---------------------------------------------------------------------
-		public override bool IsGreaterThan(IDataObj dataObj)
-		{
-			throw new NotImplementedException();
-		}
+        //---------------------------------------------------------------------
+        public override bool IsGreaterThan(IDataObj dataObj)
+        {
+            throw new NotImplementedException();
+        }
 
-		//---------------------------------------------------------------------
-		public override bool IsGreaterEqualThan(IDataObj dataObj)
-		{
-			throw new NotImplementedException();
-		}
+        //---------------------------------------------------------------------
+        public override bool IsGreaterEqualThan(IDataObj dataObj)
+        {
+            throw new NotImplementedException();
+        }
 
-		//---------------------------------------------------------------------
-		public override bool Equals(IDataObj other)
-		{
-			if (!(other is DataArray))
-				return false;
-			DataArray ar = (DataArray)other;
-			if (ar.Count != Count)
-				return false;
+        //---------------------------------------------------------------------
+        public override bool Equals(IDataObj other)
+        {
+            if (!(other is DataArray))
+                return false;
+            DataArray ar = (DataArray)other;
+            if (ar.Count != Count)
+                return false;
 
-			for (int i = 0; i < Count; i++)
-				if (!Elements[i].Equals(ar.Elements[i]))
-					return false;
-			return true;
-		}
+            for (int i = 0; i < Count; i++)
+                if (!Elements[i].Equals(ar.Elements[i]))
+                    return false;
+            return true;
+        }
 
-		//---------------------------------------------------------------------
-		public override bool Equals(object obj)
-		{
-			if (Object.ReferenceEquals(obj, null))
-				return false;
+        //---------------------------------------------------------------------
+        public override bool Equals(object obj)
+        {
+            if (Object.ReferenceEquals(obj, null))
+                return false;
 
-			DataArray itemDataEnum = obj as DataArray;
-			if (Object.ReferenceEquals(itemDataEnum, null))
-				throw new ArgumentException(CoreTypeStrings.InvalidArgType);
+            DataArray itemDataEnum = obj as DataArray;
+            if (Object.ReferenceEquals(itemDataEnum, null))
+                throw new ArgumentException(CoreTypeStrings.InvalidArgType);
 
-			if (String.Compare(this.baseType, itemDataEnum.baseType) != 0)
-				return false;
+            if (String.Compare(this.baseType, itemDataEnum.baseType) != 0)
+                return false;
 
-			if (this.elements.Count != itemDataEnum.elements.Count)
-				return false;
+            if (this.elements.Count != itemDataEnum.elements.Count)
+                return false;
 
-			for (int i = 0; i < this.elements.Count; i++)
-				if (this.elements[i] != itemDataEnum.elements[i])
-					return false;
+            for (int i = 0; i < this.elements.Count; i++)
+                if (this.elements[i] != itemDataEnum.elements[i])
+                    return false;
 
-			return true;
-		}
+            return true;
+        }
 
-		//---------------------------------------------------------------------
-		public override int CompareTo(IDataObj other)
-		{
-			throw new NotImplementedException();
-		}
+        //---------------------------------------------------------------------
+        public override int CompareTo(IDataObj other)
+        {
+            throw new NotImplementedException();
+        }
         //---------------------------------------------------------------------
         public object CalcSum()
         {
@@ -680,5 +609,5 @@ namespace Microarea.Common.CoreTypes
             throw new NotImplementedException();
         }
 
-	}
+    }
 }

@@ -379,8 +379,7 @@ namespace Microarea.RSWeb.WoormViewer
             f.Data = ar;
 
             //DEBUG
-            ar.Elements.ToArray().ToList().ForEach(e => Debug.Write(e+" "));
-           
+            ar.Elements.ForEach(e => Debug.Write(e+" "));         
         }
 
         //------------------------------------------------------------------------------
