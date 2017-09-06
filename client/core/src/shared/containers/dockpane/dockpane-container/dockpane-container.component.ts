@@ -1,6 +1,7 @@
 import { TabberComponent } from './../../tabs/tabber/tabber.component';
 import { DockpaneComponent } from './../dockpane.component';
-import { Component, OnInit, AfterContentInit, ContentChildren, QueryList, ViewChild, trigger, transition, style, animate, state } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewEncapsulation, AfterContentInit, ContentChildren, QueryList, ViewChild, trigger, transition, style, animate, state } from '@angular/core';
+import { TbIconComponent } from "@taskbuilder/icons";
 
 
 //https://embed.plnkr.co/7qWuHmbFFie4p8Y9h53T/
@@ -8,25 +9,25 @@ import { Component, OnInit, AfterContentInit, ContentChildren, QueryList, ViewCh
   selector: 'tb-dockpane-container',
   templateUrl: './dockpane-container.component.html',
   styleUrls: ['./dockpane-container.component.scss'],
-  // animations: [
-  //    trigger('isVisibleChanged', [
-  //     state('true' , style({ transform: 'translateX(100%)' })),
-  //     state('false', style({ transform: 'translateX(0%)'  })),
-  //     transition('1 => 0', animate('900ms')),
-  //     transition('0 => 1', animate('900ms'))
-  //   ])
-    // trigger('slideInOut', [
-    //   state('opened', style({ width: '*' })),
-    //         state('closed', style({ width: 0})),
-    //         transition('opened <=> closed', animate('400ms ease-in-out')),
-    // ]),
-  //],
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({
+        transform: 'translate3d(90%, 0, 0)'
+      })),
+      state('out', style({
+        transform: 'translate3d(0, 0, 0)'
+      })),
+      transition('in => out', animate('400ms ease-in-out')),
+      transition('out => in', animate('400ms ease-in-out'))
+    ]),
+  ],
+  encapsulation: ViewEncapsulation.None
 })
 export class DockpaneContainerComponent implements AfterContentInit {
-    menuState:boolean = false;
-    width: number = 0;
-
+  public menuState:string = 'in';
+  
   @ContentChildren(DockpaneComponent) tiles: QueryList<DockpaneComponent>;
+
   getTiles() {
     return this.tiles.toArray();
   }
@@ -48,7 +49,7 @@ export class DockpaneContainerComponent implements AfterContentInit {
   ngAfterContentInit() {
     // get all active tiles
     let activeTiles = this.tiles.filter((tile) => tile.active);
-
+   
     //if there is no active tab set, activate the first
     if (activeTiles.length === 0 && this.tiles.toArray().length > 0) {
       this.selectTile(this.tiles.first);
@@ -64,14 +65,7 @@ export class DockpaneContainerComponent implements AfterContentInit {
     // activate the tab the user has clicked on.
     tile.active = true;
   }
-  // setStyles() {
-  //       let styles = {
-  //           'width':  this.menuState ? '400px' : '0px',     
-  //       };
-  //       return styles;
-  //   }
 
-  
   changeTabByIndex(event) {
     let index = event.index;
 
@@ -81,11 +75,6 @@ export class DockpaneContainerComponent implements AfterContentInit {
  
  
   toggleMenu(tile: DockpaneComponent) {
-    // 1-line if statement that toggles the value:
-     if(tile.active)
-      this.menuState = !this.menuState;
-    else
-      this.menuState = true;
-    this.width = this.menuState ? 400 : 0;
+     this.menuState = tile.active ? "out" : this.menuState === 'out' ? 'in' : 'out';
   }
 }

@@ -1,24 +1,70 @@
-.tile-manager2 {
-    flex: 1;
-    display: flex;
-    min-height: 100%;
-    right: 0px;
-    text-align: right;
-    justify-content: flex-end;
+tb-dockpane-container {
+    flex: 1 1 auto;
 }
 
-// .tile-manager2 .k-tabstrip {
-//     flex-direction: row;
-//     display: flex;
-//     flex: 1;
-//     max-width: 10%;
-// }
-.tile-manager2 .k-tabstrip-top>.k-content {
-    flex: 1;
+.tile-manager2 {
+    min-height: 100%;
+    text-align: right;
+}
+
+.tile-manager2 .k-tabstrip {
     background-color: transparent;
 }
 
-.groupIcon {
-    font-size: 30px;
-    padding-right: 7px
+.tile-manager2 .k-tabstrip-top {
+    flex-direction: row;
+    flex-wrap: nowrap
 }
+
+.tile-manager2 .k-tabstrip-top>.k-content {
+    background-color: white;
+}
+
+.tile-manager2 .k-tabstrip>.k-tabstrip-items,
+{
+    background-color: transparent;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    position: relative;
+}
+
+.tile-manager2 .k-tabstrip-top>.k-tabstrip-items .k-item,
+{
+    background-color: #f1f4f7;
+}
+
+.tile-manager2 .k-tabstrip-top>.k-tabstrip-items .k-state-active {
+    background-color: #8ac0f7;
+    color: white;
+}
+
+// .tile-manager2 {
+//     flex: 1 1 500px;
+// }
+// .tile-manager2 .k-tabstrip {
+//     background-color: transparent;
+// }
+// .tile-manager2 .k-tabstrip-top {
+//     flex-direction: row;
+//     flex-wrap: nowrap
+// }
+// .tile-manager2 .k-tabstrip-top>.k-content {
+//     background-color: white;
+// }
+// .tile-manager2 .k-tabstrip>.k-tabstrip-items,
+// {
+//     background-color: transparent;
+//     -webkit-box-orient: vertical;
+//     -webkit-box-direction: normal;
+//     flex-direction: column;
+//     position: relative;
+// }
+// .tile-manager2 .k-tabstrip-top>.k-tabstrip-items .k-item,
+// {
+//     background-color: #f1f4f7;
+// }
+// .tile-manager2 .k-tabstrip-top>.k-tabstrip-items .k-state-active {
+//     background-color: #8ac0f7;
+//     color: white;
+// }

@@ -1,10 +1,12 @@
-:host(tb-frame-content) {
-    flex: 1 1 auto;
-    overflow: hidden;
+// :host(tb-frame-content) {
+//     overflow: scroll;
+//     display: flex;
+//     flex-direction: row;
+// }
+// :host(tb-frame-content).scroll {
+//     overflow: scroll
+// }
+tb-frame-content {
     display: flex;
-    flex-direction: column;
-}
-
-:host(tb-frame-content).scroll {
-    overflow: scroll
+    flex-direction: row;
 }
