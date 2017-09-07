@@ -342,8 +342,7 @@ namespace Microarea.RSWeb.Objects
             if (lex.Matched(Token.COMMA))
                 ok = ok && lex.ParseID(out Name);
 
-            int t = 0;
-            ok = ok && lex.ParseRect(out this.Rect) &&
+             ok = ok && lex.ParseRect(out this.Rect) &&
                         lex.ParseTag(Token.TYPE) &&
                         lex.ParseInt(out t);
             
@@ -486,8 +485,7 @@ namespace Microarea.RSWeb.Objects
             if (series.Colored)
                 s += ',' + series.Color.ToJson("color");
  
-            if (series.SeriesType != EnumChartType.None)
-                s += ',' + series.SeriesType.ToJson("type");
+            s += ',' + series.SeriesType.ToJson("type");
 
             if (series.Group != 0)
                 s += ',' + series.Group.ToJson("group");
