@@ -9,11 +9,8 @@
                     <h5 style="color:#999999;">M4 Provisioning System</h5>
                 </div>
             </div>
-            <div class="row start-xs" *ngIf="instancesList.length == 0">
-                <h2 style="color:#666666; margin-left:22px;">Sign in</h2>
-            </div>
-            <div class="row start-xs" *ngIf="instancesList.length > 0">
-                <h2 style="color:#666666; margin-left:22px;">Welcome</h2>
+            <div class="row start-xs">
+                <h2 style="color:#666666; margin-left:22px;">{{ welcomeMessage }}</h2>
             </div>
             <div class="row start-xs" *ngIf="instancesList.length > 0">
                 <label style="margin-left:22px;">{{ credentials.accountName }}</label>
@@ -32,7 +29,7 @@
             </div>
             <div *ngIf="instancesList.length > 0" class="box"> 
                 <select [(ngModel)]="selectedInstanceKey">
-                    <option *ngFor="let instance of instancesList" value="{{instance.InstanceKey}}">
+                    <option *ngFor="let instance of instancesList" value="{{ instance.InstanceKey }}">
                         {{ instance.Description }}
                     </option>
                 </select>

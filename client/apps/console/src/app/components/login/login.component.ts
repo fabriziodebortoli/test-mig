@@ -15,14 +15,15 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   instancesList: Array<string>;
   selectedInstanceKey: string;
+  welcomeMessage: string;
 
   //--------------------------------------------------------------------------------
-  constructor(
-      private route: ActivatedRoute,
-      private loginService: LoginService) { 
+  constructor(private route: ActivatedRoute, private loginService: LoginService) { 
+        
     this.credentials = new Credentials();
     this.instancesList = new Array<string>();
     this.selectedInstanceKey = '';
+    this.welcomeMessage = 'Sign in';
   }
 
   //--------------------------------------------------------------------------------
@@ -32,10 +33,15 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    // load the instances for specified account
+
     this.loginService.getInstances(this.credentials.accountName)
       .subscribe(
         instances => {
           this.instancesList = instances['Content'];
+
+          if (this.instancesList.length > 0)
+            this.welcomeMessage = 'Welcome';
         },
         err => {
           alert(err);
