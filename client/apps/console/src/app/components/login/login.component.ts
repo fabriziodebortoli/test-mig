@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   instancesList: Array<string>;
   selectedInstanceKey: string;
 
+  //--------------------------------------------------------------------------------
   constructor(
       private route: ActivatedRoute,
       private loginService: LoginService) { 
@@ -24,12 +25,14 @@ export class LoginComponent implements OnInit {
     this.selectedInstanceKey = '';
   }
 
+  //--------------------------------------------------------------------------------
   preLogin() {
-    if (this.credentials.accountName == '' || this.credentials.password == '') {
+    if (this.credentials.accountName == '') {
+      alert('Account name is empty!');
       return;
     }
 
-    this.loginService.getInstances(this.credentials)
+    this.loginService.getInstances(this.credentials.accountName)
       .subscribe(
         instances => {
           this.instancesList = instances['Content'];
@@ -40,15 +43,23 @@ export class LoginComponent implements OnInit {
     )
   }
 
+  //--------------------------------------------------------------------------------
   submitLogin() {
 
     if (this.credentials.accountName == '' || this.credentials.password == '') {
+      alert('Account name / password empty!');
+      return;
+    }
+
+    if (this.selectedInstanceKey == '') {
+      alert('Select an instance!');
       return;
     }
 
     this.loginService.login(this.credentials, this.returnUrl, this.selectedInstanceKey);
   }
 
+  //--------------------------------------------------------------------------------
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
