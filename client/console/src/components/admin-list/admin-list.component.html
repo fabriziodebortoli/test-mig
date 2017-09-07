@@ -1,6 +1,9 @@
-<h3 *ngIf="items == undefined || items.length == 0">You didn't insert any data yet.</h3>
+<h3 *ngIf="(items == undefined || items.length == 0) && !readingData">You didn't insert any data yet.</h3>
+<div *ngIf="readingData">
+  <img src="assets/ajax-loader.gif"  />
+</div>
 <md-list>
-  <md-list-item *ngFor="let item of items" (click)="goEditMode(item)" style="width:100%">
+  <md-list-item *ngFor="let item of items" (click)="goEditMode(item)" style="width:100%;cursor:pointer;">
     <div *ngFor="let columnName of columnNames; let last = last;" style="margin-right:20px;">
       {{ item[columnName] }}
     </div>

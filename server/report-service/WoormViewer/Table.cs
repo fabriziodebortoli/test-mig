@@ -19,30 +19,6 @@ namespace Microarea.RSWeb.Objects
 {
     internal enum ElementColor { LABEL, VALUE, BACKGROUND, BORDER, MAX };
 
-    public enum EnumChartType
-    //ATTENZIONE: tenere allineato in: 
-    //c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\TABLE.H - EnumChartType
-    //c:\development\standard\web\server\report-service\woormviewer\table.cs - EnumChartType
-    //c:\development\Standard\web\client\reporting-studio\src\models\chart-type.model.ts - ChartType
-    //------
-    {
-        None,
-        Bar, BarStacked, BarStacked100,
-        Column, ColumnStacked, ColumnStacked100,
-        Area, AreaStacked, AreaStacked100,
-        Line, 
-        Pie, Donut, DonutNested,
-        Funnel,
-        RangeBar, RangeColumn,
-        Bubble, Scatter,
-        Wrong,
-        //mancano nei BCGP
-        VerticalLine, VerticalArea,
-        //mancano nei Kendo UI
-        Pyramid
-        //versioni 3D di bar,column,area
-    }
-
     /// <summary>
     /// Summary description for TableCell.
     /// </summary>
@@ -1045,6 +1021,22 @@ namespace Microarea.RSWeb.Objects
            return s;
         }
 
+        //------------------------------------------------------------------------------
+        public DataArray GetColumnData()
+        {
+            DataArray ar = new DataArray();
+
+            for (int row = 0; row < this.Cells.Count; row++)
+            {
+                Cell cell = Cells[row];
+                object v = cell.Value.RDEData;
+                if (v == null) continue;
+
+                ar.Add(v);
+            }
+            return ar;
+        }
+
         //-------------------------------------------------------------------------------
         public int TemplateWidth
         {
@@ -1278,10 +1270,10 @@ namespace Microarea.RSWeb.Objects
 			if (lex.LookAhead(Token.TEXTSTRING) && !lex.ParseString(out title))
 				return false;
 
-			if (lex.Parsed(Token.TITLE))
+			if (lex.Matched(Token.TITLE))
 			{
 				lex.ParseTag(Token.BEGIN);
-				if (lex.Parsed(Token.TEXT))
+				if (lex.Matched(Token.TEXT))
 				{
 					lex.ParseTag(Token.ASSIGN); //qui non testo valore ritorno per evitare di andare avanti?
 
@@ -1296,7 +1288,7 @@ namespace Microarea.RSWeb.Objects
 
 					lex.ParseTag(Token.SEP);
 				}
-				if (lex.Parsed(Token.TEXTCOLOR))
+				if (lex.Matched(Token.TEXTCOLOR))
 				{
 					lex.ParseTag(Token.ASSIGN); //qui non testo valore ritorno per evitare di andare avanti?
 
@@ -1311,7 +1303,7 @@ namespace Microarea.RSWeb.Objects
 
 					lex.ParseTag(Token.SEP);
 				}
-				if (lex.Parsed(Token.BKGCOLOR))
+				if (lex.Matched(Token.BKGCOLOR))
 				{
 					lex.ParseTag(Token.ASSIGN); //qui non testo valore ritorno per evitare di andare avanti?
 
@@ -1326,7 +1318,7 @@ namespace Microarea.RSWeb.Objects
 
 					lex.ParseTag(Token.SEP);
 				}
-				if (lex.Parsed(Token.TOOLTIP))
+				if (lex.Matched(Token.TOOLTIP))
 				{
 					lex.ParseTag(Token.ASSIGN); //qui non testo valore ritorno per evitare di andare avanti?
 
@@ -1347,17 +1339,17 @@ namespace Microarea.RSWeb.Objects
 			if (!lex.ParseAlias(out InternalID))
 				return false;
 
-			if (lex.Parsed(Token.STYLE))
+			if (lex.Matched(Token.STYLE))
 			{
 				if (!lex.ParseString(out ClassName))
 					return false;
 			}
-			if (lex.Parsed(Token.TEMPLATE))
+			if (lex.Matched(Token.TEMPLATE))
 			{
 				IsTemplate = true;
 			}
 
-			if (lex.Parsed(Token.TEXTCOLOR))
+			if (lex.Matched(Token.TEXTCOLOR))
 			{
 				lex.ParseTag(Token.ASSIGN);
 
@@ -1371,7 +1363,7 @@ namespace Microarea.RSWeb.Objects
 				}
 			}
 
-			if (lex.Parsed(Token.BKGCOLOR))
+			if (lex.Matched(Token.BKGCOLOR))
 			{
 				lex.ParseTag(Token.ASSIGN);
 
@@ -1385,7 +1377,7 @@ namespace Microarea.RSWeb.Objects
 				}
 			}
 
-			if (lex.Parsed(Token.FONTSTYLE))
+			if (lex.Matched(Token.FONTSTYLE))
 			{
 				lex.ParseTag(Token.ASSIGN);
 
@@ -1399,7 +1391,7 @@ namespace Microarea.RSWeb.Objects
 				}
 			}
 
-			if (lex.Parsed(Token.BORDERS))
+			if (lex.Matched(Token.BORDERS))
 			{
 				lex.ParseTag(Token.ASSIGN);
 
@@ -1413,7 +1405,7 @@ namespace Microarea.RSWeb.Objects
 				}
 			}
 
-			if (lex.Parsed(Token.TOOLTIP))
+			if (lex.Matched(Token.TOOLTIP))
 			{
 				lex.ParseTag(Token.ASSIGN);
 
@@ -1430,7 +1422,7 @@ namespace Microarea.RSWeb.Objects
 			if (!lex.ParseWidth(out width))
 				return false;
             Width = width;  //TODO Allineare con WoormDocMng
-            if (lex.Parsed(Token.COMMA))
+            if (lex.Matched(Token.COMMA))
             {
                 WidthExpr = new Expression(Table.Document.ReportSession, Table.Document.SymbolTable);
                 WidthExpr.ForceSkipTypeChecking = Table.Document.ForLocalizer;
@@ -1455,9 +1447,9 @@ namespace Microarea.RSWeb.Objects
              }
 
             FormatStyleName = DefaultFormat.Testo; ;
-			if (lex.Parsed(Token.FORMATSTYLE))
+			if (lex.Matched(Token.FORMATSTYLE))
 			{
-				if (lex.Parsed(Token.ASSIGN))
+				if (lex.Matched(Token.ASSIGN))
 				{
                     FormatStyleExpr = new WoormViewerExpression(Table.Document);
 					FormatStyleExpr.ForceSkipTypeChecking = Table.Document.ForLocalizer;
@@ -1518,9 +1510,9 @@ namespace Microarea.RSWeb.Objects
 				lex.SkipToken();
 				ShowTotal = true;
 
-				if (lex.Parsed(Token.BEGIN))
+				if (lex.Matched(Token.BEGIN))
 				{
-					if (lex.Parsed(Token.TEXTCOLOR))
+					if (lex.Matched(Token.TEXTCOLOR))
 					{
 						lex.ParseTag(Token.ASSIGN); //qui non testo valore ritorno per evitare di andare avanti?
 
@@ -1535,7 +1527,7 @@ namespace Microarea.RSWeb.Objects
 
 						lex.ParseTag(Token.SEP);
 					}
-					if (lex.Parsed(Token.BKGCOLOR))
+					if (lex.Matched(Token.BKGCOLOR))
 					{
 						lex.ParseTag(Token.ASSIGN); //qui non testo valore ritorno per evitare di andare avanti?
 
@@ -1557,9 +1549,9 @@ namespace Microarea.RSWeb.Objects
 			if (lex.LookAhead(Token.SUBTOTAL))
 			{
 				lex.SkipToken();
-				if (lex.Parsed(Token.BEGIN))
+				if (lex.Matched(Token.BEGIN))
 				{
-					if (lex.Parsed(Token.TEXTCOLOR))
+					if (lex.Matched(Token.TEXTCOLOR))
 					{
 						lex.ParseTag(Token.ASSIGN); //qui non testo valore ritorno per evitare di andare avanti?
 
@@ -1574,7 +1566,7 @@ namespace Microarea.RSWeb.Objects
 
 						lex.ParseTag(Token.SEP);
 					}
-					if (lex.Parsed(Token.BKGCOLOR))
+					if (lex.Matched(Token.BKGCOLOR))
 					{
 						lex.ParseTag(Token.ASSIGN); //qui non testo valore ritorno per evitare di andare avanti?
 
@@ -1594,15 +1586,15 @@ namespace Microarea.RSWeb.Objects
 			}
 
 			// visualizza il grafico come immagine e non come dato stringa
-			if (lex.Parsed(Token.BITMAP))
+			if (lex.Matched(Token.BITMAP))
 			{
 				ShowAsBitmap = true;
 
-                if (lex.Parsed(Token.PROPORTIONAL))
+                if (lex.Matched(Token.PROPORTIONAL))
 				{
 					ShowProportional = true;
 				}
-                else if (lex.Parsed(Token.NATIVE))
+                else if (lex.Matched(Token.NATIVE))
                     ShowNativeImageSize = true;
             }
 
@@ -1631,7 +1623,7 @@ namespace Microarea.RSWeb.Objects
 
 				// nel caso la width salvata sia sballata o non settata setto il valore di default
 				if (SavedWidth <= 0) SavedWidth = HIDDEN_DEFAULT_WIDTH;
-				if (lex.Parsed(Token.WHEN))
+				if (lex.Matched(Token.WHEN))
 				{
 					HideExpr = new Expression(Table.Document.ReportSession, Table.Document.SymbolTable);
 					HideExpr.ForceSkipTypeChecking = Table.Document.ForLocalizer;
@@ -1670,32 +1662,32 @@ namespace Microarea.RSWeb.Objects
 			}
 
 			//Parsing Column Printer Attributes
-			if (lex.Parsed(Token.COLUMN_FIXED))
+			if (lex.Matched(Token.COLUMN_FIXED))
 			{
 				IsFixed = true;
 			}
 
-			if (lex.Parsed(Token.COLUMN_SPLITTER))
+			if (lex.Matched(Token.COLUMN_SPLITTER))
 			{
 				IsSplitter = true;
 			}
 
-			if (lex.Parsed(Token.COLUMN_ANCHOR_LEFT))
+			if (lex.Matched(Token.COLUMN_ANCHOR_LEFT))
 			{
 				IsAnchorLeft = true;
 			}
 
-			if (lex.Parsed(Token.COLUMN_ANCHOR_RIGHT))
+			if (lex.Matched(Token.COLUMN_ANCHOR_RIGHT))
 			{
 				IsAnchorRight = true;
 			}
 
-			if (lex.Parsed(Token.COLUMN_HIDE_WHEN_EMPTY))
+			if (lex.Matched(Token.COLUMN_HIDE_WHEN_EMPTY))
 			{
 				IsHideWhenEmpty = true;
 			}
 
-			if (lex.Parsed(Token.COLUMN_OPTIMIZE_WIDTH))
+			if (lex.Matched(Token.COLUMN_OPTIMIZE_WIDTH))
 			{
 				IsOptimizedWidth = true;
 			}
@@ -2862,15 +2854,14 @@ namespace Microarea.RSWeb.Objects
         {
             return ChartType == EnumChartType.Pie ||
                     ChartType == EnumChartType.Donut || 
-                    ChartType == EnumChartType.Funnel || 
-                    ChartType == EnumChartType.Line ||
-                    ChartType == EnumChartType.Bubble ||
-                    ChartType == EnumChartType.Scatter;
+                    ChartType == EnumChartType.Funnel  
+                    ;
         }
         private bool IsChartMergedSerie()
         {
             return ChartType == EnumChartType.Pie ||
                     ChartType == EnumChartType.Donut ||
+                    ChartType == EnumChartType.DonutNested ||
                     ChartType == EnumChartType.RangeColumn ||
                     ChartType == EnumChartType.RangeBar ||
                     ChartType == EnumChartType.Bubble ||
@@ -3257,7 +3248,7 @@ namespace Microarea.RSWeb.Objects
 				))
 				return false;
 
-            if (lex.Parsed(Token.LAYER))
+            if (lex.Matched(Token.LAYER))
             {
                 if (!lex.ParseInt(out this.Layer))
                     return false;
@@ -3357,7 +3348,7 @@ namespace Microarea.RSWeb.Objects
 						lex.SkipToken();
 						Easyview = true;
 
-						if (lex.Parsed(Token.DYNAMIC))
+						if (lex.Matched(Token.DYNAMIC))
 							EasyviewDynamic = true;
 
 						if (lex.LookAhead(Token.COLOR))

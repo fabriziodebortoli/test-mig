@@ -5,4 +5,8 @@
     <button style="margin-top:35px" routerLink='/account'>New Account</button>
 </div>
 <hr style="clear:both">
-<admin-list [items]=accounts [columnNames]="['AccountName','FullName']" (onSelectedItem)="openAccount($event)"></admin-list>
+<admin-list 
+    [items]=accounts 
+    [columnNames]="['AccountName','FullName']" 
+    (onSelectedItem)="openAccount($event)" 
+    [readingData]=readingData></admin-list>

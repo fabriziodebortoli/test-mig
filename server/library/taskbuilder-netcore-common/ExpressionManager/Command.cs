@@ -273,11 +273,11 @@ namespace Microarea.Common.ExpressionManager
 		{
 			Command cmd;
 
-			if (parser.Parsed(Token.BEGIN))
+			if (parser.Matched(Token.BEGIN))
 			{
 				// also accepts empty "begin..end" block sections
 				//
-				while (!parser.Parsed(Token.END))
+				while (!parser.Matched(Token.END))
 				{
 					cmd = ParseCommand(parser);
 					if (cmd == null)
@@ -430,7 +430,7 @@ namespace Microarea.Common.ExpressionManager
 
 			if (field.DataType == "Array" || (parser.LookAhead(Token.SQUAREOPEN) && field.DataType == "String"))
 			{
-				if (parser.Parsed(Token.SQUAREOPEN))
+				if (parser.Matched(Token.SQUAREOPEN))
 				{
 					indexerExpr = new TBScriptExpression(Context.ScriptingSession, SymTable);
 					indexerExpr.StopTokens = new StopTokens(new Token[] { Token.SQUARECLOSE });
@@ -506,17 +506,17 @@ namespace Microarea.Common.ExpressionManager
 			if (!thenBlock.Parse(parser))
 				return false;
 
-			if (parser.Parsed(Token.ELSE))
+			if (parser.Matched(Token.ELSE))
 			{
 				if (!elseBlock.Parse(parser))
 					return false;
 
-				parser.Parsed(Token.SEP);
+				parser.Matched(Token.SEP);
 
 				return /*m_ElseBlock.m_bHasBeginEnd ? parser.ParseSep() :*/ true;
 			}
 
-			parser.Parsed(Token.SEP);
+			parser.Matched(Token.SEP);
 
 			// ELSE not found
 			return /*m_ThenBlock.m_bHasBeginEnd ? parser.ParseSep() :*/ true;
@@ -578,7 +578,7 @@ namespace Microarea.Common.ExpressionManager
 			if (!block.Parse(parser))
 				return false;
 
-			parser.Parsed(Token.SEP);
+			parser.Matched(Token.SEP);
 
 			return /*m_Block.m_bHasBeginEnd ? parser.ParseSep() :*/ true;
 		}
@@ -602,7 +602,7 @@ namespace Microarea.Common.ExpressionManager
 		//--------------------------------------------------------------------------------
 		override public bool Parse(Parser parser)
 		{
-			parser.Parsed(Token.SEP);
+			parser.Matched(Token.SEP);
 
 			return /*parser.ParseSep()*/true;
 		}
@@ -626,7 +626,7 @@ namespace Microarea.Common.ExpressionManager
 		//--------------------------------------------------------------------------------
 		override public bool Parse(Parser parser)
 		{
-			parser.Parsed(Token.SEP);
+			parser.Matched(Token.SEP);
 
 			return /*parser.ParseSep()*/true;
 		}
@@ -663,7 +663,7 @@ namespace Microarea.Common.ExpressionManager
 				return false;
             //TODO RSWEB
             //Message "ciao" , "icon"
-            if (parser.Parsed(Token.COMMA))
+            if (parser.Matched(Token.COMMA))
                 parser.SkipToken();
 
 			return parser.ParseSep();
@@ -730,7 +730,7 @@ namespace Microarea.Common.ExpressionManager
 			field = new Variable(fieldName);
 			field.Data = ObjectHelper.CreateObject(aType, aBaseType, tag, 0);
 
-			if (parser.Parsed(Token.ASSIGN))
+			if (parser.Matched(Token.ASSIGN))
 			{
 				initExpr = new TBScriptExpression(Context.ScriptingSession, SymTable);
 
@@ -781,7 +781,7 @@ namespace Microarea.Common.ExpressionManager
 					return false;
 				return parser.ParseSep();
 			}
-			parser.Parsed(Token.SEP);
+			parser.Matched(Token.SEP);
 			return true;
 		}
 	}

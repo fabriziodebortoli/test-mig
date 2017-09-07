@@ -12,6 +12,7 @@ import { AuthorizationProperties } from "app/authentication/auth-info";
 export class AccountsHomeComponent implements OnInit {
 
   accounts: Account[];
+  readingData:boolean;
 
   constructor(private modelService: ModelService, private router: Router) {}
 
@@ -25,14 +26,17 @@ export class AccountsHomeComponent implements OnInit {
     }
 
     let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
+    this.readingData = true;
 
     this.modelService.getAccounts({ MatchingFields: { parentAccount: authorizationProperties.accountName } })
       .subscribe(
         accounts => {
           this.accounts = accounts['Content'];
+          this.readingData = false;
         },
         err => {
           alert(err);
+          this.readingData = false;
         }
       )
   }

@@ -22,7 +22,7 @@ namespace Microarea.Common.CoreTypes
 		public static string	ToSoapDateTime	(DateTime d)	{ return XmlConvert.ToString(d, @"yyyy-MM-ddTHH\:mm\:ss"); }
         public static string    ToSoapDate      (DateTime d)    { return XmlConvert.ToString(d, @"yyyy-MM-dd"); }
 		public static string	ToSoapDataEnum	(DataEnum d)	{ return d.XmlConvertToString();}
-		public static string	ToSoapDataArray	(DataArray d)	{ return d.XmlConvertToString();}
+        public static string    ToSoapDataArray (DataArray d)   { return d.ToString(); }//XmlConvertToString();}
 		public static string	ToSoapTimeSpan	(TimeSpan d)	{ return XmlConvert.ToString(d); }
 
 		//-----------------------------------------------------------------------------
@@ -37,8 +37,9 @@ namespace Microarea.Common.CoreTypes
 		public static Guid		FromSoapGuid	(string s)	{ return XmlConvert.ToGuid(s); }
 		public static DateTime FromSoapDateTime(string s) { return XmlConvert.ToDateTime(s, XmlDateTimeSerializationMode.Unspecified); }
 		public static DataEnum	FromSoapDataEnum(string s)	{ return DataEnum.XmlConvertToDataEnum(s); }
-		public static DataArray	FromSoapDataArray(string s)	{ return DataArray.XmlConvertToDataArray(s); }
-		public static TimeSpan	FromSoapTimeSpan(string s)	{ return XmlConvert.ToTimeSpan(s); }
+        //public static DataArray FromSoapDataArray(string s) { return DataArray.XmlConvertToDataArray(s); }
+		public static DataArray	FromSoapDataArray(string s, string baseType)	{ return DataArray.ConvertFromString(s, baseType); }
+        public static TimeSpan	FromSoapTimeSpan(string s)	{ return XmlConvert.ToTimeSpan(s); }
 
 		//-----------------------------------------------------------------------------
 		public static string To(object data)
@@ -85,9 +86,9 @@ namespace Microarea.Common.CoreTypes
 					case "DataEnum"	: return SoapTypes.FromSoapDataEnum(data);
 					case "Boolean"	: return SoapTypes.FromSoapBoolean(data);
 					case "Guid"		: return SoapTypes.FromSoapGuid(data);
-					case "DataArray": 
-					case "Array"	: 
-									return SoapTypes.FromSoapDataArray(data);
+					//case "DataArray": 
+					//case "Array"	: 
+					//				return SoapTypes.FromSoapDataArray(data);
 					case "Single"	: return SoapTypes.FromSoapFloat(data);
 					case "Byte"		: return SoapTypes.FromSoapByte(data);
 				}

@@ -13,6 +13,7 @@ import { AuthorizationProperties } from 'app/authentication/auth-info';
 export class SubscriptionHomeComponent implements OnInit {
 
   subscriptions: AppSubscription[];
+  readingData:boolean;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router) {
@@ -31,13 +32,17 @@ export class SubscriptionHomeComponent implements OnInit {
 
     // ask to GWAM the list of subscriptions
 
+    this.readingData = true;
+
     this.modelService.getSubscriptions()
       .subscribe(
       subscriptions => {
         this.subscriptions = subscriptions['Content'];
+        this.readingData = false;
       },
       err => {
         alert(err);
+        this.readingData = false;
       }
       )
   }

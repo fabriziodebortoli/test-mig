@@ -1,4 +1,6 @@
-﻿namespace Microarea.AdminServer.Model.Interfaces
+﻿using System;
+
+namespace Microarea.AdminServer.Model.Interfaces
 {
 	//================================================================================
 	public interface IInstance 
@@ -9,5 +11,6 @@
         string Origin { get; set; }
         string Tags { get; set; }
         bool UnderMaintenance { get; set; }
+        DateTime PendingDate { get; set; }
     }
 }

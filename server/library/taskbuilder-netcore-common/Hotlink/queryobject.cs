@@ -191,7 +191,7 @@ namespace Microarea.Common.Hotlink
 			queryTemplateString	= string.Empty;
 			sqlString			= string.Empty;
 
-			if (parser.Parsed(Token.QUERY)) 
+			if (parser.Matched(Token.QUERY)) 
 			{
 				if (!parser.ParseID(out queryNameString)) 
 					return false;
@@ -331,7 +331,7 @@ namespace Microarea.Common.Hotlink
                        string aType = "String";
                        ushort tag = 0;
                        string woormType = "";
-                       if (parser.Parsed(Token.TYPE))
+                       if (parser.Matched(Token.TYPE))
                         {
                             string baseType = "";
 
@@ -354,7 +354,7 @@ namespace Microarea.Common.Hotlink
 					if (field == null)
 						return false;
 
-                   if (parser.Parsed(Token.TITLE))
+                   if (parser.Matched(Token.TITLE))
                    {
                         if (!parser.ParseString(out field.Title))
                             return false;
@@ -408,7 +408,7 @@ namespace Microarea.Common.Hotlink
 
 					TagLink tag = tagLinkArrayList[tagLinkArrayList.Count - 1] as TagLink;
 
-                    if (parser.Parsed(Token.AS))
+                    if (parser.Matched(Token.AS))
                         parser.ParseID(out tag.sqlStringName);
                     else
                         tag.sqlStringName = string.Format("@PAR_{0}_{1}", ++bindNumber, name);
@@ -550,7 +550,7 @@ namespace Microarea.Common.Hotlink
 			if (!whenExpression.Compile(parser, CheckResultType.Match, "Boolean"))
 				return false;
 
-			if (parser.Parsed(Token.INCLUDE))
+			if (parser.Matched(Token.INCLUDE))
 			{
 				if (parser.LookAhead() != Token.ID) 
 					return false;
@@ -591,7 +591,7 @@ namespace Microarea.Common.Hotlink
                 return false;
 
             QueryObject qryElse = null;
-            if (parser.Parsed(Token.ELSE))
+            if (parser.Matched(Token.ELSE))
             {
                 qryElse = ParseSubQuery(parser);
                 if (qryElse == null)

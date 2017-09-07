@@ -1,14 +1,64 @@
-<kendo-chart>
-  <kendo-chart-title [text]="chart.title"></kendo-chart-title>
-  <kendo-chart-legend *ngIf="chart.legend" [position]="chart.legend.position" [orientation]="chart.legend.orientation"></kendo-chart-legend>
-  <kendo-chart-category-axis>
-    <kendo-chart-category-axis-item [categories]="chart.categories" [name]="chart.category_title">
-      <kendo-chart-category-axis-item-title [title]="chart.category_title"></kendo-chart-category-axis-item-title>
-    </kendo-chart-category-axis-item>
-  </kendo-chart-category-axis>
-  <kendo-chart-series>
-    <kendo-chart-series-item *ngFor="let item of chart.series" [type]="getChartType()" [stack]="getStack()" [name]="item.name"
-      [data]="item.data">
-    </kendo-chart-series-item>
-  </kendo-chart-series>
-</kendo-chart>
+<!--<div [ngSwitch]="chart.type">
+  <rs-chart-bar *ngSwitchCase="1">
+  </rs-chart-bar>
+  <rs-chart-bar *ngSwitchCase="2">
+  </rs-chart-bar>
+  <rs-chart-bar *ngSwitchCase="3">
+  </rs-chart-bar>
+</div> -->
+<div [ngStyle]="applyStyle()" [ngSwitch]="chart.type">
+
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="1">
+  </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="2">
+  </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="3">
+  </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="4">
+  </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="5">
+  </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="6">
+  </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="7">
+  </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="8">
+  </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="9">
+  </rs-chart-bar>
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="10">
+  </rs-chart-bar>
+
+  <rs-chart-pie [chart]="chart" *ngSwitchCase="11">
+  </rs-chart-pie>
+  <rs-chart-pie [chart]="chart" *ngSwitchCase="12">
+  </rs-chart-pie>
+  <rs-chart-pie [chart]="chart" *ngSwitchCase="13">
+  </rs-chart-pie>
+  <rs-chart-pie [chart]="chart" *ngSwitchCase="14">
+  </rs-chart-pie>
+
+  <rs-chart-range-bar [chart]="chart" *ngSwitchCase="15">
+  </rs-chart-range-bar>
+  <rs-chart-range-bar [chart]="chart" *ngSwitchCase="16">
+  </rs-chart-range-bar>
+
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="17">
+  </rs-chart-bubble>
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="18">
+  </rs-chart-bubble>
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="19">
+  </rs-chart-bubble>
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="20">
+  </rs-chart-bubble>
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="21">
+  </rs-chart-bubble>
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="22">
+  </rs-chart-bubble>
+
+  <rs-chart-radar [chart]="chart" *ngSwitchCase="23">
+  </rs-chart-radar>
+  <rs-chart-radar [chart]="chart" *ngSwitchCase="24">
+  </rs-chart-radar>
+  
+</div>

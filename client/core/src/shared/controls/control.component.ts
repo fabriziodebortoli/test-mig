@@ -27,7 +27,7 @@ export class ControlComponent extends TbComponent implements OnDestroy {
 
     subscriptions: Subscription[] = [];
 
-    constructor(private layoutService: LayoutService, tbComponentService: TbComponentService) {
+    constructor(protected layoutService: LayoutService, protected tbComponentService: TbComponentService) {
         super(tbComponentService);
         this.subscriptions.push(this.layoutService.getWidthFactor().subscribe(wf => { this.widthFactor = wf; }));
         this.subscriptions.push(this.layoutService.getHeightFactor().subscribe(hf => { this.heightFactor = hf }));

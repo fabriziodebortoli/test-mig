@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers } from '@angular/http';
+import {Response, Http,  RequestOptions,  Headers} from '@angular/http';
 import { Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 import { environment } from './../../environments/environment';
@@ -13,14 +13,16 @@ import { UrlGuard } from "app/authentication/url-guard";
 //================================================================================
 export class LoginService {
 
-  private modelBackEndUrl: string;
+  private tokenAPIUrl: string;
+  private instancesListAPIUrl: string;
   private accountName: string;
   private loginOperationCompleted = new Subject<string>();
 
   //--------------------------------------------------------------------------------
   constructor(private http: Http,  private router: Router) { 
 
-    this.modelBackEndUrl = environment.adminAPIUrl + "tokens";
+    this.tokenAPIUrl = environment.adminAPIUrl + "tokens" + "/"; // InstanceKey must be set from outside
+    this.instancesListAPIUrl = environment.adminAPIUrl + "listInstances" + "/";
   }
 
   //--------------------------------------------------------------------------------
@@ -31,16 +33,29 @@ export class LoginService {
   //--------------------------------------------------------------------------------
   getMessage(): Observable<any> {
     return this.loginOperationCompleted.asObservable();
-  }  
+  }
+
+  getInstances(body: object): Observable<OperationResult> {
+
+    let bodyString  = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(this.instancesListAPIUrl, bodyString, options)
+    .map((res : Response) => {
+      return res.json();
+    })
+    .catch((error: any) => Observable.throw(error.json().error || 'server error'));    
+  }
 
   //--------------------------------------------------------------------------------
-  login(body:Object, returnUrl: string) {
+  login(body:Object, returnUrl: string, instance: string) {
 
     let bodyString  = JSON.stringify(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     
-    this.http.post(this.modelBackEndUrl, bodyString, options)
+    this.http.post(this.tokenAPIUrl + instance, bodyString, options)
       .map(res => res.json())
       .subscribe(
         data =>

@@ -5,4 +5,4 @@
     <button style="margin-top:35px" routerLink='/subscription'>New Subscription</button>
 </div>
 <hr style="clear:both">
-<admin-list [items]=subscriptions [columnNames]="['SubscriptionKey','Description']" (onSelectedItem)="openSubscription($event)"></admin-list>
+<admin-list [items]=subscriptions [readingData]=readingData [columnNames]="['SubscriptionKey','Description']" (onSelectedItem)="openSubscription($event)"></admin-list>

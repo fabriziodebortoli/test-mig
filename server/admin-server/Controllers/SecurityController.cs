@@ -73,17 +73,15 @@ namespace Microarea.AdminServer.Controllers
                     Task<string> responseData = await VerifyAccountModificationGWAM(
 						new AccountModification(account.AccountName, instanceKey, account.Ticks), GetAuthorizationInfo(instanceKey));
 
-                    //in questo putno se la connessione col gwam fallisce potrebbe esssre che in versione onpremise sia comuqnue possibile continuare.
-                    //attualmente metto l'impostazione neisettings, poi valuteremo come reperire l'informaione in modo migliore.
-
+                    //in questo putno se la connessione col gwam fallisce potrebbe esssre che in versione onpremise sia comuqnue possibile continuare
                   
                     // GWAM call could not end correctly: so we check the object
                     if (responseData.Status == TaskStatus.Faulted)
                     {
-                        //if (false) //Instance.IsOnPremises())
-                        //    return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                      if(! IsOnPremisesInstance(instanceKey))
+                            return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                         //imposto il flag pending per capire quanto tempo passa fuori copertura
-                        if (!VerifyPendingFlag())
+                        if (!VerifyPendingFlag(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                     }
 
@@ -129,10 +127,10 @@ namespace Microarea.AdminServer.Controllers
 					// GWAM call could not end correctly: so we check the object
 					if (responseData.Status == TaskStatus.Faulted)
                     {
-                        //if (false) //Instance.IsOnPremises())
-                        //    return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                        if (!IsOnPremisesInstance(instanceKey))
+                            return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                         //imposto il flag pending per capire quanto tempo passa fuori copertura
-                        if (!VerifyPendingFlag())
+                        if (!VerifyPendingFlag(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                     }
 
@@ -195,18 +193,20 @@ namespace Microarea.AdminServer.Controllers
         }
 
         //-----------------------------------------------------------------------------	
-        private bool SetPendingFlag()
+        private void SetPendingFlag(string instanceKey)
         {
-            return true;
-          //salvataggio sul db del flag
+            // Imposto la nuova data massima di disconnessione, deve arrivare da gwam.
+            IInstance i = GetInstance(instanceKey);
+            i.PendingDate = DateTime.Now.AddMonths(1);//todo deve arrivare dal gwam
+            (i as Instance)?.Save(burgerData);
         }
 
         //-----------------------------------------------------------------------------	
-        private bool VerifyPendingFlag()
+        private bool VerifyPendingFlag(string instanceKey) 
         {
-            //if devo settare il flag
-            //verifica del flag se pending e se ancora valido
-            return SetPendingFlag();
+            // Verifico che la data attuale sia inferiore alla massima data prevista per la disconnessione.
+            DateTime dt = GetInstancePendingDate(instanceKey);
+            return DateTime.Now < dt;
         }
 
         // <summary>
@@ -245,10 +245,10 @@ namespace Microarea.AdminServer.Controllers
                     // GWAM call could not end correctly: so we check the object
                     if (responseData.Status == TaskStatus.Faulted)
                     {
-                        //if (false) //Instance.IsOnPremises())
-                        //    return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                        if (!IsOnPremisesInstance(instanceKey))
+                            return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                         //imposto il flag pending per capire quanto tempo passa fuori copertura
-                        if (!VerifyPendingFlag())
+                        if (!VerifyPendingFlag(instanceKey))
                             return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                     }
 
@@ -317,7 +317,39 @@ namespace Microarea.AdminServer.Controllers
             if (app == null) 
                 return string.Empty;
 
-            return ((RegisteredApp)app).SecurityValue; // "ju23ff-KOPP-0911-ila";
+            return app.SecurityValue; 
+        }
+
+        //-----------------------------------------------------------------------------	
+        private string GetInstanceOrigin(string instancekey)
+        {
+            IInstance instance = GetInstance(instancekey);
+            if (instance == null)
+                return string.Empty;
+
+            return instance.Origin; 
+        }
+
+        //-----------------------------------------------------------------------------	
+        private DateTime GetInstancePendingDate(string instancekey)
+        {
+            IInstance instance = GetInstance(instancekey);
+            if (instance == null)
+                return DateTime.MinValue;
+
+            return instance.PendingDate;
+        }
+
+        //-----------------------------------------------------------------------------	
+        private IInstance GetInstance(string instancekey)
+        {
+            try
+            {
+                return burgerData.GetObject<Instance, IInstance>(
+                    String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[] {
+                        new WhereCondition("InstanceKey", instancekey, QueryComparingOperators.IsEqual, false) });
+            }
+            catch { return null;}
         }
 
         /// <summary>
@@ -361,15 +393,69 @@ namespace Microarea.AdminServer.Controllers
                 // GWAM call could not end correctly: so we check the object
                 if (responseData.Status == TaskStatus.Faulted)
                 {
-                    //if (false) //Instance.IsOnPremises())
-                    //    return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
+                    if(! IsOnPremisesInstance(instanceKey))
+                        return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                     //imposto il flag pending per capire quanto tempo passa fuori copertura
-                    if (!VerifyPendingFlag())
+                    if (!VerifyPendingFlag(instanceKey))
                         return SetErrorResponse(bootstrapTokenContainer, (int)AppReturnCodes.GWAMCommunicationError, Strings.GWAMCommunicationError);
                 }
             }
             catch { }
             return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, LoginReturnCodes.Error.ToString());
+        }
+
+		/// <summary>
+		/// This API returns the list of all instances belonging to an account
+		/// Used primarily by the login process in order to pre-select the instance
+		/// where user want to connect
+		/// </summary>
+		/// <param name="accountName"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
+		[HttpPost("api/listInstances")]
+		//-----------------------------------------------------------------------------	
+		public ActionResult ApiListInstances([FromBody]Credentials credentials)
+		{
+			OperationResult opRes = new OperationResult();
+
+			if (String.IsNullOrEmpty(credentials.AccountName) || String.IsNullOrEmpty(credentials.Password)) {
+				opRes.Result = false;
+				opRes.Code = (int)AppReturnCodes.EmptyCredentials;
+				opRes.Message = Strings.EmptyCredentials;
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			IAccount account = burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
+				{
+					new WhereCondition("AccountName", credentials.AccountName, QueryComparingOperators.IsEqual, false),
+					new WhereCondition("Password", credentials.Password, QueryComparingOperators.IsEqual, false),
+					new WhereCondition("Disabled", false, QueryComparingOperators.IsEqual, false),
+					new WhereCondition("Locked", false, QueryComparingOperators.IsEqual, false)
+				});
+
+			if (account == null) {
+				opRes.Result = false;
+				opRes.Code = (int)AppReturnCodes.InvalidCredentials;
+				opRes.Message = Strings.InvalidCredentials;
+				_jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			IInstance[] instancesArray = this.GetInstances(credentials.AccountName);
+
+			opRes.Result = true;
+			opRes.Code = (int)AppReturnCodes.OK;
+			opRes.Message = Strings.OperationOK;
+			opRes.Content = instancesArray;
+			_jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		//----------------------------------------------------------------------
+		private bool IsOnPremisesInstance(string instanceKey)
+        {
+          return  String.Compare(GetInstanceOrigin(instanceKey), "ONPREMISES", StringComparison.InvariantCultureIgnoreCase) == 0;
         }
 
         //----------------------------------------------------------------------
@@ -450,26 +536,16 @@ namespace Microarea.AdminServer.Controllers
             return instancesList != null ? instancesList.ToArray() : new Instance[] { };
         }
 
-		//----------------------------------------------------------------------
-		private IServerURL[] GetUrlsForThisInstance(string instanceKey)
+        //----------------------------------------------------------------------
+        private IServerURL[] GetUrlsForThisInstance(string instanceKey)
         {
-            IInstance iInstance = null ;
-            try
-            {
-                burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
-                iInstance = burgerData.GetObject<Instance, IInstance>(String.Empty, ModelTables.Instances, SqlLogicOperators.AND, new WhereCondition[]
-         {
-                    new WhereCondition("InstanceKey", instanceKey, QueryComparingOperators.IsEqual, false)
-         });
-            }
-            catch { }
+            IInstance instance = GetInstance(instanceKey);
 
-            if (iInstance == null)
+            if (instance == null)
             {
                 return new IServerURL[] { };
             }
-
-                return LoadURLs(instanceKey);
+            return LoadURLs(instanceKey);
         }
 
         //----------------------------------------------------------------------

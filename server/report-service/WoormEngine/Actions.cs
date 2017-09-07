@@ -605,8 +605,16 @@ namespace Microarea.RSWeb.WoormEngine
 
                     break;
                 }
+                case Token.DISPLAY_CHART:
+                {
+                    DisplayChartAction actionObj = new DisplayChartAction(engine, GetSymTable());
+                    if (actionObj.Parse(lex))
+                        return actionObj;
 
-				default :
+                    break;
+                }
+
+                default:
 				{
                     DeclareAction actionObj = new DeclareAction(engine, GetSymTable(), this);
                     if (actionObj.Parse(lex))
@@ -624,12 +632,12 @@ namespace Microarea.RSWeb.WoormEngine
 		virtual public bool Parse(Parser lex)
 		{
 			ActionObj actionObj;
-			HasBeginEnd = lex.Parsed(Token.BEGIN);
+			HasBeginEnd = lex.Matched(Token.BEGIN);
 
 			// also accepts empty "begin..end" block sections
 			do
 			{
-				if (HasBeginEnd && lex.Parsed(Token.END))
+				if (HasBeginEnd && lex.Matched(Token.END))
 					break;
 
 				if (lex.Error || ((actionObj = ParseAction(lex)) == null))
@@ -725,7 +733,7 @@ namespace Microarea.RSWeb.WoormEngine
         //---------------------------------------------------------------------------
 		bool ParseBody (Parser lex)
 		{
-	        if (lex.Parsed(Token.ROUNDOPEN))
+	        if (lex.Matched(Token.ROUNDOPEN))
 	        {
 		        Fun = new FunctionPrototype (publicName, "Void", null);
                 Fun.Parameters = new ParametersList();
@@ -758,10 +766,10 @@ namespace Microarea.RSWeb.WoormEngine
 			        if (!lex.LookAhead(Token.ROUNDCLOSE))
 				        lex.ParseTag(Token.COMMA);
 		        }
-		        while (!lex.Parsed(Token.ROUNDCLOSE));
+		        while (!lex.Matched(Token.ROUNDCLOSE));
 	        }
 
-	        if (lex.Parsed(Token.AS))
+	        if (lex.Matched(Token.AS))
 	        {
                 string wType, wBaseType, type;
                 ushort enumTag;
@@ -922,10 +930,10 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		public bool ParseEventActions(Parser lex)
 		{
-			if (lex.Parsed(Token.BEFORE) && !BeforeActions.Parse(lex))
+			if (lex.Matched(Token.BEFORE) && !BeforeActions.Parse(lex))
 				return false;
 
-			if (!lex.Error && lex.Parsed(Token.AFTER) && !AfterActions.Parse(lex))
+			if (!lex.Error && lex.Matched(Token.AFTER) && !AfterActions.Parse(lex))
 				return false;
 	
 			return !lex.Error;
@@ -1159,7 +1167,7 @@ namespace Microarea.RSWeb.WoormEngine
 			{
 				if (field.IsArray || (lex.LookAhead(Token.SQUAREOPEN) && field.DataType == "String"))
 				{
-					if (lex.Parsed(Token.SQUAREOPEN))
+					if (lex.Matched(Token.SQUAREOPEN))
 					{
 						indexerExpr = new WoormEngineExpression(engine, Session, GetSymTable().Fields);
 						indexerExpr.StopTokens = new StopTokens(new Token[] { Token.SQUARECLOSE });
@@ -1303,7 +1311,7 @@ namespace Microarea.RSWeb.WoormEngine
 			if (!lex.ParseTag(Token.THEN))	return false;
 			if (!thenBlock.Parse(lex))	return false;
 			
-			if (lex.Parsed(Token.ELSE))
+			if (lex.Matched(Token.ELSE))
 			{
 				if (!elseBlock.Parse(lex))	return false;
 				
@@ -1535,7 +1543,7 @@ namespace Microarea.RSWeb.WoormEngine
 					//a mano dall'utente
 					hiddenFields.Add(aField); 
 			}
-			while (lex.Parsed(Token.COMMA));
+			while (lex.Matched(Token.COMMA));
 			return true;
 		}
 
@@ -1759,7 +1767,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		public bool Parse(Parser lex)
 		{
-            forced = lex.Parsed(Token.FORCE);
+            forced = lex.Matched(Token.FORCE);
 
 			if (lex.LookAhead(Token.TEXTSTRING) && !lex.ParseString(out layout))
 				return false;
@@ -2036,7 +2044,7 @@ namespace Microarea.RSWeb.WoormEngine
 	}
 
     /// <summary>
-    /// MessageBoxAction
+    /// Quit,Brak,Continue
     /// </summary>
     //============================================================================
     public class QuitBreakContinueAction : ActionObj
@@ -2086,17 +2094,17 @@ namespace Microarea.RSWeb.WoormEngine
         public bool Parse(Parser lex)
         {
 			
-            if (lex.Parsed(Token.QUIT))
+            if (lex.Matched(Token.QUIT))
             {
 				actionToken = Token.QUIT;
                 isQuit = true;
             }
-            else if (lex.Parsed(Token.BREAK))
+            else if (lex.Matched(Token.BREAK))
             {
 				actionToken = Token.BREAK;
 				isBreak = true;
             }
-            else if (lex.Parsed(Token.CONTINUE))
+            else if (lex.Matched(Token.CONTINUE))
             {
 				actionToken = Token.CONTINUE;
 				isContinue = true;
@@ -2304,7 +2312,7 @@ namespace Microarea.RSWeb.WoormEngine
 
             scopeBlock.AddLocalField(localField);
 
-            if (lex.Parsed(Token.ASSIGN))
+            if (lex.Matched(Token.ASSIGN))
             {
                 localField.AddMethods(lex, engine);
 
@@ -2334,11 +2342,76 @@ namespace Microarea.RSWeb.WoormEngine
 		}
     }
 
-	/// <summary>
-	/// ReportActions
-	/// </summary>
-	//============================================================================
-	public class ReportEventActions : EventActions
+    /// <summary>
+    /// MessageBoxAction
+    /// </summary>
+    //============================================================================
+    public class DisplayChartAction : ActionObj
+    {
+
+        private string ChartName;
+
+        //---------------------------------------------------------------------------
+        public DisplayChartAction(ReportEngine engine, RepSymTable symTable)
+            : base(engine, symTable)
+        {
+        }
+
+        // Gestione approssimata della MessageBox perchè siamo in ambiente disconnesso 
+        // e non deve essere il motore a fare la MessageBox ma il client. Non è possibile 
+        // però sospendere il motore in attesa di una risposta del client e quindi o 
+        // interrompo e avviso il client tramite rde oppure faccio dare solo un messaggio
+        // che non interrompe (sempre dal client).
+        //---------------------------------------------------------------------------
+        public override bool Exec()
+        {
+            ActionState = ActionStates.STATE_NORMAL;
+
+            //TODO CHART filtrare array bindati al chart name
+
+            foreach (Field f in this.GetSymTable().Fields)
+            {
+                if (f.WoormType != "Array" && f.WoormType != "DataArray")
+                    continue;
+
+                //DataArray ar = f.Data as DataArray;
+                f.WriteArray(this.engine);
+            }
+
+            return true;
+        }
+
+        //---------------------------------------------------------------------------
+        public bool Parse(Parser lex)
+        {
+            if (!lex.ParseTag(Token.DISPLAY_CHART))
+            {
+                return false;
+            }
+            if (!lex.ParseID(out ChartName))
+            {
+                return false;
+            }
+
+            return lex.ParseSep();
+        }
+
+        //---------------------------------------------------------------------------
+        public override bool Unparse(Unparser unparser)
+        {
+            unparser.WriteTag(Token.DISPLAY_CHART, false);
+            unparser.WriteID(ChartName);
+            unparser.WriteSep(true);
+
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// ReportActions
+    /// </summary>
+    //============================================================================
+    public class ReportEventActions : EventActions
 	{
 		private	Block	alwaysBlock;
 		private	Block	finalizeBlock;
@@ -2357,7 +2430,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		public bool AlwaysParse(Parser lex)
 		{
-			if (lex.Parsed(Token.ALWAYS))
+			if (lex.Matched(Token.ALWAYS))
 			{
 				if (!alwaysBlock.Parse(lex))
 					return false;
@@ -2374,7 +2447,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		public bool FinalizeParse(Parser lex)
 		{
-			if (lex.Parsed(Token.FINALIZE))
+			if (lex.Matched(Token.FINALIZE))
 			{
 				bool prev = engine.DisplayAction;
 				engine.DisplayAction = false;
@@ -2558,7 +2631,7 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			bool whenFound = false;
 
-			if (lex.Parsed(Token.BREAKING))
+			if (lex.Matched(Token.BREAKING))
 			{
 				string strBuffer;
 				do
@@ -2580,7 +2653,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 					breakList.Add(aField);
 				}
-				while (lex.Parsed(Token.COMMA));
+				while (lex.Matched(Token.COMMA));
 
 				if (lex.Error) return false;
 				switch (lex.LookAhead())
@@ -2596,7 +2669,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 				if (boolOperator != Token.NOTOKEN)
 				{
-					lex.Parsed(Token.WHEN); // optional WHEN keyword after AND/OR operator
+					lex.Matched(Token.WHEN); // optional WHEN keyword after AND/OR operator
 					whenFound = true;       // anyway an expression comes after
 				}
 			}
