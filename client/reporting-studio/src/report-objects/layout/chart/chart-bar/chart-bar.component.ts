@@ -27,11 +27,11 @@ export class ReportChartBarComponent implements AfterViewInit {
         switch (this.chart.type) {
             case ChartType.AreaStacked:
             case ChartType.BarStacked:
-            case ChartType.ColumnStacked:
+            case ChartType.ColumnStacked: // "{ group: '' } " oppure valore del group
                 return true;
             case ChartType.AreaStacked100:
             case ChartType.BarStacked100:
-            case ChartType.ColumnStacked100:
+            case ChartType.ColumnStacked100: // [stack]="{type:'100%', group: 'a' } || {type:'100%' }"
                 return {
                     type: '100%'
                 };

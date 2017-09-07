@@ -59,8 +59,9 @@ namespace Microarea.RSWeb.Objects
     //c:\development\Standard\web\client\reporting-studio\src\models\chart-type.model.ts - ChartType
     //------
     {
-        None,
-        LineSmooth = 1   /*spline*/
+        Normal,
+        Smooth,  /*spline*/
+        Step
     };
 
     class Series 
@@ -484,17 +485,24 @@ namespace Microarea.RSWeb.Objects
 
             if (series.Colored)
                 s += ',' + series.Color.ToJson("color");
-
+ 
             if (series.SeriesType != EnumChartType.None)
                 s += ',' + series.SeriesType.ToJson("type");
 
             if (series.Group != 0)
                 s += ',' + series.Group.ToJson("group");
 
-            if (series.Style != 0)
+            switch (series.Style)
             {
-                if ((series.Style & EnumChartStyle.LineSmooth) != 0)
-                    s += ',' + true.ToJson("lineSmooth");
+                case EnumChartStyle.Normal:
+                    s += ',' + "normal".ToJson("style");
+                    break;
+                case EnumChartStyle.Smooth:
+                    s += ',' + "smooth".ToJson("style");
+                    break;
+                case EnumChartStyle.Step:
+                    s += ',' + "step".ToJson("style");
+                    break;
             }
 
             return s + '}';
