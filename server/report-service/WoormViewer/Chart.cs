@@ -224,9 +224,9 @@ namespace Microarea.RSWeb.Objects
 
             pSeries.BindedField = pF;
 
-            if (lex.LookAhead(Token.BKGCOLOR))
+            if (lex.LookAhead(Token.COLOR))
             {
-                if (!lex.ParseColor(Token.BKGCOLOR, out pSeries.Color))
+                if (!lex.ParseColor(Token.COLOR, out pSeries.Color))
                     return false;
                 pSeries.Colored = true;
             }
