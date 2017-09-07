@@ -113,7 +113,7 @@ namespace Microarea.RSWeb.Objects
 
         List<Categories> Categories = new List<Categories>();
 
-        ChartLegend Legend;
+        ChartLegend Legend = new ChartLegend();
 
         //------------------------------------------------------------------------------
         public Chart(WoormDocument document)
@@ -181,7 +181,7 @@ namespace Microarea.RSWeb.Objects
 
             if (lex.Matched(Token.TYPE))
             {
-                int n;
+                int n = 0;
                 if (!lex.ParseInt(out n))
                     return false;
                 pSeries.SeriesType = (EnumChartType)n;
@@ -291,9 +291,9 @@ namespace Microarea.RSWeb.Objects
 
                 pCat.BindedField = pF;
 
-                if (lex.LookAhead(Token.BKGCOLOR))
+                if (lex.LookAhead(Token.COLOR))
                 {
-                    if (!lex.ParseColor(Token.BKGCOLOR, out pCat.Color))
+                    if (!lex.ParseColor(Token.COLOR, out pCat.Color))
                         return false;
                     pCat.Colored = true;
                 }
@@ -317,9 +317,9 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         bool ParseLegend(WoormParser lex)
         {
-            bool ok = lex.ParseBegin() &&
-                      lex.ParseTag(Token.HIDDEN) &&
-                      lex.ParseBool(out Legend.Hidden);
+            bool ok = lex.ParseBegin    () &&
+                      lex.ParseTag      (Token.HIDDEN) &&
+                      lex.ParseBool     (out Legend.Hidden);
             if (!ok)
                 return false;
 
@@ -333,18 +333,19 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         public override bool Parse(WoormParser lex)
         {
-            bool ok = lex.ParseTag(Token.CHART) &&
-                        lex.ParseBegin() &&
-                        lex.ParseString(out Title) &&
-                        lex.ParseAlias(out this.InternalID);
+            bool ok =   lex.ParseTag    (Token.CHART) &&
+                        lex.ParseBegin  () &&
+                        lex.ParseTag    (Token.TITLE) &&
+                        lex.ParseString (out Title) &&
+                        lex.ParseAlias  (out this.InternalID);
 
             if (lex.Matched(Token.COMMA))
                 ok = ok && lex.ParseID(out Name);
 
             int t = 0;
-             ok = ok && lex.ParseRect(out this.Rect) &&
-                        lex.ParseTag(Token.TYPE) &&
-                        lex.ParseInt(out t);
+             ok = ok && lex.ParseRect   (out this.Rect) &&
+                        lex.ParseTag    (Token.TYPE) &&
+                        lex.ParseInt    (out t);
             
             ChartType = (EnumChartType)t;
             
