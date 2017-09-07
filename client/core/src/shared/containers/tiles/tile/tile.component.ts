@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
-import { TbComponent } from '../../../components';
 
 @Component({
   selector: 'tb-tile',
