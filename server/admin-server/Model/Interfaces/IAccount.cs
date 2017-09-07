@@ -9,7 +9,8 @@ namespace Microarea.AdminServer.Model.Interfaces
     {
         string AccountName { get; set; }
 		string Password { get; set; }
-        string FullName { get; set; }
+		byte[] Salt { get; set; }
+		string FullName { get; set; }
         string Notes { get; set; }
         string Email { get; set; }
 		int LoginFailedCount { get; set; }
