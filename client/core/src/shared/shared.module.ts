@@ -66,7 +66,11 @@ import { TbIconComponent } from './components/tb-icon/tb-icon.component';
 
 // import { TbComponent } from './components/tb.component';
 export { TbComponent } from './components/tb.component';
+import { BOSlaveComponent } from './components/bo.component';
+import { BOCommonComponent } from './components/bo.component';
 import { BOComponent } from './components/bo.component';
+export { BOSlaveComponent } from './components/bo.component';
+export { BOCommonComponent } from './components/bo.component';
 export { BOComponent } from './components/bo.component';
 
 export { ProxyRouteComponent } from './components/proxy-route/proxy-route.component';
