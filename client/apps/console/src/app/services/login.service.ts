@@ -35,9 +35,12 @@ export class LoginService {
     return this.loginOperationCompleted.asObservable();
   }
 
-  getInstances(body: object): Observable<OperationResult> {
+  //--------------------------------------------------------------------------------
+  getInstances(accountName: string): Observable<OperationResult> {
 
-    let bodyString  = JSON.stringify(body);
+    // called by pre-login process to load instances for account
+
+    let bodyString  = JSON.stringify(accountName);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
