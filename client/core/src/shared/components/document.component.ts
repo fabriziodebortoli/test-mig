@@ -27,7 +27,7 @@ export class DocumentComponent extends TbComponent implements OnInit {
 
     ngOnInit() {
         this.viewModeType = this.document.getViewModeType();
-        this.title = this.document.getTitle();
+        this.title = this.document.getHeader();
         super.ngOnInit();
     }
 
