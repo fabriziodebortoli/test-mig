@@ -21,8 +21,8 @@ namespace Microarea.RSWeb.Objects
 {
     public enum EnumChartType
     //ATTENZIONE: tenere allineato in: 
-    //c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\TABLE.H - EnumChartType
-    //c:\development\standard\web\server\report-service\woormviewer\table.cs - EnumChartType
+    //c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\Chart.h - EnumChartType
+    //c:\development\standard\web\server\report-service\woormviewer\Chart.cs - EnumChartType
     //c:\development\Standard\web\client\reporting-studio\src\models\chart-type.model.ts - ChartType
     //------
     {
@@ -51,7 +51,6 @@ namespace Microarea.RSWeb.Objects
         //versioni 3D di bar,column,area  
     }
 
-    [Flags]
     enum EnumChartStyle
     //ATTENZIONE: tenere allineato in: 
     //c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\Chart.h - EnumChartType
@@ -74,7 +73,7 @@ namespace Microarea.RSWeb.Objects
         public Color Color = Color.White;
         public bool Colored = false;
         public int Group = 0;   //for grouping stacked column/bar
-        public EnumChartStyle Style = EnumChartStyle.None;
+        public EnumChartStyle Style = EnumChartStyle.Normal;
 
         /*CCategories : non riesco a fare la dichiarazione forward*/
         public Categories Parent = null;
@@ -342,6 +341,7 @@ namespace Microarea.RSWeb.Objects
             if (lex.Matched(Token.COMMA))
                 ok = ok && lex.ParseID(out Name);
 
+            int t = 0;
              ok = ok && lex.ParseRect(out this.Rect) &&
                         lex.ParseTag(Token.TYPE) &&
                         lex.ParseInt(out t);
