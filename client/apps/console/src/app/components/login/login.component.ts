@@ -3,6 +3,7 @@ import { Credentials } from './../../authentication/credentials';
 import { LoginService } from './../../services/login.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from "@angular/router";
+import { AccountInfo } from '../../authentication/account-info';
 
 @Component({
   selector: 'app-login',
@@ -38,10 +39,22 @@ export class LoginComponent implements OnInit {
     this.loginService.getInstances(this.credentials.accountName)
       .subscribe(
         instances => {
+          
           this.instancesList = instances['Content'];
 
-          if (this.instancesList.length > 0)
+          // if at least one instance has been loaded I change the welcome message string
+          // and I read from localstorage the AccountInfo (if exist)
+          if (this.instancesList.length > 0) {
+
             this.welcomeMessage = 'Welcome';
+
+            let localAccountInfo = localStorage.getItem(this.credentials.accountName);
+            
+            if (localAccountInfo != null && localAccountInfo != '') {
+              let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+              this.selectedInstanceKey = accountInfo.instanceKey;
+            }
+          }
         },
         err => {
           alert(err);
@@ -67,6 +80,7 @@ export class LoginComponent implements OnInit {
 
   //--------------------------------------------------------------------------------
   ngOnInit() {
+
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 }
