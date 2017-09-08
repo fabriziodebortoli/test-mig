@@ -205,7 +205,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           obj.value = value;
         }
         else if (element.chart !== undefined) {
-          id = element.chart.baseobj.id;
+          id = element.chart.baserect.baseobj.id;
           let obj = this.FindObj(id);
           element.chart.series.forEach(element => {
             obj.series.push(new series(element));
