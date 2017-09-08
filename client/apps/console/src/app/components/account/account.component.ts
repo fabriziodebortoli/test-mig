@@ -115,4 +115,8 @@ export class AccountComponent implements OnInit {
       }
     )
   }
+
+  doChangePassword() {
+    alert('Sorry, not implemented :(');
+  }
 }
