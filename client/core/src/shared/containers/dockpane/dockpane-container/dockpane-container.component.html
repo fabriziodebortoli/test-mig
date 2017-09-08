@@ -1,1 +1,28 @@
-<ng-content></ng-content>
+<!-- <div class="tile-manager2" [style.width.px]="65" [@slideInOut]="menuState">
+    <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)" tabPosition="right">
+        <kendo-tabstrip-tab *ngFor="let tile of getTiles();let i = index" [selected]="i == 0">
+            <ng-template kendoTabTitle>
+                <tb-icon [iconType]="tile?.iconType" [icon]="tile?.icon" class="groupIcon" (click)="toggleMenu(tile)"></tb-icon>
+                <span>{{tile?.title}}</span>
+            </ng-template>
+            <ng-template kendoTabContent>
+                <ng-content></ng-content>
+            </ng-template>
+        </kendo-tabstrip-tab>
+    </kendo-tabstrip>
+</div>
+ [@slideInOut]="menuState"-->
+
+<div class="tbContainerItems tile-manager2">
+    <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)" tabPosition="right">
+        <kendo-tabstrip-tab *ngFor="let tile of getTiles();let i = index" [selected]="i == 0">
+            <ng-template kendoTabTitle>
+                <tb-icon [iconType]="tile?.iconType" [icon]="tile?.icon" class="groupIcon" (click)="toggleMenu(tile)"></tb-icon>
+                <span>{{tile?.title}}</span>
+            </ng-template>
+            <ng-template kendoTabContent>
+                <ng-content></ng-content>
+            </ng-template>
+        </kendo-tabstrip-tab>
+    </kendo-tabstrip>
+</div>
