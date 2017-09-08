@@ -162,7 +162,7 @@ namespace Microarea.RSWeb.WoormViewer
 				{
 					ok = lex.ParseShort(out splitter);
 					arHPageSplitter.Add(splitter);
-				}while (lex.Parsed(Token.COMMA) && ok);
+				}while (lex.Matched(Token.COMMA) && ok);
 				ok = ok && lex.ParseClose();
 			}
 
@@ -174,7 +174,7 @@ namespace Microarea.RSWeb.WoormViewer
 				{
 					ok = lex.ParseShort(out splitter);
 					arVPageSplitter.Add(splitter);
-				}while (lex.Parsed(Token.COMMA) && ok);
+				}while (lex.Matched(Token.COMMA) && ok);
 
 				ok = ok && lex.ParseClose();
 			}*/

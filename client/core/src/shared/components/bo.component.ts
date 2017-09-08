@@ -1,4 +1,4 @@
-import { ComponentInfoService, ComponentInfo } from './../models/component-info.model';
+import { ComponentInfoService } from './../../core/services/component-info.service';
 import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterContentInit } from '@angular/core';
 
 import { ControlTypes } from "../models/control-types.enum";

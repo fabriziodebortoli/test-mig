@@ -308,6 +308,21 @@ namespace Microarea.Common.Generic
 		}
 
         /// <summary>
+        /// reverse the string
+        /// </summary>
+        /// <returns>the reversed string</returns>
+        //-------------------------------------------------------------------------
+        public static string Reverse(this string s)
+        {
+            if (s == null || s.Length == 0)
+                return s;
+
+            char[] c = s.ToCharArray();
+            Array.Reverse(c);
+            return new string(c);
+        }
+
+        /// <summary>
         /// LastIndexOf with Occurence
         /// </summary>
         //-------------------------------------------------------------------------
@@ -337,7 +352,6 @@ namespace Microarea.Common.Generic
             return s;
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -356,6 +370,7 @@ namespace Microarea.Common.Generic
             return prefix1 + s;
         }
 
+        //-------------------------------------------------------------------------
         public static string Replicate(this string rep, int count)
         {
 	        string s = string.Empty;
@@ -364,11 +379,11 @@ namespace Microarea.Common.Generic
             return s;
         }
 
-    /// <summary>
-    /// WildcardMatch
-    /// </summary>
-    //-------------------------------------------------------------------------
-    public static string WildcardToRegex(this string pattern)
+        /// <summary>
+        /// WildcardMatch
+        /// </summary>
+        //-------------------------------------------------------------------------
+        public static string WildcardToRegex(this string pattern)
         {             
             string result= Regex.Escape(pattern).
                 Replace(@"\*", ".+?").
@@ -400,21 +415,7 @@ namespace Microarea.Common.Generic
             return regex.IsMatch(s);
         }
 
-		/// <summary>
-		/// reverse the string
-		/// </summary>
-		/// <returns>the reversed string</returns>
-		//-------------------------------------------------------------------------
-		public static string Reverse(this string s)
-		{
-			if (s == null || s.Length == 0)
-				return s;
-
-			char[] c = s.ToCharArray();
-			Array.Reverse(c);
-			return new string(c);
-		}
-
+        //---------------------------------------------------------------------
         public static bool SqlLike(this string str, string pattern)
         {
             bool isMatch = true,
@@ -550,16 +551,74 @@ namespace Microarea.Common.Generic
         }
 
         //---------------------------------------------------------------------
+        //Damerau-Levenshtein alghoritm
+        public static int FuzzyDistance(this string src, string dest)
+        {
+            int[,] d = new int[src.Length + 1, dest.Length + 1];
+            int i, j, cost;
+            char[] str1 = src.ToCharArray();
+            char[] str2 = dest.ToCharArray();
+
+            for (i = 0; i <= str1.Length; i++)
+            {
+                d[i, 0] = i;
+            }
+            for (j = 0; j <= str2.Length; j++)
+            {
+                d[0, j] = j;
+            }
+            for (i = 1; i <= str1.Length; i++)
+            {
+                for (j = 1; j <= str2.Length; j++)
+                {
+
+                    if (str1[i - 1] == str2[j - 1])
+                        cost = 0;
+                    else
+                        cost = 1;
+
+                    d[i, j] =
+                        Math.Min(
+                            d[i - 1, j] + 1,              // Deletion
+                            Math.Min(
+                                d[i, j - 1] + 1,          // Insertion
+                                d[i - 1, j - 1] + cost)); // Substitution
+
+                    if ((i > 1) && (j > 1) && (str1[i - 1] ==
+                        str2[j - 2]) && (str1[i - 2] == str2[j - 1]))
+                    {
+                        d[i, j] = Math.Min(d[i, j], d[i - 2, j - 2] + cost);
+                    }
+                }
+            }
+
+            return d[str1.Length, str2.Length];
+        }
+
+        public static bool FuzzyCompare(this string src, string dest, double fuzzyness, bool noCase = false)
+        {
+            if (noCase)
+            {
+                return FuzzyCompare(src.ToLower(), dest.ToLower(), fuzzyness, false);
+            }
+
+            double distance = src.FuzzyDistance(dest);
+            int length = Math.Max(src.Length, dest.Length);
+            double score = 1.0 - distance / length;
+
+            // Match?
+            return (score > fuzzyness);
+        }
+
+        //---------------------------------------------------------------------
         // Converte un carattere hex nel valore
         private static char[] baseHex = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
-		//--------------------------------------------------------------------------------
 		static byte HexDigit(char i)
 		{
 			return (byte)((i >= '0' && i <= '9') ? (i - '0') : (i - 'A' + 10));
 		}
 
-		//--------------------------------------------------------------------------------
 		public static string EncodeBase16(this string s)
 		{
 			string encode = string.Empty;

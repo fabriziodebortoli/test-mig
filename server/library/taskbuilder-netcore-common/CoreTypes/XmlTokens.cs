@@ -210,7 +210,8 @@ namespace Microarea.Common.CoreTypes
 			public const string Interline	= "Interline";
 			public const string NewPage		= "NewPage";
 			public const string Message		= "Message";
-		}
+            public const string Array       = "Array";
+        }
 
 		public class Attribute
 		{

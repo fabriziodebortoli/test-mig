@@ -37,7 +37,7 @@ namespace Microarea.RSWeb.WoormViewer
 			defaultSecurityRoles= "";
 
 			// non è una sezione obbligatoria
-			if (!lex.Parsed(Token.PROPERTIES)) 
+			if (!lex.Matched(Token.PROPERTIES)) 
 				return true;
 			if (!lex.ParseBegin()) 
 				return false;
@@ -50,7 +50,7 @@ namespace Microarea.RSWeb.WoormViewer
 					{
 						if	(
 							!(
-							lex.Parsed(Token.TITLE) && lex.ParseString(out title) 
+							lex.Matched(Token.TITLE) && lex.ParseString(out title) 
 							))
 							return false;
 						break;
@@ -59,7 +59,7 @@ namespace Microarea.RSWeb.WoormViewer
 					{
 						if	(
 							!(
-							lex.Parsed(Token.SUBJECT) && lex.ParseCEdit(out subject) 
+							lex.Matched(Token.SUBJECT) && lex.ParseCEdit(out subject) 
 							))
 							return false;
 						break;
@@ -68,7 +68,7 @@ namespace Microarea.RSWeb.WoormViewer
 					{
 						if	(
 							!(
-							lex.Parsed(Token.AUTHOR) && lex.ParseString(out author) 
+							lex.Matched(Token.AUTHOR) && lex.ParseString(out author) 
 							))
 							return false;
 						break;
@@ -77,7 +77,7 @@ namespace Microarea.RSWeb.WoormViewer
 					{
 						if	(
 							!(
-							lex.Parsed(Token.REPORTPRODUCER) && lex.ParseString(out company) 
+							lex.Matched(Token.REPORTPRODUCER) && lex.ParseString(out company) 
 							))
 							return false;
 						break;
@@ -86,7 +86,7 @@ namespace Microarea.RSWeb.WoormViewer
 					{
 						if	(
 							!(
-							lex.Parsed(Token.COMMENTS) && lex.ParseCEdit(out comments) 
+							lex.Matched(Token.COMMENTS) && lex.ParseCEdit(out comments) 
 							))
 							return false;
 						break;
@@ -95,7 +95,7 @@ namespace Microarea.RSWeb.WoormViewer
 					{
 						if	(
 							!(
-							lex.Parsed(Token.DEFAULTSECURITYROLES) && lex.ParseString(out defaultSecurityRoles) 
+							lex.Matched(Token.DEFAULTSECURITYROLES) && lex.ParseString(out defaultSecurityRoles) 
 							))
 							return false;
 						break;

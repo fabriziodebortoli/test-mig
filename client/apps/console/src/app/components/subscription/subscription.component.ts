@@ -17,6 +17,7 @@ export class SubscriptionComponent implements OnInit {
   model: AppSubscription;
   editing: boolean = false;
   databases: SubscriptionDatabase[];
+  readingData: boolean;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
@@ -32,6 +33,7 @@ export class SubscriptionComponent implements OnInit {
       return;
     
     this.editing = true;
+    this.readingData = true;
 
     // first I load the subscription 
 
@@ -40,8 +42,10 @@ export class SubscriptionComponent implements OnInit {
       res => {
         let subscriptions: AppSubscription[] = res['Content'];
 
-        if (subscriptions.length == 0)
+        if (subscriptions.length == 0) {
+          this.readingData = true;
           return;
+        }
 
         this.model = subscriptions[0];
 
@@ -51,14 +55,17 @@ export class SubscriptionComponent implements OnInit {
           .subscribe(
           res => {
             this.databases = res['Content'];
+            this.readingData = false;
           },
           err => {
             alert(err);
+            this.readingData = false;
           }
           )
       },
       err => {
         alert(err);
+        this.readingData = false;
       }
       )
     }

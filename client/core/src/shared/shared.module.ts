@@ -37,18 +37,73 @@ const KENDO_UI_MODULES = [
 /**
  * Components
  */
-import {
-    ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
-    ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
-    TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
-    UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, Accordion, RadarComponent, CultureSelectorComponent
-} from './components';
-export * from './components';
+
+import { ProxyRouteComponent } from './components/proxy-route/proxy-route.component';
+import { DynamicCmpComponent } from './components/dynamic-cmp.component';
+import { DynamicCmpComponentTree } from './components/dynamic-cmp.component';
+import { ContextMenuComponent } from './components/context-menu/context-menu.component';
+import { DocumentComponent } from './components/document.component';
+import { PageNotFoundComponent } from './components/page-not-found.component';
+import { HeaderStripComponent } from './components/header-strip/header-strip.component';
+import { ToolbarTopComponent } from './components/toolbar/toolbar-top/toolbar-top.component';
+import { ToolbarTopButtonComponent } from './components/toolbar/toolbar-top/toolbar-top-button/toolbar-top-button.component';
+import { ToolbarSeparatorComponent } from './components/toolbar/toolbar-top/toolbar-separator.component';
+import { ToolbarBottomComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom.component';
+import { ToolbarBottomButtonComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button/toolbar-bottom-button.component';
+import { TopbarComponent } from './components/topbar/topbar.component';
+import { TopbarMenuComponent } from './components/topbar/topbar-menu/topbar-menu.component';
+import { TopbarMenuTestComponent } from './components/topbar/topbar-menu/topbar-menu-test/topbar-menu-test.component';
+import { TopbarMenuUserComponent } from './components/topbar/topbar-menu/topbar-menu-user/topbar-menu-user.component';
+import { TopbarMenuAppComponent } from './components/topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
+import { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
+import { UnsupportedComponent } from './components/unsupported.component';
+import { UnsupportedFactoryComponent } from './components/unsupported.component';
+import { OpenComponent } from './components/explorer/open/open.component';
+import { SaveComponent } from './components/explorer/save/save.component';
+import { RadarComponent } from './components/radar/radar.component';
+import { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
+import { TbIconComponent } from './components/tb-icon/tb-icon.component';
+
+// import { TbComponent } from './components/tb.component';
+export { TbComponent } from './components/tb.component';
+import { BOSlaveComponent } from './components/bo.component';
+import { BOCommonComponent } from './components/bo.component';
+import { BOComponent } from './components/bo.component';
+export { BOSlaveComponent } from './components/bo.component';
+export { BOCommonComponent } from './components/bo.component';
+export { BOComponent } from './components/bo.component';
+
+export { ProxyRouteComponent } from './components/proxy-route/proxy-route.component';
+export { DynamicCmpComponent } from './components/dynamic-cmp.component';
+export { DynamicCmpComponentTree } from './components/dynamic-cmp.component';
+export { ContextMenuComponent } from './components/context-menu/context-menu.component';
+export { DocumentComponent } from './components/document.component';
+export { PageNotFoundComponent } from './components/page-not-found.component';
+export { HeaderStripComponent } from './components/header-strip/header-strip.component';
+export { ToolbarTopComponent } from './components/toolbar/toolbar-top/toolbar-top.component';
+export { ToolbarTopButtonComponent } from './components/toolbar/toolbar-top/toolbar-top-button/toolbar-top-button.component';
+export { ToolbarSeparatorComponent } from './components/toolbar/toolbar-top/toolbar-separator.component';
+export { ToolbarBottomComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom.component';
+export { ToolbarBottomButtonComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button/toolbar-bottom-button.component';
+export { TopbarComponent } from './components/topbar/topbar.component';
+export { TopbarMenuComponent } from './components/topbar/topbar-menu/topbar-menu.component';
+export { TopbarMenuTestComponent } from './components/topbar/topbar-menu/topbar-menu-test/topbar-menu-test.component';
+export { TopbarMenuUserComponent } from './components/topbar/topbar-menu/topbar-menu-user/topbar-menu-user.component';
+export { TopbarMenuAppComponent } from './components/topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
+export { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
+export { UnsupportedComponent } from './components/unsupported.component';
+export { UnsupportedFactoryComponent } from './components/unsupported.component';
+export { OpenComponent } from './components/explorer/open/open.component';
+export { SaveComponent } from './components/explorer/save/save.component';
+export { RadarComponent } from './components/radar/radar.component';
+export { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
+export { TbIconComponent } from './components/tb-icon/tb-icon.component';
+
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
-    UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, Accordion, RadarComponent, CultureSelectorComponent
+    UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent
 ];
 
 /**
@@ -94,7 +149,6 @@ const TB_MODULES = [
     CommonModule,
     FormsModule,
     HttpModule,
-    ReactiveFormsModule,
     MaterialModule,
     RouterModule,
     TbIconsModule,

@@ -33,6 +33,15 @@ export class DocumentService extends TbComponentService {
         return title;
     }
 
+    getHeader() {
+        let header = this.getTitle();
+
+        if (this.eventData.model && this.eventData.model.HeaderStripTitle && this.eventData.model.HeaderStripTitle.value)
+            header = this.eventData.model.HeaderStripTitle.value;
+
+        return header;
+    }
+
     getViewModeType() {
 
         return ViewModeType.R;

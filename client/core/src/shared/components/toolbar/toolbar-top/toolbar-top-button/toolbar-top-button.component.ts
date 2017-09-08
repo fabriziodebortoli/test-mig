@@ -1,11 +1,10 @@
+import { ComponentInfoService } from './../../../../../core/services/component-info.service';
 import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
-import { ComponentInfoService } from './../../../../models/component-info.model';
 import { Component, Input } from '@angular/core';
 
 import { HttpService } from './../../../../../core/services/http.service';
 import { EventDataService } from './../../../../../core/services/eventdata.service';
-
-import { TbComponent } from "./../../../../../shared";
+import { TbComponent } from '../../../tb.component';
 
 @Component({
   selector: 'tb-toolbar-top-button',

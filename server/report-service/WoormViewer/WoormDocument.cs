@@ -26,7 +26,7 @@ using Microarea.RSWeb.Objects;
 namespace Microarea.RSWeb.WoormViewer
 {
     public enum PageType { First, Last, Prev, Next, Current, Unknown }
-	public enum CellType { Cell, SubTotal, Total, LowerInput, UpperInput}
+	public enum CellType { Cell, SubTotal, Total, LowerInput, UpperInput, Array}
 
 	/// <summary>
 	/// Descrizione di riepilogo per reader.
@@ -421,7 +421,7 @@ namespace Microarea.RSWeb.WoormViewer
 				noWeb = true;
 				lex.SkipToken();
 			}
-			if (lex.Parsed(Token.INVALID))
+			if (lex.Matched(Token.INVALID))
 			{
 				lex.SetError(WoormViewerStrings.InvalidReport);
 				return false;
@@ -433,7 +433,7 @@ namespace Microarea.RSWeb.WoormViewer
 				)
 				return false;
 
-			if (lex.Parsed(Token.COMMA) && ! lex.ParseInt (out reportModifyRelease))
+			if (lex.Matched(Token.COMMA) && ! lex.ParseInt (out reportModifyRelease))
 				return false;
 
 			if (reportRelease < LowestCompatibleRelease || reportRelease > ActualRelease)
@@ -892,7 +892,7 @@ namespace Microarea.RSWeb.WoormViewer
 					return false;
 				}
 
-                bool invertOrientation = lex.Parsed(Token.INVERT_ORIENTATION);
+                bool invertOrientation = lex.Matched(Token.INVERT_ORIENTATION);
 
                 Lex.ParseBegin();
 			
@@ -939,8 +939,12 @@ namespace Microarea.RSWeb.WoormViewer
                     {
                         baseObject = new Repeater(this); break;
                     }
+                    case Token.CHART:
+                    {
+                        baseObject = new Chart(this); break;
+                    }
 
-					case Token.RNDRECT  : // mantiene la compatibilita' con il passato
+                    case Token.RNDRECT  : // mantiene la compatibilita' con il passato
 					case Token.SQRRECT  : baseObject = new SqrRect      (this); break;
 					case Token.METAFILE : baseObject = new GraphRect    (this); break;
 					case Token.BITMAP   : baseObject = new GraphRect    (this); break;
@@ -1060,7 +1064,7 @@ namespace Microarea.RSWeb.WoormViewer
 		//------------------------------------------------------------------------------
 		private bool ParseOptions(WoormParser Lex) 
 		{
-			Lex.Parsed(Token.ONLY_GRAPH);
+			Lex.Matched(Token.ONLY_GRAPH);
 			return options.Parse(Lex);
 		}
 

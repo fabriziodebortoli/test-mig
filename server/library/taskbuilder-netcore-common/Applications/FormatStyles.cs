@@ -2274,7 +2274,7 @@ namespace Microarea.Common.Applications
 			if (!lex.ParseTag(Token.PROMPT))
 				return false;
 
-			if (lex.Parsed(Token.RIGHT))
+			if (lex.Matched(Token.RIGHT))
 				CaptionPos = Token.RIGHT;
 			else
 				if (!lex.ParseTag(Token.LEFT))

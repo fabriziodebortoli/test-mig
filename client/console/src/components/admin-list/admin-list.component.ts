@@ -11,6 +11,7 @@ export class AdminListComponent implements OnInit {
   @Input() items: Array<object>;
   @Input() columnNames: Array<string>;
   @Input() rowCommand: string;
+  @Input() readingData: boolean;
   
   @Output() onSelectedItem: EventEmitter<object> = new EventEmitter<object>();
   @Output() onFireRowCommand: EventEmitter<object> = new EventEmitter<object>();
