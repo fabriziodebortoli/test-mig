@@ -407,18 +407,16 @@ namespace Microarea.AdminServer.Controllers
 		/// <summary>
 		/// This API returns the list of all instances belonging to an account
 		/// Used primarily by the login process in order to pre-select the instance
-		/// where user want to connect
+		/// where user want to connect. We check only account name existence.
 		/// </summary>
-		/// <param name="accountName"></param>
-		/// <param name="password"></param>
-		/// <returns></returns>
 		[HttpPost("api/listInstances")]
 		//-----------------------------------------------------------------------------	
-		public ActionResult ApiListInstances([FromBody]Credentials credentials)
+		public ActionResult ApiListInstances([FromBody]string accountName)
 		{
 			OperationResult opRes = new OperationResult();
 
-			if (String.IsNullOrEmpty(credentials.AccountName) || String.IsNullOrEmpty(credentials.Password)) {
+			if (String.IsNullOrEmpty(accountName))
+			{
 				opRes.Result = false;
 				opRes.Code = (int)AppReturnCodes.EmptyCredentials;
 				opRes.Message = Strings.EmptyCredentials;
@@ -426,15 +424,16 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			// this is a pre-login, so only account name existence is verified
 			IAccount account = burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
 				{
-					new WhereCondition("AccountName", credentials.AccountName, QueryComparingOperators.IsEqual, false),
-					new WhereCondition("Password", credentials.Password, QueryComparingOperators.IsEqual, false),
+					new WhereCondition("AccountName", accountName, QueryComparingOperators.IsEqual, false),
 					new WhereCondition("Disabled", false, QueryComparingOperators.IsEqual, false),
 					new WhereCondition("Locked", false, QueryComparingOperators.IsEqual, false)
 				});
 
-			if (account == null) {
+			if (account == null)
+			{
 				opRes.Result = false;
 				opRes.Code = (int)AppReturnCodes.InvalidCredentials;
 				opRes.Message = Strings.InvalidCredentials;
@@ -442,7 +441,7 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			IInstance[] instancesArray = this.GetInstances(credentials.AccountName);
+			IInstance[] instancesArray = this.GetInstances(accountName);
 
 			opRes.Result = true;
 			opRes.Code = (int)AppReturnCodes.OK;
@@ -455,7 +454,7 @@ namespace Microarea.AdminServer.Controllers
 		//----------------------------------------------------------------------
 		private bool IsOnPremisesInstance(string instanceKey)
         {
-          return  String.Compare(GetInstanceOrigin(instanceKey), "ONPREMISES", StringComparison.InvariantCultureIgnoreCase) == 0;
+          return String.Compare(GetInstanceOrigin(instanceKey), "ONPREMISES", StringComparison.InvariantCultureIgnoreCase) == 0;
         }
 
         //----------------------------------------------------------------------
@@ -548,23 +547,22 @@ namespace Microarea.AdminServer.Controllers
             return LoadURLs(instanceKey);
         }
 
-        //----------------------------------------------------------------------
-        private IServerURL[] LoadURLs(string instanceKey)
-        {
-            try
-            {
-                BurgerData burgerData = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
-                List<IServerURL> l = burgerData.GetList<ServerURL, IServerURL>(String.Empty, ModelTables.ServerURLs, SqlLogicOperators.AND, new WhereCondition[]
-         {
-                    new WhereCondition("InstanceKey", instanceKey, QueryComparingOperators.IsEqual, false)
-         });
-            
+		//----------------------------------------------------------------------
+		private IServerURL[] LoadURLs(string instanceKey)
+		{
+			try
+			{
+				BurgerData burgerData = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
+				List<IServerURL> l = burgerData.GetList<ServerURL, IServerURL>(String.Empty, ModelTables.ServerURLs, SqlLogicOperators.AND, new WhereCondition[]
+				{
+					new WhereCondition("InstanceKey", instanceKey, QueryComparingOperators.IsEqual, false)
+				});
 
-                return l.ToArray();
-            }
-            catch { }
-            return new IServerURL[] { };
-        }
+				return l.ToArray();
+			}
+			catch { }
+			return new IServerURL[] { };
+		}
 
         //----------------------------------------------------------------------
         private OperationResult SaveSubscriptions(AccountIdentityPack accountIdentityPack)

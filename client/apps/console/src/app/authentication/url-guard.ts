@@ -1,15 +1,16 @@
-import {OperationResult} from '../services/operationResult';
+import { OperationResult } from '../services/operationResult';
 import { RoleNames, RoleLevels } from './auth-helpers';
-import {AuthorizationInfo} from './auth-info';
+import { AuthorizationInfo } from './auth-info';
 
 export class UrlGuard {
 
+    //--------------------------------------------------------------------------------------------------------
     public static CanNavigate(url:string, authInfo: AuthorizationInfo): OperationResult {
 
         let opRes:OperationResult = new OperationResult();
 
         if (url == '') {
-            opRes.Message = 'No check-url strategy has been implemented fot this url ' + url;
+            opRes.Message = 'No check-url strategy has been implemented for this url ' + url;
             opRes.Result = false;
             return opRes;            
         }        
@@ -93,6 +94,7 @@ export class UrlGuard {
         return opRes;        
     }
 
+    //--------------------------------------------------------------------------------------------------------
     public static CanNavigateLevel(requiredLevel:string, authInfo: AuthorizationInfo): OperationResult {
 
         let opRes:OperationResult = new OperationResult();

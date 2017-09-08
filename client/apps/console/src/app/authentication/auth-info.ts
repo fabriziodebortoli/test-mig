@@ -18,6 +18,7 @@ export class AuthorizationProperties{
     serverUrls: Array<ServerUrl>;
     roles: Array<AccountRole>;
 
+    //--------------------------------------------------------------------------------------------------------
     constructor() {
         this.jwtEncoded = "";
         this.accountName = "";
@@ -43,19 +44,23 @@ export class AppSecurityInfo {
 
 //--------------------------------------------------------------------------------------------------------
 export class AuthorizationInfo {
+    
     authorizationProperties: AuthorizationProperties;
 
+    //--------------------------------------------------------------------------------------------------------
     constructor(jwt: string, accountName: string) {
         this.authorizationProperties = new AuthorizationProperties();
         this.authorizationProperties.jwtEncoded = jwt;
         this.authorizationProperties.accountName = accountName;
     }
 
+    //--------------------------------------------------------------------------------------------------------
     SetSecurityValues(asi: AppSecurityInfo) {
         this.authorizationProperties.AppSecurityInfo.AppId = asi.AppId; 
         this.authorizationProperties.AppSecurityInfo.SecurityValue = asi.SecurityValue; 
     }
 
+    //--------------------------------------------------------------------------------------------------------
     SetInstances(instances: Array<object>) {
         let instance: Instance;
         instances.forEach(
@@ -72,6 +77,7 @@ export class AuthorizationInfo {
         );
     }
 
+    //--------------------------------------------------------------------------------------------------------
     SetSubscriptions(subscriptions: Array<object>) {
         let subscription: AppSubscription;
         subscriptions.forEach(
@@ -91,6 +97,7 @@ export class AuthorizationInfo {
         );
     }
 
+    //--------------------------------------------------------------------------------------------------------
     SetServerUrls(serverUrls: Array<object>) {
         let serverUrl: ServerUrl;
         serverUrls.forEach(
@@ -101,6 +108,7 @@ export class AuthorizationInfo {
         );
     }
 
+    //--------------------------------------------------------------------------------------------------------
     SetTokens(tokens: Array<object>) {
         let token: TokenInfo;
         tokens.forEach(
@@ -111,6 +119,7 @@ export class AuthorizationInfo {
         );
     }
     
+    //--------------------------------------------------------------------------------------------------------
     SetRoles(roles: Array<AccountRole>) {
         roles.forEach(
             p => {
@@ -119,6 +128,7 @@ export class AuthorizationInfo {
         );
     }
 
+    //--------------------------------------------------------------------------------------------------------
     HasRoleName(roleName: string): boolean {
         
         if (this.authorizationProperties.roles.length == 0)
@@ -130,6 +140,7 @@ export class AuthorizationInfo {
         return foundElementIndex >= 0;
     }
 
+    //--------------------------------------------------------------------------------------------------------
     VerifyRole(roleName:string, level: string, entityKey:string): boolean {
         
         if (this.authorizationProperties.roles.length == 0)
@@ -146,6 +157,7 @@ export class AuthorizationInfo {
         return foundElementIndex >= 0;
     }
 
+    //--------------------------------------------------------------------------------------------------------
     VerifyRoleLevel(roleName:string, level: string): boolean {
 
         if (this.authorizationProperties.roles.length == 0)
