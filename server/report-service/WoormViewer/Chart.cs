@@ -168,6 +168,69 @@ namespace Microarea.RSWeb.Objects
 
                 ChartType != EnumChartType.Bubble;
         }
+        //------------------------------------------------------------------------------
+        protected override bool ParseProp(WoormParser lex, bool block)
+        {
+            bool ok = true;
+
+            switch (lex.LookAhead())
+            {
+                case Token.PEN: ok = lex.ParsePen(BorderPen); break;
+                case Token.BORDERS: ok = lex.ParseBorders(Borders); break;
+ 
+                case Token.HIDDEN:
+                    {
+                        Token[] stopTokens =
+                        {
+                            Token.SEP, Token.END,
+                            Token.BKGCOLOR, Token.PEN, Token.BORDERS, Token.TRANSPARENT,
+                            Token.TOOLTIP, Token.STYLE, Token.TEMPLATE, Token.DROPSHADOW,
+                            Token.ANCHOR_COLUMN_ID, Token.ANCHOR_PAGE_LEFT, Token.ANCHOR_PAGE_RIGHT,
+                            Token.LAYER
+                        };
+                        ok = ParseHidden(lex, stopTokens);
+                        break;
+                    }
+
+                case Token.TOOLTIP:
+                    {
+                        Token[] stopTokens =
+                                    {
+                                        Token.SEP
+                                    };
+                        ok = ParseTooltip(lex, stopTokens);
+                        break;
+                    }
+
+                case Token.DROPSHADOW:
+                    {
+                        lex.SkipToken();
+                        if (!lex.ParseInt(out DropShadowHeight))
+                            return false;
+                        if (!lex.ParseColor(Token.COLOR, out DropShadowColor))
+                            return false;
+                        break;
+                    }
+
+                case Token.LAYER:
+                    lex.SkipToken();
+                    ok = lex.ParseInt(out this.Layer);
+                    break;
+
+                case Token.END:
+                    return ok;
+
+                default:
+                    if (block)
+                    {
+                        lex.SetError(WoormViewerStrings.BadGeneralProperties);
+                        ok = false;
+                    }
+                    break;
+            }
+
+            return ok;
+        }
 
         //------------------------------------------------------------------------------
         bool ParseSeries(WoormParser lex, Series pSeries)
