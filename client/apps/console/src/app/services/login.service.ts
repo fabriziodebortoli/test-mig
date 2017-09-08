@@ -8,6 +8,7 @@ import { Credentials } from './../authentication/credentials';
 import { OperationResult } from './operationResult';
 import { RoleNames, RoleLevels } from './../authentication/auth-helpers';
 import { UrlGuard } from "app/authentication/url-guard";
+import { AccountInfo } from '../authentication/account-info';
 
 @Injectable()
 //================================================================================
@@ -35,16 +36,22 @@ export class LoginService {
     return this.loginOperationCompleted.asObservable();
   }
 
-  getInstances(body: object): Observable<OperationResult> {
+  //--------------------------------------------------------------------------------
+  getInstances(accountName: string): Observable<OperationResult> {
 
-    let bodyString  = JSON.stringify(body);
+    // called by pre-login process to load instances for account
+
+    let bodyString  = JSON.stringify(accountName);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.instancesListAPIUrl, bodyString, options)
     .map((res : Response) => {
       return res.json();
-    })
+      }, 
+      err => { 
+        return err; } 
+    )
     .catch((error: any) => Observable.throw(error.json().error || 'server error'));    
   }
 
@@ -72,9 +79,11 @@ export class LoginService {
             return;
           }
 
+          let authInfo: AuthorizationInfo;
+
           try
           {
-            let authInfo: AuthorizationInfo = this.GetAuthorizationsFromJWT(data.JwtToken);
+            authInfo = this.GetAuthorizationsFromJWT(data.JwtToken);
 
             if (authInfo == null) {
               alert('Could not get valid AuthorizationInfo from jwt token, cannot proceed.');
@@ -85,6 +94,10 @@ export class LoginService {
             // save in localstorage all the information about authorization
             localStorage.setItem('auth-info', JSON.stringify(authInfo.authorizationProperties));
             
+            // save in localstorage all the information about account choices
+            let accountInfo: AccountInfo = new AccountInfo(instance);
+            localStorage.setItem(authInfo.authorizationProperties.accountName, JSON.stringify(accountInfo));
+
             // sending message to subscribers to notify login
             this.sendMessage(authInfo.authorizationProperties.accountName);
 
@@ -102,6 +115,8 @@ export class LoginService {
           catch (exc)
           {
             localStorage.removeItem('auth-info');
+            if (authInfo != null)
+              localStorage.removeItem(authInfo.authorizationProperties.accountName);
             alert('Error while processing authorization info from jwt token ' + exc + '. Login failed.');
             return;
           }   
@@ -111,7 +126,7 @@ export class LoginService {
   }
 
   //--------------------------------------------------------------------------------
-  GetAuthorizationsFromJWT(unparsedToken: string):AuthorizationInfo {
+  GetAuthorizationsFromJWT(unparsedToken: string): AuthorizationInfo {
     // decoding jwt token
     let tokenParts: Array<string> = unparsedToken.split('.');
 

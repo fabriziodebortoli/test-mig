@@ -2,7 +2,6 @@ import { AfterViewInit, Component, Output, EventEmitter, OnInit, AfterContentIni
 
 import { LayoutService } from './../../../../core/services/layout.service';
 
-import { TbComponent } from '../../../components';
 import { TabComponent } from '../tab/tab.component';
 
 @Component({

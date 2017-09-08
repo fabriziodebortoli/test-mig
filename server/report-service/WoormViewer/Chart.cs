@@ -21,8 +21,8 @@ namespace Microarea.RSWeb.Objects
 {
     public enum EnumChartType
     //ATTENZIONE: tenere allineato in: 
-    //c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\TABLE.H - EnumChartType
-    //c:\development\standard\web\server\report-service\woormviewer\table.cs - EnumChartType
+    //c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\Chart.h - EnumChartType
+    //c:\development\standard\web\server\report-service\woormviewer\Chart.cs - EnumChartType
     //c:\development\Standard\web\client\reporting-studio\src\models\chart-type.model.ts - ChartType
     //------
     {
@@ -51,7 +51,6 @@ namespace Microarea.RSWeb.Objects
         //versioni 3D di bar,column,area  
     }
 
-    [Flags]
     enum EnumChartStyle
     //ATTENZIONE: tenere allineato in: 
     //c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\Chart.h - EnumChartType
@@ -59,8 +58,9 @@ namespace Microarea.RSWeb.Objects
     //c:\development\Standard\web\client\reporting-studio\src\models\chart-type.model.ts - ChartType
     //------
     {
-        None,
-        LineSmooth = 1   /*spline*/
+        Normal,
+        Smooth,  /*spline*/
+        Step
     };
 
     class Series 
@@ -73,7 +73,7 @@ namespace Microarea.RSWeb.Objects
         public Color Color = Color.White;
         public bool Colored = false;
         public int Group = 0;   //for grouping stacked column/bar
-        public EnumChartStyle Style = EnumChartStyle.None;
+        public EnumChartStyle Style = EnumChartStyle.Normal;
 
         /*CCategories : non riesco a fare la dichiarazione forward*/
         public Categories Parent = null;
@@ -113,7 +113,7 @@ namespace Microarea.RSWeb.Objects
 
         List<Categories> Categories = new List<Categories>();
 
-        ChartLegend Legend;
+        ChartLegend Legend = new ChartLegend();
 
         //------------------------------------------------------------------------------
         public Chart(WoormDocument document)
@@ -168,6 +168,69 @@ namespace Microarea.RSWeb.Objects
 
                 ChartType != EnumChartType.Bubble;
         }
+        //------------------------------------------------------------------------------
+        protected override bool ParseProp(WoormParser lex, bool block)
+        {
+            bool ok = true;
+
+            switch (lex.LookAhead())
+            {
+                case Token.PEN: ok = lex.ParsePen(BorderPen); break;
+                case Token.BORDERS: ok = lex.ParseBorders(Borders); break;
+ 
+                case Token.HIDDEN:
+                    {
+                        Token[] stopTokens =
+                        {
+                            Token.SEP, Token.END,
+                            Token.BKGCOLOR, Token.PEN, Token.BORDERS, Token.TRANSPARENT,
+                            Token.TOOLTIP, Token.STYLE, Token.TEMPLATE, Token.DROPSHADOW,
+                            Token.ANCHOR_COLUMN_ID, Token.ANCHOR_PAGE_LEFT, Token.ANCHOR_PAGE_RIGHT,
+                            Token.LAYER
+                        };
+                        ok = ParseHidden(lex, stopTokens);
+                        break;
+                    }
+
+                case Token.TOOLTIP:
+                    {
+                        Token[] stopTokens =
+                                    {
+                                        Token.SEP
+                                    };
+                        ok = ParseTooltip(lex, stopTokens);
+                        break;
+                    }
+
+                case Token.DROPSHADOW:
+                    {
+                        lex.SkipToken();
+                        if (!lex.ParseInt(out DropShadowHeight))
+                            return false;
+                        if (!lex.ParseColor(Token.COLOR, out DropShadowColor))
+                            return false;
+                        break;
+                    }
+
+                case Token.LAYER:
+                    lex.SkipToken();
+                    ok = lex.ParseInt(out this.Layer);
+                    break;
+
+                case Token.END:
+                    return ok;
+
+                default:
+                    if (block)
+                    {
+                        lex.SetError(WoormViewerStrings.BadGeneralProperties);
+                        ok = false;
+                    }
+                    break;
+            }
+
+            return ok;
+        }
 
         //------------------------------------------------------------------------------
         bool ParseSeries(WoormParser lex, Series pSeries)
@@ -181,7 +244,7 @@ namespace Microarea.RSWeb.Objects
 
             if (lex.Matched(Token.TYPE))
             {
-                int n;
+                int n = 0;
                 if (!lex.ParseInt(out n))
                     return false;
                 pSeries.SeriesType = (EnumChartType)n;
@@ -224,9 +287,9 @@ namespace Microarea.RSWeb.Objects
 
             pSeries.BindedField = pF;
 
-            if (lex.LookAhead(Token.BKGCOLOR))
+            if (lex.LookAhead(Token.COLOR))
             {
-                if (!lex.ParseColor(Token.BKGCOLOR, out pSeries.Color))
+                if (!lex.ParseColor(Token.COLOR, out pSeries.Color))
                     return false;
                 pSeries.Colored = true;
             }
@@ -291,9 +354,9 @@ namespace Microarea.RSWeb.Objects
 
                 pCat.BindedField = pF;
 
-                if (lex.LookAhead(Token.BKGCOLOR))
+                if (lex.LookAhead(Token.COLOR))
                 {
-                    if (!lex.ParseColor(Token.BKGCOLOR, out pCat.Color))
+                    if (!lex.ParseColor(Token.COLOR, out pCat.Color))
                         return false;
                     pCat.Colored = true;
                 }
@@ -317,9 +380,9 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         bool ParseLegend(WoormParser lex)
         {
-            bool ok = lex.ParseBegin() &&
-                      lex.ParseTag(Token.HIDDEN) &&
-                      lex.ParseBool(out Legend.Hidden);
+            bool ok = lex.ParseBegin    () &&
+                      lex.ParseTag      (Token.HIDDEN) &&
+                      lex.ParseBool     (out Legend.Hidden);
             if (!ok)
                 return false;
 
@@ -333,18 +396,19 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         public override bool Parse(WoormParser lex)
         {
-            bool ok = lex.ParseTag(Token.CHART) &&
-                        lex.ParseBegin() &&
-                        lex.ParseString(out Title) &&
-                        lex.ParseAlias(out this.InternalID);
+            bool ok =   lex.ParseTag    (Token.CHART) &&
+                        lex.ParseBegin  () &&
+                        lex.ParseTag    (Token.TITLE) &&
+                        lex.ParseString (out Title) &&
+                        lex.ParseAlias  (out this.InternalID);
 
             if (lex.Matched(Token.COMMA))
                 ok = ok && lex.ParseID(out Name);
 
             int t = 0;
-            ok = ok && lex.ParseRect(out this.Rect) &&
-                        lex.ParseTag(Token.TYPE) &&
-                        lex.ParseInt(out t);
+             ok = ok && lex.ParseRect   (out this.Rect) &&
+                        lex.ParseTag    (Token.TYPE) &&
+                        lex.ParseInt    (out t);
             
             ChartType = (EnumChartType)t;
             
@@ -484,17 +548,23 @@ namespace Microarea.RSWeb.Objects
 
             if (series.Colored)
                 s += ',' + series.Color.ToJson("color");
-
-            if (series.SeriesType != EnumChartType.None)
-                s += ',' + series.SeriesType.ToJson("type");
+ 
+            s += ',' + series.SeriesType.ToJson("type");
 
             if (series.Group != 0)
                 s += ',' + series.Group.ToJson("group");
 
-            if (series.Style != 0)
+            switch (series.Style)
             {
-                if ((series.Style & EnumChartStyle.LineSmooth) != 0)
-                    s += ',' + true.ToJson("lineSmooth");
+                case EnumChartStyle.Normal:
+                    s += ',' + "normal".ToJson("style");
+                    break;
+                case EnumChartStyle.Smooth:
+                    s += ',' + "smooth".ToJson("style");
+                    break;
+                case EnumChartStyle.Step:
+                    s += ',' + "step".ToJson("style");
+                    break;
             }
 
             return s + '}';

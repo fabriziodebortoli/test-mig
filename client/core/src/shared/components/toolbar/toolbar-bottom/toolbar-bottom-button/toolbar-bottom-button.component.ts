@@ -1,4 +1,4 @@
-import { ComponentInfoService } from './../../../../models/component-info.model';
+import { ComponentInfoService } from './../../../../../core/services/component-info.service';
 import { Component, OnInit, Input } from '@angular/core';
 
 import { EventDataService } from './../../../../../core/services/eventdata.service';

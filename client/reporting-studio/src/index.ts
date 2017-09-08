@@ -99,25 +99,13 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
   [
     ReportingStudioComponent
   ],
-
-  providers: [
-    /* ComponentService,
-     WebSocketService,
-     HttpService,
-     UtilsService,
-     Logger,
-     UrlService,
-     */
-    CookieService
-  ]
+  providers: []
 })
 
 export class ReportingStudioModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: ReportingStudioModule,
-
-
+      ngModule: ReportingStudioModule
     };
   }
 }

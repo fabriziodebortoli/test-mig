@@ -20,7 +20,23 @@ import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.c
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
-export * from './components';
+
+export { LoginComponent } from './components/login/login.component';
+export { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
+export { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
+export { FavoritesComponent } from './components/menu/favorites/favorites.component';
+export { SearchComponent } from './components/menu/search/search.component';
+export { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
+export { MenuComponent } from './components/menu/menu.component';
+export { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
+export { MenuContentComponent } from './components/menu/menu-content/menu-content.component';
+export { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
+export { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
+export { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
+export { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
+export { MostUsedComponent } from './components/menu/most-used/most-used.component';
+export { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
+
 
 // import { MenuComponent } from './components/menu/menu.component';
 
@@ -41,12 +57,12 @@ export const TB_MENU_SERVICES = [
     EventManagerService
 ];
 
-export {MenuService} from './services/menu.service';
-export {ImageService} from './services/image.service';
-export {HttpMenuService} from './services/http-menu.service';
-export {LocalizationService} from './services/localization.service';
-export {SettingsService} from './services/settings.service';
-export {EventManagerService} from './services/event-manager.service';
+export { MenuService } from './services/menu.service';
+export { ImageService } from './services/image.service';
+export { HttpMenuService } from './services/http-menu.service';
+export { LocalizationService } from './services/localization.service';
+export { SettingsService } from './services/settings.service';
+export { EventManagerService } from './services/event-manager.service';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';

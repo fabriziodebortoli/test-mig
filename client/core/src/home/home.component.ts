@@ -4,10 +4,11 @@ import { Subscription } from 'rxjs';
 
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
 
-import { ComponentInfo, ComponentInfoService } from './../shared/models/component-info.model';
+import { ComponentInfo } from './../shared/models/component-info.model';
 import { MessageDlgArgs } from './../shared/models';
 
 import { MessageDialogComponent } from './../shared/containers/message-dialog/message-dialog.component';
+import { ComponentInfoService } from './../core/services/component-info.service';
 import { EnumsService } from './../core/services/enums.service';
 import { TabberService } from './../core/services/tabber.service';
 import { LayoutService } from './../core/services/layout.service';
@@ -23,7 +24,7 @@ import { MenuService } from './../menu/services/menu.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers:[ComponentInfoService]
+  providers: [ComponentInfoService]
 })
 export class HomeComponent implements OnDestroy, AfterContentInit {
 
