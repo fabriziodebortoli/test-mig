@@ -10,10 +10,10 @@
             </ng-template>
         </kendo-tabstrip-tab>
     </kendo-tabstrip>
-</div> -->
+</div>
+ [@slideInOut]="menuState"-->
 
-<div class="tile-manager2" [@slideInOut]="menuState">
-    aaaaaaaaaaaaaaaaaaaaaa{{menuState}}
+<div class="tbContainerItems tile-manager2">
     <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)" tabPosition="right">
         <kendo-tabstrip-tab *ngFor="let tile of getTiles();let i = index" [selected]="i == 0">
             <ng-template kendoTabTitle>

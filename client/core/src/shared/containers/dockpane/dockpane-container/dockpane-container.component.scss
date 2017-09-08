@@ -1,10 +1,6 @@
-tb-dockpane-container {
-    flex: 1 1 auto;
-}
-
-.tile-manager2 {
-    min-height: 100%;
-    text-align: right;
+// 
+.tbContainerItems {
+    right: 0px;
 }
 
 .tile-manager2 .k-tabstrip {
@@ -13,7 +9,7 @@ tb-dockpane-container {
 
 .tile-manager2 .k-tabstrip-top {
     flex-direction: row;
-    flex-wrap: nowrap
+    flex-wrap: nowrap;
 }
 
 .tile-manager2 .k-tabstrip-top>.k-content {

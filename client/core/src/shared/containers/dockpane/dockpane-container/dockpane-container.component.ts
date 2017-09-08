@@ -1,7 +1,6 @@
 import { TabberComponent } from './../../tabs/tabber/tabber.component';
 import { DockpaneComponent } from './../dockpane.component';
 import { Component, OnInit, ElementRef, ViewEncapsulation, AfterContentInit, ContentChildren, QueryList, ViewChild, trigger, transition, style, animate, state } from '@angular/core';
-import { TbIconComponent } from "@taskbuilder/icons";
 
 
 //https://embed.plnkr.co/7qWuHmbFFie4p8Y9h53T/
@@ -9,18 +8,19 @@ import { TbIconComponent } from "@taskbuilder/icons";
   selector: 'tb-dockpane-container',
   templateUrl: './dockpane-container.component.html',
   styleUrls: ['./dockpane-container.component.scss'],
-  animations: [
-    trigger('slideInOut', [
-      state('in', style({
-        transform: 'translate3d(90%, 0, 0)'
-      })),
-      state('out', style({
-        transform: 'translate3d(0, 0, 0)'
-      })),
-      transition('in => out', animate('400ms ease-in-out')),
-      transition('out => in', animate('400ms ease-in-out'))
-    ]),
-  ],
+  //  animations: [   
+  //   trigger('slideInOut', [
+  //     state('in', 
+  //     style({transform: 'translateX(100%)'}),
+  //     style({width: '0%'}),
+  //   ),
+  //     state('out', 
+  //     style({transform: 'translateX(50%)'}),
+  //     style({width: '100%'})),
+  //     transition('in => out', animate('400ms ease-in-out')),
+  //     transition('out => in', animate('400ms ease-in-out'))
+  //   ]),
+  // ],
   encapsulation: ViewEncapsulation.None
 })
 export class DockpaneContainerComponent implements AfterContentInit {
