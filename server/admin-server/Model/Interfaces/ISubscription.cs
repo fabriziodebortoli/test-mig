@@ -1,6 +1,4 @@
-﻿using Microarea.AdminServer.Library;
-
-namespace Microarea.AdminServer.Model.Interfaces
+﻿namespace Microarea.AdminServer.Model.Interfaces
 {
 	//================================================================================
 	public interface ISubscription

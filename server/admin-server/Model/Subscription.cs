@@ -1,5 +1,4 @@
-﻿using Microarea.AdminServer.Library;
-using Microarea.AdminServer.Model.Interfaces;
+﻿using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
 using System;
