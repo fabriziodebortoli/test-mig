@@ -80,6 +80,14 @@ namespace Microarea.AdminServer.Controllers
 		{
 			OperationResult opRes = new OperationResult();
 
+			if (string.IsNullOrWhiteSpace(subDatabase.InstanceKey))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.InstanceKeyEmpty;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
 			if (String.IsNullOrEmpty(subDatabase.SubscriptionKey))
 			{
 				opRes.Result = false;
@@ -91,7 +99,7 @@ namespace Microarea.AdminServer.Controllers
 			if (String.IsNullOrEmpty(subDatabase.Name))
 			{
 				opRes.Result = false;
-				opRes.Message = "Database name empty";
+				opRes.Message = Strings.DatabaseNameEmpty;
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
@@ -141,25 +149,34 @@ namespace Microarea.AdminServer.Controllers
 		}
 
 		/// <summary>
-		/// Returns the databases list of a subscriptionKey
-		/// You can also specify a database name (it is the second pk segment)
+		/// Returns the databases list of a instanceKey+subscriptionKey
+		/// You can also specify a database name (it is the third pk segment)
 		/// </summary>
+		/// <param name="instanceKey"></param>
 		/// <param name="subscriptionKey"></param>
 		/// <param name="dbName"></param>
 		/// <returns></returns>
 		//-----------------------------------------------------------------------------	
-		[HttpGet("/api/databases/{subscriptionKey}/{dbName?}")]
+		[HttpGet("/api/databases/{instanceKey}/{subscriptionKey}/{dbName?}")]
 		[Produces("application/json")]
-		public IActionResult ApiGetDatabasesBySubscription(string subscriptionKey, string dbName)
+		public IActionResult ApiGetDatabases(string instanceKey, string subscriptionKey, string dbName)
 		{
 			OperationResult opRes = new OperationResult();
+
+			if (string.IsNullOrWhiteSpace(instanceKey))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.InstanceKeyEmpty;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
 
 			if (string.IsNullOrWhiteSpace(subscriptionKey))
 			{
 				opRes.Result = false;
 				opRes.Message = Strings.SubscriptionKeyEmpty;
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 501, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			string authHeader = HttpContext.Request.Headers["Authorization"];
@@ -180,8 +197,8 @@ namespace Microarea.AdminServer.Controllers
 			try
 			{
 				databasesList = string.IsNullOrWhiteSpace(dbName) ?
-					this.burgerData.GetList<SubscriptionDatabase, ISubscriptionDatabase>(string.Format(Queries.SelectDatabasesBySubscription, subscriptionKey), ModelTables.SubscriptionDatabases) :
-					this.burgerData.GetList<SubscriptionDatabase, ISubscriptionDatabase>(string.Format(Queries.SelectDatabaseBySubscriptionAndName, subscriptionKey, dbName), ModelTables.SubscriptionDatabases);
+					this.burgerData.GetList<SubscriptionDatabase, ISubscriptionDatabase>(string.Format(Queries.SelectDatabases, instanceKey, subscriptionKey), ModelTables.SubscriptionDatabases) :
+					this.burgerData.GetList<SubscriptionDatabase, ISubscriptionDatabase>(string.Format(Queries.SelectDatabaseByName, instanceKey, subscriptionKey, dbName), ModelTables.SubscriptionDatabases);
 			}
 			catch (Exception exc)
 			{
