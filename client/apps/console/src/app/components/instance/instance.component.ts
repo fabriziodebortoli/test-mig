@@ -1,9 +1,10 @@
 import { OperationResult } from './../../services/operationResult';
 import { Observable } from 'rxjs/Observable';
 import { ModelService } from './../../services/model.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Instance } from '../../model/instance';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-instance',
@@ -11,10 +12,11 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./instance.component.css']
 })
 
-export class InstanceComponent implements OnInit {
+export class InstanceComponent implements OnInit, OnDestroy {
 
   model: Instance;
   editing: boolean = false;
+  subscription: Subscription;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
@@ -23,6 +25,7 @@ export class InstanceComponent implements OnInit {
 
   //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
+
     if (this.route.snapshot.queryParams['instanceToEdit'] !== undefined) {
       this.editing = true;
       let instanceKey: string = this.route.snapshot.queryParams['instanceToEdit'];
@@ -46,29 +49,40 @@ export class InstanceComponent implements OnInit {
 
   //--------------------------------------------------------------------------------------------------------
   submitInstance() {
+
     if (this.model.InstanceKey == '') {
       alert('Mandatory fields are empty! Check Instance key!');
       return;
     }
 
-    let instanceOperation: Observable<OperationResult>;
+    this.subscription = this.modelService.saveInstance(this.model).subscribe(
+      res => {
 
-    instanceOperation = this.modelService.saveInstance(this.model)
+        if (!res.Result) {
+          alert(res.Message);
+          return;
+        }
 
-    let instance = instanceOperation.subscribe(
-      instanceResult => {
         this.model = new Instance();
-        if (this.editing) 
+        
+        if (this.editing) {
           this.editing = !this.editing;
-        instance.unsubscribe();
-        // after save I return to parent page
+        }
+
         this.router. navigateByUrl('/instancesHome');
       },
       err => {
-        console.log(err);
         alert(err);
-        instance.unsubscribe();
       }
-    )
+    );
+
   }
+
+  ngOnDestroy() {
+    if (this.subscription === undefined)
+      return;
+
+    this.subscription.unsubscribe;
+  }
+  
 }
