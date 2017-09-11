@@ -64,6 +64,7 @@ export class LoginService {
     
     this.http.post(this.tokenAPIUrl + instance, bodyString, options)
       .map(res => res.json())
+      .catch((error:any) => Observable.throw(error.json().error || 'Error while posting login to the server'))
       .subscribe(
         data =>
         {
