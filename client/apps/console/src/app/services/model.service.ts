@@ -7,9 +7,13 @@ import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import 'rxjs/Rx';
 import { Observable } from "rxjs/Observable";
 import { OperationResult } from './operationResult';
+import { AccountInfo } from '../authentication/account-info';
 
 @Injectable()
 export class ModelService {
+
+  // this is the current accountName read from authorizationProperties in local storage
+  currentAccountName: string = '';
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private http: Http) {
@@ -19,10 +23,13 @@ export class ModelService {
   // returns the complete AuthorizationHeader with token read from localStorage
   //--------------------------------------------------------------------------------------------------------
   createAuthorizationHeader(authorizationType: string): string {
+
     let authorizationStored = localStorage.getItem('auth-info');
 
     if (authorizationStored !== null) {
       let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
+
+      this.currentAccountName = authorizationProperties.accountName;
 
       let authorizationHeader: string;
 
@@ -44,6 +51,7 @@ export class ModelService {
 
   //--------------------------------------------------------------------------------------------------------
   saveAccount(body: Object): Observable<OperationResult> {
+    
     let authorizationHeader = this.createAuthorizationHeader('app');
 
     if (authorizationHeader !== '') {
@@ -63,6 +71,7 @@ export class ModelService {
 
   //--------------------------------------------------------------------------------------------------------
   getAccounts(body): Observable<Account[]> {
+
     let authorizationHeader = this.createAuthorizationHeader('app');
 
     if (authorizationHeader === '') {
@@ -236,8 +245,9 @@ export class ModelService {
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
   }
   
+  // returns all databases for the couple instanceKey + subscriptionKey
   //--------------------------------------------------------------------------------------------------------
-  getDatabasesBySubscription(subscriptionKey: string) : Observable<OperationResult> {
+  getDatabases(subscriptionKey: string) : Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('jwt');
 
@@ -245,16 +255,30 @@ export class ModelService {
       return Observable.throw('AuthorizationHeader is missing!');
     }
 
+    if (this.currentAccountName === ''){
+      return Observable.throw('AccountName is missing!');
+    }
+
+    // I need the instanceKey where the currentAccount is logged
+    let localAccountInfo = localStorage.getItem(this.currentAccountName);
+    let instancekey: string = '';
+
+    if (localAccountInfo != null && localAccountInfo != '') {
+      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+      instancekey = accountInfo.instanceKey;
+    }
+
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(environment.adminAPIUrl + 'databases/' + subscriptionKey, options)
+    return this.http.get(environment.adminAPIUrl + 'databases/' + instancekey + '/' + subscriptionKey, options)
       .map((res: Response) => {
         return res.json();
       })
       .catch((error: any) => Observable.throw(error.json().error || 'server error'));
   }
 
+  // returns a specific database by instanceKey + subscriptionKey + name
   //--------------------------------------------------------------------------------------------------------
   getDatabase(subscriptionKey: string, name: string) : Observable<OperationResult> {
     
@@ -263,11 +287,24 @@ export class ModelService {
       if (authorizationHeader === '') {
         return Observable.throw('AuthorizationHeader is missing!');
       }
+
+      if (this.currentAccountName === ''){
+        return Observable.throw('AccountName is missing!');
+      }
+  
+      // I need the instanceKey where the currentAccount is logged
+      let localAccountInfo = localStorage.getItem(this.currentAccountName);
+      let instancekey: string = '';
+  
+      if (localAccountInfo != null && localAccountInfo != '') {
+        let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+        instancekey = accountInfo.instanceKey;
+      }
   
       let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
       let options = new RequestOptions({ headers: headers });
   
-      return this.http.get(environment.adminAPIUrl + 'databases/' + subscriptionKey + '/' + name, options)
+      return this.http.get(environment.adminAPIUrl + 'databases/' + instancekey + '/' + subscriptionKey + '/' + name, options)
         .map((res: Response) => {
           return res.json();
         })
