@@ -27,14 +27,14 @@ namespace Microarea.DatabaseService.Controllers
 		//	return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 		//}
 
-		//[HttpGet]
-		//[Route("api")]
-		////-----------------------------------------------------------------------------	
-		//public IActionResult ApiHome()
-		//{
-		//	jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea DatabaseService API");
-		//	return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
-		//}
+		[HttpGet]
+		[Route("api")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiHome()
+		{
+			jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea DatabaseService API");
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+		}
 
 		[Route("create-database")]
 		//---------------------------------------------------------------------
@@ -45,7 +45,15 @@ namespace Microarea.DatabaseService.Controllers
 			string user = "sa";
 			string password = "14";*/
 
-			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			AzureCreateDBParameters param = new AzureCreateDBParameters();
+			param.DatabaseName = "NewDB";
+			param.MaxSize = AzureMaxSize.GB1;
+			DatabaseTask dTask = new DatabaseTask();
+			dTask.CurrentStringConnection = "Data Source=microarea.database.windows.net;Initial Catalog='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;Pooling=false;";
+			bool res = dTask.CreateAzureDatabase(param);
+
+			jsonHelper.AddJsonCouple<string>("message", res ? "Database {0} successfully created" : "Database {0} creation ended with errors");
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
 		}
 
 		[Route("test-database")]
