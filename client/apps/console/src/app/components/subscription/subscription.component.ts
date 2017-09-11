@@ -51,7 +51,7 @@ export class SubscriptionComponent implements OnInit {
 
         // then I load the databases of selected subscription
 
-        this.modelService.getDatabasesBySubscription(subscriptionKey)
+        this.modelService.getDatabases(subscriptionKey)
           .subscribe(
           res => {
             this.databases = res['Content'];

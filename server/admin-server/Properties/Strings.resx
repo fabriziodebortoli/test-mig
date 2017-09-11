@@ -276,4 +276,7 @@
   <data name="NoSubscriptionDatabasesAvailable" xml:space="preserve">
     <value>No databases available.</value>
   </data>
+  <data name="DatabaseNameEmpty" xml:space="preserve">
+    <value>Database name is empty</value>
+  </data>
 </root>

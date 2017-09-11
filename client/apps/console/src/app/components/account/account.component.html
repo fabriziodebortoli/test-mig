@@ -6,7 +6,8 @@
         <input type="email" placeholder="Email" value="" [(ngModel)]="model.AccountName" [readonly]=editing required>
       </div>
       <div class="box">
-        <input type="password" placeholder="Password" value="" [(ngModel)]="model.Password" required>
+        <input *ngIf="!editing" type="password" placeholder="Password" value="" [(ngModel)]="model.Password" required>
+        <button *ngIf="editing" (click)="doChangePassword()">Change Password</button>
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">

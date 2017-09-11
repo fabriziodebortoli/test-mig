@@ -36,9 +36,9 @@ export class InstanceHomeComponent implements OnInit {
       instances => {
         this.instances = instances['Content'];
       },
-        err => {
-          alert(err);
-        }
+      err => {
+        alert(err);
+      }
     )
   }
   

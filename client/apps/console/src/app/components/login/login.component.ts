@@ -1,3 +1,4 @@
+import {OperationResult} from '../../services/operationResult';
 import { Component, OnInit } from '@angular/core';
 import { Credentials } from './../../authentication/credentials';
 import { LoginService } from './../../services/login.service';
@@ -39,6 +40,13 @@ export class LoginComponent implements OnInit {
     this.loginService.getInstances(this.credentials.accountName)
       .subscribe(
         instances => {
+
+          let opRes:OperationResult = instances;
+
+          if (!opRes.Result) {
+            alert(opRes.Message);
+            return;
+          }
           
           this.instancesList = instances['Content'];
 
