@@ -69,7 +69,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
           this.editing = !this.editing;
         }
 
-        this.router. navigateByUrl('/instancesHome');
+        this.router.navigateByUrl('/instancesHome');
       },
       err => {
         alert(err);
