@@ -50,22 +50,22 @@ namespace Microarea.AdminServer
         public const string DeleteSubscriptionSlot = @"DELETE MP_SubscriptionsSlots WHERE SubscriptionKey = @SubscriptionKey";
 
         // SubscriptionDatabases
-        public const string ExistSubscriptionDatabase = @"SELECT COUNT(*) FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
-		public const string SelectSubscriptionDatabase = @"SELECT * FROM MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
-        public const string InsertSubscriptionDatabase = @"INSERT INTO MP_SubscriptionDatabases (SubscriptionKey, Name, InstanceKey, Description, DBServer, DBName, DBOwner, DBPassword, Disabled, DatabaseCulture, 
+        public const string ExistSubscriptionDatabase = @"SELECT COUNT(*) FROM MP_SubscriptionDatabases WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Name = @Name";
+		public const string SelectSubscriptionDatabase = @"SELECT * FROM MP_SubscriptionDatabases WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Name = @Name";
+        public const string InsertSubscriptionDatabase = @"INSERT INTO MP_SubscriptionDatabases (InstanceKey, SubscriptionKey, Name, Description, DBServer, DBName, DBOwner, DBPassword, Disabled, DatabaseCulture, 
 														IsUnicode, Language, RegionalSettings, Provider, UseDMS, DMSDBServer, DMSDBName, DMSDBOwner, DMSDBPassword, Test) 
-														VALUES (@SubscriptionKey, @Name, @InstanceKey, @Description, @DBServer, @DBName, @DBOwner, @DBPassword, @Disabled, @DatabaseCulture, 
+														VALUES (@InstanceKey, @SubscriptionKey, @Name, @Description, @DBServer, @DBName, @DBOwner, @DBPassword, @Disabled, @DatabaseCulture, 
 														@IsUnicode, @Language, @RegionalSettings, @Provider, @UseDMS, @DMSDBServer, @DMSDBName, @DMSDBOwner, @DMSDBPassword, @Test)";
         public const string UpdateSubscriptionDatabase = @"UPDATE MP_SubscriptionDatabases SET Description = @Description, DBServer = @DBServer, DBName = @DBName, InstanceKey=@InstanceKey, DBOwner = @DBOwner, 
 														DBPassword = @DBPassword, Disabled = @Disabled, DatabaseCulture = @DatabaseCulture, IsUnicode = @IsUnicode, 
 														Language = @Language, RegionalSettings = @RegionalSettings, Provider = @Provider, UseDMS = @UseDMS, 
 														DMSDBServer = @DMSDBServer, DMSDBName = @DMSDBName, DMSDBOwner = @DMSDBOwner, DMSDBPassword = @DMSDBPassword, Test = @Test
-														WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
-        public const string DeleteSubscriptionDatabase = @"DELETE MP_SubscriptionDatabases WHERE SubscriptionKey = @SubscriptionKey AND Name = @Name";
+														WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Name = @Name";
+        public const string DeleteSubscriptionDatabase = @"DELETE MP_SubscriptionDatabases WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Name = @Name";
 
 		// SubscriptionDatabases (BurgerData)
-		public const string SelectDatabasesBySubscription = @"SELECT * FROM MP_SubscriptionDatabases WHERE SubscriptionKey = '{0}'";
-		public const string SelectDatabaseBySubscriptionAndName = @"SELECT * FROM MP_SubscriptionDatabases WHERE SubscriptionKey = '{0}' AND Name = '{1}'";
+		public const string SelectDatabases = @"SELECT * FROM MP_SubscriptionDatabases WHERE InstanceKey = '{0}' AND SubscriptionKey = '{1}'";
+		public const string SelectDatabaseByName = @"SELECT * FROM MP_SubscriptionDatabases WHERE InstanceKey = '{0}' AND SubscriptionKey = '{1}' AND Name = '{2}'";
 
 		// Account
 		public const string ExistAccount = @"SELECT COUNT(*) FROM MP_Accounts WHERE AccountName = @AccountName";
