@@ -39,7 +39,7 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("admin-server.Libraries.DataManagerEngine.DataManagerEngineStrings", typeof(DataManagerEngineStrings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microarea.AdminServer.Libraries.DataManagerEngine.DataManagerEngineStrings", typeof(DataManagerEngineStrings).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
