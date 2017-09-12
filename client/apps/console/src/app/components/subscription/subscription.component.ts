@@ -18,6 +18,7 @@ export class SubscriptionComponent implements OnInit {
   editing: boolean = false;
   databases: SubscriptionDatabase[];
   readingData: boolean;
+  existDatabases: boolean = false;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
@@ -56,6 +57,7 @@ export class SubscriptionComponent implements OnInit {
           res => {
             this.databases = res['Content'];
             this.readingData = false;
+            this.existDatabases = this.databases.length > 0;
           },
           err => {
             alert(err);
@@ -101,4 +103,10 @@ export class SubscriptionComponent implements OnInit {
     // route to edit database, I add in the existing query string the database name
     this.router.navigate(['/database'], { queryParams: { databaseToEdit: item['Name'] }, queryParamsHandling: "merge" });
   }
+
+  //--------------------------------------------------------------------------------------------------------
+  addDatabase() {
+     // route to add database
+     this.router.navigate(['/database'], { queryParamsHandling: "preserve" } );
+    }
 }
