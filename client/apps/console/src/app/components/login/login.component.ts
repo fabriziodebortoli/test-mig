@@ -42,6 +42,10 @@ export class LoginComponent implements OnInit {
       break;
 
       case 2:
+        if (this.selectedInstanceKey === '') {
+          alert('Please select an instance');
+          return;
+        }
         this.loginStep++;
       break;
 
@@ -55,19 +59,19 @@ export class LoginComponent implements OnInit {
   clearSelectedInstance()
   {
     this.selectedInstanceKey = "";
+
     let accountInfoStored = localStorage.getItem(this.credentials.accountName);
-    
     if (accountInfoStored !== null) {
       let accountInfo: AccountInfo = JSON.parse(accountInfoStored);
       if (accountInfo !== undefined && accountInfo !== null && accountInfo.instanceKey !== '') {
         accountInfo.instanceKey = '';
         localStorage.setItem(this.credentials.accountName, JSON.stringify(accountInfo));
-        this.loginStep = 1;
-        this.doNext();
-        return;
-      }      
-    }    
-
+      }
+    }
+    
+    this.loginStep = 1;
+    this.doNext();
+    return;
   }
 
   //--------------------------------------------------------------------------------
