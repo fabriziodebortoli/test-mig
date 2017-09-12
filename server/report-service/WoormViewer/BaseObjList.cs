@@ -10,60 +10,60 @@ using Microarea.Common.CoreTypes;
 
 namespace Microarea.RSWeb.WoormViewer
 {
-	//[Serializable]
-	public class BaseObjList : List<BaseObj>
-	{
-		protected WoormDocument document = null;
+    //[Serializable]
+    public class BaseObjList : List<BaseObj>
+    {
+        protected WoormDocument document = null;
         public int CountAutoObjects = 0;
 
-		public BaseObjList()
-		{
-				
-		}
-		// ---------------------------------------------------------------------------------
-		public BaseObjList(WoormDocument doc)
-		{
-			document = doc;
-		}
+        public BaseObjList()
+        {
 
-		// ---------------------------------------------------------------------------------
-		public BaseObjList Clone()
-		{
-			BaseObjList cl = new BaseObjList(document);
+        }
+        // ---------------------------------------------------------------------------------
+        public BaseObjList(WoormDocument doc)
+        {
+            document = doc;
+        }
 
-			foreach (BaseObj item in this)
-			{
-				cl.Add(item.Clone());
-			}
-			return cl;
-		}
+        // ---------------------------------------------------------------------------------
+        public BaseObjList Clone()
+        {
+            BaseObjList cl = new BaseObjList(document);
 
-		// ---------------------------------------------------------------------------------
+            foreach (BaseObj item in this)
+            {
+                cl.Add(item.Clone());
+            }
+            return cl;
+        }
+
+        // ---------------------------------------------------------------------------------
         public void MoveBaseRect(int xOffset, int yOffset, bool bIgnoreBorder = false)
-		{
-			foreach (BaseObj item in this)
-			{
+        {
+            foreach (BaseObj item in this)
+            {
                 item.MoveBaseRect(xOffset, yOffset, bIgnoreBorder);
-			}
-		}
+            }
+        }
 
-		// ---------------------------------------------------------------------------------
-		public void ApplyRepeater()
-		{
-			foreach (BaseObj item in this)
-			{
-				if (item is Repeater)
-				{
-					((Repeater)item).Rebuild(this);
-				}
-			}
-		}
+        // ---------------------------------------------------------------------------------
+        public void ApplyRepeater()
+        {
+            foreach (BaseObj item in this)
+            {
+                if (item is Repeater)
+                {
+                    ((Repeater)item).Rebuild(this);
+                }
+            }
+        }
 
-		// ---------------------------------------------------------------------------------
-		public BaseObj FindBaseObj(ushort id)
-		{
-			return this.Find((item) => item.InternalID == id);
-		}
+        // ---------------------------------------------------------------------------------
+        public BaseObj FindBaseObj(ushort id)
+        {
+            return this.Find((item) => item.InternalID == id);
+        }
 
         // ---------------------------------------------------------------------------------
         public Column FindColumn(ushort id)
@@ -79,33 +79,33 @@ namespace Microarea.RSWeb.WoormViewer
             return null;
         }
 
-         //------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------
         internal bool UpdateObject(object woormObject)
-		{
-			BaseObj objToRemove = FindBaseObj(((BaseObj)woormObject).InternalID);
-			BaseObj objToAdd = woormObject as BaseObj;
+        {
+            BaseObj objToRemove = FindBaseObj(((BaseObj)woormObject).InternalID);
+            BaseObj objToAdd = woormObject as BaseObj;
 
-			if (objToAdd == null || objToRemove == null)
-				return false;
-			
-			objToAdd.Document = objToRemove.Document;
-			int indexObjToRemove = IndexOf(objToRemove);
-			RemoveAt(indexObjToRemove);
-			List<BaseObj> l = new List<BaseObj>();
-			l.Add(objToAdd);
-			InsertRange(indexObjToRemove, l);
-			return true;
-		}
+            if (objToAdd == null || objToRemove == null)
+                return false;
 
-		// ---------------------------------------------------------------------------------
-		public void ClearData()
-		{
-			foreach (BaseObj item in this)
-			{
+            objToAdd.Document = objToRemove.Document;
+            int indexObjToRemove = IndexOf(objToRemove);
+            RemoveAt(indexObjToRemove);
+            List<BaseObj> l = new List<BaseObj>();
+            l.Add(objToAdd);
+            InsertRange(indexObjToRemove, l);
+            return true;
+        }
+
+        // ---------------------------------------------------------------------------------
+        public void ClearData()
+        {
+            foreach (BaseObj item in this)
+            {
                 item.ClearData();
             }
         }
-        
+
         // ---------------------------------------------------------------------------------
         public void SetStyle(BaseRect templateRect)
         {
@@ -143,7 +143,7 @@ namespace Microarea.RSWeb.WoormViewer
             bool first = true;
             foreach (BaseObj item in this)
             {
-                if (item.IsHidden && item.HideExpr == null) 
+                if (item.IsHidden && item.HideExpr == null)
                     continue;
 
                 if (!template && item.HideExpr != null && item.DynamicIsHidden)
@@ -152,13 +152,14 @@ namespace Microarea.RSWeb.WoormViewer
                     continue;
                 }
 
-                if ( !
+                if (!
                         (
                             template ||
                             item is FieldRect ||
                             item is Table ||
-                            //item is Repeater ||
-                            item.IsDynamic()
+                           item is Chart ||
+                           //item is Repeater ||
+                           item.IsDynamic()
                         )
                     )
                     continue;
@@ -171,10 +172,10 @@ namespace Microarea.RSWeb.WoormViewer
 
                 if (first) first = false;
                 else s += ',';
-                
+
                 if (template)
                     s += item.ToJsonTemplate(true);
-                else 
+                else
                     s += item.ToJsonData(true);
             }
             s += ']';

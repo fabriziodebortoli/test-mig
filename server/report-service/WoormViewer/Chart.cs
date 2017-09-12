@@ -137,16 +137,16 @@ namespace Microarea.RSWeb.Objects
         bool IsChartFamilyBar()
         {
             return
-                ChartType == EnumChartType.Bar &&
-                ChartType != EnumChartType.BarStacked &&
-                ChartType != EnumChartType.BarStacked100 &&
-                ChartType != EnumChartType.Column &&
-                ChartType != EnumChartType.ColumnStacked &&
-                ChartType != EnumChartType.ColumnStacked100 &&
-                ChartType != EnumChartType.Area &&
-                ChartType != EnumChartType.AreaStacked &&
-                ChartType != EnumChartType.AreaStacked100 &&
-                ChartType != EnumChartType.Line;
+                ChartType == EnumChartType.Bar ||
+                ChartType == EnumChartType.BarStacked ||
+                ChartType == EnumChartType.BarStacked100 ||
+                ChartType == EnumChartType.Column ||
+                ChartType == EnumChartType.ColumnStacked ||
+                ChartType == EnumChartType.ColumnStacked100 ||
+                ChartType == EnumChartType.Area ||
+                ChartType == EnumChartType.AreaStacked ||
+                ChartType == EnumChartType.AreaStacked100 ||
+                ChartType == EnumChartType.Line;
         }
 
         bool IsChartFamilyPie()
@@ -215,6 +215,10 @@ namespace Microarea.RSWeb.Objects
                 case Token.LAYER:
                     lex.SkipToken();
                     ok = lex.ParseInt(out this.Layer);
+                    break;
+
+                case Token.TRANSPARENT:
+                    lex.SkipToken();
                     break;
 
                 case Token.END:
