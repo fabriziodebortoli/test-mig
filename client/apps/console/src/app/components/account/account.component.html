@@ -7,7 +7,7 @@
       </div>
       <div class="box">
         <input *ngIf="!editing" type="password" placeholder="Password" value="" [(ngModel)]="model.Password" required>
-        <button *ngIf="editing" (click)="doChangePassword()">Change Password</button>
+        <button *ngIf="editing" (click)="doChangePassword()" style="font-size:10px">Change Password</button>
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
