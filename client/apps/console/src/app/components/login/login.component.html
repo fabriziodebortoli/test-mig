@@ -13,24 +13,29 @@
             <div class="row start-xs">
                 <h3 style="color:#666666; margin-left:22px;">{{ welcomeMessage }}</h3>
             </div>
-            <div class="box" *ngIf="loginStep == 1">
-                <input type="text" class="ctrlInput" placeholder="Your Account Name" value="" [(ngModel)]="credentials.accountName" required>
-            </div>
 
-            <div *ngIf="loginStep == 2">
-                <div *ngIf="instancesList.length > 0" class="box"> 
-                    <select [(ngModel)]="selectedInstanceKey">
-                        <option value="" disabled selected hidden>Select an Instance</option>
-                        <option *ngFor="let instance of instancesList" value="{{ instance.InstanceKey }}">
-                            {{ instance.Description }}
-                        </option>
-                    </select>
-                </div>            
-            </div>
+            <div style="min-height:120px">
 
-            <div class="box" *ngIf="loginStep == 3">
-                <input type="password" placeholder="Password" value="" [(ngModel)]="credentials.password" required>
-            </div>            
+                <div class="box" *ngIf="loginStep == 1">
+                    <input type="text" class="ctrlInput" autofocus placeholder="Your Account Name" value="" [(ngModel)]="credentials.accountName" required>
+                </div>
+
+                <div *ngIf="loginStep == 2">
+                    <div *ngIf="instancesList.length > 0" class="box" style="padding-top:10px"> 
+                        <select autofocus [(ngModel)]="selectedInstanceKey" style="height:30px">
+                            <option value="" disabled selected hidden>Select an Instance</option>
+                            <option *ngFor="let instance of instancesList" value="{{ instance.InstanceKey }}">
+                                {{ instance.Description }}
+                            </option>
+                        </select>
+                    </div>            
+                </div>
+
+                <div class="box" *ngIf="loginStep == 3">
+                    <input type="password" placeholder="Password" value="" [(ngModel)]="credentials.password" [readonly]="appBusy" required>
+                </div>
+            
+            </div>
 
             <div *ngIf="loginStep <= 3" class="box" class="end-xs" style="margin-top:40px;"> 
                 <button color="primary" (click)="doNext()">Next</button>
