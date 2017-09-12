@@ -1,5 +1,5 @@
 import {OperationResult} from '../../services/operationResult';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Credentials } from './../../authentication/credentials';
 import { LoginService } from './../../services/login.service';
 import { NgForm } from '@angular/forms';
@@ -11,7 +11,7 @@ import { AccountInfo } from '../../authentication/account-info';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   // model
   credentials: Credentials;
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   welcomeMessage: string;
   loginStep: number;
+  appBusy: boolean;
 
   //--------------------------------------------------------------------------------
   constructor(private route: ActivatedRoute, private loginService: LoginService) { 
@@ -31,8 +32,10 @@ export class LoginComponent implements OnInit {
     this.selectedInstanceKey = '';
     this.welcomeMessage = 'Sign in';
     this.loginStep = 1;
+    this.appBusy = false;
   }
 
+  //--------------------------------------------------------------------------------
   doNext() {
     switch (this.loginStep)
     {
@@ -142,12 +145,18 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    this.appBusy = true;
     this.loginService.login(this.credentials, this.returnUrl, this.selectedInstanceKey);
   }
 
   //--------------------------------------------------------------------------------
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
+
+  //--------------------------------------------------------------------------------
+  ngOnDestroy() {
+    this.appBusy = false;
   }
 
 }

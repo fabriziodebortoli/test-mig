@@ -22,7 +22,7 @@
 
                 <div *ngIf="loginStep == 2">
                     <div *ngIf="instancesList.length > 0" class="box" style="padding-top:10px"> 
-                        <select [(ngModel)]="selectedInstanceKey" style="height:30px">
+                        <select autofocus [(ngModel)]="selectedInstanceKey" style="height:30px">
                             <option value="" disabled selected hidden>Select an Instance</option>
                             <option *ngFor="let instance of instancesList" value="{{ instance.InstanceKey }}">
                                 {{ instance.Description }}
@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="box" *ngIf="loginStep == 3">
-                    <input type="password" placeholder="Password" value="" [(ngModel)]="credentials.password" required>
+                    <input type="password" placeholder="Password" value="" [(ngModel)]="credentials.password" [readonly]="appBusy" required>
                 </div>
             
             </div>
