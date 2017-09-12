@@ -10,7 +10,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Microarea.AdminServer.Library
+namespace Microarea.AdminServer.Libraries
 {
 	//================================================================================
 	public class SecurityManager

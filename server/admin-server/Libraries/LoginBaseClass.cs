@@ -4,7 +4,7 @@ using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Services.BurgerData;
 using Microarea.AdminServer.Model;
 
-namespace Microarea.AdminServer.Library
+namespace Microarea.AdminServer.Libraries
 {
     //=========================================================================
     public static class LoginBaseClass

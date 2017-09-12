@@ -1,7 +1,6 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Controllers.Helpers.Tokens;
 using Microarea.AdminServer.Libraries;
-using Microarea.AdminServer.Library;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;

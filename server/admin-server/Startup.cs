@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Controllers.Helpers;
 
 namespace Microarea.AdminServer
 {
-    public class Startup
+	//============================================================================
+	public class Startup
     {
-        public Startup(IHostingEnvironment env)
+		//---------------------------------------------------------------------
+		public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -26,8 +23,9 @@ namespace Microarea.AdminServer
 
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+		// This method gets called by the runtime. Use this method to add services to the container.
+		//---------------------------------------------------------------------
+		public void ConfigureServices(IServiceCollection services)
         {
             // Add service and create Policy with options
             services.AddCors(options =>
@@ -45,8 +43,9 @@ namespace Microarea.AdminServer
 			services.AddTransient<IHttpHelper, HttpHelper>();
 		}
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		//---------------------------------------------------------------------
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -55,9 +54,10 @@ namespace Microarea.AdminServer
             app.UseCors("CorsPolicy");
            
             app.UseMvc(routes =>
-            { routes.MapRoute("security", "tokens",
-                    defaults: new { controller = "Security", action = "Tokens" });
-                routes.MapRoute("default", "{controller=Admin}/{action=Index}/{id?}");
+            {
+				routes.MapRoute("security", "tokens", defaults: new { controller = "Security", action = "Tokens" });
+				routes.MapRoute("database", "database", defaults: new { controller = "Database", action = "Database" });
+				routes.MapRoute("default", "{controller=Admin}/{action=Index}/{id?}");
             });
         }
     }

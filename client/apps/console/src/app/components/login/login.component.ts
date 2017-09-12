@@ -13,11 +13,15 @@ import { AccountInfo } from '../../authentication/account-info';
 })
 export class LoginComponent implements OnInit {
 
+  // model
   credentials: Credentials;
-  returnUrl: string;
   instancesList: Array<string>;
   selectedInstanceKey: string;
+
+  // behaviour
+  returnUrl: string;
   welcomeMessage: string;
+  loginStep: number;
 
   //--------------------------------------------------------------------------------
   constructor(private route: ActivatedRoute, private loginService: LoginService) { 
@@ -26,14 +30,62 @@ export class LoginComponent implements OnInit {
     this.instancesList = new Array<string>();
     this.selectedInstanceKey = '';
     this.welcomeMessage = 'Sign in';
+    this.loginStep = 1;
+  }
+
+  doNext() {
+    switch (this.loginStep)
+    {
+      case 1:
+        this.preLogin();
+        this.loginStep++;
+      break;
+
+      case 2:
+        this.loginStep++;
+      break;
+
+      case 3:
+        this.submitLogin();
+      break;
+    }
+  }
+
+  //--------------------------------------------------------------------------------
+  clearInstance()
+  {
+    this.selectedInstanceKey = "";
+    let accountInfoStored = localStorage.getItem(this.credentials.accountName);
+    
+    if (accountInfoStored !== null) {
+      let accountInfo: AccountInfo = JSON.parse(accountInfoStored);
+      if (accountInfo !== undefined && accountInfo !== null) {
+        accountInfo.instanceKey = '';
+        this.loginStep = 1;
+        return;
+      }      
+    }    
+
   }
 
   //--------------------------------------------------------------------------------
   preLogin() {
+
     if (this.credentials.accountName == '') {
       alert('Account name is empty!');
       return;
     }
+
+    let accountInfoStored = localStorage.getItem(this.credentials.accountName);
+    if (accountInfoStored !== null) {
+      let accountInfo: AccountInfo = JSON.parse(accountInfoStored);
+      if (accountInfo !== undefined && accountInfo !== null) {
+        this.selectedInstanceKey = accountInfo.instanceKey;
+        this.loginStep++;
+        return;
+      }
+    }
+
 
     // load the instances for specified account
 
@@ -45,6 +97,7 @@ export class LoginComponent implements OnInit {
 
           if (!opRes.Result) {
             alert(opRes.Message);
+            this.loginStep = 1;
             return;
           }
           
@@ -52,10 +105,10 @@ export class LoginComponent implements OnInit {
 
           // if at least one instance has been loaded I change the welcome message string
           // and I read from localstorage the AccountInfo (if exist)
+
           if (this.instancesList.length > 0) {
 
-            this.welcomeMessage = 'Welcome';
-
+            this.welcomeMessage = 'Welcome, ' + this.credentials.accountName;
             let localAccountInfo = localStorage.getItem(this.credentials.accountName);
             
             if (localAccountInfo != null && localAccountInfo != '') {
@@ -66,6 +119,7 @@ export class LoginComponent implements OnInit {
         },
         err => {
           alert(err);
+          this.loginStep = 1;
         }
     )
   }
@@ -79,7 +133,7 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.selectedInstanceKey == '') {
-      alert('Select an instance!');
+      alert('Please select an instance');
       return;
     }
 
@@ -88,7 +142,7 @@ export class LoginComponent implements OnInit {
 
   //--------------------------------------------------------------------------------
   ngOnInit() {
-
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
+
 }

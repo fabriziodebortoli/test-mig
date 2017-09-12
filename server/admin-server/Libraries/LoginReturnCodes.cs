@@ -1,5 +1,5 @@
 ﻿
-namespace Microarea.AdminServer.Library
+namespace Microarea.AdminServer.Libraries
 {
     //----------------------------------------------------------------------------
     public enum LoginReturnCodes
