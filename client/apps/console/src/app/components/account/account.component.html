@@ -1,30 +1,36 @@
 <div class="container" fxLayout="column" style="padding:10px">
   <h2 class="componentTitle">Account</h2>
+  
   <div class="row bottom-xs" style="background-color: #ffffff; padding:20px 0 10px 10px">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div>
         <input type="email" placeholder="Email" value="" [(ngModel)]="model.AccountName" [readonly]=editing required>
       </div>
-      <div class="box">
+    </div>
+
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <div>
         <input *ngIf="!editing" type="password" placeholder="Password" value="" [(ngModel)]="model.Password" required>
         <button *ngIf="editing" (click)="doChangePassword()" style="font-size:10px">Change Password</button>
       </div>
     </div>
+
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div>
         <label><input type="checkbox" name="cboxPwNeverExpires" value="" [(ngModel)]="model.PasswordNeverExpires">Password never expires</label>
       </div>
     </div>
   </div>
+
   <br>
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div>
         <input type="text" placeholder="Full Name" value="" [(ngModel)]="model.FullName">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div>
         <label><input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.ProvisioningAdmin">Provisioning Administrator</label>
       </div>
     </div>
@@ -32,12 +38,12 @@
   <br>
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div>
         <label><input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.Disabled">Disabled</label>
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div>
         <label><input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.Locked">Locked</label>
       </div>
     </div>
@@ -45,7 +51,7 @@
   <br>
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div>
         <textarea rows="5" cols="36" placeholder="Notes" maxlength="500" [(ngModel)]="model.Notes"></textarea>
       </div>
     </div>
@@ -53,25 +59,25 @@
   <br>
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div>
         <input type="text" placeholder="Language" value="" [(ngModel)]="model.Language">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div>
         <input type="text" placeholder="Regional Settings" value="" [(ngModel)]="model.RegionalSettings">
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="box" style="width:60%">
+    <div style="width:60%">
       <br>
       <app-account-subscriptions [editAccountName]="model.AccountName" [subscriptions]="subscriptionsAccount"></app-account-subscriptions>
     </div>
   </div>  
   <div class="row end-xs center-sm center-lg">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div>
         <button type="button" style="margin-top:40px;" class="btn btn-primary" (click)="submitAccount()">Save</button>
       </div>
     </div>
