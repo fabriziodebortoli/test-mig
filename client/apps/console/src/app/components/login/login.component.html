@@ -7,7 +7,7 @@
                 </div>
                 <div class="box" style="text-align: right">
                     <h5 style="color:#999999;display:inline;">{{ selectedInstanceKey }}</h5><br>
-                    <a (click)="clearInstance()"><h5 *ngIf="selectedInstanceKey != ''" style="color:#999999;display:inline;">(change)</h5></a>
+                    <a (click)="clearSelectedInstance()"><h5 *ngIf="selectedInstanceKey != ''" style="color:#999999;display:inline;cursor:pointer;">(change)</h5></a>
                 </div>
             </div>
             <div class="row start-xs">
