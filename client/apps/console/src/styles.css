@@ -19,3 +19,5 @@ md-sidenav a { color:#444444; padding-bottom:10px; text-decoration: none; }
 }
 
 h1 { color: #444444;}
+
+input[type="text"],input[type="email"] { height:30px}
