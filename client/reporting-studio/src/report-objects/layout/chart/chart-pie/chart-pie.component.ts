@@ -1,6 +1,6 @@
 import { chart, series } from './../../../../models/chart.model';
 import { Component, ChangeDetectorRef, AfterViewInit, Input } from '@angular/core';
-import { ChartType } from "models/chart-type.model";
+import { ChartType } from "./../../../../models/chart-type.model";
 @Component({
     selector: 'rs-chart-pie',
     templateUrl: './chart-pie.component.html',
