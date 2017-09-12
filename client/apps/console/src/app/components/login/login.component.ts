@@ -52,16 +52,18 @@ export class LoginComponent implements OnInit {
   }
 
   //--------------------------------------------------------------------------------
-  clearInstance()
+  clearSelectedInstance()
   {
     this.selectedInstanceKey = "";
     let accountInfoStored = localStorage.getItem(this.credentials.accountName);
     
     if (accountInfoStored !== null) {
       let accountInfo: AccountInfo = JSON.parse(accountInfoStored);
-      if (accountInfo !== undefined && accountInfo !== null) {
+      if (accountInfo !== undefined && accountInfo !== null && accountInfo.instanceKey !== '') {
         accountInfo.instanceKey = '';
+        localStorage.setItem(this.credentials.accountName, JSON.stringify(accountInfo));
         this.loginStep = 1;
+        this.doNext();
         return;
       }      
     }    
@@ -79,13 +81,12 @@ export class LoginComponent implements OnInit {
     let accountInfoStored = localStorage.getItem(this.credentials.accountName);
     if (accountInfoStored !== null) {
       let accountInfo: AccountInfo = JSON.parse(accountInfoStored);
-      if (accountInfo !== undefined && accountInfo !== null) {
+      if (accountInfo !== undefined && accountInfo !== null && accountInfo.instanceKey !== '') {
         this.selectedInstanceKey = accountInfo.instanceKey;
         this.loginStep++;
         return;
       }
     }
-
 
     // load the instances for specified account
 
