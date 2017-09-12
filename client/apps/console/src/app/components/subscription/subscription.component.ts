@@ -24,6 +24,7 @@ export class SubscriptionComponent implements OnInit {
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
     this.model = new AppSubscription();
+    this.databases = [];
   }
 
   //--------------------------------------------------------------------------------------------------------
