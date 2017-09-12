@@ -29,13 +29,6 @@
     </div>
   </div>
   <br>
-   <div class="row">
-    <div class="box" style="width:60%">
-      <br>
-       <h4 class="componentTitle">Databases</h4>
-       <admin-list [readingData]=readingData [items]=databases [columnNames]="['Name','Description', 'Test']" (onSelectedItem)="openDatabase($event)"></admin-list>
-    </div>
-  </div>  
   <div class="row end-xs center-sm center-lg">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
@@ -43,4 +36,13 @@
       </div>
     </div>
   </div>
+  <br>
+  <div class="row">
+   <div class="box" style="width:60%">
+     <br>
+      <h4 class="componentTitle">Databases</h4>
+      <button type="button" class="btn btn-primary" *ngIf="!existDatabases" (click)="addDatabase()">Add</button>
+      <admin-list [readingData]=readingData [items]=databases [columnNames]="['Name','Description', 'Test']" (onSelectedItem)="openDatabase($event)"></admin-list>
+   </div>
+ </div>  
 </div>
