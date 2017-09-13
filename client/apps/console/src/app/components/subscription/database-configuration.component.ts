@@ -10,12 +10,15 @@ import { ModelService } from 'app/services/model.service';
 
 export class DatabaseConfigurationComponent implements OnInit {
   
+  isWorking: boolean;
+
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
    }
   
   //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
+    this.isWorking = false;
   }
   
   //--------------------------------------------------------------------------------------------------------
@@ -26,11 +29,13 @@ export class DatabaseConfigurationComponent implements OnInit {
       this.router.navigate(['/database'], { queryParamsHandling: "preserve" } );
       return;
     }
-    
+
     let subscriptionKey: string = this.route.snapshot.queryParams['subscriptionToEdit'];
     if (subscriptionKey === undefined)
       return;
-    
+
+    this.isWorking = true;
+      
     let subs = this.modelService.quickConfigureDatabase(subscriptionKey).
       subscribe(
         result => {
@@ -40,12 +45,13 @@ export class DatabaseConfigurationComponent implements OnInit {
           this.router.navigate(['/subscription'], { queryParamsHandling: "preserve" } );
     
           subs.unsubscribe();
+          this.isWorking = false;
         },
         error => {
           console.log('*** configureDatabase error: ' + error);
           subs.unsubscribe();
+          this.isWorking = false;
         }
     )
-
   }
 }

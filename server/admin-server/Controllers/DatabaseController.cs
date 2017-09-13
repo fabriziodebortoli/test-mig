@@ -79,7 +79,7 @@ namespace Microarea.AdminServer.Controllers
 			DatabaseTask dTask = new DatabaseTask();
 			dTask.CurrentStringConnection = string.Format(NameSolverDatabaseStrings.SQLConnection, settings.DatabaseInfo.DBServer, DatabaseLayerConsts.MasterDatabase, settings.DatabaseInfo.DBUser, settings.DatabaseInfo.DBPassword);
 			opRes.Result = dTask.CreateAzureDatabase(param);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToString();
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson();
 
 			if (!opRes.Result)
 			{
@@ -91,7 +91,7 @@ namespace Microarea.AdminServer.Controllers
 			string loginName = dbName + "Admin";
 			string password = SecurityManager.GetRandomPassword();
 			opRes.Result = dTask.CreateLogin(loginName, password);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToString();
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson();
 
 			if (!opRes.Result)
 			{
@@ -101,7 +101,7 @@ namespace Microarea.AdminServer.Controllers
 
 			// associo la login appena creata al database con il ruolo di db_owner
 			opRes.Result = dTask.CreateUser(loginName, dbName);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToString();
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson();
 
 			if (!opRes.Result)
 			{
@@ -211,7 +211,7 @@ namespace Microarea.AdminServer.Controllers
 			DatabaseTask dTask = new DatabaseTask();
 			dTask.CurrentStringConnection = settings.DatabaseInfo.ConnectionString;
 			opRes.Result = dTask.CreateAzureDatabase(param);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToString();
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson();
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 
 			if (!opRes.Result)
