@@ -13,6 +13,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		public const string SetIdentityInsertOFF = " SET IDENTITY_INSERT {0} OFF\r\n";
 
 		public const string LoginSa			= "sa";
+		public const string PublicUser		= "public";
 		public const string MasterDatabase	= "master";
 
         //@@Anastasia il nome del masterdatabase in postgre
