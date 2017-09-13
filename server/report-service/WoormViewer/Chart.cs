@@ -40,7 +40,7 @@ namespace Microarea.RSWeb.Objects
         Scatter, ScatterLine,
 
         PolarLine, PolarArea, PolarScatter,
-        RadarLine, RadarArea, 
+        RadarLine, RadarArea,
 
         Wrong,
         //mancano nei BCGP
@@ -63,9 +63,9 @@ namespace Microarea.RSWeb.Objects
         Step
     };
 
-    class Series 
-	{
-	    public Variable BindedField = null;
+    class Series
+    {
+        public Variable BindedField = null;
         public string Title;
 
         public EnumChartType SeriesType = EnumChartType.None;
@@ -78,7 +78,7 @@ namespace Microarea.RSWeb.Objects
         /*CCategories : non riesco a fare la dichiarazione forward*/
         public Categories Parent = null;
 
-        public Series (Categories p) { Parent = p; }
+        public Series(Categories p) { Parent = p; }
     };
 
     class Categories
@@ -105,7 +105,7 @@ namespace Microarea.RSWeb.Objects
         public ChartLegend() { }
     };
 
-    public class Chart: BaseRect
+    public class Chart : BaseRect
     {
         public string Name;
         public string Title;
@@ -122,11 +122,11 @@ namespace Microarea.RSWeb.Objects
         }
 
         //---------------------------------------------------------------------
-        bool HasCategories() 
+        bool HasCategories()
         {
-	        return	
-                ChartType != EnumChartType.None && 
-			    ChartType != EnumChartType.Scatter && 
+            return
+                ChartType != EnumChartType.None &&
+                ChartType != EnumChartType.Scatter &&
                 ChartType != EnumChartType.ScatterLine &&
                 ChartType != EnumChartType.PolarLine &&
                 ChartType != EnumChartType.PolarArea &&
@@ -152,21 +152,21 @@ namespace Microarea.RSWeb.Objects
         bool IsChartFamilyPie()
         {
             return
-                ChartType == EnumChartType.Pie &&
-                ChartType != EnumChartType.Funnel &&
-                ChartType != EnumChartType.Donut;
+                ChartType == EnumChartType.Pie ||
+                ChartType == EnumChartType.Funnel ||
+                ChartType == EnumChartType.Donut;
         }
 
         bool IsChartFamilyRange()
         {
             return
-                ChartType != EnumChartType.RangeBar &&
-                ChartType != EnumChartType.RangeColumn &&
+                ChartType == EnumChartType.RangeBar ||
+                ChartType == EnumChartType.RangeColumn ||
 
-                ChartType != EnumChartType.RadarArea &&
-                ChartType != EnumChartType.RadarLine &&
+                ChartType == EnumChartType.RadarArea ||
+                ChartType == EnumChartType.RadarLine ||
 
-                ChartType != EnumChartType.Bubble;
+                ChartType == EnumChartType.Bubble;
         }
         //------------------------------------------------------------------------------
         protected override bool ParseProp(WoormParser lex, bool block)
@@ -177,7 +177,7 @@ namespace Microarea.RSWeb.Objects
             {
                 case Token.PEN: ok = lex.ParsePen(BorderPen); break;
                 case Token.BORDERS: ok = lex.ParseBorders(Borders); break;
- 
+
                 case Token.HIDDEN:
                     {
                         Token[] stopTokens =
@@ -305,7 +305,7 @@ namespace Microarea.RSWeb.Objects
                 int st = 0;
                 if (!lex.ParseInt(out st))
                     return false;
-                pSeries.Style = (EnumChartStyle) st;
+                pSeries.Style = (EnumChartStyle)st;
             }
 
             if (lex.Matched(Token.GROUP))
@@ -384,9 +384,9 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         bool ParseLegend(WoormParser lex)
         {
-            bool ok = lex.ParseBegin    () &&
-                      lex.ParseTag      (Token.HIDDEN) &&
-                      lex.ParseBool     (out Legend.Hidden);
+            bool ok = lex.ParseBegin() &&
+                      lex.ParseTag(Token.HIDDEN) &&
+                      lex.ParseBool(out Legend.Hidden);
             if (!ok)
                 return false;
 
@@ -400,22 +400,22 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         public override bool Parse(WoormParser lex)
         {
-            bool ok =   lex.ParseTag    (Token.CHART) &&
-                        lex.ParseBegin  () &&
-                        lex.ParseTag    (Token.TITLE) &&
-                        lex.ParseString (out Title) &&
-                        lex.ParseAlias  (out this.InternalID);
+            bool ok = lex.ParseTag(Token.CHART) &&
+                        lex.ParseBegin() &&
+                        lex.ParseTag(Token.TITLE) &&
+                        lex.ParseString(out Title) &&
+                        lex.ParseAlias(out this.InternalID);
 
             if (lex.Matched(Token.COMMA))
                 ok = ok && lex.ParseID(out Name);
 
             int t = 0;
-             ok = ok && lex.ParseRect   (out this.Rect) &&
-                        lex.ParseTag    (Token.TYPE) &&
-                        lex.ParseInt    (out t);
-            
+            ok = ok && lex.ParseRect(out this.Rect) &&
+                       lex.ParseTag(Token.TYPE) &&
+                       lex.ParseInt(out t);
+
             ChartType = (EnumChartType)t;
-            
+
             ok = ok && ParseBlock(lex);
 
             while (lex.Matched(Token.CHART_CATEGORIES))
@@ -423,9 +423,9 @@ namespace Microarea.RSWeb.Objects
                 Categories pCat = new Categories(this);
                 if (!ParseCategories(lex, pCat))
                 {
-                     return false;
+                    return false;
                 }
-               Categories.Add(pCat);
+                Categories.Add(pCat);
             }
 
             if (lex.Matched(Token.CHART_LEGEND))
@@ -438,8 +438,8 @@ namespace Microarea.RSWeb.Objects
 
             if (!lex.ParseEnd())
                 return false;
- 
-             return true;
+
+            return true;
         }
 
         //------------------------------------------------------------------------------
@@ -465,17 +465,17 @@ namespace Microarea.RSWeb.Objects
         public override void ClearData()
         {
         }
- 
+
         //------------------------------------------------------------------------------
         public override string ToJsonTemplate(bool bracket)
         {
             string name = "chart";
             string s = '\"' + name + "\":";
 
-             s += '{' +
-                base.ToJsonTemplate(false) + ',' +
-                ChartType.ToJson("chartType");
- 
+            s += '{' +
+               base.ToJsonTemplate(false) + ',' +
+               ChartType.ToJson("chartType");
+
             s += ',' + this.Title.ToJson("title", false, true);
 
             if (!Legend.Hidden)
@@ -531,7 +531,7 @@ namespace Microarea.RSWeb.Objects
                 return string.Empty;
             }
 
-           string s = "{\"data\":[";
+            string s = "{\"data\":[";
 
             bool first = true;
             for (int i = 0; i < ar.Count; i++)
@@ -545,14 +545,77 @@ namespace Microarea.RSWeb.Objects
                     s += ',';
                 }
 
+
                 s += ar.GetAt(i).ToJson();
+
             }
 
             s += "]," + series.Title.ToJson("name", false, true);
 
             if (series.Colored)
                 s += ',' + series.Color.ToJson("color");
- 
+
+            s += ',' + series.SeriesType.ToJson("type");
+
+            if (series.Group != 0)
+                s += ',' + series.Group.ToJson("group");
+
+            switch (series.Style)
+            {
+                case EnumChartStyle.Normal:
+                    s += ',' + "normal".ToJson("style");
+                    break;
+                case EnumChartStyle.Smooth:
+                    s += ',' + "smooth".ToJson("style");
+                    break;
+                case EnumChartStyle.Step:
+                    s += ',' + "step".ToJson("style");
+                    break;
+            }
+
+            return s + '}';
+        }
+
+        //---------------------------------------------------------------------
+        /**
+         * Chart con le serie complesse
+         */
+        string ToJsonData(Series series, DataArray categories)
+        {
+            DataArray arSeries = GetArray(series.BindedField);
+            if (arSeries == null)
+            {
+                return string.Empty;
+            }
+            if (categories.Count != arSeries.Count)
+            {
+                return string.Empty;
+            }
+
+
+            string s = "{\"data\":[";
+
+            for (int i = 0; i < categories.Count; i++)
+            {
+                if (i != 0)
+                {
+                    s += ',';
+                }
+
+
+
+                string categoriesStr = categories.GetAt(i).ToJson("category");
+
+                string val = arSeries.GetAt(i).ToJson("value");
+                s += '{' + categoriesStr + ',' + val + '}';
+
+            }
+
+            s += "]," + series.Title.ToJson("name", false, true);
+
+            if (series.Colored)
+                s += ',' + series.Color.ToJson("color");
+
             s += ',' + series.SeriesType.ToJson("type");
 
             if (series.Group != 0)
@@ -632,13 +695,22 @@ namespace Microarea.RSWeb.Objects
             series += ']';
 
             if (HasCategories())
-                series += ','  + ToJsonData(this.Categories[0]) ;
+                series += ',' + ToJsonData(this.Categories[0]);
             return series;
         }
 
         string ToJsonDataFamilyPie()
         {
-            return "";
+            if (Categories[0] == null)
+            {
+                return string.Empty;
+            }
+
+            string series = "\"series\":[";
+            DataArray categories = GetArray(Categories[0].BindedField);
+            series += ToJsonData(Categories[0].Series[0], categories);
+            series += ']';
+            return series;
         }
         //---------------------------------------------------------------------
         public override string ToJsonData(bool bracket)
