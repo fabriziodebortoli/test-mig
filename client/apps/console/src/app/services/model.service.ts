@@ -110,19 +110,20 @@ export class ModelService {
   }
   
   //--------------------------------------------------------------------------------------------------------
-  getSubscriptions(body: string = ''): Observable<OperationResult> {
-    
+  getSubscriptions(accountName: string, subscriptionKey?: string): Observable<OperationResult> {
+
     let authorizationHeader = this.createAuthorizationHeader('app');
     
     if (authorizationHeader === '') {
       return Observable.throw('AuthorizationHeader is missing!');
     }
-    
-    // if body is not empty I add the instancekey
-    
+
     let urlSubscriptionSegment: string = 'subscriptions';
-    if (body !== '') {
-      urlSubscriptionSegment += "/" + body;
+
+    urlSubscriptionSegment += "/" + accountName;
+
+    if (subscriptionKey !== undefined) {
+      urlSubscriptionSegment += "/" + subscriptionKey;
     }
     
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });

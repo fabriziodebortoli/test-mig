@@ -1,6 +1,7 @@
-<div class="accSubComp">
+<div class="adminTile">
   <h4>Subscriptions</h4>
-  Search <input type="text" [(ngModel)]="searchString"><button (click)="doSearchSubscriptions()">go</button>
+  <label style="display:block">Search</label>
+  <input type="text" [(ngModel)]="searchString"><button style="max-width:80px;margin:-4px 0 0 4px" (click)="doSearchSubscriptions()">go</button>
 
   <p style="margin-top: 30px" *ngIf="subscriptionsResult !== undefined && subscriptionsResult.length > 0">Found subscriptions</p>
   <admin-list 

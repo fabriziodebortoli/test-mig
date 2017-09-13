@@ -5,6 +5,7 @@ import { ModelService } from '../../services/model.service';
 import { Observable } from 'rxjs/Observable';
 import { OperationResult } from '../../services/operationResult';
 import { SubscriptionDatabase } from '../../model/subscriptionDatabase';
+import { AuthorizationProperties } from 'app/authentication/auth-info';
 
 @Component({
   selector: 'app-subscription',
@@ -23,6 +24,7 @@ export class SubscriptionComponent implements OnInit {
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
     this.model = new AppSubscription();
+    this.databases = [];
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -38,7 +40,15 @@ export class SubscriptionComponent implements OnInit {
 
     // first I load the subscription 
 
-    this.modelService.getSubscriptions(subscriptionKey)
+    let accountName: string;
+    let authorizationStored = localStorage.getItem('auth-info');
+    
+    if (authorizationStored !== null) {
+      let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);    
+      accountName = authorizationProperties.accountName;
+    }
+
+    this.modelService.getSubscriptions(accountName, subscriptionKey)
       .subscribe(
       res => {
         let subscriptions: AppSubscription[] = res['Content'];

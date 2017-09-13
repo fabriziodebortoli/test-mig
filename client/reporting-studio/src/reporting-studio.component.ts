@@ -76,6 +76,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.eventNextPage.subscribe(() => this.NextPage());
     this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
     this.rsService.eventCurrentPage.subscribe(() => this.CurrentPage());
+    this.rsService.eventSnapshot.subscribe(() => this.Snapshot());
   }
 
   // -----------------------------------------------
@@ -172,6 +173,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           break;
         case CommandType.EXPORTDOCX:
           this.getDocxData(k + ".docx");
+          break;
+        case CommandType.SNAPSHOT:
+          
           break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
@@ -304,6 +308,18 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
+  Snapshot() {
+    let message = {
+      commandType: CommandType.SNAPSHOT,
+      message: this.args.nameSpace,
+      page: 1
+    };
+
+    this.rsService.pageNum = message.page;
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
   //--------------------------------------------------
   public startSaveSVG() {
     this.rsService.svgState = SvgType.SVG;
@@ -356,6 +372,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
+  public startSnapshot(){
+    this.rsService.snapshot = true;
+  }
+
+  //--------------------------------------------------
   getExcelData(filename: string) {
     var iframeHTML = document.getElementById('iframe') as HTMLFrameElement;
     var s = this.httpServ.getReportServiceUrl() + 'excel/' + filename;
@@ -368,6 +389,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     var s = this.httpServ.getReportServiceUrl() + 'docx/' + filename;
     iframeHTML.src = s;
   }
+
+
 }
 
 

@@ -1,0 +1,8 @@
+<kendo-dialog title="Snapshot Report" (close)="close()">
+    <div>
+   
+    </div>
+    <kendo-dialog-actions>
+        <button kendoButton *ngIf="rsService.snapshot" (click)="createFileJson()">New Snapshot</button>
+    </kendo-dialog-actions>
+  </kendo-dialog>

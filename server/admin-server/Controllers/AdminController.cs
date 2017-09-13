@@ -209,11 +209,8 @@ namespace Microarea.AdminServer.Controllers
 
 			if (databasesList.Count == 0)
 			{
-				opRes.Result = true;
 				opRes.Code = (int)AppReturnCodes.NoSubscriptionDatabasesAvailable;
 				opRes.Message = Strings.NoSubscriptionDatabasesAvailable;
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
 			opRes.Result = true;

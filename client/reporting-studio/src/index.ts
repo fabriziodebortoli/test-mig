@@ -38,6 +38,8 @@ export { ReportingStudioComponent, ReportingStudioFactoryComponent } from './rep
 export { ReportingStudioService } from './reporting-studio.service';
 export { AskdialogService } from './report-objects/askdialog/askdialog.service';
 import { ExportdialogComponent } from './report-objects/exportdialog/exportdialog.component';
+import { SnapshotdialogComponent } from './report-objects/snapshotdialog/snapshotdialog.component';
+
 
 export * from './rs-test.component';
 export * from './models';
@@ -65,6 +67,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     ReportLayoutComponent,
     AskdialogComponent,
     ExportdialogComponent,
+    SnapshotdialogComponent,
     ReportingStudioFactoryComponent,
     ReportingStudioComponent,
     ReportChartComponent,

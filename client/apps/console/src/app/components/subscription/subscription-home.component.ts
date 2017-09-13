@@ -34,7 +34,7 @@ export class SubscriptionHomeComponent implements OnInit {
 
     this.readingData = true;
 
-    this.modelService.getSubscriptions()
+    this.modelService.getSubscriptions(authorizationProperties.accountName)
       .subscribe(
       subscriptions => {
         this.subscriptions = subscriptions['Content'];
