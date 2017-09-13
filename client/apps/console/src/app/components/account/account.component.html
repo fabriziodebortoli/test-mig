@@ -4,13 +4,15 @@
   <div class="row adminTile">
 
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <input *ngIf="!editing" type="email" placeholder="Email" value="" [(ngModel)]="model.AccountName" [readonly]=editing required>
+      <label>Account Name</label>
+      <input *ngIf="!editing" type="email" placeholder="Email" autofocus value="" [(ngModel)]="model.AccountName" [readonly]=editing required>
       <input *ngIf="editing" type="email" style="background-color:#f0f0f0;color:#666666; border:1" placeholder="Email" value="" [(ngModel)]="model.AccountName" [readonly]=editing required>
     </div>
 
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div>
-        <input *ngIf="!editing" type="password" placeholder="Password" value="" [(ngModel)]="model.Password" required>
+        <label *ngIf="!editing">Password</label>
+        <input *ngIf="!editing" type="password" value="" [(ngModel)]="model.Password" required>
         <button *ngIf="editing" (click)="doChangePassword()" style="font-size:10px">Change Password</button>
       </div>
     </div>
@@ -23,11 +25,12 @@
 
   </div>
   
-  <div class="row">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4 adminTile">
+  <div class="row adminTile">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+      <label>Full Name</label>
       <input type="text" placeholder="Full Name" value="" [(ngModel)]="model.FullName">
     </div>
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4 adminTile">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <label><input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.ProvisioningAdmin">Provisioning Administrator</label>
     </div>
   </div>
@@ -35,48 +38,42 @@
 
   <div class="row adminTile">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div>
-        <label><input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.Disabled">Disabled</label>
-      </div>
+      <label><input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.Disabled">Disabled</label>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div>
-        <label><input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.Locked">Locked</label>
-      </div>
+      <label><input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.Locked">Locked</label>
     </div>
   </div>
   
   <div class="row adminTile">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div>
-        <textarea rows="5" cols="36" placeholder="Notes" maxlength="500" [(ngModel)]="model.Notes"></textarea>
+        <label>Notes</label>
+        <textarea rows="5" cols="36" maxlength="500" [(ngModel)]="model.Notes"></textarea>
       </div>
     </div>
   </div>
   
   <div class="row adminTile">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div>
-        <input type="text" placeholder="Language" value="" [(ngModel)]="model.Language">
-      </div>
+      <label>Language</label>
+      <input type="text" value="" [(ngModel)]="model.Language">
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div>
-        <input type="text" placeholder="Regional Settings" value="" [(ngModel)]="model.RegionalSettings">
-      </div>
+      <label>Regional Settings</label>
+      <input type="text" value="" [(ngModel)]="model.RegionalSettings">
     </div>
   </div>
   
   <div class="row adminTile">
     <div style="width:60%">
-      <br>
       <app-account-subscriptions [editAccountName]="model.AccountName" [subscriptions]="subscriptionsAccount"></app-account-subscriptions>
     </div>
   </div>
 
-  <div class="row end-xs center-sm center-lg">
+  <div class="row center-xs center-sm end-lg">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <button type="button" style="margin-top:40px;" class="btn btn-primary" (click)="submitAccount()">Save</button>
+      <button type="button" style="margin-top:40px;" class="cta" (click)="submitAccount()">Save</button>
     </div>
   </div>  
 </div>
