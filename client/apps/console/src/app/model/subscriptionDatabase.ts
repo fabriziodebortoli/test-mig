@@ -1,5 +1,6 @@
 export class SubscriptionDatabase {
 
+    InstanceKey: string;
     SubscriptionKey: string;
     Name: string;
     Description: string;
