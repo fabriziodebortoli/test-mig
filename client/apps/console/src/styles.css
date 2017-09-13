@@ -3,7 +3,7 @@
 body { margin:0; font-family:Roboto,"Helvetica Neue",sans-serif;}
 
 .pointer { cursor:pointer;}
-
+.mt20 {margin-top:20px}
 md-sidenav {
     padding:10px;
     width: 200px;
@@ -15,7 +15,8 @@ md-sidenav a { color:#444444; padding-bottom:10px; text-decoration: none; }
 /* components */
 
 .componentTitle {
-    color:#666666; border-bottom:1px solid #999999;
+    color:#666666; 
+    border-bottom:1px solid #999999;
     padding-bottom:10px; 
     margin-bottom:30px;
 }
@@ -35,5 +36,5 @@ input[type="text"], input[type="password"], input[type="email"], textarea {
     padding: 2px 0 2px 4px; height: 20px;
 }
 
-.cta { height:35px; background-color: #3f51b5; color: #ffffff; border:0; font-family:Roboto,"Helvetica Neue",sans-serif; text-transform: uppercase}
+.cta { height:37px; background-color: #3f51b5; color: #ffffff; border:0; font-family:Roboto,"Helvetica Neue",sans-serif; text-transform: uppercase; border-radius:2px}
 .adminTile { background-color: #ffffff; padding:16px 0 12px 12px; border-radius: 4px; margin-bottom: 10px;}
