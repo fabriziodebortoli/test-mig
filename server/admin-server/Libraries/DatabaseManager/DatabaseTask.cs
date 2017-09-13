@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using Microarea.Common.DiagnosticManager;
 using TaskBuilderNetCore.Interfaces;
+using System.Data.SqlClient;
 
 namespace Microarea.AdminServer.Libraries.DatabaseManager
 {
@@ -247,7 +248,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
 			{
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrConnectStringEmpty);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
 				return success;
 			}
 
@@ -342,14 +343,14 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (TBException e)
 			{
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.Function, "DatabaseTask.Create");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				extendedInfo.Add(DatabaseLayerStrings.Number, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Procedure, e.Procedure);
-				diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseLayerStrings.ErrorDuringDBCreation, createParameters.DatabaseName), extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DatabaseTask.Create");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				diagnostic.Set(DiagnosticType.Error, e.Message, extendedInfo);
 				success = false;
 			}
 
@@ -387,7 +388,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
 			{
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrConnectStringEmpty);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
 				return result;
 			}
 
@@ -431,14 +432,14 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (TBException e)
 			{
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.Function, "DatabaseTask.CreateAzureDatabase");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				extendedInfo.Add(DatabaseLayerStrings.Number, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Procedure, e.Procedure);
-				diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseLayerStrings.ErrorDuringDBCreation, azureParams.DatabaseName), extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DatabaseTask.CreateAzureDatabase");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				diagnostic.Set(DiagnosticType.Error, e.Message, extendedInfo);
 				result = false;
 			}
 
@@ -470,7 +471,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
 			{
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrConnectStringEmpty);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
 				return result;
 			}
 
@@ -487,7 +488,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 							DatabaseTaskConsts.BackupDB,
 							bakParams.DatabaseName,
 							bakParams.BackupFilePath,
-							string.Format(DatabaseLayerStrings.CompleteBackup, bakParams.DatabaseName),
+							string.Format(DatabaseManagerStrings.CompleteBackup, bakParams.DatabaseName),
 							(bakParams.Overwrite) ? DatabaseTaskConsts.OverwriteBackup : string.Empty
 							);
 
@@ -499,14 +500,14 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (TBException e)
 			{
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.Function, "DatabaseTask.Backup");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				extendedInfo.Add(DatabaseLayerStrings.Number, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Procedure, e.Procedure);
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrorDatabaseBackup, extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DatabaseTask.Backup");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorDatabaseBackup, extendedInfo);
 			}
 
 			DatabaseTaskEventArgs args = new DatabaseTaskEventArgs();
@@ -538,7 +539,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
 			{
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrConnectStringEmpty);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
 				return result;
 			}
 
@@ -576,14 +577,14 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (TBException e)
 			{
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.Function, "DatabaseTask.RestoreWithMove");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				extendedInfo.Add(DatabaseLayerStrings.Number, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Procedure, e.Procedure);
-				diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseLayerStrings.ErrorDatabaseRestore, restoreParams.DatabaseName), extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DatabaseTask.RestoreWithMove");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.ErrorDatabaseRestore, restoreParams.DatabaseName), extendedInfo);
 			}
 
 			return result;
@@ -600,7 +601,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		{
 			if (string.IsNullOrWhiteSpace(CurrentStringConnection) || string.IsNullOrWhiteSpace(backupFile))
 			{
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrConnectStringEmpty);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
 				return null;
 			}
 
@@ -634,14 +635,14 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (TBException e)
 			{
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.Function, "DatabaseTask.LoadFileListOnly");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				extendedInfo.Add(DatabaseLayerStrings.Number, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Procedure, e.Procedure);
-				diagnostic.Set(DiagnosticType.Error, (e.Number == 3169) ? DatabaseLayerStrings.BackupFileVersionIsRecent : DatabaseLayerStrings.ErrorLoadingFileListOnly, extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DatabaseTask.LoadFileListOnly");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				diagnostic.Set(DiagnosticType.Error, (e.Number == 3169) ? DatabaseManagerStrings.BackupFileVersionIsRecent : DatabaseManagerStrings.ErrorLoadingFileListOnly, extendedInfo);
 				return null;
 			}
 
@@ -664,7 +665,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			if (string.IsNullOrWhiteSpace(CurrentStringConnection) || string.IsNullOrWhiteSpace(physicalDeviceName))
 			{
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrConnectStringEmpty);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
 				return result;
 			}
 
@@ -677,7 +678,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					{
 						myCommand.CommandText = string.Format(DatabaseTaskConsts.RestoreVerifyOnly, physicalDeviceName);
 						myCommand.ExecuteNonQuery();
-						diagnostic.SetInformation(DatabaseLayerStrings.BackupSetIsValid);
+						diagnostic.SetInformation(DatabaseManagerStrings.BackupSetIsValid);
 					}
 					result = true;
 				}
@@ -685,14 +686,14 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (TBException e)
 			{
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.Function, "DatabaseTask.VerifyBackupFile");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				extendedInfo.Add(DatabaseLayerStrings.Number, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Procedure, e.Procedure);
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrorDuringVerifyDatabase, extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DatabaseTask.VerifyBackupFile");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorDuringVerifyDatabase, extendedInfo);
 			}
 
 			return result;
@@ -982,5 +983,183 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			}
 		}
 		#endregion
+
+		//---------------------------------------------------------------------
+		public bool CreateLogin(string login, string password)
+		{
+			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
+			{
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
+				return false;
+			}
+
+			if ((string.Compare(login, DatabaseLayerConsts.LoginSa, StringComparison.InvariantCultureIgnoreCase) == 0) ||
+				(string.Compare(login, DatabaseLayerConsts.PublicUser, StringComparison.InvariantCultureIgnoreCase) == 0))
+			{
+				Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.LoginNameNoAdmitted, login));
+				return false;
+			}
+
+			try
+			{
+				// non posso utilizzare il metodo ChangeDatabase in caso di Azure
+				SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(CurrentStringConnection);
+				builder.InitialCatalog = DatabaseLayerConsts.MasterDatabase;
+
+				using (SqlConnection myConnection = new SqlConnection(builder.ConnectionString))
+				{
+					myConnection.Open();
+
+					using (SqlCommand myCommand = new SqlCommand())
+					{
+						myCommand.Connection = myConnection;
+						myCommand.CommandText = string.Format("CREATE LOGIN [{0}] WITH PASSWORD = '{1}'", login, password);
+
+						//if (!isAzureDB)
+							//myCommand.CommandText += ", CHECK_POLICY = OFF"; // sintassi non supportata in Azure
+						
+						myCommand.ExecuteNonQuery();
+					}
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Parameters, login);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "CreateLogin");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+
+				// se il numero dell'errore è 15025 significa che si sta aggiungendo una login che già esiste
+				// perciò non devo dare un errore bloccante che invalida l'operazione, bensì procedere con le
+				// successive elaborazioni
+				if (e.Number == 15025)
+				{
+					Diagnostic.Set(DiagnosticType.Warning, string.Format(DatabaseManagerStrings.LoginAlreadyExists, login), extendedInfo);
+					return true;
+				}
+
+				// se il numero dell'errore è 15247 significa che l'utente che ha aperto la connessione
+				// non ha i privilegi per creare una una login. Pertanto blocco l'elaborazione.
+				if (e.Number == 15247)
+				{
+					Diagnostic.Set
+						(DiagnosticType.Error,
+						string.Format(DatabaseManagerStrings.UserWithoutPermission, login) + e.Message,
+						extendedInfo);
+					return false;
+				}
+
+				// se il numero dell'errore è 15118 significa che si sta aggiungendo un account la cui password
+				// non rispetta le politiche di sicurezza imposte da Windows. 
+				// WinXP e Win2003 prevedono di default politiche restrittive sull'uso delle password ed il supporto
+				// di SQLServer2005 utilizza le stesse dll. In caso di password per utenti non abbastanza "strong"
+				// (ad es. anche la pwd vuota) viene ritornato questo specifico errore e si visualizza un apposito msg.
+				if (e.Number == 15118)
+				{
+					Diagnostic.Set
+						(DiagnosticType.Error,
+						string.Format(DatabaseManagerStrings.PwdValidationFailed, login) + e.Message,
+						extendedInfo);
+					return false;
+				}
+
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorCreateLogin, extendedInfo);
+				return false;
+			}
+
+			return true;
+		}
+
+		//---------------------------------------------------------------------
+		public bool CreateUser(string login, string dbName)
+		{
+			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
+			{
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
+				return false;
+			}
+
+			try
+			{
+				// non posso utilizzare il metodo ChangeDatabase in caso di Azure
+				SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(CurrentStringConnection);
+				builder.InitialCatalog = dbName;
+
+				using (SqlConnection myConnection = new SqlConnection(builder.ConnectionString))
+				{
+					myConnection.Open();
+
+					using (SqlCommand myCommand = new SqlCommand())
+					{
+						myCommand.Connection = myConnection;
+						myCommand.CommandText = string.Format("CREATE USER [{0}] FOR LOGIN [{0}] WITH DEFAULT_SCHEMA = [dbo]", login);
+						myCommand.ExecuteNonQuery();
+
+						myCommand.CommandText = string.Format("ALTER ROLE {0} ADD MEMBER [{1}]", DatabaseLayerConsts.RoleDbOwner, login);
+						myCommand.ExecuteNonQuery();
+					}
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Parameters, login);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "CreateUser");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+
+				// se il numero dell'errore è 15023 significa che si sta aggiungendo un utente che già esiste
+				// perciò non devo dare un errore bloccante che invalida l'operazione, bensì procedere con le
+				// successive elaborazioni
+				if (e.Number == 15023)
+				{
+					Diagnostic.Set(DiagnosticType.Warning, string.Format(DatabaseManagerStrings.UserAlreadyExists, login), extendedInfo);
+					return true;
+				}
+
+				// se il numero dell'errore è 15247 significa che l'utente che ha aperto la connessione
+				// non ha i privilegi per creare una una login. Pertanto blocco l'elaborazione.
+				if (e.Number == 15247)
+				{
+					Diagnostic.Set
+						(DiagnosticType.Error,
+						string.Format(DatabaseManagerStrings.UserWithoutPermission, login) + e.Message,
+						extendedInfo);
+					return false;
+				}
+
+				// se il numero dell'errore è 15118 significa che si sta aggiungendo un account la cui password
+				// non rispetta le politiche di sicurezza imposte da Windows. 
+				// WinXP e Win2003 prevedono di default politiche restrittive sull'uso delle password ed il supporto
+				// di SQLServer2005 utilizza le stesse dll. In caso di password per utenti non abbastanza "strong"
+				// (ad es. anche la pwd vuota) viene ritornato questo specifico errore e si visualizza un apposito msg.
+				if (e.Number == 15118)
+				{
+					Diagnostic.Set
+						(DiagnosticType.Error,
+						string.Format(DatabaseManagerStrings.PwdValidationFailed, login) + e.Message,
+						extendedInfo);
+					return false;
+				}
+
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorCreateLogin, extendedInfo);
+				return false;
+			}
+
+			return true;
+		}
 	}
 }

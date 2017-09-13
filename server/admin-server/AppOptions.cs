@@ -17,7 +17,10 @@ namespace Microarea.AdminServer
     public class DatabaseInfo
     {
         public string ConnectionString { get; set; }
-    }
+		public string DBServer { get; set; } // for demo
+		public string DBUser { get; set; } // for demo
+		public string DBPassword { get; set; } // for demo
+	}
 
     //================================================================================
     public class ExternalUrls

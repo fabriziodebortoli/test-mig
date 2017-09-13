@@ -35,5 +35,9 @@ import { ChartType } from "./../../../../models/chart-type.model";
                 return 'funnel';
         }
     }
+
+    public labelContent(e: any): string {
+        return e.value;
+      }
   }
   

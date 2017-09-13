@@ -5,6 +5,7 @@ import { ModelService } from '../../services/model.service';
 import { Observable } from 'rxjs/Observable';
 import { OperationResult } from '../../services/operationResult';
 import { SubscriptionDatabase } from '../../model/subscriptionDatabase';
+import { AuthorizationProperties } from 'app/authentication/auth-info';
 
 @Component({
   selector: 'app-subscription',
@@ -18,11 +19,13 @@ export class SubscriptionComponent implements OnInit {
   editing: boolean = false;
   databases: SubscriptionDatabase[];
   readingData: boolean;
-  existDatabases: boolean = false;
+  existDatabases: boolean;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
+    this.existDatabases = true;
     this.model = new AppSubscription();
+    this.databases = [];
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -38,7 +41,15 @@ export class SubscriptionComponent implements OnInit {
 
     // first I load the subscription 
 
-    this.modelService.getSubscriptions(subscriptionKey)
+    let accountName: string;
+    let authorizationStored = localStorage.getItem('auth-info');
+    
+    if (authorizationStored !== null) {
+      let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);    
+      accountName = authorizationProperties.accountName;
+    }
+
+    this.modelService.getSubscriptions(accountName, subscriptionKey)
       .subscribe(
       res => {
         let subscriptions: AppSubscription[] = res['Content'];
@@ -105,8 +116,8 @@ export class SubscriptionComponent implements OnInit {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  addDatabase() {
+  configureDatabase() {
      // route to add database
-     this.router.navigate(['/database'], { queryParamsHandling: "preserve" } );
+     this.router.navigate(['/database/configuration'], { queryParamsHandling: "preserve" } );
     }
 }

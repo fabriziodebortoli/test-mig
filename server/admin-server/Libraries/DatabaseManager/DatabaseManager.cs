@@ -7,6 +7,7 @@ using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.DiagnosticManager;
 using Microarea.Common.NameSolver;
 using Microarea.AdminServer.Libraries.DataManagerEngine;
+using Microarea.AdminServer.Model.Interfaces;
 
 namespace Microarea.AdminServer.Libraries.DatabaseManager
 {
@@ -240,7 +241,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			DBManagerDiagnostic.Set(DiagnosticType.LogOnFile, "****************************************************************************************");
 			DBManagerDiagnostic.Set(DiagnosticType.LogOnFile, "--------------------------------------------");
-			DBManagerDiagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.CheckingCompany, contextInfo.CompanyName));
+			DBManagerDiagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.CheckingCompany, contextInfo.CompanyName));
 			DBManagerDiagnostic.Set(DiagnosticType.LogOnFile, "--------------------------------------------");
 
 			return true;
@@ -306,6 +307,33 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			return result;
 		}
 
+		//---------------------------------------------------------------------------
+		public bool ConnectAndCheckDBStructure(ISubscriptionDatabase subDatabase)
+		{
+			bool result = false;
+
+			if (contextInfo.MakeCompanyConnection(subDatabase))
+			{
+				result = CheckDBStructure(KindOfDatabase.Company);
+
+				if (
+					((StatusDB & DatabaseStatus.PRE_40) == DatabaseStatus.PRE_40) &&
+					!CheckDBStructureInfo_CanMigrateCompanyDatabase()
+					)
+					return result;
+
+				// procedo con i controlli sullo slave solo se richiesto espressamente
+				// (serve solo per la creazione / aggiornamento database)
+				if (subDatabase.UseDMS)
+				{
+					if (result && contextInfo.HasSlaves)
+						result = CheckDBStructure(KindOfDatabase.Dms);
+				}
+			}
+
+			return result;
+		}
+
 		/// <summary>
 		/// Funzione con i vari controlli al database aziendale, per decidere
 		/// poi quali operazioni devo effettuare (Create o Upgrade)
@@ -326,7 +354,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			StringCollection applicationsList = LoadApplicationDBStructureList();
 			if (applicationsList == null || applicationsList.Count == 0)
 			{
-				//DiagnosticViewer.ShowErrorTrace(DatabaseLayerStrings.ErrReadAppInfo, string.Empty, DatabaseLayerStrings.LblAttention);
+				//DiagnosticViewer.ShowErrorTrace(DatabaseManagerStrings.ErrReadAppInfo, string.Empty, DatabaseManagerStrings.LblAttention);
 				return false;
 			}
 			
@@ -557,11 +585,11 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			// estraggo al volo una serie di informazioni tecniche dal database (servizio, versione, edizione, etc)
 			ExtendedInfo extInfos = new ExtendedInfo();
-			extInfos.Add(DatabaseLayerStrings.DetailDatabase, contextInfo.CompanyDBName);
+			extInfos.Add(DatabaseManagerStrings.DetailDatabase, contextInfo.CompanyDBName);
 			//if (contextInfo.DbType == DBMSType.SQLSERVER)
-			//	extInfos.Add(DatabaseLayerStrings.DetailDBCulture, CultureHelper.GetWindowsCollation(contextInfo.DatabaseCulture, CultureHelper.SupportedDBMS.SQL2000));
-			extInfos.Add(DatabaseLayerStrings.DetailUseUnicode, (contextInfo.UseUnicode) ? DatabaseLayerStrings.DetailYes : DatabaseLayerStrings.DetailNo);
-			extInfos.Add(DatabaseLayerStrings.Server, contextInfo.CompanyDBServer);
+			//	extInfos.Add(DatabaseManagerStrings.DetailDBCulture, CultureHelper.GetWindowsCollation(contextInfo.DatabaseCulture, CultureHelper.SupportedDBMS.SQL2000));
+			extInfos.Add(DatabaseManagerStrings.DetailUseUnicode, (contextInfo.UseUnicode) ? DatabaseManagerStrings.DetailYes : DatabaseManagerStrings.DetailNo);
+			extInfos.Add(DatabaseManagerStrings.Server, contextInfo.CompanyDBServer);
 
 			if (contextInfo.DbType == DBMSType.SQLSERVER)
 			{
@@ -579,9 +607,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 							{
 								while (myReader.Read())
 								{
-									extInfos.Add(DatabaseLayerStrings.DetailVersion, myReader["Version"] != DBNull.Value ? myReader["Version"].ToString() : string.Empty);
-									extInfos.Add(DatabaseLayerStrings.DetailEdition, myReader["Edition"] != DBNull.Value ? myReader["Edition"].ToString() : string.Empty);
-									extInfos.Add(DatabaseLayerStrings.DetailProductLevel, myReader["ProductLevel"] != DBNull.Value ? myReader["ProductLevel"].ToString() : string.Empty);
+									extInfos.Add(DatabaseManagerStrings.DetailVersion, myReader["Version"] != DBNull.Value ? myReader["Version"].ToString() : string.Empty);
+									extInfos.Add(DatabaseManagerStrings.DetailEdition, myReader["Edition"] != DBNull.Value ? myReader["Edition"].ToString() : string.Empty);
+									extInfos.Add(DatabaseManagerStrings.DetailProductLevel, myReader["ProductLevel"] != DBNull.Value ? myReader["ProductLevel"].ToString() : string.Empty);
 								}
 							}
 						}
@@ -592,11 +620,11 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				}
 			}
 
-			DBManagerDiagnostic.Set(DiagnosticType.Information, string.Format(DatabaseLayerStrings.DetailCompany, contextInfo.CompanyName), extInfos);
+			DBManagerDiagnostic.Set(DiagnosticType.Information, string.Format(DatabaseManagerStrings.DetailCompany, contextInfo.CompanyName), extInfos);
 
 			// se ci sono stati piu' di 5 errori negli script visualizzo un msg aggiuntivo
 			if (executeManager.ErrorInRunSqlScript && this.DBManagerDiagnostic.TotalErrors > 5)
-				DBManagerDiagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.RerunUpgrade);
+				DBManagerDiagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.RerunUpgrade);
 
 			//@@TODOMICHI
 			/*DiagnosticView diagnosticView = new DiagnosticView(this.DBManagerDiagnostic);
@@ -604,7 +632,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			diagnosticView.Close();*/
 
 			// inserisco nella listview il riferimento al file di log appena creato
-			ExecuteManager_OnElaborationProgressMessage(null, true, fileName, NameSolverStrings.Log, DatabaseLayerStrings.CreateLogFile, filePath, null);
+			ExecuteManager_OnElaborationProgressMessage(null, true, fileName, NameSolverStrings.Log, DatabaseManagerStrings.CreateLogFile, filePath, null);
 		}
 		# endregion
 	}
