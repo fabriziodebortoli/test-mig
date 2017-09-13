@@ -43,7 +43,7 @@
   <div class="row adminTile" style="margin-top:20px">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h4 class="componentTitle" style="display:inline-block;width:100%">Databases</h4>
-      <h3 *ngIf="!existDatabases" (click)="addDatabase()">
+      <h3 [hidden]="existDatabases" (click)="addDatabase()">
         Databases for this subscription have not been configured.<br>
         <button (click)="addDatabase()" class="cta mt20">configure</button>
       </h3>
