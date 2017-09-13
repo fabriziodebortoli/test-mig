@@ -135,12 +135,12 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			OnAddTextInExecutionListView?.Invoke(success, tableName, fileName, detail, fullPath);
 
 			ExtendedInfo ei = new ExtendedInfo();
-			ei.Add(DatabaseLayerStrings.Detail, string.IsNullOrWhiteSpace(detail) ? DatabaseLayerStrings.ElaborationSuccessfullyCompleted : detail);
-			ei.Add(DatabaseLayerStrings.FileName2, fullPath);
+			ei.Add(DatabaseManagerStrings.Detail, string.IsNullOrWhiteSpace(detail) ? DatabaseManagerStrings.ElaborationSuccessfullyCompleted : detail);
+			ei.Add(DatabaseManagerStrings.FileName2, fullPath);
 			diagnostic.Set
 				(
 				success ? DiagnosticType.Information : DiagnosticType.Error,
-				string.Format(DatabaseLayerStrings.ProcessedTable, tableName),
+				string.Format(DatabaseManagerStrings.ProcessedTable, tableName),
 				ei
 				);
 
@@ -167,12 +167,12 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			OnAddTextInExecutionListView?.Invoke(success, tableName, fileName, detail, fullPath);
 
 			ExtendedInfo ei = new ExtendedInfo();
-			ei.Add(DatabaseLayerStrings.Detail, string.IsNullOrWhiteSpace(detail) ? DatabaseLayerStrings.ElaborationSuccessfullyCompleted : detail);
-			ei.Add(DatabaseLayerStrings.FileName2, fullPath);
+			ei.Add(DatabaseManagerStrings.Detail, string.IsNullOrWhiteSpace(detail) ? DatabaseManagerStrings.ElaborationSuccessfullyCompleted : detail);
+			ei.Add(DatabaseManagerStrings.FileName2, fullPath);
 			diagnostic.Set
 				(
 				success ? DiagnosticType.Information : DiagnosticType.Error, 
-				string.Format(DatabaseLayerStrings.ProcessedTable, tableName), 
+				string.Format(DatabaseManagerStrings.ProcessedTable, tableName), 
 				ei
 				);
 

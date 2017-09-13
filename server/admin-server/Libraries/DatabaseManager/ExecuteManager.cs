@@ -188,8 +188,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					{
 						success = dbStructInfo.DBMarkInfo.DBMarkTable.UpdatePreviousSignature(dbStructInfo.PreviousUpdateList, out msgDetail);
 
-						string msg = string.Format((success ? DatabaseLayerStrings.PreUpdateDBMarkWithSuccess : DatabaseLayerStrings.PreUpdateDBMarkWithErrors), dbStructInfo.DBMarkInfo.DBMarkTable.TableName);
-						OnElaborationProgressMessage?.Invoke(null, success, string.Format(DatabaseLayerStrings.PreUpdateDBMark, dbStructInfo.DBMarkInfo.DBMarkTable.TableName), "1", msg, msgDetail, null);
+						string msg = string.Format((success ? DatabaseManagerStrings.PreUpdateDBMarkWithSuccess : DatabaseManagerStrings.PreUpdateDBMarkWithErrors), dbStructInfo.DBMarkInfo.DBMarkTable.TableName);
+						OnElaborationProgressMessage?.Invoke(null, success, string.Format(DatabaseManagerStrings.PreUpdateDBMark, dbStructInfo.DBMarkInfo.DBMarkTable.TableName), "1", msg, msgDetail, null);
 						diagnostic.Set(DiagnosticType.LogOnFile, msg + msgDetail);
 
 						if (!success)
@@ -237,12 +237,14 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				{
 					Debug.WriteLine("Start mandatory columns creation: " + DateTime.Now.ToString("hh:mm:ss.fff"));
 					// check delle colonne TBCreated e TBModified
-					CheckMandatoryColumns();
+					// @@TODO: TOGLIERE IL COMMENTO!!!
+					// CheckMandatoryColumns();
 					Debug.WriteLine("End mandatory columns creation: " + DateTime.Now.ToString("hh:mm:ss.fff"));
 
 					Debug.WriteLine("Start TBGuid column creation: " + DateTime.Now.ToString("hh:mm:ss.fff"));
 					// check colonna TBGuid per le master tables
-					CheckTBGuidColumn();
+					// @@TODO: TOGLIERE IL COMMENTO!!!
+					// CheckTBGuidColumn();
 					Debug.WriteLine("End TBGuid column creation: " + DateTime.Now.ToString("hh:mm:ss.fff"));
 
 					// check delle colonne obbligatorie per le master tables del RowLevelSecurity
@@ -446,7 +448,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					(
 					null,
 					false,
-					string.Format(DatabaseLayerStrings.ErrInsertingTableDBMark, dbStructInfo.DBMarkInfo.DBMarkTable.TableName),
+					string.Format(DatabaseManagerStrings.ErrInsertingTableDBMark, dbStructInfo.DBMarkInfo.DBMarkTable.TableName),
 					string.Empty,
 					msgError,
 					string.Empty,
@@ -646,13 +648,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 									false,
 									dbInfo.DirectoryScript,
 									dbInfo.NrStep.ToString(),
-									string.Format(DatabaseLayerStrings.ErrCreatingModule, dbInfo.Title),
+									string.Format(DatabaseManagerStrings.ErrCreatingModule, dbInfo.Title),
 									dbInfo.DirectoryScript,
 									null
 									);
 							// bisognerebbe indicare che l'errore è dovuto alla dipendenza tra i moduli!!!
 
-							diagnostic.Set(DiagnosticType.Error | DiagnosticType.LogOnFile, string.Concat(string.Format(DatabaseLayerStrings.ErrCreatingModule, dbInfo.Title), DatabaseLayerStrings.ErrCreatingDependencyModule));
+							diagnostic.Set(DiagnosticType.Error | DiagnosticType.LogOnFile, string.Concat(string.Format(DatabaseManagerStrings.ErrCreatingModule, dbInfo.Title), DatabaseManagerStrings.ErrCreatingDependencyModule));
 						}
 					}
 
@@ -853,7 +855,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 						FileInfo fi = new FileInfo(moduleDBInfo.XmlPath);
 						if (!fi.Exists)
 						{
-							OnElaborationProgressMessage?.Invoke(moduleDBInfo, false, moduleDBInfo.XmlPath, string.Empty, DatabaseLayerStrings.MsgFileNotExist, moduleDBInfo.XmlPath, null);
+							OnElaborationProgressMessage?.Invoke(moduleDBInfo, false, moduleDBInfo.XmlPath, string.Empty, DatabaseManagerStrings.MsgFileNotExist, moduleDBInfo.XmlPath, null);
 							moduleDBInfo.ErrorInFileXML = true;
 							continue;
 						}
@@ -951,12 +953,12 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				catch (Exception ae)
 				{
 					// eccezione generata dalla ricorsione (non procedo)
-					//DiagnosticViewer.ShowCustomizeIconMessage(string.Format(DatabaseLayerStrings.RecursionDetected, ae.Message), DatabaseLayerStrings.LblError);
+					//DiagnosticViewer.ShowCustomizeIconMessage(string.Format(DatabaseManagerStrings.RecursionDetected, ae.Message), DatabaseManagerStrings.LblError);
 					OnElaborationProgressMessage?.Invoke
 					(
 					null,
 					false,
-					string.Format(DatabaseLayerStrings.RecursionDetected, ae.Message),
+					string.Format(DatabaseManagerStrings.RecursionDetected, ae.Message),
 					string.Empty,
 					string.Empty,
 					string.Empty,
@@ -996,7 +998,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					(
 					null,
 					false,
-					string.Format(DatabaseLayerStrings.ErrInsertingTableDBMark, dbStructInfo.DBMarkInfo.DBMarkTable.TableName),
+					string.Format(DatabaseManagerStrings.ErrInsertingTableDBMark, dbStructInfo.DBMarkInfo.DBMarkTable.TableName),
 					string.Empty,
 					msgError,
 					string.Empty,
@@ -1019,7 +1021,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					(
 					null,
 					false,
-					string.Format(DatabaseLayerStrings.ErrUpdatingTableDBMark, dbStructInfo.DBMarkInfo.DBMarkTable.TableName),
+					string.Format(DatabaseManagerStrings.ErrUpdatingTableDBMark, dbStructInfo.DBMarkInfo.DBMarkTable.TableName),
 					string.Empty,
 					msgError,
 					string.Empty,
@@ -1079,7 +1081,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					(
 					null,
 					false,
-					string.Format(DatabaseLayerStrings.ErrUpdatingTableDBMark, dbStructInfo.DBMarkInfo.DBMarkTable.TableName),
+					string.Format(DatabaseManagerStrings.ErrUpdatingTableDBMark, dbStructInfo.DBMarkInfo.DBMarkTable.TableName),
 					string.Empty,
 					msgError,
 					string.Empty,
@@ -1162,11 +1164,11 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			}
 
 			if (ret)
-				OnElaborationProgressMessage?.Invoke(moduleDBInfo, true, tableName, "1", DatabaseLayerStrings.CreatedMandatoryColumns, string.Empty, null);
+				OnElaborationProgressMessage?.Invoke(moduleDBInfo, true, tableName, "1", DatabaseManagerStrings.CreatedMandatoryColumns, string.Empty, null);
 			else
 			{
 				OnElaborationProgressMessage?.Invoke(moduleDBInfo, false, tableName, "1", error, string.Empty, null);
-				diagnostic.Set(DiagnosticType.Error | DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.ErrTableCreatingMandatoryColumns, tableName, moduleDBInfo.ApplicationBrand, moduleDBInfo.Title));
+				diagnostic.Set(DiagnosticType.Error | DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ErrTableCreatingMandatoryColumns, tableName, moduleDBInfo.ApplicationBrand, moduleDBInfo.Title));
 				moduleDBInfo.StatusOk = false;
 				moduleDBInfo.NrStep = CheckDBStructureInfo.mandatoryColsRelNumb;
 				moduleToSetBadStatus.Add(moduleDBInfo);
@@ -1208,7 +1210,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			}
 			catch (TBException)
 			{
-				//DiagnosticViewer.ShowError(DatabaseLayerStrings.ErrCreatingMandatoryColumns, e.Message, e.Procedure, e.Number.ToString(), DatabaseLayerStrings.LblError);
+				//DiagnosticViewer.ShowError(DatabaseManagerStrings.ErrCreatingMandatoryColumns, e.Message, e.Procedure, e.Number.ToString(), DatabaseManagerStrings.LblError);
 			}
 
 			string msgError = string.Empty;
@@ -1233,7 +1235,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					(
 					null,
 					false,
-					string.Format(DatabaseLayerStrings.ErrUpdatingTableDBMark, dbStructInfo.DBMarkInfo.DBMarkTable.TableName),
+					string.Format(DatabaseManagerStrings.ErrUpdatingTableDBMark, dbStructInfo.DBMarkInfo.DBMarkTable.TableName),
 					string.Empty,
 					msgError,
 					string.Empty,
@@ -1276,11 +1278,11 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			ret = scriptMng.ExecuteSql(commandText1, out error, false, 1947483647);
 
 			if (ret)
-				OnElaborationProgressMessage?.Invoke(modDBInfo, true, guidTable.TableName, "1", string.Format((guidTable.IsOnlyToUpdate) ? DatabaseLayerStrings.UpdatedTBGuidColValue : DatabaseLayerStrings.CreatedMandatoryTBGuidCol, guidTable.TableName), string.Empty, null);
+				OnElaborationProgressMessage?.Invoke(modDBInfo, true, guidTable.TableName, "1", string.Format((guidTable.IsOnlyToUpdate) ? DatabaseManagerStrings.UpdatedTBGuidColValue : DatabaseManagerStrings.CreatedMandatoryTBGuidCol, guidTable.TableName), string.Empty, null);
 			else
 			{
 				OnElaborationProgressMessage?.Invoke(modDBInfo, false, guidTable.TableName, "1", error, string.Empty, null);
-				diagnostic.Set(DiagnosticType.Error | DiagnosticType.LogOnFile, string.Format((guidTable.IsOnlyToUpdate) ? DatabaseLayerStrings.ErrUpdatingMandatoryTBGuidCol : DatabaseLayerStrings.ErrTableCreatingMandatoryTBGuidCol, guidTable.TableName, modDBInfo.ApplicationBrand, modDBInfo.Title));
+				diagnostic.Set(DiagnosticType.Error | DiagnosticType.LogOnFile, string.Format((guidTable.IsOnlyToUpdate) ? DatabaseManagerStrings.ErrUpdatingMandatoryTBGuidCol : DatabaseManagerStrings.ErrTableCreatingMandatoryTBGuidCol, guidTable.TableName, modDBInfo.ApplicationBrand, modDBInfo.Title));
 				modDBInfo.StatusOk = false;
 				modDBInfo.NrStep = 8888;
 				//moduleToSetBadStatus.Add(moduleDBInfo);
@@ -1327,7 +1329,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			}
 			catch (TBException)
 			{
-				//DiagnosticViewer.ShowError(DatabaseLayerStrings.ErrCreatingMandatoryTBGuidCol, e.Message, e.Procedure, e.Number.ToString(), DatabaseLayerStrings.LblError);
+				//DiagnosticViewer.ShowError(DatabaseManagerStrings.ErrCreatingMandatoryTBGuidCol, e.Message, e.Procedure, e.Number.ToString(), DatabaseManagerStrings.LblError);
 			}
 		}
 
@@ -1364,7 +1366,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			}
 			catch (TBException)
 			{
-				//DiagnosticViewer.ShowError(DatabaseLayerStrings.ErrCreatingMandatoryColumnsForRS, e.Message, e.Procedure, e.Number.ToString(), DatabaseLayerStrings.LblError);
+				//DiagnosticViewer.ShowError(DatabaseManagerStrings.ErrCreatingMandatoryColumnsForRS, e.Message, e.Procedure, e.Number.ToString(), DatabaseManagerStrings.LblError);
 			}
 		}
 
@@ -1396,11 +1398,11 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			ret = scriptMng.ExecuteSql(commandText1, out error, false, 1947483647) && scriptMng.ExecuteSql(commandText2, out error, false, 1947483647);
 
 			if (ret)
-				OnElaborationProgressMessage?.Invoke(modDBInfo, true, tableName, "1", DatabaseLayerStrings.CreatedMandatoryColumnsForRS, string.Empty, null);
+				OnElaborationProgressMessage?.Invoke(modDBInfo, true, tableName, "1", DatabaseManagerStrings.CreatedMandatoryColumnsForRS, string.Empty, null);
 			else
 			{
 				OnElaborationProgressMessage?.Invoke(modDBInfo, false, tableName, "1", error, string.Empty, null);
-				diagnostic.Set(DiagnosticType.Error | DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.ErrTableCreatingMandatoryColumnsForRS, tableName, modDBInfo.ApplicationBrand, modDBInfo.Title));
+				diagnostic.Set(DiagnosticType.Error | DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ErrTableCreatingMandatoryColumnsForRS, tableName, modDBInfo.ApplicationBrand, modDBInfo.Title));
 				modDBInfo.StatusOk = false;
 				modDBInfo.NrStep = 8888;
 				//moduleToSetBadStatus.Add(moduleDBInfo);
@@ -1981,8 +1983,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					if (OnElaborationProgressMessage != null)
 					{
 						ExtendedInfo ei = new ExtendedInfo();
-						ei.Add(DatabaseLayerStrings.Detail, DatabaseLayerStrings.AuditMsg1);
-						ei.Add(DatabaseLayerStrings.Description, string.Format(DatabaseLayerStrings.AuditMsg2, auditTable.ErpName, auditTable.Name, oldAuditTblName));
+						ei.Add(DatabaseManagerStrings.Detail, DatabaseManagerStrings.AuditMsg1);
+						ei.Add(DatabaseManagerStrings.Description, string.Format(DatabaseManagerStrings.AuditMsg2, auditTable.ErpName, auditTable.Name, oldAuditTblName));
 
 						OnElaborationProgressMessage
 							(
@@ -1990,7 +1992,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 							false,
 							auditTable.Name,
 							string.Empty,
-							string.Format(DatabaseLayerStrings.AuditMsg3, auditTable.ErpName),
+							string.Format(DatabaseManagerStrings.AuditMsg3, auditTable.ErpName),
 							string.Empty,
 							ei
 							);
@@ -2033,17 +2035,17 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				// ri-creo la tabella ex-novo, quindi non ho bisogno di eseguire quelli relativi alla Size
 				if (alterPKStatements.Count > 0)
 				{
-					diagnostic.Set(DiagnosticType.LogOnFile, DatabaseLayerStrings.StartAdjustAuditingTables);
+					diagnostic.Set(DiagnosticType.LogOnFile, DatabaseManagerStrings.StartAdjustAuditingTables);
 					ExecuteAuditStatementList(alterPKStatements);
-					diagnostic.Set(DiagnosticType.LogOnFile, DatabaseLayerStrings.EndAdjustAuditingTables);
+					diagnostic.Set(DiagnosticType.LogOnFile, DatabaseManagerStrings.EndAdjustAuditingTables);
 				}
 				else
 				{
 					if (alterSizeStatements.Count > 0)
 					{
-						diagnostic.Set(DiagnosticType.LogOnFile, DatabaseLayerStrings.StartAdjustAuditingTables);
+						diagnostic.Set(DiagnosticType.LogOnFile, DatabaseManagerStrings.StartAdjustAuditingTables);
 						ExecuteAuditStatementList(alterSizeStatements);
-						diagnostic.Set(DiagnosticType.LogOnFile, DatabaseLayerStrings.EndAdjustAuditingTables);
+						diagnostic.Set(DiagnosticType.LogOnFile, DatabaseManagerStrings.EndAdjustAuditingTables);
 					}
 				}
 			}
@@ -2145,8 +2147,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					if (OnElaborationProgressMessage != null)
 					{
 						ExtendedInfo ei = new ExtendedInfo();
-						ei.Add(DatabaseLayerStrings.Detail, DatabaseLayerStrings.AuditMsg1);
-						ei.Add(DatabaseLayerStrings.Description, string.Format(DatabaseLayerStrings.AuditMsg2, auditTable.ErpName, auditTable.Name, oldAuditTblName));
+						ei.Add(DatabaseManagerStrings.Detail, DatabaseManagerStrings.AuditMsg1);
+						ei.Add(DatabaseManagerStrings.Description, string.Format(DatabaseManagerStrings.AuditMsg2, auditTable.ErpName, auditTable.Name, oldAuditTblName));
 
 						OnElaborationProgressMessage
 							(
@@ -2154,7 +2156,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 							false,
 							auditTable.Name,
 							string.Empty,
-							string.Format(DatabaseLayerStrings.AuditMsg3, auditTable.ErpName),
+							string.Format(DatabaseManagerStrings.AuditMsg3, auditTable.ErpName),
 							string.Empty,
 							ei
 							);
@@ -2197,17 +2199,17 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				// ri-creo la tabella ex-novo, quindi non ho bisogno di eseguire quelli relativi alla Size
 				if (alterPKStatements.Count > 0)
 				{
-					diagnostic.Set(DiagnosticType.LogOnFile, DatabaseLayerStrings.StartAdjustAuditingTables); 
+					diagnostic.Set(DiagnosticType.LogOnFile, DatabaseManagerStrings.StartAdjustAuditingTables); 
 					ExecuteAuditStatementList(alterPKStatements);
-					diagnostic.Set(DiagnosticType.LogOnFile, DatabaseLayerStrings.EndAdjustAuditingTables);
+					diagnostic.Set(DiagnosticType.LogOnFile, DatabaseManagerStrings.EndAdjustAuditingTables);
 				}
 				else
 				{
 					if (alterSizeStatements.Count > 0)
 					{
-						diagnostic.Set(DiagnosticType.LogOnFile, DatabaseLayerStrings.StartAdjustAuditingTables);
+						diagnostic.Set(DiagnosticType.LogOnFile, DatabaseManagerStrings.StartAdjustAuditingTables);
 						ExecuteAuditStatementList(alterSizeStatements);
-						diagnostic.Set(DiagnosticType.LogOnFile, DatabaseLayerStrings.EndAdjustAuditingTables);
+						diagnostic.Set(DiagnosticType.LogOnFile, DatabaseManagerStrings.EndAdjustAuditingTables);
 					}
 				}
 			}
@@ -2250,7 +2252,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 						exceptionMsg = e.Message;
 					}
 
-					diagnostic.Set(DiagnosticType.LogOnFile, success ? string.Format(DatabaseLayerStrings.ExecStatementWithSuccess, execStatement) : string.Format(DatabaseLayerStrings.ExecStatementWithErrors, execStatement, exceptionMsg));
+					diagnostic.Set(DiagnosticType.LogOnFile, success ? string.Format(DatabaseManagerStrings.ExecStatementWithSuccess, execStatement) : string.Format(DatabaseManagerStrings.ExecStatementWithErrors, execStatement, exceptionMsg));
 				}
 			}
 			catch (TBException e)
@@ -2294,12 +2296,12 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				}
 
 				if (triggersList.Count == 0)
-					diagnostic.Set(DiagnosticType.LogOnFile, DatabaseLayerStrings.TriggersNotFound);
+					diagnostic.Set(DiagnosticType.LogOnFile, DatabaseManagerStrings.TriggersNotFound);
 				else
 				{
-					string msg = DatabaseLayerStrings.TriggersList + "\r\n";
+					string msg = DatabaseManagerStrings.TriggersList + "\r\n";
 					foreach (TriggerInfo ti in triggersList)
-						msg += string.Format("- {0} {1}", ti.TriggerName, (contextInfo.DbType == DBMSType.SQLSERVER) ? string.Format(DatabaseLayerStrings.TriggerTable, ti.TableName) : string.Empty) + "\r\n";
+						msg += string.Format("- {0} {1}", ti.TriggerName, (contextInfo.DbType == DBMSType.SQLSERVER) ? string.Format(DatabaseManagerStrings.TriggerTable, ti.TableName) : string.Empty) + "\r\n";
 					diagnostic.Set(DiagnosticType.LogOnFile, msg);
 				}
 			}
@@ -2371,12 +2373,12 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					if (enable)
 					{
 						if (success)
-							msg = string.Format(DatabaseLayerStrings.TriggerEnableWithSuccess, ti.TriggerName,
-									(contextInfo.DbType == DBMSType.SQLSERVER) ? string.Format(DatabaseLayerStrings.TriggerTable, ti.TableName) : string.Empty);
+							msg = string.Format(DatabaseManagerStrings.TriggerEnableWithSuccess, ti.TriggerName,
+									(contextInfo.DbType == DBMSType.SQLSERVER) ? string.Format(DatabaseManagerStrings.TriggerTable, ti.TableName) : string.Empty);
 						else
 						{
-							msg = string.Format(DatabaseLayerStrings.TriggerEnableWithErrors, ti.TriggerName,
-								(contextInfo.DbType == DBMSType.SQLSERVER) ? string.Format(DatabaseLayerStrings.TriggerTable, ti.TableName) : string.Empty, commandTxt, exceptionMsg);
+							msg = string.Format(DatabaseManagerStrings.TriggerEnableWithErrors, ti.TriggerName,
+								(contextInfo.DbType == DBMSType.SQLSERVER) ? string.Format(DatabaseManagerStrings.TriggerTable, ti.TableName) : string.Empty, commandTxt, exceptionMsg);
 
 							if (OnElaborationProgressMessage != null)
 								OnElaborationProgressMessage(null, false, msg, "1", exceptionMsg, string.Empty, null);
@@ -2384,10 +2386,10 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					}
 					else
 						msg = (success)
-							? string.Format(DatabaseLayerStrings.TriggerDisableWithSuccess, ti.TriggerName,
-							(contextInfo.DbType == DBMSType.SQLSERVER) ? string.Format(DatabaseLayerStrings.TriggerTable, ti.TableName) : string.Empty)
-							: string.Format(DatabaseLayerStrings.TriggerDisableWithErrors, ti.TriggerName,
-							(contextInfo.DbType == DBMSType.SQLSERVER) ? string.Format(DatabaseLayerStrings.TriggerTable, ti.TableName) : string.Empty, commandTxt, exceptionMsg);
+							? string.Format(DatabaseManagerStrings.TriggerDisableWithSuccess, ti.TriggerName,
+							(contextInfo.DbType == DBMSType.SQLSERVER) ? string.Format(DatabaseManagerStrings.TriggerTable, ti.TableName) : string.Empty)
+							: string.Format(DatabaseManagerStrings.TriggerDisableWithErrors, ti.TriggerName,
+							(contextInfo.DbType == DBMSType.SQLSERVER) ? string.Format(DatabaseManagerStrings.TriggerTable, ti.TableName) : string.Empty, commandTxt, exceptionMsg);
 
 					diagnostic.Set(DiagnosticType.LogOnFile, msg);
 				}
