@@ -105,8 +105,8 @@ export class SubscriptionComponent implements OnInit {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  addDatabase() {
+  configureDatabase() {
      // route to add database
-     this.router.navigate(['/database'], { queryParamsHandling: "preserve" } );
+     this.router.navigate(['/database/configuration'], { queryParamsHandling: "preserve" } );
     }
 }
