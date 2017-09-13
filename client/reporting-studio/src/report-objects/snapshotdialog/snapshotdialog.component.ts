@@ -26,7 +26,8 @@ export class SnapshotdialogComponent {
     }
 
     createFileJson(){
-        //this.rsService.snapshotEv();
-        //this.rsService.snapshot = false;
+        console.log("createFileJson");
+        this.rsService.initiaziedSnapshot();
+        this.rsService.snapshot = false;
     }
 }

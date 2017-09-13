@@ -141,6 +141,13 @@ export class ReportingStudioService extends DocumentService {
 
     }
 
+    //------SNAPSHOT------------------------------------
+    public initiaziedSnapshot() {
+        console.log("evento");
+        this.eventSnapshot.emit();
+        //this.snapshot = false;
+    }
+
     //------EXPORT PDF-----------------------------------
     public initiaziedExport(from: number, to: number) {
         this.firstPageExport = from;
@@ -203,11 +210,6 @@ export class ReportingStudioService extends DocumentService {
                 saveAs(dataUri, this.titleReport + '.svg');
                 this.svgState = SvgType.NOSVG;
             }).then(() => this.eventCurrentPage.emit());
-    }
-
-    //--------------------------------------------------
-    public snapshotEv() {
-        //this.eventSnapshot.emit();
     }
 }
 

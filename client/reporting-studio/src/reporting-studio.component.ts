@@ -310,6 +310,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   Snapshot() {
+    console.log("siamo dentro snapshot");
     let message = {
       commandType: CommandType.SNAPSHOT,
       message: this.args.nameSpace,
