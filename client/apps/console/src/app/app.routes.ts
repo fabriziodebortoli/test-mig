@@ -1,3 +1,4 @@
+import { DatabaseConfigurationComponent } from './components/subscription/database-configuration.component';
 import { SubscriptionDatabaseComponent } from './components/subscription/subscription-database.component';
 import { InstanceHomeComponent } from './components/instance/instance-home.component';
 import { InstanceComponent } from './components/instance/instance.component';
@@ -66,6 +67,12 @@ export const routes: Routes = [
     canActivateChild: [AuthGuardService],
     component: SubscriptionComponent
   },  
+  { 
+    path: 'database/configuration', 
+    canActivate: [AuthGuardService],
+    canActivateChild: [AuthGuardService],
+    component: DatabaseConfigurationComponent
+  },
   { 
     path: 'logout', 
     canActivate: [AuthGuardService],
