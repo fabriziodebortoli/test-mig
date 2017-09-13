@@ -34,14 +34,15 @@ export class DatabaseConfigurationComponent implements OnInit {
     let subs = this.modelService.quickConfigureDatabase(subscriptionKey).
       subscribe(
         result => {
-          alert(result.Message);
+          console.log('*** configureDatabase result: ' + result.Message);
+          
           // route to subscription page with same query param
           this.router.navigate(['/subscription'], { queryParamsHandling: "preserve" } );
     
           subs.unsubscribe();
         },
         error => {
-          alert(error);
+          console.log('*** configureDatabase error: ' + error);
           subs.unsubscribe();
         }
     )
