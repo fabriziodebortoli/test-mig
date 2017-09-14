@@ -1,3 +1,4 @@
+import {AccountInfo} from '../../authentication/account-info';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AppSubscription } from '../../model/subscription';
@@ -49,7 +50,15 @@ export class SubscriptionComponent implements OnInit {
       accountName = authorizationProperties.accountName;
     }
 
-    this.modelService.getSubscriptions(accountName, subscriptionKey)
+    let localAccountInfo = localStorage.getItem(accountName);
+    let instanceKey: string = '';
+    
+    if (localAccountInfo != null && localAccountInfo != '') {
+      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+      instanceKey = accountInfo.instanceKey;
+    }    
+
+    this.modelService.getSubscriptions(accountName, instanceKey, subscriptionKey)
       .subscribe(
       res => {
         let subscriptions: AppSubscription[] = res['Content'];

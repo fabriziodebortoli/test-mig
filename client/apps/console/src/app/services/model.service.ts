@@ -110,7 +110,7 @@ export class ModelService {
   }
   
   //--------------------------------------------------------------------------------------------------------
-  getSubscriptions(accountName: string, subscriptionKey?: string): Observable<OperationResult> {
+  getSubscriptions(accountName: string, instanceKey: string, subscriptionKey?: string): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
     

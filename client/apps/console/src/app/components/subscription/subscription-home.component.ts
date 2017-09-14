@@ -1,3 +1,4 @@
+import {AccountInfo} from '../../authentication/account-info';
 import { AppSubscription } from 'app/model/subscription';
 import { ModelService } from './../../services/model.service';
 import { Component, OnInit } from '@angular/core';
@@ -30,11 +31,23 @@ export class SubscriptionHomeComponent implements OnInit {
 
     let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);
 
+    let accountName: string = authorizationProperties.accountName;
+
+    // getting the instance we are logged in
+    
+    let localAccountInfo = localStorage.getItem(accountName);
+    let instanceKey: string = '';
+    
+    if (localAccountInfo != null && localAccountInfo != '') {
+      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+      instanceKey = accountInfo.instanceKey;
+    }
+
     // ask to GWAM the list of subscriptions
 
     this.readingData = true;
 
-    this.modelService.getSubscriptions(authorizationProperties.accountName)
+    this.modelService.getSubscriptions(accountName, instanceKey)
       .subscribe(
       subscriptions => {
         this.subscriptions = subscriptions['Content'];
