@@ -144,9 +144,9 @@ export class ReportingStudioService extends DocumentService {
     }
 
     //------SNAPSHOT------------------------------------
-    public initiaziedSnapshot(allUsers: boolean) {
+    public initiaziedSnapshot() {
         this.eventSnapshot.emit();
-        this.user = allUsers;
+        //this.user = allUsers;
     }
 
     //------EXPORT PDF-----------------------------------

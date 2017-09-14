@@ -27,7 +27,7 @@ export class SnapshotdialogComponent {
     }
 
     createFileJson(){
-        this.rsService.initiaziedSnapshot(this.allUsers);
+        this.rsService.initiaziedSnapshot();
         this.rsService.snapshot = false;
     }
 
