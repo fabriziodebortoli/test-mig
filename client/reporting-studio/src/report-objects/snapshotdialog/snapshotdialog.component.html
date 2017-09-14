@@ -1,4 +1,9 @@
 <kendo-dialog title="Snapshot Report" (close)="close()">
+<label>Saver for: </label>
+        <md-radio-button checked="checked" (click)="setSingleUser()">This user </md-radio-button>
+        <md-radio-button (click)="setAllusers()">All Users</md-radio-button>
+
+        <br><br>
     <div>
         <table>
             <tr>

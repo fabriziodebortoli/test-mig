@@ -41,6 +41,8 @@ export class ReportingStudioService extends DocumentService {
     public filePdf = new Group();
     public titleReport: string;
 
+    public user: boolean;
+
 
     @Output() rsExportPdf = new EventEmitter<void>();
     @Output() rsExportExcel = new EventEmitter<void>();
@@ -142,10 +144,9 @@ export class ReportingStudioService extends DocumentService {
     }
 
     //------SNAPSHOT------------------------------------
-    public initiaziedSnapshot() {
-        console.log("evento");
+    public initiaziedSnapshot(allUsers: boolean) {
         this.eventSnapshot.emit();
-        //this.snapshot = false;
+        this.user = allUsers;
     }
 
     //------EXPORT PDF-----------------------------------
