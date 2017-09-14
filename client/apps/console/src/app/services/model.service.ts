@@ -120,7 +120,7 @@ export class ModelService {
 
     let urlSubscriptionSegment: string = 'subscriptions';
 
-    urlSubscriptionSegment += "/" + accountName;
+    urlSubscriptionSegment += "/" + accountName + "/" + instanceKey;
 
     if (subscriptionKey !== undefined) {
       urlSubscriptionSegment += "/" + subscriptionKey;
