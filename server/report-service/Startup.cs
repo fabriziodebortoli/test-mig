@@ -82,14 +82,9 @@ namespace Microarea.RSWeb
             //app.UseApplicationInsightsRequestTelemetry();
             //app.UseApplicationInsightsExceptionTelemetry();
 
-			//new WebAppConfigurator().Configure(app, env, loggerFactory);
+            //new WebAppConfigurator().Configure(app, env, loggerFactory);
 
-			app.Use(async (http, next) =>
-            {
-                RSSocketHandler handler = new RSSocketHandler();
-                await handler.Listen(http, next);
-                
-            });
+            app.Use(RSSocketHandler.Listen);
 
            app.UseMvc();
         }

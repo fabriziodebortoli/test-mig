@@ -6,13 +6,13 @@
   </div>
   <div class="row" *ngIf="!isWorking">
     <div class="box" style="width:60%">
-      <button type="button" class="btn btn-primary" (click)="configureDatabase(true)">Automatic</button>
+      <button type="button" class="cta mt20" (click)="configureDatabase(true)">Automatic</button>
     </div>
   </div>
   <br>   
   <div class="row" *ngIf="!isWorking">
     <div class="box" style="width:60%">
-      <button type="button" class="btn btn-primary" (click)="configureDatabase(false)">Manual</button>
+      <button type="button" class="cta mt20" (click)="configureDatabase(false)">Manual</button>
     </div>
   </div>      
 </div>

@@ -40,10 +40,7 @@ export class DatabaseConfigurationComponent implements OnInit {
       subscribe(
         result => {
           console.log('*** configureDatabase result: ' + result.Message);
-          
-          // route to subscription page with same query param
-          this.router.navigate(['/subscription'], { queryParamsHandling: "preserve" } );
-    
+   
           subs.unsubscribe();
           this.isWorking = false;
         },
