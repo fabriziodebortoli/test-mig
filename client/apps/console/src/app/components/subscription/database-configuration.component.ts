@@ -11,6 +11,7 @@ import { ModelService } from 'app/services/model.service';
 export class DatabaseConfigurationComponent implements OnInit {
   
   isWorking: boolean;
+  subscriptionKey: string;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
@@ -19,6 +20,7 @@ export class DatabaseConfigurationComponent implements OnInit {
   //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
     this.isWorking = false;
+    this.subscriptionKey = this.route.snapshot.queryParams['subscriptionToEdit'];
   }
   
   //--------------------------------------------------------------------------------------------------------
@@ -30,13 +32,12 @@ export class DatabaseConfigurationComponent implements OnInit {
       return;
     }
 
-    let subscriptionKey: string = this.route.snapshot.queryParams['subscriptionToEdit'];
-    if (subscriptionKey === undefined)
+    if (this.subscriptionKey === undefined)
       return;
 
     this.isWorking = true;
       
-    let subs = this.modelService.quickConfigureDatabase(subscriptionKey).
+    let subs = this.modelService.quickConfigureDatabase(this.subscriptionKey).
       subscribe(
         result => {
           console.log('*** configureDatabase result: ' + result.Message);
