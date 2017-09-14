@@ -78,12 +78,10 @@ export class SubscriptionDatabaseComponent implements OnInit {
     }
 
     let subscriptionKey: string = this.model.SubscriptionKey;
-    
-    let databaseOperation: Observable<OperationResult> = this.modelService.saveDatabase(this.model);
 
-    let subs = databaseOperation.subscribe(
+    let subs =  this.modelService.saveDatabase(this.model).
+    subscribe(
       databaseResult => {
-        this.model = new SubscriptionDatabase();
         if (this.editing)
           this.editing = !this.editing;
         subs.unsubscribe();

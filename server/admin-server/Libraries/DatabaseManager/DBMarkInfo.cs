@@ -104,7 +104,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			}
 			catch (TBException e)
 			{
-				Debug.WriteLine(string.Format(DatabaseLayerStrings.ErrUpdatingTableDBMark, dbMarkTableName));
+				Debug.WriteLine(string.Format(DatabaseManagerStrings.ErrUpdatingTableDBMark, dbMarkTableName));
 				Debug.WriteLine(e.Message);
 				return false;
 			}
@@ -135,7 +135,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			}
 			catch (TBException e)
 			{
-				Debug.WriteLine(string.Format(DatabaseLayerStrings.ErrUpdatingTableDBMark, dbMarkTableName));
+				Debug.WriteLine(string.Format(DatabaseManagerStrings.ErrUpdatingTableDBMark, dbMarkTableName));
 				Debug.WriteLine(e.Message);
 				return false;
 			}
@@ -530,7 +530,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (TBException e)
 			{
 				error = e.Message;
-				Debug.WriteLine(string.Format(DatabaseLayerStrings.ErrInsertingTableDBMark, DBMarkTable.TableName));
+				Debug.WriteLine(string.Format(DatabaseManagerStrings.ErrInsertingTableDBMark, DBMarkTable.TableName));
 				Debug.WriteLine(e.Message);
 				okInsert = false;
 			}
@@ -573,7 +573,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (TBException e)
 			{
 				error = e.Message;
-				Debug.WriteLine(string.Format(DatabaseLayerStrings.ErrUpdatingTableDBMark, DBMarkTable.TableName));
+				Debug.WriteLine(string.Format(DatabaseManagerStrings.ErrUpdatingTableDBMark, DBMarkTable.TableName));
 				Debug.WriteLine(e.Message);
 				okUpdate = false;
 			}

@@ -266,8 +266,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			if (!fi.Exists)
 			{
-				error = DatabaseLayerStrings.FileNotFound;
-				Diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.FileNotFound);
+				error = DatabaseManagerStrings.FileNotFound;
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.FileNotFound);
 				return false;
 			}
 
@@ -282,11 +282,11 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				Debug.Fail(e.Message);
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "ExecuteFileSql");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "ExecuteFileSql");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
 				error = e.Message;
 				Diagnostic.Set(DiagnosticType.Error, e.Message, extendedInfo);
 				return false;
@@ -336,7 +336,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			Split(strConvert, out str);
 
 			if (fi != null)
-				this.diagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.ProcessingFile, fi.FullName));
+				this.diagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ProcessingFile, fi.FullName));
 
 			TBCommand command = new TBCommand(connection);
 			command.CommandTimeout = timeOut;
@@ -363,13 +363,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					}
 				}
 
-				Diagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.ExecutionOfStatement, statement));
+				Diagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ExecutionOfStatement, statement));
 
 				try
 				{
 					command.CommandText = statement;
 					rowAffected += command.ExecuteNonQuery();
-					Diagnostic.Set(DiagnosticType.LogOnFile, DatabaseLayerStrings.ElaborationSuccessfullyCompleted);
+					Diagnostic.Set(DiagnosticType.LogOnFile, DatabaseManagerStrings.ElaborationSuccessfullyCompleted);
 				}
 				catch (TBException e)
 				{
@@ -380,7 +380,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					if (connection.IsSqlConnection())
 						if (e.Number == 8152 || (e.Number == 4928 && e.Message.IndexOf("ntext") > 0))
 						{
-							Diagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.HandledTBException, e.Message));
+							Diagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.HandledTBException, e.Message));
 							continue;
 						}
 
@@ -391,12 +391,12 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					error = (e.Message.Length > 400) ? e.Message.Substring(0, 400) : e.Message;
 
 					ExtendedInfo extendedInfo = new ExtendedInfo();
-					extendedInfo.Add(DatabaseLayerStrings.Description, error);
-					extendedInfo.Add(DatabaseLayerStrings.ErrorCode, e.Number);
-					extendedInfo.Add(DatabaseLayerStrings.Function, "ExecuteFileSql");
-					extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
-					extendedInfo.Add(DatabaseLayerStrings.StackTrace, statement);
-					error += string.Concat(" [ ", DatabaseLayerStrings.ErrorCode, ": ", e.Number, "]");
+					extendedInfo.Add(DatabaseManagerStrings.Description, error);
+					extendedInfo.Add(DatabaseManagerStrings.ErrorCode, e.Number);
+					extendedInfo.Add(DatabaseManagerStrings.Function, "ExecuteFileSql");
+					extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+					extendedInfo.Add(DatabaseManagerStrings.StackTrace, statement);
+					error += string.Concat(" [ ", DatabaseManagerStrings.ErrorCode, ": ", e.Number, "]");
 					error += "\r\n";
 					Diagnostic.Set(DiagnosticType.Error, e.Message, extendedInfo);
 					Diagnostic.Set(DiagnosticType.LogOnFile, error);
@@ -417,10 +417,10 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				{
 					Debug.Fail(e.Message);
 					ExtendedInfo extendedInfo = new ExtendedInfo();
-					extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-					extendedInfo.Add(DatabaseLayerStrings.Function, "ExecuteFileSql");
-					extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
-					extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
+					extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+					extendedInfo.Add(DatabaseManagerStrings.Function, "ExecuteFileSql");
+					extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+					extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
 					error += e.Message;
 					error += "\r\n";
 					Diagnostic.Set(DiagnosticType.Error, e.Message, extendedInfo);
@@ -614,16 +614,16 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			// se non c'e' l'estensione dll non procedo
 			if (string.Compare(Path.GetExtension(fi.Extension), ".dll", StringComparison.OrdinalIgnoreCase) != 0)
 			{
-				error = DatabaseLayerStrings.DllFileExpected;
-				Diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.DllFileExpected);
+				error = DatabaseManagerStrings.DllFileExpected;
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.DllFileExpected);
 				return false;
 			}
 
 			// se il file non esiste non procedo
 			if (!fi.Exists)
 			{
-				error = DatabaseLayerStrings.FileNotFound;
-				Diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.FileNotFound);
+				error = DatabaseManagerStrings.FileNotFound;
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.FileNotFound);
 				return false;
 			}
 
@@ -660,11 +660,11 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				error = (e.Message.Length > 400) ? e.Message.Substring(0, 400) : e.Message;
 
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, error);
-				extendedInfo.Add(DatabaseLayerStrings.ErrorCode, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "ExecuteDll");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
-				error += string.Concat(" [ ", DatabaseLayerStrings.ErrorCode, ": ", e.Number, "]");
+				extendedInfo.Add(DatabaseManagerStrings.Description, error);
+				extendedInfo.Add(DatabaseManagerStrings.ErrorCode, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "ExecuteDll");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				error += string.Concat(" [ ", DatabaseManagerStrings.ErrorCode, ": ", e.Number, "]");
 				error += "\r\n";
 				Diagnostic.Set(DiagnosticType.Error, e.Message, extendedInfo);
 
@@ -680,10 +680,10 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				error = (fle.Message.Length > 400) ? fle.Message.Substring(0, 400) : fle.Message;
 
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, error);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "ExecuteDll");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, fle.StackTrace);
+				extendedInfo.Add(DatabaseManagerStrings.Description, error);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "ExecuteDll");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, fle.StackTrace);
 				error += "\r\n";
 				Diagnostic.Set(DiagnosticType.Error, fle.Message, extendedInfo);
 
@@ -698,10 +698,10 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				error = (ex.Message.Length > 400) ? ex.Message.Substring(0, 400) : ex.Message;
 
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, error);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "ExecuteDll");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, ex.StackTrace);
+				extendedInfo.Add(DatabaseManagerStrings.Description, error);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "ExecuteDll");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, ex.StackTrace);
 				error += "\r\n";
 				Diagnostic.Set(DiagnosticType.Error, ex.Message, extendedInfo);
 

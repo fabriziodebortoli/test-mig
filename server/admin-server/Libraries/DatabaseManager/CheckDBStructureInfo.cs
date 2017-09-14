@@ -200,9 +200,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				LoadCreateInformations();
 				if (kindOfDb == KindOfDatabase.Company)
-					diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.MsgEmptyDB, DatabaseLayerConsts.ERPSignature));
+					diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.MsgEmptyDB, DatabaseLayerConsts.ERPSignature));
 				if (kindOfDb == KindOfDatabase.Dms)
-					diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.MsgEmptyDB, DatabaseLayerConsts.DMSSignature));
+					diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.MsgEmptyDB, DatabaseLayerConsts.DMSSignature));
 			}
 
 			if (dbStatus == DatabaseStatus.NOT_EMPTY)
@@ -210,7 +210,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				// se non esiste la tabella DBMark non procedo ed imposto lo stato UNRECOVERABLE
 				if (!catalog.GetExistingTableInfo(dbMarkInfo.DBMarkTable.TableName, DBObjectTypes.TABLE))
 				{
-					diagnostic.Set(DiagnosticType.Error | DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.ErrDBMarkNotExist, dbMarkInfo.DBMarkTable.TableName));
+					diagnostic.Set(DiagnosticType.Error | DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ErrDBMarkNotExist, dbMarkInfo.DBMarkTable.TableName));
 					dbStatus = DatabaseStatus.UNRECOVERABLE;
 					return;
 				}	
@@ -236,7 +236,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 						if (OnCanMigrateCompanyDatabase == null || !OnCanMigrateCompanyDatabase())
 						{
                             // se non e' possibile visualizzo msg e ritorno subito
-                            diagnostic.Set(DiagnosticType.Error | DiagnosticType.LogOnFile, DatabaseLayerStrings.ErrCantMigrateDBPre40);
+                            diagnostic.Set(DiagnosticType.Error | DiagnosticType.LogOnFile, DatabaseManagerStrings.ErrCantMigrateDBPre40);
 							return;
 						}
 					}
@@ -247,7 +247,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					if (CheckModulesWithPreviousSignature())
 					{
 						dbStatus = (dbStatus | DatabaseStatus.NEED_UPDATE_DBMARK_INFO);
-						diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.MsgNeedUpdateDBMarkInfo, dbMarkInfo.DBMarkTable.TableName), new ExtendedInfo());
+						diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.MsgNeedUpdateDBMarkInfo, dbMarkInfo.DBMarkTable.TableName), new ExtendedInfo());
 					}
 
 				// per ogni applicazione + modulo cerco le righe con Status = 0 e riempio le relative strutture
@@ -267,7 +267,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				if (GetTablesListWithNoMandatoryColumns().Count > 0)
 				{
 					dbStatus = (dbStatus | DatabaseStatus.NEED_MANDATORY_COLUMNS);
-					diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, DatabaseLayerStrings.MsgNeedMandatoryColumns, new ExtendedInfo());
+					diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, DatabaseManagerStrings.MsgNeedMandatoryColumns, new ExtendedInfo());
 				}
 
 				//verifico che le tabelle master abbiamo tutte il campo TBGuid se così non fosse creo il campo
@@ -275,7 +275,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
                 if (tablesWithMissingTBGuidCol.Count > 0)
                 {
                     dbStatus = (dbStatus | DatabaseStatus.NEED_TBGUID_COLUMN);
-					diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, DatabaseLayerStrings.MsgNeedMandatoryTBGuidCol, new ExtendedInfo());
+					diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, DatabaseManagerStrings.MsgNeedMandatoryTBGuidCol, new ExtendedInfo());
 				}
 
 				// se il plugin e' attivato e la company corrente usa il RowSecurity procedo con i controlli
@@ -286,17 +286,17 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					{
 						dbStatus = (dbStatus | DatabaseStatus.NEED_ROWSECURITY_COLUMNS);
 						ExtendedInfo ei = new ExtendedInfo();
-						diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, DatabaseLayerStrings.MsgNeedMandatoryColumnsForRS, ei);
+						diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, DatabaseManagerStrings.MsgNeedMandatoryColumnsForRS, ei);
 					}
 				}
 			}
 
 			if (kindOfDb == KindOfDatabase.Company && dbStatus == DatabaseStatus.NOT_EMPTY)
-				diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.MsgFullDB, DatabaseLayerConsts.ERPSignature));
+				diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.MsgFullDB, DatabaseLayerConsts.ERPSignature));
 
 			// se si tratta di un db documentale e lo stato è solo NOT_EMPTY significa che è completo
 			if (kindOfDb == KindOfDatabase.Dms && dbStatus == DatabaseStatus.NOT_EMPTY)
-				diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.MsgFullDB, DatabaseLayerConsts.DMSSignature));
+				diagnostic.Set(DiagnosticType.Information | DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.MsgFullDB, DatabaseLayerConsts.DMSSignature));
 		}
 		# endregion	
 
@@ -628,13 +628,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				if (info != null)
 				{
 					info.RecoveryInfo = new RecoveryInfo(row.Application, row.AddOnModule, row.DBRelease, row.UpgradeLevel, row.Step);
-					diagnostic.Set(DiagnosticType.Warning | DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.ErrModuleNeedRecovery, info.Title, info.ApplicationBrand));
+					diagnostic.Set(DiagnosticType.Warning | DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ErrModuleNeedRecovery, info.Title, info.ApplicationBrand));
 				}
 				else
 				{
 					// caso in cui nella TB_DBMark ho un modulo con Status = false ma non esiste nel filesystem 
 					// visualizzo un avvertimento e elimino il modulo dalla lista di quelli da considerare
-					diagnostic.Set(DiagnosticType.Warning | DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.ErrModuleIgnored, row.AddOnModule, row.Application));
+					diagnostic.Set(DiagnosticType.Warning | DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ErrModuleIgnored, row.AddOnModule, row.Application));
 					dtRecoveryModules.Rows.RemoveAt(i);
 				}
 			}
@@ -691,7 +691,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 							DiagnosticType.Error | DiagnosticType.LogOnFile, 
 							string.Format
 							(
-							DatabaseLayerStrings.ErrNoRecoveryFileExist, 
+							DatabaseManagerStrings.ErrNoRecoveryFileExist, 
 							(moduleDBInfo.NrRelease <= 1) ? DatabaseLayerConsts.CreateInfoFile : DatabaseLayerConsts.UpgradeInfoFile,
 							moduleDBInfo.ModuleName,
 							moduleDBInfo.ApplicationBrand
@@ -739,7 +739,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 						diagnostic.Set 
 							(
 							DiagnosticType.Error | DiagnosticType.LogOnFile, 
-							string.Format(DatabaseLayerStrings.ErrCreateInfoFileNotExist, moduleDBInfo.ModuleName, moduleDBInfo.ApplicationBrand)
+							string.Format(DatabaseManagerStrings.ErrCreateInfoFileNotExist, moduleDBInfo.ModuleName, moduleDBInfo.ApplicationBrand)
 							);
 
 						continue;
@@ -813,7 +813,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 								(DiagnosticType.Warning | DiagnosticType.LogOnFile, 
 								string.Format
 									(
-									DatabaseLayerStrings.MsgModuleNeedUpgrade,
+									DatabaseManagerStrings.MsgModuleNeedUpgrade,
 									moduleDBInfo.UpdateInfo.DbMarkRel, 
 									moduleDBInfo.DBRelease, 
 									moduleDBInfo.Title,
@@ -830,7 +830,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 									(DiagnosticType.Error | DiagnosticType.LogOnFile, 
 									string.Format
 									(
-									DatabaseLayerStrings.MsgModuleContradictoryRelease,
+									DatabaseManagerStrings.MsgModuleContradictoryRelease,
 									moduleDBInfo.UpdateInfo.DbMarkRel, 
 									moduleDBInfo.Title,
 									moduleDBInfo.ApplicationBrand,
@@ -855,7 +855,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 						{
 							diagnostic.Set
 								(DiagnosticType.Warning | DiagnosticType.LogOnFile, 
-								string.Format(DatabaseLayerStrings.ErrCreateInfoFileNotExist, moduleDBInfo.Title, moduleDBInfo.ApplicationBrand));
+								string.Format(DatabaseManagerStrings.ErrCreateInfoFileNotExist, moduleDBInfo.Title, moduleDBInfo.ApplicationBrand));
 							continue;
 						}
 						moduleDBInfo.DirectoryScript = fi.Directory.FullName;
@@ -868,7 +868,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 						diagnostic.Set
 							(DiagnosticType.Warning | DiagnosticType.LogOnFile, 
-							string.Format(DatabaseLayerStrings.MsgNewModuleToCreate, moduleDBInfo.Title, moduleDBInfo.ApplicationBrand));
+							string.Format(DatabaseManagerStrings.MsgNewModuleToCreate, moduleDBInfo.Title, moduleDBInfo.ApplicationBrand));
 					}
 
 					//**** GESTIONE TABELLE MANCANTI ****//
@@ -945,7 +945,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 								(DiagnosticType.Error | DiagnosticType.LogOnFile, 
 								string.Format
 								(
-								DatabaseLayerStrings.ErrCheckMissingObject,
+								DatabaseManagerStrings.ErrCheckMissingObject,
 								entry.Name,
 								moduleDBInfo.Title,
 								moduleDBInfo.ApplicationBrand,
@@ -1002,7 +1002,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 								(DiagnosticType.Error | DiagnosticType.LogOnFile, 
 								string.Format
 								(
-								DatabaseLayerStrings.ErrCheckMissingObject,
+								DatabaseManagerStrings.ErrCheckMissingObject,
 								entry.Name,
 								moduleDBInfo.Title,
 								moduleDBInfo.ApplicationBrand,
@@ -1040,7 +1040,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 								(DiagnosticType.Error | DiagnosticType.LogOnFile, 
 								string.Format
 								(
-								DatabaseLayerStrings.ErrCheckMissingObject,
+								DatabaseManagerStrings.ErrCheckMissingObject,
 								entry.Name,
 								moduleDBInfo.Title,
 								moduleDBInfo.ApplicationBrand,
@@ -1094,7 +1094,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					(DiagnosticType.Warning | DiagnosticType.LogOnFile, 
 					string.Format
 					(
-					DatabaseLayerStrings.MsgMissingObjectToCreate, 
+					DatabaseManagerStrings.MsgMissingObjectToCreate, 
 					entry.Name, 
 					moduleDBInfo.Title,
 					moduleDBInfo.ApplicationBrand)
@@ -1118,7 +1118,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				{
 					diagnostic.Set
 						(DiagnosticType.Warning | DiagnosticType.LogOnFile, 
-						string.Format(DatabaseLayerStrings.ErrCreateInfoFileForObjNotExist, entry.Name, moduleDBInfo.Title, moduleDBInfo.ApplicationBrand));
+						string.Format(DatabaseManagerStrings.ErrCreateInfoFileForObjNotExist, entry.Name, moduleDBInfo.Title, moduleDBInfo.ApplicationBrand));
 					continue;
 				}
 				moduleDBInfo.DirectoryScript = fi.Directory.FullName;
@@ -1170,7 +1170,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 				foreach (AdditionalColumnsInfo col in entry.AddColumnsList)
 				{
-					diagnostic.Set(DiagnosticType.Warning | DiagnosticType.LogOnFile, string.Format(DatabaseLayerStrings.ErrAdditionalColumnIsMissing, col.TableName, moduleDBInfo.Title));
+					diagnostic.Set(DiagnosticType.Warning | DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ErrAdditionalColumnIsMissing, col.TableName, moduleDBInfo.Title));
 
 					// qui non mi piace il fatto che cambio il path del modulo globale, anche se sto valutando gli addoncols che si trovano
 					// in altro modulo!

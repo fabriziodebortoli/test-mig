@@ -163,5 +163,11 @@ namespace Microarea.AdminServer.Libraries
 
 			return hashed;
 		}
+
+		//-----------------------------------------------------------------------------	
+		public static string GetRandomPassword()
+		{
+			return Guid.NewGuid().ToString();
+		}
 	}
 }

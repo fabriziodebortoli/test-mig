@@ -8,6 +8,7 @@ using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
+using Microarea.AdminServer.Model.Interfaces;
 
 namespace Microarea.AdminServer.Libraries.DatabaseManager
 {
@@ -245,13 +246,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				resultSysConnect = false;
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.ErrorCode, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "OpenSysDBConnection");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrQuerySystemDB, extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.ErrorCode, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "OpenSysDBConnection");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrQuerySystemDB, extendedInfo);
 				SqlErrorCode = e.Number;
 				SqlMessage = e.Message;
 			}
@@ -355,13 +356,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				CloseConnection();
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.ErrorCode, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "CreateCompanyConnectionString");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrQuerySystemDB, extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.ErrorCode, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "CreateCompanyConnectionString");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrQuerySystemDB, extendedInfo);
 				result = false;
 			}
 
@@ -442,13 +443,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				SqlErrorCode = e.Number;
 				SqlMessage = e.Message;
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.ErrorCode, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "MakeCompanyConnection");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrConnectCompanyDB, extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.ErrorCode, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "MakeCompanyConnection");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectCompanyDB, extendedInfo);
 				return false;
 			}
 
@@ -461,7 +462,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				if (/*InstallationData.CheckDBSize &&*/ TBCheckDatabase.IsDBSizeOverMaxLimit(Connection))
 				{
 					CloseConnection();
-					diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.DBSizeError);
+					diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.DBSizeError);
 					return false;
 				}
 			}
@@ -473,18 +474,58 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			return true;
 		}
-		# endregion
 
-		# region SetUpdatingFlag (per impostare il flag Updating sulla MSD_Companies)
-		/// <summary>
-		/// Imposta il valore corretto nel flag Updating sulla tabella MSD_Companies
-		/// (a seconda del parametro passato)
-		/// Se è a true significa che la company è in fase di aggiornamento.
-		/// Nel caso in cui un utente lato TB provi ad accedere a questa company, il
-		/// programma bloccherà l'accesso.
-		/// </summary>
 		//---------------------------------------------------------------------------
-		public void SetUpdatingFlag(bool isUpdating)
+		public bool MakeCompanyConnection(ISubscriptionDatabase subDatabase)
+		{
+			connectAzDB = string.Format(NameSolverDatabaseStrings.SQLConnection, subDatabase.DBServer, subDatabase.DBName, subDatabase.DBOwner, subDatabase.DBPassword);
+
+			try
+			{
+				// apro la connessione al db aziendale
+				Connection = new TBConnection(connectAzDB, dbType);
+				Connection.Open();
+
+				// qui apro la connessione al db documentale (se esiste)
+				if (subDatabase.UseDMS)
+				{
+					hasSlaves = true;
+					connectDmsDB = string.Format(NameSolverDatabaseStrings.SQLConnection, subDatabase.DMSDBServer, subDatabase.DMSDBName, subDatabase.DMSDBOwner, subDatabase.DMSDBPassword);
+
+					DmsConnection = new TBConnection(connectDmsDB, DBMSType.SQLSERVER);
+					DmsConnection.Open();
+				}
+			}
+			catch (TBException e)
+			{
+				CloseConnection();
+				SqlErrorCode = e.Number;
+				SqlMessage = e.Message;
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.ErrorCode, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "MakeCompanyConnection");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectCompanyDB, extendedInfo);
+				return false;
+			}
+
+			return true;
+		}
+		#endregion
+
+		#region SetUpdatingFlag (per impostare il flag Updating sulla MSD_Companies)
+			/// <summary>
+			/// Imposta il valore corretto nel flag Updating sulla tabella MSD_Companies
+			/// (a seconda del parametro passato)
+			/// Se è a true significa che la company è in fase di aggiornamento.
+			/// Nel caso in cui un utente lato TB provi ad accedere a questa company, il
+			/// programma bloccherà l'accesso.
+			/// </summary>
+			//---------------------------------------------------------------------------
+			public void SetUpdatingFlag(bool isUpdating)
 		{
 			if (string.IsNullOrEmpty(connectSysDB))
 				return;
@@ -508,13 +549,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (SqlException e)
 			{
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.ErrorCode, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "SetUpdatingFlag");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrorUpdatingSystemDB, extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.ErrorCode, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "SetUpdatingFlag");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorUpdatingSystemDB, extendedInfo);
 			}
 		}
 		# endregion
@@ -540,13 +581,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (TBException e)
 			{
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.ErrorCode, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "SetArithAbortDbOption");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrorUpdatingSystemDB, extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.ErrorCode, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "SetArithAbortDbOption");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorUpdatingSystemDB, extendedInfo);
 			}
 		}
 		# endregion
@@ -582,13 +623,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (SqlException e)
 			{
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.ErrorCode, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "SetCompanyDatabaseCulture");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrorUpdatingSystemDB, extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.ErrorCode, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "SetCompanyDatabaseCulture");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorUpdatingSystemDB, extendedInfo);
 			}
 		}
 		# endregion
@@ -764,10 +805,10 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			// se uno dei controlli ha rilevato qualche errore compongo la stringa di errore da visualizzare all'utente
 			if (InconsistentSetting)
 			{
-				messageInconsistentSetting = DatabaseLayerStrings.InconsistentSettings1 + "\r\n";
-				messageInconsistentSetting += DatabaseLayerStrings.InconsistentSettings2 + "\r\n";
+				messageInconsistentSetting = DatabaseManagerStrings.InconsistentSettings1 + "\r\n";
+				messageInconsistentSetting += DatabaseManagerStrings.InconsistentSettings2 + "\r\n";
 				messageInconsistentSetting += (dbType != DBMSType.ORACLE)
-						? DatabaseLayerStrings.InconsistentSettings3 : DatabaseLayerStrings.InconsistentSettings4;
+						? DatabaseManagerStrings.InconsistentSettings3 : DatabaseManagerStrings.InconsistentSettings4;
 			}
 		}
 
@@ -813,13 +854,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (SqlException e)
 			{
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.ErrorCode, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "LineUpCompanyParametersSetting");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "Microarea.TaskBuilderNet.Data");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrorUpdatingSystemDB, extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.ErrorCode, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "LineUpCompanyParametersSetting");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorUpdatingSystemDB, extendedInfo);
 			}
 
 			return success;
@@ -897,13 +938,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				CloseConnection();
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.ErrorCode, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "QuerySysDatabaseForDms");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrQuerySystemDB, extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.ErrorCode, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "QuerySysDatabaseForDms");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrQuerySystemDB, extendedInfo);
 				result = false;
 			}
 
@@ -946,13 +987,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch (TBException e)
 			{
 				ExtendedInfo extendedInfo = new ExtendedInfo();
-				extendedInfo.Add(DatabaseLayerStrings.Description, e.Message);
-				extendedInfo.Add(DatabaseLayerStrings.ErrorCode, e.Number);
-				extendedInfo.Add(DatabaseLayerStrings.Function, "ExistDmsSlaveForCompany");
-				extendedInfo.Add(DatabaseLayerStrings.Library, "TaskBuilderNet.Data.DatabaseLayer");
-				extendedInfo.Add(DatabaseLayerStrings.Source, e.Source);
-				extendedInfo.Add(DatabaseLayerStrings.StackTrace, e.StackTrace);
-				diagnostic.Set(DiagnosticType.Error, DatabaseLayerStrings.ErrQuerySystemDB, extendedInfo);
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.ErrorCode, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "ExistDmsSlaveForCompany");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrQuerySystemDB, extendedInfo);
 				exist = false;
 			}
 			return exist;

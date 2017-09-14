@@ -23,8 +23,8 @@ namespace Microarea.RSWeb.Models
     {
         private static JsonReportEngine CreateEngine(NamespaceMessage nsMsg, WebSocket webSocket)
         {
-            if (nsMsg == null)
-                return null;
+            if (nsMsg == null || nsMsg.authtoken == null)
+                return null;   //TODO  gracefully expiration token message to client 
 
             LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(nsMsg.authtoken);
             if (loginInfo == null)

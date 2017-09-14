@@ -281,7 +281,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		/*public CatalogParameter(DataRow paramRow, DBMSType dbmsType)
 		{
 			if (paramRow == null)
-				throw new TBException(DatabaseLayerStrings.ErrNoColumnInfo);
+				throw new TBException(DatabaseManagerStrings.ErrNoColumnInfo);
 
 			this.dbmsType = dbmsType;
 
@@ -416,7 +416,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		public CatalogColumn(TBColumn column, DBMSType dbmsType)
 		{
 			if (column == null)
-				throw new TBException(DatabaseLayerStrings.ErrNoColumnInfo);
+				throw new TBException(DatabaseManagerStrings.ErrNoColumnInfo);
 			
 			this.dbmsType = dbmsType;
 
@@ -816,7 +816,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			else if (dbmsType == DBMSType.POSTGRE)
                 return CreatePostgreColumnScript(withDefault);
 
-			throw (new TBException("CatalogColumn.CreateColumnScript: " + string.Format(DatabaseLayerStrings.UnknownDBMS, dbmsType.ToString())));
+			throw (new TBException("CatalogColumn.CreateColumnScript: " + string.Format(DatabaseManagerStrings.UnknownDBMS, dbmsType.ToString())));
 		}
 	}
 	#endregion
@@ -1489,11 +1489,11 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				if (rowsAffected > 0)
 				{
 					error += "\r\n";
-					error += string.Format(DatabaseLayerStrings.NoIntegrityRows, TableName, fkInfo.Name);
+					error += string.Format(DatabaseManagerStrings.NoIntegrityRows, TableName, fkInfo.Name);
 					error += "\r\n";
-					error += string.Format(DatabaseLayerStrings.RowsAffected, rowsAffected);
+					error += string.Format(DatabaseManagerStrings.RowsAffected, rowsAffected);
 					error += "\r\n";
-					error += string.Format(DatabaseLayerStrings.ListNoIntegrityRows, cmdText);
+					error += string.Format(DatabaseManagerStrings.ListNoIntegrityRows, cmdText);
 				}
 
 				command.Dispose();

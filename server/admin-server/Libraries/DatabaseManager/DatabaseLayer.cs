@@ -181,13 +181,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				if (dbType is SqlDbType)
 					return (SqlDbType)dbType;
-				throw (new TBException("TBType.SqlDbType: " + DatabaseLayerStrings.InvalidCast));
+				throw (new TBException("TBType.SqlDbType: " + DatabaseManagerStrings.InvalidCast));
 			}
 			set
 			{
 				if (dbType is SqlDbType)
 					dbType = value;
-				throw (new TBException("TBType.SqlDbType: " + DatabaseLayerStrings.InvalidCast));
+				throw (new TBException("TBType.SqlDbType: " + DatabaseManagerStrings.InvalidCast));
 			}
 		}
 
@@ -198,13 +198,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             {
                 if (dbType is NpgsqlDbType)
                     return (NpgsqlDbType)dbType;
-                throw (new TBException("TBType.PostgreType: " + DatabaseLayerStrings.InvalidCast));
+                throw (new TBException("TBType.PostgreType: " + DatabaseManagerStrings.InvalidCast));
             }
             set
             {
                 if (dbType is NpgsqlDbType)
                     dbType = value;
-                throw (new TBException("TBType.PostgreType: " + DatabaseLayerStrings.InvalidCast));
+                throw (new TBException("TBType.PostgreType: " + DatabaseManagerStrings.InvalidCast));
             }
         }
 		#endregion
@@ -311,7 +311,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
                     }
 
 				default:
-					throw (new TBException(string.Format(DatabaseLayerStrings.UnknownDBMS, dbmsType.ToString())));
+					throw (new TBException(string.Format(DatabaseManagerStrings.UnknownDBMS, dbmsType.ToString())));
 			}
 
 			return connectionString;
@@ -354,7 +354,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             if (dbmsType == DBMSType.POSTGRE)
                 return (dbType.PostgreType).ToString();
 
-			throw (new TBException(string.Format(DatabaseLayerStrings.UnknownDBMS, dbmsType.ToString())));
+			throw (new TBException(string.Format(DatabaseManagerStrings.UnknownDBMS, dbmsType.ToString())));
 		}
 
 		//------------------------------------------------------------------
@@ -1850,7 +1850,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				if (dbConnect is SqlConnection)
 					return (SqlConnection)dbConnect;
-				throw (new TBException("TBConnection.SqlConnect: " + DatabaseLayerStrings.InvalidCast));
+				throw (new TBException("TBConnection.SqlConnect: " + DatabaseManagerStrings.InvalidCast));
 			}
 		}
 
@@ -1864,7 +1864,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             {
                 if (dbConnect is NpgsqlConnection)
                     return (NpgsqlConnection)dbConnect;
-                throw (new TBException("TBConnection.PostgreConnect: " + DatabaseLayerStrings.InvalidCast));
+                throw (new TBException("TBConnection.PostgreConnect: " + DatabaseManagerStrings.InvalidCast));
             }
         }
 
@@ -1882,7 +1882,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
                 if (dbConnect is NpgsqlConnection)
                     return ((NpgsqlConnection)dbConnect).DataSource;
 
-				throw (new TBException("TBConnection.DataSource: " + DatabaseLayerStrings.InvalidCast));
+				throw (new TBException("TBConnection.DataSource: " + DatabaseManagerStrings.InvalidCast));
 			}
 		}
 		#endregion
@@ -1896,7 +1896,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		    else if (dbmsType == DBMSType.POSTGRE)
                 dbConnect = new NpgsqlConnection();
 			else
-				throw (new TBException(string.Format(DatabaseLayerStrings.UnknownDBMS, dbmsType.ToString())));
+				throw (new TBException(string.Format(DatabaseManagerStrings.UnknownDBMS, dbmsType.ToString())));
 		}
 
 		/// <summary>
@@ -1936,7 +1936,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
                     dbConnect = new NpgsqlConnection(connectionString);
             }
             else
-                throw (new TBException("TBConnection constructor: " + string.Format(DatabaseLayerStrings.UnknownDBMS, dbmsType.ToString())));
+                throw (new TBException("TBConnection constructor: " + string.Format(DatabaseManagerStrings.UnknownDBMS, dbmsType.ToString())));
         }
 
 		/// <summary>
@@ -1970,7 +1970,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
                     dbConnect = new NpgsqlConnection(connectionString);
             }
             else
-                throw (new TBException("TBConnection constructor: " + string.Format(DatabaseLayerStrings.UnknownDBMS, dbmsType.ToString())));
+                throw (new TBException("TBConnection constructor: " + string.Format(DatabaseManagerStrings.UnknownDBMS, dbmsType.ToString())));
 
             schemaOwner = owner.ToUpper(CultureInfo.InvariantCulture);
 		}
@@ -2105,7 +2105,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             if (IsPostgreConnection())
                 return ((NpgsqlDataReader)reader).HasRows;
 
-			throw (new TBException("TBConnection.DataReaderHasRows: " + DatabaseLayerStrings.InvalidCast));
+			throw (new TBException("TBConnection.DataReaderHasRows: " + DatabaseManagerStrings.InvalidCast));
 		}
 
 		//---------------------------------------------------------------------------
@@ -2195,7 +2195,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
                 if (dbCommand is NpgsqlCommand)
                     return new TBParameterCollection(((NpgsqlCommand)dbCommand).Parameters);
 
-				throw (new TBException("TBCommand.Parameters" + DatabaseLayerStrings.InvalidCast));
+				throw (new TBException("TBCommand.Parameters" + DatabaseManagerStrings.InvalidCast));
 			}
 		}
 
@@ -2209,7 +2209,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				if (dbCommand is SqlCommand)
 					return (SqlCommand)dbCommand;
-				throw (new TBException("TBCommand.SqlCmd" + DatabaseLayerStrings.InvalidCast));
+				throw (new TBException("TBCommand.SqlCmd" + DatabaseManagerStrings.InvalidCast));
 			}
 		}
 
@@ -2223,7 +2223,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             {
                 if (dbCommand is NpgsqlCommand)
                     return (NpgsqlCommand)dbCommand;
-                throw (new TBException("TBCommand.NpgsqlCmd" + DatabaseLayerStrings.InvalidCast));
+                throw (new TBException("TBCommand.NpgsqlCmd" + DatabaseManagerStrings.InvalidCast));
             }
         }
 		#endregion
@@ -2245,7 +2245,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
                 dbCommand.Connection = connection.PostgreConnect;
             }
             else
-                throw (new TBException("TBCommand.Constructor : " + DatabaseLayerStrings.UnknownConnection));
+                throw (new TBException("TBCommand.Constructor : " + DatabaseManagerStrings.UnknownConnection));
 		}
 
 		/// <summary>
@@ -2266,7 +2266,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			else if (connection.IsPostgreConnection())
                 dbCommand = new NpgsqlCommand(query, connection.PostgreConnect);
 			else
-				throw (new TBException("TBCommand.Constructor : " + DatabaseLayerStrings.UnknownConnection));
+				throw (new TBException("TBCommand.Constructor : " + DatabaseManagerStrings.UnknownConnection));
 		}
 
 		//------------------------------------------------------------------
@@ -2428,7 +2428,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             if (dbCommand is NpgsqlCommand)
                 return (TBParameter)((NpgsqlParameter)param);
 
-			throw (new TBException("TBCommand.GetTBParameter" + DatabaseLayerStrings.InvalidCast));
+			throw (new TBException("TBCommand.GetTBParameter" + DatabaseManagerStrings.InvalidCast));
 		}
 		#endregion
 
@@ -2513,7 +2513,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
                 if (dbParameter is NpgsqlParameter)
                     return TBDatabaseType.GetSqlDbType(((NpgsqlParameter)dbParameter).NpgsqlDbType);
 
-				throw (new TBException("TBParameter.SqlDbType: " + DatabaseLayerStrings.InvalidCast));
+				throw (new TBException("TBParameter.SqlDbType: " + DatabaseManagerStrings.InvalidCast));
 			}
 			set
 			{
@@ -2522,7 +2522,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
                 if (dbParameter is NpgsqlParameter)
                     ((NpgsqlParameter)dbParameter).NpgsqlDbType = TBDatabaseType.GetPostgreDbType(value);
 
-				throw (new TBException("TBParameter.SqlDbType: " + DatabaseLayerStrings.InvalidCast));
+				throw (new TBException("TBParameter.SqlDbType: " + DatabaseManagerStrings.InvalidCast));
 			}
 		}
 		#endregion
@@ -2542,7 +2542,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             else if (dbmsType == DBMSType.POSTGRE)
                 dbParameter = new NpgsqlParameter();
             else
-                throw (new TBException(string.Format(DatabaseLayerStrings.UnknownDBMS, dbmsType.ToString())));
+                throw (new TBException(string.Format(DatabaseManagerStrings.UnknownDBMS, dbmsType.ToString())));
 		}
 
 		//---------------------------------------------------------------------------
@@ -2553,7 +2553,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             else if (dbmsType == DBMSType.POSTGRE)
                 dbParameter = new NpgsqlParameter(parameterName, paramValue);
 			else
-				throw (new TBException(string.Format(DatabaseLayerStrings.UnknownDBMS, dbmsType.ToString())));
+				throw (new TBException(string.Format(DatabaseManagerStrings.UnknownDBMS, dbmsType.ToString())));
 		}
 
 		//---------------------------------------------------------------------------
@@ -2564,7 +2564,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             else if (dbmsType == DBMSType.POSTGRE)
                 dbParameter = new NpgsqlParameter(parameterName, TBDatabaseType.GetPostgreDbType(dbType)); //@@ Anastasia da verificare  il dbType
             else
-				throw (new TBException(string.Format(DatabaseLayerStrings.UnknownDBMS, dbmsType.ToString())));
+				throw (new TBException(string.Format(DatabaseManagerStrings.UnknownDBMS, dbmsType.ToString())));
 		}
 
 		//---------------------------------------------------------------------------
@@ -2575,7 +2575,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             else if (dbmsType == DBMSType.POSTGRE)
                 dbParameter = new NpgsqlParameter(parameterName, TBDatabaseType.GetPostgreDbType(dbType), size);
             else
-				throw (new TBException(string.Format(DatabaseLayerStrings.UnknownDBMS, dbmsType.ToString())));
+				throw (new TBException(string.Format(DatabaseManagerStrings.UnknownDBMS, dbmsType.ToString())));
 		}
 
 		//---------------------------------------------------------------------------
@@ -2586,7 +2586,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             else if (dbmsType == DBMSType.POSTGRE)
                 dbParameter = new NpgsqlParameter(parameterName, TBDatabaseType.GetPostgreDbType(dbType), size, sourceColumn);
             else
-				throw (new TBException(string.Format(DatabaseLayerStrings.UnknownDBMS, dbmsType.ToString())));
+				throw (new TBException(string.Format(DatabaseManagerStrings.UnknownDBMS, dbmsType.ToString())));
 		}
 		#endregion
 
@@ -2714,7 +2714,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             else if (dbParams is NpgsqlParameterCollection)
                 dbmsType = DBMSType.POSTGRE;  
 			else	
-                throw (new TBException(string.Format(DatabaseLayerStrings.UnknownDBMS, dbmsType.ToString())));
+                throw (new TBException(string.Format(DatabaseManagerStrings.UnknownDBMS, dbmsType.ToString())));
 
 			dbParameterCollection = dbParams;
 		}
@@ -2760,7 +2760,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				if (dbmsType == DBMSType.SQLSERVER)
 					return (SqlParameterCollection)dbParameterCollection;
-				throw (new TBException("TBParameterCollection.SqlParameterCollection: " + DatabaseLayerStrings.InvalidCast));
+				throw (new TBException("TBParameterCollection.SqlParameterCollection: " + DatabaseManagerStrings.InvalidCast));
 			}
 		}
 
@@ -2771,7 +2771,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             {
                 if (dbmsType == DBMSType.POSTGRE)
                     return (NpgsqlParameterCollection)dbParameterCollection;
-                throw (new TBException("TBParameterCollection.PostgreParameterCollection: " + DatabaseLayerStrings.InvalidCast));
+                throw (new TBException("TBParameterCollection.PostgreParameterCollection: " + DatabaseManagerStrings.InvalidCast));
             }
         }
 		#endregion
@@ -2801,7 +2801,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			if (value.ParameterName != null)
 				return dbParameterCollection.Add(value.DbParameter);
 			else
-				throw new TBException(DatabaseLayerStrings.NamedParameter);
+				throw new TBException(DatabaseManagerStrings.NamedParameter);
 		}
 
 		//---------------------------------------------------------------------------
@@ -2898,7 +2898,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             if (dbmsType == DBMSType.POSTGRE)
                 return (TBParameter)PostgreParameterCollection[index];
 
-			throw (new TBException("TBParameterCollection.GetParameterAt: " + DatabaseLayerStrings.InvalidCast));
+			throw (new TBException("TBParameterCollection.GetParameterAt: " + DatabaseManagerStrings.InvalidCast));
 		}
 
 		//------------------------------------------------------------------
@@ -2909,7 +2909,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
             if (dbmsType == DBMSType.POSTGRE)
                 return (TBParameter)PostgreParameterCollection[parameterName];
 
-			throw (new TBException("TBParameterCollection.GetParameterAt: " + DatabaseLayerStrings.InvalidCast));
+			throw (new TBException("TBParameterCollection.GetParameterAt: " + DatabaseManagerStrings.InvalidCast));
 		}
 		#endregion
 	}

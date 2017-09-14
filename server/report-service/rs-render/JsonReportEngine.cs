@@ -275,11 +275,17 @@ namespace Microarea.RSWeb.Render
                         msg.message = GetDocxDataPage(pageNum);
                         break;
                     }
+                case MessageBuilder.CommandType.SNAPSHOT:
+                    {
+                        msg.page = pageNum.ToString();
+                        msg.message = GetJsonTotalPages(pageNum);
+                        break;
+                    }
             }
             return msg;
         }
 
-
+        
 
         //---------------------------------------------------------------------
         //per debug
@@ -583,6 +589,35 @@ namespace Microarea.RSWeb.Render
                 mainPart.Document.Save();
             }
             return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
+        }
+
+        //---------------------------------------------------------------------
+        //chiamata per snapshot
+        public string GetJsonTotalPages(int page = 1)
+        {
+            WoormDocument woorm = StateMachine.Woorm;
+
+            string file = "";
+
+            for (int i=1; i<= woorm.RdeReader.TotalPages; i++)
+            {
+                //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
+                if (StateMachine.Report.EngineType != EngineType.FullExtraction)
+                    while (!woorm.RdeReader.IsPageReady(page))
+                    {
+                        System.Threading.Tasks.Task.Delay(1000).Wait();
+
+                        //if (woorm.RdeReader.LoadTotPage())
+                        //    break;
+                    };  //wait 
+
+                woorm.LoadPage(page);
+
+                file += woorm.ToJson();
+                page++;
+            }
+
+            return file.ToJson();
         }
 
 

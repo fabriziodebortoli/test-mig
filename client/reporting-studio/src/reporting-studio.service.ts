@@ -29,6 +29,7 @@ export class ReportingStudioService extends DocumentService {
     @Output() eventNextPage = new EventEmitter<void>();
     @Output() eventFirstPage = new EventEmitter<void>();
     @Output() eventCurrentPage = new EventEmitter<void>();
+    @Output() eventSnapshot = new EventEmitter<void>();
 
     public savingPdf: boolean = false;
     public totalPages: number;
@@ -49,6 +50,7 @@ export class ReportingStudioService extends DocumentService {
     public exportpdf = false;
     public exportexcel = false;
     public exportdocx = false;
+    public snapshot = false;
     public pdf: string = "PDF";
     public excel: string = "Excel";
     public docx: string = "Docx";
@@ -139,6 +141,13 @@ export class ReportingStudioService extends DocumentService {
 
     }
 
+    //------SNAPSHOT------------------------------------
+    public initiaziedSnapshot() {
+        console.log("evento");
+        this.eventSnapshot.emit();
+        //this.snapshot = false;
+    }
+
     //------EXPORT PDF-----------------------------------
     public initiaziedExport(from: number, to: number) {
         this.firstPageExport = from;
@@ -202,6 +211,5 @@ export class ReportingStudioService extends DocumentService {
                 this.svgState = SvgType.NOSVG;
             }).then(() => this.eventCurrentPage.emit());
     }
-
 }
 

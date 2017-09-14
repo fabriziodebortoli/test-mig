@@ -133,7 +133,7 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 			string filePath = this.sampleSel.ExportSel.CreateLogFile(dbDiagnostic);
 
 			// scrivo la riga con il riferimento al file di log salvato
-			dbDiagnostic.SetMessageNoAppAndModuleName(true, Path.GetFileName(filePath), DatabaseLayerStrings.CreateLogFile, string.Empty, filePath);
+			dbDiagnostic.SetMessageNoAppAndModuleName(true, Path.GetFileName(filePath), DatabaseManagerStrings.CreateLogFile, string.Empty, filePath);
 		}
 
 		///<summary>

@@ -19,10 +19,11 @@ export class SubscriptionComponent implements OnInit {
   editing: boolean = false;
   databases: SubscriptionDatabase[];
   readingData: boolean;
-  existDatabases: boolean = false;
+  existDatabases: boolean;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
+    this.existDatabases = true;
     this.model = new AppSubscription();
     this.databases = [];
   }
@@ -115,8 +116,8 @@ export class SubscriptionComponent implements OnInit {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  addDatabase() {
+  configureDatabase() {
      // route to add database
-     this.router.navigate(['/database'], { queryParamsHandling: "preserve" } );
+     this.router.navigate(['/database/configuration'], { queryParamsHandling: "preserve" } );
     }
 }
