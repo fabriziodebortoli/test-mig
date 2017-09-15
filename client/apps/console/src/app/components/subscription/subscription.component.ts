@@ -1,3 +1,5 @@
+import { element } from 'protractor';
+import {AccountInfo} from '../../authentication/account-info';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AppSubscription } from '../../model/subscription';
@@ -19,12 +21,15 @@ export class SubscriptionComponent implements OnInit {
   editing: boolean = false;
   databases: SubscriptionDatabase[];
   readingData: boolean;
-  existDatabases: boolean = false;
+  existDatabases: boolean;
+  underMaintenance: boolean;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
+    this.existDatabases = true;
     this.model = new AppSubscription();
     this.databases = [];
+    this.underMaintenance = false;
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -48,7 +53,15 @@ export class SubscriptionComponent implements OnInit {
       accountName = authorizationProperties.accountName;
     }
 
-    this.modelService.getSubscriptions(accountName, subscriptionKey)
+    let localAccountInfo = localStorage.getItem(accountName);
+    let instanceKey: string = '';
+    
+    if (localAccountInfo != null && localAccountInfo != '') {
+      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+      instanceKey = accountInfo.instanceKey;
+    }    
+
+    this.modelService.getSubscriptions(accountName, instanceKey, subscriptionKey)
       .subscribe(
       res => {
         let subscriptions: AppSubscription[] = res['Content'];
@@ -68,7 +81,15 @@ export class SubscriptionComponent implements OnInit {
             this.databases = res['Content'];
             this.readingData = false;
             this.existDatabases = this.databases.length > 0;
-          },
+            
+            for (var index = 0; index < this.databases.length; index++) {
+              var db = this.databases[index];
+              if (db.UnderMaintenance) {
+                this.underMaintenance = true;
+                break;
+              }
+            }
+         },
           err => {
             alert(err);
             this.readingData = false;
@@ -115,8 +136,8 @@ export class SubscriptionComponent implements OnInit {
   }
 
   //--------------------------------------------------------------------------------------------------------
-  addDatabase() {
+  configureDatabase() {
      // route to add database
-     this.router.navigate(['/database'], { queryParamsHandling: "preserve" } );
+     this.router.navigate(['/database/configuration'], { queryParamsHandling: "preserve" } );
     }
 }

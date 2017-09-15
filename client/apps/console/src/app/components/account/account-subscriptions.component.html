@@ -1,16 +1,15 @@
 <div class="adminTile">
-  <h4>Subscriptions</h4>
+  <h4 style="display:inline">Subscriptions</h4>
   <label style="display:block">Search</label>
-  <input type="text" [(ngModel)]="searchString"><button style="max-width:80px;margin:-4px 0 0 4px" (click)="doSearchSubscriptions()">go</button>
-
-  <p style="margin-top: 30px" *ngIf="subscriptionsResult !== undefined && subscriptionsResult.length > 0">Found subscriptions</p>
+  <input type="text" [(ngModel)]="searchString">
+  <admin-icon (click)="doSearchSubscriptions()" class="pointer" [iconSignature]="'pageview'"></admin-icon>
+  <p *ngIf="subscriptionsResult !== undefined && subscriptionsResult.length > 0">Found subscriptions</p>
   <admin-list 
     *ngIf="subscriptionsResult !== undefined && subscriptionsResult.length > 0" 
     [items]="subscriptionsResult" 
     [columnNames]="columnNamesAccountRoles"
     [readingData]=readingData
     (onSelectedItem)="associateSubscription($event)"></admin-list>
-  
   <p style="margin-top: 30px">Linked to this account</p>
   <admin-list 
     [items]="subscriptions" 
@@ -19,4 +18,3 @@
     [readingData]=readingDataLinked
     (onFireRowCommand)="deleteAssociation($event)"></admin-list>
 </div>
-

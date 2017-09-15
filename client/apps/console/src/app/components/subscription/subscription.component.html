@@ -1,48 +1,57 @@
-<div class="container" fxLayout="column" style="padding:10px">
-  <h2 class="componentTitle">Subscription</h2>
-  <div class="row bottom-xs">
+<div class="container">
+  <h2 class="componentTitle">Subscription {{ model.SubscriptionKey }}</h2>
+  
+  <div class="row adminTile">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
-        <input type="text" placeholder="Subscription key" value="" [(ngModel)]="model.SubscriptionKey" [readonly]=editing required>
+      <div style="margin-bottom:10px">
+        <label>Subscription Key</label>
+        <input type="text" value="" [(ngModel)]="model.SubscriptionKey" [readonly]=editing required>
       </div>
-      <div class="box">
+      <div>
+        <label>Description</label>
         <input type="text" placeholder="Description" value="" [(ngModel)]="model.Description">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div>
         <label><input type="checkbox" name="cboxUnderMaintenance" value="" [(ngModel)]="model.UnderMaintenance">Under Maintenance</label>
       </div>
     </div>
   </div>
-  <br>
-  <div class="row">
+  
+  <div class="row adminTile">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div style="margin-bottom:10px">
+        <label>Language</label>
         <input type="text" placeholder="Language" value="" [(ngModel)]="model.Language">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
+      <div style="margin-bottom:10px">
+        <label>Regional Settings</label>
         <input type="text" placeholder="Regional Settings" value="" [(ngModel)]="model.RegionalSettings">
       </div>
     </div>
   </div>
-  <br>
-  <div class="row end-xs center-sm center-lg">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
-        <button type="button" class="btn btn-primary" (click)="submitSubscription()">Save</button>
-      </div>
+
+  <div class="row center-xs end-sm end-lg">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <button type="button" class="cta" style="margin-top:10px;" (click)="submitSubscription()">Save</button>
     </div>
   </div>
-  <br>
-  <div class="row">
-   <div class="box" style="width:60%">
-     <br>
-      <h4 class="componentTitle">Databases</h4>
-      <button type="button" class="btn btn-primary" *ngIf="!existDatabases" (click)="addDatabase()">Add</button>
-      <admin-list [readingData]=readingData [items]=databases [columnNames]="['Name','Description', 'Test']" (onSelectedItem)="openDatabase($event)"></admin-list>
-   </div>
+    
+  <div class="row adminTile" style="margin-top:20px">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4 class="componentTitle" style="display:inline-block;width:100%">Databases</h4>
+      <h3 *ngIf="!existDatabases">
+        Databases for this subscription have not been configured.<br>
+        <button (click)="configureDatabase()" class="cta mt20">configure</button>
+      </h3>
+      <div *ngIf="underMaintenance" >
+        <img src="assets/ajax-loader.gif"  />
+        <h3>The databases are under maintenance. Please return later.</h3>
+      </div>
+      <admin-list *ngIf="!underMaintenance" [readingData]=readingData [items]=databases [columnNames]="['Name','Description', 'Test']" (onSelectedItem)="openDatabase($event)"></admin-list>
+    </div>
  </div>  
 </div>

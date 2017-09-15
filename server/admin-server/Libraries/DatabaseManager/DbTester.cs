@@ -53,7 +53,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				"IT",
 				false // no ask credential
 				);
-
+			
 			string lastCompanyId = "3";
 			// mi connetto alla company appena creata (con l'Id appena inserito nella MSD_Companies)
 			if (dbManager.ConnectAndCheckDBStructure(lastCompanyId))

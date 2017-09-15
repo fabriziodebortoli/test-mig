@@ -84,8 +84,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			}
 			catch(XmlException e)
 			{
-				Debug.Fail(string.Format(DatabaseLayerStrings.ErrorDuringParsingXmlFile, fileXML, e.LineNumber, e.LinePosition));
-				Debug.WriteLine(string.Format(DatabaseLayerStrings.ErrorDuringParsingXmlFile, fileXML, e.LineNumber, e.LinePosition));
+				Debug.Fail(string.Format(DatabaseManagerStrings.ErrorDuringParsingXmlFile, fileXML, e.LineNumber, e.LinePosition));
+				Debug.WriteLine(string.Format(DatabaseManagerStrings.ErrorDuringParsingXmlFile, fileXML, e.LineNumber, e.LinePosition));
 				return;
 			}
 
@@ -104,8 +104,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			if (root == null)
 			{
-				Debug.Fail(string.Format(DatabaseLayerStrings.ErrorXmlSyntaxError, fileXML));
-				Debug.WriteLine(string.Format(DatabaseLayerStrings.ErrorXmlSyntaxError, fileXML));
+				Debug.Fail(string.Format(DatabaseManagerStrings.ErrorXmlSyntaxError, fileXML));
+				Debug.WriteLine(string.Format(DatabaseManagerStrings.ErrorXmlSyntaxError, fileXML));
 				return;
 			}
 
@@ -291,7 +291,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				this.error = string.Format
 					(
-					DatabaseLayerStrings.MissingAttribute,
+					DatabaseManagerStrings.MissingAttribute,
 					(numLevel == 3) ? Create_UpgradeInfoXML.Attribute.Library : Create_UpgradeInfoXML.Attribute.Script,
 					nrstep.ToString(),
 					xmlFile
@@ -556,7 +556,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			}
 			else
 			{
-				databaseObjInfo.ParsingError = string.Format(DatabaseLayerStrings.ErrorSignatureOrReleaseNotValid, this.Title, this.ApplicationBrand);
+				databaseObjInfo.ParsingError = string.Format(DatabaseManagerStrings.ErrorSignatureOrReleaseNotValid, this.Title, this.ApplicationBrand);
 				return false;
 			}
 
@@ -737,7 +737,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			catch(XmlException e)
 			{
 				// errore nella Load del file
-				error = string.Format(DatabaseLayerStrings.ErrorDuringParsingXmlFile, fileXML, e.LineNumber, e.LinePosition);
+				error = string.Format(DatabaseManagerStrings.ErrorDuringParsingXmlFile, fileXML, e.LineNumber, e.LinePosition);
 				return;
 			}
 
@@ -756,7 +756,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			if (root == null)
 			{
-				error = string.Format(DatabaseLayerStrings.ErrorXmlSyntaxError, fileXML);
+				error = string.Format(DatabaseManagerStrings.ErrorXmlSyntaxError, fileXML);
 				return;
 			}
 
@@ -776,7 +776,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 					if (rel <= DbMarkRel)
 					{
-						error = string.Format(DatabaseLayerStrings.ErrorMissingDBRelInUpgradeInfo, rel, this.ModuleSign, this.ApplicationSign);
+						error = string.Format(DatabaseManagerStrings.ErrorMissingDBRelInUpgradeInfo, rel, this.ModuleSign, this.ApplicationSign);
 						return;
 					}
 				}
@@ -959,7 +959,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				this.error = string.Format
 							(
-							DatabaseLayerStrings.MissingAttribute,
+							DatabaseManagerStrings.MissingAttribute,
 							(numLevel == 3) ? Create_UpgradeInfoXML.Attribute.Library : Create_UpgradeInfoXML.Attribute.Script,
 							nrstep.ToString(),
 							xmlFile
@@ -1154,7 +1154,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			// se gli attributi sono vuoti non procedo
 			if (string.IsNullOrEmpty(application) || string.IsNullOrEmpty(module))
 			{
-				this.error = string.Format(DatabaseLayerStrings.MissingAttributesForTag,Create_UpgradeInfoXML.Element.Dependency,xmlFile);
+				this.error = string.Format(DatabaseManagerStrings.MissingAttributesForTag,Create_UpgradeInfoXML.Element.Dependency,xmlFile);
 				return;
 			}
 
@@ -1254,7 +1254,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			// se gli attributi sono vuoti non procedo
 			if (string.IsNullOrEmpty(app) || string.IsNullOrEmpty(app))
 			{
-				this.error = string.Format(DatabaseLayerStrings.MissingAttributesForTag, Create_UpgradeInfoXML.Element.Dependency, xmlFile);
+				this.error = string.Format(DatabaseManagerStrings.MissingAttributesForTag, Create_UpgradeInfoXML.Element.Dependency, xmlFile);
 				return;
 			}
 
@@ -1344,7 +1344,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				}
 				catch(XmlException e)
 				{
-					error = string.Format(DatabaseLayerStrings.ErrorDuringParsingXmlFile, xmlPath, e.LineNumber, e.LinePosition);
+					error = string.Format(DatabaseManagerStrings.ErrorDuringParsingXmlFile, xmlPath, e.LineNumber, e.LinePosition);
 					return;
 				}
 			}
@@ -1366,7 +1366,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					}
 					catch(XmlException e)
 					{
-						error = string.Format(DatabaseLayerStrings.ErrorDuringParsingXmlFile, xmlPath, e.LineNumber, e.LinePosition);
+						error = string.Format(DatabaseManagerStrings.ErrorDuringParsingXmlFile, xmlPath, e.LineNumber, e.LinePosition);
 						return;
 					}
 				}
@@ -1426,14 +1426,14 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				XmlElement root = xDoc.DocumentElement;
 				if (root == null)
 				{
-					error = string.Format(DatabaseLayerStrings.ErrorXmlSyntaxError, fullPath);
+					error = string.Format(DatabaseManagerStrings.ErrorXmlSyntaxError, fullPath);
 					return;
 				}
 				
 				nodeList = root.SelectNodes(string.Format("//Step[@numstep='" + myStep + "']"));
 				if (nodeList == null || nodeList.Count == 0) 
 				{
-					error = string.Format(DatabaseLayerStrings.ErrorMissingStepInCreateInfo, this.ModuleSign, this.ApplicationSign, myStep);
+					error = string.Format(DatabaseManagerStrings.ErrorMissingStepInCreateInfo, this.ModuleSign, this.ApplicationSign, myStep);
 					return;
 				}
 
@@ -1466,7 +1466,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				XmlNode nodeDBRel = xDoc.SelectSingleNode(string.Format("//DBRel[@numrel='{0}']", myRel));
 				if (nodeDBRel == null)
 				{
-					error = string.Format(DatabaseLayerStrings.ErrorMissingDBRelInUpgradeInfo, myRel, this.ModuleSign, this.ApplicationSign);
+					error = string.Format(DatabaseManagerStrings.ErrorMissingDBRelInUpgradeInfo, myRel, this.ModuleSign, this.ApplicationSign);
 					return;
 				}
 
@@ -1483,7 +1483,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					if (nodeLev1 != null)
 						ParseSingleStep((XmlElement)nodeLev1, 1, fullPath);
 					else
-						error = string.Format(DatabaseLayerStrings.ErrorMissingStepInUpgradeInfo, this.ModuleSign, this.ApplicationSign, myStep, myRel);
+						error = string.Format(DatabaseManagerStrings.ErrorMissingStepInUpgradeInfo, this.ModuleSign, this.ApplicationSign, myStep, myRel);
 
 					// analizzo gli step del nodo Level2
 					XmlNode nodeLev2 = nodeDBRel.SelectSingleNode(string.Format("Level2/Step[@numstep='{0}']", myStep));
@@ -1534,7 +1534,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				this.error = string.Format
 					(
-					DatabaseLayerStrings.MissingAttribute,
+					DatabaseManagerStrings.MissingAttribute,
 					(numLevel == 3) ? Create_UpgradeInfoXML.Attribute.Library : Create_UpgradeInfoXML.Attribute.Script,
 					nrstep.ToString(),
 					fullPath

@@ -41,6 +41,8 @@ export class ReportingStudioService extends DocumentService {
     public filePdf = new Group();
     public titleReport: string;
 
+    public user: boolean;
+
 
     @Output() rsExportPdf = new EventEmitter<void>();
     @Output() rsExportExcel = new EventEmitter<void>();
@@ -141,6 +143,12 @@ export class ReportingStudioService extends DocumentService {
 
     }
 
+    //------SNAPSHOT------------------------------------
+    public initiaziedSnapshot() {
+        this.eventSnapshot.emit();
+        //this.user = allUsers;
+    }
+
     //------EXPORT PDF-----------------------------------
     public initiaziedExport(from: number, to: number) {
         this.firstPageExport = from;
@@ -203,11 +211,6 @@ export class ReportingStudioService extends DocumentService {
                 saveAs(dataUri, this.titleReport + '.svg');
                 this.svgState = SvgType.NOSVG;
             }).then(() => this.eventCurrentPage.emit());
-    }
-
-    //--------------------------------------------------
-    public snapshotEv() {
-        //this.eventSnapshot.emit();
     }
 }
 

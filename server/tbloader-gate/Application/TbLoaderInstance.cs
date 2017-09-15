@@ -31,11 +31,11 @@ namespace Microarea.TbLoaderGate
 		}
 
 		//-----------------------------------------------------------------------------------------
-		internal async void RequireWebSocketConnection(string name, HostString host)
+		internal async void RequireWebSocketConnection(string name, HttpRequest request)
         {
             using (var client = new HttpClient())
             {
-				IPAddress[] addresses = await Dns.GetHostAddressesAsync(host.Host);
+				IPAddress[] addresses = await Dns.GetHostAddressesAsync(request.Host.Host);
 				IPAddress goodAddress = null;
 				foreach (IPAddress ip in addresses)
 					if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
@@ -45,9 +45,10 @@ namespace Microarea.TbLoaderGate
 					}
 				if (goodAddress == null)
 					return;
-				int port = host.Port.HasValue ? host.Port.Value : 80;
+				int port = request.Host.Port.HasValue ? request.Host.Port.Value : 80;
 				string server = goodAddress.ToString();
-				string wsUrl = string.Concat("ws://", server, ":", port, "/tbloader/");  
+                string wsUrl = string.Concat("ws://", server, ":", port, request.PathBase + "/tbloader/");  
+                //string wsUrl = "ws://localhost:80/development/m4server/tbloader";
                 string url = string.Concat(BaseUrl, "/tb/document/openWebSocket/?name=", name, "&url=", WebUtility.HtmlEncode(wsUrl));
                 HttpRequestMessage msg = new HttpRequestMessage();
                 msg.RequestUri = new Uri(url);

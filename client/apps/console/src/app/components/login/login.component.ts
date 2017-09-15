@@ -150,6 +150,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   //--------------------------------------------------------------------------------
+  doForgottenPassword() {
+    alert('Sorry, not implemented yet.');
+    return;
+  }
+
+  //--------------------------------------------------------------------------------
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }

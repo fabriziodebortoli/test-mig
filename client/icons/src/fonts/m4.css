@@ -1,7 +1,7 @@
 @font-face {
     font-family: "m4";
-    src: url("fonts/m4.eot");
-    src: url("fonts/m4.eot?#iefix") format("embedded-opentype"), url("fonts/m4.woff") format("woff"), url("fonts/m4.ttf") format("truetype"), url("fonts/m4.svg#m4") format("svg");
+    src: url("./m4.eot");
+    src: url("./m4.eot?#iefix") format("embedded-opentype"), url("./m4.woff") format("woff"), url("./m4.ttf") format("truetype"), url("./m4.svg#m4") format("svg");
     font-weight: normal;
     font-style: normal;
 }

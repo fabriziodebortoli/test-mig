@@ -10,8 +10,5 @@ import { EventDataService } from './eventdata.service';
 @Injectable()
 export class TbComponentService {
     constructor(protected logger: Logger, public infoService:InfoService) {
-
     }
-
-
 }

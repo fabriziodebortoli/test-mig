@@ -19,6 +19,7 @@ tb-tilemanager {
 .tile-manager .k-tabstrip-top>.k-content {
     flex: 1;
     background-color: transparent;
+    border-right: none;
 }
 
 .tile-manager .k-tabstrip>.k-tabstrip-items {
@@ -66,8 +67,7 @@ tb-tilemanager {
     background: #f1f4f7;
 }
 
-.groupIcon
-{
+.groupIcon {
     font-size: 30px;
     padding-right: 7px
 }

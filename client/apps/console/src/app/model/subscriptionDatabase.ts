@@ -20,6 +20,7 @@ export class SubscriptionDatabase {
 	RegionalSettings: string;
     Provider: string;
     Test: boolean;
+    UnderMaintenance: boolean;
 
     constructor() {
     }
