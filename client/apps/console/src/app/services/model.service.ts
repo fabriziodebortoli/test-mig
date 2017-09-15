@@ -110,7 +110,7 @@ export class ModelService {
   }
   
   //--------------------------------------------------------------------------------------------------------
-  getSubscriptions(accountName: string, subscriptionKey?: string): Observable<OperationResult> {
+  getSubscriptions(accountName: string, instanceKey: string, subscriptionKey?: string): Observable<OperationResult> {
 
     let authorizationHeader = this.createAuthorizationHeader('app');
     
@@ -120,7 +120,7 @@ export class ModelService {
 
     let urlSubscriptionSegment: string = 'subscriptions';
 
-    urlSubscriptionSegment += "/" + accountName;
+    urlSubscriptionSegment += "/" + accountName + "/" + instanceKey;
 
     if (subscriptionKey !== undefined) {
       urlSubscriptionSegment += "/" + subscriptionKey;

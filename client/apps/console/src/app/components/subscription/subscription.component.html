@@ -21,13 +21,13 @@
   
   <div class="row adminTile">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div>
+      <div style="margin-bottom:10px">
         <label>Language</label>
         <input type="text" placeholder="Language" value="" [(ngModel)]="model.Language">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div>
+      <div style="margin-bottom:10px">
         <label>Regional Settings</label>
         <input type="text" placeholder="Regional Settings" value="" [(ngModel)]="model.RegionalSettings">
       </div>
@@ -43,9 +43,9 @@
   <div class="row adminTile" style="margin-top:20px">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h4 class="componentTitle" style="display:inline-block;width:100%">Databases</h4>
-      <h3 [hidden]="existDatabases" (click)="addDatabase()">
+      <h3 [hidden]="existDatabases">
         Databases for this subscription have not been configured.<br>
-        <button (click)="addDatabase()" class="cta mt20">configure</button>
+        <button (click)="configureDatabase()" class="cta mt20">configure</button>
       </h3>
       <admin-list [readingData]=readingData [items]=databases [columnNames]="['Name','Description', 'Test']" (onSelectedItem)="openDatabase($event)"></admin-list>
     </div>

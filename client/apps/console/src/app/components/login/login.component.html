@@ -20,6 +20,10 @@
                     <input type="text" class="ctrlInput" autofocus placeholder="Your Account Name" value="" [(ngModel)]="credentials.accountName" required>
                 </div>
 
+                <div class="box"  *ngIf="loginStep == 1" style="text-align:left; margin:15px 0 0 12px;font-size:14px;">
+                    <a href='#' (click)="doForgottenPassword()">Forgot your password?</a>
+                </div>                  
+
                 <div *ngIf="loginStep == 2">
                     <div *ngIf="instancesList.length > 0" class="box" style="padding-top:10px"> 
                         <select autofocus [(ngModel)]="selectedInstanceKey" style="height:30px">
@@ -38,7 +42,7 @@
             </div>
 
             <div *ngIf="loginStep <= 3" class="box" class="end-xs" style="margin-top:40px;"> 
-                <button color="primary" (click)="doNext()">Next</button>
+                <button class="cta" (click)="doNext()">Next</button>
             </div>
         </div>
     </div>
