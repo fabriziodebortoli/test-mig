@@ -1,66 +1,71 @@
-// 
-.tbContainerItems {
-    right: 0px;
+tb-dockpane-container {
+    overflow: hidden;
+    // flex: 0 0 400px;
 }
 
-.tile-manager2 .k-tabstrip {
-    background-color: transparent;
+.dockingSlide {
+    background: green;
 }
 
-.tile-manager2 .k-tabstrip-top {
-    flex-direction: row;
-    flex-wrap: nowrap;
+.dockpane-tabber {
+    display: flex;
+    flex: 1;
+    min-height: 100%;
+    overflow: hidden;
+    .k-tabstrip {
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+    }
+    .k-tabstrip-top {}
+    .k-tabstrip-top>.k-content {
+        border: none;
+        // border-left: 1px solid #ddd;
+        box-shadow: -1px 1px 5px -1px rgba(117, 117, 117, 0.55);
+        border-radius: 0;
+        padding: 0;
+    }
 }
 
-.tile-manager2 .k-tabstrip-top>.k-content {
-    background-color: white;
-}
-
-.tile-manager2 .k-tabstrip>.k-tabstrip-items,
+.dockpane-tabber .k-tabstrip>.k-tabstrip-items,
 {
     background-color: transparent;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
     flex-direction: column;
-    position: relative;
+    padding-left: 3px;
 }
 
-.tile-manager2 .k-tabstrip-top>.k-tabstrip-items .k-item,
-{
-    background-color: #f1f4f7;
+.dockpane-tabber .k-tabstrip-top>.k-tabstrip-items .k-item {
+    margin: 3px 0 0;
+    padding: 0;
+    background-color: #fff;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    box-shadow: -1px 1px 5px -1px rgba(117, 117, 117, 0.55);
 }
 
-.tile-manager2 .k-tabstrip-top>.k-tabstrip-items .k-state-active {
-    background-color: #8ac0f7;
-    color: white;
+.dockpane-tabber .k-tabstrip>.k-tabstrip-items .k-item .k-link {
+    padding: 0;
+    padding-top: 4px;
 }
 
-// .tile-manager2 {
-//     flex: 1 1 500px;
-// }
-// .tile-manager2 .k-tabstrip {
-//     background-color: transparent;
-// }
-// .tile-manager2 .k-tabstrip-top {
-//     flex-direction: row;
-//     flex-wrap: nowrap
-// }
-// .tile-manager2 .k-tabstrip-top>.k-content {
-//     background-color: white;
-// }
-// .tile-manager2 .k-tabstrip>.k-tabstrip-items,
-// {
-//     background-color: transparent;
-//     -webkit-box-orient: vertical;
-//     -webkit-box-direction: normal;
-//     flex-direction: column;
-//     position: relative;
-// }
-// .tile-manager2 .k-tabstrip-top>.k-tabstrip-items .k-item,
-// {
-//     background-color: #f1f4f7;
-// }
-// .tile-manager2 .k-tabstrip-top>.k-tabstrip-items .k-state-active {
-//     background-color: #8ac0f7;
-//     color: white;
-// }
+.dockpane-tabber .k-tabstrip-top>.k-tabstrip-items .k-state-active {
+    background-color: #3e3e3e;
+}
+
+.dockpane-tabber .k-tabstrip-top>.k-tabstrip-items .k-state-active .dockpane-tab>span {
+    color: #fff;
+}
+
+.dockpane-tabber .dockpane-tab {
+    padding: 6px 3px 4px;
+}
+
+.dockpane-tabber .dockpane-tab>span {
+    writing-mode: tb-rl;
+    white-space: nowrap;
+    display: inline-block;
+    overflow: visible;
+    transform: rotate(180deg);
+    color: #0277bd;
+    font-size: 12px
+}

@@ -44,10 +44,15 @@ export class AppModule { }
 E' inoltre necessario includere il file *m4.css* in *.angular-cli.json*:
 
 ```json
-"styles": [
-    "../node_modules/@taskbuilder/icons/m4.css",
+"assets": [
+    { "glob": "**/*", "input": "../node_modules/@taskbuilder/icons/fonts/", "output": "./assets/m4" },
     ...
 ],
+```
+
+
+```html
+<link href="assets/m4/m4.css" rel="stylesheet">
 ```
 
 Una volta importata la libreria, puoi usare le icone nel modo seguente:

@@ -41,3 +41,13 @@ h1 {
     margin-right: auto;
     margin-left: auto;
 }
+
+tb-root {}
+
+tb-root>.k-icon.k-i-loading {
+    font-size: 64px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
