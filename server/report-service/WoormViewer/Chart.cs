@@ -154,7 +154,8 @@ namespace Microarea.RSWeb.Objects
             return
                 ChartType == EnumChartType.Pie ||
                 ChartType == EnumChartType.Funnel ||
-                ChartType == EnumChartType.Donut;
+                ChartType == EnumChartType.Donut ||
+                 ChartType == EnumChartType.DonutNested;
         }
 
         bool IsChartFamilyRange()
@@ -580,61 +581,72 @@ namespace Microarea.RSWeb.Objects
         /**
          * Chart con le serie complesse
          */
-        string ToJsonData(Series series, DataArray categories)
+        string ToJsonData(List<Series> seriesList, DataArray categories)
         {
-            DataArray arSeries = GetArray(series.BindedField);
-            if (arSeries == null)
+            string s = "";
+            int count = seriesList.Count - 1;
+            foreach (Series series in seriesList)
             {
-                return string.Empty;
-            }
-            if (categories.Count != arSeries.Count)
-            {
-                return string.Empty;
-            }
-
-
-            string s = "{\"data\":[";
-
-            for (int i = 0; i < categories.Count; i++)
-            {
-                if (i != 0)
+                DataArray arSeries = GetArray(series.BindedField);
+                if (arSeries == null)
                 {
-                    s += ',';
+                    return string.Empty;
+                }
+                if (categories.Count != arSeries.Count)
+                {
+                    return string.Empty;
                 }
 
 
+                s += "{\"data\":[";
 
-                string categoriesStr = categories.GetAt(i).ToJson("category");
+                for (int i = 0; i < categories.Count; i++)
+                {
+                    if (i != 0)
+                    {
+                        s += ',';
+                    }
 
-                string val = arSeries.GetAt(i).ToJson("value");
-                s += '{' + categoriesStr + ',' + val + '}';
 
+
+                    string categoriesStr = categories.GetAt(i).ToJson("category");
+
+                    string val = arSeries.GetAt(i).ToJson("value");
+                    s += '{' + categoriesStr + ',' + val + '}';
+
+                }
+
+                s += "]," + series.Title.ToJson("name", false, true);
+
+                if (series.Colored)
+                    s += ',' + series.Color.ToJson("color");
+
+                s += ',' + series.SeriesType.ToJson("type");
+
+                if (series.Group != 0)
+                    s += ',' + series.Group.ToJson("group");
+
+                switch (series.Style)
+                {
+                    case EnumChartStyle.Normal:
+                        s += ',' + "normal".ToJson("style");
+                        break;
+                    case EnumChartStyle.Smooth:
+                        s += ',' + "smooth".ToJson("style");
+                        break;
+                    case EnumChartStyle.Step:
+                        s += ',' + "step".ToJson("style");
+                        break;
+                }
+                s += '}';
+                if (count > 0)
+                {
+                    s += ",";
+                    count--;
+                }
             }
 
-            s += "]," + series.Title.ToJson("name", false, true);
-
-            if (series.Colored)
-                s += ',' + series.Color.ToJson("color");
-
-            s += ',' + series.SeriesType.ToJson("type");
-
-            if (series.Group != 0)
-                s += ',' + series.Group.ToJson("group");
-
-            switch (series.Style)
-            {
-                case EnumChartStyle.Normal:
-                    s += ',' + "normal".ToJson("style");
-                    break;
-                case EnumChartStyle.Smooth:
-                    s += ',' + "smooth".ToJson("style");
-                    break;
-                case EnumChartStyle.Step:
-                    s += ',' + "step".ToJson("style");
-                    break;
-            }
-
-            return s + '}';
+            return s;
         }
 
         //---------------------------------------------------------------------
@@ -699,6 +711,30 @@ namespace Microarea.RSWeb.Objects
             return series;
         }
 
+        string ToJsonDataFamilyPie(List<Categories> categoriesList)
+        {
+            if (categoriesList == null || categoriesList.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            string series = "[";
+            int count = categoriesList.Count - 1;
+            foreach (Categories cat in categoriesList)
+            {
+                DataArray categories = GetArray(cat.BindedField);
+                series += ToJsonData(cat.Series, categories);
+                if (count > 0)
+                {
+                    series += ",";
+                    count--;
+                }
+            }
+
+            series += ']';
+            return series;
+        }
+
         string ToJsonDataFamilyPie()
         {
             if (Categories[0] == null)
@@ -706,12 +742,10 @@ namespace Microarea.RSWeb.Objects
                 return string.Empty;
             }
 
-            string series = "\"series\":[";
-            DataArray categories = GetArray(Categories[0].BindedField);
-            series += ToJsonData(Categories[0].Series[0], categories);
-            series += ']';
-            return series;
+            return "\"series\":" + ToJsonDataFamilyPie(Categories);
         }
+
+
         //---------------------------------------------------------------------
         public override string ToJsonData(bool bracket)
         {
