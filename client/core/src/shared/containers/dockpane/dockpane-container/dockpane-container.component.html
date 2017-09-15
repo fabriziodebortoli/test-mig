@@ -1,27 +1,17 @@
-<!-- <div class="tile-manager2" [style.width.px]="65" [@slideInOut]="menuState">
-    <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)" tabPosition="right">
-        <kendo-tabstrip-tab *ngFor="let tile of getTiles();let i = index" [selected]="i == 0">
+<!-- <p>{{dockState}}</p>
+<hr> -->
+<div class="dockpane-tabber">
+    <kendo-tabstrip #dockpaneTabber="kendoTabStrip">
+        <kendo-tabstrip-tab *ngFor="let dockpane of getDockpanes();let i = index">
             <ng-template kendoTabTitle>
-                <tb-icon [iconType]="tile?.iconType" [icon]="tile?.icon" class="groupIcon" (click)="toggleMenu(tile)"></tb-icon>
-                <span>{{tile?.title}}</span>
+                <div (click)="toggleDockpane(dockpane)" class="dockpane-tab">
+                    <span>{{dockpane?.title}}</span>
+                </div>
             </ng-template>
             <ng-template kendoTabContent>
-                <ng-content></ng-content>
-            </ng-template>
-        </kendo-tabstrip-tab>
-    </kendo-tabstrip>
-</div>
- [@slideInOut]="menuState"-->
-
-<div class="tbContainerItems tile-manager2">
-    <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)" tabPosition="right">
-        <kendo-tabstrip-tab *ngFor="let tile of getTiles();let i = index" [selected]="i == 0">
-            <ng-template kendoTabTitle>
-                <tb-icon [iconType]="tile?.iconType" [icon]="tile?.icon" class="groupIcon" (click)="toggleMenu(tile)"></tb-icon>
-                <span>{{tile?.title}}</span>
-            </ng-template>
-            <ng-template kendoTabContent>
-                <ng-content></ng-content>
+                <div class="dockingSlide" [@slideInOut]="dockState">
+                    <ng-content></ng-content>
+                </div>
             </ng-template>
         </kendo-tabstrip-tab>
     </kendo-tabstrip>
