@@ -20,6 +20,7 @@ export class ReportingStudioService extends DocumentService {
     [x: string]: any;
     public pageNum: number = 1;
     public running: boolean = false;
+    public runEnabled: boolean = true;
     public showAsk = false;
 
     private rsServer: string = ''
