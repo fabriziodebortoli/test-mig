@@ -43,11 +43,15 @@
   <div class="row adminTile" style="margin-top:20px">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h4 class="componentTitle" style="display:inline-block;width:100%">Databases</h4>
-      <h3 [hidden]="existDatabases">
+      <h3 *ngIf="!existDatabases">
         Databases for this subscription have not been configured.<br>
         <button (click)="configureDatabase()" class="cta mt20">configure</button>
       </h3>
-      <admin-list [readingData]=readingData [items]=databases [columnNames]="['Name','Description', 'Test']" (onSelectedItem)="openDatabase($event)"></admin-list>
+      <div *ngIf="underMaintenance" >
+        <img src="assets/ajax-loader.gif"  />
+        <h3>The databases are under maintenance. Please return later.</h3>
+      </div>
+      <admin-list *ngIf="!underMaintenance" [readingData]=readingData [items]=databases [columnNames]="['Name','Description', 'Test']" (onSelectedItem)="openDatabase($event)"></admin-list>
     </div>
  </div>  
 </div>
