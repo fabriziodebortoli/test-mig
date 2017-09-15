@@ -21,10 +21,10 @@ namespace Microarea.RSWeb.Models
     /// </summary>
     public class RSSocketHandler
     {
-        private JsonReportEngine CreateEngine(NamespaceMessage nsMsg, WebSocket webSocket)
+        private static JsonReportEngine CreateEngine(NamespaceMessage nsMsg, WebSocket webSocket)
         {
-            if (nsMsg == null)
-                return null;
+            if (nsMsg == null || nsMsg.authtoken == null)
+                return null;   //TODO  gracefully expiration token message to client 
 
             LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(nsMsg.authtoken);
             if (loginInfo == null)
@@ -102,7 +102,7 @@ namespace Microarea.RSWeb.Models
         /// <param name="http"></param>
         /// <param name="next"></param>
         /// <returns></returns>
-        public async Task Listen(HttpContext http, Func<Task> next)
+        public async static Task Listen(HttpContext http, Func<Task> next)
         {
             if (http.WebSockets.IsWebSocketRequest && http.Request.Path.StartsWithSegments("/rs"))
             {

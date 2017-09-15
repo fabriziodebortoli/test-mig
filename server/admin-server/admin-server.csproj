@@ -28,8 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\data-service\data-service.csproj" />
-    <ProjectReference Include="..\database-service\database-service.csproj" />
     <ProjectReference Include="..\library\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj" />
     <ProjectReference Include="..\library\taskbuilder-netcore-data\taskbuilder-netcore-data.csproj" />
     <ProjectReference Include="..\library\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.csproj" />
@@ -42,6 +40,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Libraries\DatabaseManager\DatabaseManagerStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DatabaseManagerStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -50,6 +53,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Libraries\DatabaseManager\DatabaseManagerStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DatabaseManagerStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Properties\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>

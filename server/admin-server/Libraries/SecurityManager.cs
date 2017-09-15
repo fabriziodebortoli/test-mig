@@ -10,7 +10,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Microarea.AdminServer.Library
+namespace Microarea.AdminServer.Libraries
 {
 	//================================================================================
 	public class SecurityManager
@@ -162,6 +162,12 @@ namespace Microarea.AdminServer.Library
 				numBytesRequested: 256 / 8));
 
 			return hashed;
+		}
+
+		//-----------------------------------------------------------------------------	
+		public static string GetRandomPassword()
+		{
+			return Guid.NewGuid().ToString();
 		}
 	}
 }

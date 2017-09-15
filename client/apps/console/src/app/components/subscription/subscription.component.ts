@@ -1,3 +1,4 @@
+import {AccountInfo} from '../../authentication/account-info';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AppSubscription } from '../../model/subscription';
@@ -5,6 +6,7 @@ import { ModelService } from '../../services/model.service';
 import { Observable } from 'rxjs/Observable';
 import { OperationResult } from '../../services/operationResult';
 import { SubscriptionDatabase } from '../../model/subscriptionDatabase';
+import { AuthorizationProperties } from 'app/authentication/auth-info';
 
 @Component({
   selector: 'app-subscription',
@@ -18,10 +20,13 @@ export class SubscriptionComponent implements OnInit {
   editing: boolean = false;
   databases: SubscriptionDatabase[];
   readingData: boolean;
+  existDatabases: boolean;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
+    this.existDatabases = true;
     this.model = new AppSubscription();
+    this.databases = [];
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -37,7 +42,23 @@ export class SubscriptionComponent implements OnInit {
 
     // first I load the subscription 
 
-    this.modelService.getSubscriptions(subscriptionKey)
+    let accountName: string;
+    let authorizationStored = localStorage.getItem('auth-info');
+    
+    if (authorizationStored !== null) {
+      let authorizationProperties: AuthorizationProperties = JSON.parse(authorizationStored);    
+      accountName = authorizationProperties.accountName;
+    }
+
+    let localAccountInfo = localStorage.getItem(accountName);
+    let instanceKey: string = '';
+    
+    if (localAccountInfo != null && localAccountInfo != '') {
+      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+      instanceKey = accountInfo.instanceKey;
+    }    
+
+    this.modelService.getSubscriptions(accountName, instanceKey, subscriptionKey)
       .subscribe(
       res => {
         let subscriptions: AppSubscription[] = res['Content'];
@@ -51,11 +72,12 @@ export class SubscriptionComponent implements OnInit {
 
         // then I load the databases of selected subscription
 
-        this.modelService.getDatabasesBySubscription(subscriptionKey)
+        this.modelService.getDatabases(subscriptionKey)
           .subscribe(
           res => {
             this.databases = res['Content'];
             this.readingData = false;
+            this.existDatabases = this.databases.length > 0;
           },
           err => {
             alert(err);
@@ -101,4 +123,10 @@ export class SubscriptionComponent implements OnInit {
     // route to edit database, I add in the existing query string the database name
     this.router.navigate(['/database'], { queryParams: { databaseToEdit: item['Name'] }, queryParamsHandling: "merge" });
   }
+
+  //--------------------------------------------------------------------------------------------------------
+  configureDatabase() {
+     // route to add database
+     this.router.navigate(['/database/configuration'], { queryParamsHandling: "preserve" } );
+    }
 }

@@ -51,9 +51,7 @@ export class UrlGuard {
             }
         }
 
-        // checking instances
-
-        if (url == '/instancesHome') {
+        if (url == '/instancesHome' || url.startsWith('/instance')) {
             if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Instance)) {
                 opRes.Message = RoleLevels.Instance + ' level missing';
                 opRes.Result = false;

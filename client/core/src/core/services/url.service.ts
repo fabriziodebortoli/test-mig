@@ -14,23 +14,21 @@ export class UrlService {
     private wsBaseUrl: string = "";
     constructor(private logger: Logger, private http: Http) {
 
-        // this.getConfiguration()
-        //     .then((res)=>{
-
-        //         let js = res.json();
-        //         console.log(js);
-        //         this.baseUrl = js.baseUrl;
-        //         this.wsBaseUrl = js.wsBaseUrl;
-        //     }
-
-
-        //     )
-        //     .catch()
+        this.getConfiguration()
+            .then((res) => {
+                let js = res.json();
+                this.baseUrl = js.baseUrl;
+                this.wsBaseUrl = js.wsBaseUrl;
+            })
+            .catch(
+            err => {
+                console.log(err);
+            })
 
     }
 
     async getConfiguration(): Promise<any> {
-        return await this.http.get('config.json').toPromise();
+        return await this.http.get('assets/config.json').toPromise();
     }
 
     getBackendUrl() {

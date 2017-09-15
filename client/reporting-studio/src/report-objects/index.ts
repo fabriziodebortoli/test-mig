@@ -20,3 +20,4 @@ export { AskGroupComponent } from './askdialog/ask-group/ask-group.component';
 export { AskCheckComponent } from './askdialog/ask-check/ask-check.component';
 export { AskDropdownlistComponent } from './askdialog/ask-dropdownlist/ask-dropdownlist.component';
 export { ExportdialogComponent } from './exportdialog/exportdialog.component';
+export { SnapshotdialogComponent } from './snapshotdialog/snapshotdialog.component';

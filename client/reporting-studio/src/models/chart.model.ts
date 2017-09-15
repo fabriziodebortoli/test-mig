@@ -1,12 +1,12 @@
-import { baseobj } from './baseobj.model';
+import { baserect } from './baserect.model';
+
 import { ReportObjectType } from "./report-object-type.model";
 import { ChartType } from "./chart-type.model";
 
 
-export class chart extends baseobj {
+export class chart extends baserect {
 
     type: ChartType;
-    numSeries: number;
     title: string;
     legend: legend;
     category_title: string = "";
@@ -14,11 +14,10 @@ export class chart extends baseobj {
     series: series[] = [];
     value: any;
     constructor(jsonObj: any) {
-        super(jsonObj.baseobj);
+        super(jsonObj.baserect);
         this.obj = ReportObjectType.chart;
         this.legend = jsonObj.legend ? new legend(jsonObj.legend) : undefined;
         this.type = jsonObj.chartType;
-        this.numSeries = jsonObj.numSeries;
         this.title = jsonObj.title;
     }
 }
@@ -35,9 +34,17 @@ export class legend {
 
 export class series {
     name: string;
+    type: ChartType;
+    color: string;
+    group: any;
+    style: string;
     data: any[] = [];
     constructor(jsonObj: any) {
         this.name = jsonObj.name;
         this.data = jsonObj.data;
+        this.type = jsonObj.type;
+        this.style = jsonObj.style;
+        this.color = jsonObj.color ? jsonObj.color : '';
+        this.group = jsonObj.group ? jsonObj.group : '';
     }
 }

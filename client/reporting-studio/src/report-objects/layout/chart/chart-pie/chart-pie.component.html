@@ -1,1 +1,17 @@
-<div>chart pie, donut, funnel</div>
+<kendo-chart [chartArea]="{'margin':10}">
+    <kendo-chart-title [text]="chart?.title"></kendo-chart-title>
+    <kendo-chart-legend *ngIf="chart.legend" [position]="chart.legend.position" [orientation]="chart.legend.orientation"></kendo-chart-legend>
+    <kendo-chart-series>
+        <kendo-chart-series-item *ngFor="let item of chart.series" field="value" categoryField="category" [type]="getType(item)"
+            [name]="item.name" [data]="item.data" [style]="item.style" [color]="item.color">
+
+            <kendo-chart-series-item-labels [content]="labelContent" [position]="'outsideEnd'" color="#000" background="none">
+            </kendo-chart-series-item-labels>
+        </kendo-chart-series-item>
+    </kendo-chart-series>
+    <kendo-chart-tooltip>
+        <ng-template kendoChartSeriesTooltipTemplate let-category="category">
+            {{ category }}
+        </ng-template>
+    </kendo-chart-tooltip>
+</kendo-chart>

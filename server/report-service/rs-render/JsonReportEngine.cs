@@ -16,6 +16,7 @@ using DocumentFormat.OpenXml.Packaging;
 using spreadsheet = DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microarea.RSWeb.Objects;
+using Microarea.Common.CoreTypes;
 
 namespace Microarea.RSWeb.Render
 {
@@ -275,11 +276,25 @@ namespace Microarea.RSWeb.Render
                         msg.message = GetDocxDataPage(pageNum);
                         break;
                     }
+                case MessageBuilder.CommandType.SNAPSHOT:
+                    {
+                        //il flag user-allUser è passato insieme al numeroPagina
+                        bool allUsers = false;
+                        string[] split = msg.page.Split(',');
+                        string user = split[1];
+                        if (user.Equals(true))
+                           allUsers = true;
+                        if (user.Equals(false))
+                            allUsers = false;
+                        SaveSnapshot(allUsers);
+                        msg.commandType = MessageBuilder.CommandType.NONE;
+                        break;
+                    }
             }
             return msg;
         }
 
-
+        
 
         //---------------------------------------------------------------------
         //per debug
@@ -583,6 +598,49 @@ namespace Microarea.RSWeb.Render
                 mainPart.Document.Save();
             }
             return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
+        }
+
+        //---------------------------------------------------------------------
+        //chiamata per snapshot
+        public string GetJsonAllPages()
+        {
+            WoormDocument woorm = StateMachine.Woorm;
+
+            string file = "[";
+
+            for (int i=1; i<= woorm.RdeReader.TotalPages; i++)
+            {
+                woorm.LoadPage(i);
+
+               if (i > 0) file += ",";
+
+               file += woorm.ToJson(true);
+               file += ",";
+               file += woorm.ToJson(false);
+
+                
+            }
+            file += "]";
+            return file.ToJson();
+        }
+
+        public void SaveSnapshot(bool allUsers)
+        {/*
+             WoormDocument woorm = StateMachine.Woorm;
+
+           string pages = GetJsonAllPages();
+
+            bool forUser = true;
+            string user = "sa";
+
+            string customPath = this.ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, user);
+            string destinationPath = PathFunctions.WoormRunnedReportPath
+                (
+                customPath,
+                Path.GetFileNameWithoutExtension(woorm.Filename),
+                true
+                );
+                */
         }
 
 

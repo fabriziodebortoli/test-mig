@@ -5,38 +5,44 @@
                 <div class="box">
                     <img src="assets/provisioning-tools.png"  />
                 </div>
-                <div class="box">
-                    <h5 style="color:#999999;">M4 Provisioning System</h5>
+                <div class="box" style="text-align: right">
+                    <h5 style="color:#999999;display:inline;">{{ selectedInstanceKey }}</h5><br>
+                    <a (click)="clearSelectedInstance()"><h5 *ngIf="selectedInstanceKey != ''" style="color:#999999;display:inline;cursor:pointer;">(change)</h5></a>
                 </div>
             </div>
             <div class="row start-xs">
-                <h2 style="color:#666666; margin-left:22px;">{{ welcomeMessage }}</h2>
+                <h3 style="color:#666666; margin-left:22px;">{{ welcomeMessage }}</h3>
             </div>
-            <div class="row start-xs" *ngIf="instancesList.length > 0">
-                <label style="margin-left:22px;">{{ credentials.accountName }}</label>
+
+            <div style="min-height:120px">
+
+                <div class="box" *ngIf="loginStep == 1">
+                    <input type="text" class="ctrlInput" autofocus placeholder="Your Account Name" value="" [(ngModel)]="credentials.accountName" required>
+                </div>
+
+                <div class="box"  *ngIf="loginStep == 1" style="text-align:left; margin:15px 0 0 12px;font-size:14px;">
+                    <a href='#' (click)="doForgottenPassword()">Forgot your password?</a>
+                </div>                  
+
+                <div *ngIf="loginStep == 2">
+                    <div *ngIf="instancesList.length > 0" class="box" style="padding-top:10px"> 
+                        <select autofocus [(ngModel)]="selectedInstanceKey" style="height:30px">
+                            <option value="" disabled selected hidden>Select an Instance</option>
+                            <option *ngFor="let instance of instancesList" value="{{ instance.InstanceKey }}">
+                                {{ instance.Description }}
+                            </option>
+                        </select>
+                    </div>            
+                </div>
+
+                <div class="box" *ngIf="loginStep == 3">
+                    <input type="password" placeholder="Password" value="" [(ngModel)]="credentials.password" [readonly]="appBusy" required>
+                </div>
+            
             </div>
-            <div class="box" *ngIf="instancesList.length == 0">
-                <input type="text" class="ctrlInput" placeholder="Your Account Name" value="" [(ngModel)]="credentials.accountName" required>
+            <div *ngIf="loginStep <= 3" class="box" class="end-xs" style="margin-top:40px;"> 
+                <button class="cta" (click)="doNext()">Next</button>
             </div>
-            <div *ngIf="instancesList.length == 0" class="box" class="end-xs" style="margin-top:40px;"> 
-                <button color="primary" (click)="preLogin()">Next</button>
-            </div>
-            <div class="box" *ngIf="instancesList.length > 0">
-                <input type="password" placeholder="Password" value="" [(ngModel)]="credentials.password" required>
-            </div>
-            <div *ngIf="instancesList.length > 0" style="margin:20px 0 10px 0;">
-                <label>Please select an instance</label>
-            </div>
-            <div *ngIf="instancesList.length > 0" class="box"> 
-                <select [(ngModel)]="selectedInstanceKey">
-                    <option *ngFor="let instance of instancesList" value="{{ instance.InstanceKey }}">
-                        {{ instance.Description }}
-                    </option>
-                </select>
-            </div>
-            <div *ngIf="instancesList.length > 0" class="box" class="end-xs" style="margin-top:40px;"> 
-                <button color="primary" (click)="submitLogin()">OK</button>
-            </div>            
         </div>
     </div>
 </div>

@@ -1,5 +1,4 @@
-﻿using Microarea.AdminServer.Library;
-using Microarea.AdminServer.Model.Interfaces;
+﻿using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
 using System;
@@ -13,7 +12,8 @@ namespace Microarea.AdminServer.Model
 	{
 		string subscriptionKey = string.Empty;
 		string description = string.Empty;
-        ActivationToken activationtoken = new ActivationToken(string.Empty);
+		//ActivationToken activationToken = new ActivationToken(string.Empty);
+		string activationToken;
 		string language = string.Empty;
 		string regionalSettings = string.Empty;
 		int minDBSizeToWarn;
@@ -22,7 +22,7 @@ namespace Microarea.AdminServer.Model
 		//---------------------------------------------------------------------
 		public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
 		public string Description { get { return this.description; } set { this.description = value; } }
-        public ActivationToken ActivationToken { get { return this.activationtoken; } set { this.activationtoken = value; } }
+        public string ActivationToken { get { return this.activationToken; } set { this.activationToken = value; } }
 		public string Language { get { return this.language; } set { this.language = value; } }
 		public string RegionalSettings { get { return this.regionalSettings; } set { this.regionalSettings = value; } }
 		public int MinDBSizeToWarn { get { return this.minDBSizeToWarn; } set { this.minDBSizeToWarn = value; } }
@@ -45,7 +45,17 @@ namespace Microarea.AdminServer.Model
 			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
 			burgerDataParameters.Add(new BurgerDataParameter("@SubscriptionKey", this.subscriptionKey));
 			burgerDataParameters.Add(new BurgerDataParameter("@Description", this.description));
-			burgerDataParameters.Add(new BurgerDataParameter("@ActivationToken", this.activationtoken));
+
+			// subscriptions object coming from GWAM have activationToken set to null
+			// because it's not relevant here.
+			// But, anyway the sql parameter cannot be null
+
+			if (String.IsNullOrEmpty(this.activationToken))
+			{
+				this.activationToken = String.Empty;
+			}
+
+			burgerDataParameters.Add(new BurgerDataParameter("@ActivationToken", this.activationToken));
 			burgerDataParameters.Add(new BurgerDataParameter("@Language", this.language));
 			burgerDataParameters.Add(new BurgerDataParameter("@RegionalSettings", this.regionalSettings));
 			burgerDataParameters.Add(new BurgerDataParameter("@MinDBSizeToWarn", this.minDBSizeToWarn));
@@ -64,7 +74,7 @@ namespace Microarea.AdminServer.Model
 			Subscription subscription = new Subscription();
 			subscription.subscriptionKey = reader["SubscriptionKey"] as string;
 			subscription.description = reader["Description"] as string;
-			subscription.activationtoken = new ActivationToken(reader["ActivationToken"] as string);
+			subscription.activationToken = reader["ActivationToken"] as string;
 			subscription.language = reader["Language"] as string;
 			subscription.regionalSettings = reader["RegionalSettings"] as string;
 			subscription.minDBSizeToWarn = (int)reader["MinDBSizeToWarn"];

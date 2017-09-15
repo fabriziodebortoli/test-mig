@@ -1,3 +1,4 @@
+import { AccountInfo } from './../../authentication/account-info';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModelService } from './../../services/model.service';
 import { Component, OnInit } from '@angular/core';
@@ -24,10 +25,25 @@ export class SubscriptionDatabaseComponent implements OnInit {
 
   //--------------------------------------------------------------------------------------------------------
   ngOnInit() {
+
+    // I read the queryparams
     let subscriptionKey: string = this.route.snapshot.queryParams['subscriptionToEdit'];
     let dbName: string = this.route.snapshot.queryParams['databaseToEdit'];
 
-    if (subscriptionKey === undefined || dbName === undefined)
+    if (subscriptionKey === undefined)
+      return;
+
+    this.model.SubscriptionKey = subscriptionKey;
+      
+    // I need the instanceKey where the currentAccount is logged
+    let localAccountInfo = localStorage.getItem(this.modelService.currentAccountName);
+
+    if (localAccountInfo != null && localAccountInfo != '') {
+      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+      this.model.InstanceKey = accountInfo.instanceKey;
+    }
+
+    if (dbName === undefined)
       return;
     
     this.editing = true;
@@ -62,12 +78,10 @@ export class SubscriptionDatabaseComponent implements OnInit {
     }
 
     let subscriptionKey: string = this.model.SubscriptionKey;
-    
-    let databaseOperation: Observable<OperationResult> = this.modelService.saveDatabase(this.model);
 
-    let subs = databaseOperation.subscribe(
+    let subs =  this.modelService.saveDatabase(this.model).
+    subscribe(
       databaseResult => {
-        this.model = new SubscriptionDatabase();
         if (this.editing)
           this.editing = !this.editing;
         subs.unsubscribe();
