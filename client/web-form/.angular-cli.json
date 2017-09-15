@@ -7,6 +7,7 @@
         "root": "src",
         "outDir": "dist",
         "assets": [
+            { "glob": "**/*", "input": "../node_modules/@taskbuilder/icons/fonts/", "output": "./assets/m4" },
             "assets",
             "favicon.ico"
         ],
@@ -19,7 +20,6 @@
         "prefix": "tb",
         "styles": [
             "../node_modules/flexboxgrid/dist/flexboxgrid.min.css",
-            "../node_modules/@taskbuilder/icons/m4.css",
             "tb.scss",
             "form.scss",
             "styles.scss"
