@@ -310,14 +310,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   Snapshot() {
-    console.log("siamo dentro snapshot");
+    //il flag user-allUser è passato insieme al numeroPagina
     let message = {
       commandType: CommandType.SNAPSHOT,
       message: this.args.nameSpace,
-      page: 1
+      page: 1 + ","+ this.rsService.user
     };
 
-    this.rsService.pageNum = message.page;
     this.rsService.doSend(JSON.stringify(message));
   }
 
