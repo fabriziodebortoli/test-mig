@@ -71,6 +71,36 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			//************************************************************************************
+			// aggiungere controlli di esistenza database - login - connessioni al server, etc.
+			//************************************************************************************
+
+			// creo il record nella tabella con il flag UnderMaintenance a true
+
+			SubscriptionDatabase subDatabase = new SubscriptionDatabase();
+			subDatabase.InstanceKey = instanceKey;
+			subDatabase.SubscriptionKey = subscriptionKey;
+			subDatabase.Name = subscriptionKey + "-ERP";
+			subDatabase.UnderMaintenance = true;
+
+			try
+			{
+				opRes = subDatabase.Save(burgerData);
+				opRes.Message = Strings.OperationOK;
+			}
+			catch (Exception exc)
+			{
+				opRes.Result = false;
+				opRes.Message = "010 DatabaseController.QuickCreate" + exc.Message;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (!opRes.Result)
+			{
+				opRes.Message = Strings.OperationKO;
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
 			// creazione contenitore db su Azure
 			AzureCreateDBParameters param = new AzureCreateDBParameters();
 			param.DatabaseName = dbName;
@@ -128,10 +158,6 @@ namespace Microarea.AdminServer.Controllers
 				false // no ask credential
 				);
 
-			SubscriptionDatabase subDatabase = new SubscriptionDatabase();
-			subDatabase.InstanceKey = instanceKey;
-			subDatabase.SubscriptionKey = subscriptionKey;
-			subDatabase.Name = subscriptionKey + "-ERP";
 			subDatabase.DBName = dbName;
 			subDatabase.DBServer = settings.DatabaseInfo.DBServer;
 			subDatabase.DBOwner = loginName;
@@ -165,6 +191,9 @@ namespace Microarea.AdminServer.Controllers
 
 			try
 			{
+				// ho terminato l'elaborazione, aggiorno il record nella tabella 
+				// con i dati del database e rimetto il flag UnderMaintenance a false
+				subDatabase.UnderMaintenance = false;
 				opRes = subDatabase.Save(burgerData);
 				opRes.Message = Strings.OperationOK;
 			}

@@ -105,6 +105,12 @@ export class LoginService {
             // checking cloud-admin only urls
             let opRes: OperationResult = UrlGuard.CanNavigate(returnUrl, authInfo);
 
+            if (!opRes.Result && returnUrl == '/') {
+              // this is the case where user clicked the "sign in" link
+              this.router.navigateByUrl('/');
+              return;              
+            }
+
             if (!opRes.Result) {
               alert(opRes.Message);
               this.router.navigateByUrl('/');
