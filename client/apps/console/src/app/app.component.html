@@ -1,4 +1,4 @@
-<admin-sidenav-container [appTitle]="'M4Cloud'" [userAccountName]="userAccountName">
+<admin-sidenav-container [appTitle]="'M4Cloud'" [userAccountName]="userAccountName" (openAccountProfile)="openAccount($event)" (openSignIn)="openLogin()">
     <div class="routesSection">
         <div>
             <a [routerLink]="['/appHome']">Home</a>
