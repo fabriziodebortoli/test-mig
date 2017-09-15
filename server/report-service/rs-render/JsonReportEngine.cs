@@ -279,14 +279,14 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.SNAPSHOT:
                     {
                         //il flag user-allUser è passato insieme al numeroPagina
-                        bool allUsers = false;
+                        bool forAllUsers = false;
                         string[] split = msg.page.Split(',');
                         string user = split[1];
                         if (user.Equals(true))
-                           allUsers = true;
+                           forAllUsers = true;
                         if (user.Equals(false))
-                            allUsers = false;
-                        SaveSnapshot(allUsers);
+                            forAllUsers = false;
+                        SaveSnapshot(forAllUsers);
                         msg.commandType = MessageBuilder.CommandType.NONE;
                         break;
                     }
@@ -612,7 +612,7 @@ namespace Microarea.RSWeb.Render
             {
                 woorm.LoadPage(i);
 
-               if (i > 0) file += ",";
+               if (i > 1) file += ",";
 
                file += woorm.ToJson(true);
                file += ",";
@@ -624,24 +624,60 @@ namespace Microarea.RSWeb.Render
             return file.ToJson();
         }
 
-        public void SaveSnapshot(bool allUsers)
-        {/*
-             WoormDocument woorm = StateMachine.Woorm;
+        public void SaveSnapshot(bool forAllUsers)
+        {
+            WoormDocument woorm = StateMachine.Woorm;
+            string pages = GetJsonAllPages();
+            string user = "";
 
-           string pages = GetJsonAllPages();
+            if (!forAllUsers)
+                user = ReportSession.UserInfo.User;
+            else
+                user = ""; //come trovo tutti li utenti?
 
-            bool forUser = true;
-            string user = "sa";
+            string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, user);
+            string destinationPath = PathFunctions.WoormRunnedReportPath (customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
 
-            string customPath = this.ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, user);
-            string destinationPath = PathFunctions.WoormRunnedReportPath
-                (
-                customPath,
-                Path.GetFileNameWithoutExtension(woorm.Filename),
-                true
-                );
-                */
+
+
         }
+
+
+
+
+
+        /*
+        public bool SaveForUser(string user, string description)
+		{ 
+			if (woorm == null || woorm.GraphicSection == string.Empty) return false;
+
+			if (MaxNumberReached(user)) return false;
+
+			AddGraphicInfos(woorm.InfoFilename, woorm.GraphicSection, woorm.Filename, description);
+
+			string customPath = reportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, reportSession.UserInfo.Company, user);
+							
+			string originPath = PathFunctions.WoormTempFilePath(woorm.SessionID, woorm.UniqueID);
+			string destinationPath = PathFunctions.WoormRunnedReportPath
+				(
+				customPath, 
+				Path.GetFileNameWithoutExtension(woorm.Filename),  
+				true
+				);
+			
+			foreach (string file in Directory.GetFiles(originPath))
+			{
+				string destFileName = Path.Combine(destinationPath, Path.GetFileName(file));
+				File.Copy(file, destFileName);
+			}
+
+			return true;
+		} 
+         
+         
+        */
+
+
 
 
     }
