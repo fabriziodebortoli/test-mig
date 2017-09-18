@@ -10,8 +10,8 @@ namespace Microarea.AdminServer.Model
     //================================================================================
     public class SubscriptionDatabase : ISubscriptionDatabase
     {
-        string subscriptionKey = string.Empty;
-        string instanceKey = string.Empty;
+		string instanceKey = string.Empty;
+		string subscriptionKey = string.Empty;
         string name = string.Empty;
 		string description = string.Empty;
 		string dbServer = string.Empty;
@@ -30,8 +30,10 @@ namespace Microarea.AdminServer.Model
 		string regionalSettings = string.Empty;
 		string provider = string.Empty;
 		bool test = false;
+		bool underMaintenance;
 
 		//---------------------------------------------------------------------
+		public string InstanceKey { get => instanceKey; set => instanceKey = value; }
 		public string SubscriptionKey { get { return this.subscriptionKey; } set { this.subscriptionKey = value; } }
 		public string Name { get { return this.name; } set { this.name = value; } }
 		public string Description { get { return this.description; } set { this.description = value; } }
@@ -51,10 +53,10 @@ namespace Microarea.AdminServer.Model
 		public string RegionalSettings { get { return this.regionalSettings; } set { this.regionalSettings = value; } }
 		public string Provider { get { return this.provider; } set { this.provider = value; } }
 		public bool Test { get { return this.test; } set { this.test = value; } }
-        public string InstanceKey { get => instanceKey; set => instanceKey = value; }
+		public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
 
-        //---------------------------------------------------------------------
-        public SubscriptionDatabase()
+		//---------------------------------------------------------------------
+		public SubscriptionDatabase()
 		{
 		}
 
@@ -91,14 +93,14 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@Test", this.Test));
             burgerDataParameters.Add(new BurgerDataParameter("@Language", this.Language));
             burgerDataParameters.Add(new BurgerDataParameter("@RegionalSettings", this.RegionalSettings));
+			burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.UnderMaintenance));
 
-            BurgerDataParameter keyColumnParameter1 = new BurgerDataParameter("@SubscriptionKey", this.SubscriptionKey);
+			BurgerDataParameter keyColumnParameter1 = new BurgerDataParameter("@SubscriptionKey", this.SubscriptionKey);
             BurgerDataParameter keyColumnParameter2 = new BurgerDataParameter("@Name", this.Name);
             BurgerDataParameter keyColumnParameter3 = new BurgerDataParameter("@InstanceKey", this.InstanceKey);
             BurgerDataParameter[] keyParameters = new BurgerDataParameter[] {
                keyColumnParameter1,keyColumnParameter2,keyColumnParameter3
             };
-
 
             opRes.Result = burgerData.Save(ModelTables.SubscriptionDatabases, keyParameters, burgerDataParameters);
             opRes.Content = this;
@@ -131,6 +133,7 @@ namespace Microarea.AdminServer.Model
             subscriptionDatabase.DMSDBOwner = dataReader["DMSDBOwner"] as string;
             subscriptionDatabase.DMSDBPassword = dataReader["DMSDBPassword"] as string;
             subscriptionDatabase.Test = (bool)dataReader["Test"];
+			subscriptionDatabase.UnderMaintenance = (bool)dataReader["UnderMaintenance"];
        
             return subscriptionDatabase;
         }

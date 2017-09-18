@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import {AccountInfo} from '../../authentication/account-info';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -21,12 +22,14 @@ export class SubscriptionComponent implements OnInit {
   databases: SubscriptionDatabase[];
   readingData: boolean;
   existDatabases: boolean;
+  underMaintenance: boolean;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
     this.existDatabases = true;
     this.model = new AppSubscription();
     this.databases = [];
+    this.underMaintenance = false;
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -78,7 +81,15 @@ export class SubscriptionComponent implements OnInit {
             this.databases = res['Content'];
             this.readingData = false;
             this.existDatabases = this.databases.length > 0;
-          },
+            
+            for (var index = 0; index < this.databases.length; index++) {
+              var db = this.databases[index];
+              if (db.UnderMaintenance) {
+                this.underMaintenance = true;
+                break;
+              }
+            }
+         },
           err => {
             alert(err);
             this.readingData = false;

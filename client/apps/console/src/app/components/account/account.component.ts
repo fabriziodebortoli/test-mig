@@ -78,7 +78,7 @@ export class AccountComponent implements OnInit {
   submitAccount() {
     if (this.model.AccountName == undefined || this.model.Password == undefined)
     {
-      alert('Mandatory fields are empty! Check email/password!');
+      alert('Mandatory fields are empty: please check email and password.');
       return;
     }
 

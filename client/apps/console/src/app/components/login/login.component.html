@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="box"  *ngIf="loginStep == 1" style="text-align:left; margin:15px 0 0 12px;font-size:14px;">
-                    <a href='#' (click)="doForgottenPassword()">Forgot your password?</a>
+                    <a (click)="doForgottenPassword()" style="color:#999999; cursor:pointer;">Forgot your password?</a>
                 </div>                  
 
                 <div *ngIf="loginStep == 2">
@@ -40,7 +40,6 @@
                 </div>
             
             </div>
-
             <div *ngIf="loginStep <= 3" class="box" class="end-xs" style="margin-top:40px;"> 
                 <button class="cta" (click)="doNext()">Next</button>
             </div>

@@ -7,9 +7,12 @@
     <md-icon (click)="start.toggle()" style="cursor:pointer">menu</md-icon>
     <span style="margin-left:20px">{{appTitle}}</span>
     <span class="spacer"></span>
-    <span *ngIf="userAccountName!=''">{{ userAccountName }}</span>&nbsp;
-    <span *ngIf="userAccountName==''"><a>Login</a></span>
-    <md-icon class="example-icon">person</md-icon>
+    <a (click)="loginOrAccount()">
+      <div>
+        <div style="float:left;margin-top:4px">{{ userAccountName === undefined || userAccountName === '' ? 'Sign In' : userAccountName }}</div>&nbsp;
+        <md-icon class="example-icon">{{ userAccountName === undefined || userAccountName === '' ? 'person' : '' }}</md-icon>
+      </div>
+    </a>
   </md-toolbar>
   <div class="outer-outlet">
     <ng-content select=".breadCrumbSection"></ng-content>

@@ -3,9 +3,9 @@
      //================================================================================
     public interface ISubscriptionDatabase : IModelObject
 	{
+		string InstanceKey { get; set; }
 		string SubscriptionKey { get; set; }
 		string Name { get; set; }
-        string InstanceKey { get; set; }
         string Description { get; set; }
 		string DBServer { get; set; }
 		string DBName { get; set; }
@@ -23,5 +23,6 @@
 		string RegionalSettings { get; }
 		string Provider { get; }
 		bool Test { get; }
+		bool UnderMaintenance { get; set; }
 	}
 }

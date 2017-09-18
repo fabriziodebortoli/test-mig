@@ -10,7 +10,7 @@ import { ReportingStudioService } from './../../reporting-studio.service';
 
 export class SnapshotdialogComponent {
     subscriptions: Subscription[] = [];
-    private allUsers = false;
+    private allUsers : boolean = false;
 
 
     constructor(private rsService: ReportingStudioService) {
@@ -27,7 +27,7 @@ export class SnapshotdialogComponent {
     }
 
     createFileJson(){
-        this.rsService.initiaziedSnapshot();
+        this.rsService.initiaziedSnapshot(this.allUsers);
         this.rsService.snapshot = false;
     }
 

@@ -159,6 +159,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           break;
         case CommandType.ENDREPORT:
           this.rsService.totalPages = k.totalPages;
+          this.rsService.runEnabled = true;
           break;
         case CommandType.NONE:
           break;
@@ -191,6 +192,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   RunReport() {
     this.rsService.running = true;
+    this.rsService.runEnabled = false;
     let message = {
       commandType: CommandType.ASK,
       message: '',

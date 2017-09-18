@@ -1,4 +1,3 @@
-.tbContainerItems {
-    display: flex;
-    flex: 1 1 auto;
+:host(tb-view-container) {
+    flex: 1;
 }
