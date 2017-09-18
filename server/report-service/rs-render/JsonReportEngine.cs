@@ -17,6 +17,7 @@ using spreadsheet = DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microarea.RSWeb.Objects;
 using Microarea.Common.CoreTypes;
+using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.RSWeb.Render
 {
@@ -27,6 +28,8 @@ namespace Microarea.RSWeb.Render
         public RSEngine StateMachine = null;
 
         private int pageNum = 1;
+
+        public const string ReportFolderNameFormatter = @"yyyyMMddTHHmmss";
 
         //--------------------------------------------------------------------------
         public JsonReportEngine(TbReportSession session)
@@ -282,11 +285,11 @@ namespace Microarea.RSWeb.Render
                         bool forAllUsers = false;
                         string[] split = msg.page.Split(',');
                         string user = split[1];
-                        if (user.Equals(true))
+                        if (user.Equals("true"))
                            forAllUsers = true;
-                        if (user.Equals(false))
-                            forAllUsers = false;
+                        
                         SaveSnapshot(forAllUsers);
+
                         msg.commandType = MessageBuilder.CommandType.NONE;
                         break;
                     }
@@ -606,7 +609,7 @@ namespace Microarea.RSWeb.Render
         {
             WoormDocument woorm = StateMachine.Woorm;
 
-            string file = "[";
+            string file = "{ \"pages\":[";
 
             for (int i=1; i<= woorm.RdeReader.TotalPages; i++)
             {
@@ -620,66 +623,31 @@ namespace Microarea.RSWeb.Render
 
                 
             }
-            file += "]";
+            file += "]}";
             return file.ToJson();
         }
 
         public void SaveSnapshot(bool forAllUsers)
         {
             WoormDocument woorm = StateMachine.Woorm;
-            string pages = GetJsonAllPages();
             string user = "";
 
             if (!forAllUsers)
                 user = ReportSession.UserInfo.User;
             else
-                user = ""; //come trovo tutti li utenti?
+                user = NameSolverStrings.AllUsers;
 
             string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, user);
-            string destinationPath = PathFunctions.WoormRunnedReportPath (customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
-
-
+            string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
+            string pages = GetJsonAllPages();
+            string path = destinationPath + DateTime.Now.ToString(ReportFolderNameFormatter) + ".json";
+ 
+            File.WriteAllText(path, pages);
 
         }
 
 
 
 
-
-        /*
-        public bool SaveForUser(string user, string description)
-		{ 
-			if (woorm == null || woorm.GraphicSection == string.Empty) return false;
-
-			if (MaxNumberReached(user)) return false;
-
-			AddGraphicInfos(woorm.InfoFilename, woorm.GraphicSection, woorm.Filename, description);
-
-			string customPath = reportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, reportSession.UserInfo.Company, user);
-							
-			string originPath = PathFunctions.WoormTempFilePath(woorm.SessionID, woorm.UniqueID);
-			string destinationPath = PathFunctions.WoormRunnedReportPath
-				(
-				customPath, 
-				Path.GetFileNameWithoutExtension(woorm.Filename),  
-				true
-				);
-			
-			foreach (string file in Directory.GetFiles(originPath))
-			{
-				string destFileName = Path.Combine(destinationPath, Path.GetFileName(file));
-				File.Copy(file, destFileName);
-			}
-
-			return true;
-		} 
-         
-         
-        */
-
-
-
-
     }
 }
-
