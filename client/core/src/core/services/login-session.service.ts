@@ -1,4 +1,5 @@
-﻿import { EventManagerService } from './../../menu/services/event-manager.service';
+﻿import { UrlService } from './url.service';
+import { EventManagerService } from './../../menu/services/event-manager.service';
 import { MenuService } from './../../menu/services/menu.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -25,11 +26,13 @@ export class LoginSessionService {
         private cookieService: CookieService,
         private logger: Logger,
         private router: Router,
-        private eventManagerService: EventManagerService, 
-        private menuService:MenuService
+        private eventManagerService: EventManagerService,
+        private menuService: MenuService,
+        private urlService: UrlService
     ) {
 
-        this.checkIfLogged();
+        // lettura file di configurazione backend urls
+        urlService.init().subscribe(() => this.checkIfLogged());
 
         const subs = this.socket.close.subscribe(() => {
             this.openTbConnection(true);
@@ -124,8 +127,8 @@ export class LoginSessionService {
                 this.logger.debug('logout returns: ' + loggedOut);
                 this.setConnected(!loggedOut);
                 this.httpService.closeTBConnection();
-                
-                 // this.socket.wsClose(); lo chiude il server facendo logoff
+
+                // this.socket.wsClose(); lo chiude il server facendo logoff
                 this.cookieService.remove('authtoken');
                 subscription.unsubscribe();
             },
