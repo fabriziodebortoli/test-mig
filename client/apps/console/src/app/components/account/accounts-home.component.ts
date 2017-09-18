@@ -43,6 +43,6 @@ export class AccountsHomeComponent implements OnInit {
 
   openAccount(item:object){
     // route to edit account
-    this.router.navigate(['/account'], { queryParams: { accountNameToEdit: item['AccountName'] } });
+    this.router.navigate(['/account'], { queryParams: { accountNameToEdit: item['AccountName'], redirectOnSave: true } });
   }
 }
