@@ -1,18 +1,18 @@
 <div class="container" fxLayout="column" style="padding:10px">
-  <h5 class="componentTitle">Database information</h5>
+  <h5 class="componentTitle">{{databaseType}} database information</h5>
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
         <label>Server</label>
-        <input type="text" placeholder="Server" value="" *ngIf="!subDBModel.UseDMS" [(ngModel)]="subDBModel.DBServer">
-        <input type="text" placeholder="Server" value="" *ngIf="subDBModel.UseDMS" [(ngModel)]="subDBModel.DMSDBServer">
+        <input type="text" placeholder="Server" value="" *ngIf="!isDMS" [(ngModel)]="subDBModel.DBServer" [readonly]="true">
+        <input type="text" placeholder="Server" value="" *ngIf="isDMS" [(ngModel)]="subDBModel.DMSDBServer" [readonly]='true'>
        </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
           <label>DBOwner</label>
-          <input type="text" placeholder="DBOwner" value="" *ngIf="!subDBModel.UseDMS" [(ngModel)]="subDBModel.DBOwner">
-        <input type="text" placeholder="DBOwner" value="" *ngIf="subDBModel.UseDMS" [(ngModel)]="subDBModel.DMSDBOwner">
+          <input type="text" placeholder="DBOwner" value="" *ngIf="!isDMS" [(ngModel)]="subDBModel.DBOwner">
+        <input type="text" placeholder="DBOwner" value="" *ngIf="isDMS" [(ngModel)]="subDBModel.DMSDBOwner">
       </div>
     </div>
   </div>
@@ -20,15 +20,15 @@
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
           <label>Database</label>
-        <input type="text" placeholder="Database" value="" *ngIf="!subDBModel.UseDMS" [(ngModel)]="subDBModel.DBName">
-        <input type="text" placeholder="Database" value="" *ngIf="subDBModel.UseDMS" [(ngModel)]="subDBModel.DMSDBName">
+        <input type="text" placeholder="Database" value="" *ngIf="!isDMS" [(ngModel)]="subDBModel.DBName">
+        <input type="text" placeholder="Database" value="" *ngIf="isDMS" [(ngModel)]="subDBModel.DMSDBName">
       </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
         <label>Password</label>
-        <input type="password" placeholder="Password" value="" *ngIf="!subDBModel.UseDMS" [(ngModel)]="subDBModel.DBPassword">
-        <input type="password" placeholder="Password" value="" *ngIf="subDBModel.UseDMS" [(ngModel)]="subDBModel.DMSDBPassword">
+        <input type="password" placeholder="Password" value="" *ngIf="!isDMS" [(ngModel)]="subDBModel.DBPassword">
+        <input type="password" placeholder="Password" value="" *ngIf="isDMS" [(ngModel)]="subDBModel.DMSDBPassword">
       </div>
     </div>
   </div>

@@ -46,15 +46,24 @@ export class WebSocketService {
 
     setSocketConnectionStatus(status: SocketConnectionStatus) {
 
+        if (this.urlService.isDesktop)
+            return;
+
         this._socketConnectionStatus = status;
         this.connectionStatus.emit(status);
     }
 
     setConnecting() {
+        if (this.urlService.isDesktop)
+        return;
+
         this.setSocketConnectionStatus(SocketConnectionStatus.Connecting);
     }
 
     wsConnect(): void {
+        if (this.urlService.isDesktop)
+        return;
+
         const $this = this;
 
         this.setConnecting();
@@ -128,11 +137,15 @@ export class WebSocketService {
     }
 
     wsClose() {
+        if (this.urlService.isDesktop)
+        return;
+
         if (this.connection) {
             this.connection.close();
         }
     }
     checkForOpenConnection(): Observable<boolean> {
+        
         return Observable.create(observer => {
             if (this._socketConnectionStatus === SocketConnectionStatus.Connected) {
                 observer.next(true);
