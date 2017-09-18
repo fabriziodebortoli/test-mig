@@ -29,6 +29,7 @@ import { SubscriptionDatabaseComponent } from './components/subscription/subscri
 import { DatabaseConfigurationComponent } from './components/subscription/database-configuration.component';
 import { DatabaseTestconnectionComponent } from './components/subscription/database-testconnection.component';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DatabaseService } from './services/database.service';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,7 @@ import { DatabaseTestconnectionComponent } from './components/subscription/datab
     ConsoleModule
     //BrowserAnimationsModule
   ],
-  providers: [AuthGuardService, LoginService, ModelService],
+  providers: [AuthGuardService, LoginService, ModelService, DatabaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
