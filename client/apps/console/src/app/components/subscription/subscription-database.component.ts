@@ -68,6 +68,7 @@ export class SubscriptionDatabaseComponent implements OnInit, OnDestroy {
           return;
           
           this.model = databases[0];
+          this.useDMS = this.model.UseDMS;    
         },
         err => { alert(err);}
       )
