@@ -40,8 +40,9 @@
                 </div>
             
             </div>
-            <div *ngIf="loginStep <= 3" class="box" class="end-xs" style="margin-top:40px;"> 
-                <button class="cta" (click)="doNext()">Next</button>
+            <div *ngIf="loginStep <= 3" class="box" class="end-xs" style="margin-top:40px"> 
+                <img *ngIf="appBusy" src="assets/ajax-loader.gif" style="margin-right:20px" />
+                <button *ngIf="!appBusy" class="cta" (click)="doNext()">Next</button>
             </div>
         </div>
     </div>
