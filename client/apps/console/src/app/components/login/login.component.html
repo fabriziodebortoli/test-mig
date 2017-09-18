@@ -17,7 +17,7 @@
             <div style="min-height:120px">
 
                 <div class="box" *ngIf="loginStep == 1">
-                    <input type="text" class="ctrlInput" autofocus placeholder="Your Account Name" value="" [(ngModel)]="credentials.accountName" required>
+                    <input type="text" class="ctrlInput" adminAutoFocus placeholder="Your Account Name" value="" [(ngModel)]="credentials.accountName" required>
                 </div>
 
                 <div class="box"  *ngIf="loginStep == 1" style="text-align:left; margin:15px 0 0 12px;font-size:14px;">
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="box" *ngIf="loginStep == 3">
-                    <input type="password" placeholder="Password" value="" [(ngModel)]="credentials.password" [readonly]="appBusy" required>
+                    <input type="password" placeholder="Password" adminAutoFocus value="" [(ngModel)]="credentials.password" [readonly]="appBusy" required>
                 </div>
             
             </div>
