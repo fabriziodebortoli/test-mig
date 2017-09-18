@@ -77,14 +77,20 @@ export class HttpService {
     }
 
     openTBConnection(): Observable<OperationResult> {
-        let token = this.cookieService.get('authtoken');
 
-        return this.postData(this.getDocumentBaseUrl() + 'initTBLogin/', token)
-            .map((res: Response) => {
-                return this.createOperationResult(res);
-            })
-            .catch(this.handleError);
+        let token = this.cookieService.get('authtoken');
+        let url = this.getDocumentBaseUrl() + 'initTBLogin/?authToken='  + token + '&isDesktop=' +this.urlService.isDesktop;
+
+       // return this.http.post(url, undefined, { withCredentials: true});
+        return this.postDataWithAllowOrigin(url)   
+         .map((res: Response) => {
+            return this.createOperationResult(res);
+        })
+        .catch(this.handleError);
+      
     }
+
+  
 
     closeTBConnection(): Observable<OperationResult> {
         let token = this.cookieService.get('authtoken');
@@ -102,6 +108,16 @@ export class HttpService {
         return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers });
         //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
     }
+
+    postDataWithAllowOrigin(url: string ): Observable<Response> {
+        let token = this.cookieService.get('authtoken');
+        let headers = new Headers();
+        headers.append('Access-Control-Allow-Origin', window.location.origin);
+        headers.append('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin');
+        return this.http.post(url, undefined, { withCredentials: true, headers: headers })
+    }
+
+   
     /**
    * API /getProductInfo
    * 
@@ -115,7 +131,7 @@ export class HttpService {
             });
     }
     getDictionaries(): Observable<any> {
-        let obj = { }
+        let obj = {}
         return this.postData(this.getDataServiceUrl() + 'getinstalleddictionaries', obj)
             .map((res: Response) => {
                 return res.json();
@@ -127,6 +143,10 @@ export class HttpService {
 
     getDocumentBaseUrl() {
         return this.urlService.getApiUrl() + 'tb/document/';
+    }
+
+    getMenuBaseUrl() {
+        return this.urlService.getApiUrl() + 'tb/menu/';
     }
 
     getAccountManagerBaseUrl() {
