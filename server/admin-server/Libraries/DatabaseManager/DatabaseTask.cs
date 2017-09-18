@@ -1161,5 +1161,46 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			return true;
 		}
+
+		/// <summary>
+		/// TryToConnect
+		/// </summary>
+		//---------------------------------------------------------------------
+		public bool TryToConnect()
+		{
+			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
+			{
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
+				return false;
+			}
+
+			bool result = false;
+
+			try
+			{
+				//tento la connessione
+				using (SqlConnection testConnection = new SqlConnection(CurrentStringConnection))
+				{
+					testConnection.Open();
+					result = true;
+				}
+			}
+			catch (SqlException ex)
+			{
+				Debug.WriteLine(ex.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, ex.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Server, ex.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, ex.Number);
+				extendedInfo.Add(DatabaseManagerStrings.State, ex.State);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "TryToConnect");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Source, ex.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, ex.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, ex.Message + "\r\n" + DatabaseManagerStrings.ErrorConnectionNotValid, extendedInfo);
+			}
+
+			return result;
+		}
 	}
 }
