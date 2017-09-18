@@ -27,6 +27,7 @@ import { SubscriptionComponent } from './components/subscription/subscription.co
 import { AccountSubscriptionsComponent } from './components/account/account-subscriptions.component';
 import { SubscriptionDatabaseComponent } from './components/subscription/subscription-database.component';
 import { DatabaseConfigurationComponent } from './components/subscription/database-configuration.component';
+import { DatabaseTestconnectionComponent } from './components/subscription/database-testconnection.component';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -48,7 +49,8 @@ import { DatabaseConfigurationComponent } from './components/subscription/databa
     SubscriptionComponent,
     AccountSubscriptionsComponent,
     SubscriptionDatabaseComponent,
-    DatabaseConfigurationComponent
+    DatabaseConfigurationComponent,
+    DatabaseTestconnectionComponent
   ],
   imports: [
     BrowserModule,
