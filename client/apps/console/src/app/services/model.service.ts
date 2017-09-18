@@ -1,3 +1,4 @@
+import { DatabaseCredentials } from './../authentication/credentials';
 import { AuthorizationProperties } from './../authentication/auth-info';
 import { SubscriptionDatabase } from './../model/subscriptionDatabase';
 import { Account } from '../model/account';
@@ -357,4 +358,26 @@ export class ModelService {
     })
     .catch((error: any) => Observable.throw(error.json().error || 'server error'));
   }
+
+    //--------------------------------------------------------------------------------------------------------
+    testConnection(subscriptionKey: string, body: DatabaseCredentials): Observable<OperationResult> {
+      
+      let authorizationHeader = this.createAuthorizationHeader('jwt');
+      
+      if (authorizationHeader === '') {
+        return Observable.throw('AuthorizationHeader is missing!');
+      }
+
+      let bodyString = JSON.stringify(body);
+      let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+      let options = new RequestOptions({ headers: headers });
+      console.log(bodyString);
+      let url = environment.adminAPIUrl + 'database/testconnection/' + subscriptionKey;
+      console.log(url);
+      return this.http.post(environment.adminAPIUrl + 'database/testconnection/' + subscriptionKey, bodyString, options)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+    }
 }
