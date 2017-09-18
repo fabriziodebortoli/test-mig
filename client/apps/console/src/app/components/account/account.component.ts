@@ -19,14 +19,18 @@ import { AuthorizationProperties } from "app/authentication/auth-info";
 export class AccountComponent implements OnInit {
 
   model:Account;
-  editing:boolean = false;
+  editing:boolean;
+  saving: boolean;
   loggedAccountName:string;
   subscriptionsAccount:Array<SubscriptionAccount>;
+  
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) { 
     this.model = new Account();
     this.subscriptionsAccount = new Array<SubscriptionAccount>();
+    this.editing = false;
+    this.saving = false;
   }
 
   //--------------------------------------------------------------------------------------------------------
@@ -83,6 +87,8 @@ export class AccountComponent implements OnInit {
       return;
     }
 
+    this.saving = true;
+
     let accountOperation:Observable<OperationResult>;
 
     // read parent account information
@@ -101,23 +107,27 @@ export class AccountComponent implements OnInit {
     let subs = accountOperation.subscribe(
       accountResult => 
       {
-        this.model = new Account();
         if (this.editing) 
           this.editing = !this.editing;
+
         subs.unsubscribe();
         
         let redirectAfterSave: boolean;
         redirectAfterSave = this.route.snapshot.queryParams['redirectOnSave'] === undefined ? false : this.route.snapshot.queryParams['redirectOnSave'] === 'true';
+
+        this.saving = false;
 
         if (!redirectAfterSave)
         {
           return;
         }
           
+        this.model = new Account();
         this.router.navigateByUrl('/accountsHome');
       },
       err => 
-      { 
+      {
+        this.saving = false;
         console.log(err); 
         alert(err); 
         subs.unsubscribe();
