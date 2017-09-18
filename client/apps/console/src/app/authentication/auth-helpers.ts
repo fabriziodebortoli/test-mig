@@ -5,6 +5,7 @@ export class RoleNames {
 }
 
 export class RoleLevels {
+    static Account:string = "Account";
     static Subscription:string = "Subscription";
-    static  Instance:string = "Instance";
+    static Instance:string = "Instance";
 }

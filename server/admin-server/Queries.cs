@@ -56,10 +56,10 @@ namespace Microarea.AdminServer
 														IsUnicode, Language, RegionalSettings, Provider, UseDMS, DMSDBServer, DMSDBName, DMSDBOwner, DMSDBPassword, Test, UnderMaintenance)  
 														VALUES (@InstanceKey, @SubscriptionKey, @Name, @Description, @DBServer, @DBName, @DBOwner, @DBPassword, @Disabled, @DatabaseCulture, 
 														@IsUnicode, @Language, @RegionalSettings, @Provider, @UseDMS, @DMSDBServer, @DMSDBName, @DMSDBOwner, @DMSDBPassword, @Test, @UnderMaintenance)";
-		public const string UpdateSubscriptionDatabase = @"UPDATE MP_SubscriptionDatabases SET Description = @Description, DBServer = @DBServer, DBName = @DBName, InstanceKey=@InstanceKey, DBOwner = @DBOwner, 
+		public const string UpdateSubscriptionDatabase = @"UPDATE MP_SubscriptionDatabases SET Description = @Description, DBServer = @DBServer, DBName = @DBName, DBOwner = @DBOwner, 
 														DBPassword = @DBPassword, Disabled = @Disabled, DatabaseCulture = @DatabaseCulture, IsUnicode = @IsUnicode, 
 														Language = @Language, RegionalSettings = @RegionalSettings, Provider = @Provider, UseDMS = @UseDMS, 
-														DMSDBServer = @DMSDBServer, DMSDBName = @DMSDBName, DMSDBOwner = @DMSDBOwner, DMSDBPassword = @DMSDBPassword, Test = @Test, @UnderMaintenance = UnderMaintenance
+														DMSDBServer = @DMSDBServer, DMSDBName = @DMSDBName, DMSDBOwner = @DMSDBOwner, DMSDBPassword = @DMSDBPassword, Test = @Test, UnderMaintenance = @UnderMaintenance
 														WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Name = @Name";
 		public const string DeleteSubscriptionDatabase = @"DELETE MP_SubscriptionDatabases WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Name = @Name";
 
@@ -78,7 +78,7 @@ namespace Microarea.AdminServer
 												@CannotChangePassword, @PasswordExpirationDate, @PasswordDuration, @Disabled, @Locked, @WindowsAuthentication, @Language, 
 												@RegionalSettings, @Ticks, @ExpirationDate, @ParentAccount, @Confirmed)";
 
-        public const string UpdateAccount = @"UPDATE MP_Accounts SET FullName = @FullName, Password = @Password, Salt = @Salt, Notes = @Notes, Email = @Email, LoginFailedCount = @LoginFailedCount,
+        public const string UpdateAccount = @"UPDATE MP_Accounts SET FullName = @FullName, Notes = @Notes, Email = @Email, LoginFailedCount = @LoginFailedCount,
 												PasswordNeverExpires = @PasswordNeverExpires, MustChangePassword = @MustChangePassword, CannotChangePassword = @CannotChangePassword, 
 												PasswordExpirationDate = @PasswordExpirationDate, PasswordDuration = @PasswordDuration, Disabled = @Disabled, Locked = @Locked, 
 												WindowsAuthentication = @WindowsAuthentication, Language = @Language, 

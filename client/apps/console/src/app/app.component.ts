@@ -33,4 +33,14 @@ export class AppComponent implements OnInit, OnDestroy {
   logout() {
     this.loginService.logout();
   }
+
+  openAccount(event) {
+    if (event === undefined || event === '')
+      return;
+    this.router.navigate(['/account'], { queryParams: { accountNameToEdit: event, redirectOnSave: false } });
+  }
+
+  openLogin() {
+    this.router.navigateByUrl('/loginComponent');
+  }
 }
