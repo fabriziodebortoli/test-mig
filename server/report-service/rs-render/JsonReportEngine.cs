@@ -293,6 +293,11 @@ namespace Microarea.RSWeb.Render
                         msg.commandType = MessageBuilder.CommandType.NONE;
                         break;
                     }
+                case MessageBuilder.CommandType.ACTIVESNAPSHOT:
+                    {
+                        msg.message = ActiveSnapshot();
+                        break;
+                    }
             }
             return msg;
         }
@@ -643,7 +648,47 @@ namespace Microarea.RSWeb.Render
             string path = destinationPath + DateTime.Now.ToString(ReportFolderNameFormatter) + ".json";
  
             File.WriteAllText(path, pages);
+        }
 
+        public string ActiveSnapshot()
+        {
+            WoormDocument woorm = StateMachine.Woorm;
+            List<string> nameFile = new List<string>();
+
+            string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, ReportSession.UserInfo.User);
+            string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
+            DirectoryInfo dUser = new DirectoryInfo(destinationPath);
+
+            string s = "[";
+            bool first = true;
+
+            foreach (FileInfo file in dUser.GetFiles("*.json"))
+            {
+                if (first) first = false; else s += ',';
+
+                DateTime dt;
+                bool b = DateTime.TryParse(file.Name, out dt);
+
+                s += "{" + false.ToJson("allUsers") + ',' + file.Name.ToJson("name") + "}";
+            }
+
+            customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, NameSolverStrings.AllUsers);
+            destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
+            DirectoryInfo dAllUser = new DirectoryInfo(destinationPath);
+
+            first = true;
+            foreach (FileInfo file in dAllUser.GetFiles("*.json"))
+            {
+                if (first) first = false; else s += ',';
+
+                DateTime dt;
+                bool b = DateTime.TryParse(file.Name, out dt);
+
+                s += "{" + true.ToJson("allUsers") + ',' + file.Name.ToJson("name") + "}";
+            }
+
+            s += "]";
+            return s;
         }
 
 

@@ -176,7 +176,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.getDocxData(k + ".docx");
           break;
         case CommandType.SNAPSHOT:
-          
+          break;
+        case CommandType.ACTIVESNAPSHOT:
+          this.data = k;
           break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
@@ -376,6 +378,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   //--------------------------------------------------
   public startSnapshot(){
     this.rsService.snapshot = true;
+    let message = {
+      commandType: CommandType.ACTIVESNAPSHOT,
+      message: this.args.nameSpace,
+      page: 1
+    };
+    
+    this.rsService.doSend(JSON.stringify(message));
   }
 
   //--------------------------------------------------
