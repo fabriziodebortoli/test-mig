@@ -13,7 +13,7 @@ export class UrlGuard {
             opRes.Message = 'No check-url strategy has been implemented for this url ' + url;
             opRes.Result = false;
             return opRes;            
-        }        
+        }
 
         // checking permission by specific component-url
 
@@ -21,7 +21,7 @@ export class UrlGuard {
 
         if (url.startsWith('/instance?instanceToEdit=')) {
 
-            let instanceKey:string = url.substr(url.lastIndexOf("=")+1);
+            let instanceKey:string = url.substr(url.lastIndexOf("=") + 1);
 
             if (!authInfo.VerifyRole(RoleNames.Admin, RoleLevels.Instance, instanceKey)) {
                 opRes.Message = 'You do not have rights to edit ' + instanceKey;
