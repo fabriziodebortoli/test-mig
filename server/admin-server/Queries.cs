@@ -78,7 +78,7 @@ namespace Microarea.AdminServer
 												@CannotChangePassword, @PasswordExpirationDate, @PasswordDuration, @Disabled, @Locked, @WindowsAuthentication, @Language, 
 												@RegionalSettings, @Ticks, @ExpirationDate, @ParentAccount, @Confirmed)";
 
-        public const string UpdateAccount = @"UPDATE MP_Accounts SET FullName = @FullName, Password = @Password, Salt = @Salt, Notes = @Notes, Email = @Email, LoginFailedCount = @LoginFailedCount,
+        public const string UpdateAccount = @"UPDATE MP_Accounts SET FullName = @FullName, Notes = @Notes, Email = @Email, LoginFailedCount = @LoginFailedCount,
 												PasswordNeverExpires = @PasswordNeverExpires, MustChangePassword = @MustChangePassword, CannotChangePassword = @CannotChangePassword, 
 												PasswordExpirationDate = @PasswordExpirationDate, PasswordDuration = @PasswordDuration, Disabled = @Disabled, Locked = @Locked, 
 												WindowsAuthentication = @WindowsAuthentication, Language = @Language, 
