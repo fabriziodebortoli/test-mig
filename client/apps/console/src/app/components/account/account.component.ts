@@ -76,6 +76,7 @@ export class AccountComponent implements OnInit {
 
   //--------------------------------------------------------------------------------------------------------
   submitAccount() {
+
     if (this.model.AccountName == undefined || this.model.Password == undefined)
     {
       alert('Mandatory fields are empty: please check email and password.');
@@ -104,8 +105,16 @@ export class AccountComponent implements OnInit {
         if (this.editing) 
           this.editing = !this.editing;
         subs.unsubscribe();
-        // after save I return to parent page
-        this.router. navigateByUrl('/accountsHome');
+        
+        let redirectAfterSave: boolean;
+        redirectAfterSave = this.route.snapshot.queryParams['redirectOnSave'] === undefined ? false : this.route.snapshot.queryParams['redirectOnSave'] === 'true';
+
+        if (!redirectAfterSave)
+        {
+          return;
+        }
+          
+        this.router.navigateByUrl('/accountsHome');
       },
       err => 
       { 
