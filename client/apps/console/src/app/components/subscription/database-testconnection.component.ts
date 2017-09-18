@@ -1,3 +1,4 @@
+import { DatabaseService } from './../../services/database.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { DatabaseCredentials } from '../../authentication/credentials';
@@ -16,7 +17,7 @@ export class DatabaseTestconnectionComponent implements OnInit {
   subscriptionKey: string;
   
   //--------------------------------------------------------------------------------------------------------
-  constructor(private modelService: ModelService, private route: ActivatedRoute) { 
+  constructor(private modelService: ModelService, private databaseService: DatabaseService, private route: ActivatedRoute) { 
     
     this.dbCredentials = new DatabaseCredentials();
   }
@@ -37,6 +38,13 @@ export class DatabaseTestconnectionComponent implements OnInit {
     let subs = this.modelService.testConnection(this.subscriptionKey, this.dbCredentials).
     subscribe(
       result => {
+        if (result.Result) {
+          this.databaseService.dbCredentials = this.dbCredentials;
+          this.databaseService.testConnectionOK = true;
+        }
+        else
+          alert('Unable to connect! ' + result.Message);
+
         subs.unsubscribe();
       },
       error => {

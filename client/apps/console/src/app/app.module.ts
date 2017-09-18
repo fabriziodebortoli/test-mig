@@ -30,6 +30,7 @@ import { DatabaseConfigurationComponent } from './components/subscription/databa
 import { DatabaseTestconnectionComponent } from './components/subscription/database-testconnection.component';
 import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DatabaseService } from './services/database.service';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,7 @@ import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive
     ConsoleModule
     //BrowserAnimationsModule
   ],
-  providers: [AuthGuardService, LoginService, ModelService],
+  providers: [AuthGuardService, LoginService, ModelService, DatabaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
