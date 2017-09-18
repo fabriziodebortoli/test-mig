@@ -28,6 +28,7 @@ import { AccountSubscriptionsComponent } from './components/account/account-subs
 import { SubscriptionDatabaseComponent } from './components/subscription/subscription-database.component';
 import { DatabaseConfigurationComponent } from './components/subscription/database-configuration.component';
 import { DatabaseTestconnectionComponent } from './components/subscription/database-testconnection.component';
+import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -50,7 +51,8 @@ import { DatabaseTestconnectionComponent } from './components/subscription/datab
     AccountSubscriptionsComponent,
     SubscriptionDatabaseComponent,
     DatabaseConfigurationComponent,
-    DatabaseTestconnectionComponent
+    DatabaseTestconnectionComponent,
+    AdminAutoFocusDirective
   ],
   imports: [
     BrowserModule,
