@@ -51,6 +51,27 @@ export class UrlGuard {
             }
         }
 
+        // checking accounts
+
+        if (url.startsWith('/account?accountNameToEdit=')) {
+            
+            let accountName:string = url.substr(url.lastIndexOf("=")+1);
+
+            if (authInfo.VerifyRole(RoleNames.Admin, RoleLevels.Account, accountName)) {
+                opRes.Result = true;
+                return opRes;
+            }
+
+            if (authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
+                opRes.Result = true;
+                return opRes;
+            }
+
+            opRes.Message = 'You do not have rights to edit this account ' + accountName;
+            opRes.Result = false;
+            return opRes;
+        }         
+
         if (url == '/instancesHome' || url.startsWith('/instance')) {
             if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Instance)) {
                 opRes.Message = RoleLevels.Instance + ' level missing';
@@ -75,7 +96,7 @@ export class UrlGuard {
             }
         }
 
-        if (url == '/accountsHome' || url.startsWith('/account') || url.startsWith('/database')) {
+        if (url == '/accountsHome' || url.startsWith('/database')) {
             if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
                 opRes.Message = RoleLevels.Subscription + ' level missing';
                 opRes.Result = false;
