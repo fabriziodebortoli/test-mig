@@ -1,8 +1,7 @@
 <div class="tbcontainer">
-    <tb-culture-selector></tb-culture-selector>
-    <tb-connection-status></tb-connection-status>
+    <tb-culture-selector *ngIf="!urlService.isDesktop"></tb-culture-selector>
+    <tb-connection-status *ngIf="!urlService.isDesktop"></tb-connection-status>
     <tb-topbar-menu-test class="topbar-menu-layout"></tb-topbar-menu-test>
     <tb-topbar-menu-user class="topbar-menu-layout"></tb-topbar-menu-user>
     <tb-topbar-menu-app class="topbar-menu-layout"></tb-topbar-menu-app>
-
 </div>
