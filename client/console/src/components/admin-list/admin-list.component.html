@@ -2,11 +2,11 @@
   <img src="assets/ajax-loader.gif"  />
 </div>
 <md-list>
-  <md-list-item *ngFor="let item of items" (click)="goEditMode(item)" style="width:100%;cursor:pointer;">
+  <md-list-item *ngFor="let item of items" (click)="goEditMode(item)" style="width:100%;cursor:pointer;background-color:#ffffff; margin-bottom:2px">
     <div *ngFor="let columnName of columnNames; let last = last;" style="margin-right:20px;">
       {{ item[columnName] }}
     </div>
-    <div *ngIf="rowCommand != undefined && rowCommand != ''" style="display:block;width:100%">
+    <div *ngIf="rowCommand != undefined && rowCommand != ''" style="display:block;width:100%;border-bottom:1px solid #c0c0c0;">
       <md-icon style="float:right" (click)="fireRowCommand(item)">{{ rowCommandIcon }}</md-icon>
     </div>
   </md-list-item>

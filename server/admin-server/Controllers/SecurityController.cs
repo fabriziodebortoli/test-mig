@@ -97,6 +97,7 @@ namespace Microarea.AdminServer.Controllers
 					{
 						AccountIdentityPack accountIdentityPack = JsonConvert.DeserializeObject<AccountIdentityPack>(opGWAMRes.Content.ToString());
 						account = accountIdentityPack.Account;
+						account.Salt = new byte[] {};
 						// @@TODO: it would be better to log if Save couldn't execute correctly
 						((Account)account).Save(burgerData);
 					}

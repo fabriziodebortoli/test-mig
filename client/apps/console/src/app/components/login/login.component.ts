@@ -48,6 +48,16 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   //--------------------------------------------------------------------------------
+  onKeyDown(event) {
+
+    if (event.keyCode == 13) {
+      this.doNext();
+      return;
+    }
+
+  }
+
+  //--------------------------------------------------------------------------------
   doNext() {
     switch (this.loginStep)
     {
