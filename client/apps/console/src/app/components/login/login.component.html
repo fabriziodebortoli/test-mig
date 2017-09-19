@@ -17,7 +17,7 @@
             <div style="min-height:120px">
 
                 <div class="box" *ngIf="loginStep == 1">
-                    <input type="text" class="ctrlInput" autofocus placeholder="Your Account Name" value="" [(ngModel)]="credentials.accountName" required>
+                    <input type="text" class="ctrlInput" (keydown)="onKeyDown($event)" adminAutoFocus placeholder="Your Account Name" value="" [(ngModel)]="credentials.accountName" required>
                 </div>
 
                 <div class="box"  *ngIf="loginStep == 1" style="text-align:left; margin:15px 0 0 12px;font-size:14px;">
@@ -26,7 +26,7 @@
 
                 <div *ngIf="loginStep == 2">
                     <div *ngIf="instancesList.length > 0" class="box" style="padding-top:10px"> 
-                        <select autofocus [(ngModel)]="selectedInstanceKey" style="height:30px">
+                        <select (keydown)="onKeyDown($event)" autofocus [(ngModel)]="selectedInstanceKey" style="height:30px">
                             <option value="" disabled selected hidden>Select an Instance</option>
                             <option *ngFor="let instance of instancesList" value="{{ instance.InstanceKey }}">
                                 {{ instance.Description }}
@@ -36,12 +36,13 @@
                 </div>
 
                 <div class="box" *ngIf="loginStep == 3">
-                    <input type="password" placeholder="Password" value="" [(ngModel)]="credentials.password" [readonly]="appBusy" required>
+                    <input (keydown)="onKeyDown($event)" type="password" placeholder="Password" adminAutoFocus value="" [(ngModel)]="credentials.password" [readonly]="appBusy" required>
                 </div>
             
             </div>
-            <div *ngIf="loginStep <= 3" class="box" class="end-xs" style="margin-top:40px;"> 
-                <button class="cta" (click)="doNext()">Next</button>
+            <div *ngIf="loginStep <= 3" class="box" class="end-xs" style="margin-top:40px"> 
+                <img *ngIf="appBusy" src="assets/ajax-loader.gif" style="margin-right:20px" />
+                <button *ngIf="!appBusy" class="cta" (click)="doNext()">Next</button>
             </div>
         </div>
     </div>

@@ -96,7 +96,7 @@ export class UrlGuard {
             }
         }
 
-        if (url == '/accountsHome' || url.startsWith('/database')) {
+        if (url == '/accountsHome' || url.startsWith('/database') || url == '/account') {
             if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Subscription)) {
                 opRes.Message = RoleLevels.Subscription + ' level missing';
                 opRes.Result = false;

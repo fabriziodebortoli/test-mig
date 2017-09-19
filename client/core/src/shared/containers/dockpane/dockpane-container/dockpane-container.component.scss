@@ -27,14 +27,14 @@ tb-dockpane-container {
     }
 }
 
-.dockpane-tabber .k-tabstrip>.k-tabstrip-items,
+.dockpane-tabber>.k-tabstrip>.k-tabstrip-items,
 {
     background-color: transparent;
     flex-direction: column;
     padding-left: 3px;
 }
 
-.dockpane-tabber .k-tabstrip-top>.k-tabstrip-items .k-item {
+.dockpane-tabber>.k-tabstrip-top>.k-tabstrip-items .k-item {
     margin: 3px 0 0;
     padding: 0;
     background-color: #fff;
@@ -43,24 +43,24 @@ tb-dockpane-container {
     box-shadow: -1px 1px 5px -1px rgba(117, 117, 117, 0.55);
 }
 
-.dockpane-tabber .k-tabstrip>.k-tabstrip-items .k-item .k-link {
+.dockpane-tabber>.k-tabstrip>.k-tabstrip-items .k-item .k-link {
     padding: 0;
     padding-top: 4px;
 }
 
-.dockpane-tabber .k-tabstrip-top>.k-tabstrip-items .k-state-active {
+.dockpane-tabber>.k-tabstrip-top>.k-tabstrip-items .k-state-active {
     background-color: #3e3e3e;
 }
 
-.dockpane-tabber .k-tabstrip-top>.k-tabstrip-items .k-state-active .dockpane-tab>span {
+.dockpane-tabber>.k-tabstrip-top>.k-tabstrip-items .k-state-active .dockpane-tab>span {
     color: #fff;
 }
 
-.dockpane-tabber .dockpane-tab {
+.dockpane-tabber>.k-tabstrip .dockpane-tab {
     padding: 6px 3px 4px;
 }
 
-.dockpane-tabber .dockpane-tab>span {
+.dockpane-tabber>.k-tabstrip .dockpane-tab>span {
     writing-mode: tb-rl;
     white-space: nowrap;
     display: inline-block;
@@ -68,4 +68,11 @@ tb-dockpane-container {
     transform: rotate(180deg);
     color: #0277bd;
     font-size: 12px
+}
+
+
+/**/
+
+.dockpane .k-tabstrip {
+    flex-direction: column
 }

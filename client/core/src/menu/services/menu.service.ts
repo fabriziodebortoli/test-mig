@@ -1,3 +1,4 @@
+import { UrlService } from './../../core/services/url.service';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -85,7 +86,8 @@ export class MenuService {
         private utilsService: UtilsService,
         private imageService: ImageService,
         private settingsService: SettingsService,
-        private componentService: ComponentService
+        private componentService: ComponentService,
+        private urlService: UrlService
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -212,14 +214,18 @@ export class MenuService {
         if (object === undefined)
             return;
 
-        if (object.objectType.toLowerCase() == 'report') {
-            this.componentService.createReportComponent(object.target, true);
+        if (this.urlService.isDesktop) {
+            this.runObject(object);
         }
         else {
-            this.webSocketService.runDocument(object.target, object.args)
-                .catch(() => { object.isLoading = false; });
+            if (object.objectType.toLowerCase() == 'report') {
+                this.componentService.createReportComponent(object.target, true);
+            }
+            else {
+                this.webSocketService.runDocument(object.target, object.args)
+                    .catch(() => { object.isLoading = false; });
+            }
         }
-
         this.addToMostUsed(object);
         object.isLoading = true;
         const subs1 = this.componentService.componentInfoCreated.subscribe(arg => {
@@ -230,6 +236,42 @@ export class MenuService {
             object.isLoading = false;
             subs2.unsubscribe();
         });
+    }
+
+    runObject(object: any) {
+        let urlToRun = "";
+        let objType = object.objectType.toLowerCase();
+        let ns = object.target.toLowerCase();
+        if (objType == 'document') {
+            urlToRun = 'runDocument/?ns=' + encodeURIComponent(ns);
+            if (object.arguments)
+                urlToRun += "&args=" + encodeURIComponent(object.arguments);
+        }
+        else if (objType == 'batch')
+            urlToRun = 'runDocument/?ns=' + encodeURIComponent(ns);
+        else if (objType == 'report') {
+            urlToRun = 'runReport/?ns=' + encodeURIComponent(ns);
+            if (object.arguments)
+                urlToRun += "&args=" + encodeURIComponent(object.arguments);
+        }
+        else if (objType == 'function') {
+            var args = object.arguments;
+            if (object.isUrl)
+                urlToRun = 'runUrl/?url=' + encodeURIComponent(ns) + '&title=' + object.title;
+            else
+                urlToRun = 'runFunction/?ns=' + encodeURIComponent(ns) + '&args=' + encodeURIComponent(args);
+        }
+        else if (objType == 'officeitem') {
+            var type = object.sub_type;
+            var app = object.application;
+            urlToRun = 'runOfficeItem/?ns=' + encodeURIComponent(ns) + '&subType=' + type + '&application=' + app;
+        }
+
+        let sub = this.httpService.postDataWithAllowOrigin(this.httpService.getMenuBaseUrl() + urlToRun).subscribe((res) => {
+            object.isLoading = false;
+            sub.unsubscribe();
+        })
+        // return typeof (window.event) !== 'undefined' && window.event.ctrlKey ? urlToRun + "&notHooked=true" : urlToRun;
     }
 
     //---------------------------------------------------------------------------------------------
