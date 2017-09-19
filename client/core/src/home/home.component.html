@@ -50,8 +50,7 @@
                 <kendo-tabstrip-tab *ngFor="let info of componentService.components">
                     <ng-template kendoTabTitle>
                         <span>{{info.document?.getTitle()}}</span>
-
-                        <md-icon (click)="closeTab(info)" title="Close" class='close'>close</md-icon>
+                        <m4-icon icon="tb-closewindows" (click)="closeTab(info)" title="Close" class='close'></m4-icon>
                     </ng-template>
                     <ng-template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
