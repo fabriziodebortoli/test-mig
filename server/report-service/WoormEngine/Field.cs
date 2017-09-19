@@ -688,11 +688,14 @@ namespace Microarea.RSWeb.WoormEngine
 		//----------------------------------------------------------------------------
 		StringCollection SplitStringOld(string data)
 		{
-			int dataLength = data.Length;
+            data = data.TrimStart('\r', '\n');
+
+            int dataLength = data.Length;
 			if (dataLength <= 0)
 				return null;
-			//Applico una tolleranza del 10% come fa woorm c++ (quindi equivale a dire che ho uno spazio a disposizione del 90%)
-			//senza questa tolleranza capita che una stringa non sia splittata, ma poi a video non si riesce a vedere
+         
+            //Applico una tolleranza del 10% come fa woorm c++ (quindi equivale a dire che ho uno spazio a disposizione del 90%)
+            //senza questa tolleranza capita che una stringa non sia splittata, ma poi a video non si riesce a vedere
             int maxLen = (int)(this.Len * engine.ColumnWidthPercentage);
 
 			StringCollection stringLines = new StringCollection();
