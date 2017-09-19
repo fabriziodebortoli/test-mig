@@ -1,40 +1,33 @@
 //stile quando usato nella sidenav
 /// inizio sidenav
 :host-context(.sidenav) {
-
-    .favorites{
+    .favorites {
         margin-bottom: 20px;
     }
-
-    ul.favorites-list{
-    padding: 0 5px;
+    ul.favorites-list {
+        padding: 0 5px;
     }
-
-    .favorite-item{
+    .favorite-item {
         display: flex;
         flex-direction: row;
         color: #9f9f9f;
         background: #3e3e3e;
         line-height: 30px;
-        position:relative;    
+        position: relative;
     }
-
-    .favorite-item>md-icon.type{
+    .favorite-item>md-icon.type {
         margin: 0 2px 0 7px;
         line-height: 30px;
         font-size: 20px;
     }
-
-    .favorite-item>span{
-        font-size:12px;
+    .favorite-item>span {
+        font-size: 12px;
         cursor: pointer;
     }
-
-    .favorite-item>span:hover{
+    .favorite-item>span:hover {
         color: #fff;
     }
-
-    .favorite-item>md-icon.close{
+    .favorite-item>md-icon.close {
         position: absolute;
         right: 0;
         font-size: 14px;
@@ -42,26 +35,21 @@
         cursor: pointer;
         color: #646464;
     }
-
-    .favorite-item>md-icon.close:hover{
-        color:#fff;
+    .favorite-item>md-icon.close:hover {
+        color: #fff;
     }
-
 }
+
 /// fine sidenav
-
-
 //stile quando usato nella dashboard
 /// inizio dashboard
 :host-context(.dashboard) {
-    .favorites{
+    .favorites {
         margin-bottom: 20px;
     }
-
-    ul.favorites-list{
+    ul.favorites-list {
         padding: 0 5px;
     }
-
     .favorite-item {
         display: flex;
         flex-direction: row;
@@ -72,56 +60,46 @@
         border: 1px solid #ddd;
         align-items: center;
     }
-
     .favorite-item .type {
         margin-right: 3px;
         cursor: default;
     }
-
     .favorite-item>span {
         flex: 1;
         cursor: pointer;
         max-width: 210px;
         font-size: 13px;
     }
-
     .favorite-item .close {
-        font-size: 20px;
-        width: 20px;
-        height: 20px;
+        font-size: 14px;
+        margin-top: 4px;
+        margin-right: 4px;
         cursor: pointer;
         color: #ccc;
+        font-weight: bolder;
     }
-
     .favorite-item .close:hover {
         color: #000
     }
-
     .favorite-item .type {
         color: #bbb;
-        font-size: 20px;
+        font-size: 14px;
         line-height: 24px;
     }
-
     .favorite-item .type.Document {
         color: #0277bd;
     }
-
     .favorite-item .type.Report,
     .favorite-item .type.Function {
         color: #3EAB66;
     }
-
     .favorite-item .type.Batch {
         color: #ffa700;
     }
-
-
-  
 }
 
-  /// fine dashboard
-    .spinner {  
-        height: 24px;
-        width: 24px;
-    }
+/// fine dashboard
+.spinner {
+    height: 24px;
+    width: 24px;
+}
