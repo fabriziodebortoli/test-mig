@@ -1,6 +1,7 @@
+import { SubscriptionDatabase } from './../../model/subscriptionDatabase';
 import { DatabaseService } from './../../services/database.service';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DatabaseCredentials } from '../../authentication/credentials';
 import { ModelService } from 'app/services/model.service';
 
@@ -12,7 +13,8 @@ import { ModelService } from 'app/services/model.service';
 
 export class DatabaseTestconnectionComponent implements OnInit {
   
-  // model
+  @Input() subDBModel: SubscriptionDatabase;
+  
   dbCredentials: DatabaseCredentials;
   subscriptionKey: string;
   
@@ -28,23 +30,34 @@ export class DatabaseTestconnectionComponent implements OnInit {
   }
   
   //--------------------------------------------------------------------------------------------------------
-  testConnection() {
+  onKeyUp(event) {
+    // if I press Enter I call testConnection method
+    if (event.keyCode == 13) {
+      this.testConnection();  
+    }
+  }
 
-    if (this.dbCredentials.Server == '' || this.dbCredentials.Login == '') {
+  //--------------------------------------------------------------------------------------------------------
+  testConnection() {
+    
+    if (this.dbCredentials.Provider == '' || this.dbCredentials.Server == '' || this.dbCredentials.Login == '') {
       alert('Check credentials first!');
       return;
     }
-
+    
     let subs = this.modelService.testConnection(this.subscriptionKey, this.dbCredentials).
     subscribe(
       result => {
         if (result.Result) {
           this.databaseService.dbCredentials = this.dbCredentials;
           this.databaseService.testConnectionOK = true;
+
+          // init provider
+          this.subDBModel.Provider = this.dbCredentials.Provider;
         }
         else
           alert('Unable to connect! ' + result.Message);
-
+        
         subs.unsubscribe();
       },
       error => {

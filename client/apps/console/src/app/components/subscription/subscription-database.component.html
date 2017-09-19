@@ -2,15 +2,15 @@
   
   <h2 class="componentTitle">Database {{ model.Name }}</h2>
   
-  <div class="row adminTile" *ngIf="databaseService.needsAskCredentials && !databaseService.testConnectionOK" >
-    <app-database-testconnection></app-database-testconnection>
+  <div class="row adminTile" *ngIf="databaseService.needsAskCredentials && !databaseService.testConnectionOK">
+    <app-database-testconnection [subDBModel]="model"></app-database-testconnection>
   </div>
   
   <div *ngIf="!databaseService.needsAskCredentials || databaseService.testConnectionOK">
     <div class="row adminTile" style="margin-top:10px">
       <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-        <label>Database Name</label>
-        <input type="text" placeholder="Database Name" value="" [readonly]=editing [(ngModel)]="model.Name">
+        <label>Name</label>
+        <input type="text" placeholder="Name" value="" [readonly]=true [(ngModel)]="model.Name">
       </div>
       <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
         <label>Description</label>
@@ -27,7 +27,7 @@
     <div class="row adminTile" style="margin-top:10px">
       <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
         <label>Provider</label>
-        <input type="text" placeholder="Provider" value="" [(ngModel)]="model.Provider">
+        <input type="text" placeholder="Provider" value="" [(ngModel)]="model.Provider" [readonly]="true">
       </div>
       <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4" style="margin-top: 34px">
         <label><input type="checkbox" name="cboxIsUnicode" value="" [(ngModel)]="model.IsUnicode">Use Unicode</label>

@@ -1,6 +1,13 @@
-<div class="container" fxLayout="column" style="padding:10px">
+<div class="container" fxLayout="column" style="padding:10px" (keyup)="onKeyUp($event)" >
   <h5 class="componentTitle">System Administrator connection information</h5>
-  <div class="row">
+    <div class="box" style="margin-top:10px"> 
+      <label>Provider</label>
+      <select autofocus style="height:30px" [(ngModel)]="dbCredentials.Provider">
+        <option value="SQLAzure">SQL Azure</option>
+        <option value="SQLServer">SQL Server</option>
+      </select>
+    </div>
+  <div class="row" style="margin-top:10px">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
         <label>Server</label>
@@ -8,7 +15,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row" style="margin-top:10px">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
       <div class="box">
         <label>SysAdmin login</label>
