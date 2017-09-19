@@ -33,7 +33,7 @@ namespace Microarea.RSWeb.Objects
 
         Funnel, Pie, Donut, DonutNested,
 
-        RangeBar, RangeColumn,
+        RangeBar, RangeColumn, RangeArea,
 
         Bubble,
 

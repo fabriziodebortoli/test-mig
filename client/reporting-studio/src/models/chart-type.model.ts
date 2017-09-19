@@ -13,7 +13,7 @@ export enum ChartType
 
     Funnel, Pie, Donut, DonutNested, 
 
-    RangeBar, RangeColumn,
+    RangeBar, RangeColumn, RangeArea,
 
     Bubble, 
 
@@ -29,4 +29,8 @@ export enum ChartType
     //solo BCGP
     Pyramid, RadarScatter
     //versioni 3D di bar,column,area  
+}
+
+export function ChartTypeDecorator(constructor: Function) {
+    constructor.prototype.ChartType = ChartType;
 }
