@@ -23,7 +23,10 @@ export class DatabaseInfoComponent implements OnInit {
   ngOnInit() {
     
     this.databaseType = this.isDMS ? 'DMS' : 'ERP';
-    
-    this.subDBModel.DBServer = this.subDBModel.DMSDBServer = this.databaseService.dbCredentials.Server;
+
+    // I initialize server names with the one specified in the testconnection 
+
+    if (this.databaseService.needsAskCredentials)
+      this.subDBModel.DBServer = this.subDBModel.DMSDBServer = this.databaseService.dbCredentials.Server;
   }
 }
