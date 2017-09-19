@@ -15,7 +15,7 @@
         line-height: 30px;
         position: relative;
     }
-    .favorite-item>md-icon.type {
+    .favorite-item>m4-icon.type {
         margin: 0 2px 0 7px;
         line-height: 30px;
         font-size: 20px;
@@ -27,7 +27,7 @@
     .favorite-item>span:hover {
         color: #fff;
     }
-    .favorite-item>md-icon.close {
+    .favorite-item>m4-icon.close {
         position: absolute;
         right: 0;
         font-size: 14px;
@@ -35,7 +35,7 @@
         cursor: pointer;
         color: #646464;
     }
-    .favorite-item>md-icon.close:hover {
+    .favorite-item>m4-icon.close:hover {
         color: #fff;
     }
 }
