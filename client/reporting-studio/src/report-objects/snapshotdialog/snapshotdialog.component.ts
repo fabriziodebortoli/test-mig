@@ -1,6 +1,7 @@
 import { Subscription } from 'rxjs/Subscription';
 import { Component } from '@angular/core';
 import { ReportingStudioService } from './../../reporting-studio.service';
+import { Snapshot } from './snapshot';
 
 @Component({
     selector: 'rs-snapshotdialog',
@@ -16,6 +17,11 @@ export class SnapshotdialogComponent {
     constructor(private rsService: ReportingStudioService) {
         
     };
+
+    ngOnInit(){
+        let snapshot: Snapshot[];
+        
+    }
 
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -38,4 +44,6 @@ export class SnapshotdialogComponent {
     setAllusers(){
         this.allUsers = true;
     }
+
+
 }

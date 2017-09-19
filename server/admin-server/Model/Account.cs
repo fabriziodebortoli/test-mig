@@ -99,6 +99,12 @@ namespace Microarea.AdminServer.Model
 
             burgerDataParameters.Add(new BurgerDataParameter("@FullName", this.FullName));
             burgerDataParameters.Add(new BurgerDataParameter("@Password", this.Password));
+
+			if (this.Salt == null)
+			{
+				this.Salt = new byte[] { };
+			}
+
 			burgerDataParameters.Add(new BurgerDataParameter("@Salt", this.Salt));
 			burgerDataParameters.Add(new BurgerDataParameter("@Notes", this.Notes));
             burgerDataParameters.Add(new BurgerDataParameter("@Email", this.Email));

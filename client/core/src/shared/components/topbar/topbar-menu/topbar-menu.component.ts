@@ -1,3 +1,4 @@
+import { UrlService } from './../../../../core/services/url.service';
 import { Component, ViewEncapsulation, Inject, forwardRef } from '@angular/core';
 
 
@@ -8,6 +9,6 @@ import { Component, ViewEncapsulation, Inject, forwardRef } from '@angular/core'
   encapsulation: ViewEncapsulation.None
 })
 export class TopbarMenuComponent{
-  constructor() {
+  constructor(private urlService: UrlService) {
   }
 }

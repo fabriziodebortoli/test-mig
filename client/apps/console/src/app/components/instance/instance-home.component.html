@@ -2,7 +2,7 @@
     <h1>Instances Management</h1>
 </div>
 <div style="float: right;">
-    <button style="margin-top:35px" routerLink='/instance' class="cta">New Instance</button>
+    <button style="margin-top:20px" routerLink='/instance' class="cta">New Instance</button>
 </div>
 <hr style="clear:both">
 <admin-list [items]=instances [columnNames]="['InstanceKey','Description']" (onSelectedItem)="openInstance($event)"></admin-list>

@@ -8,57 +8,59 @@
 </div> -->
 <div [ngStyle]="applyStyle()" [ngSwitch]="chart.type">
 
-  <rs-chart-bar [chart]="chart" *ngSwitchCase="1">
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="ChartType.Bar">
   </rs-chart-bar>
-  <rs-chart-bar [chart]="chart" *ngSwitchCase="2">
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="ChartType.BarStacked">
   </rs-chart-bar>
-  <rs-chart-bar [chart]="chart" *ngSwitchCase="3">
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="ChartType.BarStacked100">
   </rs-chart-bar>
-  <rs-chart-bar [chart]="chart" *ngSwitchCase="4">
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="ChartType.Column">
   </rs-chart-bar>
-  <rs-chart-bar [chart]="chart" *ngSwitchCase="5">
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="ChartType.ColumnStacked">
   </rs-chart-bar>
-  <rs-chart-bar [chart]="chart" *ngSwitchCase="6">
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="ChartType.ColumnStacked100">
   </rs-chart-bar>
-  <rs-chart-bar [chart]="chart" *ngSwitchCase="7">
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="ChartType.Area">
   </rs-chart-bar>
-  <rs-chart-bar [chart]="chart" *ngSwitchCase="8">
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="ChartType.AreaStacked">
   </rs-chart-bar>
-  <rs-chart-bar [chart]="chart" *ngSwitchCase="9">
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="ChartType.AreaStacked100">
   </rs-chart-bar>
-  <rs-chart-bar [chart]="chart" *ngSwitchCase="10">
+  <rs-chart-bar [chart]="chart" *ngSwitchCase="ChartType.Line">
   </rs-chart-bar>
 
-  <rs-chart-pie [chart]="chart" *ngSwitchCase="11">
+  <rs-chart-pie [chart]="chart" *ngSwitchCase="ChartType.Funnel">
   </rs-chart-pie>
-  <rs-chart-pie [chart]="chart" *ngSwitchCase="12">
+  <rs-chart-pie [chart]="chart" *ngSwitchCase="ChartType.Pie">
   </rs-chart-pie>
-  <rs-chart-pie [chart]="chart" *ngSwitchCase="13">
+  <rs-chart-pie [chart]="chart" *ngSwitchCase="ChartType.Donut">
   </rs-chart-pie>
-  <rs-chart-pie [chart]="chart" *ngSwitchCase="14">
+  <rs-chart-pie [chart]="chart" *ngSwitchCase="ChartType.DonutNested">
   </rs-chart-pie>
 
-  <rs-chart-range-bar [chart]="chart" *ngSwitchCase="15">
+  <rs-chart-range-bar [chart]="chart" *ngSwitchCase="ChartType.RangeBar">
   </rs-chart-range-bar>
-  <rs-chart-range-bar [chart]="chart" *ngSwitchCase="16">
+  <rs-chart-range-bar [chart]="chart" *ngSwitchCase="ChartType.RangeColumn">
+  </rs-chart-range-bar>
+  <rs-chart-range-bar [chart]="chart" *ngSwitchCase="ChartType.RangeArea">
   </rs-chart-range-bar>
 
-  <rs-chart-bubble [chart]="chart" *ngSwitchCase="17">
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="ChartType.Bubble">
   </rs-chart-bubble>
-  <rs-chart-bubble [chart]="chart" *ngSwitchCase="18">
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="ChartType.Scatter">
   </rs-chart-bubble>
-  <rs-chart-bubble [chart]="chart" *ngSwitchCase="19">
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="ChartType.ScatterLine">
   </rs-chart-bubble>
-  <rs-chart-bubble [chart]="chart" *ngSwitchCase="20">
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="ChartType.PolarLine">
   </rs-chart-bubble>
-  <rs-chart-bubble [chart]="chart" *ngSwitchCase="21">
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="ChartType.PolarArea">
   </rs-chart-bubble>
-  <rs-chart-bubble [chart]="chart" *ngSwitchCase="22">
+  <rs-chart-bubble [chart]="chart" *ngSwitchCase="ChartType.PolarScatter">
   </rs-chart-bubble>
 
-  <rs-chart-radar [chart]="chart" *ngSwitchCase="23">
+  <rs-chart-radar [chart]="chart" *ngSwitchCase="ChartType.RadarLine">
   </rs-chart-radar>
-  <rs-chart-radar [chart]="chart" *ngSwitchCase="24">
+  <rs-chart-radar [chart]="chart" *ngSwitchCase="ChartType.RadarArea">
   </rs-chart-radar>
   
 </div>

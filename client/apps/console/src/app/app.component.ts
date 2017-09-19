@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   openAccount(event) {
     if (event === undefined || event === '')
       return;
-    this.router.navigate(['/account'], { queryParams: { accountNameToEdit: event } });
+    this.router.navigate(['/account'], { queryParams: { accountNameToEdit: event, redirectOnSave: false } });
   }
 
   openLogin() {

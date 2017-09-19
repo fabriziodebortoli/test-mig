@@ -112,17 +112,17 @@ export class ModelService {
   
   //--------------------------------------------------------------------------------------------------------
   getSubscriptions(accountName: string, instanceKey: string, subscriptionKey?: string): Observable<OperationResult> {
-
+    
     let authorizationHeader = this.createAuthorizationHeader('app');
     
     if (authorizationHeader === '') {
       return Observable.throw('AuthorizationHeader is missing!');
     }
-
+    
     let urlSubscriptionSegment: string = 'subscriptions';
-
+    
     urlSubscriptionSegment += "/" + accountName + "/" + instanceKey;
-
+    
     if (subscriptionKey !== undefined) {
       urlSubscriptionSegment += "/" + subscriptionKey;
     }
@@ -358,26 +358,24 @@ export class ModelService {
     })
     .catch((error: any) => Observable.throw(error.json().error || 'server error'));
   }
-
-    //--------------------------------------------------------------------------------------------------------
-    testConnection(subscriptionKey: string, body: DatabaseCredentials): Observable<OperationResult> {
-      
-      let authorizationHeader = this.createAuthorizationHeader('jwt');
-      
-      if (authorizationHeader === '') {
-        return Observable.throw('AuthorizationHeader is missing!');
-      }
-
-      let bodyString = JSON.stringify(body);
-      let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
-      let options = new RequestOptions({ headers: headers });
-      console.log(bodyString);
-      let url = environment.adminAPIUrl + 'database/testconnection/' + subscriptionKey;
-      console.log(url);
-      return this.http.post(environment.adminAPIUrl + 'database/testconnection/' + subscriptionKey, bodyString, options)
-      .map((res: Response) => {
-        return res.json();
-      })
-      .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  
+  //--------------------------------------------------------------------------------------------------------
+  testConnection(subscriptionKey: string, body: DatabaseCredentials): Observable<OperationResult> {
+    
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+    
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
     }
+    
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+    
+    return this.http.post(environment.adminAPIUrl + 'database/testconnection/' + subscriptionKey, bodyString, options)
+    .map((res: Response) => {
+      return res.json();
+    })
+    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
 }
