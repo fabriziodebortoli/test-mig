@@ -48,9 +48,10 @@ export class SubscriptionDatabaseComponent implements OnInit, OnDestroy {
         let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
         this.model.InstanceKey = accountInfo.instanceKey;
       }
-      
+
       if (dbName === undefined) {
-         return;
+        this.model.Name = 'MASTER';
+        return;
       }
       
       this.editing = true;
