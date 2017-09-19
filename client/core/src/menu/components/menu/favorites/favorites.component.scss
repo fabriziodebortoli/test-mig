@@ -60,10 +60,6 @@
         border: 1px solid #ddd;
         align-items: center;
     }
-    .favorite-item .type {
-        margin-right: 3px;
-        cursor: default;
-    }
     .favorite-item>span {
         flex: 1;
         cursor: pointer;
@@ -84,6 +80,8 @@
     .favorite-item .type {
         color: #bbb;
         font-size: 14px;
+        margin-right: 3px;
+        cursor: default;
         line-height: 24px;
     }
     .favorite-item .type.Document {
