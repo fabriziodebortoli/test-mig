@@ -37,6 +37,6 @@ private _isCollapsible = true;
  getIcon() {
   
      if(this.icon !== ''){return  this.icon;}
-    else {return this._isCollapsed ? 'keyboard_arrow_down' : 'keyboard_arrow_up';}
+    else {return this._isCollapsed ? 'tb-expandarrowfilled' : 'tb-collapsearrowfilled';}
   }
 }
