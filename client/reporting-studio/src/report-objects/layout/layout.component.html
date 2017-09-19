@@ -3,12 +3,12 @@
     <div *ngFor="let item of objects">
       <div [ngSwitch]="item.obj">
 
-        <rs-textrect [rect]="item" *ngSwitchCase="0"> </rs-textrect>
-        <rs-fieldrect [rect]="item" *ngSwitchCase="1"> </rs-fieldrect>
-        <rs-table [table]="item" *ngSwitchCase="2"> </rs-table>
-        <rs-image [image]="item" *ngSwitchCase="3"> </rs-image>
-        <rs-rect [rect]="item" *ngSwitchCase="4"> </rs-rect>
-        <rs-chart [chart]="item" *ngSwitchCase="5"> </rs-chart>
+        <rs-textrect [rect]="item" *ngSwitchCase="ReportObjectType.textrect"> </rs-textrect>
+        <rs-fieldrect [rect]="item" *ngSwitchCase="ReportObjectType.fieldrect"> </rs-fieldrect>
+        <rs-table [table]="item" *ngSwitchCase="ReportObjectType.table"> </rs-table>
+        <rs-image [image]="item" *ngSwitchCase="ReportObjectType.graphrect"> </rs-image>
+        <rs-rect [rect]="item" *ngSwitchCase="ReportObjectType.sqrrect"> </rs-rect>
+        <rs-chart [chart]="item" *ngSwitchCase="ReportObjectType.chart"> </rs-chart>
         <!--          <rs-repeater [repeater]="item" *ngSwitchCase="5"> </rs-repeater> -->
 
       </div>
