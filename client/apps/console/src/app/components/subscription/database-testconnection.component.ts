@@ -15,12 +15,13 @@ export class DatabaseTestconnectionComponent implements OnInit {
   
   @Input() subDBModel: SubscriptionDatabase;
   
+  isWorking: boolean;
   dbCredentials: DatabaseCredentials;
   subscriptionKey: string;
   
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private databaseService: DatabaseService, private route: ActivatedRoute) { 
-    
+    this.isWorking = false;
     this.dbCredentials = new DatabaseCredentials();
   }
   
@@ -36,7 +37,7 @@ export class DatabaseTestconnectionComponent implements OnInit {
       this.testConnection();  
     }
   }
-
+  
   //--------------------------------------------------------------------------------------------------------
   testConnection() {
     
@@ -44,6 +45,8 @@ export class DatabaseTestconnectionComponent implements OnInit {
       alert('Check credentials first!');
       return;
     }
+
+    this.isWorking = true;
     
     let subs = this.modelService.testConnection(this.subscriptionKey, this.dbCredentials).
     subscribe(
@@ -51,16 +54,18 @@ export class DatabaseTestconnectionComponent implements OnInit {
         if (result.Result) {
           this.databaseService.dbCredentials = this.dbCredentials;
           this.databaseService.testConnectionOK = true;
-
+          
           // init provider
           this.subDBModel.Provider = this.dbCredentials.Provider;
         }
         else
-          alert('Unable to connect! ' + result.Message);
-        
+        alert('Unable to connect! ' + result.Message);
+
+        this.isWorking = false;
         subs.unsubscribe();
       },
       error => {
+        this.isWorking = false;
         subs.unsubscribe();
       }
     );
