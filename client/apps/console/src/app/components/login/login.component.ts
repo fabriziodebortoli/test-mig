@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (msg === '') {
         // something went wrong with the login
         this.appBusy = false;
-        this.loginStep = 1;        
+        this.loginStep = 3;
       }
 
     })
@@ -63,7 +63,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     {
       case 1:
         this.preLogin();
-        this.loginStep++;
       break;
 
       case 2:
@@ -104,6 +103,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     if (this.credentials.accountName == '') {
       alert('Account name is empty!');
+      this.appBusy = false;
       return;
     }
 
@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       let accountInfo: AccountInfo = JSON.parse(accountInfoStored);
       if (accountInfo !== undefined && accountInfo !== null && accountInfo.instanceKey !== '') {
         this.selectedInstanceKey = accountInfo.instanceKey;
-        this.loginStep++;
+        this.loginStep+=2;
         return;
       }
     }
@@ -146,6 +146,8 @@ export class LoginComponent implements OnInit, OnDestroy {
               let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
               this.selectedInstanceKey = accountInfo.instanceKey;
             }
+
+            this.loginStep++;
           }
         },
         err => {
