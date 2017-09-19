@@ -5,12 +5,14 @@ import { ReportingStudioService } from './../../reporting-studio.service';
 import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, repeater, PdfType, SvgType, PngType } from './../../models';
 import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
+import { ReportObjectTypeDecorator, ReportObjectType } from '../../models/report-object-type.model';
 
 @Component({
   selector: 'rs-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
+@ReportObjectTypeDecorator
 export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() reportTemplate;
