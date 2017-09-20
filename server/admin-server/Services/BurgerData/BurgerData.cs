@@ -88,49 +88,64 @@ namespace Microarea.AdminServer.Services.BurgerData
                 return found ? (I)obj : default(I);
             }
 
-            //--------------------------------------------------------------------------------
-            public List<I> GetList<T, I>(string command, ModelTables table)
-            {
-                return GetList<T, I>(command, table, null, null);
-            }
+			//--------------------------------------------------------------------------------
+			public List<I> GetList<T, I>(string command, ModelTables table)
+			{
+				return GetList<T, I>(command, table, null, null);
+			}
 
-            //--------------------------------------------------------------------------------
-            public List<I> GetList<T, I>(string command, ModelTables table, SqlLogicOperators? sqlLogicOperator, params WhereCondition[] conditions)
-            {
-                List<I> innerList = new List<I>();
-                IModelObject obj = ModelFactory.CreateModelObject<T, I>();
+			public List<I> GetList<T, I>(string command, ModelTables table, List<SqlParameter> sqlParametersList)
+			{
+				return GetList<T, I>(command, table, null, sqlParametersList, null);
+			}
 
-                IDBManager dbManager = new DBManager(DataProvider.SqlClient, this.connectionString);
-                string tableName = SqlScriptManager.GetTableName(table);
+			public List<I> GetList<T, I>(ModelTables table, SqlLogicOperators? sqlLogicOperator, params WhereCondition[] conditions)
+			{
+				return GetList<T, I>(String.Empty, table, sqlLogicOperator, null, conditions);
+			}
 
-                if (String.IsNullOrEmpty(command))
-                    command = conditions != null ?
-                        CreateSelectFromSelectParameters(conditions, sqlLogicOperator, tableName) :
-                        CreateSelectFromSelectParameters(sqlLogicOperator, tableName);
+			public List<I> GetList<T, I>(ModelTables table, SqlLogicOperators? sqlLogicOperator, List<SqlParameter> sqlParametersList, params WhereCondition[] conditions)
+			{
+				return GetList<T, I>(String.Empty, table, sqlLogicOperator, sqlParametersList, conditions);
+			}
 
-                if (String.IsNullOrEmpty(command))
-                    return innerList;
+			//--------------------------------------------------------------------------------
+			private List<I> GetList<T, I>(string command, ModelTables table, SqlLogicOperators? sqlLogicOperator, List<SqlParameter> sqlParametersList, params WhereCondition[] conditions)
+			{
+				List<I> innerList = new List<I>();
+				IModelObject obj = ModelFactory.CreateModelObject<T, I>();
 
-                try
-                {
-                    dbManager.Open();
-                    dbManager.ExecuteReader(System.Data.CommandType.Text, command);
-                    while (dbManager.DataReader.Read())
-                        innerList.Add((I)obj.Fetch(dbManager.DataReader));
-                }
-                catch (SqlException e)
-                {
-                    System.Diagnostics.Debug.WriteLine(e.Message);
-                    // todo log
-                }
-                finally
-                {
-                    dbManager.Close();
-                    dbManager.Dispose();
-                }
+				IDBManager dbManager = new DBManager(DataProvider.SqlClient, this.connectionString);
+				string tableName = SqlScriptManager.GetTableName(table);
 
-                return innerList;
-            }
+				if (String.IsNullOrEmpty(command))
+					command = conditions != null ?
+						CreateSelectFromSelectParameters(conditions, sqlLogicOperator, tableName) :
+						CreateSelectFromSelectParameters(sqlLogicOperator, tableName);
+
+				if (String.IsNullOrEmpty(command))
+					return innerList;
+
+				try
+				{
+					dbManager.Open();
+					dbManager.ExecuteReader(System.Data.CommandType.Text, command);
+					while (dbManager.DataReader.Read())
+						innerList.Add((I)obj.Fetch(dbManager.DataReader));
+				}
+				catch (SqlException e)
+				{
+					System.Diagnostics.Debug.WriteLine(e.Message);
+					// todo log
+				}
+				finally
+				{
+					dbManager.Close();
+					dbManager.Dispose();
+				}
+
+				return innerList;
+			}
 
             //--------------------------------------------------------------------------------
             private static string CreateSelectFromSelectParameters(SqlLogicOperators? sqlLogicOperator, string tableName)
