@@ -974,6 +974,7 @@ namespace Microarea.Common.ExpressionManager
                 case Token.REPLICATE:
                 case Token.PADLEFT:
                 case Token.PADRIGHT:
+                case Token.COMPARE_NO_CASE:
 
                 case Token.SendBalloon:
                 case Token.FormatTbLink:
