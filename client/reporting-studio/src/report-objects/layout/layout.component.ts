@@ -44,8 +44,8 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
     if (changes.reportTemplate !== undefined) {
       if (changes.reportTemplate.currentValue === 'empty') {
         this.reportTemplate = undefined;
-        this.objects = undefined;
-        this.templates = undefined;
+        this.objects = [];
+        this.templates = [];
       }
       else {
         this.RenderLayout();
