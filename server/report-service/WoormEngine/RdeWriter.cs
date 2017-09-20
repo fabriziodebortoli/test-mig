@@ -40,7 +40,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		virtual public	string	Release { get { return "1"; }}
 		//---------------------------------------------------------------------------
-		public int PageNumber { get { return pageNo; } }
+		public int PageNumber { get { return pageNo; } set { pageNo = value; } }
 
 		//---------------------------------------------------------------------------
 		public RdeWriter(Report report) 
@@ -52,6 +52,9 @@ namespace Microarea.RSWeb.WoormEngine
 		//------------------------------------------------------------------------------
 		virtual public void Close(string file)
 		{
+            string dirPath = Path.GetDirectoryName(file);
+            Directory.CreateDirectory(dirPath);  //if not existing, directory will be created
+
             if (output != null)
             {
                 using (FileStream fs = File.OpenWrite(file))
@@ -65,8 +68,9 @@ namespace Microarea.RSWeb.WoormEngine
 		   Dispose();
 		}
 
-		//------------------------------------------------------------------------------
-		public void Dispose()
+       
+        //------------------------------------------------------------------------------
+        public void Dispose()
 		{
             output = null;
             GC.WaitForPendingFinalizers();
