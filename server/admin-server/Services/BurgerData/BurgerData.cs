@@ -446,11 +446,13 @@ namespace Microarea.AdminServer.Services.BurgerData
         //================================================================================
         public class DeleteScript
         {
-            List<ParamCouple> whereParameters = new List<ParamCouple>();
-            string tableName;
+            List<ParamCouple> whereParameters;
+			List<ParamCouple> whereSqlParameters;
+			string tableName;
             SqlLogicOperators logicOperatorForAllParameters;
+			List<SqlParameter> sqlParametersList;
 
-            public SqlLogicOperators LogicOperatorForAllParameters
+			public SqlLogicOperators LogicOperatorForAllParameters
             {
                 get { return this.logicOperatorForAllParameters; }
                 set { this.logicOperatorForAllParameters = value; }
@@ -459,18 +461,28 @@ namespace Microarea.AdminServer.Services.BurgerData
             //--------------------------------------------------------------------------------
             public DeleteScript(string tableName)
             {
-                this.tableName = tableName;
-                // setting default
-                this.logicOperatorForAllParameters = SqlLogicOperators.AND;
-            }
+				whereParameters = new List<ParamCouple>();
+				this.tableName = tableName;
+				this.whereSqlParameters = new List<ParamCouple>();
+				// setting default
+				this.logicOperatorForAllParameters = SqlLogicOperators.AND;
+				this.sqlParametersList = new List<SqlParameter>();
+			}
 
             //--------------------------------------------------------------------------------
             public void Add(string name, object val, QueryComparingOperators comparingOperator, bool isNumber)
             {
                 string mask = isNumber ? "{0}{1}" : "{0}'{1}'";
-                whereParameters.Add(new ParamCouple(name,
+				string maskParameterized = "{0}{1}";
+
+				whereParameters.Add(new ParamCouple(name,
                     String.Format(mask, SqlScriptManager.GetOperatorText(comparingOperator), val)));
-            }
+
+				whereSqlParameters.Add(new ParamCouple(name,
+					String.Format(maskParameterized, SqlScriptManager.GetOperatorText(comparingOperator), "@" + name)));
+
+				sqlParametersList.Add(new SqlParameter("@" + name, val));
+			}
 
             //--------------------------------------------------------------------------------
             public override string ToString()
@@ -500,7 +512,36 @@ namespace Microarea.AdminServer.Services.BurgerData
 
                 return commandString.Trim();
             }
-        }
+
+			//--------------------------------------------------------------------------------
+			public string GetParameterizedQuery()
+			{
+				StringBuilder str1 = new StringBuilder();
+
+				bool isFirst = true;
+				string logicOperator = String.Format(" {0} ", this.logicOperatorForAllParameters.ToString());
+
+				whereSqlParameters.ForEach(p =>
+				{
+					string param = String.Concat(p.ParamName, p.ParamValue);
+
+					if (isFirst)
+					{
+						str1.Append(param);
+						isFirst = false;
+					}
+					else
+						str1.Append(String.Concat(logicOperator, param));
+				});
+
+				string commandString = String.Format("DELETE FROM {0} WHERE {1}", tableName, str1);
+
+				if (whereParameters.Count == 0)
+					commandString = commandString.Replace("WHERE", String.Empty);
+
+				return commandString.Trim();
+			}
+		}
 
         //================================================================================
         public class ParamCouple
