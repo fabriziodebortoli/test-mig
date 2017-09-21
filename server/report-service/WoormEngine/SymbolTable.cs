@@ -212,8 +212,17 @@ namespace Microarea.RSWeb.WoormEngine
 			return true;
 		}
 
-		//-----------------------------------------------------------------------------
-		internal bool IsEmpty
+        //-----------------------------------------------------------------------------
+        public void ResetAllRowsCounter()
+        {
+            foreach (DisplayTable displayTable in this)
+            {
+                displayTable.ResetRowsCounter();
+            }
+        }
+
+        //-----------------------------------------------------------------------------
+        internal bool IsEmpty
 		{
 			get
 			{

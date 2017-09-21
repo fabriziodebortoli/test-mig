@@ -56,6 +56,7 @@
         "flexboxgrid": "^6.3.1",
         "hammerjs": "^2.0.8",
         "json8-patch": "0.4.0",
+        "npm": "^5.4.2",
         "rxjs": "^5.4.2",
         "ts-helpers": "^1.1.1",
         "zone.js": "^0.8.14"

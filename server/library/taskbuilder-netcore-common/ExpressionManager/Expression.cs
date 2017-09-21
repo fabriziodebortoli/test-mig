@@ -2552,6 +2552,18 @@ namespace Microarea.Common.ExpressionManager
 					int i = CastDouble(p1) >= 0.0 ? +1 : -1;
 					return new Value(i);
 				}
+
+                case Token.COMPARE_NO_CASE:
+                    {
+                        Value p1 = (Value)paramStack.Pop();
+                        Value p2 = (Value)paramStack.Pop();
+ 
+                        string s1 = CastString(p1);
+                        string s2 = CastString(p2);
+
+                        return new Value(string.Compare(s1, s2, true));
+                    }
+
                 case Token.REPLICATE:   
                     {
                         Value p1 = (Value)paramStack.Pop();

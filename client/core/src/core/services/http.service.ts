@@ -38,6 +38,7 @@ export class HttpService {
             })
             .catch(this.handleError);
     }
+
     login(connectionData: LoginSession): Observable<OperationResult> {
         return this.postData(this.getAccountManagerBaseUrl() + 'login-compact/', connectionData)
             .map((res: Response) => {

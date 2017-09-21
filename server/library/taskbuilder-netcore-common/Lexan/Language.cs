@@ -232,7 +232,8 @@ namespace Microarea.Common.Lexan
 			keywords.Add("ColumnTitles"			,Token.COLUMN_TITLES);
             keywords.Add("ColTitleBottom"       ,Token.COLTITLE_BOTTOM);
             keywords.Add("Comments"             ,Token.COMMENTS);
-			keywords.Add("//==============================================================================", Token.COMMENT_SEP);		
+            keywords.Add("CompareNoCase"        ,Token.COMPARE_NO_CASE);
+            keywords.Add("//==============================================================================", Token.COMMENT_SEP);		
 			keywords.Add("Conditional"			,Token.CONDITIONAL);
 			keywords.Add("Const"				,Token.CONST);
 			keywords.Add("Contains"				,Token.CONTAINS);
@@ -485,8 +486,8 @@ namespace Microarea.Common.Lexan
             keywords.Add("Outer"                ,Token.OUTER);
             //keywords.Add("OwnerId"              ,Token.OWNER_ID);
 			keywords.Add("Padded"				,Token.PADDED);
-            keywords.Add("PadLeft"              , Token.PADLEFT);
-            keywords.Add("PadRight"             , Token.PADRIGHT);
+            keywords.Add("PadLeft"              ,Token.PADLEFT);
+            keywords.Add("PadRight"             ,Token.PADRIGHT);
             keywords.Add("PageInfo"				,Token.PAGE_INFO);
 			keywords.Add("PageLayout"			,Token.PAGE_LAYOUT);
 			keywords.Add("Path"					,Token.PATH);
@@ -798,9 +799,9 @@ namespace Microarea.Common.Lexan
 		COLUMN_HIDE_WHEN_EMPTY,
 		COLUMN_OPTIMIZE_WIDTH,
 		COLUMN_SPLITTER,
-
 		COMMENTS,
 		COMMENT_SEP,
+        COMPARE_NO_CASE,
 		CONDITIONAL,
 		CONST,
 		CONTAINS,

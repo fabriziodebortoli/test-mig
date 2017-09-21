@@ -111,7 +111,7 @@ namespace Microarea.RSWeb.Objects
         public string Title;
         public EnumChartType ChartType = EnumChartType.None;
 
-        List<Categories> Categories = new List<Categories>();
+        Categories Categories =null;
 
         ChartLegend Legend = new ChartLegend();
 
@@ -125,13 +125,25 @@ namespace Microarea.RSWeb.Objects
         bool HasCategories()
         {
             return
-                ChartType != EnumChartType.None &&
-                ChartType != EnumChartType.Scatter &&
-                ChartType != EnumChartType.ScatterLine &&
-                ChartType != EnumChartType.PolarLine &&
-                ChartType != EnumChartType.PolarArea &&
-                ChartType != EnumChartType.PolarScatter &&
-                ChartType != EnumChartType.Bubble;
+                ChartType == EnumChartType.None ||
+                ChartType == EnumChartType.Bar ||
+                ChartType == EnumChartType.BarStacked ||
+                ChartType == EnumChartType.BarStacked100 ||
+                ChartType == EnumChartType.Column ||
+                ChartType == EnumChartType.ColumnStacked ||
+                ChartType == EnumChartType.ColumnStacked100 ||
+                ChartType == EnumChartType.Area ||
+                ChartType == EnumChartType.AreaStacked ||
+                ChartType == EnumChartType.Line ||
+                ChartType == EnumChartType.Funnel ||
+                ChartType == EnumChartType.Pie ||
+                ChartType == EnumChartType.Donut ||
+                ChartType == EnumChartType.DonutNested ||
+                ChartType == EnumChartType.RadarArea ||
+                ChartType == EnumChartType.RadarLine ||
+                ChartType == EnumChartType.Scatter ||
+                ChartType == EnumChartType.ScatterLine ||
+                ChartType == EnumChartType.Bubble;
         }
 
         bool IsChartFamilyBar()
@@ -168,6 +180,14 @@ namespace Microarea.RSWeb.Objects
                 ChartType == EnumChartType.RadarLine ||
 
                 ChartType == EnumChartType.Bubble;
+        }
+
+        bool IsChartFamilyPolar()
+        {
+            return
+                ChartType == EnumChartType.PolarArea ||
+                ChartType == EnumChartType.PolarLine ||
+                ChartType == EnumChartType.PolarScatter;
         }
         //------------------------------------------------------------------------------
         protected override bool ParseProp(WoormParser lex, bool block)
@@ -243,9 +263,14 @@ namespace Microarea.RSWeb.Objects
             if (!lex.ParseBegin())
                 return false;
 
-            bool ok = lex.ParseTag(Token.TITLE) && lex.ParseString(out pSeries.Title);
-            if (!ok)
-                return false;
+
+            bool ok;
+            if (lex.Matched(Token.TITLE))
+            {
+                ok = /*lex.ParseTag(Token.TITLE) &&*/ lex.ParseString(out pSeries.Title);
+                if (!ok)
+                    return false;
+            }
 
             if (lex.Matched(Token.TYPE))
             {
@@ -254,7 +279,10 @@ namespace Microarea.RSWeb.Objects
                     return false;
                 pSeries.SeriesType = (EnumChartType)n;
             }
-            else pSeries.SeriesType = pSeries.Parent.Parent.ChartType;
+            else
+            {
+                pSeries.SeriesType = pSeries.Parent.Parent.ChartType;
+            }
 
             string sVarName = string.Empty;
             ok = lex.ParseTag(Token.DATASOURCE) && lex.ParseID(out sVarName);
@@ -319,14 +347,18 @@ namespace Microarea.RSWeb.Objects
         }
 
         //------------------------------------------------------------------------------
-        bool ParseCategories(WoormParser lex, Categories pCat)
+        bool ParseCategories(WoormParser lex)
         {
             if (!lex.ParseBegin())
                 return false;
 
+            Categories = new Categories(this);           
+
+            bool ok = false;
+
             if (HasCategories())
             {
-                bool ok = lex.ParseTag(Token.TITLE) && lex.ParseString(out pCat.Title);
+                ok = lex.ParseTag(Token.TITLE) && lex.ParseString(out Categories.Title);
                 if (!ok)
                     return false;
 
@@ -334,13 +366,16 @@ namespace Microarea.RSWeb.Objects
                 ok = lex.ParseTag(Token.DATASOURCE) && lex.ParseID(out sVarName);
                 if (!ok)
                     return false;
-
                 Variable pF = Document.SymbolTable.Find(sVarName);
                 if (pF == null)
                 {
                     lex.SetError("TODO - il campo associato alla serie non esiste");
                     return false;
                 }
+                Categories.BindedField = pF;
+
+
+
 
                 //if (!pF->IsArray() && !pF->IsColumn())
                 //{
@@ -357,26 +392,26 @@ namespace Microarea.RSWeb.Objects
                 //    }
                 //}
 
-                pCat.BindedField = pF;
+
 
                 if (lex.LookAhead(Token.COLOR))
                 {
-                    if (!lex.ParseColor(Token.COLOR, out pCat.Color))
+                    if (!lex.ParseColor(Token.COLOR, out Categories.Color))
                         return false;
-                    pCat.Colored = true;
+                    Categories.Colored = true;
                 }
                 else
-                    pCat.Colored = false;
+                    Categories.Colored = false;
             }
 
             while (lex.Matched(Token.CHART_SERIES))
             {
-                Series pSeries = new Series(pCat);
+                Series pSeries = new Series(Categories);
                 if (!ParseSeries(lex, pSeries))
                 {
                     return false;
                 }
-                pCat.Series.Add(pSeries);
+                Categories.Series.Add(pSeries);
             }
 
             return lex.ParseEnd();
@@ -419,17 +454,16 @@ namespace Microarea.RSWeb.Objects
 
             ok = ok && ParseBlock(lex);
 
-            while (lex.Matched(Token.CHART_CATEGORIES))
+            /*if*/ while(lex.Matched(Token.CHART_CATEGORIES))
             {
-                Categories pCat = new Categories(this);
-                if (!ParseCategories(lex, pCat))
+               
+                if (!ParseCategories(lex))
                 {
                     return false;
                 }
-                Categories.Add(pCat);
             }
 
-            if (lex.Matched(Token.CHART_LEGEND))
+           if (lex.Matched(Token.CHART_LEGEND))
             {
                 if (!ParseLegend(lex))
                 {
@@ -691,7 +725,7 @@ namespace Microarea.RSWeb.Objects
             string series = "\"series\":[";
             bool first = true;
 
-            for (int ser = 0; ser < this.Categories[0].Series.Count; ser++)
+            for (int ser = 0; ser < this.Categories.Series.Count; ser++)
             {
                 if (first)
                 {
@@ -702,49 +736,58 @@ namespace Microarea.RSWeb.Objects
                     series += ',';
                 }
 
-                series += ToJsonData(this.Categories[0].Series[ser]);
+                series += ToJsonData(this.Categories.Series[ser]);
             }
             series += ']';
 
             if (HasCategories())
-                series += ',' + ToJsonData(this.Categories[0]);
+                series += ',' + ToJsonData(this.Categories);
             return series;
         }
 
-        string ToJsonDataFamilyPie(List<Categories> categoriesList)
+       
+        string ToJsonDataFamilyPie()
         {
-            if (categoriesList == null || categoriesList.Count == 0)
+            if (Categories == null)
+            {
+                return string.Empty;
+            }
+            if (Categories == null)
             {
                 return string.Empty;
             }
 
             string series = "[";
-            int count = categoriesList.Count - 1;
-            foreach (Categories cat in categoriesList)
-            {
-                DataArray categories = GetArray(cat.BindedField);
-                series += ToJsonData(cat.Series, categories);
-                if (count > 0)
-                {
-                    series += ",";
-                    count--;
-                }
-            }
+
+            DataArray categories = GetArray(Categories.BindedField);
+            series += ToJsonData(Categories.Series, categories);
 
             series += ']';
-            return series;
+         
+            return "\"series\":" + series;
         }
 
-        string ToJsonDataFamilyPie()
+        string ToJsonDataFamilyPolar()
         {
-            if (Categories[0] == null)
+            if (Categories == null)
             {
                 return string.Empty;
             }
 
-            return "\"series\":" + ToJsonDataFamilyPie(Categories);
-        }
+            if (Categories == null)
+            {
+                return string.Empty;
+            }
 
+            string series = "[";
+
+            DataArray categories = GetArray(Categories.BindedField);
+            series += ToJsonData(Categories.Series, categories);
+
+            series += ']';
+
+            return "\"series\":" + series;
+        }
 
         //---------------------------------------------------------------------
         public override string ToJsonData(bool bracket)
@@ -765,6 +808,10 @@ namespace Microarea.RSWeb.Objects
             else if (IsChartFamilyPie())
             {
                 s += ToJsonDataFamilyPie();
+            }
+            else if (IsChartFamilyPolar())
+            {
+                s += ToJsonDataFamilyPolar();
             }
             //TODO CHART 
             //else if (IsChartFamily...())

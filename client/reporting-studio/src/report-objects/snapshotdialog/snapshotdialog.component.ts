@@ -12,16 +12,14 @@ import { Snapshot } from './snapshot';
 export class SnapshotdialogComponent {
     subscriptions: Subscription[] = [];
     private allUsers : boolean = false;
+    private nameSnapshot: string;
+    private openSnapshot: string;
 
 
     constructor(private rsService: ReportingStudioService) {
-        
+      this.nameSnapshot = "";
+      this.openSnapshot= "";
     };
-
-    ngOnInit(){
-        let snapshot: Snapshot[];
-        
-    }
 
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -33,7 +31,7 @@ export class SnapshotdialogComponent {
     }
 
     createFileJson(){
-        this.rsService.initiaziedSnapshot(this.allUsers);
+        this.rsService.initiaziedSnapshot(this.nameSnapshot, this.allUsers);
         this.rsService.snapshot = false;
     }
 
@@ -43,6 +41,10 @@ export class SnapshotdialogComponent {
 
     setAllusers(){
         this.allUsers = true;
+    }
+
+    runSnapshot(name: string, date: string, allusers: boolean){
+        this.rsService.startRunSnapshot(name, date, allusers);
     }
 
 

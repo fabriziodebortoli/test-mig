@@ -1,3 +1,4 @@
+import { ReportChartPolarComponent } from './report-objects/layout/chart/chart-polar/chart-polar.component';
 import { ReportChartPieComponent } from './report-objects/layout/chart/chart-pie/chart-pie.component';
 import { ReportChartComponent } from './report-objects/layout/chart/chart.component';
 import { ReportChartBarComponent } from './report-objects/layout/chart/chart-bar/chart-bar.component';
@@ -76,6 +77,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     ReportChartRangeBarComponent,
     ReportChartBubbleComponent,
     ReportChartRadarComponent,
+    ReportChartPolarComponent,
     ReportFieldrectComponent,
     ReportTableComponent,
     ReportTextrectComponent,
