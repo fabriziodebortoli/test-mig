@@ -110,7 +110,8 @@ namespace Microarea.AdminServer.Services.BurgerData
 			}
 
 			//--------------------------------------------------------------------------------
-			private List<I> GetList<T, I>(string command, ModelTables table, SqlLogicOperators? sqlLogicOperator, List<SqlParameter> sqlParametersList, params WhereCondition[] conditions)
+			private List<I> GetList<T, I>(
+				string command, ModelTables table, SqlLogicOperators? sqlLogicOperator, List<SqlParameter> sqlParametersList, params WhereCondition[] conditions)
 			{
 				List<I> innerList = new List<I>();
 				IModelObject obj = ModelFactory.CreateModelObject<T, I>();
@@ -129,6 +130,14 @@ namespace Microarea.AdminServer.Services.BurgerData
 				try
 				{
 					dbManager.Open();
+					if (sqlParametersList != null)
+					{
+						dbManager.CreateParameters(sqlParametersList.Count);
+						for (int i = 0; i < sqlParametersList.Count; i++)
+						{
+							dbManager.AddParameters(i, sqlParametersList[i].ParameterName, sqlParametersList[i].Value);
+						}
+					}
 					dbManager.ExecuteReader(System.Data.CommandType.Text, command);
 					while (dbManager.DataReader.Read())
 						innerList.Add((I)obj.Fetch(dbManager.DataReader));
