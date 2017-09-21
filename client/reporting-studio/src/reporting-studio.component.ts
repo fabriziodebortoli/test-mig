@@ -158,9 +158,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
           this.componentService.createReportComponent(k.ns, true, params);
           break;
-        case CommandType.RERUN:
-          this.ReInitReport();          
-          break;
         case CommandType.ENDREPORT:
           this.rsService.totalPages = k.totalPages;
           this.rsService.runEnabled = true;
@@ -281,26 +278,17 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   ReRunReport() {
-
-    let message = {
-      commandType: CommandType.RERUN
-    };
-    this.rsService.doSend(JSON.stringify(message));
-  }
-
-  // -----------------------------------------------
-  ReInitReport() { 
     this.rsService.reset();
     this.reset();
     
     this.rsInitStateMachine();
     
     let message = {
-      commandType: CommandType.INITTEMPLATE,
-      page: this.rsService.pageNum
+      commandType: CommandType.RERUN
     };
     this.rsService.doSend(JSON.stringify(message));
   }
+
 
   // -----------------------------------------------
   CurrentPage() {
