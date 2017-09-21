@@ -67,13 +67,13 @@ export class ImageService {
         if (target == undefined)
             return;
         if (target.toLowerCase() == "document")
-            return 'description';
+            return 'tb-document';
         if (target.toLowerCase() == "report")
-            return 'print';
+            return 'tb-printfilled';
         if (target.toLowerCase() == "batch")
-            return 'brightness_low';
+            return 'tb-options';
         if (target.toLowerCase() == "wizard")
-            return 'color_lens';
+            return 'tb-colours';
         return 'close';
     }
 

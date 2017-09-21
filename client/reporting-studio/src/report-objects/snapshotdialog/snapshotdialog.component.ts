@@ -12,16 +12,12 @@ import { Snapshot } from './snapshot';
 export class SnapshotdialogComponent {
     subscriptions: Subscription[] = [];
     private allUsers : boolean = false;
+    private nameSnapshot: string;
 
 
     constructor(private rsService: ReportingStudioService) {
-        
+      this.nameSnapshot = "";  
     };
-
-    ngOnInit(){
-        let snapshot: Snapshot[];
-        
-    }
 
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -33,7 +29,8 @@ export class SnapshotdialogComponent {
     }
 
     createFileJson(){
-        this.rsService.initiaziedSnapshot(this.allUsers);
+        console.log("createFileJson");
+        this.rsService.initiaziedSnapshot(this.nameSnapshot, this.allUsers);
         this.rsService.snapshot = false;
     }
 

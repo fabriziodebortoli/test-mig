@@ -2,9 +2,9 @@
     <ul class="favorites-list">
         <li *ngFor="let object of utilsService.toArray(menuService?.favorites) | slice:0:settingsService?.nrMaxFavorites;" class="favorite-item">
             <md-spinner *ngIf="object.isLoading" class="spinner"></md-spinner>
-            <md-icon class="type" [ngClass]="object?.objectType">{{imageService.getObjectIcon(object)}}</md-icon>
+            <m4-icon class="type" [ngClass]="object?.objectType" icon="{{imageService.getObjectIcon(object)}}"></m4-icon>
             <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
-            <md-icon class="close" (click)="menuService.toggleFavorites(object)" title="Remove">close</md-icon>
+            <m4-icon class="close" (click)="menuService.toggleFavorites(object)" title="Remove" icon="tb-closewindows"></m4-icon>
         </li>
     </ul>
 </div>
