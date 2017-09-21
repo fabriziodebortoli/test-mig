@@ -7,7 +7,7 @@
                 <th>AllUsers</th>
             </tr>
             <tr *ngFor="let snap of this.rsService.snapshots; let i=index">
-                <td><button id="link"(click)="runSnapshot()">{{snap.name}}</button></td>
+                <td><button id="link"(click)="runSnapshot(snap.name, snap.date, snap.allUsers)">{{snap.name}}</button></td>
                 <td>{{snap.date | date:"dd/MM/yyyy HH:mm:ss"}}</td>
                 <td>{{snap.allUsers}}</td>
             </tr>
