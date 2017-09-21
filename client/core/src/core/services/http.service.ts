@@ -38,6 +38,7 @@ export class HttpService {
             })
             .catch(this.handleError);
     }
+
     login(connectionData: LoginSession): Observable<OperationResult> {
         return this.postData(this.getAccountManagerBaseUrl() + 'login-compact/', connectionData)
             .map((res: Response) => {
@@ -115,7 +116,7 @@ export class HttpService {
             });
     }
     getDictionaries(): Observable<any> {
-        let obj = { }
+        let obj = {}
         return this.postData(this.getDataServiceUrl() + 'getinstalleddictionaries', obj)
             .map((res: Response) => {
                 return res.json();
