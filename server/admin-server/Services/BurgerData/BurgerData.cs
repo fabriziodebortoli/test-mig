@@ -273,12 +273,14 @@ namespace Microarea.AdminServer.Services.BurgerData
         public class SelectScript
         {
             List<ParamCouple> whereParameters;
-            Hashtable fields;
+			List<ParamCouple> whereSQLParameters;
+			Hashtable fields;
             string tableName;
             SqlLogicOperators logicOperatorForAllParameters;
             bool useDistinctClause;
+			List<SqlParameter> sqlParametersList;
 
-            public bool UseDistinctClause
+			public bool UseDistinctClause
             {
                 get { return this.useDistinctClause; }
                 set { this.useDistinctClause = value; }
@@ -290,28 +292,39 @@ namespace Microarea.AdminServer.Services.BurgerData
                 set { this.logicOperatorForAllParameters = value; }
             }
 
-            //--------------------------------------------------------------------------------
-            public SelectScript(string tableName)
+			public List<SqlParameter> SqlParameterList { get { return this.sqlParametersList; } }
+
+			//--------------------------------------------------------------------------------
+			public SelectScript(string tableName)
             {
                 whereParameters = new List<ParamCouple>();
-                fields = new Hashtable();
+				whereSQLParameters = new List<ParamCouple>();
+				fields = new Hashtable();
                 this.tableName = tableName;
                 this.logicOperatorForAllParameters = SqlLogicOperators.AND;
-            }
+				sqlParametersList = new List<SqlParameter>();
+			}
 
             //--------------------------------------------------------------------------------
             public void AddWhereParameter(string name, object val, QueryComparingOperators comparingOperator, bool isNumber)
             {
                 string mask = isNumber ? "{0}{1}" : "{0}'{1}'";
+				string maskParameterized = "{0}{1}";
 
 				if (comparingOperator == QueryComparingOperators.Like)
 				{
 					mask = "{0}'%{1}%'";
+					maskParameterized = "{0} '%' + {1} + '%'";
 				}
 
 				whereParameters.Add(new ParamCouple(name, String.Format(mask,
                     SqlScriptManager.GetOperatorText(comparingOperator), val)));
-            }
+
+				whereSQLParameters.Add(new ParamCouple(name,
+					String.Format(maskParameterized, SqlScriptManager.GetOperatorText(comparingOperator), "@" + name)));
+
+				sqlParametersList.Add(new SqlParameter("@" + name, val));
+		}
 
             //--------------------------------------------------------------------------------
             public void AddSelectField(string name)
@@ -373,7 +386,62 @@ namespace Microarea.AdminServer.Services.BurgerData
                 return String.Format(selectMask,
                     strSelectField, tableName, strWhereParams).Trim();
             }
-        }
+
+			//--------------------------------------------------------------------------------
+			public string GetParameterizedQuery()
+			{
+				StringBuilder strWhereParams = new StringBuilder();
+				StringBuilder strSelectField = new StringBuilder();
+				IDictionaryEnumerator enumInterface;
+				bool isFirst = true;
+				string logicOperator = String.Format(" {0} ", this.logicOperatorForAllParameters.ToString());
+				string param;
+
+				whereSQLParameters.ForEach(p =>
+				{
+					param = String.Concat(p.ParamName, p.ParamValue);
+
+					if (isFirst)
+					{
+						strWhereParams.Append(param);
+						isFirst = false;
+					}
+					else
+						strWhereParams.Append(String.Concat(logicOperator, param));
+				});
+
+				enumInterface = fields.GetEnumerator();
+				isFirst = true;
+
+				while (enumInterface.MoveNext())
+				{
+					string field = enumInterface.Value.ToString();
+
+					if (isFirst)
+					{
+						strSelectField.Append(field);
+						isFirst = false;
+					}
+					else
+						strSelectField.Append(String.Concat(",", field));
+				}
+
+				if (strSelectField.Length == 0)
+				{
+					strSelectField.Append("*");
+				}
+
+				string selectMask = useDistinctClause ?
+					"SELECT DISTINCT {0} FROM {1} [WHERE] {2}" : "SELECT {0} FROM {1} [WHERE] {2}";
+
+				selectMask = (strWhereParams.Length == 0) ?
+					selectMask.Replace("[WHERE]", String.Empty) :
+					selectMask.Replace("[WHERE]", "WHERE");
+
+				return String.Format(selectMask,
+					strSelectField, tableName, strWhereParams).Trim();
+			}
+		}
 
         //================================================================================
         public class DeleteScript
