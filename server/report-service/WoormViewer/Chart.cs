@@ -65,7 +65,7 @@ namespace Microarea.RSWeb.Objects
 
     class Series
     {
-        public Variable BindedField = null;
+        public List<Variable> BindedFields = new List<Variable>();
         public string Title;
 
         public EnumChartType SeriesType = EnumChartType.None;
@@ -284,41 +284,44 @@ namespace Microarea.RSWeb.Objects
                 pSeries.SeriesType = pSeries.Parent.Parent.ChartType;
             }
 
-            string sVarName = string.Empty;
-            ok = lex.ParseTag(Token.DATASOURCE) && lex.ParseID(out sVarName);
-            if (!ok)
-                return false;
+            while (lex.Matched(Token.DATASOURCE))
+            {             
+                string sVarName = string.Empty;
+                ok = /*lex.ParseTag(Token.DATASOURCE) &&*/ lex.ParseID(out sVarName);
+                if (!ok)
+                    return false;
 
-            Variable pF = Document.SymbolTable.Find(sVarName);
-            if (pF == null)
-            {
-                lex.SetError("TODO - il campo associato alla serie non esiste");
-                return false;
+                Variable pF = Document.SymbolTable.Find(sVarName);
+                if (pF == null)
+                {
+                    lex.SetError("TODO - il campo associato alla serie non esiste");
+                    return false;
+                }
+
+                //if (!pF.IsArray() && !pF.IsColumn())
+                //{
+                //    lex.SetError(_TB("TODO - il campo associato alla serie non è un array/colonna"));
+                //    return false;
+                //}
+
+                //if (pF->IsColumn())
+                //{
+                //    if (pF->IsColTotal() || pF->IsSubTotal())
+                //    {
+                //        lex.SetError(_TB("TODO - il campo associato alla serie non può essere il totale/subtotale di una colonna"));
+                //        return false;
+                //    }
+                //}
+
+                //string dt = pF.DataType;
+                //if (!dt.IsNumeric())
+                //{
+                //    lex.SetError(_TB("TODO - il campo associato alla serie deve essere numerico"));
+                //    return false;
+                //}
+
+                pSeries.BindedFields.Add(pF);
             }
-
-            //if (!pF.IsArray() && !pF.IsColumn())
-            //{
-            //    lex.SetError(_TB("TODO - il campo associato alla serie non è un array/colonna"));
-            //    return false;
-            //}
-
-            //if (pF->IsColumn())
-            //{
-            //    if (pF->IsColTotal() || pF->IsSubTotal())
-            //    {
-            //        lex.SetError(_TB("TODO - il campo associato alla serie non può essere il totale/subtotale di una colonna"));
-            //        return false;
-            //    }
-            //}
-
-            //string dt = pF.DataType;
-            //if (!dt.IsNumeric())
-            //{
-            //    lex.SetError(_TB("TODO - il campo associato alla serie deve essere numerico"));
-            //    return false;
-            //}
-
-            pSeries.BindedField = pF;
 
             if (lex.LookAhead(Token.COLOR))
             {
@@ -560,7 +563,8 @@ namespace Microarea.RSWeb.Objects
 
         string ToJsonData(Series series)
         {
-            DataArray ar = GetArray(series.BindedField);
+
+            DataArray ar = GetArray(series.BindedFields[0]);
             if (ar == null)
             {
                 return string.Empty;
@@ -568,20 +572,16 @@ namespace Microarea.RSWeb.Objects
 
             string s = "{\"data\":[";
 
-            bool first = true;
+            int count = ar.Count - 1;
             for (int i = 0; i < ar.Count; i++)
             {
-                if (first)
-                {
-                    first = false;
-                }
-                else
+                
+                s += ar.GetAt(i).ToJson();
+                if (count > 0)
                 {
                     s += ',';
+                    count--;
                 }
-
-
-                s += ar.GetAt(i).ToJson();
 
             }
 
@@ -621,7 +621,7 @@ namespace Microarea.RSWeb.Objects
             int count = seriesList.Count - 1;
             foreach (Series series in seriesList)
             {
-                DataArray arSeries = GetArray(series.BindedField);
+                DataArray arSeries = GetArray(series.BindedFields[0]);
                 if (arSeries == null)
                 {
                     return string.Empty;
@@ -682,6 +682,79 @@ namespace Microarea.RSWeb.Objects
 
             return s;
         }
+        //---------------------------------------------------------------------
+        /**
+         * Chart con le asse x e asse y
+         */
+        string ToJsonData(List<Series> seriesList)
+        {
+            string s = "";
+            int count = seriesList.Count - 1;
+            foreach (Series series in seriesList)
+            {
+                DataArray axesX = GetArray(series.BindedFields[0]);
+                DataArray axesY = GetArray(series.BindedFields[1]);
+                if (axesX == null || axesY==null)
+                {
+                    return string.Empty;
+                }
+                if (axesX.Count != axesY.Count)
+                {
+                    return string.Empty;
+                }
+
+
+                s += "{\"data\":[";
+
+                for (int i = 0; i < axesX.Count; i++)
+                {
+                    if (i != 0)
+                    {
+                        s += ',';
+                    }
+
+
+
+                    string x = axesX.GetAt(i).ToJson("x");
+
+                    string y = axesY.GetAt(i).ToJson("y");
+
+                    s += '{' + x + ',' + y + '}';
+
+                }
+
+                s += "]," + series.Title.ToJson("name", false, true);
+
+                if (series.Colored)
+                    s += ',' + series.Color.ToJson("color");
+
+                s += ',' + series.SeriesType.ToJson("type");
+
+                if (series.Group != 0)
+                    s += ',' + series.Group.ToJson("group");
+
+                switch (series.Style)
+                {
+                    case EnumChartStyle.Normal:
+                        s += ',' + "normal".ToJson("style");
+                        break;
+                    case EnumChartStyle.Smooth:
+                        s += ',' + "smooth".ToJson("style");
+                        break;
+                    case EnumChartStyle.Step:
+                        s += ',' + "step".ToJson("style");
+                        break;
+                }
+                s += '}';
+                if (count > 0)
+                {
+                    s += ",";
+                    count--;
+                }
+            }
+
+            return s;
+        }
 
         //---------------------------------------------------------------------
 
@@ -695,19 +768,15 @@ namespace Microarea.RSWeb.Objects
 
             string categories = "\"categories\":[";
 
-            bool first = true;
+            int count = ar.Count - 1;
             for (int i = 0; i < ar.Count; i++)
-            {
-                if (first)
-                {
-                    first = false;
-                }
-                else
+            {                   
+                categories += ar.GetAt(i).ToJson();
+                if (count > 0)
                 {
                     categories += ',';
+                    count--;
                 }
-
-                categories += ar.GetAt(i).ToJson();
             }
 
             categories += ']';
@@ -723,20 +792,17 @@ namespace Microarea.RSWeb.Objects
         string ToJsonDataFamilyBar()
         {
             string series = "\"series\":[";
-            bool first = true;
 
+            int count = this.Categories.Series.Count - 1;
             for (int ser = 0; ser < this.Categories.Series.Count; ser++)
             {
-                if (first)
-                {
-                    first = false;
-                }
-                else
+                
+                series += ToJsonData(this.Categories.Series[ser]);
+                if (count > 0)
                 {
                     series += ',';
+                    count--;
                 }
-
-                series += ToJsonData(this.Categories.Series[ser]);
             }
             series += ']';
 
@@ -752,11 +818,7 @@ namespace Microarea.RSWeb.Objects
             {
                 return string.Empty;
             }
-            if (Categories == null)
-            {
-                return string.Empty;
-            }
-
+      
             string series = "[";
 
             DataArray categories = GetArray(Categories.BindedField);
@@ -774,16 +836,8 @@ namespace Microarea.RSWeb.Objects
                 return string.Empty;
             }
 
-            if (Categories == null)
-            {
-                return string.Empty;
-            }
-
             string series = "[";
-
-            DataArray categories = GetArray(Categories.BindedField);
-            series += ToJsonData(Categories.Series, categories);
-
+            series += ToJsonData(Categories.Series);
             series += ']';
 
             return "\"series\":" + series;
@@ -813,6 +867,8 @@ namespace Microarea.RSWeb.Objects
             {
                 s += ToJsonDataFamilyPolar();
             }
+            else
+                return string.Empty;
             //TODO CHART 
             //else if (IsChartFamily...())
 

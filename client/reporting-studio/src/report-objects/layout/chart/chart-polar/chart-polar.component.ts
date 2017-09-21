@@ -1,4 +1,4 @@
-import { chart } from './../../../../models/chart.model';
+import { chart, series } from './../../../../models/chart.model';
 import { Component, ChangeDetectorRef, AfterViewInit, Input } from '@angular/core';
 import { ChartType } from "./../../../../models/chart-type.model";
 
@@ -22,5 +22,21 @@ export class ReportChartPolarComponent implements AfterViewInit {
 
     ngAfterViewInit() {
         this.cdRef.detectChanges();
+        let k=this.chart;
+    }
+
+    getType(item: series): string {
+        switch (item.type) {
+            case ChartType.PolarArea:
+                return 'polarArea';
+            case ChartType.PolarLine:
+                return 'polarLine';
+            case ChartType.PolarScatter:
+                return 'polarScatter';
+        }
+    }
+
+    public labelContent(e: any): string {
+        return e.y;
     }
 }

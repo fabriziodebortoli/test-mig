@@ -1,1 +1,21 @@
-<div> Polar</div>
+<kendo-chart>
+    <kendo-chart-title [text]="chart?.title"></kendo-chart-title>
+    <kendo-chart-legend *ngIf="chart.legend" [position]="chart.legend.position" [orientation]="chart.legend.orientation"></kendo-chart-legend>
+    <kendo-chart-series>
+        <kendo-chart-series-item *ngFor="let item of chart.series" type="getType(item)" categoryField="item.title" style="item.style" [data]="item.data" xField="x"
+            yField="y">
+            <kendo-chart-series-item-labels position="below" [content]="labelContent">
+            </kendo-chart-series-item-labels>
+        </kendo-chart-series-item>
+    </kendo-chart-series>
+
+
+    <kendo-chart-x-axis>
+        <kendo-chart-x-axis-item [startAngle]="-90" [majorUnit]="30">
+        </kendo-chart-x-axis-item>
+    </kendo-chart-x-axis>
+    <kendo-chart-y-axis>
+        <kendo-chart-y-axis-item [labels]="{ visible: true }">
+        </kendo-chart-y-axis-item>
+    </kendo-chart-y-axis>
+</kendo-chart>
