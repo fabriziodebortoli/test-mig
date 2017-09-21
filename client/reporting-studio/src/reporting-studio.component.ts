@@ -10,6 +10,7 @@ import { DocumentComponent } from '@taskbuilder/core';
 import { ComponentService } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
 import { ReportingStudioService } from './reporting-studio.service';
+import { Snapshot } from './report-objects/snapshotdialog/snapshot';
 
 import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
@@ -178,7 +179,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.SNAPSHOT:
           break;
         case CommandType.ACTIVESNAPSHOT:
-          this.data = k;
+          this.CreateTableSnapshots(k);
           break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
@@ -318,10 +319,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.SNAPSHOT,
       message: this.args.nameSpace,
-      page: 1 + ","+ this.rsService.user
+      page: 1 + ","+ this.rsService.nameSnap +","+ this.rsService.user
     };
 
     this.rsService.doSend(JSON.stringify(message));
+  }
+
+  // -----------------------------------------------
+  CreateTableSnapshots(k: Snapshot[]){
+    this.rsService.snapshots = k;
   }
 
   //--------------------------------------------------
