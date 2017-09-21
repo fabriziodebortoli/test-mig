@@ -33,6 +33,7 @@ export class ReportingStudioService extends DocumentService {
     @Output() eventFirstPage = new EventEmitter<void>();
     @Output() eventCurrentPage = new EventEmitter<void>();
     @Output() eventSnapshot = new EventEmitter<void>();
+    @Output() runSnapshot = new EventEmitter<void>();
 
     public savingPdf: boolean = false;
     public totalPages: number;
@@ -47,6 +48,7 @@ export class ReportingStudioService extends DocumentService {
     public user: boolean;
     public nameSnap: string;
     public snapshots: Snapshot[];
+    public dateSnap: string;
 
 
     @Output() rsExportPdf = new EventEmitter<void>();
@@ -153,7 +155,13 @@ export class ReportingStudioService extends DocumentService {
         this.nameSnap = nameSnapshot;
         this.user = allUsers;
         this.eventSnapshot.emit();
-        
+    }
+
+    public startRunSnapshot(name, date, allusers){
+        this.nameSnap = name;
+        this.dateSnap = date;
+        this.user = allusers;
+        this.runSnapshot.emit();
     }
 
     //------EXPORT PDF-----------------------------------
