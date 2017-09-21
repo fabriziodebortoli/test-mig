@@ -452,7 +452,7 @@ namespace Microarea.AdminServer.Controllers
 					deleteScript.Add(kvp.Key, kvp.Value, QueryComparingOperators.IsEqual, false);
 				}
 
-				queryResult = this.burgerData.ExecuteNoResultsQuery(deleteScript.ToString());
+				queryResult = this.burgerData.ExecuteNoResultsQuery(deleteScript.GetParameterizedQuery(), deleteScript.SqlParameterList);
 			}
 			catch (Exception e)
 			{

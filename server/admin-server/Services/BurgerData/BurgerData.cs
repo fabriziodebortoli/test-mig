@@ -240,8 +240,13 @@ namespace Microarea.AdminServer.Services.BurgerData
                 }
             }
 
-            //--------------------------------------------------------------------------------
-            public bool ExecuteNoResultsQuery(string command)
+			//--------------------------------------------------------------------------------
+			public bool ExecuteNoResultsQuery(string command)
+			{
+				return ExecuteNoResultsQuery(command, null);
+			}
+
+			public bool ExecuteNoResultsQuery(string command, List<SqlParameter> sqlParametersList)
             {
                 bool val = false;
 
@@ -250,7 +255,18 @@ namespace Microarea.AdminServer.Services.BurgerData
                 try
                 {
                     dbManager.Open();
-                    dbManager.ExecuteNonQuery(System.Data.CommandType.Text, command);
+
+					if (sqlParametersList != null)
+					{
+						dbManager.CreateParameters(sqlParametersList.Count);
+
+						for (int i = 0; i < sqlParametersList.Count; i++)
+						{
+							dbManager.AddParameters(i, sqlParametersList[i].ParameterName, sqlParametersList[i].Value);
+						}
+					}
+
+					dbManager.ExecuteNonQuery(System.Data.CommandType.Text, command);
                     val = true;
                 }
                 catch (Exception e)
@@ -452,14 +468,11 @@ namespace Microarea.AdminServer.Services.BurgerData
             SqlLogicOperators logicOperatorForAllParameters;
 			List<SqlParameter> sqlParametersList;
 
-			public SqlLogicOperators LogicOperatorForAllParameters
-            {
-                get { return this.logicOperatorForAllParameters; }
-                set { this.logicOperatorForAllParameters = value; }
-            }
+			public SqlLogicOperators LogicOperatorForAllParameters { get { return this.logicOperatorForAllParameters; } set { this.logicOperatorForAllParameters = value; } }
+			public List<SqlParameter> SqlParameterList { get { return this.sqlParametersList; } }
 
-            //--------------------------------------------------------------------------------
-            public DeleteScript(string tableName)
+			//--------------------------------------------------------------------------------
+			public DeleteScript(string tableName)
             {
 				whereParameters = new List<ParamCouple>();
 				this.tableName = tableName;
