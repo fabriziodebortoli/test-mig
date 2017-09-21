@@ -15,15 +15,23 @@ export class CoreGuard implements CanActivate {
     }
 
     canActivate(future: ActivatedRouteSnapshot): boolean {
-        if (this.infoService.desktop) {
-            return true;
-        }
+
         if (this.loginService.isConnected()) {
             return true;
         }
+
+        if (this.infoService.desktop) {
+            // aggiungo parametro a cookie
+            // verifica token => NETCore service dedicato?? (altro metodo di loginManager)
+            // redirect a login
+            // return true;
+        }
+
         //se non sono connesso, mi metto da parte l'url, e poi ci andrò non appena effettuata la connessione
         this.loginService.redirectUrl = [];
         future.url.forEach(seg => this.loginService.redirectUrl.push(seg.path));
-        return false;
+        //return false;
+
+        // redirect to login e togliere da loginsessionservice
     }
 }

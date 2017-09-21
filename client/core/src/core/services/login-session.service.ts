@@ -39,6 +39,8 @@ export class LoginSessionService {
         });
         socket.loginSessionService = this;
     }
+
+    // quando fare openTBconnection??
     openTbConnection(retry: boolean = false) {
         const subs = this.openTbConnectionAsync(retry).subscribe(ret => { subs.unsubscribe() });
     }
@@ -92,6 +94,11 @@ export class LoginSessionService {
             }
         );
     }
+
+    loginNew(connectionData: LoginSession) {
+
+    }
+
     login(connectionData: LoginSession): Observable<OperationResult> {
         return Observable.create(observer => {
             const subs = this.httpService.login(connectionData).subscribe(
@@ -138,9 +145,11 @@ export class LoginSessionService {
             }
         );
     }
+
     isConnected() {
         return this.connected;
     }
+
     setConnected(val: boolean) {
         this.connected = val;
         let url = this.connected ? this.redirectUrl : ['login'];

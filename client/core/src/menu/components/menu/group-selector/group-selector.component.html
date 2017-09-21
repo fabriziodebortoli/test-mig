@@ -3,8 +3,8 @@
     <ul class="groups-list">
         <li *ngFor="let group of utilsService.toArray(menuService?.selectedApplication?.Group)" (click)=selectGroup(group)>
 
-            <tb-icon [iconType]="iconType" [icon]="group?.icon" class="groupIcon" *ngIf="group?.icon != undefined"></tb-icon>
-            <img [src]="imageService.getStaticImage(group)" *ngIf="group?.icon == undefined" /><br />
+            <tb-icon [iconType]="iconType" [icon]="group?.icon" class="group-icon" *ngIf="group?.icon != undefined"></tb-icon>
+            <!-- <img [src]="imageService.getStaticImage(group)" *ngIf="group?.icon == undefined" /> -->
             <span>{{group?.title}}</span>
         </li>
     </ul>

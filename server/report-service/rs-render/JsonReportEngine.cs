@@ -236,7 +236,8 @@ namespace Microarea.RSWeb.Render
                     {
                         StateMachine.ReRun();
                         pageNum = 1;
-                        msg.commandType = MessageBuilder.CommandType.RERUN;
+                        msg.message = GetJsonInitTemplate();
+                        msg.commandType = MessageBuilder.CommandType.INITTEMPLATE;
                         break;
                     }
 
@@ -655,8 +656,8 @@ namespace Microarea.RSWeb.Render
                 string[] split = file.Name.Split('_');
                 string date = split[0];
                 string nameS = split[1];
-                if (first) first = false;
-                else s += ',';
+                //if (first) first = false;
+                //else s += ',';
 
                 DateTime dt;
                 bool b = DateTime.TryParse(file.Name, out dt);
@@ -675,8 +676,8 @@ namespace Microarea.RSWeb.Render
                 string[] split = file.Name.Split('_');
                 string date = split[0];
                 string nameS = split[1];
-                if (first) first = false;
-                else s += ',';
+                //if (first) first = false;
+                //else s += ',';
 
                 DateTime dt;
                 bool b = DateTime.TryParse(file.Name, out dt);

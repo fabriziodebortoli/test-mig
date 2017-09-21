@@ -29,7 +29,6 @@ export class SnapshotdialogComponent {
     }
 
     createFileJson(){
-        console.log("createFileJson");
         this.rsService.initiaziedSnapshot(this.nameSnapshot, this.allUsers);
         this.rsService.snapshot = false;
     }
@@ -40,6 +39,10 @@ export class SnapshotdialogComponent {
 
     setAllusers(){
         this.allUsers = true;
+    }
+
+    runSnapshot(){
+        console.log("RUNSNAPSHOT");
     }
 
 

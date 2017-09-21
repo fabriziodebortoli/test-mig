@@ -25,8 +25,12 @@ ul.groups-list>li {
     color: #9f9f9f;
     background: #3e3e3e;
     text-align: center;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+ul.groups-list>li span {
+    font-size: 12px;
 }
 
 ul.groups-list>li:hover {
@@ -41,7 +45,6 @@ ul.groups-list>li>div>span {
     font-size: 12px;
 }
 
-.groupIcon{
+.group-icon {
     font-size: 30px;
-    color: black;
 }
