@@ -5,11 +5,6 @@
 
 export const environment = {
   production: false,
-  
-  baseUrl: `http://localhost/Development/M4Server/`,
-  baseSocket: `ws://localhost/Development/M4Server/`,
-  wsBaseUrl: 'ws://localhost/Development/M4Server/tbloader/',
 
-  appName: 'MagoWeb',
-  companyName: 'Microarea Spa'
+  desktop: false
 };

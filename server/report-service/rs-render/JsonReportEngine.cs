@@ -236,7 +236,8 @@ namespace Microarea.RSWeb.Render
                     {
                         StateMachine.ReRun();
                         pageNum = 1;
-                        msg.commandType = MessageBuilder.CommandType.RERUN;
+                        msg.message = GetJsonInitTemplate();
+                        msg.commandType = MessageBuilder.CommandType.INITTEMPLATE;
                         break;
                     }
 
