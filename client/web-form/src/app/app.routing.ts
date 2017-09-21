@@ -12,13 +12,13 @@ import { RsTestComponent } from '@taskbuilder/reporting-studio';
 
 import { appRoutes } from './applications/app.routing';
 
-let childrenRoutes = [
+let magoRoutes = [
     { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
     // { path: 'test', loadChildren: '@taskbuilder/test#TbTestModule' },
     { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
     ...appRoutes
 ];
-childrenRoutes = environment.desktop ? [] : [...childrenRoutes];
+let childrenRoutes = environment.desktop ? [] : [...magoRoutes];
 
 
 export const routing: ModuleWithProviders = RouterModule.forRoot([
