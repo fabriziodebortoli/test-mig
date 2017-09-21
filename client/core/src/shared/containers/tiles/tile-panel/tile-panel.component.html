@@ -1,7 +1,7 @@
 <div class="tile-panel">
     <md-card-title (click)="toggleCollapse($event)" *ngIf="showAsTile" [ngClass]="{'c-pointer': isCollapsible }">
         <span>{{title}}</span>
-        <md-icon *ngIf="isCollapsible">{{getArrowIcon()}}</md-icon>
+        <m4-icon *ngIf="isCollapsible" icon="{{getArrowIcon()}}"></m4-icon>
     </md-card-title>
 
     <md-card-content *ngIf="!isCollapsed">

@@ -234,14 +234,9 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.RERUN:
                     {
-                        //reset state machine
-                        StateMachine.StopReport();
-                        StateMachine.ReportSession.uniqueID = Guid.NewGuid().ToString();
-                        StateMachine.CurrentState = State.ExecuteAsk;
-
-                        GetJsonAskDialog(null, "");
-
-                        msg.commandType = MessageBuilder.CommandType.NONE;
+                        StateMachine.ReRun();
+                        pageNum = 1;
+                        msg.commandType = MessageBuilder.CommandType.RERUN;
                         break;
                     }
 
