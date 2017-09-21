@@ -289,6 +289,19 @@ namespace Microarea.RSWeb.Render
                         msg.message = ActiveSnapshot();
                         break;
                     }
+                case MessageBuilder.CommandType.RUNSNAPSHOT:
+                    {
+                        //il flag user-allUser è passato insieme al numeroPagina
+                        bool forAllUsers = false;
+                        string[] split = msg.page.Split(',');
+                        string name = split[1];
+                        string user = split[2];
+                        if (user.Equals("true"))
+                            forAllUsers = true;
+
+
+                        break;
+                    }
             }
             return msg;
         }
