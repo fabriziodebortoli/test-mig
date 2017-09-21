@@ -234,14 +234,9 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.RERUN:
                     {
-                        //reset state machine
-                        StateMachine.StopReport();
-                        StateMachine.ReportSession.uniqueID = Guid.NewGuid().ToString();
-                        StateMachine.CurrentState = State.ExecuteAsk;
-
-                        GetJsonAskDialog(null, "");
-
-                        msg.commandType = MessageBuilder.CommandType.NONE;
+                        StateMachine.ReRun();
+                        pageNum = 1;
+                        msg.commandType = MessageBuilder.CommandType.RERUN;
                         break;
                     }
 
@@ -269,12 +264,6 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.EXPORTDOCX:
                     {
-                        //string[] split = msg.page.Split(',');
-                        //string firstPage = split[0];
-                        //string lastPage = split[1];
-                        //int first, last = 0;
-                        //Int32.TryParse(firstPage, out first);
-                        //Int32.TryParse(lastPage, out last);
                         msg.page = pageNum.ToString();
                         msg.message = GetDocxDataPage(pageNum);
                         break;
@@ -284,11 +273,12 @@ namespace Microarea.RSWeb.Render
                         //il flag user-allUser è passato insieme al numeroPagina
                         bool forAllUsers = false;
                         string[] split = msg.page.Split(',');
-                        string user = split[1];
+                        string name = split[1];
+                        string user = split[2];
                         if (user.Equals("true"))
                            forAllUsers = true;
                         
-                        SaveSnapshot(forAllUsers);
+                        SaveSnapshot(name, forAllUsers);
 
                         msg.commandType = MessageBuilder.CommandType.NONE;
                         break;
@@ -301,9 +291,7 @@ namespace Microarea.RSWeb.Render
             }
             return msg;
         }
-
         
-
         //---------------------------------------------------------------------
         //per debug
         public string GetJsonAskDialog(int index = 0)
@@ -632,7 +620,7 @@ namespace Microarea.RSWeb.Render
             return file.ToJson();
         }
 
-        public void SaveSnapshot(bool forAllUsers)
+        public void SaveSnapshot(string name, bool forAllUsers)
         {
             WoormDocument woorm = StateMachine.Woorm;
             string user = "";
@@ -645,7 +633,7 @@ namespace Microarea.RSWeb.Render
             string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, user);
             string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
             string pages = GetJsonAllPages();
-            string path = destinationPath + DateTime.Now.ToString(ReportFolderNameFormatter) + ".json";
+            string path = destinationPath + DateTime.Now.ToString(ReportFolderNameFormatter)+"_"+name+ ".json";
  
             File.WriteAllText(path, pages);
         }
@@ -664,12 +652,17 @@ namespace Microarea.RSWeb.Render
 
             foreach (FileInfo file in dUser.GetFiles("*.json"))
             {
-                if (first) first = false; else s += ',';
+                string[] split = file.Name.Split('_');
+                string date = split[0];
+                string nameS = split[1];
+                if (first) first = false;
+                else s += ',';
 
                 DateTime dt;
                 bool b = DateTime.TryParse(file.Name, out dt);
 
-                s += "{" + false.ToJson("allUsers") + ',' + file.Name.ToJson("name") + "}";
+                string name = nameS.RemoveExtension(".json");
+                s += "{" + false.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";
             }
 
             customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, NameSolverStrings.AllUsers);
@@ -679,13 +672,19 @@ namespace Microarea.RSWeb.Render
             first = true;
             foreach (FileInfo file in dAllUser.GetFiles("*.json"))
             {
-                if (first) first = false; else s += ',';
+                string[] split = file.Name.Split('_');
+                string date = split[0];
+                string nameS = split[1];
+                if (first) first = false;
+                else s += ',';
 
                 DateTime dt;
                 bool b = DateTime.TryParse(file.Name, out dt);
 
-                s += "{" + true.ToJson("allUsers") + ',' + file.Name.ToJson("name") + "}";
+                string name = nameS.RemoveExtension(".json");
+                s += "{" + true.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";
             }
+            s = s.Remove(s.Length-1);
 
             s += "]";
             return s;

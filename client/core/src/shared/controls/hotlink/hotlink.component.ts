@@ -1,7 +1,7 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, OnInit, Input, ViewEncapsulation, Type } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, Type, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 
 import { HttpService } from './../../../core/services/http.service';
@@ -14,7 +14,7 @@ import { ControlComponent } from './../control.component';
   styleUrls: ['./hotlink.component.scss']
 })
 
-export class HotlinkComponent extends ControlComponent {
+export class HotlinkComponent extends ControlComponent implements OnInit {
 
   @Input() ns: string;
   @Input() enableMultiSelection: boolean = false;
@@ -32,9 +32,16 @@ export class HotlinkComponent extends ControlComponent {
   constructor(private httpService: HttpService,
     layoutService: LayoutService,
     protected enumService: EnumsService, 
-    tbComponentService:TbComponentService
+    tbComponentService:TbComponentService,
+    private cd: ChangeDetectorRef
   ) {
     super(layoutService, tbComponentService);
+  }
+
+  ngOnInit() {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.cd.markForCheck();
   }
 
   // ---------------------------------------------------------------------------------------

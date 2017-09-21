@@ -13,6 +13,8 @@ import { saveAs } from '@progress/kendo-file-saver';
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Rx';
 
+import { Snapshot } from './report-objects/snapshotdialog/snapshot';
+
 
 
 @Injectable()
@@ -43,6 +45,8 @@ export class ReportingStudioService extends DocumentService {
     public titleReport: string;
 
     public user: boolean;
+    public nameSnap: string;
+    public snapshots: Snapshot[];
 
 
     @Output() rsExportPdf = new EventEmitter<void>();
@@ -145,7 +149,8 @@ export class ReportingStudioService extends DocumentService {
     }
 
     //------SNAPSHOT------------------------------------
-    public initiaziedSnapshot(allUsers) {
+    public initiaziedSnapshot(nameSnapshot, allUsers) {
+        this.nameSnap = nameSnapshot;
         this.user = allUsers;
         this.eventSnapshot.emit();
         

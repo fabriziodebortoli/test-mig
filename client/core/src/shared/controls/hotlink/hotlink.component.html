@@ -1,6 +1,6 @@
 <div>{{caption}}</div>
 
-<kendo-maskedtextbox [(ngModel)]="value" [ngStyle]="inputStyle()" (focus)="onFocus()" (blur)="onBlur($event)" [disabled]="enableMultiSelection || !model.enabled"></kendo-maskedtextbox>
+<kendo-maskedtextbox [(ngModel)]="model.value" [ngStyle]="inputStyle()" (focus)="onFocus()" (blur)="onBlur($event)" [disabled]="enableMultiSelection || !model.enabled"></kendo-maskedtextbox>
 
 <button kendoButton #anchor (click)="onOptionsClick()" [icon]="'more-vertical'" [disabled]="!model.enabled"></button>
 <kendo-popup [anchor]="anchor" (blur)="showOptions = false" *ngIf="showOptions">
