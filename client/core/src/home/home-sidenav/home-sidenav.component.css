@@ -2,6 +2,8 @@
     cursor: pointer;
     margin-left: 10px;
     color: #fff;
+    /*for m4 icon*/
+    font-size: 18px;
 }
 
 .sidenav-header {
@@ -71,7 +73,7 @@ ul.application-selector-list>li:hover {
     color: #fff;
 }
 
-ul.application-selector-list>li md-icon {
+ul.application-selector-list>li m4-icon {
     display: block;
     margin: 0 auto;
     line-height: 50px;
@@ -120,7 +122,7 @@ ul.bookmarks-list>li:hover {
     color: #fff;
 }
 
-ul.bookmarks-list>li>md-icon {
+ul.bookmarks-list>li>m4-icon {
     font-size: 18px;
     line-height: 22px;
 }

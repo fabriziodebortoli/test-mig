@@ -1,6 +1,7 @@
 import { Subscription } from 'rxjs/Subscription';
 import { Component } from '@angular/core';
 import { ReportingStudioService } from './../../reporting-studio.service';
+import { Snapshot } from './snapshot';
 
 @Component({
     selector: 'rs-snapshotdialog',
@@ -11,10 +12,11 @@ import { ReportingStudioService } from './../../reporting-studio.service';
 export class SnapshotdialogComponent {
     subscriptions: Subscription[] = [];
     private allUsers : boolean = false;
+    private nameSnapshot: string;
 
 
     constructor(private rsService: ReportingStudioService) {
-        
+      this.nameSnapshot = "";  
     };
 
     ngOnDestroy() {
@@ -27,7 +29,8 @@ export class SnapshotdialogComponent {
     }
 
     createFileJson(){
-        this.rsService.initiaziedSnapshot(this.allUsers);
+        console.log("createFileJson");
+        this.rsService.initiaziedSnapshot(this.nameSnapshot, this.allUsers);
         this.rsService.snapshot = false;
     }
 
@@ -38,4 +41,6 @@ export class SnapshotdialogComponent {
     setAllusers(){
         this.allUsers = true;
     }
+
+
 }

@@ -636,7 +636,7 @@ namespace Microarea.AdminServer.Controllers
 			try
 			{
 				BurgerData burgerData = burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
-				List<IServerURL> l = burgerData.GetList<ServerURL, IServerURL>(String.Empty, ModelTables.ServerURLs, SqlLogicOperators.AND, new WhereCondition[]
+				List<IServerURL> l = burgerData.GetList<ServerURL, IServerURL>(ModelTables.ServerURLs, SqlLogicOperators.AND, new WhereCondition[]
 				{
 					new WhereCondition("InstanceKey", instanceKey, QueryComparingOperators.IsEqual, false)
 				});

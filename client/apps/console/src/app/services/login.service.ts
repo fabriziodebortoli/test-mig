@@ -70,12 +70,14 @@ export class LoginService {
         {
           if (!data.Result)
           {
+            this.sendMessage('');
             alert('Cannot do the login ' + data.Message);
             return;
           }
 
           if (data.JwtToken == '')
           {
+            this.sendMessage('');
             alert('Empty token');
             return;
           }
@@ -89,6 +91,7 @@ export class LoginService {
             if (authInfo == null) {
               alert('Could not get valid AuthorizationInfo from jwt token, cannot proceed.');
               this.router.navigateByUrl('/');
+              this.sendMessage('');
               return;
             }
 
@@ -108,11 +111,13 @@ export class LoginService {
             if (!opRes.Result && returnUrl == '/') {
               // this is the case where user clicked the "sign in" link
               this.router.navigateByUrl('/');
+              this.sendMessage(authInfo.authorizationProperties.accountName);
               return;              
             }
 
             if (!opRes.Result) {
               alert(opRes.Message);
+              this.sendMessage('');
               this.router.navigateByUrl('/');
               return;
             }
@@ -122,6 +127,7 @@ export class LoginService {
           catch (exc)
           {
             localStorage.removeItem('auth-info');
+            this.sendMessage('');
             if (authInfo != null)
               localStorage.removeItem(authInfo.authorizationProperties.accountName);
             alert('Error while processing authorization info from jwt token ' + exc + '. Login failed.');

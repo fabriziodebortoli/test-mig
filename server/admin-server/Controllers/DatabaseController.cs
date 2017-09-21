@@ -112,8 +112,16 @@ namespace Microarea.AdminServer.Controllers
 			param.DatabaseName = dbName;
 			param.MaxSize = AzureMaxSize.GB1;
 
+			// to create database I need to connect to master
+
 			DatabaseTask dTask = new DatabaseTask();
-			dTask.CurrentStringConnection = string.Format(NameSolverDatabaseStrings.SQLConnection, settings.DatabaseInfo.DBServer, DatabaseLayerConsts.MasterDatabase, settings.DatabaseInfo.DBUser, settings.DatabaseInfo.DBPassword);
+			dTask.CurrentStringConnection = string.Format(
+				NameSolverDatabaseStrings.SQLConnection, 
+				settings.DatabaseInfo.DBServer, 
+				DatabaseLayerConsts.MasterDatabase, 
+				settings.DatabaseInfo.DBUser, 
+				settings.DatabaseInfo.DBPassword
+				);
 			opRes.Result = dTask.CreateAzureDatabase(param);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
@@ -221,7 +229,7 @@ namespace Microarea.AdminServer.Controllers
 		}
 
 		/// <summary>
-		/// Try to open connection against credentials
+		/// Try to open connection with credentials in the body
 		/// </summary>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
@@ -243,8 +251,11 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			// if databaseName is empty I use master
+
 			string connectionString = string.Format(NameSolverDatabaseStrings.SQLAzureConnection,
-				dbCredentials.Server, string.IsNullOrWhiteSpace(dbCredentials.Database) ? DatabaseLayerConsts.MasterDatabase : dbCredentials.Database,
+				dbCredentials.Server, 
+				string.IsNullOrWhiteSpace(dbCredentials.Database) ? DatabaseLayerConsts.MasterDatabase : dbCredentials.Database,
 				dbCredentials.Login,
 				dbCredentials.Password
 				);

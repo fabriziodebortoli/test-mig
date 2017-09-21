@@ -1,3 +1,4 @@
+import { UrlService } from './../core/services/url.service';
 import { UtilsService } from './../core/services/utils.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -46,6 +47,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
     private localizationService: LocalizationService,
     private settingsService: SettingsService,
     private enumsService: EnumsService,
+    private urlService: UrlService
   ) {
 
 

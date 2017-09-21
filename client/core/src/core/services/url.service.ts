@@ -12,21 +12,10 @@ export class UrlService {
     private secure: boolean = false;
     private baseUrl: string = "";
     private wsBaseUrl: string = "";
+    public isDesktop: boolean = false;
     constructor(private logger: Logger, private http: Http) {
 
-        // this.getConfiguration()
-        //     .then((res) => {
-        //         let js = res.json();
-        //         this.baseUrl = js.baseUrl;
-        //         this.wsBaseUrl = js.wsBaseUrl;
-        //     })
-        //     .catch(
-        //     err => {
-        //         console.log(err);
-        //     })
-
     }
-
     async getConfiguration(): Promise<any> {
         return await this.http.get('assets/config.json').toPromise();
     }
@@ -37,6 +26,7 @@ export class UrlService {
                 let js = res.json();
                 this.baseUrl = js['baseUrl'];
                 this.wsBaseUrl = js['wsBaseUrl'];
+                this.isDesktop = js['isDesktop'];
             })
         //.catch(err => console.log(err));
     }

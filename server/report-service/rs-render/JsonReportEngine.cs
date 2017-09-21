@@ -17,6 +17,7 @@ using spreadsheet = DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microarea.RSWeb.Objects;
 using Microarea.Common.CoreTypes;
+using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.RSWeb.Render
 {
@@ -27,6 +28,8 @@ namespace Microarea.RSWeb.Render
         public RSEngine StateMachine = null;
 
         private int pageNum = 1;
+
+        public const string ReportFolderNameFormatter = @"yyyyMMddTHHmmss";
 
         //--------------------------------------------------------------------------
         public JsonReportEngine(TbReportSession session)
@@ -231,14 +234,9 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.RERUN:
                     {
-                        //reset state machine
-                        StateMachine.StopReport();
-                        StateMachine.ReportSession.uniqueID = Guid.NewGuid().ToString();
-                        StateMachine.CurrentState = State.ExecuteAsk;
-
-                        GetJsonAskDialog(null, "");
-
-                        msg.commandType = MessageBuilder.CommandType.NONE;
+                        StateMachine.ReRun();
+                        pageNum = 1;
+                        msg.commandType = MessageBuilder.CommandType.RERUN;
                         break;
                     }
 
@@ -266,12 +264,6 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.EXPORTDOCX:
                     {
-                        //string[] split = msg.page.Split(',');
-                        //string firstPage = split[0];
-                        //string lastPage = split[1];
-                        //int first, last = 0;
-                        //Int32.TryParse(firstPage, out first);
-                        //Int32.TryParse(lastPage, out last);
                         msg.page = pageNum.ToString();
                         msg.message = GetDocxDataPage(pageNum);
                         break;
@@ -281,21 +273,25 @@ namespace Microarea.RSWeb.Render
                         //il flag user-allUser è passato insieme al numeroPagina
                         bool forAllUsers = false;
                         string[] split = msg.page.Split(',');
-                        string user = split[1];
-                        if (user.Equals(true))
+                        string name = split[1];
+                        string user = split[2];
+                        if (user.Equals("true"))
                            forAllUsers = true;
-                        if (user.Equals(false))
-                            forAllUsers = false;
-                        SaveSnapshot(forAllUsers);
+                        
+                        SaveSnapshot(name, forAllUsers);
+
                         msg.commandType = MessageBuilder.CommandType.NONE;
+                        break;
+                    }
+                case MessageBuilder.CommandType.ACTIVESNAPSHOT:
+                    {
+                        msg.message = ActiveSnapshot();
                         break;
                     }
             }
             return msg;
         }
-
         
-
         //---------------------------------------------------------------------
         //per debug
         public string GetJsonAskDialog(int index = 0)
@@ -606,7 +602,7 @@ namespace Microarea.RSWeb.Render
         {
             WoormDocument woorm = StateMachine.Woorm;
 
-            string file = "[";
+            string file = "{ \"pages\":[";
 
             for (int i=1; i<= woorm.RdeReader.TotalPages; i++)
             {
@@ -620,66 +616,82 @@ namespace Microarea.RSWeb.Render
 
                 
             }
-            file += "]";
+            file += "]}";
             return file.ToJson();
         }
 
-        public void SaveSnapshot(bool forAllUsers)
+        public void SaveSnapshot(string name, bool forAllUsers)
         {
             WoormDocument woorm = StateMachine.Woorm;
-            string pages = GetJsonAllPages();
             string user = "";
 
             if (!forAllUsers)
                 user = ReportSession.UserInfo.User;
             else
-                user = ""; //come trovo tutti li utenti?
+                user = NameSolverStrings.AllUsers;
 
             string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, user);
-            string destinationPath = PathFunctions.WoormRunnedReportPath (customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
-
-
-
+            string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
+            string pages = GetJsonAllPages();
+            string path = destinationPath + DateTime.Now.ToString(ReportFolderNameFormatter)+"_"+name+ ".json";
+ 
+            File.WriteAllText(path, pages);
         }
 
+        public string ActiveSnapshot()
+        {
+            WoormDocument woorm = StateMachine.Woorm;
+            List<string> nameFile = new List<string>();
 
+            string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, ReportSession.UserInfo.User);
+            string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
+            DirectoryInfo dUser = new DirectoryInfo(destinationPath);
 
+            string s = "[";
+            bool first = true;
 
+            foreach (FileInfo file in dUser.GetFiles("*.json"))
+            {
+                string[] split = file.Name.Split('_');
+                string date = split[0];
+                string nameS = split[1];
+                if (first) first = false;
+                else s += ',';
 
-        /*
-        public bool SaveForUser(string user, string description)
-		{ 
-			if (woorm == null || woorm.GraphicSection == string.Empty) return false;
+                DateTime dt;
+                bool b = DateTime.TryParse(file.Name, out dt);
 
-			if (MaxNumberReached(user)) return false;
+                string name = nameS.RemoveExtension(".json");
+                s += "{" + false.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";
+            }
 
-			AddGraphicInfos(woorm.InfoFilename, woorm.GraphicSection, woorm.Filename, description);
+            customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, NameSolverStrings.AllUsers);
+            destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
+            DirectoryInfo dAllUser = new DirectoryInfo(destinationPath);
 
-			string customPath = reportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, reportSession.UserInfo.Company, user);
-							
-			string originPath = PathFunctions.WoormTempFilePath(woorm.SessionID, woorm.UniqueID);
-			string destinationPath = PathFunctions.WoormRunnedReportPath
-				(
-				customPath, 
-				Path.GetFileNameWithoutExtension(woorm.Filename),  
-				true
-				);
-			
-			foreach (string file in Directory.GetFiles(originPath))
-			{
-				string destFileName = Path.Combine(destinationPath, Path.GetFileName(file));
-				File.Copy(file, destFileName);
-			}
+            first = true;
+            foreach (FileInfo file in dAllUser.GetFiles("*.json"))
+            {
+                string[] split = file.Name.Split('_');
+                string date = split[0];
+                string nameS = split[1];
+                if (first) first = false;
+                else s += ',';
 
-			return true;
-		} 
-         
-         
-        */
+                DateTime dt;
+                bool b = DateTime.TryParse(file.Name, out dt);
+
+                string name = nameS.RemoveExtension(".json");
+                s += "{" + true.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";
+            }
+            s = s.Remove(s.Length-1);
+
+            s += "]";
+            return s;
+        }
 
 
 
 
     }
 }
-

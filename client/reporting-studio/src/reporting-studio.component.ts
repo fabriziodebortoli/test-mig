@@ -10,6 +10,7 @@ import { DocumentComponent } from '@taskbuilder/core';
 import { ComponentService } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
 import { ReportingStudioService } from './reporting-studio.service';
+import { Snapshot } from './report-objects/snapshotdialog/snapshot';
 
 import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
@@ -157,6 +158,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
           this.componentService.createReportComponent(k.ns, true, params);
           break;
+        case CommandType.RERUN:
+          this.ReInitReport();          
+          break;
         case CommandType.ENDREPORT:
           this.rsService.totalPages = k.totalPages;
           this.rsService.runEnabled = true;
@@ -176,7 +180,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.getDocxData(k + ".docx");
           break;
         case CommandType.SNAPSHOT:
-          
+          break;
+        case CommandType.ACTIVESNAPSHOT:
+          this.CreateTableSnapshots(k);
           break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
@@ -277,13 +283,22 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   ReRunReport() {
 
     let message = {
-      commandType: CommandType.RERUN,
-      message: this.args.nameSpace,
-      page: 0
+      commandType: CommandType.RERUN
     };
+    this.rsService.doSend(JSON.stringify(message));
+  }
 
+  // -----------------------------------------------
+  ReInitReport() { 
     this.rsService.reset();
     this.reset();
+    
+    this.rsInitStateMachine();
+    
+    let message = {
+      commandType: CommandType.INITTEMPLATE,
+      page: this.rsService.pageNum
+    };
     this.rsService.doSend(JSON.stringify(message));
   }
 
@@ -316,10 +331,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.SNAPSHOT,
       message: this.args.nameSpace,
-      page: 1 + ","+ this.rsService.user
+      page: 1 + ","+ this.rsService.nameSnap +","+ this.rsService.user
     };
 
     this.rsService.doSend(JSON.stringify(message));
+  }
+
+  // -----------------------------------------------
+  CreateTableSnapshots(k: Snapshot[]){
+    this.rsService.snapshots = k;
   }
 
   //--------------------------------------------------
@@ -376,6 +396,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   //--------------------------------------------------
   public startSnapshot(){
     this.rsService.snapshot = true;
+    let message = {
+      commandType: CommandType.ACTIVESNAPSHOT,
+      message: this.args.nameSpace,
+      page: 1
+    };
+    
+    this.rsService.doSend(JSON.stringify(message));
   }
 
   //--------------------------------------------------

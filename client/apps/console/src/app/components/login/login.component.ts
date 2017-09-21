@@ -5,6 +5,7 @@ import { LoginService } from './../../services/login.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from "@angular/router";
 import { AccountInfo } from '../../authentication/account-info';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   welcomeMessage: string;
   loginStep: number;
   appBusy: boolean;
+  subscription: Subscription;
+
 
   //--------------------------------------------------------------------------------
   constructor(private route: ActivatedRoute, private loginService: LoginService) { 
@@ -33,6 +36,25 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.welcomeMessage = 'Sign in';
     this.loginStep = 1;
     this.appBusy = false;
+    this.subscription = this.loginService.getMessage().subscribe(msg => { 
+
+      if (msg === '') {
+        // something went wrong with the login
+        this.appBusy = false;
+        this.loginStep = 3;
+      }
+
+    })
+  }
+
+  //--------------------------------------------------------------------------------
+  onKeyDown(event) {
+
+    if (event.keyCode == 13) {
+      this.doNext();
+      return;
+    }
+
   }
 
   //--------------------------------------------------------------------------------
@@ -41,7 +63,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     {
       case 1:
         this.preLogin();
-        this.loginStep++;
       break;
 
       case 2:
@@ -82,6 +103,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     if (this.credentials.accountName == '') {
       alert('Account name is empty!');
+      this.appBusy = false;
       return;
     }
 
@@ -90,7 +112,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       let accountInfo: AccountInfo = JSON.parse(accountInfoStored);
       if (accountInfo !== undefined && accountInfo !== null && accountInfo.instanceKey !== '') {
         this.selectedInstanceKey = accountInfo.instanceKey;
-        this.loginStep++;
+        this.loginStep+=2;
         return;
       }
     }
@@ -105,6 +127,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           if (!opRes.Result) {
             alert(opRes.Message);
+            this.appBusy = false;
             this.loginStep = 1;
             return;
           }
@@ -123,10 +146,13 @@ export class LoginComponent implements OnInit, OnDestroy {
               let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
               this.selectedInstanceKey = accountInfo.instanceKey;
             }
+
+            this.loginStep++;
           }
         },
         err => {
           alert(err);
+          this.appBusy = false;
           this.loginStep = 1;
         }
     )

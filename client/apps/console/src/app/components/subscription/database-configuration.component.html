@@ -8,21 +8,21 @@
   </div>
   <div class="row adminTile" *ngIf="!isWorking">
     <div class="box" style="width:60%">
-      <p>Choose this option to configure your databases in few easy steps.
+      <p>Choose this option to configure automatically your databases in few easy steps.
       <p>
         <ul>
           <li>Database container creation</li>
           <li>Login and user creation</li>
           <li>Table structure creation</li>
         </ul>
-        <button type="button" class="cta mt20" (click)="configureDatabase(true)">Automatic</button>
+        <button type="button" class="cta mt20" (click)="configureDatabase(true)">SQL Azure</button>
       </div>
     </div>
      
     <div class="row adminTile" *ngIf="!isWorking">
       <div class="box" style="width:60%">
         <p>If you prefer to manually configure your databases, continue here.</p>
-        <button type="button" class="cta mt20" (click)="configureDatabase(false)">Manual</button>
+        <button type="button" class="cta mt20" (click)="configureDatabase(false)">On-premises</button>
       </div>
     </div>      
   </div>

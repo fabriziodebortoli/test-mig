@@ -1,34 +1,33 @@
 <kendo-dialog title="Snapshot Report" (close)="close()">
-<label>Saver for: </label>
-        <md-radio-button checked="checked" (click)="setSingleUser()">This user </md-radio-button>
-        <md-radio-button (click)="setAllusers()">All Users</md-radio-button>
-
-        <br><br>
     <div>
         <table>
             <tr>
                 <th>Name</th>
-                <th>Description</th>
-                <th>Size</th>
-                <th>Created</th>                
+                <th>Date</th>
+                <th>AllUsers</th>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+            <tr *ngFor="let snap of this.rsService.snapshots; let i=index">
+                <td>{{snap.name}}</td>
+                <td>{{snap.date}}</td>
+                <td>{{snap.allusers}}</td>
             </tr>
 
         </table>
-   
+
+    </div>
+    <br><br>
+    <label>Saver for: </label>
+    <br>
+    <md-radio-button checked="checked" (click)="setSingleUser()">This user </md-radio-button>
+    <md-radio-button (click)="setAllusers()">All Users</md-radio-button>
+
+    <br>
+    <div>
+        <kendo-textbox-container floatingLabel="Insert a name">
+            <input kendoTextBox [(ngModel)]="nameSnapshot"/>
+        </kendo-textbox-container>
     </div>
     <kendo-dialog-actions>
-        <button kendoButton *ngIf="rsService.snapshot" (click)="createFileJson()">New Snapshot</button>
+        <button kendoButton *ngIf="rsService.snapshot" (click)="createFileJson()">Create new Snapshot</button>
     </kendo-dialog-actions>
-  </kendo-dialog>
+</kendo-dialog>
