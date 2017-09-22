@@ -15,17 +15,17 @@ import { ChartType } from "./../../../../models/chart-type.model";
 
 export class ReportChartPolarComponent implements AfterViewInit {
 
-    @Input() chart: chart
+    @Input() chart: chart;
+
     constructor(private cdRef: ChangeDetectorRef) {
 
     }
 
     ngAfterViewInit() {
         this.cdRef.detectChanges();
-        let k=this.chart;
     }
 
-    getType(item: series): string {
+    getType(item: any): string {
         switch (item.type) {
             case ChartType.PolarArea:
                 return 'polarArea';
@@ -33,10 +33,12 @@ export class ReportChartPolarComponent implements AfterViewInit {
                 return 'polarLine';
             case ChartType.PolarScatter:
                 return 'polarScatter';
-        }  
+        }
     }
 
     public labelContent(e: any): string {
-        return e.y;
+        return e.dataItem.y;
     }
+
+
 }

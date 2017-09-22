@@ -1,4 +1,4 @@
-import { chart } from './../../../../models/chart.model';
+import { chart, series } from './../../../../models/chart.model';
 import { Component, ChangeDetectorRef, AfterViewInit, Input } from '@angular/core';
 import { ChartType } from "./../../../../models/chart-type.model";
 @Component({
@@ -15,11 +15,20 @@ import { ChartType } from "./../../../../models/chart-type.model";
 export class ReportChartRadarComponent implements AfterViewInit {
 
     @Input() chart: chart
-    constructor(private cdRef: ChangeDetectorRef) {
 
+    constructor(private cdRef: ChangeDetectorRef) {
     }
 
     ngAfterViewInit() {
         this.cdRef.detectChanges();
+    }
+
+    getType(item: any): string {
+        switch (item.type) {
+            case ChartType.RadarArea:
+                return 'radarArea';
+            case ChartType.RadarLine:
+                return 'radarLine';
+        }  
     }
 }
