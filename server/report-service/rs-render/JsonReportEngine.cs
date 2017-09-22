@@ -226,7 +226,7 @@ namespace Microarea.RSWeb.Render
                         if (pagesSnapshot != null)
                         {
                             int idx = (pageNum - 1) * 2;
-                            msg.message = pagesSnapshot.pages[idx].ToJson();
+                            msg.message = pagesSnapshot.pages[idx].ToString();
                         }
                         else
                         {
@@ -241,7 +241,7 @@ namespace Microarea.RSWeb.Render
                         if (pagesSnapshot != null)
                         {
                             int idx = (pageNum -1) * 2 + 1;
-                            msg.message = pagesSnapshot.pages[idx].ToJson();                            
+                            msg.message = pagesSnapshot.pages[idx].ToString();                            
                         }
                         else
                         { 
@@ -316,7 +316,7 @@ namespace Microarea.RSWeb.Render
                             forAllUsers = true;
                         msg.message = RunJsonSnapshot(name, forAllUsers);
                         msg.page = "1";
-                        msg.commandType = MessageBuilder.CommandType.TEMPLATE;
+                        msg.commandType = MessageBuilder.CommandType.SNAPSHOT;
                         break;
                     }
             }
@@ -736,12 +736,9 @@ namespace Microarea.RSWeb.Render
             {
                 string json = r.ReadToEnd();
                 pagesSnapshot = JsonConvert.DeserializeObject<Snapshot>(json);
-                return pagesSnapshot.pages[0].ToJson();
+                return pagesSnapshot.pages[0].ToString();
             }
         }
-
-
-
-
+        
     }
 }

@@ -178,6 +178,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.getDocxData(k + ".docx");
           break;
         case CommandType.SNAPSHOT:
+          this.FirstPage();
           break;
         case CommandType.ACTIVESNAPSHOT:
           this.CreateTableSnapshots(k);
@@ -334,6 +335,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   RunSnapshot() {
+    this.rsService.snapshot = false;
     let message = {
       commandType: CommandType.RUNSNAPSHOT,
       message: this.args.nameSpace,
