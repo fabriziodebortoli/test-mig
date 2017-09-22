@@ -34,4 +34,9 @@ namespace Microarea.RSWeb.Models
         public string name { get; set; }
     }
 
+    public class Snapshot
+    {
+        public object[] pages;
+    }
+
 }

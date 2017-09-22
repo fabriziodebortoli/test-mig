@@ -366,22 +366,22 @@ namespace Microarea.AdminServer.Controllers
 			switch (modelTable)
 			{
 				case ModelTables.Accounts:
-					opRes.Content = this.burgerData.GetList<Account, IAccount>(selectScript.ToString(), modelTable);
+					opRes.Content = this.burgerData.GetList<Account, IAccount>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
 					break;
 				case ModelTables.Subscriptions:
-					opRes.Content = this.burgerData.GetList<Subscription, ISubscription>(selectScript.ToString(), modelTable);
+					opRes.Content = this.burgerData.GetList<Subscription, ISubscription>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
 					break;
 				case ModelTables.Roles:
-					opRes.Content = this.burgerData.GetList<Role, IRole>(selectScript.ToString(), modelTable);
+					opRes.Content = this.burgerData.GetList<Role, IRole>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
 					break;
 				case ModelTables.AccountRoles:
-					opRes.Content = this.burgerData.GetList<AccountRoles, IAccountRoles>(selectScript.ToString(), modelTable);
+					opRes.Content = this.burgerData.GetList<AccountRoles, IAccountRoles>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
 					break;
 				case ModelTables.Instances:
-					opRes.Content = this.burgerData.GetList<Instance, IInstance>(selectScript.ToString(), modelTable);
+					opRes.Content = this.burgerData.GetList<Instance, IInstance>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
 					break;
 				case ModelTables.SubscriptionAccounts:
-					opRes.Content = this.burgerData.GetList<SubscriptionAccount, ISubscriptionAccount>(selectScript.ToString(), modelTable);
+					opRes.Content = this.burgerData.GetList<SubscriptionAccount, ISubscriptionAccount>(selectScript.GetParameterizedQuery(), modelTable, selectScript.SqlParameterList);
 					break;
 				case ModelTables.None:
 				default:
@@ -452,7 +452,7 @@ namespace Microarea.AdminServer.Controllers
 					deleteScript.Add(kvp.Key, kvp.Value, QueryComparingOperators.IsEqual, false);
 				}
 
-				queryResult = this.burgerData.ExecuteNoResultsQuery(deleteScript.ToString());
+				queryResult = this.burgerData.ExecuteNoResultsQuery(deleteScript.GetParameterizedQuery(), deleteScript.SqlParameterList);
 			}
 			catch (Exception e)
 			{

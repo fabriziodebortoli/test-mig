@@ -78,6 +78,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
     this.rsService.eventCurrentPage.subscribe(() => this.CurrentPage());
     this.rsService.eventSnapshot.subscribe(() => this.Snapshot());
+    this.rsService.runSnapshot.subscribe(()=> this.RunSnapshot());
   }
 
   // -----------------------------------------------
@@ -157,9 +158,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.RUNREPORT:
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
           this.componentService.createReportComponent(k.ns, true, params);
-          break;
-        case CommandType.RERUN:
-          this.ReInitReport();          
           break;
         case CommandType.ENDREPORT:
           this.rsService.totalPages = k.totalPages;
@@ -281,26 +279,17 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   ReRunReport() {
-
-    let message = {
-      commandType: CommandType.RERUN
-    };
-    this.rsService.doSend(JSON.stringify(message));
-  }
-
-  // -----------------------------------------------
-  ReInitReport() { 
     this.rsService.reset();
     this.reset();
     
     this.rsInitStateMachine();
     
     let message = {
-      commandType: CommandType.INITTEMPLATE,
-      page: this.rsService.pageNum
+      commandType: CommandType.RERUN
     };
     this.rsService.doSend(JSON.stringify(message));
   }
+
 
   // -----------------------------------------------
   CurrentPage() {
@@ -340,6 +329,17 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   CreateTableSnapshots(k: Snapshot[]){
     this.rsService.snapshots = k;
+  }
+
+  // -----------------------------------------------
+  RunSnapshot(){
+    let message = {
+      commandType: CommandType.RUNSNAPSHOT,
+      message: this.args.nameSpace,
+      page: 1 + ","+ this.rsService.dateSnap + "_" + this.rsService.nameSnap +","+ this.rsService.user
+    };
+
+    this.rsService.doSend(JSON.stringify(message));
   }
 
   //--------------------------------------------------

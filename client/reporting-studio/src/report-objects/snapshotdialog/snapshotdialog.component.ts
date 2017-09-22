@@ -13,10 +13,12 @@ export class SnapshotdialogComponent {
     subscriptions: Subscription[] = [];
     private allUsers : boolean = false;
     private nameSnapshot: string;
+    private openSnapshot: string;
 
 
     constructor(private rsService: ReportingStudioService) {
-      this.nameSnapshot = "";  
+      this.nameSnapshot = "";
+      this.openSnapshot= "";
     };
 
     ngOnDestroy() {
@@ -29,7 +31,6 @@ export class SnapshotdialogComponent {
     }
 
     createFileJson(){
-        console.log("createFileJson");
         this.rsService.initiaziedSnapshot(this.nameSnapshot, this.allUsers);
         this.rsService.snapshot = false;
     }
@@ -40,6 +41,10 @@ export class SnapshotdialogComponent {
 
     setAllusers(){
         this.allUsers = true;
+    }
+
+    runSnapshot(name: string, date: string, allusers: boolean){
+        this.rsService.startRunSnapshot(name, date, allusers);
     }
 
 

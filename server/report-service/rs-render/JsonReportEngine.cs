@@ -236,7 +236,8 @@ namespace Microarea.RSWeb.Render
                     {
                         StateMachine.ReRun();
                         pageNum = 1;
-                        msg.commandType = MessageBuilder.CommandType.RERUN;
+                        msg.message = GetJsonInitTemplate();
+                        msg.commandType = MessageBuilder.CommandType.INITTEMPLATE;
                         break;
                     }
 
@@ -286,6 +287,19 @@ namespace Microarea.RSWeb.Render
                 case MessageBuilder.CommandType.ACTIVESNAPSHOT:
                     {
                         msg.message = ActiveSnapshot();
+                        break;
+                    }
+                case MessageBuilder.CommandType.RUNSNAPSHOT:
+                    {
+                        //il flag user-allUser è passato insieme al numeroPagina
+                        bool forAllUsers = false;
+                        string[] split = msg.page.Split(',');
+                        string name = split[1];
+                        string user = split[2];
+                        if (user.Equals("true"))
+                            forAllUsers = true;
+
+
                         break;
                     }
             }
@@ -655,8 +669,8 @@ namespace Microarea.RSWeb.Render
                 string[] split = file.Name.Split('_');
                 string date = split[0];
                 string nameS = split[1];
-                if (first) first = false;
-                else s += ',';
+                //if (first) first = false;
+                //else s += ',';
 
                 DateTime dt;
                 bool b = DateTime.TryParse(file.Name, out dt);
@@ -675,8 +689,8 @@ namespace Microarea.RSWeb.Render
                 string[] split = file.Name.Split('_');
                 string date = split[0];
                 string nameS = split[1];
-                if (first) first = false;
-                else s += ',';
+                //if (first) first = false;
+                //else s += ',';
 
                 DateTime dt;
                 bool b = DateTime.TryParse(file.Name, out dt);

@@ -15,10 +15,9 @@ export enum ChartType
 
     RangeBar, RangeColumn, RangeArea,
 
-    Bubble, 
-
+    Bubble,
+     
     Scatter, ScatterLine, 
-
     PolarLine, PolarArea, PolarScatter,
     RadarLine, RadarArea, 
 

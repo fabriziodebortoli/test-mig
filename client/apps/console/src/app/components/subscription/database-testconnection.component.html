@@ -3,6 +3,7 @@
     <div class="box" style="margin-top:10px"> 
       <label>Provider</label>
       <select autofocus style="height:30px" [(ngModel)]="dbCredentials.Provider">
+        <option value="undefined" selected>...</option>
         <option value="SQLAzure">SQL Azure</option>
         <option value="SQLServer">SQL Server</option>
       </select>
@@ -34,7 +35,7 @@
       <button type="button" class="cta mt20" (click)="testConnection()">Test connection</button>
     </div>
   </div>
-  <div *ngIf="isWorking" >
+  <div *ngIf="isWorking" style="margin-top:20px">
       <img src="assets/ajax-loader.gif"  />
     </div>
 </div>
