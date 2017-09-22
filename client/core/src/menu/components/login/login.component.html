@@ -6,8 +6,9 @@
             <span>Microarea Spa</span>
         </md-toolbar>
     </header>
+
     <div class="login-main-content">
-        <div class="login-form tb-card" *ngIf="!working">
+        <div class="login-form tb-card" *ngIf="!loading">
             <tb-card>
                 <tb-card-title title='Log In'></tb-card-title>
                 <tb-card-content>
@@ -26,13 +27,17 @@
                             </md-option>
                         </md-select>
 
-                        <div class="error" *ngFor="let errorMessage of loginSessionService.errorMessages">{{errorMessage.text}}</div>
+                        <div class="error" *ngIf="authService.errorMessage">{{authService.errorMessage}}</div>
 
                         <button class="form-button" md-raised-button color="primary" (click)="login();" [disabled]="companies.length == 0">Login</button>
                     </div>
                 </tb-card-content>
             </tb-card>
         </div>
+    </div>
+
+    <div class="loading">
+        <span class="k-icon k-i-loading" *ngIf="loading"></span>
     </div>
     <footer>
         <span>Copyright © 1984-2017 Microarea SpA - Tutti i diritti riservati | <a href="http://www.microarea.it">Microarea.it</a></span>

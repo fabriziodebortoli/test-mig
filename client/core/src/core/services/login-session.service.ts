@@ -74,57 +74,53 @@ export class LoginSessionService {
     }
 
     checkIfLogged() {
-        const subs = this.httpService.isLogged().subscribe(
-            ret => {
-                if (!ret) {
-                    this.setConnected(false);
-                } else {
-                    this.logger.debug('Just logged in');
-                    this.setConnected(true);
-                    this.openTbConnection();
+        // const subs = this.httpService.isLogged().subscribe(
+        //     ret => {
+        //         if (!ret) {
+        //             this.setConnected(false);
+        //         } else {
+        //             this.logger.debug('Just logged in');
+        //             this.setConnected(true);
+        //             this.openTbConnection();
 
-                }
-                subs.unsubscribe();
-            },
-            error => {
-                this.errorMessages = [error];
-                this.logger.error('isLogged HTTP error: ' + error);
-                subs.unsubscribe();
-                this.setConnected(false);
-            }
-        );
+        //         }
+        //         subs.unsubscribe();
+        //     },
+        //     error => {
+        //         this.errorMessages = [error];
+        //         this.logger.error('isLogged HTTP error: ' + error);
+        //         subs.unsubscribe();
+        //         this.setConnected(false);
+        //     }
+        // );
     }
 
-    loginNew(connectionData: LoginSession) {
+    // login(connectionData: LoginSession): Observable<OperationResult> {
+    //     return Observable.create(observer => {
+    //         const subs = this.httpService.login(connectionData).subscribe(
+    //             result => {
+    //                 this.setConnected(!result.error);
+    //                 this.errorMessages = result.messages;
+    //                 if (this.connected) {
+    //                     this.openTbConnection();
+    //                 }
+    //                 observer.next(result);
+    //                 observer.complete();
+    //                 subs.unsubscribe();
 
-    }
+    //             },
+    //             error => {
+    //                 this.logger.error('login HTTP error: ' + error);
+    //                 this.errorMessages = [error];
+    //                 observer.error(error);
+    //                 observer.complete();
+    //                 subs.unsubscribe();
+    //             }
 
-    login(connectionData: LoginSession): Observable<OperationResult> {
-        return Observable.create(observer => {
-            const subs = this.httpService.login(connectionData).subscribe(
-                result => {
-                    this.setConnected(!result.error);
-                    this.errorMessages = result.messages;
-                    if (this.connected) {
-                        this.openTbConnection();
-                    }
-                    observer.next(result);
-                    observer.complete();
-                    subs.unsubscribe();
+    //         );
 
-                },
-                error => {
-                    this.logger.error('login HTTP error: ' + error);
-                    this.errorMessages = [error];
-                    observer.error(error);
-                    observer.complete();
-                    subs.unsubscribe();
-                }
-
-            );
-
-        });
-    }
+    //     });
+    // }
 
     logout(): void {
         this.eventManagerService.emitloggingOff();
@@ -146,17 +142,8 @@ export class LoginSessionService {
         );
     }
 
-    isConnected() {
-        return this.connected;
-    }
-
     setConnected(val: boolean) {
-        this.connected = val;
-        let url = this.connected ? this.redirectUrl : ['login'];
-        if (url.length === 0) {
-            url = this.defaultUrl;
-        }
 
-        this.router.navigate(url, { skipLocationChange: false, replaceUrl: false });
     }
+
 }

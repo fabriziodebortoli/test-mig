@@ -10,6 +10,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
  * 
  * Tutti i servizi condivisi TB (http, websocket, 
  */
+import { AuthService } from './services/auth.service';
 import { BOService } from './services/bo.service';
 import { BOClient } from './services/bo.service';
 import { ComponentService } from './services/component.service';
@@ -30,6 +31,7 @@ import { UrlService } from './services/url.service';
 import { UtilsService } from './services/utils.service';
 import { WebSocketService } from './services/websocket.service';
 
+export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
 export { BOService } from './services/bo.service';
 export { BOClient } from './services/bo.service';
@@ -53,7 +55,7 @@ export { WebSocketService } from './services/websocket.service';
 
 export const TB_SERVICES = [
     TbComponentService, BOService, ComponentService, DocumentService, DataService, EnumsService,
-    EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger,
+    EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     LoginSessionService, SidenavService, TabberService, UrlService, UtilsService, WebSocketService
 ];
 
