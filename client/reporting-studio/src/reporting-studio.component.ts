@@ -78,7 +78,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
     this.rsService.eventCurrentPage.subscribe(() => this.CurrentPage());
     this.rsService.eventSnapshot.subscribe(() => this.Snapshot());
-    this.rsService.runSnapshot.subscribe(()=> this.RunSnapshot());
+    this.rsService.runSnapshot.subscribe(() => this.RunSnapshot());
   }
 
   // -----------------------------------------------
@@ -168,7 +168,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.WRONG:
           break;
         case CommandType.EXPORTEXCEL:
-          if(k == "Errore"){
+          if (k == "Errore") {
             window.alert("Errore: non ci sono dati da esportare in Excel");
             break;
           }
@@ -189,6 +189,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       //}
       //this.message = msg;//.message;
     } catch (err) {
+      console.log(err);
       this.message = 'Error Occured';
     }
   }
@@ -281,9 +282,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   ReRunReport() {
     this.rsService.reset();
     this.reset();
-    
+
     this.rsInitStateMachine();
-    
+
     let message = {
       commandType: CommandType.RERUN
     };
@@ -320,23 +321,23 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.SNAPSHOT,
       message: this.args.nameSpace,
-      page: 1 + ","+ this.rsService.nameSnap +","+ this.rsService.user
+      page: 1 + "," + this.rsService.nameSnap + "," + this.rsService.user
     };
 
     this.rsService.doSend(JSON.stringify(message));
   }
 
   // -----------------------------------------------
-  CreateTableSnapshots(k: Snapshot[]){
+  CreateTableSnapshots(k: Snapshot[]) {
     this.rsService.snapshots = k;
   }
 
   // -----------------------------------------------
-  RunSnapshot(){
+  RunSnapshot() {
     let message = {
       commandType: CommandType.RUNSNAPSHOT,
       message: this.args.nameSpace,
-      page: 1 + ","+ this.rsService.dateSnap + "_" + this.rsService.nameSnap +","+ this.rsService.user
+      page: 1 + "," + this.rsService.dateSnap + "_" + this.rsService.nameSnap + "," + this.rsService.user
     };
 
     this.rsService.doSend(JSON.stringify(message));
@@ -360,7 +361,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       this.rsService.exportpdf = true;
     if (type == this.rsService.excel)
       this.rsService.exportexcel = true;
-    if(type == this.rsService.docx)
+    if (type == this.rsService.docx)
       this.rsService.exportdocx = true;
     this.rsService.exportfile = true
   }
@@ -376,7 +377,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.EXPORTEXCEL,
       message: this.args.nameSpace,
-      page: this.rsService.firstPageExport +","+ this.rsService.lastPageExport 
+      page: this.rsService.firstPageExport + "," + this.rsService.lastPageExport
     };
 
     this.rsService.doSend(JSON.stringify(message));
@@ -394,14 +395,14 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  public startSnapshot(){
+  public startSnapshot() {
     this.rsService.snapshot = true;
     let message = {
       commandType: CommandType.ACTIVESNAPSHOT,
       message: this.args.nameSpace,
       page: 1
     };
-    
+
     this.rsService.doSend(JSON.stringify(message));
   }
 

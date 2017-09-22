@@ -33,7 +33,7 @@ export class ReportChartPolarComponent implements AfterViewInit {
                 return 'polarLine';
             case ChartType.PolarScatter:
                 return 'polarScatter';
-        }
+        }  
     }
 
     public labelContent(e: any): string {

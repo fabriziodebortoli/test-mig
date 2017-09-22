@@ -214,10 +214,14 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           element.chart.series.forEach(element => {
             obj.series.push(new series(element));
           });
-          obj.category_title = element.chart.category_axis.title;
-          obj.categories = element.chart.category_axis.categories;
+          
+          if (element.chart.category_axis) {
+            obj.category_title = element.chart.category_axis.title;
+            obj.categories = element.chart.category_axis.categories;
+          }
         }
       } catch (a) {
+        console.log(a);
         let k = a;
       }
     }
