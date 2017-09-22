@@ -143,11 +143,13 @@ export class HttpService {
     }
 
     getDocumentBaseUrl() {
-        return this.urlService.getApiUrl() + 'tb/document/';
+        let url =this.urlService.isDesktop ? 'http://localhost/' : this.urlService.getApiUrl()
+        return url + 'tb/document/';
     }
 
     getMenuBaseUrl() {
-        return this.urlService.getApiUrl() + 'tb/menu/';
+        let url =this.urlService.isDesktop ? 'http://localhost/' : this.urlService.getApiUrl()
+        return url + 'tb/menu/';
     }
 
     getAccountManagerBaseUrl() {
