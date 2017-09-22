@@ -26,6 +26,8 @@ namespace Microarea.RSWeb.Render
         public TbReportSession ReportSession;
 
         public RSEngine StateMachine = null;
+        Snapshot pagesSnapshot = null;
+        int numPagSnapshot = 0;
 
         private int pageNum = 1;
 
@@ -218,18 +220,34 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
-                        if (int.TryParse(msg.page, out pageNum))
+                        if (!int.TryParse(msg.page, out pageNum))
+                            break;
+
+                        if (pagesSnapshot != null)
+                        {
+                            int idx = (pageNum - 1) * 2;
+                            msg.message = pagesSnapshot.pages[idx].ToString();
+                        }
+                        else
                         {
                             msg.message = GetJsonTemplatePage(ref pageNum);
-                            msg.page = pageNum.ToString();
                         }
+                        msg.page = pageNum.ToString();
                         break;
                     }
 
                 case MessageBuilder.CommandType.DATA:
                     {
+                        if (pagesSnapshot != null)
+                        {
+                            int idx = (pageNum -1) * 2 + 1;
+                            msg.message = pagesSnapshot.pages[idx].ToString();                            
+                        }
+                        else
+                        { 
+                            msg.message = GetJsonDataPage(pageNum);
+                        }
                         msg.page = pageNum.ToString();
-                        msg.message = GetJsonDataPage(pageNum);
                         break;
                     }
                 case MessageBuilder.CommandType.RERUN:
@@ -278,9 +296,7 @@ namespace Microarea.RSWeb.Render
                         string user = split[2];
                         if (user.Equals("true"))
                            forAllUsers = true;
-                        
                         SaveSnapshot(name, forAllUsers);
-
                         msg.commandType = MessageBuilder.CommandType.NONE;
                         break;
                     }
@@ -298,8 +314,9 @@ namespace Microarea.RSWeb.Render
                         string user = split[2];
                         if (user.Equals("true"))
                             forAllUsers = true;
-
-
+                        msg.message = RunJsonSnapshot(name, forAllUsers);
+                        msg.page = "1";
+                        msg.commandType = MessageBuilder.CommandType.SNAPSHOT;
                         break;
                     }
             }
@@ -631,7 +648,7 @@ namespace Microarea.RSWeb.Render
                 
             }
             file += "]}";
-            return file.ToJson();
+            return file;//ToJson(null, false, false, false);
         }
 
         public void SaveSnapshot(string name, bool forAllUsers)
@@ -704,8 +721,24 @@ namespace Microarea.RSWeb.Render
             return s;
         }
 
+        public string RunJsonSnapshot(string name, bool forAllUsers)
+        {
+            string user = "";
+            if (!forAllUsers)
+                user = ReportSession.UserInfo.User;
+            else
+                user = NameSolverStrings.AllUsers;
 
+            string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(ReportSession.FilePath, ReportSession.UserInfo.Company, user);
+            string completePath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(ReportSession.FilePath), true);
 
-
+            using (StreamReader r = new StreamReader(completePath+name+".json"))
+            {
+                string json = r.ReadToEnd();
+                pagesSnapshot = JsonConvert.DeserializeObject<Snapshot>(json);
+                return pagesSnapshot.pages[0].ToString();
+            }
+        }
+        
     }
 }
