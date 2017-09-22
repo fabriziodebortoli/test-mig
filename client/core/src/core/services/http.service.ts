@@ -31,8 +31,8 @@ export class HttpService {
         return new OperationResult(!ok, messages);
     }
 
-    isLogged(authtoken: string): Observable<boolean> {
-        return this.postData(this.getAccountManagerBaseUrl() + 'isValidToken/', {authtoken:authtoken})
+    isLogged(params: { authtoken: string }): Observable<boolean> {
+        return this.postData(this.getAccountManagerBaseUrl() + 'isValidToken/', params)
             .map((res: Response) => {
                 return res.ok && res.json().success === true;
             });
@@ -61,13 +61,10 @@ export class HttpService {
             });
     }
 
-    logoff(): Observable<OperationResult> {
-        let token = this.cookieService.get('authtoken');
-        this.logger.debug('httpService.logout (' + token + ')');
-
-        return this.postData(this.getAccountManagerBaseUrl() + 'logoff/', token)
+    logoff(params: { authtoken: string }): Observable<OperationResult> {
+        return this.postData(this.getAccountManagerBaseUrl() + 'logoff/', params)
             .map((res: Response) => {
-                return this.createOperationResult(res);
+                return res.json();
             });
     }
 

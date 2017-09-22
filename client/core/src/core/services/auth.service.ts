@@ -1,3 +1,5 @@
+import { Logger } from './logger.service';
+import { EventManagerService } from './../../menu/services/event-manager.service';
 import { LoginCompact } from './../../shared/models/login-compact.model';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -22,8 +24,13 @@ export class AuthService {
 
     constructor(
         private httpService: HttpService,
+        private logger: Logger,
         private router: Router,
-        protected cookieService: CookieService) { }
+        protected cookieService: CookieService,
+        private eventManagerService: EventManagerService
+    ) {
+
+    }
 
     login(connectionData: LoginSession): Observable<boolean> {
         return this.httpService.login(connectionData).map((result: LoginCompact) => {
@@ -40,8 +47,7 @@ export class AuthService {
     }
 
     isLogged(): Observable<boolean> {
-        let authtoken = this.cookieService.get('authtoken');
-        return this.httpService.isLogged(authtoken);
+        return this.httpService.isLogged({ authtoken: this.cookieService.get('authtoken') });
     }
     getRedirectUrl(): string {
         return this.redirectUrl;
@@ -54,5 +60,29 @@ export class AuthService {
     }
     getDefaultUrl(): string {
         return this.defaultUrl;
+    }
+
+    logout(): void {
+
+        let subs = this.httpService.logoff({ authtoken: this.cookieService.get('authtoken') }).subscribe(
+            loggedOut => {
+                if (loggedOut) {
+                    this.eventManagerService.emitloggingOff();
+                    this.islogged = !loggedOut;
+                    this.cookieService.remove('authtoken');
+                    // this.httpService.closeTBConnection(); // TODO spostare in subscribe event logoff
+
+                    this.router.navigate([this.getLoginUrl()]);
+                }
+
+                subs.unsubscribe();
+
+
+            },
+            error => {
+                this.logger.error('logout HTTP error: ' + error);
+                subs.unsubscribe();
+            }
+        );
     }
 }

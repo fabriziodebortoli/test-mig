@@ -26,7 +26,6 @@ export class LoginSessionService {
         private cookieService: CookieService,
         private logger: Logger,
         private router: Router,
-        private eventManagerService: EventManagerService,
         private menuService: MenuService,
         private urlService: UrlService
     ) {
@@ -93,57 +92,6 @@ export class LoginSessionService {
         //         this.setConnected(false);
         //     }
         // );
-    }
-
-    // login(connectionData: LoginSession): Observable<OperationResult> {
-    //     return Observable.create(observer => {
-    //         const subs = this.httpService.login(connectionData).subscribe(
-    //             result => {
-    //                 this.setConnected(!result.error);
-    //                 this.errorMessages = result.messages;
-    //                 if (this.connected) {
-    //                     this.openTbConnection();
-    //                 }
-    //                 observer.next(result);
-    //                 observer.complete();
-    //                 subs.unsubscribe();
-
-    //             },
-    //             error => {
-    //                 this.logger.error('login HTTP error: ' + error);
-    //                 this.errorMessages = [error];
-    //                 observer.error(error);
-    //                 observer.complete();
-    //                 subs.unsubscribe();
-    //             }
-
-    //         );
-
-    //     });
-    // }
-
-    logout(): void {
-        this.eventManagerService.emitloggingOff();
-        this.menuService.updateAllFavoritesAndMostUsed().subscribe();
-        const subscription = this.httpService.logoff().subscribe(
-            loggedOut => {
-                this.logger.debug('logout returns: ' + loggedOut);
-                this.setConnected(!loggedOut);
-                this.httpService.closeTBConnection();
-
-                // this.socket.wsClose(); lo chiude il server facendo logoff
-                this.cookieService.remove('authtoken');
-                subscription.unsubscribe();
-            },
-            error => {
-                this.logger.error('logout HTTP error: ' + error);
-                subscription.unsubscribe();
-            }
-        );
-    }
-
-    setConnected(val: boolean) {
-
     }
 
 }
