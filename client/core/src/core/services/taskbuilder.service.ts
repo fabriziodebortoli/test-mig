@@ -1,7 +1,7 @@
 ﻿import { UrlService } from './url.service';
 import { EventManagerService } from './../../menu/services/event-manager.service';
 import { MenuService } from './../../menu/services/menu.service';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
@@ -17,9 +17,9 @@ import { Logger } from './logger.service';
 @Injectable()
 export class TaskbuilderService {
     defaultUrl = ['home'];
-    connected = false;
     errorMessages: string[] = [];
     redirectUrl = this.defaultUrl;
+    connected: EventEmitter<any> = new EventEmitter();
 
     constructor(private httpService: HttpService,
         private socket: WebSocketService,
@@ -64,6 +64,7 @@ export class TaskbuilderService {
                 }
                 // Connesso al TB, ci colleghiamo al WS
                 this.logger.info("TbLoader Connected...")
+                this.connected.emit();
                 this.socket.wsConnect();
                 return true;
 
