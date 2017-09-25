@@ -88,15 +88,20 @@ namespace Microarea.TbLoaderGate
                         msg.Content = new StreamContent(ms);
 
                         HttpResponseMessage resp = await client.SendAsync(msg);
+                        
                         //copy back response headers
                         foreach (var h in resp.Headers)
                         {
                             foreach (var sv in h.Value)
                                 HttpContext.Response.Headers[h.Key] = sv;
                         }
+
 						if (newInstance)
 							HttpContext.Response.Cookies.Append(TbLoaderCookie, tbName);
-						await resp.Content.CopyToAsync(HttpContext.Response.Body);
+
+                        HttpContext.Response.StatusCode = (int) resp.StatusCode;
+
+                        await resp.Content.CopyToAsync(HttpContext.Response.Body);
                     }
                 }
             }
