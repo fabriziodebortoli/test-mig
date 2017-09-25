@@ -120,6 +120,23 @@ export class HttpMenuService {
             });
     }
 
+     /**
+    * API /changeApplicationDate
+    * 
+    * @returns {Observable<any>} changeApplicationDate
+    */
+    changeApplicationDate(date: Date): Observable<any> {
+        console.log(date.toUTCString());
+        let day = date.getDate();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+        let obj = { token: this.cookieService.get('authtoken') };
+        var urlToRun = this.httpService.getDocumentBaseUrl() + 'changeApplicationDate/?day=' + day + '&month=' + month + '&year=' + year;
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
 
 
     /**

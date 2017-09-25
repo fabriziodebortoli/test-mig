@@ -1,5 +1,10 @@
-<!-- <div class="example-wrapper" style="min-height: 400px;">
-    <div class="col-xs-12 col-sm-6 example-col">
-        <kendo-datepicker [format]="'dd-MMM-yyyy'" [value]="value"></kendo-datepicker>
+<!-- <div class="example-wrapper" style="min-height: 400px;"> -->
+    <div class="col-xs-12 col-sm-6 example-col" *ngIf="applicationDate != undefined">
+        <kendo-datepicker 
+        [format]="dateFormat" 
+        [value]="applicationDate" 
+        (valueChange)="handleChange($event)"
+        (blur)="onBlur()"
+        ></kendo-datepicker>
     </div>
-</div> -->
+<!-- </div> -->
