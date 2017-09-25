@@ -122,12 +122,12 @@ export class HttpService {
     }
 
     getDocumentBaseUrl() {
-        let url =this.urlService.isDesktop ? 'http://localhost/' : this.urlService.getApiUrl()
+        let url = this.urlService.isDesktop ? 'http://localhost/' : this.urlService.getApiUrl()
         return url + 'tb/document/';
     }
 
     getMenuBaseUrl() {
-        let url =this.urlService.isDesktop ? 'http://localhost/' : this.urlService.getApiUrl()
+        let url = this.urlService.isDesktop ? 'http://localhost/' : this.urlService.getApiUrl()
         return url + 'tb/menu/';
     }
 
@@ -154,8 +154,6 @@ export class HttpService {
     }
 
     protected handleError(error: any): ErrorObservable {
-        console.log("PD2")
-
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
         let errMsg = (error.message) ? error.message :
