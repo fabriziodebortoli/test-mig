@@ -8,7 +8,7 @@ export class SubscriptionDatabase {
     DBName: string;
     DBOwner: string;
     DBPassword: string;
-	UseDMS: boolean;
+	UseDMS: boolean = true;
     DMSDBServer: string;
     DMSDBName: string;
     DMSDBOwner: string;
@@ -16,8 +16,6 @@ export class SubscriptionDatabase {
     Disabled: boolean;
     DatabaseCulture: string;
 	IsUnicode: boolean;
-	Language: string;
-	RegionalSettings: string;
     Provider: string;
     Test: boolean;
     UnderMaintenance: boolean;
