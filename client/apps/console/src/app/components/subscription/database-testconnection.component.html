@@ -1,41 +1,41 @@
-<div class="container" fxLayout="column" style="padding:10px" (keyup)="onKeyUp($event)" >
-  <h5 class="componentTitle">System Administrator connection information</h5>
-    <div class="box" style="margin-top:10px"> 
-      <label>Provider</label>
-      <select autofocus style="height:30px" [(ngModel)]="dbCredentials.Provider">
-        <option value="undefined" selected>...</option>
+<div class="container" fxLayout="column" style="padding:10px" (keyup)="onKeyUp($event)">
+    <h5 class="componentTitle">System Administrator connection information</h5>
+    <div class="box" style="margin-top:10px">
+        <label>Provider</label>
+        <select autofocus style="height:30px" [(ngModel)]="dbCredentials.Provider">
+        <option value="" disabled selected hidden>...</option>
         <option value="SQLAzure">SQL Azure</option>
         <option value="SQLServer">SQL Server</option>
       </select>
     </div>
-  <div class="row" style="margin-top:10px">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
-        <label>Server</label>
-        <input type="text" placeholder="Server" value="" [(ngModel)]="dbCredentials.Server">
-      </div>
+    <div class="row" style="margin-top:10px">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+            <div class="box">
+                <label>Server</label>
+                <input type="text" placeholder="Server" value="" [(ngModel)]="dbCredentials.Server">
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="row" style="margin-top:10px">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
-        <label>SysAdmin login</label>
-        <input type="text" placeholder="SysAdmin login" value="" [(ngModel)]="dbCredentials.Login">
-      </div>
+    <div class="row" style="margin-top:10px">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+            <div class="box">
+                <label>SysAdmin login</label>
+                <input type="text" placeholder="SysAdmin login" value="" [(ngModel)]="dbCredentials.Login">
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+            <div class="box">
+                <label>Password</label>
+                <input type="password" placeholder="Password" value="" [(ngModel)]="dbCredentials.Password">
+            </div>
+        </div>
     </div>
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div class="box">
-        <label>Password</label>
-        <input type="password" placeholder="Password" value="" [(ngModel)]="dbCredentials.Password">
-      </div>
+    <div class="row" *ngIf="!isWorking">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+            <button type="button" class="cta mt20" (click)="testConnection()">Test connection</button>
+        </div>
     </div>
-  </div>
-  <div class="row" *ngIf="!isWorking">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <button type="button" class="cta mt20" (click)="testConnection()">Test connection</button>
-    </div>
-  </div>
-  <div *ngIf="isWorking" style="margin-top:20px">
-      <img src="assets/ajax-loader.gif"  />
+    <div *ngIf="isWorking" style="margin-top:20px">
+        <img src="assets/ajax-loader.gif" />
     </div>
 </div>
