@@ -1,11 +1,50 @@
 
+using System;
 using Microarea.RSWeb.Models;
+using Newtonsoft.Json;
+
 namespace Microarea.RSWeb.Models
 {
 
+    public class MessageJsonConverter : JsonConverter
+    {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            string strValue = value.ToString();
+
+            if (String.IsNullOrWhiteSpace(strValue))
+            {
+                // {}
+                writer.WriteStartObject();
+                writer.WriteEndObject();
+            }
+            else
+            {   // scrive {..object..}  e non "{..object..}"
+                writer.WriteRawValue(strValue);
+            }
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof(string).IsAssignableFrom(objectType);
+        }
+
+        public override bool CanRead
+        {
+            get { return false; }
+        }
+    }
+    
     public struct Message
     {
         public MessageBuilder.CommandType commandType { get; set; }
+
+        [JsonConverter(typeof(MessageJsonConverter))]
         public string message { get; set; }
 
         public string page { get; set; }

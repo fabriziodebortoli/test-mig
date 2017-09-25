@@ -111,7 +111,7 @@ namespace Microarea.RSWeb.Objects
         public string Title;
         public EnumChartType ChartType = EnumChartType.None;
 
-        Categories Categories =null;
+        Categories Categories = null;
 
         ChartLegend Legend = new ChartLegend();
 
@@ -188,6 +188,12 @@ namespace Microarea.RSWeb.Objects
                 ChartType == EnumChartType.PolarArea ||
                 ChartType == EnumChartType.PolarLine ||
                 ChartType == EnumChartType.PolarScatter;
+        }
+        bool IsChartFamilyRadar()
+        {
+            return
+                ChartType == EnumChartType.RadarArea ||
+                ChartType == EnumChartType.RadarLine;
         }
         //------------------------------------------------------------------------------
         protected override bool ParseProp(WoormParser lex, bool block)
@@ -285,7 +291,7 @@ namespace Microarea.RSWeb.Objects
             }
 
             while (lex.Matched(Token.DATASOURCE))
-            {             
+            {
                 string sVarName = string.Empty;
                 ok = /*lex.ParseTag(Token.DATASOURCE) &&*/ lex.ParseID(out sVarName);
                 if (!ok)
@@ -355,7 +361,7 @@ namespace Microarea.RSWeb.Objects
             if (!lex.ParseBegin())
                 return false;
 
-            Categories = new Categories(this);           
+            Categories = new Categories(this);
 
             bool ok = false;
 
@@ -457,16 +463,17 @@ namespace Microarea.RSWeb.Objects
 
             ok = ok && ParseBlock(lex);
 
-            /*if*/ while(lex.Matched(Token.CHART_CATEGORIES))
+            /*if*/
+            while (lex.Matched(Token.CHART_CATEGORIES))
             {
-               
+
                 if (!ParseCategories(lex))
                 {
                     return false;
                 }
             }
 
-           if (lex.Matched(Token.CHART_LEGEND))
+            if (lex.Matched(Token.CHART_LEGEND))
             {
                 if (!ParseLegend(lex))
                 {
@@ -575,7 +582,7 @@ namespace Microarea.RSWeb.Objects
             int count = ar.Count - 1;
             for (int i = 0; i < ar.Count; i++)
             {
-                
+
                 s += ar.GetAt(i).ToJson();
                 if (count > 0)
                 {
@@ -694,7 +701,7 @@ namespace Microarea.RSWeb.Objects
             {
                 DataArray axesX = GetArray(series.BindedFields[0]);
                 DataArray axesY = GetArray(series.BindedFields[1]);
-                if (axesX == null || axesY==null)
+                if (axesX == null || axesY == null)
                 {
                     return string.Empty;
                 }
@@ -770,7 +777,7 @@ namespace Microarea.RSWeb.Objects
 
             int count = ar.Count - 1;
             for (int i = 0; i < ar.Count; i++)
-            {                   
+            {
                 categories += ar.GetAt(i).ToJson();
                 if (count > 0)
                 {
@@ -796,7 +803,7 @@ namespace Microarea.RSWeb.Objects
             int count = this.Categories.Series.Count - 1;
             for (int ser = 0; ser < this.Categories.Series.Count; ser++)
             {
-                
+
                 series += ToJsonData(this.Categories.Series[ser]);
                 if (count > 0)
                 {
@@ -811,21 +818,21 @@ namespace Microarea.RSWeb.Objects
             return series;
         }
 
-       
+
         string ToJsonDataFamilyPie()
         {
             if (Categories == null)
             {
                 return string.Empty;
             }
-      
+
             string series = "[";
 
             DataArray categories = GetArray(Categories.BindedField);
             series += ToJsonData(Categories.Series, categories);
 
             series += ']';
-         
+
             return "\"series\":" + series;
         }
 
@@ -867,8 +874,10 @@ namespace Microarea.RSWeb.Objects
             {
                 s += ToJsonDataFamilyPolar();
             }
-            else
-                return string.Empty;
+            else if (IsChartFamilyRadar())
+            {
+                s += ToJsonDataFamilyPie();
+            }
             //TODO CHART 
             //else if (IsChartFamily...())
 

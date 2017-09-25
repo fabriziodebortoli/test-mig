@@ -2167,7 +2167,7 @@ namespace Microarea.Common.NameSolver
 			woormFilePath = Path.GetDirectoryName(woormFilePath);
 			string appName = Path.GetFileName(woormFilePath);
 
-			return GetStandardModuleDictionaryFilePath(appName, moduleName, /*Thread.CurrentThread.CurrentUICulture.Name todo rsweb*/ "");
+			return GetStandardModuleDictionaryFilePath(appName, moduleName, Thread.CurrentThread.CurrentUICulture.Name);
 		}
 
 		/// <summary>

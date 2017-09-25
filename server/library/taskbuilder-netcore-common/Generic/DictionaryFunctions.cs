@@ -26,8 +26,8 @@ namespace Microarea.Common.Generic
 
 				//if (ClickOnceDeploy.IsClickOnceClient)
 				//	ClickOnceDeploy.DownloadGroup(culture, string.Format(GenericStrings.Dictionaries, ci.DisplayName));
-				
-               // Thread.CurrentThread.CurrentUICulture = ci; todo rsweb
+
+				Thread.CurrentThread.CurrentUICulture = ci;
 			}
 			catch
 			{
@@ -41,8 +41,8 @@ namespace Microarea.Common.Generic
 		{
 			try
 			{
-				CultureInfo ci =  new CultureInfo(culture);
-				//Thread.CurrentThread.cCurrentCulture = ci;          TODO rsweb
+				CultureInfo ci = new CultureInfo(culture);
+				Thread.CurrentThread.CurrentCulture = ci;          
 			}
 			catch
 			{
@@ -54,11 +54,11 @@ namespace Microarea.Common.Generic
 		//-----------------------------------------------------------------------
 		public static bool IsAsianCulture()
 		{
-            string name = "";// TODO rsweb Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+			string name = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
 
 			return string.Compare(name, "zh", StringComparison.OrdinalIgnoreCase) == 0;
 		}
 
 	}
-	
+
 }
