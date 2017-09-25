@@ -307,7 +307,7 @@ namespace Microarea.Common.MenuLoader
 
                 this.ConfigurationHash = configurationHash;
                 this.CommandsTypeToLoad = commandsTypeToLoad;
-                this.Culture = CultureInfo.CurrentUICulture.Name; // Thread.CurrentThread.CurrentUICulture.Name;
+                this.Culture = Thread.CurrentThread.CurrentUICulture.Name;
                 this.InstallationDate = InstallationData.InstallationDate;
                 this.CacheDate = InstallationData.CacheDate;
                 this.pathFinder = pathFinder;
@@ -347,7 +347,7 @@ namespace Microarea.Common.MenuLoader
 
                 return Path.Combine(
                     clientInstallationPath,
-                    string.Format(StandardMenuCachingFileName, CultureInfo.CurrentUICulture.Name) //Thread.CurrentThread.CurrentUICulture.Name
+                    string.Format(StandardMenuCachingFileName, Thread.CurrentThread.CurrentUICulture.Name) 
                     );
             }
 
