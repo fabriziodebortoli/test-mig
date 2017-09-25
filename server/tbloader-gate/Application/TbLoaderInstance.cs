@@ -56,18 +56,5 @@ namespace Microarea.TbLoaderGate
                 string ret = await resp.Content.ReadAsStringAsync();
 			}
 		}
-
-		//-----------------------------------------------------------------------------------------
-		internal async void InternalInitTbLogin(string token)
-		{
-			using (var client = new HttpClient())
-			{
-				string url = string.Concat(BaseUrl, "/tb/document/initTBLogin/?authtoken=" + token);
-				HttpRequestMessage msg = new HttpRequestMessage();
-				msg.RequestUri = new Uri(url);
-				HttpResponseMessage resp = await client.SendAsync(msg);
-				string ret = await resp.Content.ReadAsStringAsync();
-			}
-		}
-	}
+    }
 }
