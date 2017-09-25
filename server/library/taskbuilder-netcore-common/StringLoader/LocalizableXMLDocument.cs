@@ -68,7 +68,7 @@ namespace Microarea.Common.StringLoader
 		/// </summary>
 		/// <param name="file">Il percorso del file da caricare</param>
 		//---------------------------------------------------------------------
-		public /*override*/ void Load(string file)
+		public override void Load(string file)
 		{
             FileStream stream = File.OpenRead(file);
             base.Load(stream);
@@ -89,44 +89,45 @@ namespace Microarea.Common.StringLoader
 
 		//---------------------------------------------------------------------
 		private void LoadTransform()
-		{   // TODO rsweb da rifare. Mancano i metodi di XPath
-			//string specificDictionaryPath = string.Empty;
-			//if (dictionaryPath != null)
-			//{
-			//	specificDictionaryPath = Helper.GetSpecificDictionaryFilePath(dictionaryPath);
-			//}
-			//else if (application != null && 
-			//	module != null && 
-			//	fileName != null && 
-			//	pathFinder != null)
-			//	specificDictionaryPath = Helper.GetSpecificDictionaryFilePath(application, module, fileName, pathFinder);
-			//else
-			//{
-			//	//Trace.WriteLine("Cannot calculate dictionary path");      Todo rsweb
-			//	return;
-			//}
-
-			//DocumentElement.SetAttribute(namespaceURI_TAG + namespacePrefix, namespaceURI);
-					
-			//foreach (XmlText localizableNode in GetElementsByTagName(localizableNodesPattern))
-			//{
-			//	string localizedText = LoadXMLString(localizableNode.Value, fileName, specificDictionaryPath);
-			//	if (localizedText == localizableNode.Value) 
-			//		continue;
-			//	XmlElement parentNode = (XmlElement) localizableNode.ParentNode;
-			//	parentNode.SetAttribute(parentNode.Name, namespaceURI, localizableNode.Value);
-			//	localizableNode.Value = localizedText;
-			//}
-
-			//foreach (XmlAttribute localizableNode in SelectNodes(localizableAttributesPattern))
-			//{
-			//	string localizedText = LoadXMLString(localizableNode.Value, fileName, specificDictionaryPath);
-			//	if (localizedText == localizableNode.Value) 
-			//		continue;
-			//	localizableNode.OwnerElement.SetAttribute(baseLocalize, namespaceURI, localizableNode.Value);
-			//	localizableNode.Value = localizedText;
-			//}
+		{   
 			
+			string specificDictionaryPath = string.Empty;
+			if (dictionaryPath != null)
+			{
+				specificDictionaryPath = Helper.GetSpecificDictionaryFilePath(dictionaryPath);
+			}
+			else if (application != null &&
+				module != null &&
+				fileName != null &&
+				pathFinder != null)
+				specificDictionaryPath = Helper.GetSpecificDictionaryFilePath(application, module, fileName, pathFinder);
+			else
+			{
+				Trace.WriteLine("Cannot calculate dictionary path");     
+				return;
+			}
+
+			DocumentElement.SetAttribute(namespaceURI_TAG + namespacePrefix, namespaceURI);
+
+			foreach (XmlText localizableNode in GetElementsByTagName(localizableNodesPattern))
+			{
+				string localizedText = LoadXMLString(localizableNode.Value, fileName, specificDictionaryPath);
+				if (localizedText == localizableNode.Value)
+					continue;
+				XmlElement parentNode = (XmlElement)localizableNode.ParentNode;
+				parentNode.SetAttribute(parentNode.Name, namespaceURI, localizableNode.Value);
+				localizableNode.Value = localizedText;
+			}
+
+			foreach (XmlAttribute localizableNode in SelectNodes(localizableAttributesPattern))
+			{
+				string localizedText = LoadXMLString(localizableNode.Value, fileName, specificDictionaryPath);
+				if (localizedText == localizableNode.Value)
+					continue;
+				localizableNode.OwnerElement.SetAttribute(baseLocalize, namespaceURI, localizableNode.Value);
+				localizableNode.Value = localizedText;
+			}
+
 		}
 
 		/// <summary>
@@ -134,7 +135,7 @@ namespace Microarea.Common.StringLoader
 		/// </summary>
 		/// <param name="filename">Il percorso del file da salvare</param>
 		//---------------------------------------------------------------------
-		public /*override*/ void Save(string file)
+		public override void Save(string file)
 		{
 			fileName = file;
 			if (pathFinder != null && Helper.Culture != string.Empty)

@@ -3,8 +3,8 @@ using System.Runtime.Serialization;
 
 namespace Microarea.Common.NameSolver
 {
-    //=========================================================================
-    [Serializable]
+	//=========================================================================
+	[Serializable]
 	public class ParseException : Exception, ISerializable
 	{
 		//---------------------------------------------------------------------
@@ -29,8 +29,8 @@ namespace Microarea.Common.NameSolver
 			StreamingContext context
 			)
 			//: base(info, context)         TODO rsweb  
-            : base(info.ToString()) 
-		{}
+			: base(info.ToString())
+		{ }
 
 		//---------------------------------------------------------------------
 		//[SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]          TODO rswbeb
@@ -38,7 +38,7 @@ namespace Microarea.Common.NameSolver
 			"Microsoft.Globalization",
 			"CA1303:DoNotPassLiteralsAsLocalizedParameters")
 		]
-        public /*override TODO rswbeb*/ void GetObjectData(
+		public override void GetObjectData(
 			SerializationInfo info,
 			StreamingContext context
 			)
@@ -49,7 +49,7 @@ namespace Microarea.Common.NameSolver
 			if (Object.ReferenceEquals(info, null))
 				throw new ArgumentNullException("context", "'context' cannot be null");
 
-            //base.GetObjectData(info, context);            TODO rswbeb
-        }
-    }
+			base.GetObjectData(info, context);
+		}
+	}
 }
