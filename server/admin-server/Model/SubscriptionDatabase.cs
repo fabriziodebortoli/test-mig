@@ -26,8 +26,6 @@ namespace Microarea.AdminServer.Model
 		bool disabled = false;
         string databaseCulture = string.Empty;
 		bool isUnicode = false;
-		string language = string.Empty;
-		string regionalSettings = string.Empty;
 		string provider = string.Empty;
 		bool test = false;
 		bool underMaintenance;
@@ -49,8 +47,6 @@ namespace Microarea.AdminServer.Model
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
 		public string DatabaseCulture { get { return this.databaseCulture; } set { this.databaseCulture = value; } }
 		public bool IsUnicode { get { return this.isUnicode; } set { this.isUnicode = value; } }
-		public string Language { get { return this.language; } set { this.language = value; } }
-		public string RegionalSettings { get { return this.regionalSettings; } set { this.regionalSettings = value; } }
 		public string Provider { get { return this.provider; } set { this.provider = value; } }
 		public bool Test { get { return this.test; } set { this.test = value; } }
 		public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
@@ -91,8 +87,6 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@DMSDBOwner", this.DMSDBOwner));
             burgerDataParameters.Add(new BurgerDataParameter("@DMSDBPassword", this.DMSDBPassword));
             burgerDataParameters.Add(new BurgerDataParameter("@Test", this.Test));
-            burgerDataParameters.Add(new BurgerDataParameter("@Language", this.Language));
-            burgerDataParameters.Add(new BurgerDataParameter("@RegionalSettings", this.RegionalSettings));
 			burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.UnderMaintenance));
 
 			BurgerDataParameter keyColumnParameter1 = new BurgerDataParameter("@SubscriptionKey", this.SubscriptionKey);
@@ -124,8 +118,6 @@ namespace Microarea.AdminServer.Model
             subscriptionDatabase.DatabaseCulture = dataReader["DatabaseCulture"] as string;
             subscriptionDatabase.Disabled = (bool)dataReader["Disabled"];
             subscriptionDatabase.IsUnicode = (bool)dataReader["IsUnicode"];
-            subscriptionDatabase.Language = dataReader["RegionalSettings"] as string;
-            subscriptionDatabase.RegionalSettings = dataReader["Language"] as string;
             subscriptionDatabase.Provider = dataReader["Provider"] as string;
             subscriptionDatabase.UseDMS = (bool)dataReader["UseDMS"];
             subscriptionDatabase.DMSDBServer = dataReader["DMSDBServer"] as string;
