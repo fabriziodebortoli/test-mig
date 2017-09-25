@@ -23,6 +23,7 @@
     .most-used-item>span {
         font-size: 12px;
         cursor: pointer;
+        margin-top: -1px;
     }
     .most-used-item>span:hover {
         color: #fff;
@@ -69,6 +70,7 @@
         cursor: pointer;
         max-width: 210px;
         font-size: 13px;
+        margin-top: -3px;
     }
     .most-used-item .close {
         font-size: 14px;
@@ -83,7 +85,7 @@
     .most-used-item .type {
         color: #bbb;
         font-size: 14px;
-        line-height: 24px;
+        //        line-height: 24px;
     }
     .most-used-item .type.Document {
         color: #0277bd;

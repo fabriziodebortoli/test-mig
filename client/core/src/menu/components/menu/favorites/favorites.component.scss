@@ -23,6 +23,7 @@
     .favorite-item>span {
         font-size: 12px;
         cursor: pointer;
+        margin-top: -1px;
     }
     .favorite-item>span:hover {
         color: #fff;
@@ -65,6 +66,7 @@
         cursor: pointer;
         max-width: 210px;
         font-size: 13px;
+        margin-top: -3px;
     }
     .favorite-item .close {
         font-size: 14px;
