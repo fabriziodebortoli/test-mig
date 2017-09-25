@@ -9,7 +9,6 @@ import { LoginSession } from './../../../shared/models/login-session.model';
 import { Logger } from './../../../core/services/logger.service';
 import { HttpService } from './../../../core/services/http.service';
 import { AuthService } from './../../../core/services/auth.service';
-import { LoginSessionService } from './../../../core/services/login-session.service';
 
 @Component({
   selector: 'tb-login',
@@ -24,7 +23,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   errorMessages: string[] = [];
 
   constructor(
-    private loginSessionService: LoginSessionService,
     private authService: AuthService,
     private cookieService: CookieService,
     private router: Router,
@@ -45,8 +43,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.isLogged().subscribe(isLogged => {
       if (isLogged) {
         this.router.navigate([this.authService.getDefaultUrl()]);
-      } else {
-        console.log("DIOCANE")
       }
     });
   }

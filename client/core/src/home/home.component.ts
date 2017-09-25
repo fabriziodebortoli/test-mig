@@ -1,6 +1,7 @@
 import { UrlService } from './../core/services/url.service';
 import { UtilsService } from './../core/services/utils.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
+import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 import { Subscription } from 'rxjs';
 
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
@@ -14,7 +15,7 @@ import { EnumsService } from './../core/services/enums.service';
 import { TabberService } from './../core/services/tabber.service';
 import { LayoutService } from './../core/services/layout.service';
 import { ComponentService } from './../core/services/component.service';
-import { LoginSessionService } from './../core/services/login-session.service';
+import { TaskbuilderService } from './../core/services/taskbuilder.service';
 import { SidenavService } from './../core/services/sidenav.service';
 import { SettingsService } from './../menu/services/settings.service';
 import { LocalizationService } from './../menu/services/localization.service';
@@ -24,10 +25,18 @@ import { MenuService } from './../menu/services/menu.service';
   selector: 'tb-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  animations: [
+    trigger(
+      'fadeInOut', [
+        transition(':enter', [style({ opacity: 0 }), animate('500ms', style({ 'opacity': 1 }))]),
+        transition(':leave', [style({ 'opacity': 1 }), animate('500ms', style({ 'opacity': 0 }))])
+      ]
+    )
+  ],
   encapsulation: ViewEncapsulation.None,
   providers: [ComponentInfoService]
 })
-export class HomeComponent implements OnDestroy, AfterContentInit {
+export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
 
   @ViewChild('sidenav') sidenav;
   subscriptions: Subscription[] = [];
@@ -37,9 +46,11 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
   @ViewChild(MessageDialogComponent) messageDialog: MessageDialogComponent;
   viewHeight: number;
 
+  tbConnection: boolean = false;
+
   constructor(
     private sidenavService: SidenavService,
-    private loginSession: LoginSessionService,
+    private taskbuilderService: TaskbuilderService,
     private componentService: ComponentService,
     private layoutService: LayoutService,
     private tabberService: TabberService,
@@ -49,7 +60,6 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
     private enumsService: EnumsService,
     private urlService: UrlService
   ) {
-
 
     this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
 
@@ -80,6 +90,10 @@ export class HomeComponent implements OnDestroy, AfterContentInit {
 
   }
 
+  ngOnInit() {
+    this.taskbuilderService.openTbConnection().subscribe(connected => this.tbConnection = true);
+
+  }
 
   ngAfterContentInit() {
     setTimeout(() => this.calcViewHeight(), 0);

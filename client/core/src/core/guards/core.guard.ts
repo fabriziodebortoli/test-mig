@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Rx';
 import { Logger } from './../services/logger.service';
 import { AuthService } from './../services/auth.service';
 import { InfoService } from './../services/info.service';
-import { LoginSessionService } from './../services/login-session.service';
 
 @Injectable()
 export class CoreGuard implements CanActivate {
@@ -14,7 +13,6 @@ export class CoreGuard implements CanActivate {
         private authService: AuthService,
         private router: Router,
         private logger: Logger,
-        private loginService: LoginSessionService,
         private infoService: InfoService
     ) { }
 
@@ -40,20 +38,6 @@ export class CoreGuard implements CanActivate {
             return Observable.of(false);
         });
 
-
-
-
-
-
-
-
-
-        // if (this.authService.isUserLoggedIn()) {
-        //     return true;
-        // }
-        // this.authService.setRedirectUrl(url);
-        // this.router.navigate([this.authService.getLoginUrl()]);
-        // return false;
     }
 
 

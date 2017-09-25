@@ -47,7 +47,12 @@ export class AuthService {
     }
 
     isLogged(): Observable<boolean> {
-        return this.httpService.isLogged({ authtoken: this.cookieService.get('authtoken') });
+        return this.httpService.isLogged({ authtoken: this.cookieService.get('authtoken') }).map(isLogged => {
+            if (!isLogged) {
+                this.cookieService.remove('authtoken');
+            }
+            return isLogged;
+        });
     }
     getRedirectUrl(): string {
         return this.redirectUrl;

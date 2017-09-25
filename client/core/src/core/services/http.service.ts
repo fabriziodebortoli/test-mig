@@ -68,10 +68,8 @@ export class HttpService {
             });
     }
 
-    openTBConnection(): Observable<OperationResult> {
-        let token = this.cookieService.get('authtoken');
-
-        return this.postData(this.getDocumentBaseUrl() + 'initTBLogin/', token)
+    openTBConnection(params: { authtoken: string }): Observable<OperationResult> {
+        return this.postData(this.getDocumentBaseUrl() + 'initTBLogin/', params)
             .map((res: Response) => {
                 return this.createOperationResult(res);
             })
@@ -156,6 +154,8 @@ export class HttpService {
     }
 
     protected handleError(error: any): ErrorObservable {
+        console.log("PD2")
+
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
         let errMsg = (error.message) ? error.message :

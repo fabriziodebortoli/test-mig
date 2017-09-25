@@ -9,7 +9,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
 import { SocketConnectionStatus } from '../../shared/models';
 
-import { LoginSessionService } from './login-session.service';
+import { TaskbuilderService } from './taskbuilder.service';
 import { HttpService } from './http.service';
 import { UrlService } from './url.service';
 
@@ -17,8 +17,6 @@ import { Logger } from './logger.service';
 
 @Injectable()
 export class WebSocketService {
-    public loginSessionService: LoginSessionService;
-
     private connection: WebSocket;
     private _socketConnectionStatus: SocketConnectionStatus = SocketConnectionStatus.None;
 
@@ -37,6 +35,7 @@ export class WebSocketService {
     public radarInfos: EventEmitter<any> = new EventEmitter();
     public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
     public windowStrings: EventEmitter<any> = new EventEmitter();
+
     constructor(
         private httpService: HttpService,
         private urlService: UrlService,
@@ -44,8 +43,7 @@ export class WebSocketService {
         private logger: Logger) {
     }
 
-    setSocketConnectionStatus(status: SocketConnectionStatus) {
-
+    setWsConnectionStatus(status: SocketConnectionStatus) {
         if (this.urlService.isDesktop)
             return;
 
@@ -53,24 +51,16 @@ export class WebSocketService {
         this.connectionStatus.emit(status);
     }
 
-    setConnecting() {
-        if (this.urlService.isDesktop)
-        return;
-
-        this.setSocketConnectionStatus(SocketConnectionStatus.Connecting);
-    }
-
     wsConnect(): void {
         if (this.urlService.isDesktop)
-        return;
+            return;
 
         const $this = this;
 
-        this.setConnecting();
+        this.setWsConnectionStatus(SocketConnectionStatus.Connecting);
 
         const url = this.urlService.getWsUrl();
-        this.logger.info('wsConnect-url', url)
-        this.logger.debug('wsConnecting... ' + url);
+        this.logger.log('WebSocket Connection...', url)
 
         this.connection = new WebSocket(url);
         this.connection.onmessage = function (e) {
@@ -108,12 +98,14 @@ export class WebSocketService {
 
             }
         };
+
         this.connection.onerror = (arg) => {
-            this.logger.error('wsOnError' + JSON.stringify(arg));
+            this.logger.error('WebSocket onError', JSON.stringify(arg));
             this.error.emit(arg);
         };
 
         this.connection.onopen = (arg) => {
+            this.logger.log("WebSocket Connected", JSON.stringify(arg));
             // sets the name for this client socket
             this.connection.send(JSON.stringify({
                 cmd: 'SetClientWebSocketName',
@@ -124,28 +116,30 @@ export class WebSocketService {
                 }
             }));
 
-            this.setSocketConnectionStatus(SocketConnectionStatus.Connected);
+            this.setWsConnectionStatus(SocketConnectionStatus.Connected);
 
             this.open.emit(arg);
 
         };
 
         this.connection.onclose = (arg) => {
-            this.setSocketConnectionStatus(SocketConnectionStatus.Disconnected);
+            this.logger.log("WebSocket onClose", JSON.stringify(arg));
+            this.setWsConnectionStatus(SocketConnectionStatus.Disconnected);
             this.close.emit(arg);
         };
     }
 
     wsClose() {
         if (this.urlService.isDesktop)
-        return;
+            return;
 
         if (this.connection) {
             this.connection.close();
         }
     }
+
     checkForOpenConnection(): Observable<boolean> {
-        
+
         return Observable.create(observer => {
             if (this._socketConnectionStatus === SocketConnectionStatus.Connected) {
                 observer.next(true);
@@ -155,16 +149,17 @@ export class WebSocketService {
                 observer.next(false);
                 observer.complete();
             } else {
-                const subs = this.loginSessionService.openTbConnectionAsync().subscribe(ret => {
-                    subs.unsubscribe();
-                    if (ret) {
-                        observer.next(true);
-                        observer.complete();
-                    }
-                });
+                // const subs = this.loginSessionService.openTbConnectionAsync().subscribe(ret => {
+                //     subs.unsubscribe();
+                //     if (ret) {
+                //         observer.next(true);
+                //         observer.complete();
+                //     }
+                // });
             }
         });
     }
+
     safeSend(data: any): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const subs = this.checkForOpenConnection().subscribe(valid => {
