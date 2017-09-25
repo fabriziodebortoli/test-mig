@@ -28,7 +28,7 @@ import { MenuService } from './../menu/services/menu.service';
   animations: [
     trigger(
       'fadeInOut', [
-        transition(':enter', [style({ opacity: 0 }), animate('500ms', style({ 'opacity': 1 }))]),
+        transition(':enter', [style({ opacity: 0 }), animate('100ms', style({ 'opacity': 1 }))]),
         transition(':leave', [style({ 'opacity': 1 }), animate('500ms', style({ 'opacity': 0 }))])
       ]
     )
