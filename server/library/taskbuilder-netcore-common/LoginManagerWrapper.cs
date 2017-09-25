@@ -190,23 +190,7 @@ namespace Microarea.Common.WebServicesWrapper
         //-----------------------------------------------------------------------------------------
         private void ConfigureWebService()
         {
-            string path = Assembly.GetEntryAssembly().Location;
-            int index = path.IndexOf("\\Standard\\Web\\", StringComparison.CurrentCultureIgnoreCase);
-            if (index < 0)
-                index = path.IndexOf("\\Standard\\TaskBuilder\\", StringComparison.CurrentCultureIgnoreCase);
-
-            if (index < 0)
-            {
-                Debug.Assert(false, "Invalid Path");
-                return;
-            }
-
-            path = path.Substring(0, index);
-
-            int startIndex = path.LastIndexOf('\\');
-            string installation = path.Substring(startIndex + 1, path.Length - startIndex - 1);
-            string uri = string.Format("http://localhost/{0}/LoginManager/LoginManager.asmx", installation);
-            loginManagerClient.Endpoint.Address = new System.ServiceModel.EndpointAddress(uri);
+             loginManagerClient.Endpoint.Address = new System.ServiceModel.EndpointAddress(PathFinder.BasePathFinderInstance.LoginManagerUrl);
         }
 
 

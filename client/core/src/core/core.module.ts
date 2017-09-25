@@ -1,4 +1,3 @@
-import { TbComponentService } from './services/tbcomponent.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import 'hammerjs';
@@ -10,6 +9,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
  * 
  * Tutti i servizi condivisi TB (http, websocket, 
  */
+import { AuthService } from './services/auth.service';
 import { BOService } from './services/bo.service';
 import { BOClient } from './services/bo.service';
 import { ComponentService } from './services/component.service';
@@ -23,13 +23,15 @@ import { HttpService } from './services/http.service';
 import { InfoService } from './services/info.service';
 import { LayoutService } from './services/layout.service';
 import { Logger } from './services/logger.service';
-import { LoginSessionService } from './services/login-session.service';
+import { TaskbuilderService } from './services/taskbuilder.service';
 import { SidenavService } from './services/sidenav.service';
 import { TabberService } from './services/tabber.service';
 import { UrlService } from './services/url.service';
 import { UtilsService } from './services/utils.service';
 import { WebSocketService } from './services/websocket.service';
+import { TbComponentService } from './services/tbcomponent.service';
 
+export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
 export { BOService } from './services/bo.service';
 export { BOClient } from './services/bo.service';
@@ -44,7 +46,7 @@ export { HttpService } from './services/http.service';
 export { InfoService } from './services/info.service';
 export { LayoutService } from './services/layout.service';
 export { Logger } from './services/logger.service';
-export { LoginSessionService } from './services/login-session.service';
+export { TaskbuilderService } from './services/taskbuilder.service';
 export { SidenavService } from './services/sidenav.service';
 export { TabberService } from './services/tabber.service';
 export { UrlService } from './services/url.service';
@@ -53,8 +55,8 @@ export { WebSocketService } from './services/websocket.service';
 
 export const TB_SERVICES = [
     TbComponentService, BOService, ComponentService, DocumentService, DataService, EnumsService,
-    EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger,
-    LoginSessionService, SidenavService, TabberService, UrlService, UtilsService, WebSocketService
+    EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
+    TaskbuilderService, SidenavService, TabberService, UrlService, UtilsService, WebSocketService
 ];
 
 import { CoreGuard } from './guards/core.guard';

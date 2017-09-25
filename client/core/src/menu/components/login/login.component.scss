@@ -23,8 +23,11 @@
                 width: 100%;
             }
             div.error {
-                color: red;
+                background: #d51923;
                 margin: 20px 0 0;
+                padding: 10px;
+                font-size: 12px;
+                color: #fff;
             }
             .spinner {
                 margin: 200px auto;
@@ -49,4 +52,13 @@
     header {
         flex-basis: 50px;
     }
+}
+
+.k-icon.k-i-loading {
+    font-size: 64px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #0277bd;
 }
