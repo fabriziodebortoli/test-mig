@@ -42,7 +42,7 @@ export class TaskbuilderService {
         // Connessione WS quando viene aperta connessione al tbLoader
         this.subscriptions.push(this.tbConnection.subscribe(tbConnection => {
             this.logger.debug("tbConnection subscription, se true devo collegarmi al WS", tbConnection)
-            if (tbConnection) {
+            if (tbConnection && !urlService.isDesktop) {
                 this.socket.wsConnect();
             }
         }));
