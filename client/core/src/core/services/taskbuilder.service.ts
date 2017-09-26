@@ -1,7 +1,9 @@
-﻿import { UrlService } from './url.service';
-import { EventManagerService } from './../../menu/services/event-manager.service';
-import { MenuService } from './../../menu/services/menu.service';
-import { Injectable, EventEmitter } from '@angular/core';
+﻿import { EventManagerService } from './../../menu/services/event-manager.service';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
+import { UrlService } from './url.service';
+import { Injectable, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
@@ -19,65 +21,104 @@ export class TaskbuilderService {
     defaultUrl = ['home'];
     errorMessages: string[] = [];
     redirectUrl = this.defaultUrl;
-    connected: EventEmitter<any> = new EventEmitter();
+
+    tbConnection = new BehaviorSubject(false);
+    connected: Subject<boolean> = new BehaviorSubject(false);
+
+    subscriptions: Subscription[] = [];
 
     constructor(private httpService: HttpService,
         private socket: WebSocketService,
         private cookieService: CookieService,
         private logger: Logger,
         private router: Router,
-        private menuService: MenuService,
-        private urlService: UrlService
+        private urlService: UrlService,
+        private eventManagerService: EventManagerService
     ) {
 
         // lettura file di configurazione backend urls
         urlService.init().subscribe();
 
-        // const subs = this.socket.close.subscribe(() => {
-        //     this.openTbConnection(true);
-        // });
-        // socket.loginSessionService = this;
+        // Connessione WS quando viene aperta connessione al tbLoader
+        this.subscriptions.push(this.tbConnection.subscribe(tbConnection => {
+            this.logger.debug("tbConnection subscription, se true devo collegarmi al WS", tbConnection)
+            if (tbConnection) {
+                this.socket.wsConnect();
+            }
+        }));
+
+        // Vera connessione quando anche il WS è connesso
+        this.subscriptions.push(this.socket.open.subscribe(() => {
+            this.connected.next(true);
+        }));
+
+        // riconnessione alla chiusura del WS
+        this.subscriptions.push(this.socket.close.subscribe(() => {
+            this.tbConnection.next(false);
+            this.connected.next(false);
+
+            this.logger.debug("Riconnessione in corso...")
+            this.openConnection();
+
+        }));
+
+        this.subscriptions.push(this.eventManagerService.loggingOff.subscribe(() => {
+            this.logger.debug("LoggedOut")
+            this.tbConnection.next(false);
+            this.connected.next(false);
+        }));
+
     }
 
-    // quando fare openTBconnection??
-    // openTbConnection(retry: boolean = false) {
-    //     const subs = this.openTbConnectionAsync(retry).subscribe(ret => { 
-    //         subs.unsubscribe() 
-    //     });
-    // }
+    dispose() {
+        this.tbConnection.next(false);
+        this.connected.next(false);
+    }
+
+    // provo ad aprire connessione TB
+    openConnection() {
+        this.openTbConnection().delay(5000).repeat().takeUntil(this.tbConnection.filter(tbConnection => tbConnection === true)).subscribe();
+    }
 
     openTbConnection(): Observable<boolean> {
 
         let authtoken = this.cookieService.get('authtoken');
-        this.logger.log("openTbConnection...", authtoken);
-        return this.httpService.openTBConnection({ authtoken: authtoken }).map(
-            (tbRes: OperationResult) => {
-                this.logger.log("openTBConnection result", tbRes);
-                if (tbRes.error) {
-                    this.logger.log("openTBConnection OperationResult Error - Reconnecting...");
-                    // il TB c'è ma non riesce a collegare
-                    // TODO riconnettere
-                    setTimeout(function () {
-                        this.openTbConnection();
-                    }, 2000);
-                    return false;
-                }
-                // Connesso al TB, ci colleghiamo al WS
-                this.logger.info("TbLoader Connected...")
-                this.connected.emit();
-                this.socket.wsConnect();
-                return true;
+        this.logger.debug("openTbConnection...", authtoken);
 
-            },
-            (error) => {
-                this.logger.log("openTBConnection error", error);
-                // TODO riconnettere
-                // setTimeout(function () {
-                //     this.openTbConnection(true);
-                // }, 5000);
-                return false;
-            });
+        return new Observable(observer => {
+            this.httpService.openTBConnection({ authtoken: authtoken })
+                .timeout(15000)
+                .catch((error: any) => Observable.throw(error))
+                .subscribe((tbRes: OperationResult) => {
+                    this.logger.debug("openTBConnection result...", tbRes);
 
+                    if (tbRes.error) {
+                        // il TB c'è ma non riesce a collegare
+                        this.logger.error("openTBConnection Connection Error - Reconnecting...");
+                        this.tbConnection.next(false);
+                        observer.next(false);
+                        observer.complete();
+                    }
+
+                    this.logger.debug("TbLoader Connected...")
+                    this.tbConnection.next(true);
+
+                    observer.next(true);
+                    observer.complete();
+                }, (error) => {
+                    this.logger.error("openTBConnection Connection failed", error);
+                    this.tbConnection.next(false);
+                    observer.next(false);
+                    observer.complete();
+                });
+        })
+    }
+
+    closeConnection() {
+        let authtoken = this.cookieService.get('authtoken');
+        this.logger.debug("closeTbConnection...", authtoken);
+
+        this.httpService.closeTBConnection({ authtoken: authtoken }).subscribe();
     }
 
 }
