@@ -60,7 +60,7 @@ export class WebSocketService {
         this.setWsConnectionStatus(SocketConnectionStatus.Connecting);
 
         const url = this.urlService.getWsUrl();
-        this.logger.log('WebSocket Connection...', url)
+        this.logger.debug('WebSocket Connection...', url)
 
         this.connection = new WebSocket(url);
         this.connection.onmessage = function (e) {
@@ -105,7 +105,7 @@ export class WebSocketService {
         };
 
         this.connection.onopen = (arg) => {
-            this.logger.log("WebSocket Connected", JSON.stringify(arg));
+            this.logger.debug("WebSocket Connected", JSON.stringify(arg));
             // sets the name for this client socket
             this.connection.send(JSON.stringify({
                 cmd: 'SetClientWebSocketName',
@@ -123,7 +123,7 @@ export class WebSocketService {
         };
 
         this.connection.onclose = (arg) => {
-            this.logger.log("WebSocket onClose", JSON.stringify(arg));
+            this.logger.debug("WebSocket onClose", JSON.stringify(arg));
             this.setWsConnectionStatus(SocketConnectionStatus.Disconnected);
             this.close.emit(arg);
         };
@@ -145,7 +145,7 @@ export class WebSocketService {
                 observer.next(true);
                 observer.complete();
             } else if (this._socketConnectionStatus === SocketConnectionStatus.Connecting) {
-                this.logger.info('Connection not yet avCannot yet use connection, connecting...');
+                this.logger.debug('Connection not yet avCannot yet use connection, connecting...');
                 observer.next(false);
                 observer.complete();
             } else {

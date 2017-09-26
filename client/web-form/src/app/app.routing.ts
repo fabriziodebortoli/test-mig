@@ -6,15 +6,16 @@ import { environment } from './../environments/environment';
 
 import { CoreGuard } from '@taskbuilder/core';
 import { PageNotFoundComponent, UnsupportedFactoryComponent } from '@taskbuilder/core';
-import { ProxyRouteComponent, LoginComponent, HomeComponent, StandaloneReportComponent, StandaloneDocumentComponent } from '@taskbuilder/core';
+import { ProxyRouteComponent, LoginComponent, HomeComponent, StandaloneReportComponent,
+    StandaloneDocumentComponent } from '@taskbuilder/core';
 
 import { RsTestComponent } from '@taskbuilder/reporting-studio';
-
 import { appRoutes } from './applications/app.routing';
 
 let magoRoutes = [
     { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
-    // { path: 'test', loadChildren: '@taskbuilder/test#TbTestModule' },
+   // { path: 'test', loadChildren: '@taskbuilder/core#TbTestModule' },
+    { path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' },
     { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
     ...appRoutes
 ];

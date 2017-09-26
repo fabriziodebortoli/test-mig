@@ -46,7 +46,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   @ViewChild(MessageDialogComponent) messageDialog: MessageDialogComponent;
   viewHeight: number;
 
-  tbConnection: boolean = false;
+  connected: boolean = false;
 
   constructor(
     private sidenavService: SidenavService,
@@ -88,11 +88,15 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
 
+    // sottoscrivo la connessione TB e WS e, se non attiva, la apro tramite il servizio TaskbuilderService
+    this.subscriptions.push(this.taskbuilderService.connected.subscribe(connected => {
+      this.connected = connected;
+    }));
+
   }
 
   ngOnInit() {
-    this.taskbuilderService.openTbConnection().subscribe(connected => this.tbConnection = true);
-
+    this.taskbuilderService.openConnection();
   }
 
   ngAfterContentInit() {
@@ -111,6 +115,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   }
 
   ngOnDestroy() {
+    this.connected = false;
+    this.taskbuilderService.dispose();
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
