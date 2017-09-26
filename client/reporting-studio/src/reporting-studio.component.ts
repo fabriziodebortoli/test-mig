@@ -2,7 +2,7 @@ import { ReportLayoutComponent } from './report-objects/layout/layout.component'
 import { WebSocketService, HttpService } from '@taskbuilder/core';
 import { UtilsService } from '@taskbuilder/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType, SvgType, PngType } from './models';
@@ -20,6 +20,7 @@ import { saveAs } from '@progress/kendo-file-saver';
   templateUrl: './reporting-studio.component.html',
   styleUrls: ['./reporting-studio.component.scss'],
   providers: [ReportingStudioService, EventDataService],
+  encapsulation: ViewEncapsulation.None,
 })
 
 export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy {
@@ -40,6 +41,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public data: any[];
 
   public curPageNum: number;
+  public runReport: boolean = false;
 
   constructor(
     private rsService: ReportingStudioService,
@@ -178,6 +180,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.getDocxData(k + ".docx");
           break;
         case CommandType.SNAPSHOT:
+          this.runReport = true;
+          this.rsService.totalPages = msg.page;
           this.FirstPage();
           break;
         case CommandType.ACTIVESNAPSHOT:
