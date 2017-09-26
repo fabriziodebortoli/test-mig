@@ -93,18 +93,22 @@ export class TaskbuilderService {
                     this.logger.debug("openTBConnection result...", tbRes);
 
                     if (tbRes.error) {
+                        
+                        this.logger.debug("error messages:",  tbRes.messages);
                         // il TB c'è ma non riesce a collegare
                         this.logger.error("openTBConnection Connection Error - Reconnecting...");
                         this.tbConnection.next(false);
                         observer.next(false);
                         observer.complete();
+                        
+                    }else{
+                        this.logger.debug("TbLoader Connected...")
+                        this.tbConnection.next(true);
+    
+                        observer.next(true);
+                        observer.complete();
                     }
-
-                    this.logger.debug("TbLoader Connected...")
-                    this.tbConnection.next(true);
-
-                    observer.next(true);
-                    observer.complete();
+                    
                 }, (error) => {
                     this.logger.error("openTBConnection Connection failed", error);
                     this.tbConnection.next(false);

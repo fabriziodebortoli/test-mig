@@ -23,8 +23,9 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscriptions.push(this.taskbuilderService.connected.subscribe(() => {
-            this.getDate();
+        this.subscriptions.push(this.taskbuilderService.tbConnection.subscribe((connected) => {
+            if (connected)
+                this.getDate();
         }));
         //this.localizationService.localizedElements
     }
@@ -34,6 +35,7 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
     }
     getDate() {
         this.httpMenuService.getApplicationDate().subscribe((res) => {
+            console.log("dateInfo" , res.dateInfo);
             if (!res.dateInfo)
                 return;
 
@@ -55,7 +57,6 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
 
     public ok() {
         this.httpMenuService.changeApplicationDate(this.internalDate).subscribe((res) => {
-            console.log("internal date", this.internalDate);
             this.applicationDate = this.internalDate;
             this.opened = false;
         });
