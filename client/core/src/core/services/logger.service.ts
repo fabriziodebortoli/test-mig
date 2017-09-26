@@ -3,8 +3,10 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class Logger {
 
+    inDebug: boolean = true; // TODO leggere da configurazione esterna
+
     constructor() {
-        console.log('Logger service init');
+        this.debug('Logger service init');
     }
 
     log(message?: any, ...optionalParams: any[]): void {
@@ -16,7 +18,9 @@ export class Logger {
     }
 
     debug(message?: any, ...optionalParams: any[]): void {
-        console.debug(message, ...optionalParams);
+        if (this.inDebug) {
+            console.log(message, ...optionalParams);
+        }
     }
 
     warn(message?: any, ...optionalParams: any[]): void {
