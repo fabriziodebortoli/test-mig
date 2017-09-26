@@ -19,8 +19,6 @@
         bool Disabled { get; }
         string DatabaseCulture { get; }
         bool IsUnicode { get; }
-		string Language { get; }
-		string RegionalSettings { get; }
 		string Provider { get; }
 		bool Test { get; }
 		bool UnderMaintenance { get; set; }

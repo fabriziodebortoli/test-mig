@@ -17,7 +17,6 @@ export class SubscriptionDatabaseComponent implements OnInit, OnDestroy {
 
   model: SubscriptionDatabase;
   editing: boolean = false;
-  useDMS: boolean = false;
   
   //--------------------------------------------------------------------------------------------------------
   constructor(
@@ -69,7 +68,6 @@ export class SubscriptionDatabaseComponent implements OnInit, OnDestroy {
           return;
           
           this.model = databases[0];
-          this.useDMS = this.model.UseDMS;    
         },
         err => { alert(err);}
       )
@@ -79,11 +77,6 @@ export class SubscriptionDatabaseComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
       this.databaseService.testConnectionOK = false;
       this.databaseService.needsAskCredentials = true;
-    }
-
-    //--------------------------------------------------------------------------------------------------------
-    onUseDMSChange(event) {
-      this.useDMS = this.model.UseDMS;
     }
     
     //--------------------------------------------------------------------------------------------------------

@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -5,8 +6,9 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { LoginSession } from './../../../shared/models/login-session.model';
 
+import { Logger } from './../../../core/services/logger.service';
 import { HttpService } from './../../../core/services/http.service';
-import { LoginSessionService } from './../../../core/services/login-session.service';
+import { AuthService } from './../../../core/services/auth.service';
 
 @Component({
   selector: 'tb-login',
@@ -17,11 +19,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   companies: any[] = [];
   connectionData: LoginSession = new LoginSession();
-  working: boolean = false;
+  loading: boolean = false;
+  errorMessages: string[] = [];
+
   constructor(
-    private loginSessionService: LoginSessionService,
+    private authService: AuthService,
     private cookieService: CookieService,
     private router: Router,
+    private logger: Logger,
     private httpService: HttpService
   ) {
 
@@ -31,8 +36,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadState();
 
-    if (this.connectionData.user != undefined)
+    if (this.connectionData.user != undefined) {
       this.getCompaniesForUser(this.connectionData.user);
+    }
+
+    this.authService.isLogged().subscribe(isLogged => {
+      if (isLogged) {
+        this.router.navigate([this.authService.getDefaultUrl()]);
+      }
+    });
   }
 
   //-------------------------------------------------------------------------------------
@@ -68,16 +80,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   //-------------------------------------------------------------------------------------
   login() {
     this.saveState();
-    this.working = true;
-    let subs = this.loginSessionService.login(this.connectionData)
-      .subscribe(result => {
-        this.working = false;
-        subs.unsubscribe();
-      },
-      error => {
-        this.working = false;
-        subs.unsubscribe();
-      });
+    this.loading = true;
+    this.authService.login(this.connectionData).subscribe(authenticated => {
+      if (authenticated) {
+        let url = this.authService.getRedirectUrl();
+        this.logger.debug('Redirect Url', url);
+        this.loading = false;
+        this.router.navigate([url]);
+      } else {
+        this.logger.debug('Login Error', this.authService.errorMessage);
+        this.loading = false;
+      }
+    });
   }
 
   keyDownFunction(event) {

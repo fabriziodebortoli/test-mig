@@ -20,7 +20,6 @@ let magoRoutes = [
 ];
 let childrenRoutes = environment.desktop ? [] : [...magoRoutes];
 
-
 export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'login', component: LoginComponent },
@@ -31,10 +30,7 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
         path: 'proxy',
         outlet: 'dynamic',
         component: ProxyRouteComponent,
-        children: [
-            ...childrenRoutes
-
-        ],
+        children: [...childrenRoutes],
     },
     { path: 'test-rs', component: RsTestComponent },
     { path: '**', component: PageNotFoundComponent },

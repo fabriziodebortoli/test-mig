@@ -29,9 +29,6 @@ namespace Microarea.AccountManager.Controllers
             //prove di crypt
             //LoginEngine le = new LoginEngine();
             //string crypted = le.Crypt(password);   
-
-
-
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
             JsonWriter jsonWriter = new JsonTextWriter(sw);

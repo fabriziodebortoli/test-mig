@@ -106,6 +106,40 @@ export class HttpMenuService {
     }
 
     /**
+   * API /getApplicationDate
+   * 
+   * @returns {Observable<any>} getApplicationDate
+   */
+    getApplicationDate(): Observable<any> {
+
+        let obj = { token: this.cookieService.get('authtoken') };
+        var urlToRun = this.httpService.getDocumentBaseUrl() + 'getApplicationDate/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+     /**
+    * API /changeApplicationDate
+    * 
+    * @returns {Observable<any>} changeApplicationDate
+    */
+    changeApplicationDate(date: Date): Observable<any> {
+        console.log(date.toUTCString());
+        let day = date.getDate();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+        let obj = { token: this.cookieService.get('authtoken') };
+        var urlToRun = this.httpService.getDocumentBaseUrl() + 'changeApplicationDate/?day=' + day + '&month=' + month + '&year=' + year;
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+
+    /**
      * API /mostUsedClearAll
      *
      * @returns {Observable<any>} mostUsedClearAll
@@ -177,10 +211,10 @@ export class HttpMenuService {
 
 
     /**
-  * API /activateViaSMS
-  * 
-  * @returns {Observable<any>} activateViaSMS
-  */
+    * API /activateViaSMS
+    * 
+    * @returns {Observable<any>} activateViaSMS
+    */
     activateViaSMS(): Observable<any> {
         return this.http.get(this.httpService.getMenuServiceUrl() + 'getPingViaSMSUrl/', { withCredentials: true })
             .map((res: Response) => {

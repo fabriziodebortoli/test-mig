@@ -53,12 +53,12 @@ namespace Microarea.AdminServer
         public const string ExistSubscriptionDatabase = @"SELECT COUNT(*) FROM MP_SubscriptionDatabases WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Name = @Name";
 		public const string SelectSubscriptionDatabase = @"SELECT * FROM MP_SubscriptionDatabases WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Name = @Name";
 		public const string InsertSubscriptionDatabase = @"INSERT INTO MP_SubscriptionDatabases (InstanceKey, SubscriptionKey, Name, Description, DBServer, DBName, DBOwner, DBPassword, Disabled, DatabaseCulture, 
-														IsUnicode, Language, RegionalSettings, Provider, UseDMS, DMSDBServer, DMSDBName, DMSDBOwner, DMSDBPassword, Test, UnderMaintenance)  
+														IsUnicode, Provider, UseDMS, DMSDBServer, DMSDBName, DMSDBOwner, DMSDBPassword, Test, UnderMaintenance)  
 														VALUES (@InstanceKey, @SubscriptionKey, @Name, @Description, @DBServer, @DBName, @DBOwner, @DBPassword, @Disabled, @DatabaseCulture, 
-														@IsUnicode, @Language, @RegionalSettings, @Provider, @UseDMS, @DMSDBServer, @DMSDBName, @DMSDBOwner, @DMSDBPassword, @Test, @UnderMaintenance)";
+														@IsUnicode, @Provider, @UseDMS, @DMSDBServer, @DMSDBName, @DMSDBOwner, @DMSDBPassword, @Test, @UnderMaintenance)";
 		public const string UpdateSubscriptionDatabase = @"UPDATE MP_SubscriptionDatabases SET Description = @Description, DBServer = @DBServer, DBName = @DBName, DBOwner = @DBOwner, 
 														DBPassword = @DBPassword, Disabled = @Disabled, DatabaseCulture = @DatabaseCulture, IsUnicode = @IsUnicode, 
-														Language = @Language, RegionalSettings = @RegionalSettings, Provider = @Provider, UseDMS = @UseDMS, 
+														 Provider = @Provider, UseDMS = @UseDMS, 
 														DMSDBServer = @DMSDBServer, DMSDBName = @DMSDBName, DMSDBOwner = @DMSDBOwner, DMSDBPassword = @DMSDBPassword, Test = @Test, UnderMaintenance = @UnderMaintenance
 														WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Name = @Name";
 		public const string DeleteSubscriptionDatabase = @"DELETE MP_SubscriptionDatabases WHERE InstanceKey = @InstanceKey AND SubscriptionKey = @SubscriptionKey AND Name = @Name";
@@ -110,7 +110,9 @@ namespace Microarea.AdminServer
 
         // AccountRoles
         public const string ExistAccountRoles = @"SELECT COUNT(*) FROM MP_AccountRoles WHERE RoleName = @RoleName AND AccountName = @AccountName AND EntityKey = @EntityKey";
-        public const string SelectAccountRoles = @"SELECT * FROM MP_AccountRoles WHERE AccountName = '{0}'";
+        public const string SelectAccountRoles = @"SELECT * FROM MP_AccountRoles acc INNER JOIN 
+															MP_Roles rol on acc.RoleName = rol.RoleName 
+															WHERE AccountName = '{0}' AND rol.Disabled = 0";
         public const string InsertAccountRoles = @"INSERT INTO MP_AccountRoles (RoleName, AccountName, EntityKey, Level) VALUES (@RoleName, @AccountName, @EntityKey, @Level)";
         public const string UpdateAccountRoles = @"UPDATE MP_AccountRoles SET Level = @Level WHERE RoleId = @RoleId AND AccountName = @AccountName AND EntityKey = @EntityKey";
         public const string DeleteAccountRole = @"DELETE MP_AccountRoles WHERE RoleName = @RoleName AND AccountName = @AccountName AND EntityKey = @EntityKey";

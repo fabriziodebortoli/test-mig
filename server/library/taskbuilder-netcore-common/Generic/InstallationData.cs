@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 using static Microarea.Common.Generic.InstallationInfo;
+using System.Diagnostics;
 
 namespace Microarea.Common.Generic
 {
@@ -244,7 +245,8 @@ namespace Microarea.Common.Generic
 				} 
                 catch(Exception ex)
                 {
-                 //qui non dovrebbe passare
+					//qui non dovrebbe passare
+					Debug.Fail(ex.Message);
                 }
                 
 			}

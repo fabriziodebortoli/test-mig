@@ -1,4 +1,5 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { LoginCompact } from './../../shared/models/login-compact.model';
+import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
@@ -29,23 +30,19 @@ export class HttpService {
         let messages = jObject ? jObject.messages : [];
         return new OperationResult(!ok, messages);
     }
-    isLogged(): Observable<boolean> {
-        let obj = { authtoken: this.cookieService.get('authtoken') };
 
-        return this.postData(this.getAccountManagerBaseUrl() + 'isValidToken/', obj)
+    isLogged(params: { authtoken: string }): Observable<boolean> {
+        return this.postData(this.getAccountManagerBaseUrl() + 'isValidToken/', params)
             .map((res: Response) => {
                 return res.ok && res.json().success === true;
-            })
-            .catch(this.handleError);
+            });
     }
 
-    login(connectionData: LoginSession): Observable<OperationResult> {
+    login(connectionData: LoginSession): Observable<LoginCompact> {
         return this.postData(this.getAccountManagerBaseUrl() + 'login-compact/', connectionData)
             .map((res: Response) => {
-                this.cookieService.put('authtoken', res.ok ? res.json().authtoken : null);
-                return this.createOperationResult(res);
-            })
-            .catch(this.handleError);
+                return res.json();
+            });
     }
 
     getCompaniesForUser(user: string): Observable<any> {
@@ -53,8 +50,7 @@ export class HttpService {
         return this.postData(this.getAccountManagerBaseUrl() + 'getCompaniesForUser/', obj)
             .map((res: Response) => {
                 return res.json();
-            })
-            .catch(this.handleError);
+            });
     }
 
     isActivated(application: string, functionality: string): Observable<any> {
@@ -62,55 +58,24 @@ export class HttpService {
         return this.postData(this.getAccountManagerBaseUrl() + 'isActivated/', obj)
             .map((res: Response) => {
                 return res.json();
-            })
-            .catch(this.handleError);
+            });
     }
 
-    logoff(): Observable<OperationResult> {
-        let token = this.cookieService.get('authtoken');
-        this.logger.debug('httpService.logout (' + token + ')');
+    logoff(params: { authtoken: string }): Observable<OperationResult> {
+        return this.postData(this.getAccountManagerBaseUrl() + 'logoff/', params)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
 
-        return this.postData(this.getAccountManagerBaseUrl() + 'logoff/', token)
+    openTBConnection(params: { authtoken: string }): Observable<OperationResult> {
+        return this.postData(this.getDocumentBaseUrl() + 'initTBLogin/', params)
             .map((res: Response) => {
                 return this.createOperationResult(res);
             })
-            .catch(this.handleError);
     }
 
-    openTBConnection(): Observable<OperationResult> {
-
-        let token = this.cookieService.get('authtoken');
-        let url = this.getDocumentBaseUrl() + 'initTBLogin/?authToken='  + token + '&isDesktop=' +this.urlService.isDesktop;
-
-       // return this.http.post(url, undefined, { withCredentials: true});
-        return this.postDataWithAllowOrigin(url)   
-         .map((res: Response) => {
-            return this.createOperationResult(res);
-        })
-        .catch(this.handleError);
-      
-    }
-
-  
-
-    closeTBConnection(): Observable<OperationResult> {
-        let token = this.cookieService.get('authtoken');
-        this.logger.debug('httpService.logout (' + token + ')');
-        return this.postData(this.getDocumentBaseUrl() + 'doLogoff/', token)
-            .map((res: Response) => {
-                return this.createOperationResult(res);
-            })
-            .catch(this.handleError);
-    }
-
-    postData(url: string, data: Object): Observable<Response> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers });
-        //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
-    }
-
-    postDataWithAllowOrigin(url: string ): Observable<Response> {
+    postDataWithAllowOrigin(url: string): Observable<Response> {
         let token = this.cookieService.get('authtoken');
         let headers = new Headers();
         headers.append('Access-Control-Allow-Origin', window.location.origin);
@@ -118,7 +83,21 @@ export class HttpService {
         return this.http.post(url, undefined, { withCredentials: true, headers: headers })
     }
 
-   
+    closeTBConnection(): Observable<OperationResult> {
+        let token = this.cookieService.get('authtoken');
+        this.logger.debug('httpService.logout (' + token + ')');
+        return this.postData(this.getDocumentBaseUrl() + 'doLogoff/', token)
+            .map((res: Response) => {
+                return this.createOperationResult(res);
+            });
+    }
+
+    postData(url: string, data: Object): Observable<Response> {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers }).catch(this.handleError);
+        //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
+    }
     /**
    * API /getProductInfo
    * 
@@ -175,6 +154,8 @@ export class HttpService {
     }
 
     protected handleError(error: any): ErrorObservable {
+        console.log("PD2")
+
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
         let errMsg = (error.message) ? error.message :

@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 import { ComponentService } from './../../core/services/component.service';
 import { WebSocketService } from './../../core/services/websocket.service';
+import { TaskbuilderService } from './../../core/services/taskbuilder.service';
 import { DynamicCmpComponent } from './../../shared/components/dynamic-cmp.component';
 
 @Component({
@@ -18,6 +19,7 @@ export class StandaloneDocumentComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private webSocketService: WebSocketService,
+    private taskbuilderService: TaskbuilderService,
     private componentService: ComponentService) {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.namespace = params['ns'];
@@ -37,6 +39,7 @@ export class StandaloneDocumentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.taskbuilderService.openTbConnection();
   }
 
 }
