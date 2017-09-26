@@ -36,10 +36,13 @@
         </div>
     </div>
 
-    <div class="loading">
-        <span class="k-icon k-i-loading" *ngIf="loading"></span>
-    </div>
     <footer>
         <span>Copyright © 1984-2017 Microarea SpA - Tutti i diritti riservati | <a href="http://www.microarea.it">Microarea.it</a></span>
     </footer>
+</div>
+<div class="loading-container" [@fadeInOut] *ngIf="loading">
+    <div class="loading">
+        <span class="k-icon k-i-loading"></span>
+        <p class="text">Loading...</p>
+    </div>
 </div>

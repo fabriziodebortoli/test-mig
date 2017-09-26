@@ -1,30 +1,37 @@
+import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { TaskbuilderService } from './../../../core/services/taskbuilder.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
     selector: 'tb-application-date',
     templateUrl: './application-date.component.html',
     styleUrls: ['./application-date.component.scss']
 })
-export class ApplicationDateComponent implements OnInit {
+export class ApplicationDateComponent implements OnInit, OnDestroy {
     applicationDate: Date = undefined;
     culture: string = '';
     dateFormat: string = '';
     internalDate: Date = undefined;
+    
+    subscriptions: Subscription[] = [];
+
+    public opened: boolean = false;
 
     constructor(private httpMenuService: HttpMenuService, private taskbuilderService: TaskbuilderService) {
     }
 
     ngOnInit() {
-
-        this.taskbuilderService.connected.subscribe(() => {
+        this.subscriptions.push(this.taskbuilderService.connected.subscribe(() => {
             this.getDate();
-        });
-
+        }));
+        //this.localizationService.localizedElements
     }
 
+    ngOnDestroy() {
+        this.subscriptions.forEach((sub) => sub.unsubscribe());
+    }
     getDate() {
         this.httpMenuService.getApplicationDate().subscribe((res) => {
             if (!res.dateInfo)
@@ -38,17 +45,24 @@ export class ApplicationDateComponent implements OnInit {
         })
     }
 
-    onBlur() {
-        this.httpMenuService.changeApplicationDate(this.internalDate).subscribe((res) => { });
-
-        //$http.post( 'changeApplicationDate/?day=' + day + '&month=' + month + '&year=' + year)
-        console.log(this.internalDate);
-    }
-
     public handleChange(value: Date) {
         this.internalDate = value;
-        // this.model.birthDate = this.intl.formatDate(value, 'yyyy-MM-dd'); //update the JSON birthDate string date
-        // this.output = JSON.stringify(this.model);
+    }
+
+    public open() {
+        this.opened = true;
+    }
+
+    public ok() {
+        this.httpMenuService.changeApplicationDate(this.internalDate).subscribe((res) => {
+            console.log("internal date", this.internalDate);
+            this.applicationDate = this.internalDate;
+            this.opened = false;
+        });
+    }
+
+    public cancel() {
+        this.opened = false;
     }
 
 }
