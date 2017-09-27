@@ -35,7 +35,7 @@ namespace Microarea.RSWeb.Objects
 
         RangeBar, RangeColumn, RangeArea,
 
-        Bubble,
+        Bubble, BubbleScatter,
 
         Scatter, ScatterLine,
 
@@ -143,7 +143,10 @@ namespace Microarea.RSWeb.Objects
                 ChartType == EnumChartType.RadarLine ||
                 ChartType == EnumChartType.Scatter ||
                 ChartType == EnumChartType.ScatterLine ||
-                ChartType == EnumChartType.Bubble;
+                ChartType == EnumChartType.Bubble ||
+                ChartType == EnumChartType.RangeArea ||
+                ChartType == EnumChartType.RangeBar ||
+                ChartType == EnumChartType.RangeColumn;
         }
 
         bool IsChartFamilyBar()
@@ -170,18 +173,6 @@ namespace Microarea.RSWeb.Objects
                  ChartType == EnumChartType.DonutNested;
         }
 
-        bool IsChartFamilyRange()
-        {
-            return
-                ChartType == EnumChartType.RangeBar ||
-                ChartType == EnumChartType.RangeColumn ||
-
-                ChartType == EnumChartType.RadarArea ||
-                ChartType == EnumChartType.RadarLine ||
-
-                ChartType == EnumChartType.Bubble;
-        }
-
         bool IsChartFamilyPolar()
         {
             return
@@ -194,6 +185,14 @@ namespace Microarea.RSWeb.Objects
             return
                 ChartType == EnumChartType.RadarArea ||
                 ChartType == EnumChartType.RadarLine;
+        }
+
+        bool IsChartFamilyRange()
+        {
+            return
+                ChartType == EnumChartType.RangeArea ||
+                ChartType == EnumChartType.RangeBar ||
+                ChartType == EnumChartType.RangeColumn;
         }
         //------------------------------------------------------------------------------
         protected override bool ParseProp(WoormParser lex, bool block)
@@ -697,8 +696,10 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "";
             int count = seriesList.Count - 1;
+            
             foreach (Series series in seriesList)
             {
+                DataArray categories = GetArray(series.Parent.BindedField);
                 DataArray axesX = GetArray(series.BindedFields[0]);
                 DataArray axesY = GetArray(series.BindedFields[1]);
                 if (axesX == null || axesY == null)
@@ -725,8 +726,14 @@ namespace Microarea.RSWeb.Objects
                     string x = axesX.GetAt(i).ToJson("x");
 
                     string y = axesY.GetAt(i).ToJson("y");
+                    string ss = x + ',' + y;
 
-                    s += '{' + x + ',' + y + '}';
+                    if (HasCategories())
+                    {
+                        ss += ',' + categories.GetAt(i).ToJson("category");
+                    }
+
+                    s += '{' + ss + '}';
 
                 }
 
@@ -877,6 +884,10 @@ namespace Microarea.RSWeb.Objects
             else if (IsChartFamilyRadar())
             {
                 s += ToJsonDataFamilyPie();
+            }
+            else if (IsChartFamilyRange())
+            {
+                s += ToJsonDataFamilyPolar();
             }
             //TODO CHART 
             //else if (IsChartFamily...())
