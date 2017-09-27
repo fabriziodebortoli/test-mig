@@ -560,8 +560,10 @@ namespace Microarea.RSWeb.WoormEngine
 		private ReportStatus	status = ReportStatus.Init;
 
 		private List<AskDialog> askingRules = new List<AskDialog>();
+        private List<Field> listFieldToPreserve = new List<Field>();  //Field which value has to be preserved across multiple rerun
 
-		private int				currentAskDialogNo = -1;
+
+        private int				currentAskDialogNo = -1;
 
 		public bool		DisplayAction;
 		public bool		ExplicitDisplayNotAllowed;
@@ -1003,8 +1005,22 @@ namespace Microarea.RSWeb.WoormEngine
 					if (!field.Init())
 						return SetError(string.Format(WoormEngineStrings.EvalInitExpression, field.PublicName));
 				}
-					
-			}
+                if (field.Statico/*never reinitialize*/ && listFieldToPreserve.Count > 0)
+                {
+                    if (RetrieveStaticValue(field))
+                    {
+                        continue;
+                    }
+                }
+                if (field.ReInit/*always reinitialize*/ /*|| !keepValues*/ || !RetrieveStaticValue(field))
+                {
+                    if (!field.Init())
+                    {
+                        return SetError(string.Format(WoormEngineStrings.EvalInitExpression, field.PublicName));
+                    }
+                }
+
+            }
 			if (initParameters != null)
 				foreach (AskDialog askDialog in askingRules)
 					askDialog.UserChanged.AddRange(initParameters.ParamNames);
@@ -1889,6 +1905,38 @@ namespace Microarea.RSWeb.WoormEngine
 			unparser.WriteEnd();
 			unparser.DecTab();
 		}
+
+        // allineato al motore c++ anche come nomenclatura
+        //---------------------------------------------------------------------------
+        private bool RetrieveStaticValue(Field field)
+        {
+            int candidateIndex = listFieldToPreserve.IndexOf(field);
+            if (candidateIndex >= 0)
+            {
+                Field initializedField = (Field)listFieldToPreserve[candidateIndex];
+                field.SetAllData(initializedField.Data, initializedField.Valid);
+                return true;
+            }
+            return false;
+        }
+
+        // Create a backup of fields which have to preserve value across different execution (reRun)
+        //---------------------------------------------------------------------------
+        public void CopyStaticField()
+        {
+            listFieldToPreserve.RemoveAll(_ => true);
+
+            foreach (Field field in RepSymTable.Fields)
+            {
+                if (field.ReInit || !field.Input)
+                    continue;
+
+                if (!field.Statico && !field.Ask && field.Hidden)
+                    continue;
+
+                listFieldToPreserve.Add(field.Clone());
+            }
+        }
     }
-}
+} 
 
