@@ -18,8 +18,7 @@ namespace Microarea.AccountManager.Controllers
 			string company = HttpContext.Request.Form["company"];
 			string askingProcess = HttpContext.Request.Form["askingProcess"];
 			bool overwriteLogin = HttpContext.Request.Form["overwriteLogin"] == "true";
-			string authenticationToken;
-			int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out authenticationToken);
+			int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out string authenticationToken);
 			string errorMessage = "Error message"; // TODO read error message
 
 			return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken });
