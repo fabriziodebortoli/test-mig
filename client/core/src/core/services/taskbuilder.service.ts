@@ -1,4 +1,5 @@
-﻿import { EventManagerService } from './../../menu/services/event-manager.service';
+﻿import { AppConfigService } from './app-config.service';
+import { EventManagerService } from './../../menu/services/event-manager.service';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
@@ -32,14 +33,14 @@ export class TaskbuilderService {
         private cookieService: CookieService,
         private logger: Logger,
         private router: Router,
-        private urlService: UrlService,
+        private appConfigService: AppConfigService,
         private eventManagerService: EventManagerService
     ) {
 
         // Connessione WS quando viene aperta connessione al tbLoader
         this.subscriptions.push(this.tbConnection.subscribe(tbConnection => {
             this.logger.debug("tbConnection subscription, se true devo collegarmi al WS", tbConnection)
-            if (tbConnection && !urlService.isDesktop) {
+            if (tbConnection && !appConfigService.config.isDesktop) {
                 this.socket.wsConnect();
             }
         }));
@@ -90,22 +91,22 @@ export class TaskbuilderService {
                     this.logger.debug("openTBConnection result...", tbRes);
 
                     if (tbRes.error) {
-                        
-                        this.logger.debug("error messages:",  tbRes.messages);
+
+                        this.logger.debug("error messages:", tbRes.messages);
                         // il TB c'è ma non riesce a collegare
                         this.logger.error("openTBConnection Connection Error - Reconnecting...");
                         this.tbConnection.next(false);
                         observer.next(false);
                         observer.complete();
-                        
-                    }else{
+
+                    } else {
                         this.logger.debug("TbLoader Connected...")
                         this.tbConnection.next(true);
-    
+
                         observer.next(true);
                         observer.complete();
                     }
-                    
+
                 }, (error) => {
                     this.logger.error("openTBConnection Connection failed", error);
                     this.tbConnection.next(false);
