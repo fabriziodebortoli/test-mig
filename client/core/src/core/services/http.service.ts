@@ -28,7 +28,7 @@ export class HttpService {
         let jObject = res.ok ? res.json() : null;
         let ok = jObject && jObject.success === true;
         let message = jObject && jObject.message ? jObject.message : "";
-        let messages = jObject && jObject.messages? jObject.messages : [];
+        let messages = jObject && jObject.messages ? jObject.messages : [];
         messages.push(message);
         return new OperationResult(!ok, messages);
     }
@@ -77,12 +77,15 @@ export class HttpService {
             })
     }
 
-    postDataWithAllowOrigin(url: string): Observable<Response> {
+    postDataWithAllowOrigin(url: string): Observable<OperationResult> {
         let token = this.cookieService.get('authtoken');
         let headers = new Headers();
         headers.append('Access-Control-Allow-Origin', window.location.origin);
         headers.append('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin');
         return this.http.post(url, undefined, { withCredentials: true, headers: headers })
+            .map((res: Response) => {
+                return this.createOperationResult(res);
+            });
     }
 
     closeTBConnection(params: { authtoken: string }): Observable<OperationResult> {
