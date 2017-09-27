@@ -5,17 +5,17 @@
     <br><br>
 
     <label>From page </label>
-    <kendo-numerictextbox [(ngModel)]="from" [decimals]="0" [format]="'n0'" [min]="1" [max]="rsService.totalPages" [disabled]="inputDisable"></kendo-numerictextbox>
+    <kendo-numerictextbox [(ngModel)]="from" [decimals]="0" [format]="'n0'" [min]="1" [max]="rsExportService.totalPages" [disabled]="inputDisable"></kendo-numerictextbox>
 
     <br><br>
 
     <label>To page </label>
-    <kendo-numerictextbox [(ngModel)]="to" [decimals]="0" [format]="'n0'" [min]="1" [max]="rsService.totalPages" [disabled]="inputDisable"></kendo-numerictextbox>
+    <kendo-numerictextbox [(ngModel)]="to" [decimals]="0" [format]="'n0'" [min]="1" [max]="rsExportService.totalPages" [disabled]="inputDisable"></kendo-numerictextbox>
 
     <kendo-dialog-actions>
-        <button kendoButton *ngIf="rsService.exportpdf" (click)="startExport()">Export PDF</button>
-        <button kendoButton *ngIf="rsService.exportexcel" (click)="startExport()">Export Excel</button>
-        <button kendoButton *ngIf="rsService.exportdocx" (click)="startExport()">Export Docx</button>
+        <button kendoButton *ngIf="rsExportService.exportpdf" (click)="startExport()">Export PDF</button>
+        <button kendoButton *ngIf="rsExportService.exportexcel" (click)="startExport()">Export Excel</button>
+        <button kendoButton *ngIf="rsExportService.exportdocx" (click)="startExport()">Export Docx</button>
     </kendo-dialog-actions>
 
 </kendo-dialog>

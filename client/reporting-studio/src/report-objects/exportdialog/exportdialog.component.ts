@@ -1,5 +1,5 @@
+import { RsExportService } from './../../rs-export.service';
 import { Subscription } from 'rxjs/Subscription';
-import { ReportingStudioService } from './../../reporting-studio.service';
 import { Component, Output, EventEmitter } from '@angular/core';
 import { formatNumber } from '@telerik/kendo-intl';
 
@@ -14,9 +14,9 @@ export class ExportdialogComponent {
     private from: number;
     private to: number;
     private inputDisable: boolean = true;
-    constructor(private rsService: ReportingStudioService) {
+    constructor(private rsExportService: RsExportService) {
         this.from = 1;
-        this.to = this.rsService.totalPages;
+        this.to = this.rsExportService.totalPages;
     };
 
     ngOnDestroy() {
@@ -24,21 +24,21 @@ export class ExportdialogComponent {
     }
 
     close() {
-        this.rsService.exportfile = false;
-        this.rsService.exportexcel = false;
-        this.rsService.exportpdf = false;
-        this.rsService.exportdocx = false;
+        this.rsExportService.exportfile = false;
+        this.rsExportService.exportexcel = false;
+        this.rsExportService.exportpdf = false;
+        this.rsExportService.exportdocx = false;
         this.ngOnDestroy();
     }
 
     startExport() {
-        this.rsService.initiaziedExport(this.from, this.to);
-        this.rsService.exportfile = false;
+        this.rsExportService.initiaziedExport(this.from, this.to);
+        this.rsExportService.exportfile = false;
     }
 
     setAllPages(){
         this.from = 1;
-        this.to = this.rsService.totalPages;
+        this.to = this.rsExportService.totalPages;
         this.inputDisable = true;
     }
 
