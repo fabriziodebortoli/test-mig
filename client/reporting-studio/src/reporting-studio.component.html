@@ -20,7 +20,7 @@
         </tb-view-container>
     </tb-frame-content>
     <tb-toolbar-bottom>
-        <label id="snapshot" *ngIf="runReport">SNAPSHOT OF REPORT</label>
+        <label id="snapshot" *ngIf="runReport">{{this.rsExportService.nameSnap}} - {{this.rsExportService.dateSnap | date:"dd/MM/yyyy HH:mm:ss"}}</label>
 
         <tb-toolbar-bottom-button id="firstButton" *ngIf="!runReport" caption="Snapshot Report" (click)="startSnapshot()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as PNG" (click)="startSavePNG()"></tb-toolbar-bottom-button>
