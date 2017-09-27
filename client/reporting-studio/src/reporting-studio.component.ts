@@ -183,8 +183,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           break;
         case CommandType.SNAPSHOT:
           this.runReport = true;
-          this.rsExportService.totalPages = msg.page;
+          this.rsExportService.totalPages = parseInt(msg.page);
           this.FirstPage();
+          console.log(this.rsExportService.totalPages);
           break;
         case CommandType.ACTIVESNAPSHOT:
           this.CreateTableSnapshots(k);
@@ -336,12 +337,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   CreateTableSnapshots(k: Snapshot[]) {
-    this.rsService.snapshots = k;
+    this.rsExportService.snapshots = k;
   }
 
   // -----------------------------------------------
   RunSnapshot() {
-    this.rsService.snapshot = false;
+    this.rsExportService.snapshot = false;
     let message = {
       commandType: CommandType.RUNSNAPSHOT,
       message: this.args.nameSpace,
@@ -404,7 +405,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   //--------------------------------------------------
   public startSnapshot() {
-    this.rsService.snapshot = true;
+    this.rsExportService.snapshot = true;
     let message = {
       commandType: CommandType.ACTIVESNAPSHOT,
       message: this.args.nameSpace,

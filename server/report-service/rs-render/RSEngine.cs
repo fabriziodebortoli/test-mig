@@ -874,7 +874,7 @@ namespace Microarea.RSWeb.Render
             reRun = true;
             Report.Engine.OutChannel.PageNumber = 1;
             Report.SymTable.DisplayTables.ResetAllRowsCounter();
-
+            Report.Engine.CopyStaticField();
             CurrentState = State.Start;
             Step();
         }
