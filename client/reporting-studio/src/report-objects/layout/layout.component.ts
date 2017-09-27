@@ -2,6 +2,7 @@ import { chart, series } from './../../models/chart.model';
 
 import { LayoutService } from '@taskbuilder/core';
 import { ReportingStudioService } from './../../reporting-studio.service';
+import { RsExportService } from './../../rs-export.service';
 import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, repeater, PdfType, SvgType, PngType } from './../../models';
 import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
@@ -27,7 +28,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   private viewHeightSubscription: Subscription;
   private viewHeight: number;
 
-  constructor(private layoutService: LayoutService, private rsService: ReportingStudioService) { }
+  constructor(private layoutService: LayoutService, private rsService: ReportingStudioService, private rsExportService: RsExportService) { }
 
   // -----------------------------------------------
   ngOnInit() {
@@ -57,14 +58,14 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       }
       else {
         this.UpdateData();
-        if (this.rsService.pdfState == PdfType.PDF) {
+        if (this.rsExportService.pdfState == PdfType.PDF) {
           this.createPDF();
         }
-        if (this.rsService.svgState == SvgType.SVG) {
-          this.rsService.exportSVG();
+        if (this.rsExportService.svgState == SvgType.SVG) {
+          this.rsExportService.exportSVG();
         }
-        if (this.rsService.pngState == PngType.PNG) {
-          this.rsService.exportPNG();
+        if (this.rsExportService.pngState == PngType.PNG) {
+          this.rsExportService.exportPNG();
         }
       }
     }
@@ -72,21 +73,21 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
   // -----------------------------------------------
   async createPDF() {
-    if (this.rsService.pageNum == this.rsService.firstPageExport) {
-      await this.rsService.eventNextPage.emit();
-      if (this.rsService.lastPageExport == this.rsService.firstPageExport) {
-        this.rsService.renderPDF();
+    if (this.rsService.pageNum == this.rsExportService.firstPageExport) {
+      await this.rsExportService.eventNextPage.emit();
+      if (this.rsExportService.lastPageExport == this.rsExportService.firstPageExport) {
+        this.rsExportService.renderPDF();
         return;
       }
       return;
     }
 
-    this.rsService.appendPDF().then(() => {
-      if (this.rsService.pageNum != this.rsService.lastPageExport) {
-        this.rsService.eventNextPage.emit();
+    this.rsExportService.appendPDF().then(() => {
+      if (this.rsService.pageNum != this.rsExportService.lastPageExport) {
+        this.rsExportService.eventNextPage.emit();
       }
       else {
-        this.rsService.renderPDF();
+        this.rsExportService.renderPDF();
       }
     });
 
@@ -238,7 +239,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       'margin': '5px auto',
       'position': 'relative',
     }
-    if (this.rsService.pdfState == PdfType.NOPDF || this.rsService.svgState == SvgType.NOSVG || this.rsService.pngState == PngType.NOPNG) {
+    if (this.rsExportService.pdfState == PdfType.NOPDF || this.rsExportService.svgState == SvgType.NOSVG || this.rsExportService.pngState == PngType.NOPNG) {
       this.layoutBackStyle = {
         'width': '100%',
         'height': this.viewHeight - 65 + 'px',
@@ -247,7 +248,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       }
     }
 
-    if (this.rsService.pdfState == PdfType.PDF || this.rsService.svgState == SvgType.SVG || this.rsService.pngState == PngType.PNG) {
+    if (this.rsExportService.pdfState == PdfType.PDF || this.rsExportService.svgState == SvgType.SVG || this.rsExportService.pngState == PngType.PNG) {
       this.layoutBackStyle = {
         'overflow': 'hidden'
       }

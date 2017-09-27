@@ -22,6 +22,7 @@ import { ReportingStudioComponent, ReportingStudioFactoryComponent } from './rep
 import { AskdialogComponent } from './report-objects/askdialog/askdialog.component';
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
 import { ReportingStudioService } from './reporting-studio.service';
+import { RsExportService } from './rs-export.service';
 import { AskdialogService } from './report-objects/askdialog/askdialog.service';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -37,6 +38,7 @@ import { RouterModule } from "@angular/router";
 import { TbCoreModule } from "@taskbuilder/core";
 export { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
 export { ReportingStudioService } from './reporting-studio.service';
+export { RsExportService } from './rs-export.service';
 export { AskdialogService } from './report-objects/askdialog/askdialog.service';
 import { ExportdialogComponent } from './report-objects/exportdialog/exportdialog.component';
 import { SnapshotdialogComponent } from './report-objects/snapshotdialog/snapshotdialog.component';
