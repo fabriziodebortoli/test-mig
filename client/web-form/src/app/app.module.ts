@@ -14,10 +14,6 @@ import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
-export function configLoad(config: AppConfigService) {
-    return config.load()
-}
-
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -31,7 +27,7 @@ export function configLoad(config: AppConfigService) {
     providers: [
         CookieService,
         AppConfigService,
-        { provide: APP_INITIALIZER, useFactory: configLoad, deps: [AppConfigService], multi: true }
+        { provide: APP_INITIALIZER, useFactory: (config: AppConfigService) => () => { return config.load(); }, deps: [AppConfigService], multi: true }
     ],
     bootstrap: [AppComponent]
 })
