@@ -1,6 +1,6 @@
+import { RsExportService } from './../../rs-export.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Component } from '@angular/core';
-import { ReportingStudioService } from './../../reporting-studio.service';
 import { Snapshot } from './snapshot';
 
 @Component({
@@ -16,7 +16,7 @@ export class SnapshotdialogComponent {
     private openSnapshot: string;
 
 
-    constructor(private rsService: ReportingStudioService) {
+    constructor(private rsExportService: RsExportService) {
       this.nameSnapshot = "";
       this.openSnapshot= "";
     };
@@ -26,13 +26,13 @@ export class SnapshotdialogComponent {
     }
 
     close() {
-        this.rsService.snapshot = false;
+        this.rsExportService.snapshot = false;
         this.ngOnDestroy();
     }
 
     createFileJson(){
-        this.rsService.initiaziedSnapshot(this.nameSnapshot, this.allUsers);
-        this.rsService.snapshot = false;
+        this.rsExportService.initiaziedSnapshot(this.nameSnapshot, this.allUsers);
+        this.rsExportService.snapshot = false;
     }
 
     setSingleUser(){
@@ -44,7 +44,7 @@ export class SnapshotdialogComponent {
     }
 
     runSnapshot(name: string, date: string, allusers: boolean){
-        this.rsService.startRunSnapshot(name, date, allusers);
+        this.rsExportService.startRunSnapshot(name, date, allusers);
     }
 
 
