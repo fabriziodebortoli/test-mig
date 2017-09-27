@@ -36,9 +36,6 @@ export class TaskbuilderService {
         private eventManagerService: EventManagerService
     ) {
 
-        // lettura file di configurazione backend urls
-        urlService.init().subscribe();
-
         // Connessione WS quando viene aperta connessione al tbLoader
         this.subscriptions.push(this.tbConnection.subscribe(tbConnection => {
             this.logger.debug("tbConnection subscription, se true devo collegarmi al WS", tbConnection)
