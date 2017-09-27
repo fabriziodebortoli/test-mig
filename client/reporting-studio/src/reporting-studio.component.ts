@@ -183,8 +183,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           break;
         case CommandType.SNAPSHOT:
           this.runReport = true;
-          this.rsExportService.totalPages = msg.page;
+          this.rsExportService.totalPages = parseInt(msg.page);
           this.FirstPage();
+          console.log(this.rsExportService.totalPages);
           break;
         case CommandType.ACTIVESNAPSHOT:
           this.CreateTableSnapshots(k);
