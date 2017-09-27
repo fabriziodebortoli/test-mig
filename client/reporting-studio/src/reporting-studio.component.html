@@ -25,12 +25,12 @@
         <tb-toolbar-bottom-button id="firstButton" *ngIf="!runReport" caption="Snapshot Report" (click)="startSnapshot()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as PNG" (click)="startSavePNG()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as SVG" (click)="startSaveSVG()"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button caption="Export as PDF" (click)="setExportFile(rsService.pdf)"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button *ngIf="!runReport" caption="Export as Excel" (click)="setExportFile(rsService.excel)"></tb-toolbar-bottom-button>
-        <!--<tb-toolbar-bottom-button caption="Export as DocX" (click)="setExportFile(rsService.docx)"></tb-toolbar-bottom-button> -->
+        <tb-toolbar-bottom-button caption="Export as PDF" (click)="setExportFile(rsExportService.pdf)"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="!runReport" caption="Export as Excel" (click)="setExportFile(rsExportService.excel)"></tb-toolbar-bottom-button>
+        <!--<tb-toolbar-bottom-button caption="Export as DocX" (click)="setExportFile(rsExportService.docx)"></tb-toolbar-bottom-button> -->
 
-        <rs-exportdialog *ngIf="rsService.exportfile"> </rs-exportdialog>
-        <rs-snapshotdialog *ngIf="rsService.snapshot"></rs-snapshotdialog>
+        <rs-exportdialog *ngIf="rsExportService.exportfile"> </rs-exportdialog>
+        <rs-snapshotdialog *ngIf="rsExportService.snapshot"></rs-snapshotdialog>
 
     </tb-toolbar-bottom>
 </tb-frame>
