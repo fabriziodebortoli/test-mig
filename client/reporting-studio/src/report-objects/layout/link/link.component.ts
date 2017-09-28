@@ -23,7 +23,6 @@ export class ReportLinkComponent {
     private webSocketService: WebSocketService) { }
 
   linkClicked() {
-    this.clicked=true;
     switch (this.link.type) {
       case LinkType.report:
         this.runReport();
@@ -37,6 +36,7 @@ export class ReportLinkComponent {
       default:
         break;
     }
+    this.clicked=true;
   }
 
   runReport() {
