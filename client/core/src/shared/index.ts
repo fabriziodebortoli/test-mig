@@ -31,3 +31,4 @@ export { SaveComponent } from './components/explorer/save/save.component';
 export { RadarComponent } from './components/radar/radar.component';
 export { TbIconComponent } from './components/tb-icon/tb-icon.component';
 export { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
+export { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';

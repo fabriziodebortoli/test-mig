@@ -1,0 +1,39 @@
+<button kendoButton ng-show="isEasyStudioActivated" class="top-button" (click)="changeCustomizationContext()" [disabled]="disabled">
+        <tb-icon [iconType]="iconType" [icon]="'mode_edit'" ></tb-icon>
+    </button>
+
+<kendo-dialog *ngIf="opened">
+    <kendo-dialog-titlebar>
+        <div style="font-size: 18px; line-height: 1.3em;">
+            Change Customization Context
+        </div>
+    </kendo-dialog-titlebar>
+    <div class="panelbar-wrapper">
+        <kendo-panelbar *ngFor="let app of appications">
+            <kendo-panelbar-item [title]="app" [items]="getModulesBy(app)">
+
+            </kendo-panelbar-item>
+        </kendo-panelbar>
+
+
+
+        <!-- <kendo-panelbar-item [title]="'Projects'">
+                <kendo-panelbar-item [title]="'New Business Plan'"></kendo-panelbar-item>
+                <kendo-panelbar-item [title]="'Sales Forecasts'"></kendo-panelbar-item>
+                <kendo-panelbar-item [title]="'Sales Reports'"></kendo-panelbar-item>
+            </kendo-panelbar-item>
+            <kendo-panelbar-item [title]="'Programs'">
+                <kendo-panelbar-item [title]="'Monday'"></kendo-panelbar-item>
+                <kendo-panelbar-item [title]="'Tuesday'"></kendo-panelbar-item>
+                <kendo-panelbar-item [title]="'Wednesday'"></kendo-panelbar-item>
+                <kendo-panelbar-item [title]="'Thursday'"></kendo-panelbar-item>
+                <kendo-panelbar-item [title]="'Friday'"></kendo-panelbar-item>
+            </kendo-panelbar-item>
+            <kendo-panelbar-item [title]="'Communication'" [disabled]="true"></kendo-panelbar-item>
+        </kendo-panelbar> -->
+    </div>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="ok()" primary="true">Ok</button>
+        <button kendoButton (click)="close()">Cancel</button>
+    </kendo-dialog-actions>
+</kendo-dialog>
