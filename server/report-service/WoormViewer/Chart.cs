@@ -75,18 +75,12 @@ namespace Microarea.RSWeb.Objects
         public int Group = 0;   //for grouping stacked column/bar
         public EnumChartStyle Style = EnumChartStyle.Normal;
 
-        /*CCategories : non riesco a fare la dichiarazione forward*/
-        public Categories Parent = null;
-
-        public Series(Categories p) { Parent = p; }
     };
 
     class Categories
     {
         public Variable BindedField = null;
         public string Title;
-
-        public List<Series> Series = new List<Series>();
 
         public Color Color = Color.White;
         public bool Colored = false;
@@ -112,7 +106,7 @@ namespace Microarea.RSWeb.Objects
         public EnumChartType ChartType = EnumChartType.None;
 
         Categories Categories = null;
-
+        List<Series> Series = new List<Series>();
         ChartLegend Legend = new ChartLegend();
 
         //------------------------------------------------------------------------------
@@ -134,6 +128,7 @@ namespace Microarea.RSWeb.Objects
                 ChartType == EnumChartType.ColumnStacked100 ||
                 ChartType == EnumChartType.Area ||
                 ChartType == EnumChartType.AreaStacked ||
+                ChartType == EnumChartType.AreaStacked100 ||
                 ChartType == EnumChartType.Line ||
                 ChartType == EnumChartType.Funnel ||
                 ChartType == EnumChartType.Pie ||
@@ -286,7 +281,7 @@ namespace Microarea.RSWeb.Objects
             }
             else
             {
-                pSeries.SeriesType = pSeries.Parent.Parent.ChartType;
+                pSeries.SeriesType = ChartType;
             }
 
             while (lex.Matched(Token.DATASOURCE))
@@ -412,16 +407,6 @@ namespace Microarea.RSWeb.Objects
                     Categories.Colored = false;
             }
 
-            while (lex.Matched(Token.CHART_SERIES))
-            {
-                Series pSeries = new Series(Categories);
-                if (!ParseSeries(lex, pSeries))
-                {
-                    return false;
-                }
-                Categories.Series.Add(pSeries);
-            }
-
             return lex.ParseEnd();
         }
 
@@ -463,13 +448,23 @@ namespace Microarea.RSWeb.Objects
             ok = ok && ParseBlock(lex);
 
             /*if*/
-            while (lex.Matched(Token.CHART_CATEGORIES))
+            if (lex.Matched(Token.CHART_CATEGORIES))
             {
 
                 if (!ParseCategories(lex))
                 {
                     return false;
                 }
+            }
+
+            while (lex.Matched(Token.CHART_SERIES))
+            {
+                Series pSeries = new Series();
+                if (!ParseSeries(lex, pSeries))
+                {
+                    return false;
+                }
+                Series.Add(pSeries);
             }
 
             if (lex.Matched(Token.CHART_LEGEND))
@@ -616,165 +611,26 @@ namespace Microarea.RSWeb.Objects
 
             return s + '}';
         }
-
+           
         //---------------------------------------------------------------------
-        /**
-         * Chart con le serie complesse
-         */
-        string ToJsonData(List<Series> seriesList, DataArray categories)
+        string ToJsonDataFamilyBar()
         {
-            string s = "";
-            int count = seriesList.Count - 1;
-            foreach (Series series in seriesList)
+            string series = "\"series\":[";
+
+            int count = Series.Count - 1;
+            for (int ser = 0; ser < Series.Count; ser++)
             {
-                DataArray arSeries = GetArray(series.BindedFields[0]);
-                if (arSeries == null)
-                {
-                    return string.Empty;
-                }
-                if (categories.Count != arSeries.Count)
-                {
-                    return string.Empty;
-                }
 
-
-                s += "{\"data\":[";
-
-                for (int i = 0; i < categories.Count; i++)
-                {
-                    if (i != 0)
-                    {
-                        s += ',';
-                    }
-
-
-
-                    string categoriesStr = categories.GetAt(i).ToJson("category");
-
-                    string val = arSeries.GetAt(i).ToJson("value");
-                    s += '{' + categoriesStr + ',' + val + '}';
-
-                }
-
-                s += "]," + series.Title.ToJson("name", false, true);
-
-                if (series.Colored)
-                    s += ',' + series.Color.ToJson("color");
-
-                s += ',' + series.SeriesType.ToJson("type");
-
-                if (series.Group != 0)
-                    s += ',' + series.Group.ToJson("group");
-
-                switch (series.Style)
-                {
-                    case EnumChartStyle.Normal:
-                        s += ',' + "normal".ToJson("style");
-                        break;
-                    case EnumChartStyle.Smooth:
-                        s += ',' + "smooth".ToJson("style");
-                        break;
-                    case EnumChartStyle.Step:
-                        s += ',' + "step".ToJson("style");
-                        break;
-                }
-                s += '}';
+                series += ToJsonData(Series[ser]);
                 if (count > 0)
                 {
-                    s += ",";
+                    series += ',';
                     count--;
                 }
             }
+            series += ']';
 
-            return s;
-        }
-        //---------------------------------------------------------------------
-        /**
-         * Chart con le asse x e asse y
-         */
-        string ToJsonData(List<Series> seriesList)
-        {
-            string s = "";
-            int count = seriesList.Count - 1;
-            
-            foreach (Series series in seriesList)
-            {
-                DataArray categories = GetArray(series.Parent.BindedField);
-                DataArray axesX = GetArray(series.BindedFields[0]);
-                DataArray axesY = GetArray(series.BindedFields[1]);
-                if (axesX == null || axesY == null)
-                {
-                    return string.Empty;
-                }
-                if (axesX.Count != axesY.Count)
-                {
-                    return string.Empty;
-                }
-
-
-                s += "{\"data\":[";
-
-                for (int i = 0; i < axesX.Count; i++)
-                {
-                    if (i != 0)
-                    {
-                        s += ',';
-                    }
-
-
-
-                    string x = axesX.GetAt(i).ToJson("x");
-
-                    string y = axesY.GetAt(i).ToJson("y");
-                    string ss = x + ',' + y;
-
-                    if (HasCategories())
-                    {
-                        ss += ',' + categories.GetAt(i).ToJson("category");
-                    }
-
-                    s += '{' + ss + '}';
-
-                }
-
-                s += "]," + series.Title.ToJson("name", false, true);
-
-                if (series.Colored)
-                    s += ',' + series.Color.ToJson("color");
-
-                s += ',' + series.SeriesType.ToJson("type");
-
-                if (series.Group != 0)
-                    s += ',' + series.Group.ToJson("group");
-
-                switch (series.Style)
-                {
-                    case EnumChartStyle.Normal:
-                        s += ',' + "normal".ToJson("style");
-                        break;
-                    case EnumChartStyle.Smooth:
-                        s += ',' + "smooth".ToJson("style");
-                        break;
-                    case EnumChartStyle.Step:
-                        s += ',' + "step".ToJson("style");
-                        break;
-                }
-                s += '}';
-                if (count > 0)
-                {
-                    s += ",";
-                    count--;
-                }
-            }
-
-            return s;
-        }
-
-        //---------------------------------------------------------------------
-
-        string ToJsonData(Categories cat)
-        {
-            DataArray ar = GetArray(cat.BindedField);
+            DataArray ar = GetArray(Categories.BindedField);
             if (ar == null)
             {
                 return string.Empty;
@@ -782,7 +638,7 @@ namespace Microarea.RSWeb.Objects
 
             string categories = "\"categories\":[";
 
-            int count = ar.Count - 1;
+            count = ar.Count - 1;
             for (int i = 0; i < ar.Count; i++)
             {
                 categories += ar.GetAt(i).ToJson();
@@ -796,36 +652,15 @@ namespace Microarea.RSWeb.Objects
             categories += ']';
 
             string category_axis = "\"category_axis\":{" +
-                 cat.Title.ToJson("title", false, true) + ',' +
+                 Categories.Title.ToJson("title", false, true) + ',' +
                  categories + '}';
 
-            return category_axis;
-        }
-        //---------------------------------------------------------------------
+            series += ',' + category_axis;
 
-        string ToJsonDataFamilyBar()
-        {
-            string series = "\"series\":[";
-
-            int count = this.Categories.Series.Count - 1;
-            for (int ser = 0; ser < this.Categories.Series.Count; ser++)
-            {
-
-                series += ToJsonData(this.Categories.Series[ser]);
-                if (count > 0)
-                {
-                    series += ',';
-                    count--;
-                }
-            }
-            series += ']';
-
-            if (HasCategories())
-                series += ',' + ToJsonData(this.Categories);
             return series;
         }
 
-
+        //---------------------------------------------------------------------
         string ToJsonDataFamilyPie()
         {
             if (Categories == null)
@@ -836,7 +671,67 @@ namespace Microarea.RSWeb.Objects
             string series = "[";
 
             DataArray categories = GetArray(Categories.BindedField);
-            series += ToJsonData(Categories.Series, categories);
+
+
+            int count = Series.Count - 1;
+            foreach (Series seriesItem in Series)
+            {
+                DataArray arSeries = GetArray(seriesItem.BindedFields[0]);
+                if (arSeries == null)
+                {
+                    return string.Empty;
+                }
+                if (categories.Count != arSeries.Count)
+                {
+                    return string.Empty;
+                }
+
+
+                series += "{\"data\":[";
+
+                for (int i = 0; i < categories.Count; i++)
+                {
+                    if (i != 0)
+                    {
+                        series += ',';
+                    }
+
+                    string categoriesStr = categories.GetAt(i).ToJson("category");
+
+                    string val = arSeries.GetAt(i).ToJson("value");
+                    series += '{' + categoriesStr + ',' + val + '}';
+
+                }
+
+                series += "]," + seriesItem.Title.ToJson("name", false, true);
+
+                if (seriesItem.Colored)
+                    series += ',' + seriesItem.Color.ToJson("color");
+
+                series += ',' + seriesItem.SeriesType.ToJson("type");
+
+                if (seriesItem.Group != 0)
+                    series += ',' + seriesItem.Group.ToJson("group");
+
+                switch (seriesItem.Style)
+                {
+                    case EnumChartStyle.Normal:
+                        series += ',' + "normal".ToJson("style");
+                        break;
+                    case EnumChartStyle.Smooth:
+                        series += ',' + "smooth".ToJson("style");
+                        break;
+                    case EnumChartStyle.Step:
+                        series += ',' + "step".ToJson("style");
+                        break;
+                }
+                series += '}';
+                if (count > 0)
+                {
+                    series += ",";
+                    count--;
+                }
+            }
 
             series += ']';
 
@@ -845,13 +740,82 @@ namespace Microarea.RSWeb.Objects
 
         string ToJsonDataFamilyPolar()
         {
-            if (Categories == null)
+            if (Series.Count == 0)
             {
                 return string.Empty;
             }
 
             string series = "[";
-            series += ToJsonData(Categories.Series);
+
+            int count = Series.Count - 1;
+
+            foreach (Series seriesItem in Series)
+            {
+                DataArray categories = GetArray(Categories.BindedField);
+                DataArray axesX = GetArray(seriesItem.BindedFields[0]);
+                DataArray axesY = GetArray(seriesItem.BindedFields[1]);
+                if (axesX == null || axesY == null)
+                {
+                    return string.Empty;
+                }
+                if (axesX.Count != axesY.Count)
+                {
+                    return string.Empty;
+                }
+
+
+                series += "{\"data\":[";
+
+                for (int i = 0; i < axesX.Count; i++)
+                {
+                    if (i != 0)
+                    {
+                        series += ',';
+                    }
+
+                    string x = axesX.GetAt(i).ToJson("x");
+
+                    string y = axesY.GetAt(i).ToJson("y");
+                    string ss = x + ',' + y;
+
+                    if (HasCategories())
+                    {
+                        ss += ',' + categories.GetAt(i).ToJson("category");
+                    }
+
+                    series += '{' + ss + '}';
+                }
+
+                series += "]," + seriesItem.Title.ToJson("name", false, true);
+
+                if (seriesItem.Colored)
+                    series += ',' + seriesItem.Color.ToJson("color");
+
+                series += ',' + seriesItem.SeriesType.ToJson("type");
+
+                if (seriesItem.Group != 0)
+                    series += ',' + seriesItem.Group.ToJson("group");
+
+                switch (seriesItem.Style)
+                {
+                    case EnumChartStyle.Normal:
+                        series += ',' + "normal".ToJson("style");
+                        break;
+                    case EnumChartStyle.Smooth:
+                        series += ',' + "smooth".ToJson("style");
+                        break;
+                    case EnumChartStyle.Step:
+                        series += ',' + "step".ToJson("style");
+                        break;
+                }
+                series += '}';
+                if (count > 0)
+                {
+                    series += ",";
+                    count--;
+                }
+            }
+        
             series += ']';
 
             return "\"series\":" + series;
@@ -889,8 +853,6 @@ namespace Microarea.RSWeb.Objects
             {
                 s += ToJsonDataFamilyPolar();
             }
-            //TODO CHART 
-            //else if (IsChartFamily...())
 
             //---------------------------
             s += '}';

@@ -16,11 +16,14 @@ export class ReportLinkComponent {
 
   @Input() link: link;
 
+  private clicked = false;
+
   constructor(
     private componentService: ComponentService,
     private webSocketService: WebSocketService) { }
 
   linkClicked() {
+    this.clicked=true;
     switch (this.link.type) {
       case LinkType.report:
         this.runReport();
