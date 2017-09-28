@@ -6,7 +6,11 @@ import { CommonModule } from '@angular/common';
  */
 import { TbCoreModule, TB_SERVICES } from './core/core.module';
 export * from './core/core.module';
-// export * from './core';
+
+/**
+ * Metodo da richiamare in app.module per lettura parametri configurazione
+ */
+export { loadConfig } from './core/services/info.service';
 
 /**
  * Modulo Shared
@@ -48,12 +52,11 @@ const TB_MODULES = [
   TbSettingsModule
 ];
 
-export * from './shared/models'; // TODO rimuovere tutte le importazioni da barrel
 
 /** 
  * Models & Enums
  */
-export { AppConfigModel } from './shared/models/app-config.model';
+export * from './shared/models'; // TODO rimuovere tutte le importazioni da barrel
 export { ComponentInfo } from './shared/models/component-info.model';
 export { ContextMenuItem } from './shared/models/context-menu-item.model';
 export { ControlTypes } from './shared/models/control-types.enum';

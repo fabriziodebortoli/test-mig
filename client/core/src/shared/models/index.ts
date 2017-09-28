@@ -1,4 +1,3 @@
-export { AppConfigModel } from './app-config.model';
 export { ComponentInfo } from './component-info.model';
 export { ContextMenuItem } from './context-menu-item.model';
 export { ControlTypes } from './control-types.enum';

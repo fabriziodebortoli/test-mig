@@ -1,16 +1,15 @@
-import { AppConfigService } from './../core/services/app-config.service';
-import { UrlService } from './../core/services/url.service';
-import { UtilsService } from './../core/services/utils.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 import { Subscription } from 'rxjs';
 
-import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
-
 import { ComponentInfo } from './../shared/models/component-info.model';
 import { MessageDlgArgs } from './../shared/models';
 
+import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
 import { MessageDialogComponent } from './../shared/containers/message-dialog/message-dialog.component';
+
+import { InfoService } from './../core/services/info.service';
+import { UtilsService } from './../core/services/utils.service';
 import { ComponentInfoService } from './../core/services/component-info.service';
 import { EnumsService } from './../core/services/enums.service';
 import { TabberService } from './../core/services/tabber.service';
@@ -60,11 +59,10 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     private localizationService: LocalizationService,
     private settingsService: SettingsService,
     private enumsService: EnumsService,
-    private urlService: UrlService,
-    private appConfigService: AppConfigService
+    private infoService: InfoService
   ) {
 
-    this.isDesktop = appConfigService.config.isDesktop;
+    this.isDesktop = infoService.isDesktop;
 
     this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
 

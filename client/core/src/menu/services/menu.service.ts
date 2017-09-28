@@ -1,17 +1,15 @@
-import { AppConfigService } from './../../core/services/app-config.service';
-import { UrlService } from './../../core/services/url.service';
-import { Response } from '@angular/http';
-import { Observable } from 'rxjs';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Router } from '@angular/router';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { InfoService } from './../../core/services/info.service';
 import { HttpService } from './../../core/services/http.service';
 import { ComponentService } from './../../core/services/component.service';
 import { UtilsService } from './../../core/services/utils.service';
 import { WebSocketService } from './../../core/services/websocket.service';
 import { Logger } from './../../core/services/logger.service';
-
 import { ImageService } from './image.service';
 import { SettingsService } from './settings.service';
 import { HttpMenuService } from './http-menu.service';
@@ -88,8 +86,7 @@ export class MenuService {
         private imageService: ImageService,
         private settingsService: SettingsService,
         private componentService: ComponentService,
-        private urlService: UrlService,
-        private appConfigService: AppConfigService
+        private infoService: InfoService
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -216,7 +213,7 @@ export class MenuService {
         if (object === undefined)
             return;
 
-        if (this.appConfigService.config.isDesktop) {
+        if (this.infoService.isDesktop) {
             this.runObject(object);
         }
         else {
@@ -269,7 +266,7 @@ export class MenuService {
             urlToRun = 'runOfficeItem/?ns=' + encodeURIComponent(ns) + '&subType=' + type + '&application=' + app;
         }
 
-        let sub = this.httpService.postDataWithAllowOrigin(this.httpService.getMenuBaseUrl() + urlToRun).subscribe((res) => {
+        let sub = this.httpService.postDataWithAllowOrigin(this.infoService.getMenuBaseUrl() + urlToRun).subscribe((res) => {
             object.isLoading = false;
             sub.unsubscribe();
         })

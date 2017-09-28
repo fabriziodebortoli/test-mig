@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { URLSearchParams, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { UrlService } from './../../core/services/url.service';
+import { InfoService } from './../../core/services/info.service';
 import { DataService } from './../../core/services/data.service';
 
 export class Widget {
@@ -89,9 +89,9 @@ export class WidgetsService {
 
   public isFirstUse: boolean = false;
   private clock: Observable<Date>;
- 
-  constructor(private http: Http, private dataService: DataService, private urlService: UrlService) {
-     this.clock = Observable.interval(1000).map(tick => new Date()).share();
+
+  constructor(private http: Http, private dataService: DataService, private infoService: InfoService) {
+    this.clock = Observable.interval(1000).map(tick => new Date()).share();
   }
 
   private pad00(n): string {
@@ -108,7 +108,7 @@ export class WidgetsService {
   }
 
   getActiveWidgets(): Observable<WidgetRow[]> {
-    const url: string = this.urlService.getBackendUrl() + '/widgets-service/getActiveWidgets';
+    const url: string = this.infoService.getBaseUrl() + '/widgets-service/getActiveWidgets';
 
     return this.http.get(url, { withCredentials: true }).map(
       (res: Response) => {
@@ -123,7 +123,7 @@ export class WidgetsService {
   }
 
   getWidget(ns: string): Observable<Widget> {
-    const url: string = this.urlService.getBackendUrl() + '/widgets-service/getWidget/' + ns + '/';
+    const url: string = this.infoService.getBaseUrl() + '/widgets-service/getWidget/' + ns + '/';
 
     return this.http.get(url, { withCredentials: true }).map(
       (res: Response) => {

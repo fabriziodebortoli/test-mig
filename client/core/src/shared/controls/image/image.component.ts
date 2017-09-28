@@ -1,8 +1,8 @@
-import { TbComponentService } from './../../../core/services/tbcomponent.service';
-import { LayoutService } from './../../../core/services/layout.service';
 import { Component, Input } from '@angular/core';
 
-import { HttpService } from './../../../core/services/http.service';
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
+import { LayoutService } from './../../../core/services/layout.service';
+import { InfoService } from './../../../core/services/info.service';
 
 import { ControlComponent } from './../control.component';
 
@@ -15,7 +15,8 @@ export class ImageComponent extends ControlComponent {
 
   @Input() title: string = '';
 
-  constructor(private httpService: HttpService,
+  constructor(
+    private infoService: InfoService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService) {
     super(layoutService, tbComponentService);
@@ -35,7 +36,7 @@ export class ImageComponent extends ControlComponent {
   }
 
   getImageUrl(namespace: string) {
-    return this.httpService.getDocumentBaseUrl() + 'getImage/?src=' + namespace;
+    return this.infoService.getDocumentBaseUrl() + 'getImage/?src=' + namespace;
   }
 
 }

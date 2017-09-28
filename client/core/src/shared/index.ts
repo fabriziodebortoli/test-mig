@@ -4,7 +4,6 @@ export * from './directives';
 
 export * from './models';
 
-export { AppConfigModel } from './models/app-config.model';
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';
 export { ControlTypes } from './models/control-types.enum';
