@@ -3,7 +3,6 @@
         <tb-card-title class="widget-title" [title]="widget.title" [icon]="more_vert"></tb-card-title>
         <tb-card-subtitle *ngIf="widget.subtitle" class="tb-card-subtitle widget-subtitle" [subTitle]="widget.title"></tb-card-subtitle>
         <span class="widget-spacer"></span>
-        <!-- <md-icon *ngIf="widget.link" class="widget-icon" (click)="executeLink()">link</md-icon> -->
         <m4-icon icon="tb-link" *ngIf="widget.link" class="widget-icon" (click)="executeLink()"></m4-icon>
     </tb-card-header>
     <tb-card-content class="widget-content tb-card-content">
