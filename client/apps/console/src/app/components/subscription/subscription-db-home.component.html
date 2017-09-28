@@ -1,0 +1,28 @@
+<div class="container">
+    <h2 class="componentTitle">{{model.SubscriptionKey}} Databases</h2>
+
+    <div class="row adminTile" *ngIf="databaseService.needsAskCredentials && !databaseService.testConnectionOK">
+        <app-database-testconnection></app-database-testconnection>
+    </div>
+    <div *ngIf="!isEditing && (!databaseService.needsAskCredentials || databaseService.testConnectionOK)">
+        <table>
+            <tr>
+                <td><label id="labm" (click)="ClickMaster()" class="mySelectedTab" readonly="readonly">Master</label></td>
+                <td><label id="labt" (click)="ClickTest()" class="myTab" readonly="readonly">Test</label></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="row adminTile" *ngIf="viewMaster && !( databaseService.needsAskCredentials && !databaseService.testConnectionOK)">
+        <app-subscription-database [model]="model"></app-subscription-database>
+    </div>
+    <div class="row adminTile" *ngIf="!viewMaster">
+        <app-subscription-database [model]="modelTest"></app-subscription-database>
+    </div>
+
+    <div class="row center-xs end-sm end-lg" *ngIf="!(databaseService.needsAskCredentials && !databaseService.testConnectionOK)">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+            <button type="button" class="cta" style="margin-top:40px" (click)="submitDatabase()">Save</button>
+        </div>
+    </div>
+</div>
