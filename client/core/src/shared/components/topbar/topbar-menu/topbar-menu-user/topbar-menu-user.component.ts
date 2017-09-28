@@ -1,3 +1,4 @@
+import { ComponentService } from './../../../../../core/services/component.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -16,7 +17,11 @@ export class TopbarMenuUserComponent implements OnDestroy {
     menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
 
     commandSubscription: Subscription;
-    constructor(private authService: AuthService, private eventDataService: EventDataService) {
+    constructor(
+        private authService: AuthService, 
+        private eventDataService: EventDataService,
+        private componentService: ComponentService
+) {
         const item1 = new ContextMenuItem('Refresh', 'idRefreshButton', true, false);
         const item2 = new ContextMenuItem('Settings', 'idSettingsButton', true, false);
         const item3 = new ContextMenuItem('Help', 'idHelpButton', true, false);
@@ -28,6 +33,8 @@ export class TopbarMenuUserComponent implements OnDestroy {
             switch (args.commandId) {
                 case 'idSignOutButton':
                     return this.logout();
+                    case 'idSettingsButton':
+                    return this.openSettings();
                 default:
                     break;
             }
@@ -37,6 +44,10 @@ export class TopbarMenuUserComponent implements OnDestroy {
         this.authService.logout();
     }
 
+    openSettings()
+    {
+        this.componentService.createComponentFromUrl('settings', true);
+    }
     ngOnDestroy() {
 
         this.commandSubscription.unsubscribe();
