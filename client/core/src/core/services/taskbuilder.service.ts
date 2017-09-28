@@ -1,18 +1,16 @@
-﻿import { AppConfigService } from './app-config.service';
-import { EventManagerService } from './../../menu/services/event-manager.service';
+﻿import { Injectable, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
-import { UrlService } from './url.service';
-import { Injectable, EventEmitter, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-
-import { Observable } from 'rxjs';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { OperationResult, LoginSession } from '../../shared/models';
 
+import { InfoService } from './info.service';
+import { EventManagerService } from './../../menu/services/event-manager.service';
 import { HttpService } from './http.service';
 import { WebSocketService } from './websocket.service';
 import { Logger } from './logger.service';
@@ -33,15 +31,19 @@ export class TaskbuilderService {
         private cookieService: CookieService,
         private logger: Logger,
         private router: Router,
-        private appConfigService: AppConfigService,
+        private infoService: InfoService,
         private eventManagerService: EventManagerService
     ) {
 
         // Connessione WS quando viene aperta connessione al tbLoader
         this.subscriptions.push(this.tbConnection.subscribe(tbConnection => {
             this.logger.debug("tbConnection subscription, se true devo collegarmi al WS", tbConnection)
-            if (tbConnection && !appConfigService.config.isDesktop) {
-                this.socket.wsConnect();
+            if (tbConnection) {
+                if (!infoService.isDesktop) {
+                    this.socket.wsConnect();
+                }
+                else
+                    this.connected.next(true);
             }
         }));
 

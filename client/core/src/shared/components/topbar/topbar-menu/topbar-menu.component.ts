@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, Inject, forwardRef } from '@angular/core';
 
-import { AppConfigService } from './../../../../core/services/app-config.service';
+import { InfoService } from './../../../../core/services/info.service';
 
 @Component({
   selector: 'tb-topbar-menu',
@@ -12,7 +12,7 @@ export class TopbarMenuComponent {
 
   isDesktop: boolean;
 
-  constructor(private appConfigService: AppConfigService) {
-    this.isDesktop = appConfigService.config.isDesktop;
+  constructor(private infoService: InfoService) {
+    this.isDesktop = infoService.isDesktop;
   }
 }

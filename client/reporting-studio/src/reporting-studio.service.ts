@@ -1,12 +1,12 @@
 import { Http } from '@angular/http';
-import { UrlService, HttpService } from '@taskbuilder/core';
+import { InfoService, HttpService } from '@taskbuilder/core';
 import { ComponentService } from '@taskbuilder/core';
 import { Logger } from '@taskbuilder/core';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import { EventDataService, InfoService, DocumentService } from '@taskbuilder/core';
-import { CommandType} from './models';
+import { EventDataService, DocumentService } from '@taskbuilder/core';
+import { CommandType } from './models';
 
 @Injectable()
 export class ReportingStudioService extends DocumentService {
@@ -24,13 +24,12 @@ export class ReportingStudioService extends DocumentService {
         logger: Logger,
         eventData: EventDataService,
         private cmpService: ComponentService,
-        private urlServ: UrlService,
         private httpServ: HttpService,
         protected http: Http,
         infoService: InfoService) {
         super(logger, eventData, infoService);
 
-        this.rsServer = this.urlServ.getWsBaseUrl() + '/rs';
+        this.rsServer = this.infoService.getWsBaseUrl() + '/rs';
         this.websocket = new WebSocket(this.rsServer);
         this.websocket.onopen = evt => { this.onOpen(evt) };
         this.websocket.onclose = evt => { this.onClose(evt) };

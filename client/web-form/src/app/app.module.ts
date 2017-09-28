@@ -8,15 +8,11 @@ import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 
-import { TbCoreModule, ComponentService, AppConfigService } from '@taskbuilder/core';
+import { TbCoreModule, ComponentService, InfoService, loadConfig } from '@taskbuilder/core';
 
 import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-
-export function configLoad(config: AppConfigService) {
-    return config.load()
-}
 
 @NgModule({
     declarations: [AppComponent],
@@ -30,8 +26,8 @@ export function configLoad(config: AppConfigService) {
     ],
     providers: [
         CookieService,
-        AppConfigService,
-        { provide: APP_INITIALIZER, useFactory: configLoad, deps: [AppConfigService], multi: true }
+        InfoService,
+        { provide: APP_INITIALIZER, useFactory: loadConfig, deps: [InfoService], multi: true }
     ],
     bootstrap: [AppComponent]
 })

@@ -4,6 +4,7 @@ import { Http } from '@angular/http';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Logger } from './../../core/services/logger.service';
+import { InfoService } from './../../core/services/info.service';
 import { HttpService } from './../../core/services/http.service';
 
 @Injectable()
@@ -12,7 +13,8 @@ export class ImageService {
     constructor(
         protected http: Http,
         protected logger: Logger,
-        private httpService: HttpService
+        private httpService: HttpService,
+        private infoService: InfoService
     ) {
         this.logger.debug('ImageService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -46,7 +48,7 @@ export class ImageService {
         }
 
         let imageFile = item['image_file'];
-        return imageFile === undefined ? 'Images/Default.png' : this.httpService.getMenuServiceUrl() + 'getStaticImage/?imageFile=' + imageFile;
+        return imageFile === undefined ? 'Images/Default.png' : this.infoService.getMenuServiceUrl() + 'getStaticImage/?imageFile=' + imageFile;
     }
 
     //---------------------------------------------------------------------------------------------
