@@ -1,18 +1,16 @@
-﻿import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
-import { Observable } from 'rxjs/Rx';
-import { EventEmitter, Injectable } from '@angular/core';
+﻿import { EventEmitter, Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
-
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
+import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
 import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
 import { SocketConnectionStatus } from '../../shared/models';
 
 import { TaskbuilderService } from './taskbuilder.service';
+import { InfoService } from './info.service';
 import { HttpService } from './http.service';
-import { UrlService } from './url.service';
-
 import { Logger } from './logger.service';
 
 @Injectable()
@@ -37,14 +35,14 @@ export class WebSocketService {
     public windowStrings: EventEmitter<any> = new EventEmitter();
 
     constructor(
+        private infoService: InfoService,
         private httpService: HttpService,
-        private urlService: UrlService,
         private cookieService: CookieService,
         private logger: Logger) {
     }
 
     setWsConnectionStatus(status: SocketConnectionStatus) {
-        if (this.urlService.isDesktop)
+        if (this.infoService.isDesktop)
             return;
 
         this._socketConnectionStatus = status;
@@ -52,15 +50,15 @@ export class WebSocketService {
     }
 
     wsConnect(): void {
-        if (this.urlService.isDesktop)
+        if (this.infoService.isDesktop)
             return;
 
         const $this = this;
 
         this.setWsConnectionStatus(SocketConnectionStatus.Connecting);
 
-        const url = this.urlService.getWsUrl();
-        this.logger.log('WebSocket Connection...', url)
+        const url = this.infoService.getWsUrl();
+        this.logger.debug('WebSocket Connection...', url)
 
         this.connection = new WebSocket(url);
         this.connection.onmessage = function (e) {
@@ -105,7 +103,7 @@ export class WebSocketService {
         };
 
         this.connection.onopen = (arg) => {
-            this.logger.log("WebSocket Connected", JSON.stringify(arg));
+            this.logger.debug("WebSocket Connected", JSON.stringify(arg));
             // sets the name for this client socket
             this.connection.send(JSON.stringify({
                 cmd: 'SetClientWebSocketName',
@@ -123,14 +121,14 @@ export class WebSocketService {
         };
 
         this.connection.onclose = (arg) => {
-            this.logger.log("WebSocket onClose", JSON.stringify(arg));
+            this.logger.debug("WebSocket onClose", JSON.stringify(arg));
             this.setWsConnectionStatus(SocketConnectionStatus.Disconnected);
             this.close.emit(arg);
         };
     }
 
     wsClose() {
-        if (this.urlService.isDesktop)
+        if (this.infoService.isDesktop)
             return;
 
         if (this.connection) {
@@ -145,7 +143,7 @@ export class WebSocketService {
                 observer.next(true);
                 observer.complete();
             } else if (this._socketConnectionStatus === SocketConnectionStatus.Connecting) {
-                this.logger.info('Connection not yet avCannot yet use connection, connecting...');
+                this.logger.debug('Connection not yet avCannot yet use connection, connecting...');
                 observer.next(false);
                 observer.complete();
             } else {

@@ -17,10 +17,14 @@
             <div style="min-height:120px">
 
                 <div class="box" *ngIf="loginStep == 1">
-                    <input type="text" class="ctrlInput" (keydown)="onKeyDown($event)" adminAutoFocus placeholder="Your Account Name" value="" [(ngModel)]="credentials.accountName" required>
+                    <admin-input-text 
+                        class="box" 
+                        (keydown)="onKeyDown($event)" 
+                        [inputLabel]="'AccountName'"
+                        [(inputData)]="credentials.accountName"></admin-input-text>
                 </div>
 
-                <div class="box"  *ngIf="loginStep == 1" style="text-align:left; margin:15px 0 0 12px;font-size:14px;">
+                <div class="box"  *ngIf="loginStep == 1" style="text-align:left; margin:25px 0 0 12px;font-size:14px;">
                     <a (click)="doForgottenPassword()" style="color:#999999; cursor:pointer;">Forgot your password?</a>
                 </div>                  
 
@@ -36,7 +40,12 @@
                 </div>
 
                 <div class="box" *ngIf="loginStep == 3">
-                    <input (keydown)="onKeyDown($event)" type="password" placeholder="Password" adminAutoFocus value="" [(ngModel)]="credentials.password" [readonly]="appBusy" required>
+                    <admin-input-text 
+                        class="box" 
+                        (keydown)="onKeyDown($event)" 
+                        [inputLabel]="'Password'"
+                        [(inputData)]="credentials.password"
+                        [readOnly]="appBusy"></admin-input-text>
                 </div>
             
             </div>

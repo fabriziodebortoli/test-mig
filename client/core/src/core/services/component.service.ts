@@ -92,7 +92,7 @@ export class ComponentService {
   removeComponent(component: ComponentInfo) {
     let idx = this.components.indexOf(component);
     if (idx === -1) {
-      console.debug('ComponentService: cannot remove conponent with id ' + component.id + ' because it does not exist');
+      console.debug('ComponentService: cannot remove component with id ' + component.id + ' because it does not exist');
       return;
     }
     this.components.splice(idx, 1);
@@ -111,7 +111,7 @@ export class ComponentService {
       }
     }
     if (idx === -1) {
-      console.debug('ComponentService: cannot remove conponent with id ' + componentId + ' because it does not exist');
+      console.debug('ComponentService: cannot remove component with id ' + componentId + ' because it does not exist');
       return;
     }
     this.components.splice(idx, 1);

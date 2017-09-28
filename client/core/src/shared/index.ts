@@ -1,7 +1,20 @@
 export * from './containers';
 export * from './controls';
 export * from './directives';
+
 export * from './models';
+
+export { ComponentInfo } from './models/component-info.model';
+export { ContextMenuItem } from './models/context-menu-item.model';
+export { ControlTypes } from './models/control-types.enum';
+export { CommandEventArgs } from './models/eventargs.model';
+export { LoginCompact } from './models/login-compact.model';
+export { LoginSession } from './models/login-session.model';
+export { MessageDlgArgs, MessageDlgResult, DiagnosticData, Message, DiagnosticDlgResult, DiagnosticType } from './models/message-dialog.model';
+export { OperationResult } from './models/operation-result.model';
+export { StateButton } from './models/state-button.model';
+export { ViewModeType } from './models/view-mode-type.model';
+export { SocketConnectionStatus } from './models/websocket-connection.enum';
 
 export { TbComponent } from './components/tb.component';
 export { BOComponent } from './components/bo.component';

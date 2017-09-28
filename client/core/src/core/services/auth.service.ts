@@ -33,6 +33,7 @@ export class AuthService {
     }
 
     login(connectionData: LoginSession): Observable<boolean> {
+        this.errorMessage = "";
         return this.httpService.login(connectionData).map((result: LoginCompact) => {
             this.islogged = result.success;
 
@@ -41,6 +42,8 @@ export class AuthService {
             }
 
             this.cookieService.put('authtoken', this.islogged ? result.authtoken : null);
+
+            this.eventManagerService.emitLoggedIn();
 
             return this.islogged;
         });
@@ -75,7 +78,6 @@ export class AuthService {
                     this.eventManagerService.emitloggingOff();
                     this.islogged = !loggedOut;
                     this.cookieService.remove('authtoken');
-                    // this.httpService.closeTBConnection(); // TODO spostare in subscribe event logoff
 
                     this.router.navigate([this.getLoginUrl()]);
                 }

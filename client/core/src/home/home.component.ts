@@ -1,15 +1,15 @@
-import { UrlService } from './../core/services/url.service';
-import { UtilsService } from './../core/services/utils.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 import { Subscription } from 'rxjs';
 
-import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
-
 import { ComponentInfo } from './../shared/models/component-info.model';
 import { MessageDlgArgs } from './../shared/models';
 
+import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
 import { MessageDialogComponent } from './../shared/containers/message-dialog/message-dialog.component';
+
+import { InfoService } from './../core/services/info.service';
+import { UtilsService } from './../core/services/utils.service';
 import { ComponentInfoService } from './../core/services/component-info.service';
 import { EnumsService } from './../core/services/enums.service';
 import { TabberService } from './../core/services/tabber.service';
@@ -46,7 +46,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   @ViewChild(MessageDialogComponent) messageDialog: MessageDialogComponent;
   viewHeight: number;
 
-  tbConnection: boolean = false;
+  connected: boolean = false;
+  isDesktop: boolean;
 
   constructor(
     private sidenavService: SidenavService,
@@ -58,8 +59,10 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     private localizationService: LocalizationService,
     private settingsService: SettingsService,
     private enumsService: EnumsService,
-    private urlService: UrlService
+    private infoService: InfoService
   ) {
+
+    this.isDesktop = infoService.isDesktop;
 
     this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
 
@@ -88,11 +91,15 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
 
+    // sottoscrivo la connessione TB e WS e, se non attiva, la apro tramite il servizio TaskbuilderService
+    this.subscriptions.push(this.taskbuilderService.connected.subscribe(connected => {
+      this.connected = connected;
+    }));
+
   }
 
   ngOnInit() {
-    this.taskbuilderService.openTbConnection().subscribe(connected => this.tbConnection = true);
-
+    this.taskbuilderService.openConnection();
   }
 
   ngAfterContentInit() {
@@ -111,6 +118,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   }
 
   ngOnDestroy() {
+    this.connected = false;
+    this.taskbuilderService.dispose();
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 

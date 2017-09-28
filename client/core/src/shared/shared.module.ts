@@ -20,8 +20,6 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { TreeModule } from 'angular-tree-component';
 
-
-
 const KENDO_UI_MODULES = [
     GridModule,
     ChartsModule,
@@ -169,6 +167,18 @@ const TB_DIRECTIVES = [
     LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective,
     ContextMenuDirective
 ];
+
+export { ComponentInfo } from './models/component-info.model';
+export { ContextMenuItem } from './models/context-menu-item.model';
+export { ControlTypes } from './models/control-types.enum';
+export { CommandEventArgs } from './models/eventargs.model';
+export { LoginCompact } from './models/login-compact.model';
+export { LoginSession } from './models/login-session.model';
+export { MessageDlgArgs, MessageDlgResult, DiagnosticData, Message, DiagnosticDlgResult, DiagnosticType } from './models/message-dialog.model';
+export { OperationResult } from './models/operation-result.model';
+export { StateButton } from './models/state-button.model';
+export { ViewModeType } from './models/view-mode-type.model';
+export { SocketConnectionStatus } from './models/websocket-connection.enum';
 
 @NgModule({
     imports: [TB_MODULES, KENDO_UI_MODULES, TreeModule],

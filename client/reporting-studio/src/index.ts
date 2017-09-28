@@ -5,7 +5,6 @@ import { ReportChartBarComponent } from './report-objects/layout/chart/chart-bar
 import { ReportChartRangeBarComponent } from './report-objects/layout/chart/chart-range-bar/chart-range-bar.component';
 import { ReportChartBubbleComponent } from './report-objects/layout/chart/chart-bubble/chart-bubble.component';
 import { ReportChartRadarComponent } from './report-objects/layout/chart/chart-radar/chart-radar.component';
-import { UrlService } from '@taskbuilder/core';
 import { AskTextComponent } from './report-objects/askdialog/ask-text/ask-text.component';
 import { AskRadioComponent } from './report-objects/askdialog/ask-radio/ask-radio.component';
 import { AskHotlinkComponent } from './report-objects/askdialog/ask-hotlink/ask-hotlink.component';
@@ -22,6 +21,7 @@ import { ReportingStudioComponent, ReportingStudioFactoryComponent } from './rep
 import { AskdialogComponent } from './report-objects/askdialog/askdialog.component';
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
 import { ReportingStudioService } from './reporting-studio.service';
+import { RsExportService } from './rs-export.service';
 import { AskdialogService } from './report-objects/askdialog/askdialog.service';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -37,6 +37,7 @@ import { RouterModule } from "@angular/router";
 import { TbCoreModule } from "@taskbuilder/core";
 export { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
 export { ReportingStudioService } from './reporting-studio.service';
+export { RsExportService } from './rs-export.service';
 export { AskdialogService } from './report-objects/askdialog/askdialog.service';
 import { ExportdialogComponent } from './report-objects/exportdialog/exportdialog.component';
 import { SnapshotdialogComponent } from './report-objects/snapshotdialog/snapshotdialog.component';

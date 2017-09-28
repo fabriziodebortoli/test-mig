@@ -7,6 +7,7 @@ import { Logger } from './../../core/services/logger.service';
 export class EventManagerService {
 
     preferenceLoaded: EventEmitter<any> = new EventEmitter();
+    loggedIn: EventEmitter<any> = new EventEmitter();
     loggedOff: EventEmitter<any> = new EventEmitter();
     loggingOff: EventEmitter<any> = new EventEmitter();
 
@@ -18,11 +19,15 @@ export class EventManagerService {
         this.preferenceLoaded.emit();
     }
 
+    emitLoggedIn() {
+        this.loggedIn.emit();
+    }
+
     emitloggedOff() {
         this.loggedOff.emit();
     }
 
-     emitloggingOff() {
+    emitloggingOff() {
         this.loggingOff.emit();
     }
 

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { HttpService } from './../../../core/services/http.service';
+import { InfoService } from './../../../core/services/info.service';
 
 @Component({
     selector: 'tb-icon',
@@ -13,8 +13,8 @@ export class TbIconComponent {
 
     imgUrl: string;
 
-    constructor(private httpService: HttpService) {
-        this.imgUrl = this.httpService.getDocumentBaseUrl() + 'getImage/?src=';
+    constructor(private infoService: InfoService) {
+        this.imgUrl = this.infoService.getDocumentBaseUrl() + 'getImage/?src=';
     }
 
 }

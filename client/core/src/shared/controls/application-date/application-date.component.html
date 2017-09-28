@@ -1,10 +1,15 @@
-<!-- <div class="example-wrapper" style="min-height: 400px;"> -->
-    <div class="col-xs-12 col-sm-6 example-col" *ngIf="applicationDate != undefined">
-        <kendo-datepicker 
-        [format]="dateFormat" 
-        [value]="applicationDate" 
-        (valueChange)="handleChange($event)"
-        (blur)="onBlur()"
-        ></kendo-datepicker>
+<div (click)="open()">
+    <kendo-dateinput [disabled]="true" [value]="applicationDate"></kendo-dateinput>
+    <m4-icon icon="erp-calendarflash"></m4-icon>
+</div>
+
+<kendo-dialog title="Change application date" *ngIf="opened" (close)="cancel()">
+    <div *ngIf="applicationDate != undefined">
+        <kendo-datepicker [format]="dateFormat" [value]="applicationDate" (valueChange)="handleChange($event)"></kendo-datepicker>
+        <label>{{errorMessage}}</label>
     </div>
-<!-- </div> -->
+    <kendo-dialog-actions>
+        <button kendoButton (click)="ok()" [primary]="true">Ok</button>
+        <button kendoButton (click)="cancel()" [primary]="true">Cancel</button>
+    </kendo-dialog-actions>
+</kendo-dialog>
