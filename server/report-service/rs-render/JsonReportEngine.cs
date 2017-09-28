@@ -315,7 +315,7 @@ namespace Microarea.RSWeb.Render
                         if (user.Equals("true"))
                             forAllUsers = true;
                         msg.message = RunJsonSnapshot(name, forAllUsers);
-                        msg.page = "1";
+                        msg.page = pageNum.ToString();
                         msg.commandType = MessageBuilder.CommandType.SNAPSHOT;
                         break;
                     }
@@ -731,11 +731,12 @@ namespace Microarea.RSWeb.Render
 
             string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(ReportSession.FilePath, ReportSession.UserInfo.Company, user);
             string completePath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(ReportSession.FilePath), true);
-
+            
             using (StreamReader r = new StreamReader(completePath+name+".json"))
             {
                 string json = r.ReadToEnd();
                 pagesSnapshot = JsonConvert.DeserializeObject<Snapshot>(json);
+                pageNum = pagesSnapshot.pages.Length / 2;
                 return pagesSnapshot.pages[0].ToString();
             }
         }

@@ -1,3 +1,4 @@
+import { OperationResult } from './../../models/operation-result.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { TaskbuilderService } from './../../../core/services/taskbuilder.service';
@@ -14,7 +15,8 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
     culture: string = '';
     dateFormat: string = '';
     internalDate: Date = undefined;
-    
+    errorMessage: string = "";
+
     subscriptions: Subscription[] = [];
 
     public opened: boolean = false;
@@ -23,8 +25,9 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscriptions.push(this.taskbuilderService.connected.subscribe(() => {
-            this.getDate();
+        this.subscriptions.push(this.taskbuilderService.tbConnection.subscribe((connected) => {
+            if (connected)
+                this.getDate(); 
         }));
         //this.localizationService.localizedElements
     }
@@ -34,12 +37,13 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
     }
     getDate() {
         this.httpMenuService.getApplicationDate().subscribe((res) => {
+            console.log("dateInfo", res.dateInfo);
             if (!res.dateInfo)
                 return;
 
             let d = res.dateInfo.applicationDate.split("T");
             let parts = d[0].split("-");
-            this.applicationDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+            this.applicationDate = this.internalDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
             this.culture = res.dateInfo.culture;
             this.dateFormat = res.dateInfo.dateFormat;
         })
@@ -54,14 +58,26 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
     }
 
     public ok() {
-        this.httpMenuService.changeApplicationDate(this.internalDate).subscribe((res) => {
-            console.log("internal date", this.internalDate);
-            this.applicationDate = this.internalDate;
-            this.opened = false;
-        });
+        this.errorMessage = "";
+        this.httpMenuService.changeApplicationDate(this.internalDate)
+            .subscribe((tbRes: OperationResult) => {
+                if (!tbRes.error) {
+                    this.applicationDate = this.internalDate;
+                    this.opened = false;
+                }
+                else {
+                    tbRes.messages.forEach((current) => { 
+                        this.errorMessage += current.text;
+                     })
+                    this.errorMessage;
+                }
+            });
+
+
     }
 
     public cancel() {
+        this.errorMessage = "";
         this.opened = false;
     }
 

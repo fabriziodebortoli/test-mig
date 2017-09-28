@@ -23,7 +23,7 @@
         <div class="tabber-container" #tabberContainer>
             <kendo-tabstrip #kendoTabStripInstance="kendoTabStrip" [keepTabContent]="true">
 
-                <kendo-tabstrip-tab [selected]="true" *ngIf="!urlService.isDesktop">
+                <kendo-tabstrip-tab [selected]="true" *ngIf="!isDesktop">
                     <ng-template kendoTabTitle>
                         <md-icon>home</md-icon>
                     </ng-template>
@@ -34,7 +34,7 @@
                     </ng-template>
                 </kendo-tabstrip-tab>
 
-                <kendo-tabstrip-tab [selected]="urlService.isDesktop">
+                <kendo-tabstrip-tab [selected]="isDesktop">
                     <ng-template kendoTabTitle>
                         <div (click)="menuService.activateMenu()" class="menu-tab">
                             <md-icon>dashboard</md-icon>

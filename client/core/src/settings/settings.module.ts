@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
         TbSharedModule,
         TbMenuModule,
         RouterModule.forChild([
-          { path: '', component: SettingsContainerFactoryComponent },
+          { path: 'settings', component: SettingsContainerFactoryComponent },
       ]),
       ],
   exports: [

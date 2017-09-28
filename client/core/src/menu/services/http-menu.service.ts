@@ -1,3 +1,4 @@
+import { OperationResult } from './../../shared/models/operation-result.model';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
@@ -120,13 +121,13 @@ export class HttpMenuService {
             });
     }
 
-     /**
-    * API /changeApplicationDate
-    * 
-    * @returns {Observable<any>} changeApplicationDate
-    */
-    changeApplicationDate(date: Date): Observable<any> {
-        console.log(date.toUTCString());
+    /**
+   * API /changeApplicationDate
+   * 
+   * @returns {Observable<OperationResult>} changeApplicationDate
+   */
+    changeApplicationDate(date: Date): Observable<OperationResult> {
+
         let day = date.getDate();
         let month = date.getMonth() + 1;
         let year = date.getFullYear();
@@ -134,10 +135,9 @@ export class HttpMenuService {
         var urlToRun = this.httpService.getDocumentBaseUrl() + 'changeApplicationDate/?day=' + day + '&month=' + month + '&year=' + year;
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
-                return res.json();
+                return this.httpService.createOperationResult(res);
             });
     }
-
 
     /**
      * API /mostUsedClearAll

@@ -33,6 +33,17 @@
     margin: 0px;
 }
 
+.tbcontainer .topbar-menu-layout m4-icon:hover {
+    color: white;
+    background-color: #00578c;
+}
+
+.tbcontainer .topbar-menu-layout m4-icon:focus {
+    color: white;
+    background-color: #00578c;
+    outline: #00578c auto 5px;
+}
+
 .tbcontainer .topbar-menu-layout .k-button:hover {
     color: #0277BD;
     background-color: white;

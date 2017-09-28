@@ -1,4 +1,3 @@
-
 export { ReportChartComponent } from './layout/chart/chart.component';
 export { ReportChartBarComponent } from './layout/chart/chart-bar/chart-bar.component';
 export { ReportChartPieComponent } from './layout/chart/chart-pie/chart-pie.component';

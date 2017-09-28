@@ -1,4 +1,5 @@
-﻿import { LoginCompact } from './../../shared/models/login-compact.model';
+﻿import { AppConfigService } from './app-config.service';
+import { LoginCompact } from './../../shared/models/login-compact.model';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 
@@ -21,13 +22,16 @@ export class HttpService {
         protected utils: UtilsService,
         protected logger: Logger,
         protected urlService: UrlService,
-        protected cookieService: CookieService) {
+        protected cookieService: CookieService,
+        private appConfigService: AppConfigService) {
     }
 
     createOperationResult(res: Response): OperationResult {
         let jObject = res.ok ? res.json() : null;
         let ok = jObject && jObject.success === true;
-        let messages = jObject ? jObject.messages : [];
+        let message = jObject && jObject.message ? jObject.message : "";
+        let messages = jObject && jObject.messages ? jObject.messages : [];
+        messages.push(message);
         return new OperationResult(!ok, messages);
     }
 
@@ -75,12 +79,15 @@ export class HttpService {
             })
     }
 
-    postDataWithAllowOrigin(url: string): Observable<Response> {
+    postDataWithAllowOrigin(url: string): Observable<OperationResult> {
         let token = this.cookieService.get('authtoken');
         let headers = new Headers();
         headers.append('Access-Control-Allow-Origin', window.location.origin);
         headers.append('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin');
         return this.http.post(url, undefined, { withCredentials: true, headers: headers })
+            .map((res: Response) => {
+                return this.createOperationResult(res);
+            });
     }
 
     closeTBConnection(params: { authtoken: string }): Observable<OperationResult> {
@@ -120,12 +127,12 @@ export class HttpService {
     }
 
     getDocumentBaseUrl() {
-        let url = this.urlService.isDesktop ? 'http://localhost/' : this.urlService.getApiUrl()
+        let url = this.appConfigService.config.isDesktop ? 'http://localhost/' : this.urlService.getApiUrl()
         return url + 'tb/document/';
     }
 
     getMenuBaseUrl() {
-        let url = this.urlService.isDesktop ? 'http://localhost/' : this.urlService.getApiUrl()
+        let url = this.appConfigService.config.isDesktop ? 'http://localhost/' : this.urlService.getApiUrl()
         return url + 'tb/menu/';
     }
 
@@ -151,7 +158,7 @@ export class HttpService {
         return url;
     }
 
-    protected handleError(error: any): ErrorObservable {
+    handleError(error: any): ErrorObservable {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
         let errMsg = (error.message) ? error.message :

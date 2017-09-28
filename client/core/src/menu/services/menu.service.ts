@@ -1,3 +1,4 @@
+import { AppConfigService } from './../../core/services/app-config.service';
 import { UrlService } from './../../core/services/url.service';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
@@ -87,7 +88,8 @@ export class MenuService {
         private imageService: ImageService,
         private settingsService: SettingsService,
         private componentService: ComponentService,
-        private urlService: UrlService
+        private urlService: UrlService,
+        private appConfigService: AppConfigService
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -214,7 +216,7 @@ export class MenuService {
         if (object === undefined)
             return;
 
-        if (this.urlService.isDesktop) {
+        if (this.appConfigService.config.isDesktop) {
             this.runObject(object);
         }
         else {

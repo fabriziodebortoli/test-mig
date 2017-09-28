@@ -1,3 +1,4 @@
+import { AppConfigService } from './../core/services/app-config.service';
 import { UrlService } from './../core/services/url.service';
 import { UtilsService } from './../core/services/utils.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
@@ -47,6 +48,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   viewHeight: number;
 
   connected: boolean = false;
+  isDesktop: boolean;
 
   constructor(
     private sidenavService: SidenavService,
@@ -58,8 +60,11 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     private localizationService: LocalizationService,
     private settingsService: SettingsService,
     private enumsService: EnumsService,
-    private urlService: UrlService
+    private urlService: UrlService,
+    private appConfigService: AppConfigService
   ) {
+
+    this.isDesktop = appConfigService.config.isDesktop;
 
     this.subscriptions.push(sidenavService.sidenavOpened$.subscribe(() => this.sidenav.toggle()));
 
