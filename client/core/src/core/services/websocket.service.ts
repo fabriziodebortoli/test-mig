@@ -1,19 +1,16 @@
-﻿import { AppConfigService } from './app-config.service';
-import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
-import { Observable } from 'rxjs/Rx';
-import { EventEmitter, Injectable } from '@angular/core';
+﻿import { EventEmitter, Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
-
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
+import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
 import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
 import { SocketConnectionStatus } from '../../shared/models';
 
 import { TaskbuilderService } from './taskbuilder.service';
+import { InfoService } from './info.service';
 import { HttpService } from './http.service';
-import { UrlService } from './url.service';
-
 import { Logger } from './logger.service';
 
 @Injectable()
@@ -38,15 +35,14 @@ export class WebSocketService {
     public windowStrings: EventEmitter<any> = new EventEmitter();
 
     constructor(
-        private appConfigService: AppConfigService,
+        private infoService: InfoService,
         private httpService: HttpService,
-        private urlService: UrlService,
         private cookieService: CookieService,
         private logger: Logger) {
     }
 
     setWsConnectionStatus(status: SocketConnectionStatus) {
-        if (this.appConfigService.config.isDesktop)
+        if (this.infoService.isDesktop)
             return;
 
         this._socketConnectionStatus = status;
@@ -54,14 +50,14 @@ export class WebSocketService {
     }
 
     wsConnect(): void {
-        if (this.appConfigService.config.isDesktop)
+        if (this.infoService.isDesktop)
             return;
 
         const $this = this;
 
         this.setWsConnectionStatus(SocketConnectionStatus.Connecting);
 
-        const url = this.urlService.getWsUrl();
+        const url = this.infoService.getWsUrl();
         this.logger.debug('WebSocket Connection...', url)
 
         this.connection = new WebSocket(url);
@@ -132,7 +128,7 @@ export class WebSocketService {
     }
 
     wsClose() {
-        if (this.appConfigService.config.isDesktop)
+        if (this.infoService.isDesktop)
             return;
 
         if (this.connection) {

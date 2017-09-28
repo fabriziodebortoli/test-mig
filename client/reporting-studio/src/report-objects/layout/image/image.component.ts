@@ -1,7 +1,7 @@
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { graphrect } from './../../../models/graphrect.model';
 import { Component, Input } from '@angular/core';
-import { UrlService } from "@taskbuilder/core";
+import { InfoService } from "@taskbuilder/core";
 
 @Component({
   selector: 'rs-image',
@@ -12,7 +12,7 @@ export class ReportImageComponent {
 
   @Input() image: graphrect;
 
-  constructor(private urlServ: UrlService) {
+  constructor(private infoService: InfoService) {
 
   };
   applyStyle(): any {
@@ -34,9 +34,9 @@ export class ReportImageComponent {
 
     if (this.image.value !== '') {
       //this.image.src = 'http://www.jqueryscript.net/images/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg';
-       this.image.src = this.urlServ.getBackendUrl() + '/rs/image/' + this.image.value;
+      this.image.src = this.infoService.getBaseUrl() + '/rs/image/' + this.image.value;
     }
-    
+
     return obj;
   }
 

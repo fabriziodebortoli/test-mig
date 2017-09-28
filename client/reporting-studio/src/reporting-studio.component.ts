@@ -1,6 +1,6 @@
 import { RsExportService } from './rs-export.service';
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
-import { WebSocketService, HttpService } from '@taskbuilder/core';
+import { WebSocketService, InfoService } from '@taskbuilder/core';
 import { UtilsService } from '@taskbuilder/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
@@ -49,7 +49,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     private rsExportService: RsExportService,
     eventData: EventDataService,
     private cookieService: CookieService,
-    private httpServ: HttpService,
+    private infoService: InfoService,
 
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
@@ -418,14 +418,14 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   //--------------------------------------------------
   getExcelData(filename: string) {
     var iframeHTML = document.getElementById('iframe') as HTMLFrameElement;
-    var s = this.httpServ.getReportServiceUrl() + 'excel/' + filename;
+    var s = this.infoService.getReportServiceUrl() + 'excel/' + filename;
     iframeHTML.src = s;
   }
 
   //--------------------------------------------------
   getDocxData(filename: string) {
     var iframeHTML = document.getElementById('iframe') as HTMLFrameElement;
-    var s = this.httpServ.getReportServiceUrl() + 'docx/' + filename;
+    var s = this.infoService.getReportServiceUrl() + 'docx/' + filename;
     iframeHTML.src = s;
   }
 

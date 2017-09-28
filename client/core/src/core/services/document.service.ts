@@ -10,7 +10,7 @@ import { EventDataService } from './eventdata.service';
 
 @Injectable()
 export class DocumentService extends TbComponentService {
-    
+
     mainCmpId: string;
     constructor(protected logger: Logger, public eventData: EventDataService, infoService: InfoService) {
         super(logger, infoService);
@@ -58,5 +58,5 @@ export class DocumentService extends TbComponentService {
 
     }
 
-   
+
 }
