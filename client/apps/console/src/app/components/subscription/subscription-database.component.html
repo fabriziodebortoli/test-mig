@@ -1,13 +1,9 @@
-<div class="container">
+<div class="container" *ngIf="!databaseService.needsAskCredentials || databaseService.testConnectionOK">
 
-    <h2 class="componentTitle">{{ model.SubscriptionKey }} Databases</h2>
+    <h2 class="componentTitle">{{ model.Name }}</h2>
 
-    <div class="row adminTile" *ngIf="databaseService.needsAskCredentials && !databaseService.testConnectionOK">
-        <app-database-testconnection [subDBModel]="model"></app-database-testconnection>
-    </div>
-
-    <div *ngIf="!databaseService.needsAskCredentials || databaseService.testConnectionOK">
-        <div class="row adminTile" style="margin-top:10px">
+    <div>
+        <div class="row adminTile" style="margin-top:10px;margin-right:5px">
             <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
                 <label>Description</label>
                 <textarea rows="5" cols="36" placeholder="Description" maxlength="255" [(ngModel)]="model.Description"></textarea>
@@ -17,28 +13,23 @@
             </div>
         </div>
 
-        <div class="row adminTile" style="margin-top:10px">
+        <div class="row adminTile" style="margin-top:10px;margin-right:5px">
             <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
                 <label>Provider</label>
-                <input type="text" placeholder="Provider" value="" [(ngModel)]="model.Provider" [readonly]="true">
+                <input type="text" placeholder="Provider" value="" [(ngModel)]="model.Provider" [readonly]="true" required>
             </div>
             <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4" style="margin-top: 34px">
                 <label><input type="checkbox" name="cboxIsUnicode" value="" [(ngModel)]="model.IsUnicode">Use Unicode</label>
             </div>
         </div>
 
-        <div class="row adminTile" style="margin-top:10px">
+        <div class="row adminTile" style="margin-top:10px;margin-right:5px">
             <app-database-info [isDMS]="false" [subDBModel]="model"></app-database-info>
         </div>
 
-        <div class="row adminTile" style="margin-top:10px">
+        <div class="row adminTile" style="margin-top:10px;margin-right:5px">
             <app-database-info [isDMS]="true" [subDBModel]="model"></app-database-info>
         </div>
 
-        <div class="row center-xs end-sm end-lg">
-            <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-                <button type="button" class="cta" style="margin-top:40px" (click)="submitDatabase()">Save</button>
-            </div>
-        </div>
     </div>
 </div>
