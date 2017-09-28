@@ -1,3 +1,4 @@
+import { AppConfigService } from './app-config.service';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
@@ -10,40 +11,11 @@ export class UrlService {
     private hostname: string;
     private port: number = 5000;
     private secure: boolean = false;
-    private baseUrl: string = "";
-    private wsBaseUrl: string = "";
-    public isDesktop: boolean = false;
-    constructor(private logger: Logger, private http: Http) {
 
-    }
-    async getConfiguration(): Promise<any> {
-        return await this.http.get('assets/config.json').toPromise();
-    }
-
-    init() {
-        return this.http.get('assets/config.json')
-            .map((res) => {
-                let js = res.json();
-                this.baseUrl = js['baseUrl'];
-                this.wsBaseUrl = js['wsBaseUrl'];
-                this.isDesktop = js['isDesktop'];
-            })
-        //.catch(err => console.log(err));
-    }
+    constructor(private logger: Logger, private http: Http, private appConfigService: AppConfigService) { }
 
     getBackendUrl() {
-        if (this.baseUrl)
-            return this.baseUrl;
-
-        if (!this.hostname) {
-            this.hostname = window.location.hostname;
-        }
-
-        let protocol = 'http:';
-        if (this.secure) {
-            protocol = 'https:';
-        }
-        return protocol += '//' + this.hostname + ':' + this.port;
+        return this.appConfigService.config.baseUrl;
     }
 
     getApiUrl() {
@@ -55,16 +27,7 @@ export class UrlService {
     }
 
     getWsBaseUrl() {
-        if (this.wsBaseUrl)
-            return this.wsBaseUrl;
-        if (!this.hostname) {
-            this.hostname = window.location.hostname;
-        }
-        let protocol = 'ws:';
-        if (this.secure) {
-            protocol = 'wss:';
-        }
-        return protocol += '//' + this.hostname + ':' + this.port;
+        return this.appConfigService.config.wsBaseUrl;
     }
 
     setPort(port: number) {

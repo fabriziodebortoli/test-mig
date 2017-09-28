@@ -48,8 +48,24 @@ const TB_MODULES = [
   TbSettingsModule
 ];
 
-export * from './shared/models';
-export { SocketConnectionStatus } from './shared';
+export * from './shared/models'; // TODO rimuovere tutte le importazioni da barrel
+
+/** 
+ * Models & Enums
+ */
+export { AppConfigModel } from './shared/models/app-config.model';
+export { ComponentInfo } from './shared/models/component-info.model';
+export { ContextMenuItem } from './shared/models/context-menu-item.model';
+export { ControlTypes } from './shared/models/control-types.enum';
+export { CommandEventArgs } from './shared/models/eventargs.model';
+export { LoginCompact } from './shared/models/login-compact.model';
+export { LoginSession } from './shared/models/login-session.model';
+export { MessageDlgArgs, MessageDlgResult, DiagnosticData, Message, DiagnosticDlgResult, DiagnosticType } from './shared/models/message-dialog.model';
+export { OperationResult } from './shared/models/operation-result.model';
+export { StateButton } from './shared/models/state-button.model';
+export { ViewModeType } from './shared/models/view-mode-type.model';
+export { SocketConnectionStatus } from './shared/models/websocket-connection.enum';
+
 import { HomeComponent, HomeSidenavComponent, StandaloneReportComponent, StandaloneDocumentComponent } from './home';
 const TB_HOME_COMPONENTS = [HomeComponent, HomeSidenavComponent, StandaloneReportComponent, StandaloneDocumentComponent];
 export * from './home';
@@ -57,7 +73,7 @@ export * from './home';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
 @NgModule({
-    imports: [CommonModule, TB_MODULES, LayoutModule],
+  imports: [CommonModule, TB_MODULES, LayoutModule],
   declarations: [TB_HOME_COMPONENTS],
   exports: [TB_MODULES, TB_HOME_COMPONENTS]
 })

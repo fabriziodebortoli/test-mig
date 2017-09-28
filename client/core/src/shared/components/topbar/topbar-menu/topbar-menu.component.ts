@@ -1,6 +1,6 @@
-import { UrlService } from './../../../../core/services/url.service';
 import { Component, ViewEncapsulation, Inject, forwardRef } from '@angular/core';
 
+import { AppConfigService } from './../../../../core/services/app-config.service';
 
 @Component({
   selector: 'tb-topbar-menu',
@@ -8,7 +8,11 @@ import { Component, ViewEncapsulation, Inject, forwardRef } from '@angular/core'
   styleUrls: ['./topbar-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class TopbarMenuComponent{
-  constructor(private urlService: UrlService) {
+export class TopbarMenuComponent {
+
+  isDesktop: boolean;
+
+  constructor(private appConfigService: AppConfigService) {
+    this.isDesktop = appConfigService.config.isDesktop;
   }
 }

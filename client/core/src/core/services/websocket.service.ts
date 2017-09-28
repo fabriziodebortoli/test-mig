@@ -1,4 +1,5 @@
-﻿import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
+﻿import { AppConfigService } from './app-config.service';
+import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
 import { Observable } from 'rxjs/Rx';
 import { EventEmitter, Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
@@ -37,6 +38,7 @@ export class WebSocketService {
     public windowStrings: EventEmitter<any> = new EventEmitter();
 
     constructor(
+        private appConfigService: AppConfigService,
         private httpService: HttpService,
         private urlService: UrlService,
         private cookieService: CookieService,
@@ -44,7 +46,7 @@ export class WebSocketService {
     }
 
     setWsConnectionStatus(status: SocketConnectionStatus) {
-        if (this.urlService.isDesktop)
+        if (this.appConfigService.config.isDesktop)
             return;
 
         this._socketConnectionStatus = status;
@@ -52,7 +54,7 @@ export class WebSocketService {
     }
 
     wsConnect(): void {
-        if (this.urlService.isDesktop)
+        if (this.appConfigService.config.isDesktop)
             return;
 
         const $this = this;
@@ -130,7 +132,7 @@ export class WebSocketService {
     }
 
     wsClose() {
-        if (this.urlService.isDesktop)
+        if (this.appConfigService.config.isDesktop)
             return;
 
         if (this.connection) {
