@@ -1,32 +1,35 @@
 ﻿using Microarea.Common.NameSolver;
 using System;
-using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Text;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.Common
 {
     //-------------------------------------------------------------------------
-    class MetaDataManagerTool
+    public class MetaDataManagerTool
     {
         private string connectionStringStandard;
         private string connectionStringCustom;
-        
+        private PathFinder pf;
+
         //---------------------------------------------------------------------
         public MetaDataManagerTool(string aConnectionStringStandard, string aConnectionStringCustom)
         {
             connectionStringStandard = aConnectionStringStandard;
             connectionStringCustom = aConnectionStringCustom;
+
+            pf = new PathFinder("USR-grillolara1", "DEV_Layer", "company", "sa");
+            pf.Edition = "Professional";
         }
         //---------------------------------------------------------------------
         public void InsertAllMetaDataInDB()
         {
             //TODO LARA
-         //   bool connect = databaseManager.ContextInfo.MakeCompanyConnection(databaseManager.ContextInfo.CompanyId);
+            //   bool connect = databaseManager.ContextInfo.MakeCompanyConnection(databaseManager.ContextInfo.CompanyId);
 
-            foreach (BaseApplicationInfo ai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+            foreach (ApplicationInfo ai in pf.ApplicationInfos)
             {
 
                 if (ai.ApplicationType != ApplicationType.TaskBuilderApplication &&
@@ -45,8 +48,12 @@ namespace Microarea.Common
                 if (File.Exists(Path.Combine(dir.FullName, NameSolverStrings.Application + NameSolverStrings.ConfigExtension)))
                     InsertFile(new FileInfo(dir.FullName + Path.DirectorySeparatorChar + NameSolverStrings.Application + NameSolverStrings.ConfigExtension), isCustom, id, ai.Name, string.Empty);
 
+                //File di brand
+                OneLevelInsertFileByType(dir.FullName + Path.DirectorySeparatorChar + "Solutions", id, isCustom, ai.Name, string.Empty, ".Brand.xml");
+                //File di temi
+                ThemesInsert(dir.FullName + Path.DirectorySeparatorChar + "Themes", id, isCustom, ai.Name, string.Empty);
 
-                foreach (BaseModuleInfo mi in ai.Modules)
+                foreach (ModuleInfo mi in ai.Modules)
                 {
                     dir = new DirectoryInfo(mi.Path);
                     int idModulo = InsertDir(dir, isCustom, id, ai.Name, mi.Name);
@@ -70,7 +77,7 @@ namespace Microarea.Common
                                     InsertFile(file, isCustom, id, ai.Name, mi.Name);
                                 if (subDir2.FullName.Contains("ExportProfiles"))
                                 {
-                                    foreach (DirectoryInfo subDir3 in subDir.GetDirectories())//es ERP\CustomersSuppliers\ModuleObjects\CircularLetterTemplates\Description
+                                    foreach (DirectoryInfo subDir3 in subDir2.GetDirectories())//es ERP\CustomersSuppliers\ModuleObjects\CircularLetterTemplates\Description
                                     {
                                         id = InsertDir(subDir3, isCustom, id, ai.Name, mi.Name);
                                         foreach (FileInfo file in subDir3.GetFiles())
@@ -103,6 +110,43 @@ namespace Microarea.Common
             }
 
         }
+
+
+        //---------------------------------------------------------------------
+        private void ThemesInsert(string folderPath, int idModulo, bool isCustom, string appName, string moduleName)
+        {
+            if (Directory.Exists(folderPath))
+            {
+                DirectoryInfo dir = new DirectoryInfo(folderPath);
+                int id = InsertDir(dir, isCustom, idModulo, appName, moduleName);
+                foreach (FileInfo file in dir.GetFiles())
+                    InsertFile(file, isCustom, id, appName, moduleName);
+                if (Directory.Exists(folderPath + Path.DirectorySeparatorChar + "Images"))
+                {
+                    DirectoryInfo dirSub = new DirectoryInfo(folderPath + Path.DirectorySeparatorChar + "Images");
+                    int idsub = InsertDir(dirSub, isCustom, idModulo, appName, moduleName);
+                    foreach (FileInfo file in dir.GetFiles())
+                        InsertFile(file, isCustom, idsub, appName, moduleName);
+                }
+
+            }
+
+        }
+
+        //---------------------------------------------------------------------
+        private void OneLevelInsertFileByType(string folderPath, int idModulo, bool isCustom, string appName, string moduleName, string fileExtension)
+        {
+            if (Directory.Exists(folderPath))
+            {
+                DirectoryInfo dir = new DirectoryInfo(folderPath);
+                int id = InsertDir(dir, isCustom, idModulo, appName, moduleName);
+                foreach (FileInfo file in dir.GetFiles())
+                    if (file.Name.Contains(fileExtension))
+                        InsertFile(file, isCustom, id, appName, moduleName);
+            }
+
+        }
+
         //---------------------------------------------------------------------
         private void RecourseInsert(string folderPath, int idModulo, bool isCustom, string appName, string moduleName)
         {
@@ -145,11 +189,10 @@ namespace Microarea.Common
             if (isCustom)
                 tableName = "TB_CustomMetadata";
 
-            string sInsert = @"INSERT INTO " + tableName + @" (ParentID, Namespace, Application, Module, PathName, Name, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent)
+            string sInsert = @"INSERT INTO " + tableName + @" (ParentID, Namespace, Application, Module, PathName, CompleteFileName, FileName, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent, FileTextContent)
 					output INSERTED.FileID
                     VALUES
-					(@ParentID, @Namespace, @Application, @Module,  @PathName, @Name, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent)";
-
+					(@ParentID, @Namespace, @Application, @Module,  @PathName, @CompleteFileName,  @FileName, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent, @FileTextContent)";
 
             if (isCustom)
             {
@@ -179,7 +222,8 @@ namespace Microarea.Common
                 mySQLCommand.Parameters.AddWithValue("@PathName", path);
                 mySQLCommand.Parameters.AddWithValue("@Application", appName);
                 mySQLCommand.Parameters.AddWithValue("@Module", moduleName);
-                mySQLCommand.Parameters.AddWithValue("@Name", String.Empty);
+                mySQLCommand.Parameters.AddWithValue("@CompleteFileName", path + Path.DirectorySeparatorChar);
+                mySQLCommand.Parameters.AddWithValue("@FileName", String.Empty);
                 mySQLCommand.Parameters.AddWithValue("@FileType", String.Empty);
                 mySQLCommand.Parameters.AddWithValue("@FileSize", 0);
                 mySQLCommand.Parameters.AddWithValue("@ObjectType", "DIRECTORY");
@@ -187,10 +231,12 @@ namespace Microarea.Common
                 mySQLCommand.Parameters.AddWithValue("@LastWriteTime", aDir.LastWriteTime);
                 mySQLCommand.Parameters.AddWithValue("@IsDirectory", "1");
                 mySQLCommand.Parameters.AddWithValue("@IsReadOnly", "0");
+                mySQLCommand.Parameters.AddWithValue("@FileTextContent", DBNull.Value);
 
-                SqlParameter contentParam = new SqlParameter("@FileContent", System.Data.SqlDbType.VarBinary);
+                SqlParameter contentParam = new SqlParameter("@FileContent", SqlDbType.VarBinary);
                 contentParam.Value = DBNull.Value;
                 mySQLCommand.Parameters.Add(contentParam);
+
 
                 int modified = (int)mySQLCommand.ExecuteScalar();
 
@@ -238,6 +284,12 @@ namespace Microarea.Common
             if (fileFullName.ToLower().Contains("datamanager"))
                 return "DATA";
 
+            if (fileFullName.ToLower().Contains("brand"))
+                return "BRAND";
+
+            if (fileFullName.ToLower().Contains("themes"))
+                return "THEMES";
+
             if (fileFullName.ToLower().Contains(".sql"))
                 return "SQL";
 
@@ -270,11 +322,10 @@ namespace Microarea.Common
 
             if (isCustom)
                 tableName = "TB_CustomMetadata";
-
             //Inserisco i Ruoli
-            string sInsert = @"INSERT INTO " + tableName + @" (ParentID, Namespace, Application, Module, PathName, Name, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent)
+            string sInsert = @"INSERT INTO " + tableName + @" (ParentID, Namespace, Application, Module, PathName,  CompleteFileName, FileName, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent, FileTextContent)
 					VALUES
-					(@ParentID, @Namespace, @Application, @Module, @PathName, @Name, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent)";
+					(@ParentID, @Namespace, @Application, @Module, @PathName, @CompleteFileName, @FileName, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent, @FileTextContent)";
 
 
 
@@ -308,7 +359,8 @@ namespace Microarea.Common
             mySQLCommand.Parameters.AddWithValue("@ParentID", id);
             mySQLCommand.Parameters.AddWithValue("@Namespace", nameSpace);
             mySQLCommand.Parameters.AddWithValue("@PathName", aFile.FullName.Substring(index + 9, aFile.FullName.LastIndexOf('\\') - (index + 9)));
-            mySQLCommand.Parameters.AddWithValue("@Name", aFile.Name);
+            mySQLCommand.Parameters.AddWithValue("@FileName", aFile.Name);
+            mySQLCommand.Parameters.AddWithValue("@CompleteFileName", aFile.FullName.Substring(index + 9));
             mySQLCommand.Parameters.AddWithValue("@FileType", aFile.Extension.Substring(1));
             mySQLCommand.Parameters.AddWithValue("@Application", appName);
             mySQLCommand.Parameters.AddWithValue("@Module", moduleName);
@@ -318,13 +370,23 @@ namespace Microarea.Common
             mySQLCommand.Parameters.AddWithValue("@LastWriteTime", aFile.LastWriteTime);
             mySQLCommand.Parameters.AddWithValue("@IsDirectory", "0");
             mySQLCommand.Parameters.AddWithValue("@IsReadOnly", aFile.IsReadOnly ? "1" : "0");
+            SqlParameter contentParam = new SqlParameter("@FileContent", SqlDbType.VarBinary);
+            SqlParameter contentParam2 = new SqlParameter("@FileTextContent", SqlDbType.NVarChar);
+            if (isBinary(aFile.FullName))
+            {
+                contentParam.Value = FileToByteArray(aFile.FullName);
+                contentParam2.Value = DBNull.Value;
+            }
+            else
+            {
+                contentParam2.Value = FileToString(aFile.FullName);
+                contentParam.Value = DBNull.Value;
 
-            SqlParameter contentParam = new SqlParameter("@FileContent", System.Data.SqlDbType.VarBinary);
-            contentParam.Value = FileToByteArray(aFile.FullName);
+            }
             mySQLCommand.Parameters.Add(contentParam);
+            mySQLCommand.Parameters.Add(contentParam2);
 
 
-            //   mySQLCommand.Parameters.Add("@FileContent", String.Empty);
             mySQLCommand.ExecuteNonQuery();
 
             mySQLCommand.Dispose();
@@ -345,6 +407,42 @@ namespace Microarea.Common
         }
 
         //---------------------------------------------------------------------
+        public static bool isBinary(string path)
+        {
+            FileInfo file = new FileInfo(path);
+            long length = file.Length;
+            if (length == 0) return false;
+
+            using (StreamReader stream = new StreamReader(path))
+            {
+                int ch;
+                while ((ch = stream.Read()) != -1)
+                {
+                    if (isControlChar(ch))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        //---------------------------------------------------------------------
+        public static bool isControlChar(int ch)
+        {
+            return (ch > Chars.NUL && ch < Chars.BS)
+                || (ch > Chars.CR && ch < Chars.SUB);
+        }
+
+        //---------------------------------------------------------------------
+        public static class Chars
+        {
+            public static char NUL = (char)0; // Null char
+            public static char BS = (char)8; // Back Space
+            public static char CR = (char)13; // Carriage Return
+            public static char SUB = (char)26; // Substitute
+        }
+        //---------------------------------------------------------------------
         public byte[] FileToByteArray(string fileName)
         {
             byte[] buff = null;
@@ -354,5 +452,17 @@ namespace Microarea.Common
             buff = br.ReadBytes((int)numBytes);
             return buff;
         }
+
+        //---------------------------------------------------------------------
+        public string FileToString(string fileName)
+        {
+            string text;
+            StreamReader streamReader = new StreamReader(fileName);
+            
+            text = streamReader.ReadToEnd();
+
+            return text;
+        }
+
     }
 }
