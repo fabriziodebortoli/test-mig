@@ -10,10 +10,9 @@
     justify-content: flex-end;
 }
 
-.topbar-menu-layout {
-    padding: 10px;
-}
-
+// .tbcontainer .topbar-menu-layout {
+//     padding: 10px;
+// }
 .tbcontainer .topbar-menu-layout .k-button {
     color: white;
     background-color: #00578c;
@@ -33,11 +32,25 @@
     margin: 0px;
 }
 
+.tbcontainer #anchor {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.tbcontainer #anchor:hover,
+.tbcontainer #anchor:focus,
+.tbcontainer #anchor:visited {
+    color: white;
+    background-color: #00578c;
+    outline-color: #00578c;
+    outline-style: auto;
+    outline-width: 5px;
+}
+
 .tbcontainer .topbar-menu-layout .k-button:hover {
     color: #0277BD;
     background-color: white;
     background-image: none;
-    border-color: #00578c;
     border: 0;
     border-left: 2px;
     border-right: 2px;
@@ -48,7 +61,6 @@
 .tbcontainer .topbar-menu-layout .topbar-menu-button:active {
     background-color: #00578c;
     background-image: none;
-    border-color: #00578c;
     border: 0;
     border-radius: 0px;
 }
@@ -77,4 +89,9 @@
     flex-wrap: wrap;
     width: 200px;
     height: 24px;
+}
+
+.tbcontainer .k-popup,
+.k-menu.k-context-menu {
+    border-color: #00578c;
 }

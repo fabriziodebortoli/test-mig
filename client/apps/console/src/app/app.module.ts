@@ -4,7 +4,6 @@ import { AppComponent } from './app.component';
 import { AppHomeComponent } from './components/app-home/app-home.component';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { JsonVisualizerPipe } from './json-visualizer.pipe';
@@ -20,7 +19,6 @@ import { InstanceComponent } from './components/instance/instance.component';
 import { BreadcrumbComponent } from './components/shared/breadcrumb.component';
 import { EntityHomeComponent } from './components/entity/entity-home.component';
 import { EntityDetailComponent } from './components/entity/entity-detail.component';
-import { SubscriptionSelectionComponent } from './components/subscription/subscription-selection.component';
 import { AccountsHomeComponent } from './components/account/accounts-home.component';
 import { InstanceHomeComponent } from './components/instance/instance-home.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
@@ -29,6 +27,7 @@ import { SubscriptionDatabaseComponent } from './components/subscription/subscri
 import { DatabaseConfigurationComponent } from './components/subscription/database-configuration.component';
 import { DatabaseTestconnectionComponent } from './components/subscription/database-testconnection.component';
 import { DatabaseService } from './services/database.service';
+import { SubscriptionDbHomeComponent } from './components/subscription/subscription-db-home.component';
 
 @NgModule({
   declarations: [
@@ -43,14 +42,14 @@ import { DatabaseService } from './services/database.service';
     BreadcrumbComponent,
     EntityHomeComponent,
     EntityDetailComponent,
-    SubscriptionSelectionComponent,
     AccountsHomeComponent,
     InstanceHomeComponent,
     SubscriptionComponent,
     AccountSubscriptionsComponent,
     SubscriptionDatabaseComponent,
     DatabaseConfigurationComponent,
-    DatabaseTestconnectionComponent
+    DatabaseTestconnectionComponent,
+    SubscriptionDbHomeComponent
   ],
   imports: [
     BrowserModule,

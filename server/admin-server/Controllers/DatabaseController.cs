@@ -1,19 +1,19 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
-using Microsoft.AspNetCore.Mvc;
+using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Libraries.DatabaseManager;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Options;
-using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Properties;
-using Microarea.Common.NameSolver;
+using Microarea.AdminServer.Services;
+using Microarea.AdminServer.Services.BurgerData;
 using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
-using TaskBuilderNetCore.Interfaces;
-using Microarea.AdminServer.Model;
-using System.Diagnostics;
+using Microarea.Common.NameSolver;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
-using Microarea.AdminServer.Libraries;
-using Microarea.AdminServer.Services.BurgerData;
+using System.Diagnostics;
+using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.AdminServer.Controllers
 {
@@ -253,7 +253,10 @@ namespace Microarea.AdminServer.Controllers
 
 			// if databaseName is empty I use master
 
-			string connectionString = string.Format(NameSolverDatabaseStrings.SQLAzureConnection,
+			string connectionString = 
+				string.Format
+				(
+				(dbCredentials.Provider == "SQLServer") ? NameSolverDatabaseStrings.SQLConnection : NameSolverDatabaseStrings.SQLAzureConnection,
 				dbCredentials.Server, 
 				string.IsNullOrWhiteSpace(dbCredentials.Database) ? DatabaseLayerConsts.MasterDatabase : dbCredentials.Database,
 				dbCredentials.Login,
@@ -269,5 +272,54 @@ namespace Microarea.AdminServer.Controllers
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
+
+		/// <summary>
+		/// Try to open connection with administrative credentials in the body and check if dbName already exists
+		/// </summary>
+		/// <param name="subscriptionKey"></param>
+		/// <param name="dbName"></param>
+		/// <param name="dbCredentials"></param>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		[HttpPost("/api/database/exist/{subscriptionKey}/{dbName}")]
+		public IActionResult ExistDatabase(string subscriptionKey, string dbName, [FromBody] DatabaseCredentials dbCredentials)
+		{
+			OperationResult opRes = new OperationResult();
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// I use master database to load all dbs
+
+			string connectionString = 
+				string.Format
+				(
+				(dbCredentials.Provider == "SQLServer") ? NameSolverDatabaseStrings.SQLConnection : NameSolverDatabaseStrings.SQLAzureConnection,
+				dbCredentials.Server,
+				DatabaseLayerConsts.MasterDatabase,
+				dbCredentials.Login,
+				dbCredentials.Password
+				);
+
+			DatabaseTask dTask = new DatabaseTask();
+			dTask.CurrentStringConnection = connectionString;
+
+			opRes.Result = dTask.ExistDataBase(dbName);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
 	}
 }

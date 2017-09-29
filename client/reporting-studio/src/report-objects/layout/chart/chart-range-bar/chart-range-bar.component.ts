@@ -22,4 +22,24 @@ export class ReportChartRangeBarComponent implements AfterViewInit {
     ngAfterViewInit() {
         this.cdRef.detectChanges();
     }
+
+
+    getType(item: any): string {
+        switch (item.type) {
+            case ChartType.RangeArea:
+                return 'rangeArea';
+            case ChartType.RangeBar:
+                return 'rangeBar';
+                case ChartType.RadarColumn:
+                return 'rangeColumn';
+        }  
+    }
+
+    public labelContentFrom(e: any): string {
+        return `${ e.value.from } `;
+    }
+  
+    public labelContentTo(e: any): string {
+        return `${ e.value.to } `;
+    }
 }
