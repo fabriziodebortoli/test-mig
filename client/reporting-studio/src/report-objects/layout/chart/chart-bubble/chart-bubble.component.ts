@@ -22,4 +22,17 @@ export class ReportChartBubbleComponent implements AfterViewInit {
     ngAfterViewInit() {
         this.cdRef.detectChanges();
     }
+
+
+    getType(item: any): string {
+        switch (item.type) {
+            case ChartType.Bubble:
+            case ChartType.BubbleScatter:
+                return 'bubble';
+            case ChartType.Scatter:
+                return 'scatter';
+            case ChartType.ScatterLine:
+                return 'scatterLine';
+        }
+    }
 }
