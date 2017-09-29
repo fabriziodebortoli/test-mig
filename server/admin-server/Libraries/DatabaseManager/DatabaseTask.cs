@@ -1032,7 +1032,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
 				extendedInfo.Add(DatabaseManagerStrings.Parameters, login);
 				extendedInfo.Add(DatabaseManagerStrings.Function, "CreateLogin");
-				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
 				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
 				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
 
@@ -1117,7 +1117,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
 				extendedInfo.Add(DatabaseManagerStrings.Parameters, login);
 				extendedInfo.Add(DatabaseManagerStrings.Function, "CreateUser");
-				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
 				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
 				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
 
@@ -1202,5 +1202,53 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			return result;
 		}
+
+		#region ExistDataBase - Verifica se il db specificato esiste già (non di sistema)
+		/// <summary>
+		/// Si connette al master e verifica se esiste il db specificato dal dbName
+		/// </summary>
+		//---------------------------------------------------------------------
+		public bool ExistDataBase(string dbName)
+		{
+			bool existDataBase = false;
+			string query = "SELECT COUNT(*) FROM sysdatabases WHERE name = @dbName";
+
+			try
+			{
+				// non posso utilizzare il metodo ChangeDatabase in caso di Azure
+				SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(CurrentStringConnection);
+				builder.InitialCatalog = DatabaseLayerConsts.MasterDatabase;
+
+				using (SqlConnection myConnection = new SqlConnection(builder.ConnectionString))
+				{
+					myConnection.Open();
+
+					using (SqlCommand myCommand = new SqlCommand(query, myConnection))
+					{
+						myCommand.Parameters.AddWithValue("@dbName", dbName);
+						if ((int)myCommand.ExecuteScalar() > 0)
+							existDataBase = true;
+					}
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "ExistDataBase");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorConnectionNotValid, extendedInfo);
+			}
+
+			return existDataBase;
+		}
+		#endregion
+
 	}
 }

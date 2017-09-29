@@ -11,6 +11,7 @@ import { Routes } from '@angular/router';
 import { SubscriptionHomeComponent } from 'app/components/subscription/subscription-home.component';
 import { AccountsHomeComponent } from "app/components/account/accounts-home.component";
 import { SubscriptionComponent } from 'app/components/subscription/subscription.component';
+import { SubscriptionDbHomeComponent } from 'app/components/subscription/subscription-db-home.component';
 
 export const routes: Routes = [
   { 
@@ -47,7 +48,7 @@ export const routes: Routes = [
     path: 'database', 
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
-    component: SubscriptionDatabaseComponent
+    component: SubscriptionDbHomeComponent
   },
   { 
     path: 'account', 
