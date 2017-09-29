@@ -5,26 +5,26 @@ import { ChartType } from "./../../../../models/chart-type.model";
     selector: 'rs-chart-pie',
     templateUrl: './chart-pie.component.html',
     styles: []
-  })
+})
 
-  
+
 /**
  * This component includes chart types:
  *  Pie, Donut, Funnel
  */
-  export class ReportChartPieComponent implements AfterViewInit {
+export class ReportChartPieComponent implements AfterViewInit {
 
-    @Input() chart:chart
+    @Input() chart: chart
 
-    constructor (private cdRef: ChangeDetectorRef){
+    constructor(public cdRef: ChangeDetectorRef) {
 
     }
 
     ngAfterViewInit() {
         this.cdRef.detectChanges();
-      }
+    }
 
-      getType(item: series): string {
+    getType(item: series): string {
         switch (item.type) {
             case ChartType.Pie:
                 return 'pie';
@@ -38,6 +38,5 @@ import { ChartType } from "./../../../../models/chart-type.model";
 
     public labelContent(e: any): string {
         return e.value;
-      }
-  }
-  
+    }
+}

@@ -21,7 +21,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
   public templates: TemplateItem[] = [];
   subscriptions: Subscription[] = [];
 
-  constructor(private rsService: ReportingStudioService, private adService: AskdialogService) {
+  constructor(public rsService: ReportingStudioService, public adService: AskdialogService) {
     this.subscriptions.push(adService.askChanged.subscribe(() => {
       this.updateAsk();
     }));

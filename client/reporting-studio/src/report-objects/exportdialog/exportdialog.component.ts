@@ -10,11 +10,12 @@ import { formatNumber } from '@telerik/kendo-intl';
 })
 
 export class ExportdialogComponent {
-    subscriptions: Subscription[] = [];
-    private from: number;
-    private to: number;
-    private inputDisable: boolean = true;
-    constructor(private rsExportService: RsExportService) {
+    public subscriptions: Subscription[] = [];
+    public from: number;
+    public to: number;
+    public inputDisable: boolean = true;
+
+    constructor(public rsExportService: RsExportService) {
         this.from = 1;
         this.to = this.rsExportService.totalPages;
     };
@@ -36,13 +37,13 @@ export class ExportdialogComponent {
         this.rsExportService.exportfile = false;
     }
 
-    setAllPages(){
+    setAllPages() {
         this.from = 1;
         this.to = this.rsExportService.totalPages;
         this.inputDisable = true;
     }
 
-    setRangePages(){
+    setRangePages() {
         this.inputDisable = false;
     }
 

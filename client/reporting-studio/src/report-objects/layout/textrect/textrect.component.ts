@@ -14,7 +14,7 @@ export class ReportTextrectComponent implements AfterViewInit {
 
   @Input() rect: textrect;
 
-  constructor(private cdRef: ChangeDetectorRef, private utils: UtilsService) {
+  constructor(public cdRef: ChangeDetectorRef, public utils: UtilsService) {
   }
 
   ngAfterViewInit() {

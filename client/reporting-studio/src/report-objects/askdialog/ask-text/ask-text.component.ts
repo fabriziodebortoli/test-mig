@@ -19,7 +19,7 @@ export class AskTextComponent implements OnInit {
 
   @Input() text: text;
 
-  constructor(private rsService: ReportingStudioService, private adService: AskdialogService) { }
+  constructor(public rsService: ReportingStudioService, public adService: AskdialogService) { }
 
 
   onBlur(value) {

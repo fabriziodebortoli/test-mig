@@ -16,7 +16,7 @@ export class ReportChartRadarComponent implements AfterViewInit {
 
     @Input() chart: chart
 
-    constructor(private cdRef: ChangeDetectorRef) {
+    constructor(public cdRef: ChangeDetectorRef) {
     }
 
     ngAfterViewInit() {
@@ -29,6 +29,6 @@ export class ReportChartRadarComponent implements AfterViewInit {
                 return 'radarArea';
             case ChartType.RadarLine:
                 return 'radarLine';
-        }  
+        }
     }
 }

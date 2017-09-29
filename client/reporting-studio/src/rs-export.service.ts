@@ -48,8 +48,8 @@ export class RsExportService {
     public excel: string = "Excel";
     public docx: string = "Docx";
 
-    constructor(private rsService: ReportingStudioService){}
-        
+    constructor(public rsService: ReportingStudioService) { }
+
 
 
 
@@ -106,7 +106,7 @@ export class RsExportService {
             });
     }
 
-     //------EXPORT PNG-----------------------------------
+    //------EXPORT PNG-----------------------------------
     public async exportPNG() {
         await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
@@ -119,7 +119,7 @@ export class RsExportService {
 
     }
 
-     //------EXPORT SVG-----------------------------------
+    //------EXPORT SVG-----------------------------------
     public async exportSVG() {
         await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {

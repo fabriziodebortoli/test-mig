@@ -17,8 +17,8 @@ export class ReportLinkComponent {
   @Input() link: link;
 
   constructor(
-    private componentService: ComponentService,
-    private webSocketService: WebSocketService) { }
+    public componentService: ComponentService,
+    public webSocketService: WebSocketService) { }
 
   linkClicked() {
     switch (this.link.type) {

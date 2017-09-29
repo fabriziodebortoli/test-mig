@@ -5,13 +5,13 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'rs-rect',
   templateUrl: './rect.component.html',
-   styles: []
+  styles: []
 })
 export class ReportRectComponent {
 
   @Input() rect: sqrrect;
 
-  constructor(private utils: UtilsService) { }
+  constructor(public utils: UtilsService) { }
 
   applyStyle(): any {
     let rgba = this.utils.hexToRgba(this.rect.bkgcolor);

@@ -11,14 +11,14 @@ import { Snapshot } from './snapshot';
 
 export class SnapshotdialogComponent {
     subscriptions: Subscription[] = [];
-    private allUsers : boolean = false;
-    private nameSnapshot: string;
-    private openSnapshot: string;
+    public allUsers: boolean = false;
+    public nameSnapshot: string;
+    public openSnapshot: string;
 
 
-    constructor(private rsExportService: RsExportService) {
-      this.nameSnapshot = "";
-      this.openSnapshot= "";
+    constructor(public rsExportService: RsExportService) {
+        this.nameSnapshot = "";
+        this.openSnapshot = "";
     };
 
     ngOnDestroy() {
@@ -30,20 +30,20 @@ export class SnapshotdialogComponent {
         this.ngOnDestroy();
     }
 
-    createFileJson(){
+    createFileJson() {
         this.rsExportService.initiaziedSnapshot(this.nameSnapshot, this.allUsers);
         this.rsExportService.snapshot = false;
     }
 
-    setSingleUser(){
+    setSingleUser() {
         this.allUsers = false;
     }
 
-    setAllusers(){
+    setAllusers() {
         this.allUsers = true;
     }
 
-    runSnapshot(name: string, date: string, allusers: boolean){
+    runSnapshot(name: string, date: string, allusers: boolean) {
         this.rsExportService.startRunSnapshot(name, date, allusers);
     }
 

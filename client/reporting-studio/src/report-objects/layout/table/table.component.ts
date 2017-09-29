@@ -15,7 +15,7 @@ export class ReportTableComponent {
 
   @Input() table: table;
   src: string
-  constructor(private utils: UtilsService, private infoService: InfoService) { }
+  constructor(public utils: UtilsService, public infoService: InfoService) { }
 
   // -----------------------------------------------------
   getValue(dataItem: any, colId: any, colIndex: number): any {
@@ -142,7 +142,7 @@ export class ReportTableComponent {
   }
 
   // -----------------------------------------------------
-  private findDefaultStyle(id: string, rowIndex: number): cell {
+  public findDefaultStyle(id: string, rowIndex: number): cell {
     for (let index = 0; index < this.table.defaultStyle.length; index++) {
       let element = this.table.defaultStyle[index];
       if (element.rowNumber === rowIndex) {

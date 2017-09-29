@@ -18,8 +18,8 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
   @Input() radio: radio;
   @Input() otherRadios: radio[];
   constructor(
-    private rsService: ReportingStudioService,
-    private adService: AskdialogService,
+    public rsService: ReportingStudioService,
+    public adService: AskdialogService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService
   ) {
