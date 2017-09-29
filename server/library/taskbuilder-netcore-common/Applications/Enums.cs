@@ -975,13 +975,17 @@ namespace Microarea.Common.Applications
 	//=============================================================================        
 	public class EnumTags : ArrayList
 	{
-       private string country = string.Empty;
+        private string country = string.Empty;
+        private string applicationName = string.Empty;
+        private string moduleName = string.Empty;
 
-       //-----------------------------------------------------------------------------
-       //TODO RSWEB 
+        //-----------------------------------------------------------------------------
+        //TODO RSWEB 
         private ILoginManager loginMng = null;
 
-       public ILoginManager LoginManager
+        public string ModuleName { get { return moduleName; } set { moduleName = value; } }
+        public string ApplicationName { get { return applicationName; } set  { applicationName = value; }}
+        public ILoginManager LoginManager
         {
             get
             {
@@ -1346,7 +1350,7 @@ namespace Microarea.Common.Applications
 		/// <param name="owner"></param>
 		/// <returns></returns>
 		//-----------------------------------------------------------------------------
-		public bool LoadXml(string filename, IBaseModuleInfo owner = null, bool checkActivation = false)
+		public bool LoadXml(string filename, string appName, IBaseModuleInfo owner = null, bool checkActivation = false)
 		{
             if (String.IsNullOrEmpty(filename) || !File.Exists(filename))
                 return true;
@@ -1355,6 +1359,8 @@ namespace Microarea.Common.Applications
 			ushort		tagValue = 0;
 			ushort		nextItemValue = 0;
 
+            this.ApplicationName = appName;
+            this.ModuleName = owner.Name;
 
             XmlDocument dom = new XmlDocument();
 			dom.Load(File.OpenRead(filename));
@@ -1759,7 +1765,7 @@ namespace Microarea.Common.Applications
 					string standardFilename = mi.GetEnumsPath();
 
 					//...comunque per il percorso ritenuto "dalla standard" carico gli enumerativi...
-					if (!LoadXml(standardFilename, mi, checkActivation))
+					if (!LoadXml(standardFilename, mi, checkActivation, ai.Name))
 					{
 						this.loaded = false;
 					}
@@ -1770,7 +1776,7 @@ namespace Microarea.Common.Applications
 					string customFilename = mi.GetCustomEnumsPath();
 					if (String.Compare(standardFilename, customFilename, StringComparison.OrdinalIgnoreCase) != 0)
 					{
-						if (!LoadXml(customFilename, mi, checkActivation))
+						if (!LoadXml(customFilename, mi, checkActivation, ai.Name))
 						{
 							this.loaded = false;
 						}
@@ -1886,11 +1892,11 @@ namespace Microarea.Common.Applications
 		}
 
 		//-----------------------------------------------------------------------------
-        public bool LoadXml(string filename, IBaseModuleInfo owner, bool checkActivation)
+        public bool LoadXml(string filename, IBaseModuleInfo owner, bool checkActivation, string appName)
 		{
 			try
 			{
-                return enumTags.LoadXml(filename, owner, checkActivation);
+                return enumTags.LoadXml(filename, appName, owner, checkActivation);
 			}
 			catch (Exception ex)
 			{
@@ -1909,7 +1915,7 @@ namespace Microarea.Common.Applications
                 using (StreamReader sr = new StreamReader(xmlStream))
                     sw.Write(sr.ReadToEnd());
 
-				return enumTags.LoadXml(tempPath, null, false);
+				return enumTags.LoadXml(tempPath, string.Empty, null, false);
 			}
 			catch (Exception ex)
 			{
@@ -1919,10 +1925,10 @@ namespace Microarea.Common.Applications
 		}
 
         //-----------------------------------------------------------------------------
-        public bool LoadXml(string filename, IBaseModuleInfo owner)
-        {
-            return LoadXml(filename, owner, true);
-        }
+        //public bool LoadXml(string filename, IBaseModuleInfo owner)
+        //{
+        //    return LoadXml(filename, owner, true);
+        //}
 		// converte il singolo file da formato .ini in formato .xml
 		//-----------------------------------------------------------------------------
 		public bool FromIniToXml(string filename, IBaseModuleInfo owner)

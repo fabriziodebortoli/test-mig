@@ -84,9 +84,9 @@ export class TaskbuilderService {
 
         let authtoken = this.cookieService.get('authtoken');
         this.logger.debug("openTbConnection...", authtoken);
-
+        let isDesktop =  this.infoService.isDesktop;
         return new Observable(observer => {
-            this.httpService.openTBConnection({ authtoken: authtoken })
+            this.httpService.openTBConnection({ authtoken: authtoken, isDesktop: isDesktop})
                 .timeout(15000)
                 .catch((error: any) => Observable.throw(error))
                 .subscribe((tbRes: OperationResult) => {

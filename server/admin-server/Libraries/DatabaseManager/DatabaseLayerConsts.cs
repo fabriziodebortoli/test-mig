@@ -16,8 +16,11 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		public const string PublicUser		= "public";
 		public const string MasterDatabase	= "master";
 
-        //@@Anastasia il nome del masterdatabase in postgre
-        public const string postgreMasterDatabase = "postgres";
+		public const string SPHelpUser			= "sp_helpuser";
+		public const string SPHelpSrvRoleMember = "sp_helpsrvrolemember";
+
+		//@@Anastasia il nome del masterdatabase in postgre
+		public const string postgreMasterDatabase = "postgres";
         //@@Anastasia Postgre login del superuser. TODO: da cambiare!! 
         public const string postgreSuperUser = "sa";
         ///@@Anastasia Postgre default password. Viene assegnato o usato quando la pasword e' vuota.

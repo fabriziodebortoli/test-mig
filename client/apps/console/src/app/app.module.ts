@@ -26,8 +26,6 @@ import { AccountSubscriptionsComponent } from './components/account/account-subs
 import { SubscriptionDatabaseComponent } from './components/subscription/subscription-database.component';
 import { DatabaseConfigurationComponent } from './components/subscription/database-configuration.component';
 import { DatabaseTestconnectionComponent } from './components/subscription/database-testconnection.component';
-import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
-//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatabaseService } from './services/database.service';
 import { SubscriptionDbHomeComponent } from './components/subscription/subscription-db-home.component';
 
@@ -51,7 +49,6 @@ import { SubscriptionDbHomeComponent } from './components/subscription/subscript
     SubscriptionDatabaseComponent,
     DatabaseConfigurationComponent,
     DatabaseTestconnectionComponent,
-    AdminAutoFocusDirective,
     SubscriptionDbHomeComponent
   ],
   imports: [

@@ -91,7 +91,13 @@ namespace Microarea.Common.NameSolver
 		private bool isDataEntry = false;
 		private bool isSchedulable = true;
 		private bool isTransferDisabled = false;
-		private IBaseModuleInfo ownerModule;
+        private bool isDisegnable = true;
+        private string activation;
+        private string allowISO;
+        private string denyISO;
+        private bool published;
+        private bool runnableAlone;
+        private IBaseModuleInfo ownerModule;
 
 		public IBaseModuleInfo OwnerModule { get { return ownerModule; } }
 		public bool IsBatch { get { return isBatch; } set { isBatch = value; } }
@@ -100,7 +106,24 @@ namespace Microarea.Common.NameSolver
 		public bool IsSchedulable { get { return isSchedulable; } set { isSchedulable = value; } }
 		public bool IsTransferDisabled { get { return isTransferDisabled; } set { isTransferDisabled = value; } }
 		public bool IsDynamic { get { return isDynamic; } set { isDynamic = value; } }
-		public NameSpace TemplateNamespace
+        public bool IsDisegnable
+        {
+            get
+            {
+                return isDisegnable;
+            }
+            set
+            {
+                isDisegnable = value;
+            }
+        }
+
+        public bool Published { get { return published; } set { published = value; } }
+        public bool RunnableAlone { get { return runnableAlone; } set { runnableAlone = value; } }
+        public String Activation { get { return activation; } set { activation = value; } }
+        public String AllowISO { get { return allowISO; } set { allowISO = value; } }
+        public String DenyISO { get { return denyISO; } set { denyISO = value; } }
+        public NameSpace TemplateNamespace
 		{
 			get { return templateNamespace; }
 			set { templateNamespace = value; }
@@ -372,16 +395,29 @@ namespace Microarea.Common.NameSolver
 				bool isSecurityhidden = GetBooleanAttribute(documentElement, DocumentsObjectsXML.Attribute.Securityhidden);
 				bool isTransferDisabled = GetBooleanAttribute(documentElement, DocumentsObjectsXML.Attribute.TransferDisabled);
 				bool isDynamic = GetBooleanAttribute(documentElement, DocumentsObjectsXML.Attribute.Dynamic);
-				string templateNamespace = documentElement.GetAttribute(DocumentsObjectsXML.Attribute.TemplateNamespace);
-				//creo l'oggetto che tiene le info raccolte
-				NameSpace nameSpace = new NameSpace(nameSpaceString, NameSpaceObjectType.Document);
+;
+
+                bool disegnable = GetBooleanAttribute(documentElement, DocumentsObjectsXML.Attribute.Designable);
+
+                string activation = documentElement.GetAttribute( DocumentsObjectsXML.Attribute.Activation);
+                bool  published = GetBooleanAttribute(documentElement, DocumentsObjectsXML.Attribute.Published);
+                bool runnableAlone = GetBooleanAttribute(documentElement, DocumentsObjectsXML.Attribute.RunnableAlone);
+
+                string allowISO = documentElement.GetAttribute(DocumentsObjectsXML.Attribute.AllowISO);
+                string denyISO = documentElement.GetAttribute(DocumentsObjectsXML.Attribute.DenyISO);
+                //creo l'oggetto che tiene le info raccolte
+                NameSpace nameSpace = new NameSpace(nameSpaceString, NameSpaceObjectType.Document);
 				DocumentInfo aDocumentInfo = new DocumentInfo(parentModuleInfo, nameSpace, title, description, classhierarchy, defaultSecurityRoles);
 				aDocumentInfo.IsSecurityhidden = isSecurityhidden;
 				aDocumentInfo.IsTransferDisabled = isTransferDisabled;
 				aDocumentInfo.IsDynamic = isDynamic;
+                aDocumentInfo.IsDisegnable = disegnable;
 
-				if (!string.IsNullOrEmpty(templateNamespace))
-					aDocumentInfo.TemplateNamespace = new NameSpace(templateNamespace);
+                aDocumentInfo.DenyISO  = denyISO;
+                aDocumentInfo.AllowISO = allowISO;
+                aDocumentInfo.Activation = activation;
+                aDocumentInfo.Published = published;
+                aDocumentInfo.RunnableAlone = runnableAlone;
 
 				documents.Add(aDocumentInfo);
 				//TODO dal namespace Add nell'array dei documents della libraryinfo corridspondente
@@ -460,7 +496,7 @@ namespace Microarea.Common.NameSolver
 		/// <param name="documentElements"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		bool UnparseDocuments(XmlElement documentElements)
+		public bool UnparseDocuments(XmlElement documentElements)
 		{
 			if (documentElements == null)
 				return false;
@@ -477,14 +513,32 @@ namespace Microarea.Common.NameSolver
 				documentElement.SetAttribute(DocumentsObjectsXML.Attribute.Classhierarchy, docInfo.Classhierarchy);
 				documentElement.SetAttribute(DocumentsObjectsXML.Attribute.DefaultSecurityRoles, docInfo.DefaultSecurityRoles);
 
-				if (docInfo.IsSecurityhidden)
+                documentElement.SetAttribute(DocumentsObjectsXML.Attribute.Activation, docInfo.Activation);
+                documentElement.SetAttribute(DocumentsObjectsXML.Attribute.AllowISO, docInfo.AllowISO);
+                documentElement.SetAttribute(DocumentsObjectsXML.Attribute.DenyISO, docInfo.DenyISO);
+
+                if (docInfo.IsSecurityhidden)
 					documentElement.SetAttribute(DocumentsObjectsXML.Attribute.Securityhidden, "true");
 				if (docInfo.IsTransferDisabled)
 					documentElement.SetAttribute(DocumentsObjectsXML.Attribute.TransferDisabled, "true");
 				if (docInfo.IsDynamic)
 					documentElement.SetAttribute(DocumentsObjectsXML.Attribute.Dynamic, "true");
-				if (docInfo.TemplateNamespace != null)
-					documentElement.SetAttribute(DocumentsObjectsXML.Attribute.TemplateNamespace, docInfo.TemplateNamespace);
+
+                if (docInfo.RunnableAlone)
+                    documentElement.SetAttribute(DocumentsObjectsXML.Attribute.RunnableAlone, "true");
+                else
+                    documentElement.SetAttribute(DocumentsObjectsXML.Attribute.RunnableAlone, "false");
+
+                if (docInfo.Published)
+                    documentElement.SetAttribute(DocumentsObjectsXML.Attribute.Published, "true");
+                else
+                    documentElement.SetAttribute(DocumentsObjectsXML.Attribute.Published, "false");
+
+                if (docInfo.IsDisegnable)
+                    documentElement.SetAttribute(DocumentsObjectsXML.Attribute.Designable, "true");
+                else
+                    documentElement.SetAttribute(DocumentsObjectsXML.Attribute.Designable, "false");
+
 				if (!string.IsNullOrEmpty(docInfo.Description))
 				{
 					XmlElement descriptionEl = documentElement.OwnerDocument.CreateElement(DocumentsObjectsXML.Element.Description);
