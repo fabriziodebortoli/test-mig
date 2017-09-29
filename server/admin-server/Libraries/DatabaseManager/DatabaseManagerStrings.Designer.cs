@@ -745,6 +745,24 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred during the execution of stored procedure sp_helpsrvrolemember.
+        /// </summary>
+        internal static string ErrorSPHelpsrvrolemember {
+            get {
+                return ResourceManager.GetString("ErrorSPHelpsrvrolemember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred during the execution of stored procedure sp_helpuser.
+        /// </summary>
+        internal static string ErrorSPHelpUser {
+            get {
+                return ResourceManager.GetString("ErrorSPHelpUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurs updating system database..
         /// </summary>
         internal static string ErrorUpdatingSystemDB {

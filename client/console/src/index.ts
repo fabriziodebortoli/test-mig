@@ -12,9 +12,10 @@ import { AdminCheckBoxComponent } from "./components/admin-checkbox/admin-checkb
 import { AdminCheckBoxListComponent } from "./components/admin-checkbox-list/admin-checkbox-list.component";
 import { AdminIconComponent } from "./components/admin-icon/admin-icon.component";
 import { AdminInputTextComponent } from "./components/admin-input-text/admin-input-text.component";
-
+import { AdminAlertComponent } from './components/admin-alert/admin-alert.component';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { InputsModule } from '@progress/kendo-angular-inputs';
+import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
 
 // import { SampleDirective } from './sample.directive';
 // import { SamplePipe } from './sample.pipe';
@@ -47,7 +48,9 @@ export * from './sample.component';
     AdminCheckBoxComponent,
     AdminCheckBoxListComponent,
     AdminIconComponent,
-    AdminInputTextComponent
+    AdminInputTextComponent,
+    AdminAlertComponent,
+    AdminAutoFocusDirective
     // SampleDirective,
     // SamplePipe
   ],
@@ -60,7 +63,8 @@ export * from './sample.component';
     AdminCheckBoxComponent,
     AdminCheckBoxListComponent,
     AdminIconComponent,
-    AdminInputTextComponent
+    AdminInputTextComponent,
+    AdminAlertComponent
     // SampleDirective,
     // SamplePipe
   ]
