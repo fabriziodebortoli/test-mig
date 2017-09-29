@@ -110,8 +110,9 @@ namespace Microarea.RSWeb.WoormEngine
 		public bool		IsColTotal	{ get { return isColTotal; }}
 		public bool		IsSubTotal	{ get { return isSubTotal; }}
 		public bool		ReadOnly	{ get { return readOnly; }}
-		
-		public bool		IsSpecialFieldInitialized { get { return isSpecialFieldInitialized; }	set { isSpecialFieldInitialized = value; }}
+        public bool     Statico     { get => statico; }
+
+        public bool		IsSpecialFieldInitialized { get { return isSpecialFieldInitialized; }	set { isSpecialFieldInitialized = value; }}
 
 		public DisplayTable		DisplayTable	{ get { return ownDisplayTable; }}
 		public EventFunction	EventFunction	{ get { return eventFunction; }}
@@ -278,6 +279,59 @@ namespace Microarea.RSWeb.WoormEngine
 			Initialize(dataType, name, tag, item, false, false, false, engine);
 		}
 
+        public new Field Clone()
+        {
+            Field clone = new Field(DataType, Name, engine);
+            clone.Data = Data;
+            clone.eventData = eventData;
+            clone.groupByData = groupByData;
+
+            clone.validEventData = validEventData;
+            clone.validGroupByData = validGroupByData;
+
+            clone.groupByDataUpdated = groupByDataUpdated;
+            clone.eventDataUpdated = eventDataUpdated;
+
+            clone.inputLimit = inputLimit;
+            clone.displayed = displayed;
+            clone.isColTotal = isColTotal;
+            clone.isSubTotal = isSubTotal;
+            clone.isColumn = isColumn;
+
+            clone.isSpecialFieldInitialized = isSpecialFieldInitialized;
+
+            clone.originalAlias = originalAlias;
+            clone.physicalName = physicalName;
+            clone.numDec = numDec;            
+            clone.readOnly = readOnly;
+
+            clone.hidden = hidden;
+            clone.reinit = reinit;
+            clone.statico = statico;
+            clone.input = input;
+            clone.ask = ask;
+            clone.column = column;
+
+            clone.NativeColumnExpr = NativeColumnExpr;
+
+            clone.tagXml = tagXml;
+            clone.noXml = noXml;	     
+            clone.contextName = contextName;
+
+            return clone;
+            
+            /*  RuleEngine engine = null;
+                GroupFunction groupFunction = null;     // property of GroupBy
+                DisplayTable ownDisplayTable = null;        // Display Table Owner
+                private EventFunction eventFunction = null;
+                private WoormEngineExpression initExpression = null;
+                private StringCollection substrings = null;
+                private List<FunctionPrototype> Methods = new List<FunctionPrototype>(); 
+
+                private RuleObj ownerRule = null;       // indica in quale rule il Field è referenziato.
+                private WoormEngineExpression defaultExpression = null;    */
+        }
+
         //----------------------------------------------------------------------------
         //public Field() : base()
         //{
@@ -370,10 +424,10 @@ namespace Microarea.RSWeb.WoormEngine
 				this.eventData = new DataArray(value);
 				this.groupByData = new DataArray(value);
 			}
-		} 
+		}
 
-		//----------------------------------------------------------------------------
-		protected void AssignArrayData (object aData, bool aValid, object objIdx, ref bool validData, object fieldData) 
+        //----------------------------------------------------------------------------
+        protected void AssignArrayData (object aData, bool aValid, object objIdx, ref bool validData, object fieldData) 
 		{ 
 			validData = aValid; 
 			if (!aValid)
@@ -688,11 +742,14 @@ namespace Microarea.RSWeb.WoormEngine
 		//----------------------------------------------------------------------------
 		StringCollection SplitStringOld(string data)
 		{
-			int dataLength = data.Length;
+            data = data.TrimStart('\r', '\n');
+
+            int dataLength = data.Length;
 			if (dataLength <= 0)
 				return null;
-			//Applico una tolleranza del 10% come fa woorm c++ (quindi equivale a dire che ho uno spazio a disposizione del 90%)
-			//senza questa tolleranza capita che una stringa non sia splittata, ma poi a video non si riesce a vedere
+         
+            //Applico una tolleranza del 10% come fa woorm c++ (quindi equivale a dire che ho uno spazio a disposizione del 90%)
+            //senza questa tolleranza capita che una stringa non sia splittata, ma poi a video non si riesce a vedere
             int maxLen = (int)(this.Len * engine.ColumnWidthPercentage);
 
 			StringCollection stringLines = new StringCollection();
@@ -812,9 +869,17 @@ namespace Microarea.RSWeb.WoormEngine
 			ownDisplayTable.MultiLineFieldsNum--;
 			substrings = null;
 		}
+        //----------------------------------------------------------------------------
+        public bool WriteArray(ReportEngine repEngine)
+        {
+            string Name = (repEngine.Session.XmlReport && this.tagXml.Length > 0) ? this.tagXml : this.Name;
 
-		//----------------------------------------------------------------------------
-		public bool Write(ReportEngine repEngine)
+            bool ok = repEngine.OutChannel.WriteArray(Name, Id, data, WoormType, Valid);
+            return ok;
+        }
+
+        //----------------------------------------------------------------------------
+        public bool Write(ReportEngine repEngine)
 		{
             string Name = (repEngine.Session.XmlReport && this.tagXml.Length > 0) ? this.tagXml : this.Name;
 
@@ -923,10 +988,10 @@ namespace Microarea.RSWeb.WoormEngine
 		//----------------------------------------------------------------------------
 		protected bool ParseDisplayAttr(Parser lex, ReportEngine engine)
 		{
-			if (lex.Parsed(Token.HIDDEN))
+			if (lex.Matched(Token.HIDDEN))
 				hidden = true;
 
-			if (lex.Parsed(Token.REINIT))
+			if (lex.Matched(Token.REINIT))
 			{
 				reinit = true;
 
@@ -936,7 +1001,7 @@ namespace Microarea.RSWeb.WoormEngine
 					return false;
 				}
 			}
-			else if (lex.Parsed(Token.STATIC))
+			else if (lex.Matched(Token.STATIC))
 			{
 				statico = true;
 
@@ -953,7 +1018,7 @@ namespace Microarea.RSWeb.WoormEngine
 					IsColumn2 = isColumn = true;
 					lex.SkipToken();
 
-					if (lex.Parsed(Token.OF))
+					if (lex.Matched(Token.OF))
 						ownDisplayTable = engine.ParseDisplayTable(lex);
 					else
 						if (!lex.Error)
@@ -992,7 +1057,7 @@ namespace Microarea.RSWeb.WoormEngine
 				case Token.SUBTOTAL:
 				case Token.COLTOTAL:
 					// the public id is used to identify the correct subtotal/coltotal
-					if (lex.Parsed(Token.SUBTOTAL))
+					if (lex.Matched(Token.SUBTOTAL))
 						isSubTotal = true;
 					else
 						if (lex.ParseTag(Token.COLTOTAL))
@@ -1009,7 +1074,7 @@ namespace Microarea.RSWeb.WoormEngine
 					Field field = null;
 
 					// if it isn't a expression function we can omit the owner column name
-					if (lex.Parsed(Token.OF))
+					if (lex.Matched(Token.OF))
 						lex.ParseID(out name);
 
 					if (lex.Error) return false;
@@ -1132,7 +1197,7 @@ namespace Microarea.RSWeb.WoormEngine
 			SetPrecision(length, dec);
 
 			// Match of optional EventFunction
-			if (lex.Parsed(Token.ASSIGN))
+			if (lex.Matched(Token.ASSIGN))
 			{
 				eventFunction = new EventFunction(Session, engine.RepSymTable.Fields, this);
 				eventFunction.StopTokens = new StopTokens(new Token[] {Token.ALIAS});
@@ -1159,15 +1224,15 @@ namespace Microarea.RSWeb.WoormEngine
 			Id = wInternalId;
 
             //pars As "alias name"
-            if (lex.Parsed(Token.AS) && !lex.ParseID(out tagXml))
+            if (lex.Matched(Token.AS) && !lex.ParseID(out tagXml))
             {
                 lex.SetError(string.Format(WoormEngineStrings.BadAlternativeName, wInternalId.ToString()));
                 return false;
             }
-            if (lex.Parsed(Token.NO_XML))
+            if (lex.Matched(Token.NO_XML))
                 noXml = true;
 
-            if (lex.Parsed(Token.CONTEXT) && !lex.ParseString(out contextName))
+            if (lex.Matched(Token.CONTEXT) && !lex.ParseString(out contextName))
             {
                 lex.SetError(string.Format(WoormEngineStrings.BadAlternativeName, wInternalId.ToString()));
                 return false;
@@ -1177,7 +1242,7 @@ namespace Microarea.RSWeb.WoormEngine
 			if (!ParseDisplayAttr(lex, engine)) return false;
 
 			// Match INIT expression
-			if (lex.Parsed(Token.INIT) && lex.ParseTag(Token.ASSIGN))
+			if (lex.Matched(Token.INIT) && lex.ParseTag(Token.ASSIGN))
 			{
                 AddMethods(lex, engine);
 
@@ -1356,7 +1421,7 @@ namespace Microarea.RSWeb.WoormEngine
 				unparser.WriteBlank();
 				unparser.WriteTag(Token.REINIT, false);
 			}
-			else if (statico)
+			else if (Statico)
 			{
 				unparser.WriteBlank();
 				unparser.WriteTag(Token.STATIC, false);

@@ -272,7 +272,7 @@ namespace Microarea.Common.NameSolver
 		{
 			get
 			{
-				return BasePathFinder.BasePathFinderInstance.GetStandardModuleDictionaryFilePath(parentApplicationInfo.Name, Name, ""/* TODO rsweb Thread.CurrentThread.CurrentUICulture.Name*/);
+				return BasePathFinder.BasePathFinderInstance.GetStandardModuleDictionaryFilePath(parentApplicationInfo.Name, Name, Thread.CurrentThread.CurrentUICulture.Name);
 			}
 		}
 		

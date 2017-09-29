@@ -34,3 +34,4 @@ export * from './body-edit-column/body-edit-column.component';
 export * from './hotlink/hotlink.component';
 export * from './charts/linear-gauge/linear-gauge.component';
 export * from './treeview/tree-view.component';
+export * from './application-date/application-date.component';

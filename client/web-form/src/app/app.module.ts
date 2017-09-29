@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -8,8 +8,8 @@ import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 
-import { TbCoreModule, ComponentService } from '@taskbuilder/core';
-import { TbIconsModule } from '@taskbuilder/icons';
+import { TbCoreModule, ComponentService, InfoService, loadConfig } from '@taskbuilder/core';
+
 import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -22,10 +22,13 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
         SharedModule,
         routing,
         ReportingStudioModule,
-        TbIconsModule,
         TbCoreModule.forRoot()
     ],
-    providers: [CookieService],
+    providers: [
+        CookieService,
+        InfoService,
+        { provide: APP_INITIALIZER, useFactory: loadConfig, deps: [InfoService], multi: true }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

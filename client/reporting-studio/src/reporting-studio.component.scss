@@ -2,22 +2,22 @@ body {
     overflow-y: hidden;
 }
 
+#snapshot{
+    //font-weight: bold;
+    font-size: large;
+    margin-right: auto;
+    color:  #fff;
+}
+
+#firstButton{
+    margin-left: auto;
+}
+
 #rsLayout {
     width: 100%;
 }
 
-.canvas-container {
-    -webkit-flex: 1 1 auto;
-    overflow-y: auto;
-    height: 0px;
-    padding: 20px;
-}
-
-.canvas {
-    width: 210mm;
-    height: 297mm;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    margin: 0 auto;
-    position: relative;
+.buttons{
+    display: flex;
+    width: 100%;
 }

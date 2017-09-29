@@ -4,11 +4,13 @@ using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Newtonsoft.Json;
 using System;
+using System.Security.Cryptography;
 using System.Text;
 
-namespace Microarea.AdminServer.Library
+namespace Microarea.AdminServer.Libraries
 {
 	//================================================================================
 	public class SecurityManager
@@ -133,6 +135,39 @@ namespace Microarea.AdminServer.Library
 				return ValidateToken(authInfo.SecurityValue, secretKey, roleName, entityKey, level);
 
 			return new OperationResult(false, string.Format(Strings.UnknownAuthType, authInfo.Type), (int)AppReturnCodes.Undefined);
+		}
+
+		//-----------------------------------------------------------------------------	
+		public static byte[] Get128BitSalt()
+		{
+			// generate a 128-bit salt using a secure PRNG
+			byte[] salt = new byte[128 / 8];
+			using (var rng = RandomNumberGenerator.Create())
+			{
+				rng.GetBytes(salt);
+			}
+
+			return salt;
+		}
+
+		//-----------------------------------------------------------------------------	
+		public static string HashThis(string input, byte[] salt)
+		{
+			// derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
+			string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+				password: input,
+				salt: salt,
+				prf: KeyDerivationPrf.HMACSHA1,
+				iterationCount: 10000,
+				numBytesRequested: 256 / 8));
+
+			return hashed;
+		}
+
+		//-----------------------------------------------------------------------------	
+		public static string GetRandomPassword()
+		{
+			return Guid.NewGuid().ToString();
 		}
 	}
 }

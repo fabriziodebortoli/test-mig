@@ -808,7 +808,7 @@ namespace Microarea.Common.Lexan
 		}
 
 		//------------------------------------------------------------------------------
-		public bool Parsed(Token tk)
+		public bool Matched(Token tk)
 		{
 			if (LookAhead() != tk)
 				return false;
@@ -833,13 +833,13 @@ namespace Microarea.Common.Lexan
 		public bool ParseBool (out bool aBool)
 		{   
 			aBool = false;
-			if (Parsed (Token.TRUE))
+			if (Matched (Token.TRUE))
 			{
 				aBool = true;
 				return true;
 			}
 			
-			if (Parsed (Token.FALSE))
+			if (Matched (Token.FALSE))
 			{
 				aBool = false;
 				return true;
@@ -1054,7 +1054,7 @@ namespace Microarea.Common.Lexan
 				ParseSquareOpen	() &&
 				ParseInt		(out aVal1);
 			
-			if (ok && Parsed (Token.COMMA))
+			if (ok && Matched (Token.COMMA))
 				ok = ParseInt (out aVal2);
 			else
 				aVal2 = 0;
@@ -1116,17 +1116,17 @@ namespace Microarea.Common.Lexan
 		//------------------------------------------------------------------------------
 		public bool ParseCEdit (out string text)
 		{
-			bool bBeginFound = Parsed(Token.BEGIN);
+			bool bBeginFound = Matched(Token.BEGIN);
 			
 			if (!ParseString(out text))
 				return false;
-			Parsed(Token.PLUS);
+			Matched(Token.PLUS);
 			while (LookAhead(Token.TEXTSTRING) && !Diagnostic.Error && !Eof)
 			{                 
 				string strBuffer;
 				ParseString (out strBuffer);
 				text += "\r\n" + strBuffer;
-				Parsed(Token.PLUS);
+				Matched(Token.PLUS);
 			}
 			
 			return !(bBeginFound && !ParseEnd());

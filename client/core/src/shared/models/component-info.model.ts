@@ -1,8 +1,4 @@
-import { InfoService } from './../../core/services/info.service';
-import { ComponentFactory, Inject, forwardRef } from '@angular/core';
-import { EventDataService } from './../../core/services/eventdata.service';
-
-import { DocumentService } from '../../core/services/document.service';
+import { ComponentFactory } from '@angular/core';
 
 export class ComponentInfo {
     factory: ComponentFactory<any>;//usata per creare dinamicamente il componente
@@ -12,15 +8,7 @@ export class ComponentInfo {
     app = ''; //nome applicazione server
     mod = ''; //nome modulo server
     modal = false;//indica se si tratta di una finestra modale
-    document: DocumentService = null;
+    // document: DocumentService = null;
+    document = null;
     args: any = {};
-}
-export class ComponentInfoService {
-    public componentInfo: ComponentInfo;
-    constructor(
-        @Inject(forwardRef(() => InfoService)) public globalInfoService: InfoService)
-    { }
-    public getComponentId() {
-        return this.componentInfo ? this.componentInfo.id : '';
-    }
 }

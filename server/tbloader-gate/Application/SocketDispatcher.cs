@@ -43,11 +43,15 @@ namespace Microarea.TbLoaderGate
 	{
 		public static async Task Listen(HttpContext http, Func<Task> next)
 		{
-			if (!await HandleAsync(http))
+            if (http.WebSockets.IsWebSocketRequest && http.Request.Path.StartsWithSegments("/tbloader"))
 			{
-				await next();
+                await HandleAsync(http);
 			}
-		}
+            else
+            {
+                await next();
+            }
+        }
 
 		const string setClientWebSocketName = "SetClientWebSocketName";
 		const string setServerWebSocketName = "SetServerWebSocketName";
@@ -79,9 +83,7 @@ namespace Microarea.TbLoaderGate
 
 		public static async Task<bool> HandleAsync(HttpContext http)
 		{
-			if (!http.WebSockets.IsWebSocketRequest || !http.Request.Path.StartsWithSegments("/tbloader"))
-				return false;
-
+		
 			var webSocket = await http.WebSockets.AcceptWebSocketAsync();
 			string coupleName = "";
 			try
@@ -167,7 +169,7 @@ namespace Microarea.TbLoaderGate
 							TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbName, false, out bool dummy);
 							if (tb != null)
 							{
-								tb.RequireWebSocketConnection(coupleName, http.Request.Host);
+								tb.RequireWebSocketConnection(coupleName, http.Request);
 
 								//effettua anche la inittblogin
 								//tb.InternalInitTbLogin(coupleName);

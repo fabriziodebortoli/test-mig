@@ -38,7 +38,7 @@ export class AskdialogComponent implements OnDestroy, OnChanges {
       else {
         let msg = JSON.parse(this.ask);
         this.commType = msg.commandType;
-        this.askObject = JSON.parse(msg.message);
+        this.askObject = msg.message;
         this.RenderLayout(this.askObject);
       }
     }

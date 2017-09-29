@@ -1,6 +1,6 @@
 {
     "name": "@taskbuilder/icons",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "scripts": {
         "build": "gulp build",
         "build:watch": "gulp",
@@ -60,7 +60,7 @@
         "rxjs": "^5.1.0",
         "ts-node": "~2.0.0",
         "tslint": "~4.5.0",
-        "typescript": "~2.2.0",
+        "typescript": "~2.3.3",
         "zone.js": "^0.8.4"
     },
     "engines": {

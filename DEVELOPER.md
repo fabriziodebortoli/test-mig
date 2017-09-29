@@ -26,7 +26,7 @@ following products on your development machine:
 
 ```shell
 # global installation typescript
-$ npm install -g typescript@next
+$ npm install -g "typescript@next"
 ```
 
 * [Visual Studio Typescript Extension](https://www.microsoft.com/en-us/download/details.aspx?id=48593)
@@ -34,7 +34,7 @@ $ npm install -g typescript@next
 * [Angular CLI](https://cli.angular.io/), (version `>= 1.3`) a command line interface for Angular
 ```shell
 # global installation Angular CLI
-$ npm install -g @angular/cli
+$ npm install -g "@angular/cli"
 ```
 
 * .NET Core

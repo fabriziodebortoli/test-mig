@@ -1,3 +1,5 @@
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
+import { EnumsService } from './../../../core/services/enums.service';
 import { ColumnComponent } from '@progress/kendo-angular-grid';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Component, OnInit, Input, OnDestroy, ContentChildren, ChangeDetectorRef, ViewChild, AfterContentInit, ViewEncapsulation } from '@angular/core';
@@ -24,5 +26,19 @@ export class BodyEditColumnComponent extends ControlComponent {
   @Input() readonly = false;
 
   @ViewChild(ColumnComponent) columnComponent;
+
+  constructor(private enumsService: EnumsService, protected layoutService: LayoutService, protected tbComponentService: TbComponentService) {
+    super(layoutService, tbComponentService);
+
+  }
+
+  getValue(val) {
+
+    let enumItem = this.enumsService.getEnumsItem(val);
+    if (enumItem != undefined)
+      return enumItem.name;
+
+    return "";
+  }
 }
 

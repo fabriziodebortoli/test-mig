@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace Microarea.Common.Hotlink
 {
-    public enum Direction { IN, OUT, REF, COL, EXPAND, INCLUDE };
+    public enum TagType { IN, OUT, REF, COL, EXPAND, INCLUDE, EVAL };
 
     public class ColumnType
     {
@@ -26,7 +26,6 @@ namespace Microarea.Common.Hotlink
 
     public class QueryObject : object, IDisposable
 	{
-
 		#region Protected Data Member
 
 		private string	queryNameString		= string.Empty ;
@@ -50,11 +49,15 @@ namespace Microarea.Common.Hotlink
 
         public bool IsQueryRule = false;
 
-		#endregion
+        bool isOracle = false;
+        bool isUnicode = false;
+        DBMSType dbType = DBMSType.SQLSERVER;
 
-		#region Property
+        #endregion
 
-		protected IDataReader DataReader { get { return parentQuery != null ? parentQuery.DataReader : iDataReader; }}
+        #region Property
+
+        protected IDataReader DataReader { get { return parentQuery != null ? parentQuery.DataReader : iDataReader; }}
 
 		public string	QueryTemplate	{ get { return queryTemplateString; }	set { queryTemplateString	= value; }}
 		public string	Name			{ get { return queryNameString; }		set { queryNameString		= value; }}
@@ -118,7 +121,7 @@ namespace Microarea.Common.Hotlink
 		#endregion
 
 		//-------------------------------------------------------------------------------
-		public int AddLink (string name, Direction direction, object data, int len, Expression whenExpr, QueryObject expandClause)
+		public int AddLink (string name, TagType direction, object data, int len, Expression whenExpr, QueryObject expandClause)
 		{
 			return tagLinkArrayList.Add(new TagLink(name, direction, data, len, whenExpr, expandClause));
 		}
@@ -177,7 +180,7 @@ namespace Microarea.Common.Hotlink
                     if (o == null)
                         return false;
 
-                    AddLink(ct.columnName, Direction.COL, o, field.Len, null, null);
+                    AddLink(ct.columnName, TagType.COL, o, field.Len, null, null);
                 }
             }
             return ok;
@@ -188,10 +191,23 @@ namespace Microarea.Common.Hotlink
 		{
 			tagLinkArrayList.Clear();
 
-			queryTemplateString	= string.Empty;
+            /*  TODO RSWEB - dbType/Oracle/Unicode
+                        if (this.session.UserInfo.LoginManager != null)
+                        {   //Il TbLocalizer NON ha il LoginManager
+                            string provider = this.session.UserInfo.LoginManager.ProviderName;
+                            dbType = TBDatabaseType.GetDBMSType(provider);
+                            isOracle = dbType == DBMSType.ORACLE;
+                            isUnicode = this.session.UserInfo.LoginManager.UseUnicode;
+                        }
+            */
+            isOracle = (UserInfo.DatabaseType == TaskBuilderNetCore.Data.DBMSType.ORACLE);
+            isUnicode = UserInfo.UseUnicode;
+            //----
+
+            queryTemplateString = string.Empty;
 			sqlString			= string.Empty;
 
-			if (parser.Parsed(Token.QUERY)) 
+			if (parser.Matched(Token.QUERY)) 
 			{
 				if (!parser.ParseID(out queryNameString)) 
 					return false;
@@ -309,10 +325,6 @@ namespace Microarea.Common.Hotlink
 			string name	= string.Empty;
 			object pObj	= null;
 			SymField field	= null;
-
-            bool isOracle = (UserInfo.DatabaseType == TaskBuilderNetCore.Data.DBMSType.ORACLE);
-            
-            bool isUnicode = UserInfo.UseUnicode;
   
 			Token token = parser.LookAhead();
 			switch (token)
@@ -331,7 +343,7 @@ namespace Microarea.Common.Hotlink
                        string aType = "String";
                        ushort tag = 0;
                        string woormType = "";
-                       if (parser.Parsed(Token.TYPE))
+                       if (parser.Matched(Token.TYPE))
                         {
                             string baseType = "";
 
@@ -354,7 +366,7 @@ namespace Microarea.Common.Hotlink
 					if (field == null)
 						return false;
 
-                   if (parser.Parsed(Token.TITLE))
+                   if (parser.Matched(Token.TITLE))
                    {
                         if (!parser.ParseString(out field.Title))
                             return false;
@@ -364,7 +376,7 @@ namespace Microarea.Common.Hotlink
 					if (pObj == null) 
 						return false;
 
-					AddLink(name, Direction.COL, pObj, field.Len, null, null);
+					AddLink(name, TagType.COL, pObj, field.Len, null, null);
 
 					if (!parser.ParseTag(Token.BRACECLOSE)) 
 						return false;
@@ -395,11 +407,11 @@ namespace Microarea.Common.Hotlink
 						return false;
 
 					if (token == Token.IN)
-						AddLink(name, Direction.IN, pObj, field.Len, null, null);
+						AddLink(name, TagType.IN, pObj, field.Len, null, null);
 					else if (token == Token.OUT)
-						AddLink(name, Direction.OUT, pObj, field.Len, null, null);
+						AddLink(name, TagType.OUT, pObj, field.Len, null, null);
 					else if (token == Token.REF)
-						AddLink(name, Direction.REF, pObj, field.Len, null, null);
+						AddLink(name, TagType.REF, pObj, field.Len, null, null);
 					else
 					{
 						Debug.Assert(false);
@@ -408,7 +420,7 @@ namespace Microarea.Common.Hotlink
 
 					TagLink tag = tagLinkArrayList[tagLinkArrayList.Count - 1] as TagLink;
 
-                    if (parser.Parsed(Token.AS))
+                    if (parser.Matched(Token.AS))
                         parser.ParseID(out tag.sqlStringName);
                     else
                         tag.sqlStringName = string.Format("@PAR_{0}_{1}", ++bindNumber, name);
@@ -462,11 +474,7 @@ namespace Microarea.Common.Hotlink
 
                     int len = s.Length;
 
-                    string nat = DBInfo.GetNativeConvert (
-                                                s,
-                                                isUnicode,
-                                                UserInfo.DatabaseType
-                                                );
+                    string nat = DBInfo.GetNativeConvert (s, isUnicode, dbType);
                     if (nat.IsNullOrEmpty())
                     {
                         if (isOracle && len == 0)
@@ -482,7 +490,6 @@ namespace Microarea.Common.Hotlink
                         len++;
 
                     sqlString += ' ' + (isOracle ? " CAST(" + nat + " AS " + (isUnicode ? "NVARCHAR2(" : "VARCHAR2(") + len.ToString() +  ")) " : nat)  + ' ';
-
                     return true;
                 }
 
@@ -506,25 +513,12 @@ namespace Microarea.Common.Hotlink
                     if (!parser.ParseTag(Token.BRACECLOSE))
                         return false;
 
-                    Value valRes = expr.Eval(); 
+                    AddLink(name, TagType.EVAL, pObj, 0, expr, null);
+                    TagLink tag = tagLinkArrayList[tagLinkArrayList.Count - 1] as TagLink;
+                    tag.sqlStringName = string.Format("@PAR_{0}_{1}", ++bindNumber, name);
 
-                    object res = null; 
-                    if (valRes != null && (res = valRes.Data) != null)
-		            {
-                            string nat = "";/* TBDatabaseType.DBNativeConvert(
-                                res,
-                                isUnicode,
-                                dbType
-                                );  TODO rsweb*/
-                        if (nat == null)
-                            return false;
-
-                        sqlString += ' ' + nat + ' ';
-                        
-                        return true;
-                    }
-		            //SetError(_TB("Expected valid query tag"));
-		            return false;
+                    sqlString += string.Format(" {0} ", tag.sqlStringName);
+                    return true;
                 }
                 default:
                 {
@@ -550,7 +544,7 @@ namespace Microarea.Common.Hotlink
 			if (!whenExpression.Compile(parser, CheckResultType.Match, "Boolean"))
 				return false;
 
-			if (parser.Parsed(Token.INCLUDE))
+			if (parser.Matched(Token.INCLUDE))
 			{
 				if (parser.LookAhead() != Token.ID) 
 					return false;
@@ -573,7 +567,7 @@ namespace Microarea.Common.Hotlink
 				int		tagLinksNumber	= tagLinkArrayList.Count;
 				string	marker		= string.Format("{{INCLUDE{0}}}", tagLinksNumber);
 
-				AddLink(name, Direction.INCLUDE, null, 0, whenExpression, null);
+				AddLink(name, TagType.INCLUDE, null, 0, whenExpression, null);
 				sqlString += string.Format(" {0} ", marker); //è un segnaposto che sarà sostituito in fase di Build
 				((TagLink)tagLinkArrayList[tagLinksNumber]).sqlStringName = marker;
 
@@ -591,7 +585,7 @@ namespace Microarea.Common.Hotlink
                 return false;
 
             QueryObject qryElse = null;
-            if (parser.Parsed(Token.ELSE))
+            if (parser.Matched(Token.ELSE))
             {
                 qryElse = ParseSubQuery(parser);
                 if (qryElse == null)
@@ -603,7 +597,7 @@ namespace Microarea.Common.Hotlink
 
 			int index = tagLinkArrayList.Count;
 			name = string.Format("{{EXPAND{0}}}", index);
-			AddLink(name, Direction.EXPAND, null, 0, whenExpression, queryObject);
+			AddLink(name, TagType.EXPAND, null, 0, whenExpression, queryObject);
 			((TagLink)tagLinkArrayList[index]).sqlStringName = name;
             ((TagLink)tagLinkArrayList[index]).elseClause = qryElse;
 			sqlString += string.Format (" {0} ", name);	//è un segnaposto che sarà sostituito in fase di Build
@@ -648,9 +642,23 @@ namespace Microarea.Common.Hotlink
 			{
 				TagLink tagLink = (TagLink)tagLinkArrayList[i];
 
-				if (
-					tagLink.direction != Direction.EXPAND &&
-					tagLink.direction != Direction.INCLUDE
+                if (tagLink.direction == TagType.EVAL)
+                {
+                    Value valRes = tagLink.whenExpr.Eval(); 
+                    object res = null; 
+                    if (valRes != null && (res = valRes.Data) != null)
+                    {
+                        string nat = DBInfo.GetNativeConvert(res, isUnicode, dbType); 
+                        if (nat == null)
+                            return false;
+                        sqlString.Replace(tagLink.sqlStringName, nat);
+                    }
+                    continue;
+                }
+ 
+                if (
+					tagLink.direction != TagType.EXPAND &&
+					tagLink.direction != TagType.INCLUDE
 					) continue;
 
 				Debug.Assert(tagLink.whenExpr != null);
@@ -663,7 +671,7 @@ namespace Microarea.Common.Hotlink
 				tagLink.isWhen = (bool) expressionValue.Data;
 				
 				//per gli INCLUDE: occorre istanziare un oggetto subquery e parsarlo al volo a partire del valore corrente della variabile di woorm sorgente
-				if (tagLink.direction == Direction.INCLUDE)
+				if (tagLink.direction == TagType.INCLUDE)
 				{
 				    if (!tagLink.isWhen)
 				    {
@@ -719,8 +727,8 @@ namespace Microarea.Common.Hotlink
                 tagLink.bindPos = -1;
 
 				if (
-					tagLink.direction == Direction.EXPAND ||
-					tagLink.direction == Direction.INCLUDE
+					tagLink.direction == TagType.EXPAND ||
+					tagLink.direction == TagType.INCLUDE
 					)
 				{
 					if (tagLink.isWhen)
@@ -731,22 +739,22 @@ namespace Microarea.Common.Hotlink
 				}
 
 				if (
-					tagLink.direction != Direction.IN &&
-					tagLink.direction != Direction.OUT &&
-					tagLink.direction != Direction.REF
+					tagLink.direction != TagType.IN &&
+					tagLink.direction != TagType.OUT &&
+					tagLink.direction != TagType.REF
 					) continue;
 		
 				ParameterDirection directionType = ParameterDirection.Input;
 			
 				switch (tagLink.direction)
 				{
-					case Direction.OUT:
+					case TagType.OUT:
 						directionType = ParameterDirection.Output;
 						break;
-					case Direction.REF:
+					case TagType.REF:
 						directionType = ParameterDirection.InputOutput;
 						break;
-					case Direction.IN:
+					case TagType.IN:
 						directionType = ParameterDirection.Input;
 						break;
 					default:
@@ -766,7 +774,7 @@ namespace Microarea.Common.Hotlink
 				IDataParameter tbParameter = tbCommand.Parameters[paramNumber];
 				tbParameter.Direction	= directionType;
 
-				if (tagLink.direction == Direction.OUT) 
+				if (tagLink.direction == TagType.OUT) 
 					continue;
 
 				SymField field = symbolTable.Find(tagLink.name) as SymField;
@@ -822,8 +830,8 @@ namespace Microarea.Common.Hotlink
 				TagLink tagLink = (TagLink)tagLinkArrayList[i];
 
 				if (
-					tagLink.direction == Direction.EXPAND ||
-					tagLink.direction == Direction.INCLUDE
+					tagLink.direction == TagType.EXPAND ||
+					tagLink.direction == TagType.INCLUDE
 					)
 				{
 					if (tagLink.isWhen)
@@ -834,9 +842,9 @@ namespace Microarea.Common.Hotlink
 				}
 
 				if (
-					tagLink.direction != Direction.COL &&
-					tagLink.direction != Direction.OUT &&
-					tagLink.direction != Direction.REF
+					tagLink.direction != TagType.COL &&
+					tagLink.direction != TagType.OUT &&
+					tagLink.direction != TagType.REF
 					) continue;
 	
 				SymField field = symbolTable.Find(tagLink.name) as SymField;
@@ -861,8 +869,8 @@ namespace Microarea.Common.Hotlink
 				TagLink tagLink = (TagLink)tagLinkArrayList[i];
 
 				if (
-					tagLink.direction == Direction.EXPAND ||
-					tagLink.direction == Direction.INCLUDE
+					tagLink.direction == TagType.EXPAND ||
+					tagLink.direction == TagType.INCLUDE
 					)
 				{
 					if (tagLink.isWhen)
@@ -873,14 +881,14 @@ namespace Microarea.Common.Hotlink
 				}
 
 				if (
-					tagLink.direction != Direction.COL &&
-					tagLink.direction != Direction.OUT &&
-					tagLink.direction != Direction.REF
+					tagLink.direction != TagType.COL &&
+					tagLink.direction != TagType.OUT &&
+					tagLink.direction != TagType.REF
 					) continue;
 	
 				SymField field = symbolTable.Find(tagLink.name) as SymField;
                 object o;
-				if (tagLink.direction == Direction.COL)
+				if (tagLink.direction == TagType.COL)
 				{
                     o = DataReader[columnIndex++];
 
@@ -916,8 +924,8 @@ namespace Microarea.Common.Hotlink
                 TagLink tagLink = (TagLink)tagLinkArrayList[i];
 
                 if (
-                    tagLink.direction == Direction.EXPAND ||
-                    tagLink.direction == Direction.INCLUDE
+                    tagLink.direction == TagType.EXPAND ||
+                    tagLink.direction == TagType.INCLUDE
                     )
                 {
                     if (tagLink.isWhen)
@@ -927,7 +935,7 @@ namespace Microarea.Common.Hotlink
                     continue;
                 }
 
-                if (tagLink.direction != Direction.COL) 
+                if (tagLink.direction != TagType.COL) 
                     continue;
 
                 SymField field = symbolTable.Find(tagLink.name) as SymField;
@@ -1108,7 +1116,7 @@ namespace Microarea.Common.Hotlink
 		public string name			= string.Empty;
 		public string sqlStringName	= string.Empty;
 
-		public Direction	direction;
+		public TagType	direction;
 		public Expression	whenExpr		= null;
 		public int			len			    = 0;
 		public object		data			= null;
@@ -1117,7 +1125,7 @@ namespace Microarea.Common.Hotlink
         public QueryObject  elseClause      = null;
         public int          bindPos         = -1;
 
-		public TagLink(string aName, Direction aDirection, object aData, int aLen, Expression aWhenExpr, QueryObject aExpandClause)
+		public TagLink(string aName, TagType aDirection, object aData, int aLen, Expression aWhenExpr, QueryObject aExpandClause)
 		{
 			name			= aName;
 			direction		= aDirection;

@@ -1,7 +1,8 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule, MdSidenavContainer, MdSidenavModule, MdToolbarModule, MdButtonModule, MdListModule } from '@angular/material';
+import { MdIconModule, MdSidenavContainer, MdSidenavModule, MdToolbarModule, MdButtonModule, MdListModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { SampleComponent } from './sample.component';
 import { AdminToolbarComponent } from './components/admin-toolbar/admin-toolbar.component';
 import { AdminSidenavContainerComponent } from './components/admin-sidenav-container/admin-sidenav-container.component';
@@ -9,6 +10,11 @@ import { AdminSidenavComponent } from './components/admin-sidenav/admin-sidenav.
 import { AdminListComponent } from "./components/admin-list/admin-list.component";
 import { AdminCheckBoxComponent } from "./components/admin-checkbox/admin-checkbox.component";
 import { AdminCheckBoxListComponent } from "./components/admin-checkbox-list/admin-checkbox-list.component";
+import { AdminIconComponent } from "./components/admin-icon/admin-icon.component";
+import { AdminInputTextComponent } from "./components/admin-input-text/admin-input-text.component";
+
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { InputsModule } from '@progress/kendo-angular-inputs';
 
 // import { SampleDirective } from './sample.directive';
 // import { SamplePipe } from './sample.pipe';
@@ -21,9 +27,12 @@ export * from './sample.component';
 
 @NgModule({
   imports: [
+    FormsModule,
     BrowserAnimationsModule,
-    MaterialModule,
+    ButtonsModule,
+    InputsModule,
     MdSidenavModule,
+    MdIconModule,
     CommonModule,
     MdButtonModule,
     MdToolbarModule,
@@ -36,7 +45,9 @@ export * from './sample.component';
     AdminSidenavComponent,
     AdminListComponent,
     AdminCheckBoxComponent,
-    AdminCheckBoxListComponent
+    AdminCheckBoxListComponent,
+    AdminIconComponent,
+    AdminInputTextComponent
     // SampleDirective,
     // SamplePipe
   ],
@@ -47,7 +58,9 @@ export * from './sample.component';
     AdminSidenavComponent,
     AdminListComponent,
     AdminCheckBoxComponent,
-    AdminCheckBoxListComponent
+    AdminCheckBoxListComponent,
+    AdminIconComponent,
+    AdminInputTextComponent
     // SampleDirective,
     // SamplePipe
   ]

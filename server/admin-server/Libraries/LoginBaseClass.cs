@@ -4,7 +4,7 @@ using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Services.BurgerData;
 using Microarea.AdminServer.Model;
 
-namespace Microarea.AdminServer.Library
+namespace Microarea.AdminServer.Libraries
 {
     //=========================================================================
     public static class LoginBaseClass
@@ -24,11 +24,18 @@ namespace Microarea.AdminServer.Library
             if (account.Disabled)
                 return LoginReturnCodes.UserNotAllowed;
 
-            if (account.Password != Crypt(password))
+			// calculating password hash
+			Byte[] salt = account.Salt;
+
+			string passwordToCheck = salt != null ? SecurityManager.HashThis(password, salt) : password;
+
+            if (account.Password != passwordToCheck)
             {
                 AddWrongPwdLoginCount(account);
+
                 if (!account.Save(burgerdata).Result)
                     return LoginReturnCodes.ErrorSavingAccount;
+
                 return LoginReturnCodes.InvalidUserError;
             }
 

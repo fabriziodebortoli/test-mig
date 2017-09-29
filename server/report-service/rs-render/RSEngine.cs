@@ -102,8 +102,9 @@ namespace Microarea.RSWeb.Render
         //public System.Web.UI.StateBag StateBag = new System.Web.UI.StateBag();
         public System.Collections.Hashtable StateBag = new System.Collections.Hashtable();
 
-        public InternalState CurrentInternalState;
-        public bool Working = false;
+        public  InternalState   CurrentInternalState;
+        public  bool            Working = false;
+        private bool            reRun = false;
 
         //Siccome il currentState puo essere modificato dal thread di esecuzione e da quello del viewer, devo sincronizzarne
         //l'accesso
@@ -431,7 +432,7 @@ namespace Microarea.RSWeb.Render
 
                             Report.SaveInfo();
 
-                            if (!Woorm.LoadDocument() || !Woorm.ParseDocument())
+                            if (!reRun && (!Woorm.LoadDocument() || !Woorm.ParseDocument()))
                             {
                                 BuildErrors(Woorm.Diagnostic);
                                 CurrentState = State.ViewerError;
@@ -866,6 +867,17 @@ namespace Microarea.RSWeb.Render
             ExtractionThread.Join();
             CurrentState = State.UserInterrupted;
             Step();
+       }
+
+       public void ReRun()
+       {
+            reRun = true;
+            Report.Engine.OutChannel.PageNumber = 1;
+            Report.SymTable.DisplayTables.ResetAllRowsCounter();
+            Report.Engine.CopyStaticField();
+            CurrentState = State.Start;
+            Step();
         }
+
     }
  }

@@ -6,7 +6,11 @@ import { CommonModule } from '@angular/common';
  */
 import { TbCoreModule, TB_SERVICES } from './core/core.module';
 export * from './core/core.module';
-// export * from './core';
+
+/**
+ * Metodo da richiamare in app.module per lettura parametri configurazione
+ */
+export { loadConfig } from './core/services/info.service';
 
 /**
  * Modulo Shared
@@ -27,6 +31,13 @@ import { TbDashboardModule } from './dashboard/dashboard.module';
 export * from './dashboard/dashboard.module';
 
 /**
+ * Modulo Settings
+ */
+import { TbSettingsModule } from './settings/settings.module';
+export * from './settings/settings.module';
+
+
+/**
  * Modulo Test
  */
 import { TbTestModule } from './test/test.module';
@@ -37,11 +48,26 @@ const TB_MODULES = [
   TbSharedModule,
   TbMenuModule,
   TbDashboardModule,
-  TbTestModule
+  TbTestModule,
+  TbSettingsModule
 ];
 
-export * from './shared/models';
-export { SocketConnectionStatus } from './shared';
+
+/** 
+ * Models & Enums
+ */
+export * from './shared/models'; // TODO rimuovere tutte le importazioni da barrel
+export { ComponentInfo } from './shared/models/component-info.model';
+export { ContextMenuItem } from './shared/models/context-menu-item.model';
+export { ControlTypes } from './shared/models/control-types.enum';
+export { CommandEventArgs } from './shared/models/eventargs.model';
+export { LoginCompact } from './shared/models/login-compact.model';
+export { LoginSession } from './shared/models/login-session.model';
+export { MessageDlgArgs, MessageDlgResult, DiagnosticData, Message, DiagnosticDlgResult, DiagnosticType } from './shared/models/message-dialog.model';
+export { OperationResult } from './shared/models/operation-result.model';
+export { StateButton } from './shared/models/state-button.model';
+export { ViewModeType } from './shared/models/view-mode-type.model';
+export { SocketConnectionStatus } from './shared/models/websocket-connection.enum';
 
 import { HomeComponent, HomeSidenavComponent, StandaloneReportComponent, StandaloneDocumentComponent } from './home';
 const TB_HOME_COMPONENTS = [HomeComponent, HomeSidenavComponent, StandaloneReportComponent, StandaloneDocumentComponent];

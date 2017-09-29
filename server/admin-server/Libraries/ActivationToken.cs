@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using System.Globalization;
 using System.Collections;
 
-namespace Microarea.AdminServer.Library
+namespace Microarea.AdminServer.Libraries
 {
     public class ActivationToken
     {

@@ -558,7 +558,7 @@ namespace Microarea.Common.ExpressionManager
 
 			while (!StopParse(lex))
 			{
-				int nPosNot = lex.Parsed(Token.NOT) ? lex.CurrentPos : -1;
+				int nPosNot = lex.Matched(Token.NOT) ? lex.CurrentPos : -1;
 
 				switch(lex.LookAhead())
 				{
@@ -617,7 +617,7 @@ namespace Microarea.Common.ExpressionManager
 						lex.SkipToken();
 						Formula(lex, stack);
 						
-						if (lex.Parsed(Token.ESCAPE))
+						if (lex.Matched(Token.ESCAPE))
 						{
 							// accettata solo costante stringa contenente un solo carattere
 							string	aString;
@@ -646,7 +646,7 @@ namespace Microarea.Common.ExpressionManager
 						lex.SkipToken();
 						Token nPT = Token.EXPR_IS_NULL;
 
-						if (lex.Parsed(Token.NOT))
+						if (lex.Matched(Token.NOT))
 							nPT = Token.EXPR_IS_NOT_NULL;
 
 						if (!lex.ParseTag(Token.NULL)) return;
@@ -974,6 +974,7 @@ namespace Microarea.Common.ExpressionManager
                 case Token.REPLICATE:
                 case Token.PADLEFT:
                 case Token.PADRIGHT:
+                case Token.COMPARE_NO_CASE:
 
                 case Token.SendBalloon:
                 case Token.FormatTbLink:
@@ -1018,7 +1019,7 @@ namespace Microarea.Common.ExpressionManager
 			        return false;
                 }
 
-		        if (lex.Parsed(Token.SQUARECLOSE))
+		        if (lex.Matched(Token.SQUARECLOSE))
 		        {
 			        break;
 		        }

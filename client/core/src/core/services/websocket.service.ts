@@ -1,24 +1,20 @@
-﻿import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
-import { Observable } from 'rxjs/Rx';
-import { EventEmitter, Injectable } from '@angular/core';
+﻿import { EventEmitter, Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
-
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
+import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
 import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
 import { SocketConnectionStatus } from '../../shared/models';
 
-import { LoginSessionService } from './login-session.service';
+import { TaskbuilderService } from './taskbuilder.service';
+import { InfoService } from './info.service';
 import { HttpService } from './http.service';
-import { UrlService } from './url.service';
-
 import { Logger } from './logger.service';
 
 @Injectable()
 export class WebSocketService {
-    public loginSessionService: LoginSessionService;
-
     private connection: WebSocket;
     private _socketConnectionStatus: SocketConnectionStatus = SocketConnectionStatus.None;
 
@@ -37,31 +33,32 @@ export class WebSocketService {
     public radarInfos: EventEmitter<any> = new EventEmitter();
     public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
     public windowStrings: EventEmitter<any> = new EventEmitter();
+
     constructor(
+        private infoService: InfoService,
         private httpService: HttpService,
-        private urlService: UrlService,
         private cookieService: CookieService,
         private logger: Logger) {
     }
 
-    setSocketConnectionStatus(status: SocketConnectionStatus) {
+    setWsConnectionStatus(status: SocketConnectionStatus) {
+        if (this.infoService.isDesktop)
+            return;
 
         this._socketConnectionStatus = status;
         this.connectionStatus.emit(status);
     }
 
-    setConnecting() {
-        this.setSocketConnectionStatus(SocketConnectionStatus.Connecting);
-    }
-
     wsConnect(): void {
+        if (this.infoService.isDesktop)
+            return;
+
         const $this = this;
 
-        this.setConnecting();
+        this.setWsConnectionStatus(SocketConnectionStatus.Connecting);
 
-        const url = this.urlService.getWsUrl();
-        this.logger.info('wsConnect-url', url)
-        this.logger.debug('wsConnecting... ' + url);
+        const url = this.infoService.getWsUrl();
+        this.logger.debug('WebSocket Connection...', url)
 
         this.connection = new WebSocket(url);
         this.connection.onmessage = function (e) {
@@ -99,12 +96,14 @@ export class WebSocketService {
 
             }
         };
+
         this.connection.onerror = (arg) => {
-            this.logger.error('wsOnError' + JSON.stringify(arg));
+            this.logger.error('WebSocket onError', JSON.stringify(arg));
             this.error.emit(arg);
         };
 
         this.connection.onopen = (arg) => {
+            this.logger.debug("WebSocket Connected", JSON.stringify(arg));
             // sets the name for this client socket
             this.connection.send(JSON.stringify({
                 cmd: 'SetClientWebSocketName',
@@ -115,43 +114,50 @@ export class WebSocketService {
                 }
             }));
 
-            this.setSocketConnectionStatus(SocketConnectionStatus.Connected);
+            this.setWsConnectionStatus(SocketConnectionStatus.Connected);
 
             this.open.emit(arg);
 
         };
 
         this.connection.onclose = (arg) => {
-            this.setSocketConnectionStatus(SocketConnectionStatus.Disconnected);
+            this.logger.debug("WebSocket onClose", JSON.stringify(arg));
+            this.setWsConnectionStatus(SocketConnectionStatus.Disconnected);
             this.close.emit(arg);
         };
     }
 
     wsClose() {
+        if (this.infoService.isDesktop)
+            return;
+
         if (this.connection) {
             this.connection.close();
         }
     }
+
     checkForOpenConnection(): Observable<boolean> {
+
         return Observable.create(observer => {
             if (this._socketConnectionStatus === SocketConnectionStatus.Connected) {
                 observer.next(true);
                 observer.complete();
             } else if (this._socketConnectionStatus === SocketConnectionStatus.Connecting) {
-                this.logger.info('Connection not yet avCannot yet use connection, connecting...');
+                this.logger.debug('Connection not yet avCannot yet use connection, connecting...');
                 observer.next(false);
                 observer.complete();
             } else {
-                const subs = this.loginSessionService.openTbConnectionAsync().subscribe(ret => {
-                    subs.unsubscribe();
-                    if (ret) {
-                        observer.next(true);
-                        observer.complete();
-                    }
-                });
+                // const subs = this.loginSessionService.openTbConnectionAsync().subscribe(ret => {
+                //     subs.unsubscribe();
+                //     if (ret) {
+                //         observer.next(true);
+                //         observer.complete();
+                //     }
+                // });
             }
         });
     }
+
     safeSend(data: any): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const subs = this.checkForOpenConnection().subscribe(valid => {

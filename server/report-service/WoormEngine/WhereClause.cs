@@ -190,13 +190,13 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			expressionStack.Clear();
 
-			if (lex.Parsed(Token.BREAK))
+			if (lex.Matched(Token.BREAK))
 			{
 				emptyWhere = Token.BREAK;
 				return true;
 			}
 
-			if (lex.Parsed(Token.ALL))
+			if (lex.Matched(Token.ALL))
 			{
 				emptyWhere = Token.ALL;
 				return true;
@@ -204,7 +204,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 			emptyWhere = Token.NOTOKEN;
 
-			if (lex.Parsed(Token.NATIVE) || Native)
+			if (lex.Matched(Token.NATIVE) || Native)
 				return ParseNative(lex);
 
             // si imposta altri token di chiusura dell'espressione (perchè T_WHERE ?)
@@ -345,7 +345,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 					object data = null;
 
-                    if (lex.Parsed(Token.EVAL))
+                    if (lex.Matched(Token.EVAL))
                     {
                         Expression expr = new Expression(TbSession, this.symbolTable);
                         expr.StopTokens = new StopTokens(new Token[] { Token.BRACECLOSE });
@@ -515,7 +515,7 @@ namespace Microarea.RSWeb.WoormEngine
 
                         object data = null;
 
-                        if (lex.Parsed(Token.EVAL))
+                        if (lex.Matched(Token.EVAL))
                         {
                             Expression expr = new Expression(ReportSession, symTable);
                             expr.StopTokens = new StopTokens(new Token[] { Token.BRACECLOSE });
@@ -1002,7 +1002,7 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			Init();
 
-			if (lex.Parsed(Token.NATIVE) || Native)
+			if (lex.Matched(Token.NATIVE) || Native)
 				return base.ParseNative(lex);
 				
 			if (!lex.LookAhead(Token.IF))
@@ -1045,7 +1045,7 @@ namespace Microarea.RSWeb.WoormEngine
                     return false;
 			}
 			
-			if (!lex.Parsed(Token.ELSE)) 
+			if (!lex.Matched(Token.ELSE)) 
                 return true;
 			
 			if (lex.LookAhead(Token.IF))

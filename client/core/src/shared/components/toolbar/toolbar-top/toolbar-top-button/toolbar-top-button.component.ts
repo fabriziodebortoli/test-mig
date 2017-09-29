@@ -1,11 +1,11 @@
-import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
-import { ComponentInfoService } from './../../../../models/component-info.model';
 import { Component, Input } from '@angular/core';
 
-import { HttpService } from './../../../../../core/services/http.service';
+import { ComponentInfoService } from './../../../../../core/services/component-info.service';
+import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
+import { InfoService } from './../../../../../core/services/info.service';
 import { EventDataService } from './../../../../../core/services/eventdata.service';
 
-import { TbComponent } from "./../../../../../shared";
+import { TbComponent } from '../../../tb.component';
 
 @Component({
   selector: 'tb-toolbar-top-button',
@@ -24,12 +24,12 @@ export class ToolbarTopButtonComponent extends TbComponent {
 
   constructor(
     private eventData: EventDataService,
-    private httpService: HttpService,
+    private infoService: InfoService,
     private ciService: ComponentInfoService,
     tbComponentService: TbComponentService
   ) {
     super(tbComponentService);
-    //this.imgUrl = this.httpService.getDocumentBaseUrl() + 'getImage/?src=';
+    //this.imgUrl = this.infoService.getDocumentBaseUrl() + 'getImage/?src=';
   }
   onCommand() {
     this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);

@@ -25,11 +25,9 @@ export class EventDataService {
     public model: any = {}; // current model
 
     public activation: any = {}; // contains activation data
-    public buttonsState: any = {}; 
+    public buttonsState: any = {};
 
-    constructor() {
-        console.log('EventDataService created');
-    }
+    constructor() { }
 
     public raiseCommand(componentId: string, commandId: string) {
         const evt = new CommandEventArgs();

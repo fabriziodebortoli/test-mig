@@ -1,6 +1,6 @@
-import { ComponentInfoService } from './../models/component-info.model';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
+import { ComponentInfoService } from './../../core/services/component-info.service';
 import { ComponentService } from './../../core/services/component.service';
 import { DocumentComponent } from './document.component';
 import { EventDataService } from './../../core/services/eventdata.service';

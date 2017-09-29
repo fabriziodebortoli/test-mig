@@ -43,11 +43,11 @@ namespace Microarea.Common.CoreTypes
 		//---------------------------------------------------------------------------
 		static public string WoormRunnedReportPath(string customReportPath, string reportName, bool create)
 		{
-			 string path = customReportPath + 
-				 Path.DirectorySeparatorChar + 
-				 reportName +
-				 Path.DirectorySeparatorChar + 
-				 DateTime.Now.ToString(ReportFolderNameFormatter);
+            string path = customReportPath +
+                Path.DirectorySeparatorChar +
+                reportName +
+                Path.DirectorySeparatorChar;  
+				//DateTime.Now.ToString(ReportFolderNameFormatter);
 
 			if (create && !Directory.Exists(path))
 				Directory.CreateDirectory(path);

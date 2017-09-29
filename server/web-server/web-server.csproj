@@ -12,8 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\data-service\data-service.csproj" />
-    <ProjectReference Include="..\database-service\database-service.csproj" />
     <ProjectReference Include="..\account-manager\account-manager.csproj" />
     <ProjectReference Include="..\menu-service\menu-service.csproj" />
     <ProjectReference Include="..\report-service\report-service.csproj" />
@@ -58,6 +61,12 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

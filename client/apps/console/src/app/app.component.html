@@ -1,4 +1,4 @@
-<admin-sidenav-container [appTitle]="'M4Cloud'" [userAccountName]="userAccountName">
+<admin-sidenav-container [appTitle]="'M4Cloud'" [userAccountName]="userAccountName" (openAccountProfile)="openAccount($event)" (openSignIn)="openLogin()">
     <div class="routesSection">
         <div>
             <a [routerLink]="['/appHome']">Home</a>
@@ -11,9 +11,6 @@
         </div>    
         <div>
             <a [routerLink]="['/accountsHome']">Accounts</a>
-        </div>
-        <div>
-            <a [routerLink]="['/databasesHome']">Databases</a>
         </div>
         <div *ngIf="userAccountName != undefined && userAccountName != ''" class="logOutBtn">
             <a (click)="logout()" style="cursor:pointer">Logout</a>

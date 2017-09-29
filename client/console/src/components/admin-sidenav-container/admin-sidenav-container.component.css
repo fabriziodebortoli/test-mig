@@ -1,6 +1,7 @@
 .routerContainer {
-    padding: 40px;
+    padding: 20px;
 }
 .spacer {
   flex: 1 1 auto;
 }
+a {color:#ffffff; cursor: pointer}

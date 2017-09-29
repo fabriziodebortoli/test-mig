@@ -319,28 +319,28 @@ namespace Microarea.RSWeb.WoormViewer
 				ok = ParseUShort(out barCode.BarCodeTypeAlias);
 			}
 
-			if (ok && Parsed(Token.COMMA)) {ok = ParseInt (out i); barCode.NarrowBar = (short)i;}
-			if (ok && Parsed(Token.COMMA)) {ok = ParseBool(out b); barCode.Vertical = b;}
-			if (ok && Parsed(Token.COMMA)) {ok = ParseBool(out b); barCode.ShowLabel = b;}
+			if (ok && Matched(Token.COMMA)) {ok = ParseInt (out i); barCode.NarrowBar = (short)i;}
+			if (ok && Matched(Token.COMMA)) {ok = ParseBool(out b); barCode.Vertical = b;}
+			if (ok && Matched(Token.COMMA)) {ok = ParseBool(out b); barCode.ShowLabel = b;}
 			
 			// EAN128 optional parameters
 			if (ok && LookAhead(Token.COMMA))
 			{
-				Parsed(Token.COMMA);
+				Matched(Token.COMMA);
 				ok = ParseSignedInt(out i); 
 				barCode.CheckSumType = i;
 			}
 
 			if (ok && LookAhead(Token.COMMA))
 			{
-				Parsed(Token.COMMA);
+				Matched(Token.COMMA);
 				ok = ParseSignedInt(out i); 
 				barCode.CustomBarHeight = i;
 			}
 
 			if (ok && LookAhead(Token.COMMA))
 			{
-				Parsed(Token.COMMA);
+				Matched(Token.COMMA);
 				ok = ParseInt(out i); 
 				barCode.HumanTextAlias = Convert.ToUInt16(i);
 			}

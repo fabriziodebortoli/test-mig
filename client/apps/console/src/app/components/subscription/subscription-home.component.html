@@ -2,7 +2,7 @@
     <h1>Subscriptions Management</h1>
 </div>
 <div style="float: right;">
-    <button style="margin-top:35px" routerLink='/subscription'>New Subscription</button>
+    <button style="margin-top:20px" routerLink='/subscription' class="cta">new Subscription</button>
 </div>
 <hr style="clear:both">
-<admin-list [items]=subscriptions [columnNames]="['SubscriptionKey','Description']" (onSelectedItem)="openSubscription($event)"></admin-list>
+<admin-list [items]=subscriptions [readingData]=readingData [columnNames]="['SubscriptionKey','Description']" (onSelectedItem)="openSubscription($event)"></admin-list>

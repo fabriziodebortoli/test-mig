@@ -359,7 +359,7 @@ namespace Microarea.RSWeb.WoormViewer
 
                                 Add(new ConnectionLinkItem(name, documentAlias, dataType, woormType, null, enumTag, null));
                             }
-                            else if (lex.Parsed(Token.ASSIGN)) //non yet supported, this is only an experiment!
+                            else if (lex.Matched(Token.ASSIGN)) //non yet supported, this is only an experiment!
                             {
                                 Expression exp = new Expression(connections.Document.ReportSession, connections.Document.SymbolTable);
 
@@ -630,11 +630,11 @@ namespace Microarea.RSWeb.WoormViewer
         //------------------------------------------------------------------------------
         public bool Parse(WoormParser lex)
         {
-            if (lex.Parsed(Token.LINKFUNCTION)) connectionType = ConnectionLinkType.Function;
-            else if (lex.Parsed(Token.LINKFORM)) connectionType = ConnectionLinkType.Form;
-            else if (lex.Parsed(Token.LINKREPORT)) connectionType = ConnectionLinkType.Report;
-            else if (lex.Parsed(Token.LINKRADAR)) connectionType = ConnectionLinkType.Radar;
-            else if (lex.Parsed(Token.LINKURL))
+            if (lex.Matched(Token.LINKFUNCTION)) connectionType = ConnectionLinkType.Function;
+            else if (lex.Matched(Token.LINKFORM)) connectionType = ConnectionLinkType.Form;
+            else if (lex.Matched(Token.LINKREPORT)) connectionType = ConnectionLinkType.Report;
+            else if (lex.Matched(Token.LINKRADAR)) connectionType = ConnectionLinkType.Radar;
+            else if (lex.Matched(Token.LINKURL))
             {
                 connectionType = ConnectionLinkType.URL;
                 connectionSubType = ConnectionLinkSubType.Url;
@@ -744,7 +744,7 @@ namespace Microarea.RSWeb.WoormViewer
                     return false;
             }
 
-            lex.Parsed(Token.ON);
+            lex.Matched(Token.ON);
             if (lex.LookAhead(Token.ALIAS))
             {
                 if (!ParseAlias(lex, out onAlias))
@@ -813,15 +813,15 @@ namespace Microarea.RSWeb.WoormViewer
             //---- TODO
             lex.DoAudit = true;
 
-            if (lex.Parsed(Token.CONTEXT))
+            if (lex.Matched(Token.CONTEXT))
             {
                 lex.SkipBlock();
             }
-            if (lex.Parsed(Token.BEFORE))
+            if (lex.Matched(Token.BEFORE))
             {
                 lex.SkipBlock();
             }
-            if (lex.Parsed(Token.AFTER))
+            if (lex.Matched(Token.AFTER))
             {
                 lex.SkipBlock();
             }
@@ -1294,13 +1294,13 @@ namespace Microarea.RSWeb.WoormViewer
         //------------------------------------------------------------------------------
         public bool Parse(WoormParser lex)
         {
-            bool bHaveLinks = lex.Parsed(Token.LINKS);
+            bool bHaveLinks = lex.Matched(Token.LINKS);
             if (bHaveLinks && !lex.ParseBegin())
                 return false;
 
             while
                 (
-                    lex.Parsed(Token.SELECT) ||    //compatibilita sintassi r5
+                    lex.Matched(Token.SELECT) ||    //compatibilita sintassi r5
                     lex.LookAhead(Token.LINKFUNCTION) ||
                     lex.LookAhead(Token.LINKFORM) ||
                     lex.LookAhead(Token.LINKREPORT) ||

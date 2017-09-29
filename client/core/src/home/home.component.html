@@ -22,7 +22,8 @@
 
         <div class="tabber-container" #tabberContainer>
             <kendo-tabstrip #kendoTabStripInstance="kendoTabStrip" [keepTabContent]="true">
-                <kendo-tabstrip-tab [selected]="true">
+
+                <kendo-tabstrip-tab [selected]="true" *ngIf="!isDesktop">
                     <ng-template kendoTabTitle>
                         <md-icon>home</md-icon>
                     </ng-template>
@@ -33,7 +34,7 @@
                     </ng-template>
                 </kendo-tabstrip-tab>
 
-                <kendo-tabstrip-tab>
+                <kendo-tabstrip-tab [selected]="isDesktop">
                     <ng-template kendoTabTitle>
                         <div (click)="menuService.activateMenu()" class="menu-tab">
                             <md-icon>dashboard</md-icon>
@@ -50,8 +51,7 @@
                 <kendo-tabstrip-tab *ngFor="let info of componentService.components">
                     <ng-template kendoTabTitle>
                         <span>{{info.document?.getTitle()}}</span>
-
-                        <md-icon (click)="closeTab(info)" title="Close" class='close'>close</md-icon>
+                        <m4-icon icon="tb-closewindows" (click)="closeTab(info)" title="Close" class='close'></m4-icon>
                     </ng-template>
                     <ng-template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
@@ -67,3 +67,9 @@
 
     </div>
 </md-sidenav-container>
+<div class="connecting-container" [@fadeInOut] *ngIf="!connected">
+    <div class="connecting">
+        <span class="k-icon k-i-loading"></span>
+        <p class="text">Connecting...</p>
+    </div>
+</div>

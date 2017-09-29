@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers } from '@angular/http';
+import {Response, Http,  RequestOptions,  Headers} from '@angular/http';
 import { Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 import { environment } from './../../environments/environment';
@@ -8,19 +8,22 @@ import { Credentials } from './../authentication/credentials';
 import { OperationResult } from './operationResult';
 import { RoleNames, RoleLevels } from './../authentication/auth-helpers';
 import { UrlGuard } from "app/authentication/url-guard";
+import { AccountInfo } from '../authentication/account-info';
 
 @Injectable()
 //================================================================================
 export class LoginService {
 
-  private modelBackEndUrl: string;
+  private tokenAPIUrl: string;
+  private instancesListAPIUrl: string;
   private accountName: string;
   private loginOperationCompleted = new Subject<string>();
 
   //--------------------------------------------------------------------------------
   constructor(private http: Http,  private router: Router) { 
 
-    this.modelBackEndUrl = environment.adminAPIUrl + "tokens";
+    this.tokenAPIUrl = environment.adminAPIUrl + "tokens" + "/"; // InstanceKey must be set from outside
+    this.instancesListAPIUrl = environment.adminAPIUrl + "listInstances" + "/";
   }
 
   //--------------------------------------------------------------------------------
@@ -31,53 +34,90 @@ export class LoginService {
   //--------------------------------------------------------------------------------
   getMessage(): Observable<any> {
     return this.loginOperationCompleted.asObservable();
-  }  
+  }
 
   //--------------------------------------------------------------------------------
-  login(body:Object, returnUrl: string) {
+  getInstances(accountName: string): Observable<OperationResult> {
+
+    // called by pre-login process to load instances for account
+
+    let bodyString  = JSON.stringify(accountName);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(this.instancesListAPIUrl, bodyString, options)
+    .map((res : Response) => {
+      return res.json();
+      }, 
+      err => { 
+        return err; } 
+    )
+    .catch((error: any) => Observable.throw(error.json().error || 'server error'));    
+  }
+
+  //--------------------------------------------------------------------------------
+  login(body:Object, returnUrl: string, instance: string) {
 
     let bodyString  = JSON.stringify(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     
-    this.http.post(this.modelBackEndUrl, bodyString, options)
+    this.http.post(this.tokenAPIUrl + instance, bodyString, options)
       .map(res => res.json())
+      .catch((error:any) => Observable.throw(error.json().error || 'Error while posting login to the server'))
       .subscribe(
         data =>
         {
           if (!data.Result)
           {
+            this.sendMessage('');
             alert('Cannot do the login ' + data.Message);
             return;
           }
 
           if (data.JwtToken == '')
           {
+            this.sendMessage('');
             alert('Empty token');
             return;
           }
 
+          let authInfo: AuthorizationInfo;
+
           try
           {
-            let authInfo: AuthorizationInfo = this.GetAuthorizationsFromJWT(data.JwtToken);
+            authInfo = this.GetAuthorizationsFromJWT(data.JwtToken);
 
             if (authInfo == null) {
               alert('Could not get valid AuthorizationInfo from jwt token, cannot proceed.');
               this.router.navigateByUrl('/');
+              this.sendMessage('');
               return;
             }
 
             // save in localstorage all the information about authorization
             localStorage.setItem('auth-info', JSON.stringify(authInfo.authorizationProperties));
             
+            // save in localstorage all the information about account choices
+            let accountInfo: AccountInfo = new AccountInfo(instance);
+            localStorage.setItem(authInfo.authorizationProperties.accountName, JSON.stringify(accountInfo));
+
             // sending message to subscribers to notify login
             this.sendMessage(authInfo.authorizationProperties.accountName);
 
             // checking cloud-admin only urls
             let opRes: OperationResult = UrlGuard.CanNavigate(returnUrl, authInfo);
 
+            if (!opRes.Result && returnUrl == '/') {
+              // this is the case where user clicked the "sign in" link
+              this.router.navigateByUrl('/');
+              this.sendMessage(authInfo.authorizationProperties.accountName);
+              return;              
+            }
+
             if (!opRes.Result) {
               alert(opRes.Message);
+              this.sendMessage('');
               this.router.navigateByUrl('/');
               return;
             }
@@ -87,6 +127,9 @@ export class LoginService {
           catch (exc)
           {
             localStorage.removeItem('auth-info');
+            this.sendMessage('');
+            if (authInfo != null)
+              localStorage.removeItem(authInfo.authorizationProperties.accountName);
             alert('Error while processing authorization info from jwt token ' + exc + '. Login failed.');
             return;
           }   
@@ -96,7 +139,7 @@ export class LoginService {
   }
 
   //--------------------------------------------------------------------------------
-  GetAuthorizationsFromJWT(unparsedToken: string):AuthorizationInfo {
+  GetAuthorizationsFromJWT(unparsedToken: string): AuthorizationInfo {
     // decoding jwt token
     let tokenParts: Array<string> = unparsedToken.split('.');
 

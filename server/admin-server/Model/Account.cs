@@ -14,6 +14,7 @@ namespace Microarea.AdminServer.Model
         string accountName;
         string fullName = string.Empty;
 		string password = string.Empty;
+		byte[] salt = new byte[] { };
         int loginFailedCount = 0;
         string notes = string.Empty;
 		string email = string.Empty;
@@ -36,7 +37,8 @@ namespace Microarea.AdminServer.Model
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
 		public string FullName { get { return this.fullName; } set { this.fullName = value; } }
 		public string Password { get { return this.password; } set { this.password = value; } }
-        public int LoginFailedCount { get { return this.loginFailedCount; } set { this.loginFailedCount = value; } }
+		public byte[] Salt{ get { return this.salt; } set { this.salt = value; } }
+		public int LoginFailedCount { get { return this.loginFailedCount; } set { this.loginFailedCount = value; } }
         public string Notes { get { return this.notes; } set { this.notes = value; } }
 		public string Email { get { return this.email; } set { this.email = value; } }
 		public bool PasswordNeverExpires { get { return this.passwordNeverExpires; } set { this.passwordNeverExpires = value; } }
@@ -68,7 +70,8 @@ namespace Microarea.AdminServer.Model
             account.Notes = dataReader["Notes"] as string;
             account.Email = dataReader["Email"] as string;
             account.Password = dataReader["Password"] as string;
-            account.LoginFailedCount = (int)dataReader["LoginFailedCount"];
+			account.Salt = dataReader["Salt"] as byte[];
+			account.LoginFailedCount = (int)dataReader["LoginFailedCount"];
             account.PasswordNeverExpires = (bool)dataReader["PasswordNeverExpires"];
             account.MustChangePassword = (bool)dataReader["MustChangePassword"];
             account.CannotChangePassword = (bool)dataReader["CannotChangePassword"];
@@ -96,7 +99,14 @@ namespace Microarea.AdminServer.Model
 
             burgerDataParameters.Add(new BurgerDataParameter("@FullName", this.FullName));
             burgerDataParameters.Add(new BurgerDataParameter("@Password", this.Password));
-            burgerDataParameters.Add(new BurgerDataParameter("@Notes", this.Notes));
+
+			if (this.Salt == null)
+			{
+				this.Salt = new byte[] { };
+			}
+
+			burgerDataParameters.Add(new BurgerDataParameter("@Salt", this.Salt));
+			burgerDataParameters.Add(new BurgerDataParameter("@Notes", this.Notes));
             burgerDataParameters.Add(new BurgerDataParameter("@Email", this.Email));
             burgerDataParameters.Add(new BurgerDataParameter("@LoginFailedCount", this.LoginFailedCount));
             burgerDataParameters.Add(new BurgerDataParameter("@PasswordNeverExpires", this.PasswordNeverExpires));

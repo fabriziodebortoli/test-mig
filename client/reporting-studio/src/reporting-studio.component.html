@@ -1,15 +1,13 @@
 <tb-frame>
     <iframe id="iframe" style="display:none;"></iframe>
     <tb-toolbar-top>
-
         <tb-toolbar-top-button icon="tb-find" caption="Search"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-first" caption="First" (click)="FirstPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-prev" caption="Previous Page" (click)="PrevPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-next" caption="Next Page" (click)="NextPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-last" caption="Last" (click)="LastPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="tb-startreport" caption="Run Report" (click)="RunReport()" *ngIf="!rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="tb-stopreport" caption="Stop Report" (click)="StopReport()" *ngIf="rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="tb-rerun" caption="ReRun" (click)="ReRunReport()"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="tb-startreport" caption="Run Report" (click)="ReRunReport()" *ngIf="rsService.runEnabled"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="tb-stopreport" caption="Stop Report" (click)="StopReport()" *ngIf="!rsService.runEnabled"></tb-toolbar-top-button>
     </tb-toolbar-top>
     <tb-frame-content>
         <tb-view-container>
@@ -22,14 +20,17 @@
         </tb-view-container>
     </tb-frame-content>
     <tb-toolbar-bottom>
+        <label id="snapshot" *ngIf="runReport">{{this.rsExportService.nameSnap}} - {{this.rsExportService.dateSnap | date:"dd/MM/yyyy HH:mm:ss"}}</label>
 
+        <tb-toolbar-bottom-button id="firstButton" *ngIf="!runReport" caption="Snapshot Report" (click)="startSnapshot()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as PNG" (click)="startSavePNG()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as SVG" (click)="startSaveSVG()"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button caption="Export as PDF" (click)="setExportFile(rsService.pdf)"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button caption="Export as Excel" (click)="setExportFile(rsService.excel)"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button caption="Export as DocX" (click)="setExportFile(rsService.docx)"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button caption="Export as PDF" (click)="setExportFile(rsExportService.pdf)"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="!runReport" caption="Export as Excel" (click)="setExportFile(rsExportService.excel)"></tb-toolbar-bottom-button>
+        <!--<tb-toolbar-bottom-button caption="Export as DocX" (click)="setExportFile(rsExportService.docx)"></tb-toolbar-bottom-button> -->
 
-        <rs-exportdialog *ngIf="rsService.exportfile"> </rs-exportdialog>
+        <rs-exportdialog *ngIf="rsExportService.exportfile"> </rs-exportdialog>
+        <rs-snapshotdialog *ngIf="rsExportService.snapshot"></rs-snapshotdialog>
 
     </tb-toolbar-bottom>
 </tb-frame>

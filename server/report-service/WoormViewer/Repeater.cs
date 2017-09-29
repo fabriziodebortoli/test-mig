@@ -6,11 +6,12 @@ using Microarea.Common.Lexan;
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
 using Microarea.Common.CoreTypes;
+using Microarea.RSWeb.WoormViewer;
 
-namespace Microarea.RSWeb.WoormViewer
+namespace Microarea.RSWeb.Objects
 {
-	//==============================================================================
-	public class RepeaterObjects : List<BaseObjList>
+    //==============================================================================
+    public class RepeaterObjects : List<BaseObjList>
 	{
 		protected Repeater repeater;
 
@@ -249,7 +250,7 @@ namespace Microarea.RSWeb.WoormViewer
 		//------------------------------------------------------------------------------
 		void Attach(BaseObj obj)
 		{
-			if (obj is Table || obj is Repeater || obj.InternalID >= SpecialReportField.REPORT_LOWER_SPECIAL_ID)
+			if (obj is Table || obj is Repeater || obj is Chart || obj.InternalID >= SpecialReportField.REPORT_LOWER_SPECIAL_ID)
 				return;
 
 			Rows.AddChild(obj);
@@ -293,7 +294,7 @@ namespace Microarea.RSWeb.WoormViewer
 			bool bOk =
 				lex.ParseRepeater(out nRows, out nColumns);
 
-			ByColumn = lex.Parsed(Token.COLUMN);
+			ByColumn = lex.Matched(Token.COLUMN);
 
 			bOk = bOk &&
 				lex.ParseAlias(out InternalID) &&

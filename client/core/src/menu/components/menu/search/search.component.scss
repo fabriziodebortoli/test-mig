@@ -17,16 +17,16 @@
 .tb-search .mat-input-placeholder.mat-empty {
     color: #00578c;
     font-size: 16px;
-    position: relative;
     padding: 0;
     line-height: 34px;
+    margin-top: 20px;
 }
 
 .tb-search .mat-input-element {
     font-size: 14px;
     line-height: 26px;
     color: #00578c;
-    margin-bottom: 3px;
+    margin-bottom: 2.5px;
 }
 
 .tb-search .mat-input-wrapper {
@@ -45,6 +45,11 @@
 }
 
 .tb-search .mat-icon {
+    margin: 0px 5px 0 0;
+    color: #00578c;
+}
+
+.tb-search .m4-icon.m4-tb-find {
     margin: 0px 5px 0 0;
     color: #00578c;
 }

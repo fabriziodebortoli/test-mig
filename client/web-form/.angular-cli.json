@@ -7,8 +7,10 @@
         "root": "src",
         "outDir": "dist",
         "assets": [
+            { "glob": "**/*", "input": "../node_modules/@taskbuilder/icons/fonts/", "output": "./assets/m4" },
             "assets",
-            "favicon.ico"
+            "favicon.ico",
+            "config.json"
         ],
         "index": "index.html",
         "main": "main.ts",
@@ -19,7 +21,6 @@
         "prefix": "tb",
         "styles": [
             "../node_modules/flexboxgrid/dist/flexboxgrid.min.css",
-            "../node_modules/@taskbuilder/icons/m4.css",
             "tb.scss",
             "form.scss",
             "styles.scss"
@@ -29,6 +30,7 @@
         "environments": {
             "dev": "environments/environment.ts",
             "prod": "environments/environment.prod.ts",
+            "desktop": "environments/environment.desktop.ts",
             "test": "environments/environment.test.ts"
         }
     }],

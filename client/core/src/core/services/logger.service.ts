@@ -1,10 +1,15 @@
+import { environment } from 'environments/environment';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class Logger {
 
+    loggerDebug: boolean; // TODO leggere da configurazione esterna
+
     constructor() {
-        console.log('Logger service init');
+        this.loggerDebug = environment.loggerDebug;
+        this.debug('Logger service init', this.loggerDebug);
+
     }
 
     log(message?: any, ...optionalParams: any[]): void {
@@ -12,11 +17,13 @@ export class Logger {
     }
 
     info(message?: any, ...optionalParams: any[]): void {
-        console.log(message, ...optionalParams);
+        console.info(message, ...optionalParams);
     }
 
     debug(message?: any, ...optionalParams: any[]): void {
-        console.debug(message, ...optionalParams);
+        if (this.loggerDebug) {
+            console.log(message, ...optionalParams);
+        }
     }
 
     warn(message?: any, ...optionalParams: any[]): void {

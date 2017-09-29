@@ -1,23 +1,35 @@
 export enum ChartType 
 //ATTENZIONE: tenere allineato in: 
-//c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\TABLE.H - EnumChartType
+//c:\development\Standard\TaskBuilder\Framework\TbWoormViewer\chart.h - EnumChartType
 //c:\development\standard\web\server\report-service\woormviewer\table.cs - EnumChartType
 //c:\development\Standard\web\client\reporting-studio\src\models\chart-type.model.ts - ChartType
 //------
 {
     None,
+
     Bar, BarStacked, BarStacked100,
     Column, ColumnStacked, ColumnStacked100,
-    Area, AreaStacked, AreaStacked100,
-    Line, 
-    Pie, Donut, DonutNested,
-    Funnel,
-    RangeBar, RangeColumn,
-    Bubble, Scatter,
+    Area, AreaStacked, AreaStacked100,Line, 
+
+    Funnel, Pie, Donut, DonutNested, 
+
+    RangeBar, RangeColumn, RangeArea,
+
+    Bubble, BubbleScatter,
+     
+    Scatter, ScatterLine, 
+    PolarLine, PolarArea, PolarScatter,
+    RadarLine, RadarArea, 
+
     Wrong,
-    //mancano nei BCGP
-    VerticalLine, VerticalArea,
-    //mancano nei Kendo UI
-    Pyramid
-    //versioni 3D di bar,column,area
+
+    //solo Kendo UI
+    VerticalLine, VerticalArea, RadarColumn,
+    //solo BCGP
+    Pyramid, RadarScatter
+    //versioni 3D di bar,column,area  
+}
+
+export function ChartTypeDecorator(constructor: Function) {
+    constructor.prototype.ChartType = ChartType;
 }

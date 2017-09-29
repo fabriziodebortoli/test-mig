@@ -10,7 +10,7 @@ body {
     width: 100%;
     height: 100%;
     color: #222;
-    font-family: 'Roboto', sans-serif;
+    background: #efefef
 }
 
 h1 {
@@ -40,4 +40,15 @@ h1 {
 .container-fluid {
     margin-right: auto;
     margin-left: auto;
+}
+
+tb-root {}
+
+tb-root>.k-icon.k-i-loading {
+    font-size: 64px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #0277bd;
 }

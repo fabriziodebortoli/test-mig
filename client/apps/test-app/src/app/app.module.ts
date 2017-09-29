@@ -1,9 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { TbIconsModule } from '@taskbuilder/icons';
-import { TbCoreModule, TaskbuilderCoreModule } from '@taskbuilder/core';
-
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -11,10 +8,7 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule,
-    TaskbuilderCoreModule,
-    TbCoreModule.forRoot(),
-    TbIconsModule
+    BrowserModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,8 +1,9 @@
+import { RsExportService } from './rs-export.service';
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
-import { WebSocketService, HttpService } from '@taskbuilder/core';
+import { WebSocketService, InfoService } from '@taskbuilder/core';
 import { UtilsService } from '@taskbuilder/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType, SvgType, PngType } from './models';
@@ -10,6 +11,7 @@ import { DocumentComponent } from '@taskbuilder/core';
 import { ComponentService } from '@taskbuilder/core';
 import { EventDataService } from '@taskbuilder/core';
 import { ReportingStudioService } from './reporting-studio.service';
+import { Snapshot } from './report-objects/snapshotdialog/snapshot';
 
 import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
@@ -18,7 +20,8 @@ import { saveAs } from '@progress/kendo-file-saver';
   selector: 'tb-reporting-studio',
   templateUrl: './reporting-studio.component.html',
   styleUrls: ['./reporting-studio.component.scss'],
-  providers: [ReportingStudioService, EventDataService],
+  providers: [ReportingStudioService, RsExportService, EventDataService],
+  encapsulation: ViewEncapsulation.None,
 })
 
 export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy {
@@ -39,12 +42,14 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public data: any[];
 
   public curPageNum: number;
+  public runReport: boolean = false;
 
   constructor(
     private rsService: ReportingStudioService,
+    private rsExportService: RsExportService,
     eventData: EventDataService,
     private cookieService: CookieService,
-    private httpServ: HttpService,
+    private infoService: InfoService,
 
     private componentService: ComponentService,
     private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
@@ -70,12 +75,14 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
     this.rsService.doSend(JSON.stringify(message));
 
-    this.rsService.rsExportPdf.subscribe(() => this.startSavePDF());
-    this.rsService.rsExportExcel.subscribe(() => this.startSaveExcel());
-    this.rsService.rsExportDocx.subscribe(() => this.startSaveDocx());
-    this.rsService.eventNextPage.subscribe(() => this.NextPage());
-    this.rsService.eventFirstPage.subscribe(() => this.FirstPage());
-    this.rsService.eventCurrentPage.subscribe(() => this.CurrentPage());
+    this.rsExportService.rsExportPdf.subscribe(() => this.startSavePDF());
+    this.rsExportService.rsExportExcel.subscribe(() => this.startSaveExcel());
+    this.rsExportService.rsExportDocx.subscribe(() => this.startSaveDocx());
+    this.rsExportService.eventNextPage.subscribe(() => this.NextPage());
+    this.rsExportService.eventFirstPage.subscribe(() => this.FirstPage());
+    this.rsExportService.eventCurrentPage.subscribe(() => this.CurrentPage());
+    this.rsExportService.eventSnapshot.subscribe(() => this.Snapshot());
+    this.rsExportService.runSnapshot.subscribe(() => this.RunSnapshot());
   }
 
   // -----------------------------------------------
@@ -121,7 +128,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     //elaborate
     try {
       let msg = JSON.parse(message);
-      let k = msg.message !== "" ? JSON.parse(msg.message) : undefined;
+      let k = msg.message !== "" ? msg.message : undefined;
       switch (msg.commandType) {
         case CommandType.ASK:
           this.askDialogTemplate = message;
@@ -137,7 +144,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.STOP: break;
         case CommandType.INITTEMPLATE:
           this.eventData.model.Title.value = k.page.report_title;
-          this.rsService.titleReport = k.page.report_title;
+          this.rsExportService.titleReport = k.page.report_title;
           this.reportTemplate = k;
           this.RunReport();
           break;
@@ -157,14 +164,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.componentService.createReportComponent(k.ns, true, params);
           break;
         case CommandType.ENDREPORT:
-          this.rsService.totalPages = k.totalPages;
+          this.rsExportService.totalPages = k.totalPages;
+          this.rsService.runEnabled = true;
           break;
         case CommandType.NONE:
           break;
         case CommandType.WRONG:
           break;
         case CommandType.EXPORTEXCEL:
-          if(k == "Errore"){
+          if (k == "Errore") {
             window.alert("Errore: non ci sono dati da esportare in Excel");
             break;
           }
@@ -173,6 +181,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.EXPORTDOCX:
           this.getDocxData(k + ".docx");
           break;
+        case CommandType.SNAPSHOT:
+          this.runReport = true;
+          this.rsExportService.totalPages = parseInt(msg.page);
+          this.FirstPage();
+          console.log(this.rsExportService.totalPages);
+          break;
+        case CommandType.ACTIVESNAPSHOT:
+          this.CreateTableSnapshots(k);
+          break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
       //if (this.args.params.runAtTbLoader) {
@@ -180,6 +197,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       //}
       //this.message = msg;//.message;
     } catch (err) {
+      console.log(err);
       this.message = 'Error Occured';
     }
   }
@@ -187,6 +205,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   RunReport() {
     this.rsService.running = true;
+    this.rsService.runEnabled = false;
     let message = {
       commandType: CommandType.ASK,
       message: '',
@@ -217,7 +236,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   NextPage() {
-    if (this.rsService.pageNum < this.rsService.totalPages) {
+    if (this.rsService.pageNum < this.rsExportService.totalPages) {
       this.rsService.pageNum++;
     }
     let message = {
@@ -260,7 +279,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
-      page: this.rsService.totalPages
+      page: this.rsExportService.totalPages
     };
 
     this.rsService.pageNum = message.page;
@@ -269,17 +288,17 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   ReRunReport() {
-
-    let message = {
-      commandType: CommandType.RERUN,
-      message: this.args.nameSpace,
-      page: 0
-    };
-
     this.rsService.reset();
     this.reset();
+
+    this.rsInitStateMachine();
+
+    let message = {
+      commandType: CommandType.RERUN
+    };
     this.rsService.doSend(JSON.stringify(message));
   }
+
 
   // -----------------------------------------------
   CurrentPage() {
@@ -297,39 +316,68 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
-      page: this.rsService.firstPageExport
+      page: this.rsExportService.firstPageExport
     };
 
     this.rsService.pageNum = message.page;
     this.rsService.doSend(JSON.stringify(message));
   }
 
+  // -----------------------------------------------
+  Snapshot() {
+    //il flag user-allUser è passato insieme al numeroPagina
+    let message = {
+      commandType: CommandType.SNAPSHOT,
+      message: this.args.nameSpace,
+      page: 1 + "," + this.rsExportService.nameSnap + "," + this.rsExportService.user
+    };
+
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  // -----------------------------------------------
+  CreateTableSnapshots(k: Snapshot[]) {
+    this.rsExportService.snapshots = k;
+  }
+
+  // -----------------------------------------------
+  RunSnapshot() {
+    this.rsExportService.snapshot = false;
+    let message = {
+      commandType: CommandType.RUNSNAPSHOT,
+      message: this.args.nameSpace,
+      page: 1 + "," + this.rsExportService.dateSnap + "_" + this.rsExportService.nameSnap + "," + this.rsExportService.user
+    };
+
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
   //--------------------------------------------------
   public startSaveSVG() {
-    this.rsService.svgState = SvgType.SVG;
+    this.rsExportService.svgState = SvgType.SVG;
     this.CurrentPage();
   }
 
   //--------------------------------------------------
   public startSavePNG() {
-    this.rsService.pngState = PngType.PNG;
+    this.rsExportService.pngState = PngType.PNG;
     this.CurrentPage();
   }
 
   //--------------------------------------------------
   setExportFile(type: string) {
-    if (type == this.rsService.pdf)
-      this.rsService.exportpdf = true;
-    if (type == this.rsService.excel)
-      this.rsService.exportexcel = true;
-    if(type == this.rsService.docx)
-      this.rsService.exportdocx = true;
-    this.rsService.exportfile = true
+    if (type == this.rsExportService.pdf)
+      this.rsExportService.exportpdf = true;
+    if (type == this.rsExportService.excel)
+      this.rsExportService.exportexcel = true;
+    if (type == this.rsExportService.docx)
+      this.rsExportService.exportdocx = true;
+    this.rsExportService.exportfile = true
   }
 
   //--------------------------------------------------
   public startSavePDF() {
-    this.rsService.pdfState = PdfType.PDF;
+    this.rsExportService.pdfState = PdfType.PDF;
     this.PageNumber();
   }
 
@@ -338,7 +386,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.EXPORTEXCEL,
       message: this.args.nameSpace,
-      page: this.rsService.firstPageExport +","+ this.rsService.lastPageExport 
+      page: this.rsExportService.firstPageExport + "," + this.rsExportService.lastPageExport
     };
 
     this.rsService.doSend(JSON.stringify(message));
@@ -356,18 +404,31 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
+  public startSnapshot() {
+    this.rsExportService.snapshot = true;
+    let message = {
+      commandType: CommandType.ACTIVESNAPSHOT,
+      message: this.args.nameSpace,
+      page: 1
+    };
+
+    this.rsService.doSend(JSON.stringify(message));
+  }
+
+  //--------------------------------------------------
   getExcelData(filename: string) {
     var iframeHTML = document.getElementById('iframe') as HTMLFrameElement;
-    var s = this.httpServ.getReportServiceUrl() + 'excel/' + filename;
+    var s = this.infoService.getReportServiceUrl() + 'excel/' + filename;
     iframeHTML.src = s;
   }
 
   //--------------------------------------------------
   getDocxData(filename: string) {
     var iframeHTML = document.getElementById('iframe') as HTMLFrameElement;
-    var s = this.httpServ.getReportServiceUrl() + 'docx/' + filename;
+    var s = this.infoService.getReportServiceUrl() + 'docx/' + filename;
     iframeHTML.src = s;
   }
+
 }
 
 

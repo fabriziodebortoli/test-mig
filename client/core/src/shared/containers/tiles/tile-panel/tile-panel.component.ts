@@ -40,7 +40,7 @@ export class TilePanelComponent implements OnInit {
     }
 
     getArrowIcon() {
-        return this._isCollapsed ? 'keyboard_arrow_down' : 'keyboard_arrow_up';
+        return this._isCollapsed ? 'tb-expandarrowfilled' : 'tb-collapsearrowfilled';
     }
 
 

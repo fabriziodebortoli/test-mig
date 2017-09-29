@@ -3,7 +3,7 @@
         <tb-card-title class="widget-title" [title]="widget.title" [icon]="more_vert"></tb-card-title>
         <tb-card-subtitle *ngIf="widget.subtitle" class="tb-card-subtitle widget-subtitle" [subTitle]="widget.title"></tb-card-subtitle>
         <span class="widget-spacer"></span>
-        <md-icon *ngIf="widget.link" class="widget-icon" (click)="executeLink()">link</md-icon>
+        <m4-icon icon="tb-link" *ngIf="widget.link" class="widget-icon" (click)="executeLink()"></m4-icon>
     </tb-card-header>
     <tb-card-content class="widget-content tb-card-content">
         <div #cardContent class="widget-content">
@@ -21,10 +21,10 @@
     <tb-card-footer class="widget-footer">
         <hr class="widget-hr" />
         <div class="widget-footer-elements">
-            <md-icon class="widget-icon" (click)="onRefreshClicked()">refresh</md-icon>
+            <m4-icon icon="tb-refresh" class="widget-icon" (click)="onRefreshClicked()"></m4-icon>
             <span class="widget-timestamp">{{widget.data?.lastExecuted}}</span>
             <span class="widget-spacer"></span>
-            <md-icon class="widget-icon">settings</md-icon>
+            <m4-icon icon="tb-options" class="widget-icon"></m4-icon>
         </div>
     </tb-card-footer>
 </tb-card>

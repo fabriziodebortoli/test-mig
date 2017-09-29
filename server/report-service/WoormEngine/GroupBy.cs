@@ -105,7 +105,7 @@ namespace Microarea.RSWeb.WoormEngine
 				))
 				return false;
 
-			bool groupStatem = lex.Parsed(Token.BEGIN);
+			bool groupStatem = lex.Matched(Token.BEGIN);
 		                      
 			if (!lex.Error)
 				do
@@ -115,7 +115,7 @@ namespace Microarea.RSWeb.WoormEngine
 					if (!groupFuction.Parse(lex)) 
 						return false;
 				}
-				while (lex.ParseSep() && groupStatem && !lex.Parsed(Token.END));
+				while (lex.ParseSep() && groupStatem && !lex.Matched(Token.END));
 
 			return !lex.Error;
 		}

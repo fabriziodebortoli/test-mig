@@ -232,7 +232,8 @@ namespace Microarea.Common.Lexan
 			keywords.Add("ColumnTitles"			,Token.COLUMN_TITLES);
             keywords.Add("ColTitleBottom"       ,Token.COLTITLE_BOTTOM);
             keywords.Add("Comments"             ,Token.COMMENTS);
-			keywords.Add("//==============================================================================", Token.COMMENT_SEP);		
+            keywords.Add("CompareNoCase"        ,Token.COMPARE_NO_CASE);
+            keywords.Add("//==============================================================================", Token.COMMENT_SEP);		
 			keywords.Add("Conditional"			,Token.CONDITIONAL);
 			keywords.Add("Const"				,Token.CONST);
 			keywords.Add("Contains"				,Token.CONTAINS);
@@ -267,7 +268,13 @@ namespace Microarea.Common.Lexan
 			keywords.Add("Dialogs"				,Token.DIALOGS);
 			keywords.Add("Dynamic"				,Token.DYNAMIC);
 			keywords.Add("Display"				,Token.DISPLAY);
+
             keywords.Add("DisplayChart"         ,Token.DISPLAY_CHART);
+            keywords.Add("ChartCategories"      ,Token.CHART_CATEGORIES);
+            keywords.Add("ChartSeries"          ,Token.CHART_SERIES);
+            keywords.Add("ChartLegend"          ,Token.CHART_LEGEND);
+            keywords.Add("ChartAxis"            ,Token.CHART_AXIS);
+ 
 			keywords.Add("DisplayFreeFields"	,Token.DISPLAY_FREE_FIELDS);
 			keywords.Add("DisplayTableRow"		,Token.DISPLAY_TABLE_ROW);
             keywords.Add("Distinct"				,Token.DISTINCT);
@@ -479,8 +486,8 @@ namespace Microarea.Common.Lexan
             keywords.Add("Outer"                ,Token.OUTER);
             //keywords.Add("OwnerId"              ,Token.OWNER_ID);
 			keywords.Add("Padded"				,Token.PADDED);
-            keywords.Add("PadLeft"              , Token.PADLEFT);
-            keywords.Add("PadRight"             , Token.PADRIGHT);
+            keywords.Add("PadLeft"              ,Token.PADLEFT);
+            keywords.Add("PadRight"             ,Token.PADRIGHT);
             keywords.Add("PageInfo"				,Token.PAGE_INFO);
 			keywords.Add("PageLayout"			,Token.PAGE_LAYOUT);
 			keywords.Add("Path"					,Token.PATH);
@@ -792,9 +799,9 @@ namespace Microarea.Common.Lexan
 		COLUMN_HIDE_WHEN_EMPTY,
 		COLUMN_OPTIMIZE_WIDTH,
 		COLUMN_SPLITTER,
-
 		COMMENTS,
 		COMMENT_SEP,
+        COMPARE_NO_CASE,
 		CONDITIONAL,
 		CONST,
 		CONTAINS,
@@ -830,7 +837,13 @@ namespace Microarea.Common.Lexan
 		DIALOGS,
 		DYNAMIC,
 		DISPLAY,
+
         DISPLAY_CHART,
+        CHART_CATEGORIES,
+        CHART_SERIES,
+        CHART_LEGEND,
+        CHART_AXIS,
+
         DISPLAY_FREE_FIELDS,
 		DISPLAY_TABLE_ROW,
 		DISTINCT,

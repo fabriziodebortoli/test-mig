@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Xml;
 using System.Data;
 
-namespace Microarea.AdminServer.Library
+namespace Microarea.AdminServer.Libraries
 {
     internal class AuthenticationProcess
     {

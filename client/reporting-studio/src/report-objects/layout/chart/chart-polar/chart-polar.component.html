@@ -1,0 +1,18 @@
+
+<kendo-chart [title]="{ text: chart?.title }">
+    <kendo-chart-series>
+        <kendo-chart-series-item *ngFor="let item of chart.series" [type]="getType(item)" [style]="item.style" [data]="item.data" xField="x"
+            yField="y" [name]="item.name" [color]="item.color" >
+            <kendo-chart-series-item-labels position="below" [content]="labelContent">
+            </kendo-chart-series-item-labels>
+        </kendo-chart-series-item>
+    </kendo-chart-series>
+    <kendo-chart-x-axis>
+        <kendo-chart-x-axis-item [startAngle]="-90" [majorUnit]="30">
+        </kendo-chart-x-axis-item>
+    </kendo-chart-x-axis>
+    <kendo-chart-y-axis>
+        <kendo-chart-y-axis-item [labels]="{ visible: true }">
+        </kendo-chart-y-axis-item>
+    </kendo-chart-y-axis>
+</kendo-chart>

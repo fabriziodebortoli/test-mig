@@ -1067,8 +1067,9 @@ namespace Microarea.Common.CoreTypes
 			Add(Token.EasterSunday, "DateTime", new string[] { "Int32" });
             
             Add(Token.WILDCARD_MATCH, "Boolean", new string[] { "String", "String" });
+            Add(Token.COMPARE_NO_CASE, "Int32", new string[] { "String", "String" });
 
-			Add(Token.SendBalloon, "Boolean", new string[] { "String", "String", "Int32", "DateTime", "Boolean", "Boolean", "Int64" });
+            Add(Token.SendBalloon, "Boolean", new string[] { "String", "String", "Int32", "DateTime", "Boolean", "Boolean", "Int64" });
 			Add(Token.FormatTbLink, "String", new string[] { "String", "String", "Object" });
 
 			Add(Token.CONVERT, "Object", new string[] { "Object", "String" });

@@ -9,8 +9,18 @@ namespace Microarea.AdminServer.Controllers.Helpers
 		public string Password;
 	}
 
-    //================================================================================
-    public class AccountModification
+	//================================================================================
+	public class DatabaseCredentials
+	{
+		public string Provider;
+		public string Server;
+		public string Database;
+		public string Login;
+		public string Password;
+	}
+
+	//================================================================================
+	public class AccountModification
     {
         public string AccountName;
 		public string InstanceKey;

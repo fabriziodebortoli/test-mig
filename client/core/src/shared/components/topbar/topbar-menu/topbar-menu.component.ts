@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, Inject, forwardRef } from '@angular/core';
 
+import { InfoService } from './../../../../core/services/info.service';
 
 @Component({
   selector: 'tb-topbar-menu',
@@ -7,7 +8,11 @@ import { Component, ViewEncapsulation, Inject, forwardRef } from '@angular/core'
   styleUrls: ['./topbar-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class TopbarMenuComponent{
-  constructor() {
+export class TopbarMenuComponent {
+
+  isDesktop: boolean;
+
+  constructor(private infoService: InfoService) {
+    this.isDesktop = infoService.isDesktop;
   }
 }

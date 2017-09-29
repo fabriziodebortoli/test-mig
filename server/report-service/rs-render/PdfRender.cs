@@ -88,7 +88,7 @@ namespace Microarea.RSWeb.Render
                         break;
 
                     case "Repeater":
-                        RepeaterPdf(xg, (WoormViewer.Repeater)obj);
+                        RepeaterPdf(xg, (Repeater)obj);
                         break;
 
                     case "MetafileRect": break;
@@ -100,7 +100,7 @@ namespace Microarea.RSWeb.Render
         }
 
         //------------------------------------------------------------------------------
-        private void RepeaterPdf(XGraphics xg, WoormViewer.Repeater repeater)
+        private void RepeaterPdf(XGraphics xg, Repeater repeater)
         {
             SqrRectPdf(xg, repeater, repeater.DynamicBkgColor);
 
