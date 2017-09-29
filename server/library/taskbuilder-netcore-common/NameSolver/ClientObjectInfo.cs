@@ -40,13 +40,37 @@ namespace Microarea.Common.NameSolver
 		}
 	}
 
-	//=========================================================================
-	
-	/// <summary>
-	/// Classe che mantiene in memoria i dati di un serverdocument
-	/// </summary>
-	//=========================================================================
-	public class ServerDocumentInfo
+    //=========================================================================
+    public class ClientFormInfo
+    {
+        private string server;
+        private string name;
+
+        public string Server { get { return server; } }
+
+        /// <summary>
+        /// Nome del ClientDoc
+        /// </summary>
+        public string Name { get { return name; } }
+
+        /// <summary>
+        /// Costruttore
+        /// </summary>
+        /// <param name="aName">NameSpace del clientDoc</param>
+        //---------------------------------------------------------------------
+        public ClientFormInfo(string aServer, string aName)
+        {
+            name = aName;
+            server = aServer;
+        }
+    }
+    //=========================================================================
+
+    /// <summary>
+    /// Classe che mantiene in memoria i dati di un serverdocument
+    /// </summary>
+    //=========================================================================
+    public class ServerDocumentInfo
 	{
 		private NameSpace	nameSpace;
 		private string		type;
@@ -87,7 +111,7 @@ namespace Microarea.Common.NameSolver
 			type = aType;
 			documentClass = aDocumentClass;
 			clientDocsInfos = new ArrayList();
-		}
+        }
 
 		/// <summary>
 		/// Aggiunge un client doc al server doc
@@ -119,8 +143,9 @@ namespace Microarea.Common.NameSolver
 
 		private IBaseModuleInfo	parentModuleInfo;
 		private ArrayList		serverDocuments;
-		
-		public	string	FilePath	{ get { return filePath; } }
+        private ArrayList       clientForms;
+
+        public	string	FilePath	{ get { return filePath; } }
 		public	bool	Valid		{ get { return valid; } }
 		public	string	ParsingError{ get { return parsingError; } }
 
@@ -128,13 +153,14 @@ namespace Microarea.Common.NameSolver
 		/// Array dei documenti gestiti dal modulo
 		/// </summary>
 		public IList ServerDocuments { get { return serverDocuments; } }
+        public IList ClientForms { get { return clientForms; } }
 
-		/// <summary>
-		/// Costruttore
-		/// </summary>
-		/// <param name="aFilePath">path del file documentsObject del modulo</param>
-		//---------------------------------------------------------------------
-		public ClientDocumentsObjectInfo(string aFilePath, IBaseModuleInfo aParentModuleInfo)
+        /// <summary>
+        /// Costruttore
+        /// </summary>
+        /// <param name="aFilePath">path del file documentsObject del modulo</param>
+        //---------------------------------------------------------------------
+        public ClientDocumentsObjectInfo(string aFilePath, IBaseModuleInfo aParentModuleInfo)
 		{
 			if (aFilePath == null || aFilePath.Length == 0 || aParentModuleInfo == null)
 			{
@@ -178,7 +204,18 @@ namespace Microarea.Common.NameSolver
 
 				ParseServerDocuments(serverDocumentElements);
 			}
-			return true;
+
+            XmlNodeList clientFormsElements = root.GetElementsByTagName("ClientForms");
+            if (clientFormsElements != null && clientFormsElements.Count == 1)
+            {
+                //documenti server
+                XmlNodeList clientFormElements = ((XmlElement)clientFormsElements[0]).GetElementsByTagName(DocumentsObjectsXML.Element.ClientDocument);
+                if (clientFormElements == null)
+                    return true;
+
+                ParseClientForm(clientFormElements);
+            }
+                return true;
 		}
 
 		//---------------------------------------------------------------------
@@ -243,5 +280,32 @@ namespace Microarea.Common.NameSolver
 			}
 			return true;
 		}
-	}
+
+
+        //---------------------------------------------------------------------
+        private bool ParseClientForm(XmlNodeList clientFormsElements)
+        {
+            if (clientFormsElements == null)
+                return false;
+
+            //inizializzo l'array dei client docs
+            if (clientForms == null)
+                clientForms = new ArrayList();
+            else
+                clientForms.Clear();
+
+            string name = string.Empty;
+            string server = string.Empty;
+
+            foreach (XmlElement clientFormElements in clientFormsElements)
+            {
+                name = clientFormElements.GetAttribute(ClientDocumentObjectsXML.Attribute.Name);
+                server = clientFormElements.GetAttribute(ClientDocumentObjectsXML.Attribute.Server);
+                ClientFormInfo aClientFormInfo = new ClientFormInfo(name, server);
+                clientForms.Add(aClientFormInfo);
+            }
+
+            return true;
+        }
+    }
 }

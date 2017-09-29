@@ -65,7 +65,7 @@ export class SnapshotdialogComponent {
     private loadSnapshots(): void {
         this.gridView = {
             data: orderBy(this.rsExportService.snapshots, this.sort),
-            total: this.rsExportService.snapshots
+            total: this.rsExportService.snapshots.length
         };
     }
 }

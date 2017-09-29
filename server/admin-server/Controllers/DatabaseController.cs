@@ -114,8 +114,10 @@ namespace Microarea.AdminServer.Controllers
 
 			// to create database I need to connect to master
 
-			DatabaseTask dTask = new DatabaseTask();
-			dTask.CurrentStringConnection = string.Format(
+			DatabaseTask dTask = new DatabaseTask(true);
+			dTask.CurrentStringConnection = 
+				string.Format
+				(
 				NameSolverDatabaseStrings.SQLConnection, 
 				settings.DatabaseInfo.DBServer, 
 				DatabaseLayerConsts.MasterDatabase, 
@@ -168,15 +170,14 @@ namespace Microarea.AdminServer.Controllers
 				(BrandLoader)InstallationData.BrandLoader,
 				new ContextInfo.SystemDBConnectionInfo(), // da togliere
 				DBNetworkType.Large,
-				"IT",
-				false // no ask credential
+				"IT"
 				);
 
 			subDatabase.DBName = dbName;
 			subDatabase.DBServer = settings.DatabaseInfo.DBServer;
 			subDatabase.DBOwner = loginName;
 			subDatabase.DBPassword = password;
-			subDatabase.Provider = "SQL";
+			subDatabase.Provider = "SQLServer";
 
 			Debug.WriteLine("-------- DB Name: " + dbName);
 			Debug.WriteLine("-------- Login Name: " + loginName);
@@ -252,18 +253,19 @@ namespace Microarea.AdminServer.Controllers
 			}
 
 			// if databaseName is empty I use master
+			bool isAzureDB = (dbCredentials.Provider == "SQLAzure");
 
 			string connectionString = 
 				string.Format
 				(
-				(dbCredentials.Provider == "SQLServer") ? NameSolverDatabaseStrings.SQLConnection : NameSolverDatabaseStrings.SQLAzureConnection,
+				(!isAzureDB) ? NameSolverDatabaseStrings.SQLConnection : NameSolverDatabaseStrings.SQLAzureConnection,
 				dbCredentials.Server, 
 				string.IsNullOrWhiteSpace(dbCredentials.Database) ? DatabaseLayerConsts.MasterDatabase : dbCredentials.Database,
 				dbCredentials.Login,
 				dbCredentials.Password
 				);
 
-			DatabaseTask dTask = new DatabaseTask();
+			DatabaseTask dTask = new DatabaseTask(isAzureDB);
 			dTask.CurrentStringConnection = connectionString;
 
 			opRes.Result = dTask.TryToConnect();
@@ -300,18 +302,19 @@ namespace Microarea.AdminServer.Controllers
 			}
 
 			// I use master database to load all dbs
+			bool isAzureDB = (dbCredentials.Provider == "SQLAzure");
 
 			string connectionString = 
 				string.Format
 				(
-				(dbCredentials.Provider == "SQLServer") ? NameSolverDatabaseStrings.SQLConnection : NameSolverDatabaseStrings.SQLAzureConnection,
+				(!isAzureDB) ? NameSolverDatabaseStrings.SQLConnection : NameSolverDatabaseStrings.SQLAzureConnection,
 				dbCredentials.Server,
 				DatabaseLayerConsts.MasterDatabase,
 				dbCredentials.Login,
 				dbCredentials.Password
 				);
 
-			DatabaseTask dTask = new DatabaseTask();
+			DatabaseTask dTask = new DatabaseTask(isAzureDB);
 			dTask.CurrentStringConnection = connectionString;
 
 			opRes.Result = dTask.ExistDataBase(dbName);
@@ -320,6 +323,5 @@ namespace Microarea.AdminServer.Controllers
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
-
 	}
 }

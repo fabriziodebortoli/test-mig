@@ -97,18 +97,23 @@ namespace Microarea.Common.Applications
 	//=============================================================================
 	public class FontStylesGroup
 	{
-		private string		styleName;
-		private ArrayList fontStyles = new ArrayList();
+		private string  styleName;
+        private string  appName;
+        private string  moduleName;
+
+        private ArrayList fontStyles = new ArrayList();
 
 		// properties
 		public string		StyleName	{ get { return styleName; } }
-		public ArrayList FontStyles { get { return fontStyles; } }
+
+        public ArrayList FontStyles { get { return fontStyles; } }
 
 		//------------------------------------------------------------------------------
 		public FontStylesGroup (string name)
 		{
 			styleName = name;
-		}
+
+        }
 
 		/// <summary>
 		/// Sceglie il font più opportuno per il context
@@ -269,18 +274,19 @@ namespace Microarea.Common.Applications
 	{
 		private FontStyles	fs;
 		private bool		loaded = true;
-		private TbSession		reportSession;
+        //	private TbSession		reportSession;
+        private BasePathFinder pathFinder;
+        //-----------------------------------------------------------------------------
+        public bool		Loaded	{ get { return loaded; }}
+		public BasePathFinder PathFinder { get { return pathFinder; } set { pathFinder = value; }}
+        public FontStyles Fs { get { return fs; } }
 
-		//-----------------------------------------------------------------------------
-		public bool		Loaded	{ get { return loaded; }}
-		public TbSession	ReportSession	{ get { return reportSession; } set { reportSession = value; }}																				
-
-		//------------------------------------------------------------------------------
-		public ApplicationFontStyles(TbSession session)
+        //------------------------------------------------------------------------------
+        public ApplicationFontStyles(BasePathFinder aPathFinder)
 		{
 			// è necessario inizializzare prima una sessione di lavoro.
-			this.reportSession = session;
-			if (session == null)
+			this.pathFinder = aPathFinder;
+			if (pathFinder == null)
 				throw (new Exception(ApplicationsStrings.FontStyleSessionError));
 
 			fs = new FontStyles();
@@ -289,21 +295,21 @@ namespace Microarea.Common.Applications
 		//------------------------------------------------------------------------------
 		public void Load()
 		{
-			if (ReportSession.PathFinder == null)
+			if (pathFinder == null)
 				return;
 			// considera che tutto sia ok. Se anche solo uno dei file fonts non è caricato
 			// o se la reportSession non è valorizzata allora considera il tutto non caricato.
 			loaded = true;
 
 			// carica tutti gli enums che fanno parte della applicazione (controllando che esista)
-			foreach (ApplicationInfo ai in ReportSession.PathFinder.ApplicationInfos)
-				foreach (ModuleInfo mi in ai.Modules)
+			foreach (BaseApplicationInfo ai in pathFinder.ApplicationInfos)
+				foreach (BaseModuleInfo mi in ai.Modules)
 				{
 					NameSpace nsOwner = new NameSpace(ai.Name + NameSpace.TokenSeparator + mi.Name, NameSpaceObjectType.Module);
-					if (!fs.Load(mi.GetFontsFullFilename(), nsOwner, FontElement.FontSource.STANDARD)) 
+					if (!fs.Load(mi.GetFontsFullFilename(), nsOwner, FontElement.FontSource.STANDARD, ai.Name, mi.Name)) 
 						loaded = false;
 					
-					if (!fs.Load(mi.GetCustomFontsFullFilename(), nsOwner, FontElement.FontSource.CUSTOM)) 
+					if (!fs.Load(mi.GetCustomFontsFullFilename(), nsOwner, FontElement.FontSource.CUSTOM, ai.Name, mi.Name)) 
 						loaded = false;
 				}
 		}
@@ -314,24 +320,27 @@ namespace Microarea.Common.Applications
 			return fs.GetFontElement(name, context);
 		}
 	}
-	
-	/// <summary>
-	/// Summary description for FontStyles.
-	/// </summary>
-	/// ================================================================================
-	public class FontStyles : Hashtable
-	{
-		private const int OLD_RELEASE = 2;
-		private const int RELEASE = 3;
-		private char[]	areaSeparators = new char[] {','};
 
-		private bool newStyle = true;
-		private FontElement.FontSource source;
-		private INameSpace owner;
-		private int fontRelease = 0;
+    /// <summary>
+    /// Summary description for FontStyles.
+    /// </summary>
+    /// ================================================================================
+    public class FontStyles : Hashtable
+    {
+        private const int OLD_RELEASE = 2;
+        private const int RELEASE = 3;
+        private char[] areaSeparators = new char[] { ',' };
 
-		//------------------------------------------------------------------------------
-		public FontStyles()
+        private bool newStyle = true;
+        private FontElement.FontSource source;
+        private INameSpace owner;
+        private int fontRelease = 0;
+
+        public INameSpace OwnerNameSpace {get{  return owner;} }
+		public  int FontRelease { get { return fontRelease; } }
+
+        //------------------------------------------------------------------------------
+        public FontStyles()
             :
             base(StringComparer.OrdinalIgnoreCase)
 		{
@@ -600,7 +609,7 @@ namespace Microarea.Common.Applications
 		}
 
 		//-----------------------------------------------------------------------------
-		public bool Load(string filename, NameSpace owner, FontElement.FontSource source)
+		public bool Load(string filename, NameSpace owner, FontElement.FontSource source, string appName, String moduleName)
 		{
 			if (!File.Exists(filename))
 				return true;
@@ -619,9 +628,28 @@ namespace Microarea.Common.Applications
 
 			return false;
 		}
+        //-----------------------------------------------------------------------------
+        public bool UnparseAll(Unparser unparser)
+        {
+            unparser.WriteTag(Token.RELEASE, false);
+            unparser.Write(fontRelease);
+            unparser.WriteTag(Token.FONTSTYLES, false);
+			unparser.WriteBlank();
 
-		//-----------------------------------------------------------------------------
-		public bool Unparse(Unparser unparser, INameSpace ns, FontElement.FontSource source)
+			unparser.WriteBegin();
+            foreach (FontStylesGroup group in this.Values)
+            {
+                foreach (FontElement style in group.FontStyles)
+                    UnparseStyle(unparser, style);
+            }
+            unparser.WriteEnd();
+			unparser.WriteLine();
+
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool Unparse(Unparser unparser, INameSpace ns, FontElement.FontSource source)
 		{
 			// se chiamata da wrmeng deve sempre salvare
 			//if (!pFontTable->IsModified())

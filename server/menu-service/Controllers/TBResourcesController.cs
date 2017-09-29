@@ -177,6 +177,77 @@ namespace Microarea.Menu.Controllers
         }
 
         #endregion vecchio codice
+
+        //-----------------------------------------------------------------------
+        private TbSession CreateTbSession(string sAuthT)
+        {
+
+            if (string.IsNullOrEmpty(sAuthT))
+                return null;
+
+            Microsoft.AspNetCore.Http.ISession hsession = null;
+            try
+            {
+                hsession = HttpContext.Session;
+            }
+            catch (Exception)
+            {
+            }
+
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(hsession, sAuthT);
+
+            UserInfo ui = new UserInfo(loginInfo, sAuthT);
+
+            if (ui == null)
+                return null ;
+            TbSession session = new TbSession(ui, string.Empty);
+
+            return session;
+
+        }
+
+        
+        [Route("LoadGlobalFormattersFiles")]
+        //-----------------------------------------------------------------------
+        public string LoadGlobalFormattersFiles()
+        {
+            return FileSystemMonitor.Engine.LoadGlobalFormattersFiles();
+
+        }
+
+        [Route("LoadGlobalEnumsXmlFiles")]
+        //-----------------------------------------------------------------------
+        public string LoadGlobalEnumsXmlFiles()
+        {
+            return FileSystemMonitor.Engine.LoadGlobalEnumsXmlFiles();
+
+        }
+
+        [Route("LoadGlobalDocumentObjectsXmlFiles")]
+        //-----------------------------------------------------------------------
+        public string LoadGlobalDocumentObjectsXmlFiles()
+        {
+            return FileSystemMonitor.Engine.LoadGlobalDocumentObjectsXmlFiles();
+             
+        }
+
+        [Route("LoadGlobalXmlFiles")]
+        //-----------------------------------------------------------------------
+        public string LoadGlobalXmlFiles()
+        {
+            return FileSystemMonitor.Engine.LoadGlobalXmlFiles();
+
+        }
+
+        [Route("MakeGlobalFiles/{currentUserPreferredLanguage}/{serverConnectionPreferredLanguage}")]
+        //-----------------------------------------------------------------------
+        public bool MakeGlobalFiles(string currentUserPreferredLanguage, string serverConnectionPreferredLanguage)
+        {
+            TbSession ts = CreateTbSession(currentUserPreferredLanguage);
+            FileSystemMonitor.Engine.MakeGlobalApplicationXmlFiles(ts);
+            return true;
+        }
+
         //[Route("getdata/{namespace}/{selectiontype}")]
         //public IActionResult GetData(string nameSpace, string selectionType)
         [Route("Init/{authenticationToken}")]
@@ -234,12 +305,12 @@ namespace Microarea.Menu.Controllers
             return FileSystemMonitor.Engine.CreateTbCacheFile();
         }
 
-        [Route("GetServerConnectionConfig/{fileContent}")]
+        [Route("GetServerConnectionConfig")]
         //-------------------------------------------------------------------------
-        public bool GetServerConnectionConfig(out string fileContent)
+        public string GetServerConnectionConfig()
         {
-            fileContent = string.Empty;
-            return FileSystemMonitor.Engine.GetServerConnectionConfig(out fileContent);
+  
+            return FileSystemMonitor.Engine.GetServerConnectionConfig();
         }
 
 
@@ -253,7 +324,8 @@ namespace Microarea.Menu.Controllers
             return FileSystemMonitor.Engine.SetTextFile(fileName, fileContent);
         }
 
-        [Route("RemoveFolder/{authenticationToken}/{pathName}/{recursive}/{emptyOnly}")]
+        [Route("RemoveFolder")]
+        [HttpPost]
         //-----------------------------------------------------------------------
         public bool RemoveFolder(string authenticationToken, string pathName, bool recursive, bool emptyOnly)
         {
@@ -263,7 +335,8 @@ namespace Microarea.Menu.Controllers
             return FileSystemMonitor.Engine.RemoveFolder(pathName, recursive, emptyOnly);
         }
 
-        [Route("CreateFolder/{authenticationToken}/{pathName}/{recursive}")]
+        [Route("CreateFolder")]
+        [HttpPost]
         //-----------------------------------------------------------------------
         public bool CreateFolder(string authenticationToken, string pathName, bool recursive)
         {
@@ -273,7 +346,8 @@ namespace Microarea.Menu.Controllers
             return FileSystemMonitor.Engine.CreateFolder(pathName, recursive);
         }
 
-        [Route("CopyFolder/{authenticationToken}/{oldPathName}/{newPathName}/{recursive}")]
+        [Route("CopyFolder")]
+        [HttpPost]
         //-----------------------------------------------------------------------
         public bool CopyFolder(string authenticationToken, string oldPathName, string newPathName, bool recursive)
         {
@@ -283,7 +357,8 @@ namespace Microarea.Menu.Controllers
             return FileSystemMonitor.Engine.CopyFolder(oldPathName, newPathName, recursive);
         }
 
-        [Route("CopyFile/{authenticationToken}/{oldPathName}/{newPathName}/{recursive}")]
+        [Route("CopyFile")]
+        [HttpPost]
         //-----------------------------------------------------------------------
         public bool CopyFile(string authenticationToken, string oldPathName, string newPathName, bool overwrite)
         {
@@ -293,7 +368,8 @@ namespace Microarea.Menu.Controllers
             return FileSystemMonitor.Engine.CopyFile(oldPathName, newPathName, overwrite);
         }
 
-        [Route("RemoveFile/{authenticationToken}/{fileName}")]
+        [Route("RemoveFile")]
+        [HttpPost]
         //-----------------------------------------------------------------------
         public bool RemoveFile(string authenticationToken, string fileName)
         {
@@ -303,7 +379,8 @@ namespace Microarea.Menu.Controllers
             return FileSystemMonitor.Engine.RemoveFile(fileName);
         }
 
-        [Route("RenameFile/{authenticationToken}/{oldFileName}/{newFileName}")]
+        [Route("RenameFile")]
+        [HttpPost]
         //-----------------------------------------------------------------------
         public bool RenameFile(string authenticationToken, string oldFileName, string newFileName)
         {
@@ -361,7 +438,8 @@ namespace Microarea.Menu.Controllers
             return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
         }
 
-        [Route("GetFileAttributes/{authenticationToken}/{fileName}")]
+        [Route("GetFileAttributes")]
+        [HttpPost]
         //-----------------------------------------------------------------------
         public int GetFileAttributes(string authenticationToken, string fileName)
         {
@@ -370,10 +448,12 @@ namespace Microarea.Menu.Controllers
 
             return FileSystemMonitor.Engine.GetFileAttributes(fileName);
         }
-        //todo lara
-        [Route("GetTextFile/{authenticationToken}/{fileName}")]
+
+        [Route("GetTextFile")]
+        [HttpPost]
         //-----------------------------------------------------------------------
         //out string fileContent
+        //  public IActionResult GetTextFile(string authenticationToken, string fileName)
         public IActionResult GetTextFile(string authenticationToken, string fileName)
         {
             string fileContent = string.Empty;
@@ -381,7 +461,7 @@ namespace Microarea.Menu.Controllers
             if (!FileSystemMonitor.Engine.IsValidToken(authenticationToken))
                 return null;
 
-           FileSystemMonitor.Engine.GetTextFile(fileName, out fileContent);
+            fileContent = FileSystemMonitor.Engine.GetTextFile(fileName);
            StringBuilder sb = new StringBuilder();
            StringWriter sw = new StringWriter(sb);
            JsonWriter jsonWriter = new JsonTextWriter(sw);
@@ -393,13 +473,13 @@ namespace Microarea.Menu.Controllers
            jsonWriter.WriteValue(fileContent);
 
            jsonWriter.WriteEndObject();
-           jsonWriter.WriteEndObject();
 
            string s = sb.ToString();
            return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
         }
 
-        [Route("ExistFile/{authenticationToken}/{fileName}")]
+        [Route("ExistFile")]
+        [HttpPost]
         //-----------------------------------------------------------------------
         public bool ExistFile(string authenticationToken, string fileName)
         {
@@ -409,7 +489,8 @@ namespace Microarea.Menu.Controllers
             return FileSystemMonitor.Engine.ExistFile(fileName);
         }
 
-        [Route("ExistPath/{authenticationToken}/{pathName}")]
+        [Route("ExistPath")]
+        [HttpPost]
         //-----------------------------------------------------------------------
         public bool ExistPath(string authenticationToken, string pathName)
         {

@@ -129,6 +129,7 @@ namespace TaskBuilderNetCore.Interfaces
             public const string Namespace = "namespace";
             public const string BaseType = "basetype";
             public const string ClassType = "classType";
+            public const string SourceInfo = "sourceInfo";
             public const string Value = "value";
             public const string Optional = "optional";
             public const string Row = "row";
@@ -501,7 +502,12 @@ namespace TaskBuilderNetCore.Interfaces
             public const string Securityhidden = "securityhidden";
             public const string TransferDisabled = "transferdisabled";
             public const string Dynamic = "dynamic";
-            public const string TemplateNamespace = "templateNamespace";
+            public const string Designable = "designable";
+            public const string Activation = "activation";
+            public const string Published = "published";
+            public const string RunnableAlone = "runnableAlone";
+            public const string AllowISO = "allowISO";
+            public const string DenyISO = "denyISO";
         }
     }
 
@@ -733,6 +739,7 @@ namespace TaskBuilderNetCore.Interfaces
             private Attribute()
             { }
 
+            public const string Name = "name";
             public const string Namespace = "namespace";
             public const string Localize = "localize";
             public const string Service = "service";
@@ -1277,17 +1284,21 @@ namespace TaskBuilderNetCore.Interfaces
             { }
             public const string ClientDocumentObjects = "ClientDocumentObjects";
             public const string ClientDocuments = "ClientDocuments";
-            public const string ServerDocument = "ServerDocument";
-            public const string ClientDocument = "ClientDocument";
+            public const string ServerDocument  = "ServerDocument";
+            public const string ClientDocument  = "ClientDocument";
+            public const string ClientForms     = "ClientForms";
+            public const string ClientForm      = "ClientForm";
         }
         public sealed class Attribute
         {
             private Attribute()
             { }
-            public const string Type = "type";
-            public const string Class = "class";
-            public const string Localize = "localize";
-            public const string Namespace = "namespace";
+            public const string Type        = "type";
+            public const string Class       = "class";
+            public const string Localize    = "localize";
+            public const string Namespace   = "namespace";
+            public const string Server      = "server";
+            public const string Name        = "name";
         }
     }
 

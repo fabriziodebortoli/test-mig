@@ -434,8 +434,10 @@ namespace Microarea.Common.CoreTypes
 		private string	returnType          = String.Empty;
 		private string	returnBaseType      = String.Empty;	 //used only in functions which returns a DataArray/handle
         private ushort  returnEnumTag = 0;
+        private string  longDescription = String.Empty;
 
-		public string   ReturnType          { get { return returnType; } }
+        public string LongDescription { get { return longDescription; } set { longDescription = value; } }
+        public string   ReturnType          { get { return returnType; } }
 		public string   ReturnBaseType      { get { return returnBaseType; } }
         public ushort   ReturnEnumTag       { get { return returnEnumTag; } }
 
@@ -458,8 +460,10 @@ namespace Microarea.Common.CoreTypes
 
         //----
 		protected string	title;
-
-		public virtual string Title
+        protected string    sourceInfo;
+        protected string wcf;
+        public string WCF { get { return wcf; } set { wcf = value; } }
+        public virtual string Title
 		{
 			get
 			{
@@ -485,6 +489,18 @@ namespace Microarea.Common.CoreTypes
         private bool isSecurityhidden = false;
         private bool inEasyBuilder = false;
         public CoreTypes.Value ReturnValue = null;
+
+        public string SourceInfo
+        {
+            get
+            {
+                return sourceInfo;
+            }
+            set
+            {
+                sourceInfo = value;
+            }
+        }
 
         public string DefaultSecurityRoles { get { return defaultSecurityRoles; } }
         public bool IsSecurityhidden { get { return isSecurityhidden; } set { isSecurityhidden = value; } }
@@ -638,12 +654,12 @@ namespace Microarea.Common.CoreTypes
             functionInfo.ReportAllowed = bReport;
 
             functionInfo.ClassType = functionElement.GetAttribute(WebMethodsXML.Attribute.ClassType);
-
+            functionInfo.SourceInfo = functionElement.GetAttribute(WebMethodsXML.Attribute.SourceInfo);
             functionInfo.Server = functionElement.GetAttribute(WebMethodsXML.Attribute.Server);
             functionInfo.Port = port;
             functionInfo.Service = functionElement.GetAttribute(WebMethodsXML.Attribute.Service);
             functionInfo.ServiceNamespace = functionElement.GetAttribute(WebMethodsXML.Attribute.ServiceNamespace);
-
+            functionInfo.LongDescription = functionElement.InnerText;
             functionInfo.returnTbBaseType = tbBaseType;
             functionInfo.returnTbType = tbType;
 
