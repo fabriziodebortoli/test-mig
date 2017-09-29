@@ -5,7 +5,9 @@
         <tb-view-container>
             <tb-view>
                 <tb-tilemanager>
-                    <tb-tilegroup [title]="'Languages'" icon="erp-europe"> Languages </tb-tilegroup>
+                    <tb-tilegroup [title]="'Languages'" icon="erp-europe">
+                        <tb-culture-selector *ngIf="!isDesktop"></tb-culture-selector>
+                    </tb-tilegroup>
                     <tb-tilegroup [title]="'Profile'" icon="tb-user">
                         Profile
                     </tb-tilegroup>

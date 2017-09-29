@@ -6,7 +6,7 @@ import { DataService } from './../../core/services/data.service';
 import { EventDataService } from './../../core/services/eventdata.service';
 
 import {SettingsPageService} from '../settingsPage.service';
-
+import { InfoService } from './../../core/services/info.service';
 
 @Component({
   selector: 'tb-settings-container',
@@ -15,8 +15,11 @@ import {SettingsPageService} from '../settingsPage.service';
   providers: [DataService, EventDataService, SettingsPageService]
 })
 export class SettingsContainerComponent extends DocumentComponent implements OnInit {
-  constructor(public eventData: EventDataService, private dataService: DataService, private settingsService: SettingsPageService ) { 
+  isDesktop: boolean
+
+  constructor(public eventData: EventDataService, private dataService: DataService, private settingsService: SettingsPageService,private infoService: InfoService ) { 
     super(settingsService,eventData, null);
+    this.isDesktop = infoService.isDesktop;
   }
   ngOnInit() {
     this.eventData.model = { 'Title': { 'value': 'Settings Page' } };
