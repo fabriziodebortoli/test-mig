@@ -15,7 +15,7 @@ export class ToolbarBottomButtonComponent implements OnInit {
 
   @Input() disabled: boolean = false;
 
-  constructor(private eventData: EventDataService, private ciService: ComponentInfoService) { }
+  constructor(public eventData: EventDataService, public ciService: ComponentInfoService) { }
 
   ngOnInit() {
   }

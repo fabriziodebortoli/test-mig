@@ -10,8 +10,8 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class TestService extends DocumentService {
 
-    constructor(public logger: Logger, eventData: EventDataService, 
-        private componentService: ComponentService, 
+    constructor(public logger: Logger, eventData: EventDataService,
+        public componentService: ComponentService,
         infoService: InfoService) {
         super(logger, eventData, infoService);
     }

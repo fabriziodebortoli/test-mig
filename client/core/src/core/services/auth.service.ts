@@ -16,18 +16,18 @@ import { OperationResult } from './../../shared/models/operation-result.model';
 
 @Injectable()
 export class AuthService {
-    private redirectUrl: string = '/';
-    private loginUrl: string = '/login';
-    private defaultUrl = '/home';
-    private islogged: boolean = false;
+    public redirectUrl: string = '/';
+    public loginUrl: string = '/login';
+    public defaultUrl = '/home';
+    public islogged: boolean = false;
     errorMessage: string = "";
 
     constructor(
-        private httpService: HttpService,
-        private logger: Logger,
-        private router: Router,
-        protected cookieService: CookieService,
-        private eventManagerService: EventManagerService
+        public httpService: HttpService,
+        public logger: Logger,
+        public router: Router,
+        public cookieService: CookieService,
+        public eventManagerService: EventManagerService
     ) {
 
     }

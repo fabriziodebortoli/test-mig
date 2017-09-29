@@ -18,12 +18,14 @@ export class TextComponent extends ControlComponent /*implements AfterContentIni
   @Input() public hotLink: any = undefined;
 
   @ViewChild("contextMenu", { read: ViewContainerRef }) contextMenu: ViewContainerRef;
-  // private contextMenuRef;
+  // public  contextMenuRef;
+
+  public mask: string = '';
 
   constructor(
-    private eventData: EventDataService,
-    private vcr: ViewContainerRef,
-    private componentResolver: ComponentFactoryResolver,
+    public eventData: EventDataService,
+    public vcr: ViewContainerRef,
+    public componentResolver: ComponentFactoryResolver,
     layoutService: LayoutService,
     tbComponentService: TbComponentService
   ) {

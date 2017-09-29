@@ -15,12 +15,13 @@ import { ControlComponent } from './../control.component';
 
 export class EmailComponent extends ControlComponent implements OnInit, OnChanges, AfterViewInit {
   @Input('readonly') readonly: boolean = false;
-  private errorMessage: string;
-  private showError = '';
-  private constraint: RegExp;
+  errorMessage: string;
+  showError = '';
+  mask = '';
+  public constraint: RegExp;
 
   constructor(
-    private eventData: EventDataService,
+    public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService) {
     super(layoutService, tbComponentService);

@@ -16,7 +16,7 @@ import { EventDataService } from './../../core/services/eventdata.service';
 })
 export class IconsTestComponent extends DocumentComponent implements OnInit {
 
-  constructor(public eventData: EventDataService, private dataService: DataService, private http: Http, private testService: TestService) {
+  constructor(public eventData: EventDataService, public dataService: DataService, public http: Http, public testService: TestService) {
     super(testService, eventData, null);
   }
 

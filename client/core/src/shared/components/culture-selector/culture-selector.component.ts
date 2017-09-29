@@ -9,10 +9,7 @@ export class CultureSelectorComponent implements OnInit {
 
     defaultItem = null;
 
-    constructor( @Inject(forwardRef(() => InfoService)) private infoService: InfoService) {
-
-    }
-
+    constructor(public infoService: InfoService) { }
 
     ngOnInit() {
         const sub = this.infoService.getDictionaries().subscribe(ret => {

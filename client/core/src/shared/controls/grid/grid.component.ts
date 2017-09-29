@@ -15,13 +15,13 @@ export class GridComponent implements OnInit, OnDestroy {
   @Input() gridSelectionType: string;
   @Input() gridParams: URLSearchParams;
 
-  private dataSubscription: Subscription;
-  private gridColumns: string[];
-  private gridData: any[];
+  public dataSubscription: Subscription;
+  public gridColumns: string[];
+  public gridData: any[];
 
 
 
-  constructor(private dataService: DataService) { }
+  constructor(public dataService: DataService) { }
 
   ngOnInit() {
     // this.dataService.getColumns(this.gridNamespace, this.gridSelectionType).subscribe(columns => this.gridColumns = columns);

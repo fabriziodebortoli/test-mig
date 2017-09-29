@@ -16,22 +16,22 @@ import { DataService } from './../../core/services/data.service';
 })
 export class DataServiceComponent extends DocumentComponent implements OnInit {
 
-  private nameSpace: string;
-  private selection_type: string;
-  private like_value: string;
+  public nameSpace: string;
+  public selection_type: string;
+  public like_value: string;
 
-  private disabled: string;
-  private good_type: string;
+  public disabled: string;
+  public good_type: string;
 
-  private responseData: any;
-  private responseSelection: any;
-  private responseParameters: any;
-  private responseColumns: any;
+  public responseData: any;
+  public responseSelection: any;
+  public responseParameters: any;
+  public responseColumns: any;
 
-  constructor(public eventData: EventDataService, 
-    private dataService: DataService, 
-    private http: Http, 
-    private testService: TestService) {
+  constructor(public eventData: EventDataService,
+    public dataService: DataService,
+    public http: Http,
+    public testService: TestService) {
     super(testService, eventData, null);
   }
 

@@ -14,9 +14,9 @@ export class ApplicationSelectorComponent {
     public applications: any;
 
     constructor(
-        private menuService: MenuService,
-        private utilsService: UtilsService,
-        private imageService: ImageService
+        public menuService: MenuService,
+        public utilsService: UtilsService,
+        public imageService: ImageService
     ) {
     }
 

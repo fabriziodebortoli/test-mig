@@ -18,7 +18,7 @@ import { DocumentComponent } from './document.component';
 @Component({
     selector: 'tb-dynamic-cmp-tree',
     template: '<ng-content></ng-content>',
-    providers:[EventDataService] 
+    providers: [EventDataService]
 })
 export class DynamicCmpComponentTree {
 
@@ -36,7 +36,7 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
     @ViewChild(DynamicDialogComponent) dynamicDialog: DynamicDialogComponent;
     subscriptions = [];
 
-    constructor(private componentService: ComponentService) {
+    constructor(public componentService: ComponentService) {
     }
 
     ngOnInit() {

@@ -16,13 +16,13 @@ import { SidenavService } from './../../core/services/sidenav.service';
 export class HomeSidenavComponent implements OnInit {
 
   constructor(
-    private sidenavService: SidenavService,
-    private httpMenuService: HttpMenuService,
-    private menuService: MenuService,
-    private utilsService: UtilsService,
-    private imageService: ImageService,
-    private localizationService: LocalizationService,
-    private tabberService: TabberService
+    public sidenavService: SidenavService,
+    public httpMenuService: HttpMenuService,
+    public menuService: MenuService,
+    public utilsService: UtilsService,
+    public imageService: ImageService,
+    public localizationService: LocalizationService,
+    public tabberService: TabberService
   ) { }
 
   ngOnInit() { }

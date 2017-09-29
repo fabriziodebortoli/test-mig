@@ -5,7 +5,7 @@ import { DocumentComponent } from './../../shared/components/document.component'
 import { DataService } from './../../core/services/data.service';
 import { EventDataService } from './../../core/services/eventdata.service';
 
-import {SettingsPageService} from '../settingsPage.service';
+import { SettingsPageService } from '../settingsPage.service';
 
 
 @Component({
@@ -15,8 +15,8 @@ import {SettingsPageService} from '../settingsPage.service';
   providers: [DataService, EventDataService, SettingsPageService]
 })
 export class SettingsContainerComponent extends DocumentComponent implements OnInit {
-  constructor(public eventData: EventDataService, private dataService: DataService, private settingsService: SettingsPageService ) { 
-    super(settingsService,eventData, null);
+  constructor(public eventData: EventDataService, public dataService: DataService, public settingsService: SettingsPageService) {
+    super(settingsService, eventData, null);
   }
   ngOnInit() {
     this.eventData.model = { 'Title': { 'value': 'Settings Page' } };

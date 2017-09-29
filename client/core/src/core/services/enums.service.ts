@@ -6,11 +6,10 @@ import { HttpService } from './http.service';
 @Injectable()
 export class EnumsService {
 
-    private enumsTable: any;
-    private getEnumsTableSubscription
-    constructor(private httpService: HttpService) {
+    public enumsTable: any;
+    public getEnumsTableSubscription;
 
-    }
+    constructor(public httpService: HttpService) { }
 
     getEnumsTable() {
         let subs = this.getEnumsTableSubscription = this.httpService.getEnumsTable().subscribe((json) => {

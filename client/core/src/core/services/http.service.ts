@@ -16,11 +16,11 @@ import { Logger } from './logger.service';
 export class HttpService {
 
     constructor(
-        protected http: Http,
-        protected utils: UtilsService,
-        protected logger: Logger,
-        protected cookieService: CookieService,
-        private infoService: InfoService) {
+        public http: Http,
+        public utils: UtilsService,
+        public logger: Logger,
+        public cookieService: CookieService,
+        public infoService: InfoService) {
     }
 
     createOperationResult(res: Response): OperationResult {

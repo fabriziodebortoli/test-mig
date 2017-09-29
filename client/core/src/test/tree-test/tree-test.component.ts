@@ -14,8 +14,8 @@ import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 export class TreeTestComponent extends DocumentComponent implements OnInit {
 
   model: any;
-  private nodes = [];
-  constructor(public eventData: EventDataService, private testService: TestService) {
+  public nodes = [];
+  constructor(public eventData: EventDataService, public testService: TestService) {
     super(testService, eventData, null);
   }
 

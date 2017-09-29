@@ -14,17 +14,17 @@ import { HttpMenuService } from './../../../services/http-menu.service';
 export class MenuContentComponent {
 
   constructor(
-    private httpMenuService: HttpMenuService,
-    private menuService: MenuService,
-    private utilsService: UtilsService,
-    private imageService: ImageService,
-    private eventManagerService: EventManagerService
+    public httpMenuService: HttpMenuService,
+    public menuService: MenuService,
+    public utilsService: UtilsService,
+    public imageService: ImageService,
+    public eventManagerService: EventManagerService
   ) {
   }
 
-  private objects: any;
+  public objects: any;
+  public _tile: any;
 
-  private _tile: any;
   @Input()
   get tile(): any {
     return this._tile;

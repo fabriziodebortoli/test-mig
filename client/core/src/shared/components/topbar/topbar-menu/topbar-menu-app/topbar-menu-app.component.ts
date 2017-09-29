@@ -19,23 +19,22 @@ import { ProductInfoDialogComponent } from './../../../../../menu/components/men
     styleUrls: ['./topbar-menu-app.component.scss']
 })
 export class TopbarMenuAppComponent implements OnDestroy {
-    menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
 
-    private show = false;
-
-    viewProductInfo: string;
-    productInfoDialogRef: MdDialogRef<ProductInfoDialogComponent>;
-    connectionInfoDialogRef: MdDialogRef<ConnectionInfoDialogComponent>;
-    data: Array<any>;
-    localizationsLoadedSubscription: any;
+    public menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
+    public show = false;
+    public viewProductInfo: string;
+    public productInfoDialogRef: MdDialogRef<ProductInfoDialogComponent>;
+    public connectionInfoDialogRef: MdDialogRef<ConnectionInfoDialogComponent>;
+    public data: Array<any>;
+    public localizationsLoadedSubscription: any;
 
     constructor(
         public dialog: MdDialog,
-        private httpMenuService: HttpMenuService,
-        private menuService: MenuService,
-        private utilsService: UtilsService,
-        private localizationService: LocalizationService,
-        private eventDataService: EventDataService
+        public httpMenuService: HttpMenuService,
+        public menuService: MenuService,
+        public utilsService: UtilsService,
+        public localizationService: LocalizationService,
+        public eventDataService: EventDataService
     ) {
 
         this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe(() => {
@@ -47,8 +46,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
             // const item6 = new MenuItem(this.localizationService.localizedElements.ActivateViaInternet, 'idActivateViaInternetButton', true, false);
             this.menuElements.push(item1, item2, item3, item4, item5/*, item6*/);
         });
-
-
 
         this.eventDataService.command.subscribe((args: CommandEventArgs) => {
             switch (args.commandId) {

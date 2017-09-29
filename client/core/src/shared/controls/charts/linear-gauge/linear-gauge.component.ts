@@ -36,7 +36,7 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
     };
   }
 
-  constructor(private eventData: EventDataService, layoutService: LayoutService, tbComponentService:TbComponentService) {
+  constructor(public eventData: EventDataService, layoutService: LayoutService, tbComponentService: TbComponentService) {
     super(layoutService, tbComponentService);
     this.setDefault();
   }

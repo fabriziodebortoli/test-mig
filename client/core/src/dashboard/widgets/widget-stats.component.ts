@@ -10,9 +10,8 @@ import { Widget, WidgetsService } from './widgets.service';
 export class WidgetStatsComponent implements AfterContentInit {
   @Input() widget: Widget;
 
-  private statClass: string;
-  constructor(private widgetComponent: WidgetComponent, private widgetsService: WidgetsService) {
-  }
+  statClass: string;
+  constructor(public widgetComponent: WidgetComponent, public widgetsService: WidgetsService) { }
 
   ngAfterContentInit() {
     this.statClass = this.statsIconColorClass();

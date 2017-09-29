@@ -17,9 +17,11 @@ export class StandaloneReportComponent implements OnInit {
   subscriptions = [];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private httpService: HttpService,
-    private componentService: ComponentService) {
+    public activatedRoute: ActivatedRoute,
+    public httpService: HttpService,
+    public componentService: ComponentService
+  ) {
+
     this.activatedRoute.params.subscribe((params: Params) => {
       this.namespace = params['ns'];
       this.params = JSON.parse(params['params']);

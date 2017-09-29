@@ -21,10 +21,10 @@ export class TabComponent extends TbComponent implements OnInit, OnDestroy {
 
   @Output() close: EventEmitter<any> = new EventEmitter();
 
-  private viewHeightSubscription: Subscription;
+  public viewHeightSubscription: Subscription;
   viewHeight: number;
 
-  constructor(private layoutService: LayoutService, tbComponentService: TbComponentService) { super(tbComponentService); }
+  constructor(public layoutService: LayoutService, public tbComponentService: TbComponentService) { super(tbComponentService); }
 
   ngOnInit() {
     this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);

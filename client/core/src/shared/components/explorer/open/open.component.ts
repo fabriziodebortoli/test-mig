@@ -32,12 +32,12 @@ export class OpenComponent extends DocumentComponent implements OnInit {
   filesSubscription: Subscription;
 
   constructor(
-    private explorerService: ExplorerService,
-    eventData: EventDataService,
-    private imageService: ImageService,
-    private menuService: MenuService,
-    private utilsService: UtilsService,
-    private http: Http, ) {
+    public explorerService: ExplorerService,
+    public eventData: EventDataService,
+    public imageService: ImageService,
+    public menuService: MenuService,
+    public utilsService: UtilsService,
+    public http: Http, ) {
     super(explorerService, eventData, null);
   }
 
@@ -61,7 +61,7 @@ export class OpenComponent extends DocumentComponent implements OnInit {
     }).catch(this.handleError);
   }
 
-  protected handleError(error: any): ErrorObservable {
+  handleError(error: any): ErrorObservable {
     // In a real world app, we might use a remote logging infrastructure
     // We'd also dig deeper into the error to get a better message
     let errMsg = (error.message) ? error.message :

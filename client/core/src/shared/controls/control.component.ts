@@ -21,13 +21,13 @@ export class ControlComponent extends TbComponent implements OnDestroy {
     @Input()
     public value: any;
 
-    private widthFactor: number = 1;
-    private heightFactor: number = 1;
+    public widthFactor: number = 1;
+    public heightFactor: number = 1;
     @Output('blur') blur: EventEmitter<any> = new EventEmitter();
 
     subscriptions: Subscription[] = [];
 
-    constructor(protected layoutService: LayoutService, protected tbComponentService: TbComponentService) {
+    constructor(public layoutService: LayoutService, public tbComponentService: TbComponentService) {
         super(tbComponentService);
         this.subscriptions.push(this.layoutService.getWidthFactor().subscribe(wf => { this.widthFactor = wf; }));
         this.subscriptions.push(this.layoutService.getHeightFactor().subscribe(hf => { this.heightFactor = hf }));

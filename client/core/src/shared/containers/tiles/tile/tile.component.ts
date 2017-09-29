@@ -8,9 +8,9 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 })
 export class TileComponent implements OnInit {
   @Input() title: string;
-  private _isCollapsed: boolean = false;
-  private _isCollapsible: boolean = true;
-  private _hasTitle: boolean = true;
+  public _isCollapsed: boolean = false;
+  public _isCollapsible: boolean = true;
+  public _hasTitle: boolean = true;
 
   constructor() { }
 

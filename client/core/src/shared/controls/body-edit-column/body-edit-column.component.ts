@@ -27,7 +27,7 @@ export class BodyEditColumnComponent extends ControlComponent {
 
   @ViewChild(ColumnComponent) columnComponent;
 
-  constructor(private enumsService: EnumsService, protected layoutService: LayoutService, protected tbComponentService: TbComponentService) {
+  constructor(public enumsService: EnumsService, public layoutService: LayoutService, public tbComponentService: TbComponentService) {
     super(layoutService, tbComponentService);
 
   }

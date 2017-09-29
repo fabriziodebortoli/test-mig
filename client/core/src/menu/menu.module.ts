@@ -121,7 +121,7 @@ export class TbMenuModule {
     //     };
     // }
 
-    constructor(private logger: Logger) {
+    constructor(public logger: Logger) {
         this.logger.debug('TbMenuModule from Core instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 }

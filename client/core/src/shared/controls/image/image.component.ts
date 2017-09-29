@@ -16,7 +16,7 @@ export class ImageComponent extends ControlComponent {
   @Input() title: string = '';
 
   constructor(
-    private infoService: InfoService,
+    public infoService: InfoService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService) {
     super(layoutService, tbComponentService);

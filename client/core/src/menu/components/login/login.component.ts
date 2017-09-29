@@ -32,11 +32,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   errorMessages: string[] = [];
 
   constructor(
-    private authService: AuthService,
-    private cookieService: CookieService,
-    private router: Router,
-    private logger: Logger,
-    private httpService: HttpService
+    public authService: AuthService,
+    public cookieService: CookieService,
+    public router: Router,
+    public logger: Logger,
+    public httpService: HttpService
   ) {
 
   }

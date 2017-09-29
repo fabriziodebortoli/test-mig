@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class SidenavService {
 
-  private sidenavOpenedSource = new Subject<boolean>();
+  public sidenavOpenedSource = new Subject<boolean>();
   sidenavOpened$: Observable<boolean> = this.sidenavOpenedSource.asObservable();
 
   toggleSidenav() {

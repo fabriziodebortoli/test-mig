@@ -6,8 +6,8 @@ import { Directive, AfterContentInit, ViewContainerRef, ComponentFactoryResolver
   selector: '[tbStateButtons]'
 })
 export class StateButtonDirective implements AfterContentInit {
-  private stateButtonsRef: ComponentRef<any>;
-  constructor(private vcr: ViewContainerRef, private componentResolver: ComponentFactoryResolver) {
+  public stateButtonsRef: ComponentRef<any>;
+  constructor(public vcr: ViewContainerRef, public componentResolver: ComponentFactoryResolver) {
     console.log(vcr);
   }
   renderComponent() {

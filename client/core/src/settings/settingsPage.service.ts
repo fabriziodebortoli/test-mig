@@ -10,9 +10,12 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class SettingsPageService extends DocumentService {
 
-    constructor(public logger: Logger, eventData: EventDataService, 
-        private componentService: ComponentService, 
-        infoService: InfoService) {
+    constructor(
+        public logger: Logger,
+        public eventData: EventDataService,
+        public componentService: ComponentService,
+        public infoService: InfoService
+    ) {
         super(logger, eventData, infoService);
     }
 

@@ -11,10 +11,11 @@ import { Logger } from './logger.service';
 @Injectable()
 export class DataService extends DocumentService {
 
-  constructor(logger: Logger,
-    eventData: EventDataService,
-    private http: Http,
-    infoService: InfoService
+  constructor(
+    public logger: Logger,
+    public eventData: EventDataService,
+    public http: Http,
+    public infoService: InfoService
   ) {
     super(logger, eventData, infoService);
   }

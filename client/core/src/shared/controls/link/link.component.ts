@@ -15,12 +15,12 @@ export class LinkComponent extends ControlComponent implements OnInit, OnChanges
 
   public selectedValue: string;
   @Input() pattern: string;
-  private constraint: RegExp;
+  public constraint: RegExp;
 
-  private errorMessage: string;
-  private showError = '';
+  errorMessage: string;
+  showError = '';
   constructor(
-    private eventData: EventDataService,
+    public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService
   ) {
