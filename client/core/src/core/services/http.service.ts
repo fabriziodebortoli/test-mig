@@ -56,7 +56,7 @@ export class HttpService {
 
     getEsAppsAndModules(): string {
         let obj = "{ 'custs': [{'app': 'newApp1','mods': [{ 'mod1','mod3', 'mod2'}]}]	}]}";
-        let res = '{"allApplications":[{"application":"NewApplication1","module":"NewModule1"},{"application":"NewApplication1","module":"NewModule2"},{"application":"NewApplication2","module":"NewModule1"},{"application":"NewApplication2","module":"NewModule2"},{"application":"NewApplication2","module":"NewModule3"},{"application":"NewApplication2","module":"NewModule4"},{"application":"NewApplication2","module":"NewModule5"},{"application":"NewApplication2","module":"NewModule6"},{"application":"NewApplication3","module":"NewModule1"},{"application":"NewApplication3","module":"NewModule2"}],"DeveloperEd":true}';
+        let res = '{"allApplications":[{"application":"NewApplication1","module":"NewModule1"},{"application":"NewApplication1","module":"NewModule2"},{"application":"NewApplication2","module":"NewModule1"},{"application":"NewApplication2","module":"NewModule2"},{"application":"NewApplication2","module":"NewModule3"},{"application":"NewApplication2","module":"NewModule4"},{"application":"NewApplication2","module":"NewModule5"},{"application":"NewApplication2","module":"NewModule6"},{"application":"NewApplication3","module":"NewModule1"},{"application":"NewApplication3","module":"NewModule2"}]}';//,"DeveloperEd":true}';
         // return this.postData(this.getAccountManagerBaseUrl() + 'getCompaniesForUser/', obj)
         //     .map((res: Response) => {
         //         return res.json();

@@ -1,0 +1,60 @@
+<button kendoButton ng-show="isEasyStudioActivated" (click)="changeCustomizationContext()" class="k-buton k-primary k-button-icon">
+    <span class="k-icon k-i-edit-tools"></span>
+</button>
+<kendo-dialog *ngIf="opened" kendoRippleContainer>
+    <kendo-dialog-titlebar>
+        <div style="font-size: 18px; line-height: 1.3em;">
+            Change Customization Context
+        </div>
+    </kendo-dialog-titlebar>
+    <div class="central">
+        <nav>
+            <div class="columsLayout">
+                <h1 class="tit">Applications</h1>
+                <kendo-buttongroup *ngFor="let app of applications" selection="single">
+                    <button kendoButton class="beauty" id="{{app}}" (click)="setApplic(app); hightlightApp(app);">
+                        {{app}}
+                </button>
+                </kendo-buttongroup>
+            </div>
+        </nav>
+        <article id="article" ng-if="application !== undefined">
+            <div class="columsLayout">
+                <h1 class="tit">Modules</h1>
+                <kendo-buttongroup *ngFor="let mod of modules">
+                    <button kendoButton class="beauty" id="{{mod}}" (click)="setModule(mod)" ng-class="{'selected': ifHasToBe(mod)}">
+                        {{mod}}
+                    </button>
+                </kendo-buttongroup>
+                <!-- <div id="addApplication" ng-class="{'addApplicationBck': addModuleVisible}">
+                <span class="addAppButton glyphicon glyphicon-plus" (click)="setVisibleMod()"></span>
+                <div ng-if="addModuleVisible">
+                    <div class="newPair">
+                        <input ng-model="formData.newModName" />
+                    </div>
+                    <div class="icons">
+                        <span class="icon glyphicon glyphicon-ok" (click)="addNewMod()"></span>
+                        <span class="icon glyphicon glyphicon-remove" (click)="setInvisibleMod()"></span>
+                    </div>
+                </div>
+            </div> -->
+            </div>
+        </article>
+    </div>
+
+    <div class="columsLayout">
+        <button kendoButton class="k-buton k-primary k-button-icon">
+            <span class="k-icon k-i-plus-circle"></span>
+        </button>
+        <kendo-textbox-container floatingLabel="Application choosen">
+            <input kendoTextBox />
+        </kendo-textbox-container>
+        <kendo-textbox-container floatingLabel="Module choosen">
+            <input kendoTextBox />
+        </kendo-textbox-container>
+    </div>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="ok()" primary="true">Ok</button>
+        <button kendoButton (click)="close()">Cancel</button>
+    </kendo-dialog-actions>
+</kendo-dialog>
