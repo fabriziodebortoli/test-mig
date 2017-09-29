@@ -21,14 +21,12 @@ export class SnapshotdialogComponent {
     public allowUnsort: boolean = true;
     
     public sort: SortDescriptor[] = [];
-    public gridView: GridDataResult;
-    
-    
+    public gridView: GridDataResult;    
 
     constructor(public rsExportService: RsExportService) {
       this.nameSnapshot = "";
       this.openSnapshot= "";
-      this.loadSnapshots();
+      //this.loadSnapshots();
     };
 
     ngOnDestroy() {
