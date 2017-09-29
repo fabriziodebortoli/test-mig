@@ -273,10 +273,10 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			try
 			{
-				Stream fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.None);
-
-				StreamReader reader = new StreamReader(fs);
-				scriptText = reader.ReadToEnd();
+				using (Stream fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+				using (StreamReader reader = new StreamReader(fs))
+					scriptText = reader.ReadToEnd();
+				
 			}
 			catch (IOException e)
 			{
