@@ -16,6 +16,8 @@ export class ReportLinkComponent {
 
   @Input() link: link;
 
+  private clicked = false;
+
   constructor(
     public componentService: ComponentService,
     public webSocketService: WebSocketService) { }
@@ -34,6 +36,7 @@ export class ReportLinkComponent {
       default:
         break;
     }
+    this.clicked=true;
   }
 
   runReport() {

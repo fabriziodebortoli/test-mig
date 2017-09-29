@@ -40,6 +40,10 @@ export class TopbarMenuUserComponent implements OnDestroy {
         this.authService.logout();
     }
 
+    openSettings()
+    {
+        this.componentService.createComponentFromUrl('settings', true);
+    }
     ngOnDestroy() {
 
         this.commandSubscription.unsubscribe();

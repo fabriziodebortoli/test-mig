@@ -418,32 +418,13 @@ namespace Microarea.Common.NameSolver
 			return fullFilename;
 		}
 
-		#endregion
+        #endregion
 
-		//---------------------------------------------------------------------
-		public string GetCustomFontsFullFilename()
-		{
-			string moduleObjPath = GetCustomModuleObjectPath();
 
-			if (moduleObjPath == string.Empty)
-				return string.Empty;
+      
 
-			return moduleObjPath + System.IO.Path.DirectorySeparatorChar + NameSolverStrings.FontsIniFile;
-		}
-
-		//---------------------------------------------------------------------
-		public string GetCustomFormatsFullFilename()
-		{
-			string moduleObjPath = GetCustomModuleObjectPath();
-
-			if (moduleObjPath == string.Empty)
-				return string.Empty;
-
-			return moduleObjPath + System.IO.Path.DirectorySeparatorChar + NameSolverStrings.FormatsIniFile;
-		}
-
-		//-------------------------------------------------------------------------------
-		public string GetCustomAllCompaniesUserSettingsPath()
+        //-------------------------------------------------------------------------------
+        public string GetCustomAllCompaniesUserSettingsPath()
 		{
 			if (PathFinder.User == null || 
 				PathFinder.User == string.Empty

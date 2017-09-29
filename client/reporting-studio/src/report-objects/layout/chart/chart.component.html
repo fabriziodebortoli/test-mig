@@ -59,9 +59,20 @@
     <rs-chart-polar [chart]="chart" *ngSwitchCase="ChartType.PolarScatter">
     </rs-chart-polar>
 
-    <rs-chart-radar [chart]="chart" *ngSwitchCase="ChartType.RadarLine">
-    </rs-chart-radar>
-    <rs-chart-radar [chart]="chart" *ngSwitchCase="ChartType.RadarArea">
-    </rs-chart-radar>
+    <rs-chart-bubble [chart]="chart" *ngSwitchCase="ChartType.Bubble">
+    </rs-chart-bubble>
+    <rs-chart-bubble [chart]="chart" *ngSwitchCase="ChartType.BubbleScatter">
+    </rs-chart-bubble>
+    <rs-chart-bubble [chart]="chart" *ngSwitchCase="ChartType.Scatter">
+    </rs-chart-bubble>
+    <rs-chart-bubble [chart]="chart" *ngSwitchCase="ChartType.ScatterLine">
+    </rs-chart-bubble>
+
+    <rs-chart-polar [chart]="chart" *ngSwitchCase="ChartType.PolarLine">
+    </rs-chart-polar>
+    <rs-chart-polar [chart]="chart" *ngSwitchCase="ChartType.PolarArea">
+    </rs-chart-polar>
+    <rs-chart-polar [chart]="chart" *ngSwitchCase="ChartType.PolarScatter">
+    </rs-chart-polar>
 
 </div>

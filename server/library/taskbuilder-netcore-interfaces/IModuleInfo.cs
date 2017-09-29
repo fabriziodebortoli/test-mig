@@ -32,8 +32,6 @@ namespace TaskBuilderNetCore.Interfaces
 		string GetCustomFileFullFilename(string text, string user);
 		string GetCustomFilePath();
 		string GetCustomFilePath(string userName);
-		string GetCustomFontsFullFilename();
-		string GetCustomFormatsFullFilename();
 		string GetCustomImageFullFilename(string image, string user);
 		string GetCustomImageFullFilename(string image);
 		string GetCustomImagePath();

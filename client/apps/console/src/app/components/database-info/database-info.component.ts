@@ -26,7 +26,9 @@ export class DatabaseInfoComponent implements OnInit {
 
     // I initialize server names with the one specified in the testconnection 
 
-    if (this.databaseService.needsAskCredentials)
+    if (this.databaseService.needsAskCredentials){
       this.subDBModel.DBServer = this.subDBModel.DMSDBServer = this.databaseService.dbCredentials.Server;
+      this.subDBModel.Provider = this.databaseService.dbCredentials.Provider;
+    }
   }
 }

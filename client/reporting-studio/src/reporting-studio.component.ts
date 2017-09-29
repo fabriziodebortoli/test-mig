@@ -185,7 +185,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.runReport = true;
           this.rsExportService.totalPages = parseInt(msg.page);
           this.FirstPage();
-          console.log(this.rsExportService.totalPages);
           break;
         case CommandType.ACTIVESNAPSHOT:
           this.CreateTableSnapshots(k);
@@ -353,13 +352,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  public startSaveSVG() {
+  startSaveSVG() {
     this.rsExportService.svgState = SvgType.SVG;
     this.CurrentPage();
   }
 
   //--------------------------------------------------
-  public startSavePNG() {
+  startSavePNG() {
     this.rsExportService.pngState = PngType.PNG;
     this.CurrentPage();
   }
@@ -376,13 +375,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  public startSavePDF() {
+  startSavePDF() {
     this.rsExportService.pdfState = PdfType.PDF;
     this.PageNumber();
   }
 
   //--------------------------------------------------
-  public startSaveExcel() {
+  startSaveExcel() {
     let message = {
       commandType: CommandType.EXPORTEXCEL,
       message: this.args.nameSpace,
@@ -393,7 +392,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  public startSaveDocx() {
+  startSaveDocx() {
     let message = {
       commandType: CommandType.EXPORTDOCX,
       message: this.args.nameSpace,
@@ -404,7 +403,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  public startSnapshot() {
+  startSnapshot() {
     this.rsExportService.snapshot = true;
     let message = {
       commandType: CommandType.ACTIVESNAPSHOT,

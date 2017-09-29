@@ -1,14 +1,22 @@
+#link {
+    background:none!important;
+    border:none; 
+    padding:0!important;
+    text-decoration:underline;
+    cursor:pointer;
+}
+
+
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
-    overflow:scroll;
 }
 
 td, th {
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 2px;
+    padding: 8px;
 }
 
 tr:nth-child(even) {
@@ -18,12 +26,4 @@ tr:nth-child(even) {
 th {
     background-color:  #0277bd;
     color: #dddddd;
-}
-
-#link {
-    background:none!important;
-     border:none; 
-     padding:0!important;
-     text-decoration:underline;
-     cursor:pointer;
-}
+} 

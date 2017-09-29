@@ -131,7 +131,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			ContextInfo.SystemDBConnectionInfo contextParameters,
 			DBNetworkType dbNetworkType,
 			string		isoState,
-			bool		askCredential
+			bool		askCredential = false
 			)
 		{
             CreateContextInfo(pathFinder, dbNetworkType, isoState, askCredential);

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microarea.Common.DiagnosticManager;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
-using Microarea.Common.DiagnosticManager;
 using TaskBuilderNetCore.Interfaces;
-using System.Data.SqlClient;
 
 namespace Microarea.AdminServer.Libraries.DatabaseManager
 {
@@ -178,6 +178,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 	public class DatabaseTask
 	{
 		#region Variables
+		private bool isAzureDB = false;
+
 		private Diagnostic diagnostic = new Diagnostic("DatabaseLayer.DatabaseTask");
 
 		private string connectionString = string.Empty;
@@ -191,8 +193,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		public Diagnostic Diagnostic { get { return diagnostic; } }
 		//--------------------------------------------------------------------------------
 		public string CurrentStringConnection { get { return connectionString; } set { connectionString = value; } }
+		//--------------------------------------------------------------------------------
+		public bool IsAzureDB { get { return isAzureDB; } set { isAzureDB = value; } }
 
-		// elenco stringhe di errore visualizzate nello Scheduler
 		//---------------------------------------------------------------------
 		public List<string> ErrorsList
 		{
@@ -217,8 +220,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 		#region Constructor
 		//---------------------------------------------------------------------
-		public DatabaseTask()
+		public DatabaseTask(bool isAzureDB = false)
 		{
+			this.isAzureDB = isAzureDB;
 		}
 		#endregion
 
@@ -1015,8 +1019,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 						myCommand.Connection = myConnection;
 						myCommand.CommandText = string.Format("CREATE LOGIN [{0}] WITH PASSWORD = '{1}'", login, password);
 
-						//if (!isAzureDB)
-							//myCommand.CommandText += ", CHECK_POLICY = OFF"; // sintassi non supportata in Azure
+						if (!isAzureDB)
+							myCommand.CommandText += ", CHECK_POLICY = OFF"; // sintassi non supportata in Azure
 						
 						myCommand.ExecuteNonQuery();
 					}
@@ -1032,7 +1036,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
 				extendedInfo.Add(DatabaseManagerStrings.Parameters, login);
 				extendedInfo.Add(DatabaseManagerStrings.Function, "CreateLogin");
-				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
 				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
 				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
 
@@ -1117,7 +1121,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
 				extendedInfo.Add(DatabaseManagerStrings.Parameters, login);
 				extendedInfo.Add(DatabaseManagerStrings.Function, "CreateUser");
-				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
 				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
 				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
 
@@ -1202,5 +1206,352 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			return result;
 		}
+
+		#region ExistDataBase - Verifica se il db specificato esiste già (non di sistema)
+		/// <summary>
+		/// Si connette al master e verifica se esiste il db specificato dal dbName
+		/// </summary>
+		//---------------------------------------------------------------------
+		public bool ExistDataBase(string dbName)
+		{
+			bool existDataBase = false;
+			string query = "SELECT COUNT(*) FROM sysdatabases WHERE name = @dbName";
+
+			try
+			{
+				// non posso utilizzare il metodo ChangeDatabase in caso di Azure
+				SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(CurrentStringConnection);
+				builder.InitialCatalog = DatabaseLayerConsts.MasterDatabase;
+
+				using (SqlConnection myConnection = new SqlConnection(builder.ConnectionString))
+				{
+					myConnection.Open();
+
+					using (SqlCommand myCommand = new SqlCommand(query, myConnection))
+					{
+						myCommand.Parameters.AddWithValue("@dbName", dbName);
+						if ((int)myCommand.ExecuteScalar() > 0)
+							existDataBase = true;
+					}
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "ExistDataBase");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorConnectionNotValid, extendedInfo);
+			}
+
+			return existDataBase;
+		}
+		#endregion
+
+		#region ExistLogin -  Si connette al master e verifica se la loginName esiste
+		/// <summary>
+		/// Si connette al master e verifica se la login identificata da loginName esiste
+		/// </summary>
+		//---------------------------------------------------------------------
+		public bool ExistLogin(string loginName)
+		{
+			bool existLogin = false;
+
+			string query = isAzureDB 
+				? "SELECT COUNT(*) FROM sys.sql_logins WHERE name = @User" 
+				: "SELECT COUNT(*) FROM syslogins WHERE name = @User";
+
+			try
+			{
+				// non posso utilizzare il metodo ChangeDatabase in caso di Azure
+				SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(CurrentStringConnection);
+				builder.InitialCatalog = DatabaseLayerConsts.MasterDatabase;
+
+				using (SqlConnection myConnection = new SqlConnection(builder.ConnectionString))
+				{
+					myConnection.Open();
+
+					using (SqlCommand myCommand = new SqlCommand(query, myConnection))
+					{
+						myCommand.Parameters.AddWithValue("@User", loginName);
+
+						if ((int)myCommand.ExecuteScalar() == 1)
+							existLogin = true;
+					}
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "ExistLogin");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorConnectionNotValid, extendedInfo);
+			}
+
+			return existLogin;
+		}
+		#endregion
+
+		#region ExistLoginIntoDb - True se la Login risulta assegnata a un database dbName
+		/// <summary>
+		/// Testa l'esistenza di una Login assegnata a un db
+		/// </summary>
+		//---------------------------------------------------------------------
+		public bool ExistLoginIntoDb(string loginName, string dbName)
+		{
+			if (isAzureDB)
+			{
+				Debug.Fail("Microarea.AdminServer.Libraries.DatabaseManager.ExistLoginIntoDb method unavailable for Azure database!!");
+				return false;
+			}
+
+			bool found = false;
+
+			try
+			{
+				using (SqlConnection myConnection = new SqlConnection(CurrentStringConnection))
+				{
+					myConnection.Open();
+					myConnection.ChangeDatabase(dbName);
+
+					using (SqlCommand myCommand = new SqlCommand())
+					{
+						myCommand.Connection = myConnection;
+						myCommand.CommandText = DatabaseLayerConsts.SPHelpUser;
+						myCommand.CommandType = CommandType.StoredProcedure;
+						using (SqlDataReader mySqlDataReader = myCommand.ExecuteReader())
+							while (mySqlDataReader.Read())
+							{
+								if (string.Compare(mySqlDataReader["LoginName"].ToString(), loginName, StringComparison.InvariantCultureIgnoreCase) == 0)
+								{
+									found = true;
+									break;
+								}
+							}
+					}
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.StoredProcedure, DatabaseLayerConsts.SPHelpUser);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "ExistLoginIntoDb");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorConnectionNotValid, extendedInfo);
+				return false;
+			}
+
+			return found;
+		}
+		#endregion
+
+		//---------------------------------------------------------------------
+		public bool LoginIsDBOwnerRole(string loginName)
+		{
+			if (isAzureDB)
+			{
+				Debug.Fail("Microarea.AdminServer.Libraries.DatabaseManager.LoginIsDBOwnerRole method unavailable for Azure database!!");
+				return false;
+			}
+
+			return SPHelpUser(loginName, DatabaseLayerConsts.RoleDbOwner);
+		}
+
+		#region SPHelpUser e SPhelpsrvrolemember
+		/// <summary>
+		/// Restituisce informazioni sulle entità a livello di database nel database corrente.
+		/// </summary>
+		//---------------------------------------------------------------------
+		public bool SPHelpUser(string loginName, string roleName)
+		{
+			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
+			{
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
+				return false;
+			}
+
+			//se è sa sono sicura che ha già la role quindi faccio tornare true
+			if (string.Compare(loginName, DatabaseLayerConsts.LoginSa, StringComparison.InvariantCultureIgnoreCase) == 0)
+				return true;
+
+			try
+			{
+				using (SqlConnection myConnection = new SqlConnection(CurrentStringConnection))
+				{
+					myConnection.Open();
+
+					using (SqlCommand myCommand = new SqlCommand())
+					{
+						myCommand.Connection = myConnection;
+						myCommand.CommandText = DatabaseLayerConsts.SPHelpUser;
+						myCommand.CommandType = CommandType.StoredProcedure;
+
+						using (SqlDataReader mySqlDataReader = myCommand.ExecuteReader())
+							while (mySqlDataReader.Read())
+								if (string.Compare(mySqlDataReader["LoginName"].ToString(), loginName, StringComparison.InvariantCultureIgnoreCase) == 0 &&
+									string.Compare(mySqlDataReader["RoleName"].ToString(), roleName, StringComparison.InvariantCultureIgnoreCase) == 0)
+									return true;
+					}
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Parameters, loginName);
+				extendedInfo.Add(DatabaseManagerStrings.Parameters, roleName);
+				extendedInfo.Add(DatabaseManagerStrings.Function, DatabaseLayerConsts.SPHelpUser);
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorSPHelpUser, extendedInfo);
+				return false;
+			}
+
+			return false;
+		}
+
+		// esegue la sp_helpuser ma va a controllare la colonna UserName e non la LoginName
+		// questo perche' se eseguita da un utente dbowner non ha la visibilita' dei dati di loginname
+		//---------------------------------------------------------------------
+		public bool SPHelpUserLITE(string userName, string roleName)
+		{
+			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
+			{
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
+				return false;
+			}
+
+			//se è sa sono sicura che ha già la role quindi faccio tornare true
+			if (string.Compare(userName, DatabaseLayerConsts.LoginSa, StringComparison.InvariantCultureIgnoreCase) == 0)
+				return true;
+
+			try
+			{
+				using (SqlConnection myConnection = new SqlConnection(CurrentStringConnection))
+				{
+					myConnection.Open();
+
+					using (SqlCommand myCommand = new SqlCommand())
+					{
+						myCommand.Connection = myConnection;
+						myCommand.CommandText = DatabaseLayerConsts.SPHelpUser;
+						myCommand.CommandType = CommandType.StoredProcedure;
+
+						using (SqlDataReader mySqlDataReader = myCommand.ExecuteReader())
+							while (mySqlDataReader.Read())
+								if (string.Compare(mySqlDataReader["UserName"].ToString(), userName, StringComparison.InvariantCultureIgnoreCase) == 0 &&
+									string.Compare(mySqlDataReader["RoleName"].ToString(), roleName, StringComparison.InvariantCultureIgnoreCase) == 0)
+									return true;
+					}
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Parameters, userName);
+				extendedInfo.Add(DatabaseManagerStrings.Parameters, roleName);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "SPHelpUserLITE");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorSPHelpUser, extendedInfo);
+				return false;
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// SPhelpsrvrolemember
+		/// Restituisce informazioni sui membri di un ruolo predefinito del server SQL Server.
+		/// </summary>
+		//---------------------------------------------------------------------
+		public bool SPhelpsrvrolemember(string loginName, string roleName)
+		{
+			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
+			{
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
+				return false;
+			}
+
+			//se è sa sono sicura che ha già la role quindi faccio tornare true
+			if (string.Compare(loginName, DatabaseLayerConsts.LoginSa, StringComparison.InvariantCultureIgnoreCase) == 0)
+				return true;
+
+			bool hasRole = false;
+
+			try
+			{
+				using (SqlConnection myConnection = new SqlConnection(CurrentStringConnection))
+				{
+					myConnection.Open();
+					using (SqlCommand myCommand = new SqlCommand())
+					{
+						myCommand.Connection = myConnection;
+						myCommand.CommandText = DatabaseLayerConsts.SPHelpSrvRoleMember;
+						myCommand.CommandType = CommandType.StoredProcedure;
+						myCommand.Parameters.AddWithValue("@srvrolename", roleName);
+
+						using (SqlDataReader mySqlDataReader = myCommand.ExecuteReader())
+							while (mySqlDataReader.Read())
+								if (string.Compare(mySqlDataReader["MemberName"].ToString(), loginName, StringComparison.InvariantCultureIgnoreCase) == 0)
+								{
+									hasRole = true;
+									break;
+								}
+					}
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Parameters, loginName);
+				extendedInfo.Add(DatabaseManagerStrings.Parameters, roleName);
+				extendedInfo.Add(DatabaseManagerStrings.Function, DatabaseLayerConsts.SPHelpSrvRoleMember);
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorSPHelpsrvrolemember, extendedInfo);
+				return false;
+			}
+
+			return hasRole;
+		}
+		#endregion
+
 	}
 }
