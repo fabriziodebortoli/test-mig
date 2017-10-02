@@ -658,8 +658,127 @@ namespace Microarea.Common.GenericForms
 			loginManager.SSOLogOff(cryptedtoken);
 		}
 
-		//-----------------------------------------------------------------------
-		private int SetDiagnosticLoginReturnsCodeError(int loginResult)
+        //-----------------------------------------------------------------------
+        public static string DecodeLoginReturnsCodeError(int loginResult)
+        {
+            switch (loginResult)
+            {
+                case (int)LoginReturnCodes.NoError:
+                    return WebServicesWrapperStrings.NoError;
+
+                case (int)LoginReturnCodes.AlreadyLoggedOnDifferentCompanyError:
+                    return WebServicesWrapperStrings.AlreadyLoggedOnDifferentCompanyError;
+
+                case (int)LoginReturnCodes.UserAlreadyLoggedError:
+                case (int)LoginReturnCodes.WebUserAlreadyLoggedError:
+                    return WebServicesWrapperStrings.ErrWebUserAlreadyLogged;
+
+                case (int)LoginReturnCodes.NoCalAvailableError:
+                    return WebServicesWrapperStrings.NoCalAvailableError;
+
+                case (int)LoginReturnCodes.NoLicenseError:
+                    return WebServicesWrapperStrings.ErrNoArticleFunctionality;
+
+                case (int)LoginReturnCodes.UserAssignmentToArticleFailure:
+                    return WebServicesWrapperStrings.ErrUserAssignmentToArticle;
+
+                case (int)LoginReturnCodes.UserNotAllowed:
+                    return WebServicesWrapperStrings.UserNotAllowed;
+
+                case (int)LoginReturnCodes.ProcessNotAuthenticatedError:
+                    return WebServicesWrapperStrings.ErrProcessNotAuthenticated;
+
+                case (int)LoginReturnCodes.InvalidUserError:
+                    return WebServicesWrapperStrings.ErrInvalidUser;
+
+                case (int)LoginReturnCodes.InvalidProcessError:
+                    return WebServicesWrapperStrings.ErrInvalidProcess;
+
+                case (int)LoginReturnCodes.LockedDatabaseError:
+                    return WebServicesWrapperStrings.ErrLockedDatabase;
+
+                case (int)LoginReturnCodes.UserMustChangePasswordError:
+                    return WebServicesWrapperStrings.ErrUserCannotChangePwdButMust;
+
+                case (int)LoginReturnCodes.InvalidCompanyError:
+                    return WebServicesWrapperStrings.ErrInvalidCompany;
+
+                case (int)LoginReturnCodes.ProviderError:
+                    return WebServicesWrapperStrings.ErrProviderInfo;
+
+                case (int)LoginReturnCodes.ConnectionParamsError:
+                    return WebServicesWrapperStrings.ErrConnectionParams;
+
+                case (int)LoginReturnCodes.CompanyDatabaseNotPresent:
+                    return WebServicesWrapperStrings.CompanyDatabaseNotPresent;
+
+                case (int)LoginReturnCodes.CompanyDatabaseTablesNotPresent:
+                    return WebServicesWrapperStrings.CompanyDatabaseTablesNotPresent;
+
+                case (int)LoginReturnCodes.InvalidDatabaseForActivation:
+                    return WebServicesWrapperStrings.InvalidDatabaseForActivation;
+
+                case (int)LoginReturnCodes.WebApplicationAccessDenied:
+                    return WebServicesWrapperStrings.WebApplicationAccessDenied;
+
+                case (int)LoginReturnCodes.GDIApplicationAccessDenied:
+                    return WebServicesWrapperStrings.GDIApplicationAccessDenied;
+
+                case (int)LoginReturnCodes.LoginLocked:
+                    return WebServicesWrapperStrings.LoginLocked;
+
+                case (int)LoginReturnCodes.InvalidDatabaseError:
+                    return WebServicesWrapperStrings.InvalidDatabaseError;
+
+                case (int)LoginReturnCodes.NoAdmittedCompany:
+                    return WebServicesWrapperStrings.NoAdmittedCompany;
+
+                case (int)LoginReturnCodes.NoOfficeLicenseError:
+                    return WebServicesWrapperStrings.NoOfficeLicenseError;
+
+                case (int)LoginReturnCodes.TooManyAssignedCAL:
+                    return WebServicesWrapperStrings.TooManyAssignedCAL;
+
+                case (int)LoginReturnCodes.NoDatabase:
+                    return WebServicesWrapperStrings.CompanyDatabaseNotPresent;
+
+                case (int)LoginReturnCodes.NoTables:
+                    return WebServicesWrapperStrings.CompanyDatabaseTablesNotPresent;
+
+                case (int)LoginReturnCodes.NoActivatedDatabase:
+                    if (Functions.IsDebug() && loginManager.IsDeveloperActivation())
+                        break;
+                    return WebServicesWrapperStrings.InvalidDatabaseForActivation;
+
+                case (int)LoginReturnCodes.InvalidModule:
+                    return WebServicesWrapperStrings.InvalidDatabaseError;
+
+                case (int)LoginReturnCodes.DBSizeError:
+                    return WebServicesWrapperStrings.DBSizeError;
+
+                case (int)LoginReturnCodes.SsoTokenEmpty:
+                    return WebServicesWrapperStrings.SsoTokenEmpty;
+
+                case (int)LoginReturnCodes.InvalidSSOToken:
+                    return WebServicesWrapperStrings.InvalidSSOToken;
+
+                case (int)LoginReturnCodes.SsoTokenError:
+                    return WebServicesWrapperStrings.SsoTokenError;
+
+                case (int)LoginReturnCodes.MoreThanOneSSOToken:
+                    return WebServicesWrapperStrings.MoreThanOneSSOToken;
+
+                case (int)LoginReturnCodes.ImagoUserAlreadyAssociated:
+                    return WebServicesWrapperStrings.ImagoUserAlreadyAssociated;
+
+                case (int)LoginReturnCodes.ImagoCompanyNotCorresponding:
+                    return WebServicesWrapperStrings.ImagoCompanyNotCorresponding;
+            }
+            return WebServicesWrapperStrings.ErrLoginFailed;
+        }
+
+        //-----------------------------------------------------------------------
+        private int SetDiagnosticLoginReturnsCodeError(int loginResult)
 		{
 			if (loginResult == 0)
 				return 0;
