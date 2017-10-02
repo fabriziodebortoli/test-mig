@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   appBusy: boolean;
   subscription: Subscription;
 
-
   //--------------------------------------------------------------------------------
   constructor(private route: ActivatedRoute, private loginService: LoginService) { 
         
@@ -36,25 +35,35 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.welcomeMessage = 'Sign in';
     this.loginStep = 1;
     this.appBusy = false;
-    this.subscription = this.loginService.getMessage().subscribe(msg => { 
 
+    this.subscription = this.loginService.getMessage().subscribe(msg => { 
       if (msg === '') {
         // something went wrong with the login
         this.appBusy = false;
         this.loginStep = 3;
       }
-
     })
   }
 
   //--------------------------------------------------------------------------------
-  onKeyDown(event) {
+  inputExists() {
+    if (
+      (this.loginStep == 1 && this.credentials.accountName == '') ||
+      (this.loginStep == 2 && this.selectedInstanceKey == '') ||
+      (this.loginStep == 3 && this.credentials.password == ''))
+       {
+      return true;
+    }
 
+    return false;
+  }
+
+  //--------------------------------------------------------------------------------
+  onKeyDown(event) {
     if (event.keyCode == 13) {
       this.doNext();
       return;
     }
-
   }
 
   //--------------------------------------------------------------------------------

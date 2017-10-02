@@ -3,5 +3,5 @@ export class LoginSession {
     user = "";
     password = "";
     overwrite: boolean = true;
-    askingProcess = "TBWeb";
+    askingProcess = "MenuManager";
 }
