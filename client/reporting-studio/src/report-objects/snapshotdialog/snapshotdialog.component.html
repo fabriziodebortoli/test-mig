@@ -1,18 +1,18 @@
 <kendo-dialog title="Snapshot Report" (close)="close()">
     <div>
-        <table>
+        <br>
+        <table id="myTable">
             <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>AllUsers</th>
+                <th (click)="sortTable(0)">Name</th>
+                <th (click)="sortTable(1)">Date</th>
+                <th (click)="sortTable(2)">AllUsers</th>
             </tr>
             <tr *ngFor="let snap of this.rsExportService.snapshots; let i=index">
-                <td><button id="link"(click)="runSnapshot(snap.name, snap.date, snap.allUsers)">{{snap.name}}</button></td>
+                <td><button id="link" (click)="runSnapshot(snap.name, snap.date, snap.allUsers)">{{snap.name}}</button></td>
                 <td>{{snap.date | date:"dd/MM/yyyy HH:mm:ss"}}</td>
                 <td>{{snap.allUsers}}</td>
             </tr>
         </table>
-
     </div>
     <br><br>
     <label>Saver for: </label>
@@ -29,19 +29,3 @@
         <button kendoButton *ngIf="rsExportService.snapshot" (click)="createFileJson()">Create new Snapshot</button>
     </kendo-dialog-actions>
 </kendo-dialog>
-
-
-
-
-
-<!--kendo-grid [data]="gridView" [sortable]="{allowUnsort: allowUnsort, mode: multiple ? 'multiple' : 'single'}" [sort]="sort"
-(sortChange)="sortChange($event)">
-
-<kendo-grid-column field="name" title="Name" id="link" (click)="runSnapshot(snap.name, snap.date, snap.allUsers)"></kendo-grid-column>
-
-<kendo-grid-column field="date" title="Created" >
-    <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.date | date:"dd/MM/yyyy HH:mm:ss"}}</ng-template>
-</kendo-grid-column>
-
-<kendo-grid-column field="allUsers" title="All Users" > </kendo-grid-column>
-</kendo-grid-->
