@@ -18,7 +18,7 @@ namespace Microarea.AccountManager.Controllers
 			string password = HttpContext.Request.Form["password"];
 			string company = HttpContext.Request.Form["company"];
 			string askingProcess = HttpContext.Request.Form["askingProcess"];
-			bool overwriteLogin = HttpContext.Request.Form["overwriteLogin"] == "true";
+			bool overwriteLogin = HttpContext.Request.Form["overwrite"] == "true";
 			int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out string authenticationToken);
 
             string errorMessage = "";
