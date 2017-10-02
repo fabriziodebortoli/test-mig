@@ -32,7 +32,7 @@ export class AuthService {
 
     }
 
-    login(connectionData: LoginSession): Observable<boolean> {
+    login(connectionData: LoginSession): Observable<LoginCompact> {
         this.errorMessage = "";
         return this.httpService.login(connectionData).map((result: LoginCompact) => {
             this.islogged = result.success;
@@ -45,7 +45,7 @@ export class AuthService {
 
             this.eventManagerService.emitLoggedIn();
 
-            return this.islogged;
+            return result;
         });
     }
 
@@ -71,7 +71,6 @@ export class AuthService {
     }
 
     logout(): void {
-
         let subs = this.httpService.logoff({ authtoken: this.cookieService.get('authtoken') }).subscribe(
             loggedOut => {
                 if (loggedOut) {

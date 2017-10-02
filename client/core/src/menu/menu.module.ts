@@ -66,6 +66,7 @@ export { EventManagerService } from './services/event-manager.service';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { DialogModule } from '@progress/kendo-angular-dialog';
 
 @NgModule({
     imports: [
@@ -74,7 +75,8 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
         // ReactiveFormsModule,
         TbSharedModule,
         LayoutModule,
-        ButtonsModule
+        ButtonsModule,
+        DialogModule
     ],
 
     declarations: [
