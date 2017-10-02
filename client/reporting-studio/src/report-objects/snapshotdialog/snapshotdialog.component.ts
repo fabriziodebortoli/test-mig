@@ -17,16 +17,9 @@ export class SnapshotdialogComponent {
     public nameSnapshot: string;
     public openSnapshot: string;
 
-    public multiple: boolean = false;
-    public allowUnsort: boolean = true;
-
-    public sort: SortDescriptor[] = [];
-    public gridView: GridDataResult;
-
     constructor(public rsExportService: RsExportService) {
         this.nameSnapshot = "";
         this.openSnapshot = "";
-        //this.loadSnapshots();
     };
 
     ngOnDestroy() {
@@ -55,15 +48,27 @@ export class SnapshotdialogComponent {
         this.rsExportService.startRunSnapshot(name, date, allusers);
     }
 
-    protected sortChange(sort: SortDescriptor[]): void {
-        this.sort = sort;
-        this.loadSnapshots();
-    }
+    sortTable(column: number) {
+        var table, rows, switching, i, x, y, shouldSwitch;
 
-    private loadSnapshots(): void {
-        this.gridView = {
-            data: orderBy(this.rsExportService.snapshots, this.sort),
-            total: this.rsExportService.snapshots.length
-        };
+        table = document.getElementById("myTable");
+        switching = true;
+        while (switching) {
+            switching = false;
+            rows = table.getElementsByTagName("TR");
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[column];
+                y = rows[i + 1].getElementsByTagName("TD")[column];
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
     }
 }

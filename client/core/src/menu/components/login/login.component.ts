@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   connectionData: LoginSession = new LoginSession();
   loading: boolean = false;
   errorMessages: string[] = [];
+  userAlreadyConnectedOpened: boolean = false;
 
   constructor(
     public authService: AuthService,
@@ -90,8 +91,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   login() {
     this.saveState();
     this.loading = true;
-    this.authService.login(this.connectionData).subscribe(authenticated => {
-      if (authenticated) {
+    this.authService.login(this.connectionData).subscribe(result => {
+      if (result.success) {
         let url = this.authService.getRedirectUrl();
         this.logger.debug('Redirect Url', url);
         this.loading = false;
@@ -99,6 +100,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       } else {
         this.logger.debug('Login Error', this.authService.errorMessage);
         this.loading = false;
+        if (result.errorCode == 9)
+        this.userAlreadyConnectedOpened = true;
       }
     });
   }
@@ -107,5 +110,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (event.keyCode === 13) {
       this.login();
     }
+  }
+
+  userConnectedYes(){
+    this.connectionData.overwrite = true;
+    this.login();
+    this.connectionData.overwrite = false;
+
+    this.userAlreadyConnectedOpened = false;
+
+  }
+  userConnectedCancel(){
+    this.userAlreadyConnectedOpened = false;
   }
 }
