@@ -17,7 +17,9 @@ export { ViewModeType } from './models/view-mode-type.model';
 export { SocketConnectionStatus } from './models/websocket-connection.enum';
 
 export { TbComponent } from './components/tb.component';
-export { BOComponent } from './components/bo.component';
+export { BOComponent } from './components/bo/bo.component';
+export { BOSlaveComponent } from './components/bo/bo-slave.component';
+export { BOCommonComponent } from './components/bo/bo-common.component';
 
 export { ProxyRouteComponent } from './components/proxy-route/proxy-route.component';
 export { DynamicCmpComponent } from './components/dynamic-cmp.component';
