@@ -1,0 +1,28 @@
+{
+    "name": "@taskbuilder/erp",
+    "version": "0.1.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Microarea/Taskbuilder.git"
+    },
+    "author": {
+        "name": "Fabrizio De Bortoli",
+        "email": "fabrizio.debortoli@microarea.it"
+    },
+    "keywords": [
+        "angular"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Microarea/Taskbuilder.git/issues"
+    },
+    "main": "taskbuilder-erp.umd.js",
+    "module": "taskbuilder-erp.js",
+    "jsnext:main": "taskbuilder-erp.js",
+    "typings": "taskbuilder-erp.d.ts",
+    "peerDependencies": {
+        "@angular/core": "^4.0.0",
+        "rxjs": "^5.1.0",
+        "zone.js": "^0.8.4"
+    }
+}
