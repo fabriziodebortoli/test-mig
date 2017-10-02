@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginStep: number;
   appBusy: boolean;
   subscription: Subscription;
+  errorMessage: string;
 
   //--------------------------------------------------------------------------------
   constructor(private route: ActivatedRoute, private loginService: LoginService) { 
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.welcomeMessage = 'Sign in';
     this.loginStep = 1;
     this.appBusy = false;
+    this.errorMessage = '';
 
     this.subscription = this.loginService.getMessage().subscribe(msg => { 
       if (msg === '') {
@@ -61,6 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   //--------------------------------------------------------------------------------
   onKeyDown(event) {
     if (event.keyCode == 13) {
+      this.errorMessage = '';
       this.doNext();
       return;
     }
@@ -68,6 +71,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   //--------------------------------------------------------------------------------
   doNext() {
+    this.errorMessage = '';
     switch (this.loginStep)
     {
       case 1:
@@ -76,7 +80,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       case 2:
         if (this.selectedInstanceKey === '') {
-          alert('Please select an instance');
+          this.errorMessage = 'Please select an instance.';
           return;
         }
         this.loginStep++;
@@ -111,7 +115,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   preLogin() {
 
     if (this.credentials.accountName == '') {
-      alert('Account name is empty!');
+      this.errorMessage = 'Account name cannot be empty.';
       this.appBusy = false;
       return;
     }
@@ -135,7 +139,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           let opRes:OperationResult = instances;
 
           if (!opRes.Result) {
-            alert(opRes.Message);
+            this.errorMessage = opRes.Message;
             this.appBusy = false;
             this.loginStep = 1;
             return;
@@ -160,7 +164,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          alert(err);
+          this.errorMessage = err;
           this.appBusy = false;
           this.loginStep = 1;
         }
@@ -171,12 +175,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   submitLogin() {
 
     if (this.credentials.accountName == '' || this.credentials.password == '') {
-      alert('Account name / password empty!');
+      this.errorMessage = 'Password cannot be empty.';
       return;
     }
 
     if (this.selectedInstanceKey == '') {
-      alert('Please select an instance');
+      this.errorMessage = 'Please select an instance.';
       return;
     }
 
