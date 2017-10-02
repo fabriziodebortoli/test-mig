@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   loggerDebug: true,
-  desktop: false
+  desktop: false,
+  test : true
 };
