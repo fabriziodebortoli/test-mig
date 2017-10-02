@@ -21,13 +21,24 @@ namespace Microarea.AdminServer.Model
 		public bool Disabled { get => disabled; set => disabled = value; }
 
 		//---------------------------------------------------------------------
+		public Role()
+		{
+			roleName = string.Empty;
+			description = string.Empty;
+			parentRoleName = string.Empty;
+			disabled = false;
+		}
+
+		//---------------------------------------------------------------------
 		public IModelObject Fetch(IDataReader reader)
 		{
-			Role role = new Role();
-			role.roleName = reader["RoleName"] as string;
-			role.description = reader["Description"] as string;
-			role.parentRoleName = reader["ParentRoleName"] as string;
-			role.disabled = (bool)reader["Disabled"];
+			Role role = new Role
+			{
+				roleName = reader["RoleName"] as string,
+				description = reader["Description"] as string,
+				parentRoleName = reader["ParentRoleName"] as string,
+				disabled = (bool)reader["Disabled"]
+			};
 			return role;
 		}
 
@@ -50,7 +61,7 @@ namespace Microarea.AdminServer.Model
 
 			BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@RoleName", this.roleName);
 
-			opRes.Result = burgerData.Save(ModelTables.Instances, keyColumnParameter, burgerDataParameters);
+			opRes.Result = burgerData.Save(ModelTables.Roles, keyColumnParameter, burgerDataParameters);
 			return opRes;
 		}
     }
