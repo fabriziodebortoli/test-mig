@@ -13,10 +13,11 @@ import { ContextMenuItem } from './../../../../models/context-menu-item.model';
 })
 export class TopbarMenuTestComponent {
 
+    test: boolean;
     menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
 
     constructor(public componentService: ComponentService, public eventDataService: EventDataService) {
-
+        this.test = environment.test;
         const item1 = new ContextMenuItem('Data Service', 'idDataServiceButton', true, false);
         const item2 = new ContextMenuItem('Reporting Studio', 'idReportingStudioButton', true, false);
         const item3 = new ContextMenuItem('TB Explorer', 'idTBExplorerButton', true, false);

@@ -518,4 +518,7 @@
   <data name="ImagoCompanyNotCorresponding" xml:space="preserve">
     <value>Company not corresponding to the company previously specified in configuration wizard.</value>
   </data>
+  <data name="NoError" xml:space="preserve">
+    <value>No error</value>
+  </data>
 </root>

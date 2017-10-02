@@ -71,7 +71,6 @@ export class AuthService {
     }
 
     logout(): void {
-
         let subs = this.httpService.logoff({ authtoken: this.cookieService.get('authtoken') }).subscribe(
             loggedOut => {
                 if (loggedOut) {
