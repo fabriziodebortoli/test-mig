@@ -16,7 +16,7 @@ export class BoolEditComponent extends ControlComponent {
   @Input() yesText: string;
   @Input() noText: string;
 
-  constructor(private eventData: EventDataService, layoutService: LayoutService, tbComponentService:TbComponentService) {
+  constructor(public eventData: EventDataService, public layoutService: LayoutService, public tbComponentService: TbComponentService) {
     super(layoutService, tbComponentService);
 
     if (

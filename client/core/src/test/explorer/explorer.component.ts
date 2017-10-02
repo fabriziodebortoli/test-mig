@@ -16,7 +16,7 @@ import { ExplorerService } from './../../core/services/explorer.service';
 })
 export class ExplorerComponent extends DocumentComponent implements OnInit {
 
-  constructor(public eventData: EventDataService, private explorerService: ExplorerService, private http: Http, private testService: TestService) {
+  constructor(public eventData: EventDataService, public explorerService: ExplorerService, public http: Http, public testService: TestService) {
     super(testService, eventData, null);
   }
 

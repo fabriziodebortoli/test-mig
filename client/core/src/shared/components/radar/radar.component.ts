@@ -28,18 +28,18 @@ import { animate, transition, trigger, state, style, keyframes, group } from "@a
 export class RadarComponent {
 
     public state: string = 'closed';
-    private pageSize: number = 7;
-    private skip: number = 0;
-    private sort: SortDescriptor[] = [];
-    private gridView: GridDataResult;
+    public pageSize: number = 7;
+    public skip: number = 0;
+    public sort: SortDescriptor[] = [];
+    public gridView: GridDataResult;
     public radarData: any[];
     public columnInfos: any[] = [];
 
     constructor(
-        private dataService: DataService,
-        private logger: Logger,
-        private eventData: EventDataService,
-        private enumsService: EnumsService) {
+        public dataService: DataService,
+        public logger: Logger,
+        public eventData: EventDataService,
+        public enumsService: EnumsService) {
 
     }
 
@@ -70,24 +70,24 @@ export class RadarComponent {
         this.logger.info('dataItem', dataItem);
     }
 
-    protected pageChange(event: PageChangeEvent): void {
+    public pageChange(event: PageChangeEvent): void {
         this.skip = event.skip;
         this.load();
     }
 
-    protected sortChange(sort: SortDescriptor[]): void {
+    public sortChange(sort: SortDescriptor[]): void {
         this.sort = sort;
         this.load();
     }
 
-    protected selectionChange(event: SelectionEvent) {
+    public selectionChange(event: SelectionEvent) {
         if (event.selected) {
             console.log('rowSelected:', this.radarData[event.index]);
             this.onRadarRecordSelected(this.radarData[event.index]);
         }
     }
 
-    protected edit(event: SelectionEvent) {
+    public edit(event: SelectionEvent) {
         this.logger.debug('editClick')
         if (event.selected) {
             console.log('rowDoubleClick:', this.radarData[event.index]);
@@ -95,7 +95,7 @@ export class RadarComponent {
         }
     }
 
-    private load(): void {
+    public load(): void {
         this.gridView = {
             data: orderBy(this.radarData.slice(this.skip, this.skip + this.pageSize), this.sort),
             total: this.radarData.length

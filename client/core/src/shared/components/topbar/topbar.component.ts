@@ -11,7 +11,7 @@ import { SidenavService } from './../../../core/services/sidenav.service';
 
 export class TopbarComponent implements OnInit {
 
-  constructor(private sidenavService: SidenavService) { }
+  constructor(public sidenavService: SidenavService) { }
 
   ngOnInit() {
   }

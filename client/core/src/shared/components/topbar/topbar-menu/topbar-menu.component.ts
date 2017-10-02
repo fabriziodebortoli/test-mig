@@ -12,7 +12,7 @@ export class TopbarMenuComponent {
 
   isDesktop: boolean;
 
-  constructor(private infoService: InfoService) {
+  constructor(public infoService: InfoService) {
     this.isDesktop = infoService.isDesktop;
   }
 }

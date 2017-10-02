@@ -22,18 +22,18 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
   public data: any;
   public selectionTypes: any[] = [];
   public selectionType: string = 'Code';
-  // private skipBlurFlag: boolean = false;
+  // public  skipBlurFlag: boolean = false;
 
   showTable: boolean = false;
   showOptions: boolean = false;
   selectionColumn: string = '';
   multiSelectedValues: any[] = [];
 
-  constructor(private httpService: HttpService,
+  constructor(public httpService: HttpService,
     layoutService: LayoutService,
-    protected enumService: EnumsService, 
-    tbComponentService:TbComponentService,
-    private cd: ChangeDetectorRef
+    public enumService: EnumsService,
+    tbComponentService: TbComponentService,
+    public cd: ChangeDetectorRef
   ) {
     super(layoutService, tbComponentService);
   }
@@ -169,7 +169,7 @@ export class HotlinkComponent extends ControlComponent implements OnInit {
       return dataItem;
     }
     else if (column.Type === 'Boolean') {
-      return dataItem? 'Yes': 'No';
+      return dataItem ? 'Yes' : 'No';
     }
     return dataItem;
   }

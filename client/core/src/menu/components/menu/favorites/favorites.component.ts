@@ -16,11 +16,11 @@ export class FavoritesComponent implements OnInit {
   @Output() itemSelected: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private menuService: MenuService,
-    private imageService: ImageService,
-    private utilsService: UtilsService,
-    private localizationService: LocalizationService,
-    private settingsService: SettingsService,
+    public menuService: MenuService,
+    public imageService: ImageService,
+    public utilsService: UtilsService,
+    public localizationService: LocalizationService,
+    public settingsService: SettingsService,
   ) { }
 
   ngOnInit() {

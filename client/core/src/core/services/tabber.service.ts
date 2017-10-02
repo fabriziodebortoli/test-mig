@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class TabberService {
 
-  private tabSelectedSource = new Subject<number>();
+  public tabSelectedSource = new Subject<number>();
   tabSelected$: Observable<number> = this.tabSelectedSource.asObservable();
 
   selectTab(index: number) {

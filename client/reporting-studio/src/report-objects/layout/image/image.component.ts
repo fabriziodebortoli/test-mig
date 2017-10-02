@@ -12,7 +12,7 @@ export class ReportImageComponent {
 
   @Input() image: graphrect;
 
-  constructor(private infoService: InfoService) {
+  constructor(public infoService: InfoService) {
 
   };
   applyStyle(): any {

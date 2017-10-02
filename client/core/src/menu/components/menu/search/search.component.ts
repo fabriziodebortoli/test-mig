@@ -16,16 +16,16 @@ import { MenuService } from './../../../services/menu.service';
 })
 export class SearchComponent implements OnInit, OnDestroy {
   public selected: string = '';
-  inputControl: FormControl;
-  filteredElements: any;
+  public inputControl: FormControl;
+  public filteredElements: any;
 
   @ViewChild('myInput') myInput: ElementRef;
 
   valueChangesSubscription: any;
   constructor(
-    private menuService: MenuService,
-    private settingsService: SettingsService,
-    private localizationService: LocalizationService
+    public menuService: MenuService,
+    public settingsService: SettingsService,
+    public localizationService: LocalizationService
 
   ) {
     this.inputControl = new FormControl();

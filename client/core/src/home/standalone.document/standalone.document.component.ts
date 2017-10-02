@@ -17,10 +17,12 @@ export class StandaloneDocumentComponent implements OnInit {
   subscriptions = [];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private webSocketService: WebSocketService,
-    private taskbuilderService: TaskbuilderService,
-    private componentService: ComponentService) {
+    public activatedRoute: ActivatedRoute,
+    public webSocketService: WebSocketService,
+    public taskbuilderService: TaskbuilderService,
+    public componentService: ComponentService
+  ) {
+
     this.activatedRoute.params.subscribe((params: Params) => {
       this.namespace = params['ns'];
       //la rundocument mi manderà indietro un ws con le istruzioni per creare un componente

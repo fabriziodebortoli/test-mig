@@ -12,18 +12,18 @@ export class SettingsService {
     public nrMaxItemsSearch: number = 20;
     public nrMaxFavorites: number = 10;
     public nrMaxMostUsed: number = 10;
-    private showSearchBox: boolean = true;
-    private canEditDate: boolean = true;
+    public showSearchBox: boolean = true;
+    public canEditDate: boolean = true;
 
-    private _lastApplicationName: string = undefined;
-    private _lastGroupName: string = undefined;
-    private _lastMenuName: string = undefined;
+    public _lastApplicationName: string = undefined;
+    public _lastGroupName: string = undefined;
+    public _lastMenuName: string = undefined;
 
     constructor(
-        private httpMenuService: HttpMenuService,
-        private eventManagerService: EventManagerService,
-        private logger: Logger,
-        private utilsService: UtilsService
+        public httpMenuService: HttpMenuService,
+        public eventManagerService: EventManagerService,
+        public logger: Logger,
+        public utilsService: UtilsService
     ) {
         this.logger.debug('SettingsService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }

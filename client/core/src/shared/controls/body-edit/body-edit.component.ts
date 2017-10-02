@@ -15,24 +15,24 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
   templateUrl: './body-edit.component.html',
   styleUrls: ['./body-edit.component.scss']
 })
-export class BodyEditComponent extends ControlComponent implements AfterContentInit  {
+export class BodyEditComponent extends ControlComponent implements AfterContentInit {
   @Input() columns: Array<any>;
 
   @ContentChildren(BodyEditColumnComponent) be_columns;
   @ViewChild(GridComponent) grid;
 
-  constructor(private cdr: ChangeDetectorRef, layoutService: LayoutService, tbComponentService:TbComponentService ) {
+  constructor(public cdr: ChangeDetectorRef, public layoutService: LayoutService, public tbComponentService: TbComponentService) {
     super(layoutService, tbComponentService);
   }
 
   ngAfterContentInit() {
-      resolvedPromise.then(() => {
-        let cols = this.be_columns.toArray();
-        let internalColumnComponents = [];
-        for (let i = 0; i < cols.length; i++) {
-          internalColumnComponents.push(cols[i].columnComponent);
-        }
-        this.grid.columns.reset(internalColumnComponents);
+    resolvedPromise.then(() => {
+      let cols = this.be_columns.toArray();
+      let internalColumnComponents = [];
+      for (let i = 0; i < cols.length; i++) {
+        internalColumnComponents.push(cols[i].columnComponent);
+      }
+      this.grid.columns.reset(internalColumnComponents);
     });
   }
 }

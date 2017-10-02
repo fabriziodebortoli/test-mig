@@ -6,7 +6,7 @@ import { Logger } from './logger.service';
 export class UtilsService {
 
 
-  constructor(private logger: Logger) {
+  constructor(public logger: Logger) {
     this.logger.debug('UtilsService instantiated - ' + Math.round(new Date().getTime() / 1000));
   }
 

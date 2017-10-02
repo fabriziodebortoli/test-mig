@@ -13,8 +13,8 @@ export class ToolbarTopComponent {
 
   @Input() title: string = '...';
 
-  private viewModeTypeModel = ViewModeType;
+  public viewModeTypeModel = ViewModeType;
 
-  constructor(private eventData: EventDataService) { }
+  constructor(public eventData: EventDataService) { }
 
 }

@@ -16,12 +16,12 @@ export class HttpMenuService {
 
 
     constructor(
-        private http: Http,
-        private utilsService: UtilsService,
-        private logger: Logger,
-        private cookieService: CookieService,
-        private httpService: HttpService,
-        private infoService: InfoService) {
+        public http: Http,
+        public utilsService: UtilsService,
+        public logger: Logger,
+        public cookieService: CookieService,
+        public httpService: HttpService,
+        public infoService: InfoService) {
 
         this.logger.debug('HttpMenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }

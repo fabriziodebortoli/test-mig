@@ -16,11 +16,11 @@ import { Logger } from './logger.service';
 export class HttpService {
 
     constructor(
-        protected http: Http,
-        protected utils: UtilsService,
-        protected logger: Logger,
-        protected cookieService: CookieService,
-        private infoService: InfoService) {
+        public http: Http,
+        public utils: UtilsService,
+        public logger: Logger,
+        public cookieService: CookieService,
+        public infoService: InfoService) {
     }
 
     createOperationResult(res: Response): OperationResult {
@@ -69,7 +69,7 @@ export class HttpService {
             });
     }
 
-    openTBConnection(params: { authtoken: string }): Observable<OperationResult> {
+    openTBConnection(params: { authtoken: string, isDesktop: boolean }): Observable<OperationResult> {
         return this.postData(this.infoService.getDocumentBaseUrl() + 'initTBLogin/', params)
             .map((res: Response) => {
                 return this.createOperationResult(res);

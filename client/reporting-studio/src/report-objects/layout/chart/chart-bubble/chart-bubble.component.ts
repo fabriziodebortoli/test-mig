@@ -15,11 +15,24 @@ import { ChartType } from "./../../../../models/chart-type.model";
 export class ReportChartBubbleComponent implements AfterViewInit {
 
     @Input() chart: chart
-    constructor(private cdRef: ChangeDetectorRef) {
+    constructor(public cdRef: ChangeDetectorRef) {
 
     }
 
     ngAfterViewInit() {
         this.cdRef.detectChanges();
+    }
+
+
+    getType(item: any): string {
+        switch (item.type) {
+            case ChartType.Bubble:
+            case ChartType.BubbleScatter:
+                return 'bubble';
+            case ChartType.Scatter:
+                return 'scatter';
+            case ChartType.ScatterLine:
+                return 'scatterLine';
+        }
     }
 }

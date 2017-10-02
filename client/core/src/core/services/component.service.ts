@@ -25,22 +25,25 @@ export class ComponentService {
   activateComponent = false;
 
   constructor(
-    private router: Router,
-    private webSocketService: WebSocketService,
-    private httpService: HttpService,
-    private logger: Logger,
-    private utils: UtilsService) {
+    public router: Router,
+    public webSocketService: WebSocketService,
+    public httpService: HttpService,
+    public logger: Logger,
+    public utils: UtilsService) {
+
     this.subscriptions.push(this.webSocketService.windowOpen.subscribe(data => {
       this.componentsToCreate.push(data.component);
       this.createNextComponent();
 
     }));
+
     this.subscriptions.push(this.webSocketService.windowClose.subscribe(data => {
       if (data && data.id) {
         this.removeComponentById(data.id);
       }
     }));
   }
+
   argsToString(args) {
     if (typeof (args) === 'object') {
       if (Object.keys(args).length) {

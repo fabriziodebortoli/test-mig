@@ -48,19 +48,16 @@ export class RsExportService {
     public excel: string = "Excel";
     public docx: string = "Docx";
 
-    constructor(private rsService: ReportingStudioService){}
-        
-
-
+    constructor(public rsService: ReportingStudioService) { }
 
     //------SNAPSHOT------------------------------------
-    public initiaziedSnapshot(nameSnapshot, allUsers) {
+    initiaziedSnapshot(nameSnapshot, allUsers) {
         this.nameSnap = nameSnapshot;
         this.user = allUsers;
         this.eventSnapshot.emit();
     }
 
-    public startRunSnapshot(name, date, allusers) {
+    startRunSnapshot(name, date, allusers) {
         this.nameSnap = name;
         this.dateSnap = date;
         this.user = allusers;
@@ -68,7 +65,7 @@ export class RsExportService {
     }
 
     //------EXPORT PDF-----------------------------------
-    public initiaziedExport(from: number, to: number) {
+    initiaziedExport(from: number, to: number) {
         this.firstPageExport = from;
         this.lastPageExport = to;
         if (this.exportpdf)
@@ -82,14 +79,14 @@ export class RsExportService {
         this.exportdocx = false;
     }
 
-    public async appendPDF() {
+    async appendPDF() {
         await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
             })
     }
 
-    public renderPDF() {
+    renderPDF() {
         drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
@@ -106,8 +103,8 @@ export class RsExportService {
             });
     }
 
-     //------EXPORT PNG-----------------------------------
-    public async exportPNG() {
+    //------EXPORT PNG-----------------------------------
+    async exportPNG() {
         await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 return exportImage(group);
@@ -119,8 +116,8 @@ export class RsExportService {
 
     }
 
-     //------EXPORT SVG-----------------------------------
-    public async exportSVG() {
+    //------EXPORT SVG-----------------------------------
+    async exportSVG() {
         await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 return exportSVG(group);

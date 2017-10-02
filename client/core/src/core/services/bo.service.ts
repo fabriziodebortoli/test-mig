@@ -25,10 +25,11 @@ export class BOService extends DocumentService {
     boClients = new Array<BOClient>();
     public windowStrings: EventEmitter<any> = new EventEmitter();
     constructor(
-        private webSocketService: WebSocketService,
-        eventData: EventDataService,
-        logger: Logger, 
-        infoService: InfoService) {
+        public webSocketService: WebSocketService,
+        public eventData: EventDataService,
+        public logger: Logger,
+        public infoService: InfoService
+    ) {
         super(logger, eventData, infoService);
 
         this.subscriptions.push(this.webSocketService.modelData.subscribe(data => {
@@ -290,7 +291,7 @@ export class BOService extends DocumentService {
 
 export class BOClient {
     constructor(
-        protected boService: BOService) {
+        public boService: BOService) {
     }
     init() {
 

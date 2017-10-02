@@ -17,21 +17,21 @@ import { HttpMenuService } from './http-menu.service';
 @Injectable()
 export class MenuService {
 
-    private isMenuCacheActive: boolean = true;
-    private _selectedApplication: any;
-    private _selectedGroup: any;
-    private _selectedMenu: any;
+    public isMenuCacheActive: boolean = true;
+    public _selectedApplication: any;
+    public _selectedGroup: any;
+    public _selectedMenu: any;
 
     public applicationMenu: any;
     public environmentMenu: any;
     public favoritesCount: number = 0;
     public mostUsedCount: number = 0;
 
-    private favorites: Array<any> = [];
-    private mostUsed: Array<any> = [];
+    public favorites: Array<any> = [];
+    public mostUsed: Array<any> = [];
 
     public searchSources: Array<any> = [];
-    private ifMoreAppsExist: boolean;
+    public ifMoreAppsExist: boolean;
 
     public showDescription: boolean = false;
 
@@ -78,15 +78,15 @@ export class MenuService {
     menuActivated: EventEmitter<any> = new EventEmitter();
 
     constructor(
-        private httpService: HttpService,
-        private webSocketService: WebSocketService,
-        private httpMenuService: HttpMenuService,
-        private logger: Logger,
-        private utilsService: UtilsService,
-        private imageService: ImageService,
-        private settingsService: SettingsService,
-        private componentService: ComponentService,
-        private infoService: InfoService
+        public httpService: HttpService,
+        public webSocketService: WebSocketService,
+        public httpMenuService: HttpMenuService,
+        public logger: Logger,
+        public utilsService: UtilsService,
+        public imageService: ImageService,
+        public settingsService: SettingsService,
+        public componentService: ComponentService,
+        public infoService: InfoService
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }

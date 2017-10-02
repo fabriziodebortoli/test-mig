@@ -10,16 +10,13 @@ import { Component, OnInit, Type, Input, ViewChild, ViewContainerRef, ComponentR
     templateUrl: './dynamic-dialog.component.html',
     styleUrls: ['./dynamic-dialog.component.scss']
 })
-export class DynamicDialogComponent  {
+export class DynamicDialogComponent {
 
     opened = false;
     componentInfo: ComponentInfo;
     subscriptions = [];
 
-    constructor(private webSocketService: WebSocketService) {
-
-
-    }
+    constructor(public webSocketService: WebSocketService) { }
 
     open(componentInfo: ComponentInfo) {
         this.componentInfo = componentInfo;

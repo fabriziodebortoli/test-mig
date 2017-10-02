@@ -28,8 +28,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   /*if this component is used standalone, the namespace has to be passed from the outside template,
   otherwise it is passed by the ComponentService creation logic*/
-  private subMessage: Subscription;
-  private message: any = '';
+  public subMessage: Subscription;
+  public message: any = '';
 
   // report template objects
   public reportTemplate: any;
@@ -45,14 +45,14 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public runReport: boolean = false;
 
   constructor(
-    private rsService: ReportingStudioService,
-    private rsExportService: RsExportService,
+    public rsService: ReportingStudioService,
+    public rsExportService: RsExportService,
     eventData: EventDataService,
-    private cookieService: CookieService,
-    private infoService: InfoService,
+    public cookieService: CookieService,
+    public infoService: InfoService,
 
-    private componentService: ComponentService,
-    private tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
+    public componentService: ComponentService,
+    public tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData, null);
   }
 
@@ -185,7 +185,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.runReport = true;
           this.rsExportService.totalPages = parseInt(msg.page);
           this.FirstPage();
-          console.log(this.rsExportService.totalPages);
           break;
         case CommandType.ACTIVESNAPSHOT:
           this.CreateTableSnapshots(k);
@@ -353,13 +352,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  public startSaveSVG() {
+  startSaveSVG() {
     this.rsExportService.svgState = SvgType.SVG;
     this.CurrentPage();
   }
 
   //--------------------------------------------------
-  public startSavePNG() {
+  startSavePNG() {
     this.rsExportService.pngState = PngType.PNG;
     this.CurrentPage();
   }
@@ -376,13 +375,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  public startSavePDF() {
+  startSavePDF() {
     this.rsExportService.pdfState = PdfType.PDF;
     this.PageNumber();
   }
 
   //--------------------------------------------------
-  public startSaveExcel() {
+  startSaveExcel() {
     let message = {
       commandType: CommandType.EXPORTEXCEL,
       message: this.args.nameSpace,
@@ -393,7 +392,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  public startSaveDocx() {
+  startSaveDocx() {
     let message = {
       commandType: CommandType.EXPORTDOCX,
       message: this.args.nameSpace,
@@ -404,7 +403,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  public startSnapshot() {
+  startSnapshot() {
     this.rsExportService.snapshot = true;
     let message = {
       commandType: CommandType.ACTIVESNAPSHOT,
@@ -436,7 +435,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   template: ''
 })
 export class ReportingStudioFactoryComponent {
-  constructor(componentService: ComponentService, resolver: ComponentFactoryResolver, private activatedRoute: ActivatedRoute) {
+  constructor(componentService: ComponentService, resolver: ComponentFactoryResolver, public activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe((params: Params) => {
       let ns = params['ns'];
       let pars = params['params'];

@@ -26,13 +26,14 @@ export class TaskbuilderService {
 
     subscriptions: Subscription[] = [];
 
-    constructor(private httpService: HttpService,
-        private socket: WebSocketService,
-        private cookieService: CookieService,
-        private logger: Logger,
-        private router: Router,
-        private infoService: InfoService,
-        private eventManagerService: EventManagerService
+    constructor(
+        public httpService: HttpService,
+        public socket: WebSocketService,
+        public cookieService: CookieService,
+        public logger: Logger,
+        public router: Router,
+        public infoService: InfoService,
+        public eventManagerService: EventManagerService
     ) {
 
         // Connessione WS quando viene aperta connessione al tbLoader
@@ -84,9 +85,9 @@ export class TaskbuilderService {
 
         let authtoken = this.cookieService.get('authtoken');
         this.logger.debug("openTbConnection...", authtoken);
-
+        let isDesktop =  this.infoService.isDesktop;
         return new Observable(observer => {
-            this.httpService.openTBConnection({ authtoken: authtoken })
+            this.httpService.openTBConnection({ authtoken: authtoken, isDesktop: isDesktop})
                 .timeout(15000)
                 .catch((error: any) => Observable.throw(error))
                 .subscribe((tbRes: OperationResult) => {
