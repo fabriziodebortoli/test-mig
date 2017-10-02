@@ -17,7 +17,8 @@ export class LoginService {
   private tokenAPIUrl: string;
   private instancesListAPIUrl: string;
   private accountName: string;
-  private loginOperationCompleted = new Subject<string>();
+  private loginOperationCompleted = new Subject<OperationResult>();
+  private opRes:OperationResult = new OperationResult();
 
   //--------------------------------------------------------------------------------
   constructor(private http: Http,  private router: Router) { 
@@ -27,8 +28,8 @@ export class LoginService {
   }
 
   //--------------------------------------------------------------------------------
-  sendMessage(message:string) {
-    this.loginOperationCompleted.next(message);
+  sendMessage(operationResult: OperationResult) {
+    this.loginOperationCompleted.next(operationResult);
   }
 
   //--------------------------------------------------------------------------------
@@ -70,15 +71,17 @@ export class LoginService {
         {
           if (!data.Result)
           {
-            this.sendMessage('');
-            alert('Cannot do the login ' + data.Message);
+            this.opRes.Result = false;
+            this.opRes.Message = 'Cannot do the login. ' + data.Message;
+            this.sendMessage(this.opRes);
             return;
           }
 
           if (data.JwtToken == '')
           {
-            this.sendMessage('');
-            alert('Empty token');
+            this.opRes.Result = false;
+            this.opRes.Message = 'Empty token';
+            this.sendMessage(this.opRes);
             return;
           }
 
@@ -89,9 +92,10 @@ export class LoginService {
             authInfo = this.GetAuthorizationsFromJWT(data.JwtToken);
 
             if (authInfo == null) {
-              alert('Could not get valid AuthorizationInfo from jwt token, cannot proceed.');
               this.router.navigateByUrl('/');
-              this.sendMessage('');
+              this.opRes.Result = false;
+              this.opRes.Message = 'Could not get valid AuthorizationInfo from jwt token, cannot proceed.';
+              this.sendMessage(this.opRes);
               return;
             }
 
@@ -103,7 +107,8 @@ export class LoginService {
             localStorage.setItem(authInfo.authorizationProperties.accountName, JSON.stringify(accountInfo));
 
             // sending message to subscribers to notify login
-            this.sendMessage(authInfo.authorizationProperties.accountName);
+            this.opRes.Result = true;
+            this.opRes.Message = authInfo.authorizationProperties.accountName;
 
             // checking cloud-admin only urls
             let opRes: OperationResult = UrlGuard.CanNavigate(returnUrl, authInfo);
@@ -111,13 +116,16 @@ export class LoginService {
             if (!opRes.Result && returnUrl == '/') {
               // this is the case where user clicked the "sign in" link
               this.router.navigateByUrl('/');
-              this.sendMessage(authInfo.authorizationProperties.accountName);
+              this.opRes.Result = true;
+              this.opRes.Message = authInfo.authorizationProperties.accountName;
+              this.sendMessage(opRes);
               return;              
             }
 
             if (!opRes.Result) {
-              alert(opRes.Message);
-              this.sendMessage('');
+              this.opRes.Result = false;
+              this.opRes.Message = '';
+              this.sendMessage(opRes);
               this.router.navigateByUrl('/');
               return;
             }
@@ -127,14 +135,19 @@ export class LoginService {
           catch (exc)
           {
             localStorage.removeItem('auth-info');
-            this.sendMessage('');
+            this.opRes.Result = false;
+            this.opRes.Message = 'Error while processing authorization info from jwt token ' + exc + '. Login failed.';
+            this.sendMessage(this.opRes);
             if (authInfo != null)
               localStorage.removeItem(authInfo.authorizationProperties.accountName);
-            alert('Error while processing authorization info from jwt token ' + exc + '. Login failed.');
             return;
           }   
         },
-        error => alert('An error occurred while executing login service: ' + error)
+        error => { 
+          this.opRes.Result = false;
+          this.opRes.Message = 'An error occurred while executing login service: ' + error;
+          this.sendMessage(this.opRes);
+        }
       );
   }
 
@@ -176,7 +189,9 @@ export class LoginService {
     localStorage.removeItem('auth-info');
 
     // sending message to subscribers to notify login
-    this.sendMessage("");
+    this.opRes.Result = true;
+    this.opRes.Message = '';
+    this.sendMessage(this.opRes);
 
     // routing to the app home
     this.router.navigateByUrl('/appHome');

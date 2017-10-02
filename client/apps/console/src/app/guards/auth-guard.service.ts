@@ -33,7 +33,10 @@ export class AuthGuardService implements CanActivate {
         }
 
         // we ask the loginService to send a message to the appComponent to refresh accountName in the toolbar
-        this.loginService.sendMessage(authorizationInfo.authorizationProperties.accountName);
+        let opResLogin:OperationResult = new OperationResult();
+        opResLogin.Message = authorizationInfo.authorizationProperties.accountName;
+        opResLogin.Result = true;
+        this.loginService.sendMessage(opResLogin);
         
         return true;
       }

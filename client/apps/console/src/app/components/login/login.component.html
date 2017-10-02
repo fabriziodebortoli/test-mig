@@ -48,6 +48,10 @@
                         [(inputData)]="credentials.password"
                         [readOnly]="appBusy"></admin-input-text>
                 </div>
+
+                <div class="box alertLabel" *ngIf="errorMessage !== ''">
+                    {{ errorMessage }}
+                </div>
             
             </div>
             <div *ngIf="loginStep <= 3" class="box" class="end-xs" style="margin-top:40px"> 
