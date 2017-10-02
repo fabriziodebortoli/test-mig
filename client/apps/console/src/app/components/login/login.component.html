@@ -1,4 +1,5 @@
 <div class="container"style="padding:10px">
+    <admin-alert></admin-alert>
     <div class="row center-xs">
         <div class="col-xs-12" class="loginBox">
             <div class="row between-xs" style="padding:20px;">
@@ -51,7 +52,7 @@
             </div>
             <div *ngIf="loginStep <= 3" class="box" class="end-xs" style="margin-top:40px"> 
                 <img *ngIf="appBusy" src="assets/ajax-loader.gif" style="margin-right:20px" />
-                <button *ngIf="!appBusy" class="cta" (click)="doNext()">Next</button>
+                <button *ngIf="!appBusy" class="cta" (click)="doNext()" [disabled]="inputExists() || appBusy">Next</button>
             </div>
         </div>
     </div>
