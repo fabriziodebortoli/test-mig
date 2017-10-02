@@ -6,9 +6,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class LayoutService {
 
   // BehaviorSubject imposta un valore di default e rilascia l'ultimo valore nextato in caso di subscription successiva 
-  private viewHeight = new BehaviorSubject<number>(0);
-  private widthFactor = new BehaviorSubject<number>(0);
-  private heightFactor = new BehaviorSubject<number>(0);
+  public viewHeight = new BehaviorSubject<number>(0);
+  public widthFactor = new BehaviorSubject<number>(0);
+  public heightFactor = new BehaviorSubject<number>(0);
 
 
 

@@ -25,14 +25,14 @@ export class MenuComponent implements OnDestroy {
     this.menuService.updateAllFavoritesAndMostUsed();
   }
 
-  private subscriptions: Subscription[] = [];
+  public subscriptions: Subscription[] = [];
   constructor(
-    private menuService: MenuService,
-    private localizationService: LocalizationService,
-    private settingsService: SettingsService,
-    private eventManagerService: EventManagerService,
-    private eventData: EventDataService,
-    private enumsService: EnumsService
+    public menuService: MenuService,
+    public localizationService: LocalizationService,
+    public settingsService: SettingsService,
+    public eventManagerService: EventManagerService,
+    public eventData: EventDataService,
+    public enumsService: EnumsService
   ) {
     this.eventData.model = {
       Title: {

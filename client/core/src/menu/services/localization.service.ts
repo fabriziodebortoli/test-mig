@@ -11,8 +11,8 @@ export class LocalizationService {
     public localizationsLoaded: EventEmitter<any> = new EventEmitter();
 
     constructor(
-        private httpMenuService: HttpMenuService,
-        private logger: Logger
+        public httpMenuService: HttpMenuService,
+        public logger: Logger
     ) {
         this.logger.debug('LocalizationService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }

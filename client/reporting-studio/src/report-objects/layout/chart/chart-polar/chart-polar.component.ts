@@ -17,7 +17,7 @@ export class ReportChartPolarComponent implements AfterViewInit {
 
     @Input() chart: chart;
 
-    constructor(private cdRef: ChangeDetectorRef) {
+    constructor(public cdRef: ChangeDetectorRef) {
 
     }
 

@@ -10,13 +10,13 @@ export class ContextMenuDirective implements AfterContentInit {
   @Input() tbContextMenu: any;
 
   @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
-  private contextMenuRef: ComponentRef<any>;
+  public contextMenuRef: ComponentRef<any>;
 
-  private cm: ViewContainerRef;
+  public cm: ViewContainerRef;
 
   constructor(
-    private vcr: ViewContainerRef,
-    private componentResolver: ComponentFactoryResolver) { }
+    public vcr: ViewContainerRef,
+    public componentResolver: ComponentFactoryResolver) { }
 
   renderComponent() {
     // if (this.contextMenuRef) this.contextMenuRef.instance.value = this.value;

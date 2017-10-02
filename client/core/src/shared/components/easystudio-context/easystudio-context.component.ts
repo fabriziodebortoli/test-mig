@@ -1,7 +1,8 @@
+import { InputsModule } from '@progress/kendo-angular-inputs';
 import { LayoutModule, PanelBarExpandMode } from '@progress/kendo-angular-layout';
 import { ApplicationDateComponent } from './../../controls/application-date/application-date.component';
 import { ButtonComponent } from './../../controls/button/button.component';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { Button } from '@progress/kendo-angular-buttons';
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
@@ -21,16 +22,20 @@ interface MyObj {
 
 export class EasyStudioContextComponent {
 
-    public expandMode: number = PanelBarExpandMode.Multiple;
-    isEasyStudioActivated = true;
-    opened: boolean = false;
-    addModuleVisible = false;
-    uniqueJson: string;
-    applications: any[] = new Array();
-    modules: any;
-    memory :{ allApplications: MyObj[] }; 
-    applicSelected: string;
-    moduleSelected: string;
+ @ViewChild('applicationChoosen') applicationChoosen: InputsModule;
+ @ViewChild('moduleChoosen') moduleChoosen: InputsModule;
+
+   public expandMode: number = PanelBarExpandMode.Multiple;
+
+   public isEasyStudioActivated = true;
+   public opened: boolean = false;
+   public addModuleVisible = false;
+   public uniqueJson: string;
+   public applications: any[] = new Array();
+   public modules: any;
+   public memory :{ allApplications: MyObj[] }; 
+   public applicSelected: string;
+   public moduleSelected: string;
 
     constructor(public httpService: HttpService) {
         this.uniqueJson = this.httpService.getEsAppsAndModules();
@@ -77,6 +82,7 @@ export class EasyStudioContextComponent {
 
     private setApplic(app: string){
         this.applicSelected = app;
+        this.applicationChoosen = app;
         this.moduleSelected = undefined;
         this.modules = this.getModulesBy(app);
         this.hightlightApp(app);
@@ -84,6 +90,7 @@ export class EasyStudioContextComponent {
 
     private setModule(mod: string) {
         this.moduleSelected = mod;
+        this.moduleChoosen = mod;
         this.hightlightApp(mod);
     }
 

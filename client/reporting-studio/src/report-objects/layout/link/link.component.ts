@@ -19,8 +19,8 @@ export class ReportLinkComponent {
   private clicked = false;
 
   constructor(
-    private componentService: ComponentService,
-    private webSocketService: WebSocketService) { }
+    public componentService: ComponentService,
+    public webSocketService: WebSocketService) { }
 
   linkClicked() {
     switch (this.link.type) {

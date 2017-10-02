@@ -11,7 +11,7 @@ export class EventManagerService {
     loggedOff: EventEmitter<any> = new EventEmitter();
     loggingOff: EventEmitter<any> = new EventEmitter();
 
-    constructor(private logger: Logger) {
+    constructor(public logger: Logger) {
         this.logger.debug('EventManagerService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
 

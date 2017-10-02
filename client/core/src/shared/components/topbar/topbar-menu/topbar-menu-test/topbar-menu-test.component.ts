@@ -14,7 +14,7 @@ export class TopbarMenuTestComponent {
 
     menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
 
-    constructor(private componentService: ComponentService, private eventDataService: EventDataService) {
+    constructor(public componentService: ComponentService, public eventDataService: EventDataService) {
 
         const item1 = new ContextMenuItem('Data Service', 'idDataServiceButton', true, false);
         const item2 = new ContextMenuItem('Reporting Studio', 'idReportingStudioButton', true, false);
@@ -39,7 +39,7 @@ export class TopbarMenuTestComponent {
                     return this.openTestIcons();
                 case 'idTestRadar':
                     return this.openTestRadar();
-                     case 'idTestTree':
+                case 'idTestTree':
                     return this.openTestTree();
                 default:
                     break;
@@ -69,7 +69,7 @@ export class TopbarMenuTestComponent {
     openTestRadar() {
         this.componentService.createComponentFromUrl('test/radar', true);
     }
-    openTestTree(){
+    openTestTree() {
         this.componentService.createComponentFromUrl('test/tree', true);
     }
 }

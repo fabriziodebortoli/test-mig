@@ -14,9 +14,9 @@ import { NgSwitch } from '@angular/common';
 export class ReportChartComponent implements AfterViewInit {
 
   @Input() chart: chart;
+  public ChartTypeEnums: ChartType;
 
-  constructor(private cdRef: ChangeDetectorRef) {
-  }
+  constructor(public cdRef: ChangeDetectorRef) { }
 
   ngAfterViewInit() {
     this.cdRef.detectChanges();

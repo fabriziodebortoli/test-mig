@@ -16,17 +16,18 @@ export class ReportingStudioService extends DocumentService {
     public runEnabled: boolean = true;
     public showAsk = false;
 
-    private rsServer: string = ''
-    websocket: WebSocket;
+    public rsServer: string = ''
+    public websocket: WebSocket;
     public message: Subject<any> = new Subject<string>();
 
     constructor(
         logger: Logger,
         eventData: EventDataService,
-        private cmpService: ComponentService,
-        private httpServ: HttpService,
-        protected http: Http,
-        infoService: InfoService) {
+        public cmpService: ComponentService,
+        public httpServ: HttpService,
+        public http: Http,
+        public infoService: InfoService
+    ) {
         super(logger, eventData, infoService);
 
         this.rsServer = this.infoService.getWsBaseUrl() + '/rs';

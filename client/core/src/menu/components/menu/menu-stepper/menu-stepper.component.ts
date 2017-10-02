@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { LocalizationService } from './../../../services/localization.service';
 import { ImageService } from './../../../services/image.service';
@@ -11,23 +11,20 @@ import { HttpMenuService } from './../../../services/http-menu.service';
   templateUrl: './menu-stepper.component.html',
   styleUrls: ['./menu-stepper.component.scss']
 })
-export class MenuStepperComponent implements OnInit {
+export class MenuStepperComponent {
 
   applications: any;
+
   constructor(
-    private httpMenuService: HttpMenuService,
-    private menuService: MenuService,
-    private utilsService: UtilsService,
-    private imageService: ImageService,
-    private localizationService: LocalizationService
-  ) {
-  }
-  ngOnInit() {
+    public httpMenuService: HttpMenuService,
+    public menuService: MenuService,
+    public utilsService: UtilsService,
+    public imageService: ImageService,
+    public localizationService: LocalizationService
+  ) { }
 
+  public menu: any;
 
-  }
-
-  private menu: any;
   get Menu(): any {
     return this.menu;
   }

@@ -6,12 +6,12 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./tb-card-title.component.scss']
 })
 export class TbCardTitleComponent implements OnInit {
-private _isCollapsible = true;
-  private _isCollapsed: boolean = false;
- @Input() title: string;
- @Input() icon: string;
-@Input() iconClass: string;
- @Input()
+  public _isCollapsible = true;
+  public _isCollapsed: boolean = false;
+  @Input() title: string;
+  @Input() icon: string;
+  @Input() iconClass: string;
+  @Input()
   set isCollapsible(value: boolean) {
     this._isCollapsible = value;
   }
@@ -19,7 +19,7 @@ private _isCollapsible = true;
   get isCollapsible(): boolean {
     return this._isCollapsible;
   }
-   @Input()
+  @Input()
   set isCollapsed(value: boolean) {
     this._isCollapsed = value;
   }
@@ -34,9 +34,9 @@ private _isCollapsible = true;
 
   }
 
- getIcon() {
-  
-     if(this.icon !== ''){return  this.icon;}
-    else {return this._isCollapsed ? 'tb-expandarrowfilled' : 'tb-collapsearrowfilled';}
+  getIcon() {
+
+    if (this.icon !== '') { return this.icon; }
+    else { return this._isCollapsed ? 'tb-expandarrowfilled' : 'tb-collapsearrowfilled'; }
   }
 }

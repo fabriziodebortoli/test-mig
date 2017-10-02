@@ -21,13 +21,13 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
 
     public opened: boolean = false;
 
-    constructor(private httpMenuService: HttpMenuService, private taskbuilderService: TaskbuilderService) {
+    constructor(public httpMenuService: HttpMenuService, public taskbuilderService: TaskbuilderService) {
     }
 
     ngOnInit() {
         this.subscriptions.push(this.taskbuilderService.tbConnection.subscribe((connected) => {
             if (connected)
-                this.getDate(); 
+                this.getDate();
         }));
         //this.localizationService.localizedElements
     }
@@ -66,9 +66,9 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
                     this.opened = false;
                 }
                 else {
-                    tbRes.messages.forEach((current) => { 
+                    tbRes.messages.forEach((current) => {
                         this.errorMessage += current.text;
-                     })
+                    })
                     this.errorMessage;
                 }
             });

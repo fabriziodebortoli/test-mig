@@ -17,9 +17,9 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   @Input() decimals: number;
   @Input() public hotLink: any = undefined;
 
-  private errorMessage: string;
-  private constraint: RegExp = new RegExp('\\d');
-  private showError = '';
+  errorMessage: string;
+  public constraint: RegExp = new RegExp('\\d');
+  showError = '';
   public selectedValue: number;
 
 
@@ -41,7 +41,7 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   };
 
   constructor(
-    private eventData: EventDataService,
+    public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService
   ) {

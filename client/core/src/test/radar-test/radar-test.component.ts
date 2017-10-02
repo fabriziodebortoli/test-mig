@@ -20,7 +20,7 @@ export class RadarTestComponent extends DocumentComponent implements OnInit {
 
   @ViewChild('radar') radar: RadarComponent;
 
-  constructor(public eventData: EventDataService, private dataService: DataService, private http: Http, private testService: TestService) {
+  constructor(public eventData: EventDataService, public dataService: DataService, public http: Http, public testService: TestService) {
     super(testService, eventData, null);
   }
 

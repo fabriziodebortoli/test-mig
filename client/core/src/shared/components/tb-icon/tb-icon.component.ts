@@ -13,7 +13,7 @@ export class TbIconComponent {
 
     imgUrl: string;
 
-    constructor(private infoService: InfoService) {
+    constructor(public infoService: InfoService) {
         this.imgUrl = this.infoService.getDocumentBaseUrl() + 'getImage/?src=';
     }
 

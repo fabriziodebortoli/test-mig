@@ -11,10 +11,10 @@ import { HttpService } from './../../core/services/http.service';
 export class ImageService {
 
     constructor(
-        protected http: Http,
-        protected logger: Logger,
-        private httpService: HttpService,
-        private infoService: InfoService
+        public http: Http,
+        public logger: Logger,
+        public httpService: HttpService,
+        public infoService: InfoService
     ) {
         this.logger.debug('ImageService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }

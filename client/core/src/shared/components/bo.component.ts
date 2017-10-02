@@ -48,17 +48,24 @@ export abstract class BOCommonComponent extends DocumentComponent implements OnI
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }
-export abstract class BOComponent extends BOCommonComponent implements OnInit, AfterContentInit, OnDestroy {
+@Component({
+  selector: 'tb-bo-base',
+  template: '',
+  styles: []
+})
+export class BOComponent extends BOCommonComponent implements OnInit, AfterContentInit, OnDestroy {
 
 
   @ViewChild("radar", { read: ViewContainerRef }) radarRef: ViewContainerRef;// Radar template reference
-  private radarObj//: RadarComponent; // Radar obj reference
+  public radarObj//: RadarComponent; // Radar obj reference
 
   controlTypeModel = ControlTypes;
-  constructor(public bo: BOService,
-    eventData: EventDataService,
-    private componentResolver: ComponentFactoryResolver,
-    ciService: ComponentInfoService) {
+  constructor(
+    public bo: BOService,
+    public eventData: EventDataService,
+    public componentResolver: ComponentFactoryResolver,
+    public ciService: ComponentInfoService
+  ) {
     super(bo, eventData, ciService);
 
     this.subscriptions.push(eventData.radarInfos.subscribe((radarInfos: string) => {

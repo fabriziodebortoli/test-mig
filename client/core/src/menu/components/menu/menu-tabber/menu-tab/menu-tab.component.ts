@@ -11,7 +11,7 @@ export class MenuTabComponent implements OnDestroy {
   active: boolean;
   @Input() title: string = '...';
 
-  constructor(private tabs: MenuTabberComponent) {
+  constructor(public tabs: MenuTabberComponent) {
     tabs.addTab(this);
   }
 

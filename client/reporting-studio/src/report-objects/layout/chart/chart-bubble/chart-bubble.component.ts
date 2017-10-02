@@ -15,7 +15,7 @@ import { ChartType } from "./../../../../models/chart-type.model";
 export class ReportChartBubbleComponent implements AfterViewInit {
 
     @Input() chart: chart
-    constructor(private cdRef: ChangeDetectorRef) {
+    constructor(public cdRef: ChangeDetectorRef) {
 
     }
 

@@ -25,10 +25,11 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   public objects: baseobj[] = [];
   public templates: TemplateItem[] = [];
 
-  private viewHeightSubscription: Subscription;
-  private viewHeight: number;
+  public viewHeightSubscription: Subscription;
+  public viewHeight: number;
+  public showAsk: boolean;
 
-  constructor(private layoutService: LayoutService, private rsService: ReportingStudioService, private rsExportService: RsExportService) { }
+  constructor(public layoutService: LayoutService, public rsService: ReportingStudioService, public rsExportService: RsExportService) { }
 
   // -----------------------------------------------
   ngOnInit() {
@@ -215,7 +216,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           element.chart.series.forEach(element => {
             obj.series.push(new series(element));
           });
-          
+
           if (element.chart.category_axis) {
             obj.category_title = element.chart.category_axis.title;
             obj.categories = element.chart.category_axis.categories;
@@ -257,7 +258,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   // -----------------------------------------------
-  private FindObj(id: string): any {
+  public FindObj(id: string): any {
     for (let key in this.objects) {
       if (this.objects.hasOwnProperty(key)) {
         let element = this.objects[key];
@@ -270,7 +271,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   // -----------------------------------------------
-  private FindTemplate(name: string): TemplateItem {
+  public FindTemplate(name: string): TemplateItem {
     for (let index = 0; index < this.templates.length; index++) {
       if (this.templates[index].templateName === name) {
         return this.templates[index];

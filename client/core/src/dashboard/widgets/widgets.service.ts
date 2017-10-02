@@ -8,6 +8,7 @@ import { DataService } from './../../core/services/data.service';
 export class Widget {
   namespace: string;
   title: string;
+  subtitle: string;
   link: string;
   linkedNamespace: string;
   recordKeys: string;
@@ -88,16 +89,16 @@ export class ChartFormat {
 export class WidgetsService {
 
   public isFirstUse: boolean = false;
-  private clock: Observable<Date>;
+  public clock: Observable<Date>;
 
-  constructor(private http: Http, private dataService: DataService, private infoService: InfoService) {
+  constructor(public http: Http, public dataService: DataService, public infoService: InfoService) {
     this.clock = Observable.interval(1000).map(tick => new Date()).share();
   }
 
-  private pad00(n): string {
+  public pad00(n): string {
     return ('0' + n).slice(-2);
   }
-  private getExecutionTime() {
+  public getExecutionTime() {
     const d = new Date();
     return this.pad00(d.getDate()) + '-' +
       this.pad00(d.getMonth() + 1) + '-' +

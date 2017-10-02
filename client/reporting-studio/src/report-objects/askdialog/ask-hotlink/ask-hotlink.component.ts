@@ -16,9 +16,10 @@ export class AskHotlinkComponent extends HotlinkComponent implements OnInit {
 
 
   @Input() hotlink: hotlink;
-  constructor(http: HttpService,
+  constructor(
+    http: HttpService,
     layoutService: LayoutService,
-    protected enumService: EnumsService,
+    public enumService: EnumsService,
     tbComponentService: TbComponentService,
     cd: ChangeDetectorRef
   ) {

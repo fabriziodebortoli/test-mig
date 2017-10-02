@@ -15,8 +15,8 @@ import { Logger } from './logger.service';
 
 @Injectable()
 export class WebSocketService {
-    private connection: WebSocket;
-    private _socketConnectionStatus: SocketConnectionStatus = SocketConnectionStatus.None;
+    public connection: WebSocket;
+    public _socketConnectionStatus: SocketConnectionStatus = SocketConnectionStatus.None;
 
     public error: EventEmitter<any> = new EventEmitter();
     public modelData: EventEmitter<any> = new EventEmitter();
@@ -35,10 +35,10 @@ export class WebSocketService {
     public windowStrings: EventEmitter<any> = new EventEmitter();
 
     constructor(
-        private infoService: InfoService,
-        private httpService: HttpService,
-        private cookieService: CookieService,
-        private logger: Logger) {
+        public infoService: InfoService,
+        public httpService: HttpService,
+        public cookieService: CookieService,
+        public logger: Logger) {
     }
 
     setWsConnectionStatus(status: SocketConnectionStatus) {

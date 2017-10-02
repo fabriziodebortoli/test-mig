@@ -19,7 +19,7 @@ export class WidgetChartComponent implements AfterContentInit {
 
   @ViewChild('chart') chart;
 
-  constructor(private widgetComponent: WidgetComponent) { }
+  constructor(public widgetComponent: WidgetComponent) { }
 
   ngAfterContentInit() {
 

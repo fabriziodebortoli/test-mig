@@ -17,18 +17,18 @@ import { ControlComponent } from './../control.component';
 
 export class ComboComponent extends ControlComponent implements OnChanges, DoCheck, OnDestroy {
 
-    private items: Array<any> = [];
-    private selectedItem: any;
-    private itemSourceSub: Subscription;
+    items: Array<any> = [];
+    selectedItem: any;
+    public  itemSourceSub: Subscription;
     @Input() public itemSource: any = undefined;
     @Input() public hotLink: any = undefined;
 
 
     constructor(
-        private webSocketService: WebSocketService,
-        private eventDataService: EventDataService,
-        layoutService: LayoutService, 
-        tbComponentService:TbComponentService
+        public  webSocketService: WebSocketService,
+        public  eventDataService: EventDataService,
+        layoutService: LayoutService,
+        tbComponentService: TbComponentService
     ) {
         super(layoutService, tbComponentService);
 

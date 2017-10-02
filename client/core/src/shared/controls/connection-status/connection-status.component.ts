@@ -21,8 +21,8 @@ export class ConnectionStatusComponent implements OnDestroy {
   connectionStatusClass: string = "disconnected";
   status: SocketConnectionStatus = SocketConnectionStatus.None;
   constructor(
-    private webSocketService: WebSocketService,
-    private localizationService: LocalizationService) {
+    public webSocketService: WebSocketService,
+    public localizationService: LocalizationService) {
 
     this.subscriptions.push(localizationService.localizationsLoaded.subscribe(() => {
       this.localizationLoaded = true;
@@ -34,7 +34,7 @@ export class ConnectionStatusComponent implements OnDestroy {
     }));
   }
 
-  private getConnectedStatusString(status: SocketConnectionStatus): string {
+  public getConnectedStatusString(status: SocketConnectionStatus): string {
     if (!this.localizationLoaded)
       return "";
 
@@ -50,7 +50,7 @@ export class ConnectionStatusComponent implements OnDestroy {
     }
   }
 
-  private getConnectionStatusClass(status: SocketConnectionStatus): string {
+  public getConnectionStatusClass(status: SocketConnectionStatus): string {
     switch (status) {
       case SocketConnectionStatus.Connected:
         return "connected";

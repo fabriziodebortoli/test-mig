@@ -15,7 +15,7 @@ import { ChartType } from "./../../../../models/chart-type.model";
 export class ReportChartBarComponent implements AfterViewInit {
 
     @Input() chart: chart
-    constructor(private cdRef: ChangeDetectorRef) {
+    constructor(public cdRef: ChangeDetectorRef) {
 
     }
 
@@ -32,11 +32,11 @@ export class ReportChartBarComponent implements AfterViewInit {
             case ChartType.AreaStacked100:
             case ChartType.BarStacked100:
             case ChartType.ColumnStacked100: // [stack]="{type:'100%', group: 'a' } || {type:'100%' }"
-                return item.group ? 
-                {
-                    type: '100%',
-                    group: item.group
-                } :
+                return item.group ?
+                    {
+                        type: '100%',
+                        group: item.group
+                    } :
                     {
                         type: '100%'
                     };

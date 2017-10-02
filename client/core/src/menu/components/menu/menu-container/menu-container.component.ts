@@ -16,19 +16,19 @@ import { MenuService } from './../../../services/menu.service';
 })
 
 export class MenuContainerComponent implements AfterViewInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
-  private selectedGroupChangedSubscription;
-  private tiles: any[];
+  public subscriptions: Subscription[] = [];
+  public selectedGroupChangedSubscription;
+  public tiles: any[];
 
   @ViewChild('tabber') tabber;
   @ViewChild('masonryContainer') masonryContainer: any;
   constructor(
-    private menuService: MenuService,
-    private utilsService: UtilsService,
-    private settingsService: SettingsService,
-    private localizationService: LocalizationService
+    public menuService: MenuService,
+    public utilsService: UtilsService,
+    public settingsService: SettingsService,
+    public localizationService: LocalizationService
   ) {
-      this.subscriptions.push(this.menuService.menuActivated.subscribe(() => {
+    this.subscriptions.push(this.menuService.menuActivated.subscribe(() => {
       this.tiles = this.getTiles();
       this.changeTabWhenMenuChanges();
       this.refreshLayout();
@@ -136,7 +136,7 @@ export class MenuContainerComponent implements AfterViewInit, OnDestroy {
   ifTileHasObjects(tile) {
     if (tile == undefined || tile.Object == undefined)
       return false;
-  
+
     var array = this.utilsService.toArray(tile.Object);
     return array.length > 0
   }

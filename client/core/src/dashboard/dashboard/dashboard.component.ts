@@ -11,21 +11,17 @@ import { MenuService } from './../../menu/services/menu.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
-  private favorites: Array<any> = [];
+  favorites: Array<any> = [];
 
   constructor(
-    private menuService: MenuService,
-    private imageService: ImageService,
-    private utilsService: UtilsService,
-    private settingsService: SettingsService,
-    private localizationService: LocalizationService
-
+    public menuService: MenuService,
+    public imageService: ImageService,
+    public utilsService: UtilsService,
+    public settingsService: SettingsService,
+    public localizationService: LocalizationService
   ) { }
-
-  ngOnInit() {
-  }
 
   runFunction(object) {
     this.menuService.runFunction(object);

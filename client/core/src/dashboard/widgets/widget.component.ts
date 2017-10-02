@@ -16,19 +16,19 @@ export class WidgetComponent implements AfterContentInit {
   ContentWidth: number;
   subscriptions = [];
 
-  constructor(private widgetsService: WidgetsService, private menuService: MenuService) {
+  constructor(public widgetsService: WidgetsService, public menuService: MenuService) {
   }
 
   ngAfterContentInit() {
     this.onRefreshClicked();
-     setTimeout(() => {
+    setTimeout(() => {
       this.ContentHeight = this.cardContent ? this.cardContent.nativeElement.offsetHeight : 0;
       this.ContentWidth = this.cardContent ? this.cardContent.nativeElement.offsetWidth : 0;
     }, 0);
   }
 
   onRefreshClicked() {
-     this.widgetsService.refreshContent(this.widget);
+    this.widgetsService.refreshContent(this.widget);
   }
 
   executeLink() {

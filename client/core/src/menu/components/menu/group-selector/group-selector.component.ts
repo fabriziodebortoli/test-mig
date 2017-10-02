@@ -13,10 +13,11 @@ export class GroupSelectorComponent {
 
     @Output() itemSelected: EventEmitter<any> = new EventEmitter();
     iconType: string = 'M4';
+
     constructor(
-        private menuService: MenuService,
-        private imageService: ImageService,
-        private utilsService: UtilsService
+        public menuService: MenuService,
+        public imageService: ImageService,
+        public utilsService: UtilsService
     ) { }
 
     selectGroup(group) {

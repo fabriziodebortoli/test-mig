@@ -18,10 +18,10 @@ export class MenuElementComponent {
   lorem: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam';
 
   constructor(
-    private httpMenuService: HttpMenuService,
-    private menuService: MenuService,
-    private utilsService: UtilsService,
-    private imageService: ImageService
+    public httpMenuService: HttpMenuService,
+    public menuService: MenuService,
+    public utilsService: UtilsService,
+    public imageService: ImageService
   ) {
     this.lorem = this.lorem.slice(0, Math.floor((Math.random() * 147) + 55));
   }

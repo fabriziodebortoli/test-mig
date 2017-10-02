@@ -17,7 +17,7 @@ export class TopbarMenuUserComponent implements OnDestroy {
     menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
 
     commandSubscription: Subscription;
-    constructor(private componentService: ComponentService, private authService: AuthService, private eventDataService: EventDataService) {
+    constructor(public componentService: ComponentService, public authService: AuthService, public eventDataService: EventDataService) {
         const item1 = new ContextMenuItem('Refresh', 'idRefreshButton', true, false);
         const item2 = new ContextMenuItem('Settings', 'idSettingsButton', true, false);
         const item3 = new ContextMenuItem('Help', 'idHelpButton', true, false);
@@ -49,7 +49,7 @@ export class TopbarMenuUserComponent implements OnDestroy {
         this.commandSubscription.unsubscribe();
     }
 
-    openSettingsPage(){
+    openSettingsPage() {
         this.componentService.createComponentFromUrl('settings/settings', true);
     }
 }

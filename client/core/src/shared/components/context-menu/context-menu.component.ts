@@ -17,11 +17,11 @@ import { ContextMenuItem } from './../../models/context-menu-item.model';
 export class ContextMenuComponent {
   anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'right', vertical: 'top' };
-  private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
+  public collision: Collision = { horizontal: 'flip', vertical: 'fit' };
   anchorAlign2: Align = { horizontal: 'left', vertical: 'top' };
   popupAlign2: Align = { horizontal: 'right', vertical: 'top' };
-  private show = false;
-  private isMouseDown = false;
+  show = false;
+  isMouseDown = false;
   contextMenuBinding: ContextMenuItem[];
   currentItem: ContextMenuItem;
 
@@ -32,7 +32,7 @@ export class ContextMenuComponent {
 
 
 
-  constructor(private webSocketService: WebSocketService, private eventDataService: EventDataService) {
+  constructor(public webSocketService: WebSocketService, public eventDataService: EventDataService) {
     // SCENARIO 1: RIEMPIRE DA SERVER
     // this.webSocketService.contextMenu.subscribe((result) => {
     //   this.contextMenu = result.contextMenu;
@@ -62,7 +62,7 @@ export class ContextMenuComponent {
   public doCommand(menuItem: any) {
     if (!menuItem) { console.log('NOT doCommand for ContextMenu!'); return; }
     if (this.hasSubItems(menuItem)) { return; }
-  
+
     this.eventDataService.raiseCommand('', menuItem.id);
     console.log('doCommand OK!');
     this.onToggle();

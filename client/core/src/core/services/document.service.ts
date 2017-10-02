@@ -12,7 +12,7 @@ import { EventDataService } from './eventdata.service';
 export class DocumentService extends TbComponentService {
 
     mainCmpId: string;
-    constructor(protected logger: Logger, public eventData: EventDataService, infoService: InfoService) {
+    constructor(public logger: Logger, public eventData: EventDataService, public infoService: InfoService) {
         super(logger, infoService);
     }
 

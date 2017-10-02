@@ -13,13 +13,14 @@ import { HttpMenuService } from './../../../services/http-menu.service';
 })
 export class ConnectionInfoDialogComponent implements OnInit, OnDestroy {
 
-  private connectionInfos: any;
-  private showdbsize: boolean;
-  private connectionInfoSub: Subscription;
+  public connectionInfos: any;
+  public showdbsize: boolean;
+  public connectionInfoSub: Subscription;
+
   constructor(
     public dialogRef: MdDialogRef<ConnectionInfoDialogComponent>,
-    private httpMenuService: HttpMenuService,
-    private localizationService: LocalizationService
+    public httpMenuService: HttpMenuService,
+    public localizationService: LocalizationService
   ) {
 
   }

@@ -13,20 +13,20 @@ import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
 
 export class SnapshotdialogComponent {
     subscriptions: Subscription[] = [];
-    public allUsers : boolean = false;
+    public allUsers: boolean = false;
     public nameSnapshot: string;
     public openSnapshot: string;
 
     public multiple: boolean = false;
     public allowUnsort: boolean = true;
-    
+
     public sort: SortDescriptor[] = [];
-    public gridView: GridDataResult;    
+    public gridView: GridDataResult;
 
     constructor(public rsExportService: RsExportService) {
-      this.nameSnapshot = "";
-      this.openSnapshot= "";
-      //this.loadSnapshots();
+        this.nameSnapshot = "";
+        this.openSnapshot = "";
+        //this.loadSnapshots();
     };
 
     ngOnDestroy() {
@@ -38,20 +38,20 @@ export class SnapshotdialogComponent {
         this.ngOnDestroy();
     }
 
-    createFileJson(){
+    createFileJson() {
         this.rsExportService.initiaziedSnapshot(this.nameSnapshot, this.allUsers);
         this.rsExportService.snapshot = false;
     }
 
-    setSingleUser(){
+    setSingleUser() {
         this.allUsers = false;
     }
 
-    setAllusers(){
+    setAllusers() {
         this.allUsers = true;
     }
 
-    runSnapshot(name: string, date: string, allusers: boolean){
+    runSnapshot(name: string, date: string, allusers: boolean) {
         this.rsExportService.startRunSnapshot(name, date, allusers);
     }
 
@@ -59,7 +59,7 @@ export class SnapshotdialogComponent {
         this.sort = sort;
         this.loadSnapshots();
     }
-    
+
     private loadSnapshots(): void {
         this.gridView = {
             data: orderBy(this.rsExportService.snapshots, this.sort),

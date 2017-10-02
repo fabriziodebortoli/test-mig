@@ -15,12 +15,12 @@ import { HttpMenuService } from './../../../services/http-menu.service';
 
 export class ProductInfoDialogComponent implements OnInit {
 
-  private productInfos: any;
+  public productInfos: any;
   constructor(
     public dialogRef: MdDialogRef<ProductInfoDialogComponent>,
-    private infoService: InfoService,
-    private utilsService: UtilsService,
-    private localizationService: LocalizationService
+    public infoService: InfoService,
+    public utilsService: UtilsService,
+    public localizationService: LocalizationService
   ) {
 
   }

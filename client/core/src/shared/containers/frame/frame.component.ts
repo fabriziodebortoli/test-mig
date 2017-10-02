@@ -10,11 +10,11 @@ import { Subscription } from 'rxjs';
 })
 export class FrameComponent implements OnInit, OnDestroy {
 
-  private viewHeightSubscription: Subscription;
+  public viewHeightSubscription: Subscription;
 
   @HostBinding('style.height') viewHeight: Number;
 
-  constructor(private layoutService: LayoutService) { }
+  constructor(public layoutService: LayoutService) { }
 
   ngOnInit() {
     this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);

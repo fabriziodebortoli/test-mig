@@ -20,8 +20,8 @@ export class AskDropdownlistComponent extends ComboSimpleComponent {
   @Input() dropdownlist: dropdownlist;
 
   constructor(
-    private rsService: ReportingStudioService,
-    private adService: AskdialogService,
+    public rsService: ReportingStudioService,
+    public adService: AskdialogService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService
   ) {

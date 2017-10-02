@@ -17,19 +17,19 @@ import { ControlComponent } from './../control.component';
 
 export class EnumComboComponent extends ControlComponent implements OnChanges, DoCheck, OnDestroy {
 
-    private tag: string;
+    public tag: string;
 
-    private items: Array<any> = [];
-    private selectedItem: any;
-    private itemSourceSub: Subscription;
+    items: Array<any> = [];
+    selectedItem: any;
+    public itemSourceSub: Subscription;
     @Input() public itemSource: any;
 
     constructor(
-        private webSocketService: WebSocketService,
-        private eventDataService: EventDataService,
-        private enumsService: EnumsService,
-        layoutService: LayoutService, 
-        tbComponentService:TbComponentService
+        public webSocketService: WebSocketService,
+        public eventDataService: EventDataService,
+        public enumsService: EnumsService,
+        layoutService: LayoutService,
+        tbComponentService: TbComponentService
     ) {
         super(layoutService, tbComponentService);
 

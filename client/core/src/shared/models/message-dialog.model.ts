@@ -22,6 +22,7 @@ export class DiagnosticData {
 export class Message {
     type: DiagnosticType;
     text: string;
+    messages = new Array<Message>();
 }
 export class DiagnosticDlgResult {
     ok = false;

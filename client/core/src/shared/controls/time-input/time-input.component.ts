@@ -17,7 +17,7 @@ export class TimeInputComponent extends ControlComponent implements OnChanges, A
   @Input() formatter: string;
 
   constructor(
-    private eventData: EventDataService,
+    public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService) {
     super(layoutService, tbComponentService);

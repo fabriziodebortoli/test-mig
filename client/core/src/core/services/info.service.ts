@@ -26,9 +26,9 @@ export class InfoService {
     cultureId = '_culture';
 
     constructor(
-        private http: Http,
-        private cookieService: CookieService,
-        private logger: Logger
+        public http: Http,
+        public cookieService: CookieService,
+        public logger: Logger
     ) {
         this.culture.value = cookieService.get(this.cultureId);
     }

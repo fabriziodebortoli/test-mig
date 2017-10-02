@@ -17,12 +17,12 @@ export class MostUsedComponent {
   @Output() itemSelected: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private httpMenuService: HttpMenuService,
-    private menuService: MenuService,
-    private utilsService: UtilsService,
-    private imageService: ImageService,
-    private localizationService: LocalizationService,
-    private settingsService: SettingsService
+    public httpMenuService: HttpMenuService,
+    public menuService: MenuService,
+    public utilsService: UtilsService,
+    public imageService: ImageService,
+    public localizationService: LocalizationService,
+    public settingsService: SettingsService
   ) { }
 
   runFunction(object) {

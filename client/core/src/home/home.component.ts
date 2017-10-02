@@ -50,16 +50,16 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   isDesktop: boolean;
 
   constructor(
-    private sidenavService: SidenavService,
-    private taskbuilderService: TaskbuilderService,
-    private componentService: ComponentService,
-    private layoutService: LayoutService,
-    private tabberService: TabberService,
-    private menuService: MenuService,
-    private localizationService: LocalizationService,
-    private settingsService: SettingsService,
-    private enumsService: EnumsService,
-    private infoService: InfoService
+    public sidenavService: SidenavService,
+    public taskbuilderService: TaskbuilderService,
+    public componentService: ComponentService,
+    public layoutService: LayoutService,
+    public tabberService: TabberService,
+    public menuService: MenuService,
+    public localizationService: LocalizationService,
+    public settingsService: SettingsService,
+    public enumsService: EnumsService,
+    public infoService: InfoService
   ) {
 
     this.isDesktop = infoService.isDesktop;

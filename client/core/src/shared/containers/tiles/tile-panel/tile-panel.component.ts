@@ -9,9 +9,9 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class TilePanelComponent implements OnInit {
 
-    private _showAsTile: boolean = true;
-    private _isCollapsed: boolean = false;
-    private _isCollapsible: boolean = true;
+    public _showAsTile: boolean = true;
+    isCollapsed: boolean = false;
+    isCollapsible: boolean = true;
 
 
     tilePanel: TilePanelComponent;
@@ -32,15 +32,15 @@ export class TilePanelComponent implements OnInit {
     }
 
     toggleCollapse(event: MouseEvent): void {
-        if (!this._isCollapsible)
+        if (!this.isCollapsed)
             return;
 
         // event.preventDefault();
-        this._isCollapsed = !this._isCollapsed;
+        this.isCollapsed = !this.isCollapsed;
     }
 
     getArrowIcon() {
-        return this._isCollapsed ? 'tb-expandarrowfilled' : 'tb-collapsearrowfilled';
+        return this.isCollapsed ? 'tb-expandarrowfilled' : 'tb-collapsearrowfilled';
     }
 
 

@@ -16,8 +16,7 @@ import { Widget } from './widgets.service';
 export class WidgetGridComponent {
   @Input() widget: Widget;
 
-  constructor(private widgetComponent: WidgetComponent, private menuService: MenuService) {
-  }
+  constructor(public widgetComponent: WidgetComponent, public menuService: MenuService) { }
 
   onClick(event: any, rowIndex: any, item: any) {
 

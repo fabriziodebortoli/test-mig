@@ -43,16 +43,22 @@
     </div>
 
     <div class="columsLayout">
+
+        <kendo-textbox-container floatingLabel="Application choosen">
+            <input kendoTextBox #applicationChoosen/>
+        </kendo-textbox-container>
+        <kendo-textbox-container floatingLabel="Module choosen">
+            <input kendoTextBox #moduleChoosen/>
+        </kendo-textbox-container>
         <button kendoButton class="k-buton k-primary k-button-icon">
             <span class="k-icon k-i-plus-circle"></span>
         </button>
-        <kendo-textbox-container floatingLabel="Application choosen">
-            <input kendoTextBox />
-        </kendo-textbox-container>
-        <kendo-textbox-container floatingLabel="Module choosen">
-            <input kendoTextBox />
-        </kendo-textbox-container>
     </div>
+
+
+
+
+
     <kendo-dialog-actions>
         <button kendoButton (click)="ok()" primary="true">Ok</button>
         <button kendoButton (click)="close()">Cancel</button>

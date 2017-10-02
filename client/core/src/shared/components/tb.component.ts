@@ -6,12 +6,12 @@ export abstract class TbComponent implements OnInit {
   @Input()
   public cmpId: string = '';
 
-  protected dictionaryId = '';
-  translations = [];
-  culture = '';
-  installationVersion = '';
-  constructor(protected tbComponentService:TbComponentService) {
-  }
+  public dictionaryId = '';
+  public translations = [];
+  public culture = '';
+  public installationVersion = '';
+
+  constructor(public tbComponentService: TbComponentService) { }
 
   _TB(baseText: string) {
     let target = baseText;
@@ -26,17 +26,17 @@ export abstract class TbComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.dictionaryId)
-      {
-    let sub = this.tbComponentService.infoService.getProductInfo().subscribe((productInfo: any) => {
-      this.installationVersion = productInfo.installationVersion;
-      if (sub)
-        sub.unsubscribe();
-      this.readTranslations();
-    });
-      }
+    if (this.dictionaryId) {
+      let sub = this.tbComponentService.infoService.getProductInfo().subscribe((productInfo: any) => {
+        this.installationVersion = productInfo.installationVersion;
+        if (sub)
+          sub.unsubscribe();
+        this.readTranslations();
+      });
+    }
   }
-  protected readTranslations() {
+
+  public readTranslations() {
     let item = localStorage.getItem(this.dictionaryId);
     let found = false;
     if (item) {
@@ -56,8 +56,8 @@ export abstract class TbComponent implements OnInit {
       this.readTranslationsFromServer();
     }
   }
-  
-  protected readTranslationsFromServer() {
+
+  public readTranslationsFromServer() {
 
   }
 }

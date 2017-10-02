@@ -15,18 +15,18 @@ import { ContextMenuItem } from './../../../../models/context-menu-item.model';
 export class TopbarMenuElementsComponent {
     anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
     popupAlign: Align = { horizontal: 'right', vertical: 'top' };
-    private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
+    collision: Collision = { horizontal: 'flip', vertical: 'fit' };
     anchorAlign2: Align = { horizontal: 'left', vertical: 'top' };
     popupAlign2: Align = { horizontal: 'right', vertical: 'top' };
-    private show = false;
-    private isMouseDown = false;
+    show = false;
+    isMouseDown = false;
     currentItem: ContextMenuItem;
 
     @Input() fontIcon = 'tb-menu2filled';
     @Input() menuElements: ContextMenuItem[];
     @ViewChild('anchor') divFocus: HTMLElement;
 
-    constructor(private webSocketService: WebSocketService, private eventDataService: EventDataService) {
+    constructor(public webSocketService: WebSocketService, public eventDataService: EventDataService) {
     }
 
     onOpen() {
