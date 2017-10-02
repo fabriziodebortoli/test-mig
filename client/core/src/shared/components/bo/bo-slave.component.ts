@@ -10,7 +10,7 @@ import { ComponentInfoService } from './../../../core/services/component-info.se
     template: '',
     styles: []
 })
-export abstract class BOSlaveComponent extends BOCommonComponent implements OnInit, OnDestroy {
+export class BOSlaveComponent extends BOCommonComponent implements OnInit, OnDestroy {
 
     constructor(
         eventData: EventDataService,

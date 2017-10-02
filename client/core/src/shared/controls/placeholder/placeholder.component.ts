@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class PlaceholderComponent {
 
-@Input() placeHolder: string;
+  @Input() placeHolder: string;
+  @Input() forCmpID: string;
   constructor() { }
 }

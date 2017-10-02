@@ -12,7 +12,7 @@ import { DocumentComponent } from './../document.component';
     template: '',
     styles: []
 })
-export abstract class BOCommonComponent extends DocumentComponent implements OnInit, OnDestroy {
+export class BOCommonComponent extends DocumentComponent implements OnInit, OnDestroy {
     subscriptions: Subscription[] = [];
 
     constructor(
