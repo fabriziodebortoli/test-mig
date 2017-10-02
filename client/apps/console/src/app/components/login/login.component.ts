@@ -39,11 +39,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.errorMessage = '';
 
     this.subscription = this.loginService.getMessage().subscribe(msg => { 
-      if (msg === '') {
-        // something went wrong with the login
-        this.appBusy = false;
-        this.loginStep = 3;
+
+      // use content result
+
+      let opRes:OperationResult = msg;
+
+      if (!opRes.Result) {
+        this.errorMessage = opRes.Message;
       }
+
+      this.appBusy = false;
+      this.loginStep = 3;
     })
   }
 
