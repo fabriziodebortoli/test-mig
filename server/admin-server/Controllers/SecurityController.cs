@@ -180,6 +180,22 @@ namespace Microarea.AdminServer.Controllers
 							return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
 						}
 
+						// salvo le associazioni account - subscriptions
+						result = SaveSubscriptionsAccounts(accountIdentityPack);
+
+						if (!result.Result)
+						{
+							return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
+						}
+
+						// salvo le associazioni account - ruoli
+						result = SaveAccountRoles(accountIdentityPack);
+
+						if (!result.Result)
+						{
+							return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, result.Message);
+						}
+
 						// Verifica credenziali.
 						LoginReturnCodes res = LoginBaseClass.VerifyCredential(((Account)account), credentials.Password, burgerData);
 
@@ -188,6 +204,7 @@ namespace Microarea.AdminServer.Controllers
                             return SetErrorResponse(bootstrapTokenContainer, (int)res, Strings.OK);
                         }
                     }
+
                     // Valorizzo il bootstraptoken per la risposta
                     if (!ValorizeBootstrapToken(account, bootstrapToken, instanceKey))
                     {
@@ -196,6 +213,7 @@ namespace Microarea.AdminServer.Controllers
 
                     return SetSuccessResponse(bootstrapTokenContainer, bootstrapToken, Strings.LoginOK);              
                 }
+
                 return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.InvalidUserError, LoginReturnCodes.InvalidUserError.ToString());
             }
             catch (Exception exc)
@@ -217,6 +235,84 @@ namespace Microarea.AdminServer.Controllers
 			foreach (Instance i in accountIdentityPack.Instances)
 			{
 				result = i.Save(this.burgerData);
+
+				if (!result.Result)
+				{
+					return result;
+				}
+			}
+
+			result.Result = true;
+			result.Code = (int)AppReturnCodes.OK;
+			result.Message = AppReturnCodes.OK.ToString();
+
+			return result;
+		}
+
+		// salvo per l'account corrente tutte le subscriptions ad esso associate
+		//-----------------------------------------------------------------------------
+		private OperationResult SaveSubscriptionsAccounts(AccountIdentityPack accountIdentityPack)
+		{
+			if (accountIdentityPack == null || accountIdentityPack.Subscriptions == null)
+			{
+				return new OperationResult(false, "Empty Subscriptions", (int)AppReturnCodes.InvalidData);
+			}
+
+			OperationResult result = new OperationResult();
+
+			SubscriptionAccount subAccount;
+
+			foreach (Subscription s in accountIdentityPack.Subscriptions)
+			{
+				subAccount = new SubscriptionAccount();
+				subAccount.AccountName = accountIdentityPack.Account.AccountName;
+				subAccount.SubscriptionKey = s.SubscriptionKey;
+
+				result = subAccount.Save(this.burgerData);
+
+				if (!result.Result)
+				{
+					return result;
+				}
+			}
+
+			result.Result = true;
+			result.Code = (int)AppReturnCodes.OK;
+			result.Message = AppReturnCodes.OK.ToString();
+
+			return result;
+		}
+
+		//-----------------------------------------------------------------------------
+		private OperationResult SaveAccountRoles(AccountIdentityPack accountIdentityPack)
+		{
+			if (accountIdentityPack == null || accountIdentityPack.Roles == null)
+			{
+				return new OperationResult(false, "Empty Roles", (int)AppReturnCodes.InvalidData);
+			}
+
+			OperationResult result = new OperationResult();
+
+			Role role;
+			AccountRoles accRole;
+
+			foreach (AccountRoles r in accountIdentityPack.Roles)
+			{
+				// prima inserisco il ruolo (se non esiste)
+				role = new Role();
+				role.RoleName = r.RoleName;
+				if (!role.Save(this.burgerData).Result)
+					continue;
+
+				// poi vado ad inserire le associazioni ruolo/account
+				accRole = new AccountRoles
+				{
+					RoleName = r.RoleName,
+					AccountName = r.AccountName,
+					EntityKey = r.EntityKey,
+					Level = r.Level
+				};
+				result = accRole.Save(this.burgerData);
 
 				if (!result.Result)
 				{
@@ -480,6 +576,9 @@ namespace Microarea.AdminServer.Controllers
 				opRes.Code = (int)AppReturnCodes.OK;
 				opRes.Message = Strings.OperationOK;
 				opRes.Content = instancesArray;
+
+				//@@TODO: se instancesArray.Count == 0 ritornare un msg appropriato (se in locale ho l'account ma mancano le tabelle correlate)
+
 				_jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
