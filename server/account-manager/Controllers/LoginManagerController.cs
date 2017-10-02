@@ -3,6 +3,7 @@ using System.Text;
 using Microarea.Common.WebServicesWrapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Microarea.Common.GenericForms;
 
 namespace Microarea.AccountManager.Controllers
 {
@@ -19,16 +20,19 @@ namespace Microarea.AccountManager.Controllers
 			string askingProcess = HttpContext.Request.Form["askingProcess"];
 			bool overwriteLogin = HttpContext.Request.Form["overwriteLogin"] == "true";
 			int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out string authenticationToken);
-			string errorMessage = "Error message"; // TODO read error message
 
-			return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken });
+            string errorMessage = "";
+            if (result != 0)
+                errorMessage = LoginFacilities.DecodeLoginReturnsCodeError(result);
+
+            return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken });
 		}
 
 		//-----------------------------------------------------------------------------------------
-		[Route("logout")]
+		[Route("logoff")]
 		public IActionResult Logoff()
 		{
-			string token = HttpContext.Request.Form["token"];
+			string token = HttpContext.Request.Form["authtoken"];
 			Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LogOff(token);
 			var result = new { Success = true, Message = "" };
 			return new JsonResult(result);

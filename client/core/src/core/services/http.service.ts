@@ -49,7 +49,7 @@ export class HttpService {
     getCompaniesForUser(user: string): Observable<any> {
         let obj = { user: user };
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'getCompaniesForUser/', obj)
-            .map((res: Response) => {
+            .map((res: Response) => { 
                 return res.json();
             });
     }
