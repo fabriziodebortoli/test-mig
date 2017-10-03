@@ -127,7 +127,9 @@ const TB_CONTAINERS = [
 ];
 
 /**
+ * TB_CONTROLS
  */
+import { VATCodeComponent } from './controls/vat-code/vat-code.component';
 import {
     ControlComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
@@ -137,8 +139,9 @@ import {
     LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent, ApplicationDateComponent
 } from './controls/';
 export * from './controls';
+export { VATCodeComponent } from './controls/vat-code/vat-code.component';
 const TB_CONTROLS = [
-    ControlComponent,
+    ControlComponent, VATCodeComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
