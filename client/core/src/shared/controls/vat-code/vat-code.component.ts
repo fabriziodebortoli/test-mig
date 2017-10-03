@@ -1,3 +1,6 @@
+import { InfoService } from './../../../core/services/info.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { HttpService } from './../../../core/services/http.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
@@ -23,7 +26,10 @@ export class VATCodeComponent extends ControlComponent {
         private logger: Logger,
         public layoutService: LayoutService,
         public tbComponentService: TbComponentService,
-        public eventDataService: EventDataService
+        public eventDataService: EventDataService,
+        public httpService: HttpService,
+        public infoService: InfoService,
+        public cookieService: CookieService
     ) {
         super(layoutService, tbComponentService);
     }
@@ -41,7 +47,28 @@ export class VATCodeComponent extends ControlComponent {
         this.logger.log("model", this.eventDataService.model["Contacts"]["FiscalCode"].value);
 
         // logica di validazione
-        this.errorMessage = "Uffa!";
+        if (p === []) {
+            this.errorMessage = "Uffa!";
+        } else {
+            this.errorMessage = "Valido!";
+        }
+    }
+
+    onRealCheck(change) {
+        // check se valida
+        // ...
+
+        // request http al servizio web che verifical'esistenza del vat code nella realta
+        let params = { authtoken: this.cookieService.get('authtoken') };
+        let url = this.infoService.getDocumentBaseUrl() + 'getProductInfo/';
+        let sub = this.httpService.postData(url, params).subscribe(res => {
+            console.log(res)
+            if (res) {
+                this.errorMessage = "HTTP Uffa!";
+            } else {
+                this.errorMessage = "HTTP Valido!";
+            }
+        });
     }
 
 }
