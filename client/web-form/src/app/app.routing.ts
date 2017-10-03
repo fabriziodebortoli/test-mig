@@ -12,14 +12,14 @@ import {
 } from '@taskbuilder/core';
 
 import { RsTestComponent } from '@taskbuilder/reporting-studio';
-import { appRoutes } from './applications/app.routing';
+//import { appRoutes } from './applications/app.routing';
 
 let magoRoutes = [
     { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
     { path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' },
     { path: 'test', loadChildren: '@taskbuilder/core#TbTestModule' },
     { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
-    ...appRoutes
+    //...appRoutes
 ];
 let childrenRoutes = environment.desktop ? [] : [...magoRoutes];
 
