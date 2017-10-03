@@ -30,7 +30,7 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
 
     constructor(
         public layoutService: LayoutService,
-        public tbComponentService: TbComponentService,
+        public tbComponentService: TbComponentService//,
         //    public eventData: EventDataService
     ) {
         super(tbComponentService);
@@ -39,9 +39,9 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     }
 
 
-    ngOnChanges() {
-        //  this.eventData.change.emit(this.cmpId);
-    }
+    // ngOnChanges() {
+    //     //  this.eventData.change.emit(this.cmpId);
+    // }
 
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
