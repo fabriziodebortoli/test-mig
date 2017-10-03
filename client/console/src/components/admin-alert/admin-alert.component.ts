@@ -1,6 +1,7 @@
-
 import { Component, Input, Output, EventEmitter, Inject } from '@angular/core';
-import {MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
+import { MdDialog } from '@angular/material';
+import { AdminAlertDialogComponent } from '../admin-alert-dialog/admin-alert-dialog.component';
+
 
 @Component({
   selector: 'admin-alert',
@@ -12,5 +13,9 @@ export class AdminAlertComponent {
   constructor(public dialog: MdDialog) {}
 
   openDialog(): void {
+    let dialogRef = this.dialog.open(AdminAlertDialogComponent, {
+      width: '250px',
+      data: { }
+    });
   }  
 }

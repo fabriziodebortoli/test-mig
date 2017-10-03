@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 
@@ -8,7 +9,7 @@ import { HttpMenuService } from './http-menu.service';
 export class LocalizationService {
 
     public localizedElements: any = undefined;
-    public localizationsLoaded: EventEmitter<any> = new EventEmitter();
+    public localizationsLoaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
     constructor(
         public httpMenuService: HttpMenuService,
@@ -25,7 +26,7 @@ export class LocalizationService {
 
         let subs = this.httpMenuService.loadLocalizedElements().subscribe(result => {
             this.localizedElements = result.LocalizedElements;
-            this.localizationsLoaded.emit();
+            this.localizationsLoaded.next(true);
             subs.unsubscribe();
         })
     }

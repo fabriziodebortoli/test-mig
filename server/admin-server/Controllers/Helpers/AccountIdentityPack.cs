@@ -9,27 +9,34 @@ namespace Microarea.AdminServer.Controllers.Helpers
 	/// </summary>
 	public class AccountIdentityPack
     {
-        Subscription[] subscriptions;
+		public Account Account;
+
+		Subscription[] subscriptions;
 		Instance[] instances;
-        string detailedMessage;
+		AccountRoles[] roles;
 
         public bool Result;
         public int MessageCode;
-        public Account Account;
-        public Subscription[] Subscriptions { get { return this.subscriptions; } set { this.subscriptions = value; } }
-		public Instance[] Instances { get { return this.instances; } set { this.instances = value; } }
+		string detailedMessage;
+
 		public string DetailedMessage { get { return detailedMessage; } set { detailedMessage = value; } }
-        public string Message { get { return GwamMessageStrings.GetString(MessageCode); } }
+		public string Message { get { return GwamMessageStrings.GetString(MessageCode); } }
+
+		public Instance[] Instances { get { return this.instances; } set { this.instances = value; } }
+		public Subscription[] Subscriptions { get { return this.subscriptions; } set { this.subscriptions = value; } }
+		public AccountRoles[] Roles { get { return this.roles; } set { this.roles = value; } }
 
         //-----------------------------------------------------------------------------	
         public AccountIdentityPack()
         {
             this.Result = false;
-            this.MessageCode = 1;//undefinded
-            this.Account = new Account();
+            this.MessageCode = 1;//undefined
 			this.detailedMessage = string.Empty;
-            this.subscriptions = new Subscription[]{};
-			this.instances = new Instance[]{};
+
+			this.Account = new Account();
+			this.subscriptions = new Subscription[] { };
+			this.instances = new Instance[] { };
+			this.roles = new AccountRoles[] { };
         }
     }
 }

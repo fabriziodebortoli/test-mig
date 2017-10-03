@@ -46,3 +46,15 @@
         <p class="text">Loading...</p>
     </div>
 </div>
+
+
+<kendo-dialog title="User already connected" *ngIf="userAlreadyConnectedOpened" (close)="userConnectedCancel()">
+        <div>  
+            <!-- TODOLUCA da localizzare -->
+            The user is already connected to the system. Do you want to close previous working session and open new one?
+        </div>
+        <kendo-dialog-actions>
+            <button kendoButton (click)="userConnectedYes()" [primary]="true">Yes</button>
+            <button kendoButton (click)="userConnectedCancel()" [primary]="true">Cancel</button>
+        </kendo-dialog-actions>
+    </kendo-dialog>

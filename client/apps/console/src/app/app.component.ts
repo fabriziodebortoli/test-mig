@@ -1,3 +1,4 @@
+import {OperationResult} from './services/operationResult';
 import { LoginService } from './services/login.service';
 import { ModelService } from './services/model.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -17,8 +18,18 @@ export class AppComponent implements OnInit, OnDestroy {
   userAccountName: string;
 
   constructor(private router: Router, private loginService: LoginService) {
+    this.userAccountName = '';
+
     this.subscription = this.loginService.getMessage().subscribe(message => {
-      this.userAccountName = message;
+      try
+      {
+        let opRes:OperationResult = message;
+        if (opRes.Result) {
+          this.userAccountName = opRes.Message;
+        }
+      }
+      catch(Error){
+      }
     });
   }
 

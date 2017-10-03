@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { TbCoreModule, ComponentService, InfoService, loadConfig } from '@taskbuilder/core';
 
 import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
+// import { ERPModule } from '@taskbuilder/erp';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
@@ -22,7 +23,8 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
         SharedModule,
         routing,
         ReportingStudioModule,
-        TbCoreModule.forRoot()
+        TbCoreModule.forRoot(),
+        // ERPModule.forRoot()
     ],
     providers: [
         CookieService,
