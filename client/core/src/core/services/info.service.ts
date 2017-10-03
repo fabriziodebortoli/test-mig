@@ -123,6 +123,16 @@ export class InfoService {
         return url + 'tb/menu/';
     }
 
+    //TODO da spostare nel httpservice della libreria di controlli
+    getErpCoreBaseUrl() {
+        let url = this.isDesktop ? 'http://localhost/' : this.getApiUrl();
+        return url + 'erp/core/';
+    }
+
+    getNetCoreErpCoreBaseUrl() {
+       return this.getBaseUrl() +  '/erp-core/';
+    }
+
     getAccountManagerBaseUrl() {
         return this.getBaseUrl() + '/account-manager/';
     }

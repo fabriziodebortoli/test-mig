@@ -12,6 +12,7 @@ export class DatabaseInfoComponent implements OnInit {
 
   @Input() subDBModel: SubscriptionDatabase;
   @Input() isDMS: boolean;
+  @Input() isEditing: boolean;
 
   databaseType: string;
 
