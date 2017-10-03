@@ -1,35 +1,31 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SampleComponent } from './sample.component';
-import { SampleDirective } from './sample.directive';
-import { SamplePipe } from './sample.pipe';
-import { SampleService } from './sample.service';
 
-export * from './sample.component';
-export * from './sample.directive';
-export * from './sample.pipe';
-export * from './sample.service';
+/**
+ * Modulo Core con tutti i servizi di ERP
+ */
+import { ERPCoreModule, ERP_SERVICES } from './core/core.module';
+export * from './core/core.module';
+
+import { ERPTestComponent } from './erp-test.component';
+export { ERPTestComponent } from './erp-test.component';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
-    SampleComponent,
-    SampleDirective,
-    SamplePipe
+    ERPTestComponent
   ],
   exports: [
-    SampleComponent,
-    SampleDirective,
-    SamplePipe
+    ERPTestComponent
   ]
 })
-export class SampleModule {
+export class ERPModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: SampleModule,
-      providers: [SampleService]
+      ngModule: ERPModule,
+      providers: [ERP_SERVICES]
     };
   }
 }
