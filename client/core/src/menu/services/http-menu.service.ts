@@ -239,6 +239,22 @@ export class HttpMenuService {
     }
 
     /**
+    * API /goToSite
+    * 
+    * @returns {Observable<any>} goToSite
+    */
+    callonlineHelpUrl(ns: string, culture : string): Observable<any> {
+        let obj = {nameSpace: ns, culture: culture}
+        let url = this.infoService.isDesktop ? this.infoService.getDocumentBaseUrl()  : this.infoService.getMenuServiceUrl();
+        return this.postData(url + 'getOnlineHelpUrl/', obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+
+
+    /**
      * TODO refactor with custom logger
      */
     private handleError(error: any) {

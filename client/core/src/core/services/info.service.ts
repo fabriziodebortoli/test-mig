@@ -128,6 +128,7 @@ export class InfoService {
         return url + 'erp/core/';
     }
 
+    //TODO da spostare nel httpservice della libreria di controlli
     getNetCoreErpCoreBaseUrl() {
        return this.getBaseUrl() +  '/erp-core/';
     }

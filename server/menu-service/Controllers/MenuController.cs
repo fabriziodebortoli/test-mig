@@ -5,6 +5,7 @@ using Microarea.TaskBuilderNet.Core.Generic;
 using System.IO;
 using Microarea.Common.NameSolver;
 using System;
+using Microarea.Common.Generic;
 
 namespace Microarea.Menu.Controllers
 {
@@ -267,6 +268,26 @@ namespace Microarea.Menu.Controllers
 
             return new ContentResult { Content = "Cannot access file " + fullImagePath, ContentType = "application/text" };
         }
+
+        //---------------------------------------------------------------------
+        [Route("getOnlineHelpUrl")]
+        public IActionResult GetOnlineHelpUrl()
+        {
+            try
+            {
+                string nameSpace = HttpContext.Request.Form["nameSpace"];
+                string culture = HttpContext.Request.Form["culture"];
+
+                string url = HelpManager.GetOnlineHelpUrl(nameSpace, culture);
+                string json = string.Format("{{ \"url\": \"{0}\" }}", url);
+                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
+          
     }
 }
 
