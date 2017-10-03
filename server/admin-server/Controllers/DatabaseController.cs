@@ -55,15 +55,6 @@ namespace Microarea.AdminServer.Controllers
 		{
 			OperationResult opRes = new OperationResult();
 
-			string dbName = subscriptionKey + "-ERP-DB";
-			if (string.IsNullOrWhiteSpace(dbName))
-			{
-				opRes.Result = false;
-				opRes.Message = Strings.DatabaseNameEmpty;
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
 			string authHeader = HttpContext.Request.Headers["Authorization"];
 
 			// check AuthorizationHeader first
@@ -86,7 +77,7 @@ namespace Microarea.AdminServer.Controllers
 			SubscriptionDatabase subDatabase = new SubscriptionDatabase();
 			subDatabase.InstanceKey = instanceKey;
 			subDatabase.SubscriptionKey = subscriptionKey;
-			subDatabase.Name = subscriptionKey + "-ERP";
+			subDatabase.Name = instanceKey + "_" + subscriptionKey + "_Master";
 			subDatabase.UnderMaintenance = true;
 
 			try
@@ -107,12 +98,17 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			string dbName = instanceKey + "_" + subscriptionKey + "_Master_DB";
+			string dmsDbName = dbName + "_DMS";
+
 			// creazione contenitore db su Azure
 			AzureCreateDBParameters param = new AzureCreateDBParameters();
 			param.DatabaseName = dbName;
 			param.MaxSize = AzureMaxSize.GB1;
 
 			// to create database I need to connect to master
+
+			// I create ERP database
 
 			DatabaseTask dTask = new DatabaseTask(true);
 			dTask.CurrentStringConnection = 
@@ -133,8 +129,21 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
+			// I create DMS database
+
+			param.DatabaseName = dmsDbName;
+			opRes.Result = dTask.CreateAzureDatabase(param);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
 			// creo la login dbowner
-			string loginName = dbName + "Admin";
+
+			string loginName = instanceKey + "_" + subscriptionKey + "_Admin";
 			string password = SecurityManager.GetRandomPassword();
 			opRes.Result = dTask.CreateLogin(loginName, password);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
@@ -145,8 +154,19 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			// associo la login appena creata al database con il ruolo di db_owner
+			// associo la login appena creata al database di ERP con il ruolo di db_owner
+
 			opRes.Result = dTask.CreateUser(loginName, dbName);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// associo la login appena creata al database DMS con il ruolo di db_owner
+			opRes.Result = dTask.CreateUser(loginName, dmsDbName);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
 			if (!opRes.Result)
@@ -173,13 +193,20 @@ namespace Microarea.AdminServer.Controllers
 				"IT"
 				);
 
+			subDatabase.Provider = "SQLServer";
 			subDatabase.DBName = dbName;
 			subDatabase.DBServer = settings.DatabaseInfo.DBServer;
 			subDatabase.DBOwner = loginName;
 			subDatabase.DBPassword = password;
-			subDatabase.Provider = "SQLServer";
+
+			subDatabase.UseDMS = true;
+			subDatabase.DMSDBName = dmsDbName;
+			subDatabase.DMSDBServer = settings.DatabaseInfo.DBServer;
+			subDatabase.DMSDBOwner = loginName;
+			subDatabase.DMSDBPassword = password;
 
 			Debug.WriteLine("-------- DB Name: " + dbName);
+			Debug.WriteLine("-------- DMS DB Name: " + dmsDbName);
 			Debug.WriteLine("-------- Login Name: " + loginName);
 			Debug.WriteLine("-------- Password: " + password);
 

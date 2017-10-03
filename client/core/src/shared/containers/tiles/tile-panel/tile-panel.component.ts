@@ -6,20 +6,11 @@ import { Component, OnInit, Input } from '@angular/core';
     templateUrl: './tile-panel.component.html',
     styleUrls: ['./tile-panel.component.scss']
 })
-
 export class TilePanelComponent implements OnInit {
 
     public _showAsTile: boolean = true;
-    isCollapsed: boolean = false;
-    isCollapsible: boolean = true;
-
-
-    tilePanel: TilePanelComponent;
-    constructor() {
-    }
-
-    ngOnInit() {
-    }
+    public isCollapsed: boolean = false;
+    @Input() isCollapsible: boolean = true;
 
 
     @Input()
@@ -29,6 +20,11 @@ export class TilePanelComponent implements OnInit {
 
     get showAsTile(): boolean {
         return this._showAsTile;
+    }
+
+    constructor() { }
+
+    ngOnInit() {
     }
 
     toggleCollapse(event: MouseEvent): void {

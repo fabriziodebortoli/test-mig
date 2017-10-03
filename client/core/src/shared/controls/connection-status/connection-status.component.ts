@@ -24,8 +24,8 @@ export class ConnectionStatusComponent implements OnDestroy {
     public webSocketService: WebSocketService,
     public localizationService: LocalizationService) {
 
-    this.subscriptions.push(localizationService.localizationsLoaded.subscribe(() => {
-      this.localizationLoaded = true;
+    this.subscriptions.push(localizationService.localizationsLoaded.subscribe((loaded) => {
+      this.localizationLoaded = loaded;
     }));
     this.subscriptions.push(this.webSocketService.connectionStatus.subscribe((status) => {
       this.status = status;

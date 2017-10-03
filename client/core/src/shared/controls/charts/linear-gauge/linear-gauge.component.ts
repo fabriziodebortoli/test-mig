@@ -1,7 +1,7 @@
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+
 import { TbComponentService } from './../../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../../core/services/layout.service';
-import { Component, Input, OnInit } from '@angular/core';
-
 import { EventDataService } from './../../../../core/services/eventdata.service';
 
 import { ControlComponent } from './../../control.component';
@@ -46,7 +46,7 @@ export class LinearGaugeComponent extends ControlComponent implements OnInit {
     this.bandOpacity = 1;
   }
 
-  onBlur() {
+  onBlur(changes: SimpleChanges) {
     this.eventData.change.emit(this.cmpId);
   }
 }

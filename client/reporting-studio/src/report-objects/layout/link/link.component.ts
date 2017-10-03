@@ -16,7 +16,7 @@ export class ReportLinkComponent {
 
   @Input() link: link;
 
-  private clicked = false;
+  public clicked = false;
 
   constructor(
     public componentService: ComponentService,
@@ -36,7 +36,7 @@ export class ReportLinkComponent {
       default:
         break;
     }
-    this.clicked=true;
+    this.clicked = true;
   }
 
   runReport() {

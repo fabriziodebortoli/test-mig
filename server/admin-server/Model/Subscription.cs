@@ -13,7 +13,7 @@ namespace Microarea.AdminServer.Model
 		string subscriptionKey = string.Empty;
 		string description = string.Empty;
 		//ActivationToken activationToken = new ActivationToken(string.Empty);
-		string activationToken;
+		string activationToken = string.Empty;
 		string language = string.Empty;
 		string regionalSettings = string.Empty;
 		int minDBSizeToWarn;

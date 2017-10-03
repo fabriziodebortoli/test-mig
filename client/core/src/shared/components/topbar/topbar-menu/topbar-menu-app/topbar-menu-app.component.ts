@@ -37,7 +37,9 @@ export class TopbarMenuAppComponent implements OnDestroy {
         public eventDataService: EventDataService
     ) {
 
-        this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe(() => {
+        this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe((loaded) => {
+            if (!loaded)
+                return;
             const item1 = new ContextMenuItem(this.localizationService.localizedElements.ViewProductInfo, 'idViewProductInfoButton', true, false);
             const item2 = new ContextMenuItem(this.localizationService.localizedElements.ConnectionInfo, 'idConnectionInfoButton', true, false);
             const item3 = new ContextMenuItem(this.localizationService.localizedElements.GotoProducerSite, 'idGotoProducerSiteButton', true, false);
@@ -76,7 +78,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
     activateViaSMS() {
         this.httpMenuService.activateViaSMS().subscribe((result) => {
             window.open(result.url, "_blank");
-
         });
 
     }
