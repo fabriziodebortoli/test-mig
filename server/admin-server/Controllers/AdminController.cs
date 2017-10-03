@@ -47,15 +47,17 @@ namespace Microarea.AdminServer.Controllers
         {
             if (_env.WebRootPath == null)
             {
-                return NotFound();
+				jsonHelper.AddJsonCouple<string>("message", "wwwroot is null");
+				return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
             }
 
             string file = Path.Combine(_env.WebRootPath, "index.html");
 
             if (!System.IO.File.Exists(file))
             {
-                return NotFound();
-            }
+				jsonHelper.AddJsonCouple<string>("message", "index.html doesn't exist");
+				return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+			}
 
             byte[] buff = System.IO.File.ReadAllBytes(file);
             return File(buff, "text/html");

@@ -63,15 +63,17 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public IModelObject Fetch(IDataReader reader)
         {
-            Instance instance = new Instance();
-            instance.instanceKey = reader["InstanceKey"] as string;
-            instance.description = reader["Description"] as string;
-            instance.disabled = (bool)reader["Disabled"];
-            instance.origin = reader["Origin"] as string;
-            instance.tags = reader["Tags"] as string;
-            instance.underMaintenance = (bool)reader["UnderMaintenance"];
-            instance.pendingDate = (DateTime)reader["PendingDate"];
-            return instance;
+			Instance instance = new Instance
+			{
+				instanceKey = reader["InstanceKey"] as string,
+				description = reader["Description"] as string,
+				disabled = (bool)reader["Disabled"],
+				origin = reader["Origin"] as string,
+				tags = reader["Tags"] as string,
+				underMaintenance = (bool)reader["UnderMaintenance"],
+				pendingDate = (DateTime)reader["PendingDate"]
+			};
+			return instance;
         }
 
         //---------------------------------------------------------------------
@@ -79,30 +81,5 @@ namespace Microarea.AdminServer.Model
         {
             return String.Concat(" ( InstanceKey = '", this.InstanceKey, "' ) ");
         }
-
-  //      //---------------------------------------------------------------------
-  //      public List<IServerURL> LoadURLs()
-		//{
-		//	return ((IInstanceDataProvider)this.dataProvider).LoadURLs(this.instanceKey);
-		//}
-
-		////---------------------------------------------------------------------
-		//public List<IInstance> GetInstances()
-		//{
-		//	return ((IInstanceDataProvider)this.dataProvider).GetInstances();
-		//}
-
-		////---------------------------------------------------------------------
-		//public List<IInstance> GetInstancesBySubscription(string subscriptionKey)
-		//{
-		//	return ((IInstanceDataProvider)this.dataProvider).GetInstancesBySubscription(subscriptionKey);
-		//}
-
-		////---------------------------------------------------------------------
-		//public List<IInstance> GetInstancesByAccount(string accountName)
-		//{
-		//	return ((IInstanceDataProvider)this.dataProvider).GetInstancesByAccount(accountName);
-		//}
-
     }
 }

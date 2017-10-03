@@ -4,19 +4,27 @@ using Microarea.AdminServer.Services.BurgerData;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Microarea.AdminServer.Model
 {
-    public class RegisteredApp : IRegisteredApp, IModelObject
+	//================================================================================
+	public class RegisteredApp : IRegisteredApp, IModelObject
     {
-
         public string AppId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string URL { get; set; }
         public string SecurityValue { get; set; }
+
+		//---------------------------------------------------------------------
+		public RegisteredApp()
+		{
+			AppId = string.Empty;
+			SecurityValue = string.Empty;
+			Description = string.Empty;
+			URL = string.Empty;
+			Name = string.Empty;
+		}
 
         //---------------------------------------------------------------------
         public OperationResult Save(BurgerData burgerData)
@@ -42,13 +50,15 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public IModelObject Fetch(IDataReader reader)
         {
-            RegisteredApp registeredApp = new RegisteredApp();
-            registeredApp.AppId = reader["AppId"] as string;
-            registeredApp.SecurityValue = reader["SecurityValue"] as string;
-            registeredApp.Description = reader["Description"] as string;
-            registeredApp.URL = reader["URL"] as string;
-            registeredApp.Name = reader["Name"] as string;
-            return registeredApp;
+			RegisteredApp registeredApp = new RegisteredApp
+			{
+				AppId = reader["AppId"] as string,
+				SecurityValue = reader["SecurityValue"] as string,
+				Description = reader["Description"] as string,
+				URL = reader["URL"] as string,
+				Name = reader["Name"] as string
+			};
+			return registeredApp;
         }
 
         //---------------------------------------------------------------------
