@@ -31,7 +31,12 @@ export class VATCodeComponent extends ControlComponent {
         public infoService: InfoService,
         public cookieService: CookieService
     ) {
+        // super(layoutService, tbComponentService, eventDataService);
         super(layoutService, tbComponentService);
+
+        this.eventDataService.change.subscribe(cmpId => {
+            this.logger.info("model modificato", cmpId)
+        })
     }
 
     onBlur(change) {
