@@ -13,6 +13,14 @@ namespace Microarea.Common
         private string connectionStringStandard;
         private string connectionStringCustom;
         private PathFinder pf;
+        private string instanceKey;
+
+
+        //---------------------------------------------------------------------
+        public MetaDataManagerTool(string instanceKey)
+        {
+            this.instanceKey = instanceKey;
+        }
 
         //---------------------------------------------------------------------
         public MetaDataManagerTool(string aConnectionStringStandard, string aConnectionStringCustom)
@@ -184,15 +192,15 @@ namespace Microarea.Common
 
             SqlCommand mySQLCommand = null;
 
-            string tableName = "TB_StandardMetadata";
+            string tableName = "MP_InstanceTBFS";
 
             if (isCustom)
                 tableName = "TB_CustomMetadata";
 
-            string sInsert = @"INSERT INTO " + tableName + @" (ParentID, Namespace, Application, Module, PathName, CompleteFileName, FileName, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent, FileTextContent)
+            string sInsert = @"INSERT INTO " + tableName + @" (InstanceKey, ParentID, Namespace, Application, Module, PathName, CompleteFileName, FileName, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent, FileTextContent)
 					output INSERTED.FileID
                     VALUES
-					(@ParentID, @Namespace, @Application, @Module,  @PathName, @CompleteFileName,  @FileName, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent, @FileTextContent)";
+					(@InstanceKey, @ParentID, @Namespace, @Application, @Module,  @PathName, @CompleteFileName,  @FileName, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent, @FileTextContent)";
 
             if (isCustom)
             {
@@ -212,6 +220,8 @@ namespace Microarea.Common
             folderNameSpace = "Folder." + folderNameSpace.Replace('\\', '.');
             try
             {
+
+                mySQLCommand.Parameters.AddWithValue("@InstanceKey", instanceKey);
 
                 if (id == 0)
                     mySQLCommand.Parameters.AddWithValue("@ParentID", DBNull.Value);
@@ -318,14 +328,14 @@ namespace Microarea.Common
 
             SqlCommand mySQLCommand = null;
 
-            string tableName = "TB_StandardMetadata";
+            string tableName = "MP_InstanceTBFS";
 
             if (isCustom)
                 tableName = "TB_CustomMetadata";
             //Inserisco i Ruoli
-            string sInsert = @"INSERT INTO " + tableName + @" (ParentID, Namespace, Application, Module, PathName,  CompleteFileName, FileName, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent, FileTextContent)
+            string sInsert = @"INSERT INTO " + tableName + @" (InstanceKey, ParentID, Namespace, Application, Module, PathName,  CompleteFileName, FileName, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent, FileTextContent)
 					VALUES
-					(@ParentID, @Namespace, @Application, @Module, @PathName, @CompleteFileName, @FileName, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent, @FileTextContent)";
+					(@InstanceKey, @ParentID, @Namespace, @Application, @Module, @PathName, @CompleteFileName, @FileName, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent, @FileTextContent)";
 
 
 
@@ -355,7 +365,7 @@ namespace Microarea.Common
 
 
             int index = aFile.FullName.IndexOf(@"Standard\", 0);
-
+            mySQLCommand.Parameters.AddWithValue("@InstanceKey", instanceKey);
             mySQLCommand.Parameters.AddWithValue("@ParentID", id);
             mySQLCommand.Parameters.AddWithValue("@Namespace", nameSpace);
             mySQLCommand.Parameters.AddWithValue("@PathName", aFile.FullName.Substring(index + 9, aFile.FullName.LastIndexOf('\\') - (index + 9)));
