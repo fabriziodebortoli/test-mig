@@ -2,6 +2,7 @@
 using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Libraries.DatabaseManager;
 using Microarea.AdminServer.Model;
+using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
@@ -12,15 +13,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.AdminServer.Controllers
 {
-	// Controller with APIs against database 
-	// create container
-	// create structure with tables
-
+	/// <summary>
+	/// Controller with APIs against database  
+	/// </summary>
 	//============================================================================
 	public class DatabaseController : Controller
 	{
@@ -37,6 +38,155 @@ namespace Microarea.AdminServer.Controllers
 			this.settings = settings.Value;
 
 			burgerData = new BurgerData(this.settings.DatabaseInfo.ConnectionString);
+		}
+
+		/// <summary>
+		/// Insert/update subscription database
+		/// </summary>
+		//-----------------------------------------------------------------------------	
+		[HttpPost("/api/databases")]
+		public IActionResult ApiDatabases([FromBody] SubscriptionDatabase subDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+
+			if (string.IsNullOrWhiteSpace(subDatabase.InstanceKey))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.InstanceKeyEmpty;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (String.IsNullOrEmpty(subDatabase.SubscriptionKey))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.SubscriptionKeyEmpty;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (String.IsNullOrEmpty(subDatabase.Name))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.DatabaseNameEmpty;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subDatabase.SubscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			try
+			{
+				if (subDatabase != null)
+				{
+					opRes = subDatabase.Save(burgerData);
+					opRes.Message = Strings.OperationOK;
+				}
+				else
+				{
+					opRes.Result = false;
+					opRes.Message = Strings.NoValidInput;
+					opRes.Code = (int)AppReturnCodes.InvalidData;
+				}
+			}
+			catch (Exception exc)
+			{
+				opRes.Result = false;
+				opRes.Message = "040 AdminController.ApiDatabases" + exc.Message;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (!opRes.Result)
+			{
+				opRes.Message = Strings.OperationKO;
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		/// <summary>
+		/// Returns the databases list of a instanceKey+subscriptionKey
+		/// You can also specify a database name (it is the third pk segment)
+		/// </summary>
+		/// <param name="instanceKey"></param>
+		/// <param name="subscriptionKey"></param>
+		/// <param name="dbName"></param>
+		/// <returns></returns>
+		//-----------------------------------------------------------------------------	
+		[HttpGet("/api/databases/{instanceKey}/{subscriptionKey}/{dbName?}")]
+		[Produces("application/json")]
+		public IActionResult ApiGetDatabases(string instanceKey, string subscriptionKey, string dbName)
+		{
+			OperationResult opRes = new OperationResult();
+
+			if (string.IsNullOrWhiteSpace(instanceKey))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.InstanceKeyEmpty;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (string.IsNullOrWhiteSpace(subscriptionKey))
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.SubscriptionKeyEmpty;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			List<ISubscriptionDatabase> databasesList = new List<ISubscriptionDatabase>();
+
+			try
+			{
+				databasesList = string.IsNullOrWhiteSpace(dbName) 
+					? this.burgerData.GetList<SubscriptionDatabase, ISubscriptionDatabase>(string.Format(Queries.SelectDatabases, instanceKey, subscriptionKey), ModelTables.SubscriptionDatabases) 
+					: this.burgerData.GetList<SubscriptionDatabase, ISubscriptionDatabase>(string.Format(Queries.SelectDatabaseByName, instanceKey, subscriptionKey, dbName), ModelTables.SubscriptionDatabases);
+			}
+			catch (Exception exc)
+			{
+				opRes.Result = false;
+				opRes.Message = "010 DatabaseController.ApiGetDatabases" + exc.Message;
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 501, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (databasesList.Count == 0)
+			{
+				opRes.Code = (int)AppReturnCodes.NoSubscriptionDatabasesAvailable;
+				opRes.Message = Strings.NoSubscriptionDatabasesAvailable;
+			}
+
+			opRes.Result = true;
+			opRes.Content = databasesList;
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
 		/// <summary>
@@ -242,7 +392,7 @@ namespace Microarea.AdminServer.Controllers
 			catch (Exception exc)
 			{
 				opRes.Result = false;
-				opRes.Message = "040 AdminController.ApiDatabases" + exc.Message;
+				opRes.Message = "020 DatabaseController.QuickCreate" + exc.Message;
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
