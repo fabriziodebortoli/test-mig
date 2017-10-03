@@ -65,12 +65,12 @@ import { TbIconComponent } from './components/tb-icon/tb-icon.component';
 // import { TbComponent } from './components/tb.component';
 export { TbComponent } from './components/tb.component';
 
-import { BOSlaveComponent } from './components/bo.component';
-import { BOCommonComponent } from './components/bo.component';
-import { BOComponent } from './components/bo.component';
-export { BOSlaveComponent } from './components/bo.component';
-export { BOCommonComponent } from './components/bo.component';
-export { BOComponent } from './components/bo.component';
+export { BOComponent } from './components/bo/bo.component';
+export { BOSlaveComponent } from './components/bo/bo-slave.component';
+export { BOCommonComponent } from './components/bo/bo-common.component';
+import { BOComponent } from './components/bo/bo.component';
+import { BOSlaveComponent } from './components/bo/bo-slave.component';
+import { BOCommonComponent } from './components/bo/bo-common.component';
 
 export { ProxyRouteComponent } from './components/proxy-route/proxy-route.component';
 export { DynamicCmpComponent } from './components/dynamic-cmp.component';
@@ -127,7 +127,9 @@ const TB_CONTAINERS = [
 ];
 
 /**
+ * TB_CONTROLS
  */
+import { VATCodeComponent } from './controls/vat-code/vat-code.component';
 import {
     ControlComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
@@ -137,8 +139,9 @@ import {
     LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent, ApplicationDateComponent
 } from './controls/';
 export * from './controls';
+export { VATCodeComponent } from './controls/vat-code/vat-code.component';
 const TB_CONTROLS = [
-    ControlComponent,
+    ControlComponent, VATCodeComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
