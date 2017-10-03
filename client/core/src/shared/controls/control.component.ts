@@ -29,12 +29,12 @@ export class ControlComponent extends TbComponent implements OnDestroy {
 
     constructor(public layoutService: LayoutService, public tbComponentService: TbComponentService) {
         super(tbComponentService);
-        let s = this.layoutService.getWidthFactor().subscribe(wf => { this.widthFactor = wf; s.unsubscribe(); });
-        s = this.layoutService.getHeightFactor().subscribe(hf => { this.heightFactor = hf; s.unsubscribe(); });
+        this.subscriptions.push(this.layoutService.getWidthFactor().subscribe(wf => { this.widthFactor = wf; }));
+        this.subscriptions.push(this.layoutService.getHeightFactor().subscribe(hf => { this.heightFactor = hf }));
     }
 
     ngOnDestroy() {
-
+        this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
     get width(): number {
