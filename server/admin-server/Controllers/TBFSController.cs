@@ -7,10 +7,9 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Microarea.AdminServer.Controllers
 {
+	//================================================================================
 	[Consumes("application/json", otherContentTypes: "multipart/form-data")]
 	public class TBFSController : Controller
     {
@@ -60,6 +59,26 @@ namespace Microarea.AdminServer.Controllers
 
 			this.jsonHelper.AddJsonCouple<bool>("result", true);
 			this.jsonHelper.AddJsonCouple<string>("message", String.Format("File {0} has been uploaded", file.FileName));
+			return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), StatusCode = 200, ContentType = "application/json" };
+		}
+
+		[HttpPost("api/tbfs/test")]
+		//-----------------------------------------------------------------------------	
+		public IActionResult ApiTBFSTest()
+		{
+			try
+			{
+
+			}
+			catch (Exception e)
+			{
+				this.jsonHelper.AddJsonCouple<bool>("result", false);
+				this.jsonHelper.AddJsonCouple<string>("message", String.Format("An error occurred: {0}", e.Message));
+				return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), StatusCode = 500, ContentType = "application/json" };
+			}
+
+			this.jsonHelper.AddJsonCouple<bool>("result", true);
+			this.jsonHelper.AddJsonCouple<string>("message", "Test ended");
 			return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), StatusCode = 200, ContentType = "application/json" };
 		}
 	}
