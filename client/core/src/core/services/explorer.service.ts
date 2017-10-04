@@ -1,6 +1,6 @@
-import { InfoService } from './info.service';
 import { Injectable } from '@angular/core';
 
+import { InfoService } from './info.service';
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
 import { Logger } from './logger.service';

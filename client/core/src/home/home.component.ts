@@ -2,8 +2,8 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostList
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 import { Subscription } from 'rxjs';
 
+import { MessageDlgArgs } from './../shared/models/message-dialog.model';
 import { ComponentInfo } from './../shared/models/component-info.model';
-import { MessageDlgArgs } from './../shared/models';
 
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
 import { MessageDialogComponent } from './../shared/containers/message-dialog/message-dialog.component';

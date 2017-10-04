@@ -1,14 +1,15 @@
-import { EventDataService } from './../../core/services/eventdata.service';
-import { DynamicDialogComponent } from './../containers/dynamic-dialog/dynamic-dialog.component';
-import { DiagnosticData, MessageDlgArgs } from './../models';
-import { Subscription } from 'rxjs';
-import { DiagnosticDialogComponent } from './../containers/diagnostic-dialog/diagnostic-dialog.component';
 import { Component, ViewContainerRef, OnInit, OnDestroy, ComponentRef, Input, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 
+import { MessageDlgArgs, DiagnosticData } from './../models/message-dialog.model';
 import { ComponentInfo } from './../models/component-info.model';
-import { ComponentService } from './../../core/services/component.service';
-import { MessageDialogComponent } from './../containers/message-dialog/message-dialog.component';
 
+import { EventDataService } from './../../core/services/eventdata.service';
+import { ComponentService } from './../../core/services/component.service';
+
+import { DynamicDialogComponent } from './../containers/dynamic-dialog/dynamic-dialog.component';
+import { DiagnosticDialogComponent } from './../containers/diagnostic-dialog/diagnostic-dialog.component';
+import { MessageDialogComponent } from './../containers/message-dialog/message-dialog.component';
 import { DocumentComponent } from './document.component';
 
 /**ATTENZIONE! Questo componente serve per condividere una stesa istanza di EventDataService
