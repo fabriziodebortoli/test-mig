@@ -9,6 +9,7 @@ using System.Runtime.Serialization;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,13 +18,15 @@ namespace Microarea.AdminServer.Controllers
 	[Consumes("application/json", otherContentTypes: "multipart/form-data")]
 	public class TBFSController : Controller
     {
-		private IHostingEnvironment _env;
+		IHostingEnvironment _env;
+		AppOptions _settings;
 		IJsonHelper jsonHelper;
 
 		//-----------------------------------------------------------------------------	
-		public TBFSController(IHostingEnvironment env, IJsonHelper jsonHelper)
+		public TBFSController(IHostingEnvironment env, IOptions<AppOptions> settings, IJsonHelper jsonHelper)
 		{
-			_env = env;
+			this._env = env;
+			this._settings = settings.Value;
 			this.jsonHelper = jsonHelper;
 		}
 
@@ -34,7 +37,9 @@ namespace Microarea.AdminServer.Controllers
 			if (file == null || file.Length == 0)
 				return Content("file not selected");
 
-			string uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads");
+			string uploadSubFolder = this._settings.TBFS.UploadFolder;
+
+			string uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), uploadSubFolder);
 
 			try
 			{
@@ -44,7 +49,7 @@ namespace Microarea.AdminServer.Controllers
 				}
 
 				var path = Path.Combine(
-							Directory.GetCurrentDirectory(), "wwwroot\\uploads",
+							Directory.GetCurrentDirectory(), uploadSubFolder,
 							file.FileName);
 
 				using (var stream = new FileStream(path, FileMode.Create))
