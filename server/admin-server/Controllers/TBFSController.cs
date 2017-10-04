@@ -35,7 +35,7 @@ namespace Microarea.AdminServer.Controllers
 
         [HttpPost("api/tbfs/Create")]
         //-----------------------------------------------------------------------------	
-        public async Task<IActionResult> ApiTBFSCreate()
+        public IActionResult ApiTBFSCreate()
         {
            MetaDataManagerTool metadata = new MetaDataManagerTool("I-M4");
             metadata.InsertAllStandardMetaDataInDB();
