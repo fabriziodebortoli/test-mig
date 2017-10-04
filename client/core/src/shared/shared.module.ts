@@ -159,7 +159,7 @@ const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent, DockpaneComponent, DockpaneContainerComponent,
     TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
     MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, DynamicDialogComponent, TabberComponent, TabComponent,
-    TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent
+    TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent, StatusTilePanelComponent
 ];
 
 /**
