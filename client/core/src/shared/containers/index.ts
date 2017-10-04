@@ -11,6 +11,7 @@ export * from './tiles/tile/tile.component';
 export * from './tiles/tile-panel/tile-panel.component';
 export * from './tiles/tile-group/tile-group.component';
 export * from './tiles/tile-manager/tile-manager.component';
+export * from './tiles/status-tile-panel/status-tile-panel.component';
 export * from './tiles/layout-container/layout-container.component';
 export * from './tabs';
 export * from './tb-card';
