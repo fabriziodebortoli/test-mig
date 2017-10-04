@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
-import { OperationResult, LoginSession } from '../../shared/models';
+import { OperationResult } from './../../shared/models/operation-result.model';
 
 import { InfoService } from './info.service';
 import { EventManagerService } from './../../menu/services/event-manager.service';
@@ -85,9 +85,9 @@ export class TaskbuilderService {
 
         let authtoken = this.cookieService.get('authtoken');
         this.logger.debug("openTbConnection...", authtoken);
-        let isDesktop =  this.infoService.isDesktop;
+        let isDesktop = this.infoService.isDesktop;
         return new Observable(observer => {
-            this.httpService.openTBConnection({ authtoken: authtoken, isDesktop: isDesktop})
+            this.httpService.openTBConnection({ authtoken: authtoken, isDesktop: isDesktop })
                 .timeout(15000)
                 .catch((error: any) => Observable.throw(error))
                 .subscribe((tbRes: OperationResult) => {

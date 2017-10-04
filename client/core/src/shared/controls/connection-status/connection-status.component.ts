@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { SocketConnectionStatus } from "../../models";
+import { SocketConnectionStatus } from '../../models/websocket-connection.enum';
 
 import { LocalizationService } from './../../../menu/services/localization.service';
 import { WebSocketService } from './../../../core/services/websocket.service';
