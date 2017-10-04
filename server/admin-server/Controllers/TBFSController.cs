@@ -1,4 +1,5 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
+using Microarea.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -62,7 +63,18 @@ namespace Microarea.AdminServer.Controllers
 			return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), StatusCode = 200, ContentType = "application/json" };
 		}
 
-		[HttpPost("api/tbfs/test")]
+        [HttpPost("api/tbfs/create")]
+        //-----------------------------------------------------------------------------	
+        public IActionResult ApiTBFSCreate()
+        {
+            MetaDataManagerTool metadata = new MetaDataManagerTool("I-M4");
+            metadata.InsertAllStandardMetaDataInDB();
+
+            jsonHelper.AddJsonCouple<string>("message", "Welcome to Microarea Admin-Server API");
+            return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };
+        }
+
+        [HttpPost("api/tbfs/test")]
 		//-----------------------------------------------------------------------------	
 		public IActionResult ApiTBFSTest()
 		{
