@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microarea.AdminServer.Controllers.Helpers;
+﻿using Microarea.AdminServer.Controllers.Helpers;
 using Microsoft.AspNetCore.Hosting;
-using System.Runtime.Serialization;
-using System.Net;
 using Microsoft.AspNetCore.Http;
-using System.IO;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,7 +34,6 @@ namespace Microarea.AdminServer.Controllers
 				return Content("file not selected");
 
 			string uploadSubFolder = this._settings.TBFS.UploadFolder;
-
 			string uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), uploadSubFolder);
 
 			try
