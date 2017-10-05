@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { MessageDlgArgs, MessageDlgResult } from './../../models/message-dialog.model';
+
 import { EventDataService } from './../../../core/services/eventdata.service';
-import { MessageDlgArgs, MessageDlgResult } from "../../models";
 
 @Component({
     selector: 'tb-message-dialog',

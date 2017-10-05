@@ -1,110 +1,96 @@
-.menu-element {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: stretch;
-    align-items: flex-start;
-    background: #f1f4f7;
-    padding: 0.3rem;
-    margin: 0.2rem 0;
-    color: #0277bd;
-    font-weight: 700;
-}
-
-.menu-element:hover {
-    background: #fffbe0;
-    transition: background 0.2s;
-    // cursor: pointer;
-}
-
-.menu-element-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.menu-element-content .header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.menu-element-content p.description {
-    font-size: 12px;
-    font-weight: 500;
-    color: #000;
-    margin-bottom: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: flex-end;
-}
-
-.menu-element .object-type {
-    color: #bbb;
-    font-size: 20px;
-    margin-right: 2px;
-    margin-top: 2px;
-    line-height: 24px;
-}
-
-.menu-element .object-type.Document {
-    color: #0277bd;
-}
-
-.menu-element .object-type.Report,
-.menu-element .object-type.Function {
-    color: #3EAB66;
-}
-
-.menu-element .object-type.Batch {
-    color: #ffa700;
-}
-
-.menu-element md-spinner {
-    width: 30px;
-    height: 21px;
-    margin-top: 2px;
-}
-
-.menu-element span {
-    font-size: 13px;
-    line-height: 16px;
-    cursor: pointer;
-    flex: 1 1 auto;
-    padding: 0 3px;
-    color: #000;
-    font-weight: 500;
-}
-
-.menu-element .isLoading {
-    color: #999;
-}
-
-.menu-element .star {
-    color: #bbb;
-    font-size: 20px;
-    line-height: 24px;
-}
-
-.menu-element .star:hover {
-    color: #0277bd;
-    cursor: pointer;
-}
-
-.menu-element .star.favorite {
-    color: #0277bd;
-}
-
-@media screen and (min-width: 48em) {
-    .menu-element .menu-element-content p.description {
-        min-height: 25px;
+tb-menu-element {
+    padding: 0 !important;
+    .menu-element {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: stretch;
+        align-items: flex-start;
+        padding: 0 0.2rem;
+        margin: 0 0.3rem;
+        color: #0277bd;
+        font-weight: 400;
+    }
+    .menu-element:hover {
+        background: #fffbe0;
+        transition: background 0.2s;
+        // cursor: pointer;
+    }
+    .menu-element-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .menu-element-content .header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .menu-element-content p.description {
+        font-size: 12px;
+        font-weight: 500;
+        color: #000;
+        margin: 0 0 10px;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        display: flex;
+        align-items: flex-end;
+    }
+    .menu-element .object-type {
+        color: #bbb;
+        font-size: 14px;
+        margin-right: 9px;
+        margin-top: 4px;
+        line-height: 22px;
+    }
+    .menu-element .object-type.Document {
+        color: #0277bd;
+    }
+    .menu-element .object-type.Report,
+    .menu-element .object-type.Function {
+        color: #3EAB66;
+    }
+    .menu-element .object-type.Batch {
+        color: #ffa700;
+    }
+    .menu-element md-spinner {
+        width: 30px;
+        height: 21px;
+        margin-top: 2px;
     }
     .menu-element span {
-        font-size: 14px;
+        line-height: 24px;
+        cursor: pointer;
+        flex: 1 1 auto;
+        padding: 0 3px;
+        color: #000;
+        font-weight: 400;
+        font-size: 12px;
     }
+    .menu-element .isLoading {
+        color: #999;
+    }
+    .menu-element .star {
+        color: #bbb;
+        font-size: 18px;
+        line-height: 22px;
+    }
+    .menu-element .star:hover {
+        color: #0277bd;
+        cursor: pointer;
+    }
+    .menu-element .star.favorite {
+        color: #0277bd;
+    }
+    @media screen and (min-width: 48em) {
+        .menu-element .menu-element-content p.description {
+            min-height: 25px;
+        }
+        .menu-element span {
+            font-size: 13px;
+        }
+    }
+    @media screen and (min-width: 64em) {}
+    @media screen and (min-width: 75em) {}
 }
-
-@media screen and (min-width: 64em) {}
-
-@media screen and (min-width: 75em) {}
