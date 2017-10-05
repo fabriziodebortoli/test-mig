@@ -12,6 +12,9 @@
         <div>
             <a [routerLink]="['/accountsHome']">Accounts</a>
         </div>
+        <div>
+            <a [routerLink]="['/fileUpload']">File Upload</a>
+        </div>        
         <div *ngIf="userAccountName != undefined && userAccountName != ''" class="logOutBtn">
             <a (click)="logout()" style="cursor:pointer">Logout</a>
         </div>

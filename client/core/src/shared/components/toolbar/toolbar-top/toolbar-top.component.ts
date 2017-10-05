@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { ViewModeType } from './../../../../shared/models';
+import { ViewModeType } from './../../../../shared/models/view-mode-type.model';
 
 import { EventDataService } from './../../../../core/services/eventdata.service';
 

@@ -1,3 +1,4 @@
+import {FileUploadComponent} from './components/file-upload/file-upload.component';
 import { DatabaseConfigurationComponent } from './components/subscription/database-configuration.component';
 import { SubscriptionDatabaseComponent } from './components/subscription/subscription-database.component';
 import { InstanceHomeComponent } from './components/instance/instance-home.component';
@@ -73,6 +74,10 @@ export const routes: Routes = [
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
     component: DatabaseConfigurationComponent
+  },
+  { 
+    path: 'fileUpload', 
+    component: FileUploadComponent
   },
   { 
     path: 'logout', 
