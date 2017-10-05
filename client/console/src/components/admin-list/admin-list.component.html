@@ -1,7 +1,7 @@
 <div *ngIf="readingData">
   <img src="assets/ajax-loader.gif"  />
 </div>
-<md-list>
+<md-list style="box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .1), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .1);">
   <md-list-item *ngFor="let item of items" (click)="goEditMode(item)" style="width:100%;cursor:pointer;background-color:#ffffff;">
     <div style="padding-bottom:4px;border-bottom:1px solid #d0d0d0;width:100%;">
       <div *ngFor="let columnName of columnNames; let last = last;" style="display:block; float:left; min-width:20%">
