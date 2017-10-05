@@ -1,13 +1,13 @@
-.status-tile-panel{
+.status-tile{
     display: flex;
     flex-direction: row;
-    height: 60px;
+    height: 20px;
     background: lightblue;
     overflow: hidden;
 }
-.status-tile-panel tb-image{
+.status-tile tb-image{
     background:greenyellow
 }
-.status-tile-panel tb-label-static{
+.status-tile tb-label-static{
     background:aquamarine
 }

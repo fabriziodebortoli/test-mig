@@ -7,20 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using TaskBuilderNetCore.Interfaces;
-
-namespace LoginManagerWcf
+namespace WCFLoginManager
 {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://microarea.it/LoginManager/", ConfigurationName="LoginManagerWcf.MicroareaLoginManagerSoap")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://microarea.it/LoginManager/", ConfigurationName="WCFLoginManager.MicroareaLoginManagerSoap")]
     public interface MicroareaLoginManagerSoap
     {
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetConfigurationHash", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> GetConfigurationHashAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/UserCanAccessWebSitePrivateArea", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -33,12 +27,12 @@ namespace LoginManagerWcf
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/SendErrorFile", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<LoginManagerWcf.SendErrorFileResponse> SendErrorFileAsync(LoginManagerWcf.SendErrorFileRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.SendErrorFileResponse> SendErrorFileAsync(WCFLoginManager.SendErrorFileRequest request);
         
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/DownloadPdb", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<LoginManagerWcf.DownloadPdbResponse> DownloadPdbAsync(LoginManagerWcf.DownloadPdbRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.DownloadPdbResponse> DownloadPdbAsync(WCFLoginManager.DownloadPdbRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetMainSerialNumber", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -50,7 +44,7 @@ namespace LoginManagerWcf
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/SendBalloon", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task SendBalloonAsync(string authenticationToken, string bodyMessage, LoginManagerWcf.MessageType messageType, string[] recipients);
+        System.Threading.Tasks.Task SendBalloonAsync(string authenticationToken, string bodyMessage, WCFLoginManager.MessageType messageType, string[] recipients);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/AdvancedSendBalloon", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -99,7 +93,7 @@ namespace LoginManagerWcf
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/IsValidDate", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<LoginManagerWcf.IsValidDateResponse> IsValidDateAsync(LoginManagerWcf.IsValidDateRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.IsValidDateResponse> IsValidDateAsync(WCFLoginManager.IsValidDateRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/PingNeeded", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -108,7 +102,7 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/SetClientData", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task SetClientDataAsync(LoginManagerWcf.ClientData cd);
+        System.Threading.Tasks.Task SetClientDataAsync(WCFLoginManager.ClientData cd);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/SetCompanyInfo", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -204,13 +198,13 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetCalNumber", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.GetCalNumberResponse> GetCalNumberAsync(LoginManagerWcf.GetCalNumberRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.GetCalNumberResponse> GetCalNumberAsync(WCFLoginManager.GetCalNumberRequest request);
         
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetCalNumber2", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.GetCalNumber2Response> GetCalNumber2Async(LoginManagerWcf.GetCalNumber2Request request);
+        System.Threading.Tasks.Task<WCFLoginManager.GetCalNumber2Response> GetCalNumber2Async(WCFLoginManager.GetCalNumber2Request request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetTokenProcessType", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -226,7 +220,7 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/ValidateUser", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.ValidateUserResponse> ValidateUserAsync(LoginManagerWcf.ValidateUserRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.ValidateUserResponse> ValidateUserAsync(WCFLoginManager.ValidateUserRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/ConsumeMobileCal", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -242,7 +236,7 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/LoginCompact", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.LoginCompactResponse> LoginCompactAsync(LoginManagerWcf.LoginCompactRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.LoginCompactResponse> LoginCompactAsync(WCFLoginManager.LoginCompactRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/SSOLogOff", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -253,7 +247,7 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/LoginViaInfinityToken2", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.LoginViaInfinityToken2Response> LoginViaInfinityToken2Async(LoginManagerWcf.LoginViaInfinityToken2Request request);
+        System.Threading.Tasks.Task<WCFLoginManager.LoginViaInfinityToken2Response> LoginViaInfinityToken2Async(WCFLoginManager.LoginViaInfinityToken2Request request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetIToken", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -269,18 +263,13 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/Login", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.LoginResponse> LoginAsync(LoginManagerWcf.LoginRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.LoginResponse> LoginAsync(WCFLoginManager.LoginRequest request);
         
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/Login2", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.Login2Response> Login2Async(LoginManagerWcf.Login2Request request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetUsagePercentageOnDBSize", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<int> GetUsagePercentageOnDBSizeAsync();
+        System.Threading.Tasks.Task<WCFLoginManager.Login2Response> Login2Async(WCFLoginManager.Login2Request request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/ConfirmToken", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -291,7 +280,7 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetLoginInformation", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.GetLoginInformationResponse> GetLoginInformationAsync(LoginManagerWcf.GetLoginInformationRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.GetLoginInformationResponse> GetLoginInformationAsync(WCFLoginManager.GetLoginInformationRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/LogOff", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -322,13 +311,13 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/IsFloatingUser", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.IsFloatingUserResponse> IsFloatingUserAsync(LoginManagerWcf.IsFloatingUserRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.IsFloatingUserResponse> IsFloatingUserAsync(WCFLoginManager.IsFloatingUserRequest request);
         
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/IsWebUser", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.IsWebUserResponse> IsWebUserAsync(LoginManagerWcf.IsWebUserRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.IsWebUserResponse> IsWebUserAsync(WCFLoginManager.IsWebUserRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/IsWinNT", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -349,13 +338,13 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetAuthenticationInformations", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.GetAuthenticationInformationsResponse> GetAuthenticationInformationsAsync(LoginManagerWcf.GetAuthenticationInformationsRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.GetAuthenticationInformationsResponse> GetAuthenticationInformationsAsync(WCFLoginManager.GetAuthenticationInformationsRequest request);
         
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetAuthenticationNames", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.GetAuthenticationNamesResponse> GetAuthenticationNamesAsync(LoginManagerWcf.GetAuthenticationNamesRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.GetAuthenticationNamesResponse> GetAuthenticationNamesAsync(WCFLoginManager.GetAuthenticationNamesRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/DeleteAssociation", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -390,17 +379,17 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetDMSDatabasesInfo", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.DmsDatabaseInfo[]> GetDMSDatabasesInfoAsync(string authenticationToken);
+        System.Threading.Tasks.Task<WCFLoginManager.DmsDatabaseInfo[]> GetDMSDatabasesInfoAsync(string authenticationToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetDataSynchroDatabasesInfo", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.DataSynchroDatabaseInfo[]> GetDataSynchroDatabasesInfoAsync(string authenticationToken);
+        System.Threading.Tasks.Task<WCFLoginManager.DataSynchroDatabaseInfo[]> GetDataSynchroDatabasesInfoAsync(string authenticationToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetCompanyDatabasesInfo", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.TbSenderDatabaseInfo[]> GetCompanyDatabasesInfoAsync(string authenticationToken);
+        System.Threading.Tasks.Task<WCFLoginManager.TbSenderDatabaseInfo[]> GetCompanyDatabasesInfoAsync(string authenticationToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetEdition", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -410,7 +399,7 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetConfigurationStream", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.GetConfigurationStreamResponse> GetConfigurationStreamAsync(LoginManagerWcf.GetConfigurationStreamRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.GetConfigurationStreamResponse> GetConfigurationStreamAsync(WCFLoginManager.GetConfigurationStreamRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetCountry", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -426,7 +415,7 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetInstallationVersion", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.GetInstallationVersionResponse> GetInstallationVersionAsync(LoginManagerWcf.GetInstallationVersionRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.GetInstallationVersionResponse> GetInstallationVersionAsync(WCFLoginManager.GetInstallationVersionRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetUserInfo", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -496,7 +485,7 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/CanUseNamespace", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<bool> CanUseNamespaceAsync(string nameSpace, string authenticationToken, LoginManagerWcf.GrantType grantType);
+        System.Threading.Tasks.Task<bool> CanUseNamespaceAsync(string nameSpace, string authenticationToken, WCFLoginManager.GrantType grantType);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/CacheCounter", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -506,13 +495,13 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/CacheCounterGTG", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<SerialNumberType> CacheCounterGTGAsync();
+        System.Threading.Tasks.Task<TaskBuilderNetCore.Interfaces.SerialNumberType> CacheCounterGTGAsync();
         
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/SetCurrentComponents", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.SetCurrentComponentsResponse> SetCurrentComponentsAsync(LoginManagerWcf.SetCurrentComponentsRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.SetCurrentComponentsResponse> SetCurrentComponentsAsync(WCFLoginManager.SetCurrentComponentsRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/IsVirginActivation", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -567,12 +556,12 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetArticlesWithNamedCal", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.ModuleNameInfo[]> GetArticlesWithNamedCalAsync();
+        System.Threading.Tasks.Task<WCFLoginManager.ModuleNameInfo[]> GetArticlesWithNamedCalAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetArticlesWithFloatingCal", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.ModuleNameInfo[]> GetArticlesWithFloatingCalAsync();
+        System.Threading.Tasks.Task<WCFLoginManager.ModuleNameInfo[]> GetArticlesWithFloatingCalAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/RefreshFloatingMark", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -592,18 +581,18 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetProxySettings", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.ProxySettings> GetProxySettingsAsync();
+        System.Threading.Tasks.Task<WCFLoginManager.ProxySettings> GetProxySettingsAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/SetProxySettings", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task SetProxySettingsAsync(LoginManagerWcf.ProxySettings proxySettings);
+        System.Threading.Tasks.Task SetProxySettingsAsync(WCFLoginManager.ProxySettings proxySettings);
         
         // CODEGEN: Generating message contract since the operation has multiple return values.
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetCompanyLanguage", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.GetCompanyLanguageResponse> GetCompanyLanguageAsync(LoginManagerWcf.GetCompanyLanguageRequest request);
+        System.Threading.Tasks.Task<WCFLoginManager.GetCompanyLanguageResponse> GetCompanyLanguageAsync(WCFLoginManager.GetCompanyLanguageRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/IsValidUpToDateToken", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -633,7 +622,7 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetCalType", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.LoginSlotType> GetCalTypeAsync(string token);
+        System.Threading.Tasks.Task<WCFLoginManager.LoginSlotType> GetCalTypeAsync(string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/IsUserLoggedByName", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -668,17 +657,17 @@ namespace LoginManagerWcf
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetImmediateMessagesQueue", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.Advertisement[]> GetImmediateMessagesQueueAsync(string authenticationToken);
+        System.Threading.Tasks.Task<WCFLoginManager.Advertisement[]> GetImmediateMessagesQueueAsync(string authenticationToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetMessagesQueue", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.Advertisement[]> GetMessagesQueueAsync(string authenticationToken);
+        System.Threading.Tasks.Task<WCFLoginManager.Advertisement[]> GetMessagesQueueAsync(string authenticationToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetOldMessages", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
-        System.Threading.Tasks.Task<LoginManagerWcf.Advertisement[]> GetOldMessagesAsync(string authenticationToken);
+        System.Threading.Tasks.Task<WCFLoginManager.Advertisement[]> GetOldMessagesAsync(string authenticationToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/DeleteMessageFromQueue", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -699,6 +688,11 @@ namespace LoginManagerWcf
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
         System.Threading.Tasks.Task<string> GetAspNetUserAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://microarea.it/LoginManager/GetConfigurationHash", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(State))]
+        System.Threading.Tasks.Task<string> GetConfigurationHashAsync();
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -809,6 +803,9 @@ namespace LoginManagerWcf
         
         /// <remarks/>
         Default = 32,
+        
+        /// <remarks/>
+        DataSynch = 64,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1788,6 +1785,10 @@ namespace LoginManagerWcf
         
         private bool isValidationEnabledField;
         
+        private bool isInPauseField;
+        
+        private bool abortField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
         public bool IsProviderValid
@@ -1827,6 +1828,34 @@ namespace LoginManagerWcf
             set
             {
                 this.isValidationEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool IsInPause
+        {
+            get
+            {
+                return this.isInPauseField;
+            }
+            set
+            {
+                this.isInPauseField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool Abort
+        {
+            get
+            {
+                return this.abortField;
+            }
+            set
+            {
+                this.abortField = value;
             }
         }
     }
@@ -3484,6 +3513,58 @@ namespace LoginManagerWcf
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
+    public enum SerialNumberType
+    {
+        
+        /// <remarks/>
+        Normal,
+        
+        /// <remarks/>
+        Development,
+        
+        /// <remarks/>
+        Reseller,
+        
+        /// <remarks/>
+        Distributor,
+        
+        /// <remarks/>
+        Demo,
+        
+        /// <remarks/>
+        DevelopmentIU,
+        
+        /// <remarks/>
+        Multi,
+        
+        /// <remarks/>
+        StandAlone,
+        
+        /// <remarks/>
+        Backup,
+        
+        /// <remarks/>
+        Test,
+        
+        /// <remarks/>
+        PersonalPlusK,
+        
+        /// <remarks/>
+        DevelopmentPlusK,
+        
+        /// <remarks/>
+        DevelopmentPlusUser,
+        
+        /// <remarks/>
+        PersonalPlusUser,
+        
+        /// <remarks/>
+        UNDEFINED,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://microarea.it/LoginManager/")]
     public enum ActivationState
     {
         
@@ -3530,7 +3611,7 @@ namespace LoginManagerWcf
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://microarea.it/LoginManager/", Order=0)]
-        public LoginManagerWcf.ActivationState SetCurrentComponentsResult;
+        public WCFLoginManager.ActivationState SetCurrentComponentsResult;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://microarea.it/LoginManager/", Order=1)]
         public int dte;
@@ -3539,7 +3620,7 @@ namespace LoginManagerWcf
         {
         }
         
-        public SetCurrentComponentsResponse(LoginManagerWcf.ActivationState SetCurrentComponentsResult, int dte)
+        public SetCurrentComponentsResponse(WCFLoginManager.ActivationState SetCurrentComponentsResult, int dte)
         {
             this.SetCurrentComponentsResult = SetCurrentComponentsResult;
             this.dte = dte;
@@ -3618,13 +3699,13 @@ namespace LoginManagerWcf
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
-    public interface MicroareaLoginManagerSoapChannel : LoginManagerWcf.MicroareaLoginManagerSoap, System.ServiceModel.IClientChannel
+    public interface MicroareaLoginManagerSoapChannel : WCFLoginManager.MicroareaLoginManagerSoap, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "0.5.0.0")]
-    public partial class MicroareaLoginManagerSoapClient : System.ServiceModel.ClientBase<LoginManagerWcf.MicroareaLoginManagerSoap>, LoginManagerWcf.MicroareaLoginManagerSoap
+    public partial class MicroareaLoginManagerSoapClient : System.ServiceModel.ClientBase<WCFLoginManager.MicroareaLoginManagerSoap>, WCFLoginManager.MicroareaLoginManagerSoap
     {
         
     /// <summary>
@@ -3660,11 +3741,6 @@ namespace LoginManagerWcf
         {
         }
         
-        public System.Threading.Tasks.Task<string> GetConfigurationHashAsync()
-        {
-            return base.Channel.GetConfigurationHashAsync();
-        }
-        
         public System.Threading.Tasks.Task<bool> UserCanAccessWebSitePrivateAreaAsync(int loginId)
         {
             return base.Channel.UserCanAccessWebSitePrivateAreaAsync(loginId);
@@ -3675,12 +3751,12 @@ namespace LoginManagerWcf
             return base.Channel.IsEasyBuilderDeveloperAsync(authenticationToken);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.SendErrorFileResponse> SendErrorFileAsync(LoginManagerWcf.SendErrorFileRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.SendErrorFileResponse> SendErrorFileAsync(WCFLoginManager.SendErrorFileRequest request)
         {
             return base.Channel.SendErrorFileAsync(request);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.DownloadPdbResponse> DownloadPdbAsync(LoginManagerWcf.DownloadPdbRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.DownloadPdbResponse> DownloadPdbAsync(WCFLoginManager.DownloadPdbRequest request)
         {
             return base.Channel.DownloadPdbAsync(request);
         }
@@ -3695,7 +3771,7 @@ namespace LoginManagerWcf
             return base.Channel.GetMLUExpiryDateAsync();
         }
         
-        public System.Threading.Tasks.Task SendBalloonAsync(string authenticationToken, string bodyMessage, LoginManagerWcf.MessageType messageType, string[] recipients)
+        public System.Threading.Tasks.Task SendBalloonAsync(string authenticationToken, string bodyMessage, WCFLoginManager.MessageType messageType, string[] recipients)
         {
             return base.Channel.SendBalloonAsync(authenticationToken, bodyMessage, messageType, recipients);
         }
@@ -3755,7 +3831,7 @@ namespace LoginManagerWcf
             return base.Channel.IsCalAvailableAsync(authenticationToken, application, functionality);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.IsValidDateResponse> IsValidDateAsync(LoginManagerWcf.IsValidDateRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.IsValidDateResponse> IsValidDateAsync(WCFLoginManager.IsValidDateRequest request)
         {
             return base.Channel.IsValidDateAsync(request);
         }
@@ -3765,7 +3841,7 @@ namespace LoginManagerWcf
             return base.Channel.PingNeededAsync(force);
         }
         
-        public System.Threading.Tasks.Task SetClientDataAsync(LoginManagerWcf.ClientData cd)
+        public System.Threading.Tasks.Task SetClientDataAsync(WCFLoginManager.ClientData cd)
         {
             return base.Channel.SetClientDataAsync(cd);
         }
@@ -3860,12 +3936,12 @@ namespace LoginManagerWcf
             return base.Channel.GetLoggedUsersAdvancedAsync(token);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.GetCalNumberResponse> GetCalNumberAsync(LoginManagerWcf.GetCalNumberRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.GetCalNumberResponse> GetCalNumberAsync(WCFLoginManager.GetCalNumberRequest request)
         {
             return base.Channel.GetCalNumberAsync(request);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.GetCalNumber2Response> GetCalNumber2Async(LoginManagerWcf.GetCalNumber2Request request)
+        public System.Threading.Tasks.Task<WCFLoginManager.GetCalNumber2Response> GetCalNumber2Async(WCFLoginManager.GetCalNumber2Request request)
         {
             return base.Channel.GetCalNumber2Async(request);
         }
@@ -3880,7 +3956,7 @@ namespace LoginManagerWcf
             return base.Channel.ReloadConfigurationAsync();
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.ValidateUserResponse> ValidateUserAsync(LoginManagerWcf.ValidateUserRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.ValidateUserResponse> ValidateUserAsync(WCFLoginManager.ValidateUserRequest request)
         {
             return base.Channel.ValidateUserAsync(request);
         }
@@ -3895,7 +3971,7 @@ namespace LoginManagerWcf
             return base.Channel.ChangePasswordAsync(userName, oldPassword, newPassword);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.LoginCompactResponse> LoginCompactAsync(LoginManagerWcf.LoginCompactRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.LoginCompactResponse> LoginCompactAsync(WCFLoginManager.LoginCompactRequest request)
         {
             return base.Channel.LoginCompactAsync(request);
         }
@@ -3905,7 +3981,7 @@ namespace LoginManagerWcf
             return base.Channel.SSOLogOffAsync(cryptedToken);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.LoginViaInfinityToken2Response> LoginViaInfinityToken2Async(LoginManagerWcf.LoginViaInfinityToken2Request request)
+        public System.Threading.Tasks.Task<WCFLoginManager.LoginViaInfinityToken2Response> LoginViaInfinityToken2Async(WCFLoginManager.LoginViaInfinityToken2Request request)
         {
             return base.Channel.LoginViaInfinityToken2Async(request);
         }
@@ -3920,19 +3996,14 @@ namespace LoginManagerWcf
             return base.Channel.ExistsSSOIDUserAsync(cryptedToken);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.LoginResponse> LoginAsync(LoginManagerWcf.LoginRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.LoginResponse> LoginAsync(WCFLoginManager.LoginRequest request)
         {
             return base.Channel.LoginAsync(request);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.Login2Response> Login2Async(LoginManagerWcf.Login2Request request)
+        public System.Threading.Tasks.Task<WCFLoginManager.Login2Response> Login2Async(WCFLoginManager.Login2Request request)
         {
             return base.Channel.Login2Async(request);
-        }
-        
-        public System.Threading.Tasks.Task<int> GetUsagePercentageOnDBSizeAsync()
-        {
-            return base.Channel.GetUsagePercentageOnDBSizeAsync();
         }
         
         public System.Threading.Tasks.Task<bool> ConfirmTokenAsync(string authenticationToken, string procType)
@@ -3940,7 +4011,7 @@ namespace LoginManagerWcf
             return base.Channel.ConfirmTokenAsync(authenticationToken, procType);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.GetLoginInformationResponse> GetLoginInformationAsync(LoginManagerWcf.GetLoginInformationRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.GetLoginInformationResponse> GetLoginInformationAsync(WCFLoginManager.GetLoginInformationRequest request)
         {
             return base.Channel.GetLoginInformationAsync(request);
         }
@@ -3970,12 +4041,12 @@ namespace LoginManagerWcf
             return base.Channel.GetUserEMailByNameAsync(login);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.IsFloatingUserResponse> IsFloatingUserAsync(LoginManagerWcf.IsFloatingUserRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.IsFloatingUserResponse> IsFloatingUserAsync(WCFLoginManager.IsFloatingUserRequest request)
         {
             return base.Channel.IsFloatingUserAsync(request);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.IsWebUserResponse> IsWebUserAsync(LoginManagerWcf.IsWebUserRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.IsWebUserResponse> IsWebUserAsync(WCFLoginManager.IsWebUserRequest request)
         {
             return base.Channel.IsWebUserAsync(request);
         }
@@ -3995,12 +4066,12 @@ namespace LoginManagerWcf
             return base.Channel.IsCompanySecuredAsync(companyId);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.GetAuthenticationInformationsResponse> GetAuthenticationInformationsAsync(LoginManagerWcf.GetAuthenticationInformationsRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.GetAuthenticationInformationsResponse> GetAuthenticationInformationsAsync(WCFLoginManager.GetAuthenticationInformationsRequest request)
         {
             return base.Channel.GetAuthenticationInformationsAsync(request);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.GetAuthenticationNamesResponse> GetAuthenticationNamesAsync(LoginManagerWcf.GetAuthenticationNamesRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.GetAuthenticationNamesResponse> GetAuthenticationNamesAsync(WCFLoginManager.GetAuthenticationNamesRequest request)
         {
             return base.Channel.GetAuthenticationNamesAsync(request);
         }
@@ -4035,17 +4106,17 @@ namespace LoginManagerWcf
             return base.Channel.Sql2012AllowedAsync(authToken);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.DmsDatabaseInfo[]> GetDMSDatabasesInfoAsync(string authenticationToken)
+        public System.Threading.Tasks.Task<WCFLoginManager.DmsDatabaseInfo[]> GetDMSDatabasesInfoAsync(string authenticationToken)
         {
             return base.Channel.GetDMSDatabasesInfoAsync(authenticationToken);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.DataSynchroDatabaseInfo[]> GetDataSynchroDatabasesInfoAsync(string authenticationToken)
+        public System.Threading.Tasks.Task<WCFLoginManager.DataSynchroDatabaseInfo[]> GetDataSynchroDatabasesInfoAsync(string authenticationToken)
         {
             return base.Channel.GetDataSynchroDatabasesInfoAsync(authenticationToken);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.TbSenderDatabaseInfo[]> GetCompanyDatabasesInfoAsync(string authenticationToken)
+        public System.Threading.Tasks.Task<WCFLoginManager.TbSenderDatabaseInfo[]> GetCompanyDatabasesInfoAsync(string authenticationToken)
         {
             return base.Channel.GetCompanyDatabasesInfoAsync(authenticationToken);
         }
@@ -4056,15 +4127,15 @@ namespace LoginManagerWcf
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<LoginManagerWcf.GetConfigurationStreamResponse> LoginManagerWcf.MicroareaLoginManagerSoap.GetConfigurationStreamAsync(LoginManagerWcf.GetConfigurationStreamRequest request)
+        System.Threading.Tasks.Task<WCFLoginManager.GetConfigurationStreamResponse> WCFLoginManager.MicroareaLoginManagerSoap.GetConfigurationStreamAsync(WCFLoginManager.GetConfigurationStreamRequest request)
         {
             return base.Channel.GetConfigurationStreamAsync(request);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.GetConfigurationStreamResponse> GetConfigurationStreamAsync()
+        public System.Threading.Tasks.Task<WCFLoginManager.GetConfigurationStreamResponse> GetConfigurationStreamAsync()
         {
-            LoginManagerWcf.GetConfigurationStreamRequest inValue = new LoginManagerWcf.GetConfigurationStreamRequest();
-            return ((LoginManagerWcf.MicroareaLoginManagerSoap)(this)).GetConfigurationStreamAsync(inValue);
+            WCFLoginManager.GetConfigurationStreamRequest inValue = new WCFLoginManager.GetConfigurationStreamRequest();
+            return ((WCFLoginManager.MicroareaLoginManagerSoap)(this)).GetConfigurationStreamAsync(inValue);
         }
         
         public System.Threading.Tasks.Task<string> GetCountryAsync()
@@ -4077,7 +4148,7 @@ namespace LoginManagerWcf
             return base.Channel.GetProviderNameFromCompanyIdAsync(companyId);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.GetInstallationVersionResponse> GetInstallationVersionAsync(LoginManagerWcf.GetInstallationVersionRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.GetInstallationVersionResponse> GetInstallationVersionAsync(WCFLoginManager.GetInstallationVersionRequest request)
         {
             return base.Channel.GetInstallationVersionAsync(request);
         }
@@ -4147,7 +4218,7 @@ namespace LoginManagerWcf
             return base.Channel.GetDatabaseTypeAsync(providerName);
         }
         
-        public System.Threading.Tasks.Task<bool> CanUseNamespaceAsync(string nameSpace, string authenticationToken, LoginManagerWcf.GrantType grantType)
+        public System.Threading.Tasks.Task<bool> CanUseNamespaceAsync(string nameSpace, string authenticationToken, WCFLoginManager.GrantType grantType)
         {
             return base.Channel.CanUseNamespaceAsync(nameSpace, authenticationToken, grantType);
         }
@@ -4157,12 +4228,12 @@ namespace LoginManagerWcf
             return base.Channel.CacheCounterAsync();
         }
         
-        public System.Threading.Tasks.Task<SerialNumberType> CacheCounterGTGAsync()
+        public System.Threading.Tasks.Task<TaskBuilderNetCore.Interfaces.SerialNumberType> CacheCounterGTGAsync()
         {
             return base.Channel.CacheCounterGTGAsync();
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.SetCurrentComponentsResponse> SetCurrentComponentsAsync(LoginManagerWcf.SetCurrentComponentsRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.SetCurrentComponentsResponse> SetCurrentComponentsAsync(WCFLoginManager.SetCurrentComponentsRequest request)
         {
             return base.Channel.SetCurrentComponentsAsync(request);
         }
@@ -4217,12 +4288,12 @@ namespace LoginManagerWcf
             return base.Channel.PingAsync();
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.ModuleNameInfo[]> GetArticlesWithNamedCalAsync()
+        public System.Threading.Tasks.Task<WCFLoginManager.ModuleNameInfo[]> GetArticlesWithNamedCalAsync()
         {
             return base.Channel.GetArticlesWithNamedCalAsync();
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.ModuleNameInfo[]> GetArticlesWithFloatingCalAsync()
+        public System.Threading.Tasks.Task<WCFLoginManager.ModuleNameInfo[]> GetArticlesWithFloatingCalAsync()
         {
             return base.Channel.GetArticlesWithFloatingCalAsync();
         }
@@ -4242,17 +4313,17 @@ namespace LoginManagerWcf
             return base.Channel.GetProxySupportVersionAsync();
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.ProxySettings> GetProxySettingsAsync()
+        public System.Threading.Tasks.Task<WCFLoginManager.ProxySettings> GetProxySettingsAsync()
         {
             return base.Channel.GetProxySettingsAsync();
         }
         
-        public System.Threading.Tasks.Task SetProxySettingsAsync(LoginManagerWcf.ProxySettings proxySettings)
+        public System.Threading.Tasks.Task SetProxySettingsAsync(WCFLoginManager.ProxySettings proxySettings)
         {
             return base.Channel.SetProxySettingsAsync(proxySettings);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.GetCompanyLanguageResponse> GetCompanyLanguageAsync(LoginManagerWcf.GetCompanyLanguageRequest request)
+        public System.Threading.Tasks.Task<WCFLoginManager.GetCompanyLanguageResponse> GetCompanyLanguageAsync(WCFLoginManager.GetCompanyLanguageRequest request)
         {
             return base.Channel.GetCompanyLanguageAsync(request);
         }
@@ -4282,7 +4353,7 @@ namespace LoginManagerWcf
             return base.Channel.SbrillAsync(token);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.LoginSlotType> GetCalTypeAsync(string token)
+        public System.Threading.Tasks.Task<WCFLoginManager.LoginSlotType> GetCalTypeAsync(string token)
         {
             return base.Channel.GetCalTypeAsync(token);
         }
@@ -4317,17 +4388,17 @@ namespace LoginManagerWcf
             return base.Channel.SetMessageReadAsync(userName, messageID);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.Advertisement[]> GetImmediateMessagesQueueAsync(string authenticationToken)
+        public System.Threading.Tasks.Task<WCFLoginManager.Advertisement[]> GetImmediateMessagesQueueAsync(string authenticationToken)
         {
             return base.Channel.GetImmediateMessagesQueueAsync(authenticationToken);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.Advertisement[]> GetMessagesQueueAsync(string authenticationToken)
+        public System.Threading.Tasks.Task<WCFLoginManager.Advertisement[]> GetMessagesQueueAsync(string authenticationToken)
         {
             return base.Channel.GetMessagesQueueAsync(authenticationToken);
         }
         
-        public System.Threading.Tasks.Task<LoginManagerWcf.Advertisement[]> GetOldMessagesAsync(string authenticationToken)
+        public System.Threading.Tasks.Task<WCFLoginManager.Advertisement[]> GetOldMessagesAsync(string authenticationToken)
         {
             return base.Channel.GetOldMessagesAsync(authenticationToken);
         }
@@ -4350,6 +4421,11 @@ namespace LoginManagerWcf
         public System.Threading.Tasks.Task<string> GetAspNetUserAsync()
         {
             return base.Channel.GetAspNetUserAsync();
+        }
+        
+        public System.Threading.Tasks.Task<string> GetConfigurationHashAsync()
+        {
+            return base.Channel.GetConfigurationHashAsync();
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()
@@ -4393,11 +4469,11 @@ namespace LoginManagerWcf
         {
             if ((endpointConfiguration == EndpointConfiguration.MicroareaLoginManagerSoap))
             {
-                return new System.ServiceModel.EndpointAddress("http://localhost/Development/LoginManager/LoginManager.asmx");
+                return new System.ServiceModel.EndpointAddress("http://localhost/development/loginmanager/loginmanager.asmx");
             }
             if ((endpointConfiguration == EndpointConfiguration.MicroareaLoginManagerSoap12))
             {
-                return new System.ServiceModel.EndpointAddress("http://localhost/Development/LoginManager/LoginManager.asmx");
+                return new System.ServiceModel.EndpointAddress("http://localhost/development/loginmanager/loginmanager.asmx");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }

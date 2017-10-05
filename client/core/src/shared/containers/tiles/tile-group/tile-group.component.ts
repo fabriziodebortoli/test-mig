@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class TileGroupComponent {
 
-  active: boolean = true;
+  @Input() active: boolean;
 
   @Input() title: string;
 
