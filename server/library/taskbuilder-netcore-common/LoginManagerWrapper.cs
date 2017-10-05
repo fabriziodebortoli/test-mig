@@ -6,7 +6,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using LoginManagerWcf;
+using WCFLoginManager;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using Newtonsoft.Json;
@@ -173,7 +173,7 @@ namespace Microarea.Common.WebServicesWrapper
         private char[] activationExpressionOperators = new char[2] { '&', '|' };
         private char[] activationExpressionKeywords = new char[5] { '!', '&', '|', '(', ')' };
 
-        LoginManagerWcf.MicroareaLoginManagerSoapClient loginManagerClient = new LoginManagerWcf.MicroareaLoginManagerSoapClient(LoginManagerWcf.MicroareaLoginManagerSoapClient.EndpointConfiguration.MicroareaLoginManagerSoap);
+        WCFLoginManager.MicroareaLoginManagerSoapClient loginManagerClient = new WCFLoginManager.MicroareaLoginManagerSoapClient(WCFLoginManager.MicroareaLoginManagerSoapClient.EndpointConfiguration.MicroareaLoginManagerSoap);
         private string baseUrl = "http://localhost:5000/";
         //private string loginManagerUrl;
         private int webServicesTimeOut;
@@ -206,8 +206,9 @@ namespace Microarea.Common.WebServicesWrapper
         //-----------------------------------------------------------------------------------------
         public int LoginCompact(string user, string company, string password, string askingProcess, bool overwriteLogin, out string authenticationToken)
         {
-            LoginManagerWcf.LoginCompactRequest request = new LoginManagerWcf.LoginCompactRequest(user, company, password, askingProcess, overwriteLogin);
-            Task<LoginManagerWcf.LoginCompactResponse> task = loginManagerClient.LoginCompactAsync(request);
+
+            WCFLoginManager.LoginCompactRequest request = new WCFLoginManager.LoginCompactRequest(user, company, password, askingProcess, overwriteLogin);
+            Task<WCFLoginManager.LoginCompactResponse> task = loginManagerClient.LoginCompactAsync(request);
             int result = task.Result.LoginCompactResult;
             authenticationToken = task.Result.authenticationToken;
             //string errorMessage = "Error message"; // TODO read error message
@@ -294,7 +295,7 @@ namespace Microarea.Common.WebServicesWrapper
         }
 
         //-----------------------------------------------------------------------------------------
-        public SerialNumberType GetSerialNumberType()
+        public TaskBuilderNetCore.Interfaces.SerialNumberType GetSerialNumberType()
         {
             Task<TaskBuilderNetCore.Interfaces.SerialNumberType> task = loginManagerClient.CacheCounterGTGAsync();
             return task.Result;
@@ -332,13 +333,13 @@ namespace Microarea.Common.WebServicesWrapper
             // serial number type
             switch (GetSerialNumberType())
             {
-                case SerialNumberType.Development:
+                case TaskBuilderNetCore.Interfaces.SerialNumberType.Development:
                     sMessage += EnumsStateStrings.SerialNumberDevelopment;
                     break;
-                case SerialNumberType.Reseller:
+                case TaskBuilderNetCore.Interfaces.SerialNumberType.Reseller:
                     sMessage += EnumsStateStrings.SerialNumberReseller;
                     break;
-                case SerialNumberType.Distributor:
+                case TaskBuilderNetCore.Interfaces.SerialNumberType.Distributor:
                     sMessage += EnumsStateStrings.SerialNumberDistributor;
                     break;
                 default:
@@ -535,10 +536,9 @@ namespace Microarea.Common.WebServicesWrapper
             return task.Result;
         }
 
-        internal int GetUsagePercentageOnDBSize()
-        {
-            Task<int> task = loginManagerClient.GetUsagePercentageOnDBSizeAsync();
-            return task.Result;
+        internal float GetUsagePercentageOnDBSize(string connectionString)
+        {  
+            return Microarea.Common.Generic.InstallationInfo.Functions.GetDBPercentageUsedSize(connectionString);
         }
 
         //---------------------------------------------------------------------------

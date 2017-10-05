@@ -1,3 +1,4 @@
+import { InfoService } from './../../../core/services/info.service';
 import { formatDate } from '@telerik/kendo-intl';
 import { OperationResult } from './../../models/operation-result.model';
 import { Subscription } from 'rxjs/Subscription';
@@ -18,12 +19,13 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
     dateFormat: string = '';
     internalDate: Date = undefined;
     errorMessage: string = "";
+    isDesktop: boolean;
 
     subscriptions: Subscription[] = [];
 
     public opened: boolean = false;
 
-    constructor(public httpMenuService: HttpMenuService, public taskbuilderService: TaskbuilderService) {
+    constructor(public infoService: InfoService, public httpMenuService: HttpMenuService, public taskbuilderService: TaskbuilderService) {
     }
 
     ngOnInit() {
@@ -32,6 +34,7 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
                 this.getDate();
         }));
         //this.localizationService.localizedElements
+        this.isDesktop = this.infoService.isDesktop;
     }
 
     ngOnDestroy() {

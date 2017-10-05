@@ -1,8 +1,8 @@
 <div (click)="open()" id="divOpDate">
-    <label mdTooltip='Change operation date'> Operation Date:     
+    <label mdTooltip='Change operation date' *ngIf="isDesktop"> Operation Date:     
         {{applicationDate | date: dateFormat  }}
-    <m4-icon icon="erp-calendarflash"></m4-icon>
 </label>
+    <m4-icon icon="erp-calendarflash" mdTooltip='Operation Date: {{applicationDate | date: dateFormat  }}'></m4-icon>
 </div>
 
 <kendo-dialog title="Change application date" *ngIf="opened" (close)="cancel()">

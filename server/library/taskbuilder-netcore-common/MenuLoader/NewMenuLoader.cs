@@ -682,7 +682,7 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WriteValue(showDBSizeControls ? Yes : No);
 
 					{
-						int usagePercentage = LoginFacilities.loginManager.GetUsagePercentageOnDBSize();
+						float usagePercentage = LoginFacilities.loginManager.GetUsagePercentageOnDBSize(loginManagerSession.ConnectionString);
 						showDBSizeControls = showDBSizeControls && (usagePercentage == -1);
 						jsonWriter.WritePropertyName("freespace");
 						jsonWriter.WriteValue(showDBSizeControls ? (100 - usagePercentage).ToString() : "NA");
