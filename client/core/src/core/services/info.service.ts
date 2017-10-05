@@ -85,7 +85,6 @@ export class InfoService {
             else {
                 let url = this.getDataServiceUrl() + 'getinstalleddictionaries';
                 let sub = this.request(url, {})
-                    .map(res => res.json())
                     .subscribe(result => {
                         this.logger.debug("dictionaries", result);
                         this.dictionaries = result.dictionaries;
