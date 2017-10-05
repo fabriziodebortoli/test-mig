@@ -988,7 +988,7 @@ namespace Microarea.RSWeb.WoormEngine
 					{
 						object o = SoapTypes.From(par.ValueString, field.DataType);
 						field.SetAllData(o, true);
-						
+                        continue;
 					}
 					catch (Exception ex)
 					{
@@ -996,14 +996,14 @@ namespace Microarea.RSWeb.WoormEngine
 						return SetError(ex.Message);
 					}
 				}
-				else if (Report.WoormInfo != null && (parObj = Report.WoormInfo.GetInputParamValue(field.PublicName)) != null)
+				if (Report.WoormInfo != null && (parObj = Report.WoormInfo.GetInputParamValue(field.PublicName)) != null)
 				{
 					field.SetAllData(parObj, true);
+                    continue;
 				}
-				else
-				{
-					if (!field.Init())
-						return SetError(string.Format(WoormEngineStrings.EvalInitExpression, field.PublicName));
+				if (!field.Init())
+                {
+                    return SetError(string.Format(WoormEngineStrings.EvalInitExpression, field.PublicName));
 				}
                 if (field.Statico/*never reinitialize*/ && listFieldToPreserve.Count > 0)
                 {
