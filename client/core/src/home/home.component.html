@@ -1,5 +1,5 @@
 <div id="dpi">a</div>
-<md-sidenav-container>
+<md-sidenav-container (contextmenu)="onContextMenu();">
     <tb-message-dialog></tb-message-dialog>
     <md-sidenav mode="over" #sidenav>
         <tb-home-sidenav></tb-home-sidenav>
