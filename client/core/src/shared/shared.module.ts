@@ -132,6 +132,7 @@ import { ViewComponent } from './containers/view/view.component';
 import { FrameContentComponent } from './containers/frame/frame-content/frame-content.component';
 import { FrameComponent } from './containers/frame/frame.component';
 import { StatusTilePanelComponent } from './containers/tiles/status-tile-panel/status-tile-panel.component';
+import { StatusTileComponent } from './containers/tiles/status-tile/status-tile.component';
 
 export { TbCardContentComponent } from './containers/tb-card/tb-card-content/tb-card-content.component';
 export { TbCardFooterComponent } from './containers/tb-card/tb-card-footer/tb-card-footer.component';
@@ -161,7 +162,8 @@ const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent, DockpaneComponent, DockpaneContainerComponent,
     TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
     MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, DynamicDialogComponent, TabberComponent, TabComponent,
-    TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent, StatusTilePanelComponent
+    TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent, 
+    StatusTilePanelComponent, StatusTileComponent
 ];
 
 /**

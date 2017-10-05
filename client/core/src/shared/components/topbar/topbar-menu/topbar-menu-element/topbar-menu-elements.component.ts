@@ -33,10 +33,14 @@ export class TopbarMenuElementsComponent {
     }
 
     public doCommand(menuItem: any) {
-        if (!menuItem) { console.log('NOT doCommand for menuElements!'); return; }
-        if (this.hasSubItems(menuItem)) { return; }
+        if (!menuItem) {
+            console.log('NOT doCommand for menuElements!');
+            return;
+        }
+        if (this.hasSubItems(menuItem)) {
+            return;
+        }
         this.eventDataService.raiseCommand('', menuItem.id);
-        console.log('doCommand OK!');
         this.onToggle();
     }
 
@@ -44,6 +48,7 @@ export class TopbarMenuElementsComponent {
 
     public onToggle(): void {
         this.show = !this.show;
+        console.log("menushow" + this.show);
         if (!this.show && this.currentItem !== null && this.currentItem !== undefined) {
             this.currentItem.showMySub = false;
         }
