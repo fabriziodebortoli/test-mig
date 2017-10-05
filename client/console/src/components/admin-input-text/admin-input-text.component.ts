@@ -11,9 +11,11 @@ export class AdminInputTextComponent {
   @Input() inputLabel: string;
   @Input() inputData: string;
   @Input() readOnly: boolean;
+  @Input() textType: string;
   @Output() inputDataChange;
 
   constructor() { 
+    this.textType = '';
     this.inputLabel = '';
     this.inputData = '';
     this.readOnly = false;
