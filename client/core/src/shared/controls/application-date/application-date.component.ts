@@ -42,7 +42,6 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
     }
     getDate() {
         this.httpMenuService.getApplicationDate().subscribe((res) => {
-            console.log("dateInfo", res.dateInfo);
             if (!res.dateInfo)
                 return;
 
@@ -53,10 +52,7 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
             this.dateFormat = res.dateInfo.formatDate;
         })
     }
-    public GetCorrectDate(){
-        console.log(this.culture);
-        console.log(this.dateFormat);
-    }
+    
     public handleChange(value: Date) {
         this.internalDate = value;
     }
