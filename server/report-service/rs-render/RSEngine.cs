@@ -845,6 +845,10 @@ namespace Microarea.RSWeb.Render
 
                             Report.FinalizeChannel();
                             CurrentInternalState = InternalState.End;
+
+                            Report.UnparseOutParametersToReportSession();
+                           // SendOutParamsToCallingDoc();
+
                             if (Report.ExitStatus == RuleReturn.Backtrack)
                             {
                                 CurrentState = State.NoDataFound;

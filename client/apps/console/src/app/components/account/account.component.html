@@ -4,9 +4,12 @@
   <div class="row adminTile">
 
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <label>Account Name</label>
-      <input *ngIf="!editing" type="email" placeholder="Email" autofocus value="" [(ngModel)]="model.AccountName" [readonly]=editing required>
-      <input *ngIf="editing" type="email" style="background-color:#f0f0f0;color:#666666; border:1" placeholder="Email" value="" [(ngModel)]="model.AccountName" [readonly]=editing required>
+      <admin-input-text
+        (keydown)="onKeyDown($event)" 
+        [inputLabel]="'Account Name'"
+        [textType]="'email'"
+        [readOnly]=editing
+        [(inputData)]="model.AccountName"></admin-input-text>
     </div>
 
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
@@ -67,7 +70,7 @@
   
   <div class="row adminTile">
     <div style="width:100%">
-      <app-account-subscriptions [editAccountName]="model.AccountName" [subscriptions]="subscriptionsAccount"></app-account-subscriptions>
+    <app-account-subscriptions [editAccountName]="model.AccountName" [subscriptions]="subscriptionsAccount"></app-account-subscriptions>
     </div>
   </div>
 
