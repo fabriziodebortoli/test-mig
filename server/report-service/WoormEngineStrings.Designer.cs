@@ -292,7 +292,18 @@ namespace Microarea.RSWeb {
                 return ResourceManager.GetString("EvalInitExpression", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///    Looks up a localized string similar to Unable to assign out value to parameter {0}.
+        /// </summary>
+        public static string EvalOutParameter
+        {
+            get
+            {
+                return ResourceManager.GetString("EvalOutParameter", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///    Looks up a localized string similar to Invalid ELSE expression {0}.
         /// </summary>

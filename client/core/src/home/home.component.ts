@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostList
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 import { Subscription } from 'rxjs';
 
+import { environment } from 'environments/environment';
+
 import { MessageDlgArgs } from './../shared/models/message-dialog.model';
 import { ComponentInfo } from './../shared/models/component-info.model';
 
@@ -126,6 +128,12 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   closeTab(info: ComponentInfo) {
     event.stopImmediatePropagation();
     info.document.close();
+  }
+
+  onContextMenu() {
+    if (environment.production) {
+      return false;
+    }
   }
 
 }

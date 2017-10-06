@@ -1,14 +1,14 @@
 :host(tb-header-strip) {}
 
 .header-strip {
-    margin: 15px .5rem;
+    margin: 10px .4rem;
 }
 
 .header-strip h1 {
-    text-align: left;
-    padding: 0 3px;
-    font-size: 26px;
     margin: 0;
+    padding: 0 3px;
+    font-size: 22px;
+    line-height: 30px;
 }
 
 .header-strip .line {
