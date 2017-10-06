@@ -6,6 +6,8 @@ using System.IO;
 using Microarea.Common.NameSolver;
 using System;
 using Microarea.Common.Generic;
+using System.Threading;
+using Microarea.Common.WebServicesWrapper;
 
 namespace Microarea.Menu.Controllers
 {
@@ -27,6 +29,9 @@ namespace Microarea.Menu.Controllers
                 string user = HttpContext.Request.Form["user"];
                 string company = HttpContext.Request.Form["company"];
                 string authtoken = HttpContext.Request.Form["authtoken"];
+
+                LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(loginManagerSession.PreferredLanguage);
 
                 string content = NewMenuLoader.LoadMenuWithFavoritesAsJson(user, company, authtoken);
                 return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
