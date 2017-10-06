@@ -48,7 +48,6 @@ export class TopbarMenuElementsComponent {
 
     public onToggle(): void {
         this.show = !this.show;
-        console.log("menushow" + this.show);
         if (!this.show && this.currentItem !== null && this.currentItem !== undefined) {
             this.currentItem.showMySub = false;
         }
