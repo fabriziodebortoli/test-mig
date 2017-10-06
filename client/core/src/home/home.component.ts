@@ -72,9 +72,9 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
       if (arg.activate) {
         this.kendoTabStripInstance.selectTab(arg.index + 2);
       }
-      this.subscriptions.push(tabberService.tabSelected$.subscribe((index: number) => this.kendoTabStripInstance.selectTab(index)));
-
     }));
+
+    this.subscriptions.push(tabberService.tabSelected$.subscribe((index: number) => this.kendoTabStripInstance.selectTab(index)));
 
     this.subscriptions.push(componentService.componentInfoRemoved.subscribe(cmp => {
       this.kendoTabStripInstance.selectTab(0);

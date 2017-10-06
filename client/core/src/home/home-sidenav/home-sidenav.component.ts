@@ -28,6 +28,7 @@ export class HomeSidenavComponent implements OnInit {
   ngOnInit() { }
 
   toggleSidenav(menu: boolean = false) {
+    
     this.sidenavService.toggleSidenav();
 
     if (menu) {
