@@ -34,7 +34,6 @@ export class TopbarMenuElementsComponent {
 
     public doCommand(menuItem: any) {
         if (!menuItem) {
-            console.log('NOT doCommand for menuElements!');
             return;
         }
         if (this.hasSubItems(menuItem)) {

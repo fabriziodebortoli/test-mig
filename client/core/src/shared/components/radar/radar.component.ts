@@ -52,7 +52,6 @@ export class RadarComponent {
         /*dataType*/
 
         this.columnInfos = radarInfo.columnInfos
-        console.log("radarInfo.columnInfos", radarInfo.columnInfos)
         // this.columnInfos = radarInfo.columnInfos.slice(0, 10);
 
         let params: URLSearchParams = new URLSearchParams();

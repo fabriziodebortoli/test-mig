@@ -20,7 +20,6 @@ export class TabberComponent implements AfterContentInit {
   @Output() selectedTab: EventEmitter<any> = new EventEmitter(true);
 
   constructor(public layoutService: LayoutService) {
-    console.log("tabber init");
   }
 
   getTabs() {
