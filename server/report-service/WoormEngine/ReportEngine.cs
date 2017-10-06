@@ -1277,13 +1277,31 @@ namespace Microarea.RSWeb.WoormEngine
 
 		// per lo stato svedi sopra
 		//---------------------------------------------------------------------------
-		public bool ExecuteFinalizeActions()
+		public bool ExecuteFinalizeActions(ParametersList initParameters)
 		{
 			status = ReportEngine.ReportStatus.Body;	
 			if (reportActions !=  null && !reportActions.FinalizeActions.Exec())
 				return false;
 
-			return true;
+            Parameter par = null;
+            foreach (Field field in RepSymTable.Fields)
+            {
+                if (initParameters != null && (par = initParameters[field.PublicName]) != null && (par.Mode == ParameterModeType.Out || par.Mode == ParameterModeType.InOut))
+                {
+                    try
+                    {
+                        par.ValueString = SoapTypes.To(field.Data);
+                        continue;
+                    }
+                    catch (Exception ex)
+                    {
+                        SetError(string.Format(WoormEngineStrings.EvalOutParameter, field.PublicName));
+                        return SetError(ex.Message);
+                    }
+                }
+            }
+
+            return true;
 		}
 
 		//---------------------------------------------------------------------------
