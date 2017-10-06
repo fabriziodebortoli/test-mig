@@ -2,11 +2,11 @@
     <admin-alert></admin-alert>
     <div class="row center-xs">
         <div class="col-xs-12" class="loginBox">
-            <div class="row between-xs" style="padding:20px;">
+            <div class="row between-xs" style="padding:20px 20px 10px 20px;">
                 <div class="box">
                     <img src="assets/provisioning-tools.png"  />
                 </div>
-                <div class="box" style="text-align: right">
+                <div style="text-align: right">
                     <h5 style="color:#999999;display:inline;">{{ selectedInstanceKey }}</h5><br>
                     <a (click)="clearSelectedInstance()"><h5 *ngIf="selectedInstanceKey != ''" style="color:#999999;display:inline;cursor:pointer;">(change)</h5></a>
                 </div>
@@ -15,22 +15,22 @@
                 <h3 style="color:#666666; margin-left:22px;">{{ welcomeMessage }}</h3>
             </div>
 
-            <div style="min-height:120px">
+            <div style="min-height:120px;margin-top:10px">
 
-                <div class="box" *ngIf="loginStep == 1">
+                <div *ngIf="loginStep == 1">
                     <admin-input-text 
-                        class="box" 
                         (keydown)="onKeyDown($event)" 
                         [inputLabel]="'AccountName'"
+                        [textType]="'text'"
                         [(inputData)]="credentials.accountName"></admin-input-text>
                 </div>
 
-                <div class="box"  *ngIf="loginStep == 1" style="text-align:left; margin:25px 0 0 12px;font-size:14px;">
+                <div *ngIf="loginStep == 1" style="text-align:left; margin:25px 0 0 12px;font-size:14px;">
                     <a (click)="doForgottenPassword()" style="color:#999999; cursor:pointer;">Forgot your password?</a>
                 </div>                  
 
                 <div *ngIf="loginStep == 2">
-                    <div *ngIf="instancesList.length > 0" class="box" style="padding-top:10px"> 
+                    <div *ngIf="instancesList.length > 0" style="padding-top:10px"> 
                         <select (keydown)="onKeyDown($event)" autofocus [(ngModel)]="selectedInstanceKey" style="height:30px">
                             <option value="" disabled selected hidden>Select an Instance</option>
                             <option *ngFor="let instance of instancesList" value="{{ instance.InstanceKey }}">
@@ -40,21 +40,21 @@
                     </div>            
                 </div>
 
-                <div class="box" *ngIf="loginStep == 3">
+                <div *ngIf="loginStep == 3">
                     <admin-input-text 
-                        class="box" 
                         (keydown)="onKeyDown($event)" 
                         [inputLabel]="'Password'"
+                        [textType]="'password'"
                         [(inputData)]="credentials.password"
                         [readOnly]="appBusy"></admin-input-text>
                 </div>
 
-                <div class="box alertLabel" *ngIf="errorMessage !== ''">
+                <div class="alertLabel" *ngIf="errorMessage !== ''">
                     {{ errorMessage }}
                 </div>
             
             </div>
-            <div *ngIf="loginStep <= 3" class="box" class="end-xs" style="margin-top:40px"> 
+            <div *ngIf="loginStep <= 3" class="end-xs" style="margin-top:40px"> 
                 <img *ngIf="appBusy" src="assets/ajax-loader.gif" style="margin-right:20px" />
                 <button *ngIf="!appBusy" class="cta" (click)="doNext()" [disabled]="inputExists() || appBusy">Next</button>
             </div>

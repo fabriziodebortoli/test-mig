@@ -64,7 +64,6 @@ export class ContextMenuComponent {
     if (this.hasSubItems(menuItem)) { return; }
 
     this.eventDataService.raiseCommand('', menuItem.id);
-    console.log('doCommand OK!');
     this.onToggle();
   }
 

@@ -1,5 +1,5 @@
 <div id="dpi">a</div>
-<md-sidenav-container>
+<md-sidenav-container (contextmenu)="onContextMenu();">
     <tb-message-dialog></tb-message-dialog>
     <md-sidenav mode="over" #sidenav>
         <tb-home-sidenav></tb-home-sidenav>
@@ -25,7 +25,7 @@
 
                 <kendo-tabstrip-tab [selected]="true" *ngIf="!isDesktop">
                     <ng-template kendoTabTitle>
-                        <md-icon>home</md-icon>
+                        <m4-icon icon="tb-backfilled"></m4-icon>
                     </ng-template>
                     <ng-template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
@@ -37,8 +37,8 @@
                 <kendo-tabstrip-tab [selected]="isDesktop">
                     <ng-template kendoTabTitle>
                         <div (click)="menuService.activateMenu()" class="menu-tab">
-                            <md-icon>dashboard</md-icon>
-                            <span>Menu</span>
+                            <m4-icon icon="tb-dashboard"></m4-icon>
+                            <span class="marginLeft">Menu</span>
                         </div>
                     </ng-template>
                     <ng-template kendoTabContent>

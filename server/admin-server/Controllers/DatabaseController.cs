@@ -295,7 +295,8 @@ namespace Microarea.AdminServer.Controllers
 			// creo la login dbowner
 
 			string loginName = instanceKey + "_" + subscriptionKey + "_Admin";
-			string password = "Microarea..."; // SecurityManager.GetRandomPassword();
+			string password = SecurityManager.GetRandomPassword();
+
 			opRes.Result = dTask.CreateLogin(loginName, password);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
