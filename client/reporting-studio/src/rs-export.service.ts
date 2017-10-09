@@ -9,6 +9,7 @@ import { Subscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Rx';
 
 import { Snapshot } from './report-objects/snapshotdialog/snapshot';
+import { timeout } from 'rxjs/operator/timeout';
 
 
 
@@ -64,6 +65,10 @@ export class RsExportService {
         this.runSnapshot.emit();
     }
 
+    timeout(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     //------EXPORT PDF-----------------------------------
     initiaziedExport(from: number, to: number) {
         this.firstPageExport = from;
@@ -79,15 +84,17 @@ export class RsExportService {
         this.exportdocx = false;
     }
 
+
     async appendPDF() {
+        await this.timeout(3000);
         await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
             })
     }
 
-    renderPDF() {
-        drawDOM(document.getElementById('rsLayout'))
+    async renderPDF() {
+        await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
                 return exportPDF(this.filePdf, {
