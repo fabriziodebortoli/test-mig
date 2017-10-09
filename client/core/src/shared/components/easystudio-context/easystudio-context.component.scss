@@ -79,7 +79,7 @@
      max-width: 50%;
      margin: 0;
      padding: 1em;
-     width: 35%;
+     width: 45%;
  }
  
  nav ul {
@@ -87,18 +87,13 @@
      padding: 0;
  }
  
- ul li:hover,
- .selected {
-     border-bottom: 1px solid;
-     border-color: blue;
- }
- 
- li.beauty {
+ beauty {
      font-weight: 300;
      padding: 0 5px;
      width: 100%;
      cursor: pointer;
      margin: 0;
+     background-color: transparent;
  }
  
  article {
@@ -191,6 +186,10 @@
      display: block;
  }
  
+ .k-dialog-buttongroup {
+     display: flex;
+ }
+ 
  .columsLayout {
      display: block;
  }
@@ -198,4 +197,35 @@
  .k-textbox-container.k-state-empty {
      font-style: normal;
      display: inline-flex;
+ }
+ 
+ // .k-button-group {
+ //      background-clip: padding-box;
+ //      display: block;
+ //  }
+ //  .k-button-group .k-button {
+ //      border-left: 1px solid red;
+ //  }
+ //  .k-button-group .k-group-start.k-group-end,
+ //  .k-button-group .k-button:first-child:last-child {
+ //      border-radius: 5px;
+ //      width: 100%;
+ //      border-bottom-color: 1px solid blu;
+ //      background-color: transparent;
+ //  }
+ #list8 ul {
+     list-style: none;
+ }
+ 
+ #list8 ul li span {
+     display: block;
+     padding-left: 10px;
+     text-decoration: none;
+ }
+ 
+ #list8 ul li span:hover,
+ .selected {
+     -moz-box-shadow: 10px 10px 20px #85C4FF;
+     -webkit-box-shadow: 10px 10px 20px #85C4FF;
+     box-shadow: 10px 10px 20px #85C4FF;
  }
