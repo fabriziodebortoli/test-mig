@@ -1,3 +1,4 @@
+import { BarcodeComponent } from './report-objects/layout/barcode/barcode.component';
 import { ReportChartPolarComponent } from './report-objects/layout/chart/chart-polar/chart-polar.component';
 import { ReportChartPieComponent } from './report-objects/layout/chart/chart-pie/chart-pie.component';
 import { ReportChartComponent } from './report-objects/layout/chart/chart.component';
@@ -90,7 +91,8 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     AskGroupComponent,
     AskHotlinkComponent,
     AskRadioComponent,
-    AskTextComponent
+    AskTextComponent,
+    BarcodeComponent
 
   ],
   exports: [

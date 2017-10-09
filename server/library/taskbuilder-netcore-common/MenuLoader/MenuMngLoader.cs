@@ -15,6 +15,7 @@ using Microarea.Common.StringLoader;
 using Microarea.Common.WebServicesWrapper;
 using TaskBuilderNetCore.Interfaces;
 using static Microarea.Common.MenuLoader.MenuLoader;
+using Microarea.Common.SecurityLayer.SecurityLightObjects;
 
 namespace Microarea.Common.MenuLoader
 {
@@ -1064,7 +1065,7 @@ namespace Microarea.Common.MenuLoader
                 return false;
 
             //TODOLUCA
-            // SecurityLightManager.CleanDeniedAccesses(aParser, commandTypesToClean, menuPathFinder, loginManager.GetSystemDBConnectionString(loginManager.AuthenticationToken));
+            SecurityLightManager.CleanDeniedAccesses(aParser, commandTypesToClean, menuPathFinder, LoginManager.LoginManagerInstance.GetSystemDBConnectionString(session.AuthenticationToken));
             return true;
         }
 
@@ -2869,13 +2870,11 @@ namespace Microarea.Common.MenuLoader
             // fatto SOLO SE si è loggati !!! 
             bool applySecurityFilter = false;
 
-
             LoginManagerSession session = LoginManager.LoginManagerInstance.GetLoginInformation(authenticationToken);
             if (!ignoreAllSecurityChecks)
                 applySecurityFilter = LoginManager.LoginManagerInstance.IsActivated("MicroareaConsole", "SecurityAdmin") &&
                     (
-                    session.LoginManagerSessionState != LoginManagerState.Logged //||
-                                                                                 //loginManagers.Security
+                    session.LoginManagerSessionState == LoginManagerState.Logged && session.Security
                     );
 
             return LoadAllMenus(applySecurityFilter, commandsTypeToLoad, ignoreAllSecurityChecks, clearCachedData);
@@ -2934,7 +2933,6 @@ namespace Microarea.Common.MenuLoader
 
             if (LoadAllMenusStarted != null)
                 LoadAllMenusStarted(this, menuInfo);
-
 
             string file = MenuInfo.CachedMenuInfos.GetStandardMenuCachingFullFileName(pathFinder.User);
             menuInfo.LoadAllMenuFiles(environmentStandAlone, commandsTypeToLoad, ignoreAllSecurityChecks, clearCachedData || !File.Exists(file));
