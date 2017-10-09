@@ -98,8 +98,8 @@ namespace Microarea.Common.Applications
 	public class FontStylesGroup
 	{
 		private string  styleName;
-        private string  appName;
-        private string  moduleName;
+        //private string  appName;
+        //private string  moduleName;
 
         private ArrayList fontStyles = new ArrayList();
 
