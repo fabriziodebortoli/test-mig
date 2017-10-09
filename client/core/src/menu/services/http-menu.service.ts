@@ -14,7 +14,6 @@ import { UtilsService } from './../../core/services/utils.service';
 @Injectable()
 export class HttpMenuService {
 
-
     constructor(
         public http: Http,
         public utilsService: UtilsService,
@@ -46,6 +45,108 @@ export class HttpMenuService {
             })
             .catch(this.handleError);
     }
+
+
+/************************************************************** */
+
+    /**
+     * API /getEsAppsAndModules
+     * 
+     * @returns {Observable<any>} getEsAppsAndModules
+     */
+    getEsAppsAndModules(): Observable<any> {
+        let obj = { user: this.cookieService.get('_user')};
+        let urlToRun = this.infoService.getDocumentBaseUrl() + 'getAllAppsAndModules/';   
+        return this.postData(urlToRun, obj)
+        .map((res: any) => {
+            return res;
+        })
+        .catch(this.handleError);
+    }
+
+       /**
+     * API /setAppAndModule
+     * 
+     * @returns {Observable<any>} setAppAndModule
+     */
+    setAppAndModule(app: string, mod:string, isThisPairDefault:boolean): Observable<any> {
+        let obj = { user: this.cookieService.get('_user')};
+        let urlToRun = this.infoService.getDocumentBaseUrl() +   
+        '/setAppAndModule/?app=' + app + '&mod=' + mod + '&def=' + isThisPairDefault; 
+        return this.postData(urlToRun, obj)
+        .map((res: any) => {
+            return res;
+        })
+        .catch(this.handleError);
+    }
+
+       /**
+     * API /createNewContext
+     * 
+     * @returns {Observable<any>} createNewContext
+     */
+    createNewContext(app: string, mod:string, type:string): Observable<any> {
+        let obj = { user: this.cookieService.get('_user')};
+        let urlToRun = this.infoService.getDocumentBaseUrl() +   
+        '/createNewContext/?app=' + app + '&mod=' + mod + '&type=' + type;
+        return this.postData(urlToRun, obj)
+        .map((res: any) => {
+            return res;
+        })
+        .catch(this.handleError);
+    }
+
+
+ /*   runEasyStudio(app: string, mod:string, type:string): Observable<any> {
+        let obj = { user: this.cookieService.get('_user')};
+        let urlToRun = this.infoService.getDocumentBaseUrl() +   
+        var urlToRun = 'runEasyStudio/?ns=' + encodeURIComponent(ns);
+        
+                if (customizationName != undefined)
+                    urlToRun += "&customization=" + encodeURIComponent(customizationName);
+        return this.postData(urlToRun, obj)
+        .map((res: any) => {
+            return res;
+        })
+        .catch(this.handleError);
+    }*/
+
+       /**
+     * API /getDefaultContext
+     * 
+     * @returns {Observable<any>} getDefaultContext
+     */
+    getDefaultContext(app: string, mod:string, type:string): Observable<any> {
+        let obj = { user: this.cookieService.get('_user')};
+        let urlToRun = this.infoService.getDocumentBaseUrl() + '/getDefaultContext/';
+        return this.postData(urlToRun, obj)
+        .map((res: any) => {
+            return res;
+        })
+        .catch(this.handleError);
+    }
+
+     /**
+     * API /refreshEasyBuilderApps
+     * 
+     * @returns {Observable<any>} refreshEasyBuilderApps
+     */
+    refreshEasyBuilderApps(): Observable<any> {
+        let obj = { user: this.cookieService.get('_user')};
+        let urlToRun = this.infoService.getDocumentBaseUrl() + 'refreshEasyBuilderApps/';   
+        return this.postData(urlToRun, obj)
+        .map((res: any) => {
+            return res;
+        })
+        .catch(this.handleError);
+    }
+
+/***************************************************** */
+
+
+
+
+
 
     /**
      * API /getPreferences
@@ -243,16 +344,45 @@ export class HttpMenuService {
     * 
     * @returns {Observable<any>} goToSite
     */
-    callonlineHelpUrl(ns: string, culture : string): Observable<any> {
-        let obj = {nameSpace: ns, culture: culture}
-        let url = this.infoService.isDesktop ? this.infoService.getDocumentBaseUrl()  : this.infoService.getMenuServiceUrl();
+    callonlineHelpUrl(ns: string, culture: string): Observable<any> {
+        let obj = { nameSpace: ns, culture: culture }
+        let url = this.infoService.isDesktop ? this.infoService.getDocumentBaseUrl() : this.infoService.getMenuServiceUrl();
         return this.postData(url + 'getOnlineHelpUrl/', obj)
             .map((res: Response) => {
                 return res.json();
             });
     }
 
+    /**
+     * API /getThemes
+     * 
+     * @returns {Observable<any>} getThemes
+     */
+    getThemes(): Observable<any> {
 
+        let obj = { authtoken: this.cookieService.get('authtoken') };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'getThemes/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+
+    /**
+     * API /getThemes
+     * 
+     * @returns {Observable<any>} changeThemes
+     */
+    changeThemes(theme: string): Observable<any> {
+        
+                let obj = { authtoken: this.cookieService.get('authtoken') };
+                var urlToRun = this.infoService.getDocumentBaseUrl() + 'changeThemes/?theme=' + theme;
+                return this.postData(urlToRun, obj)
+                    .map((res: Response) => {
+                        return res.json();
+                    });
+            }
 
     /**
      * TODO refactor with custom logger

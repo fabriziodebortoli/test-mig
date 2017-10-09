@@ -57,6 +57,8 @@ namespace Microarea.RSWeb.Models
         public string nameSpace { get; set; }
         public string parameters { get; set; }
         public string authtoken { get; set; }
+        //used to communicate to caller document in case this report is a document's report
+        public string componentId { get; set; }
     }
 
     public class AskDialogElement

@@ -1,0 +1,8 @@
+<div *ngFor="let theme of themes" draggable="false">
+    <div (click)="changeTheme(theme)">
+        <button>
+            <m4-icon icon="tb-refresh" *ngIf="theme?.isFavoriteTheme"></m4-icon>
+            <span>{{theme.name}}</span>
+        </button>
+    </div>
+</div>
