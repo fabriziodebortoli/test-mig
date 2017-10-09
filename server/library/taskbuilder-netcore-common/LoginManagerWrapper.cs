@@ -247,6 +247,7 @@ namespace Microarea.Common.WebServicesWrapper
             loginManagerSession.ProviderName = result.providerName;
             loginManagerSession.ProviderDescription = result.providerDescription;
             loginManagerSession.LoginManagerSessionState = LoginManagerState.Logged;
+            loginManagerSession.Security = result.security;
             return loginManagerSession;
 
         }
@@ -539,6 +540,25 @@ namespace Microarea.Common.WebServicesWrapper
         internal float GetUsagePercentageOnDBSize(string connectionString)
         {  
             return Microarea.Common.Generic.InstallationInfo.Functions.GetDBPercentageUsedSize(connectionString);
+        }
+
+        /// <summary>
+        /// Restituisce la stringa di connessione al database di sistema
+        /// </summary>
+        /// <param name="authenticationToken">token di autenticazione</param>
+        /// <returns>Stringa di connessione al database di sistema in chiaro.</returns>
+        //---------------------------------------------------------------------------
+        public string GetSystemDBConnectionString(string authenticationToken)
+        {
+            if (String.IsNullOrWhiteSpace(authenticationToken))
+                throw new LoginManagerException(LoginManagerError.NotLogged);
+
+            LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+            if (loginManagerSession.LoginManagerSessionState != LoginManagerState.Logged )
+                throw new LoginManagerException(LoginManagerError.NotLogged);
+
+            Task<string> tesk = loginManagerClient.GetSystemDBConnectionStringAsync(authenticationToken);
+            return tesk.Result;
         }
 
         //---------------------------------------------------------------------------

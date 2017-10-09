@@ -61,7 +61,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
                     return this.activateViaSMS();
                 // case 'idActivateViaInternetButton':
                 //   return this.activateViaInternet();
-
                 default:
                     break;
             }
@@ -84,7 +83,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
     goToSite() {
         this.httpMenuService.goToSite().subscribe((result) => {
             window.open(result.url, "_blank");
-
         });
     }
 

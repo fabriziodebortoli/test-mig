@@ -267,7 +267,7 @@ namespace Microarea.Common
                 return (int)mySQLCommand.ExecuteScalar();
             }
 
-            catch (SqlException exx)
+            catch (SqlException)
             {
                 return 0;
             }
@@ -421,7 +421,7 @@ namespace Microarea.Common
 					byteContent = null;
 			}
 
-            catch (SqlException exx)
+            catch (SqlException)
             {
             }
             finally
