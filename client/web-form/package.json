@@ -5,6 +5,7 @@
     "angular-cli": {},
     "scripts": {
         "start": "ng serve",
+        "build": "ng build",
         "clean": "rimraf ./node_modules",
         "link-core": "npm link ../core/src",
         "link-erp": "npm link ../erp/src",
