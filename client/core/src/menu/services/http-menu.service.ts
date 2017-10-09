@@ -243,16 +243,45 @@ export class HttpMenuService {
     * 
     * @returns {Observable<any>} goToSite
     */
-    callonlineHelpUrl(ns: string, culture : string): Observable<any> {
-        let obj = {nameSpace: ns, culture: culture}
-        let url = this.infoService.isDesktop ? this.infoService.getDocumentBaseUrl()  : this.infoService.getMenuServiceUrl();
+    callonlineHelpUrl(ns: string, culture: string): Observable<any> {
+        let obj = { nameSpace: ns, culture: culture }
+        let url = this.infoService.isDesktop ? this.infoService.getDocumentBaseUrl() : this.infoService.getMenuServiceUrl();
         return this.postData(url + 'getOnlineHelpUrl/', obj)
             .map((res: Response) => {
                 return res.json();
             });
     }
 
+    /**
+     * API /getThemes
+     * 
+     * @returns {Observable<any>} getThemes
+     */
+    getThemes(): Observable<any> {
 
+        let obj = { authtoken: this.cookieService.get('authtoken') };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'getThemes/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+
+    /**
+     * API /getThemes
+     * 
+     * @returns {Observable<any>} changeThemes
+     */
+    changeThemes(theme: string): Observable<any> {
+        
+                let obj = { authtoken: this.cookieService.get('authtoken') };
+                var urlToRun = this.infoService.getDocumentBaseUrl() + 'changeThemes/?theme=' + theme;
+                return this.postData(urlToRun, obj)
+                    .map((res: Response) => {
+                        return res.json();
+                    });
+            }
 
     /**
      * TODO refactor with custom logger
