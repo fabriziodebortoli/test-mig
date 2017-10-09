@@ -188,16 +188,11 @@ namespace Microarea.AdminServer.Libraries
                         {
                             swEncrypt.Write(text);
                         }
-
                         var iv = aesAlg.IV;
-
                         var decryptedContent = msEncrypt.ToArray();
-
                         var result = new byte[iv.Length + decryptedContent.Length];
-
                         Buffer.BlockCopy(iv, 0, result, 0, iv.Length);
                         Buffer.BlockCopy(decryptedContent, 0, result, iv.Length, decryptedContent.Length);
-
                         return Convert.ToBase64String(result);
                     }
                 }
