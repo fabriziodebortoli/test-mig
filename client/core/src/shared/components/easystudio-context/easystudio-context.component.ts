@@ -12,7 +12,7 @@ interface MyObj {
 }
 @Component({
     selector: 'tb-es-context',
-    templateUrl: './easystudio-context2.component.html',
+    templateUrl: './easystudio-context.component.html',
     styleUrls: ['./easystudio-context.component.scss']
 })
 
@@ -64,7 +64,14 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
         }
     }
 
-    public canShowEasyStudioButton(){
+
+    //--------------------------------------------------------------------------------
+    public contextIsValid() {
+       return !this.disabledIf();
+    }
+
+   //--------------------------------------------------------------------------------
+   public canShowEasyStudioButton(){
         return true;
     }
 
