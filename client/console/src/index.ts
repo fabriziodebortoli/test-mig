@@ -1,6 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdIconModule, MdSidenavContainer, MdSidenavModule, MdToolbarModule, MdButtonModule, MdListModule, MdDialogModule, MdInputModule, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MatIconModule, MatSidenavContainer, MatSidenavModule, MatToolbarModule, MatButtonModule, MatListModule, 
+  MatDialogModule, MatInputModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SampleComponent } from './sample.component';
@@ -30,14 +31,14 @@ export * from './sample.component';
   imports: [
     FormsModule,
     BrowserAnimationsModule,
-    MdSidenavModule,
-    MdIconModule,
+    MatSidenavModule,
+    MatIconModule,
     CommonModule,
-    MdButtonModule,
-    MdToolbarModule,
-    MdListModule,
-    MdDialogModule,
-    MdInputModule
+    MatButtonModule,
+    MatToolbarModule,
+    MatListModule,
+    MatDialogModule,
+    MatInputModule
   ],
   declarations: [
     SampleComponent,
