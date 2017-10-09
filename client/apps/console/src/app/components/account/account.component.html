@@ -18,7 +18,7 @@
             [textType]="'password'"
             [readOnly]=editing
             [(inputData)]="model.Password"></admin-input-text>
-          <button *ngIf="editing" (click)="doChangePassword()" style="font-size:10px;border:0;background-color:#e0e0e0;margin-top:15px;">Change Password</button>
+          <button *ngIf="editing" (click)="doChangePassword()" class="miniAction">Change Password</button>
         </div>
         <div style="padding-top:20px">
           <label><input type="checkbox" name="cboxPwNeverExpires" value="" [(ngModel)]="model.PasswordNeverExpires">Password never expires</label>
@@ -33,7 +33,7 @@
               [textType]="'text'"
               [(inputData)]="model.FullName"></admin-input-text>
         </div>
-        <div style="padding-top:20px">
+        <div>
           <label><input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.ProvisioningAdmin">Provisioning Administrator</label>
         </div>
       </div>
