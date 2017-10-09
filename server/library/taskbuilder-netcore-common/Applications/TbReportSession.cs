@@ -540,6 +540,7 @@ namespace Microarea.Common.Applications
 
     public class TbReportSession : TbSession
     {
+       
         NameSpace ReportNameSpace = null;
 
         public int PageRendered = -1;
@@ -551,6 +552,11 @@ namespace Microarea.Common.Applications
 
         public EngineType EngineType = EngineType.Paginated_Standard;
 
+        private string woormdocProxyId;
+        private bool IsCalledFromTbloader
+        {
+            get { return !String.IsNullOrWhiteSpace(woormdocProxyId); }
+        }
         private string reportParameters;
         public string ReportParameters
         {
@@ -596,13 +602,14 @@ namespace Microarea.Common.Applications
         public string sessionID = Guid.NewGuid().ToString();
         public string uniqueID = Guid.NewGuid().ToString();
 
-        public TbReportSession(UserInfo ui, string ns, string parameters = "")
+        public TbReportSession(UserInfo ui, string ns, string parameters = "", string componentId = "")
             : base(ui, ns)
         {
+            this.woormdocProxyId = componentId;
             this.ReportNameSpace = new NameSpace(ns, NameSpaceObjectType.Report);
             this.ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
             this.ReportParameters = parameters;
-
+           
             this.Localizer = new StringLoader.WoormLocalizer(this.ReportPath, PathFinder);
 
             //TODO RSWEB

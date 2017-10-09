@@ -331,7 +331,7 @@ namespace Microarea.AdminServer.Controllers
 
 			Diagnostic dbTesterDiagnostic = new Diagnostic("DatabaseController");
 
-			PathFinder pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa");
+			PathFinder pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa");//dati reperibili dal db, attualmente il nome server però non lo abbiamo 
 			pf.Edition = "Professional";
 
 			// creazione tabelle per il database aziendale
@@ -548,13 +548,20 @@ namespace Microarea.AdminServer.Controllers
 			if (opRes.Result)
 				opRes = CheckLogin(subDatabase, true);
 
-			// se tutto ok allora devo aggiornare i campi nella SubscriptionDatabase
-			// e poi eseguire il check del database 
-			// se e' necessario un aggiornamento devo chiedere prima conferma all'utente
+            if (!opRes.Result)//@TODO se fallisce la checklogin interrompo perchè potrebbe non aver creato  nulla, per esempio se password non rispettano le policy
+            {
+                //@TODO lascio il flag UnderMaintenance a true?
+                opRes.Message = Strings.OperationKO;
+                return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+            }
 
-			// I set subscription UnderMaintenance = false
+            // se tutto ok allora devo aggiornare i campi nella SubscriptionDatabase
+            // e poi eseguire il check del database 
+            // se e' necessario un aggiornamento devo chiedere prima conferma all'utente
 
-			opRes = SetSubscriptionDBUnderMaintenance(subDatabase.Database, false);
+            // I set subscription UnderMaintenance = false
+
+            opRes = SetSubscriptionDBUnderMaintenance(subDatabase.Database, false);
 
 			if (!opRes.Result)
 			{
@@ -598,7 +605,7 @@ namespace Microarea.AdminServer.Controllers
 			bool existERPDb = dTask.ExistDataBase(subDatabase.Database.DBName);
 			bool existDMSDb = dTask.ExistDataBase(subDatabase.Database.DMSDBName);
 
-			if (!existERPDb)
+			if (!existERPDb && !string.IsNullOrWhiteSpace(subDatabase.Database.DBName))
 			{
 				// creazione contenitore db su Azure
 				AzureCreateDBParameters param = new AzureCreateDBParameters();
@@ -614,7 +621,7 @@ namespace Microarea.AdminServer.Controllers
 					return opRes;
 			}
 
-			if (!existDMSDb)
+			if (!existDMSDb && !string.IsNullOrWhiteSpace(subDatabase.Database.DMSDBName))
 			{
 				// creazione contenitore db su Azure
 				AzureCreateDBParameters param = new AzureCreateDBParameters();
@@ -640,7 +647,7 @@ namespace Microarea.AdminServer.Controllers
 				return opRes;
 			}
 
-			if (erpDBInfo.ExistDBMark && dmsDBInfo.ExistDBMark)
+			if (erpDBInfo.ExistDBMark && dmsDBInfo.ExistDBMark)//questi bool sono rimasti vecchi , se non esistevano dopo creazione db rimangono a false, è corretto?
 			{
 				if (erpDBInfo.UseUnicode != dmsDBInfo.UseUnicode)
 				{
@@ -661,6 +668,7 @@ namespace Microarea.AdminServer.Controllers
 					// se non va bene return false
 				}
 			}
+
 			else
 			{
 				//@@TODO ALTER DATABASE ALTER COLLATE per ogni database empty con collate != Latin1_General_CI_AS
@@ -680,13 +688,19 @@ namespace Microarea.AdminServer.Controllers
 		{
 			OperationResult opRes = new OperationResult();
 
-			string serverName = isDMS ? subDatabase.Database.DBServer : subDatabase.Database.DMSDBServer;
-			string dbName = isDMS ? subDatabase.Database.DBName : subDatabase.Database.DMSDBName;
-			string dbowner = isDMS ? subDatabase.Database.DBOwner : subDatabase.Database.DMSDBOwner;
-			string password = isDMS ? subDatabase.Database.DBPassword : subDatabase.Database.DMSDBPassword;
+            string serverName = isDMS ? subDatabase.Database.DMSDBServer : subDatabase.Database.DBServer;
+			string dbName = isDMS ?     subDatabase.Database.DMSDBName     :subDatabase.Database.DBName  ;
+			string dbowner = isDMS ?    subDatabase.Database.DMSDBOwner    :subDatabase.Database.DBOwner;
+			string password = isDMS ?   subDatabase.Database.DMSDBPassword :subDatabase.Database.DBPassword ;
 
-			// I use master database to load information
-			bool isAzureDB = (subDatabase.AdminCredentials.Provider == "SQLAzure");
+            if (string.IsNullOrWhiteSpace(serverName) || string.IsNullOrWhiteSpace(dbName) || string.IsNullOrWhiteSpace(dbowner))
+            {
+                opRes.Result = false;
+                opRes.Message = Strings.EmptyCredentials;
+                return opRes;
+            }
+                // I use master database to load information
+                bool isAzureDB = (subDatabase.AdminCredentials.Provider == "SQLAzure");
 
 			string connectionString =
 				string.Format
@@ -741,8 +755,9 @@ namespace Microarea.AdminServer.Controllers
 			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString) { InitialCatalog = dbName	};
 
 			DBInfo info = new DBInfo { Name = dbName };
-
-			try
+            if (string.IsNullOrWhiteSpace(dbName))
+                return info;
+            try
 			{
 				using (TBConnection myConnection = new TBConnection(builder.ConnectionString, DBMSType.SQLSERVER))
 				{
@@ -775,7 +790,7 @@ namespace Microarea.AdminServer.Controllers
 
 			try
 			{
-				subDatabase.UnderMaintenance = false;
+				subDatabase.UnderMaintenance = set;
 				opRes = subDatabase.Save(burgerData);
 				opRes.Message = Strings.OperationOK;
 			}
@@ -805,6 +820,6 @@ namespace Microarea.AdminServer.Controllers
 		public string Collation = string.Empty;
 		public string Error = string.Empty;
 
-		public bool HasError { get { return string.IsNullOrWhiteSpace(Error); } }
+		public bool HasError { get { return !string.IsNullOrWhiteSpace(Error); } }
 	}
 }
