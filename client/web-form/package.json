@@ -61,7 +61,8 @@
         "npm": "^5.4.2",
         "rxjs": "^5.4.2",
         "ts-helpers": "^1.1.1",
-        "zone.js": "^0.8.14"
+        "zone.js": "^0.8.14",
+        "bwip-angular2": "^1.0.4"
     },
     "devDependencies": {
         "@angular/cli": "1.4.4",

@@ -82,7 +82,7 @@ namespace Microarea.Common
 		private string[]			managedExtensions	= null;
 		private DateTime			lastTimeStamp		= System.DateTime.MinValue;
 		private string				lastFileAccess		= string.Empty;
-        private TbSession session = null;
+        //private TbSession session = null;
         #endregion
 
         #region Properties
