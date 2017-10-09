@@ -38,12 +38,5 @@ export class TextComponent extends ControlComponent /*implements AfterContentIni
   }
 
   ngAfterContentInit() {
-
-    // let componentFactory = this.componentResolver.resolveComponentFactory(ContextMenuComponent);
-    // this.contextMenuRef = this.contextMenu.createComponent(componentFactory);
   }
-
-  // ngOnChanges(changes: Object) {
-  //   console.log("ngOnChanges", changes);
-  // }
 }

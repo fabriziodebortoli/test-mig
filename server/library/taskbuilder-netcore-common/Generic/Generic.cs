@@ -16,6 +16,9 @@ using System.Security.Cryptography;
 using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.MenuLoader;
+using System.Data;
+using System.Data.SqlClient;
+using System.Globalization;
 
 namespace Microarea.Common.Generic
 {
@@ -45,6 +48,10 @@ namespace Microarea.Common.Generic
         /// Il percorso del file xml in cui viene serializzata questa classe
         /// </summary>
         public static string FilePath;
+
+        // numero massimo di dimensione in KB per i database in Pro-Lite
+        private const int MaxDBSize = 2097152; // equivalente a 2GB
+
 
         /// <summary>
         /// Verifica se esiste il corrispondente file su file system
@@ -1035,6 +1042,107 @@ namespace Microarea.Common.Generic
                 b64str = b64str.Replace("+", "!");
                 b64str = b64str.Replace("/", "$");
                 return b64str;
+            }
+
+            //----------------------------------------------------------------------
+            public static float GetDBPercentageUsedSize(string connectionStr)
+            {
+                long maxDBSize = GetDBSizeInKByte(connectionStr);
+
+                return ((maxDBSize * 100) / MaxDBSize);
+            }
+
+
+            //----------------------------------------------------------------------
+            /// <summary>
+            /// Verifica se la dimensione del db è vicina al massimo indicato nel serverconnection.config
+            /// se la size è compresa (estremi inclusi) tra la 'limit' (es: 1.95GB) e la max (2GB),  o se è minore di 0, per me è warning
+            /// </summary>
+            /// <param name="tbConnection"></param>
+            /// <returns></returns>
+            public static bool IsDBSizeNearMaxLimit(SqlConnection tbConnection, out string freePercentage)
+            {
+                long DBSize = GetDBSizeInKByte(tbConnection);
+                double freePercentageD = Math.Round((((double)(MaxDBSize - DBSize) * 100) / MaxDBSize), 1);
+
+                freePercentage = freePercentageD.ToString();
+                return ((DBSize >= InstallationData.ServerConnectionInfo.MinDBSizeToWarn && DBSize <= MaxDBSize) || DBSize < 0);
+            }
+
+            //----------------------------------------------------------------------
+            private static long GetDBSizeInKByte(SqlConnection connection)
+            {
+                long fullSize = 0;
+
+
+                SqlCommand myCommand = new SqlCommand();
+
+                IDataReader reader = null;
+
+                try
+                {
+                    myCommand.Connection = connection;
+                    myCommand.CommandText = "sp_helpfile";
+                    myCommand.CommandType = CommandType.StoredProcedure;
+                    reader = myCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        object filegroup = reader["filegroup"];
+                        if (filegroup == DBNull.Value)
+                            continue;
+
+                        string size = ((string)reader["size"]).Trim().Replace("KB", "");
+
+                        if (string.Compare(size, "Unlimited", true, CultureInfo.InvariantCulture) == 0)
+                            return -1;
+
+                        fullSize += Int32.Parse(size);
+                    }
+                }
+                catch (Exception exc)
+                {
+                    Debug.Fail(exc.Message);
+                    return -1;
+                }
+                finally
+                {
+                    if (reader != null && !reader.IsClosed)
+                        reader.Close();
+                }
+
+                return fullSize;
+            }
+
+            //----------------------------------------------------------------------
+            private static long GetDBSizeInKByte(string connectionStr)
+            {
+                long fullSize = 0;
+                if (string.IsNullOrEmpty(connectionStr)) return 0;
+
+                SqlConnection myConnection = new SqlConnection();
+
+                try
+                {
+                    myConnection.ConnectionString = connectionStr;
+                    myConnection.Open();
+                    fullSize = GetDBSizeInKByte(myConnection);
+                }
+                catch (Exception exc)
+                {
+                    Debug.WriteLine(exc.ToString());
+                    return 0;
+                }
+                finally
+                {
+                    if (myConnection != null && myConnection.State != ConnectionState.Closed)
+                    {
+                        myConnection.Close();
+                        myConnection.Dispose();
+                    }
+                }
+
+                return fullSize;
             }
 
             //--------------------------------------------------------------------------------------------------------------------------------

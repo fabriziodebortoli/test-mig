@@ -1,9 +1,70 @@
-export * from './containers';
-export * from './controls';
-export * from './directives';
+/** CONTAINERS */
+export { TbCardContentComponent } from './containers/tb-card/tb-card-content/tb-card-content.component';
+export { TbCardFooterComponent } from './containers/tb-card/tb-card-footer/tb-card-footer.component';
+export { TbCardHeaderComponent } from './containers/tb-card/tb-card-header/tb-card-header.component';
+export { TbCardSubtitleComponent } from './containers/tb-card/tb-card-subtitle/tb-card-subtitle.component';
+export { TbCardTitleComponent } from './containers/tb-card/tb-card-title/tb-card-title.component';
+export { TbCardComponent } from './containers/tb-card/tb-card.component';
+export { TabComponent } from './containers/tabs/tab/tab.component';
+export { TabberComponent } from './containers/tabs/tabber/tabber.component';
+export { DynamicDialogComponent } from './containers/dynamic-dialog/dynamic-dialog.component';
+export { DiagnosticDialogComponent, DiagnosticItemComponent } from './containers/diagnostic-dialog/diagnostic-dialog.component';
+export { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
+export { LayoutContainerComponent } from './containers/tiles/layout-container/layout-container.component';
+export { TilePanelComponent } from './containers/tiles/tile-panel/tile-panel.component';
+export { TileComponent } from './containers/tiles/tile/tile.component';
+export { TileGroupComponent } from './containers/tiles/tile-group/tile-group.component';
+export { TileManagerComponent } from './containers/tiles/tile-manager/tile-manager.component';
+export { DockpaneContainerComponent } from './containers/dockpane/dockpane-container/dockpane-container.component';
+export { DockpaneComponent } from './containers/dockpane/dockpane.component';
+export { ViewContainerComponent } from './containers/view/view-container/view-container.component';
+export { ViewComponent } from './containers/view/view.component';
+export { FrameContentComponent } from './containers/frame/frame-content/frame-content.component';
+export { FrameComponent } from './containers/frame/frame.component';
 
-export * from './models';
+/** CONTROLS */
+export { LinkComponent } from './controls/link/link.component';
+export { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gauge.component';
+export { HotlinkComponent } from './controls/hotlink/hotlink.component';
+export { BodyEditComponent } from './controls/body-edit/body-edit.component';
+export { BodyEditColumnComponent } from './controls/body-edit-column/body-edit-column.component';
+export { TreeViewComponent } from './controls/treeview/tree-view.component';
+export { ApplicationDateComponent } from './controls/application-date/application-date.component';
+export { StateButtonComponent } from './controls/state-button/state-button.component';
+export { ComboSimpleComponent } from './controls/combo-simple/combo-simple.component';
+export { SectionTitleComponent } from './controls/section-title/section-title.component';
+export { UnknownComponent } from './controls/unknown/unknown.component';
+export { MaskedTextBoxComponent } from './controls/masked-text-box/masked-text-box.component';
+export { CaptionComponent } from './controls/caption/caption.component';
+export { ButtonComponent } from './controls/button/button.component';
+export { BoolEditComponent } from './controls/bool-edit/bool-edit.component';
+export { FileComponent } from './controls/file/file.component';
+export { PlaceholderComponent } from './controls/placeholder/placeholder.component';
+export { ImageComponent } from './controls/image/image.component';
+export { EnumComboComponent } from './controls/enum-combo/enum-combo.component';
+export { ComboComponent } from './controls/combo/combo.component';
+export { EmailComponent } from './controls/email/email.component';
+export { ColorPickerComponent } from './controls/color-picker/color-picker.component';
+export { RadioComponent } from './controls/radio/radio.component';
+export { CheckBoxComponent } from './controls/checkbox/checkbox.component';
+export { DateInputComponent } from './controls/date-input/date-input.component';
+export { TimeInputComponent } from './controls/time-input/time-input.component';
+export { TextareaComponent } from './controls/textarea/textarea.component';
+export { PasswordComponent } from './controls/password/password.component';
+export { PhoneComponent } from './controls/phone/phone.component';
+export { NumericTextBoxComponent } from './controls/numeric-text-box/numeric-text-box.component';
+export { LabelStaticComponent } from './controls/label-static/label-static.component';
+export { TextComponent } from './controls/text/text.component';
+export { ConnectionStatusComponent } from './controls/connection-status/connection-status.component';
+export { ControlComponent } from './controls/control.component';
+export { VATCodeComponent } from './controls/vat-code/vat-code.component';
 
+/** DIRECTIVES */
+export { ContextMenuDirective } from './directives/context-menu.directive';
+export { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
+export { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective } from './directives/tile-sizes';
+
+/** MODELS */
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';
 export { ControlTypes } from './models/control-types.enum';
@@ -16,9 +77,11 @@ export { StateButton } from './models/state-button.model';
 export { ViewModeType } from './models/view-mode-type.model';
 export { SocketConnectionStatus } from './models/websocket-connection.enum';
 
+/** COMPONENTS */
 export { TbComponent } from './components/tb.component';
-export { BOComponent } from './components/bo.component';
-
+export { BOComponent } from './components/bo/bo.component';
+export { BOSlaveComponent } from './components/bo/bo-slave.component';
+export { BOCommonComponent } from './components/bo/bo-common.component';
 export { ProxyRouteComponent } from './components/proxy-route/proxy-route.component';
 export { DynamicCmpComponent } from './components/dynamic-cmp.component';
 export { DynamicCmpComponentTree } from './components/dynamic-cmp.component';

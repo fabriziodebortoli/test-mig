@@ -1,13 +1,14 @@
-﻿import { TbComponentService } from './../../core/services/tbcomponent.service';
+﻿import { EventDataService } from './../../core/services/eventdata.service';
+import { TbComponentService } from './../../core/services/tbcomponent.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from './../../core/services/layout.service';
-import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy, AfterContentInit } from '@angular/core';
+import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy, AfterContentInit, OnChanges } from '@angular/core';
 import { TbComponent } from "../components/tb.component";
 
 @Component({
     template: ''
 })
-export class ControlComponent extends TbComponent implements OnDestroy {
+export class ControlComponent extends TbComponent implements OnDestroy/*, OnChanges*/ {
     private _model: any;
     private _width: number;
     private _height: number;
@@ -27,11 +28,20 @@ export class ControlComponent extends TbComponent implements OnDestroy {
 
     subscriptions: Subscription[] = [];
 
-    constructor(public layoutService: LayoutService, public tbComponentService: TbComponentService) {
+    constructor(
+        public layoutService: LayoutService,
+        public tbComponentService: TbComponentService//,
+        //    public eventData: EventDataService
+    ) {
         super(tbComponentService);
         this.subscriptions.push(this.layoutService.getWidthFactor().subscribe(wf => { this.widthFactor = wf; }));
         this.subscriptions.push(this.layoutService.getHeightFactor().subscribe(hf => { this.heightFactor = hf }));
     }
+
+
+    // ngOnChanges() {
+    //     //  this.eventData.change.emit(this.cmpId);
+    // }
 
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());

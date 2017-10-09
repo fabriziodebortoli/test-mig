@@ -1,7 +1,6 @@
-import { Message } from './../../models';
-import { DiagnosticDlgResult } from './../../models';
-import { DiagnosticData } from './../../models';
 import { Component, OnInit, Type, Input } from '@angular/core';
+
+import { DiagnosticData, DiagnosticDlgResult, Message } from './../../models/message-dialog.model';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
 
@@ -13,7 +12,7 @@ import { EventDataService } from './../../../core/services/eventdata.service';
 export class DiagnosticDialogComponent implements OnInit {
 
     opened = false;
-    eventData: EventDataService; 
+    eventData: EventDataService;
     data: DiagnosticData;
     constructor() { }
 
@@ -25,7 +24,7 @@ export class DiagnosticDialogComponent implements OnInit {
         this.data = data;
     }
 
-    close(ok:boolean) {
+    close(ok: boolean) {
         this.opened = false;
         if (this.eventData) {
             const res = new DiagnosticDlgResult();
@@ -47,7 +46,7 @@ export class DiagnosticItemComponent {
     @Input() message: Message;
     @Input() level: number = 0;
     collapsed = false;
-    toggle(){
+    toggle() {
         this.collapsed = !this.collapsed;
     }
 }

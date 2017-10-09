@@ -5,6 +5,9 @@ using Microarea.TaskBuilderNet.Core.Generic;
 using System.IO;
 using Microarea.Common.NameSolver;
 using System;
+using Microarea.Common.Generic;
+using System.Threading;
+using Microarea.Common.WebServicesWrapper;
 
 namespace Microarea.Menu.Controllers
 {
@@ -25,7 +28,10 @@ namespace Microarea.Menu.Controllers
             {
                 string user = HttpContext.Request.Form["user"];
                 string company = HttpContext.Request.Form["company"];
-                string authtoken = HttpContext.Request.Form["token"];
+                string authtoken = HttpContext.Request.Form["authtoken"];
+
+                LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(loginManagerSession.PreferredLanguage);
 
                 string content = NewMenuLoader.LoadMenuWithFavoritesAsJson(user, company, authtoken);
                 return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
@@ -44,7 +50,6 @@ namespace Microarea.Menu.Controllers
             {
                 string user = HttpContext.Request.Form["user"];
                 string company = HttpContext.Request.Form["company"];
-                string authtoken = HttpContext.Request.Form["token"];
 
                 string content = NewMenuLoader.GetPreferencesAsJson(user, company);
                 return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
@@ -81,7 +86,7 @@ namespace Microarea.Menu.Controllers
         {
             try
             {
-                string token = HttpContext.Request.Form["token"];
+                string token = HttpContext.Request.Form["authtoken"];
                 string content = NewMenuLoader.GetJsonMenuSettings(token);
                 return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
             }
@@ -97,7 +102,7 @@ namespace Microarea.Menu.Controllers
         {
             try
             {
-                string token = HttpContext.Request.Form["token"];
+                string token = HttpContext.Request.Form["authtoken"];
                 string content = NewMenuLoader.GetConnectionInformation(token);
                 return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
             }
@@ -184,7 +189,7 @@ namespace Microarea.Menu.Controllers
         {
             try
             {
-                string token = HttpContext.Request.Form["token"];
+                string token = HttpContext.Request.Form["authtoken"];
                 string needLoginThread = HttpContext.Request.Form["needLoginThread"];
 
                 string json = NewMenuLoader.GetLocalizationJson(token);
@@ -203,7 +208,7 @@ namespace Microarea.Menu.Controllers
         {
             try
             {
-                string token = HttpContext.Request.Form["token"];
+                string token = HttpContext.Request.Form["authtoken"];
                 string json = NewMenuLoader.GetJsonProductInfo(token);
                 return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
             }
@@ -267,6 +272,26 @@ namespace Microarea.Menu.Controllers
 
             return new ContentResult { Content = "Cannot access file " + fullImagePath, ContentType = "application/text" };
         }
+
+        //---------------------------------------------------------------------
+        [Route("getOnlineHelpUrl")]
+        public IActionResult GetOnlineHelpUrl()
+        {
+            try
+            {
+                string nameSpace = HttpContext.Request.Form["nameSpace"];
+                string culture = HttpContext.Request.Form["culture"];
+
+                string url = HelpManager.GetOnlineHelpUrl(nameSpace, culture);
+                string json = string.Format("{{ \"url\": \"{0}\" }}", url);
+                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
+          
     }
 }
 

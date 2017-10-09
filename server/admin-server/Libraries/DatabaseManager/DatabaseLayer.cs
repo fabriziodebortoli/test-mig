@@ -1238,8 +1238,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 						if (reader.Read())
 							columnCollate = reader["COLLATION_NAME"].ToString();
 				}
-				catch (SqlException)
+				catch (SqlException e)
 				{
+					throw (e);
 				}
 			}
 
@@ -1312,6 +1313,90 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			}
 
 			return isMixedMode;
+		}
+		#endregion
+
+		#region GetColumnDataType (SQL Server)
+		/// <summary>
+		/// GetColumnDataType
+		/// Esegue una query sulle view di sistema di SQL per restituire il DataType della
+		/// colonna Status della tabella TB_DBMark
+		/// </summary>
+		/// <param name="tbConn">connessione aperta sul db</param>
+		/// <returns>datatype colonna</returns>
+		//-----------------------------------------------------------------------
+		public static string GetColumnDataType(TBConnection tbConn)
+		{
+			return GetColumnDataType(tbConn, "TB_DBMark", "Status");
+		}
+
+		/// <summary>
+		/// GetColumnDataType
+		/// Esegue una query sulle view di sistema di SQL per restituire il DataType della
+		/// colonna passata come parametro
+		/// </summary>
+		/// <param name="tbConn">connessione aperta sul db</param>
+		/// <param name="tableName">nome della tabella a cui appartiene la colonna</param>
+		/// <param name="columnName">nome della colonna di cui si vuole sapere il datatype</param>
+		/// <returns>datatype colonna</returns>
+		//-----------------------------------------------------------------------
+		public static string GetColumnDataType(TBConnection tbConn, string tableName, string columnName)
+		{
+			string dataType = string.Empty;
+
+            if (tbConn.IsPostgreConnection())
+                return dataType;
+
+			// prima controllo l'esistenza della tabella passata come parametro
+			TBDatabaseSchema schema = new TBDatabaseSchema(tbConn);
+			if (!schema.ExistTable(tableName))
+				return dataType;
+
+			// SQLServer: legge dalla view di sistema INFORMATION_SCHEMA.COLUMNS
+			if (tbConn.IsSqlConnection())
+			{
+				string query = string.Format
+					(
+						@"SELECT DATA_TYPE FROM [{0}].INFORMATION_SCHEMA.COLUMNS
+						WHERE TABLE_NAME = N'{1}' AND COLUMN_NAME = N'{2}'",
+						tbConn.Database,
+						tableName,
+						columnName
+					);
+
+				try
+				{
+					using (SqlCommand command = new SqlCommand(query, tbConn.SqlConnect))
+					using (SqlDataReader reader = command.ExecuteReader())
+						if (reader.Read())
+							dataType = reader["DATA_TYPE"].ToString();
+				}
+				catch (SqlException e)
+				{
+					throw (e);
+				}
+			}
+
+			return dataType;
+		}
+		#endregion
+
+		#region IsUnicodeDataType (SQL Server)
+		/// <summary>
+		/// Esegue una query sulle view di sistema di SQL per restituire il DataType della
+		/// colonna Status della tabella TB_DBMark
+		/// </summary>
+		/// <param name="tbConn">connessione aperta sul db</param>
+		/// <returns>true se la colonna e' unicode</returns>
+		//-----------------------------------------------------------------------
+		public static bool IsUnicodeDataType(TBConnection tbConn)
+		{
+			string dataType = GetColumnDataType(tbConn);
+
+			if (dataType.EndsWith("char", StringComparison.InvariantCultureIgnoreCase))
+				return dataType.StartsWith("n", StringComparison.InvariantCultureIgnoreCase);
+
+			return false;
 		}
 		#endregion
 

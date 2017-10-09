@@ -6,7 +6,11 @@
             <tb-view>
                 <tb-tilemanager>
                     <tb-tilegroup [title]="'Languages'" icon="erp-europe">
-                        <tb-culture-selector *ngIf="!isDesktop"></tb-culture-selector>
+                        <tb-layoutcontainer tbLayoutTypeColumn>
+                            <tb-tile [title]="_TB('Select Language')" tbTileStandard>
+                                <tb-culture-selector *ngIf="!isDesktop"></tb-culture-selector>
+                            </tb-tile>
+                        </tb-layoutcontainer>
                     </tb-tilegroup>
                     <tb-tilegroup [title]="'Profile'" icon="tb-user">
                         Profile

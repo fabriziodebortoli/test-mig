@@ -76,6 +76,8 @@ export class ImageService {
             return 'tb-options';
         if (target.toLowerCase() == "wizard")
             return 'tb-colours';
+        if (target.toLowerCase() == "function")
+            return 'tb-dossier';
         return 'close';
     }
 

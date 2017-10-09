@@ -1,6 +1,7 @@
-.box > input { width: 90%;height:25px; margin:10px 0 10px 0; color:red }
 .loginBox {
     background-color:#ffffff; width:320px; height:400px;margin-top:20px;padding:10px; box-shadow: 0px 3px 3px #888888;
 }
 .loginBox button { margin-right: 12px}
 select { width: 90%; height:25px; margin:0 0 25px 0; }
+button:disabled { background-color:#f0f0f0;color:#999999; box-shadow: 0px 0px 0px #fff}
+.alertLabel { text-align:left; margin:25px 0 0 12px;font-size:14px; color:red; }

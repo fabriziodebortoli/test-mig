@@ -20,6 +20,8 @@ namespace Microarea.AdminServer.Model
 		//---------------------------------------------------------------------
 		public SubscriptionAccount()
 		{
+			accountName = string.Empty;
+			subscriptionKey = string.Empty;
 		}
 
 		//---------------------------------------------------------------------
@@ -43,6 +45,7 @@ namespace Microarea.AdminServer.Model
 			return opRes;
 		}
 
+		//---------------------------------------------------------------------
 		public IModelObject Fetch(IDataReader reader)
 		{
 			SubscriptionAccount subAccount = new SubscriptionAccount();
@@ -51,6 +54,7 @@ namespace Microarea.AdminServer.Model
 			return subAccount;
 		}
 
+		//---------------------------------------------------------------------
 		public string GetKey()
 		{
 			throw new NotImplementedException();

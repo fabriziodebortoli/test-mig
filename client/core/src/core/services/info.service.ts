@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { HttpMenuService } from './../../menu/services/http-menu.service';
-import { HttpService } from './http.service';
 import { Logger } from './logger.service';
 
 export function loadConfig(config) {
@@ -60,10 +59,11 @@ export class InfoService {
                 observer.complete();
             }
             else {
-                let params = { authtoken: this.cookieService.get('authtoken') }
 
-                let sub = this.http.get(this.getDocumentBaseUrl() + 'getProductInfo/', params)
-                    .map(res => res.json())
+                let params = { authtoken: this.cookieService.get('authtoken') };
+                let url = this.getDocumentBaseUrl() + 'getProductInfo/';
+
+                let sub = this.request(url, params)
                     .subscribe(result => {
                         this.logger.debug("productInfo", result);
                         this.productInfo = result.ProductInfos;
@@ -83,8 +83,8 @@ export class InfoService {
                 observer.complete();
             }
             else {
-                let sub = this.http.get(this.getDataServiceUrl() + 'getinstalleddictionaries', {})
-                    .map(res => res.json())
+                let url = this.getDataServiceUrl() + 'getinstalleddictionaries';
+                let sub = this.request(url, {})
                     .subscribe(result => {
                         this.logger.debug("dictionaries", result);
                         this.dictionaries = result.dictionaries;
@@ -122,6 +122,17 @@ export class InfoService {
         return url + 'tb/menu/';
     }
 
+    //TODO da spostare nel httpservice della libreria di controlli
+    getErpCoreBaseUrl() {
+        let url = this.isDesktop ? 'http://localhost/' : this.getApiUrl();
+        return url + 'erp/core/';
+    }
+
+    //TODO da spostare nel httpservice della libreria di controlli
+    getNetCoreErpCoreBaseUrl() {
+       return this.getBaseUrl() +  '/erp-core/';
+    }
+
     getAccountManagerBaseUrl() {
         return this.getBaseUrl() + '/account-manager/';
     }
@@ -142,5 +153,20 @@ export class InfoService {
     getReportServiceUrl() {
         let url = this.getBaseUrl() + '/rs/';
         return url;
+    }
+
+    request(url: string, data: Object): Observable<any> {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+        return this.http.post(url, data, { withCredentials: true, headers: headers })
+            .map(res => res.json())
+            .catch((error: any): ErrorObservable => {
+                let errMsg = (error.message) ? error.message :
+                    error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+                this.logger.error(errMsg);
+
+                return Observable.throw(errMsg);
+            });
     }
 }

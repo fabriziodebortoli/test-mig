@@ -7,9 +7,10 @@
         "start": "ng serve",
         "clean": "rimraf ./node_modules",
         "link-core": "npm link ../core/src",
+        "link-erp": "npm link ../erp/src",
         "link-icons": "npm link ../icons/src",
         "link-rs": "npm link ../reporting-studio/src",
-        "postinstall": "npm run link-core && npm run link-rs && npm run link-icons",
+        "postinstall": "npm run link-core && npm run link-rs && npm run link-icons && npm run link-erp",
         "lint": "tslint \"src/**/*.ts\"",
         "test": "ng test",
         "pree2e": "webdriver-manager update",
@@ -45,6 +46,7 @@
         "@progress/kendo-popup-common": "^1.0.0",
         "@progress/kendo-theme-default": "^2.42.0",
         "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
+        "@taskbuilder/erp": "git+https://github.com/Microarea/ng-erp.git",
         "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "@taskbuilder/reporting-studio": "git+https://github.com/Microarea/ng-reporting-studio.git",
         "@types/hammerjs": "^2.0.33",
@@ -62,13 +64,13 @@
         "zone.js": "^0.8.14"
     },
     "devDependencies": {
-        "@angular/cli": "^1.4.3",
-        "@angular/compiler-cli": "^4.4.3",
-        "@angular/language-service": "^4.4.3",
+        "@angular/cli": "1.4.4",
+        "@angular/compiler-cli": "^4.2.4",
+        "@angular/language-service": "^4.2.4",
         "@types/jasmine": "~2.5.53",
         "@types/jasminewd2": "~2.0.2",
         "@types/node": "~6.0.60",
-        "codelyzer": "~3.1.1",
+        "codelyzer": "~3.2.0",
         "jasmine-core": "~2.6.2",
         "jasmine-spec-reporter": "~4.1.0",
         "karma": "~1.7.0",
@@ -79,7 +81,7 @@
         "karma-jasmine-html-reporter": "^0.2.2",
         "protractor": "~5.1.2",
         "ts-node": "~3.2.0",
-        "tslint": "~5.3.2",
+        "tslint": "~5.7.0",
         "typescript": "~2.3.3"
     }
 }

@@ -37,7 +37,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} getMenuElements
      */
     getMenuElements(): Observable<any> {
-        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company'), token: this.cookieService.get('authtoken') }
+        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company'), authtoken: this.cookieService.get('authtoken') }
         let urlToRun = this.infoService.getMenuServiceUrl() + 'getMenuElements/';
         return this.postData(urlToRun, obj)
             .map((res: any) => {
@@ -187,7 +187,7 @@ export class HttpMenuService {
   * @returns {Observable<any>} getThemedSettings
   */
     getThemedSettings(): Observable<any> {
-        let obj = { token: this.cookieService.get('authtoken') };
+        let obj = { authtoken: this.cookieService.get('authtoken') };
         var urlToRun = this.infoService.getMenuServiceUrl() + 'getThemedSettings/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
@@ -202,7 +202,7 @@ export class HttpMenuService {
      */
     getConnectionInfo(): Observable<any> {
 
-        let obj = { token: this.cookieService.get('authtoken') };
+        let obj = { authtoken: this.cookieService.get('authtoken') };
         var urlToRun = this.infoService.getMenuServiceUrl() + 'getConnectionInfo/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
@@ -217,7 +217,7 @@ export class HttpMenuService {
    */
     getApplicationDate(): Observable<any> {
 
-        let obj = { token: this.cookieService.get('authtoken') };
+        let obj = { authtoken: this.cookieService.get('authtoken') };
         var urlToRun = this.infoService.getDocumentBaseUrl() + 'getApplicationDate/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
@@ -235,7 +235,7 @@ export class HttpMenuService {
         let day = date.getDate();
         let month = date.getMonth() + 1;
         let year = date.getFullYear();
-        let obj = { token: this.cookieService.get('authtoken') };
+        let obj = { authtoken: this.cookieService.get('authtoken') };
         var urlToRun = this.infoService.getDocumentBaseUrl() + 'changeApplicationDate/?day=' + day + '&month=' + month + '&year=' + year;
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
@@ -306,7 +306,7 @@ export class HttpMenuService {
      * @returns {Observable<any>} loadLocalizedElements
      */
     loadLocalizedElements(): Observable<any> {
-        let obj = { token: this.cookieService.get('authtoken') }
+        let obj = { authtoken: this.cookieService.get('authtoken') }
         return this.postData(this.infoService.getMenuServiceUrl() + 'getLocalizedElements/', obj)
             .map((res: Response) => {
                 return res.json();
@@ -338,6 +338,22 @@ export class HttpMenuService {
                 return res.json();
             });
     }
+
+    /**
+    * API /goToSite
+    * 
+    * @returns {Observable<any>} goToSite
+    */
+    callonlineHelpUrl(ns: string, culture : string): Observable<any> {
+        let obj = {nameSpace: ns, culture: culture}
+        let url = this.infoService.isDesktop ? this.infoService.getDocumentBaseUrl()  : this.infoService.getMenuServiceUrl();
+        return this.postData(url + 'getOnlineHelpUrl/', obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+
 
     /**
      * TODO refactor with custom logger

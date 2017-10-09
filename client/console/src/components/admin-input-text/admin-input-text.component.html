@@ -1,3 +1,8 @@
-<kendo-textbox-container floatingLabel="{{inputLabel}}" style="width:95%">
-    <input kendoTextBox [ngModel]="inputData" adminAutoFocus (ngModelChange)="change($event)" [readonly]="read" style="margin-top:-2px" />
-</kendo-textbox-container>
+<md-input-container style="min-width:95%">
+    <input mdInput placeholder="{{ inputLabel }}" 
+        adminAutoFocus
+        [ngModel]="inputData"
+        (ngModelChange)="change($event)"
+        [readonly]="readOnly"
+        [type]="textType">
+</md-input-container>

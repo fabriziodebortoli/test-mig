@@ -13,6 +13,24 @@ namespace Microarea.Common
         private string connectionStringStandard;
         private string connectionStringCustom;
         private PathFinder pf;
+        private string instanceKey;
+        private SqlConnection connect = null;
+        private SqlCommand mySQLCommand = null;
+
+
+        //---------------------------------------------------------------------
+        public MetaDataManagerTool(string instanceKey)
+        {
+            this.instanceKey = instanceKey;
+            //pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa");
+            pf = new PathFinder("USR-grillolara1", "DEV_ERP_NEXT", "WebMago", "sa");
+            pf.Edition = "Professional";
+            connectionStringStandard = "Server=tcp:microarea.database.windows.net;Database='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;";
+      //      connectionStringStandard = "Data Source =USR-GRILLOLARA1; Initial Catalog = 'dbsys'; User ID = 'sa'; Password = 'Microarea.'; Connect Timeout = 30; Pooling = false; ";
+
+           // connectionStringStandard = "Data Source=microarea.database.windows.net;Initial Catalog='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;Pooling=false;";
+            connectionStringCustom = ""; ;
+        }
 
         //---------------------------------------------------------------------
         public MetaDataManagerTool(string aConnectionStringStandard, string aConnectionStringCustom)
@@ -24,12 +42,39 @@ namespace Microarea.Common
             pf.Edition = "Professional";
         }
         //---------------------------------------------------------------------
-        public void InsertAllMetaDataInDB()
+        public void InsertAllStandardMetaDataInDB()
         {
-            //TODO LARA
-            //   bool connect = databaseManager.ContextInfo.MakeCompanyConnection(databaseManager.ContextInfo.CompanyId);
+            connect = new SqlConnection(connectionStringStandard);
+            connect.Open();
 
-            foreach (ApplicationInfo ai in pf.ApplicationInfos)
+            string sInsert = @"insert into  MP_InstanceTBFS (InstanceKey, ParentID, Namespace, Application, Module, PathName, CompleteFileName, FileName, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent, FileTextContent)
+					output INSERTED.FileID
+                    VALUES
+					(@InstanceKey, @ParentID, @Namespace, @Application, @Module,  @PathName, @CompleteFileName,  @FileName, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent, @FileTextContent)";
+
+            mySQLCommand = new SqlCommand(sInsert, connect);
+            mySQLCommand.Parameters.AddWithValue("@InstanceKey", instanceKey);
+            mySQLCommand.Parameters.Add(new SqlParameter("@ParentID", SqlDbType.Int));
+            mySQLCommand.Parameters.Add(new SqlParameter("@Namespace", SqlDbType.VarChar));
+            mySQLCommand.Parameters.Add(new SqlParameter("@PathName", SqlDbType.VarChar));
+            mySQLCommand.Parameters.Add(new SqlParameter("@Application", SqlDbType.VarChar));
+            mySQLCommand.Parameters.Add(new SqlParameter("@Module", SqlDbType.VarChar));
+            mySQLCommand.Parameters.Add(new SqlParameter("@CompleteFileName", SqlDbType.VarChar));
+            mySQLCommand.Parameters.Add(new SqlParameter("@FileName", SqlDbType.VarChar));
+            mySQLCommand.Parameters.Add(new SqlParameter("@FileType", SqlDbType.VarChar));
+            mySQLCommand.Parameters.Add(new SqlParameter("@FileSize", SqlDbType.Int));
+            mySQLCommand.Parameters.Add(new SqlParameter("@ObjectType", SqlDbType.VarChar));
+            mySQLCommand.Parameters.Add(new SqlParameter("@CreationTime", SqlDbType.DateTime));
+            mySQLCommand.Parameters.Add(new SqlParameter("@LastWriteTime", SqlDbType.DateTime));
+            mySQLCommand.Parameters.Add(new SqlParameter("@IsDirectory", SqlDbType.Char));
+            mySQLCommand.Parameters.Add(new SqlParameter("@IsReadOnly", SqlDbType.Char));
+            mySQLCommand.Parameters.Add(new SqlParameter("@FileTextContent", SqlDbType.VarChar));
+
+            SqlParameter contentParam = new SqlParameter("@FileContent", SqlDbType.VarBinary);
+            mySQLCommand.Parameters.Add(contentParam);
+
+
+                foreach (ApplicationInfo ai in pf.ApplicationInfos)
             {
 
                 if (ai.ApplicationType != ApplicationType.TaskBuilderApplication &&
@@ -108,9 +153,20 @@ namespace Microarea.Common
                 }
 
             }
-
+            connect.Close();
         }
 
+        //---------------------------------------------------------------------
+        public void DeleteAllStandardMetaDataInDBByInstance(string instanceKey)
+        {
+            connect = new SqlConnection(connectionStringStandard);
+            connect.Open();
+
+            string sDelete = @"delete from  MP_InstanceTBFS where InstanceKey = " + instanceKey;
+            mySQLCommand = new SqlCommand(sDelete, connect);
+            mySQLCommand.ExecuteNonQuery();
+            connect.Close();
+        }
 
         //---------------------------------------------------------------------
         private void ThemesInsert(string folderPath, int idModulo, bool isCustom, string appName, string moduleName)
@@ -179,33 +235,7 @@ namespace Microarea.Common
         //---------------------------------------------------------------------
         private int InsertDir(DirectoryInfo aDir, bool isCustom, int id, string appName, string moduleName)
         {
-            //if (databaseManager.ContextInfo.Connection == null || databaseManager.ContextInfo.Connection.State != System.Data.ConnectionState.Open)
-            //    return -1;
-
-            SqlCommand mySQLCommand = null;
-
-            string tableName = "TB_StandardMetadata";
-
-            if (isCustom)
-                tableName = "TB_CustomMetadata";
-
-            string sInsert = @"INSERT INTO " + tableName + @" (ParentID, Namespace, Application, Module, PathName, CompleteFileName, FileName, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent, FileTextContent)
-					output INSERTED.FileID
-                    VALUES
-					(@ParentID, @Namespace, @Application, @Module,  @PathName, @CompleteFileName,  @FileName, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent, @FileTextContent)";
-
-            if (isCustom)
-            {
-                mySQLCommand = new SqlCommand(connectionStringCustom);
-                tableName = "TB_CustomMetadata";
-            }
-            else
-            {
-                SqlConnection connect = new SqlConnection(connectionStringStandard);
-                connect.Open();
-                mySQLCommand = new SqlCommand(sInsert, connect);
-            }
-
+    
             int index = aDir.FullName.IndexOf(@"Standard\", 0);
             string path = aDir.FullName.Substring(index + 9);
             string folderNameSpace = path.Substring(12);
@@ -214,48 +244,37 @@ namespace Microarea.Common
             {
 
                 if (id == 0)
-                    mySQLCommand.Parameters.AddWithValue("@ParentID", DBNull.Value);
+                    mySQLCommand.Parameters["@ParentID"].Value = DBNull.Value;
                 else
-                    mySQLCommand.Parameters.AddWithValue("@ParentID", id);
+                    mySQLCommand.Parameters["@ParentID"].Value = id;
 
-                mySQLCommand.Parameters.AddWithValue("@Namespace", folderNameSpace);// aDir.Name);
-                mySQLCommand.Parameters.AddWithValue("@PathName", path);
-                mySQLCommand.Parameters.AddWithValue("@Application", appName);
-                mySQLCommand.Parameters.AddWithValue("@Module", moduleName);
-                mySQLCommand.Parameters.AddWithValue("@CompleteFileName", path + Path.DirectorySeparatorChar);
-                mySQLCommand.Parameters.AddWithValue("@FileName", String.Empty);
-                mySQLCommand.Parameters.AddWithValue("@FileType", String.Empty);
-                mySQLCommand.Parameters.AddWithValue("@FileSize", 0);
-                mySQLCommand.Parameters.AddWithValue("@ObjectType", "DIRECTORY");
-                mySQLCommand.Parameters.AddWithValue("@CreationTime", aDir.CreationTime);
-                mySQLCommand.Parameters.AddWithValue("@LastWriteTime", aDir.LastWriteTime);
-                mySQLCommand.Parameters.AddWithValue("@IsDirectory", "1");
-                mySQLCommand.Parameters.AddWithValue("@IsReadOnly", "0");
-                mySQLCommand.Parameters.AddWithValue("@FileTextContent", DBNull.Value);
+                mySQLCommand.Parameters["@Namespace"].Value = folderNameSpace;
+                mySQLCommand.Parameters["@PathName"].Value = path;
+                mySQLCommand.Parameters["@Application"].Value = appName;
+                mySQLCommand.Parameters["@Module"].Value = moduleName;
+                mySQLCommand.Parameters["@CompleteFileName"].Value = path + Path.DirectorySeparatorChar;
+                mySQLCommand.Parameters["@FileName"].Value = String.Empty;
+                mySQLCommand.Parameters["@FileType"].Value = String.Empty;
+                mySQLCommand.Parameters["@FileSize"].Value = 0;
+                mySQLCommand.Parameters["@ObjectType"].Value = "DIRECTORY";
+                mySQLCommand.Parameters["@CreationTime"].Value = aDir.CreationTime;
+                mySQLCommand.Parameters["@LastWriteTime"].Value = aDir.LastWriteTime;
+                mySQLCommand.Parameters["@IsDirectory"].Value = "1";
+                mySQLCommand.Parameters["@IsReadOnly"].Value = "0";
+                mySQLCommand.Parameters["@FileTextContent"].Value = DBNull.Value;
+                mySQLCommand.Parameters["@FileContent"].Value = DBNull.Value;
 
-                SqlParameter contentParam = new SqlParameter("@FileContent", SqlDbType.VarBinary);
-                contentParam.Value = DBNull.Value;
-                mySQLCommand.Parameters.Add(contentParam);
-
-
-                int modified = (int)mySQLCommand.ExecuteScalar();
-
-                mySQLCommand.Dispose();
-
-                return modified;
-
+                return (int)mySQLCommand.ExecuteScalar();
             }
 
-            catch (SqlException)
+            catch (SqlException exx)
             {
                 return 0;
             }
             finally
             {
-                if (mySQLCommand != null)
-                    mySQLCommand.Dispose();
-            }
 
+            }
         }
 
         //---------------------------------------------------------------------
@@ -313,125 +332,121 @@ namespace Microarea.Common
         //---------------------------------------------------------------------
         private void InsertFile(FileInfo aFile, bool isCustom, int id, string appName, string moduleName)
         {
-            //if (databaseManager.ContextInfo.Connection == null || databaseManager.ContextInfo.Connection.State != System.Data.ConnectionState.Open)
-            //    return;
-
-            SqlCommand mySQLCommand = null;
-
-            string tableName = "TB_StandardMetadata";
-
-            if (isCustom)
-                tableName = "TB_CustomMetadata";
-            //Inserisco i Ruoli
-            string sInsert = @"INSERT INTO " + tableName + @" (ParentID, Namespace, Application, Module, PathName,  CompleteFileName, FileName, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent, FileTextContent)
-					VALUES
-					(@ParentID, @Namespace, @Application, @Module, @PathName, @CompleteFileName, @FileName, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent, @FileTextContent)";
-
-
-
-            if (isCustom)
+            try
             {
-                mySQLCommand = new SqlCommand(connectionStringCustom);
-                tableName = "TB_CustomMetadata";
-            }
-            else
+
+                string nameSpace = string.Empty;
+				string fileFullName = aFile.FullName;
+
+				if (BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(fileFullName) != null)
+                {
+                    nameSpace = BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(aFile.FullName).ToString();
+                    if (nameSpace.Contains(".wrm"))
+                        nameSpace = nameSpace.Substring(0, nameSpace.LastIndexOf('.'));
+                }
+
+
+				string fileType = string.Empty;
+				bool isText = true;
+
+				if (nameSpace != string.Empty)
+					fileType = nameSpace.Substring(0, nameSpace.IndexOf('.')).ToUpper();
+                else if (fileFullName.ToLower().Contains("application.config"))
+					fileType = "APPLICATION";
+                else if(fileFullName.ToLower().Contains("module.config"))
+					fileType =  "MODULE";
+                else if(fileFullName.ToLower().Contains(".menu"))
+					fileType =  "MENU";
+                else if(fileFullName.ToLower().Contains("description"))
+					fileType = "DESCRIPTION";
+                else if(fileFullName.ToLower().Contains("exportprofiles"))
+					fileType = "EXPORTPROFILES";
+                else if(fileFullName.ToLower().Contains("datamanager"))
+                    fileType =  "DATA";
+                else if(fileFullName.ToLower().Contains("brand"))
+					fileType = "BRAND";
+                else if(fileFullName.ToLower().Contains("themes"))
+					fileType = "THEMES";
+                else if(fileFullName.ToLower().Contains(".sql"))
+					fileType = "SQL";
+                else if(fileFullName.ToLower().Contains(".hjson") || fileFullName.ToLower().Contains(".tbjson"))
+					fileType = "JSONFORM";
+                else if(fileFullName.ToLower().Contains("settings.config") || fileFullName.ToLower().Contains("\\settings\\"))
+					fileType = "SETTING";
+                else if(fileFullName.ToLower().Contains(".gif") || fileFullName.ToLower().Contains(".jpg") || fileFullName.ToLower().Contains(".png"))
+				{
+					fileType = "IMAGE";
+					isText = false;
+				}
+                else if(fileFullName.ToLower().Contains("\\moduleobjects\\"))
+				{
+					string fileName = fileFullName.Substring(fileFullName.LastIndexOf('\\') + 1);
+					fileName = fileName.Substring(0, fileName.LastIndexOf('.'));
+					fileType = fileName.ToUpper();
+				}
+
+				int index = aFile.FullName.IndexOf(@"Standard\", 0);
+
+                mySQLCommand.Parameters["@ParentID"].Value =  id;
+                mySQLCommand.Parameters["@Namespace"].Value = nameSpace;
+                mySQLCommand.Parameters["@PathName"].Value = aFile.FullName.Substring(index + 9, aFile.FullName.LastIndexOf('\\') - (index + 9));
+                mySQLCommand.Parameters["@FileName"].Value = aFile.Name;
+                mySQLCommand.Parameters["@CompleteFileName"].Value = aFile.FullName.Substring(index + 9);
+                mySQLCommand.Parameters["@FileType"].Value = aFile.Extension;
+                mySQLCommand.Parameters["@Application"].Value = appName;
+                mySQLCommand.Parameters["@Module"].Value = moduleName;
+                mySQLCommand.Parameters["@FileSize"].Value = aFile.Length;
+				mySQLCommand.Parameters["@ObjectType"].Value = fileType;
+				mySQLCommand.Parameters["@CreationTime"].Value = aFile.CreationTime;
+                mySQLCommand.Parameters["@LastWriteTime"].Value = aFile.LastWriteTime;
+                mySQLCommand.Parameters["@IsDirectory"].Value = "0";
+                mySQLCommand.Parameters["@IsReadOnly"].Value = aFile.IsReadOnly ? "1" : "0";
+
+				byte[] byteContent = null;
+                if (!isText) //isBinary(aFile.FullName))
+                {
+						byteContent = FileToByteArray(aFile.FullName, aFile.Length);
+						mySQLCommand.Parameters["@FileContent"].Value = byteContent;
+						mySQLCommand.Parameters["@FileTextContent"].Value = DBNull.Value;						
+                }
+                else
+                {
+                        mySQLCommand.Parameters["@FileTextContent"].Value = FileToString(aFile.FullName);
+                        mySQLCommand.Parameters["@FileContent"].Value = DBNull.Value;
+                }
+      
+                mySQLCommand.ExecuteNonQuery();
+
+				if (byteContent != null)
+					byteContent = null;
+			}
+
+            catch (SqlException exx)
             {
-                SqlConnection connect = new SqlConnection(connectionStringStandard);
-                connect.Open();
-                mySQLCommand = new SqlCommand(sInsert, connect);
             }
-
-
-            //try
-            //{
-
-            string nameSpace = string.Empty;
-            if (BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(aFile.FullName) != null)
+            finally
             {
-                nameSpace = BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(aFile.FullName).ToString();
-                if (nameSpace.Contains(".wrm"))
-                    nameSpace = nameSpace.Substring(0, nameSpace.LastIndexOf('.'));
-            }
-
-
-            int index = aFile.FullName.IndexOf(@"Standard\", 0);
-
-            mySQLCommand.Parameters.AddWithValue("@ParentID", id);
-            mySQLCommand.Parameters.AddWithValue("@Namespace", nameSpace);
-            mySQLCommand.Parameters.AddWithValue("@PathName", aFile.FullName.Substring(index + 9, aFile.FullName.LastIndexOf('\\') - (index + 9)));
-            mySQLCommand.Parameters.AddWithValue("@FileName", aFile.Name);
-            mySQLCommand.Parameters.AddWithValue("@CompleteFileName", aFile.FullName.Substring(index + 9));
-            mySQLCommand.Parameters.AddWithValue("@FileType", aFile.Extension.Substring(1));
-            mySQLCommand.Parameters.AddWithValue("@Application", appName);
-            mySQLCommand.Parameters.AddWithValue("@Module", moduleName);
-            mySQLCommand.Parameters.AddWithValue("@FileSize", aFile.Length);
-            mySQLCommand.Parameters.AddWithValue("@ObjectType", GetType(nameSpace, aFile.FullName));
-            mySQLCommand.Parameters.AddWithValue("@CreationTime", aFile.CreationTime);
-            mySQLCommand.Parameters.AddWithValue("@LastWriteTime", aFile.LastWriteTime);
-            mySQLCommand.Parameters.AddWithValue("@IsDirectory", "0");
-            mySQLCommand.Parameters.AddWithValue("@IsReadOnly", aFile.IsReadOnly ? "1" : "0");
-            SqlParameter contentParam = new SqlParameter("@FileContent", SqlDbType.VarBinary);
-            SqlParameter contentParam2 = new SqlParameter("@FileTextContent", SqlDbType.NVarChar);
-            if (isBinary(aFile.FullName))
-            {
-                contentParam.Value = FileToByteArray(aFile.FullName);
-                contentParam2.Value = DBNull.Value;
-            }
-            else
-            {
-                contentParam2.Value = FileToString(aFile.FullName);
-                contentParam.Value = DBNull.Value;
 
             }
-            mySQLCommand.Parameters.Add(contentParam);
-            mySQLCommand.Parameters.Add(contentParam2);
-
-
-            mySQLCommand.ExecuteNonQuery();
-
-            mySQLCommand.Dispose();
-
-
-
-            //}
-
-            //catch (SqlException)
-            //{
-            //}
-            //finally
-            //{
-            //    if (mySQLCommand != null)
-            //        mySQLCommand.Dispose();
-            //}
-
         }
 
         //---------------------------------------------------------------------
-        public static bool isBinary(string path)
+        public static bool isBinary(string path, long lenght)
         {
-            FileInfo file = new FileInfo(path);
-            long length = file.Length;
-            if (length == 0) return false;
+               if (lenght == 0) return false;
 
             using (StreamReader stream = new StreamReader(path))
             {
                 int ch;
                 while ((ch = stream.Read()) != -1)
                 {
-                    if (isControlChar(ch))
-                    {
+                    if ((ch > Chars.NUL && ch < Chars.BS) || (ch > Chars.CR && ch < Chars.SUB))
+					{
                         return true;
                     }
                 }
             }
             return false;
-        }
-
-        //---------------------------------------------------------------------
-        public static bool isControlChar(int ch)
-        {
-            return (ch > Chars.NUL && ch < Chars.BS)
-                || (ch > Chars.CR && ch < Chars.SUB);
         }
 
         //---------------------------------------------------------------------
@@ -442,13 +457,13 @@ namespace Microarea.Common
             public static char CR = (char)13; // Carriage Return
             public static char SUB = (char)26; // Substitute
         }
+
         //---------------------------------------------------------------------
-        public byte[] FileToByteArray(string fileName)
+        public byte[] FileToByteArray(string fileName, long numBytes)
         {
             byte[] buff = null;
             FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
             BinaryReader br = new BinaryReader(fs);
-            long numBytes = new FileInfo(fileName).Length;
             buff = br.ReadBytes((int)numBytes);
             return buff;
         }

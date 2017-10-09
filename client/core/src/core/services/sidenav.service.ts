@@ -14,6 +14,7 @@ export class SidenavService {
   sidenavOpened$: Observable<boolean> = this.sidenavOpenedSource.asObservable();
 
   toggleSidenav() {
+    
     this.sidenavOpenedSource.next();
   }
 }

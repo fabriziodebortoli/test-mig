@@ -21,6 +21,26 @@ namespace Microarea.AdminServer.Model
 		public string Level { get => level; set => level = value; }
 
 		//---------------------------------------------------------------------
+		public AccountRoles()
+		{
+			roleName = string.Empty;
+			accountName = string.Empty;
+			entityKey = string.Empty;
+			level = string.Empty;
+		}
+
+		//--------------------------------------------------------------------------------
+		public IModelObject Fetch(IDataReader dataReader)
+		{
+			AccountRoles account = new AccountRoles();
+			account.RoleName = dataReader["RoleName"] as string;
+			account.AccountName = dataReader["AccountName"] as string;
+			account.EntityKey = dataReader["EntityKey"] as string;
+			account.Level = dataReader["Level"] as string;
+			return account;
+		}
+
+		//---------------------------------------------------------------------
 		public OperationResult Save(BurgerData burgerData)
         {
 			OperationResult opRes = new OperationResult();
@@ -44,16 +64,7 @@ namespace Microarea.AdminServer.Model
 			return opRes;
 		}
 
-        //--------------------------------------------------------------------------------
-        public IModelObject Fetch(IDataReader dataReader)
-        {
-            AccountRoles account = new AccountRoles();
-			account.RoleName = dataReader["RoleName"] as string;
-			account.AccountName = dataReader["AccountName"] as string;
-            account.EntityKey= dataReader["EntityKey"] as string;
-			account.Level = dataReader["Level"] as string;
-			return account;
-        }
+       
 
         //--------------------------------------------------------------------------------
         public string GetKey()

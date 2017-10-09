@@ -5,8 +5,9 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
+import { OperationResult } from './../../shared/models/operation-result.model';
+import { LoginSession } from './../../shared/models/login-session.model';
 import { LoginCompact } from './../../shared/models/login-compact.model';
-import { LoginSession, OperationResult } from '../../shared/models';
 
 import { InfoService } from './info.service';
 import { UtilsService } from './utils.service';

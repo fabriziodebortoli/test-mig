@@ -23,8 +23,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
     public menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
     public show = false;
     public viewProductInfo: string;
-    public productInfoDialogRef: MdDialogRef<ProductInfoDialogComponent>;
-    public connectionInfoDialogRef: MdDialogRef<ConnectionInfoDialogComponent>;
     public data: Array<any>;
     public localizationsLoadedSubscription: any;
 
@@ -37,7 +35,9 @@ export class TopbarMenuAppComponent implements OnDestroy {
         public eventDataService: EventDataService
     ) {
 
-        this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe(() => {
+        this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe((loaded) => {
+            if (!loaded)
+                return;
             const item1 = new ContextMenuItem(this.localizationService.localizedElements.ViewProductInfo, 'idViewProductInfoButton', true, false);
             const item2 = new ContextMenuItem(this.localizationService.localizedElements.ConnectionInfo, 'idConnectionInfoButton', true, false);
             const item3 = new ContextMenuItem(this.localizationService.localizedElements.GotoProducerSite, 'idGotoProducerSiteButton', true, false);
@@ -76,7 +76,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
     activateViaSMS() {
         this.httpMenuService.activateViaSMS().subscribe((result) => {
             window.open(result.url, "_blank");
-
         });
 
     }
@@ -99,10 +98,10 @@ export class TopbarMenuAppComponent implements OnDestroy {
     }
 
     openProductInfoDialog() {
-        this.productInfoDialogRef = this.dialog.open(ProductInfoDialogComponent, <MdDialogConfig>{});
+        this.dialog.open(ProductInfoDialogComponent, <MdDialogConfig>{});
     }
 
     openConnectionInfoDialog() {
-        this.connectionInfoDialogRef = this.dialog.open(ConnectionInfoDialogComponent, <MdDialogConfig>{});
+        this.dialog.open(ConnectionInfoDialogComponent, <MdDialogConfig>{});
     }
 }

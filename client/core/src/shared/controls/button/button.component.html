@@ -1,3 +1,5 @@
-<div>
-    <button (click)='onCommand()' kendoButton id="{{cmpId}}">{{ caption }}</button>
+<div class="tb-control tb-button">
+    <button (click)='onCommand()' kendoButton id="{{cmpId}}" [disabled]="!(model?.enabled)">
+        <m4-icon icon="{{icon}}"></m4-icon>
+    </button>
 </div>

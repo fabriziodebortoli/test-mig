@@ -6,19 +6,18 @@ import { RsExportService } from './../../rs-export.service';
 import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, repeater, PdfType, SvgType, PngType } from './../../models';
 import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
-import { ReportObjectTypeDecorator, ReportObjectType } from '../../models/report-object-type.model';
+import { ReportObjectType } from '../../models/report-object-type.model';
 
 @Component({
   selector: 'rs-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-@ReportObjectTypeDecorator
+
 export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() reportTemplate;
   @Input() reportData;
-
 
   public layoutStyle: any = {};
   public layoutBackStyle: any = {};
@@ -28,6 +27,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   public viewHeightSubscription: Subscription;
   public viewHeight: number;
   public showAsk: boolean;
+  public ROT = ReportObjectType;
 
   constructor(public layoutService: LayoutService, public rsService: ReportingStudioService, public rsExportService: RsExportService) { }
 

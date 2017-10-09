@@ -56,6 +56,7 @@ namespace Microarea.AdminServer
             app.UseMvc(routes =>
             {
 				routes.MapRoute("security", "tokens", defaults: new { controller = "Security", action = "Tokens" });
+				routes.MapRoute("tbfs", "tbfs", defaults: new { controller = "TBFS", action = "init" });
 				routes.MapRoute("database", "database", defaults: new { controller = "Database", action = "Database" });
 				routes.MapRoute("default", "{controller=Admin}/{action=Index}/{id?}");
             });

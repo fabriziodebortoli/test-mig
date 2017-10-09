@@ -11,6 +11,7 @@ namespace Microarea.AdminServer
         public DatabaseInfo DatabaseInfo { get; set; }
 		public ExternalUrls ExternalUrls { get; set; }
 		public SecretsKeys SecretsKeys { get; set; }
+		public TBFS TBFS { get; set; }
 	}
 
     //================================================================================
@@ -32,5 +33,11 @@ namespace Microarea.AdminServer
 	public class SecretsKeys
 	{
 		public string TokenHashingKey { get; set; }
+	}
+
+	//================================================================================
+	public class TBFS
+	{
+		public string UploadFolder { get; set; }
 	}
 }

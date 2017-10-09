@@ -988,7 +988,7 @@ namespace Microarea.RSWeb.WoormEngine
 					{
 						object o = SoapTypes.From(par.ValueString, field.DataType);
 						field.SetAllData(o, true);
-						
+                        continue;
 					}
 					catch (Exception ex)
 					{
@@ -996,14 +996,14 @@ namespace Microarea.RSWeb.WoormEngine
 						return SetError(ex.Message);
 					}
 				}
-				else if (Report.WoormInfo != null && (parObj = Report.WoormInfo.GetInputParamValue(field.PublicName)) != null)
+				if (Report.WoormInfo != null && (parObj = Report.WoormInfo.GetInputParamValue(field.PublicName)) != null)
 				{
 					field.SetAllData(parObj, true);
+                    continue;
 				}
-				else
-				{
-					if (!field.Init())
-						return SetError(string.Format(WoormEngineStrings.EvalInitExpression, field.PublicName));
+				if (!field.Init())
+                {
+                    return SetError(string.Format(WoormEngineStrings.EvalInitExpression, field.PublicName));
 				}
                 if (field.Statico/*never reinitialize*/ && listFieldToPreserve.Count > 0)
                 {
@@ -1277,13 +1277,31 @@ namespace Microarea.RSWeb.WoormEngine
 
 		// per lo stato svedi sopra
 		//---------------------------------------------------------------------------
-		public bool ExecuteFinalizeActions()
+		public bool ExecuteFinalizeActions(ParametersList initParameters)
 		{
 			status = ReportEngine.ReportStatus.Body;	
 			if (reportActions !=  null && !reportActions.FinalizeActions.Exec())
 				return false;
 
-			return true;
+            Parameter par = null;
+            foreach (Field field in RepSymTable.Fields)
+            {
+                if (initParameters != null && (par = initParameters[field.PublicName]) != null && (par.Mode == ParameterModeType.Out || par.Mode == ParameterModeType.InOut))
+                {
+                    try
+                    {
+                        par.ValueString = SoapTypes.To(field.Data);
+                        continue;
+                    }
+                    catch (Exception ex)
+                    {
+                        SetError(string.Format(WoormEngineStrings.EvalOutParameter, field.PublicName));
+                        return SetError(ex.Message);
+                    }
+                }
+            }
+
+            return true;
 		}
 
 		//---------------------------------------------------------------------------
