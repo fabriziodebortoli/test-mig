@@ -18,7 +18,8 @@ export class GroupSelectorComponent {
         public menuService: MenuService,
         public imageService: ImageService,
         public utilsService: UtilsService
-    ) { }
+    ) {
+     }
 
     selectGroup(group) {
         this.menuService.setSelectedGroup(group);

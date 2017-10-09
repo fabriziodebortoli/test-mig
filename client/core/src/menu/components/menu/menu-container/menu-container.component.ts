@@ -95,9 +95,10 @@ export class MenuContainerComponent implements AfterViewInit, OnDestroy {
   }
 
   findTabIndexByMenu(): number {
+    let tempMenuArray = this.utilsService.toArray(this.menuService.selectedGroup.Menu);
 
-    for (let i = 0; i < this.menuService.selectedGroup.Menu.length; i++) {
-      if (this.menuService.selectedGroup.Menu[i].title == this.menuService.selectedMenu.title)
+    for (let i = 0; i < tempMenuArray.length; i++) {
+      if (tempMenuArray[i].title == this.menuService.selectedMenu.title)
         return i;
     }
     return -1;

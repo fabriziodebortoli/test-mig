@@ -1,9 +1,8 @@
-import { CommandEventArgs } from './../../shared/models/eventargs.model';
-import { ComponentInfo } from './../../shared/models/component-info.model';
-import { DiagnosticData, DiagnosticDlgResult } from './../../shared/models';
 import { Injectable, EventEmitter } from '@angular/core';
 
-import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
+import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
+import { CommandEventArgs } from './../../shared/models/eventargs.model';
+import { ComponentInfo } from './../../shared/models/component-info.model';
 
 @Injectable()
 export class EventDataService {

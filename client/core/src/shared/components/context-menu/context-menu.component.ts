@@ -60,11 +60,14 @@ export class ContextMenuComponent {
   }
 
   public doCommand(menuItem: any) {
-    if (!menuItem) { console.log('NOT doCommand for ContextMenu!'); return; }
-    if (this.hasSubItems(menuItem)) { return; }
+    if (!menuItem) {
+      console.log('NOT doCommand for ContextMenu!'); return;
+    }
+    if (this.hasSubItems(menuItem)) {
+      return;
+    }
 
     this.eventDataService.raiseCommand('', menuItem.id);
-    console.log('doCommand OK!');
     this.onToggle();
   }
 

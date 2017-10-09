@@ -1,11 +1,10 @@
-import { InfoService } from './info.service';
-import { TbComponentService } from './tbcomponent.service';
 import { Injectable } from '@angular/core';
 
-import { ViewModeType } from '../../shared/models';
+import { ViewModeType } from '../../shared/models/view-mode-type.model';
 
+import { InfoService } from './info.service';
+import { TbComponentService } from './tbcomponent.service';
 import { Logger } from './logger.service';
-
 import { EventDataService } from './eventdata.service';
 
 @Injectable()

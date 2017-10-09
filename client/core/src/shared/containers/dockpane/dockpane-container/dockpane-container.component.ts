@@ -23,10 +23,7 @@ export class DockpaneContainerComponent implements AfterContentInit {
   @ContentChildren(DockpaneComponent) dockpanes: QueryList<DockpaneComponent>;
 
   ngAfterContentInit() {
-    // get all active tiles
     let activeTiles = this.dockpanes.filter((tile) => tile.active);
-    console.log('activeTiles', activeTiles)
-    console.log('this.dockpanes.toArray()', this.dockpanes.toArray())
 
     //if there is no active tab set, activate the first
     if (activeTiles.length === 0 && this.dockpanes.toArray().length > 0) {

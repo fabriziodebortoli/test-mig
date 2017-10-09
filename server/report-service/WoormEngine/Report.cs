@@ -303,7 +303,7 @@ namespace Microarea.RSWeb.WoormEngine
 			reportStatus.Assign((ushort)ReportStatus.SUCCESS);
 		}
 
-		//unparsa gli eventuali parametri di report da stringa xml
+		//parsa gli eventuali parametri di report da stringa xml
 		//---------------------------------------------------------------------------
 		private void ReadParameters()
 		{
@@ -317,8 +317,37 @@ namespace Microarea.RSWeb.WoormEngine
 			initParameters = info.Parameters;
 		}
 
-		//---------------------------------------------------------------------------
-		public void InitializeChannel()
+        //unparsa gli eventuali parametri out di report in stringa xml nella ReportSession
+        //---------------------------------------------------------------------------
+        public  void UnparseOutParametersToReportSession()
+        {
+            //se non ci sono parametri, vuol dire che non ce n'erano nemmeno in out
+            if (reportSession.ReportParameters == null || reportSession.ReportParameters.Length == 0)
+                return;
+            
+            //cerco gli eventuali parametri  in out
+            ParametersList outParameters = new ParametersList();
+            foreach (Parameter par in InitParameters)
+            {
+                if (par.Mode == ParameterModeType.Out || par.Mode == ParameterModeType.InOut)
+                {
+                    outParameters.Add(par);
+                }
+            }
+
+            if (outParameters.Count == 0)
+            {
+                return;
+            }
+
+            XmlDocument outParamsDoc = new XmlDocument();
+            outParamsDoc.AppendChild(outParamsDoc.CreateElement(WebMethodsXML.Element.Arguments));
+            outParameters.Unparse(outParamsDoc.DocumentElement);
+            ReportSession.ReportParameters = outParamsDoc.OuterXml;
+        }
+
+        //---------------------------------------------------------------------------
+        public void InitializeChannel()
 		{
 			// pulisce ii file XMl eventualmente lasciati dall'ultimo run
 			PathFunctions.DeleteTempData(SessionID, UniqueID);
@@ -356,7 +385,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public bool			ExecuteBeforeActions()	{ return engine.ExecuteBeforeActions(); }
 		public RuleReturn	ExecuteRulesAndEvents()	{ exitStatus = engine.ExecuteRulesAndEvents(); return exitStatus;}
 		public bool			ExecuteAfterActions()	{ return engine.ExecuteAfterActions(); }
-		public bool			ExecuteFinalizeActions(){ return engine.ExecuteFinalizeActions(); }
+		public bool			ExecuteFinalizeActions(){ return engine.ExecuteFinalizeActions(initParameters); }
 
 		//---------------------------------------------------------------------------
 		public void ExecuteErrorStep()

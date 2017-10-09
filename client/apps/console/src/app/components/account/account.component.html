@@ -4,17 +4,21 @@
   <div class="row adminTile">
 
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <label>Account Name</label>
-      <input *ngIf="!editing" type="email" placeholder="Email" autofocus value="" [(ngModel)]="model.AccountName" [readonly]=editing required>
-      <input *ngIf="editing" type="email" style="background-color:#f0f0f0;color:#666666; border:1" placeholder="Email" value="" [(ngModel)]="model.AccountName" [readonly]=editing required>
+      <admin-input-text
+        [inputLabel]="'Account Name'"
+        [textType]="'email'"
+        [readOnly]=editing
+        [(inputData)]="model.AccountName"></admin-input-text>
     </div>
 
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <div>
-        <label *ngIf="!editing">Password</label>
-        <input *ngIf="!editing" type="password" value="" [(ngModel)]="model.Password" required>
-        <button *ngIf="editing" (click)="doChangePassword()" style="font-size:10px;border:0;background-color:#e0e0e0;margin-top:15px;">Change Password</button>
-      </div>
+      <admin-input-text
+        *ngIf="!editing"
+        [inputLabel]="'Password'"
+        [textType]="'password'"
+        [readOnly]=editing
+        [(inputData)]="model.Password"></admin-input-text>
+      <button *ngIf="editing" (click)="doChangePassword()" style="font-size:10px;border:0;background-color:#e0e0e0;margin-top:15px;">Change Password</button>
     </div>
 
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
@@ -27,14 +31,16 @@
   
   <div class="row adminTile">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-      <label>Full Name</label>
-      <input type="text" placeholder="Full Name" value="" [(ngModel)]="model.FullName">
+      <admin-input-text
+        [inputLabel]="'Full Name'"
+        [textType]="'text'"
+        [readOnly]=editing
+        [(inputData)]="model.FullName"></admin-input-text>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4" style="padding-top:20px">
       <label><input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.ProvisioningAdmin">Provisioning Administrator</label>
     </div>
   </div>
-  
 
   <div class="row adminTile">
     <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">

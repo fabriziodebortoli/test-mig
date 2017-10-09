@@ -23,8 +23,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
     public menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
     public show = false;
     public viewProductInfo: string;
-    public productInfoDialogRef: MdDialogRef<ProductInfoDialogComponent>;
-    public connectionInfoDialogRef: MdDialogRef<ConnectionInfoDialogComponent>;
     public data: Array<any>;
     public localizationsLoadedSubscription: any;
 
@@ -63,7 +61,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
                     return this.activateViaSMS();
                 // case 'idActivateViaInternetButton':
                 //   return this.activateViaInternet();
-
                 default:
                     break;
             }
@@ -86,7 +83,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
     goToSite() {
         this.httpMenuService.goToSite().subscribe((result) => {
             window.open(result.url, "_blank");
-
         });
     }
 
@@ -100,10 +96,10 @@ export class TopbarMenuAppComponent implements OnDestroy {
     }
 
     openProductInfoDialog() {
-        this.productInfoDialogRef = this.dialog.open(ProductInfoDialogComponent, <MdDialogConfig>{});
+        this.dialog.open(ProductInfoDialogComponent, <MdDialogConfig>{});
     }
 
     openConnectionInfoDialog() {
-        this.connectionInfoDialogRef = this.dialog.open(ConnectionInfoDialogComponent, <MdDialogConfig>{});
+        this.dialog.open(ConnectionInfoDialogComponent, <MdDialogConfig>{});
     }
 }

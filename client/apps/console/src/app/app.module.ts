@@ -27,7 +27,9 @@ import { SubscriptionDatabaseComponent } from './components/subscription/subscri
 import { DatabaseConfigurationComponent } from './components/subscription/database-configuration.component';
 import { DatabaseTestconnectionComponent } from './components/subscription/database-testconnection.component';
 import { DatabaseService } from './services/database.service';
+import { UploadFileService } from './services/upload-file.service';
 import { SubscriptionDbHomeComponent } from './components/subscription/subscription-db-home.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { SubscriptionDbHomeComponent } from './components/subscription/subscript
     SubscriptionDatabaseComponent,
     DatabaseConfigurationComponent,
     DatabaseTestconnectionComponent,
-    SubscriptionDbHomeComponent
+    SubscriptionDbHomeComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,7 @@ import { SubscriptionDbHomeComponent } from './components/subscription/subscript
     ConsoleModule
     //BrowserAnimationsModule
   ],
-  providers: [AuthGuardService, LoginService, ModelService, DatabaseService],
+  providers: [AuthGuardService, LoginService, ModelService, DatabaseService, UploadFileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

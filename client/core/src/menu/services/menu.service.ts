@@ -184,15 +184,11 @@ export class MenuService {
 
         if (tempMenuArray[0] != undefined)
             this.setSelectedMenu(tempMenuArray[0]);
-
-        this.setSelectedMenu(undefined);
-        // $location.path("/MenuTemplate");
-        // $route.reload();
     }
 
     //---------------------------------------------------------------------------------------------
     setSelectedMenu(menu) {
-        if (this.selectedMenu != undefined && this.selectedMenu == menu)
+        if (this.selectedMenu != undefined && this.selectedMenu == menu &&  this.selectedMenu.active == true &&  this.selectedMenu.visible == true)
             return;
 
         if (menu == undefined) {
@@ -204,8 +200,6 @@ export class MenuService {
         this.selectedMenu = menu;
         this.selectedMenu.active = true;
         this.selectedMenu.visible = true;
-
-        // this.eventData.model.Title.value = "Menu > " + menu.name;
     }
 
     //---------------------------------------------------------------------------------------------

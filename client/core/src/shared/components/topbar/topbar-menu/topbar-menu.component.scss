@@ -1,18 +1,11 @@
 .tbcontainer {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: baseline;
+    align-items: center;
     justify-content: flex-end;
 }
 
-// .tbcontainer .topbar-menu-layout {
-//     padding: 10px;
-// }
 .tbcontainer .topbar-menu-layout .k-button {
     color: white;
     background-color: #00578c;

@@ -1,21 +1,16 @@
-import { InfoService } from './info.service';
-import { Logger } from './logger.service';
-import { CommandEventArgs } from './../../shared/models/eventargs.model';
-import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
-
 import { Injectable, EventEmitter } from '@angular/core';
-
-
 import { Observable } from 'rxjs/Rx';
-
-import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
-
-import { EventDataService } from './eventdata.service';
-import { DocumentService } from './document.service';
-import { WebSocketService } from './websocket.service';
 
 import { apply, diff } from 'json8-patch';
 
+import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
+import { CommandEventArgs } from './../../shared/models/eventargs.model';
+
+import { InfoService } from './info.service';
+import { Logger } from './logger.service';
+import { EventDataService } from './eventdata.service';
+import { DocumentService } from './document.service';
+import { WebSocketService } from './websocket.service';
 
 @Injectable()
 export class BOService extends DocumentService {

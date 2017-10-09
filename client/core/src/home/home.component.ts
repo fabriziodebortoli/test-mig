@@ -2,8 +2,10 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostList
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 import { Subscription } from 'rxjs';
 
+import { environment } from 'environments/environment';
+
+import { MessageDlgArgs } from './../shared/models/message-dialog.model';
 import { ComponentInfo } from './../shared/models/component-info.model';
-import { MessageDlgArgs } from './../shared/models';
 
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
 import { MessageDialogComponent } from './../shared/containers/message-dialog/message-dialog.component';
@@ -70,9 +72,9 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
       if (arg.activate) {
         this.kendoTabStripInstance.selectTab(arg.index + 2);
       }
-      this.subscriptions.push(tabberService.tabSelected$.subscribe((index: number) => this.kendoTabStripInstance.selectTab(index)));
-
     }));
+
+    this.subscriptions.push(tabberService.tabSelected$.subscribe((index: number) => this.kendoTabStripInstance.selectTab(index)));
 
     this.subscriptions.push(componentService.componentInfoRemoved.subscribe(cmp => {
       this.kendoTabStripInstance.selectTab(0);
@@ -126,6 +128,12 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   closeTab(info: ComponentInfo) {
     event.stopImmediatePropagation();
     info.document.close();
+  }
+
+  onContextMenu() {
+    if (environment.production) {
+      return false;
+    }
   }
 
 }
