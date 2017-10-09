@@ -1,11 +1,8 @@
-import { InfoService } from './../../../../core/services/info.service';
+import { UtilsService } from './../../core/services/utils.service';
+import { InfoService } from './../../core/services/info.service';
+import { LocalizationService } from './../../menu/services/localization.service';
 import { Component, OnInit } from '@angular/core';
 
-import { MaterialModule, MdDialog, MdDialogRef } from '@angular/material';
-
-import { LocalizationService } from './../../../services/localization.service';
-import { UtilsService } from './../../../../core/services/utils.service';
-import { HttpMenuService } from './../../../services/http-menu.service';
 
 @Component({
   selector: 'tb-product-info-dialog',
@@ -17,8 +14,7 @@ export class ProductInfoDialogComponent implements OnInit {
 
   public productInfos: any;
   constructor(
-    public dialogRef: MdDialogRef<ProductInfoDialogComponent>,
-    public infoService: InfoService,
+      public infoService: InfoService,
     public utilsService: UtilsService,
     public localizationService: LocalizationService
   ) {
@@ -26,6 +22,14 @@ export class ProductInfoDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.localizationService.localizationsLoaded.subscribe((loaded) => {
+      console.log("loaded", loaded );
+      if (!loaded)
+        return;
+    });
+
+
     let sub = this.infoService.getProductInfo().subscribe(result => {
       this.productInfos = result;
       if (sub)

@@ -1,10 +1,11 @@
+import { ProductInfoDialogComponent } from './product-info-dialog/product-info-dialog.component';
 import { RouterModule } from '@angular/router';
 import { SettingsContainerComponent, SettingsContainerFactoryComponent } from './settings-container/settings-container.component';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
- import { TbSharedModule } from './../shared/shared.module';
- import { TbMenuModule } from './../menu/menu.module';
+import { TbSharedModule } from './../shared/shared.module';
+import { TbMenuModule } from './../menu/menu.module';
 
 
 
@@ -20,10 +21,11 @@ import { CommonModule } from '@angular/common';
       ],
   exports: [
     SettingsContainerComponent,
-    SettingsContainerFactoryComponent
+    SettingsContainerFactoryComponent,
+    ProductInfoDialogComponent
   ],
-  declarations: [SettingsContainerComponent,SettingsContainerFactoryComponent],
-  entryComponents: [SettingsContainerComponent]
+   declarations: [SettingsContainerComponent,SettingsContainerFactoryComponent,ProductInfoDialogComponent],
+  entryComponents: [SettingsContainerComponent,ProductInfoDialogComponent]
 })
 export class TbSettingsModule {
 }

@@ -1,0 +1,76 @@
+<div class=info-container>
+    <div class="box topbar-title-content">
+        <img src="assets/images/logoM4_h40.png" />
+    </div>
+    <div class="box">
+        <div class='text-right'>{{localizationService.localizedElements?.InstallationVersion}}:</div>
+        <div class='text'>{{productInfos?.installationVersion}} {{productInfos?.debugState}}</div>
+    </div>
+    <div class="box">
+        <div class='text-right'>{{localizationService.localizedElements?.Provider}}:</div>
+        <div class='text'>{{productInfos?.providerDescription}}</div>
+    </div>
+    <div class="box">
+        <div class='text-right'>{{localizationService.localizedElements?.Edition}}:</div>
+        <div class='text'>{{productInfos?.edition}}</div>
+    </div>
+    <div class="box">
+        <div class='text-right'>{{localizationService.localizedElements?.InstallationName}}:</div>
+        <div class='text'>{{productInfos?.installationName}}</div>
+    </div>
+    <div class="box">
+        <div class='text-right'> {{localizationService.localizedElements?.ActivationState}}:</div>
+        <div class='text'>{{productInfos?.activationState}}</div>
+    </div>
+    <div class="box" *ngFor="let current of utilsService.toArray(productInfos?.Applications)">
+        <div class='text-right'> {{current?.application}}:</div>
+        <div class='text'>{{current?.licensed}}</div>
+    </div>
+</div>
+<!-- <table> 
+<tr>
+    <td class="loginStyleOff pointer backButtonPadding"></td>
+    <td> </td>
+</tr>
+
+<tr>
+    <td style="text-align:right">
+
+    </td>
+    <td><b></b></td>
+
+</tr>
+<tr>
+    <td style="text-align:right">
+
+    </td>
+    <td><b></b></td>
+
+</tr>
+<tr>
+    <td style="text-align:right">
+
+    </td>
+    <td><b></b></td>
+
+</tr>
+<tr>
+    <td style="text-align:right">
+
+    </td>
+    <td><b></b></td>
+
+</tr>
+
+<tr *ngFor="let current of utilsService.toArray(productInfos?.Applications)">
+
+    <td style="text-align:right">
+
+    </td>
+    <td> <b></b> </td>
+
+</tr>
+
+
+</table> -->
+<!-- <button type="button" (click)="dialogRef.close('yes')">{{localizationService.localizedElements?.CloseLabel}}</button> -->
