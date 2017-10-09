@@ -44,7 +44,7 @@ input[type="text"], input[type="password"], input[type="email"], textarea {
     box-shadow: 0px 1px 2px #a0a0a0;
     font-size:14px}
 
-.miniAction { font-size:10px;border:0;background-color:#e0e0e0;margin-top:15px; }
+.miniAction { font-size:10px; border:0;background-color:#e0e0e0; margin-top:15px; }
 
 .adminTile { 
     background-color: #ffffff; padding:16px 0 12px 12px; 
@@ -54,3 +54,4 @@ input[type="text"], input[type="password"], input[type="email"], textarea {
 
 .tileNormal { min-height:270px }
 .tileHalf { min-height:135px }
+.mTop {margin-top:30px}
