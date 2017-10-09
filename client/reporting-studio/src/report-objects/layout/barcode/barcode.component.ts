@@ -1,19 +1,23 @@
 
-import { Component} from '@angular/core';
-import bwipjs  from 'bwip-angular2';
+import { Component, OnChanges, SimpleChanges, Input, ViewEncapsulation } from '@angular/core';
+import bwipjs from 'bwip-angular2';
 
 @Component({
   selector: 'rs-barcode',
   templateUrl: './barcode.component.html',
-  styles: []
+  styles: [],
+  encapsulation: ViewEncapsulation.None
 })
-export class BarcodeComponent {
+export class BarcodeComponent implements OnChanges {
 
- 
-  constructor() {
+  @Input() barcode: any;
+
+  constructor() {}
+
+  ngOnChanges(changes: SimpleChanges) {
     bwipjs('barcodeCanvas', {
       bcid: 'datamatrix',       // Barcode type
-      text: '123456789',   	  // Text to encode
+      text: this.barcode,   	  // Text to encode
       scale: 3,                 // 3x scaling factor
       height: 10,               // Bar height, in millimeters
       width: 10,
@@ -27,5 +31,4 @@ export class BarcodeComponent {
       }
     });
   }
-
 }
