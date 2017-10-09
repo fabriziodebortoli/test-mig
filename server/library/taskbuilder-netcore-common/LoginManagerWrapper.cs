@@ -171,7 +171,7 @@ namespace Microarea.Common.WebServicesWrapper
 
       
         private char[] activationExpressionOperators = new char[2] { '&', '|' };
-        private char[] activationExpressionKeywords = new char[5] { '!', '&', '|', '(', ')' };
+        private char[] activationExpressionKeywords = new char[6] { '!', '&', '|', '(', ')', '?' };
 
         WCFLoginManager.MicroareaLoginManagerSoapClient loginManagerClient = new WCFLoginManager.MicroareaLoginManagerSoapClient(WCFLoginManager.MicroareaLoginManagerSoapClient.EndpointConfiguration.MicroareaLoginManagerSoap);
         private string baseUrl = "http://localhost:5000/";
@@ -630,12 +630,18 @@ namespace Microarea.Common.WebServicesWrapper
 
                 if (firstKeyIndex >= 0)
                 {
-                    if (firstKeyIndex == 0 && expression[0] != '!' && expression[0] != '(')
+                    if (firstKeyIndex == 0 && expression[0] != '!' && expression[0] != '(' && expression[0] != '?')
                     {
                         // errore di sintassi: l'espressione non può cominciare con un'operatore di tipo '&', '|', ')'
                         Debug.Fail("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
                         // non potendo testare correttamente l'attivazione sollevo un'eccezione
                         throw new LoginManagerException(LoginManagerError.GenericError, String.Format(WebServicesWrapperStrings.CheckActivationExpressionErrFmtMsg, expression));
+                    }
+
+                    if (expression[0] == '?')
+                    {
+                        string instPath = PathFinder.BasePathFinderInstance.GetInstallationPath();
+                        return File.Exists(Path.Combine(instPath, expression.Substring(1).Replace('|', '\\')));
                     }
 
                     bool negateToken = (expression[0] == '!');
@@ -658,7 +664,7 @@ namespace Microarea.Common.WebServicesWrapper
                         charIndex++;
 
                     } while (charIndex < expression.Length);// esco dal while solo se l'espressione è terminata
-                                                            // o se ho chiuso tutte eventuali le parentesi tonde
+                    // o se ho chiuso tutte eventuali le parentesi tonde
                     if (openingParenthesisCount != 0)
                     {
                         // errore di sintassi: non c'è un matching corretto di parentesi

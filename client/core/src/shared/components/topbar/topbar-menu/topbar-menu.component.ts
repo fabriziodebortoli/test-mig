@@ -1,3 +1,5 @@
+
+import { EasyStudioContextComponent } from './../../../../shared/components/easystudio-context/easystudio-context.component';
 import { Component, ViewEncapsulation, Inject, forwardRef } from '@angular/core';
 
 import { InfoService } from './../../../../core/services/info.service';
