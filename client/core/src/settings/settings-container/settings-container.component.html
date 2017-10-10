@@ -6,8 +6,8 @@
             <tb-view>
                 <tb-tilemanager>
                     <tb-tilegroup [title]="'Selections'" icon="erp-europe">
-                        <tb-layoutcontainer tbLayoutTypeColumn>
-                            <tb-tile [title]="_TB('Select Language')" *ngIf="!isDesktop" tbTileMini>
+                        <tb-layoutcontainer>
+                            <tb-tile [title]="_TB('Select Language')" *ngIf="!isDesktop" class="cultureSel-container">
                                 <tb-culture-selector></tb-culture-selector>
                             </tb-tile>
                             <tb-tile [title]="_TB('Select themes')" tbTileStandard>
