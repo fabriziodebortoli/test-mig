@@ -1,4 +1,4 @@
-import { ProductInfoDialogComponent } from './product-info-dialog/product-info-dialog.component';
+import { ProductInfoComponent } from './product-info/product-info.component';
 import { ThemeChangerComponent } from './theme-changer/theme-changer.component';
 import { RouterModule } from '@angular/router';
 import { SettingsContainerComponent, SettingsContainerFactoryComponent } from './settings-container/settings-container.component';
@@ -25,7 +25,7 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
     SettingsContainerComponent,
     SettingsContainerFactoryComponent
   ],
-   declarations: [SettingsContainerComponent,SettingsContainerFactoryComponent,ProductInfoDialogComponent,ThemeChangerComponent],
+   declarations: [SettingsContainerComponent,SettingsContainerFactoryComponent,ProductInfoComponent,ThemeChangerComponent],
   entryComponents: [SettingsContainerComponent],
 })
 export class TbSettingsModule {

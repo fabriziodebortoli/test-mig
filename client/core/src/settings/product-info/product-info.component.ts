@@ -5,12 +5,12 @@ import { Component, OnInit } from '@angular/core';
 
 
 @Component({
-  selector: 'tb-product-info-dialog',
-  templateUrl: './product-info-dialog.component.html',
-  styleUrls: ['./product-info-dialog.component.scss']
+  selector: 'tb-product-info',
+  templateUrl: './product-info.component.html',
+  styleUrls: ['./product-info.component.scss']
 })
 
-export class ProductInfoDialogComponent implements OnInit {
+export class ProductInfoComponent implements OnInit {
 
   public productInfos: any;
   constructor(

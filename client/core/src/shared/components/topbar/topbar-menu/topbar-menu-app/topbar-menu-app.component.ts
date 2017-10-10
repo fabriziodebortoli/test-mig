@@ -11,7 +11,6 @@ import { LocalizationService } from './../../../../../menu/services/localization
 import { MenuService } from './../../../../../menu/services/menu.service';
 import { HttpMenuService } from './../../../../../menu/services/http-menu.service';
 import { ConnectionInfoDialogComponent } from './../../../../../menu/components/menu/connection-info-dialog/connection-info-dialog.component';
-//import { ProductInfoDialogComponent } from './../../../../../menu/components/menu/product-info-dialog/product-info-dialog.component';
 
 @Component({
     selector: 'tb-topbar-menu-app',
@@ -94,10 +93,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
     clearCachedData() {
         this.menuService.invalidateCache();
     }
-
-    // openProductInfoDialog() {
-    //     this.dialog.open(ProductInfoDialogComponent, <MdDialogConfig>{});
-    // }
 
     openConnectionInfoDialog() {
         this.dialog.open(ConnectionInfoDialogComponent, <MdDialogConfig>{});
