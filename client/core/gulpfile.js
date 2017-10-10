@@ -83,10 +83,11 @@ gulp.task('rollup:fesm', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/animation', '@angular/core', '@angular/common', '@angular/http', '@angular/material', '@angular/router', '@angular/forms',
-                // 'angular2-cookie/services/cookies.service', 'json8-patch',
-                // 'rxjs', 'rxjs/Rx', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject', 'hammerjs',
-                // '@progress/kendo-angular-layout', '@progress/kendo-angular-dialog', '@progress/kendo-angular-popup', '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid', '@progress/kendo-angular-charts'
+                '@angular/animation', '@angular/core', '@angular/common', '@angular/http', '@angular/material', '@angular/router', '@angular/forms', '@angular/animations', '@angular/material/index',
+                'rxjs', 'rxjs/Rx', 'rxjs/Observable', 'rxjs/add/observable/of', 'rxjs/add/operator/map', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject',
+                '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
+                '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
+                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'angular2-cookie/services/cookies.service', 'json8-patch'
             ],
 
             // Format of generated bundle
@@ -120,10 +121,11 @@ gulp.task('rollup:umd', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/animation', '@angular/core', '@angular/common', '@angular/http', '@angular/material', '@angular/router', '@angular/forms',
-                // 'angular2-cookie/services/cookies.service', 'json8-patch',
-                // 'rxjs', 'rxjs/Rx', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject', 'hammerjs',
-                // '@progress/kendo-angular-layout', '@progress/kendo-angular-dialog', '@progress/kendo-angular-popup', '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid', '@progress/kendo-angular-charts'
+                '@angular/animation', '@angular/core', '@angular/common', '@angular/http', '@angular/material', '@angular/router', '@angular/forms', '@angular/animations', '@angular/material/index',
+                'rxjs', 'rxjs/Rx', 'rxjs/Observable', 'rxjs/add/observable/of', 'rxjs/add/operator/map', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject',
+                '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
+                '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
+                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'angular2-cookie/services/cookies.service', 'json8-patch'
             ],
 
             // Format of generated bundle
@@ -141,7 +143,35 @@ gulp.task('rollup:umd', function() {
 
             // See "globals" in https://rollupjs.org/#core-functionality
             globals: {
-                typescript: 'ts'
+                typescript: 'ts',
+                '@angular/core': 'core',
+                '@angular/common': 'common',
+                '@angular/material': 'material',
+                'angular2-cookie/services/cookies.service': 'cookies_service',
+                '@angular/router': 'router',
+                '@angular/http': 'http',
+                'rxjs/Observable': 'Observable',
+                'rxjs/Rx': 'Rx',
+                'json8-patch': 'json8Patch',
+                'rxjs/BehaviorSubject': 'BehaviorSubject',
+                'rxjs/Subject': 'Subject',
+                '@angular/forms': 'forms',
+                '@angular/material/index': 'index',
+                '@taskbuilder/icons': 'icons',
+                '@progress/kendo-angular-dialog': 'kendoAngularDialog',
+                '@progress/kendo-angular-layout': 'kendoAngularLayout',
+                '@progress/kendo-angular-popup': 'kendoAngularPopup',
+                '@progress/kendo-angular-buttons': 'kendoAngularButtons',
+                '@progress/kendo-angular-inputs': 'kendoAngularInputs',
+                '@progress/kendo-angular-dateinputs': 'kendoAngularDateinputs',
+                '@progress/kendo-angular-dropdowns': 'kendoAngularDropdowns',
+                '@progress/kendo-angular-grid': 'kendoAngularGrid',
+                '@progress/kendo-angular-charts': 'kendoAngularCharts',
+                'angular-tree-component': 'angularTreeComponent',
+                'rxjs': 'rxjs',
+                '@progress/kendo-data-query': 'kendoDataQuery',
+                '@angular/animations': 'animations',
+                '@telerik/kendo-intl': 'kendoIntl'
             }
 
         }))

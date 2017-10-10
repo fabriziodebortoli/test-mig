@@ -1,13 +1,13 @@
 <div class="tb-search">
-    <md-input-container>
-        <span md-prefix>
+    <!-- <mat-input-container>
+        <span mat-prefix>
             <m4-icon icon="tb-find"></m4-icon></span>
-        <input #myInput type="text" mdInput [mdAutocomplete]="auto" [formControl]="inputControl" placeholder="Search...">
-    </md-input-container>
+        <input #myInput type="text" mdInput [matAutocomplete]="auto" [formControl]="inputControl" placeholder="Search...">
+    </mat-input-container>
 
-    <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayElement">
-        <md-option *ngFor="let option of filteredElements | async" [value]="option">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayElement">
+        <mat-option *ngFor="let option of filteredElements | async" [value]="option">
             <tb-menu-element class="search-element" [object]="option"></tb-menu-element>
-        </md-option>
-    </md-autocomplete>
+        </mat-option>
+    </mat-autocomplete> -->
 </div>

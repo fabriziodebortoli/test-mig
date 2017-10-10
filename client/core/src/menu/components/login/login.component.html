@@ -1,10 +1,10 @@
 <div class="login-flex-container">
     <header>
-        <md-toolbar color="primary">
+        <mat-toolbar color="primary">
             <img src="assets/images/logoM4_h40.png" />
             <span class="fill-remaining-space"></span>
             <span>Microarea Spa</span>
-        </md-toolbar>
+        </mat-toolbar>
     </header>
 
     <div class="login-main-content">
@@ -13,23 +13,23 @@
                 <tb-card-title title='Log In'></tb-card-title>
                 <tb-card-content>
                     <div class="form-group">
-                        <md-input-container class="form-control">
+                        <mat-input-container class="form-control">
                             <input mdInput type="text" [placeholder]="'User'" autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keydown)="keyDownFunction($event)" />
-                        </md-input-container>
-                        <md-input-container class="form-control">
+                        </mat-input-container>
+                        <mat-input-container class="form-control">
                             <input mdInput type="password" [placeholder]="'Password'" [(ngModel)]="connectionData.password" (keydown)="keyDownFunction($event)" />
-                        </md-input-container>
+                        </mat-input-container>
 
-                        <md-select class="form-control" placeholder="Company" [(ngModel)]="connectionData.company">
-                            <md-option *ngIf="!companies">Loading...</md-option>
-                            <md-option *ngFor="let company of companies" [value]="company?.name">
+                        <mat-select class="form-control" placeholder="Company" [(ngModel)]="connectionData.company">
+                            <mat-option *ngIf="!companies">Loading...</mat-option>
+                            <mat-option *ngFor="let company of companies" [value]="company?.name">
                                 {{ company?.name }}
-                            </md-option>
-                        </md-select>
+                            </mat-option>
+                        </mat-select>
 
                         <div class="error" *ngIf="authService.errorMessage">{{authService.errorMessage}}</div>
 
-                        <button class="form-button" md-raised-button color="primary" (click)="login();" [disabled]="companies.length == 0">Login</button>
+                        <button class="form-button" mat-raised-button color="primary" (click)="login();" [disabled]="companies.length == 0">Login</button>
                     </div>
                 </tb-card-content>
             </tb-card>
@@ -49,12 +49,12 @@
 
 
 <kendo-dialog title="User already connected" *ngIf="userAlreadyConnectedOpened" (close)="userConnectedCancel()">
-        <div>  
-            <!-- TODOLUCA da localizzare -->
-            The user is already connected to the system. Do you want to close previous working session and open new one?
-        </div>
-        <kendo-dialog-actions>
-            <button kendoButton (click)="userConnectedYes()" [primary]="true">Yes</button>
-            <button kendoButton (click)="userConnectedCancel()" [primary]="true">Cancel</button>
-        </kendo-dialog-actions>
-    </kendo-dialog>
+    <div>
+        <!-- TODOLUCA da localizzare -->
+        The user is already connected to the system. Do you want to close previous working session and open new one?
+    </div>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="userConnectedYes()" [primary]="true">Yes</button>
+        <button kendoButton (click)="userConnectedCancel()" [primary]="true">Cancel</button>
+    </kendo-dialog-actions>
+</kendo-dialog>

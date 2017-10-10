@@ -1,9 +1,9 @@
 <div id="dpi">a</div>
-<md-sidenav-container (contextmenu)="onContextMenu();">
+<mat-sidenav-container (contextmenu)="onContextMenu();">
     <tb-message-dialog></tb-message-dialog>
-    <md-sidenav mode="over" #sidenav>
+    <mat-sidenav mode="over" #sidenav>
         <tb-home-sidenav></tb-home-sidenav>
-    </md-sidenav>
+    </mat-sidenav>
 
     <div class="main-content">
         <tb-topbar>
@@ -66,7 +66,7 @@
         </div>
 
     </div>
-</md-sidenav-container>
+</mat-sidenav-container>
 <div class="connecting-container" [@fadeInOut] *ngIf="!connected">
     <div class="connecting">
         <span class="k-icon k-i-loading"></span>

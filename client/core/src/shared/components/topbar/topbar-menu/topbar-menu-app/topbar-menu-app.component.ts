@@ -1,8 +1,6 @@
 import { CommandEventArgs } from './../../../../models/eventargs.model';
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 
-import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
-
 import { EventDataService } from './../../../../../core/services/eventdata.service';
 import { UtilsService } from './../../../../../core/services/utils.service';
 import { ContextMenuItem } from './../../../../models/context-menu-item.model';
@@ -10,8 +8,6 @@ import { ContextMenuItem } from './../../../../models/context-menu-item.model';
 import { LocalizationService } from './../../../../../menu/services/localization.service';
 import { MenuService } from './../../../../../menu/services/menu.service';
 import { HttpMenuService } from './../../../../../menu/services/http-menu.service';
-import { ConnectionInfoDialogComponent } from './../../../../../menu/components/menu/connection-info-dialog/connection-info-dialog.component';
-import { ProductInfoDialogComponent } from './../../../../../menu/components/menu/product-info-dialog/product-info-dialog.component';
 
 @Component({
     selector: 'tb-topbar-menu-app',
@@ -27,7 +23,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
     public localizationsLoadedSubscription: any;
 
     constructor(
-        public dialog: MdDialog,
         public httpMenuService: HttpMenuService,
         public menuService: MenuService,
         public utilsService: UtilsService,
@@ -49,10 +44,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
 
         this.eventDataService.command.subscribe((args: CommandEventArgs) => {
             switch (args.commandId) {
-                case 'idViewProductInfoButton':
-                    return this.openProductInfoDialog();
-                case 'idConnectionInfoButton':
-                    return this.openConnectionInfoDialog();
                 case 'idGotoProducerSiteButton':
                     return this.goToSite();
                 case 'idClearCachedDataButton':
@@ -95,13 +86,5 @@ export class TopbarMenuAppComponent implements OnDestroy {
 
     clearCachedData() {
         this.menuService.invalidateCache();
-    }
-
-    openProductInfoDialog() {
-        this.dialog.open(ProductInfoDialogComponent, <MdDialogConfig>{});
-    }
-
-    openConnectionInfoDialog() {
-        this.dialog.open(ConnectionInfoDialogComponent, <MdDialogConfig>{});
     }
 }

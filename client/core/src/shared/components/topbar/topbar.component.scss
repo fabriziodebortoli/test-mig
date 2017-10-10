@@ -1,10 +1,10 @@
-tb-topbar md-toolbar.md-primary {
+tb-topbar mat-toolbar.mat-primary {
     min-height: 53px;
     display: flex;
     flex-flow: row wrap;
 }
 
-tb-topbar md-toolbar md-toolbar-row {
+tb-topbar mat-toolbar mat-toolbar-row {
     height: 53px !important;
     min-height: 53px !important;
 }

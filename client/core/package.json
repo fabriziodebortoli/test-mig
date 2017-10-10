@@ -1,6 +1,6 @@
 {
     "name": "@taskbuilder/core",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "scripts": {
         "build": "gulp build",
         "build:watch": "gulp",
@@ -27,17 +27,18 @@
         "url": "https://github.com/Microarea/Taskbuilder.git/issues"
     },
     "devDependencies": {
-        "@angular/animations": "^4.2.4",
-        "@angular/common": "^4.2.4",
-        "@angular/compiler": "^4.2.4",
-        "@angular/compiler-cli": "^4.2.4",
-        "@angular/core": "^4.2.4",
-        "@angular/forms": "^4.2.4",
-        "@angular/http": "^4.2.4",
-        "@angular/platform-browser": "^4.2.4",
-        "@angular/platform-browser-dynamic": "^4.2.4",
-        "@angular/router": "^4.2.4",
-        "@angular/material": "^2.0.0-beta.6",
+        "@angular/animations": "^4.4.4",
+        "@angular/cdk": "2.0.0-beta.12",
+        "@angular/common": "^4.4.4",
+        "@angular/compiler": "^4.4.4",
+        "@angular/compiler-cli": "^4.4.4",
+        "@angular/core": "^4.4.4",
+        "@angular/forms": "^4.4.4",
+        "@angular/http": "^4.4.4",
+        "@angular/material": "2.0.0-beta.12",
+        "@angular/platform-browser": "^4.4.4",
+        "@angular/platform-browser-dynamic": "^4.4.4",
+        "@angular/router": "^4.4.4",
         "@compodoc/compodoc": "^1.0.0-beta.10",
         "@types/jasmine": "2.5.38",
         "@types/node": "~6.0.60",
@@ -91,7 +92,6 @@
         "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "angular-tree-component": "^3.8.0",
         "angular2-cookie": "^1.2.6",
-        "angular2-masonry": "^0.4.0",
         "json8-patch": "^0.4.0"
     }
 }
