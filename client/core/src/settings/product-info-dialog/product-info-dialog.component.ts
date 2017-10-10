@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'tb-product-info-dialog',
   templateUrl: './product-info-dialog.component.html',
-  styleUrls: ['./product-info-dialog.component.css']
+  styleUrls: ['./product-info-dialog.component.scss']
 })
 
 export class ProductInfoDialogComponent implements OnInit {

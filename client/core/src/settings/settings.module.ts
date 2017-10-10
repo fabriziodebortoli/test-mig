@@ -23,8 +23,7 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
   ],
   exports: [
     SettingsContainerComponent,
-    SettingsContainerFactoryComponent,
-    ProductInfoDialogComponent
+    SettingsContainerFactoryComponent
   ],
    declarations: [SettingsContainerComponent,SettingsContainerFactoryComponent,ProductInfoDialogComponent,ThemeChangerComponent],
   entryComponents: [SettingsContainerComponent],

@@ -8,7 +8,6 @@
 .box {
     display: flex;
     flex-direction: row;
-    height: 20px;
     width: 100%;
     padding: 15px;
     border-bottom: 1px solid #dddddd;
@@ -18,40 +17,11 @@
     font-weight: bold;
 }
 
-// tb-topbar .topbar-menu,
-// tb-topbar .topbar-title,
-tb-topbar .fill-remaining-space {
-    flex: 1 auto;
-    text-align: center;
-    margin-left: 20px;
+.box.topbar-title-content>img {
+    margin-top: 5px;
+    background-color: #0277bd;
 }
 
-tb-topbar .topbar-title {
-    margin-left: 5px;
-}
-
-tb-topbar .topbar-title h1,
-tb-topbar .topbar-title h2 {
-    margin: 0;
-    padding: 0;
-}
-
-tb-topbar .topbar-title h1 {
-    font-size: 22px;
-    color: #fff;
-}
-
-tb-topbar .topbar-title h2 {
-    font-size: 12px;
-    font-weight: normal;
-}
-
-tb-topbar .mat-toolbar {
-    min-height: 55px;
-}
-
-#toggle-sidebar {
-    cursor: pointer;
-    margin-right: 10px;
-    font-size: 18px;
+.box div {
+    flex: 1 0 50%;
 }
