@@ -33,6 +33,7 @@ export class ThemeChangerComponent {
         theme.name =  theme.path.split("\\").pop();
         // var tempName = theme.path.split("\\").pop();
         // theme.name = tempName.replace(/.theme/gi, "");
+        console.log(theme);
     }
 
     //---------------------------------------------------------------------------------------------
