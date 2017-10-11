@@ -34,7 +34,7 @@ export class MenuService {
     public ifMoreAppsExist: boolean;
 
     public showDescription: boolean = false;
-
+    public clearCachedData = false;
     get selectedMenu(): any {
         return this._selectedMenu;
     }
@@ -451,16 +451,18 @@ export class MenuService {
 
     getMenuElements() {
 
-        this.httpMenuService.getMenuElements().subscribe((result) => {
+        this.httpMenuService.getMenuElements(this.clearCachedData).subscribe((result) => {
+            this.clearCachedData = false;
             this.onAfterGetMenuElements(result.Root);
         });
     }
 
     invalidateCache() {
-        localStorage.setItem("_menuElements", "");
-        this.httpMenuService.clearCachedData().subscribe(result => {
-            location.reload();
-        });
+        this.clearCachedData = true;
+        this.getMenuElements();
+        // this.httpMenuService.clearCachedData().subscribe(result => {
+        //     location.reload();
+        // });
     }
 
     //---------------------------------------------------------------------------------------------

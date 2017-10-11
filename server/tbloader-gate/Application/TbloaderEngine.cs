@@ -51,13 +51,13 @@ namespace Microarea.TbLoaderGate
 		}
 
 		//-----------------------------------------------------------------------------------------
-		internal static TBLoaderInstance GetTbLoader(string name, bool create, out bool newInstance)
+		internal static TBLoaderInstance GetTbLoader(string server, int port, string name, bool create, out bool newInstance)
 		{
 			newInstance = false;
 			var tbLoader = GetTbLoader(name);
 			if (tbLoader == null && create)
 			{
-				tbLoader = new TBLoaderInstance();
+				tbLoader = new TBLoaderInstance(server, port);
 				tbLoader.ExecuteAsync().Wait();
 				tbloaders.Add(tbLoader);
 				newInstance = true;

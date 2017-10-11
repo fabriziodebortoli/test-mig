@@ -1,23 +1,23 @@
-<md-sidenav-container fullscreen>
-  <md-sidenav #start mode="side">
-    <h4>Sections</h4>
-    <ng-content select=".routesSection"></ng-content>
-  </md-sidenav>
-  <md-toolbar color="primary">
-    <md-icon (click)="start.toggle()" style="cursor:pointer">menu</md-icon>
-    <span style="margin-left:20px">{{appTitle}}</span>
-    <span class="spacer"></span>
-    <a (click)="loginOrAccount()">
-      <div>
-        <div style="float:left;margin-top:-4px">{{ userAccountName === undefined || userAccountName === '' ? 'Sign In' : userAccountName }}</div>&nbsp;
-        <md-icon class="example-icon">{{ userAccountName === undefined || userAccountName === '' ? 'person' : '' }}</md-icon>
-      </div>
-    </a>
-  </md-toolbar>
-  <div class="outer-outlet">
-    <ng-content select=".breadCrumbSection"></ng-content>
-    <div class="routerContainer">
-      <ng-content select=".outletSection"></ng-content>
+<mat-sidenav-container fullscreen>
+    <mat-sidenav #start mode="side">
+        <h4>Sections</h4>
+        <ng-content select=".routesSection"></ng-content>
+    </mat-sidenav>
+    <mat-toolbar color="primary">
+        <mat-icon (click)="start.toggle()" style="cursor:pointer">menu</mat-icon>
+        <span style="margin-left:20px">{{appTitle}}</span>
+        <span class="spacer"></span>
+        <a (click)="loginOrAccount()">
+            <div>
+                <div style="float:left;margin-top:-4px">{{ userAccountName === undefined || userAccountName === '' ? 'Sign In' : userAccountName }}</div>&nbsp;
+                <md-icon class="example-icon">{{ userAccountName === undefined || userAccountName === '' ? 'person' : '' }}</md-icon>
+            </div>
+        </a>
+    </mat-toolbar>
+    <div class="outer-outlet">
+        <ng-content select=".breadCrumbSection"></ng-content>
+        <div class="routerContainer">
+            <ng-content select=".outletSection"></ng-content>
+        </div>
     </div>
-  </div>
-</md-sidenav-container>
+</mat-sidenav-container>
