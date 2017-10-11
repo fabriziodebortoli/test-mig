@@ -300,19 +300,6 @@ export class HttpMenuService {
             });
     }
 
-    /**
-     * API /loadLocalizedElements
-     * 
-     * @returns {Observable<any>} loadLocalizedElements
-     */
-    loadLocalizedElements(): Observable<any> {
-        let obj = { authtoken: this.cookieService.get('authtoken') }
-        return this.postData(this.infoService.getMenuServiceUrl() + 'getLocalizedElements/', obj)
-            .map((res: Response) => {
-                return res.json();
-            });
-    };
-
 
     /**
     * API /activateViaSMS

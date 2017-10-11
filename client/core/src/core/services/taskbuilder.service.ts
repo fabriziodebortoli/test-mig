@@ -21,6 +21,7 @@ export class TaskbuilderService {
     errorMessages: string[] = [];
     redirectUrl = this.defaultUrl;
 
+    timeout = 30000;
     tbConnection = new BehaviorSubject(false);
     connected: Subject<boolean> = new BehaviorSubject(false);
 
@@ -78,7 +79,7 @@ export class TaskbuilderService {
 
     // provo ad aprire connessione TB
     openConnection() {
-        this.openTbConnection().delay(5000).repeat().takeUntil(this.tbConnection.filter(tbConnection => tbConnection === true)).subscribe();
+        this.openTbConnection().delay(this.timeout).repeat().takeUntil(this.tbConnection.filter(tbConnection => tbConnection === true)).subscribe();
     }
 
     openTbConnection(): Observable<boolean> {
@@ -88,7 +89,7 @@ export class TaskbuilderService {
         let isDesktop = this.infoService.isDesktop;
         return new Observable(observer => {
             this.httpService.openTBConnection({ authtoken: authtoken, isDesktop: isDesktop })
-                .timeout(15000)
+                .timeout(this.timeout)
                 .catch((error: any) => Observable.throw(error))
                 .subscribe((tbRes: OperationResult) => {
                     this.logger.debug("openTBConnection result...", tbRes);
