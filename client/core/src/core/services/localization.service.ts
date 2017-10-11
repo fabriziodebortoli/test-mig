@@ -1,9 +1,9 @@
+import { HttpService } from './http.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { Logger } from './../../core/services/logger.service';
-import { HttpMenuService } from './http-menu.service';
 
 @Injectable()
 export class LocalizationService {
@@ -12,7 +12,7 @@ export class LocalizationService {
     public localizationsLoaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
     constructor(
-        public httpMenuService: HttpMenuService,
+        public httpService: HttpService,
         public logger: Logger
     ) {
         this.logger.debug('LocalizationService instantiated - ' + Math.round(new Date().getTime() / 1000));
@@ -20,11 +20,10 @@ export class LocalizationService {
 
     //---------------------------------------------------------------------------------------------
     loadLocalizedElements() {
-
         if (this.localizedElements != undefined)
             return this.localizedElements;
 
-        let subs = this.httpMenuService.loadLocalizedElements().subscribe(result => {
+        let subs = this.httpService.loadLocalizedElements().subscribe(result => {
             this.localizedElements = result.LocalizedElements;
             this.localizationsLoaded.next(true);
             subs.unsubscribe();

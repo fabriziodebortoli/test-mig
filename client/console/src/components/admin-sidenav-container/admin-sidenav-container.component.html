@@ -1,16 +1,16 @@
 <mat-sidenav-container fullscreen>
-    <mat-sidenav #start mode="side">
+    <mat-sidenav class="padSideNav" #start mode="side">
         <h4>Sections</h4>
         <ng-content select=".routesSection"></ng-content>
     </mat-sidenav>
     <mat-toolbar color="primary">
-        <mat-icon (click)="start.toggle()" style="cursor:pointer">menu</mat-icon>
+        <admin-icon [iconSignature]="'menu'" (click)="start.toggle()" style="cursor:pointer"></admin-icon>
         <span style="margin-left:20px">{{appTitle}}</span>
         <span class="spacer"></span>
         <a (click)="loginOrAccount()">
             <div>
                 <div style="float:left;margin-top:-4px">{{ userAccountName === undefined || userAccountName === '' ? 'Sign In' : userAccountName }}</div>&nbsp;
-                <md-icon class="example-icon">{{ userAccountName === undefined || userAccountName === '' ? 'person' : '' }}</md-icon>
+                <mat-icon class="example-icon">{{ userAccountName === undefined || userAccountName === '' ? 'person' : '' }}</mat-icon>
             </div>
         </a>
     </mat-toolbar>

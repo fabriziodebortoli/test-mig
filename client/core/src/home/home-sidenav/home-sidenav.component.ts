@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TabberService } from './../../core/services/tabber.service';
-import { LocalizationService } from './../../menu/services/localization.service';
+import { LocalizationService } from './../../core/services/localization.service';
 import { ImageService } from './../../menu/services/image.service';
 import { UtilsService } from './../../core/services/utils.service';
 import { MenuService } from './../../menu/services/menu.service';

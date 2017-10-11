@@ -157,7 +157,7 @@ namespace Microarea.Menu.Controllers
                 string user = HttpContext.Request.Form["user"];
                 string company = HttpContext.Request.Form["company"];
                 NewMenuSaver.UpdateAllFavoritesAndMostUsed(favorites, mostUsed, user, company);
-                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+                return new ContentResult { StatusCode = 200, Content = "", ContentType = "text/plain" };
             }
             catch (Exception e)
             {
@@ -171,8 +171,6 @@ namespace Microarea.Menu.Controllers
         {
             try
             {
-
-
                 string user = HttpContext.Request.Form["user"];
                 Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(user);
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };

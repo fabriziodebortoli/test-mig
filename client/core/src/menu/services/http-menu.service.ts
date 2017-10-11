@@ -275,7 +275,7 @@ export class HttpMenuService {
     * 
     * @returns {Observable<boolean>}
     */
-    updateAllFavoritesAndMostUsed(favorites: any, mostUsed: any): Observable<Response> {
+    updateAllFavoritesAndMostUsed(favorites: any, mostUsed: any): Observable<boolean> {
         let obj = {
             user: this.cookieService.get('_user'), company: this.cookieService.get('_company'),
             favorites: JSON.stringify(favorites), mostUsed: JSON.stringify(mostUsed)
@@ -283,7 +283,7 @@ export class HttpMenuService {
         var urlToRun = this.infoService.getMenuServiceUrl() + 'updateAllFavoritesAndMostUsed/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
-                return res;
+                return res.ok;
             });
     }
 
@@ -299,19 +299,6 @@ export class HttpMenuService {
                 return res.ok;
             });
     }
-
-    /**
-     * API /loadLocalizedElements
-     * 
-     * @returns {Observable<any>} loadLocalizedElements
-     */
-    loadLocalizedElements(): Observable<any> {
-        let obj = { authtoken: this.cookieService.get('authtoken') }
-        return this.postData(this.infoService.getMenuServiceUrl() + 'getLocalizedElements/', obj)
-            .map((res: Response) => {
-                return res.json();
-            });
-    };
 
 
     /**
