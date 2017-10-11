@@ -61,13 +61,17 @@ export { EventManagerService } from './services/event-manager.service';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { DialogModule } from '@progress/kendo-angular-dialog';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 @NgModule({
     imports: [
         TbSharedModule,
         LayoutModule,
         ButtonsModule,
-        DialogModule
+        DialogModule,
+        InputsModule,
+        DropDownsModule
     ],
 
     declarations: [

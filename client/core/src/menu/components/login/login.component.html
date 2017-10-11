@@ -13,19 +13,35 @@
                 <tb-card-title title='Log In'></tb-card-title>
                 <tb-card-content>
                     <div class="form-group">
-                        <mat-input-container class="form-control">
-                            <input matInput type="text" [placeholder]="'User'" autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keydown)="keyDownFunction($event)" />
-                        </mat-input-container>
-                        <mat-input-container class="form-control">
-                            <input matInput type="password" [placeholder]="'Password'" [(ngModel)]="connectionData.password" (keydown)="keyDownFunction($event)" />
-                        </mat-input-container>
 
-                        <mat-select class="form-control" placeholder="Company" [(ngModel)]="connectionData.company">
-                            <mat-option *ngIf="!companies">Loading...</mat-option>
-                            <mat-option *ngFor="let company of companies" [value]="company?.name">
-                                {{ company?.name }}
-                            </mat-option>
-                        </mat-select>
+                        <div class="form-control">
+                            <p class="floatingLabel">User</p>
+                            <kendo-textbox-container>
+                                <input kendoTextBox autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keyup)="keyUpFunction($event)" name="user">
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <p class="floatingLabel">Password</p>
+                            <kendo-textbox-container class="form-control-k">
+                                <input kendoTextBox [(ngModel)]="connectionData.password" (keyup)="keyUpFunction($event)" name="password" type="password">
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <p class="floatingLabel">Company</p>
+
+                            <!-- <kendo-dropdownlist [data]="companies" [(ngModel)]="connectionData.company" [textField]="'name'" [valueField]="'name'" [defaultItem]="placeHolder"></kendo-dropdownlist> -->
+                            <!-- <kendo-dropdownlist [data]="companies" [textField]="'name'" [valueField]="'name'"></kendo-dropdownlist> -->
+                            <kendo-dropdownlist [data]="companies" [(ngModel)]="connectionData.company"></kendo-dropdownlist>
+
+                            <!-- <mat-select class="form-control" placeholder="Company" [(ngModel)]="connectionData.company">
+                                <mat-option *ngFor="let company of companies" [value]="company?.name">
+                                    {{ company?.name }}
+                                </mat-option>
+                            </mat-select> -->
+                        </div>
+
 
 
                         <div class="error" *ngIf="authService.errorMessage">{{authService.errorMessage}}</div>

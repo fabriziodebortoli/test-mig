@@ -1,3 +1,4 @@
+import { UtilsService } from './../../../core/services/utils.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -26,7 +27,10 @@ import { AuthService } from './../../../core/services/auth.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  companies: any[] = [];
+  public placeHolder: { name: string } = { name: "Select company..." };
+  // public companies: Array<{ name: string }> = [];
+  public companies: any = [];
+
   connectionData: LoginSession = new LoginSession();
   loading: boolean = false;
   errorMessages: string[] = [];
@@ -37,13 +41,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     public cookieService: CookieService,
     public router: Router,
     public logger: Logger,
-    public httpService: HttpService
+    public httpService: HttpService,
+    public utilsService: UtilsService
   ) {
 
   }
 
   //-------------------------------------------------------------------------------------
   ngOnInit() {
+
     this.loadState();
     if (this.connectionData.user != undefined) {
       this.getCompaniesForUser(this.connectionData.user);
@@ -63,13 +69,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   //-------------------------------------------------------------------------------------
   getCompaniesForUser(user: string) {
-
     let subs = this.httpService.getCompaniesForUser(user).subscribe((result) => {
+      this.companies = result.Companies.Company.sort(this.compareCompanies).map(c => c.name);
 
-
-      this.companies = result.Companies.Company.sort(this.compareCompanies);
-      if (this.companies.length > 0 && this.connectionData.company == undefined)
-        this.connectionData.company = this.companies[0].name;
+      if (this.companies.length > 0 && this.connectionData.company == undefined) {
+        this.logger.log("this.companies.length", this.companies.length)
+        this.connectionData.company = this.companies[0];
+      }
 
       subs.unsubscribe();
     });
@@ -119,7 +125,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  keyDownFunction(event) {
+  keyUpFunction(event) {
     if (event.keyCode === 13) {
       this.login();
     }
