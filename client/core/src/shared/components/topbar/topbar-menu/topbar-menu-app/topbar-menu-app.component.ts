@@ -33,13 +33,11 @@ export class TopbarMenuAppComponent implements OnDestroy {
         this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe((loaded) => {
             if (!loaded)
                 return;
-            const item1 = new ContextMenuItem(this.localizationService.localizedElements.ViewProductInfo, 'idViewProductInfoButton', true, false);
-            const item2 = new ContextMenuItem(this.localizationService.localizedElements.ConnectionInfo, 'idConnectionInfoButton', true, false);
             const item3 = new ContextMenuItem(this.localizationService.localizedElements.GotoProducerSite, 'idGotoProducerSiteButton', true, false);
             const item4 = new ContextMenuItem(this.localizationService.localizedElements.ClearCachedData, 'idClearCachedDataButton', true, false);
             const item5 = new ContextMenuItem(this.localizationService.localizedElements.ActivateViaSMS, 'idActivateViaSMSButton', true, false);
             // const item6 = new MenuItem(this.localizationService.localizedElements.ActivateViaInternet, 'idActivateViaInternetButton', true, false);
-            this.menuElements.push(item1, item2, item3, item4, item5/*, item6*/);
+            this.menuElements.push(item3, item4, item5/*, item6*/);
         });
 
         this.eventDataService.command.subscribe((args: CommandEventArgs) => {
@@ -52,7 +50,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
                     return this.activateViaSMS();
                 // case 'idActivateViaInternetButton':
                 //   return this.activateViaInternet();
-
                 default:
                     break;
             }
@@ -75,7 +72,6 @@ export class TopbarMenuAppComponent implements OnDestroy {
     goToSite() {
         this.httpMenuService.goToSite().subscribe((result) => {
             window.open(result.url, "_blank");
-
         });
     }
 

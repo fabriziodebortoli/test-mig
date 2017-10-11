@@ -171,7 +171,7 @@ namespace Microarea.Common.WebServicesWrapper
 
       
         private char[] activationExpressionOperators = new char[2] { '&', '|' };
-        private char[] activationExpressionKeywords = new char[5] { '!', '&', '|', '(', ')' };
+        private char[] activationExpressionKeywords = new char[6] { '!', '&', '|', '(', ')', '?' };
 
         WCFLoginManager.MicroareaLoginManagerSoapClient loginManagerClient = new WCFLoginManager.MicroareaLoginManagerSoapClient(WCFLoginManager.MicroareaLoginManagerSoapClient.EndpointConfiguration.MicroareaLoginManagerSoap);
         private string baseUrl = "http://localhost:5000/";
@@ -247,6 +247,7 @@ namespace Microarea.Common.WebServicesWrapper
             loginManagerSession.ProviderName = result.providerName;
             loginManagerSession.ProviderDescription = result.providerDescription;
             loginManagerSession.LoginManagerSessionState = LoginManagerState.Logged;
+            loginManagerSession.Security = result.security;
             return loginManagerSession;
 
         }
@@ -541,6 +542,25 @@ namespace Microarea.Common.WebServicesWrapper
             return Microarea.Common.Generic.InstallationInfo.Functions.GetDBPercentageUsedSize(connectionString);
         }
 
+        /// <summary>
+        /// Restituisce la stringa di connessione al database di sistema
+        /// </summary>
+        /// <param name="authenticationToken">token di autenticazione</param>
+        /// <returns>Stringa di connessione al database di sistema in chiaro.</returns>
+        //---------------------------------------------------------------------------
+        public string GetSystemDBConnectionString(string authenticationToken)
+        {
+            if (String.IsNullOrWhiteSpace(authenticationToken))
+                throw new LoginManagerException(LoginManagerError.NotLogged);
+
+            LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+            if (loginManagerSession.LoginManagerSessionState != LoginManagerState.Logged )
+                throw new LoginManagerException(LoginManagerError.NotLogged);
+
+            Task<string> tesk = loginManagerClient.GetSystemDBConnectionStringAsync(authenticationToken);
+            return tesk.Result;
+        }
+
         //---------------------------------------------------------------------------
         internal bool IsSecurityLightEnabled()
         {
@@ -610,12 +630,18 @@ namespace Microarea.Common.WebServicesWrapper
 
                 if (firstKeyIndex >= 0)
                 {
-                    if (firstKeyIndex == 0 && expression[0] != '!' && expression[0] != '(')
+                    if (firstKeyIndex == 0 && expression[0] != '!' && expression[0] != '(' && expression[0] != '?')
                     {
                         // errore di sintassi: l'espressione non può cominciare con un'operatore di tipo '&', '|', ')'
                         Debug.Fail("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
                         // non potendo testare correttamente l'attivazione sollevo un'eccezione
                         throw new LoginManagerException(LoginManagerError.GenericError, String.Format(WebServicesWrapperStrings.CheckActivationExpressionErrFmtMsg, expression));
+                    }
+
+                    if (expression[0] == '?')
+                    {
+                        string instPath = PathFinder.BasePathFinderInstance.GetInstallationPath();
+                        return File.Exists(Path.Combine(instPath, expression.Substring(1).Replace('|', '\\')));
                     }
 
                     bool negateToken = (expression[0] == '!');
@@ -638,7 +664,7 @@ namespace Microarea.Common.WebServicesWrapper
                         charIndex++;
 
                     } while (charIndex < expression.Length);// esco dal while solo se l'espressione è terminata
-                                                            // o se ho chiuso tutte eventuali le parentesi tonde
+                    // o se ho chiuso tutte eventuali le parentesi tonde
                     if (openingParenthesisCount != 0)
                     {
                         // errore di sintassi: non c'è un matching corretto di parentesi

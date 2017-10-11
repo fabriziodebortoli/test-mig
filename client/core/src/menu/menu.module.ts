@@ -18,7 +18,6 @@ import { MenuStepperComponent } from './components/menu/menu-stepper/menu-steppe
 import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
-
 export { LoginComponent } from './components/login/login.component';
 export { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 export { FavoritesComponent } from './components/menu/favorites/favorites.component';
@@ -32,7 +31,6 @@ export { MenuStepperComponent } from './components/menu/menu-stepper/menu-steppe
 export { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 export { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 export { MostUsedComponent } from './components/menu/most-used/most-used.component';
-
 
 // import { MenuComponent } from './components/menu/menu.component';
 
@@ -66,9 +64,6 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 
 @NgModule({
     imports: [
-        // CommonModule,
-        // FormsModule,
-        // ReactiveFormsModule,
         TbSharedModule,
         LayoutModule,
         ButtonsModule,
@@ -106,13 +101,6 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
     providers: [TB_MENU_SERVICES]
 })
 export class TbMenuModule {
-    // static forRoot(): ModuleWithProviders {
-    //     return {
-    //         ngModule: TbMenuModule,
-    //         providers: [TB_MENU_SERVICES]
-    //     };
-    // }
-
     constructor(public logger: Logger) {
         this.logger.debug('TbMenuModule from Core instantiated - ' + Math.round(new Date().getTime() / 1000));
     }

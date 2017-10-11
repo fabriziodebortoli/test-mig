@@ -83,6 +83,7 @@ import { OpenComponent } from './components/explorer/open/open.component';
 import { SaveComponent } from './components/explorer/save/save.component';
 import { RadarComponent } from './components/radar/radar.component';
 import { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
+import { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
 import { TbIconComponent } from './components/tb-icon/tb-icon.component';
 
 // import { TbComponent } from './components/tb.component';
@@ -119,6 +120,7 @@ export { OpenComponent } from './components/explorer/open/open.component';
 export { SaveComponent } from './components/explorer/save/save.component';
 export { RadarComponent } from './components/radar/radar.component';
 export { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
+export { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
 export { TbIconComponent } from './components/tb-icon/tb-icon.component';
 
 const TB_COMPONENTS = [
@@ -126,7 +128,7 @@ const TB_COMPONENTS = [
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
-    BOComponent, BOSlaveComponent, BOCommonComponent
+    BOComponent, BOSlaveComponent, BOCommonComponent, EasyStudioContextComponent
 ];
 
 /**

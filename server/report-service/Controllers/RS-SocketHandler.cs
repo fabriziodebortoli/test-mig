@@ -32,7 +32,9 @@ namespace Microarea.RSWeb.Models
  
             UserInfo ui = new UserInfo(loginInfo, nsMsg.authtoken);
 
-            TbReportSession session = new TbReportSession(ui, nsMsg.nameSpace, nsMsg.parameters);
+            // if ComponentId is received from client, it means this report is called from a tbloader document
+            // ComponentId is the handle of woormdoc proxy tbloader side
+            TbReportSession session = new TbReportSession(ui, nsMsg.nameSpace, nsMsg.parameters, nsMsg.componentId);
             session.WebSocket = webSocket;
 
             JsonReportEngine engine = new JsonReportEngine(session);

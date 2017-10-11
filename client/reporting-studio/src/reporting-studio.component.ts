@@ -96,12 +96,18 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       }
       else p2 = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : JSON.stringify(this.args.params);
     }
-    let message = {
+    let message: any = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
       parameters: p2,
       authtoken: this.cookieService.get('authtoken')
     };
+
+    if (this.args.params.runAtTbLoader)
+    {
+      message.componentId = this.cmpId;
+    }
+    
     this.rsService.doSendSync(JSON.stringify(message));
   }
 
@@ -375,7 +381,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  startSavePDF() {
+  async startSavePDF() {
+    await this.rsExportService.timeout(3000);
     this.rsExportService.pdfState = PdfType.PDF;
     this.PageNumber();
   }
