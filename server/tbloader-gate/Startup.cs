@@ -14,7 +14,8 @@ namespace Microarea.TbLoaderGate
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("tbloader.config.json", optional: true);
 
             //if (env.IsDevelopment())
             //{
@@ -52,6 +53,9 @@ namespace Microarea.TbLoaderGate
             });
 
             IMvcBuilder builder2 = services.AddMvc();
+            
+            services.Configure<TBLoaderConnectionParameters>(options => Configuration.GetSection("TBLoaderConnectionParameters").Bind(options));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,7 +78,7 @@ namespace Microarea.TbLoaderGate
             }
 
             app.UseWebSockets();
-			new WebAppConfigurator().Configure(app, env, loggerFactory);
+			new WebAppConfigurator().Configure(app, env, loggerFactory, Configuration);
             app.UseFileServer();
 
             //app.UseIdentity();
