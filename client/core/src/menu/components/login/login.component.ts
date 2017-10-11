@@ -1,3 +1,4 @@
+import { MenuService } from './../../services/menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -31,13 +32,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   errorMessages: string[] = [];
   userAlreadyConnectedOpened: boolean = false;
+  clearCachedData: boolean = false;
 
   constructor(
     public authService: AuthService,
     public cookieService: CookieService,
     public router: Router,
     public logger: Logger,
-    public httpService: HttpService
+    public httpService: HttpService,
+    public menuService: MenuService
   ) {
 
   }
@@ -106,6 +109,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.authService.login(this.connectionData).subscribe(result => {
       if (result.success) {
+        console.log(this.clearCachedData);
+        this.menuService.clearCachedData = this.clearCachedData;
         let url = this.authService.getRedirectUrl();
         this.logger.debug('Redirect Url', url);
         this.loading = false;

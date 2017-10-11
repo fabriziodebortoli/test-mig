@@ -76,23 +76,24 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   // -----------------------------------------------
   async createPDF() {
     if (this.rsService.pageNum == this.rsExportService.firstPageExport) {
-      await this.rsExportService.eventNextPage.emit();
+      //await this.rsExportService.eventNextPage.emit();
       if (this.rsExportService.lastPageExport == this.rsExportService.firstPageExport) {
         this.rsExportService.renderPDF();
         return;
       }
-      return;
+      //return;
     }
 
-    this.rsExportService.appendPDF().then(() => {
-      if (this.rsService.pageNum != this.rsExportService.lastPageExport) {
-        this.rsExportService.eventNextPage.emit();
-      }
-      else {
-        this.rsExportService.renderPDF();
-      }
-    });
+    if (this.rsService.pageNum != this.rsExportService.lastPageExport) {
+      this.rsExportService.appendPDF().then(() => {
+          this.rsExportService.eventNextPage.emit();
+        });
+    
+    }
 
+    else
+      this.rsExportService.renderPDF();
+    
   }
 
   // -----------------------------------------------

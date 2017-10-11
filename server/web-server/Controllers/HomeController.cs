@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microarea.TbLoaderGate;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,7 +18,6 @@ namespace WebServer
 
 		public HomeController(IHostingEnvironment env)
 		{
-			_env = env;
 		}
 		// GET: api/values
 		[HttpGet]

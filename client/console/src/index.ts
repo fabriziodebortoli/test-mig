@@ -16,6 +16,8 @@ import { AdminInputTextComponent } from "./components/admin-input-text/admin-inp
 import { AdminAlertComponent } from './components/admin-alert/admin-alert.component';
 import { AdminAlertDialogComponent } from './components/admin-alert-dialog/admin-alert-dialog.component';
 import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { InputsModule } from '@progress/kendo-angular-inputs';
 
 
 // import { SampleDirective } from './sample.directive';
@@ -38,7 +40,9 @@ export * from './sample.component';
     MatToolbarModule,
     MatListModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    ButtonsModule,
+    InputsModule
   ],
   declarations: [
     SampleComponent,

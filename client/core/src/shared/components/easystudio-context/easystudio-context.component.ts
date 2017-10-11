@@ -1,4 +1,4 @@
-import { LocalizationService } from './../../../menu/services/localization.service';
+import { LocalizationService } from './../../../core/services/localization.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
 import { LayoutModule, PanelBarExpandMode } from '@progress/kendo-angular-layout';
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
@@ -43,7 +43,10 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
 
     public newPairVisible = false;
 
-    constructor(public httpMenuService: HttpMenuService) {
+    constructor(
+        public httpMenuService: HttpMenuService, 
+        public localizationService: LocalizationService
+    ) {
         let sub =this.httpMenuService.getEsAppsAndModules().subscribe((result) => {
             this.extractNames(result);
             sub.unsubscribe();

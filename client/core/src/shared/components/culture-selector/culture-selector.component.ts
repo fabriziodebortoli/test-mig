@@ -3,7 +3,8 @@ import { Component, Inject, forwardRef, OnInit } from '@angular/core';
 
 @Component({
     selector: 'tb-culture-selector',
-    templateUrl: './culture-selector.component.html'
+    templateUrl: './culture-selector.component.html',
+    styleUrls: ['./culture-selector.component.scss']
 })
 export class CultureSelectorComponent implements OnInit {
 

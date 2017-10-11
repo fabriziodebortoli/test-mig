@@ -69,15 +69,15 @@ namespace Microarea.AdminServer.Libraries
             if (account.Disabled)
                 return LoginReturnCodes.UserNotAllowed;
 
-            if (account.Password != Crypt(passwordInfo.Password))
+            if (account.Password != passwordInfo.Password)
             {
                 AddWrongPwdLoginCount(account);
                 return LoginReturnCodes.InvalidUserError;
             }
 
-            account.Password = Crypt(passwordInfo.NewPassword);
+            account.Password = passwordInfo.NewPassword;
             account.ResetPasswordExpirationDate();
-            account.Ticks = DateTime.Now.Ticks;
+           // account.Ticks = 0;
             account.MustChangePassword = false;
             ClearWrongPwdLoginCount(account);
 

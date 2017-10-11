@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 
 import { MasonryOptions } from "angular2-masonry";
 
-import { LocalizationService } from './../../../services/localization.service';
+import { LocalizationService } from '@taskbuilder/core';
 import { SettingsService } from './../../../services/settings.service';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { MenuService } from './../../../services/menu.service';

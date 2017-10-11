@@ -29,6 +29,8 @@ import { TabberService } from './services/tabber.service';
 import { UtilsService } from './services/utils.service';
 import { WebSocketService } from './services/websocket.service';
 import { TbComponentService } from './services/tbcomponent.service';
+import { LocalizationService } from './services/localization.service';
+import { LoadingService } from './services/loading.service';
 
 export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
@@ -51,11 +53,13 @@ export { SidenavService } from './services/sidenav.service';
 export { TabberService } from './services/tabber.service';
 export { UtilsService } from './services/utils.service';
 export { WebSocketService } from './services/websocket.service';
+export { LocalizationService } from './services/localization.service';
+export { LoadingService } from './services/loading.service';
 
 export const TB_SERVICES = [
     TbComponentService, BOService, ComponentService, DocumentService, DataService, EnumsService,
     EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
-    TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService
+    TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService, LocalizationService, LoadingService
 ];
 
 import { CoreGuard } from './guards/core.guard';
