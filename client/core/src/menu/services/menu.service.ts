@@ -188,7 +188,7 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     setSelectedMenu(menu) {
-        if (this.selectedMenu != undefined && this.selectedMenu == menu &&  this.selectedMenu.active == true &&  this.selectedMenu.visible == true)
+        if (this.selectedMenu != undefined && this.selectedMenu == menu && this.selectedMenu.active == true && this.selectedMenu.visible == true)
             return;
 
         if (menu == undefined) {
@@ -269,8 +269,18 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     clearMostUsed() {
-        this.mostUsed.splice(0, this.mostUsed.length);
-        this.mostUsedCount = 0;
+        for (let i = this.mostUsed.length - 1; i >= 0; i--) {
+            let current = this.mostUsed[i];
+            this.removeFromMostUsed(current);
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------
+    clearFavorites() {
+        for (let i = this.favorites.length - 1; i >= 0; i--) {
+            let current = this.favorites[i];
+            this.toggleFavorites(current);
+        }
     }
 
     //---------------------------------------------------------------------------------------------
@@ -403,10 +413,9 @@ export class MenuService {
         }
     }
 
-    updateAllFavoritesAndMostUsed(): Observable<Response> {
-        return this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed);
+    updateAllFavoritesAndMostUsed() {
+        this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe();
     }
-
 
     //---------------------------------------------------------------------------------------------
     setFavoritesIsOpened() {

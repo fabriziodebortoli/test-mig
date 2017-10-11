@@ -7,7 +7,6 @@ import { Logger } from './../core/services/logger.service';
 
 import { LoginComponent } from './components/login/login.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
-//import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 import { SearchComponent } from './components/menu/search/search.component';
 import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
@@ -23,7 +22,6 @@ import { MostUsedComponent } from './components/menu/most-used/most-used.compone
 
 export { LoginComponent } from './components/login/login.component';
 export { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
-//export { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
 export { FavoritesComponent } from './components/menu/favorites/favorites.component';
 export { SearchComponent } from './components/menu/search/search.component';
 export { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
@@ -35,10 +33,6 @@ export { MenuStepperComponent } from './components/menu/menu-stepper/menu-steppe
 export { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 export { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 export { MostUsedComponent } from './components/menu/most-used/most-used.component';
-
-
-
-// import { MenuComponent } from './components/menu/menu.component';
 
 import { MenuService } from './services/menu.service';
 import { EventManagerService } from './services/event-manager.service';
@@ -86,7 +80,6 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
         MenuContentComponent,
         MenuElementComponent,
         MenuStepperComponent,
-        //ConnectionInfoDialogComponent,
         SearchComponent,
         MenuComponent,
         MenuTabberComponent,
@@ -105,10 +98,7 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
         SearchComponent,
         MenuComponent,
     ],
-    providers: [TB_MENU_SERVICES],
-    // entryComponents: [
-    //     ConnectionInfoDialogComponent
-    // ]
+    providers: [TB_MENU_SERVICES]
 })
 export class TbMenuModule {
     // static forRoot(): ModuleWithProviders {
