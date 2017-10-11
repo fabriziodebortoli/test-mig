@@ -77,7 +77,7 @@ namespace Microarea.AdminServer.Libraries
 
             account.Password = passwordInfo.NewPassword;
             account.ResetPasswordExpirationDate();
-            account.Ticks = 0;
+           // account.Ticks = 0;
             account.MustChangePassword = false;
             ClearWrongPwdLoginCount(account);
 
