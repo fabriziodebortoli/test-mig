@@ -24,13 +24,21 @@ namespace Microarea.TbLoaderGate
 		public int ProcessId { get; set; }
 	}
 
+    public class TBLoaderConnectionParameters
+    {
+        public int tbLoaderPort { get; set; }
+        public string tbLoaderServer { get; set; }
+    }
+
     public class TBLoaderService
     {
-        private string serviceComputerName = "localhost";
-        private int servicePort = 11000;
+        private string serviceComputerName = "";
+        private int servicePort = -1;
         //-----------------------------------------------------------------------
-        public TBLoaderService()
+        public TBLoaderService(string server, int port)
         {
+            this.serviceComputerName = server;
+            this.servicePort = port;
         }
 
         //-----------------------------------------------------------------------

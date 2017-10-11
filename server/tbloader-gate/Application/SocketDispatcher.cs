@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace Microarea.TbLoaderGate
 {
@@ -41,7 +42,16 @@ namespace Microarea.TbLoaderGate
 	}
 	public class SocketDispatcher
 	{
-		public static async Task Listen(HttpContext http, Func<Task> next)
+        string tbLoaderServer = string.Empty;
+        int tbLoaderPort = -1;
+        public SocketDispatcher(IConfiguration configuration)
+        {
+            tbLoaderServer = configuration.GetSection("TBLoaderConnectionParameters:tbLoaderServer").Value;
+            string httpPortString =  configuration.GetSection("TBLoaderConnectionParameters:tbLoaderPort").Value;
+            tbLoaderPort = int.Parse(httpPortString);
+        }
+
+		public async Task Listen(HttpContext http, Func<Task> next)
 		{
             if (http.WebSockets.IsWebSocketRequest && http.Request.Path.StartsWithSegments("/tbloader"))
 			{
@@ -81,7 +91,7 @@ namespace Microarea.TbLoaderGate
 			}
 		}
 
-		public static async Task<bool> HandleAsync(HttpContext http)
+		public async Task<bool> HandleAsync(HttpContext http)
 		{
 		
 			var webSocket = await http.WebSockets.AcceptWebSocketAsync();
@@ -146,7 +156,6 @@ namespace Microarea.TbLoaderGate
 								continue;
 							}
 
-
 							if (jArgs["webSocketName"] == null)
 							{
 								//TODO gestione errore
@@ -166,16 +175,13 @@ namespace Microarea.TbLoaderGate
 							}
 							string tbName = jArgs["tbLoaderName"].ToString();
 
-							TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbName, false, out bool dummy);
-							if (tb != null)
-							{
-								tb.RequireWebSocketConnection(coupleName, http.Request);
 
-								//effettua anche la inittblogin
-								//tb.InternalInitTbLogin(coupleName);
-							}
-						}
-						else if (cmd == setServerWebSocketName)
+
+                            TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbLoaderServer, tbLoaderPort, tbName, false, out bool dummy);
+                            if (tb != null)
+                                tb.RequireWebSocketConnection(coupleName, http.Request);
+                        }
+                        else if (cmd == setServerWebSocketName)
 						{
 							JObject jArgs = jObj["args"] as JObject;
 							if (jArgs == null)

@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
 import { ControlComponent } from './../control.component';
 
 @Component({
   selector: 'tb-combo-simple',
   templateUrl: './combo-simple.component.html',
-  styleUrls: ['./combo-simple.component.scss']
+  styleUrls: ['./combo-simple.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ComboSimpleComponent extends ControlComponent {
 

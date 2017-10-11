@@ -1,4 +1,5 @@
 <div class="most-used" *ngIf="menuService?.mostUsedCount > 0">
+    <!-- <m4-icon class="close" icon="erp-scrap" (click)="menuService.clearMostUsed()" title="Remove"></m4-icon> -->
     <ul class="most-used-list">
         <li *ngFor="let object of utilsService.toArray(menuService?.mostUsed) | slice:0:settingsService?.nrMaxMostUsed;" class="most-used-item">
             <md-spinner *ngIf="object.isLoading" class="spinner"></md-spinner>

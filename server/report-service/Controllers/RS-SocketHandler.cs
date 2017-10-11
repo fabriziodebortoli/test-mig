@@ -21,7 +21,7 @@ namespace Microarea.RSWeb.Models
     /// </summary>
     public class RSSocketHandler
     {
-        private static JsonReportEngine CreateEngine(NamespaceMessage nsMsg, WebSocket webSocket)
+        private static JsonReportEngine CreateEngine(NamespaceMessage nsMsg, WebSocket webSocket, string tbIstanceID = "")
         {
             if (nsMsg == null || nsMsg.authtoken == null)
                 return null;   //TODO  gracefully expiration token message to client 
@@ -36,6 +36,12 @@ namespace Microarea.RSWeb.Models
             // ComponentId is the handle of woormdoc proxy tbloader side
             TbReportSession session = new TbReportSession(ui, nsMsg.nameSpace, nsMsg.parameters, nsMsg.componentId);
             session.WebSocket = webSocket;
+
+            if (!string.IsNullOrWhiteSpace(tbIstanceID))
+            {
+                session.TbInstanceID = tbIstanceID;
+                session.LoggedToTb = true;
+            }
 
             JsonReportEngine engine = new JsonReportEngine(session);
 
@@ -122,7 +128,10 @@ namespace Microarea.RSWeb.Models
 
                 /// creates states machine associated with pipe  
                 NamespaceMessage nm = JsonConvert.DeserializeObject<NamespaceMessage>(msgNs);
-                JsonReportEngine jengine = CreateEngine(nm, webSocket);
+                //check the request to find a tbloader associated. If exists, use the same istance (e.g. a report called from a tbloader document)
+                string tbIstanceID = "";
+                http.Request.Cookies.TryGetValue(TbSession.TbInstanceKey, out tbIstanceID);
+                JsonReportEngine jengine = CreateEngine(nm, webSocket, tbIstanceID);
 
                 if (jengine == null)
                 {    /// handle errors
