@@ -117,7 +117,7 @@ namespace WebApplication
             loggerFactory.AddDebug();
 
             logger = loggerFactory.CreateLogger("WebServer");
-
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -128,8 +128,7 @@ namespace WebApplication
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-        
-
+           
             app.UseWebSockets();
             //aggiungo gli handler di chiamata, mettere prima della UseFileServer()
             foreach (var configurator in configurators)
