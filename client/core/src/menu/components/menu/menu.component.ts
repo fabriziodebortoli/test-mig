@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { ComponentInfoService } from './../../../core/services/component-info.service';
 import { HttpMenuService } from './../../services/http-menu.service';
 import { MenuService } from './../../services/menu.service';
-import { LocalizationService } from './../../services/localization.service';
+import { LocalizationService } from '@taskbuilder/core';
 import { SettingsService } from './../../services/settings.service';
 import { EventManagerService } from './../../services/event-manager.service';
 import { EventDataService } from './../../../core/services/eventdata.service';

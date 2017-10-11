@@ -1,4 +1,4 @@
-import { LocalizationService } from './../../menu/services/localization.service';
+import { LocalizationService } from './../../core/services/localization.service';
 import { ComponentService } from '../../core/services/component.service';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 
@@ -25,7 +25,8 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
     public dataService: DataService, 
     public settingsService: SettingsPageService, 
     public infoService: InfoService,
-    public localizationService: LocalizationService) {
+    public localizationService: LocalizationService
+  ) {
     super(settingsService, eventData, null);
     this.isDesktop = infoService.isDesktop;
   }

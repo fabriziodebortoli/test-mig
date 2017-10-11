@@ -248,6 +248,9 @@ namespace Microarea.Common.WebServicesWrapper
             loginManagerSession.ProviderDescription = result.providerDescription;
             loginManagerSession.LoginManagerSessionState = LoginManagerState.Logged;
             loginManagerSession.Security = result.security;
+            loginManagerSession.DbServer = result.dbServer;
+            loginManagerSession.DbUser = result.dbUser;
+            loginManagerSession.DbName = result.dbName;
             return loginManagerSession;
 
         }

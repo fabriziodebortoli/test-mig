@@ -4,6 +4,8 @@ using Microarea.Common.WebServicesWrapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Microarea.Common.GenericForms;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Microarea.AccountManager.Controllers
 {
@@ -21,10 +23,19 @@ namespace Microarea.AccountManager.Controllers
 			bool overwriteLogin = HttpContext.Request.Form["overwrite"] == "true";
 			int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out string authenticationToken);
 
+            
             string errorMessage = "";
             if (result != 0)
+            {
                 errorMessage = LoginFacilities.DecodeLoginReturnsCodeError(result);
+            }
+            else
+            {
+                LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+                CookieOptions opt = new CookieOptions();
+                HttpContext.Response.Cookies.Append("ui_culture", loginManagerSession.PreferredLanguage, opt);
 
+            }
             return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken });
 		}
 

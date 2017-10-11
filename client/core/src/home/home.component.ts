@@ -1,3 +1,4 @@
+import { LocalizationService } from './../core/services/localization.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 import { Subscription } from 'rxjs';
@@ -18,7 +19,7 @@ import { ComponentService } from './../core/services/component.service';
 import { TaskbuilderService } from './../core/services/taskbuilder.service';
 import { SidenavService } from './../core/services/sidenav.service';
 import { SettingsService } from './../menu/services/settings.service';
-import { LocalizationService } from './../menu/services/localization.service';
+
 import { MenuService } from './../menu/services/menu.service';
 
 @Component({

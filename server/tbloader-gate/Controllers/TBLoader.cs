@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace Microarea.TbLoaderGate
 {
@@ -18,6 +19,13 @@ namespace Microarea.TbLoaderGate
     }
     public class TBLoaderController : Controller
     {
+        string tbLoaderServer = "";
+        int tbLoaderPort = -1;
+        public TBLoaderController(IOptions<TBLoaderConnectionParameters> parameters)
+        {
+            tbLoaderServer = parameters.Value.tbLoaderServer;
+            tbLoaderPort = parameters.Value.tbLoaderPort;
+        }
 		const string TbLoaderCookie = "tbloader-name";
         static readonly int leftTrimCount = "/tbloader/api".Length;
         [Route("/controller")]
@@ -41,9 +49,9 @@ namespace Microarea.TbLoaderGate
 			string tbName = "";
             try
             {
-				HttpContext.Request.Cookies.TryGetValue(TbLoaderCookie, out tbName);
+                HttpContext.Request.Cookies.TryGetValue(TbLoaderCookie, out tbName);
 				bool newInstance;
-				TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbName, createTB, out newInstance);
+				TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(tbLoaderServer, tbLoaderPort, tbName, createTB, out newInstance);
                 if (tb == null)
                 {
                     TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };

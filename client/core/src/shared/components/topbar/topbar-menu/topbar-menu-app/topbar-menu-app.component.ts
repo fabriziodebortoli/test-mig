@@ -1,3 +1,4 @@
+import { LocalizationService } from './../../../../../core/services/localization.service';
 import { CommandEventArgs } from './../../../../models/eventargs.model';
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 
@@ -5,7 +6,6 @@ import { EventDataService } from './../../../../../core/services/eventdata.servi
 import { UtilsService } from './../../../../../core/services/utils.service';
 import { ContextMenuItem } from './../../../../models/context-menu-item.model';
 
-import { LocalizationService } from './../../../../../menu/services/localization.service';
 import { MenuService } from './../../../../../menu/services/menu.service';
 import { HttpMenuService } from './../../../../../menu/services/http-menu.service';
 

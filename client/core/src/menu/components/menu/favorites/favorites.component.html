@@ -1,4 +1,5 @@
 <div class="favorites" *ngIf="menuService?.favoritesCount > 0">
+    <!-- <m4-icon class="close" icon="erp-scrap" (click)="menuService.clearFavorites()" title="Remove"></m4-icon> -->
     <ul class="favorites-list">
         <li *ngFor="let object of utilsService.toArray(menuService?.favorites) | slice:0:settingsService?.nrMaxFavorites;" class="favorite-item">
             <mat-spinner *ngIf="object.isLoading" class="spinner"></mat-spinner>

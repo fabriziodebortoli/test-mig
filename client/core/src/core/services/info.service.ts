@@ -22,7 +22,7 @@ export class InfoService {
     productInfo: any;
     dictionaries: any;
     culture = { enabled: true, value: '' };
-    cultureId = '_culture';
+    cultureId = 'ui_culture';
 
     constructor(
         public http: Http,

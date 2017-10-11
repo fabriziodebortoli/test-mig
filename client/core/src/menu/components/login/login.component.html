@@ -12,6 +12,7 @@
             <tb-card>
                 <tb-card-title title='Log In'></tb-card-title>
                 <tb-card-content>
+
                     <div class="form-group">
 
                         <div class="form-control">
@@ -30,19 +31,10 @@
 
                         <div class="form-control">
                             <p class="floatingLabel">Company</p>
-
-                            <!-- <kendo-dropdownlist [data]="companies" [(ngModel)]="connectionData.company" [textField]="'name'" [valueField]="'name'" [defaultItem]="placeHolder"></kendo-dropdownlist> -->
-                            <!-- <kendo-dropdownlist [data]="companies" [textField]="'name'" [valueField]="'name'"></kendo-dropdownlist> -->
                             <kendo-dropdownlist [data]="companies" [(ngModel)]="connectionData.company"></kendo-dropdownlist>
-
-                            <!-- <mat-select class="form-control" placeholder="Company" [(ngModel)]="connectionData.company">
-                                <mat-option *ngFor="let company of companies" [value]="company?.name">
-                                    {{ company?.name }}
-                                </mat-option>
-                            </mat-select> -->
                         </div>
 
-
+                        <mat-checkbox [ngModel]="clearCachedData" (ngModelChange)="clearCachedData=$event">Clear cached data</mat-checkbox>
 
                         <div class="error" *ngIf="authService.errorMessage">{{authService.errorMessage}}</div>
 
@@ -54,7 +46,9 @@
     </div>
 
     <footer>
-        <span>Copyright © 1984-2017 Microarea SpA - Tutti i diritti riservati | <a href="http://www.microarea.it">Microarea.it</a></span>
+        <span>Copyright © 1984-2017 Microarea SpA - Tutti i diritti riservati |
+            <a href="http://www.microarea.it">Microarea.it</a>
+        </span>
     </footer>
 </div>
 <div class="loading-container" [@fadeInOut] *ngIf="loading">

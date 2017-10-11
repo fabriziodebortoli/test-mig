@@ -1,4 +1,4 @@
-import { LocalizationService } from './../../menu/services/localization.service';
+import { LocalizationService } from './../../core/services/localization.service';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';

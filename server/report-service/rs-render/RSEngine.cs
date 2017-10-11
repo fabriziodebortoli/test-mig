@@ -846,8 +846,10 @@ namespace Microarea.RSWeb.Render
                             Report.FinalizeChannel();
                             CurrentInternalState = InternalState.End;
 
+                            //if existing, out variables (e.g passed from the tbloader document) are saved to reportSession and sent back to called document
                             Report.UnparseOutParametersToReportSession();
-                           // SendOutParamsToCallingDoc();
+                            TbSession.TbAssignWoormParameters(this.reportSession);
+                  
 
                             if (Report.ExitStatus == RuleReturn.Backtrack)
                             {
