@@ -174,11 +174,20 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				where not exists (select Y.TABLE_NAME from INFORMATION_SCHEMA.COLUMNS as Y 
 				where Y.TABLE_NAME = X.TABLE_NAME and Y.COLUMN_NAME IN ('TBModified') ) and X.TABLE_TYPE = 'BASE TABLE'
 				order by TABLE_NAME";
-        //-------
+		//-------
 
-        //------- comandi per aggiungere le colonne obbligatorie TBCreated e TBModified in coda all'esecuzione degli script
+		//------- aggiunta dinamica in fase di esecuzione degli script delle colonne obbligatorie tramite Regex
+		public const string RegexAddMandatoryColums = 
+			@" , [TBCreated] [datetime] NOT NULL CONSTRAINT DF_{0}_TBCreated_000 DEFAULT(GetDate()), 
+			[TBModified] [datetime] NOT NULL CONSTRAINT DF_{0}_TBModified_000 DEFAULT(GetDate()),
+			[TBCreatedID] [int] NOT NULL CONSTRAINT DF_{0}_TBCreatedID_000 DEFAULT(0), 
+			[TBModifiedID] [int] NOT NULL CONSTRAINT DF_{0}_TBModifiedID_000 DEFAULT(0) ";
+		//------- 
 
-        public const string PostgreAddMandatoryColums = "ALTER TABLE {0} ADD COLUMN {1} timestamp NOT NULL CONSTRAINT DF_{0}_{1}_000 DEFAULT(now());";
+
+		//------- comandi per aggiungere le colonne obbligatorie TBCreated e TBModified in coda all'esecuzione degli script
+
+		public const string PostgreAddMandatoryColums = "ALTER TABLE {0} ADD COLUMN {1} timestamp NOT NULL CONSTRAINT DF_{0}_{1}_000 DEFAULT(now());";
 
         public const string SQLAddMandatoryColums = @"if not exists (select dbo.syscolumns.name from dbo.syscolumns, dbo.sysobjects where 
 														dbo.sysobjects.name = '{0}' and dbo.sysobjects.id = dbo.syscolumns.id 
