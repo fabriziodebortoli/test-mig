@@ -4,6 +4,7 @@ using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
 using System.Collections.Generic;
 using System.Data;
+using Microarea.AdminServer.Libraries;
 
 namespace Microarea.AdminServer.Model
 {
@@ -31,7 +32,7 @@ namespace Microarea.AdminServer.Model
         DateTime expirationDate = DateTime.Now.AddDays(3);// todo per ora scadenza 3 giorni per esempio
 		string parentAccount = string.Empty;
 		bool confirmed = false;
-        long ticks;
+        int ticks;
 
         //---------------------------------------------------------------------
 		public string AccountName { get { return this.accountName; } set { this.accountName = value; } }
@@ -52,13 +53,13 @@ namespace Microarea.AdminServer.Model
 		public string RegionalSettings { get { return this.regionalSettings; } set { this.regionalSettings = value; } }
         public bool IsWindowsAuthentication { get { return this.isWindowsAuthentication; } set { this.isWindowsAuthentication = value; } }
         public DateTime ExpirationDate { get { return this.expirationDate; } set { this.expirationDate = value; } }
-        public long Ticks { get { return this.ticks; } set { this.ticks = value; } }
+        public int Ticks { get { return this.ticks; } set { this.ticks = value; } }
 		public string ParentAccount { get { return this.parentAccount; } set { this.parentAccount = value; } }
 		public bool Confirmed { get { return this.confirmed; } set { this.confirmed = value; } }
 
         //---------------------------------------------------------------------
         public Account()
-        {
+        { 
 		}
 
         //--------------------------------------------------------------------------------
@@ -82,7 +83,7 @@ namespace Microarea.AdminServer.Model
             account.Locked = (bool)dataReader["Locked"];
             account.Language = dataReader["Language"] as string;
             account.RegionalSettings = dataReader["RegionalSettings"] as string;
-            account.Ticks = (long)dataReader["Ticks"];
+            account.Ticks = (int)((long)dataReader["Ticks"]);
             account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
             account.ParentAccount = dataReader["ParentAccount"] as string;
             account.Confirmed = (bool)dataReader["Confirmed"];
@@ -119,7 +120,7 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@WindowsAuthentication", this.IsWindowsAuthentication));
             burgerDataParameters.Add(new BurgerDataParameter("@Language", this.Language));
             burgerDataParameters.Add(new BurgerDataParameter("@RegionalSettings", this.RegionalSettings));
-            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", this.Ticks));
+            burgerDataParameters.Add(new BurgerDataParameter("@Ticks",this.Ticks));
             burgerDataParameters.Add(new BurgerDataParameter("@ExpirationDate", this.ExpirationDate));
             burgerDataParameters.Add(new BurgerDataParameter("@ParentAccount", this.ParentAccount));
             burgerDataParameters.Add(new BurgerDataParameter("@Confirmed", this.Confirmed));
@@ -130,6 +131,7 @@ namespace Microarea.AdminServer.Model
             opRes.Content = this;
             return opRes;
         }
+
         //--------------------------------------------------------------------------------
         public string GetKey()
         {
