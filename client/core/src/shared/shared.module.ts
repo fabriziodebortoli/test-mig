@@ -1,10 +1,11 @@
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MasonryModule } from 'angular2-masonry';
 
 import { TbIconsModule } from '@taskbuilder/icons';
@@ -62,6 +63,8 @@ import { RadarComponent } from './components/radar/radar.component';
 import { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
 import { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
 import { TbIconComponent } from './components/tb-icon/tb-icon.component';
+import { LoadingComponent } from './components/loading/loading.component';
+
 
 // import { TbComponent } from './components/tb.component';
 export { TbComponent } from './components/tb.component';
@@ -99,13 +102,14 @@ export { RadarComponent } from './components/radar/radar.component';
 export { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
 export { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
 export { TbIconComponent } from './components/tb-icon/tb-icon.component';
+export { LoadingComponent } from './components/loading/loading.component';
 
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
-    BOComponent, BOSlaveComponent, BOCommonComponent, EasyStudioContextComponent
+    BOComponent, BOSlaveComponent, BOCommonComponent, EasyStudioContextComponent, LoadingComponent
 ];
 
 /**
@@ -292,7 +296,7 @@ export { ViewModeType } from './models/view-mode-type.model';
 export { SocketConnectionStatus } from './models/websocket-connection.enum';
 
 @NgModule({
-    imports: [TB_MODULES, KENDO_UI_MODULES, TreeModule],
+    imports: [TB_MODULES, KENDO_UI_MODULES, TreeModule, BrowserAnimationsModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
     exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES/*, KENDO_UI_MODULES*/],
     entryComponents: [UnsupportedComponent, RadarComponent]
