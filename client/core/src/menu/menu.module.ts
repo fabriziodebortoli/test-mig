@@ -7,7 +7,7 @@ import { Logger } from './../core/services/logger.service';
 
 import { LoginComponent } from './components/login/login.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
-import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
+//import { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 import { SearchComponent } from './components/menu/search/search.component';
 import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
@@ -19,11 +19,11 @@ import { MenuStepperComponent } from './components/menu/menu-stepper/menu-steppe
 import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
-import { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
+
 
 export { LoginComponent } from './components/login/login.component';
 export { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
-export { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
+//export { ConnectionInfoDialogComponent } from './components/menu/connection-info-dialog/connection-info-dialog.component';
 export { FavoritesComponent } from './components/menu/favorites/favorites.component';
 export { SearchComponent } from './components/menu/search/search.component';
 export { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
@@ -35,7 +35,7 @@ export { MenuStepperComponent } from './components/menu/menu-stepper/menu-steppe
 export { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 export { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 export { MostUsedComponent } from './components/menu/most-used/most-used.component';
-export { ProductInfoDialogComponent } from './components/menu/product-info-dialog/product-info-dialog.component';
+
 
 
 // import { MenuComponent } from './components/menu/menu.component';
@@ -89,8 +89,7 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
         MenuContentComponent,
         MenuElementComponent,
         MenuStepperComponent,
-        ProductInfoDialogComponent,
-        ConnectionInfoDialogComponent,
+        //ConnectionInfoDialogComponent,
         SearchComponent,
         MenuComponent,
         MenuTabberComponent,
@@ -110,10 +109,9 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
         MenuComponent,
     ],
     providers: [TB_MENU_SERVICES],
-    entryComponents: [
-        ProductInfoDialogComponent,
-        ConnectionInfoDialogComponent
-    ]
+    // entryComponents: [
+    //     ConnectionInfoDialogComponent
+    // ]
 })
 export class TbMenuModule {
     // static forRoot(): ModuleWithProviders {

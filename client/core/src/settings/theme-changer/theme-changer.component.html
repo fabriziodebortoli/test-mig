@@ -1,8 +1,8 @@
-<div *ngFor="let theme of themes" draggable="false">
-    <div (click)="changeTheme(theme)">
-        <button>
-            <m4-icon icon="tb-refresh" *ngIf="theme?.isFavoriteTheme"></m4-icon>
-            <span>{{theme.name}}</span>
-        </button>
+<div *ngFor="let theme of themes" draggable="false" class="theme-container">
+    <div (click)="changeTheme(theme)" class="div-theme-carrier">
+        <div class="icon">
+            <m4-icon icon="tb-ok" *ngIf="theme?.isFavoriteTheme"></m4-icon>
+        </div>
+        <div><label class="theme-name">{{theme.name}}</label></div>
     </div>
 </div>

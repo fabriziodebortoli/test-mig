@@ -29,8 +29,11 @@ namespace Microarea.Menu.Controllers
                 string user = HttpContext.Request.Form["user"];
                 string company = HttpContext.Request.Form["company"];
                 string authtoken = HttpContext.Request.Form["authtoken"];
-                
-                string content = NewMenuLoader.LoadMenuWithFavoritesAsJson(user, company, authtoken);
+
+                string clearCachedData = HttpContext.Request.Form["clearCachedData"];
+                bool clearCache = bool.Parse(clearCachedData);
+
+                string content = NewMenuLoader.LoadMenuWithFavoritesAsJson(user, company, authtoken, clearCache);
                 return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
             }
             catch (Exception e)

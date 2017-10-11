@@ -9,12 +9,13 @@ using Microarea.DataService.Models;
 using System;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Microarea.DataService
 {
     public class WebAppConfigurator: IWebAppConfigurator
     {
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IConfiguration configuration)
 		{
             loggerFactory.AddDebug();
 
