@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microarea.Common.NameSolver;
+using Microarea.Common.Generic;
 
 namespace Microarea.Common
 {
@@ -27,17 +29,20 @@ namespace Microarea.Common
         {
             string c;
 
-            if (context.Request.Cookies.TryGetValue(culture_cookie, out c))
+            if (!context.Request.Cookies.TryGetValue(culture_cookie, out c))
             {
-                try
-                { 
-                    var culture = new CultureInfo(c);
-                    CultureInfo.CurrentUICulture = culture;
-                }
-                catch
-                {
-                    //in caso di cookie errato... non dovrebbe mai passare di qui...
-                }
+                c = InstallationData.ServerConnectionInfo.PreferredLanguage;
+                CookieOptions opt = new CookieOptions { Expires = new DateTimeOffset(DateTime.Now).ToOffset(TimeSpan.FromHours(14)) };
+                context.Response.Cookies.Append(CommonMiddleware.culture_cookie, c, opt);
+            }
+            try
+            {
+                var culture = new CultureInfo(c);
+                CultureInfo.CurrentUICulture = culture;
+            }
+            catch
+            {
+                //in caso di cookie errato... non dovrebbe mai passare di qui...
             }
 
             return this.next(context);
