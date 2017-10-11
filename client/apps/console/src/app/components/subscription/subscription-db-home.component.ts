@@ -132,9 +132,10 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
       }
 
       if (this.model.DBOwner === this.model.DMSDBOwner) {
-        if (this.model.DBPassword !== this.model.DMSDBOwner)
+        if (this.model.DBPassword !== this.model.DMSDBPassword) {
         alert('Passwords different for same users!');
         return false;
+        }
       }
 
       return true;
