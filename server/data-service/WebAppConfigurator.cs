@@ -21,6 +21,8 @@ namespace Microarea.DataService
             app.UseStaticFiles();
             app.UseMvc();
 
+            app.UseMiddleware<CommonMiddleware>();
+
         }
         public void MapRoutes(IRouteBuilder routes)
 		{
