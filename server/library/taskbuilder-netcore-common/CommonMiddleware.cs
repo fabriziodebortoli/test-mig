@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Microarea.Common
 {
@@ -22,27 +23,37 @@ namespace Microarea.Common
             this.next = next;
         }
 
-        public async Task Invoke(HttpContext context)
-        {
-            this.BeginInvoke(context);
-            await this.next.Invoke(context);
-            this.EndInvoke(context);
-        }
-
-        private void BeginInvoke(HttpContext context)
+        public Task Invoke(HttpContext context)
         {
             string c;
+
             if (context.Request.Cookies.TryGetValue(culture_cookie, out c))
             {
-                Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(c);
+                try
+                { 
+                    var culture = new CultureInfo(c);
+                    CultureInfo.CurrentUICulture = culture;
+                }
+                catch
+                {
+                    //in caso di cookie errato... non dovrebbe mai passare di qui...
+                }
             }
 
+            return this.next(context);
         }
 
-        private void EndInvoke(HttpContext context)
-        {
-            // Do custom work after controller execution
-        }
     }
 
+    public class WebAppConfigurator : IWebAppConfigurator
+    {
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IConfiguration configuration)
+        {
+            app.UseMiddleware<CommonMiddleware>();
+        }
+
+        public void MapRoutes(IRouteBuilder routes)
+        {
+        }
+    }
 }
