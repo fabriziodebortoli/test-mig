@@ -276,7 +276,6 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				using (Stream fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.None))
 				using (StreamReader reader = new StreamReader(fs))
 					scriptText = reader.ReadToEnd();
-				
 			}
 			catch (IOException e)
 			{
@@ -363,6 +362,12 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					}
 				}
 
+				if (kindOfDb == KindOfDatabase.Company && connection.IsSqlConnection())
+				{
+					string script = statement;
+					ApplyMandatoryColumnRegex(script, out statement);
+				}
+
 				Diagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ExecutionOfStatement, statement));
 
 				try
@@ -442,6 +447,67 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		}
 		#endregion
 
+		#region ApplyMandatoryColumnRegex (per inserire le colonne obbligatorie dinamicamente)
+		/// <summary>
+		/// ApplyMandatoryColumnRegex
+		/// Solo negli script che hanno una CREATE TABLE vado ad inserire prima del CONSTRAINT di PRIMARY KEY 
+		/// le colonne obbligatorie TBCreated, TBModified, TBCreatedID, TBModifiedID
+		/// in modo da velocizzare la creazione del database senza dover effettuare le ALTER TABLE in successione
+		/// </summary>
+		/// <param name="script">testo da analizzare</param>
+		/// <param name="statement">testo modificato</param>
+		//---------------------------------------------------------------------------
+		private void ApplyMandatoryColumnRegex(string script, out string statement)
+		{
+			statement = script;
+
+			// se non si tratta di una creazione di tabella non procedo
+			if (!Regex.IsMatch(statement, @"\bCREATE\b\s*\bTABLE\b", RegexOptions.IgnoreCase | RegexOptions.Compiled))
+				return;
+
+			try
+			{
+				// per individuare il nome della tabella (mi serve per concatenare il nome dei constraint di default)
+				string createTablePattern = @"\bCREATE\s+TABLE\s*(((\[\s*dbo\s*\])|dbo)\s*\.)?\s*\[?\s*(?<Table>\w+)\s*\]?";
+				
+				// per individuare l'indice dell'ultima virgola (esclusa e solo se presente) prima del constraint di PK dove inserire le colonne obbligatorie
+				string pkConstraintPattern = @"\,?\s*\bCONSTRAINT\b.*\bPRIMARY\s*KEY\b";
+
+				int i = 0;
+
+				MatchCollection tblMatches = Regex.Matches(statement, createTablePattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+				// faccio un loop perche' potrei avere due CREATE TABLE di seguito senza GO
+				foreach (Match mtch in tblMatches)
+				{
+					string tableName = mtch.Groups["Table"].ToString();
+
+					if (string.IsNullOrWhiteSpace(tableName))
+						continue;
+
+					MatchCollection pkMatches = Regex.Matches(statement, pkConstraintPattern);
+					// se i match sono diversi mi fermo
+					if (tblMatches.Count != pkMatches.Count)
+						break;
+
+					Match pkMtch = pkMatches[i];
+					statement = statement.Insert(pkMtch.Index, string.Format(DatabaseLayerConsts.RegexAddMandatoryColums, tableName));
+
+					i++;
+				}
+			}
+			catch (Exception e)
+			{
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "ApplyMandatoryColumnRegex");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, e.Message, extendedInfo);
+				Diagnostic.Set(DiagnosticType.LogOnFile, e.Message);
+			}
+		}
+		#endregion
+
 		#region ApplyFullTextSearchRegex (per la gestione del FullTextSearch nel database del DMS)
 		/// <summary>
 		/// ApplyFullTextSearchRegex (si utilizza solo per il database DMS, che e' solo SQL)
@@ -502,16 +568,6 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			// 4. solo per Oracle: devo anche eliminare dallo script le eventuali occorrenze della sola parola byte
 			if (connection.IsSqlConnection())
 				strConvert = Regex.Replace(scriptText, @"\b(?<type>varchar|text|char)\b", "n${type}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-			//if (connection.IsOracleConnection())
-			//{
-			//	strConvert =
-			//		(differentCollation)
-			//		? Regex.Replace(scriptText, @"\b(?<type>(?<!/\*\[SKIPUNICODE\]\*/\s*)(VARCHAR2|CLOB|CHAR))\b", "N${type}", RegexOptions.IgnoreCase | RegexOptions.Compiled)
-			//		: Regex.Replace(scriptText, @"\b(?<type>VARCHAR2|CLOB|CHAR)\b", "N${type}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-			//	strConvert = Regex.Replace(strConvert, @"\bbyte\b", string.Empty, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-			//}
 		}
 		#endregion
 

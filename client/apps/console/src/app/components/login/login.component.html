@@ -21,7 +21,6 @@
                     <admin-input-text 
                         (keydown)="onKeyDown($event)" 
                         [inputLabel]="'AccountName'"
-                        [textType]="'text'"
                         [(inputData)]="credentials.accountName"></admin-input-text>
                 </div>
 
@@ -44,7 +43,6 @@
                     <admin-input-text 
                         (keydown)="onKeyDown($event)" 
                         [inputLabel]="'Password'"
-                        [textType]="'password'"
                         [(inputData)]="credentials.password"
                         [readOnly]="appBusy"></admin-input-text>
                 </div>
