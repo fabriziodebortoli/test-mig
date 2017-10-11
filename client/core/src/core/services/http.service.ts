@@ -70,6 +70,13 @@ export class HttpService {
             });
     }
 
+    canLogoff(params: { authtoken: string }): Observable<OperationResult> {
+        return this.postData(this.infoService.getDocumentBaseUrl() + 'canLogoff/', params)
+            .map((res: Response) => {
+                return this.createOperationResult(res);
+            });
+    }
+
     openTBConnection(params: { authtoken: string, isDesktop: boolean }): Observable<OperationResult> {
         return this.postData(this.infoService.getDocumentBaseUrl() + 'initTBLogin/', params)
             .map((res: Response) => {
@@ -138,7 +145,7 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    
+
     /**
      * API /loadLocalizedElements
      * 
