@@ -145,8 +145,7 @@ export class HttpService {
      * @returns {Observable<any>} loadLocalizedElements
      */
     loadLocalizedElements(): Observable<any> {
-        let obj = { authtoken: this.cookieService.get('authtoken') }
-        return this.postData(this.infoService.getMenuServiceUrl() + 'getLocalizedElements/', obj)
+        return this.postData(this.infoService.getMenuServiceUrl() + 'getLocalizedElements/', {})
             .map((res: Response) => {
                 return res.json();
             });

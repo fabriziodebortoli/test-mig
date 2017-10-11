@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Microarea.Common.GenericForms;
 using Microsoft.AspNetCore.Http;
 using System;
+using Microarea.Common;
 
 namespace Microarea.AccountManager.Controllers
 {
@@ -32,8 +33,8 @@ namespace Microarea.AccountManager.Controllers
             else
             {
                 LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-                CookieOptions opt = new CookieOptions();
-                HttpContext.Response.Cookies.Append("ui_culture", loginManagerSession.PreferredLanguage, opt);
+                CookieOptions opt = new CookieOptions { Expires = new DateTimeOffset(DateTime.Now).ToOffset(TimeSpan.FromHours(14)) };
+                HttpContext.Response.Cookies.Append(CommonMiddleware.culture_cookie, loginManagerSession.PreferredLanguage, opt);
 
             }
             return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken });
