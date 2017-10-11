@@ -83,7 +83,7 @@ namespace Microarea.AdminServer.Model
             account.Locked = (bool)dataReader["Locked"];
             account.Language = dataReader["Language"] as string;
             account.RegionalSettings = dataReader["RegionalSettings"] as string;
-            account.Ticks = (int)((long)dataReader["Ticks"]);
+            account.Ticks = (int)dataReader["Ticks"];
             account.ExpirationDate = (DateTime)dataReader["ExpirationDate"];
             account.ParentAccount = dataReader["ParentAccount"] as string;
             account.Confirmed = (bool)dataReader["Confirmed"];
