@@ -24,9 +24,9 @@ namespace Microarea.AdminServer.Controllers.Helpers
     {
         public string AccountName;
 		public string InstanceKey;
-        public long Ticks;
+        public int Ticks;
         //-----------------------------------------------------------------------------	
-        public AccountModification(string accountName, string instanceKey, long ticks)
+        public AccountModification(string accountName, string instanceKey, int ticks)
         {
             this.AccountName = accountName;
 			this.InstanceKey = instanceKey;

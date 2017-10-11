@@ -30,7 +30,7 @@ namespace Microarea.AdminServer.Libraries
 
 			string[] tokenParts = jwtTokenText.Split('.');
 
-			if (tokenParts.Length != 3)
+			if (tokenParts.Length != 3) 
 			{
 				opRes.Result = false;
 				opRes.Code = (int)TokenReturnCodes.Invalid;
@@ -155,7 +155,7 @@ namespace Microarea.AdminServer.Libraries
 		{
 			// derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
 			string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-				password: input,
+				password: input, 
 				salt: salt,
 				prf: KeyDerivationPrf.HMACSHA1,
 				iterationCount: 10000,
@@ -164,8 +164,23 @@ namespace Microarea.AdminServer.Libraries
 			return hashed;
 		}
 
-		//-----------------------------------------------------------------------------	
-		public static string GetRandomPassword()
+        //-----------------------------------------------------------------------------	
+        public static string HashThis(DateTime input)
+        {
+            // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: input.ToUniversalTime().ToString("o"),
+                salt: null,
+                prf: KeyDerivationPrf.HMACSHA1,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+
+            return hashed;
+        }
+
+
+        //-----------------------------------------------------------------------------	
+        public static string GetRandomPassword()
 		{
             //todo ripristina
 			return "Microarea..."; // Guid.NewGuid().ToString();
@@ -232,7 +247,7 @@ namespace Microarea.AdminServer.Libraries
         /// <summary>
         /// metodo dal nome vago che torna la chiave usata per crypt e decrypt sottoforma di arraydi byte, meno leggibilità per lieve offuscazione
         /// H8jKhZjkdM l7na*+t5vfL08bVt_suca
-        /// </summary>
+        /// </summary>;
         /// <returns></returns>
         //---------------------------------------------------------------------
         static string DirVal()
@@ -242,7 +257,31 @@ namespace Microarea.AdminServer.Libraries
             System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
             return new string(chars);
         }
+
         #endregion
+
+        //---------------------------------------------------------------------
+        public static DateTime GetDateFromCryptedString(string encrypted)
+        {  
+            //decrypt della stringa contenuta nel db e parse a datetime
+            string s = DecryptString(encrypted);
+            DateTime t = DateTime.MinValue;
+            DateTime.TryParse(s, out t);
+            return t.ToUniversalTime();
+
+        }
+
+        //---------------------------------------------------------------------
+        public static int GetDateHashing(DateTime t)
+        {
+            return t.ToUniversalTime().GetHashCode();
+        }
+
+        //---------------------------------------------------------------------
+        public static string GetCryptedStringFromDate(DateTime t)
+        {
+           return EncryptString(t.ToUniversalTime().ToString("s"));
+        }
 
     }
 }
