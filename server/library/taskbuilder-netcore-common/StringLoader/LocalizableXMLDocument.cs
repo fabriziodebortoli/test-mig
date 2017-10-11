@@ -109,7 +109,7 @@ namespace Microarea.Common.StringLoader
 
 			DocumentElement.SetAttribute(namespaceURI_TAG + namespacePrefix, namespaceURI);
 
-			foreach (XmlText localizableNode in GetElementsByTagName(localizableNodesPattern))
+			foreach (XmlText localizableNode in SelectNodes(localizableNodesPattern))
 			{
 				string localizedText = LoadXMLString(localizableNode.Value, fileName, specificDictionaryPath);
 				if (localizedText == localizableNode.Value)
