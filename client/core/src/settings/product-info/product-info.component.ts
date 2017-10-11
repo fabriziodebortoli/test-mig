@@ -1,6 +1,6 @@
+import { LocalizationService } from './../../core/services/localization.service';
 import { UtilsService } from './../../core/services/utils.service';
 import { InfoService } from './../../core/services/info.service';
-import { LocalizationService } from './../../menu/services/localization.service';
 import { Component, OnInit } from '@angular/core';
 
 
@@ -22,14 +22,6 @@ export class ProductInfoComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.localizationService.localizationsLoaded.subscribe((loaded) => {
-      console.log("loaded", loaded );
-      if (!loaded)
-        return;
-    });
-
-
     let sub = this.infoService.getProductInfo().subscribe(result => {
       this.productInfos = result;
       if (sub)

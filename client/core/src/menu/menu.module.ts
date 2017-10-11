@@ -43,7 +43,6 @@ export { MostUsedComponent } from './components/menu/most-used/most-used.compone
 import { MenuService } from './services/menu.service';
 import { EventManagerService } from './services/event-manager.service';
 import { SettingsService } from './services/settings.service';
-import { LocalizationService } from './services/localization.service';
 import { HttpMenuService } from './services/http-menu.service';
 import { ImageService } from './services/image.service';
 
@@ -53,14 +52,12 @@ export const TB_MENU_SERVICES = [
     ImageService,
     HttpMenuService,
     SettingsService,
-    LocalizationService,
     EventManagerService
 ];
 
 export { MenuService } from './services/menu.service';
 export { ImageService } from './services/image.service';
 export { HttpMenuService } from './services/http-menu.service';
-export { LocalizationService } from './services/localization.service';
 export { SettingsService } from './services/settings.service';
 export { EventManagerService } from './services/event-manager.service';
 
