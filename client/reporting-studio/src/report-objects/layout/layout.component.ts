@@ -1,3 +1,4 @@
+import { barcode } from './../../models/barcode.model';
 import { chart, series } from './../../models/chart.model';
 
 import { LayoutService } from '@taskbuilder/core';
@@ -139,7 +140,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       else if (element.chart !== undefined) {
         obj = new chart(element.chart);
       }
-      else //skip unknown objects         
+      else //skip unknown objects
         continue;
 
       objects.push(obj);
