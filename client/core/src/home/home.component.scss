@@ -4,6 +4,14 @@ mat-sidenav {
     background: #282828;
 }
 
+mat-sidenav::-webkit-scrollbar-track {
+    background: #3e3e3f;
+}
+
+mat-sidenav::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.59);
+}
+
 material-app,
 mat-sidenav-container,
 .main-content {
