@@ -9,8 +9,6 @@ import { animate, transition, trigger, state, style, keyframes, group } from "@a
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { LoginSession } from './../../../shared/models/login-session.model';
-
-import { MenuService } from './../../services/menu.service';
 import { UtilsService } from './../../../core/services/utils.service';
 import { Logger } from './../../../core/services/logger.service';
 import { HttpService } from './../../../core/services/http.service';
