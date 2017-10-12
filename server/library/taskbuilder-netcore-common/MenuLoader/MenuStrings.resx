@@ -153,6 +153,12 @@
   <data name="ConnectionInfo" xml:space="preserve">
     <value>Connection Info</value>
   </data>
+  <data name="CurrentApplication" xml:space="preserve">
+    <value>Current Application</value>
+  </data>
+  <data name="CurrentModule" xml:space="preserve">
+    <value>Current Module</value>
+  </data>
   <data name="DBName" xml:space="preserve">
     <value>Database</value>
   </data>
