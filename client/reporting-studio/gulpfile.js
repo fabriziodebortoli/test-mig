@@ -98,7 +98,8 @@ gulp.task('rollup:fesm', function() {
                 '@taskbuilder/core',
                 'angular2-cookie/services/cookies.service',
                 'moment',
-                'rxjs/Subject'
+                'rxjs/Subject',
+                'bwip-angular2'
             ],
 
             // Format of generated bundle
@@ -147,7 +148,8 @@ gulp.task('rollup:umd', function() {
                 '@taskbuilder/core',
                 'angular2-cookie/services/cookies.service',
                 'moment',
-                'rxjs/Subject'
+                'rxjs/Subject',
+                'bwip-angular2'
             ],
 
             // Format of generated bundle
@@ -180,7 +182,8 @@ gulp.task('rollup:umd', function() {
                 '@progress/kendo-angular-dialog': 'kendoAngularDialog',
                 '@progress/kendo-angular-charts': 'kendoAngularCharts',
                 '@progress/kendo-angular-buttons': 'kendoAngularButtons',
-                '@progress/kendo-angular-inputs': 'kendoAngularInputs'
+                '@progress/kendo-angular-inputs': 'kendoAngularInputs',
+                'bwip-angular2': 'bwipjs'
             },
 
             onwarn: function(warning) { if (warning.code === 'THIS_IS_UNDEFINED') { return; } else console.warn(warning.message); }
