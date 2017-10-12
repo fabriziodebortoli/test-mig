@@ -10,7 +10,7 @@ export class TileComponent implements OnInit {
   @Input() title: string;
   public _isCollapsed: boolean = false;
   public _isCollapsible: boolean = true;
-  public _hasTitle: boolean = true;
+  public hasTitle: boolean = true;
 
   constructor() { }
 
@@ -44,14 +44,5 @@ export class TileComponent implements OnInit {
 
   get isCollapsible(): boolean {
     return this._isCollapsible;
-  }
-
-  @Input()
-  set hasTitle(value: boolean) {
-    this._hasTitle = value;
-  }
-
-  get hasTitle(): boolean {
-    return this._hasTitle;
   }
 }

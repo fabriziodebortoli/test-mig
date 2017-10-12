@@ -1,7 +1,8 @@
+import { SharedModule } from './../shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { TbIconsModule } from '@taskbuilder/icons';
+import { TbCoreModule } from '@taskbuilder/core';
 
 import { AppComponent } from './app.component';
 
@@ -11,7 +12,8 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    TbIconsModule
+    SharedModule,
+    TbCoreModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,6 +10,8 @@ export class TilePanelComponent implements OnInit {
 
     public _showAsTile: boolean = true;
     public isCollapsed: boolean = false;
+    public title: string = '';
+    public icon: string = '';
     @Input() isCollapsible: boolean = true;
 
 
