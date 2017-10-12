@@ -16,16 +16,21 @@
             background: none;
             border: none;
             padding: 0 3px;
-            color: #f2f2f2;
+            color: #000;
         }
         input:focus {
             border: none;
+            outline: none;
         }
         m4-icon {
             margin: 0px 5px 0 0;
             color: #00578c;
         }
     }
+}
+
+.mat-option-text {
+    display: block;
 }
 
 // .tb-search .mat-input-placeholder.mat-empty {
@@ -83,11 +88,10 @@
     margin: 2px 0px 2px 5px;
 }
 
-.cdk-overlay-pane {
-    width: 351px !important;
-    margin-left: -35px;
-}
-
+// .cdk-overlay-pane {
+//     width: 351px !important;
+//     margin-left: -35px;
+// }
 .mat-option {
     line-height: 28px;
     height: 28px;
