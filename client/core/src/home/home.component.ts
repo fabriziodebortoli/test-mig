@@ -83,7 +83,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     }));
 
     this.menuService.getMenuElements();
-    this.localizationService.loadLocalizedElements();
+    this.localizationService.loadLocalizedElements(true);
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
 

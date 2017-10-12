@@ -31,8 +31,9 @@ export class TopbarMenuAppComponent implements OnDestroy {
     ) {
 
         this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe((loaded) => {
-            if (!loaded)
+            if (!loaded || !this.localizationService.localizedElements)
                 return;
+
             const item3 = new ContextMenuItem(this.localizationService.localizedElements.GotoProducerSite, 'idGotoProducerSiteButton', true, false);
             const item4 = new ContextMenuItem(this.localizationService.localizedElements.ClearCachedData, 'idClearCachedDataButton', true, false);
             const item5 = new ContextMenuItem(this.localizationService.localizedElements.ActivateViaSMS, 'idActivateViaSMSButton', true, false);

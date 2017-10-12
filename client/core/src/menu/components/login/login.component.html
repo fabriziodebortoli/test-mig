@@ -10,31 +10,31 @@
     <div class="login-main-content">
         <div class="login-form tb-card" *ngIf="!loading">
             <tb-card>
-                <tb-card-title title='Log In'></tb-card-title>
+                <tb-card-title [title]="localizationService?.localizedElements?.Login"></tb-card-title>
                 <tb-card-content>
 
                     <div class="form-group">
 
                         <div class="form-control">
-                            <p class="floatingLabel">User</p>
+                            <p class="floatingLabel">{{localizationService?.localizedElements?.User}}</p>
                             <kendo-textbox-container>
                                 <input kendoTextBox autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keyup)="keyUpFunction($event)" name="user">
                             </kendo-textbox-container>
                         </div>
 
                         <div class="form-control">
-                            <p class="floatingLabel">Password</p>
+                            <p class="floatingLabel">{{localizationService?.localizedElements?.Password}}</p>
                             <kendo-textbox-container class="form-control-k">
                                 <input kendoTextBox [(ngModel)]="connectionData.password" (keyup)="keyUpFunction($event)" name="password" type="password">
                             </kendo-textbox-container>
                         </div>
 
                         <div class="form-control">
-                            <p class="floatingLabel">Company</p>
+                            <p class="floatingLabel">{{localizationService?.localizedElements?.CompanyLabel}}</p>
                             <kendo-dropdownlist [data]="companies" [(ngModel)]="connectionData.company"></kendo-dropdownlist>
                         </div>
 
-                        <mat-checkbox [ngModel]="clearCachedData" (ngModelChange)="clearCachedData=$event">Clear cached data</mat-checkbox>
+                        <mat-checkbox [ngModel]="clearCachedData" (ngModelChange)="clearCachedData=$event">{{localizationService?.localizedElements?.ClearCachedData}}</mat-checkbox>
 
                         <div class="error" *ngIf="authService.errorMessage">{{authService.errorMessage}}</div>
 
@@ -51,13 +51,7 @@
         </span>
     </footer>
 </div>
-<div class="loading-container" [@fadeInOut] *ngIf="loading">
-    <div class="loading">
-        <span class="k-icon k-i-loading"></span>
-        <p class="text">Loading...</p>
-    </div>
-</div>
-
+<tb-loading></tb-loading>
 
 <kendo-dialog title="User already connected" *ngIf="userAlreadyConnectedOpened" (close)="userConnectedCancel()">
     <div>

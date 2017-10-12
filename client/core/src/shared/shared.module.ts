@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
-
 import {
     MatButtonModule,
     MatCheckboxModule,
@@ -28,7 +27,6 @@ const MATERIAL_MODULES = [
     MatAutocompleteModule,
     MatSnackBarModule
 ];
-
 
 import { TbIconsModule } from '@taskbuilder/icons';
 

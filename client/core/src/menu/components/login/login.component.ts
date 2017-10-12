@@ -1,3 +1,6 @@
+import { LocalizationService } from './../../../core/services/localization.service';
+import { LoadingService } from './../../../core/services/loading.service';
+import { MenuService } from './../../services/menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -33,7 +36,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   public companies: any = [];
 
   connectionData: LoginSession = new LoginSession();
-  loading: boolean = false;
   errorMessages: string[] = [];
   userAlreadyConnectedOpened: boolean = false;
   clearCachedData: boolean = false;
@@ -45,9 +47,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     public logger: Logger,
     public httpService: HttpService,
     public utilsService: UtilsService,
-    public menuService: MenuService
+    public menuService: MenuService,
+    public localizationService: LocalizationService,
+    public loadingService: LoadingService
   ) {
-
+    this.loadingService.setLoading(false);
+    this.localizationService.loadLocalizedElements()
   }
 
   //-------------------------------------------------------------------------------------
@@ -112,18 +117,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   //-------------------------------------------------------------------------------------
   login() {
     this.saveState();
-    this.loading = true;
+    this.loadingService.setLoading(true, this.localizationService.localizedElements.Loading);
     this.authService.login(this.connectionData).subscribe(result => {
       if (result.success) {
         console.log(this.clearCachedData);
         this.menuService.clearCachedData = this.clearCachedData;
         let url = this.authService.getRedirectUrl();
         this.logger.debug('Redirect Url', url);
-        this.loading = false;
+        this.loadingService.setLoading(false);
         this.router.navigate([url]);
       } else {
         this.logger.debug('Login Error', this.authService.errorMessage);
-        this.loading = false;
+        this.loadingService.setLoading(false);
         if (result.errorCode == 9)
           this.userAlreadyConnectedOpened = true;
       }
@@ -140,7 +145,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.connectionData.overwrite = true;
     this.login();
     this.connectionData.overwrite = false;
-
     this.userAlreadyConnectedOpened = false;
 
   }

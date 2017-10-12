@@ -19,7 +19,10 @@ export class LocalizationService {
     }
 
     //---------------------------------------------------------------------------------------------
-    loadLocalizedElements() {
+    loadLocalizedElements(reset: boolean = false) {
+        if (reset)
+            this.localizedElements = undefined;
+
         if (this.localizedElements != undefined)
             return this.localizedElements;
 
