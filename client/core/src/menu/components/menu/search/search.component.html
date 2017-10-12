@@ -1,13 +1,12 @@
 <div class="tb-search">
-    <!-- <mat-input-container>
-        <span mat-prefix>
-            <m4-icon icon="tb-find"></m4-icon></span>
-        <input #myInput type="text" mdInput [matAutocomplete]="auto" [formControl]="inputControl" placeholder="Search...">
+    <mat-input-container>
+        <span mat-prefix><m4-icon icon="tb-find"></m4-icon></span>
+        <input #myInput type="text" matInput [matAutocomplete]="auto" [formControl]="inputControl" placeholder="Search...">
     </mat-input-container>
 
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayElement">
         <mat-option *ngFor="let option of filteredElements | async" [value]="option">
             <tb-menu-element class="search-element" [object]="option"></tb-menu-element>
         </mat-option>
-    </mat-autocomplete> -->
+    </mat-autocomplete>
 </div>

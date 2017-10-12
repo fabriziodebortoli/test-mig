@@ -1,57 +1,63 @@
-.tb-search .mat-input-container {
-    background: #f1f4f7;
-    padding: 1px 5px;
-    border-radius: 3px;
-    border: 1px solid #044e7b;
-    border: none;
-    height: 30px;
-    width: 30%;
-    margin-bottom: 3px;
-    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .1), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .1);
+.tb-search {
+    mat-input-container {
+        background: #f1f4f7;
+        padding: 1px 5px;
+        border-radius: 3px;
+        border: 1px solid #044e7b;
+        border: none;
+        height: 30px;
+        width: 350px;
+        margin-bottom: 3px;
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .1), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .1);
+        display: flex;
+        margin: 0 auto;
+        input {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 0 3px;
+            color: #f2f2f2;
+        }
+        input:focus {
+            border: none;
+        }
+        m4-icon {
+            margin: 0px 5px 0 0;
+            color: #00578c;
+        }
+    }
 }
 
-.tb-search .mat-focused .mat-input-placeholder.mat-float,
-.tb-search .mat-input-placeholder.mat-float:not(.mat-empty) {
-    display: none;
-}
-
-.tb-search .mat-input-placeholder.mat-empty {
-    color: #929292;
-    font-size: 16px;
-    padding: 0;
-    line-height: 34px;
-    margin-top: 16px;
-}
-
-.tb-search .mat-input-element {
-    font-size: 14px;
-    line-height: 26px;
-    color: #f2f2f2;
-}
-
-.tb-search .mat-input-wrapper {
-    margin: 5px 0px 0px 0px;
-    padding: 0;
-}
-
-.tb-search .mat-input-underline {
-    display: none;
-}
-
-.tb-search .dropdown-menu {
-    width: 300px;
-}
-
-.tb-search .mat-icon {
-    margin: 0px 5px 0 0;
-    color: #00578c;
-}
-
-.tb-search .m4-icon.m4-tb-find {
-    margin: 0px 5px 0 0;
-    color: #929292;
-}
-
+// .tb-search .mat-input-placeholder.mat-empty {
+//     color: #929292;
+//     font-size: 16px;
+//     padding: 0;
+//     line-height: 34px;
+//     margin-top: 16px;
+// }
+// .tb-search .mat-input-element {
+//     font-size: 14px;
+//     line-height: 26px;
+//     color: #f2f2f2;
+// }
+// .tb-search .mat-input-wrapper {
+//     margin: 5px 0px 0px 0px;
+//     padding: 0;
+// }
+// .tb-search .mat-input-underline {
+//     display: none;
+// }
+// .tb-search .dropdown-menu {
+//     width: 300px;
+// }
+// .tb-search .mat-icon {
+//     margin: 0px 5px 0 0;
+//     color: #00578c;
+// }
+// .tb-search .m4-icon.m4-tb-find {
+//     margin: 0px 5px 0 0;
+//     color: #929292;
+// }
 
 /************/
 
