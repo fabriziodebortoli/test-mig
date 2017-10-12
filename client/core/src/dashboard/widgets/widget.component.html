@@ -7,7 +7,7 @@
     </tb-card-header>
     <tb-card-content class="widget-content tb-card-content">
         <div #cardContent class="widget-content">
-            <md-spinner *ngIf="widget?.isLoading" class="widget-spinner"></md-spinner>
+            <mat-spinner *ngIf="widget?.isLoading" class="widget-spinner"></mat-spinner>
             <div class="widget-content-area" *ngIf="!widget?.isLoading">
                 <tb-widget-stats *ngIf="widget.layout.style === 'stats'" [widget]="widget"></tb-widget-stats>
                 <tb-widget-grid *ngIf="widget.layout.style === 'grid'" [widget]="widget"></tb-widget-grid>

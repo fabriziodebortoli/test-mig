@@ -1,51 +1,18 @@
-tb-topbar md-toolbar.md-primary {
-    min-height: 53px;
-    display: flex;
-    flex-flow: row wrap;
-}
-
-tb-topbar md-toolbar md-toolbar-row {
-    height: 53px !important;
-    min-height: 53px !important;
-}
-
-// tb-topbar .topbar-menu,
-// tb-topbar .topbar-title,
-tb-topbar .fill-remaining-space {
-    flex: 1 auto;
-}
-
-tb-topbar .topbar-title {
-    margin-left: 5px;
-}
-
-tb-topbar .topbar-title h1,
-tb-topbar .topbar-title h2 {
-    margin: 0;
-    padding: 0;
-}
-
-tb-topbar .topbar-title h1 {
-    font-size: 22px;
-    color: #fff;
-}
-
-tb-topbar .topbar-title h2 {
-    font-size: 12px;
-    font-weight: normal;
-}
-
-tb-topbar .mat-toolbar {
-    min-height: 55px;
+tb-topbar {
+    .mat-toolbar {
+        min-height: 53px;
+    }
+    .mat-toolbar-row {
+        height: 53px;
+    }
+    .fill {
+        flex: 1 1 auto;
+        text-align: center;
+    }
 }
 
 #toggle-sidebar {
     cursor: pointer;
     margin-right: 10px;
     font-size: 18px;
-}
-
-.fill-remaining-space {
-    // flex: 1 1 auto;
-    text-align: center;
 }

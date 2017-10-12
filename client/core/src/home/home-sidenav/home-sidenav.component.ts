@@ -11,7 +11,7 @@ import { SidenavService } from './../../core/services/sidenav.service';
 @Component({
   selector: 'tb-home-sidenav',
   templateUrl: './home-sidenav.component.html',
-  styleUrls: ['./home-sidenav.component.css']
+  styleUrls: ['./home-sidenav.component.scss']
 })
 export class HomeSidenavComponent implements OnInit {
 

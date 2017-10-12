@@ -1,33 +1,33 @@
 <div *ngIf="menuService?.selectedApplication?.title != undefined">
-    <md-menu #apps="mdMenu" x-position="after" y-position="below">
-        <button md-menu-item *ngFor="let application of applications" (click)=menuService.setSelectedApplication(application) class="applicationItem" [ngClass]="application?.title == menuService?.selectedApplication?.title ? 'active' : ''">
+    <mat-menu #apps="matMenu" x-position="after" y-position="below">
+        <button mat-menu-item *ngFor="let application of applications" (click)=menuService.setSelectedApplication(application) class="applicationItem" [ngClass]="application?.title == menuService?.selectedApplication?.title ? 'active' : ''">
      {{application?.title}}
      </button>
 
-    </md-menu>
-    <md-menu #groups="mdMenu" x-position="after" y-position="below">
-        <button md-menu-item *ngFor="let group of utilsService.toArray(menuService?.selectedApplication?.Group)" (click)=menuService.setSelectedGroup(group) class="applicationItem" [ngClass]="group?.title == menuService?.selectedGroup?.title ? 'active' : ''">
+    </mat-menu>
+    <mat-menu #groups="matMenu" x-position="after" y-position="below">
+        <button mat-menu-item *ngFor="let group of utilsService.toArray(menuService?.selectedApplication?.Group)" (click)=menuService.setSelectedGroup(group) class="applicationItem" [ngClass]="group?.title == menuService?.selectedGroup?.title ? 'active' : ''">
         <tb-icon [iconType]="'M4'" [icon]="group?.icon" class="group-icon" *ngIf="group?.icon != undefined"></tb-icon>
         <img [src]="imageService.getStaticImage(group)" *ngIf="group?.icon == undefined" />
          {{group?.title}}
      </button>
-    </md-menu>
-    <md-menu #menus="mdMenu" x-position="after" y-position="below">
-        <button md-menu-item *ngFor="let menuTab of utilsService.toArray(menuService.selectedGroup?.Menu)" (click)=menuService.setSelectedMenu(menuTab) class="applicationItem" [ngClass]="menuTab?.title == menuService?.selectedMenu?.title ? 'active' : ''">
+    </mat-menu>
+    <mat-menu #menus="matMenu" x-position="after" y-position="below">
+        <button mat-menu-item *ngFor="let menuTab of utilsService.toArray(menuService.selectedGroup?.Menu)" (click)=menuService.setSelectedMenu(menuTab) class="applicationItem" [ngClass]="menuTab?.title == menuService?.selectedMenu?.title ? 'active' : ''">
      {{menuTab?.title}}
      </button>
-    </md-menu>
+    </mat-menu>
 
     <ul class="breadcrumb">
-        <li [md-menu-trigger-for]="apps">
+        <li [mat-menu-trigger-for]="apps">
             <div>{{menuService?.selectedApplication?.title}}</div>
             <m4-icon icon="tb-doubleright"></m4-icon>
         </li>
-        <li [md-menu-trigger-for]="groups">
+        <li [mat-menu-trigger-for]="groups">
             <div>{{menuService?.selectedGroup?.title}}</div>
             <m4-icon icon="tb-doubleright"></m4-icon>
         </li>
-        <li [md-menu-trigger-for]="menus" class="current">
+        <li [mat-menu-trigger-for]="menus" class="current">
             <div>{{menuService?.selectedMenu?.title}}</div>
         </li>
     </ul>
