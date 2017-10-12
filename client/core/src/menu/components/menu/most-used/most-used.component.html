@@ -5,7 +5,7 @@
             <md-spinner *ngIf="object.isLoading" class="spinner"></md-spinner>
             <m4-icon class="type" icon="{{imageService.getObjectIcon(object)}}" [ngClass]="object?.objectType"></m4-icon>
             <span class="truncate" (click)="runFunction(object)">{{object.title}}</span>
-            <m4-icon class="close" icon="tb-closewindows" (click)="menuService.removeFromMostUsed(object)" title="Remove"></m4-icon>
+            <m4-icon class="close" icon="tb-closewindows" (click)="menuService.removeFromMostUsed(object)" title="{{localizationService?.localizedElements?.Remove}}"></m4-icon>
         </li>
     </ul>
 </div>

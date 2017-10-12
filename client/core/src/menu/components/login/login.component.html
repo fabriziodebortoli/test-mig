@@ -10,27 +10,27 @@
     <div class="login-main-content">
         <div class="login-form tb-card" *ngIf="!loading">
             <tb-card>
-                <tb-card-title title='Log In'></tb-card-title>
+                <tb-card-title [title]="localizationService?.localizedElements?.Login"></tb-card-title>
                 <tb-card-content>
 
                     <div class="form-group">
                         <md-input-container class="form-control">
-                            <input mdInput type="text" [placeholder]="'User'" autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user)
+                            <input mdInput type="text" [placeholder]="localizationService?.localizedElements?.User" autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user)
                                 (keydown)="keyDownFunction($event)" />
                         </md-input-container>
                         <md-input-container class="form-control">
-                            <input mdInput type="password" [placeholder]="'Password'" [(ngModel)]="connectionData.password" (keydown)="keyDownFunction($event)"
+                            <input mdInput type="password" [placeholder]="localizationService?.localizedElements?.Password" [(ngModel)]="connectionData.password" (keydown)="keyDownFunction($event)"
                             />
                         </md-input-container>
 
-                        <md-select class="form-control" placeholder="Company" [(ngModel)]="connectionData.company">
-                            <md-option *ngIf="!companies">Loading...</md-option>
+                        <md-select class="form-control" [placeholder]="localizationService?.localizedElements?.CompanyLabel" [(ngModel)]="connectionData.company">
+                            <md-option *ngIf="!companies">{{localizationService?.localizedElements?.Loading}}</md-option>
                             <md-option *ngFor="let company of companies" [value]="company?.name">
                                 {{ company?.name }}
                             </md-option>
                         </md-select>
                         
-                        <md-checkbox [ngModel]="clearCachedData" (ngModelChange)="clearCachedData=$event">Clear cached data</md-checkbox>
+                        <md-checkbox [ngModel]="clearCachedData" (ngModelChange)="clearCachedData=$event">{{localizationService?.localizedElements?.ClearCachedData}}</md-checkbox>
                        
                         <div class="error" *ngIf="authService.errorMessage">{{authService.errorMessage}}</div>
                         <button class="form-button" md-raised-button color="primary" (click)="login();" [disabled]="companies.length == 0">Login</button>
@@ -46,13 +46,7 @@
         </span>
     </footer>
 </div>
-<div class="loading-container" [@fadeInOut] *ngIf="loading">
-    <div class="loading">
-        <span class="k-icon k-i-loading"></span>
-        <p class="text">Loading...</p>
-    </div>
-</div>
-
+<tb-loading></tb-loading>
 
 <kendo-dialog title="User already connected" *ngIf="userAlreadyConnectedOpened" (close)="userConnectedCancel()">
     <div>

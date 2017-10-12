@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MasonryModule } from 'angular2-masonry';
 
 import { TbIconsModule } from '@taskbuilder/icons';
@@ -296,7 +295,7 @@ export { ViewModeType } from './models/view-mode-type.model';
 export { SocketConnectionStatus } from './models/websocket-connection.enum';
 
 @NgModule({
-    imports: [TB_MODULES, KENDO_UI_MODULES, TreeModule, BrowserAnimationsModule],
+    imports: [TB_MODULES, KENDO_UI_MODULES, TreeModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
     exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES/*, KENDO_UI_MODULES*/],
     entryComponents: [UnsupportedComponent, RadarComponent]
