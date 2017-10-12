@@ -47,7 +47,7 @@ export class barcode {
                 return 'hibccode128';
             case BarcodeType.INT25:
                 return 'code2of5';
-            case BarcodeType.BC_MICROQR:
+            case BarcodeType.MICROQR:
                 return 'microqrcode';
             case BarcodeType.MSIPLESSEY:
                 return 'msi';
