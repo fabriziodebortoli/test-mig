@@ -30,10 +30,10 @@ namespace Microarea.Menu.Controllers
                 string company = HttpContext.Request.Form["company"];
                 string authtoken = HttpContext.Request.Form["authtoken"];
 
-                LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(loginManagerSession.PreferredLanguage);
+                string clearCachedData = HttpContext.Request.Form["clearCachedData"];
+                bool clearCache = bool.Parse(clearCachedData);
 
-                string content = NewMenuLoader.LoadMenuWithFavoritesAsJson(user, company, authtoken);
+                string content = NewMenuLoader.LoadMenuWithFavoritesAsJson(user, company, authtoken, clearCache);
                 return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
             }
             catch (Exception e)
@@ -157,7 +157,7 @@ namespace Microarea.Menu.Controllers
                 string user = HttpContext.Request.Form["user"];
                 string company = HttpContext.Request.Form["company"];
                 NewMenuSaver.UpdateAllFavoritesAndMostUsed(favorites, mostUsed, user, company);
-                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+                return new ContentResult { StatusCode = 200, Content = "", ContentType = "text/plain" };
             }
             catch (Exception e)
             {
@@ -171,8 +171,6 @@ namespace Microarea.Menu.Controllers
         {
             try
             {
-
-
                 string user = HttpContext.Request.Form["user"];
                 Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(user);
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
@@ -189,10 +187,7 @@ namespace Microarea.Menu.Controllers
         {
             try
             {
-                string token = HttpContext.Request.Form["authtoken"];
-                string needLoginThread = HttpContext.Request.Form["needLoginThread"];
-
-                string json = NewMenuLoader.GetLocalizationJson(token);
+                string json = NewMenuLoader.GetLocalizationJson();
                 return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
             }
             catch (Exception e)

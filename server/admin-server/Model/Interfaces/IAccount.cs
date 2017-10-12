@@ -24,7 +24,7 @@ namespace Microarea.AdminServer.Model.Interfaces
         string Language { get; set; }
         string RegionalSettings { get; set; }
         bool IsWindowsAuthentication { get; set; }
-        long Ticks { get; set; }
+        int Ticks { get; set; }
         bool IsPasswordExpirated();
 		DateTime ExpirationDate { get; set; }
 		string ParentAccount { get; set; }

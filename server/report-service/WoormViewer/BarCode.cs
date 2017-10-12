@@ -121,7 +121,20 @@ namespace Microarea.RSWeb.WoormViewer
 			unparser.WriteClose(newLine);
 			return true;
 		}
-	}
+
+        public string ToJson()
+        {
+            string s = "\"barcode\":{" +
+                (BarCodeType == BarCodeWrapper.Type.BC_DEFAULT ? BCDefaultType : BarCodeType).ToJson("type") + "," +
+                Vertical.ToJson("vertical") + "," +
+                ShowLabel.ToJson("show-label") + "," +
+                CustomBarHeight.ToJson("custom-height") +
+                "}";
+
+            return s;
+        }
+
+    }
 
 	//================================================================================
 	public class BarCodeWrapper

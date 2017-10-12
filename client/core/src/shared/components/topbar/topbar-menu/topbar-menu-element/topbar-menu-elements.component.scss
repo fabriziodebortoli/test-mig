@@ -1,3 +1,16 @@
 .wrapper {
-    background-color: #00578c;
+    background-color: white;
+    //text-align: left;
+}
+
+.wrapper:hover {
+    background-color: #efefef;
+    //text-align: left;
+}
+
+.divW {
+    width: inherit;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 15px;
 }

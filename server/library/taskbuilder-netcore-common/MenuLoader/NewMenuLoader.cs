@@ -59,7 +59,7 @@ namespace Microarea.Common.MenuLoader
 			return doc;
 		}
 		//---------------------------------------------------------------------
-		private static XmlDocument GetMenuXml(string user, string company, string authenticationToken)
+		private static XmlDocument GetMenuXml(string user, string company, string authenticationToken, bool clearCachedData)
 		{
 			PathFinder pf = new PathFinder(company, user);
 			XmlDocument doc = null;
@@ -67,7 +67,7 @@ namespace Microarea.Common.MenuLoader
 			{
                 LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
                 MenuLoader menuLoader = new MenuLoader(pf, authenticationToken, true);
-				menuLoader.LoadAllMenus(false, false);
+				menuLoader.LoadAllMenus(false, clearCachedData);
 				doc = menuLoader.ProcessMenu();
 			}
 			catch (Exception ex)
@@ -107,7 +107,7 @@ namespace Microarea.Common.MenuLoader
 		/// Se il menu è già stato caricato, ritorna il json al menu in caricamento (e lo cancella),
 		/// altrimenti lo carica al volo e lo ritorna
 		/// </summary>
-		public static string LoadMenuWithFavoritesAsJson(string user, string company, string authenticationToken)
+		public static string LoadMenuWithFavoritesAsJson(string user, string company, string authenticationToken, bool clearCachedData)
 		{
 			string originalStandardFile = MenuInfo.GetFullMenuCachingFullFileName(user);
 			FileInfo originalStandardFileInfo = new FileInfo(originalStandardFile);
@@ -125,7 +125,7 @@ namespace Microarea.Common.MenuLoader
 				return result;
 			}
 
-			XmlDocument doc = GetMenuXml(user, company, authenticationToken);
+			XmlDocument doc = GetMenuXml(user, company, authenticationToken, clearCachedData);
 			return NewMenuFunctions.GetAngularJSSafeJson(doc);
 		}
 
@@ -268,21 +268,8 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//-----------------------------------------------------------------
-		public static string GetLocalizationJson(string token)
-		{
-			if (token == null)
-				return string.Empty;
-
-			CultureInfo ci = new CultureInfo("en");
-			
-			LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(token);
-			if (session != null && !string.IsNullOrEmpty(session.PreferredLanguage))
-				ci = new CultureInfo(session.PreferredLanguage);
-
-			Stream sm = typeof(Microarea.Common.MenuLoader.MenuStrings).GetTypeInfo().Assembly.GetManifestResourceStream("Microarea.Common.MenuLoader.MenuStrings.resources");
-			ResourceReader reader = new ResourceReader(sm);
-			ResourceManager manager = new ResourceManager(typeof(Microarea.Common.MenuLoader.MenuStrings));
-
+		public static string GetLocalizationJson()
+        {
 			StringBuilder sb = new StringBuilder();
 			using (StringWriter sw = new StringWriter(sb))
 			{
@@ -291,21 +278,20 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WriteStartObject();
 				jsonWriter.WritePropertyName("LocalizedElements");
 
-				IDictionaryEnumerator enumerator = reader.GetEnumerator();
 				jsonWriter.WriteStartObject();
-				while (enumerator.MoveNext())
-				{
-					string currentKey = enumerator.Entry.Key.ToString();
-					jsonWriter.WritePropertyName(currentKey);
-					jsonWriter.WriteValue(manager.GetString(currentKey, ci));
+                foreach (var pi in typeof(MenuStrings).GetProperties())
+                {
+                    if (pi.PropertyType != typeof(string))
+                        continue;
+					jsonWriter.WritePropertyName(pi.Name);
+					jsonWriter.WriteValue(pi.GetValue(null));
 				}
 
 				jsonWriter.WriteEndObject();
 				jsonWriter.WriteEndObject();
-				string json = sb.ToString();
 
 				jsonWriter.Close();
-				return json;
+				return sb.ToString();
 			}
 		
 		}

@@ -1,3 +1,4 @@
+import { barcode } from './barcode.model';
 import { ReportObjectType } from './report-object-type.model';
 import { baserect } from './baserect.model';
 import { font } from './font.model';
@@ -11,6 +12,7 @@ export class textrect extends baserect {
     font: font;
     value_is_html: boolean;
     value_is_barcode: boolean;
+    barcode: barcode;
     constructor(jsonObj: any) {
         super(jsonObj.baserect);
         this.obj = ReportObjectType.textrect;
@@ -22,5 +24,6 @@ export class textrect extends baserect {
         this.font = new font(jsonObj.font);
         this.value_is_html = jsonObj.value_is_html;
         this.value_is_barcode = jsonObj.value_is_barcode;
+        this.barcode = jsonObj.barcode ? new barcode(jsonObj.barcode) : undefined;
     };
 }

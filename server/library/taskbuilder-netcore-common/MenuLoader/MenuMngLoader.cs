@@ -2925,7 +2925,10 @@ namespace Microarea.Common.MenuLoader
             menuInfo.LoadCachedStandardMenuEnded += new MenuParserEventHandler(MenuInfo_LoadCachedStandardMenuEnded);
 
             if (clearCachedData)
-                menuInfo.DeleteCachedStandardMenu();
+            {
+                Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(menuInfo.PathFinder.User);
+                //menuInfo.DeleteCachedStandardMenu();
+            }
 
             menuInfo.ScanStandardMenuComponents(environmentStandAlone, commandsTypeToLoad);
 
