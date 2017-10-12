@@ -1,3 +1,4 @@
+import { LoadingService } from './../../core/services/loading.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
@@ -86,7 +87,9 @@ export class MenuService {
         public imageService: ImageService,
         public settingsService: SettingsService,
         public componentService: ComponentService,
-        public infoService: InfoService
+        public infoService: InfoService,
+        public loadingService: LoadingService
+
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -463,10 +466,12 @@ export class MenuService {
         this.httpMenuService.getMenuElements(this.clearCachedData).subscribe((result) => {
             this.clearCachedData = false;
             this.onAfterGetMenuElements(result.Root);
+            this.loadingService.setLoading(false);
         });
     }
 
     invalidateCache() {
+        this.loadingService.setLoading(true, "reloading menu");
         this.clearCachedData = true;
         this.getMenuElements();
         // this.httpMenuService.clearCachedData().subscribe(result => {
