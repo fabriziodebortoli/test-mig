@@ -5,13 +5,15 @@ using Microarea.AdminServer.Services.BurgerData;
 using System.Collections.Generic;
 using System.Data;
 using Microarea.AdminServer.Libraries;
+using Microarea.AdminServer.Controllers.Helpers;
 
 namespace Microarea.AdminServer.Model
 {
     //================================================================================
     public class Account : IAccount, IModelObject
-    {
-		// model attributes
+    {       
+        internal static int maxPasswordError = 5;
+        // model attributes
         string accountName;
         string fullName = string.Empty;
 		string password = string.Empty;
@@ -142,9 +144,33 @@ namespace Microarea.AdminServer.Model
         public Account(string accountName)
         {
             this.accountName = accountName;
-        }
+        } 
         
-		
+        //---------------------------------------------------------------------
+        public bool CheckPassword(string password)
+        {
+            // calculating password hash
+            Byte[] salt = Salt;
+
+            string passwordToCheck = salt != null ? SecurityManager.HashThis(password, salt) : password;
+
+            if (Password != passwordToCheck)
+            {
+                AddWrongPwdLoginCount();
+                return false;
+            }
+            return true;
+        }
+
+        //---------------------------------------------------------------------
+        public void ResetPassword(string pwd)
+		{
+            Password = pwd;
+            ResetPasswordExpirationDate();
+            MustChangePassword = false;
+            ClearWrongPwdLoginCount();
+        }
+
         //---------------------------------------------------------------------
         public bool IsPasswordExpirated()
 		{
@@ -158,5 +184,89 @@ namespace Microarea.AdminServer.Model
         {
             passwordExpirationDate = DateTime.Now.AddDays(passwordDuration);
         }
+
+        //----------------------------------------------------------------------
+        public void AddWrongPwdLoginCount()
+        {
+            Locked = (++LoginFailedCount >= maxPasswordError);
+        }
+
+        //----------------------------------------------------------------------
+        public void ClearWrongPwdLoginCount()
+        {
+            Locked = false;
+            LoginFailedCount = 0;
+
+        }
+
+
+        //----------------------------------------------------------------------
+        public LoginReturnCodes VerifyCredential(string password, BurgerData burgerdata)
+        {
+            if (ExpirationDate < DateTime.Now)
+                return LoginReturnCodes.UserExpired;
+
+            if (Locked)
+                return LoginReturnCodes.LoginLocked;
+
+            if (Disabled)
+                return LoginReturnCodes.UserNotAllowed;
+
+            if (CheckPassword(password))
+            {
+                if (!Save(burgerdata).Result)
+                    return LoginReturnCodes.ErrorSavingAccount;
+            }
+            else
+                return LoginReturnCodes.InvalidUserError;
+
+            ClearWrongPwdLoginCount();
+            if (!Save(burgerdata).Result)
+                return LoginReturnCodes.ErrorSavingAccount;
+
+            if (MustChangePassword)
+                return LoginReturnCodes.UserMustChangePasswordError;
+
+            if (IsPasswordExpirated())
+            {
+                if (CannotChangePassword)
+                    return LoginReturnCodes.CannotChangePasswordError;
+                return LoginReturnCodes.UserMustChangePasswordError;
+            }
+
+            return LoginReturnCodes.NoError;
+        }
+
+        //----------------------------------------------------------------------
+        internal LoginReturnCodes ChangePassword(ChangePasswordInfo passwordInfo, BurgerData burgerdata)
+        {
+            if (ExpirationDate < DateTime.Now)
+                return LoginReturnCodes.UserExpired;
+
+            if (Locked)
+                return LoginReturnCodes.LoginLocked;
+
+            if (CannotChangePassword)
+                return LoginReturnCodes.CannotChangePasswordError;
+
+            if (Disabled)
+                return LoginReturnCodes.UserNotAllowed;
+
+            if (Password != passwordInfo.Password)
+            {
+                AddWrongPwdLoginCount();
+                if (!Save(burgerdata).Result)
+                    return LoginReturnCodes.ErrorSavingAccount;
+
+                return LoginReturnCodes.InvalidUserError;
+            }
+            ResetPassword(passwordInfo.NewPassword);
+
+            if (!Save(burgerdata).Result)
+                return LoginReturnCodes.ErrorSavingAccount;
+
+            return LoginReturnCodes.NoError;
+        }
+
     }
 }
