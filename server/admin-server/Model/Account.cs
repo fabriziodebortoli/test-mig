@@ -199,7 +199,6 @@ namespace Microarea.AdminServer.Model
 
         }
 
-
         //----------------------------------------------------------------------
         public LoginReturnCodes VerifyCredential(string password, BurgerData burgerdata)
         {
