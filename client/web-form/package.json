@@ -11,7 +11,7 @@
         "link-erp": "npm link ../erp/src",
         "link-icons": "npm link ../icons/src",
         "link-rs": "npm link ../reporting-studio/src",
-        "postinstallNO": "npm run link-core && npm run link-rs && npm run link-icons && npm run link-erp",
+        "postinstall": "npm run link-core && npm run link-rs && npm run link-icons && npm run link-erp",
         "lint": "tslint \"src/**/*.ts\"",
         "test": "ng test",
         "pree2e": "webdriver-manager update",
