@@ -8,7 +8,7 @@
     </header>
 
     <div class="login-main-content">
-        <div class="login-form tb-card" *ngIf="!loading">
+        <div class="login-form tb-card" *ngIf="!loadingService.isLoading">
             <tb-card>
                 <tb-card-title [title]="localizationService?.localizedElements?.Login"></tb-card-title>
                 <tb-card-content>
