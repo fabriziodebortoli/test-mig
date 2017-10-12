@@ -257,6 +257,10 @@ namespace Microarea.AdminServer.Controllers
 			param.DatabaseName = dbName;
 			param.MaxSize = AzureMaxSize.GB1;
 
+			// creazione contenitore db su SqlServer
+			SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
+			sqlParam.DatabaseName = dbName;
+
 			// to create database I need to connect to master
 
 			// I create ERP database
@@ -271,7 +275,8 @@ namespace Microarea.AdminServer.Controllers
 				settings.DatabaseInfo.DBUser,
 				settings.DatabaseInfo.DBPassword
 				);
-			opRes.Result = dTask.CreateAzureDatabase(param);
+			opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
+				dTask.CreateAzureDatabase(param);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
 			if (!opRes.Result)
@@ -283,7 +288,10 @@ namespace Microarea.AdminServer.Controllers
 			// I create DMS database
 
 			param.DatabaseName = dmsDbName;
-			opRes.Result = dTask.CreateAzureDatabase(param);
+			sqlParam.DatabaseName = dmsDbName;
+
+			opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
+			 dTask.CreateAzureDatabase(param);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
 			if (!opRes.Result)
@@ -370,12 +378,10 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			dbManager.ImportDefaultData = false;
+			dbManager.ImportDefaultData = true;
 			dbManager.ImportSampleData = false;
-			Debug.WriteLine("Start database creation: " + DateTime.Now.ToString("hh:mm:ss.fff"));
 			opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-			Debug.WriteLine("End database creation: " + DateTime.Now.ToString("hh:mm:ss.fff"));
 
 			if (!opRes.Result)
 			{

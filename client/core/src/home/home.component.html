@@ -67,9 +67,4 @@
 
     </div>
 </mat-sidenav-container>
-<div class="connecting-container" [@fadeInOut] *ngIf="!connected">
-    <div class="connecting">
-        <span class="k-icon k-i-loading"></span>
-        <p class="text">Connecting...</p>
-    </div>
-</div>
+<tb-loading></tb-loading>

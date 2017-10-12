@@ -172,6 +172,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			try
 			{
+				DateTime start = DateTime.Now; 
+				Debug.WriteLine(string.Format("Start database {0} structure creation: ", contextInfo.Connection.Database) + start.ToString("hh:mm:ss.fff"));
+
 				// GESTIONE DATABASE EMPTY----------------------------------------------------------------------------
 				if (dbStructInfo.DBStatus == DatabaseStatus.EMPTY)
 				{
@@ -233,19 +236,32 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 						isDatabaseUpgraded = true;
 				}
 
+				DateTime end = DateTime.Now;
+				Debug.WriteLine("End database structure creation: " + end.ToString("hh:mm:ss.fff"));
+				TimeSpan ts1 = end - start;
+				Debug.WriteLine("Database structure creation - total seconds: " + ts1.TotalSeconds.ToString());
+
 				if (dbStructInfo.KindOfDb == KindOfDatabase.Company)
 				{
-					Debug.WriteLine("Start mandatory columns creation: " + DateTime.Now.ToString("hh:mm:ss.fff"));
+					start = DateTime.Now;
+					Debug.WriteLine("Start mandatory columns creation: " + start.ToString("hh:mm:ss.fff"));
 					// check delle colonne TBCreated e TBModified
 					// @@TODO: TOGLIERE IL COMMENTO!!!
-					// CheckMandatoryColumns();
-					Debug.WriteLine("End mandatory columns creation: " + DateTime.Now.ToString("hh:mm:ss.fff"));
+					CheckMandatoryColumns();
+					end = DateTime.Now;
+					Debug.WriteLine("End mandatory columns creation: " + end.ToString("hh:mm:ss.fff"));
+					TimeSpan ts = end - start;
+					Debug.WriteLine("Mandatory columns creation - total seconds: " + ts.TotalSeconds.ToString());
 
-					Debug.WriteLine("Start TBGuid column creation: " + DateTime.Now.ToString("hh:mm:ss.fff"));
+					start = DateTime.Now;
+					Debug.WriteLine("Start TBGuid column creation: " + start.ToString("hh:mm:ss.fff"));
 					// check colonna TBGuid per le master tables
 					// @@TODO: TOGLIERE IL COMMENTO!!!
-					// CheckTBGuidColumn();
-					Debug.WriteLine("End TBGuid column creation: " + DateTime.Now.ToString("hh:mm:ss.fff"));
+					CheckTBGuidColumn();
+					end = DateTime.Now;
+					Debug.WriteLine("End TBGuid column creation: " + end.ToString("hh:mm:ss.fff"));
+					ts = end - start;
+					Debug.WriteLine("TBGuid column creation - total seconds: " + ts.TotalSeconds.ToString());
 
 					// check delle colonne obbligatorie per le master tables del RowLevelSecurity
 					CheckRSMasterTablesColumns();
@@ -279,8 +295,16 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 						// importazione dati di default
 						if (importDefaultData)
 						{
+							start = DateTime.Now;
+							Debug.WriteLine("Start import default data: " + start.ToString("hh:mm:ss.fff"));
+
 							if (!impExpManager.ImportDefaultDataSilentMode() && OnInsertMessageInListView != null)
 								OnInsertMessageInListView();
+
+							end = DateTime.Now;
+							Debug.WriteLine("End import default data: " + end.ToString("hh:mm:ss.fff"));
+							ts = end - start;
+							Debug.WriteLine("Import default data - total seconds: " + ts.TotalSeconds.ToString());
 						}
 						// importazione dati di esempio
 						if (importSampleData)
