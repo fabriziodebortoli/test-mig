@@ -25,6 +25,6 @@
    CODE128C = 21,
    EAN128 = 22,
    DATAMATRIX = 23,
-   MicroQR = 24,
+   MICROQR = 24,
    QR = 25
 }
