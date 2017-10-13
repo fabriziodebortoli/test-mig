@@ -59,7 +59,7 @@ import { SettingsService } from './services/settings.service';
 import { HttpMenuService } from './services/http-menu.service';
 import { ImageService } from './services/image.service';
 
-const TB_MENU_SERVICES = [
+export const TB_MENU_SERVICES = [
   MenuService,
   ImageService,
   HttpMenuService,
