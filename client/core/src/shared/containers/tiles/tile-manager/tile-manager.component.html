@@ -2,7 +2,7 @@
     <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)">
         <kendo-tabstrip-tab *ngFor="let tile of getTiles();let i = index" [selected]="i == 0">
             <ng-template kendoTabTitle>
-                <tb-icon [iconType]="tile?.iconType" [icon]="tile?.icon" class="groupIcon"></tb-icon>
+                <tb-icon [iconType]="tile?.iconType" [icon]="tile?.icon" class="group-icon"></tb-icon>
                 <span>{{tile?.title}}</span>
             </ng-template>
             <ng-template kendoTabContent>

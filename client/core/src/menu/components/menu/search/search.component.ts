@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
-import { LocalizationService } from './../../../services/localization.service';
+import { LocalizationService } from './../../../../core/services/localization.service';
 import { SettingsService } from './../../../services/settings.service';
 import { MenuService } from './../../../services/menu.service';
 

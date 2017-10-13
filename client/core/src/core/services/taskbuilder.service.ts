@@ -5,9 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
-import { OperationResult, LoginSession } from '../../shared/models';
+import { OperationResult } from './../../shared/models/operation-result.model';
 
 import { InfoService } from './info.service';
 import { EventManagerService } from './../../menu/services/event-manager.service';
@@ -21,6 +21,7 @@ export class TaskbuilderService {
     errorMessages: string[] = [];
     redirectUrl = this.defaultUrl;
 
+    timeout = 30000;
     tbConnection = new BehaviorSubject(false);
     connected: Subject<boolean> = new BehaviorSubject(false);
 
@@ -78,17 +79,17 @@ export class TaskbuilderService {
 
     // provo ad aprire connessione TB
     openConnection() {
-        this.openTbConnection().delay(5000).repeat().takeUntil(this.tbConnection.filter(tbConnection => tbConnection === true)).subscribe();
+        this.openTbConnection().delay(this.timeout).repeat().takeUntil(this.tbConnection.filter(tbConnection => tbConnection === true)).subscribe();
     }
 
     openTbConnection(): Observable<boolean> {
 
         let authtoken = this.cookieService.get('authtoken');
         this.logger.debug("openTbConnection...", authtoken);
-        let isDesktop =  this.infoService.isDesktop;
+        let isDesktop = this.infoService.isDesktop;
         return new Observable(observer => {
-            this.httpService.openTBConnection({ authtoken: authtoken, isDesktop: isDesktop})
-                .timeout(15000)
+            this.httpService.openTBConnection({ authtoken: authtoken, isDesktop: isDesktop })
+                .timeout(this.timeout)
                 .catch((error: any) => Observable.throw(error))
                 .subscribe((tbRes: OperationResult) => {
                     this.logger.debug("openTBConnection result...", tbRes);

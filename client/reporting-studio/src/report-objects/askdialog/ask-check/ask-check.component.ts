@@ -23,8 +23,6 @@ export class AskCheckComponent extends CheckBoxComponent implements OnInit, DoCh
   public oldValue: boolean;
 
   ngOnInit() {
-
-    this.check.value = (this.check.value === 'True');
     this.oldValue = this.check.value;
   }
 

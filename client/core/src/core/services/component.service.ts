@@ -1,14 +1,12 @@
-
-
 import { Injectable, Type, ComponentFactoryResolver, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { ComponentInfo } from './../../shared/models/component-info.model';
 
 import { Logger } from './logger.service';
 import { HttpService } from './http.service';
 import { UtilsService } from './utils.service';
 import { WebSocketService } from './websocket.service';
-
-import { ComponentInfo } from '../../shared/models';
 
 @Injectable()
 export class ComponentService {

@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 
+import { LocalizationService } from './../../../core/services/localization.service';
 import { ComponentInfoService } from './../../../core/services/component-info.service';
 import { HttpMenuService } from './../../services/http-menu.service';
 import { MenuService } from './../../services/menu.service';
-import { LocalizationService } from './../../services/localization.service';
 import { SettingsService } from './../../services/settings.service';
 import { EventManagerService } from './../../services/event-manager.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
@@ -42,7 +42,7 @@ export class MenuComponent implements OnDestroy {
     };
 
     this.subscriptions.push(this.menuService.selectedGroupChanged.subscribe((title) => {
-      this.eventData.model.Title.value = title + ' Menu';
+      this.eventData.model.Title.value = this.menuService.selectedApplication.title + ' - ' + title;
     }));
 
     this.subscriptions.push(this.eventManagerService.loggingOff.subscribe((res) => {

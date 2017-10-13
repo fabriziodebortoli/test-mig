@@ -1,14 +1,17 @@
+import { InfoService } from './../../../core/services/info.service';
+import { formatDate } from '@telerik/kendo-intl';
 import { OperationResult } from './../../models/operation-result.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { TaskbuilderService } from './../../../core/services/taskbuilder.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Pipe, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'tb-application-date',
     templateUrl: './application-date.component.html',
-    styleUrls: ['./application-date.component.scss']
+    styleUrls: ['./application-date.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class ApplicationDateComponent implements OnInit, OnDestroy {
     applicationDate: Date = undefined;
@@ -16,12 +19,13 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
     dateFormat: string = '';
     internalDate: Date = undefined;
     errorMessage: string = "";
+    isDesktop: boolean;
 
     subscriptions: Subscription[] = [];
 
     public opened: boolean = false;
 
-    constructor(public httpMenuService: HttpMenuService, public taskbuilderService: TaskbuilderService) {
+    constructor(public infoService: InfoService, public httpMenuService: HttpMenuService, public taskbuilderService: TaskbuilderService) {
     }
 
     ngOnInit() {
@@ -30,6 +34,7 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
                 this.getDate();
         }));
         //this.localizationService.localizedElements
+        this.isDesktop = this.infoService.isDesktop;
     }
 
     ngOnDestroy() {
@@ -37,7 +42,6 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
     }
     getDate() {
         this.httpMenuService.getApplicationDate().subscribe((res) => {
-            console.log("dateInfo", res.dateInfo);
             if (!res.dateInfo)
                 return;
 
@@ -45,10 +49,10 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
             let parts = d[0].split("-");
             this.applicationDate = this.internalDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
             this.culture = res.dateInfo.culture;
-            this.dateFormat = res.dateInfo.dateFormat;
+            this.dateFormat = res.dateInfo.formatDate;
         })
     }
-
+    
     public handleChange(value: Date) {
         this.internalDate = value;
     }
@@ -56,6 +60,7 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
     public open() {
         this.opened = true;
     }
+
 
     public ok() {
         this.errorMessage = "";

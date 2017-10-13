@@ -82,7 +82,7 @@ namespace Microarea.Common
 		private string[]			managedExtensions	= null;
 		private DateTime			lastTimeStamp		= System.DateTime.MinValue;
 		private string				lastFileAccess		= string.Empty;
-        private TbSession session = null;
+        //private TbSession session = null;
         #endregion
 
         #region Properties
@@ -835,7 +835,7 @@ namespace Microarea.Common
 
 
         //-----------------------------------------------------------------------
-        public static void SaveXml(XmlDocument doc, string file) //TODOLUCA, questo sistema di salvataggio è da cambiare
+        public static void SaveXml(XmlDocument doc, string file)
         {
             using (FileStream fileStream = new FileStream(file, FileMode.OpenOrCreate))
             {

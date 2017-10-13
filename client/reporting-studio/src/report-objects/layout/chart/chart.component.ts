@@ -1,7 +1,7 @@
 import { chart } from './../../../models/chart.model';
 import { SeriesType } from '@progress/kendo-angular-charts';
 import { Component, Input, ChangeDetectorRef, AfterViewInit } from '@angular/core';
-import { ChartType, ChartTypeDecorator } from "./../../../models/chart-type.model";
+import { ChartType} from "./../../../models/chart-type.model";
 import { NgSwitch } from '@angular/common';
 
 @Component({
@@ -10,12 +10,12 @@ import { NgSwitch } from '@angular/common';
   styles: []
 })
 
-@ChartTypeDecorator
+
 export class ReportChartComponent implements AfterViewInit {
 
   @Input() chart: chart;
-  public ChartTypeEnums: ChartType;
 
+  public CT = ChartType;
   constructor(public cdRef: ChangeDetectorRef) { }
 
   ngAfterViewInit() {

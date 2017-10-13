@@ -1,15 +1,17 @@
 <div *ngIf="readingData">
   <img src="assets/ajax-loader.gif"  />
 </div>
-<md-list>
-  <md-list-item *ngFor="let item of items" (click)="goEditMode(item)" style="width:100%;cursor:pointer;background-color:#ffffff;">
-    <div style="padding-bottom:4px;border-bottom:1px solid #d0d0d0;width:100%;">
-      <div *ngFor="let columnName of columnNames; let last = last;" style="display:block; float:left; min-width:20%">
-        {{ item[columnName] }}
+<div class="list-container">
+  <md-list class="w-wide">
+    <md-list-item *ngFor="let item of items" (click)="goEditMode(item)">
+      <div class="item-container">
+        <div *ngFor="let columnName of columnNames; let last = last;" class="item-col-left">
+          {{ item[columnName] }}
+        </div>
+        <div *ngIf="rowCommand != undefined && rowCommand != ''" class="item-col-right">
+          <md-icon (click)="fireRowCommand(item)">{{ rowCommandIcon }}</md-icon>
+        </div>
       </div>
-      <div *ngIf="rowCommand != undefined && rowCommand != ''" style="display:block; float:right">
-        <md-icon (click)="fireRowCommand(item)">{{ rowCommandIcon }}</md-icon>
-      </div>
-    </div>
-  </md-list-item>
-</md-list>
+    </md-list-item>
+  </md-list>
+</div>

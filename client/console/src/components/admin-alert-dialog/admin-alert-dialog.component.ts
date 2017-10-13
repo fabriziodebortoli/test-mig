@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { MdDialog } from '@angular/material';
-import { MdDialogRef } from '@angular/material';
-import { MD_DIALOG_DATA } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 
 @Component({
@@ -11,8 +11,8 @@ import { MD_DIALOG_DATA } from '@angular/material';
 })
 export class AdminAlertDialogComponent {
 
-  constructor(public dialogRef: MdDialogRef<AdminAlertDialogComponent>,
-    @Inject(MD_DIALOG_DATA) public data: any) {}
+  constructor(public dialogRef: MatDialogRef<AdminAlertDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {}
 
     onNoClick(): void {
       this.dialogRef.close();

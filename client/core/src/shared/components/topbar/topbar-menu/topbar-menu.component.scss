@@ -1,68 +1,42 @@
 .tbcontainer {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: baseline;
+    align-items: center;
     justify-content: flex-end;
 }
 
-// .tbcontainer .topbar-menu-layout {
-//     padding: 10px;
-// }
+
+/*Bottoni del menu */
+
 .tbcontainer .topbar-menu-layout .k-button {
-    color: white;
-    background-color: #00578c;
+    color: #000000;
+    background-color: white;
     background-image: none;
     border-color: transparent;
-    border: 0;
+    border: 0px solid transparent;
     border-radius: 0px;
+    text-align: left;
+    font-size: 12px;
+    padding: 15px;
 }
 
-.tbcontainer .topbar-menu-layout .topbar-menu-button {
-    background-color: transparent;
-    border-width: 0px;
-    border-style: none;
-    border-color: transparent;
-    border-image: none;
-    padding-top: 5px;
-    margin: 0px;
+.tbcontainer .topbar-menu-layout .k-button:hover {
+    background-color: #efefef;
 }
 
 .tbcontainer #anchor {
-    padding: 10px;
+    padding: 10px 10px 0px 10px;
     cursor: pointer;
 }
 
 .tbcontainer #anchor:hover,
 .tbcontainer #anchor:focus,
 .tbcontainer #anchor:visited {
-    color: white;
-    background-color: #00578c;
-    outline-color: #00578c;
+    // background-color: #efefef;
+    outline-color: #0277BD;
     outline-style: auto;
     outline-width: 5px;
-}
-
-.tbcontainer .topbar-menu-layout .k-button:hover {
-    color: #0277BD;
-    background-color: white;
-    background-image: none;
-    border: 0;
-    border-left: 2px;
-    border-right: 2px;
-    border-radius: 0px;
-}
-
-.tbcontainer .topbar-menu-layout .topbar-menu-button:focus,
-.tbcontainer .topbar-menu-layout .topbar-menu-button:active {
-    background-color: #00578c;
-    background-image: none;
-    border: 0;
-    border-radius: 0px;
 }
 
 .tbcontainer .topbar-menu-layout.k-list .tbcontainer .topbar-menu-layout.k-item:focus,
@@ -91,7 +65,11 @@
     height: 24px;
 }
 
+.tbcontainer .k-popup {
+    margin-top: 12px;
+}
+
 .tbcontainer .k-popup,
 .k-menu.k-context-menu {
-    border-color: #00578c;
+    border: 0px solid transparent;
 }

@@ -2,11 +2,10 @@
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
-import { DiagnosticDlgResult, DiagnosticData } from './../../shared/models';
-import { MessageDlgArgs, MessageDlgResult } from './../../shared/models';
-import { SocketConnectionStatus } from '../../shared/models';
+import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
+import { SocketConnectionStatus } from './../../shared/models/websocket-connection.enum';
 
 import { TaskbuilderService } from './taskbuilder.service';
 import { InfoService } from './info.service';

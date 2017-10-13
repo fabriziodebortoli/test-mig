@@ -120,28 +120,40 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
         alert('Mandatory fields are empty! Check databases information!');
         return false;
       }
-
+      
       if (this.model.DBServer !== this.model.DMSDBServer) {
         alert('Both databases must be in the same server!');
         return false;
       }
-
+      
       if (this.model.DBName === this.model.DMSDBName) {
         alert('The databases names must be different!');
         return false;
       }
-
+      
+      if (this.model.DBOwner === this.model.DMSDBOwner) {
+        if (this.model.DBPassword !== this.model.DMSDBPassword) {
+          alert('Passwords different for same users!');
+          return false;
+        }
+      }
+      
       return true;
     }
     
     //--------------------------------------------------------------------------------------------------------
     submitDatabase() {
-
+      
       // first I check input values 
       
       if (!this.validateInput()) 
       return;
       
+      let adminLogin: string = prompt("Insert admin credentials login:");
+      let adminPw: string = prompt("Insert admin credentials password:");
+      
+      // if credentials are valid I test the connection
+
       let subscriptionKey: string = this.model.SubscriptionKey;
       
       // salvo prima il model

@@ -1,6 +1,5 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Controllers.Helpers.Tokens;
-using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
@@ -9,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using System.IO;
 
 namespace Microarea.AdminServer.Libraries
 {
@@ -30,7 +30,7 @@ namespace Microarea.AdminServer.Libraries
 
 			string[] tokenParts = jwtTokenText.Split('.');
 
-			if (tokenParts.Length != 3)
+			if (tokenParts.Length != 3) 
 			{
 				opRes.Result = false;
 				opRes.Code = (int)TokenReturnCodes.Invalid;
@@ -155,7 +155,7 @@ namespace Microarea.AdminServer.Libraries
 		{
 			// derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
 			string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-				password: input,
+				password: input, 
 				salt: salt,
 				prf: KeyDerivationPrf.HMACSHA1,
 				iterationCount: 10000,
@@ -164,10 +164,124 @@ namespace Microarea.AdminServer.Libraries
 			return hashed;
 		}
 
-		//-----------------------------------------------------------------------------	
-		public static string GetRandomPassword()
+        //-----------------------------------------------------------------------------	
+        public static string HashThis(DateTime input)
+        {
+            // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: input.ToUniversalTime().ToString("o"),
+                salt: null,
+                prf: KeyDerivationPrf.HMACSHA1,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+
+            return hashed;
+        }
+
+
+        //-----------------------------------------------------------------------------	
+        public static string GetRandomPassword()
 		{
-			return Guid.NewGuid().ToString();
-		}
-	}
+            //todo ripristina
+			return "Microarea..."; // Guid.NewGuid().ToString();
+        }
+
+
+        #region Crypting /Decrypting
+        //---------------------------------------------------------------------
+        public static string EncryptString(string text)
+        {
+            if (text == null) return null;
+            using (var aesAlg = Aes.Create())
+            {
+                using (var encryptor = aesAlg.CreateEncryptor(Encoding.UTF8.GetBytes(DirVal()), aesAlg.IV))
+                {
+                    using (var msEncrypt = new MemoryStream())
+                    {
+                        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                        using (var swEncrypt = new StreamWriter(csEncrypt))
+                        {
+                            swEncrypt.Write(text);
+                        }
+                        var iv = aesAlg.IV;
+                        var decryptedContent = msEncrypt.ToArray();
+                        var result = new byte[iv.Length + decryptedContent.Length];
+                        Buffer.BlockCopy(iv, 0, result, 0, iv.Length);
+                        Buffer.BlockCopy(decryptedContent, 0, result, iv.Length, decryptedContent.Length);
+                        return Convert.ToBase64String(result);
+                    }
+                }
+            }
+        }
+
+        //---------------------------------------------------------------------
+        public static string DecryptString(string text)
+        {
+            if (text == null) return null;
+            var fullCipher = Convert.FromBase64String(text);
+            var iv = new byte[16];
+            var cipher = new byte[fullCipher.Length - iv.Length];
+            Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
+            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, fullCipher.Length - iv.Length);
+
+            using (var aesAlg = Aes.Create())
+            {
+                using (var decryptor = aesAlg.CreateDecryptor(Encoding.UTF8.GetBytes(DirVal()), iv))
+                {
+                    string result;
+                    using (var msDecrypt = new MemoryStream(cipher))
+                    {
+                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                        {
+                            using (var srDecrypt = new StreamReader(csDecrypt))
+                            {
+                                result = srDecrypt.ReadToEnd();
+                            }
+                        }
+                    }
+                    return result;
+                }
+            }
+        }
+
+        /// <summary>
+        /// metodo dal nome vago che torna la chiave usata per crypt e decrypt sottoforma di arraydi byte, meno leggibilità per lieve offuscazione
+        /// H8jKhZjkdM l7na*+t5vfL08bVt_suca
+        /// </summary>;
+        /// <returns></returns>
+        //---------------------------------------------------------------------
+        static string DirVal()
+        {
+            byte[] bytes = new byte[] { 72, 0, 56, 0, 106, 0, 75, 0, 104, 0, 90, 0, 106, 0, 107, 0, 100, 0, 77, 0, 32, 0, 108, 0, 55, 0, 110, 0, 97, 0, 42, 0, 43, 0, 116, 0, 53, 0, 118, 0, 102, 0, 76, 0, 48, 0, 56, 0, 98, 0, 86, 0, 116, 0, 95, 0, 115, 0, 117, 0, 99, 0, 97, 0 };
+            char[] chars = new char[bytes.Length / sizeof(char)];
+            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
+            return new string(chars);
+        }
+
+        #endregion
+
+        //---------------------------------------------------------------------
+        public static DateTime GetDateFromCryptedString(string encrypted)
+        {  
+            //decrypt della stringa contenuta nel db e parse a datetime
+            string s = DecryptString(encrypted);
+            DateTime t = DateTime.MinValue;
+            DateTime.TryParse(s, out t);
+            return t.ToUniversalTime();
+
+        }
+
+        //---------------------------------------------------------------------
+        public static int GetDateHashing(DateTime t)
+        {
+            return t.ToUniversalTime().GetHashCode();
+        }
+
+        //---------------------------------------------------------------------
+        public static string GetCryptedStringFromDate(DateTime t)
+        {
+           return EncryptString(t.ToUniversalTime().ToString("s"));
+        }
+
+    }
 }

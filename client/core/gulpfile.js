@@ -71,8 +71,8 @@ gulp.task('rollup:fesm', function() {
         .pipe(rollup({
 
             // Bundle's entry point
-            // See https://github.com/rollup/rollup/wiki/JavaScript-API#entry
-            entry: `${buildFolder}/index.js`,
+            // See "input" in https://rollupjs.org/#core-functionality
+            input: `${buildFolder}/index.js`,
 
             // Allow mixing of hypothetical and actual files. "Actual" files can be files
             // accessed by Rollup or produced by plugins further down the chain.
@@ -81,17 +81,20 @@ gulp.task('rollup:fesm', function() {
             allowRealFiles: true,
 
             // A list of IDs of modules that should remain external to the bundle
-            // See https://github.com/rollup/rollup/wiki/JavaScript-API#external
+            // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/animation', '@angular/core', '@angular/common', '@angular/http', '@angular/material', '@angular/router', '@angular/forms',
-                // 'angular2-cookie/services/cookies.service', 'angular2-masonry/index', 'json8-patch',
-                // 'rxjs', 'rxjs/Rx', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject', 'hammerjs',
-                // '@progress/kendo-angular-layout', '@progress/kendo-angular-dialog', '@progress/kendo-angular-popup', '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid', '@progress/kendo-angular-charts'
+                '@angular/animation', '@angular/core', '@angular/common', '@angular/http', '@angular/material', '@angular/router', '@angular/forms', '@angular/animations', '@angular/material/index',
+                'rxjs', 'rxjs/Rx', 'rxjs/Observable', 'rxjs/add/observable/of', 'rxjs/add/operator/map', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject',
+                '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
+                '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
+                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'ngx-cookie'
             ],
 
             // Format of generated bundle
-            // See https://github.com/rollup/rollup/wiki/JavaScript-API#format
-            format: 'es'
+            // See "format" in https://rollupjs.org/#core-functionality
+            format: 'es',
+
+            onwarn: function(warning) { if (warning.code === 'THIS_IS_UNDEFINED') { return; } else console.warn(warning.message); }
         }))
         .pipe(gulp.dest(distFolder));
 });
@@ -106,8 +109,8 @@ gulp.task('rollup:umd', function() {
         .pipe(rollup({
 
             // Bundle's entry point
-            // See https://github.com/rollup/rollup/wiki/JavaScript-API#entry
-            entry: `${buildFolder}/index.js`,
+            // See "input" in https://rollupjs.org/#core-functionality
+            input: `${buildFolder}/index.js`,
 
             // Allow mixing of hypothetical and actual files. "Actual" files can be files
             // accessed by Rollup or produced by plugins further down the chain.
@@ -116,30 +119,59 @@ gulp.task('rollup:umd', function() {
             allowRealFiles: true,
 
             // A list of IDs of modules that should remain external to the bundle
-            // See https://github.com/rollup/rollup/wiki/JavaScript-API#external
+            // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/animation', '@angular/core', '@angular/common', '@angular/http', '@angular/material', '@angular/router', '@angular/forms',
-                // 'angular2-cookie/services/cookies.service', 'angular2-masonry/index', 'json8-patch',
-                // 'rxjs', 'rxjs/Rx', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject', 'hammerjs',
-                // '@progress/kendo-angular-layout', '@progress/kendo-angular-dialog', '@progress/kendo-angular-popup', '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid', '@progress/kendo-angular-charts'
+                '@angular/animation', '@angular/core', '@angular/common', '@angular/http', '@angular/material', '@angular/router', '@angular/forms', '@angular/animations', '@angular/material/index',
+                'rxjs', 'rxjs/Rx', 'rxjs/Observable', 'rxjs/add/observable/of', 'rxjs/add/operator/map', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject',
+                '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
+                '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
+                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'ngx-cookie'
             ],
 
             // Format of generated bundle
-            // See https://github.com/rollup/rollup/wiki/JavaScript-API#format
+            // See "format" in https://rollupjs.org/#core-functionality
             format: 'umd',
 
             // Export mode to use
-            // See https://github.com/rollup/rollup/wiki/JavaScript-API#exports
+            // See "exports" in https://rollupjs.org/#danger-zone
             exports: 'named',
 
             // The name to use for the module for UMD/IIFE bundles
             // (required for bundles with exports)
-            // See https://github.com/rollup/rollup/wiki/JavaScript-API#modulename
-            moduleName: 'taskbuilder-core',
+            // See "name" in https://rollupjs.org/#core-functionality
+            name: 'taskbuilder-core',
 
-            // See https://github.com/rollup/rollup/wiki/JavaScript-API#globals
+            // See "globals" in https://rollupjs.org/#core-functionality
             globals: {
-                typescript: 'ts'
+                typescript: 'ts',
+                '@angular/core': 'core',
+                '@angular/common': 'common',
+                '@angular/material': 'material',
+                '@angular/router': 'router',
+                '@angular/http': 'http',
+                'rxjs/Observable': 'Observable',
+                'rxjs/Rx': 'Rx',
+                'json8-patch': 'json8Patch',
+                'rxjs/BehaviorSubject': 'BehaviorSubject',
+                'rxjs/Subject': 'Subject',
+                '@angular/forms': 'forms',
+                '@angular/material/index': 'index',
+                '@taskbuilder/icons': 'icons',
+                '@progress/kendo-angular-dialog': 'kendoAngularDialog',
+                '@progress/kendo-angular-layout': 'kendoAngularLayout',
+                '@progress/kendo-angular-popup': 'kendoAngularPopup',
+                '@progress/kendo-angular-buttons': 'kendoAngularButtons',
+                '@progress/kendo-angular-inputs': 'kendoAngularInputs',
+                '@progress/kendo-angular-dateinputs': 'kendoAngularDateinputs',
+                '@progress/kendo-angular-dropdowns': 'kendoAngularDropdowns',
+                '@progress/kendo-angular-grid': 'kendoAngularGrid',
+                '@progress/kendo-angular-charts': 'kendoAngularCharts',
+                'angular-tree-component': 'angularTreeComponent',
+                'rxjs': 'rxjs',
+                '@progress/kendo-data-query': 'kendoDataQuery',
+                '@angular/animations': 'animations',
+                '@telerik/kendo-intl': 'kendoIntl',
+                'ngx-cookie/index': 'ngx-cookie'
             }
 
         }))

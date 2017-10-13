@@ -4,6 +4,7 @@ using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
 using System.Collections.Generic;
+using Microarea.AdminServer.Libraries;
 
 namespace Microarea.AdminServer.Model
 {
@@ -76,7 +77,7 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@DBServer", this.DBServer));
             burgerDataParameters.Add(new BurgerDataParameter("@DBName", this.DBName));
             burgerDataParameters.Add(new BurgerDataParameter("@DBOwner", this.DBOwner));
-            burgerDataParameters.Add(new BurgerDataParameter("@DBPassword", this.DBPassword));
+            burgerDataParameters.Add(new BurgerDataParameter("@DBPassword", SecurityManager.EncryptString(this.DBPassword)));
             burgerDataParameters.Add(new BurgerDataParameter("@DatabaseCulture", this.DatabaseCulture));
             burgerDataParameters.Add(new BurgerDataParameter("@Disabled", this.Disabled));
             burgerDataParameters.Add(new BurgerDataParameter("@IsUnicode", this.IsUnicode));
@@ -85,7 +86,7 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@DMSDBServer", this.DMSDBServer));
             burgerDataParameters.Add(new BurgerDataParameter("@DMSDBName", this.DMSDBName));
             burgerDataParameters.Add(new BurgerDataParameter("@DMSDBOwner", this.DMSDBOwner));
-            burgerDataParameters.Add(new BurgerDataParameter("@DMSDBPassword", this.DMSDBPassword));
+            burgerDataParameters.Add(new BurgerDataParameter("@DMSDBPassword", SecurityManager.EncryptString( this.DMSDBPassword)));
             burgerDataParameters.Add(new BurgerDataParameter("@Test", this.Test));
 			burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.UnderMaintenance));
 
@@ -112,7 +113,7 @@ namespace Microarea.AdminServer.Model
 				DBServer = dataReader["DBServer"] as string,
 				DBName = dataReader["DBName"] as string,
 				DBOwner = dataReader["DBOwner"] as string,
-				DBPassword = dataReader["DBPassword"] as string,
+				DBPassword = SecurityManager.DecryptString(dataReader["DBPassword"] as string),
 				DatabaseCulture = dataReader["DatabaseCulture"] as string,
 				Disabled = (bool)dataReader["Disabled"],
 				IsUnicode = (bool)dataReader["IsUnicode"],
@@ -121,7 +122,7 @@ namespace Microarea.AdminServer.Model
 				DMSDBServer = dataReader["DMSDBServer"] as string,
 				DMSDBName = dataReader["DMSDBName"] as string,
 				DMSDBOwner = dataReader["DMSDBOwner"] as string,
-				DMSDBPassword = dataReader["DMSDBPassword"] as string,
+				DMSDBPassword = SecurityManager.DecryptString( dataReader["DMSDBPassword"] as string),
 				Test = (bool)dataReader["Test"],
 				UnderMaintenance = (bool)dataReader["UnderMaintenance"]
 			};

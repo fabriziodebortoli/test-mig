@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 
 import { LayoutService } from './../../../../core/services/layout.service';
 import { TileGroupComponent } from './../tile-group/tile-group.component';
-import { TabberComponent } from '../../tabs';
 
 @Component({
   selector: 'tb-tilemanager',

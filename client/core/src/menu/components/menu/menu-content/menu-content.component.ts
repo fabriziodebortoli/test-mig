@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 
 import { EventManagerService } from './../../../services/event-manager.service';
 import { ImageService } from './../../../services/image.service';
@@ -13,6 +13,9 @@ import { HttpMenuService } from './../../../services/http-menu.service';
 })
 export class MenuContentComponent {
 
+  @HostBinding('class.brick--width2') width2: boolean = false;
+
+
   constructor(
     public httpMenuService: HttpMenuService,
     public menuService: MenuService,
@@ -20,6 +23,7 @@ export class MenuContentComponent {
     public imageService: ImageService,
     public eventManagerService: EventManagerService
   ) {
+
   }
 
   public objects: any;
@@ -33,6 +37,7 @@ export class MenuContentComponent {
   set tile(tile: any) {
     this._tile = tile;
     this.objects = this.utilsService.toArray(this._tile.Object);
+    // this.width2 = this.objects.length > 10;
   }
 
   getPinnedClass(tile) {

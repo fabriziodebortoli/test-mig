@@ -1,12 +1,16 @@
+import { LocalizationService } from './../../../core/services/localization.service';
+import { LoadingService } from './../../../core/services/loading.service';
+import { MenuService } from './../../services/menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 import { LoginSession } from './../../../shared/models/login-session.model';
 
+import { UtilsService } from './../../../core/services/utils.service';
 import { Logger } from './../../../core/services/logger.service';
 import { HttpService } from './../../../core/services/http.service';
 import { AuthService } from './../../../core/services/auth.service';
@@ -26,26 +30,34 @@ import { AuthService } from './../../../core/services/auth.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  companies: any[] = [];
+  public placeHolder: { name: string } = { name: "Select company..." };
+  // public companies: Array<{ name: string }> = [];
+  public companies: any = [];
+
   connectionData: LoginSession = new LoginSession();
-  loading: boolean = false;
   errorMessages: string[] = [];
   userAlreadyConnectedOpened: boolean = false;
+  clearCachedData: boolean = false;
 
   constructor(
     public authService: AuthService,
     public cookieService: CookieService,
     public router: Router,
     public logger: Logger,
-    public httpService: HttpService
+    public httpService: HttpService,
+    public utilsService: UtilsService,
+    public menuService: MenuService,
+    public localizationService: LocalizationService,
+    public loadingService: LoadingService
   ) {
-
+    this.loadingService.setLoading(false);
+    this.localizationService.loadLocalizedElements()
   }
 
   //-------------------------------------------------------------------------------------
   ngOnInit() {
-    this.loadState();
 
+    this.loadState();
     if (this.connectionData.user != undefined) {
       this.getCompaniesForUser(this.connectionData.user);
     }
@@ -64,16 +76,30 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   //-------------------------------------------------------------------------------------
   getCompaniesForUser(user: string) {
-
     let subs = this.httpService.getCompaniesForUser(user).subscribe((result) => {
+      this.companies = result.Companies.Company.sort(this.compareCompanies).map(c => c.name);
 
-      this.companies = result.Companies.Company;
-      if (this.companies.length > 0 && this.connectionData.company == undefined)
-        this.connectionData.company = this.companies[0].name;
+      if (this.companies.length > 0 && this.connectionData.company == undefined) {
+        this.logger.log("this.companies.length", this.companies.length)
+        this.connectionData.company = this.companies[0];
+      }
 
       subs.unsubscribe();
     });
   }
+
+  //---------------------------------------------------------------------------------------------
+  compareCompanies(c1, c2) {
+    if (c1.name > c2.name) {
+      return 1;
+    }
+    else
+      if (c1.name < c2.name) {
+        return -1;
+      }
+    return 0;
+  }
+
 
   //-------------------------------------------------------------------------------------
   loadState() {
@@ -90,37 +116,38 @@ export class LoginComponent implements OnInit, OnDestroy {
   //-------------------------------------------------------------------------------------
   login() {
     this.saveState();
-    this.loading = true;
+    this.loadingService.setLoading(true, this.localizationService.localizedElements.Loading);
     this.authService.login(this.connectionData).subscribe(result => {
       if (result.success) {
+        console.log(this.clearCachedData);
+        this.menuService.clearCachedData = this.clearCachedData;
         let url = this.authService.getRedirectUrl();
         this.logger.debug('Redirect Url', url);
-        this.loading = false;
+        this.loadingService.setLoading(false);
         this.router.navigate([url]);
       } else {
         this.logger.debug('Login Error', this.authService.errorMessage);
-        this.loading = false;
+        this.loadingService.setLoading(false);
         if (result.errorCode == 9)
-        this.userAlreadyConnectedOpened = true;
+          this.userAlreadyConnectedOpened = true;
       }
     });
   }
 
-  keyDownFunction(event) {
+  keyUpFunction(event) {
     if (event.keyCode === 13) {
       this.login();
     }
   }
 
-  userConnectedYes(){
+  userConnectedYes() {
     this.connectionData.overwrite = true;
     this.login();
     this.connectionData.overwrite = false;
-
     this.userAlreadyConnectedOpened = false;
 
   }
-  userConnectedCancel(){
+  userConnectedCancel() {
     this.userAlreadyConnectedOpened = false;
   }
 }

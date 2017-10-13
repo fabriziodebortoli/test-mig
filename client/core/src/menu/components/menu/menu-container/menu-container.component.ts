@@ -1,9 +1,7 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit, ViewContainerRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { MasonryOptions } from "angular2-masonry";
-
-import { LocalizationService } from './../../../services/localization.service';
+import { LocalizationService } from './../../../../core/services/localization.service';
 import { SettingsService } from './../../../services/settings.service';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { MenuService } from './../../../services/menu.service';
@@ -15,19 +13,20 @@ import { MenuService } from './../../../services/menu.service';
   encapsulation: ViewEncapsulation.None
 })
 
-export class MenuContainerComponent implements AfterViewInit, OnDestroy {
+export class MenuContainerComponent implements AfterContentInit, OnDestroy {
   public subscriptions: Subscription[] = [];
   public selectedGroupChangedSubscription;
   public tiles: any[];
 
   @ViewChild('tabber') tabber;
-  @ViewChild('masonryContainer') masonryContainer: any;
+
   constructor(
     public menuService: MenuService,
     public utilsService: UtilsService,
     public settingsService: SettingsService,
     public localizationService: LocalizationService
   ) {
+
     this.subscriptions.push(this.menuService.menuActivated.subscribe(() => {
       this.tiles = this.getTiles();
       this.changeTabWhenMenuChanges();
@@ -45,21 +44,17 @@ export class MenuContainerComponent implements AfterViewInit, OnDestroy {
   }
 
   refreshLayout() {
-    if (this.masonryContainer != undefined) {
-      this.masonryContainer.layout();
-    }
+    console.log("menuContainer.refreshLayout()");
   }
 
-  public masonryOptions: MasonryOptions = {
-    transitionDuration: '0.2s'
-  };
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
 
 
   }
 
   initTab() {
+
     if (this.menuService.selectedGroup == undefined) {
       return;
     }
@@ -95,9 +90,10 @@ export class MenuContainerComponent implements AfterViewInit, OnDestroy {
   }
 
   findTabIndexByMenu(): number {
+    let tempMenuArray = this.utilsService.toArray(this.menuService.selectedGroup.Menu);
 
-    for (let i = 0; i < this.menuService.selectedGroup.Menu.length; i++) {
-      if (this.menuService.selectedGroup.Menu[i].title == this.menuService.selectedMenu.title)
+    for (let i = 0; i < tempMenuArray.length; i++) {
+      if (tempMenuArray[i].title == this.menuService.selectedMenu.title)
         return i;
     }
     return -1;

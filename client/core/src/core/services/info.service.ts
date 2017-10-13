@@ -3,7 +3,7 @@ import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Logger } from './logger.service';
@@ -22,7 +22,7 @@ export class InfoService {
     productInfo: any;
     dictionaries: any;
     culture = { enabled: true, value: '' };
-    cultureId = '_culture';
+    cultureId = 'ui_culture';
 
     constructor(
         public http: Http,
@@ -34,6 +34,9 @@ export class InfoService {
 
     saveCulture() {
         this.cookieService.put(this.cultureId, this.culture.value);
+    }
+    setCulture (culture:string){
+        this.culture.value = culture;
     }
 
     load() {
@@ -85,7 +88,6 @@ export class InfoService {
             else {
                 let url = this.getDataServiceUrl() + 'getinstalleddictionaries';
                 let sub = this.request(url, {})
-                    .map(res => res.json())
                     .subscribe(result => {
                         this.logger.debug("dictionaries", result);
                         this.dictionaries = result.dictionaries;
@@ -129,8 +131,9 @@ export class InfoService {
         return url + 'erp/core/';
     }
 
+    //TODO da spostare nel httpservice della libreria di controlli
     getNetCoreErpCoreBaseUrl() {
-       return this.getBaseUrl() +  '/erp-core/';
+        return this.getBaseUrl() + '/erp-core/';
     }
 
     getAccountManagerBaseUrl() {

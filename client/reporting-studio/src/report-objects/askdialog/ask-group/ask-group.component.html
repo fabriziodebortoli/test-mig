@@ -3,7 +3,7 @@
 </h3>
 <hr>
 <div *ngIf="askGroup.isRadioGroup">
-    <md-radio-group>
+    <mat-radio-group>
         <div *ngFor="let item of askGroup.entries">
             <div [ngSwitch]="item.obj" *ngIf="!item.hidden">
                 <rs-ask-text [text]="item" *ngSwitchCase="0"> </rs-ask-text>
@@ -13,7 +13,7 @@
                 <rs-ask-hotlink [hotlink]="item" *ngSwitchCase="4"></rs-ask-hotlink>
             </div>
         </div>
-    </md-radio-group>
+    </mat-radio-group>
 </div>
 
 <div *ngIf="!askGroup.isRadioGroup">

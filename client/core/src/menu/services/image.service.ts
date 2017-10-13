@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 import { Logger } from './../../core/services/logger.service';
 import { InfoService } from './../../core/services/info.service';
@@ -76,6 +76,8 @@ export class ImageService {
             return 'tb-options';
         if (target.toLowerCase() == "wizard")
             return 'tb-colours';
+        if (target.toLowerCase() == "function")
+            return 'tb-dossier';
         return 'close';
     }
 

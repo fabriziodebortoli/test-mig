@@ -16,15 +16,17 @@ namespace Microarea.TbLoaderGate
         public string BaseUrl { get { return string.Concat("http://", server, ":", httpPort); } }
 
 		//-----------------------------------------------------------------------------------------
-		public TBLoaderInstance()
+		public TBLoaderInstance(string server, int port)
 		{
-			this.name = Guid.NewGuid().ToString();
+            this.httpPort = port;
+            this.server = server;
+            this.name = Guid.NewGuid().ToString();
 		}
 
 		//-----------------------------------------------------------------------------------------
 		internal async Task ExecuteAsync()
         {
-            TBLoaderService svc = new TBLoaderService();
+            TBLoaderService svc = new TBLoaderService(server, httpPort);
 			TBLoaderResponse response =  await svc.ExecuteRemoteProcessAsync(name);
 			httpPort = response.Port;
 			processId = response.ProcessId;

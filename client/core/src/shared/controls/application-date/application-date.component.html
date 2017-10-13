@@ -1,15 +1,16 @@
-<div (click)="open()">
-    <kendo-dateinput [disabled]="true" [value]="applicationDate"></kendo-dateinput>
-    <m4-icon icon="erp-calendarflash"></m4-icon>
+<div (click)="open()" id="divOpDate" class="topBarMenuComponentLike">
+    <m4-icon icon="erp-calendarflash" matTooltip='Operation Date: {{applicationDate | date: dateFormat  }}'></m4-icon>
 </div>
 
 <kendo-dialog title="Change application date" *ngIf="opened" (close)="cancel()">
-    <div *ngIf="applicationDate != undefined">
+    <div *ngIf="applicationDate != undefined" style="text-align: center; margin: 30px;">
         <kendo-datepicker [format]="dateFormat" [value]="applicationDate" (valueChange)="handleChange($event)"></kendo-datepicker>
         <label>{{errorMessage}}</label>
     </div>
     <kendo-dialog-actions>
-        <button kendoButton (click)="ok()" [primary]="true">Ok</button>
-        <button kendoButton (click)="cancel()" [primary]="true">Cancel</button>
+        <button kendoButton (click)="cancel()">Cancel</button>
+        <!--primary="true" -->
+        <button kendoButton (click)="ok()" primary="true">Change</button>
+
     </kendo-dialog-actions>
 </kendo-dialog>

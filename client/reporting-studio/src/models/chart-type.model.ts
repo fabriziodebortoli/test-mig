@@ -29,7 +29,3 @@ export enum ChartType
     Pyramid, RadarScatter
     //versioni 3D di bar,column,area  
 }
-
-export function ChartTypeDecorator(constructor: Function) {
-    constructor.prototype.ChartType = ChartType;
-}

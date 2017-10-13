@@ -1,5 +1,5 @@
-<div id="anchor" #anchor tabindex="0" (blur)="closePopupIf()" (click)="onToggle()">
-    <m4-icon icon="{{fontIcon}}"></m4-icon>
+<div id="anchor" #anchor tabindex="0" (blur)="closePopupIf()">
+    <m4-icon icon="{{fontIcon}}" (click)="onToggle()"></m4-icon>
     <kendo-popup *ngIf="show" class='wrapper' [anchor]="anchor" (anchorViewportLeave)="outView(null)" (open)="onOpen()" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
         <button kendoButton *ngFor="let menuItem of menuElements" class="content" [disabled]="!menuItem?.enabled" (mouseenter)="openSubItems(true, menuItem)" (mouseleave)="openSubItems(false, menuItem)" (mousedown)="setMouseDown()" (click)="doCommand(menuItem)">
             <div #anchor2 class="divW">

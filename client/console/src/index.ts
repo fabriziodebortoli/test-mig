@@ -1,6 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdIconModule, MdSidenavContainer, MdSidenavModule, MdToolbarModule, MdButtonModule, MdListModule, MdDialogModule, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MatIconModule, MatSidenavContainer, MatSidenavModule, MatToolbarModule, MatButtonModule, MatListModule, 
+  MatDialogModule, MatInputModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SampleComponent } from './sample.component';
@@ -14,10 +15,9 @@ import { AdminIconComponent } from "./components/admin-icon/admin-icon.component
 import { AdminInputTextComponent } from "./components/admin-input-text/admin-input-text.component";
 import { AdminAlertComponent } from './components/admin-alert/admin-alert.component';
 import { AdminAlertDialogComponent } from './components/admin-alert-dialog/admin-alert-dialog.component';
-
+import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { InputsModule } from '@progress/kendo-angular-inputs';
-import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
 
 
 // import { SampleDirective } from './sample.directive';
@@ -33,15 +33,16 @@ export * from './sample.component';
   imports: [
     FormsModule,
     BrowserAnimationsModule,
-    ButtonsModule,
-    InputsModule,
-    MdSidenavModule,
-    MdIconModule,
+    MatSidenavModule,
+    MatIconModule,
     CommonModule,
-    MdButtonModule,
-    MdToolbarModule,
-    MdListModule,
-    MdDialogModule
+    MatButtonModule,
+    MatToolbarModule,
+    MatListModule,
+    MatDialogModule,
+    MatInputModule,
+    ButtonsModule,
+    InputsModule
   ],
   declarations: [
     SampleComponent,

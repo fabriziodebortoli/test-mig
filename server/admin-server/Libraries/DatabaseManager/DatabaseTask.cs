@@ -309,7 +309,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 							NameSolverDatabaseStrings.SQLLatinCollation // imposto la COLLATION di database con Latin1...
 							);
 
+						DateTime start = DateTime.Now;
+						Debug.WriteLine(string.Format("Start SQL Server database {0} creation: ", createParameters.DatabaseName) + start.ToString("hh:mm:ss.fff"));
 						createDbCommand.ExecuteNonQuery();
+						DateTime end = DateTime.Now;
+						Debug.WriteLine("End SQL Server database creation: " + end.ToString("hh:mm:ss.fff"));
+						TimeSpan ts = end - start;
+						Debug.WriteLine("SQL Server database creation - total seconds: " + ts.TotalSeconds.ToString());
 					}
 
 					// se si è scelta l'opzione "Truncate file log at checkpoints" devo impostare il RecoveryModel = SIMPLE
@@ -416,7 +422,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 							azureParams.MaxSize                         // max size
 							);
 
+						DateTime start = DateTime.Now;
+						Debug.WriteLine(string.Format("Start Azure database {0} creation: ", azureParams.DatabaseName) + start.ToString("hh:mm:ss.fff"));
 						createDbCommand.ExecuteNonQuery();
+						DateTime end = DateTime.Now;
+						Debug.WriteLine("End Azure database creation: " + end.ToString("hh:mm:ss.fff"));
+						TimeSpan ts = end - start;
+						Debug.WriteLine("Azure database creation - total seconds: " + ts.TotalSeconds.ToString());
 					}
 
 					// se si è scelta l'opzione "Auto shrink" devo impostare il parametro AUTO_SHRINK a ON
@@ -1103,11 +1115,58 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					using (SqlCommand myCommand = new SqlCommand())
 					{
 						myCommand.Connection = myConnection;
-						myCommand.CommandText = string.Format("CREATE USER [{0}] FOR LOGIN [{0}] WITH DEFAULT_SCHEMA = [dbo]", login);
-						myCommand.ExecuteNonQuery();
 
-						myCommand.CommandText = string.Format("ALTER ROLE {0} ADD MEMBER [{1}]", DatabaseLayerConsts.RoleDbOwner, login);
-						myCommand.ExecuteNonQuery();
+						try
+						{
+							myCommand.CommandText = string.Format("CREATE USER [{0}] FOR LOGIN [{0}] WITH DEFAULT_SCHEMA = [dbo]", login);
+							myCommand.ExecuteNonQuery();
+						}
+						catch (SqlException e)
+						{
+							// se il numero dell'errore è 15023 significa che si sta aggiungendo un utente che già esiste
+							// perciò non devo dare un errore bloccante che invalida l'operazione, bensì procedere con le successive elaborazioni
+							if (e.Number == 15023)
+                                Diagnostic.Set(DiagnosticType.Warning, string.Format(DatabaseManagerStrings.UserAlreadyExists, login) + e.Message);
+
+							// se il numero dell'errore è 15247 significa che l'utente che ha aperto la connessione
+							// non ha i privilegi per creare una una login. Pertanto blocco l'elaborazione.
+							if (e.Number == 15247)
+							{
+								Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, login) + e.Message);
+								return false;
+							}
+                            //la login ha già un account sotto un differente username
+                            if (e.Number == 15063)
+                            {
+                                Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.LoginAlreadyExists, login) + e.Message);
+                                return false;
+                            }
+                            // se il numero dell'errore è 15118 significa che si sta aggiungendo un utente associata ad una login la cui password
+                            // non rispetta le politiche di sicurezza imposte da Windows. 
+                            if (e.Number == 15118)
+							{
+								Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.PwdValidationFailed, login) + e.Message);
+								return false;
+							}
+						}
+
+						try
+						{
+							myCommand.CommandText = string.Format("ALTER ROLE {0} ADD MEMBER [{1}]", DatabaseLayerConsts.RoleDbOwner, login);
+							myCommand.ExecuteNonQuery();
+						}
+						catch (SqlException e)
+						{
+							// se il numero dell'errore è 15151 significa che si sta modificando il ruolo di un utente che non e' stato ancora 
+							// aggiunto al database (Cannot add the principal 'Test1', because it does not exist or you do not have permission.)
+							if (e.Number == 15151)
+							{
+								Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, login) + e.Message);
+								return false;
+							}
+
+							return false;
+						}
 					}
 				}
 			}
@@ -1124,41 +1183,6 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
 				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
 				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
-
-				// se il numero dell'errore è 15023 significa che si sta aggiungendo un utente che già esiste
-				// perciò non devo dare un errore bloccante che invalida l'operazione, bensì procedere con le
-				// successive elaborazioni
-				if (e.Number == 15023)
-				{
-					Diagnostic.Set(DiagnosticType.Warning, string.Format(DatabaseManagerStrings.UserAlreadyExists, login), extendedInfo);
-					return true;
-				}
-
-				// se il numero dell'errore è 15247 significa che l'utente che ha aperto la connessione
-				// non ha i privilegi per creare una una login. Pertanto blocco l'elaborazione.
-				if (e.Number == 15247)
-				{
-					Diagnostic.Set
-						(DiagnosticType.Error,
-						string.Format(DatabaseManagerStrings.UserWithoutPermission, login) + e.Message,
-						extendedInfo);
-					return false;
-				}
-
-				// se il numero dell'errore è 15118 significa che si sta aggiungendo un account la cui password
-				// non rispetta le politiche di sicurezza imposte da Windows. 
-				// WinXP e Win2003 prevedono di default politiche restrittive sull'uso delle password ed il supporto
-				// di SQLServer2005 utilizza le stesse dll. In caso di password per utenti non abbastanza "strong"
-				// (ad es. anche la pwd vuota) viene ritornato questo specifico errore e si visualizza un apposito msg.
-				if (e.Number == 15118)
-				{
-					Diagnostic.Set
-						(DiagnosticType.Error,
-						string.Format(DatabaseManagerStrings.PwdValidationFailed, login) + e.Message,
-						extendedInfo);
-					return false;
-				}
-
 				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrorCreateLogin, extendedInfo);
 				return false;
 			}
@@ -1280,9 +1304,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					using (SqlCommand myCommand = new SqlCommand(query, myConnection))
 					{
 						myCommand.Parameters.AddWithValue("@User", loginName);
-
-						if ((int)myCommand.ExecuteScalar() == 1)
-							existLogin = true;
+                        existLogin = (int)myCommand.ExecuteScalar() == 1;
 					}
 				}
 			}

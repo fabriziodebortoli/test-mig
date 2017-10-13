@@ -1,3 +1,4 @@
+import { barcode } from './../../models/barcode.model';
 import { chart, series } from './../../models/chart.model';
 
 import { LayoutService } from '@taskbuilder/core';
@@ -6,19 +7,18 @@ import { RsExportService } from './../../rs-export.service';
 import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, repeater, PdfType, SvgType, PngType } from './../../models';
 import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
-import { ReportObjectTypeDecorator, ReportObjectType } from '../../models/report-object-type.model';
+import { ReportObjectType } from '../../models/report-object-type.model';
 
 @Component({
   selector: 'rs-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-@ReportObjectTypeDecorator
+
 export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() reportTemplate;
   @Input() reportData;
-
 
   public layoutStyle: any = {};
   public layoutBackStyle: any = {};
@@ -28,6 +28,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   public viewHeightSubscription: Subscription;
   public viewHeight: number;
   public showAsk: boolean;
+  public ROT = ReportObjectType;
 
   constructor(public layoutService: LayoutService, public rsService: ReportingStudioService, public rsExportService: RsExportService) { }
 
@@ -75,23 +76,24 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   // -----------------------------------------------
   async createPDF() {
     if (this.rsService.pageNum == this.rsExportService.firstPageExport) {
-      await this.rsExportService.eventNextPage.emit();
+      //await this.rsExportService.eventNextPage.emit();
       if (this.rsExportService.lastPageExport == this.rsExportService.firstPageExport) {
         this.rsExportService.renderPDF();
         return;
       }
-      return;
+      //return;
     }
 
-    this.rsExportService.appendPDF().then(() => {
-      if (this.rsService.pageNum != this.rsExportService.lastPageExport) {
-        this.rsExportService.eventNextPage.emit();
-      }
-      else {
-        this.rsExportService.renderPDF();
-      }
-    });
+    if (this.rsService.pageNum != this.rsExportService.lastPageExport) {
+      this.rsExportService.appendPDF().then(() => {
+          this.rsExportService.eventNextPage.emit();
+        });
+    
+    }
 
+    else
+      this.rsExportService.renderPDF();
+    
   }
 
   // -----------------------------------------------
@@ -139,7 +141,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       else if (element.chart !== undefined) {
         obj = new chart(element.chart);
       }
-      else //skip unknown objects         
+      else //skip unknown objects
         continue;
 
       objects.push(obj);

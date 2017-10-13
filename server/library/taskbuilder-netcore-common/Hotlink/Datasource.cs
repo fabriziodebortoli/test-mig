@@ -215,7 +215,7 @@ namespace Microarea.Common.Hotlink
 
         //---------------------------------------------------------------------
 
-        public async Task<bool> PrepareRadarAsync(HttpRequest request)
+        public bool PrepareRadar(HttpRequest request)
         {
             string query =  request.Form["query"];
             string columnInfos = request.Form["columnInfos"];
