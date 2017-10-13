@@ -1,3 +1,4 @@
 <div *ngIf="!rect.hidden" [ngStyle]="applyStyle()">
-  <div  [innerHtml]="rect.value" [ngStyle]="applyValueStyle()"></div>
+  <div *ngIf="!rect.value_is_barcode" [innerHtml]="rect.value" [ngStyle]="applyValueStyle()"></div>
+  <rs-barcode *ngIf="rect.value_is_barcode" [barcode]="rect.barcode" [rect]="rect" [value]="rect.velue"></rs-barcode>
 </div>
