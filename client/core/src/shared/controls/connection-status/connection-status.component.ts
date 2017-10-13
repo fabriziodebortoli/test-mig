@@ -1,8 +1,8 @@
-import { LocalizationService } from '@taskbuilder/core';
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { SocketConnectionStatus } from '../../models/websocket-connection.enum';
+import { LocalizationService } from './../../../core/services/localization.service';
 import { WebSocketService } from './../../../core/services/websocket.service';
 
 import { ControlComponent } from './../control.component';

@@ -3,8 +3,6 @@ import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { MaterialModule, MdDialog, MdDialogRef } from '@angular/material';
-
 @Component({
   selector: 'tb-connection-info',
   templateUrl: './connection-info.component.html',
@@ -17,7 +15,6 @@ export class ConnectionInfoComponent implements OnInit, OnDestroy {
   public connectionInfoSub: Subscription;
 
   constructor(
-    //public dialogRef: MdDialogRef<ConnectionInfoDialogComponent>,
     public httpMenuService: HttpMenuService,
     public localizationService: LocalizationService
   ) {
@@ -28,6 +25,12 @@ export class ConnectionInfoComponent implements OnInit, OnDestroy {
     this.connectionInfoSub = this.httpMenuService.getConnectionInfo().subscribe(result => {
       this.connectionInfos = result;
       this.showdbsize = this.connectionInfos.showdbsizecontrols == 'Yes';
+    });
+
+    this.localizationService.localizationsLoaded.subscribe((loaded) => {
+      console.log("loaded", loaded);
+      if (!loaded)
+        return;
     });
   }
 

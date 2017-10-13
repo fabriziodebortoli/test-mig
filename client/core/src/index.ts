@@ -10,7 +10,7 @@ export * from './core/core.module';
 /**
  * Metodo da richiamare in app.module per lettura parametri configurazione
  */
-export { loadConfig } from './core/services/info.service';
+// export { loadConfig } from './core/services/info.service';
 
 /**
  * Modulo Shared
@@ -56,17 +56,17 @@ const TB_MODULES = [
 /** 
  * Models & Enums
  */
-export { ComponentInfo } from './shared/models/component-info.model';
-export { ContextMenuItem } from './shared/models/context-menu-item.model';
-export { ControlTypes } from './shared/models/control-types.enum';
-export { CommandEventArgs } from './shared/models/eventargs.model';
-export { LoginCompact } from './shared/models/login-compact.model';
-export { LoginSession } from './shared/models/login-session.model';
-export { MessageDlgArgs, MessageDlgResult, DiagnosticData, Message, DiagnosticDlgResult, DiagnosticType } from './shared/models/message-dialog.model';
-export { OperationResult } from './shared/models/operation-result.model';
-export { StateButton } from './shared/models/state-button.model';
-export { ViewModeType } from './shared/models/view-mode-type.model';
-export { SocketConnectionStatus } from './shared/models/websocket-connection.enum';
+// export { ComponentInfo } from './shared/models/component-info.model';
+// export { ContextMenuItem } from './shared/models/context-menu-item.model';
+// export { ControlTypes } from './shared/models/control-types.enum';
+// export { CommandEventArgs } from './shared/models/eventargs.model';
+// export { LoginCompact } from './shared/models/login-compact.model';
+// export { LoginSession } from './shared/models/login-session.model';
+// export { MessageDlgArgs, MessageDlgResult, DiagnosticData, Message, DiagnosticDlgResult, DiagnosticType } from './shared/models/message-dialog.model';
+// export { OperationResult } from './shared/models/operation-result.model';
+// export { StateButton } from './shared/models/state-button.model';
+// export { ViewModeType } from './shared/models/view-mode-type.model';
+// export { SocketConnectionStatus } from './shared/models/websocket-connection.enum';
 
 /** 
  * HOME 

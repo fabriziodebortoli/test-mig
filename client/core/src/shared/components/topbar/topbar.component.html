@@ -1,4 +1,4 @@
-<md-toolbar color="primary">
+<mat-toolbar color="primary">
     <div class="topbar-menu">
         <m4-icon id="toggle-sidebar" (click)="toggleSidenav()" icon="tb-menufilled"></m4-icon>
     </div>
@@ -6,11 +6,11 @@
         <ng-content select=".topbar-title-content"></ng-content>
     </div>
 
-    <div class="fill-remaining-space">
+    <div class="fill">
         <ng-content select=".topbar-center"></ng-content>
     </div>
 
     <div class="topbar-menu">
         <ng-content select=".topbar-menu-content"></ng-content>
     </div>
-</md-toolbar>
+</mat-toolbar>
