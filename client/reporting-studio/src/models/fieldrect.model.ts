@@ -1,3 +1,4 @@
+import { barcode } from './barcode.model';
 import { ReportObjectType } from './report-object-type.model';
 import { baserect } from './baserect.model';
 import { label } from './label.model';
@@ -16,6 +17,7 @@ export class fieldrect extends baserect {
     value_is_image: boolean;
     value_is_barcode: boolean;
     link: link = undefined;
+    barcode: barcode;
     constructor(jsonObj: any) {
         super(jsonObj.baserect);
         this.obj = ReportObjectType.fieldrect;
@@ -29,5 +31,6 @@ export class fieldrect extends baserect {
         this.value_is_image = jsonObj.value_is_image;
         this.value_is_barcode = jsonObj.value_is_barcode;
         this.link = jsonObj.link ? new link(jsonObj.link) : undefined;
+        this.barcode = jsonObj.barcode ? new barcode(jsonObj.barcode) : undefined;
     };
 }

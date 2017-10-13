@@ -1,3 +1,5 @@
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { HttpService } from './../../../../../core/services/http.service';
 import { InfoService } from './../../../../../core/services/info.service';
 import { HttpMenuService } from './../../../../../menu/services/http-menu.service';
 import { ComponentService } from './../../../../../core/services/component.service';
@@ -24,7 +26,9 @@ export class TopbarMenuUserComponent implements OnDestroy {
         public authService: AuthService,
         public eventDataService: EventDataService,
         public httpMenuService: HttpMenuService,
-        public infoService: InfoService
+        public infoService: InfoService,
+        public httpService: HttpService,
+        private cookieService: CookieService
     ) {
         //const item1 = new ContextMenuItem('Refresh', 'idRefreshButton', true, false);
         const item2 = new ContextMenuItem('Settings', 'idSettingsButton', true, false);
@@ -47,8 +51,20 @@ export class TopbarMenuUserComponent implements OnDestroy {
             }
         });
     }
+
     logout() {
-        this.authService.logout();
+        this.httpService.canLogoff({ authtoken: this.cookieService.get('authtoken') }).subscribe((res) => {
+            if (!res.error) {
+                this.authService.logout();
+            }
+            else {
+                console.log("logout", res.messages);
+            }
+
+        });
+
+
+
     }
 
     openSettings() {

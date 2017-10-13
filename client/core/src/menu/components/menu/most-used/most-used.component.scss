@@ -5,9 +5,10 @@
         margin-bottom: 20px;
     }
     ul.most-used-list {
-        padding: 0 5px;
+        padding: 0;
     }
     .most-used-item {
+        cursor: pointer;
         display: flex;
         flex-direction: row;
         color: #9f9f9f;
@@ -30,7 +31,7 @@
     }
     .most-used-item>m4-icon.close {
         position: absolute;
-        right: 0;
+        right: 3px;
         font-size: 14px;
         line-height: 30px;
         cursor: pointer;

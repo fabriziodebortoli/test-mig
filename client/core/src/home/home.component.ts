@@ -1,9 +1,7 @@
 import { LocalizationService } from './../core/services/localization.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
-import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
-import { Subscription } from 'rxjs';
 
-import { environment } from 'environments/environment';
+import { Subscription } from 'rxjs';
 
 import { MessageDlgArgs } from './../shared/models/message-dialog.model';
 import { ComponentInfo } from './../shared/models/component-info.model';
@@ -21,6 +19,7 @@ import { ComponentService } from './../core/services/component.service';
 import { TaskbuilderService } from './../core/services/taskbuilder.service';
 import { SidenavService } from './../core/services/sidenav.service';
 import { SettingsService } from './../menu/services/settings.service';
+import { LoadingService } from './../core/services/loading.service';
 
 import { MenuService } from './../menu/services/menu.service';
 
@@ -28,14 +27,6 @@ import { MenuService } from './../menu/services/menu.service';
   selector: 'tb-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  animations: [
-    trigger(
-      'fadeInOut', [
-        transition(':enter', [style({ opacity: 0 }), animate('100ms', style({ 'opacity': 1 }))]),
-        transition(':leave', [style({ 'opacity': 1 }), animate('500ms', style({ 'opacity': 0 }))])
-      ]
-    )
-  ],
   encapsulation: ViewEncapsulation.None,
   providers: [ComponentInfoService]
 })
@@ -49,7 +40,6 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   @ViewChild(MessageDialogComponent) messageDialog: MessageDialogComponent;
   viewHeight: number;
 
-  connected: boolean = false;
   isDesktop: boolean;
 
   constructor(
@@ -62,8 +52,11 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     public localizationService: LocalizationService,
     public settingsService: SettingsService,
     public enumsService: EnumsService,
-    public infoService: InfoService
+    public infoService: InfoService, 
+    public loadingService: LoadingService 
   ) {
+
+    this.loadingService.setLoading(true, "connecting...");
 
     this.isDesktop = infoService.isDesktop;
 
@@ -90,13 +83,13 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     }));
 
     this.menuService.getMenuElements();
-    this.localizationService.loadLocalizedElements();
+    this.localizationService.loadLocalizedElements(true);
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
 
     // sottoscrivo la connessione TB e WS e, se non attiva, la apro tramite il servizio TaskbuilderService
     this.subscriptions.push(this.taskbuilderService.connected.subscribe(connected => {
-      this.connected = connected;
+        this.loadingService.setLoading(!connected, connected ?  "" : "connecting...");
     }));
 
   }
@@ -121,7 +114,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   }
 
   ngOnDestroy() {
-    this.connected = false;
+    this.loadingService.setLoading(false);
+
     this.taskbuilderService.dispose();
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
@@ -132,9 +126,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   }
 
   onContextMenu() {
-    if (environment.production) {
-      return false;
-    }
+    // return false;
   }
 
 }

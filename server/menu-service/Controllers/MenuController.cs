@@ -187,10 +187,7 @@ namespace Microarea.Menu.Controllers
         {
             try
             {
-                string token = HttpContext.Request.Form["authtoken"];
-                string needLoginThread = HttpContext.Request.Form["needLoginThread"];
-
-                string json = NewMenuLoader.GetLocalizationJson(token);
+                string json = NewMenuLoader.GetLocalizationJson();
                 return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
             }
             catch (Exception e)

@@ -1,3 +1,4 @@
+import { LoadingService } from './../../core/services/loading.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
@@ -22,10 +23,10 @@ export class MenuService {
     public _selectedGroup: any;
     public _selectedMenu: any;
 
-    public applicationMenu: any;
-    public environmentMenu: any;
     public favoritesCount: number = 0;
     public mostUsedCount: number = 0;
+
+    public allMenus: Array<any> = [];
 
     public favorites: Array<any> = [];
     public mostUsed: Array<any> = [];
@@ -86,7 +87,9 @@ export class MenuService {
         public imageService: ImageService,
         public settingsService: SettingsService,
         public componentService: ComponentService,
-        public infoService: InfoService
+        public infoService: InfoService,
+        public loadingService: LoadingService
+
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -290,12 +293,9 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     getSearchObjects() {
-        if (this.applicationMenu != undefined) {
-            this.findSearchesInApplication(this.applicationMenu.Application);
+        if (this.allMenus != undefined) {
+            this.findSearchesInApplication(this.allMenus);
         }
-
-        if (this.environmentMenu != undefined)
-            this.findSearchesInApplication(this.environmentMenu.Application);
 
         this.searchSources = this.searchSources.sort(this.compareTitle);
     }
@@ -463,10 +463,12 @@ export class MenuService {
         this.httpMenuService.getMenuElements(this.clearCachedData).subscribe((result) => {
             this.clearCachedData = false;
             this.onAfterGetMenuElements(result.Root);
+            this.loadingService.setLoading(false);
         });
     }
 
     invalidateCache() {
+        this.loadingService.setLoading(true, "reloading menu");
         this.clearCachedData = true;
         this.getMenuElements();
         // this.httpMenuService.clearCachedData().subscribe(result => {
@@ -476,11 +478,19 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     onAfterGetMenuElements(root) {
-        this.applicationMenu = root.ApplicationMenu.AppMenu;
-        this.environmentMenu = root.EnvironmentMenu.AppMenu;
 
-        //TODOLUCA
-        this.initApplicationAndGroup(this.applicationMenu.Application);//qui bisogna differenziare le app da caricare, potrebbero essere app o environment
+        //creo un unico allmenus che contiene tutte le applicazioni sia di environment che di applications
+        let temp = this.utilsService.toArray(root.ApplicationMenu.AppMenu.Application);
+        for (var a = 0; a < temp.length; a++) {
+            this.allMenus.push(temp[a])
+        }
+
+        temp = this.utilsService.toArray(root.EnvironmentMenu.AppMenu.Application);
+        for (var a = 0; a < temp.length; a++) {
+            this.allMenus.push(temp[a])
+        }
+
+        this.initApplicationAndGroup(this.allMenus);
         this.loadFavoritesAndMostUsed();
         this.loadSearchObjects();
     }
@@ -490,11 +500,8 @@ export class MenuService {
         this.favorites.splice(0, this.favorites.length);
         this.mostUsed.splice(0, this.mostUsed.length);
 
-        if (this.applicationMenu != undefined)
-            this.findFavoritesAndMostUsedInApplication(this.applicationMenu.Application);
-        if (this.environmentMenu != undefined)
-            this.findFavoritesAndMostUsedInApplication(this.environmentMenu.Application);
-
+        if (this.allMenus != undefined)
+            this.findFavoritesAndMostUsedInApplication(this.allMenus);
 
         this.favorites = this.favorites.sort(this.compareFavorites);
         this.mostUsed = this.mostUsed.sort(this.compareMostUsed);

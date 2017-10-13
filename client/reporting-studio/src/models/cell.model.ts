@@ -1,3 +1,4 @@
+import { barcode } from './barcode.model';
 import { link } from './link.model';
 import { font } from './font.model';
 import { borderpen } from './borderpen.model';
@@ -16,6 +17,7 @@ export class cell {
     value: string = '';
     src: string;
     link: link = undefined;
+    barcode: barcode;
     constructor(jsonObj: any, id: string) {
         this.id = id;
         this.borders = new borders(jsonObj.borders);
@@ -28,5 +30,6 @@ export class cell {
         this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';
         this.value = jsonObj.value ? jsonObj.value : '';
         this.link = jsonObj.link ? new link(jsonObj.link) : undefined;
+        this.barcode = jsonObj.barcode ? new barcode(jsonObj.barcode) : undefined;
     }
 }

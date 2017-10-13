@@ -121,47 +121,60 @@ namespace Microarea.RSWeb.WoormViewer
 			unparser.WriteClose(newLine);
 			return true;
 		}
-	}
+
+        public string ToJson()
+        {
+            string s = "\"barcode\":{" +
+                (BarCodeType == BarCodeWrapper.Type.BC_DEFAULT ? BCDefaultType : BarCodeType).ToJson("type") + "," +
+                Vertical.ToJson("rotate") + "," +
+                ShowLabel.ToJson("includetext") +
+                (CustomBarHeight == -1 ? "" : "," + CustomBarHeight.ToJson("custom-height")) +
+                "}";
+
+            return s;
+        }
+
+    }
 
 	//================================================================================
 	public class BarCodeWrapper
 	{
-		public enum Type
-		{
-			// costanti prese dal file bclw.h della libreria del bar code
-			BC_DEFAULT		= 0,
-			BC_UPCA			= 1,
-			BC_UPCE			= 2,
-			BC_EAN13		= 3,
-			BC_EAN8			= 4,
-			BC_EANJAN13		= BC_EAN13,
-			BC_EANJAN8	    = BC_EAN8,
-			BC_CODE39		= 5,
-			BC_EXT39		= 6,
-			BC_INT25		= 7,
-			BC_CODE128		= 8,
-			BC_CODABAR		= 9,
-			BC_ZIP			= 10,
-			BC_MSIPLESSEY	= 11,
-			BC_CODE93		= 12,
-			BC_EXT93		= 13,
-			BC_UCC128		= 14,
-			BC_HIBC			= 15,
-			BC_PDF417		= 16,
-			BC_UPCE0		= 17,
-			BC_UPCE1		= 18,
-			BC_CODE128A		= 19,
-			BC_CODE128B		= 20,
-			BC_CODE128C		= 21,
-			BC_EAN128		= 22,
-            BC_DATAMATRIX   = 23,
-            BC_MICROQR       = 24,
-            BC_QR           = 25
+        public enum Type
+        {
+            // costanti prese dal file bclw.h della libreri, del bar code
+            BC_DEFAULT=0,
+            BC_UPCA = 1,
+            BC_UPCE = 2,
+            BC_EAN13 = 3,
+            BC_EAN8 = 4,
+            BC_EANJAN13 = BC_EAN13,
+            BC_EANJAN8 = BC_EAN8,
+            BC_CODE39 = 5,
+            BC_EXT39 = 6,
+            BC_INT25 = 7,
+            BC_CODE128 = 8,
+            BC_CODABAR = 9,
+            BC_ZIP = 10,
+            BC_MSIPLESSEY = 11,
+            BC_CODE93 = 12,
+            BC_EXT93 = 13,
+            BC_UCC128 = 14,
+            BC_HIBC = 15,
+            BC_PDF417 = 16,
+            BC_UPCE0 = 17,
+            BC_UPCE1 = 18,
+            BC_CODE128A = 19,
+            BC_CODE128B = 20,
+            BC_CODE128C = 21,
+            BC_EAN128 = 22,
+            BC_DATAMATRIX = 23,
+            BC_MICROQR = 24,
+            BC_QR = 25
 
         }
 
 
-		public enum LabelType
+        public enum LabelType
 		{
 			HR_OFF			= 0,
 			HR_BELOWLEFT	= 1,

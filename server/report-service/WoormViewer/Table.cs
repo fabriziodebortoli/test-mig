@@ -939,16 +939,17 @@ namespace Microarea.RSWeb.Objects
                             this.Title.FontData.ToJson() +
                     '}';
 
-            s += 
-               // (/*this.MultipleRow*/true   ? ',' + this.MultipleRow    .ToJson("value_is_multiline")   : "") +
-                (/*this.IsHtml*/true        ? ',' + this.IsHtml         .ToJson("value_is_html")    : "") +
-                (/*this.ShowAsBitmap*/true  ? ',' + this.ShowAsBitmap   .ToJson("value_is_image")    : "") +
-                (/*this.ShowAsBarCode*/true ? ',' + this.ShowAsBarCode  .ToJson("value_is_barcode")  : "");
+            s +=
+                // (/*this.MultipleRow*/true   ? ',' + this.MultipleRow    .ToJson("value_is_multiline")   : "") +
+                (/*this.IsHtml*/true ? ',' + this.IsHtml.ToJson("value_is_html") : "") +
+                (/*this.ShowAsBitmap*/true ? ',' + this.ShowAsBitmap.ToJson("value_is_image") : "") +
+                (/*this.ShowAsBarCode*/true ? ',' + this.ShowAsBarCode.ToJson("value_is_barcode") : "") +
+                (this.ShowAsBarCode ? "," + this.BarCode.ToJson() : "");
 
             //s += (/*this.ShowTotal*/true ? ',' + this.ShowTotal.ToJson("show_total") : "");
-           //s += (this.ShowTotal ? ',' + this.TotalCell.ToJsonTemplate() : "");
+            //s += (this.ShowTotal ? ',' + this.TotalCell.ToJsonTemplate() : "");
 
-           s += '}';
+            s += '}';
 
            return s;
         }
