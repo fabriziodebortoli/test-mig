@@ -404,67 +404,76 @@ namespace Microarea.RSWeb.Objects
             string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
             //VALUE
-            this.Value.FormattedData = string.Empty;
-            if (this.Value.RDEData != null)
-            {
-                string formatStyleName = this.DynamicFormatStyleName;
-                if (formatStyleName.Length <= 0)
-                    formatStyleName = "string";
-                
-                this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
-                
-            }
-            s += (this.SubTotal ?
-                            this.Value.FormattedData.ToJson("value", false, true)
-                            :
-                            this.FormattedDataForWrite.ToJson("value", false, true)
-                        );
-
-            //BORDERS
-            if (column.Table.HasDynamicHiddenColumns() || column.Table.HasDynamicBorders() || column.Table.Borders.DynamicRowSeparator)
-                s += ',' + cellBorders.ToJson();
-
-            //TEXTCOLOR
-            if (!this.SubTotal && column.TextColorExpr != null)
-                s += ',' + this.DynamicTextColor.ToJson("textcolor");
-            else if (this.SubTotal)
-                s += ',' + this.DynamicSubTotalTextColor.ToJson("textcolor");
-
-            //BKGCOLOR
-            if (!this.SubTotal && column.BkgColorExpr != null)
-                s += ',' + this.GetDynamicBkgColor          (useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateBkgColor).ToJson("bkgcolor");
-            else if (this.SubTotal)
-                s += ',' + this.GetDynamicSubTotalBkgColor  (useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateSubTotalBkgColor).ToJson("bkgcolor");
-
-            //FONT
-            if (!this.SubTotal && column.TextFontStyleExpr != null)
-            {
-                string fontstyle = this.DynamicTextFontStyleName;
-
-                if (!fontstyle.CompareNoCase(this.Value.FontStyleName))
+            
+                this.Value.FormattedData = string.Empty;
+                if (this.Value.RDEData != null)
                 {
-                    FontElement fe = column.Table.Document.GetFontElement(fontstyle);
-                    if (fe != null)
+                    string formatStyleName = this.DynamicFormatStyleName;
+                    if (formatStyleName.Length <= 0)
+                        formatStyleName = "string";
+                
+                    this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
+                
+                }
+
+            if (!column.DynamicIsHidden)
+            {
+                s += (this.SubTotal ?
+                              this.Value.FormattedData.ToJson("value", false, true)
+                              :
+                              this.FormattedDataForWrite.ToJson("value", false, true)
+                          );
+                //BORDERS
+                if (column.Table.HasDynamicHiddenColumns() || column.Table.HasDynamicBorders() || column.Table.Borders.DynamicRowSeparator)
+                    s += ',' + cellBorders.ToJson();
+
+                //TEXTCOLOR
+                if (!this.SubTotal && column.TextColorExpr != null)
+                    s += ',' + this.DynamicTextColor.ToJson("textcolor");
+                else if (this.SubTotal)
+                    s += ',' + this.DynamicSubTotalTextColor.ToJson("textcolor");
+
+                //BKGCOLOR
+                if (!this.SubTotal && column.BkgColorExpr != null)
+                    s += ',' + this.GetDynamicBkgColor(useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateBkgColor).ToJson("bkgcolor");
+                else if (this.SubTotal)
+                    s += ',' + this.GetDynamicSubTotalBkgColor(useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateSubTotalBkgColor).ToJson("bkgcolor");
+
+                //FONT
+                if (!this.SubTotal && column.TextFontStyleExpr != null)
+                {
+                    string fontstyle = this.DynamicTextFontStyleName;
+
+                    if (!fontstyle.CompareNoCase(this.Value.FontStyleName))
                     {
-                        FontData fontData = new FontData(fe);
-                        s += ',' + fontData.ToJson();
+                        FontElement fe = column.Table.Document.GetFontElement(fontstyle);
+                        if (fe != null)
+                        {
+                            FontData fontData = new FontData(fe);
+                            s += ',' + fontData.ToJson();
+                        }
                     }
                 }
+                else if (this.SubTotal)
+                {
+                    s += ',' + this.column.SubTotal.FontData.ToJson();
+                }
+
+                //TOOLTIP
+                if (column.TooltipExpr != null)
+                    s += ',' + this.DynamicTooltip.ToJson("tooltip", false, true);
+
+                //LINK
+                string link = BaseObj.GetLink(false, this.column.Table.Document, this.column.InternalID, this.AtRowNumber);
+                if (!link.IsNullOrEmpty())
+                    s += ',' + link;
+
             }
-            else if (this.SubTotal)
+            else
             {
-                s += ',' + this.column.SubTotal.FontData.ToJson();
+                s += "".ToJson("value"); // for hidden columns, data is sent, so data json as same # of columns as template json
             }
-
-            //TOOLTIP
-            if (column.TooltipExpr != null)
-                s += ',' + this.DynamicTooltip.ToJson("tooltip", false, true);
-            
-            //LINK
-            string link = BaseObj.GetLink(false, this.column.Table.Document, this.column.InternalID, this.AtRowNumber);
-            if (!link.IsNullOrEmpty())
-                s += ',' + link;
-
+         
             //----
 
             s += "}}";
@@ -2716,8 +2725,8 @@ namespace Microarea.RSWeb.Objects
                    if (row == 0)
                         column.PreviousValue = null;
 
-                   if (column.DynamicIsHidden) 
-                        continue;
+                //   if (column.DynamicIsHidden) 
+                //        continue;
  
                    Cell cell = column.Cells[row];
                    cell.AtRowNumber = row;
