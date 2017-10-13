@@ -6,70 +6,37 @@
     justify-content: flex-end;
 }
 
+
+/*Bottoni del menu */
+
 .tbcontainer .topbar-menu-layout .k-button {
     color: #000000;
     background-color: white;
     background-image: none;
     border-color: transparent;
-    border: 0;
+    border: 0px solid transparent;
     border-radius: 0px;
     text-align: left;
     font-size: 12px;
     padding: 15px;
 }
 
-.tbcontainer .k-popup,
-.k-menu.k-context-menu {
-    background-color: white;
-    border-color: #efefef;
-    padding: 8px 0px;
-}
-
 .tbcontainer .topbar-menu-layout .k-button:hover {
     background-color: #efefef;
-    background-image: none;
-    border: 0;
-    border-left: 2px;
-    border-right: 2px;
-    border-radius: 0px;
-}
-
-.tbcontainer .topbar-menu-layout .topbar-menu-button:focus,
-.tbcontainer .topbar-menu-layout .topbar-menu-button:active {
-    background-color: white;
-    background-image: none;
-    border: 0;
-    border-radius: 0px;
-}
-
-.tbcontainer .topbar-menu-layout .topbar-menu-button {
-    background-color: transparent;
-    border-width: 0px;
-    border-style: none;
-    border-color: transparent;
-    border-image: none;
-    padding-top: 5px;
-    margin: 0px;
 }
 
 .tbcontainer #anchor {
-    padding: 10px;
+    padding: 10px 10px 0px 10px;
     cursor: pointer;
 }
 
 .tbcontainer #anchor:hover,
 .tbcontainer #anchor:focus,
 .tbcontainer #anchor:visited {
-    background-color: #efefef;
-    outline-color: #efefef;
+    // background-color: #efefef;
+    outline-color: #0277BD;
     outline-style: auto;
     outline-width: 5px;
-}
-
-.tbcontainer #anchor:visited,
-.tbcontainer #anchor:focus,
-.tbcontainer #anchor:hover {
-    color: #0277BD;
 }
 
 .tbcontainer .topbar-menu-layout.k-list .tbcontainer .topbar-menu-layout.k-item:focus,
@@ -96,4 +63,13 @@
     flex-wrap: wrap;
     width: 200px;
     height: 24px;
+}
+
+.tbcontainer .k-popup {
+    margin-top: 12px;
+}
+
+.tbcontainer .k-popup,
+.k-menu.k-context-menu {
+    border: 0px solid transparent;
 }

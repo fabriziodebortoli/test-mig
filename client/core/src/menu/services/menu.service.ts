@@ -1,3 +1,4 @@
+import { LoadingService } from './../../core/services/loading.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
@@ -22,13 +23,13 @@ export class MenuService {
     public _selectedGroup: any;
     public _selectedMenu: any;
 
-    public applicationMenu: any;
-    public environmentMenu: any;
     public favoritesCount: number = 0;
     public mostUsedCount: number = 0;
 
-    public favorites: Array<any> = [];
-    public mostUsed: Array<any> = [];
+    public allMenus: Array<any> = [];
+
+    public favorites = [];
+    public mostUsed = [];
 
     public searchSources: Array<any> = [];
     public ifMoreAppsExist: boolean;
@@ -86,7 +87,9 @@ export class MenuService {
         public imageService: ImageService,
         public settingsService: SettingsService,
         public componentService: ComponentService,
-        public infoService: InfoService
+        public infoService: InfoService,
+        public loadingService: LoadingService
+
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -290,12 +293,9 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     getSearchObjects() {
-        if (this.applicationMenu != undefined) {
-            this.findSearchesInApplication(this.applicationMenu.Application);
+        if (this.allMenus != undefined) {
+            this.findSearchesInApplication(this.allMenus);
         }
-
-        if (this.environmentMenu != undefined)
-            this.findSearchesInApplication(this.environmentMenu.Application);
 
         this.searchSources = this.searchSources.sort(this.compareTitle);
     }
@@ -414,7 +414,9 @@ export class MenuService {
     }
 
     updateAllFavoritesAndMostUsed() {
-        this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe();
+        let sub = this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe(()=>{
+            sub.unsubscribe();
+        });
     }
 
     //---------------------------------------------------------------------------------------------
@@ -459,53 +461,69 @@ export class MenuService {
     }
 
     getMenuElements() {
-
-        this.httpMenuService.getMenuElements(this.clearCachedData).subscribe((result) => {
+        this.resetMenuServices();
+        let sub = this.httpMenuService.getMenuElements(this.clearCachedData).subscribe((result) => {
             this.clearCachedData = false;
             this.onAfterGetMenuElements(result.Root);
+            sub.unsubscribe();
         });
     }
 
     invalidateCache() {
+        //TODOLUCA , clone del metodo getmenuelements qua sopra, per motivi di async
+        this.loadingService.setLoading(true, "reloading menu");
+        this.resetMenuServices();
         this.clearCachedData = true;
-        this.getMenuElements();
-        // this.httpMenuService.clearCachedData().subscribe(result => {
-        //     location.reload();
-        // });
+        let sub = this.httpMenuService.getMenuElements(this.clearCachedData).subscribe((result) => {
+            this.clearCachedData = false;
+            this.loadingService.setLoading(false);
+            this.onAfterGetMenuElements(result.Root);
+            sub.unsubscribe();
+        });
+    }
+
+    //---------------------------------------------------------------------------------------------
+    resetMenuServices(){
+        this.allMenus = [];
+        this.favoritesCount = 0;
+        this.mostUsedCount = 0;
+        this.favorites = [];
+        this.mostUsed = [];
     }
 
     //---------------------------------------------------------------------------------------------
     onAfterGetMenuElements(root) {
-        this.applicationMenu = root.ApplicationMenu.AppMenu;
-        this.environmentMenu = root.EnvironmentMenu.AppMenu;
+        //creo un unico allmenus che contiene tutte le applicazioni sia di environment che di applications
+        let temp = this.utilsService.toArray(root.ApplicationMenu.AppMenu.Application);
+        for (var a = 0; a < temp.length; a++) {
+            this.allMenus.push(temp[a])
+        }
 
-        //TODOLUCA
-        this.initApplicationAndGroup(this.applicationMenu.Application);//qui bisogna differenziare le app da caricare, potrebbero essere app o environment
+        temp = this.utilsService.toArray(root.EnvironmentMenu.AppMenu.Application);
+        for (var a = 0; a < temp.length; a++) {
+            this.allMenus.push(temp[a])
+        }
+
+        this.initApplicationAndGroup(this.allMenus);
         this.loadFavoritesAndMostUsed();
         this.loadSearchObjects();
     }
 
     //---------------------------------------------------------------------------------------------
     loadFavoritesAndMostUsed() {
-        this.favorites.splice(0, this.favorites.length);
-        this.mostUsed.splice(0, this.mostUsed.length);
-
-        if (this.applicationMenu != undefined)
-            this.findFavoritesAndMostUsedInApplication(this.applicationMenu.Application);
-        if (this.environmentMenu != undefined)
-            this.findFavoritesAndMostUsedInApplication(this.environmentMenu.Application);
-
+    
+        if (this.allMenus != undefined)
+            this.findFavoritesAndMostUsedInApplication(this.allMenus);
 
         this.favorites = this.favorites.sort(this.compareFavorites);
         this.mostUsed = this.mostUsed.sort(this.compareMostUsed);
     }
 
     //---------------------------------------------------------------------------------------------
-    findFavoritesAndMostUsedInApplication(application) {
+    findFavoritesAndMostUsedInApplication(applications) {
 
-        var tempMenuArray = this.utilsService.toArray(application);
-        for (var a = 0; a < tempMenuArray.length; a++) {
-            var allGroupsArray = this.utilsService.toArray(tempMenuArray[a].Group);
+        for (var a = 0; a < applications.length; a++) {
+            var allGroupsArray = this.utilsService.toArray(applications[a].Group);
             for (var d = 0; d < allGroupsArray.length; d++) {
                 this.getFavoritesAndMostUsedObjectsFromMenu(allGroupsArray[d]);
             }

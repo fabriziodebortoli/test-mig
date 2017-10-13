@@ -1,11 +1,16 @@
-.connected{
-   color: rgba(100,255,60,0.4);
+.topBarMenuComponentLike {
+    padding: 10px 10px 0px 10px;
+    cursor: pointer;
 }
 
-.disconnected{
-     color: rgba(255,40,60,0.4);
+.connected {
+    color: rgba(100, 255, 60, 0.4);
 }
 
-.connecting{
-   color: rgba(255,255,0,0.4);
+.disconnected {
+    color: rgba(255, 40, 60, 0.4);
+}
+
+.connecting {
+    color: rgba(255, 255, 0, 0.4);
 }

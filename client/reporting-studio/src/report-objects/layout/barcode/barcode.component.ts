@@ -1,3 +1,6 @@
+import { baserect } from './../../../models/baserect.model';
+import { rect } from './../../../models/rect.model';
+import { barcode } from './../../../models/barcode.model';
 
 import { Component, OnChanges, SimpleChanges, Input, ViewEncapsulation } from '@angular/core';
 import bwipjs from 'bwip-angular2';
@@ -10,18 +13,23 @@ import bwipjs from 'bwip-angular2';
 })
 export class BarcodeComponent implements OnChanges {
 
-  @Input() barcode: any;
+  @Input() barcode: barcode;
+  @Input() rect: baserect;
+  @Input() value: string;
 
-  constructor() {}
+  constructor() { }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (!this.value)
+      return;
     bwipjs('barcodeCanvas', {
-      bcid: 'datamatrix',       // Barcode type
-      text: this.barcode,   	  // Text to encode
+      bcid: this.barcode.type,       // Barcode type
+      text: this.value,   	             // Text to encode
       scale: 3,                 // 3x scaling factor
-      height: 10,               // Bar height, in millimeters
-      width: 10,
-      includetext: true,        // Show human-readable text
+      height: this.rect.rect.bottom - this.rect.rect.top,  // Bar height, in millimeters
+      width: this.rect.rect.left - this.rect.rect.right,
+      includetext: this.barcode.includetext,        // Show human-readable text
+      rotate: this.barcode.rotate,
       textxalign: 'center',      // Always good to set this
     }, function (err, cvs) {
       if (err) {

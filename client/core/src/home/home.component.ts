@@ -3,8 +3,6 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostList
 
 import { Subscription } from 'rxjs';
 
-import { environment } from 'environments/environment';
-
 import { MessageDlgArgs } from './../shared/models/message-dialog.model';
 import { ComponentInfo } from './../shared/models/component-info.model';
 
@@ -85,7 +83,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     }));
 
     this.menuService.getMenuElements();
-    this.localizationService.loadLocalizedElements();
+    this.localizationService.loadLocalizedElements(true);
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
 
@@ -117,7 +115,6 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
 
   ngOnDestroy() {
     this.loadingService.setLoading(false);
-
     this.taskbuilderService.dispose();
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
@@ -128,9 +125,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   }
 
   onContextMenu() {
-    if (environment.production) {
-      return false;
-    }
+    // return false;
   }
 
 }

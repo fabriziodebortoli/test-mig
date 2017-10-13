@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Widget, WidgetsService, WidgetRow } from './widgets.service';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'tb-widget-container',
@@ -10,7 +10,7 @@ import { MdSnackBar } from '@angular/material';
 export class WidgetContainerComponent implements OnInit, OnDestroy {
   rows: WidgetRow[] = [];
   subscriptions = [];
-  constructor(public widgetsService: WidgetsService, public snackBar: MdSnackBar) {
+  constructor(public widgetsService: WidgetsService, public snackBar: MatSnackBar) {
   }
 
   getColspan(size: string) {

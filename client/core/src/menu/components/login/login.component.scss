@@ -2,7 +2,10 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    .fill-remaining-space {
+    #microarea {
+        font-weight: 300;
+    }
+    .fill {
         flex: 1 1 auto;
     }
     .login-main-content {
@@ -13,15 +16,41 @@
         justify-content: center;
         .login-form {
             max-width: 400px;
+            min-width: 400px;
             margin: 100px auto;
-            .form-group .form-control {
-                width: 100%;
-                margin: 10px 0
-            }
-            .form-group .form-button {
+            .form-group {
                 margin-top: 20px;
-                width: 100%;
+                .k-textbox {
+                    font-size: 13px;
+                    padding: 14px 8px;
+                }
+                .form-control {
+                    margin: 10px 0
+                }
+                .form-control>.k-dropdown,
+                .form-control>.k-textbox-container {
+                    width: 100%;
+                    padding: 0;
+                }
+                .floatingLabel {
+                    font-size: 13px;
+                    margin: 3px 0;
+                    color: #858585;
+                    font-weight: 500;
+                }
+                .form-button {
+                    margin-top: 20px;
+                    width: 100%;
+                }
             }
+            // .form-group .form-control {
+            //     width: 100%;
+            //     margin: 10px 0
+            // }
+            // .form-group .form-button {
+            //     margin-top: 20px;
+            //     width: 100%;
+            // }
             div.error {
                 background: #d51923;
                 margin: 20px 0 0;
@@ -33,7 +62,7 @@
                 margin: 200px auto;
                 width: 100px;
             }
-            .md-spinner path {
+            .mat-spinner path {
                 stroke: #0277BD;
             }
         }
@@ -76,4 +105,8 @@
             color: #fff;
         }
     }
+}
+
+.tb-card {
+    padding: 15px;
 }
