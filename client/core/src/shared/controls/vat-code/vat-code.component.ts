@@ -1,5 +1,5 @@
 import { InfoService } from './../../../core/services/info.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 import { HttpService } from './../../../core/services/http.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';

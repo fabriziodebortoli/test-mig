@@ -3,7 +3,7 @@ import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Logger } from './logger.service';
@@ -130,7 +130,7 @@ export class InfoService {
 
     //TODO da spostare nel httpservice della libreria di controlli
     getNetCoreErpCoreBaseUrl() {
-       return this.getBaseUrl() +  '/erp-core/';
+        return this.getBaseUrl() + '/erp-core/';
     }
 
     getAccountManagerBaseUrl() {
