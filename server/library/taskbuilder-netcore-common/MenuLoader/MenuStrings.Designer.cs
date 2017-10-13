@@ -169,6 +169,24 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Application.
+        /// </summary>
+        public static string CurrentApplication {
+            get {
+                return ResourceManager.GetString("CurrentApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Module.
+        /// </summary>
+        public static string CurrentModule {
+            get {
+                return ResourceManager.GetString("CurrentModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database.
         /// </summary>
         public static string DBName {
