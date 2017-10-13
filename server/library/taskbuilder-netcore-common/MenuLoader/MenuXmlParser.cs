@@ -58,7 +58,7 @@ namespace Microarea.Common.MenuLoader
 				return;
 
 			if (aMenuXmlParser.menuXmlDoc != null)
-				menuXmlDoc = (XmlDocument)aMenuXmlParser.menuXmlDoc.CloneNode(true); //TODOLUCA
+				menuXmlDoc = (XmlDocument)aMenuXmlParser.menuXmlDoc.CloneNode(true);
 			
 			SetApplication(aMenuXmlParser.GetCurrentApplicationName());
 			SetGroup(aMenuXmlParser.GetCurrentGroupName());

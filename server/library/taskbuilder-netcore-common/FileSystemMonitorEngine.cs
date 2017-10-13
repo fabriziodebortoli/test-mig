@@ -835,7 +835,7 @@ namespace Microarea.Common
 
 
         //-----------------------------------------------------------------------
-        public static void SaveXml(XmlDocument doc, string file) //TODOLUCA, questo sistema di salvataggio è da cambiare
+        public static void SaveXml(XmlDocument doc, string file)
         {
             using (FileStream fileStream = new FileStream(file, FileMode.OpenOrCreate))
             {

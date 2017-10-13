@@ -8,13 +8,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class AdminCheckBoxComponent {
 
-  @Input() checkBoxId: string;
+  @Input() checkText: string;
   @Input() checkValue: boolean;
-  @Output() onSelectedCheck: EventEmitter<object> = new EventEmitter<object>();
-
+     
   constructor() { }
-
-  goEditMode(item:object) {
-    this.onSelectedCheck.emit(item);
-  }
 }
