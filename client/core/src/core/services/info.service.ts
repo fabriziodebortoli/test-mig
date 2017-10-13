@@ -35,6 +35,9 @@ export class InfoService {
     saveCulture() {
         this.cookieService.put(this.cultureId, this.culture.value);
     }
+    setCulture (culture:string){
+        this.culture.value = culture;
+    }
 
     load() {
         return new Promise((resolve, reject) => {
