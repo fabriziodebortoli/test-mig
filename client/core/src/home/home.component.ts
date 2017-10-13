@@ -115,7 +115,6 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
 
   ngOnDestroy() {
     this.loadingService.setLoading(false);
-
     this.taskbuilderService.dispose();
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
