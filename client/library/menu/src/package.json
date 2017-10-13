@@ -1,0 +1,28 @@
+{
+    "name": "@tb/menu",
+    "version": "1.0.0-alpha.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Microarea/Taskbuilder.git"
+    },
+    "author": {
+        "name": "fabrizio.debortoli@microarea.it",
+        "email": "fabrizio.debortoli@microarea.it"
+    },
+    "keywords": [
+        "angular"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Microarea/Taskbuilder.git/issues"
+    },
+    "main": "tb-menu.umd.js",
+    "module": "tb-menu.js",
+    "jsnext:main": "tb-menu.js",
+    "typings": "tb-menu.d.ts",
+    "peerDependencies": {
+        "@angular/core": "^4.0.0",
+        "rxjs": "^5.1.0",
+        "zone.js": "^0.8.4"
+    }
+}
