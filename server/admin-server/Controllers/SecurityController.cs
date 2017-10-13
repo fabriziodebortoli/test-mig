@@ -102,7 +102,7 @@ namespace Microarea.AdminServer.Controllers
 					}
 
                     // Verifica credenziali su db.
-                    LoginReturnCodes res = LoginBaseClass.VerifyCredential(((Account)account), credentials.Password, burgerData);
+                    LoginReturnCodes res = ((Account)account).VerifyCredential(credentials.Password, burgerData);
 
                     if (res != LoginReturnCodes.NoError)
                     {
@@ -197,7 +197,7 @@ namespace Microarea.AdminServer.Controllers
 						}
 
 						// Verifica credenziali.
-						LoginReturnCodes res = LoginBaseClass.VerifyCredential(((Account)account), credentials.Password, burgerData);
+						LoginReturnCodes res = ((Account)account).VerifyCredential(credentials.Password, burgerData);
 
                         if (res != LoginReturnCodes.NoError)
                         {
@@ -410,7 +410,7 @@ namespace Microarea.AdminServer.Controllers
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, accountIdentityPack.Message);
                     }
-                    LoginReturnCodes res = LoginBaseClass.ChangePassword(((Account)account), passwordInfo, burgerData);
+                    LoginReturnCodes res = ((Account)account).ChangePassword(passwordInfo, burgerData);
 
                     if (res != LoginReturnCodes.NoError)
                     { 

@@ -1,6 +1,5 @@
-<div (click)="open()" id="divOpDate">
-    <label mdTooltip='Change operation date' *ngIf="!isDesktop">{{applicationDate | date: dateFormat }}</label>
-    <m4-icon icon="erp-calendarflash" mdTooltip='Operation Date: {{applicationDate | date: dateFormat  }}'></m4-icon>
+<div (click)="open()" id="divOpDate" class="topBarMenuComponentLike">
+    <m4-icon icon="erp-calendarflash" matTooltip='Operation Date: {{applicationDate | date: dateFormat  }}'></m4-icon>
 </div>
 
 <kendo-dialog title="Change application date" *ngIf="opened" (close)="cancel()">

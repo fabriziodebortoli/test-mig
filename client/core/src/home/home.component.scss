@@ -1,11 +1,19 @@
 .mat-sidenav,
-md-sidenav {
+mat-sidenav {
     width: 300px;
     background: #282828;
 }
 
+mat-sidenav::-webkit-scrollbar-track {
+    background: #3e3e3f;
+}
+
+mat-sidenav::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.59);
+}
+
 material-app,
-md-sidenav-container,
+mat-sidenav-container,
 .main-content {
     margin: 0;
     width: 100%;

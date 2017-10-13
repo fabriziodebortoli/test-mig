@@ -5,10 +5,10 @@
     </div>
 </div>
 
-<div class="sidenav-subtitle">Applications</div>
+<div class="sidenav-subtitle">{{localizationService?.localizedElements?.Applications}}</div>
 <tb-application-selector></tb-application-selector>
 
-<div class="sidenav-subtitle">Groups</div>
+<div class="sidenav-subtitle">{{localizationService?.localizedElements?.Modules}}</div>
 <tb-group-selector (itemSelected)="toggleSidenav(true)"></tb-group-selector>
 
 <div class="sidenav-subtitle">{{localizationService?.localizedElements?.FavoritesLabel}}</div>

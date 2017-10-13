@@ -2,11 +2,31 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
+import {
+    MatButtonModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatAutocompleteModule,
+    MatSnackBarModule
+} from '@angular/material';
 
-import { MasonryModule } from 'angular2-masonry';
+const MATERIAL_MODULES = [
+    MatButtonModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatAutocompleteModule,
+    MatSnackBarModule
+];
 
 import { TbIconsModule } from '@taskbuilder/icons';
 
@@ -168,7 +188,7 @@ const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent, DockpaneComponent, DockpaneContainerComponent,
     TileManagerComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
     MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, DynamicDialogComponent, TabberComponent, TabComponent,
-    TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent, 
+    TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent,
     StatusTilePanelComponent, StatusTileComponent
 ];
 
@@ -261,10 +281,9 @@ const TB_MODULES = [
     CommonModule,
     FormsModule,
     HttpModule,
-    MaterialModule,
     RouterModule,
     TbIconsModule,
-    MasonryModule
+    // MasonryModule
 ];
 
 /**
@@ -296,9 +315,9 @@ export { ViewModeType } from './models/view-mode-type.model';
 export { SocketConnectionStatus } from './models/websocket-connection.enum';
 
 @NgModule({
-    imports: [TB_MODULES, KENDO_UI_MODULES, TreeModule],
+    imports: [TB_MODULES, MATERIAL_MODULES, KENDO_UI_MODULES, TreeModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
-    exports: [TB_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES/*, KENDO_UI_MODULES*/],
+    exports: [TB_MODULES, MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
     entryComponents: [UnsupportedComponent, RadarComponent]
 })
 export class TbSharedModule { }
