@@ -960,7 +960,7 @@ namespace Microarea.RSWeb.Objects
 
                 this.InternalID.ToJson("id", "id") + ',' +
 
-                false.ToJson("hidden") + '}';
+                true.ToJson("hidden") + '}';
 
             return s;
         }
