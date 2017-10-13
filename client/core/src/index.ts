@@ -85,9 +85,12 @@ const TB_HOME_COMPONENTS = [HomeComponent, HomeSidenavComponent, StandaloneRepor
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
+import { CookieModule, CookieService } from 'ngx-cookie';
+
 @NgModule({
-  imports: [CommonModule, TB_MODULES, LayoutModule],
+  imports: [CommonModule, TB_MODULES, LayoutModule, CookieModule.forChild()],
   declarations: [TB_HOME_COMPONENTS],
-  exports: [TB_MODULES, TB_HOME_COMPONENTS]
+  exports: [TB_MODULES, TB_HOME_COMPONENTS],
+  providers: [CookieService]
 })
 export class TaskbuilderCoreModule { }

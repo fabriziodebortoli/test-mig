@@ -1,9 +1,10 @@
 import { SharedModule } from './../shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { HttpModule } from '@angular/http';
 
-// import { TbCoreModule } from '@tb/core';
 
+import { TbCoreModule, InfoService, loadConfig } from '@taskbuilder/core';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -13,9 +14,13 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     SharedModule,
-    // TbCoreModule.forRoot()
+    HttpModule,
+    TbCoreModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    InfoService,
+    { provide: APP_INITIALIZER, useFactory: loadConfig, deps: [InfoService], multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

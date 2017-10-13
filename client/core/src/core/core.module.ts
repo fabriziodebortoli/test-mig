@@ -2,8 +2,6 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core
 
 import 'hammerjs';
 
-import { CookieModule } from 'ngx-cookie';
-
 /**
  * Servizi
  * 
@@ -68,15 +66,17 @@ export const TB_GUARDS = [CoreGuard];
 
 import { HttpModule } from '@angular/http';
 
+import { CookieModule, CookieService } from 'ngx-cookie';
+
 @NgModule({
-    imports: [HttpModule],
-    providers: [TB_SERVICES, TB_GUARDS]
+    imports: [HttpModule, CookieModule.forRoot()],
+    providers: [TB_SERVICES, TB_GUARDS, CookieService]
 })
 export class TbCoreModule {
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: TbCoreModule,
-            providers: [TB_SERVICES, TB_GUARDS]
+            providers: [TB_SERVICES, TB_GUARDS, CookieService]
         };
     }
     constructor( @Optional() @SkipSelf() parentModule: TbCoreModule) {
