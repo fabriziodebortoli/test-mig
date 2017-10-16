@@ -17,6 +17,21 @@ export class UrlGuard {
 
         // checking permission by specific component-url
 
+        // checking test controls page
+
+        if (url == '/testControls') {
+            
+            if (!authInfo.VerifyRoleLevel(RoleNames.Admin, RoleLevels.Instance)) {
+                opRes.Message = 'You do not have rights to see this content';
+                opRes.Result = false;
+                return opRes;
+            }
+            else {
+                opRes.Result = true;
+                return opRes;
+            }
+        }        
+
         // checking instances
 
         if (url.startsWith('/instance?instanceToEdit=')) {

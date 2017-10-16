@@ -14,7 +14,10 @@
         </div>
         <div>
             <a [routerLink]="['/fileUpload']">File Upload</a>
-        </div>        
+        </div>
+        <div>
+            <a [routerLink]="['/testControls']">Controls Test Page</a>
+        </div>         
         <div *ngIf="userAccountName != undefined && userAccountName != ''" class="logOutBtn">
             <a (click)="logout()" style="cursor:pointer">Logout</a>
         </div>

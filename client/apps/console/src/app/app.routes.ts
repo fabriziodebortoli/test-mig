@@ -13,6 +13,7 @@ import { SubscriptionHomeComponent } from 'app/components/subscription/subscript
 import { AccountsHomeComponent } from "app/components/account/accounts-home.component";
 import { SubscriptionComponent } from 'app/components/subscription/subscription.component';
 import { SubscriptionDbHomeComponent } from 'app/components/subscription/subscription-db-home.component';
+import { TestControlsComponent } from 'app/components/test-controls/test-controls.component';
 
 export const routes: Routes = [
   { 
@@ -79,6 +80,12 @@ export const routes: Routes = [
     path: 'fileUpload', 
     component: FileUploadComponent
   },
+  { 
+    path: 'testControls',
+    canActivate: [AuthGuardService],
+    canActivateChild: [AuthGuardService],    
+    component: TestControlsComponent
+  },  
   { 
     path: 'logout', 
     canActivate: [AuthGuardService],
