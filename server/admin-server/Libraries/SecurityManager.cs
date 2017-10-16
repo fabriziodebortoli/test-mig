@@ -254,7 +254,7 @@ namespace Microarea.AdminServer.Libraries
         {
             byte[] bytes = new byte[] { 72, 0, 56, 0, 106, 0, 75, 0, 104, 0, 90, 0, 106, 0, 107, 0, 100, 0, 77, 0, 32, 0, 108, 0, 55, 0, 110, 0, 97, 0, 42, 0, 43, 0, 116, 0, 53, 0, 118, 0, 102, 0, 76, 0, 48, 0, 56, 0, 98, 0, 86, 0, 116, 0, 95, 0, 115, 0, 117, 0, 99, 0, 97, 0 };
             char[] chars = new char[bytes.Length / sizeof(char)];
-            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
+            Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
             return new string(chars);
         }
 
@@ -268,7 +268,6 @@ namespace Microarea.AdminServer.Libraries
             DateTime t = DateTime.MinValue;
             DateTime.TryParse(s, out t);
             return t.ToUniversalTime();
-
         }
 
         //---------------------------------------------------------------------

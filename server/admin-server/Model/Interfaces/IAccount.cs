@@ -1,6 +1,4 @@
-﻿using Microarea.AdminServer.Services.BurgerData;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace Microarea.AdminServer.Model.Interfaces
 {

@@ -60,11 +60,7 @@ namespace Microarea.AdminServer.Controllers
             try
             {
                 burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
-                IAccount account = burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
-				{
-					new WhereCondition("AccountName", credentials.AccountName, QueryComparingOperators.IsEqual, false)
-				});
-
+                IAccount account = Account.GetAccountByName(burgerData, credentials.AccountName);
                 // L'account esiste sul db locale
                 if (account!= null)
                 {
@@ -361,13 +357,7 @@ namespace Microarea.AdminServer.Controllers
             }
             try
             {
-                IAccount account =  burgerData.GetObject<Account, IAccount>(
-					String.Empty, 
-					ModelTables.Accounts, 
-					SqlLogicOperators.AND, 
-					new WhereCondition[]{
-						new WhereCondition("AccountName", passwordInfo.AccountName, QueryComparingOperators.IsEqual, false)
-					});
+                IAccount account = Account.GetAccountByName(burgerData, passwordInfo.AccountName);
 
                 // L'account esiste sul db locale
                 if (account != null)
@@ -560,16 +550,16 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			// this is a pre-login, so only account name existence is verified
-			IAccount account = burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
-				{
-					new WhereCondition("AccountName", accountName, QueryComparingOperators.IsEqual, false),
-					new WhereCondition("Disabled", false, QueryComparingOperators.IsEqual, false),
-					new WhereCondition("Locked", false, QueryComparingOperators.IsEqual, false)
-				});
+            // this is a pre-login, so only account name existence is verified
+            IAccount account = Account.GetAccountByName(burgerData, accountName);
 
 			if (account != null)
 			{
+                if (account.Disabled || account.Locked)
+                {
+                    //TODO far qualcosa?
+                }
+
 				// TODO: check on GWAM if tables have been updated
 				IInstance[] instancesArray = this.GetInstances(accountName);
 				opRes.Result = true;
