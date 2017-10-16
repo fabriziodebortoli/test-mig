@@ -15,10 +15,10 @@ import { AdminIconComponent } from "./components/admin-icon/admin-icon.component
 import { AdminInputTextComponent } from "./components/admin-input-text/admin-input-text.component";
 import { AdminAlertComponent } from './components/admin-alert/admin-alert.component';
 import { AdminAlertDialogComponent } from './components/admin-alert-dialog/admin-alert-dialog.component';
+import { AdminButtonComponent } from './components/admin-button/admin-button.component';
 import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { InputsModule } from '@progress/kendo-angular-inputs';
-
 
 // import { SampleDirective } from './sample.directive';
 // import { SamplePipe } from './sample.pipe';
@@ -56,6 +56,7 @@ export * from './sample.component';
     AdminInputTextComponent,
     AdminAlertDialogComponent,
     AdminAlertComponent,
+    AdminButtonComponent,
     AdminAutoFocusDirective
     // SampleDirective,
     // SamplePipe
@@ -71,7 +72,8 @@ export * from './sample.component';
     AdminIconComponent,
     AdminInputTextComponent,
     AdminAlertDialogComponent,
-    AdminAlertComponent
+    AdminAlertComponent,
+    AdminButtonComponent
     // SampleDirective,
     // SamplePipe
   ],

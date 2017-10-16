@@ -48,6 +48,8 @@ export * from './rs-test.component';
 export * from './models';
 export * from './report-objects';
 
+import { CookieModule, CookieService } from 'ngx-cookie';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -59,6 +61,7 @@ export * from './report-objects';
     ChartsModule,
     ButtonsModule,
     InputsModule,
+    CookieModule.forRoot(),
     RouterModule.forChild([
       { path: 'reportingstudio/:ns/:params', component: ReportingStudioFactoryComponent },
       { path: 'reportingstudio/', component: ReportingStudioFactoryComponent },
@@ -106,7 +109,7 @@ export * from './report-objects';
   [
     ReportingStudioComponent
   ],
-  providers: []
+  providers: [CookieService]
 })
 
 export class ReportingStudioModule {
