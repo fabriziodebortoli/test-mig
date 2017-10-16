@@ -1,4 +1,4 @@
-import { DatabaseCredentials, ExtendedSubcriptionDatabase } from './../authentication/credentials';
+import { DatabaseCredentials, ExtendedSubscriptionDatabase } from './../authentication/credentials';
 import { AuthorizationProperties } from './../authentication/auth-info';
 import { SubscriptionDatabase } from './../model/subscriptionDatabase';
 import { Account } from '../model/account';
@@ -380,7 +380,7 @@ export class ModelService {
   }
 
    //--------------------------------------------------------------------------------------------------------
-   updateDatabase(subscriptionKey: string, body: ExtendedSubcriptionDatabase): Observable<OperationResult> {
+   updateDatabase(subscriptionKey: string, body: ExtendedSubscriptionDatabase): Observable<OperationResult> {
     
     let authorizationHeader = this.createAuthorizationHeader('jwt');
     

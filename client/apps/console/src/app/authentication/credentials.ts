@@ -31,7 +31,7 @@ export class DatabaseCredentials {
 }
 
 //================================================================================
-export class ExtendedSubcriptionDatabase {
+export class ExtendedSubscriptionDatabase {
     
     AdminCredentials: DatabaseCredentials;
     Database: SubscriptionDatabase;
