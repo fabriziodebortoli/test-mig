@@ -1,5 +1,5 @@
 <div class="tbcontainer">
-    <tb-es-context></tb-es-context>
+    <tb-es-context *ngIf="!isESActivated"></tb-es-context>
     <tb-application-date></tb-application-date>
     <tb-connection-status *ngIf="!isDesktop"></tb-connection-status>
     <tb-topbar-menu-test class="topbar-menu-layout"></tb-topbar-menu-test>

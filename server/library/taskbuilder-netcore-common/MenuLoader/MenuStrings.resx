@@ -129,11 +129,29 @@
   <data name="Administrator" xml:space="preserve">
     <value>Administrator</value>
   </data>
+  <data name="Applications" xml:space="preserve">
+    <value>Applications</value>
+  </data>
   <data name="AuditingEnabled" xml:space="preserve">
     <value>Auditing enabled</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ChangeCustomizationContext" xml:space="preserve">
+    <value>Change customization context</value>
+  </data>
+  <data name="ChooseCustomization" xml:space="preserve">
+    <value>Item customizations</value>
+  </data>
   <data name="ClearCachedData" xml:space="preserve">
     <value>Clear cached data</value>
+  </data>
+  <data name="CloneEasyStudioDocument" xml:space="preserve">
+    <value>Clone as a New Document</value>
+  </data>
+  <data name="CloseCustomizationContext" xml:space="preserve">
+    <value>Close customization context</value>
   </data>
   <data name="CloseLabel" xml:space="preserve">
     <value>Close</value>
@@ -150,6 +168,18 @@
   <data name="ConnectionInfo" xml:space="preserve">
     <value>Connection Info</value>
   </data>
+  <data name="CurrentApplication" xml:space="preserve">
+    <value>Current application</value>
+  </data>
+  <data name="CurrentModule" xml:space="preserve">
+    <value>Current module</value>
+  </data>
+  <data name="CustomizationContext" xml:space="preserve">
+    <value>Customization Context</value>
+  </data>
+  <data name="CustomizationNotActive" xml:space="preserve">
+    <value>Customization valid only for context</value>
+  </data>
   <data name="DBName" xml:space="preserve">
     <value>Database</value>
   </data>
@@ -161,6 +191,12 @@
   </data>
   <data name="DebugVersion" xml:space="preserve">
     <value>Debug Version</value>
+  </data>
+  <data name="DefaultNewApp" xml:space="preserve">
+    <value>NewApplication</value>
+  </data>
+  <data name="DefaultNewMod" xml:space="preserve">
+    <value>NewModule</value>
   </data>
   <data name="Disconnected" xml:space="preserve">
     <value>Disconnected</value>
@@ -192,11 +228,32 @@
   <data name="Instance" xml:space="preserve">
     <value>Instance</value>
   </data>
+  <data name="Modules" xml:space="preserve">
+    <value>Modules</value>
+  </data>
   <data name="MostUsedLabel" xml:space="preserve">
     <value>Recently used</value>
   </data>
+  <data name="NotDesignableDocument" xml:space="preserve">
+    <value>This document/batch is not designable</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="OpenDefaultContext" xml:space="preserve">
+    <value>Open Default Context</value>
+  </data>
+  <data name="OpenEasyStudioNewCustomization" xml:space="preserve">
+    <value>New EasyStudio customization</value>
+  </data>
+  <data name="OpenEasyStudioWithCustomization" xml:space="preserve">
+    <value>Edit EasyStudio Customization</value>
+  </data>
   <data name="Provider" xml:space="preserve">
     <value>Provider</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="SecurityEnabled" xml:space="preserve">
     <value>Security enabled</value>

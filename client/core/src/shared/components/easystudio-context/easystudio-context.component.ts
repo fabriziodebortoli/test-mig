@@ -1,7 +1,7 @@
 import { LocalizationService } from './../../../menu/services/localization.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
 import { LayoutModule, PanelBarExpandMode } from '@progress/kendo-angular-layout';
-import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Button } from '@progress/kendo-angular-buttons';
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
@@ -17,15 +17,16 @@ interface MyObj {
 })
 
 
-export class EasyStudioContextComponent implements OnInit, AfterViewInit {
-
+export class EasyStudioContextComponent implements OnInit, AfterViewInit, OnDestroy {
+    public localizationsLoadedSubscription: any;
+    public localizationLoaded: boolean;
 
     public expandMode: number = PanelBarExpandMode.Multiple;
     public opened: boolean = false;
 
-    title = 'Customization Context';
-	defaultNewApp = 'NewApplication';
-	defaultNewMod = 'NewModule';
+    public title: string;
+    public defaultNewApp: string;
+    public defaultNewMod: string;
 
     public isEasyStudioActivated = true;
     public showAddModuleButton = false;
@@ -36,54 +37,76 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
     public memory: { allApplications: MyObj[] };
     public applicSelected: string;
     public moduleSelected: string;
-    public lastApplicSelected:string;
+    public lastApplicSelected: string;
     public lastModuleSelected: string;
     public isThisPairDefault = false;
     public type = "Customization";
 
     public newPairVisible = false;
 
-    constructor(public httpMenuService: HttpMenuService) {
-        let sub =this.httpMenuService.getEsAppsAndModules().subscribe((result) => {
-            this.extractNames(result);
-            sub.unsubscribe();
-        });
+    constructor(
+        public httpMenuService: HttpMenuService,
+        public localizationService: LocalizationService
+    ) {
+       
     }
 
     ngOnInit(): void {
-        if(this.opened && this.lastApplicSelected && this.lastModuleSelected){
+        this.localizationsLoadedSubscription = this.localizationService.localizationsLoaded.subscribe((loaded) => {
+            this.localizationLoaded = loaded;
+            if (this.localizationLoaded) {
+                this.title = this.localizationService.localizedElements.CustomizationContext;
+                this.defaultNewApp = this.localizationService.localizedElements.DefaultNewApp;
+                this.defaultNewMod = this.localizationService.localizedElements.DefaultNewMod;
+            }
+        });
+        
+        let sub = this.httpMenuService.getEsAppsAndModules().subscribe((result) => {
+            this.extractNames(result);
+            sub.unsubscribe();
+        });
+        if (this.opened && this.lastApplicSelected && this.lastModuleSelected) {
             this.hightlightApp(this.lastApplicSelected);
             this.hightlightMod(this.lastModuleSelected);
         }
     }
 
-    ngAfterViewInit(){
-        if(this.opened && this.lastApplicSelected && this.lastModuleSelected){
+    ngAfterViewInit() {
+        if (this.opened && this.lastApplicSelected && this.lastModuleSelected) {
             this.hightlightApp(this.lastApplicSelected);
             this.hightlightMod(this.lastModuleSelected);
         }
+    }
+
+    ngOnDestroy() {
+        this.localizationsLoadedSubscription.unsubscribe();
     }
 
 
     //--------------------------------------------------------------------------------
     public contextIsValid() {
-       return !this.disabledIf();
+        return !this.disabledIf();
     }
 
-   //--------------------------------------------------------------------------------
-   public canShowEasyStudioButton(){
+    //--------------------------------------------------------------------------------
+    public canShowEasyStudioButton() {
         return true;
     }
 
     //--------------------------------------------------------------------------------
     public close() {
         this.opened = false;
+        let sub = this.httpMenuService.closeCustomizationContext().subscribe((result) => {
+            if(result){
+                this.applicSelected = undefined;
+                this.moduleSelected = undefined;
+            }
+            sub.unsubscribe();
+        });
     }
 
     //--------------------------------------------------------------------------------
     public cancel() {
-        this.applicSelected = undefined;
-        this.moduleSelected = undefined;
         this.opened = false;
     }
 
@@ -93,11 +116,12 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
     }
 
     //--------------------------------------------------------------------------------
-    public refresh(){
+    public refresh() {
         let sub = this.httpMenuService.refreshEasyBuilderApps().subscribe(
             result => {
                 this.extractNames(result);
-                sub.unsubscribe();}
+                sub.unsubscribe();
+            }
         );
     }
 
@@ -117,12 +141,15 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
 
     //--------------------------------------------------------------------------------
     private extractNames(result: Response) {
-        if (result == undefined) return;      
+        if (result == undefined) return;
         this.applications = [];
         this.modules = [];
         this.memory = { allApplications: [] };
 
         let resultJson = result.json();        //let resultText = result.text();
+        let body = result["_body"];
+        if(body === undefined || body === "" )
+            return;
         this.memory = JSON.parse(result["_body"]);
         let allApplications = resultJson["allApplications"];
 
@@ -147,7 +174,7 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
     }
 
     //--------------------------------------------------------------------------------
-    private setApplic(app: string, inputToSet) {  
+    private setApplic(app: string, inputToSet) {
         this.applicSelected = app;
         this.moduleSelected = undefined;
         this.modules = this.getModulesBy(app);
@@ -155,33 +182,33 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
     }
 
     //--------------------------------------------------------------------------------
-    private setModule(mod: string, inputToSet) {      
+    private setModule(mod: string, inputToSet) {
         this.moduleSelected = mod;
         this.hightlightMod(mod);
     }
 
     //--------------------------------------------------------------------------------
     hightlightApp(item: any) {
-        if(!item) return;
-        if (this.lastApplicSelected && this.lastApplicSelected){
+        if (!item) return;
+        if (this.lastApplicSelected && this.lastApplicSelected) {
             let prev = document.getElementById(this.lastApplicSelected);
-            if(prev) prev.className = "";
+            if (prev) prev.className = "";
         }
         let button = this.hightlightButton(item);
-        if(button){
+        if (button) {
             this.lastApplicSelected = button.id;
             button.className = "selected";
         }
         if (this.modules.length == 1) {
             this.moduleSelected = this.modules[0];
             let mod = document.getElementById(this.moduleSelected);
-            if(mod) mod.className = "";
+            if (mod) mod.className = "";
             this.hightlightMod(this.moduleSelected);
         }
         // //se invece ho già indicazione di un modulo, controllo che esista e lo evidenzio
-		// else if ($scope.module && $scope.ExistsModule(elem, $scope.module)) {
-		// 	$scope.hightlightMod($scope.module);
-		// }
+        // else if ($scope.module && $scope.ExistsModule(elem, $scope.module)) {
+        // 	$scope.hightlightMod($scope.module);
+        // }
     }
 
     //---------------------------------------------------------------------------------------------
@@ -189,12 +216,12 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
         // if ($scope.application == easyStudioService.defaultApplication && $scope.module == easyStudioService.defaultModule) {
         // 	$scope.formData.isFavorite = true;
         // }
-        if (this.lastModuleSelected){
+        if (this.lastModuleSelected) {
             let prev = document.getElementById(this.lastModuleSelected);
-            if(prev) prev.className = "";
+            if (prev) prev.className = "";
         }
         let button = this.hightlightButton(item);
-        if(!button) return;
+        if (!button) return;
         this.lastModuleSelected = button.id;
         button.className = "selected";
     };
@@ -208,9 +235,9 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
     }
 
     //--------------------------------------------------------------------------------
-    showNewPair(show : boolean){
+    showNewPair(show: boolean) {
         this.newPairVisible = show;
-        if(show){
+        if (show) {
             this.applicSelected = this.generateNewApplicationName();
             this.moduleSelected = this.generateNewModuleName(this.applicSelected);
         }
@@ -226,8 +253,8 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
             return;
         if (newAppNameEl.value === undefined || newModNameEl.value === undefined)
             return;
-            let newAppName = newAppNameEl.value;
-            let newModName = newModNameEl.value;
+        let newAppName = newAppNameEl.value;
+        let newModName = newModNameEl.value;
         if (this.memory.allApplications.indexOf(newAppName, newModName) === -1) {
             //type = standard or custom
             let sub = this.httpMenuService.createNewContext(this.applicSelected, this.moduleSelected, this.type).subscribe((result) => {
@@ -243,7 +270,7 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
         this.newPairVisible = false;
         this.modules = this.getModulesBy(newAppName);
         this.refresh();
-        let sub = this.httpMenuService.setAppAndModule(this.applicSelected, this.moduleSelected, this.isThisPairDefault).subscribe((result) => {     
+        let sub = this.httpMenuService.setAppAndModule(this.applicSelected, this.moduleSelected, this.isThisPairDefault).subscribe((result) => {
             sub.unsubscribe();
         });
     }
@@ -251,25 +278,25 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
     //--------------------------------------------------------------------------------
     generateNewApplicationName(): any {
         var i = 0;
-		var newName = undefined;
-		do {
-			i++;
-			newName = this.defaultNewApp + i.toString();
+        var newName = undefined;
+        do {
+            i++;
+            newName = this.defaultNewApp + i.toString();
 
-		} while (this.exists(newName, undefined));
-		this.newPairVisible = true;
-		return newName;
+        } while (this.exists(newName, undefined));
+        this.newPairVisible = true;
+        return newName;
     }
 
     //--------------------------------------------------------------------------------
     generateNewModuleName(appName) {
         var i = 0;
-		var newName = undefined;
-		do {
-			i++;
-			newName = this.defaultNewMod + i.toString();
+        var newName = undefined;
+        do {
+            i++;
+            newName = this.defaultNewMod + i.toString();
 
-		} while (this.exists(newName, undefined));
+        } while (this.exists(newName, undefined));
         return newName;
     }
 
@@ -278,19 +305,19 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
         if (newName === undefined)
             return;
         var list = [];
-        if(newModName === undefined){
+        if (newModName === undefined) {
             list = this.applications;
             return list.indexOf(newName) !== -1;
         }
-        
+
         list = this.getModulesBy(newName);
         return list.indexOf(newModName) !== -1;
     }
 
     ifHasToBe(mod) {
-		return ((this.modules.length == 1) ||
-		(this.moduleSelected && this.moduleSelected === mod));
-	}
+        return ((this.modules.length == 1) ||
+            (this.moduleSelected && this.moduleSelected === mod));
+    }
 
 
 
