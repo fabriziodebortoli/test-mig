@@ -42,7 +42,7 @@ export { RsExportService } from './rs-export.service';
 export { AskdialogService } from './report-objects/askdialog/askdialog.service';
 import { ExportdialogComponent } from './report-objects/exportdialog/exportdialog.component';
 import { SnapshotdialogComponent } from './report-objects/snapshotdialog/snapshotdialog.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export * from './rs-test.component';
 export * from './models';
@@ -51,6 +51,7 @@ export * from './report-objects';
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     TbSharedModule,
     ExcelModule,
     DialogModule,
