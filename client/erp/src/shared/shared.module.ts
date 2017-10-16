@@ -24,9 +24,12 @@ const KENDO_UI_MODULES = [
 ];
 
 import { NoSpacesEditComponent } from './controls/no-spaces/no-spaces.component';
-export { NoSpacesEditComponent } from './controls/no-spaces/no-spaces.component';
+import { VatComponent } from './controls/vat/vat.component';
 
-const ERP_COMPONENTS = [NoSpacesEditComponent];
+export { NoSpacesEditComponent } from './controls/no-spaces/no-spaces.component';
+export { VatComponent } from './controls/vat/vat.component';
+
+const ERP_COMPONENTS = [NoSpacesEditComponent, VatComponent];
 
 @NgModule({
     imports: [TaskbuilderCoreModule, KENDO_UI_MODULES],
