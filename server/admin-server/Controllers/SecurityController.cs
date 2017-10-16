@@ -60,11 +60,7 @@ namespace Microarea.AdminServer.Controllers
             try
             {
                 burgerData = new BurgerData(_settings.DatabaseInfo.ConnectionString);
-                IAccount account = burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
-				{
-					new WhereCondition("AccountName", credentials.AccountName, QueryComparingOperators.IsEqual, false)
-				});
-
+                IAccount account = Account.GetAccountByName(burgerData, credentials.AccountName);
                 // L'account esiste sul db locale
                 if (account!= null)
                 {
@@ -102,7 +98,7 @@ namespace Microarea.AdminServer.Controllers
 					}
 
                     // Verifica credenziali su db.
-                    LoginReturnCodes res = LoginBaseClass.VerifyCredential(((Account)account), credentials.Password, burgerData);
+                    LoginReturnCodes res = ((Account)account).VerifyCredential(credentials.Password, burgerData);
 
                     if (res != LoginReturnCodes.NoError)
                     {
@@ -197,7 +193,7 @@ namespace Microarea.AdminServer.Controllers
 						}
 
 						// Verifica credenziali.
-						LoginReturnCodes res = LoginBaseClass.VerifyCredential(((Account)account), credentials.Password, burgerData);
+						LoginReturnCodes res = ((Account)account).VerifyCredential(credentials.Password, burgerData);
 
                         if (res != LoginReturnCodes.NoError)
                         {
@@ -354,20 +350,14 @@ namespace Microarea.AdminServer.Controllers
             // Used as a response to the front-end.
             BootstrapToken bootstrapToken = new BootstrapToken();
             BootstrapTokenContainer bootstrapTokenContainer = new BootstrapTokenContainer();
-
+             
             if (passwordInfo == null || String.IsNullOrEmpty(passwordInfo.AccountName))
             {
                 return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, Strings.AccountNameCannotBeEmpty);
             }
             try
             {
-                IAccount account =  burgerData.GetObject<Account, IAccount>(
-					String.Empty, 
-					ModelTables.Accounts, 
-					SqlLogicOperators.AND, 
-					new WhereCondition[]{
-						new WhereCondition("AccountName", passwordInfo.AccountName, QueryComparingOperators.IsEqual, false)
-					});
+                IAccount account = Account.GetAccountByName(burgerData, passwordInfo.AccountName);
 
                 // L'account esiste sul db locale
                 if (account != null)
@@ -410,7 +400,7 @@ namespace Microarea.AdminServer.Controllers
                     {
                         return SetErrorResponse(bootstrapTokenContainer, (int)LoginReturnCodes.Error, accountIdentityPack.Message);
                     }
-                    LoginReturnCodes res = LoginBaseClass.ChangePassword(((Account)account), passwordInfo, burgerData);
+                    LoginReturnCodes res = ((Account)account).ChangePassword(passwordInfo, burgerData);
 
                     if (res != LoginReturnCodes.NoError)
                     { 
@@ -560,16 +550,16 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = _jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			// this is a pre-login, so only account name existence is verified
-			IAccount account = burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
-				{
-					new WhereCondition("AccountName", accountName, QueryComparingOperators.IsEqual, false),
-					new WhereCondition("Disabled", false, QueryComparingOperators.IsEqual, false),
-					new WhereCondition("Locked", false, QueryComparingOperators.IsEqual, false)
-				});
+            // this is a pre-login, so only account name existence is verified
+            IAccount account = Account.GetAccountByName(burgerData, accountName);
 
 			if (account != null)
 			{
+                if (account.Disabled || account.Locked)
+                {
+                    //TODO far qualcosa?
+                }
+
 				// TODO: check on GWAM if tables have been updated
 				IInstance[] instancesArray = this.GetInstances(accountName);
 				opRes.Result = true;

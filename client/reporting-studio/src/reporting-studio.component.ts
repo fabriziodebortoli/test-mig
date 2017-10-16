@@ -2,7 +2,7 @@ import { RsExportService } from './rs-export.service';
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
 import { WebSocketService, InfoService } from '@taskbuilder/core';
 import { UtilsService } from '@taskbuilder/core';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -103,11 +103,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       authtoken: this.cookieService.get('authtoken')
     };
 
-    if (this.args.params.runAtTbLoader)
-    {
+    if (this.args.params.runAtTbLoader) {
       message.componentId = this.cmpId;
     }
-    
+
     this.rsService.doSendSync(JSON.stringify(message));
   }
 
@@ -381,7 +380,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   //--------------------------------------------------
-  startSavePDF() {
+  async startSavePDF() {
+    await this.rsExportService.timeout(3000);
     this.rsExportService.pdfState = PdfType.PDF;
     this.PageNumber();
   }

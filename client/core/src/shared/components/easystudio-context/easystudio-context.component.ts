@@ -1,4 +1,4 @@
-import { LocalizationService } from './../../../menu/services/localization.service';
+import { LocalizationService } from './../../../core/services/localization.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
 import { LayoutModule, PanelBarExpandMode } from '@progress/kendo-angular-layout';
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
@@ -6,10 +6,11 @@ import { Button } from '@progress/kendo-angular-buttons';
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 
-interface MyObj {
+export interface MyObj {
     application: string
     module: string
 }
+
 @Component({
     selector: 'tb-es-context',
     templateUrl: './easystudio-context.component.html',
@@ -24,9 +25,15 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit, OnDest
     public expandMode: number = PanelBarExpandMode.Multiple;
     public opened: boolean = false;
 
+<<<<<<< HEAD
     public title: string;
     public defaultNewApp: string;
     public defaultNewMod: string;
+=======
+    title = 'Customization Context';
+    defaultNewApp = 'NewApplication';
+    defaultNewMod = 'NewModule';
+>>>>>>> 75f79e7e6db4c0786d8d7591d78ae1c155c2eed5
 
     public isEasyStudioActivated = true;
     public showAddModuleButton = false;
@@ -48,6 +55,7 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit, OnDest
         public httpMenuService: HttpMenuService,
         public localizationService: LocalizationService
     ) {
+<<<<<<< HEAD
        
     }
 
@@ -65,6 +73,15 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit, OnDest
             this.extractNames(result);
             sub.unsubscribe();
         });
+=======
+        let sub = this.httpMenuService.getEsAppsAndModules().subscribe((result) => {
+            this.extractNames(result);
+            sub.unsubscribe();
+        });
+    }
+
+    ngOnInit(): void {
+>>>>>>> 75f79e7e6db4c0786d8d7591d78ae1c155c2eed5
         if (this.opened && this.lastApplicSelected && this.lastModuleSelected) {
             this.hightlightApp(this.lastApplicSelected);
             this.hightlightMod(this.lastModuleSelected);

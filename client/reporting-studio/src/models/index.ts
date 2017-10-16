@@ -1,3 +1,5 @@
+export { barcode } from './barcode.model';
+export { BarcodeType } from './barcode-type.model';
 export { askGroup } from './ask-group.model';
 export { askObj } from './ask-obj.model';
 export { AskObjectType } from './ask-object-type.model';
@@ -20,7 +22,7 @@ export { label } from './label.model';
 export { LinkType } from './link-type.model';
 export { link } from './link.model';
 export { Message } from './message.model';
-export { PdfType, SvgType, PngType} from './export-type.model';
+export { PdfType, SvgType, PngType } from './export-type.model';
 export { radio } from './radio.model';
 export { rect } from './rect.model';
 export { repeater } from './repeater.model';

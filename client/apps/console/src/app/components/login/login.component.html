@@ -1,5 +1,5 @@
 <div class="container"style="padding:10px">
-    <admin-alert></admin-alert>
+    <admin-button [buttonText]="'kendo button'"></admin-button>
     <div class="row center-xs">
         <div class="col-xs-12" class="loginBox">
             <div class="row between-xs" style="padding:20px 20px 10px 20px;">
@@ -21,7 +21,6 @@
                     <admin-input-text 
                         (keydown)="onKeyDown($event)" 
                         [inputLabel]="'AccountName'"
-                        [textType]="'text'"
                         [(inputData)]="credentials.accountName"></admin-input-text>
                 </div>
 

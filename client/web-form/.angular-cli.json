@@ -8,6 +8,7 @@
         "outDir": "dist",
         "assets": [
             { "glob": "**/*", "input": "../node_modules/@taskbuilder/icons/fonts/", "output": "./assets/m4" },
+            { "glob": "**/*", "input": "../node_modules/bwip-angular2/fonts/", "output": "./assets/bwipjs-fonts" },
             "assets",
             "favicon.ico",
             "config.json"
@@ -25,7 +26,9 @@
             "form.scss",
             "styles.scss"
         ],
-        "scripts": [],
+        "scripts": [
+            "../node_modules/hammerjs/hammer.min.js"
+        ],
         "environmentSource": "environments/environment.ts",
         "environments": {
             "dev": "environments/environment.ts",

@@ -3,7 +3,7 @@ import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 import { OperationResult } from './../../shared/models/operation-result.model';
 import { LoginSession } from './../../shared/models/login-session.model';
@@ -36,14 +36,35 @@ export class HttpService {
     isLogged(params: { authtoken: string }): Observable<boolean> {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'isValidToken/', params)
             .map((res: Response) => {
-                return res.ok && res.json().success === true;
+                if (!res.ok)
+                    return false;
+                let jObj = res.json();
+                if (jObj.culture) {
+                    this.infoService.setCulture(jObj.culture);
+                    this.infoService.saveCulture();
+                }
+                return jObj.success === true;
             });
     }
 
     login(connectionData: LoginSession): Observable<LoginCompact> {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'login-compact/', connectionData)
             .map((res: Response) => {
-                return res.json();
+                let jObj = res.json();
+                if (jObj.culture) {
+                    this.infoService.setCulture(jObj.culture);
+                    this.infoService.saveCulture();
+                }
+                return jObj;
+            });
+    }
+
+    
+    changePassword(params: { user:string, oldPassword: string, newPassword:string}): Observable<LoginCompact> {
+        return this.postData(this.infoService.getAccountManagerBaseUrl() + 'change-password/', params)
+            .map((res: Response) => {
+                let jObj = res.json();
+                return jObj;
             });
     }
 
@@ -67,6 +88,13 @@ export class HttpService {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'logoff/', params)
             .map((res: Response) => {
                 return res.json();
+            });
+    }
+
+    canLogoff(params: { authtoken: string }): Observable<OperationResult> {
+        return this.postData(this.infoService.getDocumentBaseUrl() + 'canLogoff/', params)
+            .map((res: Response) => {
+                return this.createOperationResult(res);
             });
     }
 
@@ -98,8 +126,14 @@ export class HttpService {
     postData(url: string, data: Object): Observable<Response> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers }).catch(this.handleError);
-        //return this.http.post(url, this.utils.serializeData(data), { withCredentials: true });
+        return this.http.post(url, this.utils.serializeData(data), { withCredentials: true, headers: headers })
+            .catch(this.handleError);
+
+        /*obs.map((res: Response) => {
+            let headers: Headers = res.headers;
+            var cookie = headers.getAll('set-cookie');
+        })
+        return obs;*/
     }
 
     handleError(error: any): ErrorObservable {
@@ -107,7 +141,8 @@ export class HttpService {
         // We'd also dig deeper into the error to get a better message
         let errMsg = (error.message) ? error.message :
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        this.logger.error(errMsg);
+        if (this.logger)
+            this.logger.error(errMsg);
 
         return Observable.throw(errMsg);
     }
@@ -137,4 +172,18 @@ export class HttpService {
             })
             .catch(this.handleError);
     }
+
+
+    /**
+     * API /loadLocalizedElements
+     * 
+     * @returns {Observable<any>} loadLocalizedElements
+     */
+    loadLocalizedElements(): Observable<any> {
+        return this.postData(this.infoService.getMenuServiceUrl() + 'getLocalizedElements/', {})
+            .map((res: Response) => {
+                return res.json();
+            });
+    };
+
 }

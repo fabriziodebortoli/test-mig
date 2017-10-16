@@ -179,7 +179,7 @@ export class BOService extends DocumentService {
         this.webSocketService.closeServerComponent(this.mainCmpId);
     }
     isServerSideCommand(idCommand: string) {
-        return this.serverSideCommandMap.includes(idCommand);
+        return this.serverSideCommandMap.indexOf(idCommand) > 0;
     }
     public appendToModelStructure(modelStructure: any) {
         //aggiorna i campi usati dal modello client

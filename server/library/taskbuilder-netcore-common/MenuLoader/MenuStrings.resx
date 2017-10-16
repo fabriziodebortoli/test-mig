@@ -138,11 +138,16 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+<<<<<<< HEAD
   <data name="ChangeCustomizationContext" xml:space="preserve">
     <value>Change customization context</value>
   </data>
   <data name="ChooseCustomization" xml:space="preserve">
     <value>Item customizations</value>
+=======
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change password</value>
+>>>>>>> 75f79e7e6db4c0786d8d7591d78ae1c155c2eed5
   </data>
   <data name="ClearCachedData" xml:space="preserve">
     <value>Clear cached data</value>
@@ -159,6 +164,12 @@
   <data name="CompanyLabel" xml:space="preserve">
     <value>Company</value>
   </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
   <data name="Connected" xml:space="preserve">
     <value>Connected</value>
   </data>
@@ -169,6 +180,7 @@
     <value>Connection Info</value>
   </data>
   <data name="CurrentApplication" xml:space="preserve">
+<<<<<<< HEAD
     <value>Current application</value>
   </data>
   <data name="CurrentModule" xml:space="preserve">
@@ -179,6 +191,12 @@
   </data>
   <data name="CustomizationNotActive" xml:space="preserve">
     <value>Customization valid only for context</value>
+=======
+    <value>Current Application</value>
+  </data>
+  <data name="CurrentModule" xml:space="preserve">
+    <value>Current Module</value>
+>>>>>>> 75f79e7e6db4c0786d8d7591d78ae1c155c2eed5
   </data>
   <data name="DBName" xml:space="preserve">
     <value>Database</value>
@@ -228,12 +246,22 @@
   <data name="Instance" xml:space="preserve">
     <value>Instance</value>
   </data>
+<<<<<<< HEAD
+=======
+  <data name="Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+>>>>>>> 75f79e7e6db4c0786d8d7591d78ae1c155c2eed5
   <data name="Modules" xml:space="preserve">
     <value>Modules</value>
   </data>
   <data name="MostUsedLabel" xml:space="preserve">
     <value>Recently used</value>
   </data>
+<<<<<<< HEAD
   <data name="NotDesignableDocument" xml:space="preserve">
     <value>This document/batch is not designable</value>
   </data>
@@ -248,18 +276,57 @@
   </data>
   <data name="OpenEasyStudioWithCustomization" xml:space="preserve">
     <value>Edit EasyStudio Customization</value>
+=======
+  <data name="NewPassword" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Old password</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordNotMaching" xml:space="preserve">
+    <value>PasswordNotMaching</value>
+>>>>>>> 75f79e7e6db4c0786d8d7591d78ae1c155c2eed5
   </data>
   <data name="Provider" xml:space="preserve">
     <value>Provider</value>
   </data>
+<<<<<<< HEAD
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
+=======
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search...</value>
+>>>>>>> 75f79e7e6db4c0786d8d7591d78ae1c155c2eed5
   </data>
   <data name="SecurityEnabled" xml:space="preserve">
     <value>Security enabled</value>
   </data>
   <data name="UsedSpace" xml:space="preserve">
     <value>Used space</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="UserAlreadyConnected" xml:space="preserve">
+    <value>The user is already connected to the system. Do you want to close previous working session and open new one?</value>
+  </data>
+  <data name="UserAlreadyConnectedTitle" xml:space="preserve">
+    <value>User already connected</value>
+  </data>
+  <data name="UserMustChangePassword" xml:space="preserve">
+    <value>You need to change password</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
@@ -269,5 +336,8 @@
   </data>
   <data name="WebApplicationServer" xml:space="preserve">
     <value>Web Application Server</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

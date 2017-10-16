@@ -2,8 +2,7 @@ import { Component, OnInit, Input, OnChanges, Output, EventEmitter, OnDestroy } 
 import { Subscription } from 'rxjs';
 
 import { SocketConnectionStatus } from '../../models/websocket-connection.enum';
-
-import { LocalizationService } from './../../../menu/services/localization.service';
+import { LocalizationService } from './../../../core/services/localization.service';
 import { WebSocketService } from './../../../core/services/websocket.service';
 
 import { ControlComponent } from './../control.component';
@@ -22,7 +21,8 @@ export class ConnectionStatusComponent implements OnDestroy {
   status: SocketConnectionStatus = SocketConnectionStatus.None;
   constructor(
     public webSocketService: WebSocketService,
-    public localizationService: LocalizationService) {
+    public localizationService: LocalizationService
+  ) {
 
     this.subscriptions.push(localizationService.localizationsLoaded.subscribe((loaded) => {
       this.localizationLoaded = loaded;

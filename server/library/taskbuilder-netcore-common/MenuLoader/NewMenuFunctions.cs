@@ -152,8 +152,6 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------------
 		internal static string GetAngularJSSafeJson(XmlDocument documMenu)
 		{
-			//TODOLUCA
-			//string allJson = JsonConvert.SerializeXmlNode(documMenu, Newtonsoft.Json.Formatting.None);
 			string allJson = Newtonsoft.Json.JsonConvert.SerializeXmlNode(documMenu, Newtonsoft.Json.Formatting.None);
 			return Jsonizer(allJson);
 		}
@@ -183,8 +181,8 @@ namespace Microarea.Common.MenuLoader
 				try
 				{
 					//doc.Load(file);  TODOLUCA
-					FileInfo saveFile = new FileInfo(file);
-					using (FileStream text = saveFile.Open(FileMode.Open, FileAccess.Read))
+					FileInfo fileLoad = new FileInfo(file);
+					using (FileStream text = fileLoad.Open(FileMode.Open, FileAccess.Read))
 					{
 						doc.Load(text);
 					}
@@ -275,13 +273,6 @@ namespace Microarea.Common.MenuLoader
 
 		//	return result;
 		//}
-
-		//---------------------------------------------------------------------------
-		public static string ChangePassword(string user, string oldPassword, string password)
-		{
-			GenericForms.LoginFacilities lf = new GenericForms.LoginFacilities();
-			return lf.ChangePassword(user, oldPassword, password);
-		}
 
 		//---------------------------------------------------------------------------
 		public static void ChangeTheme(string themePath, string user, string company)

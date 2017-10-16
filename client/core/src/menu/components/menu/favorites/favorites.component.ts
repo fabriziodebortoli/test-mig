@@ -1,7 +1,8 @@
+import { LocalizationService } from './../../../../core/services/localization.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { SettingsService } from './../../../services/settings.service';
-import { LocalizationService } from './../../../services/localization.service';
+
 import { UtilsService } from './../../../../core/services/utils.service';
 import { ImageService } from './../../../services/image.service';
 import { MenuService } from './../../../services/menu.service';
