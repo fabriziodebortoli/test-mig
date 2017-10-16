@@ -79,25 +79,8 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
 
   //--------------------------------------------------------------------------------
   initEasyStudioData(object, template: TemplateRef<any>, ref: ElementRef) {
-   /* let sub = this.httpMenuService.initEasyStudioData(object).subscribe((result) => {
-      this.memory = { Customizations: [] };
-      let res = result["_body"];
-      if (res !== "") {
-        this.memory = JSON.parse(result["_body"]);
-        if (this.memory != undefined) {
-          this.customizations = [];
-          let r = this.memory.Customizations;
-          r.forEach(element => {
-            this.customizations.push(element.customizationName);
-          });
-        }
-      }*/
-      this.isDesignable = this.customizations != undefined;
-   //   this.onToggle();
-      this.togglePopup(template, ref);
-      //sub.unsubscribe();
-   // });
-
+    this.isDesignable = this.customizations != undefined;
+    this.togglePopup(template, ref);
   }
 
   //--------------------------------------------------------------------------------
@@ -135,16 +118,16 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
   }
 
 
-/*
-  //--------------------------------------------------------------------------------
-  public onToggle(): void {
-    this.show = !this.show;
-  }
-
-  //--------------------------------------------------------------------------------
-  public close() {
-    this.show = false;
-  }*/
+  /*
+    //--------------------------------------------------------------------------------
+    public onToggle(): void {
+      this.show = !this.show;
+    }
+  
+    //--------------------------------------------------------------------------------
+    public close() {
+      this.show = false;
+    }*/
 
   //--------------------------------------------------------------------------------
   getCustomizationTooltip(customization) {
@@ -174,7 +157,7 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     // else {}
     let sub = this.httpMenuService.runEasyStudio(object.target, object.customizationName).subscribe((result) => {
       alert("easyStudio lanciato");
-     // this.close();
+      // this.close();
       sub.unsubscribe();
     });
 

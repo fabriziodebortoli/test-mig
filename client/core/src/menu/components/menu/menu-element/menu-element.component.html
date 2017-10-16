@@ -5,8 +5,8 @@
         <div class="header">
             <m4-icon class="object-type" icon="{{imageService.getObjectIcon(object)}}" [ngClass]="object.objectType"></m4-icon>
             <span (click)="runFunction(object)">{{object.title}}</span>
-            <m4-icon class="star" [class.favorite]="object.isFavorite" icon="{{getFavoriteClass(object)}}" (click)="menuService.toggleFavorites(object)" (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false"></m4-icon>
             <tb-item-customizations-dropdown *ngIf="canShowEasyStudioButton(object)" [objectM]="object"></tb-item-customizations-dropdown>
+            <m4-icon class="star" [class.favorite]="object.isFavorite" icon="{{getFavoriteClass(object)}}" (click)="menuService.toggleFavorites(object)" (mouseenter)="object.starHover=true" (mouseleave)="object.starHover=false"></m4-icon>
         </div>
 
         <p (click)="runFunction(object)" *ngIf="menuService?.showDescription" class="description">{{lorem}}</p>
