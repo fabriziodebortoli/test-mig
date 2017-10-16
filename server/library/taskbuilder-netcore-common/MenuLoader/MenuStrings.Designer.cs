@@ -124,7 +124,6 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
-
         ///   Looks up a localized string similar to Change customization context.
         /// </summary>
         public static string ChangeCustomizationContext {
@@ -136,9 +135,13 @@ namespace Microarea.Common.MenuLoader {
         /// <summary>
         ///   Looks up a localized string similar to Item customizations.
         /// </summary>
-        public static string ChooseCustomization {
-            get {
-                return ResourceManager.GetString("ChooseCustomization", resourceCulture);
+        public static string ChooseCustomization
+		{
+			get
+			{
+				return ResourceManager.GetString("ChooseCustomization", resourceCulture);
+			}
+		}
 
         ///   Looks up a localized string similar to Change password.
         /// </summary>

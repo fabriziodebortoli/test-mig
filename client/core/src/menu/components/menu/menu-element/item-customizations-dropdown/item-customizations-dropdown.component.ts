@@ -1,6 +1,6 @@
+import { LocalizationService } from './../../../../../core/services/localization.service';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { EasyStudioContextComponent } from './../../../../../shared/components/easystudio-context/easystudio-context.component';
-import { LocalizationService } from './../../../../services/localization.service';
 import { SettingsService } from './../../../../services/settings.service';
 import { Component, Input, ViewEncapsulation, OnDestroy, TemplateRef, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
 import { HttpMenuService } from './../../../../services/http-menu.service';
@@ -31,7 +31,6 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
   public currentApplication: any;
   public customizations: string[];
   @Input() objectM: any;
-  //public show: boolean = false;
   public memory: { Customizations: MyObj[] };
   elRef: HTMLElement;
   offsetLeft: any;

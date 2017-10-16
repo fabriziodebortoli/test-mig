@@ -144,6 +144,7 @@
   </data>
   <data name="ChooseCustomization" xml:space="preserve">
     <value>Item customizations</value>
+	  </data>
   <data name="ChangePassword" xml:space="preserve">
     <value>Change password</value>
   </data>
