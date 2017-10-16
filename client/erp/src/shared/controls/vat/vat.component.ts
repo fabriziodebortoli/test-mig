@@ -1,13 +1,9 @@
-import { TbComponentService } from '@TaskBuilder/core/core/services/tbcomponent.service';
-import { LayoutService } from '@TaskBuilder/core/core/services/layout.service';
-import { EventDataService } from '@TaskBuilder/core/core/services/eventdata.service';
-import { ControlComponent } from '@TaskBuilder/core/shared/controls';
+import { TbComponentService, LayoutService, ControlComponent, EventDataService } from '@taskbuilder/core';
 import { Component, Input } from '@angular/core';
-import { Store } from 'core/services';
 import Tax from './tax';
 
 @Component({
-  selector: 'tb-vat',
+  selector: 'erp-vat',
   templateUrl: './vat.component.html',
   styleUrls: ['./vat.component.scss']
 })
@@ -16,16 +12,12 @@ export class VatComponent extends ControlComponent {
   @Input() isoCode: string;
   errorMessage: any;
 
-  constructor(
-    private eventData: EventDataService,
-    layoutService: LayoutService,
-    tbComponentService: TbComponentService,
-    store: Store
-  ) {
+  constructor( private eventData: EventDataService, layoutService: LayoutService, tbComponentService: TbComponentService ) {
     super(layoutService, tbComponentService);
-    store
-      .select(s => s[this.isoCode])
-      .subscribe(s => this.validate());
+  }
+
+  ngOnChanges(changes) {
+    this.validate();
   }
 
   onBlur() {
@@ -37,7 +29,7 @@ export class VatComponent extends ControlComponent {
 
   validate() {
     if (Tax.isValid(this.isoCode, this.model.value))
-      this.errorMessage = this._TB("Vat code is not valid");
+      this.errorMessage = this._TB('Vat code is not valid');
   }
 
   get isValid(): boolean { return !this.errorMessage; }
