@@ -30,7 +30,7 @@ import { DatabaseService } from './services/database.service';
 import { UploadFileService } from './services/upload-file.service';
 import { SubscriptionDbHomeComponent } from './components/subscription/subscription-db-home.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
-import { TestControlsComponent } from './test-controls/test-controls.component';
+import { TestControlsComponent } from './components/test-controls/test-controls.component';
 
 @NgModule({
   declarations: [
