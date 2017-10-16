@@ -48,7 +48,7 @@ namespace Microarea.AdminServer.Model
 		public bool MustChangePassword { get { return this.mustChangePassword; } set { this.mustChangePassword = value; } }
 		public bool CannotChangePassword { get { return this.cannotChangePassword; } set { this.cannotChangePassword = value; } }
 		public DateTime PasswordExpirationDate { get { return this.passwordExpirationDate; } set { this.passwordExpirationDate = value; } }
-		public int PasswordDuration { get { return this.passwordDuration; } set { this.passwordDuration = value; } }
+        public int PasswordDuration { get { return this.passwordDuration; } set { this.passwordDuration = value; } }
 		public bool Disabled { get { return this.disabled; } set { this.disabled = value; } }
 		public bool Locked { get { return this.locked; } set { this.locked = value; } }
 		public string Language { get { return this.language; } set { this.language = value; } }
@@ -61,8 +61,17 @@ namespace Microarea.AdminServer.Model
 
         //---------------------------------------------------------------------
         public Account()
-        { 
-		}
+        { }
+
+        //---------------------------------------------------------------------
+        internal static IAccount GetAccountByName(BurgerData burgerData, string accountName)
+        {
+            return burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
+                  {
+                    new WhereCondition("AccountName", accountName, QueryComparingOperators.IsEqual, false)
+                  });
+
+        }
 
         //--------------------------------------------------------------------------------
         public IModelObject Fetch(IDataReader dataReader)
