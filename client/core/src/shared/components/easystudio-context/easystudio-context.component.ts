@@ -55,7 +55,7 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit, OnDest
     ngOnInit(): void {
         this.localizationsLoadedSubscription = this.localizationService.localizationsLoaded.subscribe((loaded) => {
             this.localizationLoaded = loaded;
-            if (this.localizationLoaded) {
+            if (this.localizationLoaded &&  this.localizationService.localizedElements) {
                 this.title = this.localizationService.localizedElements.CustomizationContext;
                 this.defaultNewApp = this.localizationService.localizedElements.DefaultNewApp;
                 this.defaultNewMod = this.localizationService.localizedElements.DefaultNewMod;

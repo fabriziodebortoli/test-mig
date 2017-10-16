@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class DiagnosticService {
 
     messages = [];
-isVisible: boolean = false;
+    isVisible: boolean = false;
     constructor() {
 
     }
