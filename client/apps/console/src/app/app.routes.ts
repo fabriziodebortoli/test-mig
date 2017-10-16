@@ -81,7 +81,9 @@ export const routes: Routes = [
     component: FileUploadComponent
   },
   { 
-    path: 'testControls', 
+    path: 'testControls',
+    canActivate: [AuthGuardService],
+    canActivateChild: [AuthGuardService],    
     component: TestControlsComponent
   },  
   { 
