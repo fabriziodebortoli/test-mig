@@ -268,7 +268,7 @@ export { ControlComponent } from './controls/control.component';
 export { VATCodeComponent } from './controls/vat-code/vat-code.component';
 
 const TB_CONTROLS = [
-    ControlComponent, VATCodeComponent,
+    ControlComponent, VATCodeComponent, NoSpacesEditComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
