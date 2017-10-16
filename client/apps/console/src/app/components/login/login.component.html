@@ -43,6 +43,7 @@
                     <admin-input-text 
                         (keydown)="onKeyDown($event)" 
                         [inputLabel]="'Password'"
+                        [textType]="'password'"
                         [(inputData)]="credentials.password"
                         [readOnly]="appBusy"></admin-input-text>
                 </div>

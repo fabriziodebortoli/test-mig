@@ -1,0 +1,5 @@
+<div class="tb-control tb-vat">
+    <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
+    <kendo-maskedtextbox [ngModel]="model?.value" required="required" (blur)="onBlur()" [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width"></kendo-maskedtextbox>
+    <div class="has-error">{{errorMessage}}</div>
+</div>

@@ -48,8 +48,6 @@ export * from './rs-test.component';
 export * from './models';
 export * from './report-objects';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
-
 @NgModule({
   imports: [
     CommonModule,

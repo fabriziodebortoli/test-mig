@@ -54,7 +54,6 @@
         "@taskbuilder/reporting-studio": "git+https://github.com/Microarea/ng-reporting-studio.git",
         "@types/hammerjs": "^2.0.33",
         "angular-tree-component": "^3.8.0",
-        "angular2-cookie": "^1.2.4",
         "angular2-moment": "^1.4.0",
         "bwip-angular2": "^1.0.4",
         "core-js": "^2.4.1",
