@@ -50,6 +50,24 @@ namespace Microarea.AccountManager.Controllers
             return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken, Culture = CultureInfo.CurrentUICulture.Name });
         }
 
+
+        //-----------------------------------------------------------------------------------------
+        [Route("change-password")]
+        public IActionResult ChangePassword()
+        {
+            string user = HttpContext.Request.Form["user"];
+            string oldPassword = HttpContext.Request.Form["oldPassword"];
+            string newPassword = HttpContext.Request.Form["newPassword"];
+            int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.ChangePassword(user, oldPassword, newPassword);
+            string errorMessage = "";
+            if (result != 0)
+            {
+                errorMessage = LoginFacilities.DecodeLoginReturnsCodeError(result);
+            }
+            return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result});
+        }
+
+
         //-----------------------------------------------------------------------------------------
         [Route("logoff")]
         public IActionResult Logoff()

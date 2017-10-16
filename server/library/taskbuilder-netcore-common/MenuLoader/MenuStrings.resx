@@ -135,6 +135,12 @@
   <data name="AuditingEnabled" xml:space="preserve">
     <value>Auditing enabled</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change password</value>
+  </data>
   <data name="ClearCachedData" xml:space="preserve">
     <value>Clear cached data</value>
   </data>
@@ -143,6 +149,12 @@
   </data>
   <data name="CompanyLabel" xml:space="preserve">
     <value>Company</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
   </data>
   <data name="Connected" xml:space="preserve">
     <value>Connected</value>
@@ -213,8 +225,23 @@
   <data name="MostUsedLabel" xml:space="preserve">
     <value>Recently used</value>
   </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Old password</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="PasswordNotMaching" xml:space="preserve">
+    <value>PasswordNotMaching</value>
   </data>
   <data name="Provider" xml:space="preserve">
     <value>Provider</value>
@@ -234,6 +261,15 @@
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>
+  <data name="UserAlreadyConnected" xml:space="preserve">
+    <value>The user is already connected to the system. Do you want to close previous working session and open new one?</value>
+  </data>
+  <data name="UserAlreadyConnectedTitle" xml:space="preserve">
+    <value>User already connected</value>
+  </data>
+  <data name="UserMustChangePassword" xml:space="preserve">
+    <value>You need to change password</value>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
   </data>
@@ -242,5 +278,8 @@
   </data>
   <data name="WebApplicationServer" xml:space="preserve">
     <value>Web Application Server</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

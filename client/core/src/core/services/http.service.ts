@@ -59,6 +59,15 @@ export class HttpService {
             });
     }
 
+    
+    changePassword(params: { user:string, oldPassword: string, newPassword:string}): Observable<LoginCompact> {
+        return this.postData(this.infoService.getAccountManagerBaseUrl() + 'change-password/', params)
+            .map((res: Response) => {
+                let jObj = res.json();
+                return jObj;
+            });
+    }
+
     getCompaniesForUser(user: string): Observable<any> {
         let obj = { user: user };
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'getCompaniesForUser/', obj)

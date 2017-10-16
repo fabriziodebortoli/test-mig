@@ -115,6 +115,24 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change password.
+        /// </summary>
+        public static string ChangePassword {
+            get {
+                return ResourceManager.GetString("ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear cached data.
         /// </summary>
         public static string ClearCachedData {
@@ -138,6 +156,24 @@ namespace Microarea.Common.MenuLoader {
         public static string CompanyLabel {
             get {
                 return ResourceManager.GetString("CompanyLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        public static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm password.
+        /// </summary>
+        public static string ConfirmPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPassword", resourceCulture);
             }
         }
         
@@ -349,11 +385,56 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New password.
+        /// </summary>
+        public static string NewPassword {
+            get {
+                return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        public static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old password.
+        /// </summary>
+        public static string OldPassword {
+            get {
+                return ResourceManager.GetString("OldPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PasswordNotMaching.
+        /// </summary>
+        public static string PasswordNotMaching {
+            get {
+                return ResourceManager.GetString("PasswordNotMaching", resourceCulture);
             }
         }
         
@@ -412,6 +493,33 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The user is already connected to the system. Do you want to close previous working session and open new one?.
+        /// </summary>
+        public static string UserAlreadyConnected {
+            get {
+                return ResourceManager.GetString("UserAlreadyConnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User already connected.
+        /// </summary>
+        public static string UserAlreadyConnectedTitle {
+            get {
+                return ResourceManager.GetString("UserAlreadyConnectedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You need to change password.
+        /// </summary>
+        public static string UserMustChangePassword {
+            get {
+                return ResourceManager.GetString("UserMustChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
         public static string Username {
@@ -435,6 +543,15 @@ namespace Microarea.Common.MenuLoader {
         public static string WebApplicationServer {
             get {
                 return ResourceManager.GetString("WebApplicationServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

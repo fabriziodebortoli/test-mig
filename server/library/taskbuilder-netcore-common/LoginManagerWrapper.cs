@@ -449,13 +449,14 @@ namespace Microarea.Common.WebServicesWrapper
         {
             Task<int> task = loginManagerClient.ChangePasswordAsync(userName, oldPassword, newPassword);
             int result = task.Result;
-            if (result == (int)LoginReturnCodes.NoError)
-            {
-                //TODOLUCA
-                //loginManagerSession.UserMustChangePassword = false;
-                //loginManagerSession.ExpiredDatePassword = loginManagerSession.ExpiredDatePassword.AddDays(30);
-                //loginManagerSession.Password = newPassword;
-            }
+            //if (result == (int)LoginReturnCodes.NoError)
+            //{
+                
+            //    //TODOLUCA
+            //    //loginManagerSession.UserMustChangePassword = false;
+            //    //loginManagerSession.ExpiredDatePassword = loginManagerSession.ExpiredDatePassword.AddDays(30);
+            //    //loginManagerSession.Password = newPassword;
+            //}
             return result;
         }
 

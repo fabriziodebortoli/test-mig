@@ -29,18 +29,27 @@ const KENDO_UI_MODULES = [
     PopupModule,
     ButtonsModule
 ];
+/**
+ * Modulo Shared
+ */
+import { ERPSharedModule } from './shared/shared.module';
+export * from './shared/shared.module';
+
+const ERP_MODULES = [ERPSharedModule, ERPCoreModule];
+
 
 @NgModule({
   imports: [
     CommonModule,
     TbSharedModule,
     KENDO_UI_MODULES
+    ERP_MODULES
   ],
   declarations: [
-    VatComponent
   ],
   exports: [
     VatComponent
+    ERP_MODULES
   ]
 })
 export class ERPModule {
