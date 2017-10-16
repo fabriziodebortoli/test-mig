@@ -1,6 +1,6 @@
 <div class="menu-element" [ngClass]="object.starHover ? 'active' : ''">
-    <md-spinner *ngIf="object.isLoading">{{object.title}}</md-spinner>
-
+    <!-- <mat-spinner *ngIf="object.isLoading"></mat-spinner> -->
+    <div [ngClass]="object.isLoading ? 'loader' : ''"></div>
     <div class="menu-element-content">
         <div class="header">
             <m4-icon class="object-type" icon="{{imageService.getObjectIcon(object)}}" [ngClass]="object.objectType"></m4-icon>

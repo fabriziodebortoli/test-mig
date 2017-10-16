@@ -10,6 +10,4 @@ export { ItemCustomizationsDropdownComponent } from './menu-element/item-customi
 export { MenuStepperComponent } from './menu-stepper/menu-stepper.component';
 export { MenuTabberComponent } from './menu-tabber/menu-tabber.component';
 export { MenuTabComponent } from './menu-tabber/menu-tab/menu-tab.component';
-export { ProductInfoDialogComponent } from './product-info-dialog/product-info-dialog.component';
-export { ConnectionInfoDialogComponent } from './connection-info-dialog/connection-info-dialog.component';
 export { SearchComponent } from './search/search.component';

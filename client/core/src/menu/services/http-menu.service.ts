@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 import { OperationResult } from './../../shared/models/operation-result.model';
 
@@ -36,8 +36,8 @@ export class HttpMenuService {
      * 
      * @returns {Observable<any>} getMenuElements
      */
-    getMenuElements(): Observable<any> {
-        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company'), authtoken: this.cookieService.get('authtoken') }
+    getMenuElements(clearCachedData: boolean): Observable<any> {
+        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company'), authtoken: this.cookieService.get('authtoken'), clearCachedData: clearCachedData }
         let urlToRun = this.infoService.getMenuServiceUrl() + 'getMenuElements/';
         return this.postData(urlToRun, obj)
             .map((res: any) => {
@@ -356,7 +356,7 @@ cloneAsEasyStudioDocument(object): Observable<any> {
     * 
     * @returns {Observable<boolean>}
     */
-    updateAllFavoritesAndMostUsed(favorites: any, mostUsed: any): Observable<Response> {
+    updateAllFavoritesAndMostUsed(favorites: any, mostUsed: any): Observable<boolean> {
         let obj = {
             user: this.cookieService.get('_user'), company: this.cookieService.get('_company'),
             favorites: JSON.stringify(favorites), mostUsed: JSON.stringify(mostUsed)
@@ -364,7 +364,7 @@ cloneAsEasyStudioDocument(object): Observable<any> {
         var urlToRun = this.infoService.getMenuServiceUrl() + 'updateAllFavoritesAndMostUsed/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
-                return res;
+                return res.ok;
             });
     }
 
@@ -380,19 +380,6 @@ cloneAsEasyStudioDocument(object): Observable<any> {
                 return res.ok;
             });
     }
-
-    /**
-     * API /loadLocalizedElements
-     * 
-     * @returns {Observable<any>} loadLocalizedElements
-     */
-    loadLocalizedElements(): Observable<any> {
-        let obj = { authtoken: this.cookieService.get('authtoken') }
-        return this.postData(this.infoService.getMenuServiceUrl() + 'getLocalizedElements/', obj)
-            .map((res: Response) => {
-                return res.json();
-            });
-    };
 
 
     /**
@@ -434,7 +421,36 @@ cloneAsEasyStudioDocument(object): Observable<any> {
             });
     }
 
+    /**
+     * API /getThemes
+     * 
+     * @returns {Observable<any>} getThemes
+     */
+    getThemes(): Observable<any> {
 
+        let obj = { authtoken: this.cookieService.get('authtoken') };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'getThemes/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+
+    /**
+     * API /getThemes
+     * 
+     * @returns {Observable<any>} changeThemes
+     */
+    changeThemes(theme: string): Observable<any> {
+
+        let obj = { authtoken: this.cookieService.get('authtoken') };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'changeThemes/?theme=' + theme;
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
 
     /**
      * TODO refactor with custom logger
