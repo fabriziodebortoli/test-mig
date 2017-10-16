@@ -7,18 +7,24 @@ import { CommonModule } from '@angular/common';
 import { ERPCoreModule, ERP_SERVICES } from './core/core.module';
 export * from './core/core.module';
 
-import { ERPTestComponent } from './erp-test.component';
-export { ERPTestComponent } from './erp-test.component';
+/**
+ * Modulo Shared
+ */
+import { ERPSharedModule } from './shared/shared.module';
+export * from './shared/shared.module';
+
+const ERP_MODULES = [ERPSharedModule, ERPCoreModule];
+
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    ERP_MODULES
   ],
   declarations: [
-    ERPTestComponent
   ],
   exports: [
-    ERPTestComponent
+    ERP_MODULES
   ]
 })
 export class ERPModule {
