@@ -16,7 +16,7 @@
         "../../web-form/node_modules/@angular/*"
       ],
       "@taskbuilder/*": [
-        "../../web-form/node_modules/@TaskBuilder/*"
+        "../../web-form/node_modules/@taskbuilder/*"
       ],
       "rxjs/*": [
         "../../web-form/node_modules/rxjs/*"

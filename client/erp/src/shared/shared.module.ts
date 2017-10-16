@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { TaskbuilderCoreModule } from '@TaskBuilder/core';
+import { TaskbuilderCoreModule } from '@taskbuilder/core';
 
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
