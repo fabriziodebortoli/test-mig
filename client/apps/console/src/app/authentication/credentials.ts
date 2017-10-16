@@ -1,3 +1,5 @@
+import { SubscriptionDatabase } from './../model/subscriptionDatabase';
+
 //================================================================================
 export class Credentials {
     
@@ -25,5 +27,17 @@ export class DatabaseCredentials {
         this.Database = '';
         this.Login = '';
         this.Password = '';
+    }
+}
+
+//================================================================================
+export class ExtendedSubcriptionDatabase {
+    
+    AdminCredentials: DatabaseCredentials;
+    Database: SubscriptionDatabase;
+    
+    constructor(credentials: DatabaseCredentials, subDatabase: SubscriptionDatabase) {
+        this.AdminCredentials = credentials;
+        this.Database = subDatabase;
     }
 }
