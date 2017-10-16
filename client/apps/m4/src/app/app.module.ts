@@ -1,11 +1,12 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TbCoreModule, InfoService, loadConfig } from '@taskbuilder/core';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
-import { SharedModule } from './../shared/shared.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,7 @@ import { SharedModule } from './../shared/shared.module';
   ],
   imports: [
     BrowserModule,
-
+    BrowserAnimationsModule,
     SharedModule,
     TbCoreModule.forRoot(),
     routing
