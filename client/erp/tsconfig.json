@@ -10,17 +10,7 @@
       "dom"
     ],
     "skipLibCheck": true,
-    "types": [],
-    "paths": {
-      "@angular/*": [
-        "../../web-form/node_modules/@angular/*"
-      ],
-      "@TaskBuilder/*": [
-        "../../web-form/node_modules/@TaskBuilder/*"
-      ],
-      "rxjs/*": [
-        "../../web-form/node_modules/rxjs/*"
-      ]
-    }
+    "types": []
+
   }
 }
