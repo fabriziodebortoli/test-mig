@@ -27,13 +27,16 @@ namespace Microarea.Common
 
         public Task Invoke(HttpContext context)
         {
-            string c;
+            this.BeginInvoke(context);
+            return this.next.Invoke(context);
+        }
 
+        private void BeginInvoke(HttpContext context)
+        {
+            string c;
             if (!context.Request.Cookies.TryGetValue(culture_cookie, out c))
             {
                 c = InstallationData.ServerConnectionInfo.PreferredLanguage;
-                CookieOptions opt = new CookieOptions { Expires = new DateTimeOffset(DateTime.Now).ToOffset(TimeSpan.FromHours(14)) };
-                context.Response.Cookies.Append(CommonMiddleware.culture_cookie, c, opt);
             }
             try
             {
@@ -44,8 +47,6 @@ namespace Microarea.Common
             {
                 //in caso di cookie errato... non dovrebbe mai passare di qui...
             }
-
-            return this.next(context);
         }
 
     }

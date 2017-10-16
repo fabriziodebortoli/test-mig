@@ -87,7 +87,7 @@ gulp.task('rollup:fesm', function() {
                 'rxjs', 'rxjs/Rx', 'rxjs/Observable', 'rxjs/add/observable/of', 'rxjs/add/operator/map', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject',
                 '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
                 '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
-                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'angular2-cookie/services/cookies.service', 'json8-patch'
+                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'ngx-cookie'
             ],
 
             // Format of generated bundle
@@ -125,7 +125,7 @@ gulp.task('rollup:umd', function() {
                 'rxjs', 'rxjs/Rx', 'rxjs/Observable', 'rxjs/add/observable/of', 'rxjs/add/operator/map', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject',
                 '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
                 '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
-                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'angular2-cookie/services/cookies.service', 'json8-patch'
+                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'ngx-cookie'
             ],
 
             // Format of generated bundle
@@ -147,7 +147,6 @@ gulp.task('rollup:umd', function() {
                 '@angular/core': 'core',
                 '@angular/common': 'common',
                 '@angular/material': 'material',
-                'angular2-cookie/services/cookies.service': 'cookies_service',
                 '@angular/router': 'router',
                 '@angular/http': 'http',
                 'rxjs/Observable': 'Observable',
@@ -171,7 +170,8 @@ gulp.task('rollup:umd', function() {
                 'rxjs': 'rxjs',
                 '@progress/kendo-data-query': 'kendoDataQuery',
                 '@angular/animations': 'animations',
-                '@telerik/kendo-intl': 'kendoIntl'
+                '@telerik/kendo-intl': 'kendoIntl',
+                'ngx-cookie/index': 'ngx-cookie'
             }
 
         }))

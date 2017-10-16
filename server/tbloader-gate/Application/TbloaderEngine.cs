@@ -40,7 +40,7 @@ namespace Microarea.TbLoaderGate
 			try
 			{
 				Process process = Process.GetProcessById(processId);
-				if (process == null)
+                if (process == null || process.HasExited)
 					return false;
 			}
 			catch (Exception)

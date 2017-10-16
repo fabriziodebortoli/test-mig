@@ -1,4 +1,4 @@
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 import { HttpService } from './../../../../../core/services/http.service';
 import { InfoService } from './../../../../../core/services/info.service';
 import { HttpMenuService } from './../../../../../menu/services/http-menu.service';

@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 import { LoginSession } from './../../../shared/models/login-session.model';
 

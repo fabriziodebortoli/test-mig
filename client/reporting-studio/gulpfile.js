@@ -96,10 +96,10 @@ gulp.task('rollup:fesm', function() {
                 '@progress/kendo-angular-buttons',
                 '@progress/kendo-angular-inputs',
                 '@taskbuilder/core',
-                'angular2-cookie/services/cookies.service',
                 'moment',
                 'rxjs/Subject',
-                'bwip-angular2'
+                'bwip-angular2',
+                'ngx-cookie/index'
             ],
 
             // Format of generated bundle
@@ -146,10 +146,10 @@ gulp.task('rollup:umd', function() {
                 '@progress/kendo-angular-buttons',
                 '@progress/kendo-angular-inputs',
                 '@taskbuilder/core',
-                'angular2-cookie/services/cookies.service',
                 'moment',
                 'rxjs/Subject',
-                'bwip-angular2'
+                'bwip-angular2',
+                'ngx-cookie/index'
             ],
 
             // Format of generated bundle
@@ -175,7 +175,7 @@ gulp.task('rollup:umd', function() {
                 'moment': 'moment',
                 '@progress/kendo-drawing': 'kendoDrawing',
                 '@progress/kendo-file-saver': 'kendoFileSaver',
-                'angular2-cookie/services/cookies.service': 'cookies_service',
+                'ngx-cookie/index': 'ngx-cookie',
                 '@angular/router': 'router',
                 '@angular/common': 'common',
                 '@progress/kendo-angular-grid': 'kendoAngularGrid',
