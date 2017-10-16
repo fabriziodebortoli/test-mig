@@ -10,6 +10,6 @@ import { TbIconsModule } from '@taskbuilder/icons';
         TaskbuilderCoreModule,
         TbIconsModule
     ],
-    exports: [TaskbuilderCoreModule]
+    exports: [TaskbuilderCoreModule, TbIconsModule]
 })
 export class SharedModule { }

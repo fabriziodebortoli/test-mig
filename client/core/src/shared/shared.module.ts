@@ -318,7 +318,7 @@ const _MODULES = [
 @NgModule({
     imports: [_MODULES, MATERIAL_MODULES, KENDO_UI_MODULES, TreeModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
-    exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
+    exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, KENDO_UI_MODULES],
     entryComponents: [UnsupportedComponent, RadarComponent]
 })
 export class TbSharedModule { }

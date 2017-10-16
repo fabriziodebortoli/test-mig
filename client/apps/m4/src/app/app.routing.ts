@@ -6,10 +6,12 @@ import { RouterModule } from '@angular/router';
 
 import { CoreGuard } from '@taskbuilder/core';
 import { LoginComponent, PageNotFoundComponent, UnsupportedFactoryComponent } from '@taskbuilder/core';
-// import {
-//     ProxyRouteComponent, LoginComponent, HomeComponent, StandaloneReportComponent,
-//     StandaloneDocumentComponent
-// } from '@taskbuilder/core';
+import {
+  ProxyRouteComponent,
+  HomeComponent,
+  // StandaloneReportComponent,
+  // StandaloneDocumentComponent
+} from '@taskbuilder/core';
 
 // import { RsTestComponent } from '@taskbuilder/reporting-studio';
 // import { appRoutes } from './applications/app.routing';
@@ -24,10 +26,9 @@ let magoRoutes = [
 // let childrenRoutes = environment.desktop ? [] : [...magoRoutes];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot([
-  // { path: '', component: HomeComponent, canActivate: [CoreGuard] },
-  { path: '', component: PageNotFoundComponent, canActivate: [CoreGuard] },
+  { path: '', component: HomeComponent, canActivate: [CoreGuard] },
   { path: 'login', component: LoginComponent },
-  // { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
   // { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard] },
   // { path: 'rs/:ns', component: StandaloneReportComponent },
   // {
