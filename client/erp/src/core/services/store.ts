@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observer, BehaviorSubject, Observable, map, pluck, distinctUntilChanged } from './../../rxjs.imports';
-import { EventDataService } from '@TaskBuilder/core/core/services/eventdata.service';
+import { EventDataService } from '@taskbuilder/core';
 
 export interface Action {
   type: string;

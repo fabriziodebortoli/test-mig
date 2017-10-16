@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { ControlComponent } from '@TaskBuilder/core/shared/controls';
-import { EventDataService } from '@TaskBuilder/core/core/services/eventdata.service';
-import { TbComponentService } from '@TaskBuilder/core/core/services/tbcomponent.service';
-import { LayoutService } from '@TaskBuilder/core/core/services/layout.service';
+import { ControlComponent } from '@taskbuilder/core';
+import { EventDataService } from '@taskbuilder/core';
+import { TbComponentService } from '@taskbuilder/core';
+import { LayoutService } from '@taskbuilder/core';
 
 @Component({
   selector: 'no-spaces',

@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.router.navigateByUrl('/appHome');
+    this.router.navigateByUrl('/appHome', { skipLocationChange:true });
   }
 
   ngOnDestroy() {
