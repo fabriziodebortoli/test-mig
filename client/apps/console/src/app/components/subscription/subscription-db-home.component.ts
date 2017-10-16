@@ -4,6 +4,7 @@ import { SubscriptionDatabase } from 'app/model/subscriptionDatabase';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModelService } from 'app/services/model.service';
 import { AccountInfo } from 'app/authentication/account-info';
+import { DatabaseCredentials, ExtendedSubscriptionDatabase } from '../../authentication/credentials';
 
 @Component({
   selector: 'app-subscription-db-home',
@@ -142,6 +143,30 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
     }
     
     //--------------------------------------------------------------------------------------------------------
+    validateAdminCredentials(subscriptionKey: string, dbCredentials: DatabaseCredentials): boolean {
+      
+      let test = this.modelService.testConnection(subscriptionKey, dbCredentials).
+      subscribe(
+        result => {
+          if (result.Result) {
+            this.databaseService.dbCredentials = dbCredentials;
+          }
+          else
+          alert('Unable to connect! ' + result.Message);
+          
+          test.unsubscribe();
+          return result.Result;
+        },
+        error => {
+          test.unsubscribe();
+          return false;
+        }
+      );
+      
+      return true;
+    }
+    
+    //--------------------------------------------------------------------------------------------------------
     submitDatabase() {
       
       // first I check input values 
@@ -149,15 +174,65 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
       if (!this.validateInput()) 
       return;
       
-      let adminLogin: string = prompt("Insert admin credentials login:");
-      let adminPw: string = prompt("Insert admin credentials password:");
+      let adminLogin: string = prompt("Insert admin credentials login:", "AdminMicroarea");
+      let adminPw: string = prompt("Insert admin credentials password:", "");
+      
+      if (adminLogin === '') {
+        alert('Admin login is empty!');
+        return;
+      }
+      
+      if (adminLogin === 'AdminMicroarea')
+        adminPw = "S1cr04$34!";
       
       // if credentials are valid I test the connection
-
+      
       let subscriptionKey: string = this.model.SubscriptionKey;
       
+      let dbCredentials: DatabaseCredentials = new DatabaseCredentials();
+      dbCredentials.Provider = this.model.Provider;
+      dbCredentials.Server = this.model.DBServer;
+      dbCredentials.Login = adminLogin;
+      dbCredentials.Password = adminPw;
+      
+      let test = this.modelService.testConnection(subscriptionKey, dbCredentials).
+      subscribe(
+        result => {
+          
+          if (result.Result) {
+            let extendedSubDatabase: ExtendedSubscriptionDatabase = new ExtendedSubscriptionDatabase(dbCredentials, this.model);
+
+            let update = this.modelService.updateDatabase(subscriptionKey, extendedSubDatabase).
+            subscribe( 
+              updateResult => {
+                if (!updateResult.Result) {
+                  alert(updateResult.Message);
+                }
+                update.unsubscribe();
+                // after save I return to parent page
+                this.router.navigate(['/subscription'], { queryParams: { subscriptionToEdit: subscriptionKey } });
+              },
+              updateError => {
+                console.log(updateError);
+                alert(updateError);
+                update.unsubscribe();
+              }
+            )
+          }
+          else
+          alert('Unable to connect! ' + result.Message);
+          
+          test.unsubscribe();
+        },
+        error => {
+          console.log(error);
+          alert(error);
+          test.unsubscribe();
+        }
+      );
+      
       // salvo prima il model
-      let subs = this.modelService.saveDatabase(this.model).
+/*      let subs = this.modelService.saveDatabase(this.model).
       subscribe(
         databaseResult => {
           subs.unsubscribe();
@@ -191,6 +266,6 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
           alert(err);
           subs.unsubscribe();
         }
-      )
-    }
+      )*/
+    } 
   }
