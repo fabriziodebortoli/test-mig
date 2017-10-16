@@ -1,1 +1,6 @@
-<input type="checkbox" [checked]="checkValue ? 'checked' : ''" ><label>{{ checkText }}</label>
+<input 
+    type="checkbox" 
+    [readonly]="readOnly ? 'readonly' : ''"
+    [ngModel]="checkValue"
+    (ngModelChange)="onChange($event)" />
+<label>{{ checkText }}</label>
