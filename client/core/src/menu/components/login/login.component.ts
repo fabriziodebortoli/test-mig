@@ -37,7 +37,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   connectionData: LoginSession = new LoginSession();
   errorMessages: string[] = [];
   userAlreadyConnectedOpened: boolean = false;
+  changePasswordOpened: boolean = false;
   clearCachedData: boolean = false;
+  confirmPassword: string = "";
+  newPassword: string = "";
 
   constructor(
     public authService: AuthService,
@@ -114,13 +117,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   //-------------------------------------------------------------------------------------
-  login() {
+  changePasswordlogin() {
+  }
+
+  //-------------------------------------------------------------------------------------
+  login(overwrite: boolean = false) {
     this.saveState();
     this.loadingService.setLoading(true, this.localizationService.localizedElements.Loading);
+    this.connectionData.overwrite = overwrite;
     this.authService.login(this.connectionData).subscribe(result => {
       if (result.success) {
         console.log(this.clearCachedData);
         this.menuService.clearCachedData = this.clearCachedData;
+        this.connectionData.overwrite = false;
         let url = this.authService.getRedirectUrl();
         this.logger.debug('Redirect Url', url);
         this.loadingService.setLoading(false);
@@ -128,8 +137,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       } else {
         this.logger.debug('Login Error', this.authService.errorMessage);
         this.loadingService.setLoading(false);
-        if (result.errorCode == 9)
+        if (result.errorCode == 9) //UserAlreadyLoggedError
+        {
           this.userAlreadyConnectedOpened = true;
+        }
+        else if (result.errorCode == 19) //UserMustChangePasswordError
+        {
+          this.changePasswordOpened = true;
+        }
       }
     });
   }
@@ -141,13 +156,23 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   userConnectedYes() {
-    this.connectionData.overwrite = true;
-    this.login();
-    this.connectionData.overwrite = false;
+    this.login(true);
     this.userAlreadyConnectedOpened = false;
 
   }
   userConnectedCancel() {
-    this.userAlreadyConnectedOpened = false;
+    this.changePasswordOpened = false;
+  }
+
+  changePasswordOk() {
+    this.authService.changePassword(this.connectionData, this.newPassword).
+      subscribe((res) => {
+
+        if (res.success) {
+          this.changePasswordOpened = false;
+          this.connectionData.password = this.newPassword;
+          this.login();
+        }
+      });
   }
 }
