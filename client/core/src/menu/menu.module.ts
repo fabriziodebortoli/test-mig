@@ -1,3 +1,4 @@
+import { TbIconsModule } from '@taskbuilder/icons';
 import { TbSharedModule } from './../shared/shared.module';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -59,14 +60,26 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
+const NG_MODULES = [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule
+];
+
+const KENDO_MODULES = [
+    LayoutModule,
+    ButtonsModule,
+    DialogModule,
+    InputsModule,
+    DropDownsModule
+];
+
 @NgModule({
     imports: [
+        NG_MODULES,
+        KENDO_MODULES,
         TbSharedModule,
-        LayoutModule,
-        ButtonsModule,
-        DialogModule,
-        InputsModule,
-        DropDownsModule
+        TbIconsModule
     ],
 
     declarations: [
