@@ -1,27 +1,22 @@
-<div *ngIf="canShowEasyStudioButton()">
+<div *ngIf="canShowEasyStudioButton()" class="esContainer">
 
-    <table style="display:inline-flex;padding-right:20px; font-size:smaller" id="custContextBox">
-        <tr>
-            <td style="text-align:right; padding-right:5px;" *ngIf="applicSelected !== undefined">
-                {{localizationService?.localizedElements?.CurrentApplication}} :
-            </td>
-            <td><b>{{applicSelected}}</b></td>
-        </tr>
-        <tr>
-            <td style="text-align:right; padding-right:5px;" *ngIf="moduleSelected !== undefined">
-                {{localizationService?.localizedElements?.CurrentModule}} :
-            </td>
-            <td><b>{{moduleSelected}}</b></td>
-        </tr>
-    </table>
-    <button kendoButton ng-show="isEasyStudioActivated" (click)="changeCustomizationContext()" class="k-buton k-primary k-button-icon">
-        <span class="k-icon k-i-track-changes-enable"></span>
-    </button>
-    <button kendoButton *ngIf="contextIsValid()" (click)="close()" class="k-buton k-primary k-button-icon">
-        <span class="k-icon k-i-track-changes-reject"></span>
-    </button>
+    <div class="appAndModule" *ngIf="applicSelected !== undefined && moduleSelected !== undefined">
+        <div class="ebButtons">
+            {{localizationService?.localizedElements?.CurrentApplication}} :
+            <b>{{applicSelected}}</b>
+        </div>
 
-
+        <div class="ebButtons">
+            {{localizationService?.localizedElements?.CurrentModule}} :
+            <b>{{moduleSelected}}</b>
+        </div>
+    </div>
+    <div *ngIf="isEasyStudioActivated" (click)="changeCustomizationContext()" class="ebButtons topBarMenuComponentLike">
+        <m4-icon icon="tb-addtext"></m4-icon>
+    </div>
+    <div *ngIf="contextIsValid()" (click)="close()" class="ebButtons topBarMenuComponentLike">
+        <m4-icon icon="tb-cancel"></m4-icon>
+    </div>
 
     <kendo-dialog *ngIf="opened" kendoRippleContainer (close)="close()">
         <kendo-dialog-titlebar>
@@ -61,14 +56,14 @@
                 <input kendoTextBox #moduleChoosen [(ngModel)]="moduleSelected" />
             </kendo-textbox-container>
             <button kendoButton class="k-buton k-primary k-button-icon" *ngIf="!newPairVisible">
-            <span  class="k-icon k-i-plus-circle" (click)="showNewPair(true)"></span>
-        </button>
+                <span class="k-icon k-i-plus-circle" (click)="showNewPair(true)"></span>
+            </button>
             <button kendoButton class="k-buton k-primary k-button-icon" *ngIf="newPairVisible">
-            <span  class="k-icon k-i-close-circle k-i-x-circle" (click)="showNewPair(false)"></span>
-        </button>
+                <span class="k-icon k-i-close-circle k-i-x-circle" (click)="showNewPair(false)"></span>
+            </button>
             <button kendoButton class="k-buton k-primary k-button-icon" *ngIf="newPairVisible">
-            <span  class="k-icon k-i-check-circle k-i-checkmark-circle" (click)="addNewPair(applicationChoosen, moduleChoosen)"></span>
-        </button>
+                <span class="k-icon k-i-check-circle k-i-checkmark-circle" (click)="addNewPair(applicationChoosen, moduleChoosen)"></span>
+            </button>
         </div>
 
         <kendo-dialog-actions>
