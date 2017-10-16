@@ -51,7 +51,7 @@ namespace WebApplication
                     AssemblyName an = new AssemblyName(module.Value);
                     var assembly = Assembly.Load(an);
                     foreach (Type t in assembly.GetTypes())
-                        if (typeof(IWebAppConfigurator).IsClass && typeof(IWebAppConfigurator).IsAssignableFrom(t))
+                        if (t.IsClass && typeof(IWebAppConfigurator).IsAssignableFrom(t))
                         {
                             configurators.Add((IWebAppConfigurator)Activator.CreateInstance(t));
                         }
