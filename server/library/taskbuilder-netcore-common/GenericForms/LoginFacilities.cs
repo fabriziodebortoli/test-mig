@@ -296,60 +296,6 @@ namespace Microarea.Common.GenericForms
 
 		}
 
-		//---------------------------------------------------------------------
-		public string ChangePassword(string userName, string oldPassword, string newPassword)
-		{
-			try
-			{
-				int changePwdResult = loginManager.ChangePassword(userName, oldPassword, newPassword);
-				switch (changePwdResult)
-				{
-					case (int)LoginReturnCodes.NoError:
-						break;
-
-					case (int)LoginReturnCodes.InvalidUserError:
-						//Non è riuscito a cambiare la password.
-						diagnostic.SetError(WebServicesWrapperStrings.ErrChangePassword);
-						break;
-					case (int)LoginReturnCodes.PasswordTooShortError:
-						//Non è riuscito a cambiare la password.
-						diagnostic.SetError(WebServicesWrapperStrings.ErrPwdLength);
-						break;
-					case (int)LoginReturnCodes.CannotChangePasswordError:
-					case (int)LoginReturnCodes.PasswordExpiredError:
-						//Non è riuscito a cambiare la password.
-						diagnostic.SetError(WebServicesWrapperStrings.ErrUserCannotChangePwdButMust);
-						break;
-					case (int)LoginReturnCodes.PasswordAlreadyChangedToday:
-						diagnostic.SetError(WebServicesWrapperStrings.PasswordAlreadyChangedToday);
-						break;
-					default:
-						diagnostic.SetError(WebServicesWrapperStrings.ErrChangePassword);//todo ilaria verifica
-						break;
-				}
-			}
-			catch (WebException exc)
-			{
-				if (exc.Response != null)
-				{
-					HttpWebResponse webResponse = (HttpWebResponse)exc.Response;
-					if (webResponse.StatusDescription.Length > 0)
-						diagnostic.SetError(string.Format(WebServicesWrapperStrings.ServerDown, webResponse.StatusDescription));
-					//MessageBox.Show(string.Format(WebServicesWrapperStrings.ServerDown, webResponse.StatusDescription));
-					else
-						diagnostic.SetError(string.Format(WebServicesWrapperStrings.ServerDown, webResponse.StatusCode.ToString()));
-					//MessageBox.Show(string.Format(WebServicesWrapperStrings.ServerDown, webResponse.StatusCode.ToString()));
-					webResponse.Dispose();
-
-				}
-				else
-					diagnostic.SetError(string.Format(WebServicesWrapperStrings.ServerDown, exc.Status.ToString()));
-			}
-
-			return diagnostic.ToJson(true);
-
-		}
-
 		//-----------------------------------------------------------------------
 		internal void Logoff(string authenticationToken)
 		{
@@ -694,6 +640,13 @@ namespace Microarea.Common.GenericForms
                 case (int)LoginReturnCodes.InvalidProcessError:
                     return WebServicesWrapperStrings.ErrInvalidProcess;
 
+                case (int)LoginReturnCodes.CannotChangePasswordError:
+                case (int)LoginReturnCodes.PasswordExpiredError:
+                   return WebServicesWrapperStrings.ErrUserCannotChangePwdButMust;
+
+                case (int)LoginReturnCodes.PasswordTooShortError:
+                    return WebServicesWrapperStrings.ErrPwdLength;
+
                 case (int)LoginReturnCodes.LockedDatabaseError:
                     return WebServicesWrapperStrings.ErrLockedDatabase;
 
@@ -726,6 +679,9 @@ namespace Microarea.Common.GenericForms
 
                 case (int)LoginReturnCodes.LoginLocked:
                     return WebServicesWrapperStrings.LoginLocked;
+
+                case (int)LoginReturnCodes.PasswordAlreadyChangedToday:
+                    return WebServicesWrapperStrings.PasswordAlreadyChangedToday;
 
                 case (int)LoginReturnCodes.InvalidDatabaseError:
                     return WebServicesWrapperStrings.InvalidDatabaseError;
@@ -775,6 +731,32 @@ namespace Microarea.Common.GenericForms
                     return WebServicesWrapperStrings.ImagoCompanyNotCorresponding;
             }
             return WebServicesWrapperStrings.ErrLoginFailed;
+
+
+            /*
+             case (int)LoginReturnCodes.NoError:
+						break;
+
+					case (int)LoginReturnCodes.InvalidUserError:
+						//Non è riuscito a cambiare la password.
+						diagnostic.SetError(WebServicesWrapperStrings.ErrChangePassword);
+						break;
+					case (int)LoginReturnCodes.PasswordTooShortError:
+						//Non è riuscito a cambiare la password.
+						diagnostic.SetError(WebServicesWrapperStrings.ErrPwdLength);
+						break;
+					case (int)LoginReturnCodes.CannotChangePasswordError:
+					case (int)LoginReturnCodes.PasswordExpiredError:
+						//Non è riuscito a cambiare la password.
+						diagnostic.SetError(WebServicesWrapperStrings.ErrUserCannotChangePwdButMust);
+						break;
+					case (int)LoginReturnCodes.PasswordAlreadyChangedToday:
+						diagnostic.SetError(WebServicesWrapperStrings.PasswordAlreadyChangedToday);
+						break;
+					default:
+						diagnostic.SetError(WebServicesWrapperStrings.ErrChangePassword);//todo ilaria verifica
+						break;
+             */
         }
 
         //-----------------------------------------------------------------------

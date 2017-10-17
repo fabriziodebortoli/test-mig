@@ -1,7 +1,7 @@
 import { LocalizationService } from './../../../core/services/localization.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
 import { LayoutModule, PanelBarExpandMode } from '@progress/kendo-angular-layout';
-import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Button } from '@progress/kendo-angular-buttons';
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
@@ -18,15 +18,16 @@ export interface MyObj {
 })
 
 
-export class EasyStudioContextComponent implements OnInit, AfterViewInit {
-
+export class EasyStudioContextComponent implements OnInit, AfterViewInit, OnDestroy {
+    public localizationsLoadedSubscription: any;
+    public localizationLoaded: boolean;
 
     public expandMode: number = PanelBarExpandMode.Multiple;
     public opened: boolean = false;
 
-    title = 'Customization Context';
-    defaultNewApp = 'NewApplication';
-    defaultNewMod = 'NewModule';
+    public title: string;
+    public defaultNewApp: string;
+    public defaultNewMod: string;
 
     public isEasyStudioActivated = true;
     public showAddModuleButton = false;
@@ -48,24 +49,37 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
         public httpMenuService: HttpMenuService,
         public localizationService: LocalizationService
     ) {
+       
+    }
+
+    ngOnInit(): void {
+        this.localizationsLoadedSubscription = this.localizationService.localizationsLoaded.subscribe((loaded) => {
+            this.localizationLoaded = loaded;
+            if (this.localizationLoaded &&  this.localizationService.localizedElements) {
+                this.title = this.localizationService.localizedElements.CustomizationContext;
+                this.defaultNewApp = this.localizationService.localizedElements.DefaultNewApp;
+                this.defaultNewMod = this.localizationService.localizedElements.DefaultNewMod;
+            }
+        });
+        
         let sub = this.httpMenuService.getEsAppsAndModules().subscribe((result) => {
             this.extractNames(result);
             sub.unsubscribe();
         });
+      
     }
 
-    ngOnInit(): void {
-        if (this.opened && this.lastApplicSelected && this.lastModuleSelected) {
-            this.hightlightApp(this.lastApplicSelected);
-            this.hightlightMod(this.lastModuleSelected);
-        }
-    }
+   
 
     ngAfterViewInit() {
         if (this.opened && this.lastApplicSelected && this.lastModuleSelected) {
             this.hightlightApp(this.lastApplicSelected);
             this.hightlightMod(this.lastModuleSelected);
         }
+    }
+
+    ngOnDestroy() {
+        this.localizationsLoadedSubscription.unsubscribe();
     }
 
 
@@ -82,12 +96,17 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
     //--------------------------------------------------------------------------------
     public close() {
         this.opened = false;
+        let sub = this.httpMenuService.closeCustomizationContext().subscribe((result) => {
+            if(result){
+                this.applicSelected = undefined;
+                this.moduleSelected = undefined;
+            }
+            sub.unsubscribe();
+        });
     }
 
     //--------------------------------------------------------------------------------
     public cancel() {
-        this.applicSelected = undefined;
-        this.moduleSelected = undefined;
         this.opened = false;
     }
 
@@ -128,6 +147,9 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
         this.memory = { allApplications: [] };
 
         let resultJson = result.json();        //let resultText = result.text();
+        let body = result["_body"];
+        if(body === undefined || body === "" )
+            return;
         this.memory = JSON.parse(result["_body"]);
         let allApplications = resultJson["allApplications"];
 

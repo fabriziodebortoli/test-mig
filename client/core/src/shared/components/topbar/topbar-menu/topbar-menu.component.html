@@ -1,5 +1,6 @@
 <div class="tbcontainer">
-    <tb-es-context class="topbar-menu-layout"></tb-es-context>
+
+    <tb-es-context class="topbar-menu-layout" *ngIf="!isESActivated"></tb-es-context>
     <tb-application-date class="topbar-menu-layout"></tb-application-date>
     <tb-connection-status *ngIf="!isDesktop" class="topbar-menu-layout"></tb-connection-status>
     <tb-topbar-menu-test class="topbar-menu-layout"></tb-topbar-menu-test>

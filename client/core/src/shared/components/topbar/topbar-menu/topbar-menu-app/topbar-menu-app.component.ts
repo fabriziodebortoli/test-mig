@@ -63,16 +63,18 @@ export class TopbarMenuAppComponent implements OnDestroy {
 
     //---------------------------------------------------------------------------------------------
     activateViaSMS() {
-        this.httpMenuService.activateViaSMS().subscribe((result) => {
+        let subs = this.httpMenuService.activateViaSMS().subscribe((result) => {
             window.open(result.url, "_blank");
+            subs.unsubscribe();
         });
 
     }
 
     //---------------------------------------------------------------------------------------------
     goToSite() {
-        this.httpMenuService.goToSite().subscribe((result) => {
+        let subs = this.httpMenuService.goToSite().subscribe((result) => {
             window.open(result.url, "_blank");
+            subs.unsubscribe();
         });
     }
 

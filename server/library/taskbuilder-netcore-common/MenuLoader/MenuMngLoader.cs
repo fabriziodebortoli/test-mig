@@ -397,13 +397,12 @@ namespace Microarea.Common.MenuLoader
                     using (StreamWriter sw = fi.CreateText())
                         ser.Serialize(sw, this);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Debug.Fail(ex.ToString());
                 }
-            }
 
             //---------------------------------------------------------------------------
+                }
             public static void Delete(string user)
             {
                 try
@@ -1041,9 +1040,7 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------------
         private void InitSecurityLightDeniedAccesses()
         {
-
-            LoginManagerSession session = LoginManager.LoginManagerInstance.GetLoginInformation(authenticationToken);
-
+            LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
             if (session.LoginManagerSessionState != LoginManagerState.Logged)
                 return;
 
@@ -1055,8 +1052,7 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------------
         private bool CleanSecurityLightDeniedAccesses(MenuXmlParser aParser, CommandsTypeToLoad commandTypesToClean)
         {
-            LoginManagerSession session = LoginManager.LoginManagerInstance.GetLoginInformation(authenticationToken);
-
+            LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
             if (
                 aParser == null ||
                 session.LoginManagerSessionState != LoginManagerState.Logged ||
@@ -1064,7 +1060,6 @@ namespace Microarea.Common.MenuLoader
                 )
                 return false;
 
-            //TODOLUCA
             SecurityLightManager.CleanDeniedAccesses(aParser, commandTypesToClean, menuPathFinder, LoginManager.LoginManagerInstance.GetSystemDBConnectionString(session.AuthenticationToken));
             return true;
         }
@@ -1210,8 +1205,13 @@ namespace Microarea.Common.MenuLoader
             else
             {
                 int modulesCount = 0;
-
-                string[] activatedModules = LoginManager.LoginManagerInstance.GetModules();
+                
+                List<string> activatedModules = LoginManager.LoginManagerInstance.GetModules();
+                if (activatedModules == null || activatedModules.Count <= 0)
+                {
+                    Debug.Fail("No activated modules found");
+                    return;
+                }
 
                 if (ScanStandardMenuComponentsStarted != null)
                 {
@@ -1224,16 +1224,8 @@ namespace Microarea.Common.MenuLoader
 
                         foreach (BaseModuleInfo moduleInfo in appInfo.Modules)
                         {
-                            //if (loginManager != null && loginManager.IsActivated(appInfo.Name, moduleInfo.Name))
-                            if (activatedModules != null &&
-                                Array.Exists<string>
-                                (activatedModules,
-                                (
-                                (string s) =>
-                                {
-                                    return string.Compare(s, appInfo.Name + "." + moduleInfo.Name, StringComparison.OrdinalIgnoreCase) == 0;
-                                }
-                                    )))
+                            bool moduleFound = activatedModules.Exists((s) => { return string.Compare(s, appInfo.Name + "." + moduleInfo.Name, StringComparison.OrdinalIgnoreCase) == 0; });
+                            if (moduleFound)
                                 modulesTotalCount++;
                         }
                     }
@@ -1241,7 +1233,6 @@ namespace Microarea.Common.MenuLoader
                 }
 
                 cachedInfos.ApplicationsInfo = new List<ApplicationMenuInfo>();
-
 
                 //poi inizio a leggere le informazioni
                 foreach (BaseApplicationInfo appInfo in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
@@ -1262,19 +1253,11 @@ namespace Microarea.Common.MenuLoader
                     {
                         foreach (BaseModuleInfo moduleInfo in appInfo.Modules)
                         {
-                            //if (loginManager == null || !loginManager.IsActivated(appInfo.Name, moduleInfo.Name))
-                            if (activatedModules == null ||
-                                !Array.Exists<string>(activatedModules,
-                                (
-                                (string s) =>
-                                {
-                                    return string.Compare(s, appInfo.Name + "." + moduleInfo.Name, StringComparison.OrdinalIgnoreCase) == 0;
-                                }
-                                    )))
+                            bool moduleFound = activatedModules.Exists((s) => { return string.Compare(s, appInfo.Name + "." + moduleInfo.Name, StringComparison.OrdinalIgnoreCase) == 0; });
+                            if (!moduleFound)
                                 continue;
 
-                            if (ScanStandardMenuComponentsModuleIndexChanged != null)
-                                ScanStandardMenuComponentsModuleIndexChanged(this, new MenuParserEventArgs(modulesCount++, moduleInfo));
+                            ScanStandardMenuComponentsModuleIndexChanged?.Invoke(this, new MenuParserEventArgs(modulesCount++, moduleInfo));
 
                             ModuleMenuInfo aModule = new ModuleMenuInfo(moduleInfo.Name, moduleInfo.ModuleConfigInfo.Title, moduleInfo.ModuleConfigInfo.MenuViewOrder);
 
@@ -1334,8 +1317,8 @@ namespace Microarea.Common.MenuLoader
 
                 cachedInfos.CalculateTotalModules();
             }
-            if (ScanStandardMenuComponentsEnded != null)
-                ScanStandardMenuComponentsEnded(this, null);
+
+            ScanStandardMenuComponentsEnded?.Invoke(this, null);
         }
 
         //---------------------------------------------------------------------------
@@ -2870,7 +2853,7 @@ namespace Microarea.Common.MenuLoader
             // fatto SOLO SE si è loggati !!! 
             bool applySecurityFilter = false;
 
-            LoginManagerSession session = LoginManager.LoginManagerInstance.GetLoginInformation(authenticationToken);
+            LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
             if (!ignoreAllSecurityChecks)
                 applySecurityFilter = LoginManager.LoginManagerInstance.IsActivated("MicroareaConsole", "SecurityAdmin") &&
                     (
@@ -2928,7 +2911,9 @@ namespace Microarea.Common.MenuLoader
             {
                 Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(menuInfo.PathFinder.User);
                 //menuInfo.DeleteCachedStandardMenu();
+                //LoginManager.LoginManagerInstance.init
             }
+
 
             menuInfo.ScanStandardMenuComponents(environmentStandAlone, commandsTypeToLoad);
 

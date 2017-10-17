@@ -194,6 +194,6 @@ export class LoginService {
     this.sendMessage(this.opRes);
 
     // routing to the app home
-    this.router.navigateByUrl('/appHome');
+    this.router.navigateByUrl('/appHome', { skipLocationChange:true });
   }
 }

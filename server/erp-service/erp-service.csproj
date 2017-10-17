@@ -10,7 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="wwwroot\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,7 +38,12 @@
     <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\account-manager\account-manager.csproj" />
   </ItemGroup>
   
     <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">

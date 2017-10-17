@@ -1,6 +1,7 @@
-import { FormsModule } from '@angular/forms';
+import { TbIconsModule } from '@taskbuilder/icons';
 
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { TbSharedModule } from './../shared/shared.module';
@@ -18,6 +19,8 @@ import { TreeTestComponent, TreeTestFactoryComponent } from "./tree-test/tree-te
     imports: [
         CommonModule,
         TbSharedModule,
+        TbIconsModule,
+        FormsModule,
         RouterModule.forChild([
             { path: 'dataservice', component: DataServiceFactoryComponent },
             { path: 'explorer', component: ExplorerFactoryComponent },
@@ -36,6 +39,6 @@ import { TreeTestComponent, TreeTestFactoryComponent } from "./tree-test/tree-te
         RadarTestComponent, RadarTestFactoryComponent,
         TreeTestComponent, TreeTestFactoryComponent
     ],
-    entryComponents: [DataServiceComponent, GridTestComponent, ExplorerComponent, IconsTestComponent, RadarTestComponent,TreeTestComponent]
+    entryComponents: [DataServiceComponent, GridTestComponent, ExplorerComponent, IconsTestComponent, RadarTestComponent, TreeTestComponent]
 })
 export class TbTestModule { }

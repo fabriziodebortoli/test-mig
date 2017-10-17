@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie';
 import { LoadingService } from './../../core/services/loading.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
@@ -28,8 +29,8 @@ export class MenuService {
 
     public allMenus: Array<any> = [];
 
-    public favorites: Array<any> = [];
-    public mostUsed: Array<any> = [];
+    public favorites = [];
+    public mostUsed = [];
 
     public searchSources: Array<any> = [];
     public ifMoreAppsExist: boolean;
@@ -88,7 +89,8 @@ export class MenuService {
         public settingsService: SettingsService,
         public componentService: ComponentService,
         public infoService: InfoService,
-        public loadingService: LoadingService
+        public loadingService: LoadingService,
+        public cookieService: CookieService
 
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
@@ -224,17 +226,17 @@ export class MenuService {
         }
         this.addToMostUsed(object);
         object.isLoading = true;
-        const subs1 = this.componentService.componentInfoCreated.subscribe(arg => {
+        let subs1 = this.componentService.componentInfoCreated.subscribe(arg => {
             object.isLoading = false;
             subs1.unsubscribe();
         });
-        const subs2 = this.componentService.componentCreationError.subscribe(reason => {
+        let subs2 = this.componentService.componentCreationError.subscribe(reason => {
             object.isLoading = false;
             subs2.unsubscribe();
         });
     }
 
-    runObject(object: any) {
+   runObject(object: any) {
         let urlToRun = "";
         let objType = object.objectType.toLowerCase();
         let ns = object.target.toLowerCase();
@@ -263,6 +265,8 @@ export class MenuService {
             urlToRun = 'runOfficeItem/?ns=' + encodeURIComponent(ns) + '&subType=' + type + '&application=' + app;
         }
 
+        let authtoken = this.cookieService.get('authtoken');
+        urlToRun+= "&authtoken=" + authtoken;    
         let sub = this.httpService.postDataWithAllowOrigin(this.infoService.getMenuBaseUrl() + urlToRun).subscribe((res) => {
             object.isLoading = false;
             sub.unsubscribe();
@@ -414,7 +418,9 @@ export class MenuService {
     }
 
     updateAllFavoritesAndMostUsed() {
-        this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe();
+        let sub = this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe(()=>{
+            sub.unsubscribe();
+        });
     }
 
     //---------------------------------------------------------------------------------------------
@@ -459,26 +465,38 @@ export class MenuService {
     }
 
     getMenuElements() {
-
-        this.httpMenuService.getMenuElements(this.clearCachedData).subscribe((result) => {
+        this.resetMenuServices();
+        let sub = this.httpMenuService.getMenuElements(this.clearCachedData).subscribe((result) => {
             this.clearCachedData = false;
             this.onAfterGetMenuElements(result.Root);
-            this.loadingService.setLoading(false);
+            sub.unsubscribe();
         });
     }
 
     invalidateCache() {
+        //TODOLUCA , clone del metodo getmenuelements qua sopra, per motivi di async
         this.loadingService.setLoading(true, "reloading menu");
+        this.resetMenuServices();
         this.clearCachedData = true;
-        this.getMenuElements();
-        // this.httpMenuService.clearCachedData().subscribe(result => {
-        //     location.reload();
-        // });
+        let sub = this.httpMenuService.getMenuElements(this.clearCachedData).subscribe((result) => {
+            this.clearCachedData = false;
+            this.loadingService.setLoading(false);
+            this.onAfterGetMenuElements(result.Root);
+            sub.unsubscribe();
+        });
+    }
+
+    //---------------------------------------------------------------------------------------------
+    resetMenuServices(){
+        this.allMenus = [];
+        this.favoritesCount = 0;
+        this.mostUsedCount = 0;
+        this.favorites = [];
+        this.mostUsed = [];
     }
 
     //---------------------------------------------------------------------------------------------
     onAfterGetMenuElements(root) {
-
         //creo un unico allmenus che contiene tutte le applicazioni sia di environment che di applications
         let temp = this.utilsService.toArray(root.ApplicationMenu.AppMenu.Application);
         for (var a = 0; a < temp.length; a++) {
@@ -497,9 +515,7 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     loadFavoritesAndMostUsed() {
-        this.favorites.splice(0, this.favorites.length);
-        this.mostUsed.splice(0, this.mostUsed.length);
-
+    
         if (this.allMenus != undefined)
             this.findFavoritesAndMostUsedInApplication(this.allMenus);
 
@@ -508,11 +524,10 @@ export class MenuService {
     }
 
     //---------------------------------------------------------------------------------------------
-    findFavoritesAndMostUsedInApplication(application) {
+    findFavoritesAndMostUsedInApplication(applications) {
 
-        var tempMenuArray = this.utilsService.toArray(application);
-        for (var a = 0; a < tempMenuArray.length; a++) {
-            var allGroupsArray = this.utilsService.toArray(tempMenuArray[a].Group);
+        for (var a = 0; a < applications.length; a++) {
+            var allGroupsArray = this.utilsService.toArray(applications[a].Group);
             for (var d = 0; d < allGroupsArray.length; d++) {
                 this.getFavoritesAndMostUsedObjectsFromMenu(allGroupsArray[d]);
             }

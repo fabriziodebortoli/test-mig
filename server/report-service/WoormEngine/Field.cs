@@ -361,7 +361,7 @@ namespace Microarea.RSWeb.WoormEngine
 
             s += this.Data.GetType().Name.ToJson("type") + ',';
 
-            s += this.Data.ToString().ToJson("value", false, true); //TODO RSWEB (askfield value) togliere tostring
+            s += this.Data.ToJson("value");
 
             return s + '}';
         }

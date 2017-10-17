@@ -8,7 +8,7 @@
     </header>
 
     <div class="login-main-content">
-        <div class="login-form tb-card" *ngIf="!loading">
+        <div class="login-form tb-card" *ngIf="!loadingService.isLoading">
             <tb-card>
                 <tb-card-title [title]="localizationService?.localizedElements?.Login"></tb-card-title>
                 <tb-card-content>
@@ -18,7 +18,8 @@
                         <div class="form-control">
                             <p class="floatingLabel">{{localizationService?.localizedElements?.User}}</p>
                             <kendo-textbox-container>
-                                <input kendoTextBox autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keyup)="keyUpFunction($event)" name="user">
+                                <input kendoTextBox autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keyup)="keyUpFunction($event)"
+                                    name="user">
                             </kendo-textbox-container>
                         </div>
 
@@ -53,13 +54,39 @@
 </div>
 <tb-loading></tb-loading>
 
-<kendo-dialog title="User already connected" *ngIf="userAlreadyConnectedOpened" (close)="userConnectedCancel()">
+<!-- USER ALREADY LOGGED -->
+<kendo-dialog title="{{localizationService?.localizedElements?.UserAlreadyConnectedTitle}}" *ngIf="userAlreadyConnectedOpened"
+    (close)="userConnectedCancel()">
     <div>
-        <!-- TODOLUCA da localizzare -->
-        The user is already connected to the system. Do you want to close previous working session and open new one?
+        {{localizationService?.localizedElements?.UserAlreadyConnected}}
     </div>
     <kendo-dialog-actions>
-        <button kendoButton (click)="userConnectedYes()" [primary]="true">Yes</button>
-        <button kendoButton (click)="userConnectedCancel()" [primary]="true">Cancel</button>
+        <button kendoButton (click)="userConnectedYes()" [primary]="true">{{localizationService?.localizedElements?.Yes}}</button>
+        <button kendoButton (click)="userConnectedCancel()" [primary]="true">{{localizationService?.localizedElements?.Cancel}}</button>
+    </kendo-dialog-actions>
+</kendo-dialog>
+
+<!-- CHANGE PASSWORD -->
+<kendo-dialog title="{{localizationService?.localizedElements?.ChangePassword}}" *ngIf="changePasswordOpened" (close)="userConnectedCancel()">
+    <div class="form-group">
+        {{localizationService?.localizedElements?.UserMustChangePassword}}
+        <div class="form-control">
+            <p class="floatingLabel">{{localizationService?.localizedElements?.Password}}</p>
+            <kendo-textbox-container class="form-control-k">
+                <input kendoTextBox [(ngModel)]="newPassword" (keyup)="keyUpFunction($event)" name="password" type="password">
+            </kendo-textbox-container>
+        </div>
+
+        <div class="form-control">
+            <p class="floatingLabel">{{localizationService?.localizedElements?.ConfirmPassword}}</p>
+            <kendo-textbox-container class="form-control-k">
+                <input kendoTextBox [(ngModel)]="confirmPassword" (keyup)="keyUpFunction($event)" name="confirmPassword" type="password">
+            </kendo-textbox-container>
+        </div>
+
+        <div class="error" *ngIf="(newPassword && confirmPassword) &&  confirmPassword != newPassword">{{localizationService?.localizedElements?.PasswordNotMaching}}</div>
+    </div>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="changePasswordOk()" [primary]="true">{{localizationService?.localizedElements?.Ok}}</button>
     </kendo-dialog-actions>
 </kendo-dialog>

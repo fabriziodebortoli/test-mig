@@ -1,25 +1,31 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ERP_SERVICES } from './core/core.module';
 
-/**
- * Modulo Core con tutti i servizi di ERP
- */
-import { ERPCoreModule, ERP_SERVICES } from './core/core.module';
+import { TbSharedModule } from '@taskbuilder/core';
 export * from './core/core.module';
 
-import { ERPTestComponent } from './erp-test.component';
-export { ERPTestComponent } from './erp-test.component';
+/**
+ * Modulo Shared
+ */
+import { ERPSharedModule } from './shared/shared.module';
+export * from './shared/shared.module';
+
+const ERP_MODULES = [ERPSharedModule];
+
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    TbSharedModule,
+    ERP_MODULES
   ],
   declarations: [
-    ERPTestComponent
   ],
   exports: [
-    ERPTestComponent
-  ]
+    ERP_MODULES
+  ],
+  providers: [ERP_SERVICES]
 })
 export class ERPModule {
   static forRoot(): ModuleWithProviders {
