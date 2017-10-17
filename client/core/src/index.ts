@@ -25,14 +25,13 @@ export * from './menu/menu.module';
  * Modulo Dashboard
  */
 import { TbDashboardModule } from './dashboard/dashboard.module';
-export { TbDashboardModule } from './dashboard/dashboard.module';
+export * from './dashboard/dashboard.module';
 
 /**
  * Modulo Settings
  */
 import { TbSettingsModule } from './settings/settings.module';
 export * from './settings/settings.module';
-
 
 /**
  * Modulo Test
@@ -48,8 +47,6 @@ const TB_MODULES = [
   TbTestModule,
   TbSettingsModule
 ];
-
-
 
 /** 
  * HOME 

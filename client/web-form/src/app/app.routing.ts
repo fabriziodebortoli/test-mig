@@ -1,22 +1,24 @@
-import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { environment } from './../environments/environment';
 
-import { CoreGuard } from '@taskbuilder/core';
-import { PageNotFoundComponent, UnsupportedFactoryComponent } from '@taskbuilder/core';
 import {
-    ProxyRouteComponent, LoginComponent, HomeComponent, StandaloneReportComponent,
-    StandaloneDocumentComponent
+    CoreGuard,
+    LoginComponent,
+    PageNotFoundComponent,
+    UnsupportedFactoryComponent,
+    ProxyRouteComponent,
+    HomeComponent,
+    StandaloneDocumentComponent,
+    StandaloneReportComponent
 } from '@taskbuilder/core';
+import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
 
-import { RsTestComponent } from '@taskbuilder/reporting-studio';
 import { appRoutes } from './applications/app.routing';
 
 let magoRoutes = [
     { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
-    { path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' },
     { path: 'test', loadChildren: '@taskbuilder/core#TbTestModule' },
     { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
     ...appRoutes
@@ -33,9 +35,11 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
         path: 'proxy',
         outlet: 'dynamic',
         component: ProxyRouteComponent,
-        children: [...childrenRoutes],
+        children: [
+            { path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' },
+            ...childrenRoutes
+        ],
     },
-    { path: 'test-rs', component: RsTestComponent },
     { path: '**', component: PageNotFoundComponent },
 ]);
 

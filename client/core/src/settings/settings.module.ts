@@ -11,15 +11,12 @@ import { TbSharedModule } from './../shared/shared.module';
 import { TbMenuModule } from './../menu/menu.module';
 import { TbIconsModule } from '@taskbuilder/icons';
 
-import { ButtonsModule } from '@progress/kendo-angular-buttons';
-
 @NgModule({
   imports: [
     CommonModule,
     TbSharedModule,
     TbMenuModule,
     TbIconsModule,
-    ButtonsModule,
     RouterModule.forChild([
       { path: 'settings', component: SettingsContainerFactoryComponent },
     ]),
