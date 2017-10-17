@@ -1,3 +1,4 @@
+import { EasystudioService } from './../../../core/services/easystudio.service';
 import { LocalizationService } from './../../../core/services/localization.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
 import { LayoutModule, PanelBarExpandMode } from '@progress/kendo-angular-layout';
@@ -18,7 +19,7 @@ export interface MyObj {
 })
 
 
-export class EasyStudioContextComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EasyStudioContextComponent implements OnInit, OnDestroy {
     public localizationsLoadedSubscription: any;
     public localizationLoaded: boolean;
 
@@ -47,37 +48,36 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit, OnDest
 
     constructor(
         public httpMenuService: HttpMenuService,
-        public localizationService: LocalizationService
+        public localizationService: LocalizationService,
+        public easystudioService: EasystudioService
     ) {
-       
+
     }
 
+    //--------------------------------------------------------------------------------
     ngOnInit(): void {
         this.localizationsLoadedSubscription = this.localizationService.localizationsLoaded.subscribe((loaded) => {
             this.localizationLoaded = loaded;
-            if (this.localizationLoaded &&  this.localizationService.localizedElements) {
+            if (this.localizationLoaded && this.localizationService.localizedElements) {
                 this.title = this.localizationService.localizedElements.CustomizationContext;
                 this.defaultNewApp = this.localizationService.localizedElements.DefaultNewApp;
                 this.defaultNewMod = this.localizationService.localizedElements.DefaultNewMod;
             }
         });
-        
+
         let sub = this.httpMenuService.getEsAppsAndModules().subscribe((result) => {
             this.extractNames(result);
             sub.unsubscribe();
         });
-      
-    }
 
-   
-
-    ngAfterViewInit() {
-        if (this.opened && this.lastApplicSelected && this.lastModuleSelected) {
-            this.hightlightApp(this.lastApplicSelected);
-            this.hightlightMod(this.lastModuleSelected);
+        if(this.easystudioService.isContextActive()){
+            this.applicSelected = this.easystudioService.currentApplication;
+            this.moduleSelected = this.easystudioService.currentModule;
         }
     }
 
+
+    //--------------------------------------------------------------------------------
     ngOnDestroy() {
         this.localizationsLoadedSubscription.unsubscribe();
     }
@@ -96,13 +96,13 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit, OnDest
     //--------------------------------------------------------------------------------
     public close() {
         this.opened = false;
-        let sub = this.httpMenuService.closeCustomizationContext().subscribe((result) => {
-            if(result){
-                this.applicSelected = undefined;
-                this.moduleSelected = undefined;
-            }
-            sub.unsubscribe();
-        });
+        this.easystudioService.closeCustomizationContext();
+        // let sub = this.httpMenuService.closeCustomizationContext().subscribe((result) => {
+        //     if(result){
+        this.applicSelected = undefined;
+        this.moduleSelected = undefined;
+        //     }
+        //     sub.unsubscribe(); });
     }
 
     //--------------------------------------------------------------------------------
@@ -127,16 +127,17 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit, OnDest
 
     //--------------------------------------------------------------------------------
     public ok() {
-        let sub = this.httpMenuService.setAppAndModule(this.applicSelected, this.moduleSelected, this.isThisPairDefault).subscribe((result) => {
-            sub.unsubscribe();
-        });
+        this.easystudioService.setAppAndModule(this.applicSelected, this.moduleSelected, this.isThisPairDefault);
+        // let sub = this.httpMenuService.setAppAndModule(this.applicSelected, this.moduleSelected, this.isThisPairDefault).subscribe((result) => {
+        //     sub.unsubscribe();
+        // });
         //pairDefault= false;
         this.opened = false;
     }
 
     //--------------------------------------------------------------------------------
     public disabledIf() {
-        return this.applicSelected === undefined || this.moduleSelected === undefined;
+        return this.applicSelected === undefined || this.moduleSelected === undefined || this.newPairVisible;
     }
 
     //--------------------------------------------------------------------------------
@@ -148,7 +149,7 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit, OnDest
 
         let resultJson = result.json();        //let resultText = result.text();
         let body = result["_body"];
-        if(body === undefined || body === "" )
+        if (body === undefined || body === "")
             return;
         this.memory = JSON.parse(result["_body"]);
         let allApplications = resultJson["allApplications"];
