@@ -1,3 +1,4 @@
+import { TbIconsModule } from '@taskbuilder/icons';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -37,7 +38,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     KENDO_UI_MODULES,
     WidgetsModule,
     TbSharedModule,
-    TbMenuModule
+    TbMenuModule,
+    TbIconsModule
   ],
   exports: [
     DashboardComponent
