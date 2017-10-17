@@ -22,11 +22,11 @@ namespace Microarea.Common
         public MetaDataManagerTool(string instanceKey)
         {
             this.instanceKey = instanceKey;
-            //pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa");
-            pf = new PathFinder("USR-grillolara1", "DEV_ERP_NEXT", "WebMago", "sa");
+            pf = new PathFinder("USR-Grillolara1", "DEV_ERP_NEXT", "WebMago", "sa");
+           // pf = new PathFinder(":microarea.database.windows.net", "DEV_ERP_NEXT", "WebMago", "sa");
             pf.Edition = "Professional";
-            connectionStringStandard = "Server=tcp:microarea.database.windows.net;Database='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;";
-      //      connectionStringStandard = "Data Source =USR-GRILLOLARA1; Initial Catalog = 'dbsys'; User ID = 'sa'; Password = 'Microarea.'; Connect Timeout = 30; Pooling = false; ";
+           // connectionStringStandard = "Server=tcp:microarea.database.windows.net;Database='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;";
+            connectionStringStandard = "Data Source =USR-GRILLOLARA1; Initial Catalog = 'ProvisioningDB'; User ID = 'sa'; Password = 'Microarea.'; Connect Timeout = 30; Pooling = false; ";
 
            // connectionStringStandard = "Data Source=microarea.database.windows.net;Initial Catalog='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;Pooling=false;";
             connectionStringCustom = ""; ;
@@ -74,12 +74,11 @@ namespace Microarea.Common
             mySQLCommand.Parameters.Add(contentParam);
 
 
-                foreach (ApplicationInfo ai in pf.ApplicationInfos)
+            foreach (ApplicationInfo ai in pf.ApplicationInfos)
             {
 
                 if (ai.ApplicationType != ApplicationType.TaskBuilderApplication &&
-                        ai.ApplicationType != ApplicationType.TaskBuilder &&
-                        ai.ApplicationType != ApplicationType.Customization)
+                        ai.ApplicationType != ApplicationType.TaskBuilder )
                     continue;
 
                 if (ai.Modules == null || ai.Modules.Count == 0)
@@ -135,7 +134,7 @@ namespace Microarea.Common
 
                     OneLevelInsert(mi.Path + Path.DirectorySeparatorChar + "Settings", idModulo, isCustom, ai.Name, mi.Name);
 
-                    OneLevelInsert(mi.Path + Path.DirectorySeparatorChar + "Files", idModulo, isCustom, ai.Name, mi.Name);
+                    RecourseInsert(mi.Path + Path.DirectorySeparatorChar + "Files", idModulo, isCustom, ai.Name, mi.Name);
 
                     OneLevelInsert(mi.Path + Path.DirectorySeparatorChar + "ReferenceObjects", idModulo, isCustom, ai.Name, mi.Name);
 
@@ -143,17 +142,19 @@ namespace Microarea.Common
 
                     OneLevelInsert(mi.Path + Path.DirectorySeparatorChar + "Menu", idModulo, isCustom, ai.Name, mi.Name);
 
-                    OneLevelInsert(mi.Path + Path.DirectorySeparatorChar + "JsonForms", idModulo, isCustom, ai.Name, mi.Name);
+                    RecourseInsert(mi.Path + Path.DirectorySeparatorChar + "JsonForms", idModulo, isCustom, ai.Name, mi.Name);
 
                     OneLevelInsert(mi.Path + Path.DirectorySeparatorChar + "Companies", idModulo, isCustom, ai.Name, mi.Name);
 
                     RecourseInsert(mi.Path + Path.DirectorySeparatorChar + "DataManager", idModulo, isCustom, ai.Name, mi.Name);
 
                     RecourseInsert(mi.Path + Path.DirectorySeparatorChar + "DatabaseScript", idModulo, isCustom, ai.Name, mi.Name);
+
+                    RecourseInsert(mi.Path + Path.DirectorySeparatorChar + "XML", idModulo, isCustom, ai.Name, mi.Name);
                 }
 
             }
-            connect.Close();
+           connect.Close();
         }
 
         //---------------------------------------------------------------------
@@ -252,7 +253,7 @@ namespace Microarea.Common
                 mySQLCommand.Parameters["@PathName"].Value = path;
                 mySQLCommand.Parameters["@Application"].Value = appName;
                 mySQLCommand.Parameters["@Module"].Value = moduleName;
-                mySQLCommand.Parameters["@CompleteFileName"].Value = path + Path.DirectorySeparatorChar;
+                mySQLCommand.Parameters["@CompleteFileName"].Value = path;
                 mySQLCommand.Parameters["@FileName"].Value = String.Empty;
                 mySQLCommand.Parameters["@FileType"].Value = String.Empty;
                 mySQLCommand.Parameters["@FileSize"].Value = 0;
@@ -277,115 +278,122 @@ namespace Microarea.Common
             }
         }
 
-        //---------------------------------------------------------------------
-        private string GetType(string nameSpace, string fileFullName)
-        {
-            string fileType = string.Empty;
+        ////---------------------------------------------------------------------
+        //private string GetType(string nameSpace, string fileFullName)
+        //{
+        //    string fileType = string.Empty;
 
-            if (nameSpace != string.Empty)
-                return nameSpace.Substring(0, nameSpace.IndexOf('.')).ToUpper();
+        //    if (nameSpace != string.Empty)
+        //        return nameSpace.Substring(0, nameSpace.IndexOf('.')).ToUpper();
 
-            if (fileFullName.ToLower().Contains("application.config"))
-                return "APPLICATION";
+        //    if (fileFullName.ToLower().Contains("application.config"))
+        //        return "APPLICATION";
 
-            if (fileFullName.ToLower().Contains("module.config"))
-                return "MODULE";
+        //    if (fileFullName.ToLower().Contains("module.config"))
+        //        return "MODULE";
 
-            if (fileFullName.ToLower().Contains(".menu"))
-                return "MENU";
+        //    if (fileFullName.ToLower().Contains(".menu"))
+        //        return "MENU";
 
-            if (fileFullName.ToLower().Contains("description"))
-                return "DESCRIPTION";
+        //    if (fileFullName.ToLower().Contains("description"))
+        //        return "DESCRIPTION";
 
-            if (fileFullName.ToLower().Contains("exportprofiles"))
-                return "EXPORTPROFILES";
+        //    if (fileFullName.ToLower().Contains("exportprofiles"))
+        //        return "EXPORTPROFILES";
 
-            if (fileFullName.ToLower().Contains("datamanager"))
-                return "DATA";
+        //    if (fileFullName.ToLower().Contains("datamanager"))
+        //        return "DATA";
 
-            if (fileFullName.ToLower().Contains("brand"))
-                return "BRAND";
+        //    if (fileFullName.ToLower().Contains("brand"))
+        //        return "BRAND";
 
-            if (fileFullName.ToLower().Contains("themes"))
-                return "THEMES";
+        //    if (fileFullName.ToLower().Contains("themes"))
+        //        return "THEMES";
 
-            if (fileFullName.ToLower().Contains(".sql"))
-                return "SQL";
+        //    if (fileFullName.ToLower().Contains(".sql"))
+        //        return "SQL";
 
-            if (fileFullName.ToLower().Contains(".hjson") || fileFullName.ToLower().Contains(".tbjson"))
-                return "JSONFORM";
+        //    if (fileFullName.ToLower().Contains(".hjson") || fileFullName.ToLower().Contains(".tbjson"))
+        //        return "JSONFORM";
 
-            if (fileFullName.ToLower().Contains("settings.config") || fileFullName.ToLower().Contains("\\settings\\"))
-                return "SETTING";
+        //    if (fileFullName.ToLower().Contains("settings.config") || fileFullName.ToLower().Contains("\\settings\\"))
+        //        return "SETTING";
 
-            if (fileFullName.ToLower().Contains(".gif") || fileFullName.ToLower().Contains(".jpg") || fileFullName.ToLower().Contains(".png"))
-                return "IMAGE";
+        //    if (fileFullName.ToLower().Contains(".gif") || fileFullName.ToLower().Contains(".jpg") || fileFullName.ToLower().Contains(".png"))
+        //        return "IMAGE";
 
-            if (fileFullName.ToLower().Contains("\\moduleobjects\\"))
-            {
-                string fileName = fileFullName.Substring(fileFullName.LastIndexOf('\\') + 1);
-                fileName = fileName.Substring(0, fileName.LastIndexOf('.'));
-                return fileName.ToUpper();
-            }
-            return string.Empty;
-        }
+        //    if (fileFullName.ToLower().Contains("\\moduleobjects\\"))
+        //    {
+        //        string fileName = fileFullName.Substring(fileFullName.LastIndexOf('\\') + 1);
+        //        fileName = fileName.Substring(0, fileName.LastIndexOf('.'));
+        //        return fileName.ToUpper();
+        //    }
+        //    return string.Empty;
+        //}
         //---------------------------------------------------------------------
         private void InsertFile(FileInfo aFile, bool isCustom, int id, string appName, string moduleName)
         {
             try
             {
-
                 string nameSpace = string.Empty;
 				string fileFullName = aFile.FullName;
-
-				if (BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(fileFullName) != null)
+                string a = "";
+                if ("C:\\DEV_ERP_NEXT\\Standard\\Applications\\ERP\\Accounting\\ModuleObjects\\AccountingParameters\\JsonForms\\IDD_TD_PARAMETERS_ACCOUNTING_BALANCES_ACCBOOKPRINTOUT.hjson" == aFile.FullName)
+                    a = "";
+                if (BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(fileFullName) != null)
                 {
                     nameSpace = BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(aFile.FullName).ToString();
                     if (nameSpace.Contains(".wrm"))
                         nameSpace = nameSpace.Substring(0, nameSpace.LastIndexOf('.'));
                 }
-
+                
 
 				string fileType = string.Empty;
 				bool isText = true;
 
-				if (nameSpace != string.Empty)
-					fileType = nameSpace.Substring(0, nameSpace.IndexOf('.')).ToUpper();
+                if (nameSpace != string.Empty)
+                    fileType = nameSpace.Substring(0, nameSpace.IndexOf('.')).ToUpper();
                 else if (fileFullName.ToLower().Contains("application.config"))
-					fileType = "APPLICATION";
-                else if(fileFullName.ToLower().Contains("module.config"))
-					fileType =  "MODULE";
-                else if(fileFullName.ToLower().Contains(".menu"))
-					fileType =  "MENU";
-                else if(fileFullName.ToLower().Contains("description"))
-					fileType = "DESCRIPTION";
-                else if(fileFullName.ToLower().Contains("exportprofiles"))
-					fileType = "EXPORTPROFILES";
-                else if(fileFullName.ToLower().Contains("datamanager"))
-                    fileType =  "DATA";
-                else if(fileFullName.ToLower().Contains("brand"))
-					fileType = "BRAND";
-                else if(fileFullName.ToLower().Contains("themes"))
-					fileType = "THEMES";
-                else if(fileFullName.ToLower().Contains(".sql"))
-					fileType = "SQL";
-                else if(fileFullName.ToLower().Contains(".hjson") || fileFullName.ToLower().Contains(".tbjson"))
-					fileType = "JSONFORM";
-                else if(fileFullName.ToLower().Contains("settings.config") || fileFullName.ToLower().Contains("\\settings\\"))
-					fileType = "SETTING";
-                else if(fileFullName.ToLower().Contains(".gif") || fileFullName.ToLower().Contains(".jpg") || fileFullName.ToLower().Contains(".png"))
-				{
-					fileType = "IMAGE";
-					isText = false;
-				}
-                else if(fileFullName.ToLower().Contains("\\moduleobjects\\"))
-				{
-					string fileName = fileFullName.Substring(fileFullName.LastIndexOf('\\') + 1);
-					fileName = fileName.Substring(0, fileName.LastIndexOf('.'));
-					fileType = fileName.ToUpper();
-				}
+                    fileType = "APPLICATION";
+                else if (fileFullName.ToLower().Contains("module.config"))
+                    fileType = "MODULE";
+                else if (fileFullName.ToLower().Contains(".menu"))
+                    fileType = "MENU";
+                else if (fileFullName.ToLower().Contains("description"))
+                    fileType = "DESCRIPTION";
+                else if (fileFullName.ToLower().Contains("exportprofiles"))
+                    fileType = "EXPORTPROFILES";
+                else if (fileFullName.ToLower().Contains("datamanager"))
+                    fileType = "DATA";
+                else if (fileFullName.ToLower().Contains("brand"))
+                    fileType = "BRAND";
+                //else if (fileFullName.ToLower().Contains("themes"))
+                //    fileType = "THEMES";
+                else if (fileFullName.ToLower().Contains(".sql"))
+                    fileType = "SQL";
+                else if (fileFullName.ToLower().Contains(".hjson") || fileFullName.ToLower().Contains(".tbjson"))
+                    fileType = "JSONFORM";
+                else if (fileFullName.ToLower().Contains("settings.config") || fileFullName.ToLower().Contains("\\settings\\"))
+                    fileType = "SETTING";
+                else if (fileFullName.ToLower().Contains("\\moduleobjects\\"))
+                {
+                    string fileName = fileFullName.Substring(fileFullName.LastIndexOf('\\') + 1);
+                    fileName = fileName.Substring(0, fileName.LastIndexOf('.'));
+                    fileType = fileName.ToUpper();
+                }
 
-				int index = aFile.FullName.IndexOf(@"Standard\", 0);
+                if (fileFullName.ToLower().Contains(".css")|| fileFullName.ToLower().Contains(".js") || fileFullName.ToLower().Contains(".map")||
+                    fileFullName.ToLower().Contains(".png")||fileFullName.ToLower().Contains(".gif") || fileFullName.ToLower().Contains(".bmp")
+                    || fileFullName.ToLower().Contains(".jpg") || fileFullName.ToLower().Contains(".eot") || fileFullName.ToLower().Contains(".svg")
+                    || fileFullName.ToLower().Contains(".ttf") || fileFullName.ToLower().Contains(".woff") || fileFullName.ToLower().Contains(".html")
+                    || fileFullName.ToLower().Contains(".scss") || fileFullName.ToLower().Contains(".htm") || fileFullName.ToLower().Contains(".jpeg")
+                   )
+                {
+                    isText = false;
+
+                }
+                
+                int index = aFile.FullName.IndexOf(@"Standard\", 0);
 
                 mySQLCommand.Parameters["@ParentID"].Value =  id;
                 mySQLCommand.Parameters["@Namespace"].Value = nameSpace;
