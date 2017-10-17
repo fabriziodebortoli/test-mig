@@ -84,9 +84,9 @@
   </div>
 
   <div class="row center-xs center-sm end-lg">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4" style="padding-top:40px">
       <img *ngIf="saving" src="assets/ajax-loader.gif" />
-      <button *ngIf="!saving" type="button" style="margin-top:40px;" class="cta" (click)="submitAccount()">Save</button>
+      <admin-button *ngIf="!saving" [buttonText]="'Save'" [primary]=true (click)="submitAccount()"></admin-button>
     </div>
   </div>
 </div>
