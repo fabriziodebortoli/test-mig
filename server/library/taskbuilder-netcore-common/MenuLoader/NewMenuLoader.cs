@@ -822,7 +822,7 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WritePropertyName("OtherSettings");
 				jsonWriter.WriteStartObject();
 
-                bool ok = LoginManager.LoginManagerInstance.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
+                bool ok = LoginManager.LoginManagerInstance.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner, true) &&
                                                 LoginManager.LoginManagerInstance.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
 
 				jsonWriter.WritePropertyName("isEasyStudioActivated");
