@@ -32,8 +32,8 @@ export class NoSpacesEditComponent extends ControlComponent {
     if (this.model && this.model.value)
       this.model.value = this.model.value.replace(/\s+/g, '');
 
-    if (this.maxLength > 0 && this.model.value.length > this.maxLength)
-      this.errorMessage = 'Value must be max ' + this.maxLength + ' chars';
+    if (this.maxLength > 0 && this.model.value.length !== this.maxLength)
+      this.errorMessage = 'Value must be ' + this.maxLength + ' chars';
     else
       this.errorMessage = '';
 
