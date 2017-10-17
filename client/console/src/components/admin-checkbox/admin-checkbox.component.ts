@@ -21,7 +21,5 @@ export class AdminCheckBoxComponent {
   onChange(val) {
     this.checkValue = val;
     this.inputDataChange.emit(this.checkValue);
-    console.log('change!');
-    console.log(val);
   }  
 }
