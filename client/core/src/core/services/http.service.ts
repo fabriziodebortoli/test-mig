@@ -106,7 +106,6 @@ export class HttpService {
     }
 
     postDataWithAllowOrigin(url: string): Observable<OperationResult> {
-        let token = this.cookieService.get('authtoken');
         let headers = new Headers();
         headers.append('Access-Control-Allow-Origin', window.location.origin);
         headers.append('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin');

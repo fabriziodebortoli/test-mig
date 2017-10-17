@@ -7,7 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestControlsComponent implements OnInit {
 
-  constructor() { }
+  // used for checkbox
+  chkTest: boolean;
+
+  constructor() { 
+    this.chkTest = false;
+  }
 
   ngOnInit() {
   }

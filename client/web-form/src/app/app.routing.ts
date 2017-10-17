@@ -31,13 +31,13 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard] },
     { path: 'rs/:ns', component: StandaloneReportComponent },
+
     {
         path: 'proxy',
         outlet: 'dynamic',
         component: ProxyRouteComponent,
-        children: [
-            { path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' },
-            ...childrenRoutes
+        children: [...childrenRoutes,
+        { path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' },
         ],
     },
     { path: '**', component: PageNotFoundComponent },
