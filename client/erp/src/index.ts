@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ERP_SERVICES, ERPCoreModule } from './core/core.module';
+import { ERP_SERVICES } from './core/core.module';
 
 import { TbSharedModule } from '@taskbuilder/core';
 export * from './core/core.module';
@@ -11,7 +11,7 @@ export * from './core/core.module';
 import { ERPSharedModule } from './shared/shared.module';
 export * from './shared/shared.module';
 
-const ERP_MODULES = [ERPSharedModule, ERPCoreModule];
+const ERP_MODULES = [ERPSharedModule];
 
 
 @NgModule({
@@ -24,7 +24,8 @@ const ERP_MODULES = [ERPSharedModule, ERPCoreModule];
   ],
   exports: [
     ERP_MODULES
-  ]
+  ],
+  providers: [ERP_SERVICES]
 })
 export class ERPModule {
   static forRoot(): ModuleWithProviders {
