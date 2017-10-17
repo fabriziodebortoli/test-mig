@@ -13,13 +13,13 @@
         </div>
         <div *ngIf="customizations !== undefined && customizations.length > 0">
             <hr />{{localizationService?.localizedElements?.OpenEasyStudioWithCustomization}}:
-            <div *ngFor="let customization of customizations" class="itemSelected" [ngClass]="{'is-disabled': !isCustomizationEnabled(customization)}">
-                <div style="padding-left:30px" (click)="openEasyStudioAndContextIfNeeded(objectM, customization)">{{customization}}</div>
+            <div *ngFor="let customization of customizations" class="itemSelected" [ngClass]="getCustomizClass(customization)">
+                <div style="padding-left:30px" (click)="openEasyStudioAndContextIfNeeded(objectM, customization)">{{customization.customizationName}}</div>
             </div>
             <div style="margin-bottom:40px;"></div>
         </div>
     </div>
 </ng-template>
 
-<m4-icon class="star" data-icon="&#xe1ab;" (click)="initEasyStudioData(objectM,template)" (mouseenter)="objectM.starHover=true" (mouseleave)="objectM.starHover=false">
+<m4-icon class="star" data-icon="&#xe1ab;" (click)="initEasyStudio(objectM,template)" (mouseenter)="objectM.starHover=true" (mouseleave)="objectM.starHover=false">
 </m4-icon>

@@ -6,7 +6,7 @@ import { Component, Input, ViewEncapsulation, OnDestroy, TemplateRef, ElementRef
 import { HttpMenuService } from './../../../../services/http-menu.service';
 import { PopupRef, PopupService } from '@progress/kendo-angular-popup';
 
-interface MyObj {
+interface MyCust {
   fileName: string
   customizationName: string
   applicationOwner: string
@@ -29,9 +29,9 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
   public localizationLoaded: boolean;
   public currentModule: any;
   public currentApplication: any;
-  public customizations: string[];
+  public customizations: MyCust[];
   @Input() objectM: any;
-  public memory: { Customizations: MyObj[] };
+  public memory: { Customizations: MyCust[] };
   elRef: HTMLElement;
   offsetLeft: any;
   offsetTop: any;
@@ -63,7 +63,7 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
           this.customizations = [];
           let r = this.memory.Customizations;
           r.forEach(element => {
-            this.customizations.push(element.customizationName);
+            this.customizations.push(element);
           });
         }
       }
@@ -78,7 +78,20 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
   }
 
   //--------------------------------------------------------------------------------
-  initEasyStudioData(object, template: TemplateRef<any>, ref: ElementRef) {
+  close() {
+    if (this.popupRef) {
+      this.popupRef.close();
+      this.popupRef = null;
+    }
+  }
+
+    //---------------------------------------------------------------------------------------------
+    getCustomizClass(customization: MyCust) {
+      return this.isCustomizationEnabled(customization) ? 'is-enabled' : 'is-disabled';
+    }
+
+  //--------------------------------------------------------------------------------
+  initEasyStudio(object, template: TemplateRef<any>, ref: ElementRef) {
     this.isDesignable = this.customizations != undefined;
     this.togglePopup(template, ref);
   }
@@ -86,7 +99,7 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
   //--------------------------------------------------------------------------------
   public togglePopup(template: TemplateRef<any>, ref: ElementRef) {
     this.offsetLeft = this.elRef.getBoundingClientRect().left;
-    this.offsetTop = this.elRef.getBoundingClientRect().top;
+    this.offsetTop = this.elRef.getBoundingClientRect().top + 15;
     if (this.popupRef) {
       this.popupRef.close();
       this.popupRef = null;
@@ -104,10 +117,13 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
   //--------------------------------------------------------------------------------
   private extractNames(result: Response) {
     if (result == undefined) return;
-    let array: string[] = result.toString().split(';');
-    if (array.length != 2) return;
-    this.currentApplication = array[0];
-    this.currentModule = array[1];
+    let res = result["_body"];
+    if (res !== "") {
+      let array: string[] = res.toString().split(';');
+      if (array.length != 2) return;
+      this.currentApplication = array[0];
+      this.currentModule = array[1];
+    }
   }
   //--------------------------------------------------------------------------------
   isEasyStudioDocument(object) {
@@ -117,36 +133,20 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     sub.unsubscribe();
   }
 
-
-  /*
-    //--------------------------------------------------------------------------------
-    public onToggle(): void {
-      this.show = !this.show;
-    }
-  
-    //--------------------------------------------------------------------------------
-    public close() {
-      this.show = false;
-    }*/
-
   //--------------------------------------------------------------------------------
   getCustomizationTooltip(customization) {
-
+    //TODOROBY
   }
 
   //--------------------------------------------------------------------------------  
   isCustomizationEnabled(customization) {
-    if (this.currentApplication == undefined || this.currentModule == undefined)
+    if (!customization || this.currentApplication == undefined || this.currentModule == undefined)
       return false;
-
-    var appAndModulePartialPath = "\\" + this.currentApplication + "\\" + this.currentModule + "\\";
-    var ind = customization.fileName.toLowerCase().indexOf(appAndModulePartialPath.toLowerCase());
-
-    return ind > 0;
+    return this.currentApplication === customization.applicationOwner && this.currentModule === customization.moduleOwner;
   }
 
   //--------------------------------------------------------------------------------
-  openEasyStudioAndContextIfNeeded(object) {
+  openEasyStudioAndContextIfNeeded(object, customization: MyCust) {
     // if (!(this.currentApplication !== undefined && this.currentApplication !== null && this.currentModule !== undefined && this.currentModule !== undefined)) {
     //   this.openContextMenu = true;
     //   let sub = this.httpMenuService.runEasyStudio(object.target, object.customizationName).subscribe((result) => {
@@ -155,9 +155,9 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     //   });
     // }
     // else {}
+    if(!this.isCustomizationEnabled(customization)) return;
     let sub = this.httpMenuService.runEasyStudio(object.target, object.customizationName).subscribe((result) => {
-      alert("easyStudio lanciato");
-      // this.close();
+      this.close();
       sub.unsubscribe();
     });
 
@@ -177,8 +177,6 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     //     sub.unsubscribe();
     //   });
     // }
-    alert("clone lanciato");
   }
-
 
 }

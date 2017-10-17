@@ -29,6 +29,9 @@
           <div>
             <h5>Live</h5>
             <admin-checkbox [checkText]="'is Admin'" [(checkValue)]="chkTest" (inputDataChange)="chkTest = $event"></admin-checkbox>
+            <div class="mt20">
+              (binding value: {{ chkTest }})
+            </div>
           </div>
         </div>
       </div>
