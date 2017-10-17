@@ -5,9 +5,9 @@ import { TbComponentService } from '@taskbuilder/core';
 import { LayoutService } from '@taskbuilder/core';
 
 @Component({
-  selector: 'no-spaces',
+  selector: 'erp-no-spaces',
   templateUrl: './no-spaces.component.html',
-  styleUrls: ['./no-spaces.component.css']
+  styleUrls: ['./no-spaces.component.scss']
 })
 export class NoSpacesEditComponent extends ControlComponent {
   @Input('readonly') readonly: boolean = false;
