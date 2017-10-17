@@ -18,7 +18,7 @@
                     [(inputData)]="model.Description"></admin-input-text>
                 </div>
                 <div class="mTop">
-                    <label><input type="checkbox" name="cboxUnderMaintenance" value="" [(ngModel)]="model.UnderMaintenance">Under maintenance</label>
+                    <admin-checkbox [checkText]="'Under maintenance'" [(checkValue)]="model.UnderMaintenance" (inputDataChange)="model.UnderMaintenance = $event"></admin-checkbox> 
                 </div>        
             </div>
         </div>
