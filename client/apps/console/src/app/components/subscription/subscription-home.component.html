@@ -1,8 +1,8 @@
 <div style="float: left">
     <h1>Subscriptions Management</h1>
 </div>
-<div style="float: right;">
-    <button style="margin-top:20px" routerLink='/subscription' class="cta">New</button>
+<div style="float: right; padding-top:20px">
+    <admin-button routerLink='/subscription' [buttonText]="'New'" [primary]=true>New</admin-button>
 </div>
 <hr style="clear:both">
 <admin-list [items]=subscriptions [readingData]=readingData [columnNames]="['SubscriptionKey','Description']" (onSelectedItem)="openSubscription($event)"></admin-list>
