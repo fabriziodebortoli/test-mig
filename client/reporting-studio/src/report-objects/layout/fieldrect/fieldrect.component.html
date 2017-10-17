@@ -1,6 +1,8 @@
 <div *ngIf="!rect.hidden" [ngStyle]="applyStyle()">
-  <div *ngIf="rect.label" [ngStyle]="applyLabelStyle()">{{rect.label.caption}}</div>
-  <div *ngIf="!rect.link && !rect.value_is_barcode" [ngStyle]="applyValueStyle()" [innerHtml]="rect.value"></div>
-  <rs-link *ngIf="rect.link" [link]="rect.link" [ngStyle]="applyValueStyle()">{{rect.value}}</rs-link>
-  <rs-barcode *ngIf="rect.value_is_barcode" [barcode]="rect.barcode" [rect]="rect" [value]="rect.velue"></rs-barcode>
+  <div *ngIf="!rect.value_is_barcode">
+    <div *ngIf="rect.label" [ngStyle]="applyLabelStyle()">{{rect.label.caption}}</div>
+    <div *ngIf="!rect.link" [ngStyle]="applyValueStyle()" [innerHtml]="rect.value"></div>
+    <rs-link *ngIf="rect.link" [link]="rect.link" [ngStyle]="applyValueStyle()">{{rect.value}}</rs-link>
+  </div>
+  <rs-barcode *ngIf="rect.value_is_barcode" [barcode]="rect.barcode" [rect]="rect" [value]="rect.value"></rs-barcode>
 </div>

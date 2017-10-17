@@ -26,6 +26,7 @@ namespace Microarea.RSWeb.WoormViewer
 		public ushort					BarCodeTypeAlias = 0;	// bar code type is contained into the associated alias 
 
 
+
 		//--------------------------------------------------------------------------------
 		public BarCode(IPathFinder pathFinder)
 		{
