@@ -15,6 +15,7 @@ import { HttpMenuService } from './../../../services/http-menu.service';
 export class MenuElementComponent {
 
   @Input() object: any;
+  @Input() showEasyBuilderOptions: boolean = true;
 
   lorem: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam';
 
@@ -41,9 +42,10 @@ export class MenuElementComponent {
 
   //---------------------------------------------------------------------------------------------
   canShowEasyStudioButton(object) {
-    return this.settingService.IsEasyStudioActivated
-      && (object.objectType.toLowerCase() == 'document' || object.objectType.toLowerCase() == 'batch')
-      && !object.noeasystudio;
+    return this.showEasyBuilderOptions &&
+      this.settingService.IsEasyStudioActivated &&
+      (object.objectType.toLowerCase() == 'document' || object.objectType.toLowerCase() == 'batch') &&
+      !object.noeasystudio;
   }
 
 
