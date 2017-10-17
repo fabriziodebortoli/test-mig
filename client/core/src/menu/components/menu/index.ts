@@ -6,6 +6,7 @@ export { GroupSelectorComponent } from './group-selector/group-selector.componen
 export { MenuContainerComponent } from './menu-container/menu-container.component';
 export { MenuContentComponent } from './menu-content/menu-content.component';
 export { MenuElementComponent } from './menu-element/menu-element.component';
+export { ItemCustomizationsDropdownComponent } from './menu-element/item-customizations-dropdown/item-customizations-dropdown.component';
 export { MenuStepperComponent } from './menu-stepper/menu-stepper.component';
 export { MenuTabberComponent } from './menu-tabber/menu-tabber.component';
 export { MenuTabComponent } from './menu-tabber/menu-tab/menu-tab.component';

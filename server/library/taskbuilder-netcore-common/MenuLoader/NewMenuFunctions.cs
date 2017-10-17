@@ -275,13 +275,6 @@ namespace Microarea.Common.MenuLoader
 		//}
 
 		//---------------------------------------------------------------------------
-		public static string ChangePassword(string user, string oldPassword, string password)
-		{
-			GenericForms.LoginFacilities lf = new GenericForms.LoginFacilities();
-			return lf.ChangePassword(user, oldPassword, password);
-		}
-
-		//---------------------------------------------------------------------------
 		public static void ChangeTheme(string themePath, string user, string company)
 		{
 			DefaultTheme.ReloadTheme(themePath);

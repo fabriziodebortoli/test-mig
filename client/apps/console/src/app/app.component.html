@@ -1,20 +1,23 @@
 <admin-sidenav-container [appTitle]="'M4Cloud'" [userAccountName]="userAccountName" (openAccountProfile)="openAccount($event)" (openSignIn)="openLogin()">
     <div class="routesSection">
         <div>
-            <a [routerLink]="['/appHome']">Home</a>
+            <a [routerLink]="['/appHome']" skipLocationChange>Home</a>
         </div>
         <div>
-            <a [routerLink]="['/instancesHome']">Instances</a>
+            <a [routerLink]="['/instancesHome']" skipLocationChange>Instances</a>
         </div>
         <div>
-            <a [routerLink]="['/subscriptionsHome']">Subscriptions</a>
+            <a [routerLink]="['/subscriptionsHome']" skipLocationChange>Subscriptions</a>
         </div>    
         <div>
-            <a [routerLink]="['/accountsHome']">Accounts</a>
+            <a [routerLink]="['/accountsHome']" skipLocationChange>Accounts</a>
         </div>
         <div>
-            <a [routerLink]="['/fileUpload']">File Upload</a>
-        </div>        
+            <a [routerLink]="['/fileUpload']" skipLocationChange>File Upload</a>
+        </div>
+        <div>
+            <a [routerLink]="['/testControls']" skipLocationChange>Controls Test Page</a>
+        </div>         
         <div *ngIf="userAccountName != undefined && userAccountName != ''" class="logOutBtn">
             <a (click)="logout()" style="cursor:pointer">Logout</a>
         </div>

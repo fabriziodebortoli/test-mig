@@ -123,7 +123,7 @@ export class AccountComponent implements OnInit {
         }
           
         this.model = new Account();
-        this.router.navigateByUrl('/accountsHome');
+        this.router.navigateByUrl('/accountsHome', { skipLocationChange:true});
       },
       err => 
       {

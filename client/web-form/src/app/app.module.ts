@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 import { TbCoreModule, ComponentService, InfoService, loadConfig } from '@taskbuilder/core';
 
 import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
-// import { ERPModule } from '@taskbuilder/erp';
 
 @NgModule({
     declarations: [AppComponent],
@@ -21,8 +20,7 @@ import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
         SharedModule,
         routing,
         ReportingStudioModule,
-        TbCoreModule.forRoot(),
-        // ERPModule.forRoot()
+        TbCoreModule.forRoot()
     ],
     providers: [
         InfoService,

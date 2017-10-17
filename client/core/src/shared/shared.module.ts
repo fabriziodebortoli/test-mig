@@ -84,6 +84,8 @@ import { CultureSelectorComponent } from './components/culture-selector/culture-
 import { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
 import { TbIconComponent } from './components/tb-icon/tb-icon.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
+
 
 
 // import { TbComponent } from './components/tb.component';
@@ -123,13 +125,14 @@ export { CultureSelectorComponent } from './components/culture-selector/culture-
 export { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
 export { TbIconComponent } from './components/tb-icon/tb-icon.component';
 export { LoadingComponent } from './components/loading/loading.component';
+export { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
 
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
-    BOComponent, BOSlaveComponent, BOCommonComponent, EasyStudioContextComponent, LoadingComponent
+    BOComponent, BOSlaveComponent, BOCommonComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent
 ];
 
 /**
@@ -268,7 +271,7 @@ export { ControlComponent } from './controls/control.component';
 export { VATCodeComponent } from './controls/vat-code/vat-code.component';
 
 const TB_CONTROLS = [
-    ControlComponent, VATCodeComponent, //NoSpacesEditComponent,
+    ControlComponent, VATCodeComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,

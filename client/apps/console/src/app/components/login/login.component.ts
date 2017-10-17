@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   errorMessage: string;
 
+  chkTest: boolean;
+
   //--------------------------------------------------------------------------------
   constructor(private route: ActivatedRoute, private loginService: LoginService) { 
         
@@ -37,6 +39,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginStep = 1;
     this.appBusy = false;
     this.errorMessage = '';
+
+    this.chkTest = true;
 
     this.subscription = this.loginService.getMessage().subscribe(msg => { 
 

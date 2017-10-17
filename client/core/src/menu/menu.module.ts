@@ -15,6 +15,8 @@ import { MenuComponent } from './components/menu/menu.component';
 import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
 import { MenuContentComponent } from './components/menu/menu-content/menu-content.component';
 import { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
+import { ItemCustomizationsDropdownComponent } from './components/menu/menu-element/item-customizations-dropdown/item-customizations-dropdown.component';
+
 import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
@@ -28,6 +30,7 @@ export { MenuComponent } from './components/menu/menu.component';
 export { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
 export { MenuContentComponent } from './components/menu/menu-content/menu-content.component';
 export { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
+export { ItemCustomizationsDropdownComponent } from './components/menu/menu-element/item-customizations-dropdown/item-customizations-dropdown.component';
 export { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 export { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 export { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
@@ -91,6 +94,7 @@ const KENDO_MODULES = [
         MenuContainerComponent,
         MenuContentComponent,
         MenuElementComponent,
+        ItemCustomizationsDropdownComponent,
         MenuStepperComponent,
         SearchComponent,
         MenuComponent,
@@ -106,6 +110,7 @@ const KENDO_MODULES = [
         MenuContainerComponent,
         MenuContentComponent,
         MenuElementComponent,
+        ItemCustomizationsDropdownComponent,
         MenuStepperComponent,
         SearchComponent,
         MenuComponent,

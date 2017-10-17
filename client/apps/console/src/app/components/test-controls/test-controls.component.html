@@ -1,0 +1,41 @@
+<h1>Controls Test Page</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="adminTile tileNormal">
+        <div>
+          <h3>Admin Button</h3>
+          <div>
+            <h5>Code</h5>
+            <code>&lt;admin-button [buttonText]="'Test'" (click)="read()" &gt;&lt;/admin-button&gt;</code>
+          </div>
+          <div>
+              <h5>Live</h5>
+            <admin-button [buttonText]="'Test'" (click)="read()" ></admin-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="adminTile tileNormal">
+        <div>
+          <h3>Admin Check Box</h3>
+          <div>
+            <h5>Code</h5>
+            <code>&lt;admin-checkbox [checkText]="'is Admin'" [(checkValue)]="chkTest" (inputDataChange)="chkTest = $event"&gt;&lt;/admin-checkbox&gt;</code>
+          </div>
+          <div>
+            <h5>Live</h5>
+            <admin-checkbox [checkText]="'is Admin'" [(checkValue)]="chkTest" (inputDataChange)="chkTest = $event"></admin-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
