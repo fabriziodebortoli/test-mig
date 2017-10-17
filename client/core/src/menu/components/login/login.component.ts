@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.getCompaniesForUser(this.connectionData.user);
     }
 
+    //TODOLUCA unsubscribe?
     this.authService.isLogged().subscribe(isLogged => {
       if (isLogged) {
         this.router.navigate([this.authService.getDefaultUrl()]);
@@ -125,9 +126,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.saveState();
     this.loadingService.setLoading(true, this.localizationService.localizedElements.Loading);
     this.connectionData.overwrite = overwrite;
-    this.authService.login(this.connectionData).subscribe(result => {
+    let subs = this.authService.login(this.connectionData).subscribe(result => {
       if (result.success) {
-        console.log(this.clearCachedData);
         this.menuService.clearCachedData = this.clearCachedData;
         this.connectionData.overwrite = false;
         let url = this.authService.getRedirectUrl();
@@ -146,6 +146,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.changePasswordOpened = true;
         }
       }
+      subs.unsubscribe();
     });
   }
 

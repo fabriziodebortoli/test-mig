@@ -40,6 +40,7 @@ export class InfoService {
     }
 
     load() {
+        //TODOLUCA, manca unsub?
         return new Promise((resolve, reject) => {
             this.http.get('assets/config.json')
                 .map(res => res.json())
