@@ -1,4 +1,4 @@
-// import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
+import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -17,7 +17,7 @@ import {
 import { appRoutes } from './applications/app.routing';
 
 let magoRoutes = [
-  // { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
+  { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
   // { path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' },
   // { path: 'test', loadChildren: '@taskbuilder/core#TbTestModule' },
   { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
