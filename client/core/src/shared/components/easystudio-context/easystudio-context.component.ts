@@ -1,3 +1,5 @@
+import { SettingsService } from './../../../core/services/settings.service';
+import { InfoService } from './../../../core/services/info.service';
 import { EasystudioService } from './../../../core/services/easystudio.service';
 import { LocalizationService } from './../../../core/services/localization.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
@@ -30,7 +32,6 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     public defaultNewApp: string;
     public defaultNewMod: string;
 
-    public isEasyStudioActivated = true;
     public showAddModuleButton = false;
     public showAddPairButton = false;
 
@@ -49,7 +50,9 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     constructor(
         public httpMenuService: HttpMenuService,
         public localizationService: LocalizationService,
-        public easystudioService: EasystudioService
+        public easystudioService: EasystudioService,
+        public infoService: InfoService,
+        public settingsService: SettingsService
     ) {
 
     }
@@ -86,11 +89,6 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     //--------------------------------------------------------------------------------
     public contextIsValid() {
         return !this.disabledIf();
-    }
-
-    //--------------------------------------------------------------------------------
-    public canShowEasyStudioButton() {
-        return true;
     }
 
     //--------------------------------------------------------------------------------

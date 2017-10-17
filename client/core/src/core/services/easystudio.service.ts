@@ -1,5 +1,5 @@
+import { SettingsService } from './settings.service';
 import { EsCustomizItem } from './../../shared/models/es-customization-item.model';
-import { SettingsService } from './../../menu/services/settings.service';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Injectable, EventEmitter } from '@angular/core';
 

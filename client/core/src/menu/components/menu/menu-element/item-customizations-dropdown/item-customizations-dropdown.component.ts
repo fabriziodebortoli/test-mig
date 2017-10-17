@@ -3,7 +3,6 @@ import { EasystudioService } from './../../../../../core/services/easystudio.ser
 import { LocalizationService } from './../../../../../core/services/localization.service';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { EasyStudioContextComponent } from './../../../../../shared/components/easystudio-context/easystudio-context.component';
-import { SettingsService } from './../../../../services/settings.service';
 import { Component, Input, ViewEncapsulation, OnDestroy, TemplateRef, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
 import { HttpMenuService } from './../../../../services/http-menu.service';
 import { PopupRef, PopupService } from '@progress/kendo-angular-popup';

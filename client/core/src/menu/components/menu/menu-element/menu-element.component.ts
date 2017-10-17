@@ -1,4 +1,4 @@
-import { SettingsService } from './../../../services/settings.service';
+import { SettingsService } from './../../../../core/services/settings.service';
 import { ItemCustomizationsDropdownComponent } from './item-customizations-dropdown/item-customizations-dropdown.component';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ImageService } from './../../../services/image.service';

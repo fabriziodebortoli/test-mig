@@ -1,3 +1,5 @@
+import { EventManagerService } from './../../../core/services/event-manager.service';
+import { SettingsService } from './../../../core/services/settings.service';
 import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -5,8 +7,6 @@ import { LocalizationService } from './../../../core/services/localization.servi
 import { ComponentInfoService } from './../../../core/services/component-info.service';
 import { HttpMenuService } from './../../services/http-menu.service';
 import { MenuService } from './../../services/menu.service';
-import { SettingsService } from './../../services/settings.service';
-import { EventManagerService } from './../../services/event-manager.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { ViewModeType } from './../../../shared/models/view-mode-type.model';

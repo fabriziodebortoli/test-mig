@@ -1,3 +1,4 @@
+import { SettingsService } from './../../../../core/services/settings.service';
 import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
@@ -5,7 +6,6 @@ import { Observable } from 'rxjs/Rx';
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
 import { LocalizationService } from './../../../../core/services/localization.service';
-import { SettingsService } from './../../../services/settings.service';
 import { MenuService } from './../../../services/menu.service';
 
 @Component({
@@ -60,7 +60,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   filter(val: string): string[] {
-    console.log("filter", val, "nr max", this.settingsService.nrMaxItemsSearch);
     return this.menuService.searchSources.filter(option =>
       // option.title.toLowerCase().indexOf(val) >= 0    // vecchia ricerca
        new RegExp(val, 'gi').test(option.title)

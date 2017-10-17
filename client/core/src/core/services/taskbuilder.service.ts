@@ -1,4 +1,5 @@
-﻿import { DialogService } from '@progress/kendo-angular-dialog';
+﻿import { EventManagerService } from './event-manager.service';
+import { DialogService } from '@progress/kendo-angular-dialog';
 import { Injectable, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
@@ -11,7 +12,6 @@ import { CookieService } from 'ngx-cookie';
 import { OperationResult } from './../../shared/models/operation-result.model';
 
 import { InfoService } from './info.service';
-import { EventManagerService } from './../../menu/services/event-manager.service';
 import { HttpService } from './http.service';
 import { WebSocketService } from './websocket.service';
 import { DiagnosticService } from './diagnostic.service';

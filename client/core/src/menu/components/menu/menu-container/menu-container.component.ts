@@ -1,8 +1,8 @@
+import { SettingsService } from './../../../../core/services/settings.service';
 import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit, ViewContainerRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { LocalizationService } from './../../../../core/services/localization.service';
-import { SettingsService } from './../../../services/settings.service';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { MenuService } from './../../../services/menu.service';
 

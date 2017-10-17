@@ -37,8 +37,6 @@ export { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-ta
 export { MostUsedComponent } from './components/menu/most-used/most-used.component';
 
 import { MenuService } from './services/menu.service';
-import { EventManagerService } from './services/event-manager.service';
-import { SettingsService } from './services/settings.service';
 import { HttpMenuService } from './services/http-menu.service';
 import { ImageService } from './services/image.service';
 
@@ -46,16 +44,12 @@ import { ImageService } from './services/image.service';
 export const TB_MENU_SERVICES = [
     MenuService,
     ImageService,
-    HttpMenuService,
-    SettingsService,
-    EventManagerService
+    HttpMenuService
 ];
 
 export { MenuService } from './services/menu.service';
 export { ImageService } from './services/image.service';
 export { HttpMenuService } from './services/http-menu.service';
-export { SettingsService } from './services/settings.service';
-export { EventManagerService } from './services/event-manager.service';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';

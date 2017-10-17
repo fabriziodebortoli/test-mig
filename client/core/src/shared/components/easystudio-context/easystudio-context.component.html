@@ -1,4 +1,4 @@
-<div *ngIf="canShowEasyStudioButton()" class="esContainer">
+<div *ngIf="settingsService.IsEasyStudioActivated && infoService.isDesktop" class="esContainer">
 
     <div class="appAndModule" *ngIf="applicSelected !== undefined && moduleSelected !== undefined">
         <div class="ebButtons">
@@ -11,7 +11,7 @@
             <b>{{moduleSelected}}</b>
         </div>
     </div>
-    <div *ngIf="isEasyStudioActivated" (click)="changeCustomizationContext()" class="ebButtons topBarMenuComponentLike">
+    <div (click)="changeCustomizationContext()" class="ebButtons topBarMenuComponentLike">
         <m4-icon icon="tb-addtext"></m4-icon>
     </div>
     <div *ngIf="contextIsValid()" (click)="close()" class="ebButtons topBarMenuComponentLike">
