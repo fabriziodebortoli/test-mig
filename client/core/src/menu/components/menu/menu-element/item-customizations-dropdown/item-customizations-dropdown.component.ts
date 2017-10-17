@@ -162,7 +162,8 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     // else {}
     if(customization !== null && !this.isCustomizationEnabled(customization))
       return;
-    let sub = this.httpMenuService.runEasyStudio(object.target, object.customizationName).subscribe((result) => {
+      let custName = customization !== null ? customization.customizationName : undefined;
+    let sub = this.httpMenuService.runEasyStudio(object.target, custName).subscribe((result) => {
       this.close();
       sub.unsubscribe();
     });
