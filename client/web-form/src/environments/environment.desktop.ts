@@ -1,6 +1,6 @@
 export const environment = {
-  production: false, // TODO testare PRODUCTION TRUE
+  production: true,
   loggerDebug: false,
   desktop: true,
-  test : false
+  test: false
 };
