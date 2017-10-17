@@ -19,7 +19,7 @@ following products on your development machine:
 
 * [Node.js](http://nodejs.org), (version `>=6.11`) which is used to run a development web server,
   run tests, and generate distributable files. We also use Node's Package Manager, `npm`
-  (version `>=5.3`), which comes with Node. Depending on your system, you can install Node either from
+  which comes with Node. Depending on your system, you can install Node either from
   source or as a pre-packaged bundle.
 
 * [Typescript](https://www.typescriptlang.org), (version `>= 2.4`) a superset of JavaScript that compiles to clean JavaScript output.
