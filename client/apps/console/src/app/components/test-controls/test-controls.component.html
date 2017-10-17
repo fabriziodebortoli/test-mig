@@ -24,11 +24,11 @@
           <h3>Admin Check Box</h3>
           <div>
             <h5>Code</h5>
-            <code>&lt;admin-checkbox [checkText]="'is Admin'" [(checkValue)]="chkTest" (inputDataChange)="chkTest = $event"&gt;&lt;/admin-checkbox&gt;</code>
+            <code>&#x3C;admin-checkbox [checkText]=&#x22;&#x27;is Admin&#x27;&#x22; [checkId]=&#x22;&#x27;idTest&#x27;&#x22; [(checkValue)]=&#x22;chkTest&#x22; [readOnly]=&#x22;false&#x22; (inputDataChange)=&#x22;chkTest = $event&#x22;&#x3E;&#x3C;/admin-checkbox&#x3E;</code>
           </div>
           <div>
             <h5>Live</h5>
-            <admin-checkbox [checkText]="'is Admin'" [(checkValue)]="chkTest" (inputDataChange)="chkTest = $event"></admin-checkbox>
+            <admin-checkbox [checkText]="'is Admin'" [checkId]="'idTest'" [(checkValue)]="chkTest" [readOnly]="false" (inputDataChange)="chkTest = $event"></admin-checkbox>
             <div class="mt20">
               (binding value: {{ chkTest }})
             </div>

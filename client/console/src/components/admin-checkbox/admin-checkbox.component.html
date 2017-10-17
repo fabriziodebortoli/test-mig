@@ -1,4 +1,10 @@
 <div>
-    <input type="checkbox" id="idk" [ngModel]="checkValue" (ngModelChange)="onChange($event)" class="k-checkbox">
-    <label class="k-checkbox-label" for="idk">{{ checkText }}</label>    
+    <input 
+        id="checkId" 
+        type="checkbox" 
+        [ngModel]="checkValue" 
+        (ngModelChange)="onChange($event)" 
+        [disabled]="readOnly"
+        class="k-checkbox">
+    <label class="k-checkbox-label" for="checkId">{{ checkText }}</label>    
 </div>
