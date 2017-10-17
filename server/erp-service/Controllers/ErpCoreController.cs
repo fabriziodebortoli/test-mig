@@ -1,37 +1,35 @@
 ﻿using Microarea.Common.Applications;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Data;
 using System.Data.SqlClient;
+using static SQLHelper;
 
-namespace erp_service.Controllers
+namespace ErpService.Controllers
 {
     [Route("erp-core")]
     public class ErpCoreController : Controller
     {
         //-----------------------------------------------------------------------------------------
         [Route("CheckVatDuplicate")]
-        public IActionResult CheckVatDuplicate()
+        public IActionResult CheckVatDuplicate([FromBody] string vat)
         {
-            var userInfo = GetLoginInformation();
-            var connectionString = userInfo.CompanyDbConnection;
-
-            return new JsonResult(new { Success = true, Message = "" });
+            var ui = GetLoginInformation();
+            if (ui == null)
+                return new ContentResult { StatusCode = 504, Content = "no auth" };
+            var connection = new SqlConnection(ui.CompanyDbConnection);
+            using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
+                "select * from MA_CustSupp where TaxIdNumber = @p1", new[] { new SqlParameter("p1", vat) }))
+                if (reader.Read())
+                    return new JsonResult(new { IsDuplicate = true, Message = $"Already found in {reader["CustSupp"]}" });
+            return new JsonResult(new { IsDuplicate = false, Message = "" });
         }
 
-        public static SqlDataReader ExecuteReader(SqlConnection conn, CommandType cmdType, string cmdText, SqlParameter[] cmdParms)
-        {
-            var cmd = conn.CreateCommand();
-            //PrepareCommand(cmd, conn, null, cmdType, cmdText, cmdParms);
-            return cmd.ExecuteReader(CommandBehavior.CloseConnection);
-        }
-
+        #region helpers
         UserInfo GetLoginInformation()
         {
             string sAuthT = HttpContext.Request.Cookies[UserInfo.AuthenticationTokenKey];
             if (string.IsNullOrEmpty(sAuthT))
                 return null;
-
             Microsoft.AspNetCore.Http.ISession hsession = null;
             try
             {
@@ -41,5 +39,6 @@ namespace erp_service.Controllers
             var loginInfo = LoginInfoMessage.GetLoginInformation(hsession, sAuthT);
             return new UserInfo(loginInfo, sAuthT);
         }
+        #endregion
     }
 }
