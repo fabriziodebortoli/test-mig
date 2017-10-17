@@ -819,8 +819,19 @@ namespace Microarea.Common.Lexan
 			return true;
 		}
 
-		//------------------------------------------------------------------------------
-		public bool ParseID (out string aString)
+        //------------------------------------------------------------------------------
+        public bool MatchedNext(Token tk)
+        {
+            bool matched = LookAhead() == tk;
+      
+            parserState.currentUndefined = true;
+            ConcatAuditString();
+
+            return matched;
+        }
+
+        //------------------------------------------------------------------------------
+        public bool ParseID (out string aString)
 		{
 			aString = "";
 			if (!ParseTag (Token.ID)) return false;
