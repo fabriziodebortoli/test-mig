@@ -8,8 +8,10 @@ import { Component, Input, Output, EventEmitter, Inject } from '@angular/core';
 export class AdminButtonComponent {
 
   @Input() buttonText: string;
+  @Input() primary: boolean;
 
   constructor() {
     this.buttonText = '';
+    this.primary = false;
   }
 }

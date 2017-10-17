@@ -125,7 +125,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   }
 
   onContextMenu() {
-    // return false;
+     return !this.infoService.isDesktop;
   }
 
 }

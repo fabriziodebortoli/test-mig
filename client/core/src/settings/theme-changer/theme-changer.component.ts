@@ -38,24 +38,26 @@ export class ThemeChangerComponent {
 
     //---------------------------------------------------------------------------------------------
     getThemes() {
-        this.httpMenuService.getThemes().subscribe((res) => {
+        let subs = this.httpMenuService.getThemes().subscribe((res) => {
             this.themes = res.Themes.Theme;
 
             for (var i = 0; i < this.themes.length; i++) {
                 this.getThemeName(this.themes[i]);
             }
+            subs.unsubscribe();
         });
     }
 
     //---------------------------------------------------------------------------------------------
     changeTheme = function (theme) {
-        this.httpMenuService.changeThemes(theme.path).subscribe((res) => {
+        let subs = this.httpMenuService.changeThemes(theme.path).subscribe((res) => {
             if (res.success) {
                 location.reload();
             }
             else if (res.message) {
                 this.logger.error(res.message);
             }
+            subs.unsubscribe();
         });
     }
 }

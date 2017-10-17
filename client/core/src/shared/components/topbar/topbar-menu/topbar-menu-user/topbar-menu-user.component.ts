@@ -53,14 +53,14 @@ export class TopbarMenuUserComponent implements OnDestroy {
     }
 
     logout() {
-        this.httpService.canLogoff({ authtoken: this.cookieService.get('authtoken') }).subscribe((res) => {
+        let subs = this.httpService.canLogoff({ authtoken: this.cookieService.get('authtoken') }).subscribe((res) => {
             if (!res.error) {
                 this.authService.logout();
             }
             else {
                 console.log("logout", res.messages);
             }
-
+            subs.unsubscribe();
         });
 
 
@@ -72,9 +72,11 @@ export class TopbarMenuUserComponent implements OnDestroy {
     }
     openHelp() {
         let ns = "RefGuide.Menu"
-        this.httpMenuService.callonlineHelpUrl(ns, "").subscribe((res) => {
+        let subs = this.httpMenuService.callonlineHelpUrl(ns, "").subscribe((res) => {
             if (res.url)
                 window.open(res.url, '_blank');
+
+            subs.unsubscribe();
         });  //TODOLUCA culture da impostare
     }
     openSettingsPage() {
