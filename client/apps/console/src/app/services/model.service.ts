@@ -407,4 +407,33 @@ export class ModelService {
     })
     .catch((error: any) => Observable.throw(error.json().error || 'server error'));
   }
+
+   //--------------------------------------------------------------------------------------------------------
+   checkDatabase(subscriptionKey: string, body: ExtendedSubscriptionDatabase): Observable<OperationResult> {
+    
+    let authorizationHeader = this.createAuthorizationHeader('jwt');
+    
+    if (authorizationHeader === '') {
+      return Observable.throw('AuthorizationHeader is missing!');
+    }
+    
+    // I need the instanceKey where the currentAccount is logged
+    let localAccountInfo = localStorage.getItem(this.currentAccountName);
+    let instancekey: string = '';
+    
+    if (localAccountInfo != null && localAccountInfo != '') {
+      let accountInfo: AccountInfo = JSON.parse(localAccountInfo);
+      instancekey = accountInfo.instanceKey;
+    }
+
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': authorizationHeader });
+    let options = new RequestOptions({ headers: headers });
+    
+    return this.http.post(environment.adminAPIUrl + 'database/check/' + subscriptionKey, bodyString, options)
+    .map((res: Response) => {
+      return res.json();
+    })
+    .catch((error: any) => Observable.throw(error.json().error || 'server error'));
+  }
 }

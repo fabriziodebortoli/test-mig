@@ -5,9 +5,9 @@ import { TbComponentService } from '@taskbuilder/core';
 import { LayoutService } from '@taskbuilder/core';
 
 @Component({
-  selector: 'no-spaces',
+  selector: 'erp-no-spaces',
   templateUrl: './no-spaces.component.html',
-  styleUrls: ['./no-spaces.component.css']
+  styleUrls: ['./no-spaces.component.scss']
 })
 export class NoSpacesEditComponent extends ControlComponent {
   @Input('readonly') readonly: boolean = false;
@@ -32,8 +32,9 @@ export class NoSpacesEditComponent extends ControlComponent {
     if (this.model && this.model.value)
       this.model.value = this.model.value.replace(/\s+/g, '');
 
-    if (this.maxLength > 0 && this.model.value.length > this.maxLength)
-      this.errorMessage = 'Value must be max ' + this.maxLength + ' chars';
+    if (this.maxLength > 0 && this.model.value.length !== this.maxLength)
+      this.errorMessage = 'Value length must be of ' + this.maxLength + ' chars';
+    // this.errorMessage = this._TB('Value must be {0} chars', this.maxLength); Versione definitiva, dopo le modifiche di MArco
     else
       this.errorMessage = '';
 

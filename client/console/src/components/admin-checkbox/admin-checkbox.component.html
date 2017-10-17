@@ -1,6 +1,4 @@
-<input 
-    type="checkbox" 
-    [readonly]="readOnly ? 'readonly' : ''"
-    [ngModel]="checkValue"
-    (ngModelChange)="onChange($event)" />
-<label>{{ checkText }}</label>
+<div>
+    <input type="checkbox" id="idk" [ngModel]="checkValue" (ngModelChange)="onChange($event)" class="k-checkbox">
+    <label class="k-checkbox-label" for="idk">{{ checkText }}</label>    
+</div>
