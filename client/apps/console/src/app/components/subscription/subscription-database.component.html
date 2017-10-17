@@ -7,7 +7,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="adminTile tileHalf">
                     <div>
-                        <admin-input-text inputLabel]="'Description'" [textType]="'text'" [readOnly]=editing [(inputData)]="model.Description"></admin-input-text>
+                        <admin-input-text [inputLabel]="'Description'" [textType]="'text'" [readOnly]=editing [(inputData)]="model.Description"></admin-input-text>
                     </div>
                     <div class="mTop">
                         <admin-checkbox [checkText]="'Disabled'" [(checkValue)]="model.Disabled" (inputDataChange)="model.Disabled = $event"></admin-checkbox>
