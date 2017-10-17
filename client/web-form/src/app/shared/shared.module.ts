@@ -12,6 +12,6 @@ import { TbIconsModule } from '@taskbuilder/icons';
         ERPModule,
         TbIconsModule
     ],
-    exports: [TaskbuilderCoreModule, ERPModule]
+    exports: [TaskbuilderCoreModule, ERPModule, TbIconsModule]
 })
 export class SharedModule { }

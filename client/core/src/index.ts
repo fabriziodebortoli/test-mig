@@ -1,16 +1,13 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { TbIconsModule } from '@taskbuilder/icons';
+
 /**
  * Modulo Core con tutti i principali servizi e componenti di TB
  */
 import { TbCoreModule, TB_SERVICES } from './core/core.module';
 export * from './core/core.module';
-
-/**
- * Metodo da richiamare in app.module per lettura parametri configurazione
- */
-// export { loadConfig } from './core/services/info.service';
 
 /**
  * Modulo Shared
@@ -36,7 +33,6 @@ export * from './dashboard/dashboard.module';
 import { TbSettingsModule } from './settings/settings.module';
 export * from './settings/settings.module';
 
-
 /**
  * Modulo Test
  */
@@ -44,29 +40,13 @@ import { TbTestModule } from './test/test.module';
 export * from './test/test.module';
 
 const TB_MODULES = [
-  // TbCoreModule,
   TbSharedModule,
   TbMenuModule,
+  TbIconsModule,
   TbDashboardModule,
   TbTestModule,
   TbSettingsModule
 ];
-
-
-/** 
- * Models & Enums
- */
-// export { ComponentInfo } from './shared/models/component-info.model';
-// export { ContextMenuItem } from './shared/models/context-menu-item.model';
-// export { ControlTypes } from './shared/models/control-types.enum';
-// export { CommandEventArgs } from './shared/models/eventargs.model';
-// export { LoginCompact } from './shared/models/login-compact.model';
-// export { LoginSession } from './shared/models/login-session.model';
-// export { MessageDlgArgs, MessageDlgResult, DiagnosticData, Message, DiagnosticDlgResult, DiagnosticType } from './shared/models/message-dialog.model';
-// export { OperationResult } from './shared/models/operation-result.model';
-// export { StateButton } from './shared/models/state-button.model';
-// export { ViewModeType } from './shared/models/view-mode-type.model';
-// export { SocketConnectionStatus } from './shared/models/websocket-connection.enum';
 
 /** 
  * HOME 
@@ -81,7 +61,11 @@ export { StandaloneReportComponent } from './home/standalone.report/standalone.r
 export { HomeSidenavComponent } from './home/home-sidenav/home-sidenav.component';
 export { HomeComponent } from './home/home.component';
 
-const TB_HOME_COMPONENTS = [HomeComponent, HomeSidenavComponent, StandaloneReportComponent, StandaloneDocumentComponent];
+const TB_HOME_COMPONENTS = [
+  HomeComponent, HomeSidenavComponent,
+  StandaloneDocumentComponent,
+  StandaloneReportComponent
+];
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
 

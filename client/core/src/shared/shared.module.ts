@@ -1,9 +1,9 @@
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
+
 import {
     MatButtonModule,
     MatCheckboxModule,
@@ -279,16 +279,6 @@ const TB_CONTROLS = [
     LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent, ApplicationDateComponent
 ];
 
-const TB_MODULES = [
-    ReactiveFormsModule,
-    CommonModule,
-    FormsModule,
-    HttpModule,
-    RouterModule,
-    TbIconsModule,
-    // MasonryModule
-];
-
 /**
  * Direttive per style o funzionalità applicate a componenti base
  */
@@ -317,10 +307,21 @@ export { StateButton } from './models/state-button.model';
 export { ViewModeType } from './models/view-mode-type.model';
 export { SocketConnectionStatus } from './models/websocket-connection.enum';
 
+/**
+ * NON ESPORTARE
+ */
+const _MODULES = [
+    CommonModule,
+    FormsModule,
+    HttpModule,
+    RouterModule,
+    TbIconsModule
+];
+
 @NgModule({
-    imports: [TB_MODULES, MATERIAL_MODULES, KENDO_UI_MODULES, TreeModule],
+    imports: [_MODULES, MATERIAL_MODULES, KENDO_UI_MODULES, TreeModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
-    exports: [TB_MODULES, MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES],
+    exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, KENDO_UI_MODULES],
     entryComponents: [UnsupportedComponent, RadarComponent]
 })
 export class TbSharedModule { }
