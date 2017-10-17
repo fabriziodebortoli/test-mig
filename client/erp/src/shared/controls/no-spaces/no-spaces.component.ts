@@ -33,7 +33,8 @@ export class NoSpacesEditComponent extends ControlComponent {
       this.model.value = this.model.value.replace(/\s+/g, '');
 
     if (this.maxLength > 0 && this.model.value.length !== this.maxLength)
-      this.errorMessage = 'Value must be ' + this.maxLength + ' chars';
+      this.errorMessage = 'Value length must be of ' + this.maxLength + ' chars';
+    // this.errorMessage = this._TB('Value must be {0} chars', this.maxLength); Versione definitiva, dopo le modifiche di MArco
     else
       this.errorMessage = '';
 

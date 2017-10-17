@@ -1,7 +1,7 @@
 <ng-template #template>
     <div id="customizationPopup">
         <div class="itemSelected" *ngIf="isDesignable">
-            <div (click)="openEasyStudioAndContextIfNeeded(objectM)">
+            <div (click)="openEasyStudioAndContextIfNeeded(objectM, null)" [ngClass]="{'is-disabled': !isContextActive()}">
                 {{localizationService?.localizedElements?.OpenEasyStudioNewCustomization}}
             </div>
         </div>

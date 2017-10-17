@@ -920,18 +920,31 @@ namespace Microarea.AdminServer.Controllers
 		{
 			OperationResult opRes = new OperationResult();
 
+			List<string> msgList = new List<string>();
+
+			// check preventivi sui dati inseriti
 			if (extSubDatabase.Database.DBServer != extSubDatabase.Database.DMSDBServer)
 			{
+				msgList.Add("Both databases must be in the same server!");
 			}
 
-			if (extSubDatabase.Database.DBName != extSubDatabase.Database.DMSDBName)
+			if (extSubDatabase.Database.DBName == extSubDatabase.Database.DMSDBName)
 			{
+				msgList.Add("The databases names must be different!");
 			}
 
 			if (extSubDatabase.Database.DBOwner == extSubDatabase.Database.DMSDBOwner)
-				if (extSubDatabase.Database.DBPassword == extSubDatabase.Database.DMSDBPassword)
+				if (extSubDatabase.Database.DBPassword != extSubDatabase.Database.DMSDBPassword)
 				{
+					msgList.Add("Passwords different for same users!");
 				}
+
+			if (msgList.Count > 0)
+			{
+				opRes.Content = msgList;
+				return opRes;
+			}
+			//
 
 			// I use master database to load all dbs
 			bool isAzureDB = (extSubDatabase.AdminCredentials.Provider == "SQLAzure");
@@ -945,8 +958,6 @@ namespace Microarea.AdminServer.Controllers
 				extSubDatabase.AdminCredentials.Login,
 				extSubDatabase.AdminCredentials.Password
 				);
-
-			List<string> msgList = new List<string>();
 
 			DatabaseTask dTask = new DatabaseTask(isAzureDB) { CurrentStringConnection = masterConnectionString };
 
@@ -1034,8 +1045,9 @@ namespace Microarea.AdminServer.Controllers
 				msgList.Add(string.Format(DatabaseManagerStrings.WarningLoginNotExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer));
 			//
 
-			// provo a connettermi con la login specificata per il db di ERP
-			string connectionString =
+			// check validita' login e password per il db di ERP
+			// provo a connettermi con la login specificata per il db di ERP al master
+			dTask.CurrentStringConnection =
 				string.Format
 				(
 				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
@@ -1045,15 +1057,14 @@ namespace Microarea.AdminServer.Controllers
 				extSubDatabase.Database.DBPassword
 				);
 
-			dTask.CurrentStringConnection = connectionString;
-
-			int errorNr;
-			// check validita' login e password
-			bool result = dTask.TryToConnect(out errorNr);
-			// se nel diagnostico c'e' un errore ritorno subito
+			bool result = dTask.TryToConnect(out int errorNr);
 			if (dTask.Diagnostic.Error)
 			{
-				if (errorNr != 916)
+				// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
+				// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
+				if (errorNr == 916)
+					opRes.Result = true;
+				else
 				{
 					if (errorNr == 18456)
 						msgList.Add(string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DBOwner));
@@ -1065,8 +1076,9 @@ namespace Microarea.AdminServer.Controllers
 			}
 			//
 
-			// provo a connettermi con la login specificata per il db di DMS
-			connectionString =
+			// check validita' login e password per il db del DMS
+			// provo a connettermi con la login specificata per il db del DMS al master
+			dTask.CurrentStringConnection =
 				string.Format
 				(
 				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
@@ -1076,14 +1088,14 @@ namespace Microarea.AdminServer.Controllers
 				extSubDatabase.Database.DMSDBPassword
 				);
 
-			dTask.CurrentStringConnection = connectionString;
-
-			// check validita' login e password
 			result = dTask.TryToConnect(out errorNr);
-			// se nel diagnostico c'e' un errore ritorno subito
 			if (dTask.Diagnostic.Error)
 			{
-				if (errorNr != 916)
+				// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
+				// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
+				if (errorNr == 916)
+					opRes.Result = true;
+				else
 				{
 					if (errorNr == 18456)
 						msgList.Add(string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DMSDBOwner));
@@ -1091,6 +1103,36 @@ namespace Microarea.AdminServer.Controllers
 					opRes.Result = false;
 					opRes.Message = dTask.Diagnostic.ToJson(true);
 					return opRes;
+				}
+			}
+			//
+
+			// CHECK PREVENTIVO DEL DATABASE
+			if (existERPDb && existDMSDb)
+			{
+				Diagnostic dbTesterDiagnostic = new Diagnostic("DatabaseController");
+
+				PathFinder pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa");//dati reperibili dal db, attualmente il nome server però non lo abbiamo 
+				pf.Edition = "Professional";
+
+				// creazione tabelle per il database aziendale
+				DatabaseManager dbManager = new DatabaseManager
+					(
+					pf,
+					dbTesterDiagnostic,
+					(BrandLoader)InstallationData.BrandLoader,
+					new ContextInfo.SystemDBConnectionInfo(), // da togliere
+					DBNetworkType.Large,
+					"IT"
+					);
+				opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
+
+				IDiagnosticItems items = dbManager.DBManagerDiagnostic.AllMessages();
+				if (items != null)
+				{
+					foreach (IDiagnosticItem item in items)
+						if (!string.IsNullOrWhiteSpace(item.FullExplain))
+							msgList.Add(item.FullExplain);
 				}
 			}
 			//
