@@ -91,13 +91,13 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     }
 
   //--------------------------------------------------------------------------------
-  initEasyStudio(object, template: TemplateRef<any>, ref: ElementRef) {
+  initEasyStudio(object, template: TemplateRef<any>) {
     this.isDesignable = this.customizations != undefined;
-    this.togglePopup(template, ref);
+    this.togglePopup(template);
   }
 
   //--------------------------------------------------------------------------------
-  public togglePopup(template: TemplateRef<any>, ref: ElementRef) {
+  public togglePopup(template: TemplateRef<any>) {
     this.offsetLeft = this.elRef.getBoundingClientRect().left;
     this.offsetTop = this.elRef.getBoundingClientRect().top + 15;
     if (this.popupRef) {
@@ -139,8 +139,13 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
   }
 
   //--------------------------------------------------------------------------------  
+  isContextActive() {
+    return this.currentApplication !== undefined && this.currentModule !== undefined;
+   }
+
+  //--------------------------------------------------------------------------------  
   isCustomizationEnabled(customization) {
-    if (!customization || this.currentApplication == undefined || this.currentModule == undefined)
+    if (!this.isContextActive())
       return false;
     return this.currentApplication === customization.applicationOwner && this.currentModule === customization.moduleOwner;
   }
@@ -155,7 +160,8 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     //   });
     // }
     // else {}
-    if(!this.isCustomizationEnabled(customization)) return;
+    if(customization !== null && !this.isCustomizationEnabled(customization))
+      return;
     let sub = this.httpMenuService.runEasyStudio(object.target, object.customizationName).subscribe((result) => {
       this.close();
       sub.unsubscribe();
