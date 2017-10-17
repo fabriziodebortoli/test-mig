@@ -14,6 +14,7 @@ export class WidgetClockComponent {
   }
 
   ngOnInit() {
+    //TODOLUCA, manca unsub?
     this.widgetsService.getClock().subscribe(time => this.time = time);
   }
 

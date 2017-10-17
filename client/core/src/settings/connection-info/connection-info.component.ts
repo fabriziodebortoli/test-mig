@@ -12,8 +12,8 @@ export class ConnectionInfoComponent implements OnInit, OnDestroy {
 
   public connectionInfos: any;
   public showdbsize: boolean;
-  public connectionInfoSub: Subscription;
 
+  private subscriptions = [];
   constructor(
     public httpMenuService: HttpMenuService,
     public localizationService: LocalizationService
@@ -22,20 +22,20 @@ export class ConnectionInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.connectionInfoSub = this.httpMenuService.getConnectionInfo().subscribe(result => {
+    this.subscriptions.push(this.httpMenuService.getConnectionInfo().subscribe(result => {
       this.connectionInfos = result;
       this.showdbsize = this.connectionInfos.showdbsizecontrols == 'Yes';
-    });
+    }));
 
-    this.localizationService.localizationsLoaded.subscribe((loaded) => {
+    this.subscriptions.push(this.localizationService.localizationsLoaded.subscribe((loaded) => {
       console.log("loaded", loaded);
       if (!loaded)
         return;
-    });
+    }));
   }
 
   ngOnDestroy() {
-    this.connectionInfoSub.unsubscribe();
+    this.subscriptions.forEach(subs => subs.unsubscribe());
   }
 }
 
