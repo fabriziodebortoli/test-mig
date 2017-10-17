@@ -67,10 +67,6 @@ export class TopbarMenuUserComponent implements OnDestroy {
 
     }
 
-    openSettings() {
-        this.componentService.createComponentFromUrl('settings', true);
-    }
-
     ngOnDestroy() {
         this.commandSubscription.unsubscribe();
     }

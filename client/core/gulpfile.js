@@ -171,7 +171,7 @@ gulp.task('rollup:umd', function() {
                 '@progress/kendo-data-query': 'kendoDataQuery',
                 '@angular/animations': 'animations',
                 '@telerik/kendo-intl': 'kendoIntl',
-                'ngx-cookie/index': 'ngx-cookie'
+                'ngx-cookie': 'ngxCookie'
             }
 
         }))
