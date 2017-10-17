@@ -10,17 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microarea.Common;
 using Microarea.AccountManager.Interfaces;
 using Microarea.AccountManager.Library;
-using System.Net.WebSockets;
-using System.Threading;
-using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-using Microarea.TbLoaderGate.Application;
-using Microarea.RSWeb.Models;
 using Microarea.TbLoaderGate;
-using static Microarea.RSWeb.Models.RSSocketHandler;
-using Microsoft.AspNetCore.Hosting.Builder;
 using System.Net;
-using System.Globalization;
 
 namespace WebApplication
 {
@@ -35,7 +26,8 @@ namespace WebApplication
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("tbloader.config.json", optional: true);
 
             //if (env.IsDevelopment())
             //{
@@ -59,7 +51,7 @@ namespace WebApplication
                     AssemblyName an = new AssemblyName(module.Value);
                     var assembly = Assembly.Load(an);
                     foreach (Type t in assembly.GetTypes())
-                        if (typeof(IWebAppConfigurator).IsAssignableFrom(t))
+                        if (t.IsClass && typeof(IWebAppConfigurator).IsAssignableFrom(t))
                         {
                             configurators.Add((IWebAppConfigurator)Activator.CreateInstance(t));
                         }
@@ -108,14 +100,16 @@ namespace WebApplication
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(20 * 60);
-                options.CookieHttpOnly = true;
+                options.Cookie.HttpOnly = true;
             });
+
+            services.Configure<TBLoaderConnectionParameters>(options => Configuration.GetSection("TBLoaderConnectionParameters").Bind(options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-             app.UseCors("CorsPolicy");
+            app.UseCors("CorsPolicy");
 
             app.UseSession();
 
@@ -123,7 +117,7 @@ namespace WebApplication
             loggerFactory.AddDebug();
 
             logger = loggerFactory.CreateLogger("WebServer");
-
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -134,12 +128,12 @@ namespace WebApplication
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+           
             app.UseWebSockets();
             //aggiungo gli handler di chiamata, mettere prima della UseFileServer()
-			foreach (var configurator in configurators)
-                configurator.Configure(app, env, loggerFactory);
-            
+            foreach (var configurator in configurators)
+                configurator.Configure(app, env, loggerFactory, Configuration);
+
             //ATTENZIONE: se questa chiamata � messa prima di aggiungere degli handler di chiamata, questi non vengono chiamati!
             app.UseFileServer();
 

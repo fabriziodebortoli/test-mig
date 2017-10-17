@@ -153,7 +153,6 @@ namespace Microarea.Common.MenuLoader
             //limito a maxElements (default 50) il numero di elementi salvabili, se ne ho di più, gli ultimi li levo
             //RemoveAllMostRecentBeyondMaxLimit(doc, maxElements);
 
-            //TODOLUCA
             SaveXml(doc, file);
         }
 
@@ -475,7 +474,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------
-        public static void SaveXml(XmlDocument doc, string file) //TODOLUCA, questo sistema di salvataggio è da cambiare
+        public static void SaveXml(XmlDocument doc, string file)
         {
             using (FileStream fileStream = new FileStream(file, FileMode.Create))
             {

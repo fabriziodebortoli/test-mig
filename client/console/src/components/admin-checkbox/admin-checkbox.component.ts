@@ -1,5 +1,6 @@
 
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'admin-checkbox',
@@ -8,13 +9,18 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class AdminCheckBoxComponent {
 
-  @Input() checkBoxId: string;
+  @Input() checkId: string;
+  @Input() checkText: string;
   @Input() checkValue: boolean;
-  @Output() onSelectedCheck: EventEmitter<object> = new EventEmitter<object>();
-
-  constructor() { }
-
-  goEditMode(item:object) {
-    this.onSelectedCheck.emit(item);
+  @Input() readOnly: boolean;
+  @Output() inputDataChange: EventEmitter<any> = new EventEmitter<any>();
+     
+  constructor() {
+    
   }
+
+  onChange(val) {
+    this.checkValue = val;
+    this.inputDataChange.emit(this.checkValue);
+  }  
 }

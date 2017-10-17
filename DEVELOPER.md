@@ -19,19 +19,17 @@ following products on your development machine:
 
 * [Node.js](http://nodejs.org), (version `>=6.11`) which is used to run a development web server,
   run tests, and generate distributable files. We also use Node's Package Manager, `npm`
-  (version `>=5.3`), which comes with Node. Depending on your system, you can install Node either from
+  which comes with Node. Depending on your system, you can install Node either from
   source or as a pre-packaged bundle.
 
 * [Typescript](https://www.typescriptlang.org), (version `>= 2.4`) a superset of JavaScript that compiles to clean JavaScript output.
 
 ```shell
 # global installation typescript
-$ npm install -g "typescript@next"
+$ npm install -g "typescript@latest"
 ```
 
-* [Visual Studio Typescript Extension](https://www.microsoft.com/en-us/download/details.aspx?id=48593)
-
-* [Angular CLI](https://cli.angular.io/), (version `>= 1.3`) a command line interface for Angular
+* [Angular CLI](https://cli.angular.io/), (version `>= 1.4`) a command line interface for Angular
 ```shell
 # global installation Angular CLI
 $ npm install -g "@angular/cli"
@@ -42,6 +40,8 @@ $ npm install -g "@angular/cli"
   * Download and install **.NET Core 2.0 SDK** - [link](https://www.microsoft.com/net/download/core)
 
 * [Visual Studio Code](http://code.visualstudio.com/) source code editor
+
+* [Visual Studio Typescript Extension](https://www.microsoft.com/en-us/download/details.aspx?id=48593) - Only for VS 2015 users
 
 ## Getting the Sources
 
@@ -67,21 +67,9 @@ Angular projects need `npm install` inside project:
 $ npm install
 ```
 
-Open .NET Core *<installation path>/standard/web/server/web-server.sln* solution with Visual Studio 2017 to restore package.
-
-You can also manually install packages:
-```shell
-# Inside the <installation path>/standard/web/server
-$ dotnet restore
-```
-
-
 ## Running
 
 ### TbLoaderService c++
-
-`<installation_path>/standard/taskbuilder/TaskBuilderNet/Microarea.TaskBuilderNet.TBLoaderService/bin/Debug/TbLoaderService.exe`
-*In Windows 10, run as administrator*
 
 Angular web application:
 ```shell
@@ -89,10 +77,16 @@ Angular web application:
 $ ./run.bat
 ```
 
-*run.bat* script is a shortcut to execute *ng serve* reserving 5GB of memory to NodeJS:
+*run.bat* script is a shortcut to execute *ng serve* reserving 5GB of memory to NodeJS, 
 ```node --max_old_space_size=5120 "node_modules\@angular\cli\bin\ng" serve```
 
+and .NET Core server
 
+```<installation_path>/standard/web/server/web-server/dotnet run```
+
+and TbLoaderService
+
+```<installation_path>/standard/taskbuilder/TaskBuilderNet/Microarea.TaskBuilderNet.TBLoaderService/bin/Debug/TbLoaderService.exe - In Windows 10, run as administrator```
 
 ## Extra
 

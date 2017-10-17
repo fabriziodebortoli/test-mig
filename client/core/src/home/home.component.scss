@@ -1,11 +1,19 @@
 .mat-sidenav,
-md-sidenav {
+mat-sidenav {
     width: 300px;
     background: #282828;
 }
 
+mat-sidenav::-webkit-scrollbar-track {
+    background: #3e3e3f;
+}
+
+mat-sidenav::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.59);
+}
+
 material-app,
-md-sidenav-container,
+mat-sidenav-container,
 .main-content {
     margin: 0;
     width: 100%;
@@ -104,26 +112,3 @@ md-sidenav-container,
     width: 1in;
 }
 
-.connecting-container {
-    background: rgba(0, 0, 0, 0.7);
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    .connecting {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        .k-icon.k-i-loading {
-            font-size: 64px;
-            color: #fff;
-        }
-        .text {
-            font-size: 12px;
-            color: #fff;
-        }
-    }
-}

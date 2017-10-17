@@ -8,6 +8,7 @@ import { Logger } from './../../core/services/logger.service';
 
 @Injectable()
 export class SettingsService {
+    public _isEasyStudioActivated: boolean = undefined;
 
     public nrMaxItemsSearch: number = 20;
     public nrMaxFavorites: number = 10;
@@ -26,6 +27,14 @@ export class SettingsService {
         public utilsService: UtilsService
     ) {
         this.logger.debug('SettingsService instantiated - ' + Math.round(new Date().getTime() / 1000));
+    }
+
+    //---------------------------------------------------------------------------------------------
+    get IsEasyStudioActivated() {
+        if (this._isEasyStudioActivated == undefined) {
+            return false;
+        }
+        return this._isEasyStudioActivated;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -70,6 +79,7 @@ export class SettingsService {
         localStorage.setItem('_lastMenuName', this._lastMenuName);
     }
 
+    //---------------------------------------------------------------------------------------------    
     getThemedSettings() {
         let sub = this.httpMenuService.getThemedSettings().subscribe(data => {
 
@@ -78,6 +88,9 @@ export class SettingsService {
 
             if (data.ThemedSettings.canEditDate != undefined)
                 this.canEditDate = this.utilsService.parseBool(data.ThemedSettings.canEditDate);
+
+            if (data.OtherSettings != undefined && data.OtherSettings.isEasyStudioActivated != undefined)
+                this._isEasyStudioActivated = this.utilsService.parseBool(data.OtherSettings.isEasyStudioActivated);
 
             sub.unsubscribe()
         });

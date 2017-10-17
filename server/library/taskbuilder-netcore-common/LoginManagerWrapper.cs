@@ -171,15 +171,14 @@ namespace Microarea.Common.WebServicesWrapper
 
       
         private char[] activationExpressionOperators = new char[2] { '&', '|' };
-        private char[] activationExpressionKeywords = new char[5] { '!', '&', '|', '(', ')' };
+        private char[] activationExpressionKeywords = new char[6] { '!', '&', '|', '(', ')', '?' };
 
         WCFLoginManager.MicroareaLoginManagerSoapClient loginManagerClient = new WCFLoginManager.MicroareaLoginManagerSoapClient(WCFLoginManager.MicroareaLoginManagerSoapClient.EndpointConfiguration.MicroareaLoginManagerSoap);
         private string baseUrl = "http://localhost:5000/";
         //private string loginManagerUrl;
         private int webServicesTimeOut;
-        private string[] modules;
-
-      
+        private List<string> modules;
+        private Dictionary<string, bool> activationList = null;
 
         //-----------------------------------------------------------------------------------------
         public LoginManager()
@@ -247,16 +246,64 @@ namespace Microarea.Common.WebServicesWrapper
             loginManagerSession.ProviderName = result.providerName;
             loginManagerSession.ProviderDescription = result.providerDescription;
             loginManagerSession.LoginManagerSessionState = LoginManagerState.Logged;
+            loginManagerSession.Security = result.security;
+            loginManagerSession.DbServer = result.dbServer;
+            loginManagerSession.DbUser = result.dbUser;
+            loginManagerSession.DbName = result.dbName;
             return loginManagerSession;
 
         }
 
-        //-----------------------------------------------------------------------------------------
+        /// <summary>
+        /// Verifica che l'articolo legato alla funzionalità richiesta sia stato acquistato
+        /// </summary>
+        /// <param name="application">Applicazione fisica</param>
+        /// <param name="functionality">Funzionalità o modulo fisico</param>
+        /// <returns>true se l'articolo è attivato</returns>
+        //----------------------------------------------------------------------
         public bool IsActivated(string application, string functionality)
         {
-            Task<bool> task = loginManagerClient.IsActivatedAsync(application, functionality);
-            return task.Result;
+            bool ret;
+            string key = string.Format("{0}.{1}", application, functionality);
+            if (activationList == null)
+                activationList = CreateActivationList();
+
+            if (activationList.TryGetValue(key, out ret))
+                return ret;
+            return false;
         }
+
+        //----------------------------------------------------------------------
+        private Dictionary<string, bool> CreateActivationList()
+        {
+            Dictionary<string, bool> list = new Dictionary<string, bool>(StringComparer.InvariantCultureIgnoreCase);
+            if (modules == null)
+                modules = GetModules();
+
+            foreach (string module in modules)
+            {
+                int appIndex = module.IndexOf('.');
+                if (appIndex == -1)
+                    continue;
+                string app = module.Substring(0, appIndex);
+
+                appIndex++;
+                int modIndex = module.IndexOf('.', appIndex);
+
+                string mod = modIndex == -1
+                    ? module.Substring(appIndex)
+                    : module.Substring(appIndex, modIndex - appIndex);
+                list[string.Format("{0}.{1}", app, mod)] = true;
+            }
+            return list;
+        }
+
+        ////-----------------------------------------------------------------------------------------
+        //public bool IsActivated(string application, string functionality)
+        //{
+        //    Task<bool> task = loginManagerClient.IsActivatedAsync(application, functionality);
+        //    return task.Result;
+        //}
 
         //-----------------------------------------------------------------------------------------
         public string[] EnumCompanies(string userName)
@@ -402,13 +449,14 @@ namespace Microarea.Common.WebServicesWrapper
         {
             Task<int> task = loginManagerClient.ChangePasswordAsync(userName, oldPassword, newPassword);
             int result = task.Result;
-            if (result == (int)LoginReturnCodes.NoError)
-            {
-                //TODOLUCA
-                //loginManagerSession.UserMustChangePassword = false;
-                //loginManagerSession.ExpiredDatePassword = loginManagerSession.ExpiredDatePassword.AddDays(30);
-                //loginManagerSession.Password = newPassword;
-            }
+            //if (result == (int)LoginReturnCodes.NoError)
+            //{
+                
+            //    //TODOLUCA
+            //    //loginManagerSession.UserMustChangePassword = false;
+            //    //loginManagerSession.ExpiredDatePassword = loginManagerSession.ExpiredDatePassword.AddDays(30);
+            //    //loginManagerSession.Password = newPassword;
+            //}
             return result;
         }
 
@@ -541,6 +589,25 @@ namespace Microarea.Common.WebServicesWrapper
             return Microarea.Common.Generic.InstallationInfo.Functions.GetDBPercentageUsedSize(connectionString);
         }
 
+        /// <summary>
+        /// Restituisce la stringa di connessione al database di sistema
+        /// </summary>
+        /// <param name="authenticationToken">token di autenticazione</param>
+        /// <returns>Stringa di connessione al database di sistema in chiaro.</returns>
+        //---------------------------------------------------------------------------
+        public string GetSystemDBConnectionString(string authenticationToken)
+        {
+            if (String.IsNullOrWhiteSpace(authenticationToken))
+                throw new LoginManagerException(LoginManagerError.NotLogged);
+
+            LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+            if (loginManagerSession.LoginManagerSessionState != LoginManagerState.Logged )
+                throw new LoginManagerException(LoginManagerError.NotLogged);
+
+            Task<string> tesk = loginManagerClient.GetSystemDBConnectionStringAsync(authenticationToken);
+            return tesk.Result;
+        }
+
         //---------------------------------------------------------------------------
         internal bool IsSecurityLightEnabled()
         {
@@ -556,7 +623,7 @@ namespace Microarea.Common.WebServicesWrapper
         }
 
         //---------------------------------------------------------------------------
-        internal string[] GetModules()
+        internal List<string> GetModules()
         {
             lock (this)
             {
@@ -571,23 +638,23 @@ namespace Microarea.Common.WebServicesWrapper
                 //del gestionale per cui la loro presenza va riverificata ad ogni chiamata GetModules.
                 //L'effetto collaterale di questa scelta è che se nei metodi di questa classe si accede a modules anzichè chiamare GetModules
                 //si lavora su un elenco di moduli che computa solo i moduli della Standard e non anche quelli delle customizzaizoni.
-                List<string> list = null;
                 if (modules == null)
-                {
-                    list = new List<string>();
-                    Task<string[]> task = loginManagerClient.GetModulesAsync();
-                    list.AddRange(task.Result);
-                    modules = list.ToArray();
-                }
+                    modules = new List<string>();
+
+                modules.Clear();
+
+                Task<string[]> task = loginManagerClient.GetModulesAsync();
+                modules.AddRange(task.Result);
                 //le customizzazioni sono di default attivate
-                list = new List<string>(modules);
                 foreach (BaseApplicationInfo bai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
-                    if (bai.ApplicationType == ApplicationType.Customization)
-                    {
-                        foreach (BaseModuleInfo bmi in bai.Modules)
-                            list.Add(bai.Name + "." + bmi.Name);
-                    }
-                return list.ToArray();
+                {
+                    if (bai.ApplicationType != ApplicationType.Customization)
+                        continue;
+
+                    foreach (BaseModuleInfo bmi in bai.Modules)
+                        modules.Add(bai.Name + "." + bmi.Name);
+                }
+                return modules;
             }
         }
 
@@ -610,12 +677,18 @@ namespace Microarea.Common.WebServicesWrapper
 
                 if (firstKeyIndex >= 0)
                 {
-                    if (firstKeyIndex == 0 && expression[0] != '!' && expression[0] != '(')
+                    if (firstKeyIndex == 0 && expression[0] != '!' && expression[0] != '(' && expression[0] != '?')
                     {
                         // errore di sintassi: l'espressione non può cominciare con un'operatore di tipo '&', '|', ')'
                         Debug.Fail("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
                         // non potendo testare correttamente l'attivazione sollevo un'eccezione
                         throw new LoginManagerException(LoginManagerError.GenericError, String.Format(WebServicesWrapperStrings.CheckActivationExpressionErrFmtMsg, expression));
+                    }
+
+                    if (expression[0] == '?')
+                    {
+                        string instPath = PathFinder.BasePathFinderInstance.GetInstallationPath();
+                        return File.Exists(Path.Combine(instPath, expression.Substring(1).Replace('|', '\\')));
                     }
 
                     bool negateToken = (expression[0] == '!');
@@ -638,7 +711,7 @@ namespace Microarea.Common.WebServicesWrapper
                         charIndex++;
 
                     } while (charIndex < expression.Length);// esco dal while solo se l'espressione è terminata
-                                                            // o se ho chiuso tutte eventuali le parentesi tonde
+                    // o se ho chiuso tutte eventuali le parentesi tonde
                     if (openingParenthesisCount != 0)
                     {
                         // errore di sintassi: non c'è un matching corretto di parentesi

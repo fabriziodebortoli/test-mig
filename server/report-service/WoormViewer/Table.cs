@@ -404,6 +404,7 @@ namespace Microarea.RSWeb.Objects
             string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
             //VALUE
+            
             this.Value.FormattedData = string.Empty;
             if (this.Value.RDEData != null)
             {
@@ -414,12 +415,12 @@ namespace Microarea.RSWeb.Objects
                 this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
                 
             }
+
             s += (this.SubTotal ?
                             this.Value.FormattedData.ToJson("value", false, true)
                             :
                             this.FormattedDataForWrite.ToJson("value", false, true)
                         );
-
             //BORDERS
             if (column.Table.HasDynamicHiddenColumns() || column.Table.HasDynamicBorders() || column.Table.Borders.DynamicRowSeparator)
                 s += ',' + cellBorders.ToJson();
@@ -432,9 +433,9 @@ namespace Microarea.RSWeb.Objects
 
             //BKGCOLOR
             if (!this.SubTotal && column.BkgColorExpr != null)
-                s += ',' + this.GetDynamicBkgColor          (useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateBkgColor).ToJson("bkgcolor");
+                s += ',' + this.GetDynamicBkgColor(useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateBkgColor).ToJson("bkgcolor");
             else if (this.SubTotal)
-                s += ',' + this.GetDynamicSubTotalBkgColor  (useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateSubTotalBkgColor).ToJson("bkgcolor");
+                s += ',' + this.GetDynamicSubTotalBkgColor(useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateSubTotalBkgColor).ToJson("bkgcolor");
 
             //FONT
             if (!this.SubTotal && column.TextFontStyleExpr != null)
@@ -459,13 +460,11 @@ namespace Microarea.RSWeb.Objects
             //TOOLTIP
             if (column.TooltipExpr != null)
                 s += ',' + this.DynamicTooltip.ToJson("tooltip", false, true);
-            
+
             //LINK
             string link = BaseObj.GetLink(false, this.column.Table.Document, this.column.InternalID, this.AtRowNumber);
             if (!link.IsNullOrEmpty())
                 s += ',' + link;
-
-            //----
 
             s += "}}";
             return s;
@@ -939,16 +938,17 @@ namespace Microarea.RSWeb.Objects
                             this.Title.FontData.ToJson() +
                     '}';
 
-            s += 
-               // (/*this.MultipleRow*/true   ? ',' + this.MultipleRow    .ToJson("value_is_multiline")   : "") +
-                (/*this.IsHtml*/true        ? ',' + this.IsHtml         .ToJson("value_is_html")    : "") +
-                (/*this.ShowAsBitmap*/true  ? ',' + this.ShowAsBitmap   .ToJson("value_is_image")    : "") +
-                (/*this.ShowAsBarCode*/true ? ',' + this.ShowAsBarCode  .ToJson("value_is_barcode")  : "");
+            s +=
+                // (/*this.MultipleRow*/true   ? ',' + this.MultipleRow    .ToJson("value_is_multiline")   : "") +
+                (/*this.IsHtml*/true ? ',' + this.IsHtml.ToJson("value_is_html") : "") +
+                (/*this.ShowAsBitmap*/true ? ',' + this.ShowAsBitmap.ToJson("value_is_image") : "") +
+                (/*this.ShowAsBarCode*/true ? ',' + this.ShowAsBarCode.ToJson("value_is_barcode") : "") +
+                (this.ShowAsBarCode ? "," + this.BarCode.ToJson() : "");
 
             //s += (/*this.ShowTotal*/true ? ',' + this.ShowTotal.ToJson("show_total") : "");
-           //s += (this.ShowTotal ? ',' + this.TotalCell.ToJsonTemplate() : "");
+            //s += (this.ShowTotal ? ',' + this.TotalCell.ToJsonTemplate() : "");
 
-           s += '}';
+            s += '}';
 
            return s;
         }
@@ -959,7 +959,7 @@ namespace Microarea.RSWeb.Objects
 
                 this.InternalID.ToJson("id", "id") + ',' +
 
-                false.ToJson("hidden") + '}';
+                true.ToJson("hidden") + '}';
 
             return s;
         }

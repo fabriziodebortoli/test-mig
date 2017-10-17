@@ -1,9 +1,9 @@
 <div id="dpi">a</div>
-<md-sidenav-container (contextmenu)="onContextMenu();">
+<mat-sidenav-container (contextmenu)="onContextMenu();">
     <tb-message-dialog></tb-message-dialog>
-    <md-sidenav mode="over" #sidenav>
+    <mat-sidenav mode="over" #sidenav>
         <tb-home-sidenav></tb-home-sidenav>
-    </md-sidenav>
+    </mat-sidenav>
 
     <div class="main-content">
         <tb-topbar>
@@ -51,7 +51,7 @@
                 <kendo-tabstrip-tab *ngFor="let info of componentService.components">
                     <ng-template kendoTabTitle>
                         <span>{{info.document?.getTitle()}}</span>
-                        <m4-icon icon="tb-closewindows" (click)="closeTab(info)" title="Close" class='close'></m4-icon>
+                        <m4-icon icon="tb-closewindows" (click)="closeTab(info)" title="{{localizationService?.localizedElements?.CloseLabel}}" class='close'></m4-icon>
                     </ng-template>
                     <ng-template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
@@ -66,10 +66,6 @@
         </div>
 
     </div>
-</md-sidenav-container>
-<div class="connecting-container" [@fadeInOut] *ngIf="!connected">
-    <div class="connecting">
-        <span class="k-icon k-i-loading"></span>
-        <p class="text">Connecting...</p>
-    </div>
-</div>
+</mat-sidenav-container>
+<tb-loading></tb-loading>
+<tb-diagnostic></tb-diagnostic>

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { LocalizationService } from './../../../services/localization.service';
+import { LocalizationService } from './../../../../core/services/localization.service';
 import { ImageService } from './../../../services/image.service';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { MenuService } from './../../../services/menu.service';

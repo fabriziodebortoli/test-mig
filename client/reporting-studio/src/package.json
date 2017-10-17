@@ -1,6 +1,6 @@
 {
     "name": "@taskbuilder/reporting-studio",
-    "version": "0.1.0",
+    "version": "0.1.3",
     "repository": {
         "type": "git",
         "url": "https://github.com/Microarea/Taskbuilder.git"
@@ -19,10 +19,12 @@
     "module": "taskbuilder-reporting-studio.js",
     "typings": "taskbuilder-reporting-studio.d.ts",
     "peerDependencies": {
-        "@angular/core": "^4.2.4",
+        "@angular/core": "^4.4.4",
         "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
         "rxjs": "^5.1.0",
         "zone.js": "^0.8.4"
     },
-    "dependencies": {}
+    "dependencies": {
+        "moment": "^2.19.1"
+    }
 }

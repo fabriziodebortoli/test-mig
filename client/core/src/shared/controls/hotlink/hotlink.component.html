@@ -4,30 +4,29 @@
 
 <button kendoButton #anchor (click)="onOptionsClick()" [icon]="'more-vertical'" [disabled]="!model.enabled"></button>
 <kendo-popup [anchor]="anchor" (blur)="showOptions = false" *ngIf="showOptions">
-  <div class="search-options">
-    Search for:<br>
-    <md-radio-group [(ngModel)]="selectionType">
-      <md-radio-button *ngFor="let item of selectionTypes" [value]="item">{{item}}</md-radio-button>
-    </md-radio-group>
-  </div>
+    <div class="search-options">
+        Search for:<br>
+        <mat-radio-group [(ngModel)]="selectionType">
+            <mat-radio-button *ngFor="let item of selectionTypes" [value]="item">{{item}}</mat-radio-button>
+        </mat-radio-group>
+    </div>
 </kendo-popup>
 
 <button kendoButton (click)="onSearchClick()" [icon]="'search'" [disabled]="!model.enabled"></button>
 <div #anchorTable></div>
 <kendo-popup [anchor]="anchorTable" (anchorViewportLeave)="showTable = false" *ngIf="showTable" [ngStyle]="popupStyle()">
-  <kendo-grid [data]="data.rows" [selectable]="true" (selectionChange)="selectionChanged($event)" [scrollable]="'scrollable'"
-    [height]="300">
-    <kendo-grid-column *ngIf="enableMultiSelection" [width]="45" [headerClass]="{'tableHeader':true}">
-      <ng-template kendoGridCellTemplate let-dataItem>
-        <input type="checkbox" [checked]="dataItem.Selected" (change)="onRowChecked($event, dataItem)" />
-      </ng-template>
-    </kendo-grid-column>
-    <kendo-grid-column *ngFor="let col of data.columns" field="{{col.id}}" title="{{col.id}}" [headerClass]="{'tableHeader':true}">
-      <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex" >
-        <div style="cursor:pointer">
-        {{getValue(dataItem[col.id], col)}}
-        </div>
-      </ng-template>
-    </kendo-grid-column>
-  </kendo-grid>
+    <kendo-grid [data]="data.rows" [selectable]="true" (selectionChange)="selectionChanged($event)" [scrollable]="'scrollable'" [height]="300">
+        <kendo-grid-column *ngIf="enableMultiSelection" [width]="45" [headerClass]="{'tableHeader':true}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <input type="checkbox" [checked]="dataItem.Selected" (change)="onRowChecked($event, dataItem)" />
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column *ngFor="let col of data.columns" field="{{col.id}}" title="{{col.id}}" [headerClass]="{'tableHeader':true}">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <div style="cursor:pointer">
+                    {{getValue(dataItem[col.id], col)}}
+                </div>
+            </ng-template>
+        </kendo-grid-column>
+    </kendo-grid>
 </kendo-popup>

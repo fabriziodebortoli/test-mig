@@ -27,7 +27,7 @@ export class AskRadioComponent extends RadioComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.radio.value = (this.radio.value === 'True');
+   
   }
 
   public checkedRadio() {

@@ -9,25 +9,26 @@ import { Subscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Rx';
 
 import { Snapshot } from './report-objects/snapshotdialog/snapshot';
+import { timeout } from 'rxjs/operator/timeout';
 
 
 
 @Injectable()
 export class RsExportService {
-    public savingPdf: boolean = false;
-    public totalPages: number;
-    public firstPageExport: number;
-    public lastPageExport: number;
-    public pdfState: PdfType = PdfType.NOPDF;
-    public svgState: SvgType = SvgType.NOSVG;
-    public pngState: PngType = PngType.NOPNG;
-    public filePdf = new Group();
-    public titleReport: string;
+    savingPdf: boolean = false;
+    totalPages: number;
+    firstPageExport: number;
+    lastPageExport: number;
+    pdfState: PdfType = PdfType.NOPDF;
+    svgState: SvgType = SvgType.NOSVG;
+    pngState: PngType = PngType.NOPNG;
+    filePdf = new Group();
+    titleReport: string;
 
-    public user: boolean;
-    public nameSnap: string;
-    public snapshots: Snapshot[];
-    public dateSnap: string;
+    user: boolean;
+    nameSnap: string;
+    snapshots: Snapshot[];
+    dateSnap: string;
 
     @Output() eventNextPage = new EventEmitter<void>();
     @Output() eventFirstPage = new EventEmitter<void>();
@@ -39,14 +40,16 @@ export class RsExportService {
     @Output() rsExportExcel = new EventEmitter<void>();
     @Output() rsExportDocx = new EventEmitter<void>();
 
-    public exportfile = false;
-    public exportpdf = false;
-    public exportexcel = false;
-    public exportdocx = false;
-    public snapshot = false;
-    public pdf: string = "PDF";
-    public excel: string = "Excel";
-    public docx: string = "Docx";
+    exportfile = false;
+    exportpdf = false;
+    exportexcel = false;
+    exportdocx = false;
+    snapshot = false;
+    pdf: string = "PDF";
+    excel: string = "Excel";
+    docx: string = "Docx";
+
+    visibleImg: boolean = false;
 
     constructor(public rsService: ReportingStudioService) { }
 
@@ -64,6 +67,10 @@ export class RsExportService {
         this.runSnapshot.emit();
     }
 
+    timeout(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     //------EXPORT PDF-----------------------------------
     initiaziedExport(from: number, to: number) {
         this.firstPageExport = from;
@@ -79,15 +86,17 @@ export class RsExportService {
         this.exportdocx = false;
     }
 
+
     async appendPDF() {
+        await this.timeout(20000);
         await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
             })
     }
 
-    renderPDF() {
-        drawDOM(document.getElementById('rsLayout'))
+    async renderPDF() {
+        await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
                 return exportPDF(this.filePdf, {

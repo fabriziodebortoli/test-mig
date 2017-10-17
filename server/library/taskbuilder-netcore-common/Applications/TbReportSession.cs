@@ -49,6 +49,7 @@ namespace Microarea.Common.Applications
         public const string TbLoginRoute = "tb/document/initTBLogin/";
         public const string TbRunFunctionRoute = "tb/document/runFunction/";
         public const string TbHotlinkQueryRoute = "tb/document/getHotlinkQuery/";
+        public const string TbAssignWoormParametersRoute = "tb/document/assignWoormParameters/";
 
         public const string TbInstanceKey = "tbloader-name";
         public string TbInstanceID = string.Empty;
@@ -529,6 +530,57 @@ namespace Microarea.Common.Applications
 
             return true;
         }
+
+        //Method which calls the tbloader document, passing back  the out or in-out parameters
+        //---------------------------------------------------------------------
+        public static async Task<bool> TbAssignWoormParameters(TbReportSession session)
+        {
+            if (!session.IsCalledFromTbloader || string.IsNullOrWhiteSpace(session.ReportParameters))
+            {
+                return false;
+            }
+
+            bool retLogin = TbSession.TbLogin(session).Result;
+            if (!retLogin)
+                return false;
+
+            var cookieContainer = new CookieContainer();
+            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
+            using (var client = new HttpClient(handler))
+            {
+                try
+                {
+                    client.BaseAddress = new Uri(session.TbBaseAddress);
+
+                    cookieContainer.Add(client.BaseAddress, new Cookie(TbSession.TbInstanceKey, session.TbInstanceID));
+
+                    var content = new FormUrlEncodedContent(new[]
+                    {
+                        new KeyValuePair<string, string>(UserInfo.AuthenticationTokenKey, session.UserInfo.AuthenticationToken),
+                        new KeyValuePair<string, string>("woormdocProxyId", session.WoormdocProxyId ),
+                        new KeyValuePair<string, string>("args", session.ReportParameters),
+                   });
+
+                    var response = await client.PostAsync(TbSession.TbBaseRoute + TbSession.TbAssignWoormParametersRoute, content);
+                    response.EnsureSuccessStatusCode(); // Throw in not success
+
+                    var stringResponse = await response.Content.ReadAsStringAsync();
+
+                    return true;
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"TbAssignWoormParameters Request exception: {e.Message}");
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"TbAssignWoormParameters Request exception: {e.Message}");
+                    return false;
+                }
+            }
+        }
+    
     }
 
     /// <summary>
@@ -540,6 +592,7 @@ namespace Microarea.Common.Applications
 
     public class TbReportSession : TbSession
     {
+       
         NameSpace ReportNameSpace = null;
 
         public int PageRendered = -1;
@@ -551,6 +604,16 @@ namespace Microarea.Common.Applications
 
         public EngineType EngineType = EngineType.Paginated_Standard;
 
+        private string woormdocProxyId;
+
+        internal string WoormdocProxyId
+        {
+            get { return woormdocProxyId; }
+        }
+        internal bool IsCalledFromTbloader
+        {
+            get { return !String.IsNullOrWhiteSpace(woormdocProxyId); }
+        }
         private string reportParameters;
         public string ReportParameters
         {
@@ -596,13 +659,14 @@ namespace Microarea.Common.Applications
         public string sessionID = Guid.NewGuid().ToString();
         public string uniqueID = Guid.NewGuid().ToString();
 
-        public TbReportSession(UserInfo ui, string ns, string parameters = "")
+        public TbReportSession(UserInfo ui, string ns, string parameters = "", string componentId = "")
             : base(ui, ns)
         {
+            this.woormdocProxyId = componentId;
             this.ReportNameSpace = new NameSpace(ns, NameSpaceObjectType.Report);
             this.ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
             this.ReportParameters = parameters;
-
+           
             this.Localizer = new StringLoader.WoormLocalizer(this.ReportPath, PathFinder);
 
             //TODO RSWEB

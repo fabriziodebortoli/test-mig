@@ -1,6 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdIconModule, MdSidenavContainer, MdSidenavModule, MdToolbarModule, MdButtonModule, MdListModule, MdDialogModule, MdInputModule, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MatIconModule, MatSidenavContainer, MatSidenavModule, MatToolbarModule, MatButtonModule, MatListModule, 
+  MatDialogModule, MatInputModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SampleComponent } from './sample.component';
@@ -14,8 +15,10 @@ import { AdminIconComponent } from "./components/admin-icon/admin-icon.component
 import { AdminInputTextComponent } from "./components/admin-input-text/admin-input-text.component";
 import { AdminAlertComponent } from './components/admin-alert/admin-alert.component';
 import { AdminAlertDialogComponent } from './components/admin-alert-dialog/admin-alert-dialog.component';
+import { AdminButtonComponent } from './components/admin-button/admin-button.component';
 import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
-
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { InputsModule } from '@progress/kendo-angular-inputs';
 
 // import { SampleDirective } from './sample.directive';
 // import { SamplePipe } from './sample.pipe';
@@ -30,14 +33,16 @@ export * from './sample.component';
   imports: [
     FormsModule,
     BrowserAnimationsModule,
-    MdSidenavModule,
-    MdIconModule,
+    MatSidenavModule,
+    MatIconModule,
     CommonModule,
-    MdButtonModule,
-    MdToolbarModule,
-    MdListModule,
-    MdDialogModule,
-    MdInputModule
+    MatButtonModule,
+    MatToolbarModule,
+    MatListModule,
+    MatDialogModule,
+    MatInputModule,
+    ButtonsModule,
+    InputsModule
   ],
   declarations: [
     SampleComponent,
@@ -51,6 +56,7 @@ export * from './sample.component';
     AdminInputTextComponent,
     AdminAlertDialogComponent,
     AdminAlertComponent,
+    AdminButtonComponent,
     AdminAutoFocusDirective
     // SampleDirective,
     // SamplePipe
@@ -66,7 +72,8 @@ export * from './sample.component';
     AdminIconComponent,
     AdminInputTextComponent,
     AdminAlertDialogComponent,
-    AdminAlertComponent
+    AdminAlertComponent,
+    AdminButtonComponent
     // SampleDirective,
     // SamplePipe
   ],

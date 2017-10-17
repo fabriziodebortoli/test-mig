@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 import { OperationResult } from './../../shared/models/operation-result.model';
 
@@ -13,7 +13,6 @@ import { UtilsService } from './../../core/services/utils.service';
 
 @Injectable()
 export class HttpMenuService {
-
 
     constructor(
         public http: Http,
@@ -37,8 +36,8 @@ export class HttpMenuService {
      * 
      * @returns {Observable<any>} getMenuElements
      */
-    getMenuElements(): Observable<any> {
-        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company'), authtoken: this.cookieService.get('authtoken') }
+    getMenuElements(clearCachedData: boolean): Observable<any> {
+        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company'), authtoken: this.cookieService.get('authtoken'), clearCachedData: clearCachedData }
         let urlToRun = this.infoService.getMenuServiceUrl() + 'getMenuElements/';
         return this.postData(urlToRun, obj)
             .map((res: any) => {
@@ -46,6 +45,189 @@ export class HttpMenuService {
             })
             .catch(this.handleError);
     }
+
+
+    /************************************************************** */
+
+    /**
+     * API /getEsAppsAndModules
+     * 
+     * @returns {Observable<any>} getEsAppsAndModules
+     */
+    getEsAppsAndModules(): Observable<any> {
+        let obj = { user: this.cookieService.get('_user') };
+        let urlToRun = this.infoService.getDocumentBaseUrl() + 'getAllAppsAndModules/';
+        return this.postData(urlToRun, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    /**
+  * API /setAppAndModule
+  * 
+  * @returns {Observable<any>} setAppAndModule
+  */
+    setAppAndModule(app: string, mod: string, isThisPairDefault: boolean): Observable<any> {
+        let obj = { user: this.cookieService.get('_user') };
+        let urlToRun = this.infoService.getDocumentBaseUrl() +
+            'setAppAndModule/?app=' + app + '&mod=' + mod + '&def=' + isThisPairDefault;
+        return this.postData(urlToRun, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    /**
+  * API /createNewContext
+  * 
+  * @returns {Observable<any>} createNewContext
+  */
+    createNewContext(app: string, mod: string, type: string): Observable<any> {
+        let obj = { user: this.cookieService.get('_user') };
+        let urlToRun = this.infoService.getDocumentBaseUrl() +
+            'createNewContext/?app=' + app + '&mod=' + mod + '&type=' + type;
+        return this.postData(urlToRun, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    /**
+  * API /runEasyStudio
+  * 
+  * @returns {Observable<any>} runEasyStudio
+  */
+    runEasyStudio(ns: string, customizationName : string): Observable<any> {
+        let obj = { user: this.cookieService.get('_user') };
+        let urlToRun = this.infoService.getDocumentBaseUrl() + 'runEasyStudio/?ns=' + encodeURIComponent(ns);
+        if (customizationName != undefined)
+             urlToRun += "&customization=" + encodeURIComponent(customizationName);
+        return this.postData(urlToRun, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+        /**
+  * API /closeCustomizationContext
+  * 
+  * @returns {Observable<any>} closeCustomizationContext
+  */
+  closeCustomizationContext(): Observable<any> {
+    let obj = { user: this.cookieService.get('_user') };
+    let urlToRun = this.infoService.getDocumentBaseUrl() + 'closeCustomizationContext/';
+    return this.postData(urlToRun, obj)
+        .map((res: any) => {
+            return res;
+        })
+        .catch(this.handleError);
+}
+
+        /**
+  * API /isEasyStudioDocument
+  * 
+  * @returns {Observable<any>} isEasyStudioDocument
+  */
+  isEasyStudioDocument(object): Observable<any> {
+    if (object.isEasyStudioDocument != undefined)
+    return object.isEasyStudioDocument;
+
+    let obj = { user: this.cookieService.get('_user') };
+    let urlToRun = this.infoService.getDocumentBaseUrl() + 'isEasyStudioDocument/?ns=' + encodeURIComponent(object.target);
+    return this.postData(urlToRun, obj)
+        .map((data: any) => {
+            if (data && data.message && data.message.text) {
+                object.isEasyStudioDocument = data.message.text == "true";
+                return object.isEasyStudioDocument;
+            }
+        })
+        .catch(this.handleError);
+}
+
+    /**
+  * API /getDefaultContext
+  * 
+  * @returns {Observable<any>} getDefaultContext
+  */
+    getDefaultContext(app: string, mod: string, type: string): Observable<any> {
+        let obj = { user: this.cookieService.get('_user') };
+        let urlToRun = this.infoService.getDocumentBaseUrl() + 'getDefaultContext/';
+        return this.postData(urlToRun, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    /**
+    * API /refreshEasyBuilderApps
+    * 
+    * @returns {Observable<any>} refreshEasyBuilderApps
+    */
+    refreshEasyBuilderApps(): Observable<any> {
+        let obj = { user: this.cookieService.get('_user') };
+        let urlToRun = this.infoService.getDocumentBaseUrl() + 'refreshEasyBuilderApps/';
+        return this.postData(urlToRun, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    /**
+* API /getDefaultContext
+* 
+* @returns {Observable<any>} getDefaultContext
+*/
+    getCurrentContext(): Observable<any> {
+        let obj = { user: this.cookieService.get('_user') };
+        let urlToRun = this.infoService.getDocumentBaseUrl() + 'getCurrentContext/';
+        return this.postData(urlToRun, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    /**
+* API /getCustomizationsForDocument
+* 
+* @returns {Observable<any>} getCustomizationsForDocument
+*/
+    initEasyStudioData(object): Observable<any> {
+
+        var ns = object.target;
+        ns = 'document' + "." + ns;
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'getCustomizationsForDocument/?ns=' + encodeURIComponent(ns);
+        let obj = { user: this.cookieService.get('_user') };
+        return this.postData(urlToRun, obj).map((res: any) => {
+            return res;
+        }).catch(this.handleError);
+    }
+
+        /**
+* API /getDefaultContext
+* 
+* @returns {Observable<any>} getDefaultContext
+*/
+cloneAsEasyStudioDocument(object): Observable<any> {
+    return null;
+    // guarda EasyStudioService.js
+}
+
+
+
+    /***************************************************** */
+
+
+
+
+
 
     /**
      * API /getPreferences
@@ -174,7 +356,7 @@ export class HttpMenuService {
     * 
     * @returns {Observable<boolean>}
     */
-    updateAllFavoritesAndMostUsed(favorites: any, mostUsed: any): Observable<Response> {
+    updateAllFavoritesAndMostUsed(favorites: any, mostUsed: any): Observable<boolean> {
         let obj = {
             user: this.cookieService.get('_user'), company: this.cookieService.get('_company'),
             favorites: JSON.stringify(favorites), mostUsed: JSON.stringify(mostUsed)
@@ -182,7 +364,7 @@ export class HttpMenuService {
         var urlToRun = this.infoService.getMenuServiceUrl() + 'updateAllFavoritesAndMostUsed/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
-                return res;
+                return res.ok;
             });
     }
 
@@ -198,19 +380,6 @@ export class HttpMenuService {
                 return res.ok;
             });
     }
-
-    /**
-     * API /loadLocalizedElements
-     * 
-     * @returns {Observable<any>} loadLocalizedElements
-     */
-    loadLocalizedElements(): Observable<any> {
-        let obj = { authtoken: this.cookieService.get('authtoken') }
-        return this.postData(this.infoService.getMenuServiceUrl() + 'getLocalizedElements/', obj)
-            .map((res: Response) => {
-                return res.json();
-            });
-    };
 
 
     /**
@@ -243,16 +412,45 @@ export class HttpMenuService {
     * 
     * @returns {Observable<any>} goToSite
     */
-    callonlineHelpUrl(ns: string, culture : string): Observable<any> {
-        let obj = {nameSpace: ns, culture: culture}
-        let url = this.infoService.isDesktop ? this.infoService.getDocumentBaseUrl()  : this.infoService.getMenuServiceUrl();
+    callonlineHelpUrl(ns: string, culture: string): Observable<any> {
+        let obj = { nameSpace: ns, culture: culture }
+        let url = this.infoService.isDesktop ? this.infoService.getDocumentBaseUrl() : this.infoService.getMenuServiceUrl();
         return this.postData(url + 'getOnlineHelpUrl/', obj)
             .map((res: Response) => {
                 return res.json();
             });
     }
 
+    /**
+     * API /getThemes
+     * 
+     * @returns {Observable<any>} getThemes
+     */
+    getThemes(): Observable<any> {
 
+        let obj = { authtoken: this.cookieService.get('authtoken') };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'getThemes/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+
+    /**
+     * API /getThemes
+     * 
+     * @returns {Observable<any>} changeThemes
+     */
+    changeThemes(theme: string): Observable<any> {
+
+        let obj = { authtoken: this.cookieService.get('authtoken') };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'changeThemes/?theme=' + theme;
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
 
     /**
      * TODO refactor with custom logger

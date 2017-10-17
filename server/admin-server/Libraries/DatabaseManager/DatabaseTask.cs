@@ -309,7 +309,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 							NameSolverDatabaseStrings.SQLLatinCollation // imposto la COLLATION di database con Latin1...
 							);
 
+						DateTime start = DateTime.Now;
+						Debug.WriteLine(string.Format("Start SQL Server database {0} creation: ", createParameters.DatabaseName) + start.ToString("hh:mm:ss.fff"));
 						createDbCommand.ExecuteNonQuery();
+						DateTime end = DateTime.Now;
+						Debug.WriteLine("End SQL Server database creation: " + end.ToString("hh:mm:ss.fff"));
+						TimeSpan ts = end - start;
+						Debug.WriteLine("SQL Server database creation - total seconds: " + ts.TotalSeconds.ToString());
 					}
 
 					// se si è scelta l'opzione "Truncate file log at checkpoints" devo impostare il RecoveryModel = SIMPLE
@@ -416,7 +422,13 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 							azureParams.MaxSize                         // max size
 							);
 
+						DateTime start = DateTime.Now;
+						Debug.WriteLine(string.Format("Start Azure database {0} creation: ", azureParams.DatabaseName) + start.ToString("hh:mm:ss.fff"));
 						createDbCommand.ExecuteNonQuery();
+						DateTime end = DateTime.Now;
+						Debug.WriteLine("End Azure database creation: " + end.ToString("hh:mm:ss.fff"));
+						TimeSpan ts = end - start;
+						Debug.WriteLine("Azure database creation - total seconds: " + ts.TotalSeconds.ToString());
 					}
 
 					// se si è scelta l'opzione "Auto shrink" devo impostare il parametro AUTO_SHRINK a ON
@@ -1021,7 +1033,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 						if (!isAzureDB)
 							myCommand.CommandText += ", CHECK_POLICY = OFF"; // sintassi non supportata in Azure
-						
+
 						myCommand.ExecuteNonQuery();
 					}
 				}
@@ -1123,7 +1135,12 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 								Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, login) + e.Message);
 								return false;
 							}
-
+							// la login ha già un account sotto un differente username
+							if (e.Number == 15063)
+							{
+								Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.LoginAlreadyExists, login) + e.Message);
+								return false;
+							}
 							// se il numero dell'errore è 15118 significa che si sta aggiungendo un utente associata ad una login la cui password
 							// non rispetta le politiche di sicurezza imposte da Windows. 
 							if (e.Number == 15118)
@@ -1131,6 +1148,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 								Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.PwdValidationFailed, login) + e.Message);
 								return false;
 							}
+
+							Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.ErrorCreatingUser, login, e.Message));
+							return false;
 						}
 
 						try
@@ -1148,6 +1168,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 								return false;
 							}
 
+							Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.ErrorAddingLoginToRole, login, DatabaseLayerConsts.RoleDbOwner, e.Message));
 							return false;
 						}
 					}
@@ -1185,6 +1206,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				return false;
 			}
 
+			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(CurrentStringConnection);
+
 			bool result = false;
 
 			try
@@ -1208,11 +1231,93 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
 				extendedInfo.Add(DatabaseManagerStrings.Source, ex.Source);
 				extendedInfo.Add(DatabaseManagerStrings.StackTrace, ex.StackTrace);
+
+				// la login non esiste o la password e' sbagliata
+				if (ex.Number == 18456)
+				{
+					Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, builder.UserID) + ex.Message, extendedInfo);
+					return false;
+				}
+
+				// la login non ha i permessi per connettersi al database specificato, ma la password e' corretta (altrimenti ci saremmo fermati prima)
+				// The server principal "Login name" is not able to access the database "db name" under the current security context.
+				if (ex.Number == 916)
+				{
+					Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, builder.UserID) + ex.Message, extendedInfo);
+					return false;
+				}
+
 				Diagnostic.Set(DiagnosticType.Error, ex.Message + "\r\n" + DatabaseManagerStrings.ErrorConnectionNotValid, extendedInfo);
 			}
 
 			return result;
 		}
+
+
+		/// <summary>
+		/// TryToConnect
+		/// Ritorna il numero di errore in modo da poter gestire a monte il msg
+		/// </summary>
+		//---------------------------------------------------------------------
+		public bool TryToConnect(out int errorNumber)
+		{
+			errorNumber = -1;
+
+			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
+			{
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
+				return false;
+			}
+
+			// per estrapolare il nome utente 
+			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(CurrentStringConnection);
+
+			bool result = false;
+
+			try
+			{
+				//tento la connessione
+				using (SqlConnection testConnection = new SqlConnection(CurrentStringConnection))
+				{
+					testConnection.Open();
+					result = true;
+				}
+			}
+			catch (SqlException ex)
+			{
+				Debug.WriteLine(ex.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, ex.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Server, ex.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, ex.Number);
+				extendedInfo.Add(DatabaseManagerStrings.State, ex.State);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "TryToConnect");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.SQLDataAccess");
+				extendedInfo.Add(DatabaseManagerStrings.Source, ex.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, ex.StackTrace);
+				errorNumber = ex.Number;
+
+				// la login non esiste o la password e' sbagliata
+				if (ex.Number == 18456)
+				{
+					Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, builder.UserID) + ex.Message, extendedInfo);
+					return false;
+				}
+
+				// la login non ha i permessi per connettersi al database specificato, ma la password e' corretta (altrimenti ci saremmo fermati prima)
+				// The server principal "Login name" is not able to access the database "db name" under the current security context.
+				if (ex.Number == 916)
+				{
+					Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, builder.UserID) + ex.Message, extendedInfo);
+					return false;
+				}
+
+				Diagnostic.Set(DiagnosticType.Error, ex.Message + "\r\n" + DatabaseManagerStrings.ErrorConnectionNotValid, extendedInfo);
+			}
+
+			return result;
+		}
+
 
 		#region ExistDataBase - Verifica se il db specificato esiste già (non di sistema)
 		/// <summary>
@@ -1270,8 +1375,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		{
 			bool existLogin = false;
 
-			string query = isAzureDB 
-				? "SELECT COUNT(*) FROM sys.sql_logins WHERE name = @User" 
+			string query = isAzureDB
+				? "SELECT COUNT(*) FROM sys.sql_logins WHERE name = @User"
 				: "SELECT COUNT(*) FROM syslogins WHERE name = @User";
 
 			try
@@ -1287,9 +1392,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					using (SqlCommand myCommand = new SqlCommand(query, myConnection))
 					{
 						myCommand.Parameters.AddWithValue("@User", loginName);
-
-						if ((int)myCommand.ExecuteScalar() == 1)
-							existLogin = true;
+						existLogin = (int)myCommand.ExecuteScalar() == 1;
 					}
 				}
 			}
