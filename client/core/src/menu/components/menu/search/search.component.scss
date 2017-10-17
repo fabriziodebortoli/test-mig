@@ -33,6 +33,14 @@
     display: block;
 }
 
+.mat-autocomplete-panel.mat-autocomplete-visible {
+    visibility: visible;
+    overflow: visible;
+}
+
+.mat-autocomplete-panel {
+    overflow: visible;
+}
 // .tb-search .mat-input-placeholder.mat-empty {
 //     color: #929292;
 //     font-size: 16px;

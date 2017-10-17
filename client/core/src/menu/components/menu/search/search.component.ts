@@ -37,7 +37,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.filteredElements = this.inputControl.valueChanges
       .startWith(null)
-      .map(val => val ? this.filter(val) : this.menuService.searchSources.slice(0, (val && val.length > 0) ? this.settingsService.nrMaxItemsSearch : 0));
+      .map(val => this.filter(val));
+
 
     this.valueChangesSubscription = this.inputControl.valueChanges.subscribe(data => {
       if (this.isObject(data))
@@ -59,7 +60,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   filter(val: string): string[] {
-    return this.menuService.searchSources.filter(option => new RegExp(val, 'gi').test(option.title)).slice(0, (val && val.length > 0) ? this.settingsService.nrMaxItemsSearch : 0);
+    console.log("filter", val, "nr max", this.settingsService.nrMaxItemsSearch);
+    return this.menuService.searchSources.filter(option =>
+      // option.title.toLowerCase().indexOf(val) >= 0    // vecchia ricerca
+       new RegExp(val, 'gi').test(option.title)
+    ).slice(0, (val && val.length > 0) ? this.settingsService.nrMaxItemsSearch : 0);
   }
 
   displayElement(element: any): string {
