@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AdminCheckBoxComponent {
 
+  @Input() checkId: string;
   @Input() checkText: string;
   @Input() checkValue: boolean;
   @Input() readOnly: boolean;
