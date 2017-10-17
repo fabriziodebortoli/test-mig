@@ -11,7 +11,7 @@
                     <admin-input-text [inputLabel]="'Description'" [textType]="'text'" [(inputData)]="model.Description"></admin-input-text>
                 </div>
                 <div class="mTop">
-                    <admin-checkbox [checkText]="'Under maintenance'" [(checkValue)]="model.UnderMaintenance" (inputDataChange)="model.UnderMaintenance = $event"></admin-checkbox> 
+                    <admin-checkbox [checkText]="'Under maintenance'" [checkId]="'chkUnderMaintenance'" [(checkValue)]="model.UnderMaintenance" (inputDataChange)="model.UnderMaintenance = $event"></admin-checkbox> 
                 </div>        
             </div>
         </div>
