@@ -16,7 +16,6 @@ import { appRoutes } from './applications/app.routing';
 
 let magoRoutes = [
     { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
-    { path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' },
     { path: 'test', loadChildren: '@taskbuilder/core#TbTestModule' },
     { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
     ...appRoutes
@@ -29,6 +28,7 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
     { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
     { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard] },
     { path: 'rs/:ns', component: StandaloneReportComponent },
+    { path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' },
     {
         path: 'proxy',
         outlet: 'dynamic',
