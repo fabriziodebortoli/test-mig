@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TbCoreModule, InfoService, loadConfig } from '@taskbuilder/core';
-import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
+// import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
@@ -16,7 +16,7 @@ import { SharedModule } from './shared/shared.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ReportingStudioModule,
+    // ReportingStudioModule,
     SharedModule,
     TbCoreModule.forRoot(),
     routing
