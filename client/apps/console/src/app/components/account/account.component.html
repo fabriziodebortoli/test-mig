@@ -18,7 +18,7 @@
             [textType]="'password'"
             [readOnly]=editing
             [(inputData)]="model.Password"></admin-input-text>
-          <button *ngIf="editing" (click)="doChangePassword()" class="miniAction">Change Password</button>
+          <admin-button *ngIf="editing" [buttonText]="'Change Password'" (click)="doChangePassword()"></admin-button>
         </div>
         <div class="mTop">
           <label><input type="checkbox" name="cboxPwNeverExpires" value="" [(ngModel)]="model.PasswordNeverExpires">Password never expires</label>
