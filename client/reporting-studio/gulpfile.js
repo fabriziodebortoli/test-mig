@@ -85,6 +85,7 @@ gulp.task('rollup:fesm', function() {
             external: [
                 '@angular/common',
                 '@angular/core',
+                '@angular/forms',
                 '@angular/http',
                 '@angular/router',
                 '@progress/kendo-drawing',
@@ -106,7 +107,14 @@ gulp.task('rollup:fesm', function() {
             // See "format" in https://rollupjs.org/#core-functionality
             format: 'es',
 
-            onwarn: function(warning) { if (warning.code === 'THIS_IS_UNDEFINED') { return; } else console.warn(warning.message); }
+            // Skip THIS_IS_UNDEFINED warnings 
+            onwarn: function(warning) {
+                if (warning.code === 'THIS_IS_UNDEFINED') {
+                    return;
+                } else {
+                    console.warn(warning.message);
+                }
+            }
         }))
         .pipe(gulp.dest(distFolder));
 });
@@ -135,6 +143,7 @@ gulp.task('rollup:umd', function() {
             external: [
                 '@angular/common',
                 '@angular/core',
+                '@angular/forms',
                 '@angular/http',
                 '@angular/router',
                 '@progress/kendo-drawing',
@@ -169,6 +178,7 @@ gulp.task('rollup:umd', function() {
             globals: {
                 typescript: 'ts',
                 '@angular/core': 'core',
+                '@angular/forms': 'forms',
                 '@angular/http': 'http',
                 '@taskbuilder/core': 'core$1',
                 'rxjs/Subject': 'Subject',
@@ -186,7 +196,14 @@ gulp.task('rollup:umd', function() {
                 'bwip-angular2': 'bwipjs'
             },
 
-            onwarn: function(warning) { if (warning.code === 'THIS_IS_UNDEFINED') { return; } else console.warn(warning.message); }
+            // Skip THIS_IS_UNDEFINED warnings 
+            onwarn: function(warning) {
+                if (warning.code === 'THIS_IS_UNDEFINED') {
+                    return;
+                } else {
+                    console.warn(warning.message);
+                }
+            }
 
         }))
         .pipe(rename('taskbuilder-reporting-studio.umd.js'))
