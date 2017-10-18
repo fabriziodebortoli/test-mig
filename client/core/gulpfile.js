@@ -94,7 +94,14 @@ gulp.task('rollup:fesm', function() {
             // See "format" in https://rollupjs.org/#core-functionality
             format: 'es',
 
-            onwarn: function(warning) { if (warning.code === 'THIS_IS_UNDEFINED') { return; } else console.warn(warning.message); }
+            // Skip THIS_IS_UNDEFINED warnings 
+            onwarn: function(warning) {
+                if (warning.code === 'THIS_IS_UNDEFINED') {
+                    return;
+                } else {
+                    console.warn(warning.message);
+                }
+            }
         }))
         .pipe(gulp.dest(distFolder));
 });
@@ -172,6 +179,15 @@ gulp.task('rollup:umd', function() {
                 '@angular/animations': 'animations',
                 '@telerik/kendo-intl': 'kendoIntl',
                 'ngx-cookie': 'ngxCookie'
+            },
+
+            // Skip THIS_IS_UNDEFINED warnings 
+            onwarn: function(warning) {
+                if (warning.code === 'THIS_IS_UNDEFINED') {
+                    return;
+                } else {
+                    console.warn(warning.message);
+                }
             }
 
         }))
