@@ -3,6 +3,15 @@ import { EsCustomizItem } from './../../shared/models/es-customization-item.mode
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Injectable, EventEmitter } from '@angular/core';
 
+export class MyObj {
+    application: string
+    module: string
+
+    constructor(app, mod) {
+        this.application = app;
+        this.module = mod;
+    }
+}
 @Injectable()
 export class EasystudioService {
 
@@ -13,7 +22,8 @@ export class EasystudioService {
     public modules: any[];                             //list of modules in the file system
     public applications: any[];                        //list of applics in the file system
     public customizations: EsCustomizItem[];    //list of customization in the file system, each knows its owners
-    public memory: { Customizations: EsCustomizItem[] };
+    public memory: { allApplications: MyObj[] };
+    public memory2: { Customizations: EsCustomizItem[] };
 
 
     constructor(public httpMenuService: HttpMenuService,
@@ -52,14 +62,22 @@ export class EasystudioService {
     //--------------------------------------------------------------------------------
     public initEasyStudioData(object: any) {
         this.subscriptions.push(this.httpMenuService.initEasyStudioData(object).subscribe((result) => {
-            this.memory = { Customizations: [] };
+            this.memory2 = { Customizations: [] };
+            this.customizations = [];
             let res = result["_body"];
             if (res !== "") {
-                this.memory = JSON.parse(result["_body"]);
-                if (this.memory != undefined) {
-                    this.customizations = this.memory.Customizations;/*[];
-                    let r = this.memory.Customizations;
-                    r.forEach(element => { this.customizations.push(element); });*/
+                this.memory2 = JSON.parse(result["_body"]);
+                if (this.memory2 != undefined) {
+                    this.memory2.Customizations.forEach(element => {
+                        console.log(element);
+                    });
+                    this.customizations = [];
+
+                    let r = this.memory2.Customizations;
+                    r.forEach(element => {
+                        if (this.customizations.indexOf(element) === -1)
+                            this.customizations.push(element);
+                    })
                 }
             }
             this.isDesignable = this.customizations != undefined;
@@ -128,8 +146,34 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
-    public  createNewContext(applicSelected, moduleSelected, type) {
-        this.subscriptions.push(this.httpMenuService.createNewContext(applicSelected, moduleSelected, type).subscribe((result) => { }));
+    public createNewContext(newAppName, newModName, type) {
+        this.subscriptions.push(this.httpMenuService.createNewContext(newAppName, newModName, type).subscribe((result) => {
+            if (result) {
+                this.modules.push(newModName);
+                //this.memory.allApplications.push(newAppName, newModName);
+                this.memory.allApplications.push(new MyObj(newAppName, newModName));
+
+                if (this.applications.indexOf(newAppName) === -1) { //nessuna occorrenza
+                    this.applications.push(newAppName);
+                }
+                this.modules = this.getModulesBy(newAppName);
+                this.setAppAndModule(newAppName, newModName, false);
+
+            }
+        }));
+    }
+
+    //--------------------------------------------------------------------------------
+    public getModulesBy(app: string) {
+        let y = this.memory;
+        let modules: any[] = new Array();
+        for (var index = 0; index < y.allApplications.length; index++) {
+            var element = y.allApplications[index].application;
+            if (element !== app)
+                continue;
+            modules.push(y.allApplications[index].module);
+        }
+        return modules;
     }
 
     //--------------------------------------------------------------------------------
