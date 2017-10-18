@@ -1,4 +1,4 @@
-#How to create or update font icon file
+# How to create or update font icon file
 
 Dop aver creato la nuova folder m4.zip contentente il nuovi file di font (.eot, .svg, .ttf, .woff) da Fontastic o Icon8 i passi da seguire per ricreare il nuovo file di icone sono i seguenti:
 
