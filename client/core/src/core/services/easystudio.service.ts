@@ -68,13 +68,8 @@ export class EasystudioService {
             if (res !== "") {
                 this.memory2 = JSON.parse(result["_body"]);
                 if (this.memory2 != undefined) {
-                    this.memory2.Customizations.forEach(element => {
-                        console.log(element);
-                    });
                     this.customizations = [];
-
-                    let r = this.memory2.Customizations;
-                    r.forEach(element => {
+                    this.memory2.Customizations.forEach(element => {
                         if (this.customizations.indexOf(element) === -1)
                             this.customizations.push(element);
                     })
