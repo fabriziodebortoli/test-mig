@@ -19,6 +19,7 @@
                 <div *ngIf="loginStep == 1">
                     <admin-input-text 
                         (keydown)="onKeyDown($event)" 
+                        [material]=true
                         [inputLabel]="'AccountName'"
                         [(inputData)]="credentials.accountName"></admin-input-text>
                 </div>
@@ -41,6 +42,7 @@
                 <div *ngIf="loginStep == 3">
                     <admin-input-text 
                         (keydown)="onKeyDown($event)" 
+                        [material]=true
                         [inputLabel]="'Password'"
                         [textType]="'password'"
                         [(inputData)]="credentials.password"

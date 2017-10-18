@@ -276,8 +276,8 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="PasswordNotMaching" xml:space="preserve">
-    <value>PasswordNotMaching</value>
+  <data name="PasswordsNotMatching" xml:space="preserve">
+    <value>The passwords are not matching</value>
   </data>
   <data name="Provider" xml:space="preserve">
     <value>Provider</value>
