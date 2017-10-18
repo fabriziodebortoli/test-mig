@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AdminInputTextComponent {
 
+  @Input() material: boolean;
   @Input() inputLabel: string;
   @Input() inputData: string;
   @Input() readOnly: boolean;
@@ -15,6 +16,7 @@ export class AdminInputTextComponent {
   @Output() inputDataChange;
 
   constructor() { 
+    this.material = false;
     this.textType = '';
     this.inputLabel = '';
     this.inputData = '';

@@ -21,7 +21,7 @@ export class TopbarMenuAppComponent implements OnDestroy {
     public viewProductInfo: string;
     public data: Array<any>;
     public localizationsLoadedSubscription: any;
-
+    private eventDataServiceSubscription;
     constructor(
         public httpMenuService: HttpMenuService,
         public menuService: MenuService,
@@ -41,7 +41,7 @@ export class TopbarMenuAppComponent implements OnDestroy {
             this.menuElements.push(item3, item4, item5/*, item6*/);
         });
 
-        this.eventDataService.command.subscribe((args: CommandEventArgs) => {
+        this.eventDataServiceSubscription = this.eventDataService.command.subscribe((args: CommandEventArgs) => {
             switch (args.commandId) {
                 case 'idGotoProducerSiteButton':
                     return this.goToSite();
@@ -59,22 +59,26 @@ export class TopbarMenuAppComponent implements OnDestroy {
 
     ngOnDestroy() {
         this.localizationsLoadedSubscription.unsubscribe();
+        this.eventDataServiceSubscription.unsubscribe();
     }
 
     //---------------------------------------------------------------------------------------------
     activateViaSMS() {
         let subs = this.httpMenuService.activateViaSMS().subscribe((result) => {
-            window.open(result.url, "_blank");
             subs.unsubscribe();
+            window.open(result.url, "_blank");
         });
 
     }
 
     //---------------------------------------------------------------------------------------------
     goToSite() {
+        console.log("goToSite");
         let subs = this.httpMenuService.goToSite().subscribe((result) => {
-            window.open(result.url, "_blank");
+            console.log("goToSite sub");
             subs.unsubscribe();
+            window.open(result.url, "_blank");
+            
         });
     }
 
