@@ -2,11 +2,7 @@
 import { DialogService } from '@progress/kendo-angular-dialog';
 import { Injectable, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Subscription';
-
+import { Observable, Subject, BehaviorSubject, Subscription } from '../../rxjs.imports';
 import { CookieService } from 'ngx-cookie';
 
 import { OperationResult } from './../../shared/models/operation-result.model';

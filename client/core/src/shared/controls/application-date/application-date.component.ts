@@ -1,8 +1,7 @@
 import { InfoService } from './../../../core/services/info.service';
 import { formatDate } from '@telerik/kendo-intl';
 import { OperationResult } from './../../models/operation-result.model';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
+import { Subscription, Subject } from '../../../rxjs.imports';
 import { TaskbuilderService } from './../../../core/services/taskbuilder.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
 import { Component, OnInit, OnDestroy, Pipe, ViewEncapsulation } from '@angular/core';
@@ -54,7 +53,7 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
             subs.unsubscribe();
         })
     }
-    
+
     public handleChange(value: Date) {
         this.internalDate = value;
     }

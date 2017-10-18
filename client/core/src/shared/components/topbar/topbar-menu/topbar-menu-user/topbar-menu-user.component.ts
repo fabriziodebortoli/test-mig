@@ -4,7 +4,7 @@ import { InfoService } from './../../../../../core/services/info.service';
 import { HttpMenuService } from './../../../../../menu/services/http-menu.service';
 import { ComponentService } from './../../../../../core/services/component.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../../../../rxjs.imports';
 
 import { CommandEventArgs } from './../../../../models/eventargs.model';
 import { ContextMenuItem } from './../../../../models/context-menu-item.model';
@@ -70,7 +70,6 @@ export class TopbarMenuUserComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        console.log("commandSubscription delete");
         this.commandSubscription.unsubscribe();
     }
     openHelp() {

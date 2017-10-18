@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from '../../../rxjs.imports';
 
 import { ComponentInfoService } from './../../../core/services/component-info.service';
 import { EventDataService } from './../../../core/services/eventdata.service';

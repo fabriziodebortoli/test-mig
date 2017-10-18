@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Response, URLSearchParams, Http } from '@angular/http';
-import { Observable, Subscription } from 'rxjs';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { Observable, Subscription } from '../../../../rxjs.imports';
+import { ErrorObservable } from '../../../../rxjs.imports';
 
 import { DocumentComponent } from './../../document.component';
 import { UtilsService } from './../../../../core/services/utils.service';

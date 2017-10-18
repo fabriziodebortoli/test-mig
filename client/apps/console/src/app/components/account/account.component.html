@@ -18,9 +18,11 @@
             [textType]="'password'"
             [readOnly]=editing
             [(inputData)]="model.Password"></admin-input-text>
-          <admin-button *ngIf="editing" [buttonText]="'Change Password'" (click)="doChangePassword()"></admin-button>
+          <div class="m20">
+              <admin-button *ngIf="editing" [buttonText]="'Change Password'" class="left-margin-label" (click)="doChangePassword()"></admin-button>
+          </div>
         </div>
-        <div class="mTop">
+        <div class="m20 left-margin-label">
           <label><input type="checkbox" name="cboxPwNeverExpires" value="" [(ngModel)]="model.PasswordNeverExpires">Password never expires</label>
         </div>        
       </div>
@@ -33,7 +35,7 @@
               [textType]="'text'"
               [(inputData)]="model.FullName"></admin-input-text>
         </div>
-        <div>
+        <div class="m20 left-margin-label">
           <label><input type="checkbox" name="cboxLocked" value="" [(ngModel)]="model.ProvisioningAdmin">Provisioning Administrator</label>
         </div>
       </div>

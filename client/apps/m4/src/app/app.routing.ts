@@ -13,7 +13,7 @@ import {
   StandaloneDocumentComponent,
   StandaloneReportComponent
 } from '@taskbuilder/core';
-import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
+// import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
 
 import { appRoutes } from './applications/app.routing';
 

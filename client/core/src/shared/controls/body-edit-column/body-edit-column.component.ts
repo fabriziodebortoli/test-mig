@@ -3,7 +3,7 @@ import { EnumsService } from './../../../core/services/enums.service';
 import { ColumnComponent } from '@progress/kendo-angular-grid';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Component, OnInit, Input, OnDestroy, ContentChildren, ChangeDetectorRef, ViewChild, AfterContentInit, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../../rxjs.imports';
 
 import { ControlComponent } from './../control.component';
 

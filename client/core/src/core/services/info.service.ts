@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { Observable, ErrorObservable } from '../../rxjs.imports';
 
 import { CookieService } from 'ngx-cookie';
 
@@ -35,7 +34,7 @@ export class InfoService {
     saveCulture() {
         this.cookieService.put(this.cultureId, this.culture.value);
     }
-    setCulture (culture:string){
+    setCulture(culture: string) {
         this.culture.value = culture;
     }
 

@@ -84,7 +84,11 @@ gulp.task('rollup:fesm', function() {
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
                 '@angular/animation', '@angular/core', '@angular/common', '@angular/http', '@angular/material', '@angular/router', '@angular/forms', '@angular/animations', '@angular/material/index', '@angular/forms',
-                'rxjs', 'rxjs/Rx', 'rxjs/Observable', 'rxjs/add/observable/of', 'rxjs/add/operator/map', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject',
+                'rxjs/Rx', 'rxjs/Observable', 'rxjs/add/observable/of', 'rxjs/add/operator/map', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject',
+                'rxjs/add/operator/catch', 'rxjs/add/observable/throw', 'rxjs/add/operator/distinctUntilChanged', 'rxjs/add/operator/filter', 'rxjs/add/operator/first', 'rxjs/add/observable/interval',
+                'rxjs/add/observable/timer', 'rxjs/add/operator/take', 'rxjs/add/operator/takeUntil', 'rxjs/add/operator/toArray', 'rxjs/add/operator/do', 'rxjs/add/operator/repeat',
+                'rxjs/add/operator/timeout', 'rxjs/add/operator/share', 'rxjs/operator/map', 'rxjs/operator/pluck', 'rxjs/operator/distinctUntilChanged',
+                'rxjs/Subscription', 'rxjs/Observer', 'rxjs/observable/ErrorObservable', 'rxjs/util/TimeoutError',
                 '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
                 '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
                 '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'ngx-cookie'
@@ -129,7 +133,11 @@ gulp.task('rollup:umd', function() {
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
                 '@angular/animation', '@angular/core', '@angular/common', '@angular/http', '@angular/material', '@angular/router', '@angular/forms', '@angular/animations', '@angular/material/index', '@angular/forms',
-                'rxjs', 'rxjs/Rx', 'rxjs/Observable', 'rxjs/add/observable/of', 'rxjs/add/operator/map', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject',
+                'rxjs/Rx', 'rxjs/Observable', 'rxjs/add/observable/of', 'rxjs/add/operator/map', 'rxjs/add/operator/toPromise', 'rxjs/BehaviorSubject', 'rxjs/Subject',
+                'rxjs/add/operator/catch', 'rxjs/add/observable/throw', 'rxjs/add/operator/distinctUntilChanged', 'rxjs/add/operator/filter', 'rxjs/add/operator/first', 'rxjs/add/observable/interval',
+                'rxjs/add/observable/timer', 'rxjs/add/operator/take', 'rxjs/add/operator/takeUntil', 'rxjs/add/operator/toArray', 'rxjs/add/operator/do', 'rxjs/add/operator/repeat',
+                'rxjs/add/operator/timeout', 'rxjs/add/operator/share', 'rxjs/operator/map', 'rxjs/operator/pluck', 'rxjs/operator/distinctUntilChanged',
+                'rxjs/Subscription', 'rxjs/Observer', 'rxjs/observable/ErrorObservable', 'rxjs/util/TimeoutError',
                 '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
                 '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
                 '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'ngx-cookie'
@@ -161,6 +169,13 @@ gulp.task('rollup:umd', function() {
                 'json8-patch': 'json8Patch',
                 'rxjs/BehaviorSubject': 'BehaviorSubject',
                 'rxjs/Subject': 'Subject',
+                'rxjs/operator/map': 'map$1',
+                'rxjs/operator/pluck': 'pluck',
+                'rxjs/operator/distinctUntilChanged': 'distinctUntilChanged$1',
+                'rxjs/Subscription': 'Subscription',
+                'rxjs/Observer': 'Observer',
+                'rxjs/observable/ErrorObservable': 'ErrorObservable',
+                'rxjs/util/TimeoutError': 'TimeoutError',
                 '@angular/forms': 'forms',
                 '@angular/material/index': 'index',
                 '@taskbuilder/icons': 'icons',
@@ -174,7 +189,6 @@ gulp.task('rollup:umd', function() {
                 '@progress/kendo-angular-grid': 'kendoAngularGrid',
                 '@progress/kendo-angular-charts': 'kendoAngularCharts',
                 'angular-tree-component': 'angularTreeComponent',
-                'rxjs': 'rxjs',
                 '@progress/kendo-data-query': 'kendoDataQuery',
                 '@angular/animations': 'animations',
                 '@telerik/kendo-intl': 'kendoIntl',

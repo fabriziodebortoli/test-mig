@@ -1,10 +1,11 @@
 export default class Tax {
     public static isValid(isoCode: string, vat: string) {
+        isoCode = isoCode && isoCode.toUpperCase();
         return !Tax['isTaxIdValid' + isoCode] ||
             Tax['isTaxIdValid' + isoCode](vat);
     }
 
-    static isTaxIdValidIt(s: string): boolean {
+    static isTaxIdValidIT(s: string): boolean {
         return this.isTaxIdValid1(s) || this.isTaxIdValid2(s);
     }
 

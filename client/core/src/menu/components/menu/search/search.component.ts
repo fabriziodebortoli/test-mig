@@ -1,7 +1,7 @@
 import { SettingsService } from './../../../../core/services/settings.service';
 import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from '../../../../rxjs.imports';
 
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
@@ -62,7 +62,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   filter(val: string): string[] {
     return this.menuService.searchSources.filter(option =>
       // option.title.toLowerCase().indexOf(val) >= 0    // vecchia ricerca
-       new RegExp(val, 'gi').test(option.title)
+      new RegExp(val, 'gi').test(option.title)
     ).slice(0, (val && val.length > 0) ? this.settingsService.nrMaxItemsSearch : 0);
   }
 
