@@ -138,13 +138,12 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
-
   <data name="ChangeCustomizationContext" xml:space="preserve">
     <value>Change customization context</value>
   </data>
   <data name="ChooseCustomization" xml:space="preserve">
     <value>Item customizations</value>
-	  </data>
+  </data>
   <data name="ChangePassword" xml:space="preserve">
     <value>Change password</value>
   </data>
@@ -179,20 +178,16 @@
     <value>Connection Info</value>
   </data>
   <data name="CurrentApplication" xml:space="preserve">
-
     <value>Current Application</value>
   </data>
   <data name="CurrentModule" xml:space="preserve">
-    <value>Current module</value>
+    <value>Current Module</value>
   </data>
   <data name="CustomizationContext" xml:space="preserve">
     <value>Customization Context</value>
   </data>
   <data name="CustomizationNotActive" xml:space="preserve">
     <value>Customization valid only for context</value>
-  </data>
-  <data name="CurrentModule" xml:space="preserve">
-    <value>Current Module</value>
   </data>
   <data name="DBName" xml:space="preserve">
     <value>Database</value>
@@ -242,8 +237,6 @@
   <data name="Instance" xml:space="preserve">
     <value>Instance</value>
   </data>
-
-
   <data name="Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
@@ -256,12 +249,8 @@
   <data name="MostUsedLabel" xml:space="preserve">
     <value>Recently used</value>
   </data>
-
   <data name="NotDesignableDocument" xml:space="preserve">
     <value>This document/batch is not designable</value>
-  </data>
-  <data name="OK" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="OpenDefaultContext" xml:space="preserve">
     <value>Open Default Context</value>
@@ -293,7 +282,6 @@
   <data name="Provider" xml:space="preserve">
     <value>Provider</value>
   </data>
-
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
@@ -332,5 +320,20 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="NewApplicationLabel" xml:space="preserve">
+    <value>Insert new application name</value>
+  </data>
+  <data name="NewModuleLabel" xml:space="preserve">
+    <value>Insert new module name</value>
+  </data>
+  <data name="OpenCustomizationContext" xml:space="preserve">
+    <value>OpenCustomizationContext</value>
+  </data>
+  <data name="SelectedApplication" xml:space="preserve">
+    <value>Selected application</value>
+  </data>
+  <data name="SelectedModule" xml:space="preserve">
+    <value>Selected module</value>
   </data>
 </root>
