@@ -70,7 +70,6 @@ export class TopbarMenuUserComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        console.log("commandSubscription delete");
         this.commandSubscription.unsubscribe();
     }
     openHelp() {
