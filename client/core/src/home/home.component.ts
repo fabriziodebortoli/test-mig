@@ -1,3 +1,4 @@
+import { SettingsService } from './../core/services/settings.service';
 import { LocalizationService } from './../core/services/localization.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 
@@ -18,7 +19,6 @@ import { LayoutService } from './../core/services/layout.service';
 import { ComponentService } from './../core/services/component.service';
 import { TaskbuilderService } from './../core/services/taskbuilder.service';
 import { SidenavService } from './../core/services/sidenav.service';
-import { SettingsService } from './../menu/services/settings.service';
 import { LoadingService } from './../core/services/loading.service';
 
 import { MenuService } from './../menu/services/menu.service';
@@ -125,7 +125,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   }
 
   onContextMenu() {
-    // return false;
+     return !this.infoService.isDesktop;
   }
 
 }

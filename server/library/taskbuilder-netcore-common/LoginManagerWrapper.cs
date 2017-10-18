@@ -261,12 +261,12 @@ namespace Microarea.Common.WebServicesWrapper
         /// <param name="functionality">Funzionalità o modulo fisico</param>
         /// <returns>true se l'articolo è attivato</returns>
         //----------------------------------------------------------------------
-        public bool IsActivated(string application, string functionality)
+        public bool IsActivated(string application, string functionality, bool forceReload = false)
         {
             bool ret;
             string key = string.Format("{0}.{1}", application, functionality);
-            if (activationList == null)
-                activationList = CreateActivationList();
+            if (activationList == null || forceReload)
+                activationList = CreateActivationList(forceReload);
 
             if (activationList.TryGetValue(key, out ret))
                 return ret;
@@ -274,10 +274,10 @@ namespace Microarea.Common.WebServicesWrapper
         }
 
         //----------------------------------------------------------------------
-        private Dictionary<string, bool> CreateActivationList()
+        private Dictionary<string, bool> CreateActivationList(bool forceReload = false)
         {
             Dictionary<string, bool> list = new Dictionary<string, bool>(StringComparer.InvariantCultureIgnoreCase);
-            if (modules == null)
+            if (modules == null || forceReload)
                 modules = GetModules();
 
             foreach (string module in modules)

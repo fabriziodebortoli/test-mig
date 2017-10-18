@@ -1,3 +1,4 @@
+import { SettingsService } from './../../core/services/settings.service';
 import { CookieService } from 'ngx-cookie';
 import { LoadingService } from './../../core/services/loading.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
@@ -13,7 +14,6 @@ import { UtilsService } from './../../core/services/utils.service';
 import { WebSocketService } from './../../core/services/websocket.service';
 import { Logger } from './../../core/services/logger.service';
 import { ImageService } from './image.service';
-import { SettingsService } from './settings.service';
 import { HttpMenuService } from './http-menu.service';
 
 @Injectable()
