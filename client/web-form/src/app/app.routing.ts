@@ -37,7 +37,7 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
         component: ProxyRouteComponent,
         children: [
             ...childrenRoutes,
-            //{ path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' }// TODO riabilitare quando risolveremo problemi AOT
+            { path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' }// TODO riabilitare quando risolveremo problemi AOT
         ],
     },
     { path: '**', component: PageNotFoundComponent },
