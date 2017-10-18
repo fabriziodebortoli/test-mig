@@ -85,6 +85,7 @@ gulp.task('rollup:fesm', function() {
             external: [
                 '@angular/common',
                 '@angular/core',
+                '@angular/forms',
                 '@angular/http',
                 '@angular/router',
                 '@progress/kendo-drawing',
@@ -142,6 +143,7 @@ gulp.task('rollup:umd', function() {
             external: [
                 '@angular/common',
                 '@angular/core',
+                '@angular/forms',
                 '@angular/http',
                 '@angular/router',
                 '@progress/kendo-drawing',
@@ -176,6 +178,7 @@ gulp.task('rollup:umd', function() {
             globals: {
                 typescript: 'ts',
                 '@angular/core': 'core',
+                '@angular/forms': 'forms',
                 '@angular/http': 'http',
                 '@taskbuilder/core': 'core$1',
                 'rxjs/Subject': 'Subject',
