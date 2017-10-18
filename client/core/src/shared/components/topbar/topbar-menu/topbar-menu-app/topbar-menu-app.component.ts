@@ -73,9 +73,7 @@ export class TopbarMenuAppComponent implements OnDestroy {
 
     //---------------------------------------------------------------------------------------------
     goToSite() {
-        console.log("goToSite");
         let subs = this.httpMenuService.goToSite().subscribe((result) => {
-            console.log("goToSite sub");
             subs.unsubscribe();
             window.open(result.url, "_blank");
             
