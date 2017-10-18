@@ -1,20 +1,22 @@
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 import { ConnectionInfoComponent } from './connection-info/connection-info.component';
 import { ProductInfoComponent } from './product-info/product-info.component';
 import { ThemeChangerComponent } from './theme-changer/theme-changer.component';
-import { RouterModule } from '@angular/router';
 import { SettingsContainerComponent, SettingsContainerFactoryComponent } from './settings-container/settings-container.component';
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TbSharedModule } from './../shared/shared.module';
 import { TbMenuModule } from './../menu/menu.module';
-import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { TbIconsModule } from '@taskbuilder/icons';
 
 @NgModule({
   imports: [
     CommonModule,
     TbSharedModule,
     TbMenuModule,
-    ButtonsModule,
+    TbIconsModule,
     RouterModule.forChild([
       { path: 'settings', component: SettingsContainerFactoryComponent },
     ]),
@@ -23,9 +25,10 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
     SettingsContainerComponent,
     SettingsContainerFactoryComponent
   ],
-   declarations: [SettingsContainerComponent,SettingsContainerFactoryComponent,
-    ProductInfoComponent,ThemeChangerComponent, ConnectionInfoComponent],
+  declarations: [
+    SettingsContainerComponent, SettingsContainerFactoryComponent,
+    ProductInfoComponent, ThemeChangerComponent, ConnectionInfoComponent
+  ],
   entryComponents: [SettingsContainerComponent],
 })
-export class TbSettingsModule {
-}
+export class TbSettingsModule { }

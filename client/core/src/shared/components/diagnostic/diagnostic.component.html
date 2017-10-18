@@ -1,0 +1,6 @@
+<kendo-dialog title="Errors" *ngIf="diagnosticService.isVisible">
+    <div *ngFor="let message of diagnosticService.messages">
+        {{message?.text}}
+    </div>
+    <button kendoButton primary="true" style="width: 300px;" (click)="close()">close</button>
+</kendo-dialog>

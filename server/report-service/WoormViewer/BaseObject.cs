@@ -1736,7 +1736,8 @@ namespace Microarea.RSWeb.Objects
                         IsTemplate = true;
                         break;
                     }
-                case Token.BARCODE: ok = ParseBarCode(lex); break;
+                case Token.BARCODE:
+                    ok = ParseBarCode(lex); break;
 
                 case Token.END: return ok;
                 default:
@@ -2702,7 +2703,8 @@ namespace Microarea.RSWeb.Objects
                 case Token.BORDERS: ok = lex.ParseBorders(Borders); break;
                 case Token.LABEL: ok = ParseLabel(lex); break;
                 case Token.BITMAP: ok = ParseBitmap(lex); break;
-                case Token.BARCODE: ok = ParseBarCode(lex); break;
+                case Token.BARCODE:
+                    ok = ParseBarCode(lex); break;
 
                 case Token.FILE: lex.SkipToken(); IsTextFile = true; break;
                 case Token.LINKURL: lex.SkipToken(); IsUrlFile = true; break;

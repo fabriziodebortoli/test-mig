@@ -1,99 +1,75 @@
-<div *ngIf="canShowEasyStudioButton()">
+<div *ngIf="settingsService.IsEasyStudioActivated && infoService.isDesktop" class="esContainer">
 
-    <table style="display:inline-flex;padding-right:20px; font-size:smaller" id="custContextBox">
-        <tr>
-            <td style="text-align:right; padding-right:5px;" *ngIf="applicSelected !== undefined">
-                CurrentApplication :
-            </td>
-            <td><b>{{applicSelected}}</b></td>
-        </tr>
-        <tr>
-            <td style="text-align:right; padding-right:5px;" *ngIf="moduleSelected !== undefined">
-                CurrentModule :
-            </td>
-            <td><b>{{moduleSelected}}</b></td>
-        </tr>
-    </table>
+    <div class="appAndModule" *ngIf="applicSelected !== undefined && moduleSelected !== undefined">
+        <div class="ebButtons">
+            {{localizationService?.localizedElements?.CurrentApplication}} :
+            <b>{{applicSelected}}</b>
+        </div>
 
+        <div class="ebButtons">
+            {{localizationService?.localizedElements?.CurrentModule}} :
+            <b>{{moduleSelected}}</b>
+        </div>
+    </div>
+    <div (click)="changeCustomizationContext()" class="ebButtons topBarMenuComponentLike">
+        <m4-icon icon="tb-addtext"></m4-icon>
+    </div>
+    <div *ngIf="contextIsValid()" (click)="close()" class="ebButtons topBarMenuComponentLike">
+        <m4-icon icon="tb-cancel"></m4-icon>
+    </div>
 
-
-
-
-    <button kendoButton ng-show="isEasyStudioActivated" (click)="changeCustomizationContext()" class="k-buton k-primary k-button-icon">
-        <span class="k-icon k-i-track-changes-enable"></span>
-    </button>
-    <button kendoButton *ngIf="contextIsValid()" (click)="cancel()" class="k-buton k-primary k-button-icon">
-        <span class="k-icon k-i-track-changes-reject"></span>
-    </button>
     <kendo-dialog *ngIf="opened" kendoRippleContainer (close)="close()">
         <kendo-dialog-titlebar>
             <div style="font-size: 18px; line-height: 1.3em;">
-                Change Customization Context
+                {{title}}
             </div>
         </kendo-dialog-titlebar>
         <div class="central">
             <nav>
                 <div class="columsLayout" id="list8">
-                    <h1 class="tit">Applications</h1>
+                    <h1 class="tit">{{localizationService?.localizedElements?.Applications}}</h1>
                     <ul *ngFor="let app of applications">
                         <li id="{{app}}">
-                            <span (click)="setApplic(app, applicationChoosen);">{{app}}</span>
+                            <span (click)="setApplic(app, applicationChosen);">{{app}}</span>
                         </li>
                     </ul>
-                    <!-- <kendo-buttongroup *ngFor="let app of applications" selection="single">
-                    <button kendoButton id="{{app}}" (click)="setApplic(app, applicationChoosen);">
-                        {{app}}
-                </button>
-                </kendo-buttongroup> -->
                 </div>
             </nav>
             <article id="article" *ngIf="applicSelected !== undefined">
                 <div class="columsLayout">
-                    <h1 class="tit">Modules</h1>
+                    <h1 class="tit">{{localizationService?.localizedElements?.Modules}}</h1>
 
                     <ul *ngFor="let mod of modules">
                         <li id="{{mod}}">
-                            <span (click)="setModule(mod, moduleChoosen)" [ngClass]="{'selected': ifHasToBe(mod)}">{{mod}}</span>
+                            <span (click)="setModule(mod, moduleChosen)" [ngClass]="{'selected': ifHasToBe(mod)}">{{mod}}</span>
                         </li>
                     </ul>
-                    <!-- <div id="addApplication" ng-class="{'addApplicationBck': showAddModuleButton}">
-                <span class="addAppButton glyphicon glyphicon-plus" (click)="setVisibleMod()"></span>
-                <div ng-if="showAddModuleButton">
-                    <div class="newPair">
-                        <input ng-model="formData.newModName" />
-                    </div>
-                    <div class="icons">
-                        <span class="icon glyphicon glyphicon-ok" (click)="addNewMod()"></span>
-                        <span class="icon glyphicon glyphicon-remove" (click)="setInvisibleMod()"></span>
-                    </div>
-                </div>
-            </div> -->
                 </div>
             </article>
         </div>
 
         <div>
             <kendo-textbox-container>
-                <input kendoTextBox #applicationChoosen [(ngModel)]="applicSelected" />
+                <input kendoTextBox #applicationChosen [(ngModel)]="applicSelected" />
             </kendo-textbox-container>
             <kendo-textbox-container>
-                <input kendoTextBox #moduleChoosen [(ngModel)]="moduleSelected" />
+                <input kendoTextBox #moduleChosen [(ngModel)]="moduleSelected" />
             </kendo-textbox-container>
             <button kendoButton class="k-buton k-primary k-button-icon" *ngIf="!newPairVisible">
-            <span  class="k-icon k-i-plus-circle" (click)="showNewPair(true)"></span>
-        </button>
+                <span class="k-icon k-i-plus-circle" (click)="showNewPair(true)"></span>
+            </button>
             <button kendoButton class="k-buton k-primary k-button-icon" *ngIf="newPairVisible">
-            <span  class="k-icon k-i-close-circle k-i-x-circle" (click)="showNewPair(false)"></span>
-        </button>
+                <span class="k-icon k-i-close-circle k-i-x-circle" (click)="showNewPair(false)"></span>
+            </button>
             <button kendoButton class="k-buton k-primary k-button-icon" *ngIf="newPairVisible">
-            <span  class="k-icon k-i-check-circle k-i-checkmark-circle" (click)="addNewPair(applicationChoosen, moduleChoosen)"></span>
-        </button>
+                <span class="k-icon k-i-check-circle k-i-checkmark-circle" (click)="addNewPair(applicationChosen, moduleChosen)"></span>
+            </button>
         </div>
 
         <kendo-dialog-actions>
-            <button kendoButton (click)="refresh()" primary="true">Refresh</button>
-            <button kendoButton (click)="ok()" primary="true" [disabled]="disabledIf()">Ok</button>
-            <button kendoButton (click)="cancel()">Cancel</button>
+            <button kendoButton (click)="refresh()" primary="true">{{localizationService?.localizedElements?.Refresh}}</button>
+            <button kendoButton (click)="ok()" primary="true" [disabled]="disabledIf()">{{localizationService?.localizedElements?.OK}}</button>
+            <button kendoButton (click)="cancel()">{{localizationService?.localizedElements?.Cancel}}</button>
         </kendo-dialog-actions>
     </kendo-dialog>
 </div>

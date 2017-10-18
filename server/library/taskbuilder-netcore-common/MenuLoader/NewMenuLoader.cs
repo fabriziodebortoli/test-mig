@@ -40,7 +40,7 @@ namespace Microarea.Common.MenuLoader
 					int nMenuRows = mgmenu.ExistMenu(Int32.Parse(LoginId), Int32.Parse(CompanyId));
 					if (nMenuRows > -1)
 					{
-						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginManager.LoginManagerInstance.GetConfigurationHash(), user);
+						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginFacilities.loginManager.GetConfigurationHash(), user);
 						if (pInfo != null && nMenuRows > 0)
 							return null;
 						menuLoader.LoadAllMenus(false, false);
@@ -635,8 +635,8 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WritePropertyName("admin");
 					jsonWriter.WriteValue(loginManagerSession.Admin);
 					jsonWriter.WritePropertyName("ebdev");
-					bool ok = LoginFacilities.loginManager.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
-													LoginFacilities.loginManager.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
+					bool ok = LoginManager.LoginManagerInstance.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
+                                                    LoginManager.LoginManagerInstance.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
 					jsonWriter.WriteValue(ok);
 					jsonWriter.WritePropertyName("company");
 					jsonWriter.WriteValue(loginManagerSession.CompanyName);
@@ -660,7 +660,7 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WritePropertyName("auditing");
 					jsonWriter.WriteValue(loginManagerSession.Auditing);
 
-					bool showDBSizeControls = (LoginFacilities.loginManager.GetDBNetworkType() == DBNetworkType.Small &&
+					bool showDBSizeControls = (LoginManager.LoginManagerInstance.GetDBNetworkType() == DBNetworkType.Small &&
 							string.Compare(loginManagerSession.ProviderName, NameSolverDatabaseStrings.SQLOLEDBProvider, StringComparison.OrdinalIgnoreCase) == 0 ||
 							string.Compare(loginManagerSession.ProviderName, NameSolverDatabaseStrings.SQLODBCProvider, StringComparison.OrdinalIgnoreCase) == 0);
 
@@ -668,7 +668,7 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WriteValue(showDBSizeControls ? Yes : No);
 
 					{
-						float usagePercentage = LoginFacilities.loginManager.GetUsagePercentageOnDBSize(loginManagerSession.ConnectionString);
+						float usagePercentage = LoginManager.LoginManagerInstance.GetUsagePercentageOnDBSize(loginManagerSession.ConnectionString);
 						showDBSizeControls = showDBSizeControls && (usagePercentage == -1);
 						jsonWriter.WritePropertyName("freespace");
 						jsonWriter.WriteValue(showDBSizeControls ? (100 - usagePercentage).ToString() : "NA");
@@ -822,8 +822,8 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WritePropertyName("OtherSettings");
 				jsonWriter.WriteStartObject();
 
-				bool ok = LoginFacilities.loginManager.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
-												LoginFacilities.loginManager.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
+                bool ok = LoginFacilities.loginManager.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
+                                                LoginFacilities.loginManager.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
 
 				jsonWriter.WritePropertyName("isEasyStudioActivated");
 				jsonWriter.WriteValue(ok);

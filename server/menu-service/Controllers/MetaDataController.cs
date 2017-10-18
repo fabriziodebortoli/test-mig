@@ -26,7 +26,7 @@ namespace Microarea.Menu.Controllers
         public void DeleteDatainDBByIstance(string istance)
         {
             MetaDataManagerTool metadata = new MetaDataManagerTool(istance);
-           // metadata.InsertAllMetaDataInDB();
+            metadata.DeleteAllStandardMetaDataInDBByInstance(istance);
 
         }
     }

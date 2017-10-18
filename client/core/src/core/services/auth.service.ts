@@ -1,17 +1,17 @@
+import { EventManagerService } from './event-manager.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 import { LoginCompact } from './../../shared/models/login-compact.model';
 import { LoginSession } from './../../shared/models/login-session.model';
 import { OperationResult } from './../../shared/models/operation-result.model';
 
 import { Logger } from './logger.service';
-import { EventManagerService } from './../../menu/services/event-manager.service';
 import { HttpService } from './http.service';
 
 @Injectable()
@@ -57,6 +57,13 @@ export class AuthService {
             return isLogged;
         });
     }
+
+    changePassword(connectionData: LoginSession, newPassword: string): Observable<LoginCompact> {
+        return this.httpService.changePassword({ user: connectionData.user, oldPassword: connectionData.password, newPassword: newPassword }).map(result => {
+            return result;
+        });
+    }
+
     getRedirectUrl(): string {
         return this.redirectUrl;
     }

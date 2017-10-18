@@ -41,7 +41,7 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
         this.subscriptions.forEach((sub) => sub.unsubscribe());
     }
     getDate() {
-        this.httpMenuService.getApplicationDate().subscribe((res) => {
+        let subs = this.httpMenuService.getApplicationDate().subscribe((res) => {
             if (!res.dateInfo)
                 return;
 
@@ -50,6 +50,8 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
             this.applicationDate = this.internalDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
             this.culture = res.dateInfo.culture;
             this.dateFormat = res.dateInfo.formatDate;
+
+            subs.unsubscribe();
         })
     }
     

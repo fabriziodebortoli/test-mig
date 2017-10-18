@@ -1,3 +1,5 @@
+import { SettingsService } from './../../core/services/settings.service';
+import { CookieService } from 'ngx-cookie';
 import { LoadingService } from './../../core/services/loading.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,7 +14,6 @@ import { UtilsService } from './../../core/services/utils.service';
 import { WebSocketService } from './../../core/services/websocket.service';
 import { Logger } from './../../core/services/logger.service';
 import { ImageService } from './image.service';
-import { SettingsService } from './settings.service';
 import { HttpMenuService } from './http-menu.service';
 
 @Injectable()
@@ -88,7 +89,8 @@ export class MenuService {
         public settingsService: SettingsService,
         public componentService: ComponentService,
         public infoService: InfoService,
-        public loadingService: LoadingService
+        public loadingService: LoadingService,
+        public cookieService: CookieService
 
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
@@ -224,17 +226,17 @@ export class MenuService {
         }
         this.addToMostUsed(object);
         object.isLoading = true;
-        const subs1 = this.componentService.componentInfoCreated.subscribe(arg => {
+        let subs1 = this.componentService.componentInfoCreated.subscribe(arg => {
             object.isLoading = false;
             subs1.unsubscribe();
         });
-        const subs2 = this.componentService.componentCreationError.subscribe(reason => {
+        let subs2 = this.componentService.componentCreationError.subscribe(reason => {
             object.isLoading = false;
             subs2.unsubscribe();
         });
     }
 
-    runObject(object: any) {
+   runObject(object: any) {
         let urlToRun = "";
         let objType = object.objectType.toLowerCase();
         let ns = object.target.toLowerCase();
@@ -263,6 +265,8 @@ export class MenuService {
             urlToRun = 'runOfficeItem/?ns=' + encodeURIComponent(ns) + '&subType=' + type + '&application=' + app;
         }
 
+        let authtoken = this.cookieService.get('authtoken');
+        urlToRun+= "&authtoken=" + authtoken;    
         let sub = this.httpService.postDataWithAllowOrigin(this.infoService.getMenuBaseUrl() + urlToRun).subscribe((res) => {
             object.isLoading = false;
             sub.unsubscribe();

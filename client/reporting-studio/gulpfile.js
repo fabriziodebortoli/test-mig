@@ -85,6 +85,7 @@ gulp.task('rollup:fesm', function() {
             external: [
                 '@angular/common',
                 '@angular/core',
+                '@angular/forms',
                 '@angular/http',
                 '@angular/router',
                 '@progress/kendo-drawing',
@@ -96,17 +97,24 @@ gulp.task('rollup:fesm', function() {
                 '@progress/kendo-angular-buttons',
                 '@progress/kendo-angular-inputs',
                 '@taskbuilder/core',
-                'angular2-cookie/services/cookies.service',
                 'moment',
                 'rxjs/Subject',
-                'bwip-angular2'
+                'bwip-angular2',
+                'ngx-cookie/index'
             ],
 
             // Format of generated bundle
             // See "format" in https://rollupjs.org/#core-functionality
             format: 'es',
 
-            onwarn: function(warning) { if (warning.code === 'THIS_IS_UNDEFINED') { return; } else console.warn(warning.message); }
+            // Skip THIS_IS_UNDEFINED warnings 
+            onwarn: function(warning) {
+                if (warning.code === 'THIS_IS_UNDEFINED') {
+                    return;
+                } else {
+                    console.warn(warning.message);
+                }
+            }
         }))
         .pipe(gulp.dest(distFolder));
 });
@@ -135,6 +143,7 @@ gulp.task('rollup:umd', function() {
             external: [
                 '@angular/common',
                 '@angular/core',
+                '@angular/forms',
                 '@angular/http',
                 '@angular/router',
                 '@progress/kendo-drawing',
@@ -146,10 +155,10 @@ gulp.task('rollup:umd', function() {
                 '@progress/kendo-angular-buttons',
                 '@progress/kendo-angular-inputs',
                 '@taskbuilder/core',
-                'angular2-cookie/services/cookies.service',
                 'moment',
                 'rxjs/Subject',
-                'bwip-angular2'
+                'bwip-angular2',
+                'ngx-cookie/index'
             ],
 
             // Format of generated bundle
@@ -169,13 +178,14 @@ gulp.task('rollup:umd', function() {
             globals: {
                 typescript: 'ts',
                 '@angular/core': 'core',
+                '@angular/forms': 'forms',
                 '@angular/http': 'http',
                 '@taskbuilder/core': 'core$1',
                 'rxjs/Subject': 'Subject',
                 'moment': 'moment',
                 '@progress/kendo-drawing': 'kendoDrawing',
                 '@progress/kendo-file-saver': 'kendoFileSaver',
-                'angular2-cookie/services/cookies.service': 'cookies_service',
+                'ngx-cookie/index': 'ngx-cookie',
                 '@angular/router': 'router',
                 '@angular/common': 'common',
                 '@progress/kendo-angular-grid': 'kendoAngularGrid',
@@ -186,7 +196,14 @@ gulp.task('rollup:umd', function() {
                 'bwip-angular2': 'bwipjs'
             },
 
-            onwarn: function(warning) { if (warning.code === 'THIS_IS_UNDEFINED') { return; } else console.warn(warning.message); }
+            // Skip THIS_IS_UNDEFINED warnings 
+            onwarn: function(warning) {
+                if (warning.code === 'THIS_IS_UNDEFINED') {
+                    return;
+                } else {
+                    console.warn(warning.message);
+                }
+            }
 
         }))
         .pipe(rename('taskbuilder-reporting-studio.umd.js'))

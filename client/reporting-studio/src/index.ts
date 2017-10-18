@@ -28,12 +28,12 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TbSharedModule, ComponentService, WebSocketService, HttpService, UtilsService, Logger } from '@taskbuilder/core';
 import { RsTestComponent } from './rs-test.component';
-import { ExcelModule } from '@progress/kendo-angular-grid'
-import { DialogModule } from '@progress/kendo-angular-dialog';
-import { GridModule } from '@progress/kendo-angular-grid';
-import { ChartsModule } from '@progress/kendo-angular-charts';
-import { ButtonsModule } from '@progress/kendo-angular-buttons';
-import { InputsModule } from '@progress/kendo-angular-inputs';
+// import { ExcelModule } from '@progress/kendo-angular-grid'
+// import { DialogModule } from '@progress/kendo-angular-dialog';
+// import { GridModule } from '@progress/kendo-angular-grid';
+// import { ChartsModule } from '@progress/kendo-angular-charts';
+// import { ButtonsModule } from '@progress/kendo-angular-buttons';
+// import { InputsModule } from '@progress/kendo-angular-inputs';
 import { RouterModule } from "@angular/router";
 import { TbCoreModule } from "@taskbuilder/core";
 export { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
@@ -42,24 +42,26 @@ export { RsExportService } from './rs-export.service';
 export { AskdialogService } from './report-objects/askdialog/askdialog.service';
 import { ExportdialogComponent } from './report-objects/exportdialog/exportdialog.component';
 import { SnapshotdialogComponent } from './report-objects/snapshotdialog/snapshotdialog.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export * from './rs-test.component';
 export * from './models';
 export * from './report-objects';
 
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieModule, CookieService } from 'ngx-cookie';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     TbSharedModule,
-    ExcelModule,
-    DialogModule,
-    GridModule,
-    ChartsModule,
-    ButtonsModule,
-    InputsModule,
+    // ExcelModule,
+    // DialogModule,
+    // GridModule,
+    // ChartsModule,
+    // ButtonsModule,
+    // InputsModule,
+    CookieModule.forRoot(),
     RouterModule.forChild([
       { path: 'reportingstudio/:ns/:params', component: ReportingStudioFactoryComponent },
       { path: 'reportingstudio/', component: ReportingStudioFactoryComponent },
@@ -107,7 +109,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
   [
     ReportingStudioComponent
   ],
-  providers: []
+  providers: [CookieService]
 })
 
 export class ReportingStudioModule {

@@ -397,7 +397,7 @@ namespace Microarea.Common.MenuLoader
                     using (StreamWriter sw = fi.CreateText())
                         ser.Serialize(sw, this);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
 

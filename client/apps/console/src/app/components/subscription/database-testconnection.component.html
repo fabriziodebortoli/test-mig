@@ -29,7 +29,7 @@
     </div>
     <div class="row" *ngIf="!isWorking">
         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-            <button type="button" class="cta mt20" (click)="testConnection()">Test connection</button>
+            <admin-button [buttonText]="'Test connection'" (click)="testConnection()" ></admin-button>
         </div>
     </div>
     <div *ngIf="isWorking" style="margin-top:20px">

@@ -18,7 +18,7 @@
             [textType]="'password'"
             [readOnly]=editing
             [(inputData)]="model.Password"></admin-input-text>
-          <button *ngIf="editing" (click)="doChangePassword()" class="miniAction">Change Password</button>
+          <admin-button *ngIf="editing" [buttonText]="'Change Password'" (click)="doChangePassword()"></admin-button>
         </div>
         <div class="mTop">
           <label><input type="checkbox" name="cboxPwNeverExpires" value="" [(ngModel)]="model.PasswordNeverExpires">Password never expires</label>
@@ -42,7 +42,7 @@
   
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-      <div class="adminTile tileHalf">
+      <div class="adminTile half-tile">
         <div>
           <label><input type="checkbox" name="cboxDisabled" value="" [(ngModel)]="model.Disabled">Disabled</label>
         </div>
@@ -53,7 +53,7 @@
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-      <div class="adminTile tileHalf">
+      <div class="adminTile half-tile">
         <div>
           <label>Language</label>
           <input type="text" value="" [(ngModel)]="model.Language">
@@ -68,7 +68,7 @@
   
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="adminTile tileHalf">
+      <div class="adminTile half-tile">
         <label>Notes</label>
         <textarea rows="5" cols="30" maxlength="500" [(ngModel)]="model.Notes"></textarea>
       </div>
@@ -84,9 +84,9 @@
   </div>
 
   <div class="row center-xs center-sm end-lg">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4" style="padding-top:40px">
       <img *ngIf="saving" src="assets/ajax-loader.gif" />
-      <button *ngIf="!saving" type="button" style="margin-top:40px;" class="cta" (click)="submitAccount()">Save</button>
+      <admin-button *ngIf="!saving" [buttonText]="'Save'" [primary]=true (click)="submitAccount()"></admin-button>
     </div>
   </div>
 </div>

@@ -1,8 +1,8 @@
 <div style="float: left">
     <h1>Accounts Management</h1>
 </div>
-<div style="float: right;">
-    <button style="margin-top:20px" routerLink='/account' class="cta">New</button>
+<div style="float: right; padding-top:20px">
+    <admin-button routerLink='/account' [buttonText]="'New'" [primary]=true></admin-button>
 </div>
 <hr style="clear:both">
 <admin-list 

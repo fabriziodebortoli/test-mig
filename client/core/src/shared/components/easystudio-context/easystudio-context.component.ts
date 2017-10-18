@@ -1,7 +1,10 @@
+import { SettingsService } from './../../../core/services/settings.service';
+import { InfoService } from './../../../core/services/info.service';
+import { EasystudioService } from './../../../core/services/easystudio.service';
 import { LocalizationService } from './../../../core/services/localization.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
 import { LayoutModule, PanelBarExpandMode } from '@progress/kendo-angular-layout';
-import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Button } from '@progress/kendo-angular-buttons';
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
@@ -18,17 +21,17 @@ export interface MyObj {
 })
 
 
-export class EasyStudioContextComponent implements OnInit, AfterViewInit {
-
+export class EasyStudioContextComponent implements OnInit, OnDestroy {
+    public localizationsLoadedSubscription: any;
+    public localizationLoaded: boolean;
 
     public expandMode: number = PanelBarExpandMode.Multiple;
     public opened: boolean = false;
 
-    title = 'Customization Context';
-    defaultNewApp = 'NewApplication';
-    defaultNewMod = 'NewModule';
+    public title: string;
+    public defaultNewApp: string;
+    public defaultNewMod: string;
 
-    public isEasyStudioActivated = true;
     public showAddModuleButton = false;
     public showAddPairButton = false;
 
@@ -46,26 +49,40 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
 
     constructor(
         public httpMenuService: HttpMenuService,
-        public localizationService: LocalizationService
+        public localizationService: LocalizationService,
+        public easystudioService: EasystudioService,
+        public infoService: InfoService,
+        public settingsService: SettingsService
     ) {
+
+    }
+
+    //--------------------------------------------------------------------------------
+    ngOnInit(): void {
+        this.localizationsLoadedSubscription = this.localizationService.localizationsLoaded.subscribe((loaded) => {
+            this.localizationLoaded = loaded;
+            if (this.localizationLoaded && this.localizationService.localizedElements) {
+                this.title = this.localizationService.localizedElements.CustomizationContext;
+                this.defaultNewApp = this.localizationService.localizedElements.DefaultNewApp;
+                this.defaultNewMod = this.localizationService.localizedElements.DefaultNewMod;
+            }
+        });
+
         let sub = this.httpMenuService.getEsAppsAndModules().subscribe((result) => {
             this.extractNames(result);
             sub.unsubscribe();
         });
-    }
 
-    ngOnInit(): void {
-        if (this.opened && this.lastApplicSelected && this.lastModuleSelected) {
-            this.hightlightApp(this.lastApplicSelected);
-            this.hightlightMod(this.lastModuleSelected);
+        if(this.easystudioService.isContextActive()){
+            this.applicSelected = this.easystudioService.currentApplication;
+            this.moduleSelected = this.easystudioService.currentModule;
         }
     }
 
-    ngAfterViewInit() {
-        if (this.opened && this.lastApplicSelected && this.lastModuleSelected) {
-            this.hightlightApp(this.lastApplicSelected);
-            this.hightlightMod(this.lastModuleSelected);
-        }
+
+    //--------------------------------------------------------------------------------
+    ngOnDestroy() {
+        this.localizationsLoadedSubscription.unsubscribe();
     }
 
 
@@ -75,19 +92,19 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
     }
 
     //--------------------------------------------------------------------------------
-    public canShowEasyStudioButton() {
-        return true;
-    }
-
-    //--------------------------------------------------------------------------------
     public close() {
         this.opened = false;
+        this.easystudioService.closeCustomizationContext();
+        // let sub = this.httpMenuService.closeCustomizationContext().subscribe((result) => {
+        //     if(result){
+        this.applicSelected = undefined;
+        this.moduleSelected = undefined;
+        //     }
+        //     sub.unsubscribe(); });
     }
 
     //--------------------------------------------------------------------------------
     public cancel() {
-        this.applicSelected = undefined;
-        this.moduleSelected = undefined;
         this.opened = false;
     }
 
@@ -108,16 +125,17 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
 
     //--------------------------------------------------------------------------------
     public ok() {
-        let sub = this.httpMenuService.setAppAndModule(this.applicSelected, this.moduleSelected, this.isThisPairDefault).subscribe((result) => {
-            sub.unsubscribe();
-        });
+        this.easystudioService.setAppAndModule(this.applicSelected, this.moduleSelected, this.isThisPairDefault);
+        // let sub = this.httpMenuService.setAppAndModule(this.applicSelected, this.moduleSelected, this.isThisPairDefault).subscribe((result) => {
+        //     sub.unsubscribe();
+        // });
         //pairDefault= false;
         this.opened = false;
     }
 
     //--------------------------------------------------------------------------------
     public disabledIf() {
-        return this.applicSelected === undefined || this.moduleSelected === undefined;
+        return this.applicSelected === undefined || this.moduleSelected === undefined || this.newPairVisible;
     }
 
     //--------------------------------------------------------------------------------
@@ -128,6 +146,9 @@ export class EasyStudioContextComponent implements OnInit, AfterViewInit {
         this.memory = { allApplications: [] };
 
         let resultJson = result.json();        //let resultText = result.text();
+        let body = result["_body"];
+        if (body === undefined || body === "")
+            return;
         this.memory = JSON.parse(result["_body"]);
         let allApplications = resultJson["allApplications"];
 

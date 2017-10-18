@@ -1,16 +1,10 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-
-/**
- * Servizi
- * 
- * Tutti i servizi condivisi TB (http, websocket, 
- */
-import { ERPService } from './services/erp.service';
-
-export { ERPService } from './services/erp.service';
+import { ERPService, Store } from './services';
+export { ERPService, Store } from './services';
 
 export const ERP_SERVICES = [
-    ERPService
+    ERPService,
+    Store
 ];
 
 @NgModule({

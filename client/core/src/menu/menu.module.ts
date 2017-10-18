@@ -1,3 +1,4 @@
+import { TbIconsModule } from '@taskbuilder/icons';
 import { TbSharedModule } from './../shared/shared.module';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -14,6 +15,8 @@ import { MenuComponent } from './components/menu/menu.component';
 import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
 import { MenuContentComponent } from './components/menu/menu-content/menu-content.component';
 import { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
+import { ItemCustomizationsDropdownComponent } from './components/menu/menu-element/item-customizations-dropdown/item-customizations-dropdown.component';
+
 import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
@@ -27,14 +30,13 @@ export { MenuComponent } from './components/menu/menu.component';
 export { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
 export { MenuContentComponent } from './components/menu/menu-content/menu-content.component';
 export { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
+export { ItemCustomizationsDropdownComponent } from './components/menu/menu-element/item-customizations-dropdown/item-customizations-dropdown.component';
 export { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
 export { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
 export { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 export { MostUsedComponent } from './components/menu/most-used/most-used.component';
 
 import { MenuService } from './services/menu.service';
-import { EventManagerService } from './services/event-manager.service';
-import { SettingsService } from './services/settings.service';
 import { HttpMenuService } from './services/http-menu.service';
 import { ImageService } from './services/image.service';
 
@@ -42,16 +44,12 @@ import { ImageService } from './services/image.service';
 export const TB_MENU_SERVICES = [
     MenuService,
     ImageService,
-    HttpMenuService,
-    SettingsService,
-    EventManagerService
+    HttpMenuService
 ];
 
 export { MenuService } from './services/menu.service';
 export { ImageService } from './services/image.service';
 export { HttpMenuService } from './services/http-menu.service';
-export { SettingsService } from './services/settings.service';
-export { EventManagerService } from './services/event-manager.service';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
@@ -59,14 +57,26 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
+const NG_MODULES = [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule
+];
+
+const KENDO_MODULES = [
+    LayoutModule,
+    ButtonsModule,
+    DialogModule,
+    InputsModule,
+    DropDownsModule
+];
+
 @NgModule({
     imports: [
+        NG_MODULES,
+        KENDO_MODULES,
         TbSharedModule,
-        LayoutModule,
-        ButtonsModule,
-        DialogModule,
-        InputsModule,
-        DropDownsModule
+        TbIconsModule
     ],
 
     declarations: [
@@ -78,6 +88,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
         MenuContainerComponent,
         MenuContentComponent,
         MenuElementComponent,
+        ItemCustomizationsDropdownComponent,
         MenuStepperComponent,
         SearchComponent,
         MenuComponent,
@@ -93,6 +104,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
         MenuContainerComponent,
         MenuContentComponent,
         MenuElementComponent,
+        ItemCustomizationsDropdownComponent,
         MenuStepperComponent,
         SearchComponent,
         MenuComponent,

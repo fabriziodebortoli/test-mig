@@ -117,10 +117,16 @@ namespace Microarea.Common.WebServicesWrapper
 
         public LoginManagerState LoginManagerSessionState { get; internal set; }
 
+        private List<string> modules;
+        private Dictionary<string, bool> activationList = null;
+
         //----------------------------------------------------------------------------
         public LoginManagerSession()
         {
             LoginManagerSessionState = LoginManagerState.UnInitialized;
+
+            modules = GetModules();
+            activationList = CreateActivationList();
         }
 
         //----------------------------------------------------------------------------
@@ -141,6 +147,87 @@ namespace Microarea.Common.WebServicesWrapper
             LoginManagerSessionManager.RemoveLoginManagerSession(AuthenticationToken);
             AuthenticationToken = string.Empty;
         }
+
+        /// <summary>
+        /// Verifica che l'articolo legato alla funzionalità richiesta sia stato acquistato
+        /// </summary>
+        /// <param name="application">Applicazione fisica</param>
+        /// <param name="functionality">Funzionalità o modulo fisico</param>
+        /// <returns>true se l'articolo è attivato</returns>
+        //----------------------------------------------------------------------
+        public bool IsActivated(string application, string functionality)
+        {
+            bool ret;
+            if (activationList == null)
+                throw new Exception("activationList is empty");
+
+            string key = string.Format("{0}.{1}", application, functionality);
+            if (activationList.TryGetValue(key, out ret))
+                return ret;
+            return false;
+        }
+
+        //----------------------------------------------------------------------
+        private Dictionary<string, bool> CreateActivationList()
+        {
+            Dictionary<string, bool> list = new Dictionary<string, bool>(StringComparer.InvariantCultureIgnoreCase);
+            if (modules == null)
+                throw new Exception("activationList is empty");
+
+            foreach (string module in modules)
+            {
+                int appIndex = module.IndexOf('.');
+                if (appIndex == -1)
+                    continue;
+                string app = module.Substring(0, appIndex);
+
+                appIndex++;
+                int modIndex = module.IndexOf('.', appIndex);
+
+                string mod = modIndex == -1
+                    ? module.Substring(appIndex)
+                    : module.Substring(appIndex, modIndex - appIndex);
+                list[string.Format("{0}.{1}", app, mod)] = true;
+            }
+            return list;
+        }
+
+        //---------------------------------------------------------------------------
+        private List<string> GetModules()
+        {
+            lock (this)
+            {
+                //modules contiene l'elenco dei module "standard",
+                //viene inizializzata la prima volta che si effettua una chiamata a GetModules e poi mai più.
+                //Ad ogni chiamata, invece, dobbiamo aggiungere l'elenco dei <Applicazione,modulo> che vengono
+                //creati dalle customizzazione EasyBuilder.
+                //Ciò è sensato perchè:
+                //1)i moduli della Standard vengono modificati solamente installando per cui è plausibile
+                //elencarli la prima volta e poi mai più
+                //2)i module delle customizzazioni, invece, nascono e muoiono come funghi anche durante il funzionamento
+                //del gestionale per cui la loro presenza va riverificata ad ogni chiamata GetModules.
+                //L'effetto collaterale di questa scelta è che se nei metodi di questa classe si accede a modules anzichè chiamare GetModules
+                //si lavora su un elenco di moduli che computa solo i moduli della Standard e non anche quelli delle customizzaizoni.
+                if (modules == null)
+                    modules = new List<string>();
+                
+                modules.Clear();
+
+
+                modules = LoginManager.LoginManagerInstance.GetModules();
+                 //le customizzazioni sono di default attivate
+                foreach (BaseApplicationInfo bai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+                {
+                    if (bai.ApplicationType != ApplicationType.Customization)
+                        continue;
+
+                    foreach (BaseModuleInfo bmi in bai.Modules)
+                        modules.Add(bai.Name + "." + bmi.Name);
+                }
+                return modules;
+            }
+        }
+
     }
 
     //================================================================================================
@@ -177,9 +264,7 @@ namespace Microarea.Common.WebServicesWrapper
         private string baseUrl = "http://localhost:5000/";
         //private string loginManagerUrl;
         private int webServicesTimeOut;
-        private List<string> modules;
-        private Dictionary<string, bool> activationList = null;
-
+    
         //-----------------------------------------------------------------------------------------
         public LoginManager()
         {
@@ -254,56 +339,21 @@ namespace Microarea.Common.WebServicesWrapper
 
         }
 
-        /// <summary>
-        /// Verifica che l'articolo legato alla funzionalità richiesta sia stato acquistato
-        /// </summary>
-        /// <param name="application">Applicazione fisica</param>
-        /// <param name="functionality">Funzionalità o modulo fisico</param>
-        /// <returns>true se l'articolo è attivato</returns>
-        //----------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------
+        public List<string> GetModules()
+        {
+            Task<string[]> task = loginManagerClient.GetModulesAsync();
+            List<string> modules = new List<string>();
+            modules.AddRange(task.Result);
+            return modules;
+        }
+
+        //-----------------------------------------------------------------------------------------
         public bool IsActivated(string application, string functionality)
         {
-            bool ret;
-            string key = string.Format("{0}.{1}", application, functionality);
-            if (activationList == null)
-                activationList = CreateActivationList();
-
-            if (activationList.TryGetValue(key, out ret))
-                return ret;
-            return false;
+            Task<bool> task = loginManagerClient.IsActivatedAsync(application, functionality);
+            return task.Result;
         }
-
-        //----------------------------------------------------------------------
-        private Dictionary<string, bool> CreateActivationList()
-        {
-            Dictionary<string, bool> list = new Dictionary<string, bool>(StringComparer.InvariantCultureIgnoreCase);
-            if (modules == null)
-                modules = GetModules();
-
-            foreach (string module in modules)
-            {
-                int appIndex = module.IndexOf('.');
-                if (appIndex == -1)
-                    continue;
-                string app = module.Substring(0, appIndex);
-
-                appIndex++;
-                int modIndex = module.IndexOf('.', appIndex);
-
-                string mod = modIndex == -1
-                    ? module.Substring(appIndex)
-                    : module.Substring(appIndex, modIndex - appIndex);
-                list[string.Format("{0}.{1}", app, mod)] = true;
-            }
-            return list;
-        }
-
-        ////-----------------------------------------------------------------------------------------
-        //public bool IsActivated(string application, string functionality)
-        //{
-        //    Task<bool> task = loginManagerClient.IsActivatedAsync(application, functionality);
-        //    return task.Result;
-        //}
 
         //-----------------------------------------------------------------------------------------
         public string[] EnumCompanies(string userName)
@@ -449,13 +499,14 @@ namespace Microarea.Common.WebServicesWrapper
         {
             Task<int> task = loginManagerClient.ChangePasswordAsync(userName, oldPassword, newPassword);
             int result = task.Result;
-            if (result == (int)LoginReturnCodes.NoError)
-            {
-                //TODOLUCA
-                //loginManagerSession.UserMustChangePassword = false;
-                //loginManagerSession.ExpiredDatePassword = loginManagerSession.ExpiredDatePassword.AddDays(30);
-                //loginManagerSession.Password = newPassword;
-            }
+            //if (result == (int)LoginReturnCodes.NoError)
+            //{
+                
+            //    //TODOLUCA
+            //    //loginManagerSession.UserMustChangePassword = false;
+            //    //loginManagerSession.ExpiredDatePassword = loginManagerSession.ExpiredDatePassword.AddDays(30);
+            //    //loginManagerSession.Password = newPassword;
+            //}
             return result;
         }
 
@@ -621,42 +672,7 @@ namespace Microarea.Common.WebServicesWrapper
             task.Wait();
         }
 
-        //---------------------------------------------------------------------------
-        internal List<string> GetModules()
-        {
-            lock (this)
-            {
-                //modules contiene l'elenco dei module "standard",
-                //viene inizializzata la prima volta che si effettua una chiamata a GetModules e poi mai più.
-                //Ad ogni chiamata, invece, dobbiamo aggiungere l'elenco dei <Applicazione,modulo> che vengono
-                //creati dalle customizzazione EasyBuilder.
-                //Ciò è sensato perchè:
-                //1)i moduli della Standard vengono modificati solamente installando per cui è plausibile
-                //elencarli la prima volta e poi mai più
-                //2)i module delle customizzazioni, invece, nascono e muoiono come funghi anche durante il funzionamento
-                //del gestionale per cui la loro presenza va riverificata ad ogni chiamata GetModules.
-                //L'effetto collaterale di questa scelta è che se nei metodi di questa classe si accede a modules anzichè chiamare GetModules
-                //si lavora su un elenco di moduli che computa solo i moduli della Standard e non anche quelli delle customizzaizoni.
-                if (modules == null)
-                    modules = new List<string>();
-
-                modules.Clear();
-
-                Task<string[]> task = loginManagerClient.GetModulesAsync();
-                modules.AddRange(task.Result);
-                //le customizzazioni sono di default attivate
-                foreach (BaseApplicationInfo bai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
-                {
-                    if (bai.ApplicationType != ApplicationType.Customization)
-                        continue;
-
-                    foreach (BaseModuleInfo bmi in bai.Modules)
-                        modules.Add(bai.Name + "." + bmi.Name);
-                }
-                return modules;
-            }
-        }
-
+        
         //---------------------------------------------------------------------------
         internal bool CheckActivationExpression(string currentApplicationName, string activationExpression)
         {

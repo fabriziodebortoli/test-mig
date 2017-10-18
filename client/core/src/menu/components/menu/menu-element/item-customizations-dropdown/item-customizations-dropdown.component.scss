@@ -1,0 +1,38 @@
+.itemSelected {
+    padding-top: 3px;
+}
+
+.itemSelected>div:hover {
+    background-color: rgba(230, 230, 230, 0.5);
+}
+
+.is-disabled {
+    opacity: .5;
+    pointer-events: auto;
+    cursor: not-allowed;
+}
+
+.is-enabled {
+    cursor: pointer;
+}
+
+.customizationItems {
+    padding-left: 20px;
+}
+
+.imageSmall {
+    width: 16px;
+    height: 16px;
+}
+
+.central {
+    min-height: 200px;
+    display: inline-flex;
+}
+
+#customizationPopup {
+    min-width: 300px;
+    min-height: 200px;
+    border: 1px solid red;
+    padding: 15px;
+}

@@ -7,24 +7,37 @@ using Microarea.Common.GenericForms;
 using Microsoft.AspNetCore.Http;
 using System;
 using Microarea.Common;
+using System.Globalization;
 
 namespace Microarea.AccountManager.Controllers
 {
-	[Route("account-manager")]
-	public class LoginManagerController : Controller
-	{
-		//-----------------------------------------------------------------------------------------
-		[Route("login-compact")]
-		public IActionResult LoginCompact()
-		{
-			string user = HttpContext.Request.Form["user"];
-			string password = HttpContext.Request.Form["password"];
-			string company = HttpContext.Request.Form["company"];
-			string askingProcess = HttpContext.Request.Form["askingProcess"];
-			bool overwriteLogin = HttpContext.Request.Form["overwrite"] == "true";
-			int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out string authenticationToken);
+    [Route("account-manager")]
+    public class LoginManagerController : Controller
+    {
+        private void SetCulture(string authenticationToken)
+        {
+            LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+            try
+            {
+                CultureInfo.CurrentUICulture = new CultureInfo(loginManagerSession.PreferredLanguage);
+            }
+            catch
+            {
+                //in caso di cookie errato... non dovrebbe mai passare di qui...
+            }
+        }
+        //-----------------------------------------------------------------------------------------
+        [Route("login-compact")]
+        public IActionResult LoginCompact()
+        {
+            string user = HttpContext.Request.Form["user"];
+            string password = HttpContext.Request.Form["password"];
+            string company = HttpContext.Request.Form["company"];
+            string askingProcess = HttpContext.Request.Form["askingProcess"];
+            bool overwriteLogin = HttpContext.Request.Form["overwrite"] == "true";
+            int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out string authenticationToken);
 
-            
+
             string errorMessage = "";
             if (result != 0)
             {
@@ -32,103 +45,122 @@ namespace Microarea.AccountManager.Controllers
             }
             else
             {
-                LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-                CookieOptions opt = new CookieOptions { Expires = new DateTimeOffset(DateTime.Now).ToOffset(TimeSpan.FromHours(14)) };
-                HttpContext.Response.Cookies.Append(CommonMiddleware.culture_cookie, loginManagerSession.PreferredLanguage, opt);
-
+                SetCulture(authenticationToken);
             }
-            return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken });
-		}
-
-		//-----------------------------------------------------------------------------------------
-		[Route("logoff")]
-		public IActionResult Logoff()
-		{
-			string token = HttpContext.Request.Form["authtoken"];
-			Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LogOff(token);
-			var result = new { Success = true, Message = "" };
-			return new JsonResult(result);
-		}
+            return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken, Culture = CultureInfo.CurrentUICulture.Name });
+        }
 
 
-		//-----------------------------------------------------------------------------------------
-		[Route("getLoginInformation")]
-		public IActionResult GetLoginInformation()
-		{
-			string token = HttpContext.Request.Form["authtoken"];
-			string json = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(token);
-			return new ContentResult { Content = json, ContentType = "application/json" };
-		}
+        //-----------------------------------------------------------------------------------------
+        [Route("change-password")]
+        public IActionResult ChangePassword()
+        {
+            string user = HttpContext.Request.Form["user"];
+            string oldPassword = HttpContext.Request.Form["oldPassword"];
+            string newPassword = HttpContext.Request.Form["newPassword"];
+            int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.ChangePassword(user, oldPassword, newPassword);
+            string errorMessage = "";
+            if (result != 0)
+            {
+                errorMessage = LoginFacilities.DecodeLoginReturnsCodeError(result);
+            }
+            return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result});
+        }
 
-		//-----------------------------------------------------------------------------------------
-		[Route("isValidToken")]
-		public IActionResult IsValidToken()
-		{
-			string token = HttpContext.Request.Form["authtoken"];
-			bool valid =  Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsValidToken(token);
-			var result = new { Success = valid, Message = "" };
-			return new JsonResult(result);
-		}
 
-		//-----------------------------------------------------------------------------------------
-		[Route("getCompaniesForUser")]
-		public IActionResult GetCompanyForUser()
-		{
-			//string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
-			string user = HttpContext.Request.Form["user"];
+        //-----------------------------------------------------------------------------------------
+        [Route("logoff")]
+        public IActionResult Logoff()
+        {
+            string token = HttpContext.Request.Form["authtoken"];
+            Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LogOff(token);
+            var result = new { Success = true, Message = "" };
+            return new JsonResult(result);
+        }
 
-			string[] companies = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.EnumCompanies(user);
 
-			StringBuilder sb = new StringBuilder();
-			StringWriter sw = new StringWriter(sb);
-			JsonWriter jsonWriter = new JsonTextWriter(sw);
-			jsonWriter.Formatting = Formatting.Indented;
+        //-----------------------------------------------------------------------------------------
+        [Route("getLoginInformation")]
+        public IActionResult GetLoginInformation()
+        {
+            string token = HttpContext.Request.Form["authtoken"];
+            string json = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(token);
+            return new ContentResult { Content = json, ContentType = "application/json" };
+        }
 
-			jsonWriter.WriteStartObject();
-			jsonWriter.WritePropertyName("Companies");
+        //-----------------------------------------------------------------------------------------
+        [Route("isValidToken")]
+        public IActionResult IsValidToken()
+        {
+            string token = HttpContext.Request.Form["authtoken"];
+            bool valid = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsValidToken(token);
+            if (valid)
+            {
+                SetCulture(token);
+            }
+            var result = new { Success = valid, Culture = CultureInfo.CurrentUICulture.Name, Message = "" };
+            return new JsonResult(result);
+        }
 
-			jsonWriter.WriteStartObject();
-			jsonWriter.WritePropertyName("Company");
+        //-----------------------------------------------------------------------------------------
+        [Route("getCompaniesForUser")]
+        public IActionResult GetCompanyForUser()
+        {
+            //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
+            string user = HttpContext.Request.Form["user"];
 
-			jsonWriter.WriteStartArray();
+            string[] companies = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.EnumCompanies(user);
 
-			foreach (string item in companies)
-			{
-				jsonWriter.WriteStartObject();
-				jsonWriter.WritePropertyName("name");
-				jsonWriter.WriteValue(item);
-				jsonWriter.WriteEndObject();
-			}
-			jsonWriter.WriteEndArray();
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            JsonWriter jsonWriter = new JsonTextWriter(sw);
+            jsonWriter.Formatting = Formatting.Indented;
 
-			jsonWriter.WriteEndObject();
-			jsonWriter.WriteEndObject();
+            jsonWriter.WriteStartObject();
+            jsonWriter.WritePropertyName("Companies");
 
-			string s = sb.ToString();
-			return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
+            jsonWriter.WriteStartObject();
+            jsonWriter.WritePropertyName("Company");
 
-		}
+            jsonWriter.WriteStartArray();
 
-		//-----------------------------------------------------------------------------------------
-		[Route("isActivated")]
-		public IActionResult IsActivated()
-		{
-			//string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
-			string application = HttpContext.Request.Form["application"];
-			string functionality = HttpContext.Request.Form["functionality"];
+            foreach (string item in companies)
+            {
+                jsonWriter.WriteStartObject();
+                jsonWriter.WritePropertyName("name");
+                jsonWriter.WriteValue(item);
+                jsonWriter.WriteEndObject();
+            }
+            jsonWriter.WriteEndArray();
 
-			bool result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsActivated(application, functionality);
+            jsonWriter.WriteEndObject();
+            jsonWriter.WriteEndObject();
 
-			StringBuilder sb = new StringBuilder();
-			StringWriter sw = new StringWriter(sb);
-			JsonWriter jsonWriter = new JsonTextWriter(sw);
-			jsonWriter.WriteStartObject();
-			jsonWriter.WritePropertyName("result");
-			jsonWriter.WriteValue(result);
-			jsonWriter.WriteEndObject();
+            string s = sb.ToString();
+            return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
 
-			string content = sb.ToString();
-			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
-		}
-	}
+        }
+
+        //-----------------------------------------------------------------------------------------
+        [Route("isActivated")]
+        public IActionResult IsActivated()
+        {
+            //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
+            string application = HttpContext.Request.Form["application"];
+            string functionality = HttpContext.Request.Form["functionality"];
+
+            bool result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsActivated(application, functionality);
+
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            JsonWriter jsonWriter = new JsonTextWriter(sw);
+            jsonWriter.WriteStartObject();
+            jsonWriter.WritePropertyName("result");
+            jsonWriter.WriteValue(result);
+            jsonWriter.WriteEndObject();
+
+            string content = sb.ToString();
+            return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+        }
+    }
 }
