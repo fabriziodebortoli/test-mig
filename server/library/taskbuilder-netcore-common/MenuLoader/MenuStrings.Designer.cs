@@ -133,21 +133,20 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Item customizations.
-        /// </summary>
-        public static string ChooseCustomization
-		{
-			get
-			{
-				return ResourceManager.GetString("ChooseCustomization", resourceCulture);
-			}
-		}
-
         ///   Looks up a localized string similar to Change password.
         /// </summary>
         public static string ChangePassword {
             get {
                 return ResourceManager.GetString("ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item customizations.
+        /// </summary>
+        public static string ChooseCustomization {
+            get {
+                return ResourceManager.GetString("ChooseCustomization", resourceCulture);
             }
         }
         
@@ -241,6 +240,7 @@ namespace Microarea.Common.MenuLoader {
             }
         }
         
+        /// <summary>
         ///   Looks up a localized string similar to Current Application.
         /// </summary>
         public static string CurrentApplication {
@@ -249,7 +249,7 @@ namespace Microarea.Common.MenuLoader {
             }
         }
         
-
+        /// <summary>
         ///   Looks up a localized string similar to Current Module.
         /// </summary>
         public static string CurrentModule {
@@ -257,7 +257,8 @@ namespace Microarea.Common.MenuLoader {
                 return ResourceManager.GetString("CurrentModule", resourceCulture);
             }
         }
-
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customization Context.
         /// </summary>
         public static string CustomizationContext {
@@ -275,6 +276,7 @@ namespace Microarea.Common.MenuLoader {
             }
         }
         
+        /// <summary>
         ///   Looks up a localized string similar to Database.
         /// </summary>
         public static string DBName {
@@ -418,6 +420,7 @@ namespace Microarea.Common.MenuLoader {
             }
         }
         
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         public static string Loading {
@@ -435,6 +438,7 @@ namespace Microarea.Common.MenuLoader {
             }
         }
         
+        /// <summary>
         ///   Looks up a localized string similar to Modules.
         /// </summary>
         public static string Modules {
@@ -452,14 +456,25 @@ namespace Microarea.Common.MenuLoader {
             }
         }
         
-        ///   Looks up a localized string similar to This document/batch is not designable.
+        /// <summary>
+        ///   Looks up a localized string similar to Insert new application name.
         /// </summary>
-        public static string NotDesignableDocument {
+        public static string NewApplicationLabel {
             get {
-                return ResourceManager.GetString("NotDesignableDocument", resourceCulture);
+                return ResourceManager.GetString("NewApplicationLabel", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert new module name.
+        /// </summary>
+        public static string NewModuleLabel {
+            get {
+                return ResourceManager.GetString("NewModuleLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New password.
         /// </summary>
         public static string NewPassword {
@@ -468,14 +483,7 @@ namespace Microarea.Common.MenuLoader {
             }
         }
         
-        ///   Looks up a localized string similar to OK.
-        /// </summary>
-        public static string OK {
-            get {
-                return ResourceManager.GetString("OK", resourceCulture);
-            }
-        }
-
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         public static string No {
@@ -483,15 +491,17 @@ namespace Microarea.Common.MenuLoader {
                 return ResourceManager.GetString("No", resourceCulture);
             }
         }
-
-        ///   Looks up a localized string similar to Open Default Context.
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This document/batch is not designable.
         /// </summary>
-        public static string OpenDefaultContext {
+        public static string NotDesignableDocument {
             get {
-                return ResourceManager.GetString("OpenDefaultContext", resourceCulture);
+                return ResourceManager.GetString("NotDesignableDocument", resourceCulture);
             }
         }
-
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         public static string Ok {
@@ -500,14 +510,7 @@ namespace Microarea.Common.MenuLoader {
             }
         }
         
-        ///   Looks up a localized string similar to New EasyStudio customization.
-        /// </summary>
-        public static string OpenEasyStudioNewCustomization {
-            get {
-                return ResourceManager.GetString("OpenEasyStudioNewCustomization", resourceCulture);
-            }
-        }
-
+        /// <summary>
         ///   Looks up a localized string similar to Old password.
         /// </summary>
         public static string OldPassword {
@@ -515,7 +518,35 @@ namespace Microarea.Common.MenuLoader {
                 return ResourceManager.GetString("OldPassword", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OpenCustomizationContext.
+        /// </summary>
+        public static string OpenCustomizationContext {
+            get {
+                return ResourceManager.GetString("OpenCustomizationContext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Default Context.
+        /// </summary>
+        public static string OpenDefaultContext {
+            get {
+                return ResourceManager.GetString("OpenDefaultContext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New EasyStudio customization.
+        /// </summary>
+        public static string OpenEasyStudioNewCustomization {
+            get {
+                return ResourceManager.GetString("OpenEasyStudioNewCustomization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit EasyStudio Customization.
         /// </summary>
         public static string OpenEasyStudioWithCustomization {
@@ -523,7 +554,8 @@ namespace Microarea.Common.MenuLoader {
                 return ResourceManager.GetString("OpenEasyStudioWithCustomization", resourceCulture);
             }
         }
-
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -550,6 +582,7 @@ namespace Microarea.Common.MenuLoader {
             }
         }
         
+        /// <summary>
         ///   Looks up a localized string similar to Refresh.
         /// </summary>
         public static string Refresh {
@@ -557,7 +590,8 @@ namespace Microarea.Common.MenuLoader {
                 return ResourceManager.GetString("Refresh", resourceCulture);
             }
         }
-
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove.
         /// </summary>
         public static string Remove {
@@ -581,6 +615,24 @@ namespace Microarea.Common.MenuLoader {
         public static string SecurityEnabled {
             get {
                 return ResourceManager.GetString("SecurityEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected application.
+        /// </summary>
+        public static string SelectedApplication {
+            get {
+                return ResourceManager.GetString("SelectedApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected module.
+        /// </summary>
+        public static string SelectedModule {
+            get {
+                return ResourceManager.GetString("SelectedModule", resourceCulture);
             }
         }
         

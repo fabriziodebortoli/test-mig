@@ -27,5 +27,8 @@
         "rxjs": "^5.1.0",
         "zone.js": "^0.8.4",
         "@angular/animations": "^4.4.5"
+    },
+    "dependencies": {
+        "ngx-cookie": "^1.0.0"
     }
 }
