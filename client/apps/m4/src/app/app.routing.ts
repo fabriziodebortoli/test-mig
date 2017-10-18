@@ -11,11 +11,10 @@ import {
   ProxyRouteComponent,
   HomeComponent,
   StandaloneDocumentComponent,
-  // StandaloneReportComponent
+  StandaloneReportComponent
 } from '@taskbuilder/core';
-// import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
+import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
 
-// import { RsTestComponent } from '@taskbuilder/reporting-studio';
 import { appRoutes } from './applications/app.routing';
 
 let magoRoutes = [
@@ -31,14 +30,14 @@ export const routing: ModuleWithProviders = RouterModule.forRoot([
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [CoreGuard] },
   { path: 'document/:ns', component: StandaloneDocumentComponent, canActivate: [CoreGuard] },
-  // { path: 'rs/:ns', component: StandaloneReportComponent },
+  // { path: 'rs/:ns', component: StandaloneReportComponent }, // TODO riabilitare quando risolveremo problemi AOT
   {
     path: 'proxy',
     outlet: 'dynamic',
     component: ProxyRouteComponent,
     children: [
-      { path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' },
-      ...childrenRoutes
+      ...childrenRoutes,
+      // { path: 'settings', loadChildren: '@taskbuilder/core#TbSettingsModule' }// TODO riabilitare quando risolveremo problemi AOT
     ],
   },
   { path: '**', component: PageNotFoundComponent },
