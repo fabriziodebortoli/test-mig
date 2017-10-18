@@ -40,7 +40,7 @@ namespace Microarea.Common.MenuLoader
 					int nMenuRows = mgmenu.ExistMenu(Int32.Parse(LoginId), Int32.Parse(CompanyId));
 					if (nMenuRows > -1)
 					{
-						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginManager.LoginManagerInstance.GetConfigurationHash(), user);
+						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginFacilities.loginManager.GetConfigurationHash(), user);
 						if (pInfo != null && nMenuRows > 0)
 							return null;
 						menuLoader.LoadAllMenus(false, false);
@@ -822,13 +822,13 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WritePropertyName("OtherSettings");
 				jsonWriter.WriteStartObject();
 
-                bool ok = LoginManager.LoginManagerInstance.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner, true) &&
-                                                LoginManager.LoginManagerInstance.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
+                bool ok = LoginFacilities.loginManager.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
+                                                LoginFacilities.loginManager.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
 
 				jsonWriter.WritePropertyName("isEasyStudioActivated");
 				jsonWriter.WriteValue(ok);
 
-				ok = LoginManager.LoginManagerInstance.IsActivated("MicroareaConsole", "TaskScheduler") && loginManagerSession.Admin;
+				ok = LoginFacilities.loginManager.IsActivated("MicroareaConsole", "TaskScheduler") && loginManagerSession.Admin;
 
 				jsonWriter.WritePropertyName("isTaskSchedulerActivated");
 				jsonWriter.WriteValue(ok);
