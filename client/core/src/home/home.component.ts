@@ -2,7 +2,7 @@ import { SettingsService } from './../core/services/settings.service';
 import { LocalizationService } from './../core/services/localization.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation } from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { Subscription } from '../rxjs.imports';
 
 import { MessageDlgArgs } from './../shared/models/message-dialog.model';
 import { ComponentInfo } from './../shared/models/component-info.model';
@@ -52,8 +52,8 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     public localizationService: LocalizationService,
     public settingsService: SettingsService,
     public enumsService: EnumsService,
-    public infoService: InfoService, 
-    public loadingService: LoadingService 
+    public infoService: InfoService,
+    public loadingService: LoadingService
   ) {
 
     this.loadingService.setLoading(true, "connecting...");
@@ -89,7 +89,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
 
     // sottoscrivo la connessione TB e WS e, se non attiva, la apro tramite il servizio TaskbuilderService
     this.subscriptions.push(this.taskbuilderService.connected.subscribe(connected => {
-        this.loadingService.setLoading(!connected, connected ?  "" : "connecting...");
+      this.loadingService.setLoading(!connected, connected ? "" : "connecting...");
     }));
 
   }
@@ -125,7 +125,7 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
   }
 
   onContextMenu() {
-     return !this.infoService.isDesktop;
+    return !this.infoService.isDesktop;
   }
 
 }

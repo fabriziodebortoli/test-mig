@@ -1,5 +1,5 @@
 import { Component, ViewContainerRef, OnInit, OnDestroy, ComponentRef, Input, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../rxjs.imports';
 
 import { MessageDlgArgs, DiagnosticData } from './../models/message-dialog.model';
 import { ComponentInfo } from './../models/component-info.model';

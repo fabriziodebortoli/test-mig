@@ -4,8 +4,7 @@
  * (es: home-sidenav.component)
  */
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from '../../rxjs.imports';
 
 @Injectable()
 export class TabberService {

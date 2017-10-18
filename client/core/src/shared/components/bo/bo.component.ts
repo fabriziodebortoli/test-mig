@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterContentInit, OnDestroy, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from '../../../rxjs.imports';
 
 import { ControlTypes } from '../../models/control-types.enum';
 
