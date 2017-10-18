@@ -10,6 +10,7 @@ import bwipjs from 'bwip-angular2';
   templateUrl: './barcode.component.html',
   styles: [`
     #myimg{
+      margin-top:auto;
       margin: auto;
       display: block;
     }
@@ -36,8 +37,8 @@ export class BarcodeComponent implements OnChanges {
     if (!this.rect || !this.value) {
       return;
     }
-   // let scale = this.CreateBarcode();
-    this.DrawBarcode(0);
+    let scale = this.CreateBarcode();
+    this.DrawBarcode(scale);
   }
 
   CreateBarcode(): number {
@@ -60,7 +61,7 @@ export class BarcodeComponent implements OnChanges {
         console.log(err);
         sc = 0;
       } else {
-        sc = Math.floor(Math.min(width / canvas.width, height / canvas.height))*2;
+        sc = Math.floor(Math.min(width / canvas.width, height / canvas.height)) + 2;
       }
     });
 
@@ -68,12 +69,13 @@ export class BarcodeComponent implements OnChanges {
   }
 
   DrawBarcode(scale: number) {
+
     let canvas = document.createElement('canvas');
     bwipjs(canvas, {
       bcid: this.barcode.type,       // Barcode type
       text: this.value,//this.value,   	             // Text to encode
-      //scale: scale,                 // 3x scaling factor
-      height: ((this.rect.rect.bottom - this.rect.rect.top) * 25.4) / 166,  // Bar height, in millimeters
+      scale: scale,                 // 3x scaling factor
+      //height: ((this.rect.rect.bottom - this.rect.rect.top) * 25.4) / 166,  // Bar height, in millimeters
      // width: ((this.rect.rect.right - this.rect.rect.left) * 25.4) / 166,
       includetext: this.barcode.includetext,        // Show human-readable text
       rotate: this.barcode.rotate,
@@ -86,5 +88,17 @@ export class BarcodeComponent implements OnChanges {
         document.getElementById('myimg').setAttribute('src', canvas.toDataURL('image/png'));
       }
     })
+  }
+
+  private IfBarcodeAquared(type: string): boolean {
+    switch (type) {
+      case 'qrcode':
+      case 'datamatrix':
+      case 'microqrcode':
+        return true;
+
+      default:
+        return false;
+    }
   }
 }

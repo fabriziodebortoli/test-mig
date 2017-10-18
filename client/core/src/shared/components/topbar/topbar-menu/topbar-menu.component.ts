@@ -1,4 +1,5 @@
-import { SettingsService } from './../../../../menu/services/settings.service';
+import { SettingsService } from './../../../../core/services/settings.service';
+
 
 import { EasyStudioContextComponent } from './../../../../shared/components/easystudio-context/easystudio-context.component';
 import { Component, ViewEncapsulation, Inject, forwardRef } from '@angular/core';
@@ -22,6 +23,4 @@ export class TopbarMenuComponent {
       this.isDesktop = infoService.isDesktop;
       this.isESActivated = settingsService.IsEasyStudioActivated;
   }
-
-  
 }

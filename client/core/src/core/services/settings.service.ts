@@ -1,7 +1,7 @@
+import { EventManagerService } from './event-manager.service';
+import { HttpService } from './http.service';
 import { Injectable } from '@angular/core';
 
-import { EventManagerService } from './event-manager.service';
-import { HttpMenuService } from './http-menu.service';
 
 import { UtilsService } from './../../core/services/utils.service';
 import { Logger } from './../../core/services/logger.service';
@@ -21,7 +21,7 @@ export class SettingsService {
     public _lastMenuName: string = undefined;
 
     constructor(
-        public httpMenuService: HttpMenuService,
+        public httpService: HttpService,
         public eventManagerService: EventManagerService,
         public logger: Logger,
         public utilsService: UtilsService
@@ -81,8 +81,9 @@ export class SettingsService {
 
     //---------------------------------------------------------------------------------------------    
     getThemedSettings() {
-        let sub = this.httpMenuService.getThemedSettings().subscribe(data => {
+        let sub = this.httpService.getThemedSettings().subscribe(data => {
 
+            console.log("settings", data);
             if (data.ThemedSettings.nrMaxItemsSearch != undefined)
                 this.nrMaxItemsSearch = parseInt(data.ThemedSettings.nrMaxItemsSearch);
 
@@ -99,7 +100,7 @@ export class SettingsService {
     //---------------------------------------------------------------------------------------------
     getPreferences() {
 
-        let subs = this.httpMenuService.getPreferences().subscribe(data => {
+        let subs = this.httpService.getPreferences().subscribe(data => {
             if (data != undefined && data.Root != undefined) {
 
                 var current = this.getPreferenceByName(data.Root.Preference, "NrMaxItemsSearch");

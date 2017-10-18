@@ -1,3 +1,4 @@
+import { EventManagerService } from './event-manager.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -11,7 +12,6 @@ import { LoginSession } from './../../shared/models/login-session.model';
 import { OperationResult } from './../../shared/models/operation-result.model';
 
 import { Logger } from './logger.service';
-import { EventManagerService } from './../../menu/services/event-manager.service';
 import { HttpService } from './http.service';
 
 @Injectable()
