@@ -1,19 +1,19 @@
 <ng-template #template>
     <div id="customizationPopup">
-        <div class="itemSelected" *ngIf="isDesignable">
-            <div (click)="openEasyStudioAndContextIfNeeded(objectM, null)" [ngClass]="{'is-disabled': !isContextActive()}">
+        <div class="itemSelected" *ngIf="easystudioService.isDesignable">
+            <div (click)="openEasyStudioAndContextIfNeeded(objectM, null)" [ngClass]="getNewCustClass()">
                 {{localizationService?.localizedElements?.OpenEasyStudioNewCustomization}}
             </div>
         </div>
         <!-- <div class="itemSelected" *ngIf="isDesignable && !isEasyStudioDocument(objectM)">
             <div (click)="cloneAsEasyStudioDocumentIfNeeded(objectM)">{{localizationService?.localizedElements?.CloneEasyStudioDocument}}</div>
         </div> -->
-        <div class="is-disabled" *ngIf="!isDesignable">
+        <div class="is-disabled" *ngIf="!easystudioService.isDesignable">
             <div>{{localizationService?.localizedElements?.NotDesignableDocument}}</div>
         </div>
-        <div *ngIf="customizations !== undefined && customizations.length > 0">
+        <div *ngIf="easystudioService.customizations !== undefined && easystudioService.customizations.length > 0">
             <hr />{{localizationService?.localizedElements?.OpenEasyStudioWithCustomization}}:
-            <div *ngFor="let customization of customizations" class="itemSelected" [ngClass]="getCustomizClass(customization)">
+            <div *ngFor="let customization of easystudioService.customizations" class="itemSelected" [ngClass]="getCustomizClass(customization)">
                 <div style="padding-left:30px" (click)="openEasyStudioAndContextIfNeeded(objectM, customization)">{{customization.customizationName}}</div>
             </div>
             <div style="margin-bottom:40px;"></div>

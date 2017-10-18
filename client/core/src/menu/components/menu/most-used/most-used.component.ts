@@ -1,7 +1,7 @@
+import { SettingsService } from './../../../../core/services/settings.service';
 import { Component, Output, EventEmitter } from '@angular/core';
 
 import { LocalizationService } from './../../../../core/services/localization.service';
-import { SettingsService } from './../../../services/settings.service';
 import { ImageService } from './../../../services/image.service';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { MenuService } from './../../../services/menu.service';

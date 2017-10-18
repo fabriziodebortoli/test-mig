@@ -185,4 +185,52 @@ export class HttpService {
             });
     };
 
+    /**
+     * API /getPreferences
+     * 
+     * @returns {Observable<any>} getPreferences
+     */
+    getPreferences(): Observable<any> {
+        let urlToRun = this.infoService.getMenuServiceUrl() + 'getPreferences/';
+        let obj = { user: this.cookieService.get('_user'), company: this.cookieService.get('_company') }
+
+        return this.postData(urlToRun, obj)
+            .map((res: any) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
+    /**
+     * API /setPreference
+     * 
+     * @param {string} referenceName
+     * @param {string} referenceValue
+     * 
+     * @returns {Observable<any>} setPreference
+     */
+    setPreference(referenceName: string, referenceValue: string): Observable<any> {
+        let obj = { name: referenceName, value: referenceValue, user: this.cookieService.get('_user'), company: this.cookieService.get('_company') };
+        var urlToRun = this.infoService.getMenuServiceUrl() + 'setPreference/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.ok;
+            });
+    }
+
+    /**
+  * API /getThemedSettings
+  * 
+  * @returns {Observable<any>} getThemedSettings
+  */
+    getThemedSettings(): Observable<any> {
+        let obj = { authtoken: this.cookieService.get('authtoken') };
+        var urlToRun = this.infoService.getMenuServiceUrl() + 'getThemedSettings/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+
 }

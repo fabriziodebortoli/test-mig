@@ -162,7 +162,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   }
   userConnectedCancel() {
-    this.changePasswordOpened = false;
+    this.userAlreadyConnectedOpened = false;
   }
 
   changePasswordOk() {

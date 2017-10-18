@@ -319,7 +319,7 @@ namespace Microarea.RSWeb.WoormViewer
 				ok = ParseUShort(out barCode.BarCodeTypeAlias);
 			}
 
-			if (ok && Matched(Token.COMMA)) {ok = ParseInt (out i); barCode.NarrowBar = (short)i;}
+			if (ok && Matched(Token.COMMA)) {ok = ParseSignedInt(out i); barCode.NarrowBar = (short)i;}
 			if (ok && Matched(Token.COMMA)) {ok = ParseBool(out b); barCode.Vertical = b;}
 			if (ok && Matched(Token.COMMA)) {ok = ParseBool(out b); barCode.ShowLabel = b;}
 			
@@ -345,7 +345,12 @@ namespace Microarea.RSWeb.WoormViewer
 				barCode.HumanTextAlias = Convert.ToUInt16(i);
 			}
 
-			ok = ok && ParseClose();
+            // TODO in futuro parsing degli parametri aggiuntivi che attualmente non sono supportati dalla libreria bwipjs
+
+            while (!MatchedNext(Token.ROUNDCLOSE)) {}
+
+            //Matched(Token.ROUNDCLOSE);
+            //ok = ok && ParseClose();
 			
 			return ok;
 		}

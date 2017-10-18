@@ -37,7 +37,9 @@ export class TopbarMenuUserComponent implements OnDestroy {
         this.menuElements.push(/*item1, */item2, item3, item4);
 
 
+        
         this.commandSubscription = this.eventDataService.command.subscribe((args: CommandEventArgs) => {
+            
             switch (args.commandId) {
                 case 'idSignOutButton':
                     return this.logout();
@@ -73,10 +75,9 @@ export class TopbarMenuUserComponent implements OnDestroy {
     openHelp() {
         let ns = "RefGuide.Menu"
         let subs = this.httpMenuService.callonlineHelpUrl(ns, "").subscribe((res) => {
+            subs.unsubscribe();
             if (res.url)
                 window.open(res.url, '_blank');
-
-            subs.unsubscribe();
         });  //TODOLUCA culture da impostare
     }
     openSettingsPage() {
