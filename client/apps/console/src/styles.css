@@ -56,7 +56,7 @@ input[type="text"], input[type="password"], input[type="email"], textarea {
 
 .tileNormal { min-height:270px }
 .half-tile { min-height:135px }
-.mTop {margin-top:30px}
+.m30 {margin-top:30px}
 .m20 { margin-top:20px }
 .m10 { margin-top:10px }
 .left-margin-label { margin-left: 169px }
