@@ -55,20 +55,21 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="adminTile half-tile">
-        <admin-textarea [inputLabel]="'Notes'" [(inputData)]="model.Notes"></admin-textarea>
+        NOTES
+        <div>
+          <admin-textarea [inputLabel]="'Notes'" [(inputData)]="model.Notes"></admin-textarea>
+        </div>
       </div>
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="adminTile half-tile">
-        <div>
-          <label>Language</label>
-          <input type="text" value="" [(ngModel)]="model.Language">
-          <admin-dropdown></admin-dropdown>
+        REGIONAL SETTINGS
+        <div class="m20">
+          <admin-dropdown [inputLabel]="'Language'" [value]="model.Language" [listItems]="languages" [textField]="'name'" [valueField]="'value'"></admin-dropdown>
         </div>
-        <div>
-          <label>Regional Settings</label>
-          <input type="text" value="" [(ngModel)]="model.RegionalSettings">
+        <div class="m20">
+          <admin-dropdown [inputLabel]="'Regional Settings'" [value]="model.RegionalSettings" [listItems]="languages" [textField]="'name'" [valueField]="'value'"></admin-dropdown>
         </div>
       </div>
     </div>
@@ -77,7 +78,10 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="adminTile tileNormal">
+        SUBSCRIPTIONS
+        <div class="pTop30">
           <app-account-subscriptions [editAccountName]="model.AccountName" [subscriptions]="subscriptionsAccount"></app-account-subscriptions>
+        </div>
       </div>
     </div>
   </div>
