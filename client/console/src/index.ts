@@ -1,7 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconModule, MatSidenavContainer, MatSidenavModule, MatToolbarModule, MatButtonModule, MatListModule, 
-  MatDialogModule, MatInputModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatIconModule, MatSidenavContainer, MatSidenavModule, MatToolbarModule, MatListModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SampleComponent } from './sample.component';
@@ -29,11 +28,8 @@ import { DropDownsModule} from '@progress/kendo-angular-dropdowns';
     MatSidenavModule,
     MatIconModule,
     CommonModule,
-    MatButtonModule,
     MatToolbarModule,
     MatListModule,
-    MatDialogModule,
-    MatInputModule,
     ButtonsModule,
     InputsModule,
     DropDownsModule
