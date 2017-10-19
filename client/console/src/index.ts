@@ -16,18 +16,14 @@ import { AdminInputTextComponent } from "./components/admin-input-text/admin-inp
 import { AdminAlertComponent } from './components/admin-alert/admin-alert.component';
 import { AdminAlertDialogComponent } from './components/admin-alert-dialog/admin-alert-dialog.component';
 import { AdminButtonComponent } from './components/admin-button/admin-button.component';
+import { AdminDropDownComponent } from './components/admin-dropdown/admin-dropdown.component';
 import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
+
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { InputsModule } from '@progress/kendo-angular-inputs';
-
-// import { SampleDirective } from './sample.directive';
-// import { SamplePipe } from './sample.pipe';
-// import { SampleService } from './sample.service';
+import { DropDownsModule} from '@progress/kendo-angular-dropdowns';
 
 export * from './sample.component';
-// export * from './sample.directive';
-// export * from './sample.pipe';
-// export * from './sample.service';
 
 @NgModule({
   imports: [
@@ -42,7 +38,8 @@ export * from './sample.component';
     MatDialogModule,
     MatInputModule,
     ButtonsModule,
-    InputsModule
+    InputsModule,
+    DropDownsModule
   ],
   declarations: [
     SampleComponent,
@@ -57,9 +54,8 @@ export * from './sample.component';
     AdminAlertDialogComponent,
     AdminAlertComponent,
     AdminButtonComponent,
-    AdminAutoFocusDirective
-    // SampleDirective,
-    // SamplePipe
+    AdminAutoFocusDirective,
+    AdminDropDownComponent
   ],
   exports: [
     SampleComponent,
@@ -73,9 +69,8 @@ export * from './sample.component';
     AdminInputTextComponent,
     AdminAlertDialogComponent,
     AdminAlertComponent,
-    AdminButtonComponent
-    // SampleDirective,
-    // SamplePipe
+    AdminButtonComponent,
+    AdminDropDownComponent
   ],
   entryComponents: [AdminAlertDialogComponent]
 })
