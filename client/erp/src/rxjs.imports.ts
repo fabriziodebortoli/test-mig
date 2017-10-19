@@ -13,6 +13,7 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/toArray';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/combineLatest';
 
 export * from 'rxjs/operator/map';
 export * from 'rxjs/operator/pluck';

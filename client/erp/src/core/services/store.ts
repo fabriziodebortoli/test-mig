@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observer, BehaviorSubject, Observable, map, pluck, distinctUntilChanged } from './../../rxjs.imports';
+import { BehaviorSubject, Observable, map, pluck, distinctUntilChanged } from './../../rxjs.imports';
 import { EventDataService } from '@taskbuilder/core';
+import * as _ from 'lodash';
 
 export interface Action {
   type: string;
@@ -33,14 +34,14 @@ class StoreT<T> extends Observable<T> {
     b extends keyof T[a],
     c extends keyof T[a][b],
     d extends keyof T[a][b][c]
-  >(key1: a, key2: b, key3: c, key4: d): StoreT<T[a][b][c][d]>;
+    >(key1: a, key2: b, key3: c, key4: d): StoreT<T[a][b][c][d]>;
   select<
     a extends keyof T,
     b extends keyof T[a],
     c extends keyof T[a][b],
     d extends keyof T[a][b][c],
     e extends keyof T[a][b][c][d]
-  >(key1: a, key2: b, key3: c, key4: d, key5: e): StoreT<T[a][b][c][d][e]>;
+    >(key1: a, key2: b, key3: c, key4: d, key5: e): StoreT<T[a][b][c][d][e]>;
   select<
     a extends keyof T,
     b extends keyof T[a],
@@ -48,14 +49,14 @@ class StoreT<T> extends Observable<T> {
     d extends keyof T[a][b][c],
     e extends keyof T[a][b][c][d],
     f extends keyof T[a][b][c][d][e]
-  >(
+    >(
     key1: a,
     key2: b,
     key3: c,
     key4: d,
     key5: e,
     key6: f
-  ): StoreT<T[a][b][c][d][e][f]>;
+    ): StoreT<T[a][b][c][d][e][f]>;
   select(
     pathOrMapFn: ((state: T) => any) | string,
     ...paths: string[]
@@ -68,11 +69,26 @@ class StoreT<T> extends Observable<T> {
     } else {
       throw new TypeError(
         `Unexpected type '${typeof pathOrMapFn}' in select operator,` +
-          ` expected 'string' or 'function'`
+        ` expected 'string' or 'function'`
       );
     }
     return distinctUntilChanged.call(mapped$);
   }
+
+  selectMapping2(stateMap: {}): Observable<any> {
+    return this.actionsObserver.combineLatest(
+      ...Object.keys(stateMap).map(x =>
+        this.select<any>(s => _.get(s, stateMap[x]))
+          .filter(v => !!v)));
+  }
+
+  selectMapping(stateMap: {}): Observable<any> {
+    let arr = Object.keys(stateMap).map(x =>
+      this.select<any>(s => _.get(s, stateMap[x])));
+console.log(arr);
+    return this.actionsObserver.combineLatest(arr.filter(v => !!v));
+  }
+
 
   dispatch<V extends Action = Action>(action: V) {
     this.actionsObserver.next(action);
