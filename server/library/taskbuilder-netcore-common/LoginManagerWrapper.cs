@@ -121,18 +121,11 @@ namespace Microarea.Common.WebServicesWrapper
         private Dictionary<string, bool> activationList = null;
 
         //----------------------------------------------------------------------------
-        public LoginManagerSession()
-        {
-            LoginManagerSessionState = LoginManagerState.UnInitialized;
-
-            modules = GetModules();
-            activationList = CreateActivationList();
-        }
-
-        //----------------------------------------------------------------------------
         public LoginManagerSession(string authenticationToken)
         {
             this.AuthenticationToken = authenticationToken;
+            modules = GetModules();
+            activationList = CreateActivationList();
         }
 
         //----------------------------------------------------------------------------
@@ -208,12 +201,6 @@ namespace Microarea.Common.WebServicesWrapper
                 //del gestionale per cui la loro presenza va riverificata ad ogni chiamata GetModules.
                 //L'effetto collaterale di questa scelta è che se nei metodi di questa classe si accede a modules anzichè chiamare GetModules
                 //si lavora su un elenco di moduli che computa solo i moduli della Standard e non anche quelli delle customizzaizoni.
-                if (modules == null)
-                    modules = new List<string>();
-                
-                modules.Clear();
-
-
                 modules = LoginManager.LoginManagerInstance.GetModules();
                  //le customizzazioni sono di default attivate
                 foreach (BaseApplicationInfo bai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)

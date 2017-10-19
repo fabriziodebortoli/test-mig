@@ -31,6 +31,7 @@ export class WebSocketService {
     public radarInfos: EventEmitter<any> = new EventEmitter();
     public connectionStatus: EventEmitter<SocketConnectionStatus> = new EventEmitter();
     public windowStrings: EventEmitter<any> = new EventEmitter();
+    public behaviours: EventEmitter<any> = new EventEmitter();
 
     constructor(
         public infoService: InfoService,
@@ -84,7 +85,8 @@ export class WebSocketService {
                         case 'SetServerWebSocketName': $this.connection.send(JSON.stringify({ cmd: 'getOpenDocuments' })); break;
                         case 'ButtonsState': $this.buttonsState.emit(obj.args); break;
                         case 'RadarInfos': $this.radarInfos.emit(obj.args); break;
-
+                        case 'Behaviours': $this.behaviours.emit(obj.args); break;
+                        
                         default: break;
                     }
                 } catch (ex) {

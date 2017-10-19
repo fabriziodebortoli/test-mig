@@ -66,11 +66,21 @@
       <div class="adminTile half-tile">
         REGIONAL SETTINGS
         <div class="m20">
-          <admin-dropdown [inputLabel]="'Language'" [value]="model.Language" [listItems]="languages" [textField]="'name'" [valueField]="'value'"></admin-dropdown>
+          <admin-dropdown 
+            [inputLabel]="'Language'" 
+            [(selectedValue)]="model.Language" 
+            [listItems]="languages" 
+            [textField]="'name'" 
+            [valueField]="'value'"></admin-dropdown>
         </div>
         <div class="m20">
-          <admin-dropdown [inputLabel]="'Regional Settings'" [value]="model.RegionalSettings" [listItems]="languages" [textField]="'name'" [valueField]="'value'"></admin-dropdown>
-        </div>
+          <admin-dropdown 
+            [inputLabel]="'Regional Settings'" 
+            [(selectedValue)]="model.RegionalSettings" 
+            [listItems]="languages" 
+            [textField]="'name'" 
+            [valueField]="'value'"></admin-dropdown>
+        </div>    
       </div>
     </div>
   </div>
