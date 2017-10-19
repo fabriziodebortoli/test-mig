@@ -13,8 +13,6 @@ import { AdminCheckBoxComponent } from "./components/admin-checkbox/admin-checkb
 import { AdminCheckBoxListComponent } from "./components/admin-checkbox-list/admin-checkbox-list.component";
 import { AdminIconComponent } from "./components/admin-icon/admin-icon.component";
 import { AdminInputTextComponent } from "./components/admin-input-text/admin-input-text.component";
-import { AdminAlertComponent } from './components/admin-alert/admin-alert.component';
-import { AdminAlertDialogComponent } from './components/admin-alert-dialog/admin-alert-dialog.component';
 import { AdminButtonComponent } from './components/admin-button/admin-button.component';
 import { AdminDropDownComponent } from './components/admin-dropdown/admin-dropdown.component';
 import { AdminTextAreaComponent } from './components/admin-textarea/admin-textarea.component';
@@ -50,8 +48,6 @@ import { DropDownsModule} from '@progress/kendo-angular-dropdowns';
     AdminCheckBoxListComponent,
     AdminIconComponent,
     AdminInputTextComponent,
-    AdminAlertDialogComponent,
-    AdminAlertComponent,
     AdminButtonComponent,
     AdminAutoFocusDirective,
     AdminDropDownComponent,
@@ -67,13 +63,11 @@ import { DropDownsModule} from '@progress/kendo-angular-dropdowns';
     AdminCheckBoxListComponent,
     AdminIconComponent,
     AdminInputTextComponent,
-    AdminAlertDialogComponent,
-    AdminAlertComponent,
     AdminButtonComponent,
     AdminDropDownComponent,
     AdminTextAreaComponent
   ],
-  entryComponents: [AdminAlertDialogComponent]
+  entryComponents: []
 })
 export class ConsoleModule {
   static forRoot(): ModuleWithProviders {
