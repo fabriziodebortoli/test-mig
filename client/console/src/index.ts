@@ -17,6 +17,7 @@ import { AdminAlertComponent } from './components/admin-alert/admin-alert.compon
 import { AdminAlertDialogComponent } from './components/admin-alert-dialog/admin-alert-dialog.component';
 import { AdminButtonComponent } from './components/admin-button/admin-button.component';
 import { AdminDropDownComponent } from './components/admin-dropdown/admin-dropdown.component';
+import { AdminTextAreaComponent } from './components/admin-textarea/admin-textarea.component';
 import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
 
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
@@ -53,7 +54,8 @@ import { DropDownsModule} from '@progress/kendo-angular-dropdowns';
     AdminAlertComponent,
     AdminButtonComponent,
     AdminAutoFocusDirective,
-    AdminDropDownComponent
+    AdminDropDownComponent,
+    AdminTextAreaComponent
   ],
   exports: [
     SampleComponent,
@@ -68,7 +70,8 @@ import { DropDownsModule} from '@progress/kendo-angular-dropdowns';
     AdminAlertDialogComponent,
     AdminAlertComponent,
     AdminButtonComponent,
-    AdminDropDownComponent
+    AdminDropDownComponent,
+    AdminTextAreaComponent
   ],
   entryComponents: [AdminAlertDialogComponent]
 })
