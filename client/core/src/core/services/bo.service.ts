@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from '../../rxjs.imports';
 
 import { apply, diff } from 'json8-patch';
 

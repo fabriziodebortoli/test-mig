@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { URLSearchParams, Http, Response, RequestOptions, RequestOptionsArgs } from '@angular/http';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable } from '../../rxjs.imports';
 
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';

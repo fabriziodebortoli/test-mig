@@ -1,6 +1,6 @@
 import { SettingsService } from './../../../../core/services/settings.service';
 import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit, ViewContainerRef } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../../../rxjs.imports';
 
 import { LocalizationService } from './../../../../core/services/localization.service';
 import { UtilsService } from './../../../../core/services/utils.service';

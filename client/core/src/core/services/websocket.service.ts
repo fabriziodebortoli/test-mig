@@ -1,6 +1,5 @@
 ﻿import { EventEmitter, Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
+import { Observable } from '../../rxjs.imports';
 
 import { CookieService } from 'ngx-cookie';
 

@@ -1,7 +1,7 @@
 import { EventManagerService } from './../../../core/services/event-manager.service';
 import { SettingsService } from './../../../core/services/settings.service';
 import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../../rxjs.imports';
 
 import { LocalizationService } from './../../../core/services/localization.service';
 import { ComponentInfoService } from './../../../core/services/component-info.service';

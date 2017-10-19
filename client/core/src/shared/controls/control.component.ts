@@ -1,6 +1,6 @@
 ﻿import { EventDataService } from './../../core/services/eventdata.service';
 import { TbComponentService } from './../../core/services/tbcomponent.service';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../rxjs.imports';
 import { LayoutService } from './../../core/services/layout.service';
 import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy, AfterContentInit, OnChanges } from '@angular/core';
 import { TbComponent } from "../components/tb.component";

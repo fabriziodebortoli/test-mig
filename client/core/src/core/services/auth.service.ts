@@ -1,9 +1,8 @@
 import { EventManagerService } from './event-manager.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
+
+import { Observable } from '../../rxjs.imports';
 
 import { CookieService } from 'ngx-cookie';
 

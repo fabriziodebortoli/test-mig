@@ -13,12 +13,12 @@ import {
   StandaloneDocumentComponent,
   StandaloneReportComponent
 } from '@taskbuilder/core';
-import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
+// import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
 
 import { appRoutes } from './applications/app.routing';
 
 let magoRoutes = [
-  // { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
+  { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
   // { path: 'test', loadChildren: '@taskbuilder/core#TbTestModule' },
   { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
   ...appRoutes

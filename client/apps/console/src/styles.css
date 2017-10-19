@@ -48,11 +48,17 @@ input[type="text"], input[type="password"], input[type="email"], textarea {
 .miniAction { font-size:10px; border:0;background-color:#e0e0e0; margin-top:15px; }
 
 .adminTile { 
-    background-color: #ffffff; padding:16px 0 12px 12px; 
-    border-radius: 2px; margin-bottom: 16px; 
-    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .1), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .1);
-    padding:30px;}
+    background-color: #ffffff;
+    border-radius: 2px; 
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .1), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .1)}
 
 .tileNormal { min-height:270px }
 .half-tile { min-height:135px }
-.mTop {margin-top:30px}
+.m40 {margin-top:40px}
+.m30 {margin-top:30px}
+.m20 { margin-top:20px }
+.m10 { margin-top:10px }
+.pTop30 { padding-top: 30px }
+.left-margin-label { margin-left: 169px }

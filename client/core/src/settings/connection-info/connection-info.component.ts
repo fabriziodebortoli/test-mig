@@ -1,7 +1,7 @@
 import { LocalizationService } from './../../core/services/localization.service';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../rxjs.imports';
 
 @Component({
   selector: 'tb-connection-info',

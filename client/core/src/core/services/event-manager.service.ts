@@ -1,6 +1,4 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable, Observer } from 'rxjs/Rx';
-
 import { Logger } from './../../core/services/logger.service';
 
 @Injectable()

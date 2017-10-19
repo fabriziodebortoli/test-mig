@@ -13,10 +13,10 @@ export class AdminCheckBoxComponent {
   @Input() checkText: string;
   @Input() checkValue: boolean;
   @Input() readOnly: boolean;
-  @Output() inputDataChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() inputDataChange;
      
   constructor() {
-    
+    this.inputDataChange = new EventEmitter();
   }
 
   onChange(val) {

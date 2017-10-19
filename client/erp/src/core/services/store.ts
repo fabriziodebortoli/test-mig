@@ -92,7 +92,7 @@ class StoreT<T> extends Observable<T> {
 }
 
 @Injectable()
-export class Store extends StoreT<any> { 
+export class Store extends StoreT<any> {
   constructor(private eventDataService: EventDataService) {
     super(eventDataService);
   }

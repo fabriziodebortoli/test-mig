@@ -4,7 +4,7 @@ import { SettingsService } from './../core/services/settings.service';
 import { LocalizationService } from './../core/services/localization.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation, ComponentFactoryResolver } from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { Subscription } from '../rxjs.imports';
 
 import { MessageDlgArgs } from './../shared/models/message-dialog.model';
 import { ComponentInfo } from './../shared/models/component-info.model';

@@ -1,0 +1,12 @@
+<div class="left-label">{{inputLabel}}</div>
+<div style="display:inline">
+    <kendo-dropdownlist 
+        [textField]="textField" 
+        [valueField]="valueField" 
+        [data]="listItems"
+        [value]="currentValue"
+        (valueChange)="change($event)">
+    </kendo-dropdownlist>
+</div>
+
+

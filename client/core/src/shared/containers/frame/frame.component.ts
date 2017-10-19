@@ -1,7 +1,7 @@
 import { LayoutService } from './../../../core/services/layout.service';
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../../rxjs.imports';
 
 @Component({
   selector: 'tb-frame',
