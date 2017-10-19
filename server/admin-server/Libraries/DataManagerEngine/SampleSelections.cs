@@ -37,7 +37,7 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 			{
 				moduleList = new ArrayList(ContextInfo.PathFinder.GetModulesList(appName));
 				
-				foreach (ModuleInfo modInfo in moduleList)
+				foreach (Common.NameSolver.ModuleInfo modInfo in moduleList)
 					AddSampleFiles(appName, modInfo.Name, ref fileList);
 			}
 			

@@ -56,10 +56,10 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 
 		# region Funzione per l'importazione dei dati di default silente
 		//---------------------------------------------------------------------------
-		public bool ImportDefaultDataSilentMode()
+		public bool ImportDefaultDataSilentMode(bool preloadAllFiles = false)
 		{
 			if (defManager != null)
-				return defManager.ImportDefaultDataSilentMode();
+				return defManager.ImportDefaultDataSilentMode(preloadAllFiles);
 
 			return false;
 		}
@@ -130,10 +130,10 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 		}
 
 		//---------------------------------------------------------------------------
-		public bool ImportSampleDataSilentMode()
+		public bool ImportSampleDataSilentMode(bool preloadAllFiles = false)
 		{
 			if (sampleManager != null)
-				sampleManager.ImportSampleDataSilentMode();
+				sampleManager.ImportSampleDataSilentMode(preloadAllFiles);
 			
 			return false;
 		}
