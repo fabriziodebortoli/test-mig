@@ -1,7 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { Observable, ErrorObservable } from '../../rxjs.imports';
 
 import { CookieService } from 'ngx-cookie';
 
@@ -59,8 +58,8 @@ export class HttpService {
             });
     }
 
-    
-    changePassword(params: { user:string, oldPassword: string, newPassword:string}): Observable<LoginCompact> {
+
+    changePassword(params: { user: string, oldPassword: string, newPassword: string }): Observable<LoginCompact> {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'change-password/', params)
             .map((res: Response) => {
                 let jObj = res.json();

@@ -3,7 +3,7 @@ import { LoadingService } from './../../../core/services/loading.service';
 import { MenuService } from './../../services/menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../../rxjs.imports';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 
 import { CookieService } from 'ngx-cookie';

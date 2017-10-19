@@ -4,8 +4,7 @@ import { LoadingService } from './../../core/services/loading.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable, BehaviorSubject } from '../../rxjs.imports';
 
 import { InfoService } from './../../core/services/info.service';
 import { HttpService } from './../../core/services/http.service';
@@ -236,7 +235,7 @@ export class MenuService {
         });
     }
 
-   runObject(object: any) {
+    runObject(object: any) {
         let urlToRun = "";
         let objType = object.objectType.toLowerCase();
         let ns = object.target.toLowerCase();
@@ -266,7 +265,7 @@ export class MenuService {
         }
 
         let authtoken = this.cookieService.get('authtoken');
-        urlToRun+= "&authtoken=" + authtoken;    
+        urlToRun += "&authtoken=" + authtoken;
         let sub = this.httpService.postDataWithAllowOrigin(this.infoService.getMenuBaseUrl() + urlToRun).subscribe((res) => {
             object.isLoading = false;
             sub.unsubscribe();
@@ -418,7 +417,7 @@ export class MenuService {
     }
 
     updateAllFavoritesAndMostUsed() {
-        let sub = this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe(()=>{
+        let sub = this.httpMenuService.updateAllFavoritesAndMostUsed(this.favorites, this.mostUsed).subscribe(() => {
             sub.unsubscribe();
         });
     }
@@ -487,7 +486,7 @@ export class MenuService {
     }
 
     //---------------------------------------------------------------------------------------------
-    resetMenuServices(){
+    resetMenuServices() {
         this.allMenus = [];
         this.favoritesCount = 0;
         this.mostUsedCount = 0;
@@ -515,7 +514,7 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     loadFavoritesAndMostUsed() {
-    
+
         if (this.allMenus != undefined)
             this.findFavoritesAndMostUsedInApplication(this.allMenus);
 

@@ -11,6 +11,7 @@ using Microarea.Common.Applications;
 using Microarea.RSWeb.Render;
 using Microarea.Common.NameSolver;
 using Microarea.Common.Generic;
+using Microsoft.AspNetCore.Cors;
 
 /*
 localhost:5000/rs/template/erp.company.isocountrycodes/1
@@ -113,6 +114,8 @@ namespace Microarea.RSWeb.Controllers
         }
 
         //---------------------------------------------------------------------
+        [ResponseCache(Duration = 604800, Location = ResponseCacheLocation.Any)]
+        [EnableCors("CorsPolicy")]
         [Route("image/{namespace}")]
         public IActionResult GetImage(string nameSpace)
         {
@@ -124,6 +127,7 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
             string filename = nameSpace;
+            //string filename = @"C:\Dev4\Standard\TaskBuilder\Framework\TbFrameworkImages\Files\Images\Glyph\text.jpg";
             if (!System.IO.File.Exists(filename))
             {
                 PathFinder pathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
@@ -141,12 +145,11 @@ namespace Microarea.RSWeb.Controllers
             if (!System.IO.File.Exists(filename))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
 
-            string ext = System.IO.Path.GetExtension(filename);
+            string ext = System.IO.Path.GetExtension(filename).TrimStart('.');
 
             try
             {
                 FileStream f = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-
                 return new FileStreamResult(f, "image/" + ext);
             }
             catch (Exception)
