@@ -24,8 +24,14 @@ export class TestControlsComponent implements OnInit {
 
   selectedItem: string = 'leo-monna';
 
+  //--------------------------------------------------------------------------------
+  // textarea auxiliary variables  
+
+  strTextArea: string;
+
   constructor() { 
     this.chkTest = false;
+    this.strTextArea = '';
   }
 
   ngOnInit() {
