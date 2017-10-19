@@ -32,11 +32,18 @@ export class VatComponent extends ControlComponent {
     this.eventData.change.emit(this.cmpId);
   }
 
+  changeModelValue(value) {
+    this.model.value = value;
+    this.validate();
+  }
+
   validate() {
+    this.errorMessage = '';
     if (!this.model) return;
     if (!Tax.isValid(this.isoCode, this.model.value))
       this.errorMessage = this._TB('Vat code is not valid');
   }
 
   get isValid(): boolean { return !this.errorMessage; }
+
 }

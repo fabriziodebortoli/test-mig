@@ -17,10 +17,9 @@ export class ErpHttpService {
     }
 
     postToDocumentBaseUrl(api: string, obj: any): Observable<Response> {
-        let params = { authtoken: this.cookieService.get('authtoken') };
-        // let url = this.infoService.getDocumentBaseUrl() + api;
-        let url = 'http://localhost:5000/' + api;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        const params = { authtoken: this.cookieService.get('authtoken') };
+        const url = 'http://localhost:5000/' + api;
+        const headers = new Headers({ 'Content-Type': 'application/json' });
         return this.http.post(url, JSON.stringify(obj), { withCredentials: true, headers: headers});
     }
 

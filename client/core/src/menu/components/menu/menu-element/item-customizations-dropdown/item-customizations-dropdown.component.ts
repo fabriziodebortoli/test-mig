@@ -123,7 +123,7 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
       return;
     let custName = customization !== null ? customization.customizationName : undefined;
     this.easystudioService.runEasyStudio(object.target, custName);
-
+    this.close();
   }
   //--------------------------------------------------------------------------------
   cloneAsEasyStudioDocumentIfNeeded(object) {
