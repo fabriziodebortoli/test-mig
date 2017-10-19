@@ -28,7 +28,6 @@ export class ConnectionInfoComponent implements OnInit, OnDestroy {
     }));
 
     this.subscriptions.push(this.localizationService.localizationsLoaded.subscribe((loaded) => {
-      console.log("loaded", loaded);
       if (!loaded)
         return;
     }));

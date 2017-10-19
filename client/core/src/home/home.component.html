@@ -23,7 +23,9 @@
         <div class="tabber-container" #tabberContainer>
             <kendo-tabstrip #kendoTabStripInstance="kendoTabStrip" [keepTabContent]="true">
 
-                <kendo-tabstrip-tab [selected]="true" *ngIf="!isDesktop">
+                <!-- DASHBOARD -->
+
+                <kendo-tabstrip-tab [selected]="true" *ngIf="!isDesktop" #dashBoardTabStrip="kendoTabStripTab">
                     <ng-template kendoTabTitle>
                         <m4-icon icon="tb-backfilled"></m4-icon>
                     </ng-template>
@@ -34,11 +36,13 @@
                     </ng-template>
                 </kendo-tabstrip-tab>
 
-                <kendo-tabstrip-tab [selected]="isDesktop">
+
+                <!-- MENU -->
+                <kendo-tabstrip-tab [selected]="isDesktop" #menuTabStrip="kendoTabStripTab">
                     <ng-template kendoTabTitle>
                         <div (click)="menuService.activateMenu()" class="menu-tab">
                             <m4-icon icon="tb-dashboard"></m4-icon>
-                            <span class="marginLeft">Menu</span>
+                            <span class="marginLeft">{{localizationService?.localizedElements?.Menu}}</span>
                         </div>
                     </ng-template>
                     <ng-template kendoTabContent>
@@ -48,6 +52,23 @@
                     </ng-template>
                 </kendo-tabstrip-tab>
 
+                <!-- SETTINGS -->
+                <!-- <kendo-tabstrip-tab #settingsTabStrip="kendoTabStripTab">
+                    <ng-template kendoTabTitle>
+                        <div class="menu-tab" [hidden]="true">
+                            <span class="marginLeft">{{localizationService?.localizedElements?.Settings}}</span>
+                            <m4-icon icon="tb-closewindows" (click)="closeSettings()" title="{{localizationService?.localizedElements?.CloseLabel}}"
+                                class='close'></m4-icon>
+                        </div>
+                    </ng-template>
+                    <ng-template kendoTabContent>
+                        <div class='kendoTabContent' [style.height.px]="viewHeight">
+                            <tb-settings-container></tb-settings-container>
+                        </div>
+                    </ng-template>
+                </kendo-tabstrip-tab> -->
+
+                <!-- DOCUMENTS AND REPORTS -->
                 <kendo-tabstrip-tab *ngFor="let info of componentService.components">
                     <ng-template kendoTabTitle>
                         <span>{{info.document?.getTitle()}}</span>

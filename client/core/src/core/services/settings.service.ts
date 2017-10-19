@@ -1,6 +1,6 @@
 import { EventManagerService } from './event-manager.service';
 import { HttpService } from './http.service';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 
 import { UtilsService } from './../../core/services/utils.service';
@@ -19,6 +19,8 @@ export class SettingsService {
     public _lastApplicationName: string = undefined;
     public _lastGroupName: string = undefined;
     public _lastMenuName: string = undefined;
+
+    public settingsPageOpenedEvent: EventEmitter<boolean> = new EventEmitter();
 
     constructor(
         public httpService: HttpService,
@@ -82,8 +84,6 @@ export class SettingsService {
     //---------------------------------------------------------------------------------------------    
     getThemedSettings() {
         let sub = this.httpService.getThemedSettings().subscribe(data => {
-
-            console.log("settings", data);
             if (data.ThemedSettings.nrMaxItemsSearch != undefined)
                 this.nrMaxItemsSearch = parseInt(data.ThemedSettings.nrMaxItemsSearch);
 

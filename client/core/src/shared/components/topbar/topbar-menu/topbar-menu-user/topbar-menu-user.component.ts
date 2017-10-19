@@ -1,3 +1,4 @@
+import { SettingsService } from './../../../../../core/services/settings.service';
 import { CookieService } from 'ngx-cookie';
 import { HttpService } from './../../../../../core/services/http.service';
 import { InfoService } from './../../../../../core/services/info.service';
@@ -28,6 +29,7 @@ export class TopbarMenuUserComponent implements OnDestroy {
         public httpMenuService: HttpMenuService,
         public infoService: InfoService,
         public httpService: HttpService,
+        public settingsService: SettingsService,
         private cookieService: CookieService
     ) {
         //const item1 = new ContextMenuItem('Refresh', 'idRefreshButton', true, false);
@@ -36,10 +38,8 @@ export class TopbarMenuUserComponent implements OnDestroy {
         const item4 = new ContextMenuItem('Sign Out', 'idSignOutButton', true, false);
         this.menuElements.push(/*item1, */item2, item3, item4);
 
-
-        
         this.commandSubscription = this.eventDataService.command.subscribe((args: CommandEventArgs) => {
-            
+
             switch (args.commandId) {
                 case 'idSignOutButton':
                     return this.logout();
@@ -81,6 +81,7 @@ export class TopbarMenuUserComponent implements OnDestroy {
         });  //TODOLUCA culture da impostare
     }
     openSettingsPage() {
-        this.componentService.createComponentFromUrl('settings/settings', true);
+        this.settingsService.settingsPageOpenedEvent.emit(true);
+        //this.componentService.createComponentFromUrl('settings/settings', true);
     }
 }

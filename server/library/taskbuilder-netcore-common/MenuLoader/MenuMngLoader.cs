@@ -2855,7 +2855,7 @@ namespace Microarea.Common.MenuLoader
 
             LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
             if (!ignoreAllSecurityChecks)
-                applySecurityFilter = LoginManager.LoginManagerInstance.IsActivated("MicroareaConsole", "SecurityAdmin") &&
+                applySecurityFilter = session.IsActivated("MicroareaConsole", "SecurityAdmin") &&
                     (
                     session.LoginManagerSessionState == LoginManagerState.Logged && session.Security
                     );
