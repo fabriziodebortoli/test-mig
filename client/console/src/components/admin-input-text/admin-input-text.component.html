@@ -1,9 +1,10 @@
-<div *ngIf="!material" style="display:inline-block;width:165px; font-size:13px;text-align:right">{{inputLabel}}</div>
+<div *ngIf="!material" class="left-label">{{inputLabel}}</div>
 <div style="display:inline">
     <kendo-textbox-container [floatingLabel]="material ? inputLabel : ''" [style.width]="material ? '95%' : ''">
         <input 
             kendoTextBox 
             adminAutoFocus 
+            class="text-bg"
             [type]="textType" 
             [ngModel]="inputData" 
             (ngModelChange)="change($event)" 
