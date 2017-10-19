@@ -84,42 +84,6 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 		# region Costruttori
 		/// <summary>
-		/// costruttore per la creazione del database di sistema
-		/// </summary>
-		//--------------------------------------------------------------------------------
-		public DatabaseManager
-			(
-			PathFinder	pathFinder, 
-			string		sysDbConnectionString, 
-			DBMSType	dbmsType,
-			bool		useUnicode,
-			Diagnostic	dbAdminDiagnostic,
-			BrandLoader	brandLoader,
-			DBNetworkType dbNetworkType,
-			string		isoState
-			)
-		{
-			// non ho bisogno di comporre la stringa, me la passa direttamente il SysAdmin
-			// dopo che ha creato "fisicamente" il database
-            CreateContextInfo(pathFinder, dbNetworkType, isoState, true);
-			dbAdminDiagnostic.Clear();
-			DBManagerDiagnostic = dbAdminDiagnostic;
-
-			this.brandLoader = brandLoader;
-
-			// provo ad aprire la connessione al db di sistema
-			Valid = contextInfo.OpenSysDBConnectionFromString(sysDbConnectionString, dbmsType);
-
-			if (Valid)
-			{
-				KindOfDb = KindOfDatabase.System;
-				contextInfo.UseUnicode = useUnicode;
-			}
-			else
-				dbAdminDiagnostic.Set(contextInfo.Diagnostic);
-		}
-
-		/// <summary>
 		/// costruttore per la creazione del database aziendale
 		/// </summary>
 		//---------------------------------------------------------------------------
@@ -128,14 +92,12 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			PathFinder	pathFinder, 
 			Diagnostic	dbAdminDiagnostic, 
 			BrandLoader brandLoader,
-			ContextInfo.SystemDBConnectionInfo contextParameters,
 			DBNetworkType dbNetworkType,
 			string		isoState,
 			bool		askCredential = false
 			)
 		{
             CreateContextInfo(pathFinder, dbNetworkType, isoState, askCredential);
-			contextInfo.SysDBConnectionInfo = contextParameters;
 			dbAdminDiagnostic.Clear();
 			
 			DBManagerDiagnostic = dbAdminDiagnostic;
@@ -307,8 +269,14 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			return result;
 		}
 
+		/// <summary>
+		/// Esegue il check della struttura del database
+		/// </summary>
+		/// <param name="subDatabase"></param>
+		/// <param name="checkDMS"></param>
+		/// <returns></returns>
 		//---------------------------------------------------------------------------
-		public bool ConnectAndCheckDBStructure(ISubscriptionDatabase subDatabase)
+		public bool ConnectAndCheckDBStructure(ISubscriptionDatabase subDatabase, bool checkDMS = true)
 		{
 			bool result = false;
 
@@ -322,14 +290,16 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					)
 					return result;
 
-				// procedo con i controlli sullo slave solo se richiesto espressamente
+				// procedo con i controlli sul DMS solo se richiesto espressamente
 				// (serve solo per la creazione / aggiornamento database)
-				if (subDatabase.UseDMS)
+				if (subDatabase.UseDMS && checkDMS)
 				{
 					if (result && contextInfo.HasSlaves)
 						result = CheckDBStructure(KindOfDatabase.Dms);
 				}
 			}
+
+			contextInfo.CloseConnection();
 
 			return result;
 		}
