@@ -55,8 +55,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="adminTile half-tile">
-        <label>Notes</label>
-        <textarea rows="5" cols="30" maxlength="500" [(ngModel)]="model.Notes"></textarea>
+        <admin-textarea [inputLabel]="'Notes'" [(inputData)]="model.Notes"></admin-textarea>
       </div>
     </div>
 
