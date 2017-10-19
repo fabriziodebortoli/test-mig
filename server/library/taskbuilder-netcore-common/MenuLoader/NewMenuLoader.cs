@@ -635,7 +635,7 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WritePropertyName("admin");
 					jsonWriter.WriteValue(loginManagerSession.Admin);
 					jsonWriter.WritePropertyName("ebdev");
-					bool ok = LoginManager.LoginManagerInstance.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
+					bool ok = loginManagerSession.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
                                                     LoginManager.LoginManagerInstance.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
 					jsonWriter.WriteValue(ok);
 					jsonWriter.WritePropertyName("company");
@@ -746,7 +746,7 @@ namespace Microarea.Common.MenuLoader
 					IBaseModuleInfo firstModule = enumerator.Current as IBaseModuleInfo;
 					if (firstModule == null)
 						continue;
-					string sActive = LoginManager.LoginManagerInstance.IsActivated(appInfo.Name, firstModule.Name) ? EnumsStateStrings.Licensed : EnumsStateStrings.NotLicensed;
+					string sActive = session.IsActivated(appInfo.Name, firstModule.Name) ? EnumsStateStrings.Licensed : EnumsStateStrings.NotLicensed;
 					jsonWriter.WriteStartObject();
 					jsonWriter.WritePropertyName("application");
 					jsonWriter.WriteValue(appInfo.Name);  // TODOLUCA manca la versione accanto al name
@@ -822,13 +822,13 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WritePropertyName("OtherSettings");
 				jsonWriter.WriteStartObject();
 
-                bool ok = LoginFacilities.loginManager.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
+                bool ok = loginManagerSession.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
                                                 LoginFacilities.loginManager.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
 
 				jsonWriter.WritePropertyName("isEasyStudioActivated");
 				jsonWriter.WriteValue(ok);
 
-				ok = LoginFacilities.loginManager.IsActivated("MicroareaConsole", "TaskScheduler") && loginManagerSession.Admin;
+				ok = loginManagerSession.IsActivated("MicroareaConsole", "TaskScheduler") && loginManagerSession.Admin;
 
 				jsonWriter.WritePropertyName("isTaskSchedulerActivated");
 				jsonWriter.WriteValue(ok);
