@@ -15,11 +15,13 @@ import { AdminInputTextComponent } from "./components/admin-input-text/admin-inp
 import { AdminButtonComponent } from './components/admin-button/admin-button.component';
 import { AdminDropDownComponent } from './components/admin-dropdown/admin-dropdown.component';
 import { AdminTextAreaComponent } from './components/admin-textarea/admin-textarea.component';
+import { AdminDialogComponent } from './components/admin-dialog/admin-dialog.component';
 import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
 
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { DropDownsModule} from '@progress/kendo-angular-dropdowns';
+import { DialogModule } from '@progress/kendo-angular-dialog';
 
 @NgModule({
   imports: [
@@ -32,7 +34,8 @@ import { DropDownsModule} from '@progress/kendo-angular-dropdowns';
     MatListModule,
     ButtonsModule,
     InputsModule,
-    DropDownsModule
+    DropDownsModule,
+    DialogModule
   ],
   declarations: [
     SampleComponent,
@@ -47,7 +50,8 @@ import { DropDownsModule} from '@progress/kendo-angular-dropdowns';
     AdminButtonComponent,
     AdminAutoFocusDirective,
     AdminDropDownComponent,
-    AdminTextAreaComponent
+    AdminTextAreaComponent,
+    AdminDialogComponent
   ],
   exports: [
     SampleComponent,
@@ -61,7 +65,8 @@ import { DropDownsModule} from '@progress/kendo-angular-dropdowns';
     AdminInputTextComponent,
     AdminButtonComponent,
     AdminDropDownComponent,
-    AdminTextAreaComponent
+    AdminTextAreaComponent,
+    AdminDialogComponent
   ],
   entryComponents: []
 })
