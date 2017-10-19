@@ -8,9 +8,17 @@ import { FormsModule } from '@angular/forms';
 })
 export class AdminDropDownComponent {
 
-  public listItems: Array<object> = [];
+  @Input() listItems: Array<object>;
+  @Input() inputLabel: string;
+  @Input() value: string;
+  @Input() textField: string;
+  @Input() valueField: string;
 
   constructor() {
     this.listItems = new Array<object>();
+    this.inputLabel = '';
+    this.value = '';
+    this.textField = '';
+    this.valueField = '';
   } 
 }
