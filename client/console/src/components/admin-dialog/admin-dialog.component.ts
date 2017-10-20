@@ -8,12 +8,14 @@ import { FormsModule } from '@angular/forms';
 })
 export class AdminDialogComponent {
 
+  @Input() mode: string;
   @Input() title: string;
   @Input() message: string;
   @Input() opened: boolean;
   @Output() onDialogClosed: EventEmitter<any>;
  
   constructor() { 
+    this.mode = '';
     this.title = '';
     this.message = '';
     this.opened = false;
