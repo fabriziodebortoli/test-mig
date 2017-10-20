@@ -220,16 +220,8 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 		/// contestuale alla creazione/aggiornamento del database aziendale
 		/// </summary>
 		//---------------------------------------------------------------------------
-		public bool ImportDefaultDataSilentMode()
+		public bool ImportDefaultDataSilentMode(bool preloadAllFiles = false)
 		{
-			// se ho dei file da importare per le tabelle mancanti vado ad aggiungerli nell'array principale
-			if (importFileForMissingTableList.Count > 0)
-				ManageImportFileForMissingTable();
-
-			// se l'array dei file da importare è vuoto non procedo nell'elaborazione
-			if (importFileList.Count == 0)
-				return false;
-
 			if (defaultSel == null)
 				defaultSel = new DefaultSelections(contextInfo, brandLoader);
 
@@ -239,26 +231,43 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 			// quando importo i dati contestualmente alla creazione/aggiornamento db aziendale
 			// devo andare in UPDATE delle righe esistenti (i file di Append vengono eseguiti alla fine di tutto e devono
 			// andare, appunto, in Append) // Michela: import dati OFM/ACM
-			defaultSel.ImportSel.UpdateExistRow = ImportSelections.UpdateExistRowType.UPDATE_ROW; 
+			defaultSel.ImportSel.UpdateExistRow = ImportSelections.UpdateExistRowType.UPDATE_ROW;
 
 			defaultSel.ImportSel.DeleteTableContext = false; // fix bug 14558
 			defaultSel.ImportSel.DisableCheckFK = true;
 			defaultSel.ImportSel.NoOptional = true;
 			defaultSel.ImportSel.IsSilent = true; // imposto che si tratta di elaborazione silente
 
-			StringCollection appendFiles = new StringCollection();
-			foreach (FileInfo file in importFileList)
+			if (preloadAllFiles)
 			{
-				// devo inserire in coda quelli con prefisso Append
-				if (Path.GetFileNameWithoutExtension(file.Name).EndsWith(DataManagerConsts.Append, StringComparison.OrdinalIgnoreCase))
-					appendFiles.Add(file.FullName);
-				else
-					defaultSel.ImportSel.AddItemInImportList(file.FullName);
+				// in questo caso pre-carico tutti i file a monte
+				defaultSel.LoadDefaultData();
 			}
+			else
+			{
+				// se ho dei file da importare per le tabelle mancanti vado ad aggiungerli nell'array principale
+				if (importFileForMissingTableList.Count > 0)
+					ManageImportFileForMissingTable();
 
-			//inserisco quelli con prefisso Append
-			foreach (string fileName in appendFiles)
-				defaultSel.ImportSel.AddAppendItemInImportList(Path.GetDirectoryName(fileName), Path.GetFileName(fileName));
+				// se l'array dei file da importare è vuoto non procedo nell'elaborazione
+				if (importFileList.Count == 0)
+					return false;
+
+
+				StringCollection appendFiles = new StringCollection();
+				foreach (FileInfo file in importFileList)
+				{
+					// devo inserire in coda quelli con prefisso Append
+					if (Path.GetFileNameWithoutExtension(file.Name).EndsWith(DataManagerConsts.Append, StringComparison.OrdinalIgnoreCase))
+						appendFiles.Add(file.FullName);
+					else
+						defaultSel.ImportSel.AddItemInImportList(file.FullName);
+				}
+
+				//inserisco quelli con prefisso Append
+				foreach (string fileName in appendFiles)
+					defaultSel.ImportSel.AddAppendItemInImportList(Path.GetDirectoryName(fileName), Path.GetFileName(fileName));
+			}
 
 			importManager = new ImportManager(defaultSel.ImportSel, dbDiagnostic);
 			// richiamo questo metodo xchè, in modo silente, non faccio il multithread

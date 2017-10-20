@@ -1127,30 +1127,32 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 							// perciò non devo dare un errore bloccante che invalida l'operazione, bensì procedere con le successive elaborazioni
 							if (e.Number == 15023)
 								Diagnostic.Set(DiagnosticType.Warning, string.Format(DatabaseManagerStrings.UserAlreadyExists, login) + e.Message);
+							else
+							{
+								// se il numero dell'errore è 15247 significa che l'utente che ha aperto la connessione
+								// non ha i privilegi per creare una una login. Pertanto blocco l'elaborazione.
+								if (e.Number == 15247)
+								{
+									Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, login) + e.Message);
+									return false;
+								}
+								// la login ha già un account sotto un differente username
+								if (e.Number == 15063)
+								{
+									Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.LoginAlreadyExists, login) + e.Message);
+									return false;
+								}
+								// se il numero dell'errore è 15118 significa che si sta aggiungendo un utente associata ad una login la cui password
+								// non rispetta le politiche di sicurezza imposte da Windows. 
+								if (e.Number == 15118)
+								{
+									Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.PwdValidationFailed, login) + e.Message);
+									return false;
+								}
 
-							// se il numero dell'errore è 15247 significa che l'utente che ha aperto la connessione
-							// non ha i privilegi per creare una una login. Pertanto blocco l'elaborazione.
-							if (e.Number == 15247)
-							{
-								Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.UserWithoutPermission, login) + e.Message);
+								Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.ErrorCreatingUser, login, e.Message));
 								return false;
 							}
-							// la login ha già un account sotto un differente username
-							if (e.Number == 15063)
-							{
-								Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.LoginAlreadyExists, login) + e.Message);
-								return false;
-							}
-							// se il numero dell'errore è 15118 significa che si sta aggiungendo un utente associata ad una login la cui password
-							// non rispetta le politiche di sicurezza imposte da Windows. 
-							if (e.Number == 15118)
-							{
-								Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.PwdValidationFailed, login) + e.Message);
-								return false;
-							}
-
-							Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.ErrorCreatingUser, login, e.Message));
-							return false;
 						}
 
 						try

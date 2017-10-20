@@ -68,4 +68,3 @@ L'elenco completo delle icone finora incluse nella libreria lo trovi a questa [p
 Le istruzioni per creare e aggiungere nuove icone all'icon font le trovi a questa [pagina](https://github.com/Microarea/Taskbuilder/blob/08aaf9d4df9a73d2e5fa391205d32f2572dd8509/docs/ICONS.md)
 
 Le istruzioni per aggiornare il file delle icon font le trovi a questa [pagina](https://github.com/Microarea/Taskbuilder/blob/master/client/icons/BUILD.MD)
-

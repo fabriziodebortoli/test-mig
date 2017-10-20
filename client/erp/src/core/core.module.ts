@@ -4,10 +4,14 @@ import { ERPService } from './services/erp.service';
 export { ERPService } from './services/erp.service';
 import { ErpHttpService } from './services/erp-http.service';
 export { ErpHttpService } from './services/erp-http.service';
+import { Store } from './services/store';
+export { Store } from './services/store';
+
 
 export const ERP_SERVICES = [
     ERPService,
-    ErpHttpService
+    ErpHttpService,
+    Store
 ];
 
 @NgModule({

@@ -1,6 +1,7 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Libraries.DatabaseManager;
+using Microarea.AdminServer.Libraries.DataManagerEngine;
 using Microarea.AdminServer.Model;
 using Microarea.AdminServer.Model.Interfaces;
 using Microarea.AdminServer.Properties;
@@ -337,24 +338,6 @@ namespace Microarea.AdminServer.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			// creo la struttura leggendo i metedati da filesystem
-
-			Diagnostic dbTesterDiagnostic = new Diagnostic("DatabaseController");
-
-			PathFinder pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa");//dati reperibili dal db, attualmente il nome server però non lo abbiamo 
-			pf.Edition = "Professional";
-
-			// creazione tabelle per il database aziendale
-			DatabaseManager dbManager = new DatabaseManager
-				(
-				pf,
-				dbTesterDiagnostic,
-				(BrandLoader)InstallationData.BrandLoader,
-				new ContextInfo.SystemDBConnectionInfo(), // da togliere
-				DBNetworkType.Large,
-				"IT"
-				);
-
 			// il Provider deve essere definito a livello di subscription
 			subDatabase.Provider = "SQLAzure";
 
@@ -374,6 +357,9 @@ namespace Microarea.AdminServer.Controllers
 			Debug.WriteLine("-------- Login Name: " + loginName);
 			Debug.WriteLine("-------- Password: " + password);
 
+			// creo la struttura leggendo i metadati da filesystem
+
+			DatabaseManager dbManager = CreateDatabaseManager();
 			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
 			if (!opRes.Result)
@@ -625,23 +611,7 @@ namespace Microarea.AdminServer.Controllers
 			// se tutto ok allora devo aggiornare i campi nella SubscriptionDatabase
 			// e poi eseguire il check del database 
 			// se e' necessario un aggiornamento devo chiedere prima conferma all'utente
-
-			Diagnostic dbTesterDiagnostic = new Diagnostic("DatabaseController");
-
-			PathFinder pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa");//dati reperibili dal db, attualmente il nome server però non lo abbiamo 
-			pf.Edition = "Professional";
-
-			// creazione tabelle per il database aziendale
-			DatabaseManager dbManager = new DatabaseManager
-				(
-				pf,
-				dbTesterDiagnostic,
-				(BrandLoader)InstallationData.BrandLoader,
-				new ContextInfo.SystemDBConnectionInfo(), // da togliere
-				DBNetworkType.Large,
-				"IT"
-				);
-
+			DatabaseManager dbManager = CreateDatabaseManager();
 			opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
 			if (!opRes.Result)
@@ -657,6 +627,8 @@ namespace Microarea.AdminServer.Controllers
 
 			if (!opRes.Result)
 			{
+				//re-imposto il flag UnderMaintenance a false
+				opRes = SetSubscriptionDBUnderMaintenance(extSubDatabase.Database, false);
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
@@ -1107,24 +1079,10 @@ namespace Microarea.AdminServer.Controllers
 			}
 			//
 
-			// CHECK PREVENTIVO DEL DATABASE
+			// check preventivo struttura dei database, se esistono
 			if (existERPDb && existDMSDb)
 			{
-				Diagnostic dbTesterDiagnostic = new Diagnostic("DatabaseController");
-
-				PathFinder pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa");//dati reperibili dal db, attualmente il nome server però non lo abbiamo 
-				pf.Edition = "Professional";
-
-				// creazione tabelle per il database aziendale
-				DatabaseManager dbManager = new DatabaseManager
-					(
-					pf,
-					dbTesterDiagnostic,
-					(BrandLoader)InstallationData.BrandLoader,
-					new ContextInfo.SystemDBConnectionInfo(), // da togliere
-					DBNetworkType.Large,
-					"IT"
-					);
+				DatabaseManager dbManager = CreateDatabaseManager();
 				opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
 
 				IDiagnosticItems items = dbManager.DBManagerDiagnostic.AllMessages();
@@ -1139,6 +1097,120 @@ namespace Microarea.AdminServer.Controllers
 
 			opRes.Content = msgList;
 			return opRes;
+		}
+
+		/// <summary>
+		/// Crea un oggetto di tipo DatabaseManager per richiamare i controlli sui database
+		/// </summary>
+		//---------------------------------------------------------------------
+		private DatabaseManager CreateDatabaseManager()
+		{
+			PathFinder pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa") { Edition = "Professional" };
+			return new DatabaseManager(pf, new Diagnostic("DatabaseController"), (BrandLoader)InstallationData.BrandLoader, DBNetworkType.Large, "IT");
+		}
+
+		[HttpPost("/api/database/import/default/{subscriptionKey}/{iso}/{configuration}")]
+		//---------------------------------------------------------------------
+		public IActionResult ApiImportDefaultData(string subscriptionKey, string iso, string configuration, [FromBody] SubscriptionDatabase subDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			/*opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}*/
+
+			if (subDatabase == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			DatabaseManager dbManager = CreateDatabaseManager();
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase, false); // il param 2 effettua il controllo solo sul db di ERP
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (dbManager.StatusDB == DatabaseStatus.EMPTY)
+			{
+				opRes.Result = false;
+				opRes.Message = "ERP database does not contain any table, unable to proceed!";
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
+			importExportManager.SetDefaultDataConfiguration(configuration);
+			importExportManager.ImportDefaultDataSilentMode(true);
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		[HttpPost("/api/database/import/sample/{subscriptionKey}/{iso}/{configuration}")]
+		//---------------------------------------------------------------------
+		public IActionResult ApiImportSampleData(string subscriptionKey, string iso, string configuration, [FromBody] SubscriptionDatabase subDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			/*opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}*/
+
+			if (subDatabase == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			DatabaseManager dbManager = CreateDatabaseManager();
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase, false); // il param 2 effettua il controllo solo sul db di ERP
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			if (dbManager.StatusDB == DatabaseStatus.EMPTY)
+			{
+				opRes.Result = false;
+				opRes.Message = "ERP database does not contain any table, unable to proceed!";
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
+			importExportManager.SetSampleDataConfiguration(configuration, iso);
+			importExportManager.ImportSampleDataSilentMode(true);
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 	}
 

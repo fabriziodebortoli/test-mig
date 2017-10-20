@@ -8,29 +8,23 @@ import bwipjs from 'bwip-angular2';
 @Component({
   selector: 'rs-barcode',
   templateUrl: './barcode.component.html',
-  styles: [`
-    #myimg{
-      margin-top:auto;
-      margin: auto;
-      display: block;
-    }
-  `],
-
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./barcode.component.css']
 })
 export class BarcodeComponent implements OnChanges {
 
   @Input() barcode: barcode;
   @Input() rect: baserect;
   @Input() value: string;
+  public id: string;
 
-  //private scaleY:number;
 
   constructor(private ref: ChangeDetectorRef) {
     setInterval(() => {
       // the following is required, otherwise the view will not be updated
       this.ref.markForCheck();
     }, 1000);
+
+    this.id = this.GenerateId();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -38,59 +32,71 @@ export class BarcodeComponent implements OnChanges {
       return;
     }
     let scale = this.CreateBarcode();
-    this.DrawBarcode(scale);
+    this.DrawBarcode(scale[0], scale[1]);
   }
 
-  CreateBarcode(): number {
+  CreateBarcode(): number[] {
 
-    let width = this.rect.rect.right - this.rect.rect.left;
-    let height = this.rect.rect.bottom - this.rect.rect.top;
+    let width: number;
+    let height: number;
+    if (this.IfBarcodeSquared(this.barcode.type)) {
+      width = height = Math.min((this.rect.rect.right - this.rect.rect.left), (this.rect.rect.bottom - this.rect.rect.top));
+    }
+    else {
+      width = this.rect.rect.right - this.rect.rect.left;
+      height = this.rect.rect.bottom - this.rect.rect.top;
+    }
+
     let canvas = document.createElement('canvas');
-    let sc: number;
+    let sc: number[] = [1, 1];
     bwipjs(canvas, {
       bcid: this.barcode.type,       // Barcode type
-      text: this.value,//this.value,   	             // Text to encode
-      //scale: 2,                 // 3x scaling factor
-      //height: ((this.rect.rect.bottom - this.rect.rect.top) * 25.4) / 160,  // Bar height, in millimeters
-      // width: ((this.rect.rect.right - this.rect.rect.left) * 25.4) / 160,
+      text: this.value,	             // Text to encode
+      scale: 1,
       includetext: this.barcode.includetext,        // Show human-readable text
       rotate: this.barcode.rotate,
       textxalign: 'center',      // Always good to set this
     }, function (err, cvs) {
       if (err) {
         console.log(err);
-        sc = 0;
+        //sc[0] = sc[1] = 0;
       } else {
-        sc = Math.floor(Math.min(width / canvas.width, height / canvas.height)) + 2;
+        if (canvas.width < width) {
+          sc[0] = Math.floor(width / canvas.width);
+        }
+        if (canvas.height < height) {
+          sc[1] = Math.floor(height / canvas.height);
+        }
       }
     });
 
     return sc;
   }
 
-  DrawBarcode(scale: number) {
+  DrawBarcode(scX: number, scY: number) {
 
-    let canvas = document.createElement('canvas');
-    bwipjs(canvas, {
+    bwipjs(this.id, {
       bcid: this.barcode.type,       // Barcode type
       text: this.value,//this.value,   	             // Text to encode
-      scale: scale,                 // 3x scaling factor
-      //height: ((this.rect.rect.bottom - this.rect.rect.top) * 25.4) / 166,  // Bar height, in millimeters
-     // width: ((this.rect.rect.right - this.rect.rect.left) * 25.4) / 166,
+      scaleX: scX,                 // scaling
+      scaleY: scY,                 // scaling
+      //height: ((this.rect.rect.bottom - this.rect.rect.top) * 25.4),  // Bar height, in millimeters
+      //width: ((this.rect.rect.bottom - this.rect.rect.top) * 25.4),
+      //paddingheight: 2,
       includetext: this.barcode.includetext,        // Show human-readable text
       rotate: this.barcode.rotate,
       textxalign: 'center',      // Always good to set this
     }, function (err, cvs) {
       if (err) {
-        document.getElementById('err').innerText = 'Error occured. See browser log for more information';
+        //document.getElementById(this.idErr).innerText = 'Error occured. See browser log for more information';
         console.log(err);
       } else {
-        document.getElementById('myimg').setAttribute('src', canvas.toDataURL('image/png'));
+        //document.getElementById('myimg').setAttribute('src', canvas.toDataURL('image/png'));
       }
     })
   }
 
-  private IfBarcodeAquared(type: string): boolean {
+  private IfBarcodeSquared(type: string): boolean {
     switch (type) {
       case 'qrcode':
       case 'datamatrix':
@@ -100,5 +106,12 @@ export class BarcodeComponent implements OnChanges {
       default:
         return false;
     }
+  }
+
+  private GenerateId(): string {
+    let result = '';
+    let chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    for (var i = 10; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
   }
 }
