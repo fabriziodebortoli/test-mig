@@ -439,6 +439,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Menu.
+        /// </summary>
+        public static string Menu {
+            get {
+                return ResourceManager.GetString("Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Modules.
         /// </summary>
         public static string Modules {
@@ -520,7 +529,7 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OpenCustomizationContext.
+        ///   Looks up a localized string similar to Open Customization Context.
         /// </summary>
         public static string OpenCustomizationContext {
             get {
@@ -565,11 +574,11 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PasswordNotMaching.
+        ///   Looks up a localized string similar to The passwords are not matching.
         /// </summary>
-        public static string PasswordNotMaching {
+        public static string PasswordsNotMatching {
             get {
-                return ResourceManager.GetString("PasswordNotMaching", resourceCulture);
+                return ResourceManager.GetString("PasswordsNotMatching", resourceCulture);
             }
         }
         
@@ -633,6 +642,15 @@ namespace Microarea.Common.MenuLoader {
         public static string SelectedModule {
             get {
                 return ResourceManager.GetString("SelectedModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
         

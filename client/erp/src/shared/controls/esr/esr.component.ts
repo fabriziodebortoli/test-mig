@@ -28,25 +28,26 @@ export class EsrComponent extends ControlComponent {
     }
 
     onTyping(e: KeyboardEvent) {
+      this.errorMessage = '';
       if (!Helpers.hasBeenTypedANumber(e) )
         e.preventDefault();
     }
 
-     ngOnChanges(changes) {
-        this.validate();
+    changeModelValue(value) {
+      this.model.value = value;
+      this.validate();
     }
 
-     onBlur() {
+    onBlur() {
         this.validate();
-        if (this.isValid) {
-        }
      }
 
      validate() {
         if (!this.model) return;
-        if (!Esr.checkEsrDigit(this.value))
-          this.errorMessage = this._TB('Incorrect ESR Check Digit, value expected {0} value found {1}.', );
+        this.errorMessage = '';
+        let r = Esr.checkEsrDigit(this.model.value);
+        if (!r.result) this.errorMessage = this._TB(r.error);
       }
-    
+
       get isValid(): boolean { return !this.errorMessage; }
 }

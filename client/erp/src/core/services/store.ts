@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observer, BehaviorSubject, Observable, map, pluck, distinctUntilChanged } from './../../rxjs.imports';
+import { BehaviorSubject, Observable, map, pluck, distinctUntilChanged } from './../../rxjs.imports';
 import { EventDataService } from '@taskbuilder/core';
+import * as _ from 'lodash';
 
 export interface Action {
   type: string;
@@ -13,7 +14,6 @@ class StoreT<T> extends Observable<T> {
   constructor(private stateContainer: { model: T, change: Observable<any> }) {
     super();
     this.stateContainer.change
-      .do(i => console.log('emit: ' + i))
       .subscribe(s => this.actionsObserver.next(this.stateContainer.model));
   }
 
@@ -33,14 +33,14 @@ class StoreT<T> extends Observable<T> {
     b extends keyof T[a],
     c extends keyof T[a][b],
     d extends keyof T[a][b][c]
-  >(key1: a, key2: b, key3: c, key4: d): StoreT<T[a][b][c][d]>;
+    >(key1: a, key2: b, key3: c, key4: d): StoreT<T[a][b][c][d]>;
   select<
     a extends keyof T,
     b extends keyof T[a],
     c extends keyof T[a][b],
     d extends keyof T[a][b][c],
     e extends keyof T[a][b][c][d]
-  >(key1: a, key2: b, key3: c, key4: d, key5: e): StoreT<T[a][b][c][d][e]>;
+    >(key1: a, key2: b, key3: c, key4: d, key5: e): StoreT<T[a][b][c][d][e]>;
   select<
     a extends keyof T,
     b extends keyof T[a],
@@ -48,14 +48,14 @@ class StoreT<T> extends Observable<T> {
     d extends keyof T[a][b][c],
     e extends keyof T[a][b][c][d],
     f extends keyof T[a][b][c][d][e]
-  >(
+    >(
     key1: a,
     key2: b,
     key3: c,
     key4: d,
     key5: e,
     key6: f
-  ): StoreT<T[a][b][c][d][e][f]>;
+    ): StoreT<T[a][b][c][d][e][f]>;
   select(
     pathOrMapFn: ((state: T) => any) | string,
     ...paths: string[]
@@ -68,11 +68,33 @@ class StoreT<T> extends Observable<T> {
     } else {
       throw new TypeError(
         `Unexpected type '${typeof pathOrMapFn}' in select operator,` +
-          ` expected 'string' or 'function'`
+        ` expected 'string' or 'function'`
       );
     }
     return distinctUntilChanged.call(mapped$);
   }
+
+  selectSlices(...paths: string[]): Observable<any> {
+    return Observable.combineLatest(
+      ...paths.map(x => this.select<any>(s => _.get(s, x)))
+    ).map(res => res.reduce((o, val) => { o[val] = val; return o; }, {}));
+  }
+
+  selectBySlicer(slicer: {}): Observable<any> {
+    return Observable.combineLatest(
+      ...Object.keys(slicer)
+        .map(x => this.select<any>(s => _.get(s, slicer[x])))
+    ).map(res => res.reduce((o, val, i) => { o[Object.keys(slicer)[i]] = val; return o; }, {}));
+  }
+
+  // selectBySlicerT<
+  //   a extends keyof T
+  // >(slicer: T): Observable<T> {
+  //   return Observable.combineLatest(
+  //     ...Object.keys(slicer)
+  //       .map(x => this.select<any>(s => _.get(s, slicer[x])))
+  //   ).map(res => res.reduce((o, val, i) => { o[Object.keys(slicer)[i]] = val; return o; }, {}));
+  // }
 
   dispatch<V extends Action = Action>(action: V) {
     this.actionsObserver.next(action);

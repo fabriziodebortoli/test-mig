@@ -1,5 +1,4 @@
 <div>
-  <h4>Subscriptions</h4>
   <input type="text" placeholder="search subscriptions" [(ngModel)]="searchString">
   <admin-icon (click)="doSearchSubscriptions()" class="pointer" [iconSignature]="'pageview'"></admin-icon>
   <p *ngIf="subscriptionsResult !== undefined && subscriptionsResult.length > 0" style="font-size:14px">Found subscriptions</p>

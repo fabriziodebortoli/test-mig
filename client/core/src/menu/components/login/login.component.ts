@@ -84,7 +84,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.companies = result.Companies.Company.sort(this.compareCompanies).map(c => c.name);
 
       if (this.companies.length > 0 && this.connectionData.company == undefined) {
-        this.logger.log("this.companies.length", this.companies.length)
         this.connectionData.company = this.companies[0];
       }
 

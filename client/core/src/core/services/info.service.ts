@@ -68,9 +68,7 @@ export class InfoService {
 
                 let sub = this.request(url, params)
                     .subscribe(result => {
-                        this.logger.debug("productInfo", result);
                         this.productInfo = result.ProductInfos;
-
                         observer.next(this.productInfo);
                         observer.complete();
                         sub.unsubscribe();

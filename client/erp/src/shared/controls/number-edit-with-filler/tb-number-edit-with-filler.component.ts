@@ -14,7 +14,6 @@ export class NumberEditWithFillerComponent extends ControlComponent {
   @Input() minLen = 6;
 
   public errorMessage: string;
-  public value: any;
 
   constructor( public eventData: EventDataService,
     layoutService: LayoutService,
@@ -32,6 +31,10 @@ export class NumberEditWithFillerComponent extends ControlComponent {
   onTyping(e: KeyboardEvent) {
     if (!Helpers.hasBeenTypedANumber(e) )
       e.preventDefault();
+  }
+
+  changeModelValue(value) {
+    this.model.value = value;
   }
 
   onBlur() {

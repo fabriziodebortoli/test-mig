@@ -78,11 +78,11 @@ export class InstanceComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
+   //--------------------------------------------------------------------------------------------------------
+   ngOnDestroy() {
     if (this.subscription === undefined)
       return;
 
     this.subscription.unsubscribe;
   }
-  
 }
