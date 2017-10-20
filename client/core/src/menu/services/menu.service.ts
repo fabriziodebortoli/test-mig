@@ -355,8 +355,7 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     getSearchItemTooltip = function (object) {
-        // return $sce.trustAsHtml(object.title + "<br/>" + object.applicationTitle + " | " + object.groupTitle + " | " + object.menu + " | " + object.tile);
-        return "ciao";
+        return object.title + ' | ' + object.applicationTitle + " | " + object.groupTitle + " | " + object.menu + " | " + object.tile;
     }
 
 
