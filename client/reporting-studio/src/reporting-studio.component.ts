@@ -7,12 +7,22 @@ import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF } fr
 import { saveAs } from '@progress/kendo-file-saver';
 import { CookieService } from 'ngx-cookie';
 
-import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType, SvgType, PngType } from 'models';
+import { baseobj } from './models/baseobj.model';
+import { fieldrect } from './models/fieldrect.model';
+import { textrect } from './models/textrect.model';
+import { table } from './models/table.model';
+import { column } from './models/column.model';
+import { graphrect } from './models/graphrect.model';
+import { sqrrect } from './models/sqrrect.model';
+import { link } from './models/link.model';
+import { CommandType } from './models/command-type.model';
+import { PdfType, SvgType, PngType } from './models/export-type.model';
+
 import { Subscription } from './rxjs.imports';
 
-import { RsExportService } from './services/rs-export.service';
+import { RsExportService } from './rs-export.service';
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
-import { ReportingStudioService } from './services/reporting-studio.service';
+import { ReportingStudioService } from './reporting-studio.service';
 import { Snapshot } from './report-objects/snapshotdialog/snapshot';
 
 

@@ -39,8 +39,20 @@ import { SnapshotdialogComponent } from './report-objects/snapshotdialog/snapsho
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export * from './rs-test.component';
-export * from './models';
-export * from './report-objects';
+
+export { barcode } from './models/barcode.model';
+export { chart, series } from './models/chart.model';
+export { PdfType, SvgType, PngType } from './models/export-type.model';
+export { column } from './models/column.model';
+export { link } from './models/link.model';
+export { graphrect } from './models/graphrect.model';
+export { fieldrect } from './models/fieldrect.model';
+export { textrect } from './models/textrect.model';
+export { table } from './models/table.model';
+export { sqrrect } from './models/sqrrect.model';
+export { baseobj } from './models/baseobj.model';
+export { repeater } from './models/repeater.model';
+export { TemplateItem } from './models/template-item.model';
 
 import { CookieModule, CookieService } from 'ngx-cookie';
 

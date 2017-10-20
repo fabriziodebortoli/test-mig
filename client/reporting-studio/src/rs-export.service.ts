@@ -4,7 +4,7 @@ import { drawDOM, exportPDF, DrawOptions, Group, exportImage, exportSVG } from '
 import { saveAs } from '@progress/kendo-file-saver';
 import { Subscription, Subject, Observable } from './rxjs.imports';
 
-import { PdfType, SvgType, PngType } from '../models';
+import { PdfType, SvgType, PngType } from './models/export-type.model';
 import { ReportingStudioService } from './reporting-studio.service';
 import { Snapshot } from './report-objects/snapshotdialog/snapshot';
 

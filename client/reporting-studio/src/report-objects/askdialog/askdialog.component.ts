@@ -2,7 +2,16 @@ import { AskdialogService } from './askdialog.service';
 import { Subscription } from '../../rxjs.imports';
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { Component, Input, OnDestroy, ViewEncapsulation, OnChanges, SimpleChange, EventEmitter, Output } from '@angular/core';
-import { TemplateItem, askGroup, text, check, radio, CommandType, askObj, hotlink, AskObjectType } from './../../models';
+
+import { text } from './../../models/text.model';
+import { check } from './../../models/check.model';
+import { radio } from './../../models/radio.model';
+import { askObj } from './../../models/ask-obj.model';
+import { hotlink } from './../../models/hotlink.model';
+import { AskObjectType } from './../../models/ask-object-type.model';
+import { TemplateItem } from '../../models/template-item.model';
+import { askGroup } from '../../models/ask-group.model';
+import { CommandType } from '../../models/command-type.model';
 
 @Component({
   selector: 'rs-askdialog',

@@ -4,7 +4,7 @@ import { Http } from '@angular/http';
 import { EventDataService, DocumentService, InfoService, HttpService, ComponentService, Logger } from '@taskbuilder/core';
 
 import { Subject } from './rxjs.imports';
-import { CommandType } from '../models';
+import { CommandType } from './models/command-type.model';
 
 @Injectable()
 export class ReportingStudioService extends DocumentService {

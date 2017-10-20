@@ -157,23 +157,32 @@ gulp.task('rollup:umd', function() {
             // See "globals" in https://rollupjs.org/#core-functionality
             globals: {
                 typescript: 'ts',
+                '@angular/common': 'common',
                 '@angular/core': 'core',
                 '@angular/forms': 'forms',
                 '@angular/http': 'http',
+                '@angular/router': 'router',
                 '@taskbuilder/core': 'core$1',
                 'rxjs/Subject': 'Subject',
-                'moment': 'moment',
+                'rxjs/operator/map': 'map$1',
+                'rxjs/operator/pluck': 'pluck',
+                'rxjs/operator/distinctUntilChanged': 'distinctUntilChanged$1',
+                'rxjs/Subscription': 'Subscription',
+                'rxjs/Observer': 'Observer',
+                'rxjs/Observable': 'Observable',
+                'rxjs/observable/ErrorObservable': 'ErrorObservable',
+                'rxjs/BehaviorSubject': 'BehaviorSubject',
+                'rxjs/util/TimeoutError': 'TimeoutError',
                 '@progress/kendo-drawing': 'kendoDrawing',
                 '@progress/kendo-file-saver': 'kendoFileSaver',
-                'ngx-cookie/index': 'ngx-cookie',
-                '@angular/router': 'router',
-                '@angular/common': 'common',
                 '@progress/kendo-angular-grid': 'kendoAngularGrid',
                 '@progress/kendo-angular-dialog': 'kendoAngularDialog',
                 '@progress/kendo-angular-charts': 'kendoAngularCharts',
                 '@progress/kendo-angular-buttons': 'kendoAngularButtons',
                 '@progress/kendo-angular-inputs': 'kendoAngularInputs',
-                'bwip-angular2': 'bwipjs'
+                'ngx-cookie': 'ngxCookie',
+                'bwip-angular2': 'bwipjs',
+                'moment': 'moment'
             },
 
             // Skip THIS_IS_UNDEFINED warnings 
