@@ -1,5 +1,6 @@
 import { TbComponentService, LayoutService, EventDataService, ControlComponent } from '@taskbuilder/core';
 import { Component, Input } from '@angular/core';
+import { Helpers } from '../../../core/u/helpers';
 
 @Component({
   selector: 'tb-number-edit-with-filler',
@@ -13,47 +14,27 @@ export class NumberEditWithFillerComponent extends ControlComponent {
   @Input() minLen = 6;
 
   public errorMessage: string;
-  public value: any;
-  
-  private regex: RegExp = new RegExp(/^-?\d+$/);
-  private admittedSpecialKeys: Array<string> = [ 'Backspace', 'Tab', 'End', 'Home', 'ArrowLeft', 'ArrowRight', 'Escape'];
 
-  constructor( private eventData: EventDataService,
+  constructor( public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService) {
       super(layoutService, tbComponentService);
      }
 
-  onPaste(event) {
-    const e = <ClipboardEvent> event;
-    if (e.type === 'paste') {
-      const pasteData = e.clipboardData.getData('text');
-      if (pasteData && !String(pasteData).match(this.regex)) {
-          e.preventDefault();
-          this.errorMessage = this._TB('Only integers admitted.');
-      }
+  onPasting(e: ClipboardEvent) {
+    if (!Helpers.hasBeenPastedANumber(e) ) {
+      this.errorMessage = this._TB('Only numbers admitted.');
+      e.preventDefault();
     }
   }
 
-  onKeyDown(event) {
-    this.errorMessage = '';
-    const e = <KeyboardEvent> event;
-    if (this.admittedSpecialKeys.indexOf(e.key) !== -1) {
-      return;
-    }
-    if (e.ctrlKey === true && (e.key === 'c' || e.key === 'x' || e.key === 'v' || e.key === 'z')) {
-        return;
-    }
-
-    const current: string = event.key;
-    const next: string = current.concat(e.key);
-    if (next && !String(next).match(this.regex)) {
+  onTyping(e: KeyboardEvent) {
+    if (!Helpers.hasBeenTypedANumber(e) )
       e.preventDefault();
-    }
+  }
 
-    if (this.model.value.length >= this.maxLength) {
-      e.preventDefault();
-    }
+  changeModelValue(value) {
+    this.model.value = value;
   }
 
   onBlur() {

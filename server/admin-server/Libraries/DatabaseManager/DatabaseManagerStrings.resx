@@ -685,4 +685,7 @@ Please contact your reseller for further information.</value>
   <data name="WarningLoginNotExists" xml:space="preserve">
     <value>Specified login '{0}' does not exist on server '{1}', so it will be created.</value>
   </data>
+  <data name="ErrorDeletingObjectsFromDB" xml:space="preserve">
+    <value>An error occurred deleting objects from database '{0}'.</value>
+  </data>
 </root>
