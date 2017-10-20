@@ -81,8 +81,7 @@ class StoreT<T> extends Observable<T> {
     ).map(res => res.reduce((o, val) => { o[val] = val; return o; }, {}));
   }
 
-  // selectBySlicer<R extends {[P in keyof T]?: any}>(slicer: T): Observable<R> {
-  selectBySlicer(slicer: T): Observable<any> {
+  selectBySlicer<T>(slicer: T): Observable<{[P in keyof T]: any}> {
     return Observable.combineLatest(
       ...Object.keys(slicer).map(x => this.select<any>(s => _.get(s, slicer[x])))
     ).map(res => res.reduce((o, val, i) => { o[Object.keys(slicer)[i]] = val; return o; }, {}));
