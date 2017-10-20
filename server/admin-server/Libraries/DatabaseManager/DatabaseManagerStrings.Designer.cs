@@ -691,6 +691,15 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred deleting objects from database &apos;{0}&apos;..
+        /// </summary>
+        internal static string ErrorDeletingObjectsFromDB {
+            get {
+                return ResourceManager.GetString("ErrorDeletingObjectsFromDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parsing error of file {0} Line {1}, Position {2}.
         /// </summary>
         internal static string ErrorDuringParsingXmlFile {

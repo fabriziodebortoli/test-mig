@@ -1205,8 +1205,9 @@ namespace Microarea.Common.MenuLoader
             else
             {
                 int modulesCount = 0;
-                
-                List<string> activatedModules = LoginManager.LoginManagerInstance.GetModules();
+
+				LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+				List <string> activatedModules = session.GetModules();
                 if (activatedModules == null || activatedModules.Count <= 0)
                 {
                     Debug.Fail("No activated modules found");
