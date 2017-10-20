@@ -1,6 +1,10 @@
-<kendo-dialog title="Errors" *ngIf="diagnosticService.isVisible">
-    <div *ngFor="let message of diagnosticService.messages">
-        {{message?.text}}
+<kendo-dialog title="{{localizationService.localizedElements?.Error}}" *ngIf="diagnosticService.isVisible" (close)="close()">
+    <div class="messagesContainer">
+        <div *ngFor="let message of diagnosticService.messages">
+            {{message?.text}}
+        </div>
     </div>
-    <button kendoButton primary="true" style="width: 300px;" (click)="close()">close</button>
+    <div>
+        <button kendoButton primary="true" (click)="close()" class="closeButton">{{localizationService.localizedElements?.CloseLabel}}</button>
+    </div>
 </kendo-dialog>
