@@ -14,7 +14,6 @@ class StoreT<T> extends Observable<T> {
   constructor(private stateContainer: { model: T, change: Observable<any> }) {
     super();
     this.stateContainer.change
-      .do(i => console.log('emit: ' + i))
       .subscribe(s => this.actionsObserver.next(this.stateContainer.model));
   }
 
@@ -75,20 +74,27 @@ class StoreT<T> extends Observable<T> {
     return distinctUntilChanged.call(mapped$);
   }
 
-  selectMapping2(stateMap: {}): Observable<any> {
-    return this.actionsObserver.combineLatest(
-      ...Object.keys(stateMap).map(x =>
-        this.select<any>(s => _.get(s, stateMap[x]))
-          .filter(v => !!v)));
+  selectSlices(...paths: string[]): Observable<any> {
+    return Observable.combineLatest(
+      ...paths.map(x => this.select<any>(s => _.get(s, x)))
+    ).map(res => res.reduce((o, val) => { o[val] = val; return o; }, {}));
   }
 
-  selectMapping(stateMap: {}): Observable<any> {
-    let arr = Object.keys(stateMap).map(x =>
-      this.select<any>(s => _.get(s, stateMap[x])));
-console.log(arr);
-    return this.actionsObserver.combineLatest(arr.filter(v => !!v));
+  selectBySlicer(slicer: {}): Observable<any> {
+    return Observable.combineLatest(
+      ...Object.keys(slicer)
+        .map(x => this.select<any>(s => _.get(s, slicer[x])))
+    ).map(res => res.reduce((o, val, i) => { o[Object.keys(slicer)[i]] = val; return o; }, {}));
   }
 
+  // selectBySlicerT<
+  //   a extends keyof T
+  // >(slicer: T): Observable<T> {
+  //   return Observable.combineLatest(
+  //     ...Object.keys(slicer)
+  //       .map(x => this.select<any>(s => _.get(s, slicer[x])))
+  //   ).map(res => res.reduce((o, val, i) => { o[Object.keys(slicer)[i]] = val; return o; }, {}));
+  // }
 
   dispatch<V extends Action = Action>(action: V) {
     this.actionsObserver.next(action);

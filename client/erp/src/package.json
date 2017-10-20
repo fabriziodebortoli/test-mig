@@ -30,6 +30,8 @@
         "@angular/animations": "^4.4.5"
     },
     "dependencies": {
+        "@types/lodash": "^4.14.77",
+        "loadash": "^1.0.0",
         "ngx-cookie": "^1.0.0"
     }
 }

@@ -123,6 +123,13 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
         if (this.tileIsVisible(array[i]))
           newArray.push(array[i]);
       }
+      
+      //aggiunto per menù a tre livelli
+      let olstyleMenu  = this.utilsService.toArray(this.menuService.selectedGroup.Menu);
+      for (let i = 0; i < olstyleMenu.length; i++) {
+        if (this.tileIsVisible(olstyleMenu[i]))
+        newArray.push(olstyleMenu[i]);
+      }
       return newArray;
     }
 

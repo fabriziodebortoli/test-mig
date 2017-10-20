@@ -32,10 +32,10 @@ export class BarcodeComponent implements OnChanges {
       return;
     }
     let scale = this.CreateBarcode();
-    this.DrawBarcode(scale[0], scale[1]);
+    this.DrawBarcode(scale);
   }
 
-  CreateBarcode(): number[] {
+  CreateBarcode(): number {
 
     let width: number;
     let height: number;
@@ -48,11 +48,11 @@ export class BarcodeComponent implements OnChanges {
     }
 
     let canvas = document.createElement('canvas');
-    let sc: number[] = [1, 1];
+    let sc: number = 2;
     bwipjs(canvas, {
       bcid: this.barcode.type,       // Barcode type
       text: this.value,	             // Text to encode
-      scale: 1,
+      scale: this.GetInitialScale(this.barcode.type),
       includetext: this.barcode.includetext,        // Show human-readable text
       rotate: this.barcode.rotate,
       textxalign: 'center',      // Always good to set this
@@ -61,25 +61,22 @@ export class BarcodeComponent implements OnChanges {
         console.log(err);
         //sc[0] = sc[1] = 0;
       } else {
-        if (canvas.width < width) {
-          sc[0] = Math.floor(width / canvas.width);
-        }
-        if (canvas.height < height) {
-          sc[1] = Math.floor(height / canvas.height);
-        }
+
+        sc = Math.min(Math.floor(width / canvas.width), Math.floor(height / canvas.height));
       }
     });
 
     return sc;
   }
 
-  DrawBarcode(scX: number, scY: number) {
+  DrawBarcode(scX: number/*, scY: number*/) {
 
     bwipjs(this.id, {
       bcid: this.barcode.type,       // Barcode type
       text: this.value,//this.value,   	             // Text to encode
-      scaleX: scX,                 // scaling
-      scaleY: scY,                 // scaling
+      scale: this.GetInitialScale(this.barcode.type) == 0 ? 1 : scX,                 // scaling
+      //scaleY: this.GetInitialScale(this.barcode.type)==0? 1:scY,                 // scaling
+
       //height: ((this.rect.rect.bottom - this.rect.rect.top) * 25.4),  // Bar height, in millimeters
       //width: ((this.rect.rect.bottom - this.rect.rect.top) * 25.4),
       //paddingheight: 2,
@@ -87,7 +84,7 @@ export class BarcodeComponent implements OnChanges {
       rotate: this.barcode.rotate,
       textxalign: 'center',      // Always good to set this
     }, function (err, cvs) {
-      if (err) {
+      if (err) { 
         //document.getElementById(this.idErr).innerText = 'Error occured. See browser log for more information';
         console.log(err);
       } else {
@@ -113,5 +110,18 @@ export class BarcodeComponent implements OnChanges {
     let chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     for (var i = 10; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
     return result;
+  }
+
+  private GetInitialScale(type: string): number {
+    switch (type) {
+      case 'qrcode':
+      case 'datamatrix':
+      case 'microqrcode':
+      case 'pdf417':
+        return 1;
+
+      default:
+        return 0;
+    }
   }
 }

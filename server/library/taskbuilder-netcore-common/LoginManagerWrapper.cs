@@ -186,7 +186,7 @@ namespace Microarea.Common.WebServicesWrapper
         }
 
         //---------------------------------------------------------------------------
-        private List<string> GetModules()
+        internal List<string> GetModules()
         {
             lock (this)
             {
