@@ -1000,6 +1000,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		}
 		#endregion
 
+		#region Create login
 		//---------------------------------------------------------------------
 		public bool CreateLogin(string login, string password)
 		{
@@ -1092,7 +1093,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			return true;
 		}
+		#endregion
 
+		#region CreateUser
 		//---------------------------------------------------------------------
 		public bool CreateUser(string login, string dbName)
 		{
@@ -1195,7 +1198,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			return true;
 		}
+		# endregion
 
+		#region TryToConnect
 		/// <summary>
 		/// TryToConnect
 		/// </summary>
@@ -1254,7 +1259,6 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			return result;
 		}
-
 
 		/// <summary>
 		/// TryToConnect
@@ -1319,7 +1323,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			return result;
 		}
-
+		# endregion
 
 		#region ExistDataBase - Verifica se il db specificato esiste già (non di sistema)
 		/// <summary>
@@ -1368,7 +1372,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		}
 		#endregion
 
-		#region ExistLogin -  Si connette al master e verifica se la loginName esiste
+		#region ExistLogin - Si connette al master e verifica se la loginName esiste
 		/// <summary>
 		/// Si connette al master e verifica se la login identificata da loginName esiste
 		/// </summary>
@@ -1665,5 +1669,213 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		}
 		#endregion
 
+		#region DeleteDatabaseObjects - Cancella tutti gli oggetti di un db (di una azienda)
+		/// <summary>
+		/// DeleteDatabaseObjects
+		/// cancella tutte le tabelle, le view e le stored procedure in un database (esclusi gli oggetti di sistema)
+		/// </summary>
+		//---------------------------------------------------------------------
+		public bool DeleteDatabaseObjects()
+		{
+			bool result = false;
+
+			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(CurrentStringConnection);
+			string dbName = builder.InitialCatalog;
+
+			SqlCommand myDeleteCommand = null;
+
+			try
+			{
+				using (SqlConnection deleteDBConnection = new SqlConnection(CurrentStringConnection))
+				{
+					deleteDBConnection.Open();
+
+					//oggetti da cancellare
+					//-------------------------------------------------------------
+					string myUserFKQuery = @"SELECT t1.name, t2.name as tableName FROM sysobjects t1 INNER JOIN sysobjects t2
+										 ON t1.parent_obj = t2.id WHERE t1.type = 'F'";
+					//-------------------------------------------------------------
+					string myUserTableQuery = "SELECT name FROM sysobjects WHERE type = 'U'";
+					//-------------------------------------------------------------
+					string myUserSPQuery = "SELECT name FROM sysobjects WHERE type = 'P'";
+					//-------------------------------------------------------------
+					string myUserViewQuery = "SELECT name FROM sysobjects WHERE type = 'V'";
+					//-------------------------------------------------------------
+					string myUserTriggerQuery = "SELECT name FROM sysobjects WHERE type = 'TR'";
+
+					List<string> myObjectList = new List<string>();
+
+					myDeleteCommand = new SqlCommand();
+					myDeleteCommand.Connection = deleteDBConnection;
+
+					//-------------------------------------------------------------
+					// CANCELLAZIONE TRIGGER
+					//-------------------------------------------------------------
+					myDeleteCommand.CommandText = myUserTriggerQuery;
+					using (SqlDataReader mySqlDataReader = myDeleteCommand.ExecuteReader())
+						while (mySqlDataReader.Read())
+							myObjectList.Add(mySqlDataReader["name"].ToString());
+
+					foreach (string trigger in myObjectList)
+					{
+						try
+						{
+							myDeleteCommand.CommandText = string.Format("DROP TRIGGER [{0}]", trigger);
+							myDeleteCommand.ExecuteNonQuery();
+							myDeleteCommand.Dispose();
+						}
+						catch (Exception e)
+						{
+							Debug.WriteLine(string.Format("An error occurring deleting {0} ({1})", trigger, e.Message));
+							continue;
+						}
+					}
+
+					//-------------------------------------------------------------
+					// CANCELLAZIONE VIEW
+					//-------------------------------------------------------------
+					myDeleteCommand.CommandText = myUserViewQuery;
+					myObjectList.Clear();
+					using (SqlDataReader mySqlDataReader = myDeleteCommand.ExecuteReader())
+						while (mySqlDataReader.Read())
+						{
+							if ((string.Compare(mySqlDataReader["name"].ToString(), "sysconstraints", StringComparison.InvariantCultureIgnoreCase) != 0) &&
+								(string.Compare(mySqlDataReader["name"].ToString(), "syssegments", StringComparison.InvariantCultureIgnoreCase) != 0) &&
+								(string.Compare(mySqlDataReader["name"].ToString(), "database_firewall_rules", StringComparison.InvariantCultureIgnoreCase) != 0)) // Azure
+								myObjectList.Add(mySqlDataReader["name"].ToString());
+						}
+
+					foreach (string view in myObjectList)
+					{
+						try
+						{
+							myDeleteCommand.CommandText = string.Format("DROP VIEW [{0}]", view);
+							myDeleteCommand.ExecuteNonQuery();
+							myDeleteCommand.Dispose();
+						}
+						catch (Exception e)
+						{
+							Debug.WriteLine(string.Format("An error occurring deleting {0} ({1})", view, e.Message));
+							continue;
+						}
+					}
+
+					//-------------------------------------------------------------
+					// CANCELLAZIONE STORED PROCEDURE
+					//-------------------------------------------------------------
+					myDeleteCommand.CommandText = myUserSPQuery;
+					myObjectList.Clear();
+
+					using (SqlDataReader mySqlDataReader = myDeleteCommand.ExecuteReader())
+						while (mySqlDataReader.Read())
+							myObjectList.Add(mySqlDataReader["name"].ToString());
+
+					foreach (string procedure in myObjectList)
+					{
+						try
+						{
+							myDeleteCommand.CommandText = string.Format("DROP PROCEDURE [{0}]", procedure);
+							myDeleteCommand.ExecuteNonQuery();
+							myDeleteCommand.Dispose();
+						}
+						catch (Exception e)
+						{
+							Debug.WriteLine(string.Format("An error occurring deleting {0} ({1})", procedure, e.Message));
+							continue;
+						}
+					}
+
+					//-------------------------------------------------------------
+					// CANCELLAZIONE FOREIGN KEY
+					//-------------------------------------------------------------
+					myDeleteCommand.CommandText = myUserFKQuery;
+					myObjectList.Clear();
+					List<string> userFKTables = new List<string>();
+
+					using (SqlDataReader mySqlDataReader = myDeleteCommand.ExecuteReader())
+						while (mySqlDataReader.Read())
+						{
+							myObjectList.Add(mySqlDataReader["name"].ToString());
+							userFKTables.Add(mySqlDataReader["tableName"].ToString());
+						}
+
+
+					for (int i = 0; i < myObjectList.Count; i++)
+					{
+						try
+						{
+							myDeleteCommand.CommandText = string.Format("ALTER TABLE [{0}] DROP CONSTRAINT [{1}]", userFKTables[i], myObjectList[i]);
+							myDeleteCommand.ExecuteNonQuery();
+							myDeleteCommand.Dispose();
+						}
+						catch (Exception e)
+						{
+							Debug.WriteLine(string.Format("An error occurring deleting {0} ({1})", myObjectList[i], e.Message));
+							continue;
+						}
+					}
+
+					//-------------------------------------------------------------
+					// CANCELLAZIONE TABELLE
+					//-------------------------------------------------------------
+					myDeleteCommand.CommandText = myUserTableQuery;
+					myObjectList.Clear();
+
+					using (SqlDataReader mySqlDataReader = myDeleteCommand.ExecuteReader())
+						while (mySqlDataReader.Read())
+							myObjectList.Add(mySqlDataReader["name"].ToString());
+
+					foreach (string table in myObjectList)
+					{
+						try
+						{
+							myDeleteCommand.CommandText = string.Format("DROP TABLE [{0}]", table);
+							myDeleteCommand.ExecuteNonQuery();
+							myDeleteCommand.Dispose();
+						}
+						catch (Exception e)
+						{
+							Debug.WriteLine(string.Format("An error occurring deleting {0} ({1})", table, e.Message));
+							continue;
+						}
+					}
+
+					myDeleteCommand.Dispose();
+					result = true;
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteDatabaseObjects");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.ErrorDeletingObjectsFromDB, dbName), extendedInfo);
+			}
+			catch (Exception aExc)
+			{
+				Debug.WriteLine(aExc.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, aExc.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DeleteDatabaseObjects");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Source, aExc.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, aExc.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.ErrorDeletingObjectsFromDB, dbName), extendedInfo);
+			}
+			finally
+			{
+				if (myDeleteCommand != null)
+					myDeleteCommand.Dispose();
+			}
+			return result;
+		}
+		#endregion
 	}
 }

@@ -509,7 +509,7 @@ namespace Microarea.AdminServer.Controllers
 
 		[HttpPost("/api/database/check/{subscriptionKey}")]
 		//---------------------------------------------------------------------
-		public IActionResult ApiCheck(string subscriptionKey, [FromBody] ExtendedSubcriptionDatabase extSubDatabase)
+		public IActionResult ApiCheck(string subscriptionKey, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -542,7 +542,7 @@ namespace Microarea.AdminServer.Controllers
 
 		[HttpPost("/api/database/update/{subscriptionKey}")]
 		//---------------------------------------------------------------------
-		public IActionResult ApiUpdate(string subscriptionKey, [FromBody] ExtendedSubcriptionDatabase extSubDatabase)
+		public IActionResult ApiUpdate(string subscriptionKey, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
 			// @@TODO: in Angular devo effettuare un controllo preventivo e farmi passare anche le credenziali di amministrazione
 			// vedere se e' corretto riempire una classe esterna con le informazioni delle DatabaseCredentials e SubscriptionDatabase
@@ -648,7 +648,7 @@ namespace Microarea.AdminServer.Controllers
 		}
 
 		//---------------------------------------------------------------------
-		private OperationResult CheckDatabases(ExtendedSubcriptionDatabase subDatabase)
+		private OperationResult CheckDatabases(ExtendedSubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -758,7 +758,7 @@ namespace Microarea.AdminServer.Controllers
 		}
 
 		//---------------------------------------------------------------------
-		private OperationResult CheckLogin(ExtendedSubcriptionDatabase subDatabase, bool isDMS = false)
+		private OperationResult CheckLogin(ExtendedSubscriptionDatabase subDatabase, bool isDMS = false)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -888,7 +888,7 @@ namespace Microarea.AdminServer.Controllers
 		}
 
 		//---------------------------------------------------------------------
-		private OperationResult PrecheckSubscriptionDB(ExtendedSubcriptionDatabase extSubDatabase)
+		private OperationResult PrecheckSubscriptionDB(ExtendedSubscriptionDatabase extSubDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -1119,14 +1119,14 @@ namespace Microarea.AdminServer.Controllers
 
 			// check AuthorizationHeader first
 
-			/*opRes = SecurityManager.ValidateAuthorization(
+			opRes = SecurityManager.ValidateAuthorization(
 				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
 
 			if (!opRes.Result)
 			{
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}*/
+			}
 
 			if (subDatabase == null)
 			{
@@ -1171,14 +1171,14 @@ namespace Microarea.AdminServer.Controllers
 
 			// check AuthorizationHeader first
 
-			/*opRes = SecurityManager.ValidateAuthorization(
+			opRes = SecurityManager.ValidateAuthorization(
 				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
 
 			if (!opRes.Result)
 			{
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}*/
+			}
 
 			if (subDatabase == null)
 			{
@@ -1212,10 +1212,50 @@ namespace Microarea.AdminServer.Controllers
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
+
+		[HttpPost("/api/database/deleteobjects/{subscriptionKey}")]
+		//---------------------------------------------------------------------
+		public IActionResult ApiDeleteObjects(string subscriptionKey, [FromBody]SubscriptionDatabase subDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+
+			string authHeader = HttpContext.Request.Headers["Authorization"];
+
+			// check AuthorizationHeader first
+
+			opRes = SecurityManager.ValidateAuthorization(
+				authHeader, settings.SecretsKeys.TokenHashingKey, RolesStrings.Admin, subscriptionKey, RoleLevelsStrings.Subscription);
+
+			if (!opRes.Result)
+			{
+				jsonHelper.AddPlainObject<OperationResult>(opRes);
+				return new ContentResult { StatusCode = 401, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
+
+			// I use master database to load all dbs
+			bool isAzureDB = (subDatabase.Provider == "SQLAzure");
+
+			string connectionString =
+				string.Format
+				(
+				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
+				subDatabase.DBServer,
+				subDatabase.DBName,
+				subDatabase.DBOwner,
+				subDatabase.DBPassword
+				);
+
+			DatabaseTask dTask = new DatabaseTask(isAzureDB) { CurrentStringConnection = connectionString };
+			opRes.Result = dTask.DeleteDatabaseObjects();
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
 	}
 
 	//================================================================================
-	public class ExtendedSubcriptionDatabase
+	public class ExtendedSubscriptionDatabase
 	{
 		public DatabaseCredentials AdminCredentials;
 		public SubscriptionDatabase Database;
