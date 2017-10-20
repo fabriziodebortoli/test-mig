@@ -1,3 +1,6 @@
+import { DiagnosticService } from './../../../../../core/services/diagnostic.service';
+import { DiagnosticItemComponent } from './../../../../containers/diagnostic-dialog/diagnostic-dialog.component';
+import { LocalizationService } from './../../../../../core/services/localization.service';
 import { SettingsService } from './../../../../../core/services/settings.service';
 import { CookieService } from 'ngx-cookie';
 import { HttpService } from './../../../../../core/services/http.service';
@@ -22,6 +25,7 @@ export class TopbarMenuUserComponent implements OnDestroy {
     menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
 
     commandSubscription: Subscription;
+    localizationsLoadedSubscription: Subscription;
     constructor(
         public componentService: ComponentService,
         public authService: AuthService,
@@ -30,13 +34,19 @@ export class TopbarMenuUserComponent implements OnDestroy {
         public infoService: InfoService,
         public httpService: HttpService,
         public settingsService: SettingsService,
-        private cookieService: CookieService
+        private cookieService: CookieService,
+        public localizationService: LocalizationService,
+        public diagnosticService: DiagnosticService
     ) {
-        //const item1 = new ContextMenuItem('Refresh', 'idRefreshButton', true, false);
-        const item2 = new ContextMenuItem('Settings', 'idSettingsButton', true, false);
-        const item3 = new ContextMenuItem('Help', 'idHelpButton', true, false);
-        const item4 = new ContextMenuItem('Sign Out', 'idSignOutButton', true, false);
-        this.menuElements.push(/*item1, */item2, item3, item4);
+        this.localizationsLoadedSubscription = localizationService.localizationsLoaded.subscribe((loaded) => {
+            if (!loaded || !this.localizationService.localizedElements)
+                return;
+
+            const item2 = new ContextMenuItem(this.localizationService.localizedElements.Settings, 'idSettingsButton', true, false);
+            const item3 = new ContextMenuItem(this.localizationService.localizedElements.Help, 'idHelpButton', true, false);
+            const item4 = new ContextMenuItem(this.localizationService.localizedElements.Logout, 'idSignOutButton', true, false);
+            this.menuElements.push(/*item1, */item2, item3, item4);
+        });
 
         this.commandSubscription = this.eventDataService.command.subscribe((args: CommandEventArgs) => {
 
@@ -45,7 +55,6 @@ export class TopbarMenuUserComponent implements OnDestroy {
                     return this.logout();
                 case 'idSettingsButton':
                     return this.openSettingsPage();
-
                 case 'idHelpButton':
                     return this.openHelp();
                 default:
@@ -60,18 +69,17 @@ export class TopbarMenuUserComponent implements OnDestroy {
                 this.authService.logout();
             }
             else {
-                console.log("logout", res.messages);
+                this.diagnosticService.showDiagnostic(res.messages);
             }
             subs.unsubscribe();
         });
-
-
-
     }
 
     ngOnDestroy() {
         this.commandSubscription.unsubscribe();
+        this.localizationsLoadedSubscription.unsubscribe();
     }
+
     openHelp() {
         let ns = "RefGuide.Menu"
         let subs = this.httpMenuService.callonlineHelpUrl(ns, "").subscribe((res) => {
@@ -80,6 +88,7 @@ export class TopbarMenuUserComponent implements OnDestroy {
                 window.open(res.url, '_blank');
         });  //TODOLUCA culture da impostare
     }
+
     openSettingsPage() {
         this.settingsService.settingsPageOpenedEvent.emit(true);
         //this.componentService.createComponentFromUrl('settings/settings', true);
