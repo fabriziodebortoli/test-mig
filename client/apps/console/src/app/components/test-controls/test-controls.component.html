@@ -86,6 +86,8 @@
               <admin-button [buttonText]="'open dialog'" (click)="openDialog()"></admin-button>
               <admin-dialog 
                 [mode]="'confirm'"
+                [title]="'Order confirmation'" 
+                [message]="'Congratulations, your order has been processed.'" 
                 [opened]=openToggle 
                 (onDialogClosed)="openToggle = false"></admin-dialog>
               bind: {{ openToggle }}
