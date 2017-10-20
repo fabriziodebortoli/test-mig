@@ -148,6 +148,7 @@ namespace Microarea.RSWeb.Controllers
 
             try
             {
+                this.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
                 FileStream f = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
                 return new FileStreamResult(f, "image/" + ext);
             }
