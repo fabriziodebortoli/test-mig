@@ -34,27 +34,58 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="adminTile tileNormal">
+        <div>
+          <h3>Admin DropDown</h3>
+          <div>
+            <h5>Code</h5>
+            <code>&#x3C;admin-dropdown 
+                [inputLabel]=&#x22;&#x27;Leonardo\&#x27;s paintings&#x27;&#x22; 
+                [(selectedValue)]=&#x22;selectedItem&#x22; 
+                [listItems]=&#x22;artWorks&#x22; 
+                [textField]=&#x22;&#x27;name&#x27;&#x22; 
+                [valueField]=&#x22;&#x27;value&#x27;&#x22;&#x3E;&#x3C;/admin-dropdown&#x3E;  </code>
+          </div>
+          <div>
+            <h5>Live</h5>
+            <admin-dropdown 
+              [inputLabel]="'Leonardo\'s paintings'" 
+              [(selectedValue)]="selectedItem" 
+              [listItems]="artWorks" 
+              [textField]="'name'" 
+              [valueField]="'value'"></admin-dropdown>              
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="adminTile tileNormal">
+        <div>
+          <h3>Admin TextArea</h3>
+          <div>
+            <h5>Code</h5>
+            <code>&#x3C;admin-textarea [inputLabel]=&#x22;&#x27;Notes&#x27;&#x22; [(inputData)]=&#x22;strTextArea&#x22;&#x3E;&#x3C;/admin-textarea&#x3E;</code>
+          </div>            
+          <admin-textarea [inputLabel]="'Notes'" [(inputData)]="strTextArea"></admin-textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="adminTile tileNormal">
           <div>
-            <h3>Admin DropDown</h3>
+            <h3>Admin Dialog</h3>
             <div>
               <h5>Code</h5>
-              <code>&#x3C;admin-dropdown 
-                  [inputLabel]=&#x22;&#x27;Leonardo\&#x27;s paintings&#x27;&#x22; 
-                  [(selectedValue)]=&#x22;selectedItem&#x22; 
-                  [listItems]=&#x22;artWorks&#x22; 
-                  [textField]=&#x22;&#x27;name&#x27;&#x22; 
-                  [valueField]=&#x22;&#x27;value&#x27;&#x22;&#x3E;&#x3C;/admin-dropdown&#x3E;  </code>
+              <code></code>
             </div>
             <div>
               <h5>Live</h5>
-              <admin-dropdown 
-                [inputLabel]="'Leonardo\'s paintings'" 
-                [(selectedValue)]="selectedItem" 
-                [listItems]="artWorks" 
-                [textField]="'name'" 
-                [valueField]="'value'"></admin-dropdown>              
+              <admin-button [buttonText]="'open dialog'" (click)="openDialog()"></admin-button>
+              <admin-dialog [title]="'Art Quiz'" [message]="'Did painting the Monna Lisa take more than one year?'" [opened]=openToggle (onDialogClosed)="openToggle = false"></admin-dialog>
+              bind: {{ openToggle }}
             </div>
           </div>
         </div>
@@ -62,16 +93,15 @@
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="adminTile tileNormal">
           <div>
-            <h3>Admin TextArea</h3>
+            <h3>Coming soon..</h3>
             <div>
               <h5>Code</h5>
-              <code>&#x3C;admin-textarea [inputLabel]=&#x22;&#x27;Notes&#x27;&#x22; [(inputData)]=&#x22;strTextArea&#x22;&#x3E;&#x3C;/admin-textarea&#x3E;</code>
+              <code></code>
             </div>            
-            <admin-textarea [inputLabel]="'Notes'" [(inputData)]="strTextArea"></admin-textarea>
           </div>
         </div>
       </div>
-    </div>  
+    </div>      
 </div>
 
 

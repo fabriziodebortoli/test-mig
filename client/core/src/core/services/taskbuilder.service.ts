@@ -1,4 +1,5 @@
-﻿import { EventManagerService } from './event-manager.service';
+﻿import { AuthService } from './auth.service';
+import { EventManagerService } from './event-manager.service';
 import { DialogService } from '@progress/kendo-angular-dialog';
 import { Injectable, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -33,7 +34,8 @@ export class TaskbuilderService {
         public router: Router,
         public infoService: InfoService,
         public eventManagerService: EventManagerService,
-        public diagnosticService: DiagnosticService
+        public diagnosticService: DiagnosticService,
+        public authService: AuthService
     ) {
 
         // Connessione WS quando viene aperta connessione al tbLoader
@@ -95,7 +97,7 @@ export class TaskbuilderService {
 
                     if (tbRes.error) {
 
-                        this.diagnosticService.showDiagnostic(tbRes.messages);
+                       
                         this.stopConnection = true;
 
                         this.logger.debug("error messages:", tbRes.messages);
@@ -104,6 +106,9 @@ export class TaskbuilderService {
                         this.tbConnection.next(true); //passo true perchè la connessione è finita, anche se in maniera fallimentare, in questo modo stoppo il loading
                         observer.next(true);
                         observer.complete();
+
+                        this.diagnosticService.showDiagnostic(tbRes.messages); //qui dovrei fare logout
+                        this.authService.logout();
 
                     } else {
                         this.logger.debug("TbLoader Connected...")
