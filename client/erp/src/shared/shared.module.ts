@@ -10,12 +10,12 @@ export { NoSpacesEditComponent } from './controls/no-spaces/no-spaces.component'
 export { VatComponent } from './controls/vat/vat.component';
 export { NumberEditWithFillerComponent} from './controls/number-edit-with-filler/tb-number-edit-with-filler.component';
 
-
 const ERP_COMPONENTS = [NoSpacesEditComponent, VatComponent, NumberEditWithFillerComponent];
 
 @NgModule({
     imports: [FormsModule, TaskbuilderCoreModule],
-    declarations: [ERP_COMPONENTS],
-    exports: [ERP_COMPONENTS]
+    declarations: [ERP_COMPONENTS, ],
+    exports: [ERP_COMPONENTS],
+    providers: []
 })
 export class ERPSharedModule { }
