@@ -12,18 +12,13 @@ import Tax from './tax';
 export class VatComponent extends ControlComponent {
   @Input('readonly') readonly = false;
   @Input() isoCode: string;
-  @Input() modelMap = {};
+  @Input() slice;
 
   errorMessage: any;
 
-  constructor(private eventData: EventDataService, layoutService: LayoutService,
-    tbComponentService: TbComponentService, private http: ErpHttpService, private store: Store) {
+  constructor(layoutService: LayoutService,
+    tbComponentService: TbComponentService, private http: ErpHttpService) {
     super(layoutService, tbComponentService);
-  }
-
-  ngOnInit() {
-    this.store.selectBySlicer(this.modelMap)
-      .subscribe(m => console.log(m));
   }
 
   ngOnChanges(changes) {
@@ -37,7 +32,7 @@ export class VatComponent extends ControlComponent {
     if (r.json().isDuplicate)
       this.errorMessage = r.json().message;
     this.blur.emit(this);
-    this.eventData.change.emit(this.cmpId);
+    //this.eventData.change.emit(this.cmpId);
   }
 
   changeModelValue(value) {
@@ -53,8 +48,4 @@ export class VatComponent extends ControlComponent {
   }
 
   get isValid(): boolean { return !this.errorMessage; }
-
-  ngOnDestroy() {
-
-  }
 }
