@@ -84,7 +84,10 @@
             <div>
               <h5>Live</h5>
               <admin-button [buttonText]="'open dialog'" (click)="openDialog()"></admin-button>
-              <admin-dialog [title]="'Art Quiz'" [message]="'Did painting the Monna Lisa take more than one year?'" [opened]=openToggle (onDialogClosed)="openToggle = false"></admin-dialog>
+              <admin-dialog 
+                [mode]="'confirm'"
+                [opened]=openToggle 
+                (onDialogClosed)="openToggle = false"></admin-dialog>
               bind: {{ openToggle }}
             </div>
           </div>
