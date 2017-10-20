@@ -1,12 +1,10 @@
-import { Http } from '@angular/http';
-import { InfoService, HttpService } from '@taskbuilder/core';
-import { ComponentService } from '@taskbuilder/core';
-import { Logger } from '@taskbuilder/core';
 import { Injectable, EventEmitter, Output } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Http } from '@angular/http';
 
-import { EventDataService, DocumentService } from '@taskbuilder/core';
-import { CommandType } from './models';
+import { EventDataService, DocumentService, InfoService, HttpService, ComponentService, Logger } from '@taskbuilder/core';
+
+import { Subject } from './rxjs.imports';
+import { CommandType } from '../models';
 
 @Injectable()
 export class ReportingStudioService extends DocumentService {

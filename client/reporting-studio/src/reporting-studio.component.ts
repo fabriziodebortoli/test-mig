@@ -1,20 +1,20 @@
-import { RsExportService } from './rs-export.service';
-import { ReportLayoutComponent } from './report-objects/layout/layout.component';
-import { WebSocketService, InfoService } from '@taskbuilder/core';
-import { UtilsService } from '@taskbuilder/core';
-import { CookieService } from 'ngx-cookie';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType, SvgType, PngType } from './models';
-import { DocumentComponent } from '@taskbuilder/core';
-import { ComponentService } from '@taskbuilder/core';
-import { EventDataService } from '@taskbuilder/core';
-import { ReportingStudioService } from './reporting-studio.service';
-import { Snapshot } from './report-objects/snapshotdialog/snapshot';
+
+import { WebSocketService, InfoService, DocumentComponent, ComponentService, EventDataService, UtilsService } from '@taskbuilder/core';
 
 import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
+import { CookieService } from 'ngx-cookie';
+
+import { CommandType, baseobj, fieldrect, textrect, table, column, graphrect, sqrrect, link, PdfType, SvgType, PngType } from 'models';
+import { Subscription } from './rxjs.imports';
+
+import { RsExportService } from './services/rs-export.service';
+import { ReportLayoutComponent } from './report-objects/layout/layout.component';
+import { ReportingStudioService } from './services/reporting-studio.service';
+import { Snapshot } from './report-objects/snapshotdialog/snapshot';
+
 
 @Component({
   selector: 'tb-reporting-studio',

@@ -1,5 +1,5 @@
 import { AskdialogService } from './askdialog.service';
-import { Subscription } from 'rxjs';
+import { Subscription } from '../../rxjs.imports';
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { Component, Input, OnDestroy, ViewEncapsulation, OnChanges, SimpleChange, EventEmitter, Output } from '@angular/core';
 import { TemplateItem, askGroup, text, check, radio, CommandType, askObj, hotlink, AskObjectType } from './../../models';

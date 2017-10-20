@@ -83,24 +83,14 @@ gulp.task('rollup:fesm', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/common',
-                '@angular/core',
-                '@angular/forms',
-                '@angular/http',
-                '@angular/router',
-                '@progress/kendo-drawing',
-                '@progress/kendo-file-saver',
-                '@angular/router',
-                '@progress/kendo-angular-grid',
-                '@progress/kendo-angular-dialog',
-                '@progress/kendo-angular-charts',
-                '@progress/kendo-angular-buttons',
-                '@progress/kendo-angular-inputs',
-                '@taskbuilder/core',
-                'moment',
-                'rxjs/Subject',
-                'bwip-angular2',
-                'ngx-cookie/index'
+                '@angular/common', '@angular/core', '@angular/forms', '@angular/http', '@angular/router', '@angular/router',
+                '@progress/kendo-drawing', '@progress/kendo-file-saver', '@progress/kendo-angular-grid', '@progress/kendo-angular-dialog', '@progress/kendo-angular-charts', '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs',
+                'rxjs/add/operator/catch', 'rxjs/add/observable/throw', 'rxjs/add/operator/distinctUntilChanged', 'rxjs/add/operator/filter', 'rxjs/add/operator/first', 'rxjs/add/observable/interval',
+                'rxjs/add/observable/timer', 'rxjs/add/operator/toPromise', 'rxjs/add/operator/map', 'rxjs/add/observable/of', 'rxjs/add/operator/take', 'rxjs/add/operator/takeUntil', 'rxjs/add/operator/toArray',
+                'rxjs/add/operator/do', 'rxjs/add/operator/repeat', 'rxjs/add/operator/timeout', 'rxjs/add/operator/share', 'rxjs/operator/map', 'rxjs/operator/pluck', 'rxjs/operator/distinctUntilChanged',
+                'rxjs/Subscription', 'rxjs/Observer', 'rxjs/Observable', 'rxjs/observable/ErrorObservable', 'rxjs/BehaviorSubject', 'rxjs/util/TimeoutError', 'rxjs/Subject',
+                'moment', 'ngx-cookie', 'bwip-angular2',
+                '@taskbuilder/core'
             ],
 
             // Format of generated bundle
@@ -141,24 +131,14 @@ gulp.task('rollup:umd', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/common',
-                '@angular/core',
-                '@angular/forms',
-                '@angular/http',
-                '@angular/router',
-                '@progress/kendo-drawing',
-                '@progress/kendo-file-saver',
-                '@angular/router',
-                '@progress/kendo-angular-grid',
-                '@progress/kendo-angular-dialog',
-                '@progress/kendo-angular-charts',
-                '@progress/kendo-angular-buttons',
-                '@progress/kendo-angular-inputs',
-                '@taskbuilder/core',
-                'moment',
-                'rxjs/Subject',
-                'bwip-angular2',
-                'ngx-cookie/index'
+                '@angular/common', '@angular/core', '@angular/forms', '@angular/http', '@angular/router', '@angular/router',
+                '@progress/kendo-drawing', '@progress/kendo-file-saver', '@progress/kendo-angular-grid', '@progress/kendo-angular-dialog', '@progress/kendo-angular-charts', '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs',
+                'rxjs/add/operator/catch', 'rxjs/add/observable/throw', 'rxjs/add/operator/distinctUntilChanged', 'rxjs/add/operator/filter', 'rxjs/add/operator/first', 'rxjs/add/observable/interval',
+                'rxjs/add/observable/timer', 'rxjs/add/operator/toPromise', 'rxjs/add/operator/map', 'rxjs/add/observable/of', 'rxjs/add/operator/take', 'rxjs/add/operator/takeUntil', 'rxjs/add/operator/toArray',
+                'rxjs/add/operator/do', 'rxjs/add/operator/repeat', 'rxjs/add/operator/timeout', 'rxjs/add/operator/share', 'rxjs/operator/map', 'rxjs/operator/pluck', 'rxjs/operator/distinctUntilChanged',
+                'rxjs/Subscription', 'rxjs/Observer', 'rxjs/Observable', 'rxjs/observable/ErrorObservable', 'rxjs/BehaviorSubject', 'rxjs/util/TimeoutError', 'rxjs/Subject',
+                'moment', 'ngx-cookie', 'bwip-angular2',
+                '@taskbuilder/core'
             ],
 
             // Format of generated bundle
