@@ -22,9 +22,8 @@ export class VatComponent extends ControlComponent {
   }
 
   ngOnInit() {
-    this.subscriptions.push(this.store.selectMapping(this.modelMap).subscribe(m => {
-      console.log(m);
-    }));
+    this.store.selectBySlicer(this.modelMap)
+      .subscribe(m => console.log(m));
   }
 
   ngOnChanges(changes) {

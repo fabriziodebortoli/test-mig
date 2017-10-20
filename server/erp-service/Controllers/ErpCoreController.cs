@@ -9,7 +9,6 @@ namespace ErpService.Controllers
     [Route("erp-core")]
     public class ErpCoreController : Controller
     {
-        //-----------------------------------------------------------------------------------------
         [Route("CheckVatDuplicate")]
         public IActionResult CheckVatDuplicate([FromBody] string vat)
         {
