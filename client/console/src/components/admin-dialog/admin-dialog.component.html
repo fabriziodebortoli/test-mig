@@ -1,7 +1,7 @@
-<kendo-dialog [title]="dialogTitle" *ngIf="opened" (close)="close('cancel')">
-    <p style="margin: 30px; text-align: center;">Are you sure you want to continue?</p>
+<kendo-dialog [title]="title" *ngIf="opened" (close)="close('cancel')" style="height:400px !important;">
+    <p style="text-align: center;">{{message}}</p>
     <kendo-dialog-actions>
-        <button kendoButton (click)="close('no')">No</button>
-        <button kendoButton (click)="close('yes')" primary="true">Yes</button>
+        <div class="base-dialog-button border-right pointer" (click)="close('yes')">Yes</div>
+        <div class="base-dialog-button pointer" (click)="close('no')">No</div>
     </kendo-dialog-actions>
 </kendo-dialog>
