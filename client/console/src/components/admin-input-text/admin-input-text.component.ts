@@ -10,9 +10,9 @@ export class AdminInputTextComponent implements OnInit {
 
   @Input() material: boolean;
   @Input() inputLabel: string;
-  @Input() inputData: string;
   @Input() readOnly: boolean;
   @Input() textType: string;
+  @Input() inputData: string;
   @Output() inputDataChange;
 
   marginTopStyle: string;

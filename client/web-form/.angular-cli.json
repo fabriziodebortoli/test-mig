@@ -22,8 +22,6 @@
         "prefix": "tb",
         "styles": [
             "../node_modules/flexboxgrid/dist/flexboxgrid.min.css",
-            "tb.scss",
-            "form.scss",
             "styles.scss"
         ],
         "scripts": [
