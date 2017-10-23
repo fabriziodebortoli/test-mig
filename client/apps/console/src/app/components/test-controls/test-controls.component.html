@@ -79,18 +79,23 @@
             <h3>Admin Dialog</h3>
             <div>
               <h5>Code</h5>
-              <code></code>
+              <code>&#x3C;admin-dialog 
+                [mode]=&#x22;&#x27;confirm&#x27;&#x22;
+                [title]=&#x22;&#x27;Order confirmation&#x27;&#x22; 
+                [message]=&#x22;&#x27;Congratulations, your order has been processed.&#x27;&#x22; 
+                [opened]=openToggle 
+                (onDialogClosed)=&#x22;openToggle = false&#x22;&#x3E;&#x3C;/admin-dialog&#x3E;</code>
             </div>
             <div>
               <h5>Live</h5>
               <admin-button [buttonText]="'open dialog'" (click)="openDialog()"></admin-button>
               <admin-dialog 
-                [mode]="'confirm'"
-                [title]="'Order confirmation'" 
-                [message]="'Congratulations, your order has been processed.'" 
-                [opened]=openToggle 
-                (onDialogClosed)="openToggle = false"></admin-dialog>
-              bind: {{ openToggle }}
+                [mode]="'yesno'"
+                [title]="'Time travel'" 
+                [message]="'Would you like to time travel to Italian Renaissance?'" 
+                [(opened)]=openToggle 
+                [(result)]=result></admin-dialog>
+              bind: {{ openToggle }}&nbsp;result:{{ result }}
             </div>
           </div>
         </div>

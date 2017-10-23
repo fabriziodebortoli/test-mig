@@ -1,10 +1,21 @@
-import { barcode } from './../../models/barcode.model';
-import { chart, series } from './../../models/chart.model';
-
 import { LayoutService } from '@taskbuilder/core';
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { RsExportService } from './../../rs-export.service';
-import { TemplateItem, column, link, graphrect, fieldrect, textrect, table, sqrrect, baseobj, repeater, PdfType, SvgType, PngType } from './../../models';
+
+import { barcode } from './../../models/barcode.model';
+import { chart, series } from './../../models/chart.model';
+import { PdfType, SvgType, PngType } from './../../models/export-type.model';
+import { column } from './../../models/column.model';
+import { link } from './../../models/link.model';
+import { graphrect } from './../../models/graphrect.model';
+import { fieldrect } from './../../models/fieldrect.model';
+import { textrect } from './../../models/textrect.model';
+import { table } from './../../models/table.model';
+import { sqrrect } from '../../models/sqrrect.model';
+import { baseobj } from '../../models/baseobj.model';
+import { repeater } from '../../models/repeater.model';
+import { TemplateItem } from '../../models/template-item.model';
+
 import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 import { ReportObjectType } from '../../models/report-object-type.model';
@@ -84,14 +95,14 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
     if (this.rsService.pageNum != this.rsExportService.lastPageExport) {
       this.rsExportService.appendPDF().then(() => {
-          this.rsExportService.eventNextPage.emit();
-        });
-    
+        this.rsExportService.eventNextPage.emit();
+      });
+
     }
 
     else
       this.rsExportService.renderPDF();
-    
+
   }
 
   // -----------------------------------------------

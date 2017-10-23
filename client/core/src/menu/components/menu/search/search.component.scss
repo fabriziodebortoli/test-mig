@@ -35,11 +35,12 @@
 
 .mat-autocomplete-panel.mat-autocomplete-visible {
     visibility: visible;
-    overflow: visible;
+    max-height: 500px;
+    overflow: auto;
 }
 
 .mat-autocomplete-panel {
-    overflow: visible;
+    overflow: auto;
 }
 // .tb-search .mat-input-placeholder.mat-empty {
 //     color: #929292;

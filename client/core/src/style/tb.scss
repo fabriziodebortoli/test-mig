@@ -1,4 +1,3 @@
-@import 'form';
 $base-theme:Default;
 $skin-name:tb;
 $accent: #0277bd;
@@ -184,3 +183,5 @@ md-card-title.mat-card-title m4-icon {
 ::-webkit-scrollbar-corner {
     background: purple;
 }
+
+@import 'form';

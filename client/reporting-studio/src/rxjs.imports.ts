@@ -23,7 +23,6 @@ export * from 'rxjs/operator/distinctUntilChanged';
 
 export * from 'rxjs/Subject';
 export * from 'rxjs/Subscription';
-export * from 'rxjs/Subscriber';
 export * from 'rxjs/Observer';
 export * from 'rxjs/Observable';
 export * from 'rxjs/observable/ErrorObservable';

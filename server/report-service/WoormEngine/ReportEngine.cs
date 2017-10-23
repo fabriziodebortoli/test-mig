@@ -1001,10 +1001,6 @@ namespace Microarea.RSWeb.WoormEngine
 					field.SetAllData(parObj, true);
                     continue;
 				}
-				if (!field.Init())
-                {
-                    return SetError(string.Format(WoormEngineStrings.EvalInitExpression, field.PublicName));
-				}
                 if (field.Statico/*never reinitialize*/ && listFieldToPreserve.Count > 0)
                 {
                     if (RetrieveStaticValue(field))
