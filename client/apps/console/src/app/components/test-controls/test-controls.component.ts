@@ -33,11 +33,13 @@ export class TestControlsComponent implements OnInit {
   // admin dialog auxiliary variables  
 
   openToggle: boolean;
+  result: boolean;
 
   constructor() { 
     this.chkTest = false;
     this.strTextArea = '';
     this.openToggle = false;
+    this.result = false;
   }
 
   ngOnInit() {
