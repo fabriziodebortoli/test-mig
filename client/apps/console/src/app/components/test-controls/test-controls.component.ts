@@ -35,11 +35,17 @@ export class TestControlsComponent implements OnInit {
   openToggle: boolean;
   result: boolean;
 
+  //--------------------------------------------------------------------------------
+  // admin input auxiliary variables  
+
+  painterName: string;
+
   constructor() { 
     this.chkTest = false;
     this.strTextArea = '';
     this.openToggle = false;
     this.result = false;
+    this.painterName = '';
   }
 
   ngOnInit() {
