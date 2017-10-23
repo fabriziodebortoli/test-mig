@@ -1198,7 +1198,56 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			return true;
 		}
-		# endregion
+		#endregion
+
+		#region ChangeDbo
+		//---------------------------------------------------------------------
+		public bool ChangeDbo(string login, string dbName)
+		{
+			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
+			{
+				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
+				return false;
+			}
+
+			try
+			{
+				// non posso utilizzare il metodo ChangeDatabase in caso di Azure
+				SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(CurrentStringConnection);
+				builder.InitialCatalog = dbName;
+
+				using (SqlConnection myConnection = new SqlConnection(builder.ConnectionString))
+				{
+					myConnection.Open();
+
+					using (SqlCommand myCommand = new SqlCommand())
+					{
+						myCommand.Connection = myConnection;
+						myCommand.CommandText = string.Format("ALTER AUTHORIZATION ON DATABASE::{0} TO {1}", dbName, login);
+						myCommand.ExecuteNonQuery();
+					}
+				}
+			}
+			catch (SqlException e)
+			{
+				Debug.WriteLine(e.Message);
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				extendedInfo.Add(DatabaseManagerStrings.Server, e.Server);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Parameters, login);
+				extendedInfo.Add(DatabaseManagerStrings.Function, "ChangeDbo");
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.AdminServer.Libraries.DatabaseManager");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				Diagnostic.Set(DiagnosticType.Error, string.Format(DatabaseManagerStrings.ErrorChangingDbo, login, dbName), extendedInfo);
+				return false;
+			}
+
+			return true;
+		}
+		#endregion
 
 		#region TryToConnect
 		/// <summary>
@@ -1669,7 +1718,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		}
 		#endregion
 
-		#region DeleteDatabaseObjects - Cancella tutti gli oggetti di un db (di una azienda)
+		#region DeleteDatabaseObjects - Cancella tutti gli oggetti di un db
 		/// <summary>
 		/// DeleteDatabaseObjects
 		/// cancella tutte le tabelle, le view e le stored procedure in un database (esclusi gli oggetti di sistema)
