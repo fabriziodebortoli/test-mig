@@ -39,6 +39,7 @@ export class TestControlsComponent implements OnInit {
   // admin input auxiliary variables  
 
   painterName: string;
+  fields: Array<{label:string, value:string, hide: boolean}>;
 
   constructor() { 
     this.chkTest = false;
@@ -46,9 +47,14 @@ export class TestControlsComponent implements OnInit {
     this.openToggle = false;
     this.result = false;
     this.painterName = '';
+    this.fields = [];
   }
 
   ngOnInit() {
+    this.fields = [
+      { label: 'username', value:'', hide: false},
+      { label: 'password', value:'', hide: true}
+    ];    
   }
 
   openDialog() {

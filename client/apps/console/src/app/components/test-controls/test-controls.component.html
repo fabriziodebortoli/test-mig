@@ -90,12 +90,16 @@
               <h5>Live</h5>
               <admin-button [buttonText]="'open dialog'" (click)="openDialog()"></admin-button>
               <admin-dialog 
-                [mode]="'yesno'"
+                [mode]="'fields'"
                 [title]="'Time travel'" 
-                [message]="'Would you like to time travel to Italian Renaissance?'" 
+                [message]="'Please insert your credentials to start time traveling'"
+                [(fields)]=fields
                 [(opened)]=openToggle 
                 [(result)]=result></admin-dialog>
               bind: {{ openToggle }}&nbsp;result:{{ result }}
+              <br>
+              fields<br>
+              -{{ fields[0].value }}&nbsp;{{ fields[1].value }}
             </div>
           </div>
         </div>
