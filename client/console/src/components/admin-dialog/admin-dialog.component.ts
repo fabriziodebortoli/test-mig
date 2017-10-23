@@ -8,21 +8,23 @@ import { FormsModule } from '@angular/forms';
 })
 export class AdminDialogComponent {
 
-  @Input() dialogTitle: string;
-  @Input() status: boolean;
-
-  public opened: boolean;
-
+  @Input() mode: string;
+  @Input() title: string;
+  @Input() message: string;
+  @Input() opened: boolean;
+  @Output() onDialogClosed: EventEmitter<any>;
+ 
   constructor() { 
-    this.dialogTitle = '';
+    this.mode = '';
+    this.title = '';
+    this.message = '';
     this.opened = false;
+    this.onDialogClosed = new EventEmitter<any>();
   }
 
   public close(status) {
     this.opened = false;
+    this.onDialogClosed.emit(true);
   }
 
-  ngOnChange() {
-    
-  }
 }

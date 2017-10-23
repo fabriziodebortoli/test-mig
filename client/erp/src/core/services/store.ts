@@ -10,9 +10,10 @@ export interface Action {
 class Dispatcher extends BehaviorSubject<any> { }
 
 class StoreT<T> extends Observable<T> {
-  private actionsObserver = new Dispatcher('');
+  private actionsObserver;
   constructor(private stateContainer: { model: T, change: Observable<any> }) {
     super();
+    this.actionsObserver = new Dispatcher(this.stateContainer.model);
     this.stateContainer.change
       .subscribe(s => this.actionsObserver.next(this.stateContainer.model));
   }
@@ -60,7 +61,7 @@ class StoreT<T> extends Observable<T> {
     pathOrMapFn: ((state: T) => any) | string,
     ...paths: string[]
   ): StoreT<any> {
-    let mapped$: StoreT<any>;
+    let mapped$: Observable<any>;
     if (typeof pathOrMapFn === 'string') {
       mapped$ = pluck.call(this.actionsObserver, pathOrMapFn, ...paths);
     } else if (typeof pathOrMapFn === 'function') {
@@ -74,27 +75,18 @@ class StoreT<T> extends Observable<T> {
     return distinctUntilChanged.call(mapped$);
   }
 
-  selectSlices(...paths: string[]): Observable<any> {
+  selectSlices(...paths: string[]): Observable<any[]> {
     return Observable.combineLatest(
       ...paths.map(x => this.select<any>(s => _.get(s, x)))
     ).map(res => res.reduce((o, val) => { o[val] = val; return o; }, {}));
   }
 
-  selectBySlicer(slicer: {}): Observable<any> {
+  // selectBySlicer<R extends {[P in keyof T]?: any}>(slicer: T): Observable<R> {
+  selectBySlicer(slicer: T): Observable<any> {
     return Observable.combineLatest(
-      ...Object.keys(slicer)
-        .map(x => this.select<any>(s => _.get(s, slicer[x])))
+      ...Object.keys(slicer).map(x => this.select<any>(s => _.get(s, slicer[x])))
     ).map(res => res.reduce((o, val, i) => { o[Object.keys(slicer)[i]] = val; return o; }, {}));
   }
-
-  // selectBySlicerT<
-  //   a extends keyof T
-  // >(slicer: T): Observable<T> {
-  //   return Observable.combineLatest(
-  //     ...Object.keys(slicer)
-  //       .map(x => this.select<any>(s => _.get(s, slicer[x])))
-  //   ).map(res => res.reduce((o, val, i) => { o[Object.keys(slicer)[i]] = val; return o; }, {}));
-  // }
 
   dispatch<V extends Action = Action>(action: V) {
     this.actionsObserver.next(action);

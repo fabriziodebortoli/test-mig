@@ -29,12 +29,22 @@ export class TestControlsComponent implements OnInit {
 
   strTextArea: string;
 
+  //--------------------------------------------------------------------------------
+  // admin dialog auxiliary variables  
+
+  openToggle: boolean;
+
   constructor() { 
     this.chkTest = false;
     this.strTextArea = '';
+    this.openToggle = false;
   }
 
   ngOnInit() {
+  }
+
+  openDialog() {
+    this.openToggle = true;
   }
 
 }

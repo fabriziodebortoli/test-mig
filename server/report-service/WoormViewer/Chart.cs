@@ -947,6 +947,10 @@ namespace Microarea.RSWeb.Objects
             {
                 s += ToJsonDataFamilyBubbleScatter();
             }
+            else
+            {
+                s = s.Left(s.Length - 1);
+            }
 
             //---------------------------
             s += '}';

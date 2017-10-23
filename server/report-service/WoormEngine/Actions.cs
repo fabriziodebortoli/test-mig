@@ -1491,13 +1491,27 @@ namespace Microarea.RSWeb.WoormEngine
             Field f1 = GetSymTable().Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_LAYOUT);
 			if (!string.IsNullOrEmpty(f1.Data.ToString()))
 			{
-				foreach (Field rf in fields)
-					rf.ReattachCurrentDisplayTable(f1.Data.ToString());
+
+                foreach (Field rf in fields)
+                {
+                    if (rf.WoormType.CompareNoCase("Array") || rf.WoormType.CompareNoCase("DataArray"))
+                        continue;
+
+                    rf.ReattachCurrentDisplayTable(f1.Data.ToString());
+                }
 			}
-		
-			foreach (Field rf in fields)
-				if (!rf.Display(engine))
-					return false;
+
+            foreach (Field rf in fields)
+            {
+                if (rf.WoormType.CompareNoCase("Array") || rf.WoormType.CompareNoCase("DataArray"))
+                { 
+                    rf.WriteArray(engine); 
+                    continue; 
+                }
+
+                if (!rf.Display(engine))
+                    return false;
+            }
 
 			Field f = engine.RepSymTable.Fields.Find(SpecialReportField.REPORT_SPECIAL_FIELD_NAME_CURRENT_PAGE_NUMBER);
 			if (f != null)
@@ -1533,15 +1547,22 @@ namespace Microarea.RSWeb.WoormEngine
 					return false;
 				}
 
-				if (!aField.Hidden)
-				{
-					aField.Displayed = true;
-					AddField(aField);
-				}
-				else
-					//Gli hidden fields li tengo in un array separato, serve per poter unparsare eventuali Display inserite
-					//a mano dall'utente
-					hiddenFields.Add(aField); 
+                if (!aField.Hidden)
+                {
+                    aField.Displayed = true;
+                    AddField(aField);
+                }
+                else
+                {
+                    if (aField.WoormType.CompareNoCase("Array") || aField.WoormType.CompareNoCase("DataArray"))
+                        AddField(aField);
+                    else
+                    {
+                        //Gli hidden fields li tengo in un array separato, serve per poter unparsare eventuali Display inserite
+                        //a mano dall'utente
+                        hiddenFields.Add(aField);
+                    }
+                }
 			}
 			while (lex.Matched(Token.COMMA));
 			return true;
