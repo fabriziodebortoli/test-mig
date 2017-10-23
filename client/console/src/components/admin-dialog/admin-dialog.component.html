@@ -2,8 +2,8 @@
     <p style="text-align: center;">{{message}}</p>
     <div *ngIf="mode === 'fields'">
         <admin-input-text *ngFor="let field of fields" 
+            class="d-block"
             [material]=false 
-            style="display:block;" 
             [inputLabel]="field.label" 
             [textType]="field.hide ? 'password' : 'text'"
             [(inputData)]="field.value"></admin-input-text>

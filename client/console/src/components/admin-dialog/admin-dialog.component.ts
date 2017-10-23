@@ -44,13 +44,11 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
   }  
 
   public close(status) {
-
-    if (this.mode === 'yesno'){
-      this.result = status === 'yes';
-      this.resultChange.emit(this.result);
-    }
+    this.result = status === 'yes';
+    this.resultChange.emit(this.result);
 
     if (this.mode === 'fields'){
+      
       if (status === 'no') {
         // restoring previous values
         this.fields = new Array<{label:string, value:string, hide:boolean}>();
