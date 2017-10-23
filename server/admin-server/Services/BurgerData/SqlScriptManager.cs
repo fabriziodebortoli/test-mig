@@ -29,6 +29,8 @@ namespace Microarea.AdminServer.Services.BurgerData
                     return "MP_Subscriptions";
 				case ModelTables.SubscriptionDatabases:
 					return "MP_SubscriptionDatabases";
+				case ModelTables.SubscriptionExternalSources:
+					return "MP_SubscriptionExternalSources";
 				default:
                     return String.Empty;
             }
@@ -89,6 +91,9 @@ namespace Microarea.AdminServer.Services.BurgerData
 				case ModelTables.SubscriptionDatabases:
 					return Queries.ExistSubscriptionDatabase;
 
+				case ModelTables.SubscriptionExternalSources:
+					return Queries.ExistSubscriptionExternalSource;
+
 				case ModelTables.SecurityTokens:
 					return Queries.ExistSecurityToken;
 
@@ -126,6 +131,9 @@ namespace Microarea.AdminServer.Services.BurgerData
 				case ModelTables.SubscriptionDatabases:
 					return Queries.UpdateSubscriptionDatabase;
 
+				case ModelTables.SubscriptionExternalSources:
+					return Queries.UpdateSubscriptionExternalSource;
+
 				case ModelTables.SecurityTokens:
 					return Queries.UpdateSecurityToken;
 
@@ -162,6 +170,9 @@ namespace Microarea.AdminServer.Services.BurgerData
 
 				case ModelTables.SubscriptionDatabases:
 					return Queries.InsertSubscriptionDatabase;
+
+				case ModelTables.SubscriptionExternalSources:
+					return Queries.InsertSubscriptionExternalSource;
 
 				case ModelTables.SecurityTokens:
 					return Queries.InsertSecurityToken;
