@@ -4,7 +4,7 @@
         <div class="base-dialog-button border-right pointer half-w" (click)="close('yes')">Yes</div>
         <div class="base-dialog-button pointer half-w" (click)="close('no')">No</div>
     </kendo-dialog-actions>
-    <kendo-dialog-actions *ngIf="mode === 'confirm'">
-        <div class="base-dialog-button pointer full-w" (click)="close('ok')">Ok</div>
+    <kendo-dialog-actions *ngIf="mode === 'message'">
+        <div class="base-dialog-button pointer full-w" (click)="close('yes')">Ok</div>
     </kendo-dialog-actions>    
 </kendo-dialog>
