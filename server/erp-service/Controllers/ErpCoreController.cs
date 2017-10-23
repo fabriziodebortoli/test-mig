@@ -1,7 +1,8 @@
-﻿using Microarea.Common.Applications;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Data.SqlClient;
+using Microarea.Common.Applications;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using static SQLHelper;
 
 namespace ErpService.Controllers
@@ -21,6 +22,27 @@ namespace ErpService.Controllers
                 if (reader.Read())
                     return new JsonResult(new { IsDuplicate = true, Message = $"Already found in {reader["CustSupp"]}" });
             return new JsonResult(new { IsDuplicate = false, Message = "" });
+        }
+
+        [Route("CheckBinUsesStructure")]
+        public IActionResult CheckBinUsesStructure([FromBody] string value)
+        {
+            var ui = GetLoginInformation();
+            if (ui == null)
+                return new ContentResult { StatusCode = 504, Content = "no auth" };
+
+            var zone = ((JObject)value)["zone"].Value<string>();
+            var storage = ((JObject)value)["storage"].Value<string>();
+
+            var connection = new SqlConnection(ui.CompanyDbConnection);
+            using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
+                "select UseBinStructure from MA_WMZone where Zone = @zone and Storage = @storage", new[] {
+                    new SqlParameter("zone", zone),
+                    new SqlParameter("storage", storage)
+                }))
+                if (reader.Read())
+                    return new JsonResult(new { UseBinStructure = reader[0] });
+            return new JsonResult(new { UseBinStructure = false });
         }
 
         #region helpers
