@@ -6,7 +6,7 @@
         </mat-input-container>
         <mat-autocomplete id="menuSearch" #auto="matAutocomplete" [displayWith]="displayElement">
             <mat-option *ngFor="let option of filteredElements | async" [value]="option">
-                <tb-menu-element class="search-element" [object]="option" [showEasyBuilderOptions]=false matTooltip="{{option.itemTooltip}}"></tb-menu-element>
+                <tb-menu-element class="search-element" [object]="option" [showEasyBuilderOptions]=false matTooltip="{{option.itemTooltip}}" matTooltipShowDelay="500"></tb-menu-element>
                 
             </mat-option>
         </mat-autocomplete>

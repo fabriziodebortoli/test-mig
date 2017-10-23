@@ -12,10 +12,10 @@
         </div>
     </div>
     <div (click)="changeCustomizationContext()" class="ebButtons topBarMenuComponentLike">
-        <m4-icon icon="tb-inscription" matTooltip="{{openCustomizationContext}}"></m4-icon>
+        <m4-icon icon="tb-inscription" matTooltip="{{openCustomizationContext}}"  matTooltipShowDelay="500"></m4-icon>
     </div>
     <div *ngIf="contextIsValid()" (click)="close()" class="ebButtons topBarMenuComponentLike">
-        <m4-icon icon="tb-shutdown" matTooltip="{{closeCustomizationContext}}"></m4-icon>
+        <m4-icon icon="tb-shutdown" matTooltip="{{closeCustomizationContext}}"  matTooltipShowDelay="500"></m4-icon>
     </div>
 
     <kendo-dialog *ngIf="opened" kendoRippleContainer (close)="close()">
@@ -56,15 +56,15 @@
                 <input kendoTextBox #moduleChosen [(ngModel)]="moduleSelected" />
             </kendo-textbox-container>
             <button kendoButton class="k-buton k-primary k-button-icon" *ngIf="!newPairVisible">
-                <m4-icon icon="tb-plusmathfilled" (click)="showNewPair(true)" matTooltip="{{localizationService?.localizedElements?.NewApplicationLabel}}"></m4-icon>
+                <m4-icon icon="tb-plusmathfilled" (click)="showNewPair(true)" matTooltip="{{localizationService?.localizedElements?.NewApplicationLabel}}"  matTooltipShowDelay="500"></m4-icon>
                 <!-- <span class="k-icon k-i-plus-circle" (click)="showNewPair(true)"></span> -->
             </button>
             <button kendoButton class="k-buton k-primary k-button-icon" *ngIf="newPairVisible">
-                <m4-icon icon="tb-closewindows" (click)="showNewPair(false)" matTooltip="{{localizationService?.localizedElements?.CloseLabel}}"></m4-icon>
+                <m4-icon icon="tb-closewindows" (click)="showNewPair(false)" matTooltip="{{localizationService?.localizedElements?.CloseLabel}}"  matTooltipShowDelay="500"></m4-icon>
                 <!-- <span class="k-icon k-i-close-circle k-i-x-circle" (click)="showNewPair(false)"></span> -->
             </button>
             <button kendoButton class="k-buton k-primary k-button-icon" *ngIf="newPairVisible">
-                <m4-icon icon="tb-select" (click)="addNewPair(applicationChosen, moduleChosen)" matTooltip="{{localizationService?.localizedElements?.Ok}}"></m4-icon>
+                <m4-icon icon="tb-select" (click)="addNewPair(applicationChosen, moduleChosen)" matTooltip="{{localizationService?.localizedElements?.Ok}}"  matTooltipShowDelay="500"></m4-icon>
                 <!-- <span class="k-icon k-i-check-circle k-i-checkmark-circle" (click)="addNewPair(applicationChosen, moduleChosen)"></span>-->
             </button>
         </div>
