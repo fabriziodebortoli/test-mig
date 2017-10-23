@@ -18,30 +18,30 @@
         <m4-icon icon="tb-shutdown" matTooltip="{{closeCustomizationContext}}"></m4-icon>
     </div>
 
-    <kendo-dialog *ngIf="opened" kendoRippleContainer (close)="close()">
+    <kendo-dialog *ngIf="opened" kendoRippleContainer (close)="cancel()">
         <kendo-dialog-titlebar>
-            <div style="font-size: 18px; line-height: 1.3em;">
+            <div class="title">
                 {{title}}
             </div>
         </kendo-dialog-titlebar>
         <div class="central">
             <nav>
-                <div class="columsLayout" id="list8">
+                <div class=" list8">
                     <h1 class="tit">{{localizationService?.localizedElements?.Applications}}</h1>
                     <ul *ngFor="let app of easystudioService.applications">
-                        <li id="{{app}}">
-                            <span (click)="setApplic(app, applicationChosen);">{{app}}</span>
+                        <li id="{{app}}" [ngClass]="{'selected': applicSelected === app}">
+                            <span (click)="setApplic(app);">{{app}}</span>
                         </li>
                     </ul>
                 </div>
             </nav>
             <article id="article" *ngIf="applicSelected !== undefined">
-                <div class="columsLayout">
+                <div class=" list8">
                     <h1 class="tit">{{localizationService?.localizedElements?.Modules}}</h1>
 
                     <ul *ngFor="let mod of easystudioService.modules">
-                        <li id="{{mod}}">
-                            <span (click)="setModule(mod, moduleChosen)" [ngClass]="{'selected': ifHasToBe(mod)}">{{mod}}</span>
+                        <li id="{{mod}}" [ngClass]="{'selected': moduleSelected === mod}">
+                            <span (click)="setModule(mod)">{{mod}}</span>
                         </li>
                     </ul>
                 </div>

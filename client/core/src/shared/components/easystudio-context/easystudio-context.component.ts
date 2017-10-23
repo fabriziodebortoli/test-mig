@@ -35,8 +35,6 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
 
     public applicSelected: string;
     public moduleSelected: string;
-    public lastApplicSelected: string;
-    public lastModuleSelected: string;
     public isThisPairDefault = false;
     public type = "Customization";
 
@@ -44,12 +42,9 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
 
     constructor(
         public localizationService: LocalizationService,
-        public easystudioService: EasystudioService,        
+        public easystudioService: EasystudioService,
         public infoService: InfoService,
-        public settingsService: SettingsService
-        
-    ) {
-    }
+        public settingsService: SettingsService ) {}
 
     //--------------------------------------------------------------------------------
     ngOnInit(): void {
@@ -60,17 +55,11 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
                 this.defaultNewApp = this.localizationService.localizedElements.DefaultNewApp;
                 this.defaultNewMod = this.localizationService.localizedElements.DefaultNewMod;
                 this.openCustomizationContext = this.localizationService.localizedElements.OpenCustomizationContext;
-                this.closeCustomizationContext = this.localizationService.localizedElements.CloseCustomizationContext;                
+                this.closeCustomizationContext = this.localizationService.localizedElements.CloseCustomizationContext;
             }
         });
         this.easystudioService.initEasyStudioContext();
-
-        if(this.easystudioService.isContextActive()){
-            this.applicSelected = this.easystudioService.currentApplication;
-            this.moduleSelected = this.easystudioService.currentModule;
-        }
     }
-
 
     //--------------------------------------------------------------------------------
     ngOnDestroy() {
@@ -79,15 +68,14 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
 
     //--------------------------------------------------------------------------------
     public contextIsValid() {
-        return this.easystudioService.currentApplication !== undefined && this.easystudioService.currentModule !== undefined;
+        return this.easystudioService.isContextActive();
     }
 
-        //--------------------------------------------------------------------------------
-        public selectionIsValid() {
-            return this.applicSelected !== undefined && this.moduleSelected !== undefined;
-        }
+    //--------------------------------------------------------------------------------
+    public selectionIsValid() {
+        return this.applicSelected !== undefined && this.moduleSelected !== undefined;
+    }
 
-    
     //--------------------------------------------------------------------------------
     public close() {
         this.opened = false;
@@ -106,6 +94,10 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     //--------------------------------------------------------------------------------
     public changeCustomizationContext() {
         this.opened = !this.opened;
+        if (this.contextIsValid()) {
+            this.setApplic(this.easystudioService.currentApplication);
+            this.setModule(this.easystudioService.currentModule);
+        }
     }
 
     //--------------------------------------------------------------------------------
@@ -120,64 +112,20 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
     }
 
     //--------------------------------------------------------------------------------
-    private setApplic(app: string, inputToSet) {
+    private setApplic(app: string) {
+        if (this.easystudioService.applications.indexOf(app) === -1) return;
         this.applicSelected = app;
         this.moduleSelected = undefined;
         this.easystudioService.modules = this.easystudioService.getModulesBy(app);
-        this.hightlightApp(app);
-    }
-
-    //--------------------------------------------------------------------------------
-    private setModule(mod: string, inputToSet) {
-        this.moduleSelected = mod;
-        this.hightlightMod(mod);
-    }
-
-    //--------------------------------------------------------------------------------
-    hightlightApp(item: any) {
-        if (!item) return;
-        if (this.lastApplicSelected && this.lastApplicSelected) {
-            let prev = document.getElementById(this.lastApplicSelected);
-            if (prev) prev.className = "";
-        }
-        let button = this.hightlightButton(item);
-        if (button) {
-            this.lastApplicSelected = button.id;
-            button.className = "selected";
-        }
         if (this.easystudioService.modules.length == 1) {
             this.moduleSelected = this.easystudioService.modules[0];
-            let mod = document.getElementById(this.moduleSelected);
-            if (mod) mod.className = "";
-            this.hightlightMod(this.moduleSelected);
         }
-        // //se invece ho già indicazione di un modulo, controllo che esista e lo evidenzio
-        // else if ($scope.module && $scope.ExistsModule(elem, $scope.module)) {
-        // 	$scope.hightlightMod($scope.module);
-        // }
     }
 
-    //---------------------------------------------------------------------------------------------
-    hightlightMod(item: any) {
-        // if ($scope.application == easyStudioService.defaultApplication && $scope.module == easyStudioService.defaultModule) {
-        // 	$scope.formData.isFavorite = true;
-        // }
-        if (this.lastModuleSelected) {
-            let prev = document.getElementById(this.lastModuleSelected);
-            if (prev) prev.className = "";
-        }
-        let button = this.hightlightButton(item);
-        if (!button) return;
-        this.lastModuleSelected = button.id;
-        button.className = "selected";
-    };
-
     //--------------------------------------------------------------------------------
-    hightlightButton(item: any) {
-        let button = document.getElementById(item);
-        if (!button) return;
-        button.className = "selected";
-        return button;
+    private setModule(mod: string) {
+        if (this.easystudioService.modules.indexOf(mod) === -1) return;
+        this.moduleSelected = mod;
     }
 
     //--------------------------------------------------------------------------------
@@ -204,10 +152,10 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
         if (this.easystudioService.memory.allApplications.indexOf(newAppName, newModName) === -1) {
             //type = standard or custom
             this.easystudioService.createNewContext(this.applicSelected, this.moduleSelected, this.type);
-           
+
             this.applicSelected = newAppName;
             this.moduleSelected = newModName;
-           
+
         }
         this.newPairVisible = false;
     }
@@ -251,10 +199,6 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
         return list.indexOf(newModName) !== -1;
     }
 
-    ifHasToBe(mod) {
-        return ((this.easystudioService.modules.length == 1) ||
-            (this.moduleSelected && this.moduleSelected === mod));
-    }
 
 
 
