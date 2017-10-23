@@ -124,6 +124,15 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change.
+        /// </summary>
+        public static string Change {
+            get {
+                return ResourceManager.GetString("Change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change customization context.
         /// </summary>
         public static string ChangeCustomizationContext {
@@ -588,6 +597,15 @@ namespace Microarea.Common.MenuLoader {
         public static string OpenEasyStudioWithCustomization {
             get {
                 return ResourceManager.GetString("OpenEasyStudioWithCustomization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operation Date.
+        /// </summary>
+        public static string OperationDate {
+            get {
+                return ResourceManager.GetString("OperationDate", resourceCulture);
             }
         }
         
