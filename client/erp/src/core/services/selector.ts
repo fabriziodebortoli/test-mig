@@ -1,6 +1,6 @@
 import { Selector } from './models';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs.imports';
+import { Observable } from '../../rxjs.imports';
 
 export type AnyFn = (...args: any[]) => any;
 
@@ -200,11 +200,11 @@ export function createSelector(...input: any[]): Selector<any, any> {
       selector.release && typeof selector.release === 'function'
   );
 
-  const memoizedProjector = memoize(function(...selectors: any[]) {
+  const memoizedProjector = memoize(function (...selectors: any[]) {
     return projector.apply(null, selectors);
   });
 
-  const memoizedState = memoize(function(state: any) {
+  const memoizedState = memoize(function (state: any) {
     const args = selectors.map(fn => fn(state));
 
     return memoizedProjector.memoized.apply(null, args);
@@ -226,7 +226,7 @@ export function createSelector(...input: any[]): Selector<any, any> {
 export function createFeatureSelector<T>(
   featureName: string
 ): MemoizedSelector<object, T> {
-  const { memoized, reset } = memoize(function(state: any): any {
+  const { memoized, reset } = memoize(function (state: any): any {
     return state[featureName];
   });
 
