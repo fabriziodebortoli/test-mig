@@ -12,12 +12,15 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
   @Input() title: string;
   @Input() message: string;
   @Input() fields: Array<{label:string, value:string, hide:boolean}>;
-  originalFields: Array<{label:string, value:string, hide:boolean}>; // we hold a copy of original data, just in case user change and press Cancel
   @Input() opened: boolean;
   @Input() result: boolean;
+  
   @Output() openedChange: EventEmitter<any>;
   @Output() resultChange: EventEmitter<any>;
   @Output() fieldsChange: EventEmitter<any>;
+  @Output() onClose: EventEmitter<any>;
+
+  originalFields: Array<{label:string, value:string, hide:boolean}>; // we hold a copy of original data, just in case user change and press Cancel
  
   constructor() { 
     this.mode = '';
@@ -68,6 +71,10 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
 
     this.opened = false;
     this.openedChange.emit(false);
+
+    // this event doesn't update any model,
+    // it's just a closing point for the consuming app
+    this.onClose.emit(true);
   }
 
 }
