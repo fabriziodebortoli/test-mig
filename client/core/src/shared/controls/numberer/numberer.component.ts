@@ -38,10 +38,11 @@ export class NumbererComponent extends ControlComponent {
         this.eventData.behaviours.subscribe(x => {
             let b = x[this.cmpId];
             if (b) {
-                this.formatMask = this.translateMask(b.formatMask);
+                this.formatMask = this.valueToMask(this.model.value, b.formatMask);
+                //this.useFormatMask = b.useFormatMask;
+                this.useFormatMask = (b.formatMask !== '');
                 this.enableCtrlInEdit = b.enableCtrlInEdit;
                 this.enableStateInEdit = b.enableStateInEdit;
-                this.useFormatMask = b.useFormatMask;
             }
         })
     }
@@ -55,10 +56,36 @@ export class NumbererComponent extends ControlComponent {
         super(layoutService, tbComponentService);
     }
 
-    translateMask(serverMask: string): string {
-        return serverMask;
+    valueToMask(value: string, tbMask: string) {
+        let ret = '';
+        let i: number;
+        let tbMaskChar: string;
+    
+        for (i = 0; i < tbMask.length; i++) {
+          tbMaskChar = tbMask.substring(i, i + 1);
+          // I 5 CARATTERI CHE SEGUONO INDICANO ELEMENTI DI MASCHERA NON EDITABILE, QUINDI PASSA IL CARATTERE DEL VALORE CONNESSO ALLA MASCHERA.
+          // RIMANGONO DUE CARATTERI DI MASCHERA: IL SEPARATORE DECIMALE (,), CHE VIENE SOSTITUITO DAL PUNTO, E IL PUNTO INTERROGATIVO, CHE INDICA
+          // UN SUFFISSO EDITABILE. IL PUNTO INTERROGATIVO VIENE SOSTITUITO SUCCESSIVAMENTE ALLA SOSTITUZIONE DEI CARATTERI CHIAVE DELLA
+          // MASK KENDO CON I CORRISPENDENTI CARATTERI FISSI (ES. '0' DIVENTA '\0')
+          if (['Y', '#', '*', '-', 'N'].indexOf(tbMaskChar) > -1)
+            ret += value.substring(i, i + 1);
+          else
+            ret += tbMaskChar;
+        }
+    
+        return ret
+          .replace(/([09#LAa&C])/g, '\\\$1')
+          .replace(/[?]/g, 'A')
+          .replace(/[,]/g, '.')
+          ;
     }
 
+    onKeyDown($event) {
+        if (($event.keyCode === 63) || ($event.keyCode === 32)) {
+          $event.preventDefault();
+        }
+    }
+    
     toggleState() {
         if (this.currentState == NumbererStateEnum.MaskedInput) {
             this.icon = this.tbEditIcon;
