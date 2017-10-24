@@ -10,8 +10,14 @@ h1, h2, h3 { color: #666666;}
 .mt30 { margin-top:30px }
 .mt20 { margin-top:20px }
 .mt10 { margin-top:10px }
-.pTop30 { padding-top: 30px }
-.pointer { cursor:pointer;}
+
+.pt30 { padding-top: 30px }
+.pt20 { padding-top: 20px }
+
+.pointer { cursor:pointer }
+.left { float:left }
+.right { float:right }
+.clear { clear:both }
 
 /* controls */
 
