@@ -54,9 +54,9 @@
                 </div>
             
             </div>
-            <div *ngIf="loginStep <= 3" class="end-xs" style="margin-top:40px"> 
+            <div *ngIf="loginStep <= 3" class="end-xs mt40">
                 <img *ngIf="appBusy" src="assets/ajax-loader.gif" style="margin-right:20px" />
-                <button *ngIf="!appBusy" class="cta" (click)="doNext()" [disabled]="inputExists() || appBusy">Next</button>
+                <admin-button *ngIf="!appBusy" (click)="doNext()" [buttonText]="'Next'" [primary]="true" [readOnly]="inputExists() || appBusy"></admin-button>
             </div>
         </div>
     </div>
