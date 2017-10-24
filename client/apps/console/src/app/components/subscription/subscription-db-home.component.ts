@@ -151,17 +151,9 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  // event from adminDialog
+  // event on close dialog
   //--------------------------------------------------------------------------------------------------------
-  onDialogResultChange(result: boolean) {
-    // false if I click to Cancel buttone
-    this.dialogResult = result;
-  }
-
-  // event from adminDialog
-  //--------------------------------------------------------------------------------------------------------
-  onDialogFieldsChange(fields: any) {
-
+  onDialogClose() {
     // if Cancel button has been clicked I return
     if (!this.dialogResult)
       return;
@@ -203,32 +195,35 @@ export class SubscriptionDbHomeComponent implements OnInit, OnDestroy {
       result => {
 
         if (result.Result) {
+          // after save I return to parent page
+          this.router.navigate(['/subscription'], { queryParams: { subscriptionToEdit: this.model.SubscriptionKey } });
+
           let extendedSubDatabase: ExtendedSubscriptionDatabase = new ExtendedSubscriptionDatabase(this.dbCredentials, this.model);
 
-          let update = //this.modelService.checkDatabase(this.model.SubscriptionKey, extendedSubDatabase).
-            this.modelService.updateDatabase(this.model.SubscriptionKey, extendedSubDatabase).
-              subscribe(
-              updateResult => {
-                if (!updateResult.Result) {
-                  alert(updateResult.Message);
-                }
-                update.unsubscribe();
-                // after save I return to parent page
-                this.router.navigate(['/subscription'], { queryParams: { subscriptionToEdit: this.model.SubscriptionKey } });
-              },
-              updateError => {
-                console.log(updateError);
-                alert(updateError);
-                update.unsubscribe();
+          let update = this.modelService.checkDatabase(this.model.SubscriptionKey, extendedSubDatabase).
+            //this.modelService.updateDatabase(this.model.SubscriptionKey, extendedSubDatabase).
+            subscribe(
+            updateResult => {
+              if (!updateResult.Result) {
+                alert(updateResult.Message);
               }
-              )
+              update.unsubscribe();
+              // after save I return to parent page
+              //this.router.navigate(['/subscription'], { queryParams: { subscriptionToEdit: this.model.SubscriptionKey } });
+            },
+            updateError => {
+              console.log(updateError);
+              alert(updateError);
+              update.unsubscribe();
+            }
+            )
         }
         else
           alert('Unable to connect! ' + result.Message);
 
         // clear local array with dialog values
         this.fields.forEach(element => {
-        element.value = ''
+          element.value = ''
         });
         test.unsubscribe();
       },
