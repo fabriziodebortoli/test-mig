@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="adminTile tileNormal">
-        MAIN DATA
+        Main Data
         <div>
           <admin-input-text
             [inputLabel]="'Account Name'"
@@ -36,7 +36,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="adminTile tileNormal">
-        ROLES AND SECURITY
+        Roles And Security
         <div class="m20">
           <admin-checkbox [checkId]="'chkBoxProvAdmin'" [checkText]="'Provisioning Administrator'" [(checkValue)]="model.ProvisioningAdmin" (inputDataChange)="model.ProvisioningAdmin = $event"></admin-checkbox>
         </div>
@@ -55,7 +55,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="adminTile half-tile">
-        NOTES
+        Notes
         <div>
           <admin-textarea [inputLabel]="'Notes'" [(inputData)]="model.Notes"></admin-textarea>
         </div>
@@ -64,7 +64,7 @@
 
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <div class="adminTile half-tile">
-        REGIONAL SETTINGS
+        Regional Settings
         <div class="m20">
           <admin-dropdown 
             [inputLabel]="'Language'" 
@@ -88,7 +88,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="adminTile tileNormal">
-        SUBSCRIPTIONS
+        Subscriptions
         <div class="pTop30">
           <app-account-subscriptions [editAccountName]="model.AccountName" [subscriptions]="subscriptionsAccount"></app-account-subscriptions>
         </div>
