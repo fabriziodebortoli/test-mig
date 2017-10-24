@@ -1,6 +1,6 @@
 <div class="container" fxLayout="column" class="pad10" (keyup)="onKeyUp($event)">
     <h5 class="componentTitle">System Administrator connection information</h5>
-    <div class="box" style="margin-top:10px">
+    <div class="box mt10">
         <label>Provider</label>
         <select autofocus style="height:30px" [(ngModel)]="dbCredentials.Provider">
         <option value="" disabled selected hidden>...</option>
@@ -8,14 +8,14 @@
         <option value="SQLServer">SQL Server</option>
       </select>
     </div>
-    <div class="row" style="margin-top:10px">
+    <div class="row mt10">
         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
             <div class="box">
                 <admin-input-text class="box" [inputLabel]="'Server'" [(inputData)]="dbCredentials.Server"></admin-input-text>
             </div>
         </div>
     </div>
-    <div class="row" style="margin-top:10px">
+    <div class="row mt10">
         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
             <div class="box">
                 <admin-input-text class="box" [inputLabel]="'SysAdmin login'" [(inputData)]="dbCredentials.Login"></admin-input-text>
@@ -32,7 +32,7 @@
             <admin-button [buttonText]="'Test connection'" (click)="testConnection()" ></admin-button>
         </div>
     </div>
-    <div *ngIf="isWorking" style="margin-top:20px">
+    <div *ngIf="isWorking" class="mt20">
         <img src="assets/ajax-loader.gif" />
     </div>
 </div>

@@ -14,5 +14,6 @@ export class AdminButtonComponent {
   constructor() {
     this.buttonText = '';
     this.primary = false;
+    this.readOnly = false;
   }
 }

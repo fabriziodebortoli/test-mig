@@ -6,6 +6,14 @@
 body { margin:0; font-family:Roboto,"Helvetica Neue",sans-serif;}
 h1, h2, h3 { color: #666666;}
 
+/* app typography */ 
+
+.hint-label { color:#999999; cursor:pointer; }
+
+/* common */
+
+.text-right { text-align: right }
+
 .mt40 { margin-top:40px }
 .mt30 { margin-top:30px }
 .mt20 { margin-top:20px }
