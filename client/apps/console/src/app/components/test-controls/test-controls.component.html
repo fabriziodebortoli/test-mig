@@ -90,12 +90,16 @@
               <h5>Live</h5>
               <admin-button [buttonText]="'open dialog'" (click)="openDialog()"></admin-button>
               <admin-dialog 
-                [mode]="'yesno'"
+                [mode]="'fields'"
                 [title]="'Time travel'" 
-                [message]="'Would you like to time travel to Italian Renaissance?'" 
+                [message]="'Please insert your credentials to start time traveling'"
+                [(fields)]=fields
                 [(opened)]=openToggle 
                 [(result)]=result></admin-dialog>
               bind: {{ openToggle }}&nbsp;result:{{ result }}
+              <br>
+              fields<br>
+              -{{ fields[0].value }}&nbsp;{{ fields[1].value }}
             </div>
           </div>
         </div>
@@ -103,11 +107,16 @@
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="adminTile tileNormal">
           <div>
-            <h3>Coming soon..</h3>
+            <h3>Admin Input</h3>
             <div>
               <h5>Code</h5>
-              <code></code>
-            </div>            
+              <code>&#x3C;admin-input-text [material]=false [inputLabel]=&#x22;&#x27;Name&#x27;&#x22; [(inputData)]=&#x22;painterName&#x22;&#x3E;&#x3C;/admin-input-text&#x3E;</code>
+            </div>
+            <div>
+              <h5>Live</h5>
+              <admin-input-text [material]=false [inputLabel]="'Name'" [(inputData)]="painterName"></admin-input-text>
+              bind: {{ painterName }}
+            </div>                       
           </div>
         </div>
       </div>

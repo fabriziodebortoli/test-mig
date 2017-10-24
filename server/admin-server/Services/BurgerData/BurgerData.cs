@@ -985,6 +985,7 @@ namespace Microarea.AdminServer.Services.BurgerData
             Subscriptions,
             SubscriptionAccounts,
 			SubscriptionDatabases,
+			SubscriptionExternalSources,
 			Roles,
             AccountRoles,
             RegisteredApps,

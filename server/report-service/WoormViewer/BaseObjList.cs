@@ -140,20 +140,17 @@ namespace Microarea.RSWeb.WoormViewer
                 s = '\"' + name + "\":";
 
             s += '[';
-            int count = this.Count - 1;
+            bool first = true;
             foreach (BaseObj item in this)
             {
                 if (item.IsHidden && item.HideExpr == null)
                 {
-                    count--;
                     continue;
                 }
                     
-
                 if (!template && item.HideExpr != null && item.DynamicIsHidden)
                 {
                     item.ToJsonHiddenData(true);
-                    count--;
                     continue;
                 }
 
@@ -168,28 +165,25 @@ namespace Microarea.RSWeb.WoormViewer
                         )
                     )
                 {
-                    count--;
                     continue;
                 }
                     
-
                 if (!template && item.InternalID == 0)
                 {
                     //TODO BUG!
-                    count--;
                     continue;
                 }
 
+                if (first)
+                {
+                    first = false;
+                }
+                else s += ',';
+ 
                 if (template)
                     s += item.ToJsonTemplate(true);
                 else
                     s += item.ToJsonData(true);
-
-                if (count > 0)
-                {
-                    s += ',';
-                    count--;
-                }
             }
             s += ']';
 
