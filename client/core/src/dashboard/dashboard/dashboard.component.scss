@@ -6,103 +6,49 @@
 .dashboard-sidebar {
     flex: 0 0 260px;
     background: #fff;
-    border-right: 1px solid #ddd
-}
-
-.dashboard-sidebar .dashboard-sidebar-riq>h4 {
-    font-size: 14px;
-    text-transform: uppercase;
-    color: #00578c;
-    padding: 0 5px;
-    margin: 15px 5px 3px;
-    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    .dashboard-sidebar-riq {
+        margin: 20px 0 10px 0;
+        h4 {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #00578c;
+            padding: 0 5px;
+            margin: 15px 5px 3px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            m4-icon {
+                font-size: 12px;
+                padding: 3px 0 0;
+                margin-left: 7px;
+                line-height: 17px;
+            }
+            m4-icon.close {
+                cursor: pointer;
+            }
+        }
+    }
 }
 
 .dashboard-content {
     flex: 1;
     overflow-y: auto;
-}
-
-.dashboard-content .tool {
-    border: none;
-}
-
-.dashboard-content .tool m4-icon {
-    padding: 0;
-    margin: 0;
-    width: 18px;
-    height: 18px;
-    font-size: 18px;
-}
-
-.dashboard-content .header-strip-under>div {
-    padding: 0 3px;
-    font-size: 12px;
-}
-
-.dashboard-sidebar-riq {
-    margin: 32px 0 10px 0
+    .tool {
+        border: none;
+        m4-icon {
+            padding: 0;
+            margin: 0;
+            width: 18px;
+            height: 18px;
+            font-size: 18px;
+        }
+    }
+    .header-strip-under>div {
+        padding: 0 3px;
+        font-size: 12px;
+    }
 }
 
 .dashboard-sidebar-list {
     padding: 0 5px;
-}
-
-.dashboard-sidebar-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background: #f1f4f7;
-    margin: 3px;
-    padding: 2px;
-    border: 1px solid #ddd;
-    align-items: center;
-}
-
-.dashboard-sidebar-item .type {
-    margin-right: 3px;
-    cursor: default;
-}
-
-.dashboard-sidebar-item>span {
-    flex: 1;
-    cursor: pointer;
-    max-width: 210px;
-    font-size: 13px;
-}
-
-.dashboard-sidebar-item .close {
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    color: #ccc;
-}
-
-.dashboard-sidebar-item .close:hover {
-    color: #000
-}
-
-.dashboard-sidebar-item .type {
-    color: #bbb;
-    font-size: 20px;
-    line-height: 24px;
-}
-
-.dashboard-sidebar-item .type.Document {
-    color: #0277bd;
-}
-
-.dashboard-sidebar-item .type.Report,
-.dashboard-sidebar-item .type.Function {
-    color: #3EAB66;
-}
-
-.dashboard-sidebar-item .type.Batch {
-    color: #ffa700;
-}
-
-.spinner {
-    height: 24px;
-    width: 24px;
 }
