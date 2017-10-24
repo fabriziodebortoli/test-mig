@@ -77,9 +77,14 @@ namespace Microarea.AdminServer.Services.BurgerData
                 catch (SqlException e)
                 {
                     System.Diagnostics.Debug.WriteLine(e.Message);
-                    // todo log
-                }
-                finally
+                // todo log
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                // todo log
+            }
+            finally
                 {
                     dbManager.Close();
                     dbManager.Dispose();
@@ -147,7 +152,12 @@ namespace Microarea.AdminServer.Services.BurgerData
 					System.Diagnostics.Debug.WriteLine(e.Message);
 					// todo log
 				}
-				finally
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                // todo log
+            }
+            finally
 				{
 					dbManager.Close();
 					dbManager.Dispose();

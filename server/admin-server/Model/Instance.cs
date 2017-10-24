@@ -18,7 +18,7 @@ namespace Microarea.AdminServer.Model
 		bool existsOnDB = false;
         bool underMaintenance;
         DateTime pendingDate;
-
+        int ticks = TicksHelper.GetTicks();
         //---------------------------------------------------------------------
         public string InstanceKey { get { return this.instanceKey; } set { this.instanceKey = value; } }
         public string Description { get { return this.description; } set { this.description = value; } }
@@ -28,6 +28,7 @@ namespace Microarea.AdminServer.Model
         public string Tags { get => tags; set => tags = value; }
         public bool UnderMaintenance { get => underMaintenance; set => underMaintenance = value; }
         public DateTime PendingDate { get => pendingDate; set => pendingDate = value; }
+        public int Ticks { get => ticks; set => ticks = value; }
 
         //---------------------------------------------------------------------
         public Instance()
@@ -54,6 +55,7 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@Tags", this.tags));
             burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.underMaintenance));
             burgerDataParameters.Add(new BurgerDataParameter("@PendingDate", this.pendingDate));
+            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", TicksHelper.GetTicks()));
             BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@InstanceKey", this.instanceKey);
 
             opRes.Result = burgerData.Save(ModelTables.Instances, keyColumnParameter, burgerDataParameters);
@@ -71,7 +73,8 @@ namespace Microarea.AdminServer.Model
 				origin = reader["Origin"] as string,
 				tags = reader["Tags"] as string,
 				underMaintenance = (bool)reader["UnderMaintenance"],
-				pendingDate = (DateTime)reader["PendingDate"]
+				pendingDate = (DateTime)reader["PendingDate"],
+                ticks = (int)reader["Ticks"] 
 			};
 			return instance;
         }
