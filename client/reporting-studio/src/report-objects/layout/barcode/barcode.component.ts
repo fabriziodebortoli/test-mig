@@ -53,10 +53,10 @@ export class BarcodeComponent implements OnChanges {
     bwipjs(this.id, {
       bcid: this.barcode.type,       // Barcode type
       text: this.value,	             // Text to encode
-      height: (Height * 25.4) / 96,
-      width: (Width * 25.4) / 96,
+      height: (Height * 25.4) / 95.4,
+      width: (Width * 25.4) / 95.4,
       scale: 1,
-      includetext: false,//this.barcode.includetext,        // Show human-readable text
+      includetext: this.barcode.type=='ean13'? this.barcode.includetext:false,//this.barcode.includetext,        // Show human-readable text
       rotate: this.barcode.rotate,
       textxalign: 'center',      // Always good to set this
     }, function (err, cvs) {
@@ -76,6 +76,7 @@ export class BarcodeComponent implements OnChanges {
       case 'datamatrix':
       case 'microqrcode':
       case 'pdf417':
+      case 'ean13':
         return false;
 
       default:
