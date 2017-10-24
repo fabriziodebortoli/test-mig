@@ -217,31 +217,35 @@ namespace Microarea.AdminServer.Libraries
         //---------------------------------------------------------------------
         public static string DecryptString(string text)
         {
-            if (text == null) return null;
-            var fullCipher = Convert.FromBase64String(text);
-            var iv = new byte[16];
-            var cipher = new byte[fullCipher.Length - iv.Length];
-            Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
-            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, fullCipher.Length - iv.Length);
-
-            using (var aesAlg = Aes.Create())
+            if (string.IsNullOrEmpty(text)) return null;
+            try
             {
-                using (var decryptor = aesAlg.CreateDecryptor(Encoding.UTF8.GetBytes(DirVal()), iv))
+                var fullCipher = Convert.FromBase64String(text);
+                var iv = new byte[16];
+                var cipher = new byte[fullCipher.Length - iv.Length];
+                Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
+                Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, fullCipher.Length - iv.Length);
+
+                using (var aesAlg = Aes.Create())
                 {
-                    string result;
-                    using (var msDecrypt = new MemoryStream(cipher))
+                    using (var decryptor = aesAlg.CreateDecryptor(Encoding.UTF8.GetBytes(DirVal()), iv))
                     {
-                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                        string result;
+                        using (var msDecrypt = new MemoryStream(cipher))
                         {
-                            using (var srDecrypt = new StreamReader(csDecrypt))
+                            using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                             {
-                                result = srDecrypt.ReadToEnd();
+                                using (var srDecrypt = new StreamReader(csDecrypt))
+                                {
+                                    result = srDecrypt.ReadToEnd();
+                                }
                             }
                         }
+                        return result;
                     }
-                    return result;
                 }
             }
+            catch { return null; }
         }
 
         /// <summary>
@@ -265,6 +269,8 @@ namespace Microarea.AdminServer.Libraries
         {  
             //decrypt della stringa contenuta nel db e parse a datetime
             string s = DecryptString(encrypted);
+            if (s == null)
+                return DateTime.MinValue;
             DateTime t = DateTime.MinValue;
             DateTime.TryParse(s, out t);
             return t.ToUniversalTime();

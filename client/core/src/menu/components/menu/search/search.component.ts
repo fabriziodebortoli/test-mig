@@ -60,10 +60,13 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   filter(val: string): string[] {
-    return this.menuService.searchSources.filter(option =>
-      // option.title.toLowerCase().indexOf(val) >= 0    // vecchia ricerca
+    //al minimo 3 caratteri per attivare la ricerca
+    if (!val || val.length >= 0 && val.length <= 3)
+      return [];
+
+      return this.menuService.searchSources.filter(option =>
       new RegExp(val, 'gi').test(option.title)
-    ).slice(0, (val && val.length > 0) ? this.settingsService.nrMaxItemsSearch : 0);
+    ).slice(0, this.menuService.searchSources.length); 
   }
 
   displayElement(element: any): string {

@@ -10,7 +10,6 @@ import { Logger } from './../../core/services/logger.service';
 export class SettingsService {
     public _isEasyStudioActivated: boolean = undefined;
 
-    public nrMaxItemsSearch: number = 20;
     public nrMaxFavorites: number = 10;
     public nrMaxMostUsed: number = 10;
     public showSearchBox: boolean = true;
@@ -84,9 +83,6 @@ export class SettingsService {
     //---------------------------------------------------------------------------------------------    
     getThemedSettings() {
         let sub = this.httpService.getThemedSettings().subscribe(data => {
-            if (data.ThemedSettings.nrMaxItemsSearch != undefined)
-                this.nrMaxItemsSearch = parseInt(data.ThemedSettings.nrMaxItemsSearch);
-
             if (data.ThemedSettings.canEditDate != undefined)
                 this.canEditDate = this.utilsService.parseBool(data.ThemedSettings.canEditDate);
 
@@ -102,10 +98,6 @@ export class SettingsService {
 
         let subs = this.httpService.getPreferences().subscribe(data => {
             if (data != undefined && data.Root != undefined) {
-
-                var current = this.getPreferenceByName(data.Root.Preference, "NrMaxItemsSearch");
-                if (current != undefined)
-                    this.nrMaxItemsSearch = parseInt(current);
 
                 this.eventManagerService.emitPreferenceLoaded();
                 subs.unsubscribe();

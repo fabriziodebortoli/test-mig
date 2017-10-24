@@ -1,5 +1,5 @@
 <div (click)="open()" id="divOpDate" class="topBarMenuComponentLike">
-    <m4-icon icon="erp-calendarflash" matTooltip='Operation Date: {{applicationDate | date: dateFormat  }}'></m4-icon>
+    <m4-icon icon="erp-calendarflash" matTooltip='{{localizationService?.localizedElements?.OperationDate}}: {{applicationDate | date: dateFormat  }}'  matTooltipShowDelay="500"></m4-icon>
 </div>
 
 <kendo-dialog title="Change application date" *ngIf="opened" (close)="cancel()">
@@ -8,9 +8,9 @@
         <label>{{errorMessage}}</label>
     </div>
     <kendo-dialog-actions>
-        <button kendoButton (click)="cancel()">Cancel</button>
+        <button kendoButton (click)="cancel()">{{localizationService?.localizedElements?.Cancel}}</button>
         <!--primary="true" -->
-        <button kendoButton (click)="ok()" primary="true">Change</button>
+        <button kendoButton (click)="ok()" primary="true">{{localizationService?.localizedElements?.Change}}</button>
 
     </kendo-dialog-actions>
 </kendo-dialog>

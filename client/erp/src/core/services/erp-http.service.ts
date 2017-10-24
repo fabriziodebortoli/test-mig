@@ -20,10 +20,14 @@ export class ErpHttpService {
         const params = { authtoken: this.cookieService.get('authtoken') };
         const url = 'http://localhost:5000/' + api;
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post(url, JSON.stringify(obj), { withCredentials: true, headers: headers});
+        return this.http.post(url, JSON.stringify(obj), { withCredentials: true, headers: headers });
     }
 
     isVatDuplicate(vat: string): Observable<Response> {
         return this.postToDocumentBaseUrl('erp-core/CheckVatDuplicate', vat);
+    }
+
+    checkBinUsesStructure(zone: string, storage: string): Observable<Response> {
+        return this.postToDocumentBaseUrl('erp-core/CheckBinUsesStructure', { "zone": zone, "storage": storage });
     }
 }

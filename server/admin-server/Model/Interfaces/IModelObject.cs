@@ -11,5 +11,12 @@ namespace Microarea.AdminServer.Model.Interfaces
         IModelObject Fetch(IDataReader reader);
         string GetKey();
     }
+    //================================================================================
+    public class TicksHelper
+    {
+        public static int GetTicks() {
+            return System.DateTime.UtcNow.GetHashCode();
+        }
+    }
 }
   
