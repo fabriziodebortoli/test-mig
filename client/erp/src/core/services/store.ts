@@ -11,7 +11,7 @@ class Dispatcher extends BehaviorSubject<any> { }
 
 class StoreT<T> extends Observable<T> {
   private actionsObserver;
-  constructor(private stateContainer: { model: T, change: Observable<any> }) {
+  constructor(public stateContainer: { model: T, change: Observable<any> }) {
     super();
     this.actionsObserver = new Dispatcher(this.stateContainer.model);
     this.stateContainer.change
@@ -81,10 +81,11 @@ class StoreT<T> extends Observable<T> {
     ).map(res => res.reduce((o, val) => { o[val] = val; return o; }, {}));
   }
 
-  selectBySlicer<T>(slicer: T): Observable<{[P in keyof T]: any}> {
+  selectByMap<T>(slicer: T): Observable<{[P in keyof T]: any}> {
+    const props = Object.keys(slicer);
     return Observable.combineLatest(
-      ...Object.keys(slicer).map(x => this.select<any>(s => _.get(s, slicer[x])))
-    ).map(res => res.reduce((o, val, i) => { o[Object.keys(slicer)[i]] = val; return o; }, {}));
+      ...props.map(x => this.select<any>(s => _.get(s, slicer[x])))
+    ).map(res => res.reduce((o, val, i) => { o[props[i]] = val; return o; }, {}));
   }
 
   dispatch<V extends Action = Action>(action: V) {
