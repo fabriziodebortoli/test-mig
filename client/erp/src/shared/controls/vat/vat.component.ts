@@ -1,7 +1,6 @@
 import { TbComponentService, LayoutService, ControlComponent, EventDataService } from '@taskbuilder/core';
 import { Component, Input } from '@angular/core';
 import { ErpHttpService } from '../../../core/services/erp-http.service';
-import { Store } from '../../../core/services/store';
 import Tax from './tax';
 
 @Component({
@@ -16,13 +15,15 @@ export class VatComponent extends ControlComponent {
 
   errorMessage: any;
 
-  constructor(layoutService: LayoutService,
+  constructor(layoutService: LayoutService, private eventData: EventDataService, 
     tbComponentService: TbComponentService, private http: ErpHttpService) {
     super(layoutService, tbComponentService);
   }
 
   ngOnChanges(changes) {
     this.validate();
+    if (changes.slice)
+      console.log('b: ' + JSON.stringify(changes.slice));
   }
 
   async onBlur() {
@@ -32,7 +33,7 @@ export class VatComponent extends ControlComponent {
     if (r.json().isDuplicate)
       this.errorMessage = r.json().message;
     this.blur.emit(this);
-    //this.eventData.change.emit(this.cmpId);
+    this.eventData.change.emit(this.cmpId);
   }
 
   changeModelValue(value) {
