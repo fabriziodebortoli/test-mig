@@ -10,11 +10,15 @@
 
             <div class="dashboard-sidebar">
                 <div class="dashboard-sidebar-riq">
-                    <h4>{{localizationService?.localizedElements?.FavoritesLabel}}</h4>
+                    <h4>{{localizationService?.localizedElements?.FavoritesLabel}}
+                        <m4-icon class="close" icon="erp-scrap" (click)="menuService.clearFavorites()" matTooltip="Remove {{localizationService?.localizedElements?.FavoritesLabel}}" *ngIf="utilsService.toArray(menuService?.favorites).length > 0"></m4-icon>
+                    </h4>
                     <tb-favorites class="dashboard"></tb-favorites>
                 </div>
                 <div class="dashboard-sidebar-riq">
-                    <h4>{{localizationService.localizedElements?.MostUsedLabel}}</h4>
+                    <h4>{{localizationService.localizedElements?.MostUsedLabel}}
+                        <m4-icon class="close" icon="erp-scrap" (click)="menuService.clearFavorites()" matTooltip="Remove {{localizationService?.localizedElements?.FavoritesLabel}}" *ngIf="utilsService.toArray(menuService?.mostUsed).length > 0"></m4-icon>
+                    </h4>
                     <tb-most-used class="dashboard"></tb-most-used>
                 </div>
 
