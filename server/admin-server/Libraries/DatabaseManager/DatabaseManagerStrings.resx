@@ -688,4 +688,7 @@ Please contact your reseller for further information.</value>
   <data name="ErrorDeletingObjectsFromDB" xml:space="preserve">
     <value>An error occurred deleting objects from database '{0}'.</value>
   </data>
+  <data name="ErrorChangingDbo" xml:space="preserve">
+    <value>An error occurred during set '{0}' login as dbowner for database '{1}'.</value>
+  </data>
 </root>

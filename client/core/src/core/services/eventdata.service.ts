@@ -13,6 +13,7 @@ export class EventDataService {
 
     public radarInfos: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public radarRecordSelected: EventEmitter<any> = new EventEmitter();
+    public behaviours: EventEmitter<any> = new EventEmitter();
 
     public openMessageDialog: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public openDiagnosticDialog: EventEmitter<DiagnosticData> = new EventEmitter();

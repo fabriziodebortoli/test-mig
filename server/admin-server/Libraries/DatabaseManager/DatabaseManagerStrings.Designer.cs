@@ -628,6 +628,15 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred during set &apos;{0}&apos; login as dbowner for database &apos;{1}&apos;..
+        /// </summary>
+        internal static string ErrorChangingDbo {
+            get {
+                return ResourceManager.GetString("ErrorChangingDbo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error code.
         /// </summary>
         internal static string ErrorCode {
