@@ -84,17 +84,8 @@ namespace Microarea.Common.SecurityLayer.SecurityLightObjects
             MenuInfo menuInfo = new MenuInfo(pathFinder);
 
             menuInfo.ScanStandardMenuComponentsStarted += new MenuParserEventHandler(MenuInfo_ScanStandardMenuComponentsStarted);
-            menuInfo.ScanStandardMenuComponentsModuleIndexChanged += new MenuParserEventHandler(MenuInfo_ScanStandardMenuComponentsModuleIndexChanged);
             menuInfo.ScanStandardMenuComponentsEnded += new MenuParserEventHandler(MenuInfo_ScanStandardMenuComponentsEnded);
-            //Eventi x la progress mentre carico i menù provenienti dalla Custom
-            menuInfo.ScanCustomMenuComponentsStarted += new MenuParserEventHandler(MenuInfo_ScanCustomMenuComponentsStarted);
-            menuInfo.ScanCustomMenuComponentsModuleIndexChanged += new MenuParserEventHandler(MenuInfo_ScanCustomMenuComponentsModuleIndexChanged);
-            menuInfo.ScanCustomMenuComponentsEnded += new MenuParserEventHandler(MenuInfo_ScanCustomMenuComponentsEnded);
-
-            menuInfo.LoadAllMenuFilesStarted += new MenuParserEventHandler(MenuInfo_LoadAllMenuFilesStarted);
-            menuInfo.LoadAllMenuFilesModuleIndexChanged += new MenuParserEventHandler(MenuInfo_LoadAllMenuFilesModuleIndexChanged);
-            menuInfo.LoadAllMenuFilesEnded += new MenuParserEventHandler(MenuInfo_LoadAllMenuFilesEnded);
-
+            
             CommandsTypeToLoad commandsToLoad = CommandsTypeToLoad.Form | CommandsTypeToLoad.Batch | CommandsTypeToLoad.Report | CommandsTypeToLoad.Function | CommandsTypeToLoad.OfficeItem;
 
             menuInfo.ScanStandardMenuComponents(commandsToLoad);
