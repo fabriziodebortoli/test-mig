@@ -13,6 +13,9 @@ h1, h2, h3 { color: #666666;}
 
 .pt30 { padding-top: 30px }
 .pt20 { padding-top: 20px }
+.pt10 { padding-top: 10px }
+
+.pad10 { padding:10px }
 
 .pointer { cursor:pointer }
 .left { float:left }
