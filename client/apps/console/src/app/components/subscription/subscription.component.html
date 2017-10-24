@@ -4,24 +4,20 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div class="adminTile tileNormal">
+                Main Data
                 <div>
                     <admin-input-text [inputLabel]="'Subscription Key'" [textType]="'text'" [readOnly]=editing [(inputData)]="model.SubscriptionKey"></admin-input-text>
                 </div>
                 <div>
                     <admin-input-text [inputLabel]="'Description'" [textType]="'text'" [(inputData)]="model.Description"></admin-input-text>
                 </div>
-                <div class="m30">
-                    <admin-checkbox [checkText]="'Under maintenance'" [checkId]="'chkUnderMaintenance'" [(checkValue)]="model.UnderMaintenance" (inputDataChange)="model.UnderMaintenance = $event"></admin-checkbox> 
-                </div>        
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div class="adminTile tileNormal">
+                Status
                 <div>
-                    <admin-input-text [inputLabel]="'Language'" [textType]="'text'" [(inputData)]="model.Language"></admin-input-text>
-                </div>
-                <div>
-                    <admin-input-text [inputLabel]="'Regional Settings'" [textType]="'text'" [(inputData)]="model.RegionalSettings"></admin-input-text>
+                    <admin-checkbox [checkText]="'Under maintenance'" [checkId]="'chkUnderMaintenance'" [(checkValue)]="model.UnderMaintenance" (inputDataChange)="model.UnderMaintenance = $event"></admin-checkbox>                     
                 </div>
             </div>
         </div>
@@ -29,7 +25,7 @@
     
     <div class="row center-xs end-sm end-lg">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <admin-button [buttonText]="'Save'" (click)="submitSubscription()" ></admin-button>
+            <admin-button [buttonText]="'Save'" (click)="submitSubscription()" [primary]=true></admin-button>
         </div>
     </div>
     
@@ -38,7 +34,7 @@
             <h4 class="componentTitle" style="display:inline-block;width:100%">Databases</h4>
             <h3 *ngIf="!existDatabases">
                 Databases for this subscription have not been configured.<br>
-                <admin-button [buttonText]="'Configure'" (click)="configureDatabase()" ></admin-button>
+                <admin-button [buttonText]="'Configure'" (click)="configureDatabase()" [primary]=true></admin-button>
             </h3>
             <div *ngIf="underMaintenance">
                 <img src="assets/ajax-loader.gif" />

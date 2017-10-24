@@ -1,10 +1,10 @@
-<div style="float: left">
+<div class="left">
     <h1>Accounts Management</h1>
 </div>
-<div style="float: right; padding-top:20px">
+<div class="right pt20">
     <admin-button routerLink='/account' [buttonText]="'New'" [primary]=true></admin-button>
 </div>
-<hr style="clear:both">
+<hr class="clear">
 <admin-list 
     [items]=accounts 
     [columnNames]="['AccountName','FullName']" 
