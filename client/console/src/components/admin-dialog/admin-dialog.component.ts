@@ -33,6 +33,7 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
     this.resultChange = new EventEmitter<any>();
     this.openedChange = new EventEmitter<any>();
     this.fieldsChange = new EventEmitter<any>();
+    this.onClose = new EventEmitter<any>();
   }
 
   ngOnInit() {
