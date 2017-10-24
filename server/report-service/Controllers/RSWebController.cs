@@ -127,7 +127,6 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 504, Content = "non sei autenticato!", ContentType = "application/text" };
 
             string filename = nameSpace;
-            //string filename = @"C:\Dev4\Standard\TaskBuilder\Framework\TbFrameworkImages\Files\Images\Glyph\text.jpg";
             if (!System.IO.File.Exists(filename))
             {
                 PathFinder pathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
@@ -149,6 +148,7 @@ namespace Microarea.RSWeb.Controllers
 
             try
             {
+                this.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
                 FileStream f = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
                 return new FileStreamResult(f, "image/" + ext);
             }

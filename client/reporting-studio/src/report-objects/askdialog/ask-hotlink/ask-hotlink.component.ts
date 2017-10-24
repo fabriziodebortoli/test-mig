@@ -2,7 +2,7 @@ import { HotlinkComponent, HttpService, LayoutService, EnumsService, TbComponent
 import { Component, ViewEncapsulation, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 
 import { hotlink } from './../../../models/hotlink.model';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from '../../../rxjs.imports';
 
 
 

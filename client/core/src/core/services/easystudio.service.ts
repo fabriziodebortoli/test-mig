@@ -45,7 +45,7 @@ export class EasystudioService {
         let res = result["_body"];
         if (res !== "") {
             let array: string[] = res.toString().split(';');
-            if (array.length != 2) return;
+            if (!array || array.length != 2) return;
             this.currentApplication = array[0];
             this.currentModule = array[1];
         }
@@ -64,18 +64,18 @@ export class EasystudioService {
         this.subscriptions.push(this.httpMenuService.initEasyStudioData(object).subscribe((result) => {
             this.memory2 = { Customizations: [] };
             this.customizations = [];
-            let res = result["_body"];
-            if (res !== "") {
-                this.memory2 = JSON.parse(result["_body"]);
+            let body = result["_body"]; // if body=="" is not design, if body=="Customizations:{}" is design but empty
+            let canHaveCustoms = body != "";
+            if (canHaveCustoms) {                
+                this.memory2 = JSON.parse(body);
                 if (this.memory2 != undefined) {
-                    this.customizations = [];
                     this.memory2.Customizations.forEach(element => {
                         if (this.customizations.indexOf(element) === -1)
                             this.customizations.push(element);
                     })
                 }
             }
-            this.isDesignable = this.customizations != undefined;
+            this.isDesignable = canHaveCustoms;
         }));
     }
 
@@ -116,7 +116,7 @@ export class EasystudioService {
             return;
         this.memory = JSON.parse(result["_body"]);
         let allApplications = resultJson["allApplications"];
-
+        if(!allApplications) return;
         for (var index = 0; index < allApplications.length; index++) {
             var applicElem = allApplications[index].application;
             if (this.applications.indexOf(applicElem) === -1)
@@ -161,6 +161,7 @@ export class EasystudioService {
     //--------------------------------------------------------------------------------
     public getModulesBy(app: string) {
         let y = this.memory;
+        if(!y) return;
         let modules: any[] = new Array();
         for (var index = 0; index < y.allApplications.length; index++) {
             var element = y.allApplications[index].application;

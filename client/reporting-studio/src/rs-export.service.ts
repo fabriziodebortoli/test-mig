@@ -1,17 +1,12 @@
-import { ReportingStudioService } from './reporting-studio.service';
 import { Injectable, EventEmitter, Output } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { PdfType, SvgType, PngType } from './models';
 
 import { drawDOM, exportPDF, DrawOptions, Group, exportImage, exportSVG } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
-import { Subscription } from "rxjs/Subscription";
-import { Observable } from 'rxjs/Rx';
+import { Subscription, Subject, Observable } from './rxjs.imports';
 
+import { PdfType, SvgType, PngType } from './models/export-type.model';
+import { ReportingStudioService } from './reporting-studio.service';
 import { Snapshot } from './report-objects/snapshotdialog/snapshot';
-import { timeout } from 'rxjs/operator/timeout';
-
-
 
 @Injectable()
 export class RsExportService {

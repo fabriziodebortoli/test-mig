@@ -2386,7 +2386,6 @@ namespace Microarea.RSWeb.Objects
 		public int CurrentRow = 0; // riga dove viene valorizzata la cella quando leggo da RDE
         public int ViewCurrentRow = -1; // riga corrente in fase di renderizzazione (per attributi dinamici)
  
-        public EnumChartType ChartType = EnumChartType.None;
         public int Layer = 0;   //only design mode
 
 		Table Default = null;
@@ -2526,11 +2525,6 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         override public string ToJsonTemplate(bool bracket)
         {
-            if (ChartType > 0)
-            {
-                return ToJsonChartTemplate(bracket);
-            }
-
             string name = "table";
  
             string s = string.Empty;
@@ -2582,11 +2576,6 @@ namespace Microarea.RSWeb.Objects
 
         override public string ToJsonData(bool bracket)
         {
-            if (ChartType > 0)
-            {
-                return ToJsonChartData(bracket);
-            }
-
             string name = "table";
 
             string s = string.Empty;
@@ -2770,7 +2759,6 @@ namespace Microarea.RSWeb.Objects
         }
 
         //---------------------------------------------------------------------
- 
         public string ToJsonTotals(bool template)
         {
             if (!this.ExistsTotals())
@@ -2847,211 +2835,6 @@ namespace Microarea.RSWeb.Objects
             }
             r += ']';
             return r;
-        }
-
-        //---------------------------------------------------------------------------
-        private bool IsChartSingleSerie()
-        {
-            return ChartType == EnumChartType.Pie ||
-                    ChartType == EnumChartType.Donut || 
-                    ChartType == EnumChartType.Funnel  
-                    ;
-        }
-        private bool IsChartMergedSerie()
-        {
-            return ChartType == EnumChartType.Pie ||
-                    ChartType == EnumChartType.Donut ||
-                    ChartType == EnumChartType.DonutNested ||
-                    ChartType == EnumChartType.RangeColumn ||
-                    ChartType == EnumChartType.RangeBar ||
-                    ChartType == EnumChartType.Bubble ||
-                    ChartType == EnumChartType.Scatter;
-        }
-        //---------------------------------------------------------------------------
-        public string ToJsonChartTemplate(bool bracket)
-        {
-            string name = "chart";
-            bool stacked = false;
-            bool percent = false;
-            int gap = -1;
-            double spacing = -1.0;
-
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            int ct = (int)(ChartType == EnumChartType.Pyramid ? EnumChartType.Funnel : ChartType);
-            s += '{' +
-                base.ToJsonTemplate(false) + ',' +
-                ct.ToJson("chartType");
-            //column, bar, [stack]="true", [stack]="{ group: 'a', type: '100%' }
-
-            s += ',' + this.Title.Text.ToJson("title", false, true);
-
-            //s += 
-                    //',' + stacked.ToJson("stacked") +
-                    //',' + percent.ToJson("percent") +
-                    //',' + gap.ToJson("gap") +
-                    //',' + spacing.ToJson("spacing");
-
-            string position = "bottom";
-            string orientation = "horizontal";
-            s += ",\"legend\":{" + position.ToJson("position", false, true) + ',' + orientation.ToJson("orientation", false, true) + '}';
-
-            int numSeries = 0;
-            if (IsChartSingleSerie())
-            {
-                numSeries = 1;
-            }
-            else
-            {
-                int lastColumn = this.LastVisibleColumn();
-                for (int c = 0; c <= lastColumn; c++)
-                {
-                    Column column = this.Columns[c];
-                    if (column.IsHidden || column.HideExpr != null)
-                        continue;
-
-                    string t = column.GetDataType();
-                    if (!t.CompareNoCase(new string[] { "Double", "Money", "Quantity", "Percent" }))
-                    {
-                        continue;
-                    }
-                    numSeries++;
-                }
-            }
-            s += ',' + numSeries.ToJson("numSeries");
-            s += '}';
-
-            if (bracket)
-                s = '{' + s + '}';
-
-            return s;
-        }
-        public string ToJsonChartColumnData(Column column)
-        {
-            string serie = "{\"data\":[";
-            bool first = true;
-            for (int row = 0; row < this.RowNumber; row++)
-            {
-                Cell cell = column.Cells[row];
-                object v = cell.Value.RDEData;
-                if (v == null) continue;
-
-                if (first)
-                {
-                    first = false;
-                }
-                else
-                {
-                    serie += ',';
-                }
-
-                serie += v.ToJson();
-            }
-            serie += "]," + column.Title.Text.ToJson("name", false, true) ;
-
-            //Color bkgColor = column.GetCellColor(0)[(int)ElementColor.BACKGROUND];
-            //if (bkgColor != Color.White)
-                //serie += "," + bkgColor.ToJson("color");
-
-            //double opacity = 0.5;
-            //if (opacity != 0)
-                //serie += "," + opacity.ToJson("opacity");
-
-            return serie + '}';
-        }
-
-        public string ToJsonChartCategoryData(Column column)
-        {
-            string categories = "\"categories\":[";
-            bool first = true;
-            for (int row = 0; row < this.RowNumber; row++)
-            {
-                Cell cell = column.Cells[row];
-                object v = cell.Value.RDEData;
-                if (v == null) continue;
-
-                if (first)
-                {
-                    first = false;
-                }
-                else
-                {
-                    categories += ',';
-                }
-
-                categories += v.ToJson();
-            }
-            categories += ']';
-
-            string category_axis = "\"category_axis\":{" + column.Title.Text.ToJson("title", false, true) + ',' + categories + '}';
-
-            return category_axis;
-        }
-
-        public string ToJsonChartData(bool bracket)
-        {
-            string name = "chart";
-
-            string s = string.Empty;
-            if (!name.IsNullOrEmpty())
-                s = '\"' + name + "\":";
-
-            s += '{' + base.ToJsonData(false) + ',';
-
-            //---------------------------
-            int idxColCat = -1;
-            string series = "\"series\":[";
-            bool firstCol = true;
-            int lastColumn = this.LastVisibleColumn();
-            for (int c = 0; c <= lastColumn; c++)
-            {
-                Column column = this.Columns[c];
-                if (column.IsHidden || column.HideExpr != null)
-                    continue;
-                //if (column.DynamicIsHidden)
-                //    continue;
-
-                if (idxColCat == -1 && column.GetDataType() == "String")
-                {
-                    idxColCat = c;
-                    continue;
-                }
-                string t = column.GetDataType();
-                if (!t.CompareNoCase(new string[] { "Double", "Money", "Quantity", "Percent" }))
-                {
-                    continue;
-                }
-
-                if (firstCol)
-                {
-                    firstCol = false;
-                }
-                else
-                {
-                    if (IsChartSingleSerie())
-                    {
-                        if (idxColCat < 0) continue; 
-                        else break;
-                    }
-   
-                    series += ','; 
-                }
-               
-                series += ToJsonChartColumnData(column);
-            }
-            series += ']';
- 
-            if (idxColCat > -1)
-                s += ToJsonChartCategoryData(this.Columns[idxColCat]) + ',';
-
-            s += series + '}';
-
-           if (bracket)
-                s = '{' + s + '}';
-
-            return s;
         }
 
         //---------------------------------------------------------------------------
@@ -3382,16 +3165,7 @@ namespace Microarea.RSWeb.Objects
 								return false;
 							break;
 						}
-                    case Token.CHART:	
-                        {
-                            lex.SkipToken();
-                            int ct;
-                            if (!lex.ParseInt(out ct))
-                                return false;
-                            ChartType = (EnumChartType)ct;
-                            break;
-                        }
-
+ 
 					default:
 						return true;
 				}
@@ -4858,14 +4632,7 @@ namespace Microarea.RSWeb.Objects
 			if (FiscalEnd)
 				unparser.WriteTag(Token.FISCAL_END);
 
-            if (ChartType > 0)
-            {
-                unparser.WriteTag(Token.CHART, false);
-                unparser.WriteBlank();
-                unparser.Write((int)ChartType);
-            }
-
-			WriteHidden(unparser);
+ 			WriteHidden(unparser);
 
 			int col = Title.TextColor != Defaults.DefaultTextColor ? 1 : 0;
 			int bkg = Title.BkgColor != Defaults.DefaultBackColor ? 1 : 0;

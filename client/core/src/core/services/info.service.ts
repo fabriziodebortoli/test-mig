@@ -31,6 +31,11 @@ export class InfoService {
         this.culture.value = cookieService.get(this.cultureId);
     }
 
+    resetCulture() {
+        this.cookieService.remove(this.cultureId);
+        this.culture.value = null;
+    }
+
     saveCulture() {
         this.cookieService.put(this.cultureId, this.culture.value);
     }

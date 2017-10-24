@@ -97,26 +97,23 @@ export class TaskbuilderService {
 
                     if (tbRes.error) {
 
-                       
+
                         this.stopConnection = true;
 
                         this.logger.debug("error messages:", tbRes.messages);
                         // il TB c'è ma non riesce a collegare
                         this.logger.error("openTBConnection Connection Error - Reconnecting...");
                         this.tbConnection.next(true); //passo true perchè la connessione è finita, anche se in maniera fallimentare, in questo modo stoppo il loading
-                        observer.next(true);
-                        observer.complete();
 
-                        this.diagnosticService.showDiagnostic(tbRes.messages); //qui dovrei fare logout
-                        this.authService.logout();
+                        this.diagnosticService.showDiagnostic(tbRes.messages).subscribe(() => this.authService.logout());
 
                     } else {
                         this.logger.debug("TbLoader Connected...")
                         this.tbConnection.next(true);
-
-                        observer.next(true);
-                        observer.complete();
                     }
+
+                    observer.next(true);
+                    observer.complete();
 
                 }, (error) => {
                     this.logger.error("openTBConnection Connection failed", error);

@@ -1,5 +1,5 @@
 import { RsExportService } from './../../rs-export.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from '../../rxjs.imports';
 import { Component, Input } from '@angular/core';
 import { Snapshot } from './snapshot';
 import { GridDataResult } from '@progress/kendo-angular-grid';

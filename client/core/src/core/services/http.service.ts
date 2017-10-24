@@ -86,7 +86,9 @@ export class HttpService {
     logoff(params: { authtoken: string }): Observable<OperationResult> {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'logoff/', params)
             .map((res: Response) => {
-                return res.json();
+                let jObj = res.json();
+                this.infoService.resetCulture();
+                return jObj;
             });
     }
 

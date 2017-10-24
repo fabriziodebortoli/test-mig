@@ -1,44 +1,64 @@
+.favorites {
+    margin-bottom: 20px;
+}
+
+ul.favorites-list {
+    padding: 0;
+    margin: 0;
+}
+
+.favorite-item {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    color: #9f9f9f;
+    line-height: 30px;
+    background: #3e3e3e;
+    &:hover {
+        background: rgba(62, 62, 63, 0.5);
+    }
+    &>span {
+        flex: 1;
+        font-size: 12px;
+    }
+    &:hover span {
+        color: #fff;
+    }
+    m4-icon.type {
+        margin: 0px 7px;
+        font-size: 15px;
+        line-height: 28px;
+        padding-top: 2px;
+    }
+    m4-icon.close {
+        margin: 0px 7px;
+        font-size: 14px;
+        line-height: 28px;
+        padding-top: 2px;
+        cursor: pointer;
+        color: #646464;
+        &:hover {
+            color: #fff;
+        }
+    }
+}
+
+.favorites-empty {
+    font-size: 12px;
+    margin: 0;
+    padding: 0 11px;
+    color: #9f9f9f;
+}
+
 //stile quando usato nella sidenav
 /// inizio sidenav
 :host-context(.sidenav) {
-    .favorites {
-        margin-bottom: 20px;
-    }
-    ul.favorites-list {
-        padding: 0;
-    }
-    .favorite-item {
-        cursor: pointer;
-        display: flex;
-        flex-direction: row;
-        color: #9f9f9f;
-        background: #3e3e3e;
-        line-height: 30px;
-        position: relative;
-    }
-    .favorite-item>m4-icon.type {
-        margin: 0 5px 0 7px;
-        line-height: 30px;
-        font-size: 14px;
-    }
-    .favorite-item>span {
-        font-size: 12px;
-        cursor: pointer;
-        margin-top: -1px;
-    }
-    .favorite-item>span:hover {
-        color: #fff;
-    }
-    .favorite-item>m4-icon.close {
-        position: absolute;
-        right: 3px;
-        font-size: 14px;
-        line-height: 30px;
-        cursor: pointer;
+    m4-icon.close {
         color: #646464;
     }
-    .favorite-item>m4-icon.close:hover {
-        color: #fff;
+    .favorites-empty {
+        line-height: 28px;
+        background: #3e3e3e;
     }
 }
 
@@ -47,67 +67,57 @@
 /// inizio dashboard
 :host-context(.dashboard) {
     .favorites {
-        margin-bottom: 20px;
+        ul.favorites-list {
+            .favorite-item {
+                background: #f1f4f7;
+                border: 1px solid #ddd;
+                margin: 3px 7px;
+                height: 28px;
+                m4-icon.type {
+                    margin: 0px 7px;
+                    line-height: 28px;
+                    font-size: 15px;
+                    padding-top: 2px;
+                }
+                &>span {
+                    color: #00588c;
+                    line-height: 29px;
+                }
+                &:hover span {
+                    color: #333;
+                }
+                m4-icon.type {
+                    margin-right: 7px;
+                }
+                m4-icon.type.Document {
+                    color: #0277bd;
+                }
+                m4-icon.type.Report,
+                m4-icon.type.Function {
+                    color: #3EAB66;
+                }
+                m4-icon.type.Batch {
+                    color: #ffa700;
+                }
+                m4-icon.close {
+                    color: #ddd;
+                    &:hover {
+                        color: #0277bd;
+                    }
+                }
+            }
+        }
     }
-    ul.favorites-list {
-        padding: 0 5px;
+    .favorites-empty {
+        color: #666;
     }
-    .favorite-item {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        background: #f1f4f7;
-        margin: 3px;
-        padding: 2px;
-        border: 1px solid #ddd;
-        align-items: center;
-    }
-    .favorite-item>span {
-        flex: 1;
-        cursor: pointer;
-        max-width: 210px;
-        font-size: 13px;
-        margin-top: -3px;
-    }
-    .favorite-item .close {
-        font-size: 14px;
-        margin-top: 4px;
-        margin-right: 4px;
-        cursor: pointer;
-        color: #ccc;
-        font-weight: bolder;
-    }
-    .favorite-item .close:hover {
-        color: #000
-    }
-    .favorite-item .type {
-        color: #bbb;
-        font-size: 14px;
-        margin-right: 3px;
-        cursor: default;
-        line-height: 24px;
-    }
-    .favorite-item .type.Document {
-        color: #0277bd;
-    }
-    .favorite-item .type.Report,
-    .favorite-item .type.Function {
-        color: #3EAB66;
-    }
-    .favorite-item .type.Batch {
-        color: #ffa700;
-    }
-}
-
-/// fine dashboard
-.spinner {
-    height: 24px;
-    width: 24px;
 }
 
 .loader {
-    border: 4px solid #f3f3f3; /* Light grey */
-    border-top: 4px solid #3498db; /* Blue */
+    border: 4px solid #f3f3f3;
+    /* Light grey */
+    border-top: 4px solid #3498db;
+    /* Blue */
     border-radius: 50%;
     width: 20px;
     height: 20px;
@@ -115,6 +125,10 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

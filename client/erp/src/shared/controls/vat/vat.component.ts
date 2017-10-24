@@ -1,7 +1,6 @@
 import { TbComponentService, LayoutService, ControlComponent, EventDataService } from '@taskbuilder/core';
 import { Component, Input } from '@angular/core';
 import { ErpHttpService } from '../../../core/services/erp-http.service';
-import { Store } from '../../../core/services/store';
 import Tax from './tax';
 
 @Component({
@@ -12,22 +11,19 @@ import Tax from './tax';
 export class VatComponent extends ControlComponent {
   @Input('readonly') readonly = false;
   @Input() isoCode: string;
-  @Input() modelMap = {};
+  @Input() slice;
 
   errorMessage: any;
 
-  constructor(private eventData: EventDataService, layoutService: LayoutService,
-    tbComponentService: TbComponentService, private http: ErpHttpService, private store: Store) {
+  constructor(layoutService: LayoutService, private eventData: EventDataService, 
+    tbComponentService: TbComponentService, private http: ErpHttpService) {
     super(layoutService, tbComponentService);
-  }
-
-  ngOnInit() {
-    this.store.selectBySlicer(this.modelMap)
-      .subscribe(m => console.log(m));
   }
 
   ngOnChanges(changes) {
     this.validate();
+    if (changes.slice)
+      console.log('b: ' + JSON.stringify(changes.slice));
   }
 
   async onBlur() {
@@ -53,8 +49,4 @@ export class VatComponent extends ControlComponent {
   }
 
   get isValid(): boolean { return !this.errorMessage; }
-
-  ngOnDestroy() {
-
-  }
 }

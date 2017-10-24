@@ -23,11 +23,8 @@ export class ImageService {
 
         let url = 'assets/images/';
 
-        switch (application.name) {
-            case 'TBS':
-                url += 'LogoTBSSmall.png';
-                break;
-            case 'ERP':
+        switch (application.name.toLowerCase()) {
+            case 'erp':
                 url += 'LogoMagoNetSmall.png';
                 break;
             default:
@@ -48,7 +45,7 @@ export class ImageService {
         }
 
         let imageFile = item['image_file'];
-        return imageFile === undefined ? 'Images/Default.png' : this.infoService.getMenuServiceUrl() + 'getStaticImage/?imageFile=' + imageFile;
+        return imageFile === undefined ? '' : this.infoService.getMenuServiceUrl() + 'getStaticImage/?imageFile=' + imageFile;
     }
 
     //---------------------------------------------------------------------------------------------
