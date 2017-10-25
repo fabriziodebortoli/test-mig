@@ -83,7 +83,6 @@ export class RsExportService {
 
 
     async appendPDF() {
-        await this.timeout(5000);
         await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);
@@ -91,7 +90,6 @@ export class RsExportService {
     }
 
     async renderPDF() {
-        await this.timeout(5000);
         await drawDOM(document.getElementById('rsLayout'))
             .then((group: Group) => {
                 this.filePdf.append(group);

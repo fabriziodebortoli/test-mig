@@ -86,6 +86,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
   // -----------------------------------------------
   async createPDF() {
+    await this.rsExportService.timeout(500);
     if (this.rsService.pageNum == this.rsExportService.firstPageExport) {
       if (this.rsExportService.lastPageExport == this.rsExportService.firstPageExport) {
         this.rsExportService.renderPDF();
@@ -97,12 +98,10 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       this.rsExportService.appendPDF().then(() => {
         this.rsExportService.eventNextPage.emit();
       });
-
     }
 
     else
       this.rsExportService.renderPDF();
-
   }
 
   // -----------------------------------------------

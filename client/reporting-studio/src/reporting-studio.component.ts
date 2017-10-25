@@ -391,7 +391,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   //--------------------------------------------------
   async startSavePDF() {
-    await this.rsExportService.timeout(3000);
     this.rsExportService.pdfState = PdfType.PDF;
     this.PageNumber();
   }
