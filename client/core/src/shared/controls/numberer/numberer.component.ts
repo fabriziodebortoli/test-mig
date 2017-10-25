@@ -3,8 +3,13 @@ import { LayoutService } from './../../../core/services/layout.service';
 import { ControlComponent } from '../control.component';
 import { EventDataService } from './../../../core/services/eventdata.service';
 
-import { Component, Input, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges } from '@angular/core';
 import { NumbererStateEnum } from './numberer-state.enum';
+
+import { FormMode } from './../../../core/models/enums';
+
+import { isNumeric } from "rxjs/util/isNumeric"
+
 @Component({
     selector: "tb-numberer",
     templateUrl: './numberer.component.html',
@@ -23,26 +28,31 @@ export class NumbererComponent extends ControlComponent {
 
     icon: string;
 
+    tbMask: string = '';
     formatMask: string = '';
-    enableCtrlInEdit = false;
+    ctrlEnabled = false;
     enableStateInEdit = false;
     useFormatMask = false;
 
     private currentValue = "";
     private currentState: NumbererStateEnum;
 
+    // PADDING: in modalità find se maschera vuota allora padding default = false, altrimenti true
+
     ngOnInit() {
-        this.currentState = this.model.stateData.invertState ? NumbererStateEnum.FreeInput : NumbererStateEnum.MaskedInput;
-        this.icon = this.model.stateData.invertState ? this.tbEditIcon : this.tbExecuteIcon;
+        //this.currentState = this.model.stateData.invertState ? NumbererStateEnum.FreeInput : NumbererStateEnum.MaskedInput;
+        //this.icon = this.model.stateData.invertState ? this.tbEditIcon : this.tbExecuteIcon;
 
         this.eventData.behaviours.subscribe(x => {
             let b = x[this.cmpId];
             if (b) {
-                this.formatMask = this.valueToMask(this.model.value, b.formatMask);
-                //this.useFormatMask = b.useFormatMask;
+                this.tbMask = b.formatMask;
                 this.useFormatMask = (b.formatMask !== '');
-                this.enableCtrlInEdit = b.enableCtrlInEdit;
+                //this.useFormatMask = b.useFormatMask;
+                this.ctrlEnabled = this.eventData.model.FormMode.value == FormMode.NEW || b.enableCtrlInEdit;
                 this.enableStateInEdit = b.enableStateInEdit;
+                
+                this.setComponentMask();
             }
         })
     }
@@ -54,6 +64,19 @@ export class NumbererComponent extends ControlComponent {
         tbComponentService: TbComponentService
     ) {
         super(layoutService, tbComponentService);
+    }
+
+    setComponentMask() {
+        switch(this.eventData.model.FormMode.value) { 
+            case FormMode.FIND:{
+                this.formatMask = '';
+                break; 
+            }
+            default: { 
+                this.formatMask = this.valueToMask(this.model.value, this.tbMask);
+                break;
+            } 
+        }
     }
 
     valueToMask(value: string, tbMask: string) {
@@ -80,10 +103,25 @@ export class NumbererComponent extends ControlComponent {
           ;
     }
 
+    maskToValue(tbMask: string, value: string)
+    {
+        let ret = '';
+        ret = '0' + value.trim();
+        return ret;
+    }
+
     onKeyDown($event) {
         if (($event.keyCode === 63) || ($event.keyCode === 32)) {
           $event.preventDefault();
         }
+    }
+
+    onBlur($event) {
+        if (
+                this.eventData.model.FormMode.value == FormMode.FIND &&
+                isNumeric(this.model.value)        
+        )
+        this.model.value = this.maskToValue(this.tbMask, this.model.value);
     }
     
     toggleState() {
@@ -95,15 +133,11 @@ export class NumbererComponent extends ControlComponent {
             this.icon = this.tbExecuteIcon;
             this.currentState = NumbererStateEnum.MaskedInput
         }
-
-        "model?.stateData?.binding?.datasource"
     }
 
     ngOnChanges(changes) {
-
+        if( changes['model'] && changes['model'].previousValue != changes['model'].currentValue ) {
+            this.setComponentMask();
+          }
     }
-
-
-
-
 }

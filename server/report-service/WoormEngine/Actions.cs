@@ -739,6 +739,8 @@ namespace Microarea.RSWeb.WoormEngine
                 Fun.Parameters = new ParametersList();
 		        do
 		        {
+                    //TODO RSWEB manca parsing direzione dei parametri delle PROCEDURE
+
                     string wType, wBaseType, type;
                     ushort enumTag;
                     if (!DataTypeParser.Parse(lex, engine.Session.Enums, out type, out wType, out enumTag, out wBaseType))
@@ -750,9 +752,10 @@ namespace Microarea.RSWeb.WoormEngine
 			        if (!lex.ParseID(out paramName))
 				        return false;
 
-			        Parameter param = new Parameter(paramName, type);
+			        Parameter param = new Parameter(paramName, type/*, param mode*/);
                     param.SetType(type, wBaseType, enumTag);
                     param.TbType = wType;
+
 
 			        Fun.Parameters.Add(param);
 
