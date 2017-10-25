@@ -19,6 +19,7 @@ export class RsExportService {
     pngState: PngType = PngType.NOPNG;
     filePdf = new Group();
     titleReport: string;
+    layoutId: string;
 
     user: boolean;
     nameSnap: string;
@@ -83,19 +84,20 @@ export class RsExportService {
 
 
     async appendPDF() {
-        await drawDOM(document.getElementById('rsLayout'))
+        await drawDOM(document.getElementById(this.layoutId))
             .then((group: Group) => {
                 this.filePdf.append(group);
             })
     }
 
     async renderPDF() {
-        await drawDOM(document.getElementById('rsLayout'))
+        await drawDOM(document.getElementById(this.layoutId))
             .then((group: Group) => {
                 this.filePdf.append(group);
                 return exportPDF(this.filePdf, {
                     multiPage: true
                 });
+                
             })
             .then((dataUri) => {
                 saveAs(dataUri, this.titleReport + '.pdf');
@@ -103,6 +105,7 @@ export class RsExportService {
             }).then(() => {
                 this.eventFirstPage.emit();
                 this.rsService.reset();
+                this.filePdf = new Group();
             });
     }
 
