@@ -1149,7 +1149,7 @@ namespace Microarea.RSWeb.Objects
 
                     base.ToJsonTemplate(false) + ',' +
 
-                    this.TemplateBkgColor.ToJson("bkgcolor") +
+                    this.DynamicBkgColor.ToJson("bkgcolor") +
                  '}';
 
             if (bracket)
@@ -1558,8 +1558,8 @@ namespace Microarea.RSWeb.Objects
 
                 this.LocalizedText.ToJson("value", false, true) + ',' +
 
-                this.TemplateBkgColor.ToJson("bkgcolor") + ',' +
-                this.TemplateTextColor.ToJson("textcolor") + ',' +
+                this.DynamicBkgColor.ToJson("bkgcolor") + ',' +
+                this.DynamicTextColor.ToJson("textcolor") + ',' +
 
                 this.Label.Align.ToHtml_align() + ',' +
                 this.Label.FontData.ToJson() + ',' +
@@ -2436,8 +2436,8 @@ namespace Microarea.RSWeb.Objects
                 this.Value.FontData.ToJson() + ',' +
                 this.Value.Align.ToHtml_align() + ',' +
 
-                this.TemplateBkgColor.ToJson("bkgcolor") + ',' +
-                this.TemplateTextColor.ToJson("textcolor") +
+                this.DynamicBkgColor.ToJson("bkgcolor") + ',' +
+                this.DynamicTextColor.ToJson("textcolor") +
 
                 //this.Value.FormattedData    .ToJson("value", false, true) + 
 
