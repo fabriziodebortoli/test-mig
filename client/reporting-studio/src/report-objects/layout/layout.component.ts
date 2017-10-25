@@ -86,7 +86,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
   // -----------------------------------------------
   async createPDF() {
-    await this.rsExportService.timeout(500);
+    //await this.rsExportService.timeout(500);
     if (this.rsService.pageNum == this.rsExportService.firstPageExport) {
       if (this.rsExportService.lastPageExport == this.rsExportService.firstPageExport) {
         this.rsExportService.renderPDF();
