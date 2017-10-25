@@ -1,3 +1,4 @@
+import { ReportingStudioService } from './../../../reporting-studio.service';
 import { baserect } from './../../../models/baserect.model';
 import { rect } from './../../../models/rect.model';
 import { barcode } from './../../../models/barcode.model';
@@ -18,13 +19,14 @@ export class BarcodeComponent implements OnChanges {
   public id: string;
 
 
-  constructor(private ref: ChangeDetectorRef) {
+  constructor(private ref: ChangeDetectorRef,
+    public rsService: ReportingStudioService,) {
     setInterval(() => {
       // the following is required, otherwise the view will not be updated
       this.ref.markForCheck();
     }, 1000);
 
-    this.id = this.GenerateId();
+    this.id = this.rsService.generateId();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -160,12 +162,12 @@ export class BarcodeComponent implements OnChanges {
     }
   }
 
-  private GenerateId(): string {
+  /*private GenerateId(): string {
     let result = '';
     let chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     for (var i = 10; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
     return result;
-  }
+  }*/
 
   private GetInitialScale(type: string): number {
     switch (type) {
