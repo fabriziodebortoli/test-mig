@@ -209,7 +209,7 @@ namespace Microarea.Common.Hotlink
 
 				Parameter prototypeParam = Prototype.Parameters[i];
 
-                Parameter pInfo = new Parameter(prototypeParam.Name, prototypeParam.Type);
+                Parameter pInfo = new Parameter(prototypeParam.Name, prototypeParam.Type, prototypeParam.Mode);
 
 				if (expr != null)
 				{
@@ -223,7 +223,7 @@ namespace Microarea.Common.Hotlink
 			//fixed parameter for hotlink (selection type, code, description)
 			
 			Parameter prototypeParamHklSelection = Prototype.Parameters[0];
-			Parameter pInfoHklSelection = new Parameter(prototypeParamHklSelection.Name, prototypeParamHklSelection.Type);
+			Parameter pInfoHklSelection = new Parameter(prototypeParamHklSelection.Name, prototypeParamHklSelection.Type, prototypeParamHklSelection.Mode);
 			pInfoHklSelection.ValueString = SoapTypes.To(action == HklAction.Upper ? 0 : 1);
 			fi.Parameters.Add(pInfoHklSelection);
 			
@@ -232,7 +232,7 @@ namespace Microarea.Common.Hotlink
 				index = 1; //array position of "Code" parameter
 
 			Parameter prototypeParamHklFilter = Prototype.Parameters[index];
-			Parameter pInfoHklFilter = new Parameter(prototypeParamHklFilter.Name, prototypeParamHklFilter.Type);
+			Parameter pInfoHklFilter = new Parameter(prototypeParamHklFilter.Name, prototypeParamHklFilter.Type, prototypeParamHklFilter.Mode);
 			pInfoHklFilter.ValueString = SoapTypes.To(hotLinkFilter);
 			fi.Parameters.Add(pInfoHklFilter);
 
