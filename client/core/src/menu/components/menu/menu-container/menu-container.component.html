@@ -19,8 +19,8 @@
 
                             </tb-header-strip>
 
-                            <div class="menu-container masonry" *ngIf="menuService.selectedMenu != undefined">
-                                <tb-menu-content *ngFor="let tile of tiles" [tile]="tile" class="masonry-brick col-xs-12 col-md-6" [ngClass]="{'col-lg-3': tiles.length > 3, 'col-lg-4': tiles.length < 4}"></tb-menu-content>
+                            <div class="menu-container row" *ngIf="menuService.selectedMenu != undefined">
+                                <tb-menu-content *ngFor="let tile of tiles" [tile]="tile" class="col-xs-12 col-sm-12 col-md-6 col-lg-4" [ngClass]="{'col-xl-3': tiles.length > 3, 'col-xl-4': tiles.length < 4}"></tb-menu-content>
                                 <!-- <tb-menu-content *ngFor="let tile of tiles" [tile]="tile" class="masonry-brick"></tb-menu-content> -->
                             </div>
                         </div>
