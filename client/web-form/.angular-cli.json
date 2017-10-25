@@ -21,7 +21,6 @@
         "testTsconfig": "tsconfig.spec.json",
         "prefix": "tb",
         "styles": [
-            "../node_modules/flexboxgrid/dist/flexboxgrid.min.css",
             "styles.scss"
         ],
         "scripts": [
