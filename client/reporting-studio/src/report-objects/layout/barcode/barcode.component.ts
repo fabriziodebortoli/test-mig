@@ -17,10 +17,10 @@ export class BarcodeComponent implements OnChanges {
   @Input() rect: baserect;
   @Input() value: string;
   public id: string;
-
+  private dpi: number;
 
   constructor(private ref: ChangeDetectorRef,
-    public rsService: ReportingStudioService,) {
+    public rsService: ReportingStudioService, ) {
     setInterval(() => {
       // the following is required, otherwise the view will not be updated
       this.ref.markForCheck();
@@ -33,11 +33,12 @@ export class BarcodeComponent implements OnChanges {
     if (!this.rect || !this.value) {
       return;
     }
-    let scale = this.CreateBarcode();
-    //this.DrawBarcode(scale[0], scale[1]);
+    let devicePixelRatio = window.devicePixelRatio || 1;
+    this.dpi = Math.min((document.getElementById('testdiv').offsetWidth * devicePixelRatio), (document.getElementById('testdiv').offsetHeight * devicePixelRatio));
+    this.CreateBarcode();
   }
 
-  CreateBarcode(): number[] {
+  CreateBarcode() {
 
     let Width: number;
     let Height: number;
@@ -50,29 +51,25 @@ export class BarcodeComponent implements OnChanges {
       Height = this.rect.rect.bottom - this.rect.rect.top;
     }
 
-    let sc: number[] = [1, 1];
-    let Id=this.id;
+    let Id = this.id;
     bwipjs(this.id, {
       bcid: this.barcode.type,       // Barcode type
       text: this.value,	             // Text to encode
-      height: (Height * 25.4) / 95.4,
-      width: (Width * 25.4) / 95.4,
+      height: (Height * 25.4) / (this.dpi || 96),
+      width: (Width * 25.4) / (this.dpi || 96),
       scale: 1,
-      includetext: this.barcode.type=='ean13'? this.barcode.includetext:false,//this.barcode.includetext,        // Show human-readable text
+      includetext: this.barcode.type == 'ean13' ? this.barcode.includetext : false,//this.barcode.includetext,        // Show human-readable text
       rotate: this.barcode.rotate,
       textxalign: 'center',      // Always good to set this
     }, function (err, cvs) {
       if (err) {
-        console.log(err);     
+        console.log(err);
       } else {
       }
     });
-
-
-    return sc;
   }
-  
-  IncludeText(){
+
+  IncludeText() {
     switch (this.barcode.type) {
       case 'qrcode':
       case 'datamatrix':
@@ -86,70 +83,6 @@ export class BarcodeComponent implements OnChanges {
     }
   }
 
-  /* DrawBarcode(scX: number, scY: number) {
- 
-     if (this.IfBarcodeSquared(this.barcode.type)) {
-       bwipjs(this.id, {
-         bcid: this.barcode.type,       // Barcode type
-         text: this.value,//this.value,   	             // Text to encode
-         scale: scX,  // scaling
-         //scaleY: this.GetInitialScale(this.barcode.type)==0? 1:scY,                 // scaling
- 
-         //height: ((this.rect.rect.bottom - this.rect.rect.top) * 25.4),  // Bar height, in millimeters
-         //width: ((this.rect.rect.bottom - this.rect.rect.top) * 25.4),
-         //paddingheight: 2,
-         includetext: this.barcode.includetext,        // Show human-readable text
-         rotate: this.barcode.rotate,
-         textxalign: 'center',      // Always good to set this
-       }, function (err, cvs) {
-         if (err) {
-           //document.getElementById(this.idErr).innerText = 'Error occured. See browser log for more information';
-           console.log(err);
-         } else {
-           //document.getElementById('myimg').setAttribute('src', canvas.toDataURL('image/png'));
-         }
-       });
-     }
- 
-     else if (this.barcode.type == 'pdf417') {
-       bwipjs(this.id, {
-         bcid: this.barcode.type,       // Barcode type
-         text: this.value,//this.value,   	             // Text to encode
-         scaleX: scX,  // scaling
-         scaleY: scY,           // scaling
-         includetext: this.barcode.includetext,        // Show human-readable text
-         rotate: this.barcode.rotate,
-         textxalign: 'center',      // Always good to set this
-       }, function (err, cvs) {
-         if (err) {
-           //document.getElementById(this.idErr).innerText = 'Error occured. See browser log for more information';
-           console.log(err);
-         } else {
-           //document.getElementById('myimg').setAttribute('src', canvas.toDataURL('image/png'));
-         }
-       });
-     }
-     else {
-       bwipjs(this.id, {
-         bcid: this.barcode.type,       // Barcode type
-         text: this.value,//this.value,   	             // Text to encode
-         scaleX: scX,  // scaling
-         scaleY: scY,  // scaling
-         includetext: this.barcode.includetext,        // Show human-readable text
-         rotate: this.barcode.rotate,
-         textxalign: 'center',      // Always good to set this
-       }, function (err, cvs) {
-         if (err) {
-           //document.getElementById(this.idErr).innerText = 'Error occured. See browser log for more information';
-           let k=1;
-           console.log(err);
-         } else {
-           //document.getElementById('myimg').setAttribute('src', canvas.toDataURL('image/png'));
-         }
-       });
-     }
-   }*/
-
   private IfBarcodeSquared(type: string): boolean {
     switch (type) {
       case 'qrcode':
@@ -161,13 +94,6 @@ export class BarcodeComponent implements OnChanges {
         return false;
     }
   }
-
-  /*private GenerateId(): string {
-    let result = '';
-    let chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    for (var i = 10; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-    return result;
-  }*/
 
   private GetInitialScale(type: string): number {
     switch (type) {
