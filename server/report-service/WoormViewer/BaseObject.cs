@@ -255,7 +255,44 @@ namespace Microarea.RSWeb.Objects
             return true;
         }
 
-        //------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------
+        public bool CheckIsHidden
+        {
+            get
+            {
+                bool h = this.IsHidden;
+                if (HideExpr != null)
+                {
+                    Value val = this.HideExpr.Eval();
+
+                    if (val != null && val.Valid)
+                        h = (bool)val.Data;
+                }
+                return h;
+            }
+        }
+
+        public bool DynamicIsHidden
+        {
+            get
+            {
+                if (HideExpr != null && AnchorRepeaterID > 0)
+                    Document.SynchronizeSymbolTable(RepeaterRow);
+
+                bool h = CheckIsHidden;
+                
+                if (!h && AnchorRepeaterID > 0)
+                {
+                    Repeater rep = Document.Objects.FindBaseObj(AnchorRepeaterID) as Repeater;
+                    if (rep != null)
+                        h = rep.CheckIsHidden;
+                }
+
+                return h;
+            }
+        }
+
+       //------------------------------------------------------------------------------
         protected bool ParseTooltip(WoormParser lex, Token[] stopTokens)
         {
             lex.SkipToken();
@@ -273,25 +310,6 @@ namespace Microarea.RSWeb.Objects
             lex.Matched(Token.SEP);
             return true;
         }
-
-        //-------------------------------------------------------------------------------
-        public bool DynamicIsHidden
-        {
-            get
-            {
-                if (HideExpr != null)
-                {
-                    Document.SynchronizeSymbolTable(RepeaterRow);
-
-                    Value val = this.HideExpr.Eval();
-
-                    if (val != null && val.Valid)
-                        return (bool)val.Data;
-                }
-                return this.IsHidden;
-            }
-        }
-
         //-------------------------------------------------------------------------------
         public string DynamicTooltip
         {
