@@ -54,6 +54,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public curPageNum: number;
   public runReport: boolean = false;
 
+  public id:string;
+  
+
   constructor(
     public rsService: ReportingStudioService,
     public rsExportService: RsExportService,
@@ -64,6 +67,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     public componentService: ComponentService,
     public tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
     super(rsService, eventData, null);
+
+    this.id = this.rsService.generateId();
+    this.rsExportService.layoutId = this.id
   }
 
   // -----------------------------------------------
@@ -391,7 +397,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   //--------------------------------------------------
   async startSavePDF() {
-    await this.rsExportService.timeout(3000);
     this.rsExportService.pdfState = PdfType.PDF;
     this.PageNumber();
   }
@@ -442,6 +447,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     var iframeHTML = document.getElementById('iframe') as HTMLFrameElement;
     var s = this.infoService.getReportServiceUrl() + 'docx/' + filename;
     iframeHTML.src = s;
+  }
+
+  getLayoutId(){
+
   }
 
 }

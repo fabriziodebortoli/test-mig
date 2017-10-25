@@ -1,5 +1,5 @@
 import {FileUploadComponent} from './components/file-upload/file-upload.component';
-import { DatabaseConfigurationComponent } from './components/subscription/database-configuration.component';
+import { DatabaseConfigurationComponent } from './components/database/database-configuration.component';
 import { SubscriptionDatabaseComponent } from './components/subscription/subscription-database.component';
 import { InstanceHomeComponent } from './components/instance/instance-home.component';
 import { InstanceComponent } from './components/instance/instance.component';
