@@ -14,7 +14,7 @@ import { SubscriptionHomeComponent } from './components/subscription/subscriptio
 import { routes } from './app.routes';
 import { ConsoleModule } from '@taskbuilder/console';
 import { LoginService } from './services/login.service';
-import { DatabaseInfoComponent } from './components/database-info/database-info.component';
+import { DatabaseInfoComponent } from './components/database/database-info.component';
 import { InstanceComponent } from './components/instance/instance.component';
 import { BreadcrumbComponent } from './components/shared/breadcrumb.component';
 import { EntityHomeComponent } from './components/entity/entity-home.component';
