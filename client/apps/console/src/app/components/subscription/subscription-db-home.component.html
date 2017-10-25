@@ -23,6 +23,14 @@
     <div class="row center-xs end-sm end-lg" *ngIf="!(databaseService.needsAskCredentials && !databaseService.testConnectionOK)">
         <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
             <admin-button [buttonText]="'Save'" (click)="submitDatabase()" ></admin-button>
+            <admin-dialog 
+            [mode]="'fields'"
+            [title]="'Credentials'" 
+            [message]="'Please insert your administrative credentials to connect to server ' + model.DBServer"
+            [(fields)]=fields
+            [(opened)]=openDialog 
+            [(result)]=dialogResult
+            (onClose)="onDialogClose($event)"></admin-dialog>
         </div>
     </div>
 </div>

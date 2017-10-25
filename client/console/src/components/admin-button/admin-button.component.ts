@@ -9,9 +9,11 @@ export class AdminButtonComponent {
 
   @Input() buttonText: string;
   @Input() primary: boolean;
+  @Input() readOnly: boolean;
 
   constructor() {
     this.buttonText = '';
     this.primary = false;
+    this.readOnly = false;
   }
 }

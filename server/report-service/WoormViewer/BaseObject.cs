@@ -1198,7 +1198,7 @@ namespace Microarea.RSWeb.Objects
 
             switch (lex.LookAhead())
             {
-                case Token.BKGCOLOR: ok = lex.ParseBkgColor(out bkgColor); break;
+                case Token.BKGCOLOR: ok = ParseBkgColor(lex, out bkgColor); break;
                 case Token.PEN: ok = lex.ParsePen(BorderPen); break;
                 case Token.BORDERS: ok = lex.ParseBorders(Borders); break;
                 case Token.TRANSPARENT:

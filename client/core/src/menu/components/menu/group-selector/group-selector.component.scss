@@ -4,45 +4,39 @@
 
 ul.groups-list {
     list-style: none;
-    padding: 0;
     margin: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 0;
     display: flex;
     flex-wrap: wrap;
     background: #3e3e3e;
-}
-
-ul.groups-list>li {
-    flex-grow: 1;
-    width: 33%;
-    height: 60px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    color: #9f9f9f;
-    background: #3e3e3e;
-    text-align: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-ul.groups-list>li span {
-    font-size: 12px;
-}
-
-ul.groups-list>li:hover {
-    color: #fff;
-}
-
-ul.groups-list>li>img {
-    max-width: 120px
-}
-
-ul.groups-list>li>div>span {
-    font-size: 12px;
+    &>li {
+        flex-grow: 1;
+        width: 33%;
+        height: 60px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: #9f9f9f;
+        background: #3e3e3e;
+        text-align: center;
+        padding: 12px 0;
+    }
+    &>li:hover {
+        color: #fff;
+        background: #333;
+        transition: opacity 0.1s;
+    }
+    &>li span {
+        font-size: 12px;
+    }
+    &>li>img {
+        max-width: 120px
+    }
+    &>li>div>span {
+        font-size: 12px;
+    }
 }
 
 .group-icon {

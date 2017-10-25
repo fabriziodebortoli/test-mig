@@ -1,5 +1,5 @@
 <kendo-dialog [title]="title" *ngIf="opened" (close)="close('cancel')">
-    <p style="text-align: center;">{{message}}</p>
+    <p style="text-align: center; max-width: 300px">{{message}}</p>
     <div *ngIf="mode === 'fields'">
         <admin-input-text *ngFor="let field of fields" 
             class="d-block"
