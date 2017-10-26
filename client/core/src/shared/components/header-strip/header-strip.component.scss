@@ -1,37 +1,38 @@
 :host(tb-header-strip) {}
 
 .header-strip {
-    margin: 10px .4rem;
-}
-
-.header-strip h1 {
     margin: 0;
-    padding: 0 3px;
-    font-size: 22px;
-    line-height: 30px;
+    h1 {
+        margin: 0;
+        padding: 0 3px;
+        font-size: 22px;
+        line-height: 30px;
+    }
+    .line {
+        height: 1px;
+        background: #ccc;
+        display: block;
+        background: #ccc;
+        background: linear-gradient(to right, #0277bd 0%, #EEF1F5 100%);
+    }
+    .above {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .content {
+            // display: flex;
+            // flex-direction: row;
+        }
+    }
+    .upper {
+        display: flex;
+        flex-direction: row;
+    }
 }
 
-.header-strip .line {
-    height: 1px;
-    background: #ccc;
-    display: block;
-    background: #ccc;
-    background: linear-gradient(to right, #0277bd 0%, #EEF1F5 100%);
-}
-
-.header-strip .above {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.header-strip .above .content {
-    // display: flex;
-    // flex-direction: row;
-}
-
-.header-strip .upper {
-    display: flex;
-    flex-direction: row;
+@media screen and (min-width: 1024px) {
+    .header-strip {
+        margin: 10px .4rem;
+    }
 }
