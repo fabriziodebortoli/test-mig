@@ -2,6 +2,7 @@ import { TbComponentService, LayoutService, ControlComponent, EventDataService }
 import { Component, Input } from '@angular/core';
 import { ErpHttpService } from '../../../core/services/erp-http.service';
 import Tax from './tax';
+import { Store } from '../../../core/services/store';
 
 @Component({
   selector: 'erp-vat',
@@ -12,18 +13,31 @@ export class VatComponent extends ControlComponent {
   @Input('readonly') readonly = false;
   @Input() isoCode: string;
   @Input() slice;
-
+  @Input() selector;
   errorMessage: any;
 
-  constructor(layoutService: LayoutService, private eventData: EventDataService, 
-    tbComponentService: TbComponentService, private http: ErpHttpService) {
+  constructor(layoutService: LayoutService, private eventData: EventDataService,
+    tbComponentService: TbComponentService, private http: ErpHttpService, private store: Store) {
     super(layoutService, tbComponentService);
+    eventData.change.subscribe(s => console.log('TEST'));
+  }
+
+  ngOnInit() {
+    this.store
+      .select(this.selector)
+      .selectSlice('Address', 'CompName')
+      .subscribe(address => console.log('new address: ' + JSON.stringify(address)));
+    this.store
+      .select(this.selector)
+      .select('CompName')
+      .subscribe(company => console.log('new company: ' + JSON.stringify(company)));
   }
 
   ngOnChanges(changes) {
     this.validate();
-    if (changes.slice)
-      console.log('b: ' + JSON.stringify(changes.slice));
+    if (changes.slice) {
+      console.log('slice ngOnChanges: ' + JSON.stringify(changes.slice));
+    }
   }
 
   async onBlur() {
