@@ -22,7 +22,7 @@ export class TestControlsComponent implements OnInit {
     { name: 'The Last Supper', value:'leo-lastsupp' }
   ];
 
-  selectedItem: string = 'leo-monna';
+  selectedItem: { name: string, value: string } = { name: 'Monna Lisa', value: 'leo-monna'};
 
   //--------------------------------------------------------------------------------
   // textarea auxiliary variables  
