@@ -171,6 +171,7 @@ export class BOService extends DocumentService {
             boClient.init();
         });
         this.registerModelField('', 'Title');
+        this.registerModelField('', 'FormMode');
         this.registerModelField('', 'HeaderStripTitle');
         super.init(cmpId);
         this.webSocketService.checkMessageDialog(this.mainCmpId);

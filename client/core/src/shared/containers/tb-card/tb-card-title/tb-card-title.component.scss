@@ -9,12 +9,21 @@
         flex-wrap: nowrap;
         flex-basis: row;
         margin-bottom: 8px;
+        padding-left: 3px;
         span {
             flex: 2 0 0%;
             align-self: flex-start;
         }
         m4-icon {
             align-self: flex-end;
+        }
+    }
+}
+
+@media screen and (min-width: 1024px) {
+     :host(tb-card-title) {
+        div {
+            padding-left: 5px;
         }
     }
 }

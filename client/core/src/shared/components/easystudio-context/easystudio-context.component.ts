@@ -198,36 +198,4 @@ export class EasyStudioContextComponent implements OnInit, OnDestroy {
         list = this.easystudioService.getModulesBy(newName);
         return list.indexOf(newModName) !== -1;
     }
-
-
-
-
-    /*//---------------------------------------------------------------------------------------------
-	$scope.setInvisibleMod = function () {
-		$scope.addModuleVisible = false;
-	}
-
-	//---------------------------------------------------------------------------------------------
-	$scope.setInvisiblePair = function () {
-		$scope.addPairVisible = false;
-	}
-
-	//---------------------------------------------------------------------------------------------
-	$scope.setVisibleMod = function () {
-		$scope.addModuleVisible = true;
-		if ($scope.application !== undefined)
-			$scope.GenerateNewModuleName($scope.application);
-		$scope.setInvisiblePair();
-	}
-
-	//---------------------------------------------------------------------------------------------
-	$scope.setVisiblePair = function () {
-		$scope.addPairVisible = true;
-		var newApp = $scope.GenerateNewApplicationName();
-		$scope.GenerateNewModuleName(newApp);
-		$scope.setInvisibleMod();
-	}*/
-
-
-
 }

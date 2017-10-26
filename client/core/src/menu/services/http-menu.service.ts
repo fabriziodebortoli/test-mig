@@ -101,11 +101,11 @@ export class HttpMenuService {
   * 
   * @returns {Observable<any>} runEasyStudio
   */
-    runEasyStudio(ns: string, customizationName : string): Observable<any> {
+    runEasyStudio(ns: string, customizationName: string): Observable<any> {
         let obj = { user: this.cookieService.get('_user') };
         let urlToRun = this.infoService.getDocumentBaseUrl() + 'runEasyStudio/?ns=' + encodeURIComponent(ns);
         if (customizationName != undefined)
-             urlToRun += "&customization=" + encodeURIComponent(customizationName);
+            urlToRun += "&customization=" + encodeURIComponent(customizationName);
         return this.postData(urlToRun, obj)
             .map((res: any) => {
                 return res;
@@ -113,41 +113,41 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-        /**
-  * API /closeCustomizationContext
-  * 
-  * @returns {Observable<any>} closeCustomizationContext
-  */
-  closeCustomizationContext(): Observable<any> {
-    let obj = { user: this.cookieService.get('_user') };
-    let urlToRun = this.infoService.getDocumentBaseUrl() + 'closeCustomizationContext/';
-    return this.postData(urlToRun, obj)
-        .map((res: any) => {
-            return res;
-        })
-        .catch(this.handleError);
-}
+    /**
+* API /closeCustomizationContext
+* 
+* @returns {Observable<any>} closeCustomizationContext
+*/
+    closeCustomizationContext(): Observable<any> {
+        let obj = { user: this.cookieService.get('_user') };
+        let urlToRun = this.infoService.getDocumentBaseUrl() + 'closeCustomizationContext/';
+        return this.postData(urlToRun, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
 
-        /**
-  * API /isEasyStudioDocument
-  * 
-  * @returns {Observable<any>} isEasyStudioDocument
-  */
-  isEasyStudioDocument(object): Observable<any> {
-    if (object.isEasyStudioDocument != undefined)
-    return object.isEasyStudioDocument;
+    /**
+* API /isEasyStudioDocument
+* 
+* @returns {Observable<any>} isEasyStudioDocument
+*/
+    isEasyStudioDocument(object): Observable<any> {
+        if (object.isEasyStudioDocument != undefined)
+            return object.isEasyStudioDocument;
 
-    let obj = { user: this.cookieService.get('_user') };
-    let urlToRun = this.infoService.getDocumentBaseUrl() + 'isEasyStudioDocument/?ns=' + encodeURIComponent(object.target);
-    return this.postData(urlToRun, obj)
-        .map((data: any) => {
-            if (data && data.message && data.message.text) {
-                object.isEasyStudioDocument = data.message.text == "true";
-                return object.isEasyStudioDocument;
-            }
-        })
-        .catch(this.handleError);
-}
+        let obj = { user: this.cookieService.get('_user') };
+        let urlToRun = this.infoService.getDocumentBaseUrl() + 'isEasyStudioDocument/?ns=' + encodeURIComponent(object.target);
+        return this.postData(urlToRun, obj)
+            .map((data: any) => {
+                if (data && data.message && data.message.text) {
+                    object.isEasyStudioDocument = data.message.text == "true";
+                    return object.isEasyStudioDocument;
+                }
+            })
+            .catch(this.handleError);
+    }
 
     /**
   * API /getDefaultContext
@@ -210,15 +210,15 @@ export class HttpMenuService {
         }).catch(this.handleError);
     }
 
-        /**
+    /**
 * API /getDefaultContext
 * 
 * @returns {Observable<any>} getDefaultContext
 */
-cloneAsEasyStudioDocument(object): Observable<any> {
-    return null;
-    // guarda EasyStudioService.js
-}
+    cloneAsEasyStudioDocument(object): Observable<any> {
+        return null;
+        // guarda EasyStudioService.js
+    }
 
 
 
@@ -229,7 +229,7 @@ cloneAsEasyStudioDocument(object): Observable<any> {
 
 
 
-    
+
     /**
      * API /getConnectionInfo
      * 
@@ -396,13 +396,13 @@ cloneAsEasyStudioDocument(object): Observable<any> {
      * 
      * @returns {Observable<any>} changeThemes
      */
-    changeThemes(theme: string): Observable<any> {
+    changeThemes(theme: string): Observable<OperationResult> {
 
         let obj = { authtoken: this.cookieService.get('authtoken') };
         var urlToRun = this.infoService.getDocumentBaseUrl() + 'changeThemes/?theme=' + theme;
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
-                return res.json();
+                return this.httpService.createOperationResult(res);
             });
     }
 

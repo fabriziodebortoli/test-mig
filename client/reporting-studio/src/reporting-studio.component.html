@@ -13,7 +13,7 @@
         <tb-view-container>
             <tb-view>
                 <rs-askdialog *ngIf="rsService.showAsk" [ask]="askDialogTemplate"></rs-askdialog>
-                <div id="rsLayout" #rsLayout>
+                <div id="{{id}}">
                     <rs-layout [reportTemplate]="reportTemplate" [reportData]="reportData"></rs-layout>
                 </div>
             </tb-view>
@@ -34,3 +34,6 @@
 
     </tb-toolbar-bottom>
 </tb-frame>
+
+
+<div id="testdiv" style="height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;"></div> <!--NO REFACTORING!! NON TOCCARE! -->
