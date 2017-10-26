@@ -81,7 +81,7 @@ class StoreT<T> extends Observable<T> {
   }
 
   selectSlice(...paths: string[]): StoreT<any> {
-    return new StoreT(Observable.combineLatest(...paths.map(p => this.select<any>(s => _.get(s, p))))
+    return new StoreT(Observable.combineLatest(...paths.map(p => this.select<any>(s => _.get(s, p)))).share()
       .map(res => res.reduce((o, val) => { o[val] = val; return o; }, {})));
   }
 
