@@ -34,7 +34,7 @@ import { Snapshot } from './report-objects/snapshotdialog/snapshot';
   encapsulation: ViewEncapsulation.None,
 })
 
-export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy {
+export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy{
 
   /*if this component is used standalone, the namespace has to be passed from the outside template,
   otherwise it is passed by the ComponentService creation logic*/
