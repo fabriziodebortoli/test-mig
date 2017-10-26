@@ -1210,7 +1210,6 @@ namespace Microarea.Common.MenuLoader
 				ArrayList applicationItems = tmpRoot.ApplicationsItems;
 				if (applicationItems != null)
 				{
-					int appCount = 0;
 					foreach (MenuXmlNode appNodeToAdd in applicationItems)
 					{
 						MenuXmlNode appNode = AddApplicationNode(appNodeToAdd, commandsTypeToLoad);

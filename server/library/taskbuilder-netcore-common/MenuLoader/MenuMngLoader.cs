@@ -1184,8 +1184,7 @@ namespace Microarea.Common.MenuLoader
             }
             else
             {
-                int modulesCount = 0;
-
+               
 				LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
 				List <string> activatedModules = session.GetModules();
                 if (activatedModules == null || activatedModules.Count <= 0)
@@ -1323,8 +1322,7 @@ namespace Microarea.Common.MenuLoader
 
             string userName = (menuPathFinder.User != null && menuPathFinder.User.Length > 0) ? menuPathFinder.User : NameSolverStrings.AllUsers;
 
-            int modulesCount = 0;
-
+           
             foreach (ApplicationMenuInfo aApplication in ApplicationsInfo)
             {
                 if
@@ -1420,8 +1418,7 @@ namespace Microarea.Common.MenuLoader
             if (menuPathFinder == null)
                 return;
 
-            int modulesCount = 0;
-
+           
             //se sono stato letto da cache non ricalcolo le informazioni
             //tanto nulla e' cambiato
             if (!cachedInfos.FromFile)
