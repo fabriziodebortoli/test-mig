@@ -111,7 +111,7 @@ export class RsExportService {
 
     //------EXPORT PNG-----------------------------------
     async exportPNG() {
-        await drawDOM(document.getElementById('rsLayout'))
+        await drawDOM(document.getElementById(this.layoutId))
             .then((group: Group) => {
                 return exportImage(group);
             })
@@ -124,7 +124,7 @@ export class RsExportService {
 
     //------EXPORT SVG-----------------------------------
     async exportSVG() {
-        await drawDOM(document.getElementById('rsLayout'))
+        await drawDOM(document.getElementById(this.layoutId))
             .then((group: Group) => {
                 return exportSVG(group);
             })
