@@ -356,6 +356,7 @@ namespace Microarea.RSWeb.WoormEngine
 
             s += LeftAligned.ToJson("left_aligned") + ',';
             s += LeftTextBool.ToJson("left_text") + ',';
+            s += Len.ToJson("maxLen") + ',';
 
             //Se e' referenziato da altri al change devo fare un postBack per ricalcolare i campi dipendenti della askDialog sul server
             bool isReferenced = Group.Dialog.IsReferenced(this);
