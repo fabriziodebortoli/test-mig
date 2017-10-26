@@ -60,13 +60,20 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   filter(val: string): string[] {
-    //al minimo 3 caratteri per attivare la ricerca
-    if (!val || val.length >= 0 && val.length <= 3)
+    if (!val)
       return [];
 
+
+    //fino ai 3 caratteri digitati, limito la ricerca a 20 (cablato)
+    if (val.length >= 0 && val.length <= 3)
       return this.menuService.searchSources.filter(option =>
+        new RegExp(val, 'gi').test(option.title)
+      ).slice(0, 20);
+
+    //dal 4 carattere in su, non limito, faccio vedere tutte le entries, sperando non siano millemila
+    return this.menuService.searchSources.filter(option =>
       new RegExp(val, 'gi').test(option.title)
-    ).slice(0, this.menuService.searchSources.length); 
+    ).slice(0, this.menuService.searchSources.length);
   }
 
   displayElement(element: any): string {
