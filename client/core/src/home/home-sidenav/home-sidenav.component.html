@@ -17,14 +17,14 @@
 
 <div class="sidenav-subtitle">
     <h4>{{localizationService?.localizedElements?.FavoritesLabel}}
-        <m4-icon class="clear" icon="erp-scrap" (click)="menuService.clearFavorites()" matTooltip="Clear {{localizationService?.localizedElements?.FavoritesLabel}}" *ngIf="utilsService.toArray(menuService?.favorites).length > 0"></m4-icon>
+        <m4-icon class="clear" icon="erp-scrap" (click)="menuService.clearFavorites()" matTooltip="{{localizationService?.localizedElements?.ClearFavoriteList}}" *ngIf="utilsService.toArray(menuService?.favorites).length > 0"></m4-icon>
     </h4>
 </div>
 <tb-favorites (itemSelected)="toggleSidenav(true)" class="sidenav"></tb-favorites>
 
 <div class="sidenav-subtitle">
     <h4>{{localizationService.localizedElements?.MostUsedLabel}}
-        <m4-icon class="clear" icon="erp-scrap" (click)="menuService.clearMostUsed()" matTooltip="Clear {{localizationService.localizedElements?.MostUsedLabel}}" *ngIf="utilsService.toArray(menuService?.mostUsed).length > 0"></m4-icon>
+        <m4-icon class="clear" icon="erp-scrap" (click)="menuService.clearMostUsed()" matTooltip="{{localizationService?.localizedElements?.ClearMostUsedList}}" *ngIf="utilsService.toArray(menuService?.mostUsed).length > 0"></m4-icon>
     </h4>
 </div>
 <tb-most-used (itemSelected)="toggleSidenav(true)" class="sidenav"></tb-most-used>
