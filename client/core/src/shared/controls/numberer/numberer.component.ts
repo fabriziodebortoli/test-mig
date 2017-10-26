@@ -21,6 +21,8 @@ export class NumbererComponent extends ControlComponent {
     @Input() public hotLink: any = undefined;
     @Input() automaticNumbering: boolean;
 
+    stateData = true;
+
     @ViewChild("contextMenu", { read: ViewContainerRef }) contextMenu: ViewContainerRef;
 
     tbEditIcon = "tb-edit";
