@@ -21,6 +21,8 @@ export class NumbererComponent extends ControlComponent {
     @Input() public hotLink: any = undefined;
     @Input() automaticNumbering: boolean;
 
+    stateData = true;
+
     @ViewChild("contextMenu", { read: ViewContainerRef }) contextMenu: ViewContainerRef;
 
     tbEditIcon = "tb-edit";
@@ -28,13 +30,15 @@ export class NumbererComponent extends ControlComponent {
 
     icon: string;
 
-    tbMask: string = '';
+    private tbMask: string = '';
+    private useFormatMask = false;
+    private paddingEnabled = false;
+    private enableCtrlInEdit = false;
+
     formatMask: string = '';
     ctrlEnabled = false;
     enableStateInEdit = false;
-    useFormatMask = false;
 
-    private currentValue = "";
     private currentState: NumbererStateEnum;
 
     // PADDING: in modalità find se maschera vuota allora padding default = false, altrimenti true
@@ -43,15 +47,23 @@ export class NumbererComponent extends ControlComponent {
         //this.currentState = this.model.stateData.invertState ? NumbererStateEnum.FreeInput : NumbererStateEnum.MaskedInput;
         //this.icon = this.model.stateData.invertState ? this.tbEditIcon : this.tbExecuteIcon;
 
+        // this.eventData.model.FormMode.subscribe(x => {
+        //     this.ctrlEnabled = (x.value == FormMode.NEW || (x.value == FormMode.EDIT && this.enableCtrlInEdit));
+        // })
+
         this.eventData.behaviours.subscribe(x => {
             let b = x[this.cmpId];
             if (b) {
                 this.tbMask = b.formatMask;
-                this.useFormatMask = (b.formatMask !== '');
                 //this.useFormatMask = b.useFormatMask;
-                this.ctrlEnabled = this.eventData.model.FormMode.value == FormMode.NEW || b.enableCtrlInEdit;
+                this.useFormatMask = (b.formatMask !== '');
+                this.enableCtrlInEdit = b.enableCtrlInEdit;
                 this.enableStateInEdit = b.enableStateInEdit;
-                
+
+                this.paddingEnabled = (this.tbMask != '');
+                this.ctrlEnabled = (x.value == FormMode.NEW || (x.value == FormMode.EDIT && this.enableCtrlInEdit));
+                //this.ctrlEnabled = true;
+
                 this.setComponentMask();
             }
         })
@@ -67,15 +79,16 @@ export class NumbererComponent extends ControlComponent {
     }
 
     setComponentMask() {
-        switch(this.eventData.model.FormMode.value) { 
-            case FormMode.FIND:{
+        switch (this.eventData.model.FormMode.value) {
+            case FormMode.BROWSE:
+            case FormMode.FIND: {
                 this.formatMask = '';
-                break; 
+                break;
             }
-            default: { 
+            default: {
                 this.formatMask = this.valueToMask(this.model.value, this.tbMask);
                 break;
-            } 
+            }
         }
     }
 
@@ -83,61 +96,192 @@ export class NumbererComponent extends ControlComponent {
         let ret = '';
         let i: number;
         let tbMaskChar: string;
-    
+
+        value = value.trim();
+
+        if (value.length > 0)
+            return '';
+
         for (i = 0; i < tbMask.length; i++) {
-          tbMaskChar = tbMask.substring(i, i + 1);
-          // I 5 CARATTERI CHE SEGUONO INDICANO ELEMENTI DI MASCHERA NON EDITABILE, QUINDI PASSA IL CARATTERE DEL VALORE CONNESSO ALLA MASCHERA.
-          // RIMANGONO DUE CARATTERI DI MASCHERA: IL SEPARATORE DECIMALE (,), CHE VIENE SOSTITUITO DAL PUNTO, E IL PUNTO INTERROGATIVO, CHE INDICA
-          // UN SUFFISSO EDITABILE. IL PUNTO INTERROGATIVO VIENE SOSTITUITO SUCCESSIVAMENTE ALLA SOSTITUZIONE DEI CARATTERI CHIAVE DELLA
-          // MASK KENDO CON I CORRISPENDENTI CARATTERI FISSI (ES. '0' DIVENTA '\0')
-          if (['Y', '#', '*', '-', 'N'].indexOf(tbMaskChar) > -1)
-            ret += value.substring(i, i + 1);
-          else
-            ret += tbMaskChar;
+            tbMaskChar = tbMask.substring(i, i + 1);
+            // I 5 CARATTERI CHE SEGUONO INDICANO ELEMENTI DI MASCHERA NON EDITABILE, QUINDI PASSA IL CARATTERE DEL VALORE CONNESSO ALLA MASCHERA.
+            // RIMANGONO DUE CARATTERI DI MASCHERA: IL SEPARATORE DECIMALE (,), CHE VIENE SOSTITUITO DAL PUNTO, E IL PUNTO INTERROGATIVO, CHE INDICA
+            // UN SUFFISSO EDITABILE. IL PUNTO INTERROGATIVO VIENE SOSTITUITO SUCCESSIVAMENTE ALLA SOSTITUZIONE DEI CARATTERI CHIAVE DELLA
+            // MASK KENDO CON I CORRISPENDENTI CARATTERI FISSI (ES. '0' DIVENTA '\0')
+            if (['Y', '#', '*', '-', 'N'].indexOf(tbMaskChar) > -1)
+                ret += value.substring(i, i + 1);
+            else
+                ret += tbMaskChar;
         }
-    
+
         return ret
-          .replace(/([09#LAa&C])/g, '\\\$1')
-          .replace(/[?]/g, 'A')
-          .replace(/[,]/g, '.')
-          ;
+            .replace(/([09#LAa&C])/g, '\\\$1')
+            .replace(/[?]/g, 'A')
+            .replace(/[,]/g, '.')
+            ;
     }
 
-    maskToValue(tbMask: string, value: string)
-    {
+    maskToValue(tbMask: string, value: string) {
+        let i: number;
         let ret = '';
-        ret = '0' + value.trim();
+        let year: string;
+        let sepPos: number;
+        let curChar: string;
+
+        let numValue = '';
+        let alphaValue = '';
+        let readingNumValue = true;
+
+        // separo parte numerica e alfanumerica del valore inserito
+        // al primo carattere non numerico inizia la parte alfanumerica, che include anche i numerici successivi
+        for (i = 0; i < tbMask.length; i++) {
+            curChar = tbMask.substring(i, i + 1);
+            if (readingNumValue && isNumeric(curChar)) {
+                numValue += curChar;
+            }
+            else {
+                readingNumValue = false;
+                alphaValue += curChar;
+            }
+        }
+
+        let tbMaskChunks: string[] = this.splitTbMask(tbMask);
+        tbMaskChunks.forEach(c => {
+            console.log(c);
+            if (c.startsWith('Y'))
+                // sostituisco la porzione di anno che mi interessa
+                ret += (new Date()).getFullYear().toString().substr(4 - c.length, c.length);
+
+            else if (c.startsWith('#')) {
+                // faccio il padding del numero
+                ret += c.indexOf(',');
+                if (sepPos == -1)
+                    sepPos = c.indexOf('.');
+
+                if (sepPos == -1) {
+                    // se il valore inserito eccede la lunghezza del 'corpo' numerico tolgo l'eccedenza e l'aggiungo 
+                    // al suffisso
+                    if (numValue.length > c.length) {
+                        alphaValue = numValue.substring(numValue.length) + alphaValue;
+                        numValue = numValue.substring(0, numValue.length - 1);
+                    }
+
+                    ret += this.repeatChar('0', c.length - numValue.length) + numValue;
+                }
+                else
+                    //SEPARATORE, CASISTICA PROBABILMENTE NON SUPPORTATA IN MAGO
+                    ret += this.repeatChar('0', sepPos - numValue.length) + numValue + '.' + this.repeatChar('0', numValue.length - sepPos + 1);
+            }
+            else if (c == '/' || c == '-')
+                //separatore
+                ret += c;
+            else if (['?', '*', '-'].indexOf(c) > -1) {
+                if (alphaValue.length > c.length)
+                    alphaValue = alphaValue.substring(0, c.length - 1);
+                ret += alphaValue;
+            }
+        })
+
+        return ret;
+    }
+
+    repeatChar(char: string, times: number): string {
+        let ret = '';
+        let i: number;
+        for (i = 1; i <= times; i++)
+            ret += char;
+        return ret;
+    }
+
+    splitTbMask(tbMask: string): string[] {
+        let ret: string[] = [];
+        let i: number;
+        let tbPrevMaskChar: string;
+
+        let chunk: string = '';
+        let tbMaskChar: string = '';
+
+        for (i = 0; i < tbMask.length; i++) {
+            tbMaskChar = tbMask.substring(i, i + 1);
+
+            if (['Y', '#', '?', '*', '-', 'N'].indexOf(tbMaskChar) > -1) {
+                if (tbMaskChar !== tbPrevMaskChar) {
+                    if (chunk.length > 0) {
+                        ret.push(chunk);
+                        chunk = '';
+                    }
+                }
+
+                chunk += tbMaskChar;
+            }
+            else if ([',', '.'].indexOf(tbMaskChar) > -1) {
+                //SEPARATORE, CASISTICA PROBABILMENTE NON SUPPORTATA IN MAGO
+                chunk += tbMaskChar;
+            }
+            else {
+                if (chunk.length > 0) {
+                    ret.push(chunk);
+                    chunk = tbMaskChar;
+                }
+            }
+
+            tbPrevMaskChar = tbMaskChar;
+        }
+
         return ret;
     }
 
     onKeyDown($event) {
         if (($event.keyCode === 63) || ($event.keyCode === 32)) {
-          $event.preventDefault();
+            $event.preventDefault();
         }
     }
 
     onBlur($event) {
         if (
-                this.eventData.model.FormMode.value == FormMode.FIND &&
-                isNumeric(this.model.value)        
+            this.eventData.model.FormMode.value == FormMode.FIND &&
+            this.model.value.trim() != '' &&
+            isNumeric(this.model.value.substr(0, 1))
         )
-        this.model.value = this.maskToValue(this.tbMask, this.model.value);
-    }
-    
-    toggleState() {
-        if (this.currentState == NumbererStateEnum.MaskedInput) {
-            this.icon = this.tbEditIcon;
-            this.currentState = NumbererStateEnum.FreeInput
-        }
-        else {
-            this.icon = this.tbExecuteIcon;
-            this.currentState = NumbererStateEnum.MaskedInput
-        }
+            this.model.value = this.maskToValue(this.tbMask, this.model.value);
     }
 
     ngOnChanges(changes) {
-        if( changes['model'] && changes['model'].previousValue != changes['model'].currentValue ) {
+        if (changes['model'] && changes['model'].previousValue != changes['model'].currentValue) {
             this.setComponentMask();
-          }
+        }
     }
+
+    changeModelValue(value) {
+        if (value) {
+            this.model.value = value;
+        }
+    }
+
+    // onChange($event) {
+    //     this.model.value = this.model.value;
+    // }
+
+    // get htmlValue() {
+    //     if (this.model)
+    //         return this.model.value;
+    //     return null;
+    // }
+
+    // set htmlValue(value) {
+    //     if (this.model)
+    //         this.model.value = value;
+    // }
+
+    // toggleState() {
+    //     if (this.currentState == NumbererStateEnum.MaskedInput) {
+    //         this.icon = this.tbEditIcon;
+    //         this.currentState = NumbererStateEnum.FreeInput
+    //     }
+    //     else {
+    //         this.icon = this.tbExecuteIcon;
+    //         this.currentState = NumbererStateEnum.MaskedInput
+    //     }
+    // }
+
 }

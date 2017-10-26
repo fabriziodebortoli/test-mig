@@ -169,6 +169,24 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear favorite list.
+        /// </summary>
+        public static string ClearFavoriteList {
+            get {
+                return ResourceManager.GetString("ClearFavoriteList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear most used list.
+        /// </summary>
+        public static string ClearMostUsedList {
+            get {
+                return ResourceManager.GetString("ClearMostUsedList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clone as a New Document.
         /// </summary>
         public static string CloneEasyStudioDocument {

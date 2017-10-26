@@ -50,7 +50,7 @@ export class ImageService {
 
     //---------------------------------------------------------------------------------------------
 
-    getObjectIcon = function (object) {
+    getObjectIcon (object) {
 
         if (object.sub_type != undefined) {
             if (object.application == undefined)
@@ -79,12 +79,12 @@ export class ImageService {
     }
 
     //---------------------------------------------------------------------------------------------
-    isCustomImage = function (object) {
+    isCustomImage(object) {
         return object.isCustomImage == undefined || object.isCustomImage == 'Images/Default.png';
     }
 
     //---------------------------------------------------------------------------------------------
-    getWorkerImage = function (item) {
+    getWorkerImage (item) {
 
         if (item == undefined)
             return;

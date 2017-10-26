@@ -60,7 +60,7 @@ export class UtilsService {
 
 
   //---------------------------------------------------------------------------------------------
-  getCurrentDate = function () {
+  getCurrentDate() {
     const d = new Date();
     const p = parseInt(
       d.getFullYear() +

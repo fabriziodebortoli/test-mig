@@ -207,7 +207,7 @@ export class MenuService {
     }
 
     //---------------------------------------------------------------------------------------------
-    runFunction = function (object) {
+    runFunction (object) {
         if (object === undefined)
             return;
 
@@ -354,7 +354,7 @@ export class MenuService {
     };
 
     //---------------------------------------------------------------------------------------------
-    getSearchItemTooltip = function (object) {
+    getSearchItemTooltip (object) {
         return object.title + ' | ' + object.applicationTitle + " | " + object.groupTitle + " | " + object.menu + " | " + object.tile;
     }
 
@@ -565,7 +565,7 @@ export class MenuService {
     }
 
     //---------------------------------------------------------------------------------------------
-    removeFromMostUsed = function (object) {
+    removeFromMostUsed (object) {
 
         this.removeFromMostUsedArray(object);
     };

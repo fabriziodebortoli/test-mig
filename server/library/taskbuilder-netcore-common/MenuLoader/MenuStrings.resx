@@ -357,4 +357,10 @@
   <data name="OperationDate" xml:space="preserve">
     <value>Operation Date</value>
   </data>
+  <data name="ClearFavoriteList" xml:space="preserve">
+    <value>Clear favorite list</value>
+  </data>
+  <data name="ClearMostUsedList" xml:space="preserve">
+    <value>Clear most used list</value>
+  </data>
 </root>
