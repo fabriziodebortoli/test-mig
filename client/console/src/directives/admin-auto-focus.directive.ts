@@ -10,9 +10,4 @@ export class AdminAutoFocusDirective {
   ngOnInit(): void {
     this.elementRef.nativeElement.focus();
   }
-
-  ngAfterContentChecked(): void {
-    this.elementRef.nativeElement.focus();
-  }
-
 }
