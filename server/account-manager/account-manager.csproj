@@ -11,6 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Service References\**" />
+    <Content Remove="Service References\**" />
+    <EmbeddedResource Remove="Service References\**" />
+    <None Remove="Service References\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\library\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj" />
   </ItemGroup>
 
@@ -36,10 +43,6 @@
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.3.0" />
     <PackageReference Include="System.ServiceModel.Security" Version="4.3.0" />
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Service References\" />
   </ItemGroup>
 
 </Project>
