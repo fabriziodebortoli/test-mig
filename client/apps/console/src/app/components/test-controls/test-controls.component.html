@@ -88,18 +88,15 @@
             </div>
             <div>
               <h5>Live</h5>
-              <admin-button [buttonText]="'open dialog'" (click)="openDialog()"></admin-button>
+              <admin-button [buttonText]="'open dialog'" [primary]=true (click)="openDialog()"></admin-button>
               <admin-dialog 
                 [mode]="'fields'"
                 [title]="'Time travel'" 
-                [message]="'Please insert your credentials to start time traveling'"
+                [message]="'Please insert your credentials to start time traveling, or ask your local TMT vendor if you are egilible to apply for a discount.'"
                 [(fields)]=fields
                 [(opened)]=openToggle 
                 [(result)]=result></admin-dialog>
-              bind: {{ openToggle }}&nbsp;result:{{ result }}
-              <br>
-              fields<br>
-              -{{ fields[0].value }}&nbsp;{{ fields[1].value }}
+              bind result:{{ result }}
             </div>
           </div>
         </div>
