@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { Credentials } from './../../authentication/credentials';
 import { LoginService } from './../../services/login.service';
 import { NgForm } from '@angular/forms';
@@ -13,8 +13,6 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
-  @ViewChild('inputPassword') inputPsw: ElementRef;
 
   // model
   credentials: Credentials;
@@ -134,7 +132,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (accountInfo !== undefined && accountInfo !== null && accountInfo.instanceKey !== '') {
         this.selectedInstanceKey = accountInfo.instanceKey;
         this.loginStep+=2;
-        this.inputPsw.nativeElement.focus();
+        //this.inputPsw.nativeElement.focus();
         return;
       }
     }
@@ -170,7 +168,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
 
             this.loginStep++;
-            this.inputPsw.nativeElement.focus();
+            //this.inputPsw.nativeElement.focus();
           }
         },
         err => {

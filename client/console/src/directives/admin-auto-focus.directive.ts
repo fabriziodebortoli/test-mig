@@ -11,4 +11,8 @@ export class AdminAutoFocusDirective {
     this.elementRef.nativeElement.focus();
   }
 
+  ngAfterContentChecked(): void {
+    this.elementRef.nativeElement.focus();
+  }
+
 }
