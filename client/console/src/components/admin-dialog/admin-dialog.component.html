@@ -1,6 +1,6 @@
 <kendo-dialog [title]="title" *ngIf="opened" (close)="close('cancel')">
 
-  <div style="width:380px; margin-left:auto; margin-right: auto; text-align: justify">
+  <div class="dialog-message">
     {{ message | slice:0:140 }}
   </div>
   
