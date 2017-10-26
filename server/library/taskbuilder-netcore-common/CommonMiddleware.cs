@@ -33,60 +33,24 @@ namespace Microarea.Common
             return this.next.Invoke(context);
         }
 
-        private static object logLock = new object();
+
         private void BeginInvoke(HttpContext context)
         {
-            //string c;
-            //if (!context.Request.Cookies.TryGetValue(culture_cookie, out c))
-            //{
-            //    c = InstallationData.ServerConnectionInfo.PreferredLanguage;
-            //}
-            //try
-            //{
-            //    var culture = new CultureInfo(c);
-            //    CultureInfo.CurrentUICulture = culture;
-            //}
-            //catch
-            //{
-            //    //in caso di cookie errato... non dovrebbe mai passare di qui...
-            //}
-
             string c;
-            string log = "";
             if (!context.Request.Cookies.TryGetValue(culture_cookie, out c))
             {
                 c = InstallationData.ServerConnectionInfo.PreferredLanguage;
-                log += "path:" + context.Request.Path + "  InstallationData.ServerConnectionInfo.PreferredLanguage: " + c + Environment.NewLine;
             }
             try
             {
                 var culture = new CultureInfo(c);
                 CultureInfo.CurrentUICulture = culture;
-                log += "path:" + context.Request.Path + "  CultureInfo.CurrentUICulture: " + c + Environment.NewLine;
-            }
-            catch (Exception ex)
-            {
-                //in caso di cookie errato... non dovrebbe mai passare di qui...
-                log += "path:" + context.Request.Path + "  Exception: " + ex.Message + Environment.NewLine;
-            }
-
-            try
-            {
-                lock (logLock)
-                {
-                    string path = Path.Combine(BasePathFinder.BasePathFinderInstance.GetCustomAllCompaniesPath(), NameSolverStrings.Log, NameSolverStrings.AllUsers, "middleware.txt");
-                    using (StreamWriter outputFile = new StreamWriter(path, true))
-                    {
-                        outputFile.WriteLine(log);
-                    }
-                }
             }
             catch
             {
-
+                //in caso di cookie errato... non dovrebbe mai passare di qui...
             }
         }
-
     }
 
     public class WebAppConfigurator : IWebAppConfigurator
