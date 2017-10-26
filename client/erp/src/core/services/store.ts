@@ -1,21 +1,26 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, pluck, distinctUntilChanged } from './../../rxjs.imports';
+import { Observable, reduce, map, pluck, distinctUntilChanged } from './../../rxjs.imports';
 import { EventDataService } from '@taskbuilder/core';
+import { createSelector, createSelectorByMap } from './selector';
+import { ActionsSubject } from './actions_subject';
 import * as _ from 'lodash';
 
 export interface Action {
   type: string;
 }
 
-class Dispatcher extends BehaviorSubject<any> { }
+interface SelectorMap {
+  [name: string]: string;
+}
+
+export abstract class StateObservable extends Observable<any> {}
 
 class StoreT<T> extends Observable<T> {
-  private actionsObserver;
-  constructor(public stateContainer: { model: T, change: Observable<any> }) {
+  private actionsObserver: ActionsSubject;
+  constructor(state$: StateObservable) {
     super();
-    this.actionsObserver = new Dispatcher(this.stateContainer.model);
-    this.stateContainer.change
-      .subscribe(s => this.actionsObserver.next(this.stateContainer.model));
+    this.source = state$;
+    this.actionsObserver = new ActionsSubject();
   }
 
   select<K>(mapFn: (state: T) => K): StoreT<K>;
@@ -63,29 +68,30 @@ class StoreT<T> extends Observable<T> {
   ): StoreT<any> {
     let mapped$: Observable<any>;
     if (typeof pathOrMapFn === 'string') {
-      mapped$ = pluck.call(this.actionsObserver, pathOrMapFn, ...paths);
+      mapped$ = pluck.call(this, pathOrMapFn, ...paths);
     } else if (typeof pathOrMapFn === 'function') {
-      mapped$ = map.call(this.actionsObserver, pathOrMapFn);
+      mapped$ = map.call(this, pathOrMapFn);
     } else {
       throw new TypeError(
         `Unexpected type '${typeof pathOrMapFn}' in select operator,` +
         ` expected 'string' or 'function'`
       );
     }
-    return distinctUntilChanged.call(mapped$);
+    return new StoreT<any>(distinctUntilChanged.call(mapped$));
   }
 
-  selectSlices(...paths: string[]): Observable<any[]> {
-    return Observable.combineLatest(
-      ...paths.map(x => this.select<any>(s => _.get(s, x)))
-    ).map(res => res.reduce((o, val) => { o[val] = val; return o; }, {}));
+  selectSlice(...paths: string[]): StoreT<any> {
+    return new StoreT(Observable.combineLatest(...paths.map(p => this.select<any>(s => _.get(s, p))))
+      .map(res => res.reduce((o, val) => { o[val] = val; return o; }, {})));
   }
 
-  selectByMap<T>(slicer: T): Observable<{[P in keyof T]: any}> {
-    const props = Object.keys(slicer);
-    return Observable.combineLatest(
-      ...props.map(x => this.select<any>(s => _.get(s, slicer[x])))
-    ).map(res => res.reduce((o, val, i) => { o[props[i]] = val; return o; }, {}));
+  // selectSlice(...paths: string[]): StoreT<any> {
+  //   const selectors = paths.map(x => s => _.get(s, paths));
+  //   return this.select(createSelector.call(null, selectors, s => s));
+  // }
+
+  selectByMap<T>(map: T): StoreT<{[P in keyof T]: any}> {
+    return this.select(createSelectorByMap(map));
   }
 
   dispatch<V extends Action = Action>(action: V) {
@@ -108,6 +114,9 @@ class StoreT<T> extends Observable<T> {
 @Injectable()
 export class Store extends StoreT<any> {
   constructor(private eventDataService: EventDataService) {
-    super(eventDataService);
+    super(
+      eventDataService.change
+      .do(c => { console.log('STORE CHANGE'); return c; })
+      .map(_ => eventDataService.model));
   }
 }

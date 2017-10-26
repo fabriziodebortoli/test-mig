@@ -1,8 +1,11 @@
 import { Selector } from './models';
 import * as _ from 'lodash';
-import { Observable } from '../../rxjs.imports';
 
 export type AnyFn = (...args: any[]) => any;
+
+interface SelectorMap {
+  [name: string]: string;
+}
 
 export interface MemoizedSelector<State, Result>
   extends Selector<State, Result> {
@@ -223,19 +226,9 @@ export function createSelector(...input: any[]): Selector<any, any> {
   });
 }
 
-export function createFeatureSelector<T>(
-  featureName: string
-): MemoizedSelector<object, T> {
-  const { memoized, reset } = memoize(function (state: any): any {
-    return state[featureName];
-  });
-
-  return Object.assign(memoized, { release: reset, projector: memoized });
-}
-
-export function createSelectorByMap<T>(slicer: T): Selector<any, any> {
-  const props = Object.keys(slicer);
-  const selectors = props.map(x => s => _.get(s, slicer[x]));
+export function createSelectorByMap<T>(selectorMap: T): Selector<any, {[P in keyof T]: any}> {
+  const props = Object.keys(selectorMap);
+  const selectors = props.map(x => s => _.get(s, selectorMap[x]));
   return createSelector.call(null, selectors, (...slices: any[]) =>
     slices.reduce((o, val, i) => { o[props[i]] = val; return o; }, {}));
 }
