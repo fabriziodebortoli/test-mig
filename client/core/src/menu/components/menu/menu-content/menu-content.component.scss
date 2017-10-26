@@ -17,6 +17,12 @@ tb-card-content .row {
     flex: 1;
 }
 
+@media screen and (max-width: 1024px) {
+    tb-card-title {
+        font-size: 14px;
+    }
+}
+
 // @media screen and (min-width: 48em) {
 //     tb-card-content {
 //         // min-height: 215px;
