@@ -19,18 +19,19 @@ export class VatComponent extends ControlComponent {
   constructor(layoutService: LayoutService, private eventData: EventDataService,
     tbComponentService: TbComponentService, private http: ErpHttpService, private store: Store) {
     super(layoutService, tbComponentService);
-    eventData.change.subscribe(s => console.log('TEST'));
   }
 
   ngOnInit() {
     this.store
       .select(this.selector)
-      .selectSlice('Address', 'CompName')
-      .subscribe(address => console.log('new address: ' + JSON.stringify(address)));
-    this.store
-      .select(this.selector)
-      .select('CompName')
-      .subscribe(company => console.log('new company: ' + JSON.stringify(company)));
+      .selectSlice('Address', 'CompName', 'City')
+      .subscribe(address => console.log('new address or company: ' + JSON.stringify(address)))
+      .add(() => console.log('unsubscribe'));
+    // this.store
+    //   .select(this.selector)
+    //   .select('CompName')
+    //   .subscribe(company => console.log('new company: ' + JSON.stringify(company)))
+    //   .add(() => console.log('unsubscribe'));
   }
 
   ngOnChanges(changes) {
