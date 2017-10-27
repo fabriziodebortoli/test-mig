@@ -3,7 +3,7 @@
 	//================================================================================
 	public interface IPostManActuator
 	{
-		OperationResult Send();
+		OperationResult Send(string to, string subject, string body);
 	}
 
 	//================================================================================
@@ -16,9 +16,9 @@
 			this.postManActuator = iPostManActuator;
 		}
 
-		public OperationResult Send()
+		public OperationResult Send(string to, string subject, string body)
 		{
-			return this.postManActuator.Send();
+			return this.postManActuator.Send(to, subject, body);
 		}
 	}
 }
