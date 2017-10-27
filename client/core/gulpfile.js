@@ -88,10 +88,11 @@ gulp.task('rollup:fesm', function() {
                 'rxjs/add/operator/catch', 'rxjs/add/observable/throw', 'rxjs/add/operator/distinctUntilChanged', 'rxjs/add/operator/filter', 'rxjs/add/operator/first', 'rxjs/add/observable/interval',
                 'rxjs/add/observable/timer', 'rxjs/add/operator/take', 'rxjs/add/operator/takeUntil', 'rxjs/add/operator/toArray', 'rxjs/add/operator/do', 'rxjs/add/operator/repeat',
                 'rxjs/add/operator/timeout', 'rxjs/add/operator/share', 'rxjs/operator/map', 'rxjs/operator/pluck', 'rxjs/operator/distinctUntilChanged',
-                'rxjs/Subscription', 'rxjs/Observer', 'rxjs/observable/ErrorObservable', 'rxjs/util/TimeoutError',
+                'rxjs/Subscription', 'rxjs/Observer', 'rxjs/observable/ErrorObservable', 'rxjs/util/TimeoutError', 'rxjs/add/operator/reduce',
+                'rxjs/add/observable/combineLatest', 'rxjs/operator/reduce', 'rxjs/Subscriber', 'rxjs/util/isNumeric',
                 '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
                 '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
-                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'ngx-cookie'
+                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'ngx-cookie', 'lodash'
             ],
 
             // Format of generated bundle
@@ -137,10 +138,11 @@ gulp.task('rollup:umd', function() {
                 'rxjs/add/operator/catch', 'rxjs/add/observable/throw', 'rxjs/add/operator/distinctUntilChanged', 'rxjs/add/operator/filter', 'rxjs/add/operator/first', 'rxjs/add/observable/interval',
                 'rxjs/add/observable/timer', 'rxjs/add/operator/take', 'rxjs/add/operator/takeUntil', 'rxjs/add/operator/toArray', 'rxjs/add/operator/do', 'rxjs/add/operator/repeat',
                 'rxjs/add/operator/timeout', 'rxjs/add/operator/share', 'rxjs/operator/map', 'rxjs/operator/pluck', 'rxjs/operator/distinctUntilChanged',
-                'rxjs/Subscription', 'rxjs/Observer', 'rxjs/observable/ErrorObservable', 'rxjs/util/TimeoutError',
+                'rxjs/Subscription', 'rxjs/Observer', 'rxjs/observable/ErrorObservable', 'rxjs/util/TimeoutError', 'rxjs/add/operator/reduce',
+                'rxjs/add/observable/combineLatest', 'rxjs/operator/reduce', 'rxjs/Subscriber', 'rxjs/util/isNumeric',
                 '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
                 '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
-                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'ngx-cookie'
+                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'angular-tree-component', 'json8-patch', 'ngx-cookie', 'lodash'
             ],
 
             // Format of generated bundle
@@ -176,6 +178,9 @@ gulp.task('rollup:umd', function() {
                 'rxjs/Observer': 'Observer',
                 'rxjs/observable/ErrorObservable': 'ErrorObservable',
                 'rxjs/util/TimeoutError': 'TimeoutError',
+                'rxjs/operator/reduce': 'reduce$1',
+                'rxjs/Subscriber': 'Subscriber',
+                'rxjs/util/isNumeric': 'isNumeric',
                 '@angular/forms': 'forms',
                 '@angular/material/index': 'index',
                 '@taskbuilder/icons': 'icons',
@@ -192,7 +197,8 @@ gulp.task('rollup:umd', function() {
                 '@progress/kendo-data-query': 'kendoDataQuery',
                 '@angular/animations': 'animations',
                 '@telerik/kendo-intl': 'kendoIntl',
-                'ngx-cookie': 'ngxCookie'
+                'ngx-cookie': 'ngxCookie',
+                'lodash': '_'
             },
 
             // Skip THIS_IS_UNDEFINED warnings 

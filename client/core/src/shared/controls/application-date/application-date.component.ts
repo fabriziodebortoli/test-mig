@@ -1,10 +1,14 @@
-import { InfoService } from './../../../core/services/info.service';
+import { Component, OnInit, OnDestroy, Pipe, ViewEncapsulation } from '@angular/core';
 import { formatDate } from '@telerik/kendo-intl';
-import { OperationResult } from './../../models/operation-result.model';
+
 import { Subscription, Subject } from '../../../rxjs.imports';
+
+import { OperationResult } from './../../models/operation-result.model';
+
+import { LocalizationService } from './../../../core/services/localization.service';
+import { InfoService } from './../../../core/services/info.service';
 import { TaskbuilderService } from './../../../core/services/taskbuilder.service';
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
-import { Component, OnInit, OnDestroy, Pipe, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'tb-application-date',
@@ -24,7 +28,11 @@ export class ApplicationDateComponent implements OnInit, OnDestroy {
 
     public opened: boolean = false;
 
-    constructor(public infoService: InfoService, public httpMenuService: HttpMenuService, public taskbuilderService: TaskbuilderService) {
+    constructor(
+        public infoService: InfoService,
+        public httpMenuService: HttpMenuService,
+        public taskbuilderService: TaskbuilderService,
+        public localizationService: LocalizationService) {
     }
 
     ngOnInit() {
