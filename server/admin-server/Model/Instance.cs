@@ -55,7 +55,7 @@ namespace Microarea.AdminServer.Model
             burgerDataParameters.Add(new BurgerDataParameter("@Tags", this.tags));
             burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.underMaintenance));
             burgerDataParameters.Add(new BurgerDataParameter("@PendingDate", this.pendingDate));
-            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", TicksHelper.GetTicks()));
+            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", this.ticks));
             BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@InstanceKey", this.instanceKey);
 
             opRes.Result = burgerData.Save(ModelTables.Instances, keyColumnParameter, burgerDataParameters);
@@ -65,6 +65,7 @@ namespace Microarea.AdminServer.Model
         //---------------------------------------------------------------------
         public IModelObject Fetch(IDataReader reader)
         {
+            VerifyTicks(ticks = (int)reader["Ticks"]);
 			Instance instance = new Instance
 			{
 				instanceKey = reader["InstanceKey"] as string,
@@ -76,7 +77,14 @@ namespace Microarea.AdminServer.Model
 				pendingDate = (DateTime)reader["PendingDate"],
                 ticks = (int)reader["Ticks"] 
 			};
+            
 			return instance;
+        }
+
+        //---------------------------------------------------------------------
+        private void VerifyTicks(int ticks)
+        {
+           
         }
 
         //---------------------------------------------------------------------
