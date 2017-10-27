@@ -34,7 +34,7 @@ namespace Microarea.AdminServer.Model
 			List<BurgerDataParameter> burgerDataParameters = new List<BurgerDataParameter>();
 			burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.accountName));
 			burgerDataParameters.Add(new BurgerDataParameter("@SubscriptionKey", this.subscriptionKey));
-            burgerDataParameters.Add(new BurgerDataParameter("@Ticks",TicksHelper.GetTicks()));
+            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", this.ticks));
 			BurgerDataParameter accountKeyColumnParameter = new BurgerDataParameter("@AccountName", this.accountName);
 			BurgerDataParameter subscriptionKeyColumnParameter = new BurgerDataParameter("@SubscriptionKey", this.subscriptionKey);
 			BurgerDataParameter[] keyColumns = new BurgerDataParameter[] {
