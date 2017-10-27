@@ -18,6 +18,7 @@ import { AdminTextAreaComponent } from './components/admin-textarea/admin-textar
 import { AdminDialogComponent } from './components/admin-dialog/admin-dialog.component';
 import { AdminAutoFocusDirective } from './directives/admin-auto-focus.directive';
 import { AdminTabsComponent } from './components/admin-tabs/admin-tabs.component';
+import { AdminTabComponent } from './components/admin-tab/admin-tab.component';
 
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { InputsModule } from '@progress/kendo-angular-inputs';
@@ -55,7 +56,8 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
     AdminDropDownComponent,
     AdminTextAreaComponent,
     AdminDialogComponent,
-    AdminTabsComponent
+    AdminTabsComponent,
+    AdminTabComponent
   ],
   exports: [
     SampleComponent,
@@ -71,7 +73,8 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
     AdminDropDownComponent,
     AdminTextAreaComponent,
     AdminDialogComponent,
-    AdminTabsComponent
+    AdminTabsComponent,
+    AdminTabComponent
   ],
   entryComponents: []
 })
