@@ -130,7 +130,19 @@
           </div>
           <div>
             <h5>Live</h5>
-            <admin-tabs></admin-tabs>
+            <admin-tabs>
+              <admin-tab [tabTitle]="'Folkabilly'">
+                <div class="tab-content">
+                  <h5>Jamie Clarke's Perfect</h5>
+                </div>
+              </admin-tab>
+              <admin-tab [tabTitle]="'Rockabilly'">
+                <div class="tab-content">
+                  <h5>Stray Cats</h5>
+                  <h5>The Spunyboys</h5>
+                </div>
+              </admin-tab>              
+            </admin-tabs>
           </div>
         </div>
       </div>
