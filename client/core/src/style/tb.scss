@@ -205,3 +205,27 @@ md-card-title.mat-card-title m4-icon {
         transform: rotate(360deg);
     }
 }
+
+
+/**POPUP*/
+
+.k-animation-container-shown,
+.k-animation-container>.k-popup {
+    box-shadow: none;
+}
+
+.k-animation-container-fixed>.k-popup {
+    margin-right: 12px;
+}
+
+.arrow-right:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 12px solid #ececec;
+    position: absolute;
+    right: 0;
+    z-index: 9999;
+}

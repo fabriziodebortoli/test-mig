@@ -20,13 +20,27 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
   public localizationsLoadedSubscription: any;
   public localizationLoaded: boolean;
 
-
+  @ViewChild('anchor', { read: ElementRef }) public anchor: ElementRef;
+  @ViewChild('template', { read: TemplateRef }) public template: TemplateRef<any>;
   @Input() objectM: any;
 
   elRef: HTMLElement;
   offsetLeft: any;
   offsetTop: any;
 
+  @HostListener('window:keyup', ['$event'])
+  public keyup(event: KeyboardEvent): void {
+    if (event.keyCode === 27) {
+      this.close();
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  public documentClick(event: any): void {
+    if (!this.contains(event.target)) {
+      this.close();
+    }
+  }
 
   constructor(elRef: ElementRef,
     public easystudioService: EasystudioService,
@@ -76,8 +90,8 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
 
   //--------------------------------------------------------------------------------
   public togglePopup(template: TemplateRef<any>) {
-    this.offsetLeft = this.elRef.getBoundingClientRect().left;
-    this.offsetTop = this.elRef.getBoundingClientRect().top + 15;
+    this.offsetLeft = this.elRef.getBoundingClientRect().left + 3;
+    this.offsetTop = this.elRef.getBoundingClientRect().top - 4;
     if (this.popupRef) {
       this.popupRef.close();
       this.popupRef = null;
@@ -86,8 +100,8 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
         content: template,
         offset: { top: this.offsetTop, left: this.offsetLeft },
         anchorAlign: { horizontal: 'right', vertical: 'bottom' },
-        popupAlign: { horizontal: 'right', vertical: 'top' }
-
+        popupAlign: { horizontal: 'right', vertical: 'top' },
+        popupClass: 'arrow-right'
       });
     }
   }
@@ -140,6 +154,10 @@ export class ItemCustomizationsDropdownComponent implements OnDestroy, OnInit {
     //     sub.unsubscribe();
     //   });
     // }
+  }
+
+  private contains(target: any): boolean {
+    return this.anchor.nativeElement.contains(target);
   }
 
 }
