@@ -40,7 +40,8 @@
         "npm": "^5.4.2",
         "rxjs": "^5.4.2",
         "ts-helpers": "^1.1.1",
-        "zone.js": "^0.8.14"
+        "zone.js": "^0.8.14",
+        "lodash": "4.17.4"
     },
     "devDependencies": {
         "@angular/cli": "1.4.4",
