@@ -10,6 +10,8 @@ import { FormMode } from './../../../core/models/enums';
 
 import { isNumeric } from "rxjs/util/isNumeric"
 
+import { ContextMenuItem } from '@taskbuilder/core';
+
 @Component({
     selector: "tb-numberer",
     templateUrl: './numberer.component.html',
@@ -30,8 +32,13 @@ export class NumbererComponent extends ControlComponent {
 
     private tbMask = '';
     private useFormatMask = false;
-    private paddingEnabled = false;
     private enableCtrlInEdit = false;
+    private paddingEnabled: boolean = true;
+
+    numbererContextMenu: ContextMenuItem[] = [];
+    itemDisablePadding = new ContextMenuItem('disable automatic digit padding in front of the number', '', true, false, null, this.togglePadding.bind(this));
+    itemEnablePadding = new ContextMenuItem('enable automatic digit padding in front of the number', '', true, false, null, this.togglePadding.bind(this));
+    itemDoPadding = new ContextMenuItem('perform digit padding in front of the number', '', true, false, null, this.doPadding.bind(this));
 
     formatMask = '';
     ctrlEnabled = false;
@@ -48,7 +55,6 @@ export class NumbererComponent extends ControlComponent {
         // this.eventData.model.FormMode.subscribe(x => {
         //     this.ctrlEnabled = (x.value == FormMode.NEW || (x.value == FormMode.EDIT && this.enableCtrlInEdit));
         // })
-
         this.eventData.behaviours.subscribe(x => {
             const b = x[this.cmpId];
             if (b) {
@@ -60,7 +66,7 @@ export class NumbererComponent extends ControlComponent {
 
                 this.paddingEnabled = (this.tbMask !== '');
                 this.ctrlEnabled = (x.value === FormMode.NEW || (x.value === FormMode.EDIT && this.enableCtrlInEdit));
-                // this.ctrlEnabled = true;
+                this.ctrlEnabled = true;
 
                 this.setComponentMask();
             }
@@ -74,6 +80,28 @@ export class NumbererComponent extends ControlComponent {
         tbComponentService: TbComponentService
     ) {
         super(layoutService, tbComponentService);
+
+
+    }
+
+    ngAfterViewInit() {
+        this.buildContextMenu();
+    }
+
+    buildContextMenu() {
+        this.numbererContextMenu.splice(0, this.numbererContextMenu.length);
+        if (this.paddingEnabled) {
+            this.numbererContextMenu.push(this.itemDisablePadding);
+            this.numbererContextMenu.push(this.itemDoPadding);
+        }
+        else {
+            this.numbererContextMenu.push(this.itemEnablePadding);
+        }
+    }
+
+    togglePadding() {
+        this.paddingEnabled = !this.paddingEnabled;
+        this.buildContextMenu();
     }
 
     setComponentMask() {
@@ -242,8 +270,12 @@ export class NumbererComponent extends ControlComponent {
     }
 
     onBlur($event) {
+        if (this.eventData.model.FormMode.value === FormMode.FIND)
+            this.doPadding();
+    }
+
+    doPadding() {
         if (
-            this.eventData.model.FormMode.value === FormMode.FIND &&
             this.model.value.trim() !== '' &&
             isNumeric(this.model.value.substr(0, 1))
         )
