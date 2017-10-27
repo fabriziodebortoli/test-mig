@@ -17,25 +17,23 @@ import { isNumeric } from "rxjs/util/isNumeric"
 })
 
 export class NumbererComponent extends ControlComponent {
-    @Input('readonly') readonly: boolean = false;
+    @Input('readonly') readonly = false;
     @Input() public hotLink: any = undefined;
     @Input() automaticNumbering: boolean;
 
-    stateData = true;
+    @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
 
-    @ViewChild("contextMenu", { read: ViewContainerRef }) contextMenu: ViewContainerRef;
-
-    tbEditIcon = "tb-edit";
-    tbExecuteIcon = "tb-execute";
+    tbEditIcon = 'tb-edit';
+    tbExecuteIcon = 'tb-execute';
 
     icon: string;
 
-    private tbMask: string = '';
+    private tbMask = '';
     private useFormatMask = false;
     private paddingEnabled = false;
     private enableCtrlInEdit = false;
 
-    formatMask: string = '';
+    formatMask = '';
     ctrlEnabled = false;
     enableStateInEdit = false;
 
@@ -44,29 +42,29 @@ export class NumbererComponent extends ControlComponent {
     // PADDING: in modalità find se maschera vuota allora padding default = false, altrimenti true
 
     ngOnInit() {
-        //this.currentState = this.model.stateData.invertState ? NumbererStateEnum.FreeInput : NumbererStateEnum.MaskedInput;
-        //this.icon = this.model.stateData.invertState ? this.tbEditIcon : this.tbExecuteIcon;
+        // this.currentState = this.model.stateData.invertState ? NumbererStateEnum.FreeInput : NumbererStateEnum.MaskedInput;
+        // this.icon = this.model.stateData.invertState ? this.tbEditIcon : this.tbExecuteIcon;
 
         // this.eventData.model.FormMode.subscribe(x => {
         //     this.ctrlEnabled = (x.value == FormMode.NEW || (x.value == FormMode.EDIT && this.enableCtrlInEdit));
         // })
 
         this.eventData.behaviours.subscribe(x => {
-            let b = x[this.cmpId];
+            const b = x[this.cmpId];
             if (b) {
                 this.tbMask = b.formatMask;
-                //this.useFormatMask = b.useFormatMask;
+                // this.useFormatMask = b.useFormatMask;
                 this.useFormatMask = (b.formatMask !== '');
                 this.enableCtrlInEdit = b.enableCtrlInEdit;
                 this.enableStateInEdit = b.enableStateInEdit;
 
-                this.paddingEnabled = (this.tbMask != '');
-                this.ctrlEnabled = (x.value == FormMode.NEW || (x.value == FormMode.EDIT && this.enableCtrlInEdit));
-                //this.ctrlEnabled = true;
+                this.paddingEnabled = (this.tbMask !== '');
+                this.ctrlEnabled = (x.value === FormMode.NEW || (x.value === FormMode.EDIT && this.enableCtrlInEdit));
+                // this.ctrlEnabled = true;
 
                 this.setComponentMask();
             }
-        })
+        });
     }
 
     constructor(
@@ -124,7 +122,6 @@ export class NumbererComponent extends ControlComponent {
     maskToValue(tbMask: string, value: string) {
         let i: number;
         let ret = '';
-        let year: string;
         let sepPos: number;
         let curChar: string;
 
@@ -132,33 +129,37 @@ export class NumbererComponent extends ControlComponent {
         let alphaValue = '';
         let readingNumValue = true;
 
+        if (value.length === 0)
+            return ret;
+
         // separo parte numerica e alfanumerica del valore inserito
         // al primo carattere non numerico inizia la parte alfanumerica, che include anche i numerici successivi
-        for (i = 0; i < tbMask.length; i++) {
-            curChar = tbMask.substring(i, i + 1);
-            if (readingNumValue && isNumeric(curChar)) {
+        for (i = 0; i < value.length; i++) {
+            curChar = value.substring(i, i + 1);
+            if (readingNumValue && isNumeric(curChar))
                 numValue += curChar;
-            }
             else {
                 readingNumValue = false;
                 alphaValue += curChar;
             }
         }
 
-        let tbMaskChunks: string[] = this.splitTbMask(tbMask);
+        const tbMaskChunks: string[] = this.splitTbMask(tbMask);
         tbMaskChunks.forEach(c => {
             console.log(c);
             if (c.startsWith('Y'))
                 // sostituisco la porzione di anno che mi interessa
                 ret += (new Date()).getFullYear().toString().substr(4 - c.length, c.length);
 
-            else if (c.startsWith('#')) {
+            else if (
+                c.startsWith('#') ||
+                c.startsWith('N')) {
                 // faccio il padding del numero
-                ret += c.indexOf(',');
-                if (sepPos == -1)
+                sepPos = c.indexOf(',');
+                if (sepPos === -1)
                     sepPos = c.indexOf('.');
 
-                if (sepPos == -1) {
+                if (sepPos === -1) {
                     // se il valore inserito eccede la lunghezza del 'corpo' numerico tolgo l'eccedenza e l'aggiungo 
                     // al suffisso
                     if (numValue.length > c.length) {
@@ -167,20 +168,22 @@ export class NumbererComponent extends ControlComponent {
                     }
 
                     ret += this.repeatChar('0', c.length - numValue.length) + numValue;
-                }
-                else
-                    //SEPARATORE, CASISTICA PROBABILMENTE NON SUPPORTATA IN MAGO
+                } else {
+                    // SEPARATORE, CASISTICA PROBABILMENTE NON SUPPORTATA IN MAGO
                     ret += this.repeatChar('0', sepPos - numValue.length) + numValue + '.' + this.repeatChar('0', numValue.length - sepPos + 1);
-            }
-            else if (c == '/' || c == '-')
-                //separatore
+                }
+            } else if (c === '/' || c === '-')
+                // separatore
                 ret += c;
-            else if (['?', '*', '-'].indexOf(c) > -1) {
+            else if (
+                c.startsWith('?') ||
+                c.startsWith('*') ||
+                c.startsWith('-')) {
                 if (alphaValue.length > c.length)
                     alphaValue = alphaValue.substring(0, c.length - 1);
                 ret += alphaValue;
             }
-        })
+        });
 
         return ret;
     }
@@ -198,8 +201,8 @@ export class NumbererComponent extends ControlComponent {
         let i: number;
         let tbPrevMaskChar: string;
 
-        let chunk: string = '';
-        let tbMaskChar: string = '';
+        let chunk = '';
+        let tbMaskChar = '';
 
         for (i = 0; i < tbMask.length; i++) {
             tbMaskChar = tbMask.substring(i, i + 1);
@@ -213,12 +216,10 @@ export class NumbererComponent extends ControlComponent {
                 }
 
                 chunk += tbMaskChar;
-            }
-            else if ([',', '.'].indexOf(tbMaskChar) > -1) {
-                //SEPARATORE, CASISTICA PROBABILMENTE NON SUPPORTATA IN MAGO
+            } else if ([',', '.'].indexOf(tbMaskChar) > -1) {
+                // SEPARATORE, CASISTICA PROBABILMENTE NON SUPPORTATA IN MAGO
                 chunk += tbMaskChar;
-            }
-            else {
+            } else {
                 if (chunk.length > 0) {
                     ret.push(chunk);
                     chunk = tbMaskChar;
@@ -227,6 +228,9 @@ export class NumbererComponent extends ControlComponent {
 
             tbPrevMaskChar = tbMaskChar;
         }
+
+        if (chunk.length > 0)
+            ret.push(chunk);
 
         return ret;
     }
@@ -239,8 +243,8 @@ export class NumbererComponent extends ControlComponent {
 
     onBlur($event) {
         if (
-            this.eventData.model.FormMode.value == FormMode.FIND &&
-            this.model.value.trim() != '' &&
+            this.eventData.model.FormMode.value === FormMode.FIND &&
+            this.model.value.trim() !== '' &&
             isNumeric(this.model.value.substr(0, 1))
         )
             this.model.value = this.maskToValue(this.tbMask, this.model.value);

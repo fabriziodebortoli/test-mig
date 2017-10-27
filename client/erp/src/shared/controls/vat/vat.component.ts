@@ -1,8 +1,7 @@
-import { TbComponentService, LayoutService, ControlComponent, EventDataService } from '@taskbuilder/core';
+import { Store, TbComponentService, LayoutService, ControlComponent, EventDataService } from '@taskbuilder/core';
 import { Component, Input } from '@angular/core';
 import { ErpHttpService } from '../../../core/services/erp-http.service';
 import Tax from './tax';
-import { Store } from '../../../core/services/store';
 
 @Component({
   selector: 'erp-vat',
@@ -27,11 +26,11 @@ export class VatComponent extends ControlComponent {
       .selectSlice('Address', 'CompName', 'City')
       .subscribe(address => console.log('new address or company: ' + JSON.stringify(address)))
       .add(() => console.log('unsubscribe'));
-    // this.store
-    //   .select(this.selector)
-    //   .select('CompName')
-    //   .subscribe(company => console.log('new company: ' + JSON.stringify(company)))
-    //   .add(() => console.log('unsubscribe'));
+    this.store
+      .select(this.selector)
+      .select('CompName')
+      .subscribe(company => console.log('new company: ' + JSON.stringify(company)))
+      .add(() => console.log('unsubscribe'));
   }
 
   ngOnChanges(changes) {

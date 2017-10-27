@@ -1,11 +1,7 @@
-import { Selector } from './models';
+import { Selector } from './../models/store.models';
 import * as _ from 'lodash';
 
 export type AnyFn = (...args: any[]) => any;
-
-interface SelectorMap {
-  [name: string]: string;
-}
 
 export interface MemoizedSelector<State, Result>
   extends Selector<State, Result> {

@@ -27,7 +27,9 @@ export class EventDataService {
     public activation: any = {}; // contains activation data
     public buttonsState: any = {};
 
-    constructor() { }
+    constructor() {
+        console.log('EventDataService instance ' + Math.round(new Date().getTime() / 1000));
+    }
 
     public raiseCommand(componentId: string, commandId: string) {
         const evt = new CommandEventArgs();

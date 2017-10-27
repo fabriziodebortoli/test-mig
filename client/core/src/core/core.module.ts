@@ -33,6 +33,7 @@ import { LoadingService } from './services/loading.service';
 import { DiagnosticService } from './services/diagnostic.service';
 import { SettingsService } from './services/settings.service';
 import { EventManagerService } from './services/event-manager.service';
+import { Store } from './services/store.service';
 
 export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
@@ -61,12 +62,13 @@ export { LoadingService } from './services/loading.service';
 export { DiagnosticService } from './services/diagnostic.service';
 export { SettingsService } from './services/settings.service';
 export { EventManagerService } from './services/event-manager.service';
+export { Store } from './services/store.service';
 
 export const TB_SERVICES = [
     TbComponentService, BOService, ComponentService, DocumentService, DataService, EasystudioService, EnumsService,
     EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     TaskbuilderService, SidenavService, TabberService, UtilsService, WebSocketService,
-    LocalizationService, LoadingService, DiagnosticService, SettingsService, EventManagerService
+    LocalizationService, LoadingService, DiagnosticService, SettingsService, EventManagerService, Store
 ];
 
 import { CoreGuard } from './guards/core.guard';

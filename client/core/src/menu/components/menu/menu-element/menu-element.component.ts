@@ -16,6 +16,7 @@ export class MenuElementComponent {
 
   @Input() object: any;
   @Input() showEasyBuilderOptions: boolean = true;
+  @Input() showLongTooltip: boolean = false;
 
   lorem: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam';
 
