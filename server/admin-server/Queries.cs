@@ -103,6 +103,7 @@ namespace Microarea.AdminServer
         public const string SelectSubscriptionAccountBySubscriptionKey = @"SELECT * FROM MP_SubscriptionAccounts WHERE SubscriptionKey = @SubscriptionKey";
         public const string SelectSubscriptionAccountByAccount = @"SELECT * FROM MP_SubscriptionAccounts WHERE AccountName = @AccountName";
         public const string InsertSubscriptionAccount = @"INSERT INTO MP_SubscriptionAccounts (AccountName, SubscriptionKey, Ticks) VALUES (@AccountName, @SubscriptionKey, @Ticks)";
+        public const string UpdateSubscriptionAccount = @"UPDATE  MP_SubscriptionAccounts SET Ticks=@Ticks  WHERE AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
         public const string DeleteSubscriptionAccount = @"DELETE MP_SubscriptionAccounts WHERE @AccountName = @AccountName AND SubscriptionKey = @SubscriptionKey";
 
         // SecurityToken
@@ -125,7 +126,7 @@ namespace Microarea.AdminServer
 															MP_Roles rol on acc.RoleName = rol.RoleName 
 															WHERE AccountName = '{0}' AND rol.Disabled = 0";
         public const string InsertAccountRoles = @"INSERT INTO MP_AccountRoles (RoleName, AccountName, EntityKey, Level, Ticks) VALUES (@RoleName, @AccountName, @EntityKey, @Level, @Ticks)";
-        public const string UpdateAccountRoles = @"UPDATE MP_AccountRoles SET Level = @Level, Ticks=@Ticks WHERE RoleId = @RoleId AND AccountName = @AccountName AND EntityKey = @EntityKey";
+        public const string UpdateAccountRoles = @"UPDATE MP_AccountRoles SET Level = @Level, Ticks=@Ticks WHERE RoleName = @RoleName AND AccountName = @AccountName AND EntityKey = @EntityKey";
         public const string DeleteAccountRole = @"DELETE MP_AccountRoles WHERE RoleName = @RoleName AND AccountName = @AccountName AND EntityKey = @EntityKey";
         // AccountRole (BurgerData)
         public const string SelectRolesByAccountName = @"SELECT * FROM MP_AccountRoles acc INNER JOIN 
