@@ -26,7 +26,9 @@
                 <!-- DASHBOARD -->
                 <kendo-tabstrip-tab [selected]="true" *ngIf="!isDesktop" #dashBoardTabStrip="kendoTabStripTab">
                     <ng-template kendoTabTitle>
-                        <m4-icon icon="tb-backfilled"></m4-icon>
+                        <div>
+                            <m4-icon icon="tb-backfilled"></m4-icon>
+                        </div>
                     </ng-template>
                     <ng-template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
@@ -38,9 +40,9 @@
                 <!-- MENU -->
                 <kendo-tabstrip-tab [selected]="isDesktop" #menuTabStrip="kendoTabStripTab">
                     <ng-template kendoTabTitle>
-                        <div (click)="menuService.activateMenu()" class="menu-tab">
+                        <div (click)="menuService.activateMenu()">
                             <m4-icon icon="tb-dashboard"></m4-icon>
-                            <span class="marginLeft">{{localizationService?.localizedElements?.Menu}}</span>
+                            <span>{{localizationService?.localizedElements?.Menu}}</span>
                         </div>
                     </ng-template>
                     <ng-template kendoTabContent>
@@ -49,13 +51,15 @@
                         </div>
                     </ng-template>
                 </kendo-tabstrip-tab>
-                
+
                 <!-- DOCUMENTS AND REPORTS -->
                 <kendo-tabstrip-tab *ngFor="let info of componentService.components">
                     <ng-template kendoTabTitle>
-                        <m4-icon [icon]="getIcon(info)"></m4-icon>
-                        <span>{{info.document?.getTitle()}}</span>
-                        <m4-icon icon="tb-closewindows" (click)="closeTab(info)" title="{{localizationService?.localizedElements?.CloseLabel}}" class='close'></m4-icon>
+                        <div>
+                            <m4-icon [icon]="getIcon(info)"></m4-icon>
+                            <span>{{info.document?.getTitle()}}</span>
+                            <m4-icon icon="tb-closewindows" (click)="closeTab(info)" title="{{localizationService?.localizedElements?.CloseLabel}}" class='close'></m4-icon>
+                        </div>
                     </ng-template>
                     <ng-template kendoTabContent>
                         <div class='kendoTabContent' [style.height.px]="viewHeight">
