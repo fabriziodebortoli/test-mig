@@ -114,7 +114,7 @@ export class StoreT<T> extends Observable<T> {
     return this.select(createSelectorByMap(map));
   }
 
-  dispatch<V extends Action = Action>(action: V) {
+  dispatch<V extends Action>(action: V) {
     this.actionsObserver.next(action);
   }
 
