@@ -35,7 +35,7 @@ export class ActionsSubject extends BehaviorSubject<Action>
   }
 }
 
-class StoreT<T> extends Observable<T> {
+export class StoreT<T> extends Observable<T> {
   private actionsObserver: ActionsSubject;
   constructor(state$: StateObservable) {
     super();
