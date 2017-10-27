@@ -387,7 +387,7 @@ namespace Microarea.RSWeb.Objects
         }
 
         //------------------------------------------------------------------------------
-        override public string ToJsonTemplate(bool bracket)
+        string ToJsonTemplate1(bool bracket)
         {
             string name = "repeater";
 
@@ -412,7 +412,7 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
-        override public string ToJsonData(bool bracket)
+        string ToJsonData2(bool bracket)
         {
             string name = "repeater";
 
@@ -430,6 +430,29 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
-    }
+        //------------------------------------------------------------------------------
+        override public string ToJsonTemplate(bool bracket)
+        {
+            string s = base.ToJsonTemplate(bracket);
 
+            foreach (BaseObjList list in this.Rows)
+            {
+                s += ',' + list.ToJson(/*template=*/true, string.Empty, /*bracket=*/false, /*array=*/false);
+            }
+
+             return s;
+        }
+
+        override public string ToJsonData(bool bracket)
+        {
+            string s = base.ToJsonData(bracket);
+
+            foreach (BaseObjList list in this.Rows)
+            {
+                s += ',' + list.ToJson(/*template=*/false, string.Empty, /*bracket=*/false, /*array=*/false);
+            }
+
+             return s;
+        }
+    }
 }

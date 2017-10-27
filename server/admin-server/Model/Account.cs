@@ -64,12 +64,12 @@ namespace Microarea.AdminServer.Model
         { }
 
         //---------------------------------------------------------------------
-        internal static IAccount GetAccountByName(BurgerData burgerData, string accountName)
+        internal static Account GetAccountByName(BurgerData burgerData, string accountName)
         {
             return burgerData.GetObject<Account, IAccount>(String.Empty, ModelTables.Accounts, SqlLogicOperators.AND, new WhereCondition[]
                   {
                     new WhereCondition("AccountName", accountName, QueryComparingOperators.IsEqual, false)
-                  });
+                  }) as Account;
 
         }
 
@@ -153,22 +153,21 @@ namespace Microarea.AdminServer.Model
         public Account(string accountName)
         {
             this.accountName = accountName;
-        } 
-        
+        }
+
         //---------------------------------------------------------------------
         public bool CheckPassword(string password)
         {
             // calculating password hash
             Byte[] salt = Salt;
+            //siccome il salt a null viene in save sostituito con  array vuoto devo controllare sia null sia array vuoto
+            string passwordToCheck = (salt != null && salt.Length > 0) ? SecurityManager.HashThis(password, salt) : password;
 
-            string passwordToCheck = salt != null ? SecurityManager.HashThis(password, salt) : password;
+            if (Password == passwordToCheck) return true;
 
-            if (Password != passwordToCheck)
-            {
-                AddWrongPwdLoginCount();
-                return false;
-            }
-            return true;
+            AddWrongPwdLoginCount();
+            return false;
+
         }
 
         //---------------------------------------------------------------------

@@ -53,7 +53,7 @@ namespace Microarea.AdminServer.Model
 			burgerDataParameters.Add(new BurgerDataParameter("@AccountName", this.accountName));
 			burgerDataParameters.Add(new BurgerDataParameter("@EntityKey", this.entityKey));
 			burgerDataParameters.Add(new BurgerDataParameter("@Level", this.level));
-            burgerDataParameters.Add(new BurgerDataParameter("@Ticks",TicksHelper.GetTicks()));
+            burgerDataParameters.Add(new BurgerDataParameter("@Ticks",this.ticks));
 
             BurgerDataParameter roleNameKeyColumnParameter = new BurgerDataParameter("@RoleName", this.roleName);
 			BurgerDataParameter accountNameKeyColumnParameter = new BurgerDataParameter("@AccountName", this.accountName);

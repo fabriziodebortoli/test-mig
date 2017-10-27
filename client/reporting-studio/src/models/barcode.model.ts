@@ -22,7 +22,6 @@ export class barcode {
             case BarcodeType.CODE128A:
             case BarcodeType.CODE128B:
             case BarcodeType.CODE128C:
-            case BarcodeType.EAN128:
                 return 'code128';
             case BarcodeType.CODE39:
                 return 'code39';
@@ -55,6 +54,7 @@ export class barcode {
             case BarcodeType.QR:
                 return 'qrcode';
             case BarcodeType.UCC128:
+            case BarcodeType.EAN128:
                 return 'gs1-128';
             case BarcodeType.UPCA:
                 return 'upca';

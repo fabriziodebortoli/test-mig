@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microarea.Common.NameSolver;
 using Microarea.Common.Generic;
+using System.IO;
+using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.Common
 {
@@ -31,6 +33,7 @@ namespace Microarea.Common
             return this.next.Invoke(context);
         }
 
+
         private void BeginInvoke(HttpContext context)
         {
             string c;
@@ -48,7 +51,6 @@ namespace Microarea.Common
                 //in caso di cookie errato... non dovrebbe mai passare di qui...
             }
         }
-
     }
 
     public class WebAppConfigurator : IWebAppConfigurator

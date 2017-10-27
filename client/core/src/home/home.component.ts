@@ -141,6 +141,11 @@ export class HomeComponent implements OnDestroy, AfterContentInit, OnInit {
     info.document.close();
   }
 
+  getIcon(info: ComponentInfo) {
+    //qua andrebbe differenziata in base a report, document, settings ecc
+    return 'tb-inscription';
+  }
+
   onContextMenu() {
     return !this.infoService.isDesktop;
   }

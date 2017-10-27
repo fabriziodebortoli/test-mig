@@ -35,6 +35,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   public layoutBackStyle: any = {};
   public objects: baseobj[] = [];
   public templates: TemplateItem[] = [];
+  currentPage: number;
 
   public viewHeightSubscription: Subscription;
   public viewHeight: number;
@@ -70,10 +71,10 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         this.reportData = undefined;
       }
       else {
-        this.UpdateData();
         if (this.rsExportService.pdfState == PdfType.PDF) {
           this.createPDF();
         }
+        else this.UpdateData(); 
         if (this.rsExportService.svgState == SvgType.SVG) {
           this.rsExportService.exportSVG();
         }
@@ -86,6 +87,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
   // -----------------------------------------------
   async createPDF() {
+    await this.UpdateData();
     if (this.rsService.pageNum == this.rsExportService.firstPageExport) {
       if (this.rsExportService.lastPageExport == this.rsExportService.firstPageExport) {
         this.rsExportService.renderPDF();
@@ -97,12 +99,10 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       this.rsExportService.appendPDF().then(() => {
         this.rsExportService.eventNextPage.emit();
       });
-
     }
 
     else
       this.rsExportService.renderPDF();
-
   }
 
   // -----------------------------------------------

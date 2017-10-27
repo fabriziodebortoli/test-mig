@@ -101,5 +101,13 @@ export class ReportingStudioService extends DocumentService {
         this.pageNum = 1;
         this.showAsk = false;
     }
+
+    //--------------------------------------------------
+    generateId(): string {
+        let result = '';
+        let chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for (var i = 10; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+        return result;
+    }
 }
 

@@ -11,8 +11,9 @@ import { LayoutService } from '@taskbuilder/core';
 })
 export class NoSpacesEditComponent extends ControlComponent {
   @Input('readonly') readonly: boolean = false;
-  @Input() public maxLength = 0;
+  @Input() slice: any;
   errorMessage = '';
+  maxLength = 10;
 
   constructor(
     public eventData: EventDataService,
@@ -20,6 +21,9 @@ export class NoSpacesEditComponent extends ControlComponent {
     tbComponentService: TbComponentService
   ) {
     super(layoutService, tbComponentService);
+  }
+  ngOnChanges(changes) {
+
   }
 
   onKeyDown($event) {

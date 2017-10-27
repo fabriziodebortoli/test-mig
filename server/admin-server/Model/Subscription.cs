@@ -62,7 +62,7 @@ namespace Microarea.AdminServer.Model
 			burgerDataParameters.Add(new BurgerDataParameter("@RegionalSettings", this.regionalSettings));
 			burgerDataParameters.Add(new BurgerDataParameter("@MinDBSizeToWarn", this.minDBSizeToWarn));
 			burgerDataParameters.Add(new BurgerDataParameter("@UnderMaintenance", this.underMaintenance));
-            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", TicksHelper.GetTicks()));
+            burgerDataParameters.Add(new BurgerDataParameter("@Ticks", this.ticks));
 
             BurgerDataParameter keyColumnParameter = new BurgerDataParameter("@SubscriptionKey", this.subscriptionKey);
 

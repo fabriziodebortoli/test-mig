@@ -185,3 +185,47 @@ md-card-title.mat-card-title m4-icon {
 }
 
 @import 'form';
+@import 'grid';
+.loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    margin: 2px 7px 2px 0;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/**POPUP*/
+
+.k-animation-container-shown,
+.k-animation-container>.k-popup {
+    box-shadow: none;
+}
+
+.k-animation-container-fixed>.k-popup {
+    margin-right: 12px;
+}
+
+.arrow-right:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 12px solid #ececec;
+    position: absolute;
+    right: 0;
+    z-index: 9999;
+}

@@ -54,7 +54,8 @@
               [(selectedValue)]="selectedItem" 
               [listItems]="artWorks" 
               [textField]="'name'" 
-              [valueField]="'value'"></admin-dropdown>              
+              [valueField]="'value'"></admin-dropdown>
+            bind: {{ selectedItem.value }}
           </div>
         </div>
       </div>
@@ -73,54 +74,94 @@
     </div>
   </div>
   <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <div class="adminTile tileNormal">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="adminTile tileNormal">
+        <div>
+          <h3>Admin Dialog</h3>
           <div>
-            <h3>Admin Dialog</h3>
-            <div>
-              <h5>Code</h5>
-              <code>&#x3C;admin-dialog 
-                [mode]=&#x22;&#x27;confirm&#x27;&#x22;
-                [title]=&#x22;&#x27;Order confirmation&#x27;&#x22; 
-                [message]=&#x22;&#x27;Congratulations, your order has been processed.&#x27;&#x22; 
-                [opened]=openToggle 
-                (onDialogClosed)=&#x22;openToggle = false&#x22;&#x3E;&#x3C;/admin-dialog&#x3E;</code>
-            </div>
-            <div>
-              <h5>Live</h5>
-              <admin-button [buttonText]="'open dialog'" (click)="openDialog()"></admin-button>
-              <admin-dialog 
-                [mode]="'fields'"
-                [title]="'Time travel'" 
-                [message]="'Please insert your credentials to start time traveling'"
-                [(fields)]=fields
-                [(opened)]=openToggle 
-                [(result)]=result></admin-dialog>
-              bind: {{ openToggle }}&nbsp;result:{{ result }}
-              <br>
-              fields<br>
-              -{{ fields[0].value }}&nbsp;{{ fields[1].value }}
-            </div>
+            <h5>Code</h5>
+            <code>&#x3C;admin-dialog 
+              [mode]=&#x22;&#x27;confirm&#x27;&#x22;
+              [title]=&#x22;&#x27;Order confirmation&#x27;&#x22; 
+              [message]=&#x22;&#x27;Congratulations, your order has been processed.&#x27;&#x22; 
+              [opened]=openToggle 
+              (onDialogClosed)=&#x22;openToggle = false&#x22;&#x3E;&#x3C;/admin-dialog&#x3E;</code>
+          </div>
+          <div>
+            <h5>Live</h5>
+            <admin-button [buttonText]="'open dialog'" [primary]=true (click)="openDialog()"></admin-button>
+            <admin-dialog 
+              [mode]="'fields'"
+              [title]="'Time travel'" 
+              [message]="'Please insert your credentials to start time traveling, or ask your local TMT vendor if you are egilible to apply for a discount.'"
+              [(fields)]=fields
+              [(opened)]=openToggle 
+              [(result)]=result></admin-dialog>
+            bind result:{{ result }}
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <div class="adminTile tileNormal">
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="adminTile tileNormal">
+        <div>
+          <h3>Admin Input</h3>
           <div>
-            <h3>Admin Input</h3>
-            <div>
-              <h5>Code</h5>
-              <code>&#x3C;admin-input-text [material]=false [inputLabel]=&#x22;&#x27;Name&#x27;&#x22; [(inputData)]=&#x22;painterName&#x22;&#x3E;&#x3C;/admin-input-text&#x3E;</code>
-            </div>
-            <div>
-              <h5>Live</h5>
-              <admin-input-text [material]=false [inputLabel]="'Name'" [(inputData)]="painterName"></admin-input-text>
-              bind: {{ painterName }}
-            </div>                       
+            <h5>Code</h5>
+            <code>&#x3C;admin-input-text [material]=false [inputLabel]=&#x22;&#x27;Name&#x27;&#x22; [(inputData)]=&#x22;painterName&#x22;&#x3E;&#x3C;/admin-input-text&#x3E;</code>
+          </div>
+          <div>
+            <h5>Live</h5>
+            <admin-input-text [material]=false [inputLabel]="'Name'" [(inputData)]="painterName"></admin-input-text>
+            bind: {{ painterName }}
+          </div>                       
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="adminTile tileNormal">
+        <div>
+          <h3>Admin Tabs</h3>
+          <div>
+            <h5>Code</h5>
+            <code></code>
+          </div>
+          <div>
+            <h5>Live</h5>
+            <admin-tabs>
+              <admin-tab [tabTitle]="'Folkabilly'">
+                <div class="tab-content">
+                  <h5>Jamie Clarke's Perfect</h5>
+                </div>
+              </admin-tab>
+              <admin-tab [tabTitle]="'Rockabilly'">
+                <div class="tab-content">
+                  <h5>Stray Cats</h5>
+                  <h5>The Spunyboys</h5>
+                </div>
+              </admin-tab>              
+            </admin-tabs>
           </div>
         </div>
       </div>
-    </div>      
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <div class="adminTile tileNormal">
+        <div>
+          <h3>Coming Soon...</h3>
+          <div>
+            <h5>Code</h5>
+            <code>Next Amazing Component</code>
+          </div>
+          <div>
+            <h5></h5>
+          </div>                       
+        </div>
+      </div>
+    </div>
+  </div>      
 </div>
 
 

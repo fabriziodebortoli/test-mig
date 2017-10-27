@@ -255,7 +255,44 @@ namespace Microarea.RSWeb.Objects
             return true;
         }
 
-        //------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------
+        public bool CheckIsHidden
+        {
+            get
+            {
+                bool h = this.IsHidden;
+                if (HideExpr != null)
+                {
+                    Value val = this.HideExpr.Eval();
+
+                    if (val != null && val.Valid)
+                        h = (bool)val.Data;
+                }
+                return h;
+            }
+        }
+
+        public bool DynamicIsHidden
+        {
+            get
+            {
+                if (HideExpr != null && AnchorRepeaterID > 0)
+                    Document.SynchronizeSymbolTable(RepeaterRow);
+
+                bool h = CheckIsHidden;
+                
+                if (!h && AnchorRepeaterID > 0)
+                {
+                    Repeater rep = Document.Objects.FindBaseObj(AnchorRepeaterID) as Repeater;
+                    if (rep != null)
+                        h = rep.CheckIsHidden;
+                }
+
+                return h;
+            }
+        }
+
+       //------------------------------------------------------------------------------
         protected bool ParseTooltip(WoormParser lex, Token[] stopTokens)
         {
             lex.SkipToken();
@@ -273,25 +310,6 @@ namespace Microarea.RSWeb.Objects
             lex.Matched(Token.SEP);
             return true;
         }
-
-        //-------------------------------------------------------------------------------
-        public bool DynamicIsHidden
-        {
-            get
-            {
-                if (HideExpr != null)
-                {
-                    Document.SynchronizeSymbolTable(RepeaterRow);
-
-                    Value val = this.HideExpr.Eval();
-
-                    if (val != null && val.Valid)
-                        return (bool)val.Data;
-                }
-                return this.IsHidden;
-            }
-        }
-
         //-------------------------------------------------------------------------------
         public string DynamicTooltip
         {
@@ -1149,7 +1167,7 @@ namespace Microarea.RSWeb.Objects
 
                     base.ToJsonTemplate(false) + ',' +
 
-                    this.TemplateBkgColor.ToJson("bkgcolor") +
+                    this.DynamicBkgColor.ToJson("bkgcolor") +
                  '}';
 
             if (bracket)
@@ -1558,8 +1576,8 @@ namespace Microarea.RSWeb.Objects
 
                 this.LocalizedText.ToJson("value", false, true) + ',' +
 
-                this.TemplateBkgColor.ToJson("bkgcolor") + ',' +
-                this.TemplateTextColor.ToJson("textcolor") + ',' +
+                this.DynamicBkgColor.ToJson("bkgcolor") + ',' +
+                this.DynamicTextColor.ToJson("textcolor") + ',' +
 
                 this.Label.Align.ToHtml_align() + ',' +
                 this.Label.FontData.ToJson() + ',' +
@@ -2436,8 +2454,8 @@ namespace Microarea.RSWeb.Objects
                 this.Value.FontData.ToJson() + ',' +
                 this.Value.Align.ToHtml_align() + ',' +
 
-                this.TemplateBkgColor.ToJson("bkgcolor") + ',' +
-                this.TemplateTextColor.ToJson("textcolor") +
+                this.DynamicBkgColor.ToJson("bkgcolor") + ',' +
+                this.DynamicTextColor.ToJson("textcolor") +
 
                 //this.Value.FormattedData    .ToJson("value", false, true) + 
 

@@ -1,3 +1,9 @@
+:host(tb-menu-content) {
+    display: flex;
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+}
+
 p {
     background: red;
 }
@@ -5,6 +11,16 @@ p {
 tb-card-content .row {
     max-height: 235px;
     overflow-y: auto;
+}
+
+.tb-card {
+    flex: 1;
+}
+
+@media screen and (max-width: 1025px) {
+    tb-card-title {
+        font-size: 14px;
+    }
 }
 
 // @media screen and (min-width: 48em) {
