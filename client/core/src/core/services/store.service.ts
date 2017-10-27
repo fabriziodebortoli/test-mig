@@ -1,19 +1,39 @@
-import { Injectable } from '@angular/core';
-import { Observable, reduce, map, pluck, distinctUntilChanged } from './../../rxjs.imports';
-import { EventDataService } from '@taskbuilder/core';
-import { createSelector, createSelectorByMap } from './selector';
-import { ActionsSubject } from './actions_subject';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observable, BehaviorSubject, reduce, map, pluck, distinctUntilChanged } from './../../rxjs.imports';
+import { EventDataService } from './eventdata.service';
+import { Logger } from './logger.service';
+import { createSelector, createSelectorByMap } from './../../shared/commons/selector';
 import * as _ from 'lodash';
 
-export interface Action {
-  type: string;
-}
-
-interface SelectorMap {
-  [name: string]: string;
-}
+export interface Action { type: string; }
 
 export abstract class StateObservable extends Observable<any> {}
+
+export const INIT = '@ngrx/store/init' as '@ngrx/store/init';
+
+@Injectable()
+export class ActionsSubject extends BehaviorSubject<Action>
+  implements OnDestroy {
+  constructor() {
+    super({ type: INIT });
+  }
+
+  next(action: Action): void {
+    if (typeof action === 'undefined') {
+      throw new TypeError(`Actions must be objects`);
+    } else if (typeof action.type === 'undefined') {
+      throw new TypeError(`Actions must have a type property`);
+    }
+
+    super.next(action);
+  }
+
+  complete() { }
+
+  ngOnDestroy() {
+    super.complete();
+  }
+}
 
 class StoreT<T> extends Observable<T> {
   private actionsObserver: ActionsSubject;
@@ -113,10 +133,8 @@ class StoreT<T> extends Observable<T> {
 
 @Injectable()
 export class Store extends StoreT<any> {
-  constructor(private eventDataService: EventDataService) {
-    super(
-      eventDataService.change
-      .do(c => { console.log('STORE CHANGE'); return c; })
-      .map(_ => eventDataService.model));
+  constructor(private eventDataService: EventDataService, private logger: Logger) {
+    super(eventDataService.change.map(id => eventDataService.model));
+    this.logger.debug('Store instance ' + Math.round(new Date().getTime() / 1000));
   }
 }
